@@ -1,0 +1,19 @@
+###############
+#### NEW ######
+###############
+
+
+index.php
+PICTURES
+DBClasses
+Controllers
+ADMINMODULE
+HRMODULE
+DATABASESCRIPTS
+ERRORHANDLING
+LOGS
+
+
+###############
+##### CVS #####
+###############

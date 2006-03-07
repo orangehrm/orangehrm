@@ -1,0 +1,414 @@
+<?
+/*
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+all the essential functionalities required for any enterprise. 
+Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+
+OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+the GNU General Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program;
+if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA  02110-1301, USA
+*/
+
+
+session_start();
+if(!isset($_SESSION['fname'])) { 
+
+	header("Location: ./relogin.htm");
+	exit();
+}
+
+
+define('OpenSourceEIM', dirname(__FILE__) );
+require_once OpenSourceEIM . '/lib/Models/eimadmin/SalaryGrades.php';
+require_once OpenSourceEIM . '/lib/Models/eimadmin/CashBenSal.php';
+require_once OpenSourceEIM . '/lib/Confs/sysConf.php';
+
+	$salgrade = new SalaryGrades();
+	$sysConst = new sysConf(); 
+	$locRights=$_SESSION['localRights'];
+
+	$message = $salgrade ->filterSalaryGrades($_GET['id']);
+
+	$cashbensal = new CashBenSalary();
+
+if(isset($_POST['STAT']) && $_POST['STAT']=="ADD")
+    {
+		$cashbensal->setBenId($_POST['cmbCashBen']);
+		$cashbensal->setBenSalGrd($_GET['id']);
+		$cashbensal->setBenAmt($_POST['txtCashBenAmount']);
+		$cashbensal->addCashBenefits();
+    }
+
+if(isset($_POST['STAT']) && $_POST['STAT']=="EDIT")
+    {
+		$cashbensal->setBenId($_POST['cmbCashBen']);
+		$cashbensal->setBenSalGrd($_GET['id']);
+		$cashbensal->setBenAmt($_POST['txtCashBenAmount']);
+		$cashbensal->updateCashBenefits();
+    }
+
+if(isset($_POST['STAT'])&&($_POST['STAT']=="DEL"))
+    {
+      $arr[0]=$_POST['chkdel'];
+      $size = count($arr[0]);
+      for($c=0 ; $size > $c ; $c++)
+          if($arr[0][$c]!=NULL)
+             $arr[1][$c]=$_GET['id'];
+
+      $cashbensal -> delCashBenefits($arr);
+    }
+?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<script language="JavaScript">
+function numeric(txt)
+{
+var flag=true;
+var i,code;
+
+if(txt.value=="")
+   return false;
+
+for(i=0;txt.value.length>i;i++)
+	{
+	code=txt.value.charCodeAt(i);
+    if(code>=48 && code<=57)
+	   flag=true;
+	else
+	   {
+	   flag=false;
+	   break;
+	   }
+	}
+return flag;
+}
+
+function addBEN()
+{
+	if(document.frmCashBenSal.cmbCashBen.value=='0') {
+		alert("Field should be selected");
+		document.frmCashBenSal.cmbCashBen.focus();
+		return;
+	}
+	
+    var txt = document.frmCashBenSal.txtCashBenAmount;
+	if (!numeric(txt)) {
+		alert ("Description Error!");
+		txt.focus();
+		return false;
+	}
+	
+  document.frmCashBenSal.STAT.value="ADD";
+  document.frmCashBenSal.submit();
+}
+
+function editBEN()
+{
+    var txt = document.frmCashBenSal.txtCashBenAmount;
+	if (!numeric(txt)) {
+		alert ("Description Error!");
+		txt.focus();
+		return false;
+	}
+
+  document.frmCashBenSal.STAT.value="EDIT";
+  document.frmCashBenSal.submit();
+}
+
+	function goBack() {
+		location.href = "view.php?uniqcode=<?=$_GET['uniqcode']?>";
+	}
+
+function mout() {
+	if(document.Edit.title=='Save') 
+		document.Edit.src='./themes/beyondT/pictures/btn_save.jpg'; 
+	else
+		document.Edit.src='./themes/beyondT/pictures/btn_edit.jpg'; 
+}
+
+function mover() {
+	if(document.Edit.title=='Save') 
+		document.Edit.src='./themes/beyondT/pictures/btn_save_02.jpg'; 
+	else
+		document.Edit.src='./themes/beyondT/pictures/btn_edit_02.jpg'; 
+}
+	
+function edit()
+{
+	if(document.Edit.title=='Save') {
+		editBEN();
+		return;
+	}
+	
+	var frm=document.frmCashBenSal;
+//  alert(frm.elements.length);
+	for (var i=0; i < frm.elements.length; i++)
+		frm.elements[i].disabled = false;
+	document.Edit.src="./themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.title="Save";
+}
+	
+function delBEN()
+{
+      var check = 0;
+		with (document.frmCashBenSal) {
+			for (var i=0; i < elements.length; i++) {
+				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
+					check = 1;
+				}
+			}
+        }
+
+        if(check==0)
+            {
+              alert("Selct atleast one check box");
+              return;
+            }
+
+
+    //alert(cntrl.value);
+    document.frmCashBenSal.STAT.value="DEL";
+    document.frmCashBenSal.submit();
+}
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="./themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">@import url("./themes/beyondT/css/style.css"); </style>
+</head>
+<body>
+<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
+  <tr>
+    <td valign='top'> &nbsp;</td>
+    <td width='100%'><h2>Cash Benefits Assigned to Salary Grade: Benefit Information</h2></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
+  </tr>
+</table>
+<p>
+<p>
+<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
+<form name="frmCashBenSal" method="post" action="./cashbensal.php?pageID=<?=$_GET['pageID']?>&uniqcode=<?=$_GET['uniqcode']?>&id=<?=$_GET['id']?>">
+<input type="hidden" name="pageID" value="">
+  <tr>
+    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='./themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_back_02.jpg';"  src="./themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+        <input type="hidden" name="STAT" value="">
+      </p></td>
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
+      </font> </td>
+  </tr><td width="177">
+</table>
+
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+						  <tr>
+						    <td>Salary Grade ID</td>
+						  	  <td><strong><?=$message[0][0]?></strong></td>
+						  </tr>
+						  <tr>
+						    <td>Salary Grade Name</td>
+						    <td><strong><?=$message[0][1]?></strong></td>
+						  </tr>
+                  </table></td>
+                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                </tr>
+              </table>
+
+<?
+if(isset($_GET['BEN']))
+{
+    $arr[0]=$_GET['BEN'];
+    $arr[1]=$_GET['id'];
+    $edit=$cashbensal->filterCashBenefits($arr);
+?>
+<br>
+<br>
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+						    <tr>
+						             <td><strong>Benefit</strong></td>
+						             <td align="left"><input type="hidden" name="cmbCashBen" value="<?=$edit[0][0]?>">
+<?
+									$benlist=$cashbensal->getAllCashBenefits();
+									for($c=0;count($benlist)>$c;$c++)
+									    if($benlist[$c][0]==$edit[0][0])
+									       echo "<input type='text' name='txtChar' readonly value='".$benlist[$c][1]."'>";
+?>
+						             </td>
+						    </tr>
+						    <tr>
+						             <td><strong>Amount</strong></td>
+						             <td align="left"><input type="text" disabled name="txtCashBenAmount" value="<?=$edit[0][2]?>">
+						    </tr>
+					  <tr><td></td><td align="right">
+<?				if($locRights['edit']) { ?>
+			        <img src="./themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+<?				} else { ?>
+			        <img src="./themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+<?				} ?>
+						</td></tr>
+
+                  </table></td>
+                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                </tr>
+              </table>
+<?
+} else {
+?>
+<br>
+<br>
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+							<tr>
+							
+							         <td><strong>Benefit</strong></td>
+							         <td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbCashBen">
+							         		<option value="0">-Select Benefit-</option>
+							            <?
+							            $benlist=$cashbensal->getCashBenCodes($_GET['id']);
+							            for($c=0;$benlist && count($benlist)>$c;$c++)
+							                echo '<option value=' . $benlist[$c][0] . '>' . $benlist[$c][1] . '</option>';
+							            ?>
+							         </td>
+							</tr>
+							<tr>
+							         <td><strong>Amount</strong></td>
+							         <td><input <?=$locRights['add'] ? '':'disabled'?> type="text" name="txtCashBenAmount">
+							</tr>
+					  <tr><td></td><td align="right">
+<?				if($locRights['add']) { ?>
+					  <img onClick="addBEN();" onmouseout="this.src='./themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_save_02.jpg';" src="./themes/beyondT/pictures/btn_save.jpg">
+<?				} else { ?>
+					  <img onClick="alert('<?=$sysConst->accessDenied?>');" src="./themes/beyondT/pictures/btn_save.jpg">
+<?				} ?>
+						</td></tr>
+                  </table></td>
+                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                </tr>
+              </table>
+<? } ?>
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+  <tr>
+    <td valign='top'> &nbsp;</td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+  <tr>
+
+    <td width='100%'><h3>Assigned Benefits </h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
+  </tr>
+  <tr>
+  <td>
+<?	if($locRights['delete']) { ?>
+		<img onClick="delBEN();" onmouseout="this.src='./themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_delete_02.jpg';" src="./themes/beyondT/pictures/btn_delete.jpg">
+  <? 	} else { ?>
+        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="./themes/beyondT/pictures/btn_delete.jpg">
+<? 	} ?>
+  </td>
+  </tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+								<tr>
+								         <td></td>
+								         <td><strong>Benefit</strong></td>
+								         <td><strong>Amount</strong></td>
+								</tr>
+								<?
+								$rset = $cashbensal ->getAssCashBenefits($_GET['id']);
+					            $benlist=$cashbensal->getAllCashBenefits();
+								
+								    for($c=0;$rset && $c < count($rset); $c++)
+								        {
+								        echo '<tr>';
+								            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."'></td>";
+								            for($j=0;count($benlist)>$j;$j++)
+								            	if($rset[$c][1]==$benlist[$j][0])
+								            	   $fname=$benlist[$j][1];
+								            echo "<td><a href='./cashbensal.php?pageID=" . $_GET['pageID'] . "&uniqcode=" . $_GET['uniqcode'] . "&id=" . $_GET['id']. "&BEN=" . $rset[$c][1] . "'>" . $fname . "</a></td>";
+								            echo '<td>' . $rset[$c][2] .'</td>';
+								        echo '</tr>';
+								        }
+								
+								?>
+                  </table></td>
+                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                </tr>
+              </table>
+</form>
+</body>
+</html>

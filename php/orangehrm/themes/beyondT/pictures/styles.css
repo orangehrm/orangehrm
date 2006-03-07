@@ -1,0 +1,78 @@
+.rollmenu
+{
+	padding-right: 2px;
+	display: block;
+	padding-left: 2px;
+	font-size: 11px;
+	padding-bottom: 2px;
+	color: #000000;
+	line-height: normal;
+	padding-top: 2px;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;	
+	border-bottom: #D8B114 1px solid;
+	font-family: "Arial", "Helvetica", "sans-serif";
+	background-color: #FFCC00;
+	text-decoration: none
+}
+.rollmenu:hover
+{
+	background-color: #EDC112;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;	
+	border-bottom: #D8B114 1px solid;
+	text-decoration: none
+}
+#menuhead
+{
+	background-color: #EDC112;
+	font-weight:bold;
+	padding-right: 2px;
+	display: block;
+	padding-left: 2px;
+	font-size: 11px;
+	padding-bottom: 2px;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;	
+	border-bottom: #D8B114 1px solid;
+	color: #000000;
+	line-height: normal;
+	padding-top: 2px;
+	font-family: "Arial", "Helvetica", "sans-serif";
+	text-decoration: none
+}
+#menu1
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu2
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu3
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu4
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
