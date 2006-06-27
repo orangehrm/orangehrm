@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EmpQualification {
 
@@ -100,73 +100,7 @@ class EmpQualification {
 	return $this->empQualComment;
 	}
 ////
-	function getUnAssEmployee($pageNO,$schStr,$mode) {
-		
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_EMP_QUALIFICATION';
-		$sql_builder->field = 'EMP_NUMBER';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function countUnAssEmployee($schStr,$mode) {
-		
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_EMP_QUALIFICATION';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field = 'EMP_NUMBER';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
-	    	return $line[0];
-	}
-
+	
 	function getListofEmpQual($page,$str,$mode) {
 		
 		$tableName = 'HS_HR_EMP_QUALIFICATION';
@@ -378,7 +312,7 @@ class EmpQualification {
 			
 		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
 		
-		//echo $sqlQString;		
+		echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -405,176 +339,7 @@ class EmpQualification {
 		}
 				
 	}
-
-	function getQualificationTypeCodes() {
-		
-		$tableName = 'HS_HR_QUALIFICATION_TYPE';			
-		$arrFieldList[0] = 'QUALIFI_TYPE_CODE';
-		$arrFieldList[1] = 'QUALIFI_TYPE_NAME';
-		
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function getAllQualifications() {
-		
-		$tableName = 'HS_HR_QUALIFICATION';
-		$arrFieldList[0] = 'QUALIFI_CODE';
-		$arrFieldList[1] = 'QUALIFI_NAME';
-		$arrFieldList[2] = 'QUALIFI_TYPE_CODE';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function getQualifications($getID) {
-		
-		$this->getID = $getID;
-		$tableName = 'HS_HR_QUALIFICATION';
-		$arrFieldList[0] = 'QUALIFI_TYPE_CODE';
-		$arrFieldList[1] = 'QUALIFI_CODE';
-		$arrFieldList[2] = 'QUALIFI_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-				
-	}
-
-	function getUnAssQualifications($eno,$typ) {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_QUALIFICATION';
-		$arrFieldList[0] = 'QUALIFI_CODE';
-		$arrFieldList[1] = 'QUALIFI_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-		$sql_builder->field='QUALIFI_CODE';
-		$sql_builder->table2_name= 'HS_HR_EMP_QUALIFICATION';
-		$arr1[0][0]='EMP_NUMBER';
-		$arr1[0][1]=$eno;
-		$arr2[0][0]='QUALIFI_TYPE_CODE';
-		$arr2[0][1]=$typ;
-
-		$sqlQString = $sql_builder->selectFilter($arr1,$arr2);
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-	    	$i++;
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
-	}
+	
 	
 }
 

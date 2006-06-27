@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class SalaryGrades {
 
@@ -58,6 +58,183 @@ class SalaryGrades {
 	
 		return $this->salgrdDesc;
 		
+	}
+	
+	function getListofCashBenefits($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_CASH_BEN_SALGRADE';
+		$sql_builder->field = 'SAL_GRD_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countCashBenefits($schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_CASH_BEN_SALGRADE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='SAL_GRD_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssCashBenefits($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_CASH_BEN_SALGRADE';
+		$sql_builder->field = 'SAL_GRD_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssCashBenefits($schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_CASH_BEN_SALGRADE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='SAL_GRD_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getSalGrades() {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->passResultSetMessage();
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+
+
+	    	$i++;
+
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+
+	     	//Handle Exceptions
+	     	//Create Logs
+
+	     }
+
 	}
 	
 	function getListofSalaryGrades($pageNO,$schStr,$mode) {
@@ -277,6 +454,182 @@ class SalaryGrades {
 	}	
 	
 	
+	
+	function getListofNonCashBenefits($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_NONCASH_BEN_SALGRADE';
+		$sql_builder->field = 'SAL_GRD_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countNonCashBenefits($schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_NONCASH_BEN_SALGRADE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='SAL_GRD_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssNonCashBenefits($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_NONCASH_BEN_SALGRADE';
+		$sql_builder->field = 'SAL_GRD_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countUnAssNonCashBenefits($schStr,$mode) {
+		
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_NONCASH_BEN_SALGRADE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='SAL_GRD_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getSalGrdCodes() {
+
+		$tableName = 'HS_PR_SALARY_GRADE';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->passResultSetMessage();
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+
+	     }
+
+	     if (isset($arrayDispList)) {
+
+			return $arrayDispList;
+
+		} else {
+
+			$arrayDispList = '';
+			return $arrayDispList;
+
+		}
+	}
+	
+
 }
 
 ?>

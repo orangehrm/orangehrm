@@ -17,9 +17,9 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA  02110-1301, USA
 */
 
-define('OpenSourceEIM', dirname(__FILE__));
+define('ROOT_PATH', dirname(__FILE__));
 
-require_once OpenSourceEIM . '/lib/Models/eimadmin/Login.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 
 
 if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
@@ -33,6 +33,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 			session_start();
 			$_SESSION['user']=$rset[0][3];
 			$_SESSION['userGroup']=$rset[0][4];
+			$_SESSION['isAdmin']=$rset[0][7];
+			$_SESSION['empID']=$rset[0][6];
 			
 			$_SESSION['fname']=$rset[0][2];
 			header("Location: ./index.php");
@@ -202,5 +204,11 @@ body {
   </tr>
 </table>
 <!-- End ImageReady Slices -->
+<table width="100%">
+<tr>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
+</tr>
+</table>
+
 </body>
 </html>

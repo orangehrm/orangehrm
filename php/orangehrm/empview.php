@@ -18,56 +18,26 @@ Boston, MA  02110-1301, USA
 */
 
 
-session_start();
-if(!isset($_SESSION['fname'])) { 
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	header("Location: ./relogin.htm");
-	exit();
-}
-
-define('OpenSourceEIM', dirname(__FILE__));
-require_once OpenSourceEIM . '/lib/Controllers/EmpViewController.php';
-require_once OpenSourceEIM . '/lib/Confs/sysConf.php';
-
-$srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( ' ' , 'ID' , 'Description' );
-
-	$empviewcontroller = new EmpViewController();
+/*$srchlist[0] = array( 0 , 1 , 2 );
+$srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
+*/
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
 
-if (isset($_GET['reqcode'])) {
+	//$headingInfo =$this->popArr['headinginfo'];
 	
-	$pageInfo = $empviewcontroller -> getPageID(trim($_GET['reqcode']));
- 	$headingInfo = $empviewcontroller -> getHeadingInfo(trim($_GET['reqcode']));
-    }
-	
-if (isset($_POST['delState'])&& ($_POST['delState']=="DeleteMode"))
-    {
-    $arrList[0]=$_POST['chkLocID'];
+    $currentPage = $this->popArr['currentPage'];
 
-    $empviewcontroller->delParser(trim($_GET['reqcode']),$arrList);
-    }
-
-$currentPage = (isset($_POST['pageNO'])) ? (int)$_POST['pageNO'] : 1;
-    
-if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
-    {
-    $choice=$_POST['loc_code'];
-    $strName=trim($_POST['loc_name']);
-    
-    $emplist = $empviewcontroller -> getInfo(trim($_GET['reqcode']),$currentPage,$strName,$choice);
-    }
-else 
-	$emplist = $empviewcontroller -> getInfo(trim($_GET['reqcode']),$currentPage);
-
+	$emplist= $this->popArr['emplist'];
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="./themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("./themes/beyondT/css/style.css"); </style>
+<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
@@ -91,11 +61,11 @@ else
 	}
 
 
-<? if($_GET['reqcode']=='EMP') { ?>
+<? if($this->getArr['reqcode']=='EMP') { ?>
 
 	function returnAdd() {
 	
-		location.href = "<?=$pageInfo?>" + ".php?pageID=<?=$pageInfo?>&reqcode=<?=$_GET['reqcode']?>&capturemode=addmode";
+		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&capturemode=addmode";
 		
 	}
 
@@ -121,7 +91,7 @@ else
 <? } else { ?>
 	function returnAdd() {
 
-        var popup=window.open('emppop.php?reqcode=<?=$_GET['reqcode']?>','Employees','height=450,width=400');
+        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?=$this->getArr['reqcode']?>','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;
 	}
 
@@ -177,7 +147,7 @@ else
 <body>
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-<form name="standardView" method="post" action="./empview.php?reqcode=<?=$_GET['reqcode']?>">
+<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN">
 </td>
   <td width='100%'><h2> 
       <?=$headingInfo[0]?>
@@ -189,43 +159,43 @@ else
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3> 
-        <input type="hidden" name="captureState" value="<?=isset($_POST['captureState'])?$_POST['captureState']:''?>">
+        <input type="hidden" name="captureState" value="<?=isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
         <input type="hidden" name="delState" value="">
         
-        <input type="hidden" name="pageNO" value="<?=isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
+        <input type="hidden" name="pageNO" value="<?=isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
         <input type="hidden" name="empID" value="">
 
 <?	if($locRights['add']) { ?>
-        <img border="0" title="Add" onClick="returnAdd();" onmouseout="this.src='./themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_add_02.jpg';" src="./themes/beyondT/pictures/btn_add.jpg">
+        <img border="0" title="Add" onClick="returnAdd();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
 <? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="./themes/beyondT/pictures/btn_add.jpg">
+        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?	}
 
- if($_GET['reqcode']=='EMP') { 
+ if($this->getArr['reqcode']=='EMP') { 
 
 		if($locRights['delete']) { ?>
-	        <img title="Delete" onclick="returnDelete();" onmouseout="this.src='./themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_delete_02.jpg';" src="./themes/beyondT/pictures/btn_delete.jpg">
+	        <img title="Delete" onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 	<? 	} else { ?>
-	        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="./themes/beyondT/pictures/btn_delete.jpg">
+	        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 	<? 	}
  } 
  ?>
  
         </h3></td>
-    <td width='78%'><IMG height='1' width='1' src='./pictures/blank.gif' alt=''></td>
+    <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
   </tr>
 </table>
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3>Search</h3></td>
-    <td width='78%' align="right"><IMG height='1' width='1' src='./pictures/blank.gif' alt=''> 
+    <td width="22%" nowrap><h3><?=$serach?></h3></td>
+    <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
      <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"> 
       <?
     
       
-		if (isset($_GET['emplist'])) {
-			$expString  = $_GET['emplist'];
+		if (isset($this->getArr['emplist'])) {
+			$expString  = $this->getArr['emplist'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
 			for ($x=0; $x < $length; $x++) {		
@@ -240,60 +210,66 @@ else
 <!--  newtable -->
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel"><slot><?=$searchby?></slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code">
 <?                        for($c=0;count($srchlist[0])>$c;$c++)
-								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
+								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
 								   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 ?>								   
                         </select>
                       </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
+                      <td width="200" class="dataLabel" noWrap><slot><?=$description?></slot>&nbsp;&nbsp;<slot>
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
                      </slot></td>
-                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onmouseout="this.src='./themes/beyondT/pictures/btn_search.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_search_02.jpg';" src="./themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onclick="clear_form();" onmouseout="this.src='./themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_clear_02.jpg';" src="./themes/beyondT/pictures/btn_clear.jpg"></td>
+                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onmouseout="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onclick="clear_form();" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 
                   </table></td>
-                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
 
                   </table></td>
-                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
                 <tr>
-                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
 			  <table border="0" width="100%">
 			  <tr>
+<? 		if ((isset($emplist)) && ($emplist =='')) {
+        		
+        		 $dispMessage = $norecorddisplay;
+        		 echo "<td>";
+        		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
+        		 echo $dispMessage;
+        		 echo '</font>';
+        		 echo "</td>";
+        	}	
+?>        	
 			  <td height="40" valign="bottom" align="right">
 			  
 <?
-if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) 				
-    $temp = $empviewcontroller -> countList(trim($_GET['reqcode']),$strName,$choice);
-else 
-    $temp = $empviewcontroller -> countList(trim($_GET['reqcode']));
-    
+$temp = $this->popArr['temp'];     
 if($temp)    
     $recCount=$temp;
 else 
@@ -306,9 +282,9 @@ else
 
 	   
 	if($currentPage==1)
-		echo "<font color='Gray'>Previous</font>";
+		echo "<font color='Gray'>$previous</font>";
 	else
-    	echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    	echo "<a href='#' onClick='prevPage()'>$previous</a>";
     	
     echo "  ";
     	
@@ -322,9 +298,9 @@ else
 	}
 		
 	if($currentPage == $noPages || $noPages==0)
-		echo "<font color='Gray'>Next</font>";
+		echo "<font color='Gray'>$next</font>";
 	else
-    	echo "<a href='#' onClick='nextPage()'>Next</a>";
+    	echo "<a href='#' onClick='nextPage()'>$next</a>";
 			
 ?> 
 		</td>
@@ -333,18 +309,18 @@ else
 		</table>
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   		<tr>
                   		  <td width="50">&nbsp;&nbsp;&nbsp;</td>
-						  <td scope="col" width="250" class="listViewThS1">Employee Id</td>
-						  <td scope="col" width="400" class="listViewThS1">Employee Name</td>
+						  <td scope="col" width="250" class="listViewThS1"><?=$employeeid?></td>
+						  <td scope="col" width="400" class="listViewThS1"><?=$employeename?></td>
 						 </tr>
         <?
 			if ((isset($emplist)) && ($emplist !='')) {
@@ -365,8 +341,8 @@ else
                   <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?=$emplist[$j][0]?>"></td>
                   <? } else { ?>
                   <td width="50"></td>
-<? } ?>                  
-				  <td width="250"><a href="<?=$pageInfo?>.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$_GET['reqcode']?>&pageID=<?=$pageInfo?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
+<? 					} ?>                  
+				  <td width="250"><a href="./CentralController.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
 
 		  		  <td width="400" ><?=$descField?></td>
 <?			} else { ?>
@@ -375,32 +351,23 @@ else
                   <? } else { ?>
                   <td bgcolor="#EEEEEE" width="50"></td>
 <? } ?>                  
-				  <td bgcolor="#EEEEEE" width="250"><a href="<?=$pageInfo?>.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$_GET['reqcode']?>&pageID=<?=$pageInfo?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
+				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
 
 		  		  <td bgcolor="#EEEEEE" width="400" ><?=$descField?></td>
 <?			}	?>
 			</tr>
          <? } 
-        	  } else if ((isset($emplist)) && ($emplist =='')) {
-        		
-        		 $dispMessage = "No Records to Display !";
-        		 echo "<tr><td>";
-        		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
-        		 echo $dispMessage;
-        		 echo '</font>';
-        		 echo "</tr></td>";
-        	}
-         
+        	  }
          ?> 
                   </table></td>
-                  <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td><img name="table_r3_c1" src="themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
 

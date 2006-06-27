@@ -24,17 +24,16 @@ if(!isset($_SESSION['fname'])) {
 	exit();
 }
 
-define('OpenSourceEIM', dirname(__FILE__));
-require_once OpenSourceEIM . '/lib/Controllers/GenViewController.php';
-require_once OpenSourceEIM . '/lib/Confs/sysConf.php';
+define('ROOT_PATH', dirname(__FILE__));
+require_once ROOT_PATH . '/lib/controllers/GenViewController.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 $srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( ' ' , 'ID' , 'Description' );
+$srchlist[1] = array( '--Select--' , 'ID' , 'Description' );
 
 	$sysConst = new sysConf(); 
 	$genviewcontroller = new GenViewController();
 	
-	$pageInfo = $genviewcontroller -> getPageID(trim($_GET['uniqcode']));
 	$headingInfo = $genviewcontroller->getHeadingInfo($_GET['uniqcode']);
 	
 $currentPage = (isset($_POST['pageNO'])) ? (int)$_POST['pageNO'] : 1;
@@ -55,7 +54,7 @@ else
 <head>
 <link href="./themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("./themes/beyondT/css/style.css"); </style>
-<title>Untitled Document</title>
+<title>Un Assigned <?=$headingInfo[3]?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <script>		
@@ -77,7 +76,7 @@ else
 	}
 
 	function selItm(cntrl) {
-        opener.document.standardView.action="<?=$pageInfo?>.php?id=" + cntrl.title + "&sqlmode=addmode&uniqcode=<?=$_GET['uniqcode']?>&capturemode=updatemode&pageID=<?=$pageInfo?>";
+        opener.document.standardView.action="./CentralController.php?id=" + cntrl.title + "&uniqcode=<?=$_GET['uniqcode']?>";
         
 		opener.document.standardView.submit();
 		window.close();
@@ -89,12 +88,19 @@ else
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
+
+	function clear_form() {
+		document.standardView.loc_code.options[0].selected=true;
+		document.standardView.loc_name.value='';
+	}
 	
 </script>
 <body>
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 <form name="standardView" method="post">
+</td><td width="100%"><h2>Un Assigned <?=$headingInfo[3]?>
+    </h2></td>
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
@@ -130,7 +136,7 @@ else
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
-                        <select name="loc_code">
+                        <select style="z-index: 99;" name="loc_code">
 <?                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
@@ -142,6 +148,7 @@ else
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
                         <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
                      </slot></td>
+                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="Search();" onmouseout="this.src='./themes/beyondT/pictures/btn_search.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_search_02.jpg';" src="./themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onclick="clear_form();" onmouseout="this.src='./themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_clear_02.jpg';" src="./themes/beyondT/pictures/btn_clear.jpg"></td>
 
                   </table></td>
                   <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -150,9 +157,6 @@ else
                 <tr>
                   <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="Search" onClick="Search();"/>
-                          <input title="Clear [Alt+K]" accessKey="K" onclick="clear_form();" class="button" type="button" name="clear" value=" Clear "/></td>
 
                   </table></td>
                   <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

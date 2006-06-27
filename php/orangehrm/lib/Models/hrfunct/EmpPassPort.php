@@ -17,10 +17,11 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/logs/LogWriter.php';
 
 class EmpPassPort {
 
@@ -28,17 +29,14 @@ class EmpPassPort {
 	
 	var $empId;
 	var $empPPSeqNo;
-	var $empPPNo;
+	var $empNationality;
+	var $empI9Status;
+	var $empI9ReviewDat;
 	var $empPPIssDat;
-	var $empPPIssPlace;
 	var $empPPExpDat;
-	var $empPPComment;
-	var $empVisaType;
-	var $empPPType;
-	var $empPPCountry;
-	var $empPPNoOfEntries;
-	var $arrayDispList;
-	var $singleField;
+	var $emppassportflag;
+	var $emppassComm;
+	var $empPPNo;
 	
 	function EmpPassPort() {
 		
@@ -53,10 +51,25 @@ class EmpPassPort {
 	
 	$this->empPPSeqNo=$empPPSeqNo;
 	}
-	
+
 	function setEmpPPNo($empPPNo) {
 	
 	$this->empPPNo=$empPPNo;
+	}
+	
+	function setEmpNationality($empNationality) {
+	
+	$this->empNationality=$empNationality;
+	}
+	
+	function setEmpI9Status($empI9Status) {
+	
+	$this->empI9Status=$empI9Status;
+	}
+	
+	function setEmpI9ReviewDat($empI9ReviewDat) {
+	
+	$this->empI9ReviewDat=$empI9ReviewDat;
 	}
 	
 	function setEmpPPIssDat($empPPIssDat) {
@@ -64,39 +77,19 @@ class EmpPassPort {
 	$this->empPPIssDat=$empPPIssDat;
 	}
 	
-	function setEmpPPIssPlace($empPPIssPlace) {
-	
-	$this->empPPIssPlace=$empPPIssPlace;
-	}
-	
 	function setEmpPPExpDat($empPPExpDat) {
 	
 	$this->empPPExpDat=$empPPExpDat;
 	}
-
-	function setEmpPPComment($empPPComment) {
 	
-	$this->empPPComment=$empPPComment;
+	function setEmppassportflag($emppassportflag) {
+	
+	$this->emppassportflag=$emppassportflag;
 	}
+		
+	function setEmpPPComment($emppassComm){
 	
-	function setEmpVisaType($empVisaType) {
-	
-	$this->empVisaType=$empVisaType;
-	}
-	
-	function setEmpPPType($empPPType) {
-	
-	$this->empPPType=$empPPType;
-	}
-	
-	function setEmpPPCountry($empPPCountry) {
-	
-	$this->empPPCountry=$empPPCountry;
-	}
-	
-	function setEmpPPNoOfEntries($empPPNoOfEntries) {
-	
-	$this->empPPNoOfEntries=$empPPNoOfEntries;
+	$this->emppassComm=$emppassComm;
 	}
 	
 	function getEmpId() {
@@ -104,8 +97,8 @@ class EmpPassPort {
 	return $this->empId;
 	}
 	
-	function getEmpPPSeqNo() {
-	
+	function getEmpPPSeqNo(){
+		
 	return $this->empPPSeqNo;
 	}
 	
@@ -114,45 +107,43 @@ class EmpPassPort {
 	return $this->empPPNo;
 	}
 	
+	function getEmpNationality() {
+	
+	return $this->empNationality;
+	}
+	
+	function getEmpI9Status() {
+	
+	return $this->empI9Status;
+	}
+	
+	function getEmpI9ReviewDat() {
+	
+	return $this->empI9ReviewDat;
+	}
+	
 	function getEmpPPIssDat() {
 	
 	return $this->empPPIssDat;
 	}
-	
-	function getEmpPPIssPlace() {
-	
-	return $this->empPPIssPlace;
-	}
-	
+
 	function getEmpPPExpDat() {
 	
 	return $this->empPPExpDat;
 	}
-
+	
+	function getEmppassportflag() {
+	
+	return $this->emppassportflag;
+	}
+	
+	
 	function getEmpPPComment() {
 	
-	return $this->empPPComment;
+	return $this->emppassComm;
 	}
+			
 	
-	function getEmpVisaType() {
-	
-	return $this->empVisaType;
-	}
-	
-	function getEmpPPType() {
-	
-	return $this->empPPType;
-	}
-	
-	function getEmpPPCountry() {
-	
-	return $this->empPPCountry;
-	}
-	
-	function getEmpPPNoOfEntries() {
-	
-	return $this->empPPNoOfEntries;
-	}
 ////
 	function getListofEmpPP($str,$mode) {
 		
@@ -215,18 +206,18 @@ class EmpPassPort {
 	function addEmpPP() {
 		
 		$this->getEmpId();
+		
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpPPSeqNo() . "'";
 		$arrFieldList[2] = "'". $this->getEmpPPNo() . "'";
 		$arrFieldList[3] = "'". $this->getEmpPPIssDat() . "'";
-		$arrFieldList[4] = "'". $this->getEmpPPIssPlace() . "'";
-		$arrFieldList[5] = "'". $this->getEmpPPExpDat() . "'";
-		$arrFieldList[6] = "'". $this->getEmpPPComment() . "'";
-		$arrFieldList[7] = "'". $this->getEmpVisaType() . "'";
-		$arrFieldList[8] = "'". $this->getEmpPPType() . "'";
-		$arrFieldList[9] = "'". $this->getEmpPPCountry() . "'";
-		$arrFieldList[10] = "'". $this->getEmpPPNoOfEntries() . "'";
-
+		$arrFieldList[4] = "'". $this->getEmpPPExpDat() . "'";
+		$arrFieldList[5] = "'". $this->getEmpPPComment() . "'";
+		$arrFieldList[6] = "'". $this->getEmppassportflag() . "'";
+		$arrFieldList[7] = "'". $this->getEmpI9Status() . "'";
+		$arrFieldList[8] = "'". $this->getEmpI9ReviewDat() . "'";
+		$arrFieldList[9] = "'". $this->getEmpNationality() . "'";
+			
 		$tableName = 'HS_HR_EMP_PASSPORT';
 	
 		$sql_builder = new SQLQBuilder();
@@ -237,13 +228,14 @@ class EmpPassPort {
 			
 	
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-	
+	//$logw = new LogWriter();
+	//$logw->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
 		 echo $message2;
-				
+		
 	}
 	
 	function updateEmpPP() {
@@ -252,26 +244,26 @@ class EmpPassPort {
 		$arrRecordsList[1] = "'". $this->getEmpPPSeqNo() . "'";
 		$arrRecordsList[2] = "'". $this->getEmpPPNo() . "'";
 		$arrRecordsList[3] = "'". $this->getEmpPPIssDat() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpPPIssPlace() . "'";
-		$arrRecordsList[5] = "'". $this->getEmpPPExpDat() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpPPComment() . "'";
-		$arrRecordsList[7] = "'". $this->getEmpVisaType() . "'";
-		$arrRecordsList[8] = "'". $this->getEmpPPType() . "'";
-		$arrRecordsList[9] = "'". $this->getEmpPPCountry() . "'";
-		$arrRecordsList[10] = "'". $this->getEmpPPNoOfEntries() . "'";
+		$arrRecordsList[4] = "'". $this->getEmpPPExpDat() . "'";
+		$arrRecordsList[5] = "'". $this->getEmpPPComment() . "'";
+		$arrRecordsList[6] = "'". $this->getEmppassportflag() . "'";
+		$arrRecordsList[7] = "'". $this->getEmpI9Status() . "'";
+		$arrRecordsList[8] = "'". $this->getEmpI9ReviewDat() . "'";
+		$arrRecordsList[9] = "'". $this->getEmpNationality() . "'";
+		
 
 		$tableName = 'HS_HR_EMP_PASSPORT';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EP_SEQNO';
-		$arrFieldList[2] = 'EP_PASSPORTNUMBER';
+		$arrFieldList[2] = 'EP_PASSPORT_NUM';
 		$arrFieldList[3] = 'EP_PASSPORTISSUEDDATE';
-		$arrFieldList[4] = 'EP_PLACEPASSPORTISSUED';
-		$arrFieldList[5] = 'EP_PASSPORTEXPIREDATE';
-		$arrFieldList[6] = 'EP_COMMENTS';
-		$arrFieldList[7] = 'EP_VISA_TYPE';
-		$arrFieldList[8] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[4] = 'EP_PASSPORTEXPIREDATE';
+		$arrFieldList[5] = 'EP_COMMENTS';
+		$arrFieldList[6] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[7] = 'EP_I9_STATUS';
+		$arrFieldList[8] = 'EP_I9_REVIEW_DATE';
 		$arrFieldList[9] = 'COU_CODE';
-		$arrFieldList[10] = 'EP_NO_OF_ENTRIES';
+		
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -297,15 +289,14 @@ class EmpPassPort {
 		$tableName = 'HS_HR_EMP_PASSPORT';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EP_SEQNO';
-		$arrFieldList[2] = 'EP_PASSPORTNUMBER';
+		$arrFieldList[2] = 'EP_PASSPORT_NUM';
 		$arrFieldList[3] = 'EP_PASSPORTISSUEDDATE';
-		$arrFieldList[4] = 'EP_PLACEPASSPORTISSUED';
-		$arrFieldList[5] = 'EP_PASSPORTEXPIREDATE';
-		$arrFieldList[6] = 'EP_COMMENTS';
-		$arrFieldList[7] = 'EP_VISA_TYPE';
-		$arrFieldList[8] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[4] = 'EP_PASSPORTEXPIREDATE';
+		$arrFieldList[5] = 'EP_COMMENTS';
+		$arrFieldList[6] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[7] = 'EP_I9_STATUS';
+		$arrFieldList[8] = 'EP_I9_REVIEW_DATE';
 		$arrFieldList[9] = 'COU_CODE';
-		$arrFieldList[10] = 'EP_NO_OF_ENTRIES';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -382,18 +373,18 @@ class EmpPassPort {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMP_PASSPORT';
+		
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EP_SEQNO';
-		$arrFieldList[2] = 'EP_PASSPORTNUMBER';
+		$arrFieldList[2] = 'EP_PASSPORT_NUM';
 		$arrFieldList[3] = 'EP_PASSPORTISSUEDDATE';
-		$arrFieldList[4] = 'EP_PLACEPASSPORTISSUED';
-		$arrFieldList[5] = 'EP_PASSPORTEXPIREDATE';
-		$arrFieldList[6] = 'EP_COMMENTS';
-		$arrFieldList[7] = 'EP_VISA_TYPE';
-		$arrFieldList[8] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[4] = 'EP_PASSPORTEXPIREDATE';
+		$arrFieldList[5] = 'EP_COMMENTS';
+		$arrFieldList[6] = 'EP_PASSPORT_TYPE_FLG';
+		$arrFieldList[7] = 'EP_I9_STATUS';
+		$arrFieldList[8] = 'EP_I9_REVIEW_DATE';
 		$arrFieldList[9] = 'COU_CODE';
-		$arrFieldList[10] = 'EP_NO_OF_ENTRIES';
-
+		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
@@ -401,7 +392,9 @@ class EmpPassPort {
 		$sql_builder->arr_select = $arrFieldList;		
 			
 		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
+		//$exception_handler = new ExceptionHandler();
+	  	 	//$exception_handler->logW($sqlQString);
+		//$sqlQString="SELECT EMP_NUMBER, EP_SEQNO, EP_PASSPORT_NUM, EP_PASSPORTISSUEDDATE, EP_PASSPORTEXPIREDATE, EP_COMMENTS, EP_PASSPORT_TYPE_FLG, EP_I9_STATUS, EP_I9_REVIEW_DATE, COU_CODE  FROM hs_hr_emp_passport WHERE EMP_NUMBER='EMP010'";
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -409,16 +402,16 @@ class EmpPassPort {
 		$i=0;
 		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
+		 	
 			for($c=0;count($arrFieldList)>$c;$c++)
 			   $arrayDispList[$i][$c] = $line[$c];
+	    	
 	    	$i++;
 	    	
 	     }
 	     
 	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
+	     		return $arrayDispList;
 			
 		} else {
 		

@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class Skills {
 
@@ -240,6 +240,50 @@ class Skills {
 				
 	}
 	
+	function getSkillCodes () {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_SKILL';
+		$arrFieldList[0] = 'SKILL_CODE';
+		$arrFieldList[1] = 'SKILL_NAME';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->passResultSetMessage();
+
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+
+
+	    	$i++;
+
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+
+	     	//Handle Exceptions
+	     	//Create Logs
+
+	     }
+
+	}
+
+
 	
 	function getLastRecord() {
 		
@@ -272,9 +316,135 @@ class Skills {
 				
 		}
 		
-	}	
+	}
+
+	function filterGetSkillInfo($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_SKILL';			
+		$arrFieldList[0] = 'SKILL_CODE';
+		$arrFieldList[1] = 'SKILL_NAME';
 	
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0]; // Province Code
+	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}
+
+	function getUnAssSkillCodes($id) {
+		
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_SKILL';
+		$arrFieldList[0] = 'SKILL_CODE';
+		$arrFieldList[1] = 'SKILL_NAME';
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+		$sql_builder->field = 'SKILL_CODE';		
+		$sql_builder->table2_name = 'HS_HR_EMP_SKILL';
+			
+		$arr[0][0]='EMP_NUMBER';
+		$arr[0][1]=$id;
+		$sqlQString = $sql_builder->selectFilter($arr,1);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+		
+	function filterNotEqualSubSkillInfo($getID) {
 	
+		$this->getID = $getID;
+		
+		$tableName = 'HS_HR_SKILL';			
+		$arrFieldList[0] = 'SKILL_CODE';
+		$arrFieldList[1] = 'SKILL_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->filterNotEqualRecordSet($this->getID);
+				
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0]; // Province Code
+	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
 }
 
 ?>

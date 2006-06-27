@@ -27,26 +27,37 @@ if(!isset($_SESSION['fname'])) {
 define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
-define('OpenSourceEIM', dirname(__FILE__));
-require_once OpenSourceEIM . '/lib/Rights.php';
-$_SESSION['path'] = OpenSourceEIM;
 
+define('ROOT_PATH', dirname(__FILE__));
+$arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
+
+require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
+require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
+
+$_SESSION['path'] = ROOT_PATH;
+
+if($_SESSION['isAdmin']=='Yes') {
 	$rights = new Rights();
-
-	$arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
-//	$arrRights=array('add'=> true , 'edit'=> true, 'delete'=> true, 'view'=> true);
-
-if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))   
-	$arrRights=$rights->getRights($_SESSION['userGroup'],Admin);
-
-if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr")) 
-	$arrRights=$rights->getRights($_SESSION['userGroup'],PIM);
-
-if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt")) 
-	$arrRights=$rights->getRights($_SESSION['userGroup'],MT);
 	
-	$_SESSION['localRights']=$arrRights;
+	//	$arrRights=array('add'=> true , 'edit'=> true, 'delete'=> true, 'view'=> true);
+	
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))   
+		$arrRights=$rights->getRights($_SESSION['userGroup'],Admin);
+	
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr")) 
+		$arrRights=$rights->getRights($_SESSION['userGroup'],PIM);
+	
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt")) 
+		$arrRights=$rights->getRights($_SESSION['userGroup'],MT);
 
+
+$ugroup = new UserGroups();
+$ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
+
+$arrRights['repDef'] = $ugDet[0][2] == '1' ? true : false;
+		
+		$_SESSION['localRights']=$arrRights;
+}
 
 if (isset($_POST['styleSheet'])) {
 	   	$styleSheet = $_POST['styleSheet'];
@@ -75,38 +86,25 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="themes/beyondT/pictures/styles.css" rel="stylesheet" type="text/css">
 <link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<link REL="SHORTCUT ICON" HREF="include/images/sugar_icon.ico">
-<link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
 <script language=javascript src="scripts/ypSlideOutMenus.js"></script>
-<script  src="include/javascript/sugar.js"></script>
-<script type="text/javascript" src="jscalendar/calendar.js"></script>
-<script type="text/javascript" src="jscalendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
-<script>
+<script language="JavaScript">
+//window.onresize = setSize();
 
-
-
-</script>
-<SCRIPT language=javascript>
-	<!--
-	  var yPosition = 108;
+		var yPosition = 108;
 
 		new ypSlideOutMenu("menu1", "right", 151, yPosition, 146, 230)
 		new ypSlideOutMenu("menu2", "right", 151, yPosition + 22, 146, 360)
 		new ypSlideOutMenu("menu3", "right", 151, yPosition + 44, 146, 220)
-		new ypSlideOutMenu("menu4", "right", 151, yPosition + 66, 146, 130)
-		new ypSlideOutMenu("menu5", "right", 151, yPosition + 88, 146, 80)
-		new ypSlideOutMenu("menu6", "right", 151, yPosition + 110, 146, 140)
-		new ypSlideOutMenu("menu7", "right", 151, yPosition + 132, 146, 205)
-		new ypSlideOutMenu("menu8", "right", 151, yPosition + 154, 146, 130)
-		new ypSlideOutMenu("menu9", "right", 151, yPosition + 176, 146, 80)
-		new ypSlideOutMenu("menu10", "right", 151, yPosition + 198, 146, 120)
-		new ypSlideOutMenu("menu11", "right", 151, yPosition + 220, 146, 205)		
-	//-->
-</SCRIPT>
-<SCRIPT language=JavaScript type=text/javascript>
-<!--
+		new ypSlideOutMenu("menu4", "right", 151, yPosition + 60, 146, 130)
+		//new ypSlideOutMenu("menu5", "right", 151, yPosition + 88, 146, 80)
+		//new ypSlideOutMenu("menu6", "right", 151, yPosition + 110, 146, 140)
+		//new ypSlideOutMenu("menu7", "right", 151, yPosition + 132, 146, 205)
+		//new ypSlideOutMenu("menu8", "right", 151, yPosition + 82, 146, 130)
+		new ypSlideOutMenu("menu9", "right", 151, yPosition + 83, 146, 80)
+		new ypSlideOutMenu("menu10", "right", 151, yPosition + 105, 146, 120)
+		//new ypSlideOutMenu("menu11", "right", 151, yPosition + 220, 146, 205)		
+
 function swapImgRestore() { 
   var i,x,a=document.sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
 }
@@ -132,10 +130,15 @@ function showHideLayers() {
     if (obj.style) { obj=obj.style	; v=(v=='show')?'visible':(v='hide')?'hidden':v; }
     obj.visibility=v; }
 }
-//-->
+
+function setSize() {
+	var iframeElement = document.getElementById('rightMenu'); 
+	iframeElement.style.height = (window.innerHeight - 20) + 'px'; //100px or 100% 
+	iframeElement.style.width = '100%'; //100px or 100% 
+}
 </SCRIPT>
 </head>
-<body onload="preloadImages('themes/beyondT/pictures/buttons01_on.gif','themes/beyondT/pictures/buttons02_on.gif','themes/beyondT/pictures/buttons03_on.gif','themes/beyondT/pictures/buttons04_on.gif','themes/beyondT/pictures/buttons05_on.gif',
+<body  onload="preloadImages('themes/beyondT/pictures/buttons01_on.gif','themes/beyondT/pictures/buttons02_on.gif','themes/beyondT/pictures/buttons03_on.gif','themes/beyondT/pictures/buttons04_on.gif','themes/beyondT/pictures/buttons05_on.gif',
      'themes/beyondT/pictures/buttons06_on.gif','themes/beyondT/pictures/buttons07_on.gif','themes/beyondT/pictures/buttons08_on.gif','themes/beyondT/pictures/buttons09_on.gif','themes/beyondT/pictures/buttons10_on.gif','themes/beyondT/pictures/buttons11_on.gif')">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <form name="indexForm" action="./menu.php?TEST=1111" method="post">
@@ -158,125 +161,172 @@ function showHideLayers() {
 	?>
         <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
           <tr height="20">
-            <td><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-            <td style="background-image : url(themes/beyondT/pictures/pictures/currentTab_left.png);" ></td>
+            <td><img src="" width="8" height="1" border="0" alt="Home"></td>
+            <td style="background-image : url();" ></td>
             <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
             <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                 <tr height="20">
                   <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
                   <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1" >Home</a></td>
-                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-                  <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                  <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                 </tr>
             </table></td>
             <? } else { ?>
             <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr height="20">
-                  <td><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
+                  <td><img src="" width="8" height="1" border="0" alt="Home"></td>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Dashboard"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1">Home </a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Dashboard"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } ?>
                   <? 
+                  if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  
 									
 					?>
-                  <td style="background-image : url(themes/beyondT/pictures/pictures/currentTab_left.png);" ></td>
+                  <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" >Admin Module</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } else { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Admin Module</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } ?>
                   <? 
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  
 					?>
-                  <td style="background-image : url(themes/beyondT/pictures/pictures/currentTab_left.png);" ></td>
+                  <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr" >PIM Module</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } else { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr">PIM Module</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } ?>
+                  <? 
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  
+					?>
+                  <td style="background-image : url();" ></td>
+                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep">Reports</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } else { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep">Reports</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } ?>
                   <? 
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  
 					?>
-                  <td style="background-image : url(themes/beyondT/pictures/pictures/currentTab_left.png);" ></td>
+                  <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=mt" >Maintenance</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } else { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=mt">Maintenance</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <? } ?>
-                  <? 
+                  <? } 
+                  } else { 
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  
+					?>
+                  <td style="background-image : url();" ></td>
+                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=ess" >ESS</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } else { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=ess">ESS</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } 
+                  }
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  
 									
 					?>
-                  <td style="background-image : url(themes/beyondT/pictures/pictures/currentTab_left.png);" ></td>
+                  <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug" >Bug Tracker</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } else { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug">Bug Tracker</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="include/images/blank.gif" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <? } ?>
-                  <td width="100%" style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="include/images/blank.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="100%" style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                 </tr>
             </table></td>
           </tr>
@@ -307,40 +357,64 @@ function showHideLayers() {
                         <A onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons02_on.gif',1);ypSlideOutMenu.showMenu('menu2');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu2');"> <IMG height=22 src="themes/beyondT/pictures/buttons02.gif" width=150 border=0 name=Button2></A><BR>
                         <A onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons03_on.gif',1);ypSlideOutMenu.showMenu('menu3');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu3');"> <IMG height=22 src="themes/beyondT/pictures/buttons03.gif" width=150 border=0 name=Button3></A><BR>
                         <A onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons04_on.gif',1);ypSlideOutMenu.showMenu('menu4');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu4');"> <IMG height=22 src="themes/beyondT/pictures/buttons04.gif" width=150 border=0 name=Button4></A><BR>
-                        <A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>
-                        <A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>
-                        <A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>
-                        <A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>
+                        <!--<A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
                         <A onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons09_on.gif',1);ypSlideOutMenu.showMenu('menu9');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu9');"> <IMG height=22 src="themes/beyondT/pictures/buttons09.gif" width=150 border=0 name=Button9></A><BR>
                         <A onmouseover="swapImage('Button10','','themes/beyondT/pictures/buttons10_on.gif',1);ypSlideOutMenu.showMenu('menu10');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu10');"> <IMG height=22 src="themes/beyondT/pictures/buttons10.gif" width=150 border=0 name=Button10></A><BR>
-                        <A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>
+                        <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       </P></TD>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
                     <TD width=158><P>
                     	<A href="index.php?reqcode=EMP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons21_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons21.gif" width=150 border=0 name=Button1></A><BR>
-                        <A href="index.php?reqcode=QUA&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons03_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons03.gif" width=150 border=0 name=Button2></A><BR>
                         <A href="index.php?reqcode=EXP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons12_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons12.gif" width=150 border=0 name=Button3></A><BR>
                         <A href="index.php?reqcode=MEM&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons04_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons04.gif" width=150 border=0 name=Button4></A><BR>
-                        <A href="index.php?reqcode=CBN&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons13_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons13.gif" width=150 border=0 name=Button5></A><BR>
-                        <A href="index.php?reqcode=NBN&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons14_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons14.gif" width=150 border=0 name=Button6></A><BR>
-                        <A href="index.php?reqcode=JSP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons15_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons15.gif" width=150 border=0 name=Button7></A><BR>
-                        <A href="index.php?reqcode=SAL&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons16_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons16.gif" width=150 border=0 name=Button8></A><BR>
                         <A href="index.php?reqcode=LAN&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons17_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons17.gif" width=150 border=0 name=Button9></A><BR>
-                        <A href="index.php?reqcode=EXC&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button10','','themes/beyondT/pictures/buttons18_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons18.gif" width=150 border=0 name=Button10></A><BR>
-                        <A href="index.php?reqcode=CXT&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons19_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons19.gif" width=150 border=0 name=Button11></A><BR>
+                        <A href="index.php?reqcode=SKI&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button13','','themes/beyondT/pictures/buttons30_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons30.gif" width=150 border=0 name=Button13></A><BR>
+                        <A href="index.php?reqcode=LIC&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button14','','themes/beyondT/pictures/buttons31_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons31.gif" width=150 border=0 name=Button14></A><BR>
+                        
                       </P></TD>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
                     <TD width=158><P>
-                    	<A href="index.php?bugcode=USR&menu_no=1&submenutop=HR&menu_no_top=mt" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons22_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons22.gif" width=150 border=0 name=Button1></A><BR>
-                    	<A href="index.php?bugcode=USG&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons23_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons23.gif" width=150 border=0 name=Button2></A><BR>
-                    	<A href="index.php?bugcode=MOD&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons24_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons24.gif" width=150 border=0 name=Button3></A><BR>
-                    	<A href="index.php?bugcode=VER&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons25_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons25.gif" width=150 border=0 name=Button4></A><BR>
-                    	<A href="index.php?bugcode=DVR&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons26_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons26.gif" width=150 border=0 name=Button5></A><BR>
-                    	<A href="index.php?bugcode=FVR&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons27_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons27.gif" width=150 border=0 name=Button6></A><BR>
+                    	<A href="index.php?mtcode=USR&menu_no=1&submenutop=HR&menu_no_top=mt" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons22_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons22.gif" width=150 border=0 name=Button1></A><BR>
+                    	<A href="index.php?mtcode=USG&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons23_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons23.gif" width=150 border=0 name=Button2></A><BR>
+                    	<A href="index.php?mtcode=MOD&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons24_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons24.gif" width=150 border=0 name=Button3></A><BR>
+                    	<A href="index.php?mtcode=VER&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons25_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons25.gif" width=150 border=0 name=Button4></A><BR>
+                    	<A href="index.php?mtcode=DVR&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons26_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons26.gif" width=150 border=0 name=Button5></A><BR>
+                    	<A href="index.php?mtcode=FVR&menu_no=1&submenutop=BR&menu_no_top=mt" onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons27_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons27.gif" width=150 border=0 name=Button6></A><BR>
                       </P></TD>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
-                    <TD height="800" bgcolor="#FFB121" width=158><p><br>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
+                    <TD width=158><P>
+                    	<A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons28_on.gif',1);" onmouseout="swapImgRestore();"><IMG height=22 src="themes/beyondT/pictures/buttons28.gif" width=150 border=0 name=Button1></A><BR>
+                    	
+<?                    	if($arrRights['repDef']) {?>
+							<IMG height=22 src="themes/beyondT/pictures/buttonsplain.gif" width=150 border=0><br>
+                    	<A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep"  onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons29_on.gif',1);" onmouseout="swapImgRestore();"><IMG height=22 src="themes/beyondT/pictures/buttons29.gif" width=150 border=0 name=Button2></A><BR>
+<?					} ?>						
+                      </P></TD>
+                      
+<?		/*	} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" || $_GET['menu_swapImgRestore()no_top']=="ess")) {  ?>
+                  <TD height="800" bgcolor="#FFB121" width=158><p><br>
+                    </p></TD>  */ ?>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
+				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess") )  {  ?>
+                   <TD width=158><P>
+                    	<A href="index.php?reqcode=EMP&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons21_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons21.gif" width=150 border=0 name=Button1></A><BR>
+                        <A href="index.php?reqcode=QUA&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons03_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons03.gif" width=150 border=0 name=Button2></A><BR>
+                        <A href="index.php?reqcode=EXP&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons12_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons12.gif" width=150 border=0 name=Button3></A><BR>
+                        <A href="index.php?reqcode=MEM&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons04_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons04.gif" width=150 border=0 name=Button4></A><BR>
+                        <A href="index.php?reqcode=CBN&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons13_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons13.gif" width=150 border=0 name=Button5></A><BR>
+                        <A href="index.php?reqcode=NBN&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons14_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons14.gif" width=150 border=0 name=Button6></A><BR>
+                        <A href="index.php?reqcode=JSP&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons15_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons15.gif" width=150 border=0 name=Button7></A><BR>
+                        <A href="index.php?reqcode=SAL&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons16_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons16.gif" width=150 border=0 name=Button8></A><BR>
+                        <A href="index.php?reqcode=LAN&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons17_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons17.gif" width=150 border=0 name=Button9></A><BR>
+                        <A href="index.php?reqcode=EXC&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button10','','themes/beyondT/pictures/buttons18_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons18.gif" width=150 border=0 name=Button10></A><BR>
+                        <A href="index.php?reqcode=CXT&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons19_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons19.gif" width=150 border=0 name=Button11></A><BR>
+                        <A href="index.php?reqcode=REP&menu_no=1&submenutop=HR&menu_no_top=ess" onmouseover="swapImage('Button12','','themes/beyondT/pictures/buttons20_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons20.gif" width=150 border=0 name=Button12></A><BR>
+                      </P></TD>
 <? } ?>                   
                 </TR>
                 </TBODY>
@@ -353,13 +427,13 @@ function showHideLayers() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=GEN&menu_no=1&submenutop=EIMModule&menu_no_top=eim">General</A></TD>
+                      </TR>
+                      <TR>
                         <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=DEF&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Hierarchy Definition</A></TD>
                       </TR>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CHI&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Company Hierarchy</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A href="index.php?uniqcode=COS&menu_no=1&submenutop=EIMModule&menu_no_top=eim" class="rollmenu">Cost Centers</A></TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CST&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Company Structure</A></TD>
                       </TR>
                       <TR>
                         <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=LOC&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Locations</A></TD>
@@ -375,44 +449,17 @@ function showHideLayers() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD width=142 height=17 align=left vAlign=center class="#menuhead" id="menuhead" onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')"> Job Information</TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Job Title</A></TD>
                       </TR>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Salary Grade</A></TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Pay Grade</A></TD>
                       </TR>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu21')" onmouseout="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu21')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CTT&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Corporate Titles</A></TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=EST&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Employment Status</A></TD>
                       </TR>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=DSG&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Designations</A></TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EEC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">EEO Job Category</A></TD>
                       </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=CUR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Currency Types</A></TD>
-                      </TR>
-                      <TR>
-                        <TD width=142 height=17 align=left vAlign=center class=#menuhead id="menuhead" onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')">Job Profile</TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=JDC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">JD Category</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu21')" onmouseout="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu21')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=JDT&menu_no=2&submenutop=EIMModule&menu_no_top=eim">JD Types</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=JDK&menu_no=2&submenutop=EIMModule&menu_no_top=eim">JD Key result Area</A> </TD>
-                      </TR>
-                      <TR>
-                        <TD width=142 height=17 align=left vAlign=center class=#menuhead id="menuhead" onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')">Designation Profile</TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DDI&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Designation Description</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu21')" onmouseout="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu21')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DQA&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Designation Qualification</A></TD>
-                      </TR>
-                      <!--<TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?module=dsgworkview&group=admin/eimadmin&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Designation Work Experience</A></TD>
-                      </TR>-->
                     </TBODY>
                   </TABLE>
                 </DIV>
@@ -423,16 +470,8 @@ function showHideLayers() {
                 <DIV id=menu3Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
-                    <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=QLF&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Qualification Types</A></TD>
-                    </TR>
                     <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=QQL&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Qualifications</A> </TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=RTM&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Rating Methods</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SBJ&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Subjects</A></TD>
+                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EDU&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Education</A> </TD>
                     </TR>
                     <TR>
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SKI&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Skills</A></TD>
@@ -441,13 +480,7 @@ function showHideLayers() {
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LAN&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Languages</A></TD>
                     </TR>
                     <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SSK&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Sub Skills</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EXC&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Extra Curricular Activity Category</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EXA&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Extra Curricular Activity Type</A></TD>
+                      <TD onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LIC&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Licenses</A></TD>
                     </TR>
                     </TBODY>
                     
@@ -471,7 +504,7 @@ function showHideLayers() {
                 </DIV>
               </DIV>
               <!-- End SubMenu4 -->
-              <!-- Begin SubMenu5 -->
+              <!-- Begin SubMenu5 
               <DIV id=menu5Container>
                 <DIV id=menu5Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -486,8 +519,8 @@ function showHideLayers() {
                   </TABLE>
                 </DIV>
               </DIV>
-              <!-- End SubMenu5 -->
-              <!-- Begin SubMenu6 -->
+               End SubMenu5 -->
+              <!-- Begin SubMenu6 
               <DIV id=menu6Container>
                 <DIV id=menu6Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -511,8 +544,8 @@ function showHideLayers() {
                   </TABLE>
                 </DIV>
               </DIV>
-              <!-- End SubMenu7 -->
-              <!-- Begin SubMenu7 -->
+               End SubMenu7 -->
+              <!-- Begin SubMenu7
               <DIV id=menu7Container>
                 <DIV id=menu7Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -532,8 +565,8 @@ function showHideLayers() {
                   </TABLE>
                 </DIV>
               </DIV>
-              <!-- End SubMenu7 -->
-              <!-- Begin SubMenu8 -->
+                End SubMenu7 -->
+              <!-- Begin SubMenu8 
               <DIV id=menu8Container>
                 <DIV id=menu8Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -548,7 +581,7 @@ function showHideLayers() {
                   </TABLE>
                 </DIV>
               </DIV>
-              <!-- End SubMenu8 -->
+               End SubMenu8 -->
               <!-- Begin SubMenu9 -->
               <DIV id=menu9Container>
                 <DIV id=menu9Content>
@@ -558,7 +591,7 @@ function showHideLayers() {
                         <TD onmouseover="ypSlideOutMenu.showMenu('menu9')" onmouseout="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NAT&submenutop=EIMModule&menu_no_top=eim">Nationalities</A></TD>
                       </TR>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu9')" onmouseout="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=RLG&menu_no=9&submenutop=EIMModule&menu_no_top=eim">Religions</A></TD>
+                        <TD onmouseover="ypSlideOutMenu.showMenu('menu9')" onmouseout="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ETH&menu_no=9&submenutop=EIMModule&menu_no_top=eim">Ethnic Races</A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>
@@ -579,7 +612,7 @@ function showHideLayers() {
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">County</A></TD>
                     </TR>
                     <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ELE&menu_no=10&submenutop=EIMModule&menu_no_top=eim">Electorate</A></TD>
+                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ELE&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
                     </TR>
                     </TBODY>
                     
@@ -587,7 +620,7 @@ function showHideLayers() {
                 </DIV>
               </DIV>
               <!-- End SubMenu10 -->
-              <!-- Begin SubMenu11 -->
+              <!-- Begin SubMenu11 
               <DIV id=menu11Container>
                 <DIV id=menu11Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -599,13 +632,13 @@ function showHideLayers() {
                   </TABLE>
                 </DIV>
               </DIV>
-              <!-- End SubMenu11 -->
+               End SubMenu11 -->
               <!--------------------- End Menu --------------------->
             </td>
 <?			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 			<tr>
 			<td>
-              <iframe src="home.html" name="rightMenu" width="100%" height="600" frameborder="0"> </iframe>
+              <iframe src="home.html" id="rightMenu" name="rightMenu" width="1024" height="450" frameborder="0"> </iframe>
 			</td>
 			</tr>
 <?			}   ?>
@@ -614,17 +647,28 @@ function showHideLayers() {
                 <td>
             <td width="78%" valign="top">
 <?			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
-              <iframe src="view.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'DEF'?>" name="rightMenu" width="100%" height="600" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'DEF'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
-              <iframe src="empview.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
-              <iframe src="bugview.php?bugcode=<?=(isset($_GET['bugcode'])) ? $_GET['bugcode'] : 'USR'?>" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?mtcode=<?=(isset($_GET['mtcode'])) ? $_GET['mtcode'] : 'USR'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
-              <iframe src="bugview.php?bugcode=BUG" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?mtcode=BUG&capturemode=addmode" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  ?>
+              <iframe src="./lib/controllers/CentralController.php?repcode=<?=isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
+              <iframe src="./lib/controllers/CentralController.php?reqcode=ESS&id=<?=$_SESSION['empID']?>&capturemode=updatemode" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
+              <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?=$_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>        
          <? } ?>
-              
+            
             </td>
           </tr>
+</table>
+<table width="100%">
+<tr>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
+</tr>
 </table>
 </body>
 </html>

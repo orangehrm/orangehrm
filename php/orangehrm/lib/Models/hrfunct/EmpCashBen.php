@@ -17,10 +17,12 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CashBen.php';
+
 
 class EmpCashBen {
 
@@ -36,7 +38,7 @@ class EmpCashBen {
 	var $singleField;
 	
 	function EmpCashBen() {
-		
+		$this->cashben = new CashBen();
 	}
 	
 	function setEmpId($empId) {
@@ -89,75 +91,7 @@ class EmpCashBen {
 	return $this->empBenFltType;
 	}
 
-	////
-	function getUnAssEmployee($pageNO,$schStr,$mode) {
 		
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_EMP_CASH_BENEFIT';
-		$sql_builder->field = 'EMP_NUMBER';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function countUnAssEmployee($schStr,$mode) {
-		
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_EMP_CASH_BENEFIT';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field = 'EMP_NUMBER';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
-	    	return $line[0];
-	}
-	
-	
 	function getListofEmpCashBen($page,$str,$mode) {
 		
 		$tableName = 'HS_HR_EMP_CASH_BENEFIT';
@@ -258,13 +192,15 @@ class EmpCashBen {
 	}
 
 	function addEmpCashBen() {
+		$benlist = $this->cashben->getBenCodes();
 		
-		$this->getEmpId();
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpCashBenCode() . "'";
-		$arrFieldList[2] = "'". $this->getEmpBenAmount() . "'";
-		$arrFieldList[3] = "'". $this->getEmpBenDatAss() . "'";
-		$arrFieldList[4] = "'". $this->getEmpBenFltType() . "'";
+       	for($j=0;count($benlist)>$j;$j++)
+       	    if($benlist[$j][0]==$this->getEmpCashBenCode())
+				$arrFieldList[2] = "'". $benlist[$j][2] . "'";
+		$arrFieldList[3] = "'". date('Y-m-d') . "'";
+		$arrFieldList[4] = "'3'";
 
 		$tableName = 'HS_HR_EMP_CASH_BENEFIT';
 	
@@ -286,13 +222,15 @@ class EmpCashBen {
 	}
 	
 	function addUnAssEmpCashBen() {
+		$benlist = $this->cashben->getBenCodes();
 		
-		$this->getEmpId();
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpCashBenCode() . "'";
-		$arrFieldList[2] = "'". $this->getEmpBenAmount() . "'";
-		$arrFieldList[3] = "'". $this->getEmpBenDatAss() . "'";
-		$arrFieldList[4] = "'". $this->getEmpBenFltType() . "'";
+       	for($j=0;count($benlist)>$j;$j++)
+       	    if($benlist[$j][0]==$this->getEmpCashBenCode())
+				$arrFieldList[2] = "'". $benlist[$j][2] . "'";
+		$arrFieldList[3] = "'". date('Y-m-d') . "'";
+		$arrFieldList[4] = "'3'";
 
 		$tableName = 'HS_HR_EMP_CASH_BENEFIT';
 	
@@ -400,49 +338,7 @@ class EmpCashBen {
 		}
 				
 	}
-
-	function getBenCodes() {
-		
-		$tableName = 'HS_HR_CASH_BENEFIT';
-		$arrFieldList[0] = 'BEN_CODE';
-		$arrFieldList[1] = 'BEN_NAME';
-		$arrFieldList[2] = 'BEN_AMOUNT';
-		
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
+	
 function getAssEmpCashBen($getID) {
 		
 		$this->getID = $getID;
@@ -487,50 +383,7 @@ function getAssEmpCashBen($getID) {
 				
 	}
 
-	function getOthEmpCashBen($id) {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_CASH_BENEFIT';
-		$arrFieldList[0] = 'BEN_CODE';
-		$arrFieldList[1] = 'BEN_NAME';
-		$arrFieldList[2] = 'BEN_AMOUNT';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-		$sql_builder->field='BEN_CODE';
-		$sql_builder->table2_name= 'HS_HR_EMP_CASH_BENEFIT';
-		$arr[0][0]='EMP_NUMBER';
-		$arr[0][1]=$id;
-
-		$sqlQString = $sql_builder->selectFilter($arr);
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-
-	    	$i++;
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
-	}
-
+	
 function getUnAssEmpCashBen($getID) {
 		
 		$this->getID = $getID;
@@ -571,8 +424,11 @@ function getUnAssEmpCashBen($getID) {
 			return $arrayDispList;
 			
 		}
+}
+	
+	
 				
 	}
 	
-}
+
 ?>

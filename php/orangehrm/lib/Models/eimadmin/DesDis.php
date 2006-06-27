@@ -17,15 +17,14 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class DesDescription {
-
-	var $tableName = 'HS_HR_JD_KPI';
 	
+	var $tableName = 'HS_HR_JD_KPI';
 	var $desId;
 	var $jdkraId;
 	var $jdKPI;
@@ -69,140 +68,6 @@ class DesDescription {
 		return $this->jdKPI;
 	}
 
-
-	function getListofDesignations($pageNO,$schStr,$mode) {
-		
-		$tableName = 'HS_HR_DESIGNATION';
-		$arrFieldList[0] = 'DSG_CODE';
-		$arrFieldList[1] = 'DSG_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_JD_KPI';
-		$sql_builder->field = 'DSG_CODE';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function countDesignations($schStr,$mode) {
-		
-		$tableName = 'HS_HR_DESIGNATION';
-		$arrFieldList[0] = 'DSG_CODE';
-		$arrFieldList[1] = 'DSG_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name='HS_HR_JD_KPI';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field='DSG_CODE';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
-	    	return $line[0];
-	}
-	
-	function getUnAssDesignations($pageNO,$schStr,$mode) {
-		
-		$tableName = 'HS_HR_DESIGNATION';
-		$arrFieldList[0] = 'DSG_CODE';
-		$arrFieldList[1] = 'DSG_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name = 'HS_HR_JD_KPI';
-		$sql_builder->field = 'DSG_CODE';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function countUnAssDesignations($schStr,$mode) {
-		
-		$tableName = 'HS_HR_DESIGNATION';
-		$arrFieldList[0] = 'DSG_CODE';
-		$arrFieldList[1] = 'DSG_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->table2_name='HS_HR_JD_KPI';
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field='DSG_CODE';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
-	    	return $line[0];
-	}
 	
 	function delJDKPI($arrList) {
 
@@ -324,49 +189,6 @@ class DesDescription {
 			
 		}
 				
-	}
-
-	function getDes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_DESIGNATION';
-		$arrFieldList[0] = 'DSG_CODE';
-		$arrFieldList[1] = 'DSG_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
 	}
 
 	function getGrouping($dsg) {

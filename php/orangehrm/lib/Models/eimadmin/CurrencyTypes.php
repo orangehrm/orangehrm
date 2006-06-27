@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class CurrencyTypes {
 
@@ -274,9 +274,91 @@ class CurrencyTypes {
 				
 		}
 		
-	}	
+	}
+
+	function getCurrencyCodes($id) {
+		
+		$tableName = 'HS_HR_CURRENCY_TYPE';			
+		$arrFieldList[0] = 'CURRENCY_ID';
+		$arrFieldList[1] = 'CURRENCY_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+		$sql_builder->field = 'CURRENCY_ID';		
+		$sql_builder->table2_name = 'HS_PR_SALARY_CURRENCY_DETAIL';
+			
+		$arr[0][0]='SAL_GRD_CODE';
+		$arr[0][1]=$id;
+		$sqlQString = $sql_builder->selectFilter($arr,1);
+		
+		echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
 	
-	
+		function getAllCurrencyCodes() {
+		
+		$tableName = 'HS_HR_CURRENCY_TYPE';			
+		$arrFieldList[0] = 'CURRENCY_ID';
+		$arrFieldList[1] = 'CURRENCY_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage();
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
 }
 
 ?>

@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EmpQualSubject {
 
@@ -61,7 +61,7 @@ class EmpQualSubject {
 	$this->empSubMarks=$empSubMarks;
 	}
 	
-	function setSubYear($empSubYear) {
+	function setEmpSubYear($empSubYear) {
 	
 	$this->empSubYear=$empSubYear;
 	}
@@ -96,7 +96,7 @@ class EmpQualSubject {
 	return $this->empSubMarks;
 	}
 	
-	function getSubYear() {
+	function getEmpSubYear() {
 	
 	return $this->empSubYear;
 	}
@@ -287,23 +287,16 @@ class EmpQualSubject {
 				
 	}
 
-	function getRatCodes () {
+	
+	
 
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_RATING_METHOD_GRADE';
-		$arrFieldList[0] = 'RATING_GRADE_CODE';
-		$arrFieldList[1] = 'RATING_GRADE';
+	function getRatGrds($qua) {
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
+        $sqlQString="SELECT a.RATING_GRADE_CODE, a.RATING_GRADE FROM HS_HR_RATING_METHOD_GRADE a, HS_HR_QUALIFICATION b WHERE a.RATING_CODE = b.RATING_CODE AND b.QUALIFI_CODE = '" .$qua . "'";
+		$sqlQString=strtolower($sqlQString);
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
 
 		$i=0;
 
@@ -311,25 +304,70 @@ class EmpQualSubject {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-
-
 	    	$i++;
 
 	     }
 
 	     if (isset($arrayDispList)) {
 
-	       	return $arrayDispList;
+			return $arrayDispList;
 
-	     } else {
+		} else {
 
-	     	//Handle Exceptions
-	     	//Create Logs
+			$arrayDispList = '';
+			return $arrayDispList;
 
-	     }
-
+		}
 	}
 
-}
 
+	function getAssEmpQualSub($arr) {
+		
+		$tableName = 'HS_HR_EMP_SUBJECT';
+
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'QUALIFI_CODE';
+		$arrFieldList[2] = 'SBJ_CODE';
+		$arrFieldList[3] = 'ESBJ_MARKS';
+		$arrFieldList[4] = 'ESBJ_YEAR';
+		$arrFieldList[5] = 'ESBJ_COMMENTS';
+		$arrFieldList[6] = 'RATING_GRADE_CODE';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($arr,1);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+			for($c=0;count($arrFieldList)>$c;$c++)
+			   $arrayDispList[$i][$c] = $line[$c];
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}
+	
+}
 ?>

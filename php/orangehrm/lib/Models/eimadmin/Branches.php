@@ -17,11 +17,11 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
-
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+//require_once ROOT_PATH . '/lib/logs/LogWriter.php';
 class Branches {
 
 	var $tableName = 'HS_HR_BRANCH';
@@ -118,8 +118,9 @@ class Branches {
 		$sql_builder->arr_select = $arrFieldList;		
 			
 		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
+		$log = new LogWriter();
+		//$log->writeLogDB($sqlQString);
+		echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -198,18 +199,6 @@ class Branches {
 		$arrFieldList[4] = "'". $this->getBrchSlipTrf() . "'";
 		$arrFieldList[5] = "'". $this->getBrchClrHos() . "'";
 
-
-/*
-	var $brchId;
-    var $bnkId;
-	var $brchDesc;
-    var $brchAddr;
-    var $brchSlipTrf;
-    var $brchClrHos;
-
-*/		//$arrFieldList[0] = 'CURRENCY_ID';
-		//$arrFieldList[1] = 'CURRENCY_NAME';
-		
 		$tableName = 'HS_HR_BRANCH';
 	
 		$sql_builder = new SQLQBuilder();
@@ -315,48 +304,6 @@ class Branches {
 				
 	}
 	
-	function getBankCodes () {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_BANK';
-		$arrFieldList[0] = 'BANK_CODE';
-		$arrFieldList[1] = 'BANK_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
 
 
 	function getLastRecord() {
@@ -390,7 +337,94 @@ class Branches {
 				
 		}
 		
-	}	
+	}
+
+	
+	function getBranchCodes($getID) {
+
+		$this->getID = $getID;
+		$tableName = 'HS_HR_BRANCH';
+		$arrFieldList[0] = 'BANK_CODE';
+		$arrFieldList[1] = 'BBRANCH_CODE';
+		$arrFieldList[2] = 'BBRANCH_NAME';
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+	    		for($c=0; count($arrFieldList) > $c ; $c++)
+					$arrayDispList[$i][$c] = $line[$c];
+
+	    		$i++;
+	     }
+
+	     if (isset($arrayDispList)) {
+
+			return $arrayDispList;
+
+		} else {
+
+			$arrayDispList = '';
+			return $arrayDispList;
+
+		}
+	}
+	
+	function getUnAssBranchCodes($eno,$bank) {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_BRANCH';
+		$arrFieldList[0] = 'BBRANCH_CODE';
+		$arrFieldList[1] = 'BBRANCH_NAME';
+		$arrFieldList[2] = 'BANK_CODE';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+		$sql_builder->field='BBRANCH_CODE';
+		$sql_builder->table2_name= 'HS_HR_EMP_BANK';
+		$arr1[0][0]='EMP_NUMBER';
+		$arr1[0][1]=$eno;
+		$arr2[0][0]='BANK_CODE';
+		$arr2[0][1]=$bank;
+
+		$sqlQString = $sql_builder->selectFilter($arr1,$arr2);
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+
+	    	$i++;
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+	     	//Handle Exceptions
+	     	//Create Logs
+	     }
+	}
 	
 	
 }

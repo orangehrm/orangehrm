@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class CorpTitle {
 
@@ -249,6 +249,49 @@ class CorpTitle {
 				
 	}
 	
+	function getCorpTit() {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_CORPORATE_TITLE';
+		$arrFieldList[0] = 'CT_CODE';
+		$arrFieldList[1] = 'CT_NAME';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->passResultSetMessage();
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+
+
+	    	$i++;
+
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+
+	     	//Handle Exceptions
+	     	//Create Logs
+
+	     }
+
+	}
+	
 	function updateCorpTitles() {
 
 		$this->getCtId();
@@ -386,49 +429,53 @@ class CorpTitle {
 
 	}
 
-	function getSalGrades () {
+	function getCorpTitlesEmpInfo($getID) {
+		
+		$this->getID = $getID;
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$arrFieldList[1] = 'CT_CODE';
+		$arrFieldList[2] = 'CT_NAME';
+
+
+		$tableName = 'HS_HR_CORPORATE_TITLE';
 
 		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_PR_SALARY_GRADE';
-		$arrFieldList[0] = 'SAL_GRD_CODE';
-		$arrFieldList[1] = 'SAL_GRD_NAME';
-
+		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
 		$i=0;
-
+		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
+		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-
-
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
-
+	    	
 	     }
-
+	     
 	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
 	}
 
+	
 	function getLastRecord() {
 		
 		$sql_builder = new SQLQBuilder();

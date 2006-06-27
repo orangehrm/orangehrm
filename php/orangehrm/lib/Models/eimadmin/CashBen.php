@@ -17,10 +17,11 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+
 
 class CashBen {
 
@@ -71,6 +72,88 @@ class CashBen {
 		return $this->benAmt;
 
     }
+    
+    function getCashBenCodes($id) {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_CASH_BENEFIT';
+		$arrFieldList[0] = 'BEN_CODE';
+		$arrFieldList[1] = 'BEN_NAME';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+		$sql_builder->field='BEN_CODE';
+		$sql_builder->table2_name= 'HS_HR_CASH_BEN_SALGRADE';
+		$arr[0][0]='SAL_GRD_CODE';
+		$arr[0][1]=$id;
+
+		$sqlQString = $sql_builder->selectFilter($arr);
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+
+	    	$i++;
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+	     	//Handle Exceptions
+	     	//Create Logs
+	     }
+	}
+    
+    function getAllCashBenefits() {
+		
+		$tableName = 'HS_HR_CASH_BENEFIT';
+		$arrFieldList[0] = 'BEN_CODE';
+		$arrFieldList[1] = 'BEN_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage();
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
     
 	function getListofCashBenefits($pageNO,$schStr,$mode) {
 		
@@ -230,7 +313,7 @@ class CashBen {
 		$sql_builder->arr_select = $arrFieldList;		
 			
 		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
+				
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -291,7 +374,95 @@ class CashBen {
 				
 		}
 		
-	}	
+	}
+
+	
+	function getOthEmpCashBen($id) {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_CASH_BENEFIT';
+		$arrFieldList[0] = 'BEN_CODE';
+		$arrFieldList[1] = 'BEN_NAME';
+		$arrFieldList[2] = 'BEN_AMOUNT';
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+		$sql_builder->field='BEN_CODE';
+		$sql_builder->table2_name= 'HS_HR_EMP_CASH_BENEFIT';
+		$arr[0][0]='EMP_NUMBER';
+		$arr[0][1]=$id;
+
+		$sqlQString = $sql_builder->selectFilter($arr);
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+
+	    	$i++;
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+	     	//Handle Exceptions
+	     	//Create Logs
+	     }
+	}
+
+	function getBenCodes() {
+		
+		$tableName = 'HS_HR_CASH_BENEFIT';
+		$arrFieldList[0] = 'BEN_CODE';
+		$arrFieldList[1] = 'BEN_NAME';
+		$arrFieldList[2] = 'BEN_AMOUNT';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage();
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
 	
 	
 }

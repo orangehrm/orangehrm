@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class Designations {
 
@@ -176,6 +176,74 @@ class Designations {
 	    	return $line[0];
 	}
 
+	function getUnAssDesignations($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_JD_KPI';
+		$sql_builder->field = 'DSG_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssDesignations($schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_JD_KPI';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='DSG_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	
 	function delDesignations($arrList) {
 
 		$tableName = 'HS_HR_DESIGNATION';
@@ -353,6 +421,10 @@ class Designations {
 		$tableName = 'HS_HR_DESIGNATION';
 		$arrFieldList[0] = 'DSG_CODE';
 		$arrFieldList[1] = 'DSG_NAME';
+        $arrFieldList[2] = 'CT_CODE';
+        $arrFieldList[3] = 'DSG_SNRMGT_FLG';
+        $arrFieldList[4] = 'DSG_REVIEW_DATE';
+        $arrFieldList[5] = 'DSG_NEXT_UPGRADE';
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
@@ -371,6 +443,10 @@ class Designations {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+	    	$arrayDispList[$i][3] = $line[3];
+	    	$arrayDispList[$i][4] = $line[4];
+	    	$arrayDispList[$i][5] = $line[5];
 
 
 	    	$i++;
@@ -390,49 +466,185 @@ class Designations {
 
 	}
 
-	function getCorpTit() {
+	function getDesEmpInfo($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_DESIGNATION';
+        $arrFieldList[0] = 'CT_CODE';
+		$arrFieldList[1] = 'DSG_CODE';
+		$arrFieldList[2] = 'DSG_NAME';
+	
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}
+	
+	function getListofDesignationsDes($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
 
 		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_CORPORATE_TITLE';
-		$arrFieldList[0] = 'CT_CODE';
-		$arrFieldList[1] = 'CT_NAME';
-
+		
 		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_JD_QUALIFICATION';
+		$sql_builder->field = 'DSG_CODE';
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
 		$i=0;
-
+		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
+		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-
-
 	    	$i++;
-
+	    	
 	     }
-
+	     
 	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
 	}
+	
+	function countDesignationsDes($schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
 
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_JD_QUALIFICATION';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='DSG_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countMultipleTab($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	
+	function getUnAssDesignationsDes($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_JD_QUALIFICATION';
+		$sql_builder->field = 'DSG_CODE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	
+	function countUnAssDesignationsDes($schStr,$mode) {
+		
+		$tableName = 'HS_HR_DESIGNATION';
+		$arrFieldList[0] = 'DSG_CODE';
+		$arrFieldList[1] = 'DSG_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name='HS_HR_JD_QUALIFICATION';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field='DSG_CODE';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
 	
 }
 

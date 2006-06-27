@@ -17,9 +17,9 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class Login {
 
@@ -38,6 +38,9 @@ function filterUser($userName) {
 			$arrFieldList[3] = 'ID';
 			$arrFieldList[4] = 'USERG_ID';
 			$arrFieldList[5] = 'STATUS';
+			$arrFieldList[6] = 'EMP_NUMBER';
+			$arrFieldList[7] = 'IS_ADMIN';
+			
 	
 			$sql_builder = new SQLQBuilder();
 			
@@ -62,6 +65,8 @@ function filterUser($userName) {
 					$arrayDispList[$i][3] = $line[3];
 					$arrayDispList[$i][4] = $line[4];
 					$arrayDispList[$i][5] = $line[5];
+					$arrayDispList[$i][6] = $line[6];
+					$arrayDispList[$i][7] = $line[7];
 					$i++;
 				}
 			return $arrayDispList;

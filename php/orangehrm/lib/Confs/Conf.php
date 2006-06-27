@@ -30,10 +30,10 @@ class Conf {
 		
 	$this->dbhost	= '192.168.0.196';
 	$this->dbport 	= '3306';
-	$this->dbname	= 'hr_mysql';
+	$this->dbname	= 'temp';
 	$this->dbuser	= 'user';
 	$this->dbpass	= '';
-	$this->smtphost = 'mail.beyondm.net';
+	$this->smtphost = '';
 			
 	}
 	

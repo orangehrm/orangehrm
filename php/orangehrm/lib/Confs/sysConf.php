@@ -24,6 +24,7 @@ class sysConf {
 	//alerts
 	var $accessDenied;
 	var $viewDescLen;
+	var $userEmail;
 	
 	function sysConf() {
 		
@@ -33,6 +34,7 @@ class sysConf {
 		$this->accessDenied="Access Denied";
 		
 		$this->viewDescLen=60;
+		$this->userEmail = 'youremail@mailhost.com';
 	}
 	
 }

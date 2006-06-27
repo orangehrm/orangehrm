@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class ProvinceInfo {
 
@@ -142,6 +142,135 @@ class ProvinceInfo {
 	    	return $line[0];
 	}
 
+	function filterGetProvinceCodeInfo($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_PROVINCE';			
+		$arrFieldList[0] = 'PROVINCE_CODE';
+		$arrFieldList[1] = 'PROVINCE_NAME';
+		$arrFieldList[2] = 'COU_CODE';
+	
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0]; // Province Code
+	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	$arrayDispList[$i][2] = $line[2];
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}	
+	
+	function filterNotEqualProvinceInfo($getID) {
+	
+		$this->getID = $getID;
+		
+		$tableName = 'HS_HR_PROVINCE';			
+		$arrFieldList[0] = 'PROVINCE_CODE';
+		$arrFieldList[1] = 'PROVINCE_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->filterNotEqualRecordSet($this->getID);
+				
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0]; // Province Code
+	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+		}
+	}
+	
+	/*function getProvinceCodes($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_PROVINCE';			
+		$arrFieldList[0] = 'COU_CODE';
+		$arrFieldList[1] = 'PROVINCE_CODE';
+		$arrFieldList[2] = 'PROVINCE_NAME';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0]; // Province Code
+	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	$arrayDispList[$i][2] = $line[2]; // Country ID
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+		}
+	}*/
+	
 	function delProvinceInfo($arrList) {
 
 		$tableName = 'HS_HR_PROVINCE';
@@ -393,7 +522,47 @@ function filterNotEqualCountryInfo($getID) {
 	
 	}
 	
-	
+	function getProvinceCodes($getID) {
+
+		$this->getID = $getID;
+		$tableName = 'HS_HR_PROVINCE';
+		$arrFieldList[0] = 'COU_CODE';
+		$arrFieldList[1] = 'PROVINCE_CODE';
+		$arrFieldList[2] = 'PROVINCE_NAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+	    		for($c=0; count($arrFieldList) > $c ; $c++)	
+					$arrayDispList[$i][$c] = $line[$c];
+					
+	    		$i++;
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
 	
 	function getLastRecord() {
 		

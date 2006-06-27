@@ -16,22 +16,33 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 */
+//require_once ROOT_PATH . '/lib/logs/LogWriter.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpBank.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpBasSalary.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpCashBen.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpConExt.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpExCur.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpJobSpec.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpLang.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpMembership.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpNonCashBen.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpPassPort.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpQual.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpQualSub.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpWorkExp.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpTax.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpAttach.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpDependents.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpSkill.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpLicenses.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpDependents.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpInfo.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpBank.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpBasSalary.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpCashBen.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpConExt.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpExCur.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpJobSpec.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpLang.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpMembership.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpNonCashBen.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpPassPort.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpQual.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpQualSub.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpRepTo.php';
-require_once OpenSourceEIM . '/lib/Models/hrfunct/EmpWorkExp.php';
+
+require_once ROOT_PATH . '/lib/common/FormCreator.php';
+
 
 class EmpViewController {
 
@@ -42,10 +53,39 @@ class EmpViewController {
 	
 		
 	function EmpViewController() {
-		
 	}
 	
-    function delParser($indexCode,$arrList) {
+	function viewList($getArr,$postArr) {
+
+		$form_creator = new FormCreator($getArr,$postArr);
+		$form_creator ->formPath ='/empview.php'; 
+		
+		if (isset($getArr['reqcode'])) {
+ 			$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['reqcode']));
+    	}	
+			
+    		$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;		 	
+ 		
+			
+		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
+    	{
+		    $choice=$postArr['loc_code'];
+    		$strName=trim($postArr['loc_name']);
+    		$form_creator ->popArr['emplist'] = $this ->  getInfo(trim($getArr['reqcode']),$currentPage,$strName,$choice);
+    	}
+		else 
+			$form_creator ->popArr['emplist'] = $this ->  getInfo(trim($getArr['reqcode']),$currentPage);
+						
+   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) 				
+			$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['reqcode']),$strName,$choice);
+		else
+			$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['reqcode']));
+			
+		$form_creator->display();
+	}
+	
+  
+	function delParser($indexCode,$arrList) {
         $this->indexCode=$indexCode;
 
         if(($this->indexCode) == 'EMP') {
@@ -54,8 +94,58 @@ class EmpViewController {
             $this->employee->delEmployee($arrList);
 			
 		}
+		
+		if(($this->indexCode) == 'JSP') {
+
+            $this->empjob = new EmpJobSpec();
+            $this->empjob->delEmpJobSpec($arrList);
+			
+		}
 	} 
 
+	function xajaxObjCall($value,$reqcode,$cntrl) {
+	
+	
+		switch ($reqcode) {
+			
+			case 'EMP' : 
+							if($cntrl == 'province') {
+								
+								$province = new ProvinceInfo();
+								return $province->getProvinceCodes($value);
+							}
+							
+							if($cntrl == 'district') {
+								
+								$district = new DistrictInfo();
+								return $district->getDistrictCodes($value);
+							}
+							break;
+							
+			case 'PASSPORT' : 
+			
+							if($cntrl == 'assigned') {
+								
+								$pport = new EmpPassPort();
+								return $pport ->getAssEmpPP($value);
+							}
+							
+							if($cntrl == 'newseqno') {
+								
+								$pport = new EmpPassPort();
+								return $pport ->getLastRecord($value);
+							}
+
+							if($cntrl == 'filter') {
+								
+								$pport = new EmpPassPort();
+								return $pport ->filterEmpPP($value);
+							}
+							
+							break;
+		}
+	}
+	
 	function getInfo($indexCode,$pageNO,$schStr='',$mode=0) {
 
 		$this->indexCode = $indexCode;
@@ -126,6 +216,24 @@ class EmpViewController {
 			$message = $this->empPP->getListofEmpPP($pageNO,$schStr,$mode);
 			return $message;
 
+		} else if(($this->indexCode) == 'DEP') {
+		
+			$this->empDep = new EmpDependents();
+			$message = $this->empDep->getListofEmpDep($pageNO,$schStr,$mode);
+			return $message;	
+			
+		} else if(($this->indexCode) == 'CHI') {
+		
+			$this->empChi = new EmpChildren();
+			$message = $this->empChi->getListofEmpChi($pageNO,$schStr,$mode);
+			return $message;
+		
+		} else if(($this->indexCode) == 'EMC') {
+		
+			$this->empecon = new EmpEmergencyCon();
+			$message = $this->empecon->getListofEmpEC($pageNO,$schStr,$mode);
+			return $message;
+			
 		} else if(($this->indexCode) == 'QUA') {
 		
 			$this->empQual = new EmpQualification();
@@ -134,8 +242,8 @@ class EmpViewController {
 
 		} else if(($this->indexCode) == 'REP') {
 		
-			$this->empRepTo = new EmpRepTo();
-			$message = $this->empRepTo->getListofEmpRepTo($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getListofEmpRepTo($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXP') {
@@ -144,7 +252,30 @@ class EmpViewController {
 			$message = $this->empWrkExp->getListofEmpWorkExp($pageNO,$schStr,$mode);
 			return $message;
 
+			
+		} else if(($this->indexCode) == 'DPN') {
+		
+			$this->empDp = new EmpDependents();
+			$message = $this->empDp->getListofEmpDp($pageNO,$schStr,$mode);
+			return $message;
+
+				
+		} else if(($this->indexCode) == 'SKI') {
+		
+			$this->empSkill = new EmpSkill();
+			$message = $this->empSkill->getListofEmpSkill($pageNO,$schStr,$mode);
+			return $message;
 		}
+		
+		else if(($this->indexCode) == 'LIC') {
+		
+			$this->emplicen = new EmpLicenses();
+			$message = $this->emplicen->getListofEmpLicenses($pageNO,$schStr,$mode);
+			return $message;
+
+		}
+		
+		
 	}
 	
 	function countList($indexCode,$schStr='',$mode=0) {
@@ -153,8 +284,8 @@ class EmpViewController {
 					
 		if (($this->indexCode) == 'EMP') {
 		
-			$this-> employee = new EmpInfo();
-			$message = $this-> employee -> countEmployee($schStr,$mode);
+			$this-> empinfo = new EmpInfo();
+			$message = $this-> empinfo -> countEmployee($schStr,$mode);
 			return $message;
 			
 		} else if(($this->indexCode) == 'BNK') {
@@ -216,6 +347,12 @@ class EmpViewController {
 			$this->empPP = new EmpPassPort();
 			$message = $this->empPP->countEmpPP($schStr,$mode);
 			return $message;
+			
+		} else if(($this->indexCode) == 'DEP') {
+		
+			$this->empDep = new EmpDependents();
+			$message = $this->empDep->countEmpDep($schStr,$mode);
+			return $message;
 
 		} else if(($this->indexCode) == 'QUA') {
 		
@@ -225,8 +362,8 @@ class EmpViewController {
 
 		} else if(($this->indexCode) == 'REP') {
 		
-			$this->empRepTo = new EmpRepTo();
-			$message = $this->empRepTo->countEmpRepTo($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countEmpRepTo($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXP') {
@@ -234,73 +371,26 @@ class EmpViewController {
 			$this->empWrkExp = new EmpWorkExp();
 			$message = $this->empWrkExp->countEmpWorkExp($schStr,$mode);
 			return $message;
+			
+		
+
+		} else if(($this->indexCode) == 'SKI') {
+		
+			$this->empSkill = new EmpSkill();
+			$message = $this->empSkill->countEmpSkill($schStr,$mode);
+			return $message;
+
+		}
+		
+		 else if(($this->indexCode) == 'LIC') {
+		
+			$this->emplicen = new EmpLicenses();
+			$message = $this->emplicen->countEmpLicenses($schStr,$mode);
+			return $message;
 
 		}
 		
 	}
-	
-	function getPageID($indexCode) {
-	
-		$this->indexCode = $indexCode;	
-							
-		if (($this->indexCode) == 'EMP') {
-		
-			$this->pageID = './hremp';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'CXT') {
-
-			$this->pageID = './hrempconext';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'EXC') {
-
-			$this->pageID = './hrempextcur';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'LAN') {
-
-			$this->pageID = './hremplan';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'EXP') {
-
-			$this->pageID = './hrempwrkexp';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'JSP') {
-
-			$this->pageID = './hrempjobspec';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'MEM') {
-
-			$this->pageID = './hrempmemship';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'SAL') {
-
-			$this->pageID = './hrempbassal';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'CBN') {
-
-			$this->pageID = './hrempcashben';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'NBN') {
-
-			$this->pageID = './hrempnoncashben';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'QUA') {
-
-			$this->pageID = './hrempqual';
-			return $this->pageID;
-
-		} 	
-	} 
-	
 	
 	function getHeadingInfo($indexCode) {
 		
@@ -366,7 +456,19 @@ class EmpViewController {
 
 			$this->headingInfo = array ('Work Experience' ,1);
 			return $this->headingInfo;
+		
+		} else if(($this->indexCode) == 'SKI') {
+
+			$this->headingInfo = array ('Skills' ,1);
+			return $this->headingInfo;
+			
+		} else if(($this->indexCode) == 'LIC') {
+
+			$this->headingInfo = array ('Licenses' ,1);
+			return $this->headingInfo;
 		} 
+		
+		
 	}
 
 	function getUnAssigned($indexCode,$pageNO,$schStr='',$mode=0) {
@@ -375,56 +477,57 @@ class EmpViewController {
 					
 		if(($this->indexCode) == 'BNK') {
 		
-			$this->empBank= new EmpBank();
-			$message = $this->empBank->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empbank = new EmpBank();
+			$message = $this->empbank->getUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'SAL') {
 		
-			$this->empBasSal= new EmpBasSalary();
-			$message = $this->empBasSal->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getBasSalUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'CBN') {
 		
-			$this->empCashBen= new EmpCashBen();
-			$message = $this->empCashBen->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getCashBenUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'NBN') {
 		
-			$this->empNonCashBen = new EmpNonCashBen();
-			$message = $this->empNonCashBen->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getNonCashUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'CXT') {
 		
-			$this->empConExt = new EmpConExt();
-			$message = $this->empConExt->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXC') {
 		
-			$this->empExCur = new EmpExCur();
-			$message = $this->empExCur->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getUnAssEmployeeExCur($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'JSP') {
 		
-			$this->empJobSpec = new EmpJobSpec();
-			$message = $this->empJobSpec->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getJobSpecUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
+
 
 		} else if(($this->indexCode) == 'LAN') {
 		
-			$this->empLan = new EmpLanguage();
-			$message = $this->empLan->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getLangUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'MEM') {
 		
-			$this->empMship = new EmpMembership();
-			$message = $this->empMship->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getUnAssEmployeeMemShip($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'PAS') {
@@ -432,23 +535,41 @@ class EmpViewController {
 			$this->empPP = new EmpPassPort();
 			$message = $this->empPP->getUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
+			
+		} else if(($this->indexCode) == 'DEP') {
+		
+			$this->empDep = new EmpDependents();
+			$message = $this->empDep->getUnAssEmployee($pageNO,$schStr,$mode);
+			return $message;
 
 		} else if(($this->indexCode) == 'QUA') {
 		
-			$this->empQual = new EmpQualification();
-			$message = $this->empQual->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo= new EmpInfo();
+			$message = $this->empinfo->getQulUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'REP') {
 		
-			$this->empRepTo = new EmpRepTo();
-			$message = $this->empRepTo->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getUnAssEmployeeRepTo($pageNO,$schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXP') {
 		
-			$this->empWrkExp = new EmpWorkExp();
-			$message = $this->empWrkExp->getUnAssEmployee($pageNO,$schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getUnAssEmployeeWorkExp($pageNO,$schStr,$mode);
+			return $message;
+	
+		} else if(($this->indexCode) == 'SKI') {
+		
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getSkillUnAssEmployee($pageNO,$schStr,$mode);
+			return $message;
+
+		} else if(($this->indexCode) == 'LIC') {
+		
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->getLicensesUnAssEmployee($pageNO,$schStr,$mode);
 			return $message;
 
 		}
@@ -460,56 +581,56 @@ class EmpViewController {
 					
 		if(($this->indexCode) == 'BNK') {
 		
-			$this->empBank= new EmpBank();
-			$message = $this->empBank->countUnAssEmployee($schStr,$mode);
+			$this->empbank = new EmpBank();
+			$message = $this->empbank->countUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'SAL') {
 		
-			$this->empBasSal= new EmpBasSalary();
-			$message = $this->empBasSal->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countBasSalUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'CBN') {
 		
-			$this->empCashBen= new EmpCashBen();
-			$message = $this->empCashBen->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countCashBenUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'NBN') {
 		
-			$this->empNonCashBen = new EmpNonCashBen();
-			$message = $this->empNonCashBen->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countNonCashUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'CXT') {
 		
-			$this->empConExt = new EmpConExt();
-			$message = $this->empConExt->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXC') {
 		
-			$this->empExCur = new EmpExCur();
-			$message = $this->empExCur->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo -> countUnAssEmployeeExCur($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'JSP') {
 		
-			$this->empJobSpec = new EmpJobSpec();
-			$message = $this->empJobSpec->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countJobSpecUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'LAN') {
 		
-			$this->empLan = new EmpLanguage();
-			$message = $this->empLan->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countLangUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'MEM') {
 		
-			$this->empMship = new EmpMembership();
-			$message = $this->empMship->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countUnAssEmployeeMemShip($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'PAS') {
@@ -518,28 +639,1403 @@ class EmpViewController {
 			$message = $this->empPP->countUnAssEmployee($schStr,$mode);
 			return $message;
 
+		} else if(($this->indexCode) == 'DEP') {
+		
+			$this->empDep = new EmpDependets();
+			$message = $this->empDep->countUnAssEmployee($schStr,$mode);
+			return $message;	
+		
 		} else if(($this->indexCode) == 'QUA') {
 		
-			$this->empQual = new EmpQualification();
-			$message = $this->empQual->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countQulUnAssEmployee($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'REP') {
 		
-			$this->empRepTo = new EmpRepTo();
-			$message = $this->empRepTo->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countUnAssEmployeeRepTo($schStr,$mode);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXP') {
 		
-			$this->empWrkExp = new EmpWorkExp();
-			$message = $this->empWrkExp->countUnAssEmployee($schStr,$mode);
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countUnAssEmployeeWorkExp($schStr,$mode);
+			return $message;
+
+		} else if(($this->indexCode) == 'SKI') {
+		
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countSkillUnAssEmployee($schStr,$mode);
+			return $message;
+
+		} else if(($this->indexCode) == 'LIC') {
+		
+			$this->empinfo = new EmpInfo();
+			$message = $this->empinfo->countLicensesUnAssEmployee($schStr,$mode);
 			return $message;
 
 		}
 		
 	}
 	
-}
+	function assignEmpFormData($postArr,$object,$action) {	
+	
+		if(isset($postArr['econtactSTAT']) && ($postArr['econtactSTAT'] == 'ADD' || $postArr['econtactSTAT'] == 'EDIT')) {
+			
+			$empecon = new EmpEmergencyCon();
+			$empecon = $object;
+			if($action == 'ADD')
+				$empecon->addEmpEC();
+			elseif($action == 'EDIT')
+				$empecon->updateEmpEC();
+				
+		return;
+		}
+		
+		if(isset($postArr['passportSTAT']) && ($postArr['passportSTAT'] == 'ADD' || $postArr['passportSTAT'] == 'EDIT')) {
+			$emppassport = new EmpPassPort();
+			$emppassport = $object;
+			if($action == 'ADD')
+				$emppassport->addEmpPP();
+			elseif($action == 'EDIT')
+				$emppassport->updateEmpPP();
+				
+		return;
+		}
+		
+		if(isset($postArr['depSTAT']) && ($postArr['depSTAT'] == 'ADD' || $postArr['depSTAT'] == 'EDIT')) {
+			$empdep = new EmpDependents();
+			$empdep = $object;
+			if($action == 'ADD')
+				$empdep->addEmpDep();
+			elseif($action == 'EDIT')
+				$empdep->updateEmpDep();
+				
+		return;
+		}
+		
+		if(isset($postArr['chiSTAT']) && ($postArr['chiSTAT'] == 'ADD' || $postArr['chiSTAT'] == 'EDIT')) {
+			$empchi = new EmpChildren();
+			$empchi = $object;
+			if($action == 'ADD')
+				$empchi->addEmpChi();
+			elseif($action == 'EDIT')
+				$empchi->updateEmpChi();
+				
+		return;
+		}
+		
+		if(isset($postArr['brchSTAT']) && ($postArr['brchSTAT'] == 'ADD' || $postArr['brchSTAT'] == 'EDIT')) {
+			$empbank = new EmpBank();
+			$empbank = $object;
+			if($action == 'ADD')
+				$empbank->addEmpBank();
+			elseif($action == 'EDIT')
+				$empbank->updateEmpBank();
+				
+		return;
+		}
+		
+		if(isset($postArr['attSTAT']) && ($postArr['attSTAT'] == 'ADD' || $postArr['attSTAT'] == 'EDIT')) {
+			if($_FILES['ufile']['size']>0) {
+				$empatt = new EmpAttach();
+				$empatt = $object;
+				if($action == 'ADD')
+					$empatt->addEmpAtt();
+			}				
+		return;
+		}
+	}
 
+	function delEmpFormData($getArr,$postArr) {
+		
+		if(isset($postArr['econtactSTAT']) && $postArr['econtactSTAT'] =='DEL') {
+			
+			$econ = new EmpEmergencyCon();
+					   
+		    $arr[1]=$postArr['chkecontactdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$econ->delEmpEC($arr);
+	
+		}
+		
+		if(isset($postArr['passportSTAT']) && $postArr['passportSTAT'] =='DEL') {
+			
+			$passport = new EmpPassPort();
+		
+			$arr[1]=$postArr['chkpassportdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$passport->delEmpPP($arr);
+		}
+		
+		if(isset($postArr['depSTAT']) && $postArr['depSTAT'] =='DEL') {
+			
+			$dep = new EmpDependents();
+		
+			$arr[1]=$postArr['chkdepdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$dep->delEmpDep($arr);
+		}
+		
+		if(isset($postArr['chiSTAT']) && $postArr['chiSTAT'] =='DEL') {
+			
+			$chi = new EmpChildren();
+		
+			$arr[1]=$postArr['chkchidel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$chi->delEmpChi($arr);
+		}
+		
+		if(isset($postArr['brchSTAT']) && $postArr['brchSTAT'] =='DEL') {
+			
+			$bankacc = new EmpBank();
+			
+			$arr[1]=$postArr['chkbrchdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+					$arr[0][$c]=$getArr['id'];
+			$bankacc->delEmpBank($arr);
+		}
+		
+		if(isset($postArr['attSTAT']) && $postArr['attSTAT'] =='DEL') {
+
+			$attachment = new EmpAttach();
+			
+			$arr[1]=$postArr['chkattdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+					$arr[0][$c]=$getArr['id'];
+			$attachment->delEmpAtt($arr);
+		}
+	}
+	
+	function reDirect($getArr,$postArr,$object = null) {
+
+		$form_creator = new FormCreator($getArr,$postArr);
+
+		switch ($getArr['reqcode']) {
+
+			case 'JSP' :	$form_creator ->formPath = '/templates/hrfunct/hrempjobspec.php'; 
+							 $ejobsp = new EmpJobSpec();
+							 $empinfo = new EmpInfo();
+							 $jdcat = new JDCategory();
+							 
+							$form_creator->popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator->popArr['catlist']= $jdcat->getJDCatCodes();
+							
+							if(isset($getArr['editID'])) {    
+							    $arr[0]=$getArr['id'];
+							    $arr[1]=$getArr['editID'];
+							    
+							    $form_creator->popArr['editArr']=$ejobsp->filterEmpJobSpec($arr);
+								
+							}
+								else 
+							{	
+							     $form_creator ->popArr['unasscatlist']  =$jdcat->getUnAssJDCatCodes($getArr['id']);
+							}
+							     $form_creator ->popArr['rset'] = $ejobsp ->getAssEmpJobSpec($getArr['id']);
+							     //$form_creator ->popArr['catlist']=$ejobsp->getJDCatCodes();
+								
+													
+							break;	
+							
+		   case 'CXT' :	  $form_creator ->formPath = '/templates/hrfunct/hrempconext.php'; 
+							 $empconext = new EmpConExt();
+							 $empinfo = new EmpInfo();
+							 
+							 
+							$form_creator->popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator->popArr['empstat'] = $empinfo->filterEmpJobStat($getArr['id']);
+							
+							if(isset($getArr['editID']))
+								{
+	   								$arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['editID'];
+    								
+    							$form_creator->popArr['editArr'] =$empconext->filterConExt($arr);
+    							$form_creator->popArr['lastrec']=$empconext->getLastRecord($getArr['id']);	
+								}
+								else 
+								{
+								$form_creator->popArr['lastrec']=$empconext->getLastRecord($getArr['id']);
+								}
+								$form_creator->popArr['rset']=$empconext ->getAssConExt($getArr['id']);
+							
+							break;
+							
+			case 'SAL' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempbassal.php'; 
+							    	$empinfo = new EmpInfo();
+							    	$empbassal = new EmpBasSalary();
+							    	$currTyp = new CurrencyTypes();
+							    	
+							$form_creator->popArr['einfo'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator->popArr['empdet'] = $empdet =$empinfo->filterEmpJobInfo($getArr['id']);
+							$salGrd = $empdet[0][5];
+						
+							if(isset($getArr['editID1'])) {
+   								$arr[0]=$getArr['id'];
+    							$arr[1]=$getArr['editID1'];
+   								$arr[2]=$getArr['editID2'];
+   								
+		   					    $form_creator->popArr['editArr'] = $edit = $empbassal->filterEmpBasSal($arr);
+		   					    $form_creator->popArr['currlist'] = $empbassal-> getCurrCodes($edit[0][1]);
+							} else {
+								$form_creator->popArr['curlist'] = $empbassal->getUnAssCurrCodes($salGrd,$getArr['id']);
+							
+								if($object != null) {
+									$form_creator->popArr['cmbCurrCode'] = $object->cmbCurrCode;
+								}
+							}
+							
+							$form_creator->popArr['rset'] = $empbassal->getAssEmpBasSal($getArr['id']);
+						    $form_creator->popArr['currAlllist'] = $currTyp->getAllCurrencyCodes();
+								
+							break;
+							
+			case 'LAN' :	$form_creator ->formPath = '/templates/hrfunct/hremplan.php'; 
+							$empinf = new EmpInfo();
+							$emplan = new EmpLanguage();
+							$laninfo = new LanguageInfo();
+							
+
+							$form_creator->popArr['lantype'] = array ( 'Writing'=> 1 , 'Speaking'=>2 , 'Reading'=>3 );
+							$form_creator->popArr['grdcodes'] = array( 'Poor'=> 1 ,'Basic'=>2 , 'Good'=>3 ,'Mother Tongue'=>4);
+
+							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
+							$form_creator ->popArr['lanlist'] = $lanlist = $laninfo ->getLang();
+							
+							if(isset($getArr['editID1'])) {
+								    $arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['editID1'];
+    								$arr[2]=$getArr['editID2'];
+    						
+								$form_creator -> popArr['editArr'] = $emplan ->filterEmpLang($arr);
+								
+								for($c=0;count($lanlist)>$c;$c++)
+									if($getArr['editID1']==$lanlist[$c][0])
+							  			$ratSel=$lanlist[$c][2];
+																		
+								
+							} else {
+								if($object != null) {
+									$form_creator->popArr['cmbLanCode'] = $object->cmbLanCode;
+									for($c=0;$lanlist && count($lanlist)>$c;$c++)
+									    if($lanlist[$c][0]==$object->cmbLanCode) {
+										       $ratSel = $lanlist[$c][2];
+									    }
+									    
+								$form_creator -> popArr['ratSel']= $ratSel;
+																	
+								}
+								$form_creator ->popArr['lanlist']   = $laninfo ->getLang();
+																
+							}
+							
+							$form_creator ->popArr['rsets']    = $emplan ->getAssEmpLang($getArr['id']);
+							break;
+							
+			case 'MEM' :	$form_creator ->formPath = '/templates/hrfunct/hrempmemship.php'; 
+							$empinf = new EmpInfo();
+							$empmem = new EmpMembership();
+							$memtype = new MembershipType();
+							$memshipinfo = new MembershipInfo();
+							
+							$form_creator->popArr['subown'] = array ( 'Company' , 'Individual');
+							
+							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
+							$form_creator ->popArr['typlist'] = $typlist = $memtype ->getMembershipTypeCodes();
+							
+							if(isset($getArr['editID1'])) {
+								    $arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['editID1'];
+    								$arr[2]=$getArr['editID2'];
+    						
+								$form_creator -> popArr['editArr'] = $edit = $empmem ->filterEmpMembership($arr);
+																									
+								$form_creator -> popArr['mship'] = $memshipinfo ->getMembershipCodes($edit[0][2]);
+								
+								
+							} else {
+								if($object != null) {
+									$form_creator->popArr['cmbMemTypeCode'] = $object->cmbMemTypeCode;
+							
+								    $form_creator->popArr['mship'] = $memshipinfo ->getUnAssMembershipCodes($getArr['id'], $object->cmbMemTypeCode);    
+																
+								}
+								$form_creator ->popArr['typlist'] = $typlist = $memtype ->getMembershipTypeCodes();
+								
+								
+							}
+							
+							$form_creator ->popArr['rset']    = $empmem->getAssEmpMembership($getArr['id']);
+							$form_creator ->popArr['mshipAll']   = $memshipinfo ->getAllMembershipCodes();
+						
+							break;
+							
+			case 'EXC' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempextcur.php'; 			
+							
+							$empinfo   = new EmpInfo();
+							$empextcur = new EmpExCur();
+							$extracurr = new ExtraCurrActCat();
+							$extrainfo = new ExtraCurActInfo();
+	
+							$form_creator->popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator-> popArr['catlist'] = $extracurr->getExCurCatCodes();
+							
+							if(isset($getArr['editID']))
+							{
+    							$arr[0]=$getArr['id'];
+    							$arr[1]=$getArr['editID'];
+    							
+    							$form_creator-> popArr['editArr'] = $edit = $empextcur->filterEmpExCur($arr);
+    							$form_creator-> popArr['typelist']= $extrainfo->getExCurTypeCodes($edit[0][2]);
+							} else {
+								$form_creator-> popArr['lastrec'] = $empextcur->getLastRecord($getArr['id']);
+														
+								
+								if($object != null){
+									$form_creator->popArr['cmbExtCurCat'] = $catcode = $object->cmbExtCurCat;
+									$form_creator-> popArr['typeunasslist'] = $extrainfo->getUnAssExCurTypeCodes($getArr['id'],$catcode);
+								}
+								
+							}
+							
+							$form_creator-> popArr['rset']  =  $empextcur ->getAssExCur($getArr['id']);
+							$form_creator-> popArr['allcatlist'] = $extracurr->getExCurCatCodes();
+							$form_creator-> popArr['alltypelist'] = $extrainfo->getAllExtraCurActInfo();
+					
+							break;
+							
+			case 'EXP' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempwrkexp.php'; 			
+							
+							$empinfo  = new EmpInfo();
+							$empworkex= new EmpWorkExp();
+							$countryinfo = new CountryInfo();
+							$proinfo = new ProvinceInfo();
+	
+							$form_creator->popArr['empDet'] = $empinfo->filterEmpMain($getArr['id']);
+							
+							if($object != null) {
+									$form_creator->popArr['txtEmpExpCompany'] =  $object->txtEmpExpCompany;
+									$form_creator->popArr['txtEmpExpToDat'] =  $object->txtEmpExpToDat;
+									$form_creator->popArr['txtEmpExpDesOnLev'] =  $object->txtEmpExpDesOnLev;
+									$form_creator->popArr['txtEmpExpYears'] =  $object->txtEmpExpYears;
+									$form_creator->popArr['chkEmpExpWorkRelFlag'] =  $object->chkEmpExpWorkRelFlag;
+									$form_creator->popArr['txtEmpExpMonths'] =  $object->txtEmpExpMonths;
+									$form_creator->popArr['txtEmpExpAdd1'] =  $object->txtEmpExpAdd1;
+									$form_creator->popArr['txtEmpExpAcc'] =  $object->txtEmpExpAcc;
+									$form_creator->popArr['txtEmpExpAdd2'] =  $object->txtEmpExpAdd2;
+							}
+							
+							if(isset($getArr['editID']))
+							{
+    							$arr[0]=$getArr['id'];
+    							$arr[1]=$getArr['editID'];
+    							
+    							$form_creator-> popArr['editArr'] = $edit =  $empworkex->filterEmpWorkExp($arr);
+    							$form_creator-> popArr['list']  = $countryinfo->getCountryCodes();
+    							if($object != null) {
+									$form_creator->popArr['txtEmpExpAdd2'] = $pli =  $object->txtEmpExpAdd2;
+									$form_creator->popArr['txtEmpExpConPers'] =  $object->txtEmpExpConPers;
+									$form_creator->popArr['txtEmpExpAdd3'] =  $object->txtEmpExpAdd3;
+									
+									$form_creator->popArr['txtEmpExpTelep'] =  $object->txtEmpExpTelep;
+									$form_creator->popArr['txtEmpResLev'] =  $object->txtEmpResLev;
+									$form_creator->popArr['txtEmpExpAchmnt'] =  $object->txtEmpExpAchmnt;
+									$form_creator->popArr['txtEmpExpFromDat'] =  $object->txtEmpExpFromDat;
+									$form_creator->popArr['txtEmpExpEmail'] =  $object->txtEmpExpEmail;
+    								$form_creator-> popArr['plist']=  $empinfo->getProvinceCodes( $pli);
+															
+    							} else 
+    								$form_creator-> popArr['plist1']=  $proinfo->getProvinceCodes($edit[0][4]);
+    							
+    							
+							} else {
+							 
+								$form_creator->popArr['newID'] = $empworkex ->getLastRecord($getArr['id']);
+								$form_creator-> popArr['list'] = $countryinfo->getCountryCodes();
+								
+								if($object != null) {
+									$form_creator->popArr['txtEmpExpCompany']  = $object->txtEmpExpCompany;
+									$form_creator->popArr['txtEmpExpToDat']  = $object->txtEmpExpToDat;
+									$form_creator->popArr['txtEmpExpDesOnLev']  = $object->txtEmpExpDesOnLev;
+									$form_creator->popArr['txtEmpExpYears']  = $object->txtEmpExpYears;
+									$form_creator->popArr['chkEmpExpWorkRelFlag']  = $object->chkEmpExpWorkRelFlag;
+									$form_creator->popArr['txtEmpExpMonths'] = $object->txtEmpExpMonths;
+									$form_creator->popArr['txtEmpExpAdd1'] =  $object->txtEmpExpAdd1;
+									$form_creator->popArr['txtEmpExpAcc']  = $object->txtEmpExpAcc;
+									
+									$form_creator->popArr['txtEmpExpTelep'] =  $object->txtEmpExpTelep;
+									$form_creator->popArr['txtEmpResLev'] =  $object->txtEmpResLev;
+									$form_creator->popArr['txtEmpExpAchmnt'] =  $object->txtEmpExpAchmnt;
+									$form_creator->popArr['txtEmpExpFromDat'] =  $object->txtEmpExpFromDat;
+									$form_creator->popArr['txtEmpExpEmail'] =  $object->txtEmpExpEmail;
+									$form_creator->popArr['txtEmpExpAdd2'] = $plis =  $object->txtEmpExpAdd2;
+									$form_creator->popArr['txtEmpExpAdd3'] =  $object->txtEmpExpAdd3;	
+									$form_creator->popArr['txtEmpExpConPers'] =  $object->txtEmpExpConPers;								
+									$form_creator-> popArr['plist2'] =  $empinfo->getProvinceCodes($plis);
+								}
+							}
+							
+							$form_creator-> popArr['rset']  =  $empworkex ->getAssEmpWorkExp($getArr['id']);
+							
+							break;
+							
+					
+			case 'QUA' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempqual.php'; 
+							
+							$empinfo = new EmpInfo();
+							$empqual = new EmpQualification();
+							$qualtyp = new QualificationType();
+							$qual = new Qualifications();
+							
+							$form_creator-> popArr['statlist'] = array('First Class','Second Class Upr.','Second Class Lwr.');
+							
+							$form_creator-> popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator-> popArr['typlist'] = $qualtyp->getQualificationTypeCodes();
+							
+							if(isset($getArr['editID']))
+								{
+    							$arr[0]=$getArr['editID'];
+    							$arr[1]=$getArr['id'];
+    						
+    							$form_creator-> popArr['editArr']  = $empqual->filterEmpQual($arr);
+    							$form_creator-> popArr['quallist'] = $qual->getAllQualifications();
+    															
+							} else {
+								
+								if($object != null){
+								$form_creator-> popArr['TypeCode'] 	  =   $object -> TypeCode;
+								$form_creator-> popArr['mship']       =   $qual->getUnAssQualifications($getArr['id'],$object -> TypeCode);	
+									}
+								}	
+								$form_creator-> popArr['rset']         =  $empqual->getAssEmpQual($getArr['id']);
+								$form_creator-> popArr['allquallist']  =  $qual->getAllQualifications();				
+								
+							break;
+
+			case 'QAS' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempqualsub.php'; 
+							
+							$empinfo = new EmpInfo();
+							$qual = new Qualifications();
+							$empqualsub = new EmpQualSubject();
+							$subinfo = new SubjectInfo();
+
+							$form_creator-> popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator-> popArr['qualDet'] = $qual->filterQualifications($getArr['QUA']);
+							
+							$form_creator->popArr['sublistAll'] = $subinfo->getSubjectCodes($getArr['QUA']);
+							$form_creator->popArr['ratlist'] = $empqualsub->getRatGrds($getArr['QUA']);
+							
+							if(isset($getArr['editID'])) {
+								$arr[0] = $getArr['id'];
+								$arr[1] = $getArr['QUA'];
+								$arr[2] = $getArr['editID'];
+
+								$form_creator->popArr['editArr'] = $empqualsub ->filterEmpQualSub($arr);
+							} else {
+								$form_creator->popArr['sublistUnAss'] = $subinfo ->getUnAssSubjects($getArr['id'],$getArr['QUA']);
+							}
+							
+							$arr[0] = $getArr['id'];
+							$arr[1] = $getArr['QUA'];
+							$form_creator->popArr['sublistAss'] = $empqualsub ->getAssEmpQualSub($arr);
+							break;
+							
+			case 'CBN' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempcashben.php'; 
+							
+							$empinfo = new EmpInfo();
+							$empcashben = new EmpCashBen();
+							$cashben = new CashBen();
+							
+							$form_creator->popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator->popArr['bfilter'] = array('Salary Point' => 1,'Designation' => 2,'Employee' => 3);
+							$form_creator->popArr['benlist'] = $cashben->getBenCodes();
+							
+							if(isset($getArr['editID'])) {
+								    $arr[0]=$getArr['id'];
+								    $arr[1]=$getArr['editID'];
+
+								    $form_creator->popArr['editArr'] = $empcashben->filterEmpCashBen($arr);
+							} 
+							
+							$form_creator->popArr['cashbenAss'] = $empcashben->getAssEmpCashBen($getArr['id']);
+							$form_creator->popArr['cashbenUnAss'] = $empcashben->getUnAssEmpCashBen($getArr['id']);
+
+							if(isset($getArr['OBEN'])) 
+								$form_creator->popArr['cashbenOther'] = $cashben->getOthEmpCashBen($getArr['id']);
+							break;
+							
+			case 'NBN' :	 
+							$form_creator ->formPath = '/templates/hrfunct/hrempnoncashben.php'; 
+							
+							$empinfo = new EmpInfo();
+							$empnoncashben = new EmpNonCashBen();
+							$noncashben = new NonCashBen();
+
+							$form_creator->popArr['empdet'] = $empinfo->filterEmpMain($getArr['id']);
+							$form_creator->popArr['bfilter'] = array('Salary Point' => 1,'Designation' => 2,'Employee' => 3);
+							$form_creator->popArr['benlist'] = $noncashben->getBenCodes();
+							
+							if(isset($getArr['editID'])) {
+								$arr[0]=$getArr['id'];
+								$arr[1]=$getArr['editID'];
+								    $form_creator->popArr['editArr'] = $empnoncashben->filterEmpNonCashBen($arr);
+							} 
+							
+							$form_creator->popArr['cashbenAss'] = $empnoncashben->getAssEmpNonCashBen($getArr['id']);
+							$form_creator->popArr['cashbenUnAss'] = $empnoncashben->getUnAssEmpNonCashBen($getArr['id']);
+
+							if(isset($getArr['OBEN'])) 
+								$form_creator->popArr['cashbenOther'] = $noncashben->getOthEmpNonCashBen($getArr['id']);
+								
+							break;
+										
+			case 'EMP' :	
+							$form_creator->formPath = '/templates/hrfunct/hremp.php';
+							
+							$form_creator->popArr['arrMStat'] = array ('Unmarried','Married','Divorced','Others');
+	
+							$empinfo = new EmpInfo();
+							$pport = new EmpPassPort();
+							$dep = new EmpDependents();
+							$econ = new EmpEmergencyCon();
+							$chi = new EmpChildren();
+							$attachment = new EmpAttach();
+							$countryinfo = new CountryInfo();
+							$porinfo = new ProvinceInfo();
+							$nationinfo = new NationalityInfo();
+							$location = new Location();
+							$distric = new DistrictInfo();
+							$electorate = new ElectorateInfo();
+							$hierarchy = new HierarchyDefInfo();
+							$comphire = new CompHierachy();
+							$jobtit = new JobTitle();
+
+							$depen = new EmpDependents();
+
+							$ethnicrace = new EthnicRace();
+							$eeojobcat  = new EEOJobCat();
+
+
+											 
+								$form_creator ->popArr['nation'] = $nationinfo ->getNationCodes();
+								$form_creator->popArr['loc'] = $location->getLocCodes();
+								$form_creator->popArr['cntlist'] = $countryinfo->getCountryCodes();
+								$form_creator->popArr['ethRace'] = $ethnicrace->getEthnicRaceCodes();
+								$form_creator->popArr['eeojobcat'] = $eeojobcat->getEEOJobCatCodes();
+								$form_creator->popArr['jobtit'] = $jobtit ->getJobTit();
+								$form_creator->popArr['hier'] = isset($res) ? $res : false;
+								
+								$form_creator->popArr['cntlist'] = $countrylist = $countryinfo->getCountryCodes();
+								$form_creator->popArr['elelist'] = $electorate->getElectorateCodes();
+								$form_creator->popArr['ppcntlist'] = $countrylist;
+
+							if($getArr['capturemode'] == 'addmode') {
+								$form_creator ->popArr['newID'] = $empinfo->getLastRecord();
+				
+								if($object != null) {
+
+									$form_creator->popArr['ctlist'] = $corptit ->getCorpTitlesEmpInfo($object->cmbSalGrd);
+									$form_creator->popArr['deslist'] = $des ->getDesEmpInfo($object->cmbCorpTit);
+									$form_creator->popArr['plist'] = $porinfo->getProvinceCodes($object->cmbTaxCountry);
+									$form_creator->popArr['resplist'] = $porinfo->getProvinceCodes($object->cmbPermCountry);
+									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($object->cmbPermProvince);
+
+									$form_creator->popArr['ethRace'] = $ethnicrace->getEthnicRaceCodes($object->cmbEthnicRace);
+								}
+
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editMainArr'] = $empinfo ->filterEmpMain($getArr['id']);
+								$form_creator ->popArr['editPersArr'] = $empinfo->filterEmpPers($getArr['id']);
+								$form_creator ->popArr['editJobInfoArr'] = $editJobInfo = $empinfo->filterEmpJobInfo($getArr['id']);
+
+
+								$form_creator->popArr['editPermResArr'] = $edit = $editPermRes = $empinfo->filterEmpContact($getArr['id']);
+								$form_creator->popArr['provlist'] = $porinfo ->getProvinceCodes($edit[0][4]);
+								$form_creator->popArr['citylist'] = $distric ->getDistrictCodes($edit[0][5]);
+								$form_creator->popArr['empPPAss'] = $pport ->getAssEmpPP($getArr['id']);
+								$form_creator->popArr['empDepAss'] = $dep ->getAssEmpDep($getArr['id']);
+								$form_creator->popArr['empECAss'] = $econ ->getAssEmpEC($getArr['id']);
+								$form_creator->popArr['empChiAss'] = $chi ->getAssEmpChi($getArr['id']);
+								$form_creator->popArr['empAttAss'] = $attachment -> getAssEmpAtt($getArr['id']);
+
+								$form_creator->popArr['empDpAss'] = $depen ->getAssEmpDep($getArr['id']);
+								
+								if(!isset($getArr['PPSEQ'])) 
+									$form_creator->popArr['newPPID'] = $pport->getLastRecord($getArr['id']);
+								elseif(isset($getArr['PPSEQ'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['PPSEQ'];
+									$form_creator->popArr['editPPForm'] = $pport->filterEmpPP($arr);
+								}
+							
+								if(!isset($getArr['ECSEQ'])) 
+									$form_creator->popArr['newECID'] = $econ->getLastRecord($getArr['id']);
+								elseif(isset($getArr['ECSEQ'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['ECSEQ'];
+									$form_creator->popArr['editECForm'] = $econ->filterEmpEC($arr);
+								}
+								
+								if(!isset($getArr['DSEQ'])) 
+									$form_creator->popArr['newDID'] = $dep->getLastRecord($getArr['id']);
+								elseif(isset($getArr['DSEQ'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['DSEQ'];
+									$form_creator->popArr['editDepForm'] = $dep->filterEmpDep($arr);
+								}
+	
+								if(!isset($getArr['CHSEQ'])) 
+									$form_creator->popArr['newCID'] = $chi->getLastRecord($getArr['id']);
+								elseif(isset($getArr['CHSEQ'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['CHSEQ'];
+									$form_creator->popArr['editChiForm'] = $chi->filterEmpChi($arr);
+								}
+							
+								if(isset($getArr['ATTACH'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['ATTACH'];
+									$form_creator->popArr['editAttForm'] = $attachment->filterEmpAtt($arr);
+								}
+										
+								if($object != null) {
+
+									$form_creator->popArr['ctlist'] = $corptit ->getCorpTitlesEmpInfo($object->cmbSalGrd);
+									$form_creator->popArr['deslist'] = $des ->getDesEmpInfo($object->cmbCorpTit);
+									$form_creator->popArr['resplist'] = $porinfo->getProvinceCodes($object->cmbPermCountry);
+									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($object->cmbPermProvince);
+									$form_creator->popArr['brchlist'] = $brch->getUnAssBranchCodes($getArr['id'],$object->cmbBank);
+
+									$form_creator->popArr['ctlist'] = $empinfo ->getCorpTitles($object->cmbSalGrd);
+									$form_creator->popArr['deslist'] = $empinfo ->getDes($object->cmbCorpTit);
+									$form_creator->popArr['resplist'] = $empinfo->getProvinceCodes($object->cmbPermCountry);
+									$form_creator->popArr['resdlist'] = $empinfo->getDistrictCodes($object->cmbPermProvince);
+									$form_creator->popArr['brchlist'] = $brch->getUnAssBranchCodes($getArr['id'],$object->cmbBank);
+
+
+								} else {
+									$form_creator->popArr['resplist'] = $porinfo->getProvinceCodes($editPermRes[0][10]);
+									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($editPermRes[0][11]);
+								}
+								
+								
+							}
+							
+							break;
+						
+				
+			case 'ESS' :	
+							$form_creator->formPath = '/templates/hrfunct/hrempess.php';
+							
+							$form_creator->popArr['arrTitle'] = array('Mr.','Mrs.','Ms.','Rev');
+							$form_creator->popArr['arrBGroup'] = array ( 'A  +'=>'A+','A  -'=>'A-','B  +'=>'B+','B  -'=>'B-','AB +'=>'AB+','AB -'=>'AB-','O  +'=>'O+','O  -'=>'O-');
+							$form_creator->popArr['arrMStat'] = array ('Unmarried','Married','Divorced','Others');
+							$form_creator->popArr['arrEmpType'] = array( 'Permanent', 'Expatriate', 'Contract', 'Temporary' , 'Others');
+							$form_creator->popArr['arrTaxExempt'] = array ('Monthly-Paye', 'Annual-Payee', 'Payee-Exempt', 'Expatriate');
+							$form_creator->popArr['arrFillStat'] = array('Married','Unmarried');
+	
+							$empinfo = new EmpInfo();
+							$tax = new EmpTax();
+							$pport = new EmpPassPort();
+							$bankacc = new EmpBank();
+							$attachment = new EmpAttach();
+							$taxinfo = new TaxInfo();
+							$countryinfo = new CountryInfo();
+							$proinfo = new ProvinceInfo();
+							$nationinfo = new NationalityInfo();
+							$relinfo = new ReligionInfo();
+							$satinfo = new SatutoryInfo();
+							$catcode = new EmployeeCat();
+							$salgrd = new SalaryGrades();
+							$costcen = new CostCenter();
+							$location = new Location();
+							$hierarchy = new HierarchyDefInfo();
+							$comphire = new CompHierachy();
+							$electorate = new ElectorateInfo();
+							$corptit = new CorpTitle();
+							$des = new Designations();
+							$distric = new DistrictInfo();
+
+							$bankinfo = new BankInfo();
+
+							 
+								$form_creator ->popArr['nation'] = $nationinfo->getNationCodes();
+								$form_creator ->popArr['rel'] = $relinfo ->getReligionCodes();
+								$form_creator ->popArr['stat'] = $satinfo ->getStatCodes();
+								$form_creator ->popArr['catlist'] = $catcode ->getCatCodes();
+								$form_creator ->popArr['grdlist'] = $salgrd ->getSalGrdCodes();
+								$form_creator ->popArr['costlist'] = $costcen ->getCostCodes();
+								$form_creator->popArr['loc'] = $location->getLocCodes();
+								$form_creator->popArr['taxcntlist'] = $countryinfo->getCountryCodes();
+								$form_creator->popArr['taxlist'] = $taxinfo->getTaxCodes();
+
+								$form_creator->popArr['hierarchy'] = $hierarchy = $hierarchy->getHierarchyDef();
+								if($hierarchy)
+								   $noFields=count($hierarchy);
+								else
+									$noFields=0;
+								
+								$form_creator->popArr['noFields'] = $noFields;
+								
+								for($c=0;$noFields > $c;$c++) { 
+											
+									if($c==0) {
+										$res[$c] = $comphire->getCompHier($hierarchy[$c][0],0);
+									} elseif (isset($postArr["hierarchy".($c-1)])) {
+										$arr[0] = $hierarchy[$c][0];
+										$arr[1] = $postArr["hierarchy".($c-1)];
+										$res[$c] = $comphire->getCompHier($arr,1);
+									}
+								}
+
+								$form_creator->popArr['hier'] = $res;
+								
+								$form_creator->popArr['rescntlist'] = $countrylist = $countryinfo->getCountryCodes();
+								$form_creator->popArr['elelist'] = $electorate->getElectorateCodes();
+								$form_creator->popArr['ppcntlist'] = $countrylist;
+								$form_creator->popArr['banklist'] = $bankinfo->getBankCodes();
+							    $form_creator->popArr['brchlistAll'] = $bankacc->getAllBranchCodes();
+
+								$form_creator ->popArr['editMainArr'] = $empinfo ->filterEmpMain($getArr['id']);
+								$form_creator ->popArr['editPersArr'] = $empinfo->filterEmpPers($getArr['id']);
+								$form_creator ->popArr['editJobInfoArr'] = $editJobInfo = $empinfo->filterEmpJobInfo($getArr['id']);
+								$form_creator->popArr['ctlist'] = $corptit ->getCorpTitles($editJobInfo[0][5]);
+								$form_creator->popArr['deslist'] = $des ->getDes($editJobInfo[0][6]);
+								$form_creator ->popArr['editJobStatArr'] = $editJobStat = $empinfo->filterEmpJobStat($getArr['id']);
+								$form_creator ->popArr['editWrkStationArr'] = $editWrkStation = $empinfo->filterEmpWrkStaion($getArr['id']);
+								$form_creator ->popArr['editTaxArr'] = $editTax = $empinfo->filterEmpTax($getArr['id']); 
+								$form_creator->popArr['plist'] = $proinfo->getProvinceCodes($editTax[0][16]);
+								$form_creator->popArr['empTaxAss'] = $tax ->getAssEmpTax($getArr['id']);
+								$form_creator->popArr['editPermResArr'] = $editPermRes = $empinfo->filterEmpPermRes($getArr['id']);
+								$form_creator->popArr['empPPAss'] = $pport ->getAssEmpPP($getArr['id']);
+								//$form_creator->popArr['empDepAss'] = $dep ->getAssEmpDep($getArr['id']);
+								$form_creator->popArr['empBankAss'] = $bankacc ->getAssEmpBank($getArr['id']);
+								$form_creator->popArr['empAttAss'] = $attachment -> getAssEmpAtt($getArr['id']);
+								
+								if(!isset($getArr['PPSEQ'])) 
+									$form_creator->popArr['newPPID'] = $pport->getLastRecord($getArr['id']);
+								elseif(isset($getArr['PPSEQ'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['PPSEQ'];
+									$form_creator->popArr['editPPForm'] = $pport->filterEmpPP($arr);
+								}
+								
+
+								if(isset($getArr['ATTACH'])) {
+									$arr[0]=$getArr['id'];
+									$arr[1]=$getArr['ATTACH'];
+									$form_creator->popArr['editAttForm'] = $attachment->filterEmpAtt($arr);
+								}
+										
+								if($object != null) {
+									$form_creator->popArr['resplist'] = $proinfo->getProvinceCodes($object->cmbPermCountry);
+									$form_creator->popArr['resdlist'] = $proinfo->getDistrictCodes($object->cmbPermProvince);
+								} else {
+									//$form_creator ->popArr['hierRelation'] = $hierRelation = $empinfo->getHierRelation($editWrkStation[0][10]);
+									$form_creator->popArr['resplist'] = $proinfo->getProvinceCodes($editPermRes[0][10]);
+									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($editPermRes[0][11]);
+								}
+							
+							break;											
+											
+			case 'REP' :	
+							$form_creator ->formPath = '/templates/hrfunct/hremprepto.php'; 
+							
+								$empinfo  = new EmpInfo();
+								$emprepto = new EmpRepTo();	
+								$empinfo = new EmpInfo();
+									
+							
+							$form_creator->popArr['empdet']  = $empinfo->filterEmpMain($getArr['id']);
+							
+							$form_creator->popArr['suprset'] = $emprepto->getEmpSup($getArr['id']);
+							$form_creator->popArr['empname'] = $empinfo ->getEmpInfo();
+							$form_creator->popArr['subrset'] = $emprepto->getEmpSub($getArr['id']);
+							
+							if(isset($getArr['editIDSup'])){
+								$arr[0]=$getArr['editIDSup'];
+								$arr[1]=$getArr['id'];
+								$arr[2]=$getArr['repmethod'];
+								
+								    $form_creator->popArr['editIDSupInfo'] = $emprepto->filterEmpRepTo($arr);
+							 }
+							
+							if(isset($getArr['editIDSub'])){
+								$arr[0]=$getArr['id'];
+								$arr[1]=$getArr['editIDSub'];
+								$arr[2]=$getArr['repmethod'];
+								
+								    $form_creator->popArr['editIDSubInfo'] = $emprepto->filterEmpRepTo($arr);
+							}
+							break;
+							
+			case 'SKI' :	$form_creator ->formPath = '/templates/hrfunct/hrempskill.php'; 
+							$empinf = new EmpInfo();
+							$empskill = new EmpSkill();
+							$skill = new Skills();
+									
+
+							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
+							$form_creator ->popArr['allSkilllist'] =  $skill ->getSkillCodes();
+							
+							
+							if(isset($getArr['editID1'])) {
+								    $arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['editID1'];
+    								$arr[2]=$getArr['editID2'];
+    						
+								$form_creator -> popArr['editArr'] = $empskill ->filterEmpSkill($arr);
+															
+							} else {
+															
+								$form_creator ->popArr['uskilllist']   = $skill ->getUnAssSkillCodes($getArr['id']);								
+							}
+							
+							$form_creator ->popArr['rsets']    = $empskill ->getAssEmpSkill($getArr['id']);
+							break;
+							
+			case 'LIC' :	$form_creator ->formPath = '/templates/hrfunct/hremplicenses.php'; 
+							$empinf = new EmpInfo();
+							$emplicen = new EmpLicenses();
+							$licen = new Licenses();
+									
+
+							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
+							$form_creator ->popArr['allLicenlist'] =  $licenlist = $licen ->getLicensesCodes();
+							
+							
+							if(isset($getArr['editID1'])) {
+								    $arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['editID1'];
+    								$arr[2]=$getArr['editID2'];
+    						
+								$form_creator -> popArr['editArr'] = $emplicen ->filterEmpLicenses($arr);
+														
+							} else {
+															
+								$form_creator ->popArr['unassLicenlist']   = $licen ->getUnAssLicensesCodes($getArr['id']);								
+							}
+							
+							$form_creator ->popArr['rsets']    = $emplicen ->getAssEmpLicenses($getArr['id']);
+							break;
+							
+					}
+			$form_creator->display();
+	}
+
+	function updateCountryData($object) {
+		$empinfo = new EmpInfo();
+		
+		$empinfo = $object;
+		$empinfo -> updateEmpTaxCountry();
+	}
+	
+	function addData($postArr,$index,$object) {
+		
+			switch ($index) {
+				
+				case 'EMP'  :		$empinfo = new EmpInfo();
+									$empinfo = $object['EmpInfo'];
+									$res = $empinfo -> addEmpMain();
+									
+									if(isset($object['EmpEContact']) && $res) {
+										$empecon = new EmpEmergencyCon();
+											
+										$empecon = $object['EmpEContact'];
+										$empecon -> addEmpEC();
+									}
+									
+									if(isset($object['EmpPassPort']) && $res) {
+										$emppport = new EmpPassPort();
+										$emppport = $object['EmpPassPort'];
+										$emppport -> addEmpPP();
+									}
+									
+									if(isset($object['EmpDependents']) && $res) {
+										$empdep = new EmpDependents();
+										$empdep = $object['EmpDependents'];
+										$empdep -> addEmpDep();
+									}
+									
+									if(isset($object['EmpChildren']) && $res) {
+										$empchi = new EmpChildren();
+										$empchi = $object['EmpChildren'];
+										$empchi -> addEmpChi();
+									}
+									
+								/*	
+									if(isset($object['EmpBank']) && $res) {
+										$empbank = new EmpBank();
+										
+										$empbank = $object['EmpBank'];
+										$empbank -> addEmpBank();
+									}
+									*/
+									if(isset($object['EmpAttach']) && $res) {
+										$empatt = new EmpAttach();
+										
+										$empatt = $object['EmpAttach'];
+										$empatt -> addEmpAtt();
+									}
+									
+									if(isset($object['EmpPhoto']) && $res) {
+										$empphoto = new EmpPicture();
+										
+										$empphoto = $object['EmpPhoto'];
+										$empphoto -> addEmpPic();
+									}
+							break;
+			}
+						
+			if($res) {
+				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the 
+								
+				$reqcode = $index;
+				header("Location: ./CentralController.php?message=$showMsg&reqcode=$reqcode&VIEW=MAIN");
+			} else {
+				$showMsg = "Addition%Unsuccessful!";
+				
+				$reqcode = $index;
+				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&reqcode=$reqcode");
+			}
+	}
+
+	function updateData($index,$id,$object) {		
+		
+			switch ($index) {
+								
+				case 'EMP'  :		$empinfo = new EmpInfo();
+				
+									if(isset($object['EmpMain'])) {
+										$empinfo = $object['EmpMain'];
+										$empinfo -> updateEmpMain();
+									}
+									
+									if(isset($object['EmpPers'])) {
+										$empinfo = $object['EmpPers'];
+										$empinfo -> updateEmpPers();
+									}
+									
+									if(isset($object['EmpJobInfo'])) {
+										$empinfo = $object['EmpJobInfo'];
+										$empinfo -> updateEmpJobInfo();
+									}
+									
+									/*if(isset($object['EmpJobStat'])) {
+										$empinfo = $object['EmpJobStat'];
+										$empinfo -> updateEmpJobStat();
+									}
+									
+									if(isset($object['EmpTax'])) {
+										$empinfo = $object['EmpTax'];
+										$empinfo -> updateEmpTax();
+									}
+									
+									if(isset($object['EmpWrkStation'])) {
+										$empinfo = $object['EmpWrkStation'];
+										$empinfo -> updateEmpWrkStation();
+									}
+									*/
+									if(isset($object['EmpPermRes'])) {
+										$empinfo = $object['EmpPermRes'];
+										$empinfo -> updateEmpContact();
+									}
+									break;
+									
+				case 'ESS'  :		$empinfo = new EmpInfo();
+				
+									if(isset($object['EmpMain'])) {
+										$empinfo = $object['EmpMain'];
+										$empinfo -> updateEmpMain();
+									}
+									
+									if(isset($object['EmpPers'])) {
+										$empinfo = $object['EmpPers'];
+										$empinfo -> updateEmpPers();
+									}						
+																				
+						
+									if(isset($object['EmpPermRes'])) {
+										$empinfo = $object['EmpPermRes'];
+										$empinfo -> updateEmpContact();
+									}
+									break;
+									
+			}
+			
+		if($index=='ESS') {	
+			$empid=$_SESSION['empID'];
+			header("Location: ./CentralController.php?reqcode=ESS&id=$empid&capturemode=updatemode");	
+		} else {
+			$reqcode = $index;
+			header("Location: ./CentralController.php?reqcode=$reqcode&VIEW=MAIN");
+		}
+	}
+	
+	function assignData($index,$object,$action) {		
+		
+			switch ($index) {
+				
+				case 'JSP'  :		$empjob = new EmpJobSpec();
+									$empjob = $object;
+									if($action == 'ADD')
+										$empjob->addEmpJobSpec();
+									elseif($action == 'EDIT')
+										$empjob->updateEmpJobSpec();
+									break;
+									
+				case 'CXT'  :		$empconex = new EmpConExt();
+									$empconex = $object;
+									if($action == 'ADD')
+										$empconex->addConExt();
+									elseif($action == 'EDIT')
+										$empconex->updateConExt();
+									break;
+									
+				case 'SAL'  :		$empbassal = new EmpBasSalary();
+									$empbassal = $object;
+									if($action == 'ADD')
+										$empbassal->addEmpBasSal();
+									elseif($action == 'EDIT')
+										$empbassal->updateEmpBasSal();
+									break;
+									
+				case 'LAN'  :		$emplan = new EmpLanguage();
+									$emplan = $object;
+									if($action == 'ADD')
+										$emplan ->addEmpLang();
+									elseif($action == 'EDIT')
+										$emplan ->updateEmpLang();
+									break;
+									
+				case 'MEM'  :		$empmem = new EmpMembership();
+									$empmem = $object;
+									if($action == 'ADD')
+										$empmem ->addEmpMembership();
+									elseif($action == 'EDIT')
+										$empmem ->updateEmpMembership();
+									break;
+									
+				case 'EXP'  :		$empworkex = new EmpWorkExp();
+									$empworkex = $object;
+									if($action == 'ADD')
+										$empworkex ->addEmpWorkExp();
+									elseif($action == 'EDIT') {
+										$empworkex ->updateEmpWorkExp();
+										$id = $empworkex->getEmpId();
+										header("Location: ./CentralController.php?reqcode=EXP&id=$id");
+									}
+									break;
+									
+				case 'EXC'  :		$empextcur = new EmpExCur();
+									$empextcur = $object;
+									if($action == 'ADD')
+										$empextcur->addEmpExCur();
+									elseif($action == 'EDIT')
+										$empextcur->updateEmpExCur();
+									break;	
+									
+				case 'QUA'  :		$empqual = new EmpQualification();
+									$empqual = $object;
+									if($action == 'ADD')
+										$empqual->addEmpQual();
+									elseif($action == 'EDIT')
+										$empqual->updateEmpQual();
+									break;
+									
+				case 'QAS'  :		$empqualsub = new EmpQualSubject();
+									$empqualsub = $object;
+									if($action == 'ADD')
+										$empqualsub->addEmpQualSub();
+									elseif($action == 'EDIT')
+										$empqualsub->updateEmpQualSub();
+									break;
+									
+				case 'CBN'	:		$empcashben = new EmpCashBen();
+									
+									if($action == 'ADD') {
+										for($c=0;count($object)>$c;$c++){
+											$empcashben = $object[$c];
+											$empcashben -> addUnAssEmpCashBen();
+										}
+									} elseif ($action == 'ADDOTH'){
+										for($c=0;count($object)>$c;$c++){
+											$empcashben = $object[$c];
+											$empcashben -> addEmpCashBen();
+										}
+									} elseif ($action == 'EDIT') {
+											$empcashben = $object;
+											$empcashben -> updateEmpCashBen();
+									}
+									
+									break;
+									
+				case 'NBN'	:		$empnoncashben = new EmpNonCashBen();
+									
+									if($action == 'ADD') {
+										for($c=0;count($object)>$c;$c++){
+											$empnoncashben = $object[$c];
+											$empnoncashben -> addUnAssEmpNonCashBen();
+										}
+									} elseif ($action == 'ADDOTH'){
+										for($c=0;count($object)>$c;$c++){
+											$empnoncashben = $object[$c];
+											$empnoncashben -> addEmpNonCashBen();
+										}
+									} elseif ($action == 'EDIT') {
+											$empnoncashben = $object;
+											$empnoncashben -> updateEmpNonCashBen();
+									}
+									break;
+									
+			  	case 'REP'  :		$emprepto = new EmpRepTo();
+									$emprepto = $object;
+									if($action == 'ADD')
+										$emprepto->addEmpRepTo();
+									elseif($action == 'EDIT')
+										$emprepto->updateEmpRepTo($_POST['txtSupEmpID'],$_POST['txtSubEmpID'],$_POST['oldRepMethod'],$_POST['cmbRepMethod']);
+									break;
+									
+				case 'SKI'  :		$empskill = new EmpSkill();
+									$empskill = $object;
+									if($action == 'ADD')
+										$empskill ->addEmpSkill();
+									elseif($action == 'EDIT')
+										$empskill ->updateEmpSkill();
+									break;
+									
+				case 'LIC'  :		$empLicen = new EmpLicenses();
+									$empLicen = $object;
+									if($action == 'ADD')
+										$empLicen ->addEmpLicenses();
+									elseif($action == 'EDIT')
+										$empLicen ->updateEmpLicenses();
+									break;
+			}
+		}
+		
+		function delAssignData($index,$postArr,$getArr) {		
+		
+			switch ($index) {
+				
+				case 'JSP'  :		$empjob = new EmpJobSpec();
+								      $arr[1]=$postArr['chkdel'];
+								         for($c=0;count($arr[1])>$c;$c++)
+      										 if($arr[1][$c]!=NULL)
+	      										$arr[0][$c]=$getArr['id'];
+								
+								     $empjob -> delEmpJobSpec($arr);
+								      break;
+
+			    case 'CXT'   : 		$empconex = new EmpConExt();
+									$arr[1]=$postArr['chkdel'];
+  										 for($c=0;count($arr[1])>$c;$c++)
+       										if($arr[1][$c]!=NULL)
+	      										$arr[0][$c]=$getArr['id'];
+		  
+
+	      								$empconex->delConExt($arr);
+										break;
+
+				case 'SAL'   : 	    $empbassal = new EmpBasSalary();
+									$arr=$postArr['chkdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   											$frg=explode("|",$arr[$c]);
+											$arrpass[1][$c]=$frg[0];
+											$arrpass[2][$c]=$frg[1];
+   																		}
+
+   										for($c=0;count($arr)>$c;$c++)
+       										if($arr[$c]!=NULL)
+	      										$arrpass[0][$c]=$getArr['id'];
+		  
+   										$empbassal->delEmpBasSal($arrpass);
+			   							break;	
+			   							
+				case 'LAN'   : 	    $emplan = new EmpLanguage();
+									$arr=$postArr['chkdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[1][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[0][$c]=$getArr['id'];
+	     					 	
+   										$emplan->delEmpLang($arrpass);
+			   							break;	
+			   							
+				case 'MEM'   : 	    $empmem = new EmpMembership();
+									$arr=$postArr['chkdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[1][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[0][$c]=$getArr['id'];
+	     					 	
+   										$empmem->delEmpMembership($arrpass);
+			   							break;
+			   							
+				case 'EXP'  :		$empworkex = new EmpWorkExp();
+									 $arr[1]=$_POST['chkdel'];
+  								 	for($c=0;count($arr[1])>$c;$c++)
+      							 		if($arr[1][$c]!=NULL)
+	     								 $arr[0][$c]=$getArr['id'];
+		  
+  									 $empworkex->delEmpWorkExp($arr);
+			   							break;	
+	
+				case 'EXC'  :		$empextcur = new EmpExCur();
+									
+  									 $arr[1]=$postArr['chkdel'];
+
+  									 for($c=0;count($arr[1])>$c;$c++)
+       										if($arr[1][$c]!=NULL)
+	     									 $arr[0][$c]=$getArr['id'];
+		  
+   									$empextcur->delEmpExCur($arr);
+   										break;
+   										
+   				case 'QUA'	:    	$empqual = new EmpQualification();
+   									
+   									$arr[1]=$postArr['chkdel'];
+
+   									for($c=0;count($arr[1])>$c;$c++) 
+       										if($arr[1][$c]!=null)
+          									 $arr[0][$c]=$getArr['id'];
+       
+   									$empqual->delEmpQual($arr);
+   										break;
+
+   				case 'QAS'	:    	$empqualsub = new EmpQualSubject();
+   									
+   									$arr[2]=$postArr['chkdel'];
+
+   									for($c=0;count($arr[2])>$c;$c++) 
+       										if($arr[2][$c]!=null) {
+	          									 $arr[0][$c]=$getArr['id'];
+	          									 $arr[1][$c]=$getArr['QUA'];
+       										}
+   									$empqualsub->delEmpQualSub($arr);
+   										break;
+   										
+   				case 'CBN'	:    	$empcashben = new EmpCashBen();
+									$arrpass[1]=$postArr['chkdel'];
+									   
+									for($c=0;count($arrpass[1])>$c;$c++)
+									     if($arrpass[1][$c]!=NULL)
+									       $arrpass[0][$c]=$getArr['id'];
+											  
+									$empcashben->delEmpCashBen($arrpass);
+   									break;
+   									
+   				case 'NBN'	:    	$empnoncashben = new EmpNonCashBen();
+									$arrpass[1]=$postArr['chkdel'];
+									   
+									for($c=0;count($arrpass[1])>$c;$c++)
+									     if($arrpass[1][$c]!=NULL)
+									       $arrpass[0][$c]=$getArr['id'];
+											  
+									$empnoncashben->delEmpNonCashBen($arrpass);
+   									break;
+   									
+   				case 'REP'	:    	$emprepto = new EmpRepTo();
+   				
+   									if($postArr['delSupSub']=='sup'){
+									$arr=$postArr['chksupdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[0][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[1][$c]=$getArr['id'];
+	     					 	
+   									}
+   									elseif ($postArr['delSupSub']=='sub')
+   									{
+   									$arr=$postArr['chksubdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[1][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[0][$c]=$getArr['id'];
+   									}
+									$emprepto->delEmpRepTo($arrpass);
+									
+   									break;
+   									
+   					case 'SKI'   :  $empskill = new EmpSkill();
+									$arr=$postArr['chkdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[1][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[0][$c]=$getArr['id'];
+	     					 	
+   										$empskill->delEmpSkill($arrpass);
+			   							break;	
+			   							
+			   		case 'LIC'   :  $empLicen = new EmpLicenses();
+									$arr=$postArr['chkdel'];
+   
+   										for($c=0;count($arr)>$c;$c++) {
+   		 					 	    		$frg=explode("|",$arr[$c]);
+		 					 	    		$arrpass[1][$c]=$frg[0];
+				 			 	    		$arrpass[2][$c]=$frg[1];
+   	   						 			}
+
+   										for($c=0;count($arr)>$c;$c++)
+          					 				if($arr[$c]!=NULL)
+	     					 				$arrpass[0][$c]=$getArr['id'];
+	     					 	
+   										$empLicen->delEmpLicenses($arrpass);
+			   							break;	
+			}
+  	   }
+}
 ?>

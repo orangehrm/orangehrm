@@ -17,17 +17,17 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+
 
 class LanguageInfo {
 
 	var $tableName = 'HS_HR_LANGUAGE';
 	var $languageId;
 	var $languageDesc;
-	var $lanrat;
 	var $arrayDispList;
 	var $singleField;
 	
@@ -48,24 +48,14 @@ class LanguageInfo {
 
 	}
 		
-    function setLanguageRat($lanrat) {
-
-		$this->lanrat = $lanrat;
-
-	}
-
+   
 	function getLanguageInfoId() {
 	
 		return $this->languageId;
 	
 	}
 
-	function getLanguageRat() {
-
-		return $this->lanrat;
-
-	}
-
+	
 	function getLanguageInfoDesc() {
 	
 		return $this->languageDesc;
@@ -161,7 +151,6 @@ class LanguageInfo {
 		$this->getLanguageInfoId();
 		$arrFieldList[0] = "'". $this->getLanguageInfoId() . "'";
 		$arrFieldList[1] = "'". $this->getLanguageInfoDesc() . "'";
-		$arrFieldList[2] = "'". $this->getLanguageRat() . "'";
 
 		$tableName = 'HS_HR_LANGUAGE';			
 	
@@ -172,7 +161,7 @@ class LanguageInfo {
 		$sql_builder->arr_insert = $arrFieldList;		
 		
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-		
+				
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -185,10 +174,10 @@ class LanguageInfo {
 		$this->getLanguageInfoId();
 		$arrRecordsList[0] = "'". $this->getLanguageInfoId() . "'";
 		$arrRecordsList[1] = "'". $this->getLanguageInfoDesc() . "'";
-		$arrRecordsList[2] = "'". $this->getLanguageRat() . "'";
+		
 		$arrFieldList[0] = 'LANG_CODE';
 		$arrFieldList[1] = 'LANG_NAME';
-		$arrFieldList[2] = 'RATING_CODE';
+		
 
 		$tableName = 'HS_HR_LANGUAGE';			
 	
@@ -200,13 +189,11 @@ class LanguageInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	
+				
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		return $message2;
-		 
-				
 	}
 	
 	
@@ -216,7 +203,7 @@ class LanguageInfo {
 		$tableName = 'HS_HR_LANGUAGE';			
 		$arrFieldList[0] = 'LANG_CODE';
 		$arrFieldList[1] = 'LANG_NAME';
-		$arrFieldList[2] = 'RATING_CODE';
+		
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -236,7 +223,7 @@ class LanguageInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
+	    	
 	    	$i++;
 	    	
 	     }
@@ -253,50 +240,7 @@ class LanguageInfo {
 		}
 				
 	}
-	
-	function getRatingCodes () {
-
-		$sql_builder = new SQLQBuilder();
-
-		$arrFieldList[0] = 'RATING_CODE';
-		$arrFieldList[1] = 'RATING_NAME';
-
-		$tableName = 'HS_HR_RATING_METHOD';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
-	}
-	
+			
 	function getLastRecord() {
 		
 		$sql_builder = new SQLQBuilder();
@@ -326,7 +270,95 @@ class LanguageInfo {
 			
 		return $common_func->explodeString($this->singleField,"LAN"); 
 		}
-	}	
+	}
+
+	function getLang() {
+		
+		$tableName = 'HS_HR_LANGUAGE';
+		$arrFieldList[0] = 'LANG_CODE';
+		$arrFieldList[1] = 'LANG_NAME';
+		
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage();
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	    
+	     	return $arrayDispList;
+	        
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function getUnAssLangCodes($eno) {
+
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_LANGUAGE';
+		$arrFieldList[0] = 'LANG_CODE';
+		$arrFieldList[1] = 'LANG_NAME';
+		
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+		$sql_builder->field='MEMBSHIP_CODE';
+		$sql_builder->table2_name= 'HS_HR_EMP_MEMBER_DETAIL';
+		$arr1[0][0]='EMP_NUMBER';
+		$arr1[0][1]=$eno;
+
+		$sqlQString = $sql_builder->selectFilter($arr1);
+
+		$dbConnection = new DMLFunctions();
+       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$common_func = new CommonFunctions();
+
+		$i=0;
+
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	
+
+	    	$i++;
+	     }
+
+	     if (isset($arrayDispList)) {
+
+	       	return $arrayDispList;
+
+	     } else {
+	     	//Handle Exceptions
+	     	//Create Logs
+	     }
+	}
+
+
 }
 
 ?>

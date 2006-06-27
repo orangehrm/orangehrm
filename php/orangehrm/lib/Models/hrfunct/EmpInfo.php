@@ -17,112 +17,57 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/logs/LogWriter.php';
 
 class EmpInfo {
 
 	var $tableName = 'HS_HR_EMPLOYEE';
 	var $empId;
-	var $empTitle;
-	var $empCallName;
-	var $empSurname;
-	var $empMaidenName;
-	var $empInitials;
-	var $empNamByIni;
-	var $empFullName;
-	var $empOtherName;
+	var $empLastName;
+	var $empFirstName;
+	var $empNickName;
+	var $empMiddleName;
 	//personal
-	var $empNICNo;
-	var $empNICDate;
 	var $empDOB;
-	var $empBirthPlace;
 	var $empGender;
-	var $empBloodGrp;
 	var $empNation;
-	var $empReligion;
 	var $empMarital;
-	var $empMarriedDate;
+	var $empSINNo;
+	var $empSSNNo;
+	var $empOthID;
+	var $empDriLicNo;
+	var $empDriLicExpDat;
+	var $empMilitary;
+	var $smoker;
+	var $ethnicRace;
+	
 	//job info
-	var $empDatJoin;
-	var $empConfirmFlag;
-	var $empResigDat;
-	var $empRetireDat;
-	var $empSalGrd;
-	var $empCorpTit;
-	var $empDesig;
-	var $empCostCode;
-	var $empWorkHours;
-	var $empJobPref;
-	//job stat
-	var $empType;
-	var $empStatutory;
-	var $empCat;
-	var $empStartDat;
-	var $empEndDat;
-	var $empConToPermFlag;
-	var $empConToPermDat;
-	var $empHRActivFlag;
-	var $empPayActivFlag;
-	var $empTimAttActivFlag;
-	//payroll
-	var $empPayrolNo;
-	var $empBarCodeNo;
-	var $empPaymentTypeFlag;
-	//work station
-	var $empLoc;
-	var $empPrefLoc;
-	//tax
-	var $empTaxCountry;
-	var $empTaxExempt;
-	var $empTaxOnTaxFlag;
-	var $empTaxID;
-	var $empEPFEligibeFlag;
-	var $empEPFNo;
-	var $CFundCBFundFlag;
-	var $epfEmployeePercen;
-	var $epfEmployerPercen;
-	var $ETFEligibleFlag;
-	var $empETFNo;
-	var $etfEmployeePercen;
-	var $ETFDat;
-	var $MSPSEligibleFlag;
-	var $mspsEmployeePercen;
-	var $mspsEmployerPercen;
+	var $empJobTitle;
+	var $empStatus;
+	var $empEEOCat;
+	var $empLocation;
+	var $empjoindat;
+	
 	//permanent contacts
-	var $empPermHouseNo;
-	var $empPermStreet1;
-	var $empPermStreet2;
-	var $empPermCityTown;
-	var $empPermPostCode;
-	var $empPermTelephone;
-	var $empPermMobile;
-	var $empPermFax;
-	var $empPermEmail;
-	var $empPermCountry;
-	var $empPermProvince;
-	var $empPermDistrict;
-	var $empPermElectorate;
-	//permanent contacts
-	var $empTempHouseNo;
-	var $empTempStreet1;
-	var $empTempStreet2;
-	var $empTempCityTown;
-	var $empTempPostCode;
-	var $empTempTelephone;
-	var $empTempMobile;
-	var $empTempFax;
-	var $empTempEmail;
-	var $empTempCountry;
-	var $empTempProvince;
-	var $empTempDistrict;
-	var $empTempElectorate;
-	//off contact
-	var $empGenLine;
-	var $empExt;
-	var $empEmail;
+	var $empStreet1;
+	var $empStreet2;
+	var $empCity;
+	var $empProvince;
+	var $empCountry;
+	var $empZipCode;
+	var $empHomeTelephone;
+	var $empMobile;
+	var $empWorkTelephone;
+	var $empWorkEmail;
+	var $empOtherEmail;
+	
+/*	//immigration
+	
+	*/
 
 	var $arrayDispList;
 	var $singleField;
@@ -135,734 +80,287 @@ class EmpInfo {
 	
 	$this->empId=$empId;
 	}
-	
-	function setEmpTitle($empTitle) {
-	$this->empTitle=$empTitle;
+		
+	function setEmpLastName($empLastName) {
+	$this->empLastName=$empLastName;
 	}
 	
-	function setEmpCallName($empCallName) {
-	$this->empCallName=$empCallName;
+	function setEmpFirstName($empFirstName) {
+	$this->empFirstName=$empFirstName;
 	}
 	
-	function setEmpSurname($empSurname) {
-	$this->empSurname=$empSurname;
+	function setEmpNickName($empNickName) {
+	$this->empNickName=$empNickName;
 	}
 	
-	function setEmpMaidenName($empMaidenName) {
-	$this->empMaidenName=$empMaidenName;
+	function setEmpMiddleName($empMiddleName) {
+	$this->empMiddleName=$empMiddleName;
 	}
-
-	function setEmpInitials($empInitials) {
-	$this->empInitials=$empInitials;
-	}
-	
-	function setEmpNamByIni($empNamByIni) {
-	$this->empNamByIni=$empNamByIni;
-	}
-	
-	function setEmpFullName($empFullName) {
-	$this->empFullName=$empFullName;
-	}
-	
-	function setEmpOtherName($empOtherName) {
-	$this->empOtherName=$empOtherName;
-	}
-	
+		
 	//personal
-	function setEmpNICNo($empNICNo) {
-	$this->empNICNo=$empNICNo;
+	function setEmpSINNo($empSINNo) {
+	$this->empSINNo = $empSINNo;
 	}
 	
-	function setEmpNICDate($empNICDate) {
-	$this->empNICDate=$empNICDate;
+	function setEmpSSNNo($empSSNNo) {
+	$this->empSSNNo  =$empSSNNo;
 	}
 	
 	function setEmpDOB($empDOB) {
 	$this->empDOB=$empDOB;
 	}
 	
-	function setEmpBirthPlace($empBirthPlace) {
-	$this->empBirthPlace=$empBirthPlace;
+	function setEmpOthID($empOthID) {
+	$this->empOthID=$empOthID;
 	}
 	
 	function setEmpGender($empGender) {
 	$this->empGender=$empGender;
 	}
 	
-	function setEmpBloodGrp($empBloodGrp) {
-	$this->empBloodGrp=$empBloodGrp;
+	function setEmpDriLicNo($empDriLicNo) {
+	$this->empDriLicNo=$empDriLicNo;
 	}
 	
 	function setEmpNation($empNation) {
 	$this->empNation=$empNation;
 	}
 	
-	function setEmpReligion($empReligion) {
-	$this->empReligion=$empReligion;
+	function setEmpDriLicExpDat($empDriLicExpDat) {
+	$this->empDriLicExpDat=$empDriLicExpDat;
 	}
 	
 	function setEmpMarital($empMarital) {
 	$this->empMarital=$empMarital;
 	}
 	
-	function setEmpMarriedDate($empMarriedDate) {
-	$this->empMarriedDate=$empMarriedDate;
+	function setEmpsmoker($smoker) {
+	$this->smoker=$smoker;
+	}
+	
+	function setEmpMilitary($empMilitary) {
+	$this->empMilitary=$empMilitary;
+	}
+	
+	function setEmpEthnicRace($ethnicRace) {
+	$this->ethnicRace=$ethnicRace;
 	}
 	
 	//job info
-	function setEmpDatJoin($empDatJoin) {
-	$this->empDatJoin=$empDatJoin;
-	}
-	
-	function setEmpConfirmFlag($empConfirmFlag) {
-	$this->empConfirmFlag=$empConfirmFlag;
-	}
-	
-	function setEmpResigDat($empResigDat) {
-	$this->empResigDat=$empResigDat;
-	}
-	
-	function setEmpRetireDat($empRetireDat) {
-	$this->empRetireDat=$empRetireDat;
-	}
-	
-	function setEmpSalGrd($empSalGrd) {
-	$this->empSalGrd=$empSalGrd;
-	}
-	
-	function setEmpCorpTit($empCorpTit) {
-	$this->empCorpTit=$empCorpTit;
-	}
-	
-	function setEmpDesig($empDesig) {
-	$this->empDesig=$empDesig;
-	}
-	
-	function setEmpCostCode($empCostCode) {
-	$this->empCostCode=$empCostCode;
-	}
-	
-	function setEmpWorkHours($empWorkHours) {
-	$this->empWorkHours=$empWorkHours;
-	}
-	
-	function setEmpJobPref($empJobPref) {
-	$this->empJobPref=$empJobPref;
-	}
-	
 	//job stat
-	function setEmpType($empType) {
-	$this->empType=$empType;
+	function setEmpJobTitle($empJobTitle) {
+	$this->empJobTitle=$empJobTitle;
 	}
 	
-	function setEmpStatutory($empStatutory) {
-	$this->empStatutory=$empStatutory;
+	function setEmpStatus($empStatus) {
+	$this->empStatus=$empStatus;
 	}
 	
-	function setEmpCat($empCat) {
-	$this->empCat=$empCat;
+	function setEmpEEOCat($empEEOCat) {
+	$this->empEEOCat = $empEEOCat;
 	}
 	
-	function setEmpStartDat($empStartDat) {
-	$this->empStartDat=$empStartDat;
-	}
-	
-	function setEmpEndDat($empEndDat) {
-	$this->empEndDat=$empEndDat;
-	}
-	
-	function setEmpConToPermFlag($empConToPermFlag) {
-	$this->empConToPermFlag=$empConToPermFlag;
-	}
-	
-	function setEmpConToPermDat($empConToPermDat) {
-	$this->empConToPermDat=$empConToPermDat;
-	}
-	
-	function setEmpHRActivFlag($empHRActivFlag) {
-	$this->empHRActivFlag=$empHRActivFlag;
-	}
-	
-	function setEmpPayActivFlag($empPayActivFlag) {
-	$this->empPayActivFlag=$empPayActivFlag;
-	}
-	
-	function setEmpTimAttActivFlag($empTimAttActivFlag) {
-	$this->empTimAttActivFlag=$empTimAttActivFlag;
-	}
-	
-	//payroll
-	function setEmpPayrolNo($empPayrolNo) {
-	$this->empPayrolNo=$empPayrolNo;
-	}
-	
-	function setEmpBarCodeNo($empBarCodeNo) {
-	$this->empBarCodeNo=$empBarCodeNo;
-	}
-	
-	function setEmpPayementTypeFlag($empPaymentTypeFlag) {
-	$this->empPaymentTypeFlag=$empPaymentTypeFlag;
-	}
-	//work station
-	function setEmpLoc($empLoc) {
-	$this->empLoc=$empLoc;
-	}
-	
-	function setEmpPrefLoc($empPrefLoc) {
-	$this->empPrefLoc=$empPrefLoc;
+	function setEmpLocation($empLocation) {
+	$this->empLocation=$empLocation;
 	}
 
-	function setEmpTaxCountry($empTaxCountry) {
-	$this->empTaxCountry=$empTaxCountry;
+	function setEmpJoinedDate($empjoindat) {
+	$this->empjoindat=$empjoindat;
 	}
-	//tax
-	function setEmpTaxExempt($empTaxExempt) {
-	$this->empTaxExempt=$empTaxExempt;
-	}
-	
-	function setEmpTaxOnTaxFlag($empTaxOnTaxFlag) {
-	$this->empTaxOnTaxFlag=$empTaxOnTaxFlag;
-	}
-	
-	function setEmpTaxID($empTaxID) {
-	$this->empTaxID=$empTaxID;
-	}
-	
-	function setEmpEPFEligibleFlag($empEPFEligibeFlag) {
-	$this->empEPFEligibeFlag=$empEPFEligibeFlag;
-	}
-	
-	function setEmpEPFNo($empEPFNo) {
-	$this->empEPFNo=$empEPFNo;
-	}
-	
-	function setCFundCBFundFlag($CFundCBFundFlag) {
-	$this->CFundCBFundFlag=$CFundCBFundFlag;
-	}
-	
-	function setEPFEmployeePercen($EmployeePercen) {
-	$this->EmployeePercen=$EmployeePercen;
-	}
-	
-	function setEPFEmployerPercen($EmployerPercen) {
-	$this->EmployerPercen=$EmployerPercen;
-	}
-	
-	function setETFEligibleFlag($ETFEligibleFlag) {
-	$this->ETFEligibleFlag=$ETFEligibleFlag;
-	}
-	
-	function setEmpETFNo($empETFNo) {
-	$this->empETFNo=$empETFNo;
-	}
-	
-	function setETFEmployeePercen($etfEmployeePercen) {
-	$this->etfEmployeePercen=$etfEmployeePercen;
-	}
-	
-	function setETFDat($ETFDat) {
-	$this->ETFDat=$ETFDat;
-	}
-	
-	function setMSPSEligibleFlag($MSPSEligibleFlag) {
-	$this->MSPSEligibleFlag=$MSPSEligibleFlag;
-	}
-	
-	function setMSPSEmployeePercen($mspsEmployeePercen) {
-	$this->mspsEmployeePercen=$mspsEmployeePercen;
-	}
-	
-	function setMSPSEmployerPercen($mspsEmployerPercen) {
-	$this->mspsEmployerPercen=$mspsEmployerPercen;
-	}
+
 	
 	//permanent contacts
-	function setEmpPermHouseNo($empPermHouseNo) {
-	$this->empPermHouseNo=$empPermHouseNo;
+	function setEmpStreet1($empStreet1) {
+	$this->empStreet1=$empStreet1;
 	}
 	
-	function setEmpPermStreet1($empPermStreet1) {
-	$this->empPermStreet1=$empPermStreet1;
+	function setEmpStreet2($empStreet2) {
+	$this->empStreet2=$empStreet2;
 	}
 	
-	function setEmpPermStreet2($empPermStreet2) {
-	$this->empPermStreet2=$empPermStreet2;
+	function setEmpCity($empCity) {
+	$this->empCity=$empCity;
 	}
 	
-	function setEmpPermCityTown($empPermCityTown) {
-	$this->empPermCityTown=$empPermCityTown;
+	function setEmpProvince($empProvince) {
+	$this->empProvince=$empProvince;
 	}
 	
-	function setEmpPermPostCode($empPermPostCode) {
-	$this->empPermPostCode=$empPermPostCode;
+	function setEmpCountry($empCountry) {
+	$this->empCountry=$empCountry;
 	}
 	
-	function setEmpPermTelephone($empPermTelephone) {
-	$this->empPermTelephone=$empPermTelephone;
+	function setEmpZipCode($empZipCode) {
+	$this->empZipCode=$empZipCode;
 	}
 	
-	function setEmpPermMobile($empPermMobile) {
-	$this->empPermMobile=$empPermMobile;
+	function setEmpHomeTelephone($empHomeTelephone) {
+	$this->empHomeTelephone=$empHomeTelephone;
 	}
 	
-	function setEmpPermFax($empPermFax) {
-	$this->empPermFax=$empPermFax;
+	function setEmpMobile($empMobile) {
+	$this->empMobile=$empMobile;
 	}
 	
-	function setEmpPermEmail($empPermEmail) {
-	$this->empPermEmail=$empPermEmail;
+	function setEmpWorkTelephone($empWorkTelephone) {
+	$this->empWorkTelephone=$empWorkTelephone;
 	}
 	
-	function setEmpPermCountry($empPermCountry) {
-	$this->empPermCountry=$empPermCountry;
+	function setEmpWorkEmail($empWorkEmail) {
+	$this->empWorkEmail=$empWorkEmail;
 	}
 	
-	function setEmpPermProvince($empPermProvince) {
-	$this->empPermProvince=$empPermProvince;
+	function setEmpOtherEmail($empOtherEmail) {
+	$this->empOtherEmail=$empOtherEmail;
 	}
-	
-	function setEmpPermDistrict($empPermDistrict) {
-	$this->empPermDistrict=$empPermDistrict;
-	}
-	
-	function setEmpPermElectorate($empPermElectorate) {
-	$this->empPermElectorate=$empPermElectorate;
-	}
-	//temp contacts
-	function setEmpTempHouseNo($empTempHouseNo) {
-	$this->empTempHouseNo=$empTempHouseNo;
-	}
-	
-	function setEmpTempStreet1($empTempStreet1) {
-	$this->empTempStreet1=$empTempStreet1;
-	}
-	
-	function setEmpTempStreet2($empTempStreet2) {
-	$this->empTempStreet2=$empTempStreet2;
-	}
-	
-	function setEmpTempCityTown($empTempCityTown) {
-	$this->empTempCityTown=$empTempCityTown;
-	}
-	
-	function setEmpTempPostCode($empTempPostCode) {
-	$this->empTempPostCode=$empTempPostCode;
-	}
-	
-	function setEmpTempTelephone($empTempTelephone) {
-	$this->empTempTelephone=$empTempTelephone;
-	}
-	
-	function setEmpTempMobile($empTempMobile) {
-	$this->empTempMobile=$empTempMobile;
-	}
-	
-	function setEmpTempFax($empTempFax) {
-	$this->empTempFax=$empTempFax;
-	}
-	
-	function setEmpTempEmail($empTempEmail) {
-	$this->empTempEmail=$empTempEmail;
-	}
-	
-	function setEmpTempCountry($empTempCountry) {
-	$this->empTempCountry=$empTempCountry;
-	}
-	
-	function setEmpTempProvince($empTempProvince) {
-	$this->empTempProvince=$empTempProvince;
-	}
-	
-	function setEmpTempDistrict($empTempDistrict) {
-	$this->empTempDistrict=$empTempDistrict;
-	}
-	
-	function setEmpTempElectorate($empTempElectorate) {
-	$this->empTempElectorate=$empTempElectorate;
-	}
-	//off contact
-	function setEmpGenLine($empGenLine) {
-	$this->empGenLine=$empGenLine;
-	}
-	
-	function setEmpExt($empExt) {
-	$this->empExt=$empExt;
-	}
-	
-	function setEmpEmail($empEmail) {
-	$this->empEmail=$empEmail;
-	}
-
 //////////////
 	function getEmpId() {
-	
 	return $this->empId;
+	
 	}
 	
-	function getEmpTitle() {
-	return $this->empTitle;
+	function getEmpLastName() {
+	return $this->empLastName;
 	}
 	
-	function getEmpCallName() {
-	return $this->empCallName;
+	function getEmpFirstName() {
+	return $this->empFirstName;
 	}
 	
-	function getEmpSurname() {
-	return $this->empSurname;
+	function getEmpNickName() {
+	return $this->empNickName;
 	}
 	
-	function getEmpMaidenName() {
-	return $this->empMaidenName;
+	function getEmpMiddleName() {
+	return $this->empMiddleName;
 	}
-
-	function getEmpInitials() {
-	return $this->empInitials;
-	}
-	
-	function getEmpNamByIni() {
-	return $this->empNamByIni;
-	}
-	
-	function getEmpFullName() {
-	return $this->empFullName;
-	}
-	
-	function getEmpOtherName() {
-	return $this->empOtherName;
-	}
-	
+		
 	//personal
 	function getEmpNICNo() {
 	return $this->empNICNo;
-	}
-	
-	function getEmpNICDate() {
-	return $this->empNICDate;
-	}
-	
-	function getEmpDOB() {
-	return $this->empDOB;
-	}
-	
-	function getEmpBirthPlace() {
-	return $this->empBirthPlace;
-	}
-	
-	function getEmpGender() {
-	return $this->empGender;
-	}
-	
-	function getEmpBloodGrp() {
-	return $this->empBloodGrp;
-	}
-	
-	function getEmpNation() {
-	return $this->empNation;
-	}
-	
-	function getEmpReligion() {
-	return $this->empReligion;
 	}
 	
 	function getEmpMarital() {
 	return $this->empMarital;
 	}
 	
-	function getEmpMarriedDate() {
-	return $this->empMarriedDate;
+	function getEmpDOB() {
+	return $this->empDOB;
 	}
 	
+	function getEmpSINNo() {
+	return $this->empSINNo;
+	}
+	
+	function getEmpGender() {
+	return $this->empGender;
+	}
+	
+	function getEmpSSNNo() {
+	return $this->empSSNNo;
+	}
+	
+	function getEmpNation() {
+	return $this->empNation;
+	}
+	
+	function getEmpOthID() {
+	return $this->empOthID;
+	}
+				
+	function getEmpDriLicNo() {
+	return $this->empDriLicNo;
+	}
+	
+	function getEmpDriLicExpDat() {
+	return $this->empDriLicExpDat;
+	}
+	
+	function getEmpMilitary() {
+	return $this->empMilitary;
+	}
+	
+	function getEmpsmoker() {
+	return $this->smoker;
+	}
+	
+	function getEmpEthnicRace() {
+	return $this->ethnicRace;
+	}
 	//job info
-	function getEmpDatJoin() {
-	return $this->empDatJoin;
+		
+	function getEmpJobTitle() {
+	return $this->empJobTitle;
+	}
+		
+	function getEmpStatus() {
+	return $this->empStatus;
 	}
 	
-	function getEmpConfirmFlag() {
-	return $this->empConfirmFlag;
+	function getEmpEEOCat() {
+	return $this->empEEOCat;
 	}
 	
-	function getEmpResigDat() {
-	return $this->empResigDat;
+	function getEmpLocation() {
+	return $this->empLocation;
 	}
 	
-	function getEmpRetireDat() {
-	return $this->empRetireDat;
-	}
-	
-	function getEmpSalGrd() {
-	return $this->empSalGrd;
-	}
-	
-	function getEmpCorpTit() {
-	return $this->empCorpTit;
-	}
-	
-	function getEmpDesig() {
-	return $this->empDesig;
-	}
-	
-	function getEmpCostCode() {
-	return $this->empCostCode;
-	}
-	
-	function getEmpWorkHours() {
-	return $this->empWorkHours;
-	}
-	
-	function getEmpJobPref() {
-	return $this->empJobPref;
-	}
-	
-	//job stat
-	function getEmpType() {
-	return $this->empType;
-	}
-	
-	function getEmpStatutory() {
-	return $this->empStatutory;
-	}
-	
-	function getEmpCat() {
-	return $this->empCat;
-	}
-	
-	function getEmpStartDat() {
-	return $this->empStartDat;
-	}
-	
-	function getEmpEndDat() {
-	return $this->empEndDat;
-	}
-	
-	function getEmpConToPermFlag() {
-	return $this->empConToPermFlag;
-	}
-	
-	function getEmpConToPermDat() {
-	return $this->empConToPermDat;
-	}
-	
-	function getEmpHRActivFlag() {
-	return $this->empHRActivFlag;
-	}
-	
-	function getEmpPayActivFlag() {
-	return $this->empPayActivFlag;
-	}
-	
-	function getEmpTimAttActivFlag() {
-	return $this->empTimAttActivFlag;
-	}
-	
-	//payroll
-	function getEmpPayrolNo() {
-	return $this->empPayrolNo;
-	}
-	
-	function getEmpBarCodeNo() {
-	return $this->empBarCodeNo;
-	}
-	
-	function getEmpPayementTypeFlag() {
-	return $this->empPaymentTypeFlag;
-	}
-	//work station
-	function getEmpLoc() {
-	return $this->empLoc;
-	}
-	
-	function getEmpPrefLoc() {
-	return $this->empPrefLoc;
-	}
-	//tax
-	function getEmpTaxCountry() {
-	return $this->empTaxCountry;
+	function getEmpJoinedDate() {
+	return $this->empjoindat;
 	}
 
-	function getEmpTaxExempt() {
-	return $this->empTaxExempt;
-	}
-	
-	function getEmpTaxOnTaxFlag() {
-	return $this->empTaxOnTaxFlag;
-	}
-	
-	function getEmpTaxID($empTaxID) {
-	return $this->empTaxID=$empTaxID;
-	}
-	
-	function getEmpEPFEligibleFlag() {
-	return $this->empEPFEligibeFlag;
-	}
-	
-	function getEmpEPFNo() {
-	return $this->empEPFNo;
-	}
-	
-	function getCFundCBFundFlag() {
-	return $this->CFundCBFundFlag;
-	}
-	
-	function getEPFEmployeePercen() {
-	return $this->EmployeePercen;
-	}
-	
-	function getEPFEmployerPercen() {
-	return $this->EmployerPercen;
-	}
-	
-	function getETFEligibleFlag() {
-	return $this->ETFEligibleFlag;
-	}
-	
-	function getEmpETFNo() {
-	return $this->empETFNo;
-	}
-	
-	function getETFEmployeePercen() {
-	return $this->etfEmployeePercen;
-	}
-	
-	function getETFDat() {
-	return $this->ETFDat;
-	}
-	
-	function getMSPSEligibleFlag() {
-	return $this->MSPSEligibleFlag;
-	}
-	
-	function getMSPSEmployeePercen() {
-	return $this->mspsEmployeePercen;
-	}
-	
-	function getMSPSEmployerPercen() {
-	return $this->mspsEmployerPercen;
-	}
-	
 	//permanent contacts
-	function getEmpPermHouseNo() {
-	return $this->empPermHouseNo;
+	function getEmpStreet1() {
+	return $this->empStreet1;
 	}
 	
-	function getEmpPermStreet1() {
-	return $this->empPermStreet1;
+	function getEmpStreet2() {
+	return $this->empStreet2;
 	}
 	
-	function getEmpPermStreet2() {
-	return $this->empPermStreet2;
+	function getEmpCity() {
+	return $this->empCity;
 	}
 	
-	function getEmpPermCityTown() {
-	return $this->empPermCityTown;
+	function getEmpProvince() {
+	return $this->empProvince;
 	}
 	
-	function getEmpPermPostCode() {
-	return $this->empPermPostCode;
+	function getEmpCountry() {
+	return $this->empCountry;
 	}
 	
-	function getEmpPermTelephone() {
-	return $this->empPermTelephone;
+	function getEmpZipCode() {
+	return $this->empZipCode;
 	}
 	
-	function getEmpPermMobile() {
-	return $this->empPermMobile;
+	function getEmpHomeTelephone() {
+	return $this->empHomeTelephone;
 	}
 	
-	function getEmpPermFax() {
-	return $this->empPermFax;
+	function getEmpMobile() {
+	return $this->empMobile;
 	}
 	
-	function getEmpPermEmail() {
-	return $this->empPermEmail;
+	function getEmpWorkTelephone() {
+	return $this->empWorkTelephone;
 	}
 	
-	function getEmpPermCountry() {
-	return $this->empPermCountry;
+	function getEmpWorkEmail() {
+	return $this->empWorkEmail;
 	}
 	
-	function getEmpPermProvince() {
-	return $this->empPermProvince;
+	function getEmpOtherEmail() {
+	return $this->empOtherEmail;
 	}
 	
-	function getEmpPermDistrict() {
-	return $this->empPermDistrict;
-	}
-	
-	function getEmpPermElectorate() {
-	return $this->empPermElectorate;
-	}
-	//temp contacts
-	function getEmpTempHouseNo() {
-	return $this->empTempHouseNo;
-	}
-	
-	function getEmpTempStreet1() {
-	return $this->empTempStreet1;
-	}
-	
-	function getEmpTempStreet2() {
-	return $this->empTempStreet2;
-	}
-	
-	function getEmpTempCityTown() {
-	return $this->empTempCityTown;
-	}
-	
-	function getEmpTempPostCode() {
-	return $this->empTempPostCode;
-	}
-	
-	function getEmpTempTelephone() {
-	return $this->empTempTelephone;
-	}
-	
-	function getEmpTempMobile() {
-	return $this->empTempMobile;
-	}
-	
-	function getEmpTempFax() {
-	return $this->empTempFax;
-	}
-	
-	function getEmpTempEmail() {
-	return $this->empTempEmail;
-	}
-	
-	function getEmpTempCountry() {
-	return $this->empTempCountry;
-	}
-	
-	function getEmpTempProvince() {
-	return $this->empTempProvince;
-	}
-	
-	function getEmpTempDistrict() {
-	return $this->empTempDistrict;
-	}
-	
-	function getEmpTempElectorate() {
-	return $this->empTempElectorate;
-	}
-	//off contact
-	function getEmpGenLine() {
-	return $this->empGenLine;
-	}
-	
-	function getEmpExt() {
-	return $this->empExt;
-	}
-	
-	function getEmpEmail() {
-	return $this->empEmail;
-	}
-
 /////////////
 
 	function getListofEmployee($pageNO=0,$schStr='',$mode=0) {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
+		$arrFieldList[1] = 'EMP_LASTNAME';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -902,7 +400,7 @@ class EmpInfo {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
+		$arrFieldList[1] = 'EMP_LASTNAME';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -978,15 +476,11 @@ class EmpInfo {
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_TITLE';
-		$arrFieldList[2] = 'EMP_CALLING_NAME';
-		$arrFieldList[3] = 'EMP_SURNAME';
-		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
-		$arrFieldList[5] = 'EMP_MIDDLE_INI';
-		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
-		$arrFieldList[8] = 'EMP_OTHER_NAMES';
-
+		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMP_FIRSTNAME';
+		$arrFieldList[3] = 'EMP_MIDDLE_NAME';
+		$arrFieldList[4] = 'EMP_NICK_NAME';
+		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
@@ -1008,10 +502,7 @@ class EmpInfo {
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$arrayDispList[$i][3] = $line[3];
 	    	$arrayDispList[$i][4] = $line[4];
-	    	$arrayDispList[$i][5] = $line[5];
-	    	$arrayDispList[$i][6] = $line[6];
-	    	$arrayDispList[$i][7] = $line[7];
-	    	$arrayDispList[$i][8] = $line[8];
+	    	
 	    	$i++;
 	    	
 	     }
@@ -1030,171 +521,89 @@ class EmpInfo {
 	}
 
 
-	function addEmpMain($taxSkip) {
+	function addEmpMain() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpTitle() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpCallName() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpSurname() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpMaidenName() . "'";
-		$arrRecordsList[5] = "'". $this->getEmpInitials() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpNamByIni() . "'";
-		$arrRecordsList[7] = "'". $this->getEmpFullName() . "'";
-		$arrRecordsList[8] = "'". $this->getEmpOtherName() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpLastName() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpFirstName() . "'";
+		$arrRecordsList[3] = "'". $this->getEmpNickName() . "'";
+		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
+		
 		//personal
-		$arrRecordsList[9] = "'". $this->getEmpNICNo() . "'";
-		$arrRecordsList[10] = "'". $this->getEmpNICDate() . "'";
-		$arrRecordsList[11] = "'". $this->getEmpDOB() . "'";
-		$arrRecordsList[12] = "'". $this->getEmpBirthPlace() . "'";
-		$arrRecordsList[13] = "'". $this->getEmpGender() . "'";
-		$arrRecordsList[14] = "'". $this->getEmpBloodGrp() . "'";
-		$arrRecordsList[15] = ($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";
-		$arrRecordsList[16] = ($this->getEmpReligion()=='0') ? 'null' :"'". $this->getEmpReligion() . "'";
-		$arrRecordsList[17] = "'". $this->getEmpMarital() . "'";
-		$arrRecordsList[18] = "'". $this->getEmpMarriedDate() . "'";
+		$arrRecordsList[5] = "'". $this->getEmpsmoker() . "'";
+		$arrRecordsList[6] = "'". $this->getEmpEthnicRace() . "'";
+		$arrRecordsList[7] = "'". $this->getEmpDOB() . "'";
+		$arrRecordsList[8] =($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";
+		$arrRecordsList[9] = "'". $this->getEmpGender() . "'";
+		$arrRecordsList[10] = "'". $this->getEmpMarital() . "'";
+		$arrRecordsList[11] = "'". $this->getEmpSSNNo() . "'";
+		$arrRecordsList[12] = "'". $this->getEmpSINNo() . "'";
+		$arrRecordsList[13] = "'". $this->getEmpOthID() . "'";
+		$arrRecordsList[14] = "'". $this->getEmpDriLicNo() . "'";
+		$arrRecordsList[15] = "'". $this->empDriLicExpDat . "'";
+		$arrRecordsList[16] = "'". $this->getEmpMilitary() . "'";
+		
 		//job info
-		$arrRecordsList[19] = "'". $this->getEmpDatJoin() . "'";
-		$arrRecordsList[20] = "'". $this->getEmpConfirmFlag() . "'";
-		$arrRecordsList[21] = "'". $this->getEmpResigDat() . "'";
-		$arrRecordsList[22] = "'". $this->getEmpRetireDat() . "'";
-		$arrRecordsList[23] = ($this->getEmpSalGrd()=='0') ? 'null' : "'". $this->getEmpSalGrd() . "'";
-		$arrRecordsList[24] = ($this->getEmpCorpTit()=='0') ? 'null' : "'". $this->getEmpCorpTit() . "'";
-		$arrRecordsList[25] = ($this->getEmpDesig()=='0') ? 'null' : "'". $this->getEmpDesig() . "'";
-		$arrRecordsList[26] = ($this->getEmpCostCode()=='0') ? 'null' : "'". $this->getEmpCostCode() . "'";
-		$arrRecordsList[27] = "'". $this->getEmpWorkHours() . "'";
-		$arrRecordsList[28] = "'". $this->getEmpJobPref() . "'";
-		//job stat
-		$arrRecordsList[29] = "'". $this->getEmpType() . "'";
-		$arrRecordsList[30] = ($this->getEmpStatutory()=='0') ? 'null' : "'". $this->getEmpStatutory() . "'";
-		$arrRecordsList[31] = ($this->getEmpCat()=='0') ? 'null' :"'". $this->getEmpCat() . "'";
-		$arrRecordsList[32] = "'". $this->getEmpStartDat() . "'";
-		$arrRecordsList[33] = "'". $this->getEmpEndDat() . "'";
-		$arrRecordsList[34] = "'". $this->getEmpConToPermFlag() . "'";
-		$arrRecordsList[35] = "'". $this->getEmpConToPermDat() . "'";
-		$arrRecordsList[36] = "'". $this->getEmpHRActivFlag() . "'";
-		$arrRecordsList[37] = "'". $this->getEmpPayActivFlag() . "'";
-		$arrRecordsList[38] = "'". $this->getEmpTimAttActivFlag() . "'";
-		$arrRecordsList[39] = "'". $this->getEmpTaxCountry() . "'";
-		$arrRecordsList[40] = ($this->getEmpLoc()=='0') ? 'null' : "'". $this->getEmpLoc() . "'";
-		$arrRecordsList[41] = ($this->getEmpPrefLoc()=='0') ? 'null' :"'". $this->getEmpPrefLoc() . "'";
+		$arrRecordsList[17] = "'". $this->getEmpStatus() . "'";
+		$arrRecordsList[18] = "'". $this->getEmpJobTitle() . "'";
+		$arrRecordsList[19] = "'". $this->getEmpEEOCat() . "'";
+		$arrRecordsList[20] = "'". $this->getEmpLocation() . "'";
+		$arrRecordsList[32] = "'". $this->getEmpJoinedDate() . "'";
 		
-		//tax
-		$i=42;
-		if($taxSkip==0) {
-		$arrRecordsList[$i++] = "'". $this->getEmpTaxExempt() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpTaxOnTaxFlag() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpTaxID() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpEPFEligibleFlag() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpEPFNo() . "'";
-		$arrRecordsList[$i++] = "'". $this->getCFundCBFundFlag() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEPFEmployeePercen() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEPFEmployerPercen() . "'";
-		$arrRecordsList[$i++] = "'". $this->getETFEligibleFlag() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpETFNo() . "'";
-		$arrRecordsList[$i++] = "'". $this->getETFEmployeePercen() . "'";
-		$arrRecordsList[$i++] = "'". $this->getETFDat() . "'";
-		$arrRecordsList[$i++] = "'". $this->getMSPSEligibleFlag() . "'";
-		$arrRecordsList[$i++] = "'". $this->getMSPSEmployeePercen() . "'";
-		$arrRecordsList[$i++] = "'". $this->getMSPSEmployerPercen() . "'";
-	    }
-	    
-		//contacts
-		$arrRecordsList[$i++] = "'". $this->getEmpPermHouseNo() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermStreet1() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermStreet2() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermCityTown() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermPostCode() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermTelephone() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermMobile() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermFax() . "'";
-		$arrRecordsList[$i++] = "'". $this->getEmpPermEmail() . "'";
-		$arrRecordsList[$i++] = ($this->getEmpPermCountry()=='0') ? 'null' :"'". $this->getEmpPermCountry() . "'";
-		$arrRecordsList[$i++] = ($this->getEmpPermProvince()=='0') ? 'null' :"'". $this->getEmpPermProvince() . "'";
-		$arrRecordsList[$i++] = ($this->getEmpPermDistrict()=='0') ? 'null' :"'". $this->getEmpPermDistrict() . "'";
-		$arrRecordsList[$i++] = ($this->getEmpPermElectorate()=='0') ? 'null' :"'". $this->getEmpPermElectorate() . "'";
-		
+		//contact
+		$arrRecordsList[21] = "'". $this->getEmpStreet1() . "'";
+		$arrRecordsList[22] = "'". $this->getEmpStreet2() . "'";
+		$arrRecordsList[23] = "'". $this->getEmpCity() . "'";
+		$arrRecordsList[24] = "'". $this->getEmpCountry()  . "'";
+		$arrRecordsList[25] = "'". $this->getEmpProvince()  . "'";
+		$arrRecordsList[26] = "'". $this->getEmpZipCode() . "'";
+		$arrRecordsList[27] = "'". $this->getEmpHomeTelephone() . "'";
+		$arrRecordsList[28] = "'". $this->getEmpMobile() . "'";
+		$arrRecordsList[29] = "'". $this->getEmpWorkTelephone() . "'";
+		$arrRecordsList[30] = "'". $this->getEmpWorkEmail() . "'";
+		$arrRecordsList[31] = "'". $this->getEmpOtherEmail() . "'";
+				
 		
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_TITLE';
-		$arrFieldList[2] = 'EMP_CALLING_NAME';
-		$arrFieldList[3] = 'EMP_SURNAME';
-		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
-		$arrFieldList[5] = 'EMP_MIDDLE_INI';
-		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
-		$arrFieldList[8] = 'EMP_OTHER_NAMES';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMP_FIRSTNAME';
+		$arrFieldList[3] = 'EMP_MIDDLE_NAME';
+		$arrFieldList[4] = 'EMP_NICK_NAME';
+		
 		//personal
-		$arrFieldList[9] = 'EMP_NIC_NO';
-		$arrFieldList[10] = 'EMP_NIC_DATE';
-		$arrFieldList[11] = 'EMP_BIRTHDAY';
-		$arrFieldList[12] = 'EMP_BIRTHPLACE';
-		$arrFieldList[13] = 'EMP_GENDER';
-		$arrFieldList[14] = 'EMP_BLOOD_GROUP';
-		$arrFieldList[15] = 'NAT_CODE';
-		$arrFieldList[16] = 'RLG_CODE';
-		$arrFieldList[17] = 'EMP_MARITAL_STATUS';
-		$arrFieldList[18] = 'EMP_MARRIED_DATE';
+		$arrFieldList[5]  = 'EMP_SMOKER';
+		$arrFieldList[6]  = 'EMP_ETH_RACE';
+		$arrFieldList[7]  = 'EMP_BIRTHDAY';
+		$arrFieldList[8]  = 'NATION_CODE';
+		$arrFieldList[9]  = 'EMP_GENDER';
+		$arrFieldList[10] = 'EMP_MARITAL_STATUS';
+		$arrFieldList[11] = 'EMP_SSN_NUM';
+		$arrFieldList[12] = 'EMP_SIN_NUM';
+		$arrFieldList[13] = 'EMP_OTHER_ID';
+		$arrFieldList[14] = 'EMP_DRI_LICE_NUM';
+		$arrFieldList[15] = 'EMP_DRI_LICE_EXP_DATE';
+		$arrFieldList[16] = 'EMP_MILITARY_SERVICE';
+		
 		//job info
-		$arrFieldList[19] = 'EMP_DATE_JOINED';
-		$arrFieldList[20] = 'EMP_CONFIRM_FLG';
-		$arrFieldList[21] = 'EMP_RESIGN_DATE';
-		$arrFieldList[22] = 'EMP_RETIRE_DATE';
-		$arrFieldList[23] = 'SAL_GRD_CODE';
-		$arrFieldList[24] = 'CT_CODE';
-		$arrFieldList[25] = 'DSG_CODE';
-		$arrFieldList[26] = 'CENTRE_CODE';
-		$arrFieldList[27] = 'EMP_WORKHOURS';
-		$arrFieldList[28] = 'EMP_JOB_PREFERENCE';
-		//job stat
-		$arrFieldList[29] = 'EMP_TYPE';
-		$arrFieldList[30] = 'STAFFCAT_CODE';
-		$arrFieldList[31] = 'CAT_CODE';
-		$arrFieldList[32] = 'EMP_CONTARCT_START_DATE';
-		$arrFieldList[33] = 'EMP_CONTRACT_END_DATE';
-		$arrFieldList[34] = 'EMP_CONT_TO_PERM_FLG';
-		$arrFieldList[35] = 'EMP_CONT_TO_PERM_DATE';
-		$arrFieldList[36] = 'EMP_ACTIVE_HRM_FLG';
-		$arrFieldList[37] = 'EMP_ACTIVE_PAYROLL_FLG';
-		$arrFieldList[38] = 'EMP_ACTIVE_ATT_FLG';
-		$arrFieldList[39] = 'EMP_TAX_COUNTRY';
-		$arrFieldList[40] = 'LOC_CODE';
-		$arrFieldList[41] = 'EMP_PREF_WORK_STATION';
+		$arrFieldList[17] = 'EMP_STATUS';
+		$arrFieldList[18] = 'JOB_TITLE_CODE';
+		$arrFieldList[19] = 'EEO_CAT_CODE';
+		$arrFieldList[20] = 'LOC_CODE';
+		$arrFieldList[32] = 'JOINED_DATE';
 		
-		//tax
-		$i=42;
-		if($taxSkip==0) {
-		$arrFieldList[$i++] = 'EMP_PAYE_TAX_EXEMPT';
-		$arrFieldList[$i++] = 'EMP_TAXONTAX_FLG';
-		$arrFieldList[$i++] = 'EMP_TAX_ID_NUMBER';
-		$arrFieldList[$i++] = 'EMP_EPF_ELIGIBLE_FLG';
-		$arrFieldList[$i++] = 'EMP_EPF_NUMBER';
-		$arrFieldList[$i++] = 'EMP_EPF_PAYMENT_TYPE_FLG';
-		$arrFieldList[$i++] = 'EMP_EPF_EMPLOYEE_AMOUNT';
-		$arrFieldList[$i++] = 'EMP_EPF_EMPLOYER_AMOUNT';
-		$arrFieldList[$i++] = 'EMP_ETF_ELIGIBLE_FLG';
-		$arrFieldList[$i++] = 'EMP_ETF_NUMBER';
-		$arrFieldList[$i++] = 'EMP_ETF_EMPLOYEE_AMOUNT';
-		$arrFieldList[$i++] = 'EMP_ETF_DATE';
-		$arrFieldList[$i++] = 'EMP_MSPS_ELIGIBLE_FLG';
-		$arrFieldList[$i++] = 'EMP_MSPS_EMPLOYEE_AMOUNT';
-		$arrFieldList[$i++] = 'EMP_MSPS_EMPLOYER_AMOUNT';
-		}
-		
-		//contacts
-		$arrFieldList[$i++] = 'EMP_PER_ADDRESS1';
-		$arrFieldList[$i++] = 'EMP_PER_ADDRESS2';
-		$arrFieldList[$i++] = 'EMP_PER_ADDRESS3';
-		$arrFieldList[$i++] = 'EMP_PER_CITY';
-		$arrFieldList[$i++] = 'EMP_PER_POSTALCODE';
-		$arrFieldList[$i++] = 'EMP_PER_TELEPHONE';
-		$arrFieldList[$i++] = 'EMP_PER_MOBILE';
-		$arrFieldList[$i++] = 'EMP_PER_FAX';
-		$arrFieldList[$i++] = 'EMP_PER_EMAIL';
-		$arrFieldList[$i++] = 'EMP_PER_COU_CODE';
-		$arrFieldList[$i++] = 'EMP_PER_PROVINCE_CODE';
-		$arrFieldList[$i++] = 'EMP_PER_DISTRICT_CODE';
-		$arrFieldList[$i++] = 'EMP_PER_ELECTORATE_CODE';
-								
+		//contact
+		$arrFieldList[21] = 'EMP_STREET1';
+		$arrFieldList[22] = 'EMP_STREET2';
+		$arrFieldList[23] = 'CITY_CODE';
+		$arrFieldList[24] = 'COUN_CODE';
+		$arrFieldList[25] = 'PROVIN_CODE';
+		$arrFieldList[26] = 'EMP_ZIPCODE';
+		$arrFieldList[27] = 'EMP_HM_TELEPHONE';
+		$arrFieldList[28] = 'EMP_MOBILE';
+		$arrFieldList[29] = 'EMP_WORK_TELEPHONE';
+		$arrFieldList[30] = 'EMP_WORK_EMAIL';
+		$arrFieldList[31] = 'EMP_OTH_EMAIL';
+			
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 
@@ -1207,7 +616,8 @@ class EmpInfo {
 			
 	
 		$sqlQString = $sql_builder->addNewRecordFeature2();
-	
+		
+	//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -1219,24 +629,18 @@ class EmpInfo {
 	function updateEmpMain() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpTitle() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpCallName() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpSurname() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpMaidenName() . "'";
-		$arrRecordsList[5] = "'". $this->getEmpInitials() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpNamByIni() . "'";
-		$arrRecordsList[7] = "'". $this->getEmpFullName() . "'";
-		$arrRecordsList[8] = "'". $this->getEmpOtherName() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpLastName() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpFirstName() . "'";
+		$arrRecordsList[3] = "'". $this->getEmpNickName() . "'";
+		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
+		
 		$tableName = 'HS_HR_EMPLOYEE';
+		
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_TITLE';
-		$arrFieldList[2] = 'EMP_CALLING_NAME';
-		$arrFieldList[3] = 'EMP_SURNAME';
-		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
-		$arrFieldList[5] = 'EMP_MIDDLE_INI';
-		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
-		$arrFieldList[8] = 'EMP_OTHER_NAMES';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMP_FIRSTNAME';
+		$arrFieldList[3] = 'EMP_MIDDLE_NAME';
+		$arrFieldList[4] = 'EMP_NICK_NAME';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -1253,109 +657,24 @@ class EmpInfo {
 		return $message2;
 	}
 	
-
-	function getNationCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_NATIONALITY';
-		$arrFieldList[0] = 'NAT_CODE';
-		$arrFieldList[1] = 'NAT_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
-	
-	function getReligionCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_RELIGION';
-		$arrFieldList[0] = 'RLG_CODE';
-		$arrFieldList[1] = 'RLG_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
-
 	function filterEmpPers($getID) {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		
-		$arrFieldList[1] = 'EMP_NIC_NO';
-		$arrFieldList[2] = 'EMP_NIC_DATE';
-		$arrFieldList[3] = 'EMP_BIRTHDAY';
-		$arrFieldList[4] = 'EMP_BIRTHPLACE';
-		$arrFieldList[5] = 'EMP_GENDER';
-		$arrFieldList[6] = 'EMP_BLOOD_GROUP';
-		$arrFieldList[7] = 'NAT_CODE';
-		$arrFieldList[8] = 'RLG_CODE';
-		$arrFieldList[9] = 'EMP_MARITAL_STATUS';
-		$arrFieldList[10] = 'EMP_MARRIED_DATE';
+		$arrFieldList[1]  = 'EMP_SMOKER';
+		$arrFieldList[2]  = 'EMP_ETH_RACE';
+		$arrFieldList[3]  = 'EMP_BIRTHDAY';
+		$arrFieldList[4]  = 'NATION_CODE';
+		$arrFieldList[5]  = 'EMP_GENDER';
+		$arrFieldList[6]  = 'EMP_MARITAL_STATUS';
+		$arrFieldList[7]  = 'EMP_SSN_NUM';
+		$arrFieldList[8]  = 'EMP_SIN_NUM';
+		$arrFieldList[9]  = 'EMP_OTHER_ID';
+		$arrFieldList[10] = 'EMP_DRI_LICE_NUM';
+		$arrFieldList[11] = 'EMP_DRI_LICE_EXP_DATE';
+		$arrFieldList[12] = 'EMP_MILITARY_SERVICE';
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -1394,29 +713,35 @@ class EmpInfo {
 
 	function updateEmpPers() {
 		
-		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpNICNo() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpNICDate() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpDOB() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpBirthPlace() . "'";
-		$arrRecordsList[5] = "'". $this->getEmpGender() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpBloodGrp() . "'";
-		$arrRecordsList[7] = ($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";    
-		$arrRecordsList[8] = ($this->getEmpReligion()=='0') ? 'null' :"'". $this->getEmpReligion() . "'"; 
-		$arrRecordsList[9] = "'". $this->getEmpMarital() . "'";
-		$arrRecordsList[10] = "'". $this->getEmpMarriedDate() . "'";
+		$arrRecordsList[0]  = "'". $this->getEmpId() . "'";
+		$arrRecordsList[1]  = "'". $this->getEmpsmoker() . "'";
+		$arrRecordsList[2]  = ($this->getEmpEthnicRace()=='0') ? 'null' : "'". $this->getEmpEthnicRace() . "'";
+		$arrRecordsList[3]  = "'". $this->getEmpDOB() . "'";
+		$arrRecordsList[4]  =($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";
+		$arrRecordsList[5]  = "'". $this->getEmpGender() . "'";
+		$arrRecordsList[6]  = "'". $this->getEmpMarital() . "'";
+		$arrRecordsList[7]  = "'". $this->getEmpSSNNo() . "'";
+		$arrRecordsList[8]  = "'". $this->getEmpSINNo() . "'";
+		$arrRecordsList[9]  = "'". $this->getEmpOthID() . "'";
+		$arrRecordsList[10] = "'". $this->getEmpDriLicNo() . "'";
+		$arrRecordsList[11] = "'". $this->empDriLicExpDat . "'";
+		$arrRecordsList[12] = "'". $this->getEmpMilitary() . "'";
+		
 		$tableName = 'HS_HR_EMPLOYEE';
+		
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_NIC_NO';
-		$arrFieldList[2] = 'EMP_NIC_DATE';
-		$arrFieldList[3] = 'EMP_BIRTHDAY';
-		$arrFieldList[4] = 'EMP_BIRTHPLACE';
-		$arrFieldList[5] = 'EMP_GENDER';
-		$arrFieldList[6] = 'EMP_BLOOD_GROUP';
-		$arrFieldList[7] = 'NAT_CODE';
-		$arrFieldList[8] = 'RLG_CODE';
-		$arrFieldList[9] = 'EMP_MARITAL_STATUS';
-		$arrFieldList[10] = 'EMP_MARRIED_DATE';
+		$arrFieldList[1]  = 'EMP_SMOKER';
+		$arrFieldList[2]  = 'EMP_ETH_RACE';
+		$arrFieldList[3]  = 'EMP_BIRTHDAY';
+		$arrFieldList[4]  = 'NATION_CODE';
+		$arrFieldList[5]  = 'EMP_GENDER';
+		$arrFieldList[6]  = 'EMP_MARITAL_STATUS';
+		$arrFieldList[7]  = 'EMP_SSN_NUM';
+		$arrFieldList[8]  = 'EMP_SIN_NUM';
+		$arrFieldList[9]  = 'EMP_OTHER_ID';
+		$arrFieldList[10] = 'EMP_DRI_LICE_NUM';
+		$arrFieldList[11] = 'EMP_DRI_LICE_EXP_DATE';
+		$arrFieldList[12] = 'EMP_MILITARY_SERVICE';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -1426,7 +751,8 @@ class EmpInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	
+	//$logw = new LogWriter();
+	//$logw->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -1439,16 +765,11 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		
-		$arrFieldList[1] = 'EMP_DATE_JOINED';
-		$arrFieldList[2] = 'EMP_CONFIRM_FLG';
-		$arrFieldList[3] = 'EMP_RESIGN_DATE';
-		$arrFieldList[4] = 'EMP_RETIRE_DATE';
-		$arrFieldList[5] = 'SAL_GRD_CODE';
-		$arrFieldList[6] = 'CT_CODE';
-		$arrFieldList[7] = 'DSG_CODE';
-		$arrFieldList[8] = 'CENTRE_CODE';
-		$arrFieldList[9] = 'EMP_WORKHOURS';
-		$arrFieldList[10] = 'EMP_JOB_PREFERENCE';
+		$arrFieldList[1] = 'EMP_STATUS';
+		$arrFieldList[2] = 'JOB_TITLE_CODE';
+		$arrFieldList[3] = 'EEO_CAT_CODE';
+		$arrFieldList[4] = 'LOC_CODE';
+		$arrFieldList[5] = 'JOINED_DATE';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -1486,28 +807,20 @@ class EmpInfo {
 	function updateEmpJobInfo() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpDatJoin() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpConfirmFlag() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpResigDat() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpRetireDat() . "'";
-		$arrRecordsList[5] = ($this->getEmpSalGrd()=='0') ? 'null' : "'". $this->getEmpSalGrd() . "'";    
-		$arrRecordsList[6] = ($this->getEmpCorpTit()=='0') ? 'null' : "'". $this->getEmpCorpTit() . "'";  
-		$arrRecordsList[7] = ($this->getEmpDesig()=='0') ? 'null' : "'". $this->getEmpDesig() . "'";      
-		$arrRecordsList[8] = ($this->getEmpCostCode()=='0') ? 'null' : "'". $this->getEmpCostCode() . "'";
-		$arrRecordsList[9] = "'". $this->getEmpWorkHours() . "'";
-		$arrRecordsList[10] = "'". $this->getEmpJobPref() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpStatus() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpJobTitle() . "'";
+		$arrRecordsList[3] = "'". $this->getEmpEEOCat() . "'";
+		$arrRecordsList[4] = "'". $this->getEmpLocation() . "'";
+		$arrRecordsList[5] = "'". $this->getEmpJoinedDate() . "'";
+		
 		$tableName = 'HS_HR_EMPLOYEE';
+		
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_DATE_JOINED';
-		$arrFieldList[2] = 'EMP_CONFIRM_FLG';
-		$arrFieldList[3] = 'EMP_RESIGN_DATE';
-		$arrFieldList[4] = 'EMP_RETIRE_DATE';
-		$arrFieldList[5] = 'SAL_GRD_CODE';
-		$arrFieldList[6] = 'CT_CODE';
-		$arrFieldList[7] = 'DSG_CODE';
-		$arrFieldList[8] = 'CENTRE_CODE';
-		$arrFieldList[9] = 'EMP_WORKHOURS';
-		$arrFieldList[10] = 'EMP_JOB_PREFERENCE';
+		$arrFieldList[1] = 'EMP_STATUS';
+		$arrFieldList[2] = 'JOB_TITLE_CODE';
+		$arrFieldList[3] = 'EEO_CAT_CODE';
+		$arrFieldList[4] = 'LOC_CODE';
+		$arrFieldList[5] = 'JOINED_DATE';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -1517,14 +830,15 @@ class EmpInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	
+	//$logw = new LogWriter();
+	//$logw->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		return $message2;
 	}
 	
-	function getSalGrdCodes() {
+	/*function getSalGrdCodes() {
 
 		$sql_builder = new SQLQBuilder();
 		$tableName = 'HS_PR_SALARY_GRADE';
@@ -1566,144 +880,9 @@ class EmpInfo {
 	     }
 
 	}
+*/
 
-
-	function getCorpTitles($getID) {
-		
-		$this->getID = $getID;
-		$arrFieldList[0] = 'SAL_GRD_CODE';
-		$arrFieldList[1] = 'CT_CODE';
-		$arrFieldList[2] = 'CT_NAME';
-
-
-		$tableName = 'HS_HR_CORPORATE_TITLE';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-				
-	}
-
-
-	function getCostCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_PR_COST_CENTRE';
-		$arrFieldList[0] = 'CENTRE_CODE';
-		$arrFieldList[1] = 'CENTRE_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
-
-	function getDes($getID) {
-		
-		$this->getID = $getID;
-		$tableName = 'HS_HR_DESIGNATION';
-        $arrFieldList[0] = 'CT_CODE';
-		$arrFieldList[1] = 'DSG_CODE';
-		$arrFieldList[2] = 'DSG_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-				
-	}
-
-
-	function filterEmpJobStat($getID) {
+	/*function filterEmpJobStat($getID) {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
@@ -1794,89 +973,6 @@ class EmpInfo {
 		return $message2;
 	}
 
-	function getStatCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_STAFFCAT';
-		$arrFieldList[0] = 'STAFFCAT_CODE';
-		$arrFieldList[1] = 'STAFFCAT_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
-	}
-
-	function getCatCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_CATEGORY';
-		$arrFieldList[0] = 'CAT_CODE';
-		$arrFieldList[1] = 'CAT_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
 
 	function filterEmpWrkStaion($getID) {
 		
@@ -1889,7 +985,7 @@ class EmpInfo {
 		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
 		$arrFieldList[5] = 'EMP_MIDDLE_INI';
 		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
+		$arrFieldList[7] = 'EMP_LASTNAME';
 		$arrFieldList[8] = 'EMP_OTHER_NAMES';
 
 		$arrFieldList[9] = 'LOC_CODE';
@@ -1953,48 +1049,7 @@ class EmpInfo {
 		return $message2;
 	}
 
-	function getLocCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_LOCATION';
-		$arrFieldList[0] = 'LOC_CODE';
-		$arrFieldList[1] = 'LOC_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
+	
 
 	function filterEmpTax($getID) {
 		
@@ -2103,26 +1158,24 @@ class EmpInfo {
 		
 		return $message2;
 	}
-
-	function filterEmpPermRes($getID) {
+*/
+	function filterEmpContact($getID) {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 
-		$arrFieldList[1] = 'EMP_PER_ADDRESS1';
-		$arrFieldList[2] = 'EMP_PER_ADDRESS2';
-		$arrFieldList[3] = 'EMP_PER_ADDRESS3';
-		$arrFieldList[4] = 'EMP_PER_CITY';
-		$arrFieldList[5] = 'EMP_PER_POSTALCODE';
-		$arrFieldList[6] = 'EMP_PER_TELEPHONE';
-		$arrFieldList[7] = 'EMP_PER_MOBILE';
-		$arrFieldList[8] = 'EMP_PER_FAX';
-		$arrFieldList[9] = 'EMP_PER_EMAIL';
-		$arrFieldList[10] = 'EMP_PER_COU_CODE';
-		$arrFieldList[11] = 'EMP_PER_PROVINCE_CODE';
-		$arrFieldList[12] = 'EMP_PER_DISTRICT_CODE';
-		$arrFieldList[13] = 'EMP_PER_ELECTORATE_CODE';
+		$arrFieldList[1] = 'EMP_STREET1';
+		$arrFieldList[2] = 'EMP_STREET2';
+		$arrFieldList[3] = 'CITY_CODE';
+		$arrFieldList[4] = 'COUN_CODE';
+		$arrFieldList[5] = 'PROVIN_CODE';
+		$arrFieldList[6] = 'EMP_ZIPCODE';
+		$arrFieldList[7] = 'EMP_HM_TELEPHONE';
+		$arrFieldList[8] = 'EMP_MOBILE';
+		$arrFieldList[9] = 'EMP_WORK_TELEPHONE';
+		$arrFieldList[10] = 'EMP_WORK_EMAIL';
+		$arrFieldList[11] = 'EMP_OTH_EMAIL';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2157,38 +1210,35 @@ class EmpInfo {
 		}
 	}
 
-	function updateEmpPermRes() {
+	function updateEmpContact() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpPermHouseNo() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpPermStreet1() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpPermStreet2() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpPermCityTown() . "'";
-		$arrRecordsList[5] = "'". $this->getEmpPermPostCode() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpPermTelephone() . "'";
-		$arrRecordsList[7] = "'". $this->getEmpPermMobile() . "'";
-		$arrRecordsList[8] = "'". $this->getEmpPermFax() . "'";
-		$arrRecordsList[9] = "'". $this->getEmpPermEmail() . "'";
-		$arrRecordsList[10] = ($this->getEmpPermCountry()=='0') ? 'null' :"'". $this->getEmpPermCountry() . "'";      
-		$arrRecordsList[11] = ($this->getEmpPermProvince()=='0') ? 'null' :"'". $this->getEmpPermProvince() . "'";    
-		$arrRecordsList[12] = ($this->getEmpPermDistrict()=='0') ? 'null' :"'". $this->getEmpPermDistrict() . "'";    
-		$arrRecordsList[13] = ($this->getEmpPermElectorate()=='0') ? 'null' :"'". $this->getEmpPermElectorate() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpStreet1() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpStreet2() . "'";
+		$arrRecordsList[3] = "'". $this->getEmpCity() . "'";
+		$arrRecordsList[4] = "'". $this->getEmpCountry() . "'";
+		$arrRecordsList[5] = "'". $this->getEmpProvince()  . "'";
+		$arrRecordsList[6] = "'". $this->getEmpZipCode() . "'";
+		$arrRecordsList[7] = "'". $this->getEmpHomeTelephone() . "'";
+		$arrRecordsList[8] = "'". $this->getEmpMobile() . "'";
+		$arrRecordsList[9] = "'". $this->getEmpWorkTelephone() . "'";
+		$arrRecordsList[10] = "'". $this->getEmpWorkEmail() . "'";
+		$arrRecordsList[11] = "'". $this->getEmpOtherEmail() . "'";
 		
 		$tableName = 'HS_HR_EMPLOYEE';
+		
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_PER_ADDRESS1';
-		$arrFieldList[2] = 'EMP_PER_ADDRESS2';
-		$arrFieldList[3] = 'EMP_PER_ADDRESS3';
-		$arrFieldList[4] = 'EMP_PER_CITY';
-		$arrFieldList[5] = 'EMP_PER_POSTALCODE';
-		$arrFieldList[6] = 'EMP_PER_TELEPHONE';
-		$arrFieldList[7] = 'EMP_PER_MOBILE';
-		$arrFieldList[8] = 'EMP_PER_FAX';
-		$arrFieldList[9] = 'EMP_PER_EMAIL';
-		$arrFieldList[10] = 'EMP_PER_COU_CODE';
-		$arrFieldList[11] = 'EMP_PER_PROVINCE_CODE';
-		$arrFieldList[12] = 'EMP_PER_DISTRICT_CODE';
-		$arrFieldList[13] = 'EMP_PER_ELECTORATE_CODE';
+		$arrFieldList[1] = 'EMP_STREET1';
+		$arrFieldList[2] = 'EMP_STREET2';
+		$arrFieldList[3] = 'CITY_CODE';
+		$arrFieldList[4] = 'COUN_CODE';
+		$arrFieldList[5] = 'PROVIN_CODE';
+		$arrFieldList[6] = 'EMP_ZIPCODE';
+		$arrFieldList[7] = 'EMP_HM_TELEPHONE';
+		$arrFieldList[8] = 'EMP_MOBILE';
+		$arrFieldList[9] = 'EMP_WORK_TELEPHONE';
+		$arrFieldList[10] = 'EMP_WORK_EMAIL';
+		$arrFieldList[11] = 'EMP_OTH_EMAIL';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2198,182 +1248,18 @@ class EmpInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	
+	//echo $sqlQString;
+	//$log = new LogWriter();
+	//$log->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		return $message2;
 	}
-
-	function getCountryCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_COUNTRY';
-		$arrFieldList[0] = 'COU_CODE';
-		$arrFieldList[1] = 'COU_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
-
-	function getProvinceCodes($getID) {
-
-		$this->getID = $getID;
-		$tableName = 'HS_HR_PROVINCE';
-		$arrFieldList[0] = 'COU_CODE';
-		$arrFieldList[1] = 'PROVINCE_CODE';
-		$arrFieldList[2] = 'PROVINCE_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-	    		for($c=0; count($arrFieldList) > $c ; $c++)	
-					$arrayDispList[$i][$c] = $line[$c];
-					
-	    		$i++;
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function getDistrictCodes($getID) {
-
-		$this->getID = $getID;
-		$tableName = 'HS_HR_DISTRICT';
-		$arrFieldList[0] = 'PROVINCE_CODE';
-		$arrFieldList[1] = 'DISTRICT_CODE';
-		$arrFieldList[2] = 'DISTRICT_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-	    		for($c=0; count($arrFieldList) > $c ; $c++)	
-					$arrayDispList[$i][$c] = $line[$c];
-					
-	    		$i++;
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function getElectorateCodes() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_ELECTORATE';
-		$arrFieldList[0] = 'ELECTORATE_CODE';
-		$arrFieldList[1] = 'ELECTORATE_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
+	
+	
 /////////////
-	function filterEmpTempRes($getID) {
+	/*function filterEmpTempRes($getID) {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
@@ -2384,7 +1270,7 @@ class EmpInfo {
 		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
 		$arrFieldList[5] = 'EMP_MIDDLE_INI';
 		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
+		$arrFieldList[7] = 'EMP_LASTNAME';
 		$arrFieldList[8] = 'EMP_OTHER_NAMES';
 
 		$arrFieldList[9] = 'EMP_TEM_ADDRESS1';
@@ -2493,7 +1379,7 @@ class EmpInfo {
 		$arrFieldList[4] = 'EMP_MAIDEN_NAME';
 		$arrFieldList[5] = 'EMP_MIDDLE_INI';
 		$arrFieldList[6] = 'EMP_NAMES_BY_INI';
-		$arrFieldList[7] = 'EMP_FULLNAME';
+		$arrFieldList[7] = 'EMP_LASTNAME';
 		$arrFieldList[8] = 'EMP_OTHER_NAMES';
 
 		$arrFieldList[9] = 'EMP_OFFICE_PHONE';
@@ -2559,134 +1445,8 @@ class EmpInfo {
 		
 		return $message2;
 	}
+		
 	
-
-	function getHierarchyDef() {
-		
-		$tableName = 'HS_HR_COMPANY_HIERARCHY_DEF';			
-		$arrFieldList[0] = 'DEF_LEVEL';
-		$arrFieldList[1] = 'DEF_NAME';
-		
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	    
-	     	return $arrayDispList;
-	        
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function getCompHier($getID,$schKey) {
-		
-		$this->getID = $getID;
-		$tableName = 'HS_HR_COMPANY_HIERARCHY';
-        $arrFieldList[0] = 'DEF_LEVEL';
-        $arrFieldList[1] = 'HIE_RELATIONSHIP';
-		$arrFieldList[2] = 'HIE_CODE';
-		$arrFieldList[3] = 'HIE_NAME';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID,$schKey);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$arrayDispList[$i][3] = $line[3];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-				
-	}
-
-	function getLocations() {
-		
-		$tableName = 'HS_HR_LOCATION';			
-		$arrFieldList[0] = 'LOC_CODE';
-		$arrFieldList[1] = 'LOC_NAME';
-		
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
 
 	function updateEmpTaxCountry() {
 		
@@ -2710,6 +1470,1036 @@ class EmpInfo {
 		
 		return $message2;
 	}
+*/	
+	
+	function getBasSalUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_BASICSALARY';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countBasSalUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_BASICSALARY';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getCashBenUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_CASH_BENEFIT';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countCashBenUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_CASH_BENEFIT';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getNonCashUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_NONCASH_BENEFIT';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countNonCashUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_NONCASH_BENEFIT';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getJobSpecUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_JOBSPEC';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countJobSpecUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_JOBSPEC';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getLangUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_LANGUAGE';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countLangUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_LANGUAGE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getSkillUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_SKILL';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function getLicensesUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_LICENSES';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countSkillUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_SKILL';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function countLicensesUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_LICENSES';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getQulUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_QUALIFICATION';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countQulUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_QUALIFICATION';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssEmployee($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_CONTRACT_EXTEND';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countUnAssEmployee($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_CONTRACT_EXTEND';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssEmployeeExCur($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_EXTRA_ACTIVITY';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssEmployeeExCur($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_EXTRA_ACTIVITY';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssEmployeeMemShip($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_MEMBER_DETAIL';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssEmployeeMemShip($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_MEMBER_DETAIL';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getEmpInfo() {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage();
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssEmployeeRepTo($schStr,$mode) {
+
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultset($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getUnAssEmployeeRepTo($pageNO,$schStr,$mode) {
+
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+
+	function countEmpRepTo($schStr,$mode) {
+
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultset($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getListofEmpRepTo($pageNO,$schStr,$mode) {
+
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countRepEmployee($schStr='',$mode=0) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultset($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+	
+	function getListofRepEmployee($pageNO=0,$schStr='',$mode=0) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function getUnAssEmployeeWorkExp($pageNO,$schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_WORK_EXPERIENCE';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->passResultFilter($pageNO,$schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
+	function countUnAssEmployeeWorkExp($schStr,$mode) {
+		
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'EMP_LASTNAME';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = 'HS_HR_EMP_WORK_EXPERIENCE';
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->countResultFilter($schStr,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
+
+	
 	
 }
 

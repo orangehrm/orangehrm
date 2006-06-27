@@ -17,16 +17,18 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Models/eimadmin/DesDis.php';
-require_once OpenSourceEIM . '/lib/Models/eimadmin/DesQual.php';
-require_once OpenSourceEIM . '/lib/Models/eimadmin/CashBenSal.php';
-require_once OpenSourceEIM . '/lib/Models/eimadmin/NonCashBenSal.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/DesDis.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/DesQual.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CashBenSal.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/NonCashBenSal.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/salarygrades.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Designations.php';
+
 
 class GenViewController {
 
 	var $indexCode;
 	var $message;
-	var $pageID;
 	var $headingInfo;
 	
 		
@@ -40,61 +42,34 @@ class GenViewController {
 	
 		if (($this->indexCode) == 'DDI') {
 
-			$this-> designation = new DesDescription();
-			$message = $this-> designation -> getUnAssDesignations($pageNO,$schStr,$mode);
+
+			$this-> designations = new Designations();
+			$message = $this-> designations -> getUnAssDesignations($pageNO,$schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'DQA') {
 
-			$this-> designation = new DesQualification();
-			$message = $this-> designation -> getUnAssDesignations($pageNO,$schStr,$mode);
+			$this-> designation = new Designations();
+			$message = $this-> designation -> getUnAssDesignationsDes($pageNO,$schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'BBS') {
 
-			$this-> salgrade = new CashBenSalary();
+			$this-> salgrade = new SalaryGrades();
 			$message = $this-> salgrade -> getUnAssCashBenefits($pageNO,$schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'NBS') {
 
-			$this-> noncashbensal = new NonCashBenSalary();
-			$message = $this-> noncashbensal -> getUnAssCashBenefits($pageNO,$schStr,$mode);
+			$this-> salgrade = new SalaryGrades();
+			$message = $this-> salgrade -> getUnAssNonCashBenefits($pageNO,$schStr,$mode);
 
 			return $message;
 		}
 	}
-	
-	
-	function getPageID($indexCode) {
-	
-		$this->indexCode = $indexCode;	
-							
-
-		if (($this->indexCode) == 'DDI') {
-
-			$this->pageID = './desdis';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'DQA') {
-
-			$this->pageID = './desqua';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'BBS') {
-
-			$this->pageID = './cashbensal';
-			return $this->pageID;
-
-		} else if (($this->indexCode) == 'NBS') {
-
-			$this->pageID = './noncashbensal';
-			return $this->pageID;
-		}
-	} 
 	
 	
 	function getHeadingInfo($indexCode) {
@@ -124,7 +99,6 @@ class GenViewController {
 	}
 	
 	
-	
 	function getInfo($indexCode,$pageNO,$schStr='',$mode=0) {
 	
 		$this->indexCode = $indexCode;
@@ -133,13 +107,6 @@ class GenViewController {
 	}
 	
 	
-	function getPageName($indexCode) {
-		
-		$this->indexCode = $indexCode;
-		return $this->getPageID();
-		
-	}
-	
 	function countList($index,$schStr='',$mode=0) {
 		
 		$this->indexCode=$index;
@@ -147,29 +114,29 @@ class GenViewController {
 
 		if (($this->indexCode) == 'DDI') {
 
-			$this-> designation = new DesDescription();
-			$message = $this-> designation -> countUnAssDesignations($schStr,$mode);
+			$this-> designations = new Designations();
+			$message = $this-> designations -> countUnAssDesignationsDis($schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'DQA') {
 
-			$this-> designation = new DesQualification();
-			$message = $this-> designation ->countUnAssDesignations($schStr,$mode);
+			$this-> designation = new Designations();
+			$message = $this-> designation ->countUnAssDesignationsDes($schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'BBS') {
 
-			$this-> salgrade = new CashBenSalary();
+			$this-> salgrade = new SalaryGrades();
 			$message = $this-> salgrade -> countUnAssCashBenefits($schStr,$mode);
 
 			return $message;
 
 		}  else if (($this->indexCode) == 'NBS') {
 
-			$this-> salgrade = new NonCashBenSalary();
-			$message = $this-> salgrade -> countUnAssCashBenefits($schStr,$mode);
+			$this-> salgrade = new SalaryGrades();
+			$message = $this-> salgrade -> countUnAssNonCashBenefits($schStr,$mode);
 
 			return $message;
 		}

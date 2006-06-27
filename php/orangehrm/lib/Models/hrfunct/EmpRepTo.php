@@ -17,10 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EmpRepTo {
 
@@ -58,7 +58,7 @@ class EmpRepTo {
 	$this->empRepMod=$empRepMod;
 	}
 
-	function getEmpId() {
+		function getEmpId() {
 	
 	return $this->empId;
 	}
@@ -79,65 +79,6 @@ class EmpRepTo {
 	}
 
 
-	////
-	function getListofEmpRepTo($page,$str,$mode) {
-
-		$tableName = 'HS_HR_EMP_REPORTTO';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field = 'EREP_SUB_EMP_NUMBER';
-			
-		$sqlQString = $sql_builder->selectEmployee($page,$str,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-			
-		}
-	}
-
-	function countEmpRepTo($str,$mode) {
-
-		$tableName = 'HS_HR_EMP_REPORTTO';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->field = 'EREP_SUB_EMP_NUMBER';
-			
-		$sqlQString = $sql_builder->countEmployee($str,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
-	    	return $line[0];
-	}
 
 	function delEmpRepTo($arrList) {
 
@@ -186,26 +127,10 @@ class EmpRepTo {
 				
 	}
 	
-	function updateEmpRepTo() {
+	function updateEmpRepTo($supEmpID,$subEmpID,$oldRepMethod,$newRepMethod) {
 		
-		$arrRecordsList[0] = "'". $this->getEmpSupId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpSubId() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpRepMod() . "'";
-
-		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'EREP_SUP_EMP_NUMBER';
-		$arrFieldList[1] = 'EREP_SUB_EMP_NUMBER';
-		$arrFieldList[2] = 'EREP_REPORTING_MODE';
-
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_update = 'true';
-		$sql_builder->arr_update = $arrFieldList;	
-		$sql_builder->arr_updateRecList = $arrRecordsList;	
-	
-		$sqlQString = $sql_builder->addUpdateRecord1(2);
-	
+		$sqlQString = "UPDATE hs_hr_emp_reportto SET EREP_SUP_EMP_NUMBER='".$supEmpID."', EREP_SUB_EMP_NUMBER='".$subEmpID."', EREP_REPORTING_MODE='".$newRepMethod."' WHERE EREP_SUP_EMP_NUMBER='".$supEmpID."' AND EREP_SUB_EMP_NUMBER='".$subEmpID."' AND EREP_REPORTING_MODE='".$oldRepMethod."'";
+			
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
@@ -258,7 +183,98 @@ class EmpRepTo {
 		}
 				
 	}
+	
+	
+	function getEmpSup($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_EMP_REPORTTO';
+		$arrFieldList[0] = 'EREP_SUB_EMP_NUMBER';
+		$arrFieldList[1] = 'EREP_SUP_EMP_NUMBER';
+		$arrFieldList[2] = 'EREP_REPORTING_MODE';
 
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+			for($c=0;count($arrFieldList)>$c;$c++)
+			   $arrayDispList[$i][$c] = $line[$c];
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}
+	
+	function getEmpSub($getID) {
+		
+		$this->getID = $getID;
+		$tableName = 'HS_HR_EMP_REPORTTO';
+		$arrFieldList[0] = 'EREP_SUP_EMP_NUMBER';
+		$arrFieldList[1] = 'EREP_SUB_EMP_NUMBER';
+		$arrFieldList[2] = 'EREP_REPORTING_MODE';
+
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+			for($c=0;count($arrFieldList)>$c;$c++)
+			   $arrayDispList[$i][$c] = $line[$c];
+	    	
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+				
+	}
+	
+	
+	
 
 }
 

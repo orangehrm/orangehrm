@@ -17,11 +17,10 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once OpenSourceEIM . '/lib/Confs/Conf.php';
-require_once OpenSourceEIM . '/lib/Models/DMLFunctions.php';
-require_once OpenSourceEIM . '/lib/Models/SQLQBuilder.php';
-require_once OpenSourceEIM . '/lib/CommonMethods/CommonFunctions.php';
-//require_once OpenSourceEIM . './lib/Models/SQLFormat.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class CompHierachy {
 
@@ -163,7 +162,6 @@ class CompHierachy {
 		$arrFieldList[0] = 'HIE_CODE';
 		$arrFieldList[1] = 'HIE_NAME';
 
-		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
@@ -226,6 +224,7 @@ class CompHierachy {
 
 		$tableName = 'HS_HR_COMPANY_HIERARCHY';
 		$arrFieldList[0] = 'HIE_CODE';
+		$arrFieldList[1] = 'HIE_RELATIONSHIP';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -238,13 +237,10 @@ class CompHierachy {
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
 	}
-
 	
 	function addCompHierachy() {
 		
-		$this->getHiId();
 		$arrFieldList[0] = "'". $this->getHiId() . "'";
 		$arrFieldList[1] = "'". $this->getHiDesc() . "'";
 		$arrFieldList[2] = ($this->getHiRelat()=='0') ? 'null' :"'". $this->getHiRelat() . "'";
@@ -255,7 +251,7 @@ class CompHierachy {
 		$arrFieldList[7] = "'". $this->getEmail() . "'";
 		$arrFieldList[8] = "'". $this->getUrl() . "'";
 		$arrFieldList[9] = "'". $this->getLogo() . "'";
-		$arrFieldList[10] = "'". $this->getLoc() . "'";
+		$arrFieldList[10] = ($this->getLoc()=='') ? 'null' :"'". $this->getLoc() . "'";
 
 
 		$tableName = 'HS_HR_COMPANY_HIERARCHY';
@@ -290,7 +286,7 @@ class CompHierachy {
 		$arrRecordsList[7] = "'". $this->getEmail() . "'";
 		$arrRecordsList[8] = "'". $this->getUrl() . "'";
 		$arrRecordsList[9] = "'". $this->getLogo() . "'";
-		$arrRecordsList[10] = "'". $this->getLoc() . "'";
+		$arrRecordsList[10] = ($this->getLoc()=='') ? 'null' :"'". $this->getLoc() . "'";
 
 		$tableName = 'HS_HR_COMPANY_HIERARCHY';
 		$arrFieldList[0] = 'HIE_CODE';
@@ -397,7 +393,7 @@ class CompHierachy {
 		$sqlQString = $sql_builder->passResultSetMessage();
 
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+   		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$common_func = new CommonFunctions();
 
@@ -408,9 +404,7 @@ class CompHierachy {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
-
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
@@ -418,140 +412,85 @@ class CompHierachy {
 	       	return $arrayDispList;
 
 	     } else {
-
 	     	//Handle Exceptions
 	     	//Create Logs
-
 	     }
-
 	}
 
-	function getHierachyDef () {
-
+	function getAssCompHier($lev,$relat) {
+		
 		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_COMPANY_HIERARCHY_DEF';
-		$arrFieldList[0] = 'DEF_LEVEL';
-		$arrFieldList[1] = 'DEF_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
+			
+		$sqlQString = $sql_builder->getAssCompStruct($lev,$relat);
+		
+			//$exception_handler = new ExceptionHandler();
+	  	 	//$exception_handler->logW($sqlQString);
+	  	 	
+		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
 		$i=0;
-
+		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
+		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-
-
 	    	$i++;
-
+	    	
 	     }
-
+	     
 	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
+			return $arrayDispList;
+		} else {
+			$arrayDispList = '';
+			return $arrayDispList;
+		}
 	}
 
-	function getLocCodes () {
+	function getHierRelation($hiCode) {
+
+		$c=0;
+		while($hiCode != null) {
+		$tableName = 'HS_HR_COMPANY_HIERARCHY';
+		$arrFieldList[0] = 'HIE_CODE';
+        $arrFieldList[1] = 'HIE_RELATIONSHIP';
+
 
 		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_LOCATION';
-		$arrFieldList[0] = 'LOC_CODE';
-		$arrFieldList[1] = 'LOC_NAME';
-
+		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
+		$sql_builder->arr_select = $arrFieldList;		
+			
+		$sqlQString = $sql_builder->selectOneRecordFiltered($hiCode);
+		
+		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
 		$i=0;
-
+		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
+		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
-
-
 	    	$i++;
-
+	    	
 	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
+	     
+	     $hierRelation[$c++] = $hiCode;
+	     if(isset($arrayDispList))
+	     	$hiCode = $arrayDispList[0][1];
+		 else
+		 	$hiCode = null;
+		 	
+		} 
+		
+		$hierRelation = array_reverse($hierRelation);
+		return $hierRelation;
 	}
-
-	function getEmpCodes () {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->passResultSetMessage();
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-
-	    	$i++;
-
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
-	     }
-
-	}
-
+	
 	function getLastRecord() {
 		
 		$sql_builder = new SQLQBuilder();
@@ -580,12 +519,8 @@ class CompHierachy {
 		}
 			
 		return $common_func->explodeString($this->singleField,"HIE");
-				
 		}
-		
 	}	
-	
-	
 }
 
 ?>
