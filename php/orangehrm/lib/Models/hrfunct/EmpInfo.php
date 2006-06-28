@@ -545,9 +545,9 @@ class EmpInfo {
 		
 		//job info
 		$arrRecordsList[17] = "'". $this->getEmpStatus() . "'";
-		$arrRecordsList[18] = "'". $this->getEmpJobTitle() . "'";
+		$arrRecordsList[18] = ($this->getEmpJobTitle()=='0') ? 'null' : "'". $this->getEmpJobTitle() . "'";
 		$arrRecordsList[19] = "'". $this->getEmpEEOCat() . "'";
-		$arrRecordsList[20] = "'". $this->getEmpLocation() . "'";
+		$arrRecordsList[20] = ($this->getEmpLocation()=='0') ? 'null' : "'". $this->getEmpLocation() . "'";
 		$arrRecordsList[32] = "'". $this->getEmpJoinedDate() . "'";
 		
 		//contact

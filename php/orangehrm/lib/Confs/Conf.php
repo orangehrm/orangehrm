@@ -30,7 +30,7 @@ class Conf {
 		
 	$this->dbhost	= '192.168.0.196';
 	$this->dbport 	= '3306';
-	$this->dbname	= 'temp';
+	$this->dbname	= 'temp_hr';
 	$this->dbuser	= 'user';
 	$this->dbpass	= '';
 	$this->smtphost = '';

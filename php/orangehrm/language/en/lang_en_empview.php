@@ -40,5 +40,10 @@ switch ($_GET['reqcode']) {
 	case  'MEM' :
 			$headingInfo = array ('Memberships' ,1);
 			break;
+			
+	case 'REP' :
+
+		$headingInfo = array ('Report To',1);
+		break;
 }
 ?>

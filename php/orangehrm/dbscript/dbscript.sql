@@ -592,11 +592,6 @@ alter table hs_hr_district
 
 
 
-alter table hs_hr_employee 
-       add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
-
-
 alter table hs_hr_employee
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete cascade;

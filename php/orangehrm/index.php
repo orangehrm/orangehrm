@@ -609,10 +609,7 @@ function setSize() {
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=PRO&menu_no=10&submenutop=EIMModule&menu_no_top=eim">State</A></TD>
                     </TR>
                     <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">County</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ELE&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
+                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
                     </TR>
                     </TBODY>
                     

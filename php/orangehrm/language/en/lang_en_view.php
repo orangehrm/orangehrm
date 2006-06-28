@@ -140,13 +140,9 @@ switch ($_GET['uniqcode']) {
 
 		case 'DIS' :
 
-			$headingInfo = array ('County ID','County Name',1,'County','Deletion might affect Employee Information');
+			$headingInfo = array ('City ID','City Name',1,'City','Deletion might affect Employee Information');
 			break;
 
-		case 'ELE' :
-
-			$headingInfo = array ('Electorate ID','Electorate Name',1,'Electorate','Deletion might affect Employee Information');
-			break;
 
 		case 'BNK' :
 
@@ -243,10 +239,7 @@ switch ($_GET['uniqcode']) {
 			$headingInfo = array ('EEO Job Category ID','EEO Job Category Name',1,'EEO Job Category','Deletion might affect Employee Information');
 			break;
 			
-		case 'LIC' :
-
-			$headingInfo = array ('Licenses ID','Licenses Description',1,'Licenses','Deletion might affect Employee Information');
-			break;
+		
 			
 	case 'LAN' :
 		$headingInfo = array ('Language ID','Language Name',1,'Languages','Deletion might affect Employee Language');
@@ -311,9 +304,16 @@ switch ($_GET['uniqcode']) {
 
 		$headingInfo = array ('Designation ID','Designation Name',2,'Designation Qualification','');
 		break;
+		
+	
+		
+	case 'LIC' :
 
+			$headingInfo = array ('Licenses ID','Licenses Description',1,'Licenses','Deletion might affect Employee Information');
+			break;
+	
 
 }
-
+			 
 
 ?>	

@@ -650,6 +650,7 @@ switch ($moduletype) {
 							
 							case 'EMP'	:	
 										if(isset($_POST['sqlState'])) {
+											
 											$extractor = new EXTRACTOR_EmpInfo();
 										}
 									

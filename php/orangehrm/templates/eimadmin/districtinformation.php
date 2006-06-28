@@ -25,8 +25,10 @@ function populateStates($value) {
 	$view_controller = new ViewController();
 	$provlist = $view_controller->xajaxObjCall($value,'DIS','province');
 	
+	$response = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($provlist,1,'frmDistrictInformation','selProvinceID');
+	$response = $xajaxFiller->cmbFiller($response,$provlist,1,'frmDistrictInformation','selProvinceID');
+	$response->addAssign('status','innerHTML','');
 	
 return $response->getXML();
 }
@@ -163,15 +165,9 @@ return flag;
 							    </select></td>
 							 </tr>
 							  <tr> 
-							    <td><?=state?></td>
+							    <td><?=$state?></td>
 							    <td> <select name="selProvinceID"> 
 							    			<option value="0"><?=$selstatelist?></option>
-							    <?/* if(isset($this->popArr['cmbCountry'])) {
-							    $provlist = $this->popArr['provlist']; 
-							    for ($j=0; $provlist && $j<count($provlist);$j++) 
-							    	  echo '<option value=' . $provlist[$j][1] . '>' . $provlist[$j][2] . '</option>';
-							    }
-							   */ ?>
 							    </select></td>
 							  </tr>
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
