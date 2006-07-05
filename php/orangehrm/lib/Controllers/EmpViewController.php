@@ -1465,7 +1465,7 @@ class EmpViewController {
 							
 								$empinfo  = new EmpInfo();
 								$emprepto = new EmpRepTo();	
-								$empinfo = new EmpInfo();
+								//$empinfo = new EmpInfo();
 									
 							
 							$form_creator->popArr['empdet']  = $empinfo->filterEmpMain($getArr['id']);

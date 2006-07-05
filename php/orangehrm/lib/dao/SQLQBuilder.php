@@ -873,6 +873,7 @@ function getJDGrouping($dsg) {
 function getAssCompStruct($lev,$relat) {
 	
 	$sqlQString = "SELECT a.HIE_CODE, b.HIE_NAME  FROM hs_hr_company_hierarchy a, hs_hr_company_struct b WHERE a.DEF_LEVEL='" . $lev . "' AND a.HIE_RELATIONSHIP='" .$relat. "' AND a.HIE_CODE = b.HIE_CODE";
+	$sqlQString=strtolower($sqlQString);
 
 	return $sqlQString;
 }
@@ -880,6 +881,7 @@ function getAssCompStruct($lev,$relat) {
 function getAssEmpStat($jobtit) {
 	
 	$sqlQString = "SELECT b.ESTAT_CODE, b.ESTAT_NAME FROM HS_HR_JOBTIT_EMPSTAT a, HS_HR_EMPSTAT b WHERE a.ESTAT_CODE = b.ESTAT_CODE AND a.JOBTIT_CODE = '" .$jobtit. "'";
+	$sqlQString=strtolower($sqlQString);
 	
 	return $sqlQString;
 }

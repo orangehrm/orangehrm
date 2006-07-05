@@ -217,7 +217,7 @@ function delSubEXT()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Employee Report</h2></td>
+    <td width='100%'><h2><?=$heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -248,18 +248,18 @@ function delSubEXT()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Employee ID</td>
+                      <td><?=$employeeid?></td>
     				  <td width="75"><font color="#204242"><strong><?=$empdet[0][0]?></strong></font></td>
     				  <td width="50">&nbsp;</td>
-					  <td>Surname</td>
-						<td width="300"><font color="#204242"><strong><?=$empdet[0][3]?></strong></font></td>
+					  <td><?=$lastname?></td>
+						<td width="300"><font color="#204242"><strong><?=$empdet[0][1]?></strong></font></td>
 					</tr>
 					  <tr> 
-						<td>Calling Name</td>
+						<td><?=$firstname?></td>
 						<td><font color="#204242"><strong><?=$empdet[0][2]?></strong></font></td>
     				  <td width="50">&nbsp;</td>
-						<td>Initials</td>
-						<td><font color="#204242"><strong><?=$empdet[0][5]?></</font></td>
+						<td><?=$nickname?></td>
+						<td><font color="#204242"><strong><?=$empdet[0][3]?></</font></td>
 					  </tr>
                    </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -294,7 +294,7 @@ if(isset($this->getArr['editIDSup']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Supervisor / Subordinator</td>
+                      <td><?=$supervisorsubordinator?></td>
     				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[0]?>"><strong>
  				 
 					<?=$arrRepType[0]?>
@@ -303,7 +303,7 @@ if(isset($this->getArr['editIDSup']))
 					</tr>
 					
 					<tr> 
-						<td valign="top">Employee ID</td>
+						<td valign="top"><?=$employeeid?></td>
 <?						$empsupid =$this->getArr['editIDSup']; ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?=$this->getArr['editIDSup']?>"><strong>
 						<?=$this->getArr['editIDSup']?>
@@ -311,7 +311,7 @@ if(isset($this->getArr['editIDSup']))
 					  </tr>
 					  
 					  <tr> 
-						<td valign="top">Reporting Method</td>
+						<td valign="top"><?=$reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name='cmbRepMethod'><strong>
 						
 						
@@ -373,7 +373,7 @@ if(isset($this->getArr['editIDSup']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Supervisor / Subordinator</td>
+                      <td><?=$supervisorsubordinator?></td>
     				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[1]?>"><strong>
  					 
 					<?=$arrRepType[1]?>
@@ -382,7 +382,7 @@ if(isset($this->getArr['editIDSup']))
 					</tr>
 					
 					<tr> 
-						<td valign="top">Employee ID</td>
+						<td valign="top"><?=$employeeid?></td>
 <?						$empsubid = $this->getArr['editIDSub'];  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?=$empsubid?>"><strong>
 						<?=$empsubid?>
@@ -390,7 +390,7 @@ if(isset($this->getArr['editIDSup']))
 					  </tr>
 					  
 					  <tr> 
-						<td valign="top">Reporting Method</td>
+						<td valign="top"><?=$reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name="cmbRepMethod"><strong>
 						
 						
@@ -446,10 +446,10 @@ if(isset($this->getArr['editIDSup']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Supervisor / Subordinator</td>
+                      <td><?=$supervisorsubordinator?></td>
     				  <td>
 					  <select <?=$locRights['add'] ? '':'disabled'?> name="cmbRepType">
-					  <option value="0">-Select Report Type-</option>
+					  <option value="0"><?=$selectreporttype?></option>
 <?					  
 		
 							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
@@ -458,12 +458,12 @@ if(isset($this->getArr['editIDSup']))
 ?>					  
 					  </select></td>
 					</tr>
-					<tr><td>Employee ID<td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value=".." onclick="returnEmpDetail();">
+					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value=".." onclick="returnEmpDetail();">
 						</td></tr>
 					  <tr> 
-						<td valign="top">Reporting Method</td>
+						<td valign="top"><?=$reportingmethod?></td>
 						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> name='cmbRepMethod'>
-						   		<option value="0">------Select Type------</option>
+						   		<option value="0"><?=$selecttype?></option>
 <?
 									$keys = array_keys($arrRepMethod);
 									$values = array_values($arrRepMethod);
@@ -506,7 +506,7 @@ if(isset($this->getArr['editIDSup']))
 
   <tr>
 
-    <td width='100%'><h3>Supervisor Infomation</h3></td>
+    <td width='100%'><h3><?=$supervisorinfomation?></h3></td>
      <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
@@ -532,9 +532,9 @@ if(isset($this->getArr['editIDSup']))
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td><strong>Employee ID</strong></td>
-						 <td><strong>Employee Name</strong></td>
-						 <td><strong>Reporting Method</strong></td>
+						 <td><strong><?=$employeeid?></strong></td>
+						 <td><strong><?=$employeename?></strong></td>
+						 <td><strong><?=$reportingmethod?></strong></td>
 					</tr>
 <?
 $rset = $this->popArr['suprset'];
@@ -580,7 +580,7 @@ $empname = $this ->popArr['empname'];
 
   <tr>
 
-    <td width='100%'><h3>Subordinate Infomation</h3></td>
+    <td width='100%'><h3><?=$subordinateinfomation?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
@@ -606,9 +606,9 @@ $empname = $this ->popArr['empname'];
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td><strong>Employee ID</strong></td>
-						 <td><strong>Employee Name</strong></td>
-						 <td><strong>Reporting Method</strong></td>
+						 <td><strong><?=$employeeid?></strong></td>
+						 <td><strong><?=$employeename?></strong></td>
+						 <td><strong><?=$reportingmethod?></strong></td>
 					</tr>
 <?
 

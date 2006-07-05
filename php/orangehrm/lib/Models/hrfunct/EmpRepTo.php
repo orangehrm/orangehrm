@@ -77,7 +77,67 @@ class EmpRepTo {
 	
 	return $this->empRepMod;
 	}
+	
+		
+	function getListofEmpRepTo($page,$str,$mode) {
+		
+		$tableName = 'HS_HR_EMP_REPORTTO';
+					  
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+			
+		$sqlQString = $sql_builder->selectEmployee($page,$str,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$i++;
+	    	
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+			
+		}
+	}
+	
 
+	function countEmpRepTo($str,$mode) {
+		
+		$tableName = 'HS_HR_EMP_REPORTTO';
+					  
+		$sql_builder = new SQLQBuilder();
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->field = 'EMP_NUMBER';
+			
+		$sqlQString = $sql_builder->countEmployee($str,$mode);
+		
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		 	
+	    	return $line[0];
+	}
 
 
 	function delEmpRepTo($arrList) {

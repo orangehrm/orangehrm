@@ -84,7 +84,7 @@ require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpJobSpec.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpConExt.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpBasSalary.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpMembership.php';
-//require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpWorkExp.php';
+require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpWorkExp.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpExCur.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpQualification.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpQualSub.php';

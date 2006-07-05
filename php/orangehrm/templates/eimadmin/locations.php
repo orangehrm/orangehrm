@@ -94,7 +94,7 @@ function addSave() {
 			return;
 		}
 
-		if ( frm.cmbDistrict.value = '0') {
+		if ( frm.cmbDistrict.value == '0') {
 			alert ("City Cannot be empty!");
 			frm.cmbDistrict.focus();
 			return;

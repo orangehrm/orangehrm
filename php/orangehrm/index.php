@@ -373,6 +373,7 @@ function setSize() {
                         <A href="index.php?reqcode=LAN&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons17_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons17.gif" width=150 border=0 name=Button9></A><BR>
                         <A href="index.php?reqcode=SKI&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button13','','themes/beyondT/pictures/buttons30_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons30.gif" width=150 border=0 name=Button13></A><BR>
                         <A href="index.php?reqcode=LIC&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button14','','themes/beyondT/pictures/buttons31_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons31.gif" width=150 border=0 name=Button14></A><BR>
+                        <A href="index.php?reqcode=REP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button12','','themes/beyondT/pictures/buttons20_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons20.gif" width=150 border=0 name=Button12></A><BR>
                         
                       </P></TD>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>

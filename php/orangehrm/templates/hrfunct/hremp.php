@@ -465,6 +465,10 @@ function qshowpane() {
 		}
 }
 
+function qshowpane1() {
+			 MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','workstation','','hide','econtact','','hide','contact','','hide','passport','','hide','bank','','hide','attachment','','hide','other','','hide');
+}
+
 function setUpdate(opt) {
 	
 		switch(eval(opt)) {
@@ -842,7 +846,7 @@ function editEContact() {
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 
 </head>
-<body onload="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>">
+<body onload="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>;qshowpane1()">
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -886,14 +890,14 @@ function editEContact() {
 				<td><input type="hidden" name="txtEmpID" value=<?=$this->popArr['newID']?>><strong><?=$this->popArr['newID']?></strong></td>
 			  </tr>
 			  <tr> 
-				<td><?=$lastname?></td>
+				<td><font color=#ff0000>*</font><?=$lastname?></td>
 				<td> <input type="text" name="txtEmpLastName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$firstname?></td>
+				<td><font color=#ff0000>*</font><?=$firstname?></td>
 				<td> <input type="text" name="txtEmpFirstName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
 			  </tr>
 			  <tr> 
-				<td><?=$middlename?></td>
+				<td><font color=#ff0000>*</font><?=$middlename?></td>
 				<td> <input type="text" name="txtEmpMiddleName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
 				<td>&nbsp;</td>
 			  <td><?=$nickname?></td>
@@ -985,6 +989,7 @@ function editEContact() {
         </tr>
     </table></td>
   </tr>
+
   <tr>
     <td align="center"><div id="personal" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
@@ -997,7 +1002,7 @@ function editEContact() {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td><table height="200" border="0" cellpadding="0" cellspacing="0">
 <tr>
-					<td><?=$ssnno?></td>
+					<td><font color=#ff0000>*</font><?=$ssnno?></td>
 					<td><input type="text" name="txtNICNo" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:''?>"></td>
 					<td width="50">&nbsp;</td>
 					<td><?=$nationality?></td>
@@ -1069,6 +1074,13 @@ function editEContact() {
           <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
         </tr>
       </table>
+      
+      <table border="0" align="center" >
+    <tr>
+    <td>Fields marked with an asterisk <font color=#ff0000>*</font> are required.</td> 
+    </tr>
+    </table>	
+
     </div>
 	<div id="job" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0" >
@@ -1135,7 +1147,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
-
+   
+   
 	<div id="workstation" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table><tr><td><table border="0" cellpadding="0" cellspacing="0" >
         <tr>
@@ -1192,6 +1205,8 @@ function editEContact() {
         </tr>
       </table></td></tr></table>
     </div>
+    
+    
 	<div id="econtact" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0" >
         <tr>
@@ -1230,6 +1245,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+    
+      
 	<div id="contact" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -1302,6 +1319,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+    
+       
 	<div id="passport" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -1358,6 +1377,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+    
+        
 	<div id="bank" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  
     </div>
@@ -1389,6 +1410,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+    
+          
 	<div id="other" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  no
     </div>
@@ -1566,9 +1589,15 @@ function editEContact() {
           <td colspan="11"><img name="tabs_r3_c1" src="../../themes/beyondT/pictures/tabs_r3_c1.jpg" width="600" height="27" border="0" alt=""></td>
           <td><img src="../../images/spacer.gif" width="1" height="27" border="0" alt=""></td>
         </tr>
+               
     </table></td>
-  </tr>
+   
+    
+   </tr>
+ 
+
   <tr>
+  	
     <td align="center">
     <div id="personal" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
@@ -1585,7 +1614,7 @@ function editEContact() {
 ?>
 
           <tr>
-					<td><?=$ssnno?></td>
+					<td><font color=#ff0000>*</font><?=$ssnno?></td>
 					<td><input type="text" name="txtNICNo" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>"></td>
 					<td width="50">&nbsp;</td>
 					<td><?=$nationality?></td>
@@ -1693,25 +1722,34 @@ function editEContact() {
           <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
         </tr>
       </table>
+      
+      <table border="0" align="center" >
+    <tr>
+    <td>Fields marked with an asterisk <font color=#ff0000>*</font> are required.</td> 
+    </tr>
+    </table>	
+      
     </div>
 		<div id="job" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
+	     <table border="0" cellpadding="0" cellspacing="0">
+     <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
           <td width="514" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
         </tr>
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="350" border="0" cellpadding="0" cellspacing="0">
+          <td><table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="150" border="0" cellpadding="0" cellspacing="0">
+
+    
 <?
 		  $edit1 = $this->popArr['editJobInfoArr'];
 		 // $edit2 = $this->popArr['editJobStatArr'];
 ?>
 <tr>
-			  <td><?=$jobtitle?></td>
+		<?/*	  <td><?=$jobtitle?></td>
 			  <td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtJobTitle" value="<?=(isset($this->postArr['txtJobTitle'])) ? $this->postArr['txtJobTitle']:$edit1[0][2]?>"></td>
-			  
+			*/?>  
 			   <td><?=$jobtitle?></td>
 			  <td><select name="cmbJobTitle" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_assEmpStat(this.value);">
 			  		<option value="0">---Select <?=$jobtitle?>---</option>
@@ -1780,6 +1818,8 @@ function editEContact() {
 			  <tr>
 			  <td><?=$joindate?></td>
 				<td><input type="text" readonly name="txtJoinedDate" value=<?=(isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:$edit1[0][5]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
+		
+				
 			  </tr>
 			  </table></td>
           <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -1790,8 +1830,10 @@ function editEContact() {
           <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
         </tr>
       </table>
+     
     </div>
-
+    
+  
 	<div id="workstation" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table><tr><td><table border="0" cellpadding="0" cellspacing="0">
 
@@ -2060,6 +2102,8 @@ function editEContact() {
       </table></td>
 </tr></table>
     </div>
+    
+        
 	<div id="econtact" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -2222,6 +2266,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+  
+    
 	<div id="contact" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0" height="100%">
         <tr>
@@ -2231,7 +2277,7 @@ function editEContact() {
         </tr>
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><table onclick="setUpdate(5)" onkeypress="setUpdate(5)" height="350" border="0" cellpadding="0" cellspacing="0">
+          <td><table onclick="setUpdate(5)" onkeypress="setUpdate(5)" height="250" border="0" cellpadding="0" cellspacing="0">
 <?
 		$edit = $this->popArr['editPermResArr'];
 ?>
@@ -2315,6 +2361,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+    
+        
 	<div id="passport" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -2517,6 +2565,7 @@ function editEContact() {
         </tr>
       </table>
     </div>
+   
 	<div id="bank" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  
     </div>
@@ -2646,6 +2695,8 @@ function editEContact() {
         </tr>
       </table>
     </div>
+   
+       	
 	<div id="other" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 100px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -2675,7 +2726,8 @@ function editEContact() {
             </td>
           </tr>
     </table>
-    </form>
+    
+       </form>
 <iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;">
 </iframe>
 </body>

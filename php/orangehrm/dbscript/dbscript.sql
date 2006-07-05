@@ -7,7 +7,7 @@ create table `hs_hr_geninfo` (
 	`geninfo_keys` varchar(200) default null,
 	`geninfo_values` varchar(200) default null,
 	primary key (`code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		
 create table `hs_hr_company_hierarchy` (
   `hie_code` varchar(6) not null default '',
@@ -22,14 +22,13 @@ create table `hs_hr_company_hierarchy` (
   `hie_lo` varchar(100) default null,
   `loc_code` varchar(6) default null,
   primary key  (`hie_code`)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_company_hierarchy_def` (
   `def_level` int(11) not null default '0',
   `def_name` varchar(70) not null default '',
   primary key  (`def_level`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_job_title` (
 
@@ -39,48 +38,48 @@ create table `hs_hr_job_title` (
 	`jobtit_comm` varchar(400) default null,
 	`sal_grd_code` varchar(6) default null,
 	primary key(`jobtit_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_empstat` (
 		
 	`estat_code` varchar(6) not null default '',
 	`estat_name` varchar(50) default null,
   primary key  (`estat_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_eec` (
 
 	`eec_code` varchar(6) not null default '',
 	`eec_desc` varchar(50) default null,
   primary key  (`eec_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_jobtit_empstat` (
 
 	`jobtit_code` varchar(6) not null default '',
 	`estat_code` varchar(6) not null default '',
   primary key  (`jobtit_code`,`estat_code`)
-);		
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		
 
 create table `hs_hr_country` (
   `cou_code` varchar(6) not null default '',
   `cou_name` varchar(50) default null,
   primary key  (`cou_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_currency_type` (
   `currency_id` varchar(6) not null default '',
   `currency_name` varchar(20) default null,
   primary key  (`currency_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_licenses` (
 
 	`licenses_code` varchar(6) not null default '',
 	`licenses_desc` varchar(50) default null,
   primary key  (`licenses_code`)
-);			
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_db_version` (
   `id` varchar(36) not null default '',
@@ -91,7 +90,7 @@ create table `hs_hr_db_version` (
   `entered_by` varchar(36) default null,
   `modified_by` varchar(36) default null,
   primary key  (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_developer` (
@@ -102,7 +101,7 @@ create table `hs_hr_developer` (
   `description` varchar(200) default null,
   `department` varchar(45) default null,
   primary key  (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_district` (
@@ -110,15 +109,14 @@ create table `hs_hr_district` (
   `district_name` varchar(50) default null,
   `province_code` varchar(6) default null,
   primary key  (`district_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_electorate` (
   `electorate_code` varchar(6) not null default '',
   `electorate_name` varchar(50) default null,
   primary key  (`electorate_code`)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_basicsalary` (
@@ -127,7 +125,7 @@ create table `hs_hr_emp_basicsalary` (
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` float default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_contract_extend` (
@@ -136,7 +134,7 @@ create table `hs_hr_emp_contract_extend` (
   `econ_extend_start_date` datetime default null,
   `econ_extend_end_date` datetime default null,
   primary key  (`emp_number`,`econ_extend_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_language` (
@@ -144,7 +142,7 @@ create table `hs_hr_emp_language` (
   `lang_code` varchar(6) not null default '',
   `elang_type` smallint(6) default '0',
   primary key  (`emp_number`,`lang_code`,`elang_type`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emp_attachment` (
   `emp_number` varchar(6) not null default '',
@@ -155,7 +153,7 @@ create table `hs_hr_emp_attachment` (
   `eattach_attachment` mediumblob,
   `eattach_type` varchar(50) default null,
   primary key  (`emp_number`,`eattach_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_children` (
@@ -164,7 +162,7 @@ create table `hs_hr_emp_children` (
   `ec_name` varchar(100) default '',
   `ec_date_of_birth` date default '0000-00-00',
   primary key  (`emp_number`,`ec_seqno`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emp_dependents` (
   `emp_number` varchar(6) not null default '',
@@ -172,7 +170,7 @@ create table `hs_hr_emp_dependents` (
   `ed_name` varchar(100) default '',
   `ed_relationship` varchar(100) default '',
   primary key  (`emp_number`,`ed_seqno`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emp_emergency_contacts` (
   `emp_number` varchar(6) not null default '',
@@ -183,8 +181,7 @@ create table `hs_hr_emp_emergency_contacts` (
   `eec_mobile_no` varchar(100) default '',
   `eec_office_no` varchar(100) default '',
   primary key  (`emp_number`,`eec_seqno`)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_history_of_ealier_pos` (
@@ -193,7 +190,7 @@ create table `hs_hr_emp_history_of_ealier_pos` (
   `ehoep_job_title` varchar(100) default '',
   `ehoep_years` varchar(100) default '',
   primary key  (`emp_number`,`emp_seqno`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_licenses` (
@@ -202,7 +199,7 @@ create table `hs_hr_emp_licenses` (
   `licenses_date` date not null default '0000-00-00',
   `licenses_renewal_date` date not null default '0000-00-00',
   primary key  (`emp_number`,`licenses_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emp_member_detail` (
   `emp_number` varchar(6) not null default '',
@@ -213,7 +210,7 @@ create table `hs_hr_emp_member_detail` (
   `ememb_commence_date` datetime default null,
   `ememb_renewal_date` datetime default null,
   primary key  (`emp_number`,`membship_code`,`membtype_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_passport` (
@@ -228,7 +225,7 @@ create table `hs_hr_emp_passport` (
   `ep_i9_review_date` date default '0000-00-00',
   `cou_code` varchar(6) default null,
   primary key  (`emp_number`,`ep_seqno`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_skill` (
@@ -236,9 +233,7 @@ create table `hs_hr_emp_skill` (
   `skill_code` varchar(6) not null default '',
   `years_of_exp` decimal(2,0) not null default '0',
   `comments` varchar(100) not null default ''
-);
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emp_picture` (
   `emp_number` varchar(6) not null default '',
@@ -247,7 +242,7 @@ create table `hs_hr_emp_picture` (
   `epic_type` varchar(50) default null,
   `epic_file_size` varchar(20) default null,
   primary key  (`emp_number`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -259,7 +254,7 @@ create table `hs_hr_emp_qualification` (
   `equalifi_status` varchar(20) default null,
   `equalifi_comments` varchar(200) default null,
   primary key  (`qualifi_code`,`emp_number`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -268,7 +263,7 @@ create table `hs_hr_emp_reportto` (
   `erep_sub_emp_number` varchar(6) not null default '',
   `erep_reporting_mode` smallint(6) not null default '0',
   primary key  (`erep_sup_emp_number`,`erep_sub_emp_number`,`erep_reporting_mode`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_emp_work_experience` (
@@ -291,7 +286,7 @@ create table `hs_hr_emp_work_experience` (
   `eexp_accountabilities` varchar(200) default null,
   `eexp_achievements` varchar(200) default null,
   primary key  (`emp_number`,`eexp_seqno`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_employee` (
@@ -330,7 +325,7 @@ create table `hs_hr_employee` (
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
   primary key  (`emp_number`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_file_version` (
@@ -343,14 +338,14 @@ create table `hs_hr_file_version` (
   `modified_by` varchar(36) default null,
   `name` varchar(50) default null,
   primary key  (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_language` (
   `lang_code` varchar(6) not null default '',
   `lang_name` varchar(120) default null,
   primary key  (`lang_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_location` (
@@ -365,21 +360,21 @@ create table `hs_hr_location` (
   `loc_fax` varchar(30) default null,
   `loc_comments` varchar(100) default null,
   primary key  (`loc_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_membership` (
   `membship_code` varchar(6) not null default '',
   `membtype_code` varchar(6) default null,
   `membship_name` varchar(120) default null,
   primary key  (`membship_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_membership_type` (
   `membtype_code` varchar(6) not null default '',
   `membtype_name` varchar(120) default null,
   primary key  (`membtype_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_module` (
@@ -390,14 +385,14 @@ create table `hs_hr_module` (
   `version` varchar(36) default null,
   `description` text,
   primary key  (`mod_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_nationality` (
   `nat_code` varchar(6) not null default '',
   `nat_name` varchar(120) default null,
   primary key  (`nat_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_province` (
@@ -405,22 +400,21 @@ create table `hs_hr_province` (
   `province_name` varchar(50) default null,
   `cou_code` varchar(6) default null,
   primary key  (`province_code`)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_education` (
 	`edu_code` varchar(6) not null default '',
 	`edu_uni` varchar(30) default null,
 	`edu_deg` varchar(30) default null,
 	primary key (`edu_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 		
 create table `hs_hr_ethnic_race` (
   `ethnic_race_code` varchar(6) not null default '',
   `ethnic_race_desc` varchar(50) default null,
   primary key  (`ethnic_race_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_rights` (
   `userg_id` varchar(36) not null default '',
@@ -430,14 +424,14 @@ create table `hs_hr_rights` (
   `deletion` smallint(5) unsigned default '0',
   `viewing` smallint(5) unsigned default '0',
   primary key  (`mod_id`,`userg_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_skill` (
   `skill_code` varchar(6) not null default '',
   `skill_name` varchar(120) default null,
   primary key  (`skill_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_user_group` (
@@ -445,7 +439,7 @@ create table `hs_hr_user_group` (
   `userg_name` varchar(45) default null,
   `userg_repdef` smallint(5) unsigned default '0',
   primary key  (`userg_id`)
-) ;
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_users` (
@@ -484,7 +478,7 @@ create table `hs_hr_users` (
   `userg_id` varchar(36) default null,
   primary key  (`id`),
   unique key `user_name` type btree (`user_name`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_versions` (
   `id` varchar(36) not null default '',
@@ -498,7 +492,7 @@ create table `hs_hr_versions` (
   `file_version` varchar(36) default null,
   `description` text,
   primary key  (`id`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_pr_salary_currency_detail` (
@@ -508,13 +502,13 @@ create table `hs_pr_salary_currency_detail` (
   `salcurr_dtl_stepsalary` float default null,
   `salcurr_dtl_maxsalary` float default null,
   primary key  (`sal_grd_code`,`currency_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_pr_salary_grade` (
   `sal_grd_code` varchar(6) not null default '',
   `sal_grd_name` varchar(60) default null,
   primary key  (`sal_grd_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table `hs_hr_empreport` (
@@ -523,13 +517,13 @@ create table `hs_hr_empreport` (
   `rep_cridef_str` varchar(100) default null,
   `rep_flddef_str` varchar(100) default null,
   primary key  (`rep_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_emprep_usergroup` (
   `userg_id` varchar(6) not null default '',
   `rep_code` varchar(6) not null default '',
   primary key  (`userg_id`,`rep_code`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 alter table hs_hr_company_hierarchy

@@ -316,18 +316,17 @@ if(isset($this->popArr['editArr']))
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpCompany" <?=isset($this->popArr['txtEmpExpCompany']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] : $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
-						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDat" <?=isset($this->popArr['txtEmpExpToDat']) ? '':'disabled'?> readonly value="<?=isset($this->popArr['txtEmpExpToDat']) ? $this->popArr['txtEmpExpToDat'] : $edit[0][9]?>">&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
+					<td><?=$startdate?></td>
+						<td> <input type="text" readonly name="txtEmpExpFromDat"  <?=isset($this->popArr['txtEmpExpFromDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpExpFromDat']) ? $this->popArr['txtEmpExpFromDat'] : $edit[0][8]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
 						<td> <input type="text" name="txtEmpExpDesOnLev" <?=isset($this->popArr['txtEmpExpDesOnLev']) ? '':'disabled'?>  value="<?=isset($this->popArr['txtEmpExpDesOnLev']) ? $this->popArr['txtEmpExpDesOnLev'] : $edit[0][6]?>"></td>
     				  <td width="50">&nbsp;</td>
-					<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpExpFromDat"  <?=isset($this->popArr['txtEmpExpFromDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpExpFromDat']) ? $this->popArr['txtEmpExpFromDat'] : $edit[0][8]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
-    				  <td width="50">&nbsp;</td>
 					  </tr>
 					  <tr>
+						<td><?=$enddate?></td>
+						<td> <input type="text" name="txtEmpExpToDat" <?=isset($this->popArr['txtEmpExpToDat']) ? '':'disabled'?> readonly value="<?=isset($this->popArr['txtEmpExpToDat']) ? $this->popArr['txtEmpExpToDat'] : $edit[0][9]?>">&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
 						<td><?=$briefdes?></td>
 						<td> <textarea <?=isset($this->popArr['txtEmpResLev']) ? '':'disabled'?>  name="txtEmpResLev"><?=isset($this->popArr['txtEmpResLev']) ? $this->popArr['txtEmpResLev'] : $edit[0][12]?></textarea></td>
     				  <td width="50">&nbsp;</td>
@@ -381,15 +380,15 @@ $newid = $this->popArr['newID'];
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpCompany" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] :''?>"></td>
     				  <td width="50">&nbsp;</td>
-						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDat"  readonly onchange="calcYearMonth();" value="<?=isset($this->popArr['txtEmpExpToDat']) ?$this->popArr['txtEmpExpToDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
+					<td><?=$startdate?></td>
+						<td> <input type="text" name="txtEmpExpFromDat" readonly value="<?=isset($this->popArr['txtEmpExpFromDat']) ?$this->popArr['txtEmpExpFromDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
 						<td> <input type="text" name="txtEmpExpDesOnLev" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpDesOnLev']) ? $this->popArr['txtEmpExpDesOnLev'] :''?>"></td>
     				  <td width="50">&nbsp;</td>
-					<td><?=$startdate?></td>
-						<td> <input type="text" name="txtEmpExpFromDat" readonly value="<?=isset($this->popArr['txtEmpExpFromDat']) ?$this->popArr['txtEmpExpFromDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
+						<td><?=$enddate?></td>
+						<td> <input type="text" name="txtEmpExpToDat"  readonly onchange="calcYearMonth();" value="<?=isset($this->popArr['txtEmpExpToDat']) ?$this->popArr['txtEmpExpToDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
     				  <td width="50">&nbsp;</td>
     				   </tr>
 					  <tr>

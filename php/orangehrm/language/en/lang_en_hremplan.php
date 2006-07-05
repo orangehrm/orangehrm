@@ -5,8 +5,8 @@
  $firstname				= 'First Name';
  $middlename			= 'Middle Name';
  $language				= 'Language';
- $fluency				= 'Fluency';
- $ratinggarde			= 'Rating Grade';
+ $fluency				= 'Area Of Competence';
+ $ratinggarde			= 'Fluency';
  $assignlanguage		= 'Assigned Languages';
 
 ?>
