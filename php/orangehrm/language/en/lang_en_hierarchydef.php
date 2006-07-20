@@ -1,6 +1,6 @@
 <?
 $heading		= 'Hierarchy Information : Company Information';
 $code			= 'Code';
-$description	= 'Description';
+$description	= 'Definition Name';
 
 ?>

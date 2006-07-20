@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 $srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( ' ' , 'ID' , 'Description' );
+$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 
 	$sysConst = new sysConf(); 
 	$empviewcontroller = new EmpViewController();
@@ -58,7 +58,7 @@ else
 <head>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<title>Untitled Document</title>
+<title>Search Employees</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <script>		
@@ -93,6 +93,11 @@ else
 	}
 	
 	function Search() {
+		if (document.standardView.loc_code.value == 0) {	
+			alert("Select the field to search!");
+			document.standardView.loc_code.Focus();
+			return;
+		};
 		document.standardView.captureState.value = 'SearchMode';		
 		document.standardView.action="./emppop.php?reqcode=<?=$_GET['reqcode']?>"
 		document.standardView.pageNO.value=1;
@@ -195,28 +200,30 @@ else
 	if($recCount%$sysConst->itemsPerPage)
 	   $noPages++;
 
-	   
-	if($currentPage==1)
-		echo "<font color='Gray'>Previous</font>";
-	else
-    	echo "<a href='#' onClick='prevPage()'>Previous</a>";
-    	
-    echo "  ";
-    	
-	for( $c = 1 ; $noPages >= $c ; $c++) {
-	    if($c == $currentPage)
-			echo "<font color='Gray'>" .$c. "</font>";
-		else
-	    	echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-	    	
-	    echo "  ";
-	}
+	if ($noPages > 1) {   
 		
-	if($currentPage == $noPages || $noPages==0)
-		echo "<font color='Gray'>Next</font>";
-	else
-    	echo "<a href='#' onClick='nextPage()'>Next</a>";
-			
+		if($currentPage==1)
+			echo "<font color='Gray'>Previous</font>";
+		else
+    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    	
+    	echo "  ";
+    	
+		for( $c = 1 ; $noPages >= $c ; $c++) {
+	    	
+	    	if($c == $currentPage)
+				echo "<font color='Gray'>" .$c. "</font>";
+			else
+	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+	    	
+	    	echo "  ";
+		}
+		
+		if($currentPage == $noPages || $noPages==0)
+			echo "<font color='Gray'>Next</font>";
+		else
+    		echo "<a href='#' onClick='nextPage()'>Next</a>";
+	}		
 ?> 
 		</td>
 		<td width="25"></td>

@@ -225,7 +225,7 @@ class Licenses {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		$i=0;
-		
+		 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
@@ -238,10 +238,9 @@ class Licenses {
 	     
 			return $arrayDispList;
 			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
+		} else {		
+			
+			return false;
 			
 		}
 	}

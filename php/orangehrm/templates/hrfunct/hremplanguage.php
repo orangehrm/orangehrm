@@ -23,7 +23,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-		
+	
+	$lantype  = $this->popArr['lantype'];
+	$grdcodes = $this->popArr['grdcodes'];
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -83,7 +85,7 @@ function edit()
 		return;
 	}
 	
-	var frm=document.frmEmpSkill;
+	var frm=document.frmEmpLan;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -110,45 +112,38 @@ function goBack() {
 
 function addEXT()
 {
-	if(document.frmEmpSkill.cmbSkilCode.value=='0') {
+	if(document.frmEmpLan.cmbLanCode.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpSkill.cmbSkilCode.focus();
+		document.frmEmpLan.cmbLanCode.focus();
 		return;
 	}
 	
-	if (document.frmEmpSkill.txtEmpYears.value == '') {
-		alert ("Years of Experience Cannot be Blank!");
-		document.frmEmpSkill.txtEmpYears.focus();
-		return;
-	}
-	 
-	var txt = document.frmEmpSkill.txtEmpYears;
-		if (!numeric(txt)) {
-			alert ("Years of Experience Error!");
-			txt.focus();
-			return;
-	}
-		
-	if (document.frmEmpSkill.txtEmpComments.value == '') {
-		alert ("Comments Cannot be Blank!");
-		document.frmEmpSkill.txtEmpComments.focus();
+	if(document.frmEmpLan.cmbLanType.value=='0') {
+		alert("Field should be selected");
+		document.frmEmpLan.cmbLanType.focus();
 		return;
 	}
 
-	document.frmEmpSkill.STAT.value="ADD";
-    document.frmEmpSkill.submit();
+	if(document.frmEmpLan.cmbRatGrd.value=='0') {
+		alert("Field should be selected");
+		document.frmEmpLan.cmbRatGrd.focus();
+		return;
+	}
+
+  document.frmEmpLan.STAT.value="ADD";
+  document.frmEmpLan.submit();
 }
 
 function editEXT()
 {
-  document.frmEmpSkill.STAT.value="EDIT";
-  document.frmEmpSkill.submit();
+  document.frmEmpLan.STAT.value="EDIT";
+  document.frmEmpLan.submit();
 }
 
 function delEXT()
 {
       var check = 0;
-		with (document.frmEmpSkill) {
+		with (document.frmEmpLan) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -162,14 +157,15 @@ function delEXT()
               return;
             }
 
-    document.frmEmpSkill.STAT.value="DEL";
-    document.frmEmpSkill.submit();
+    document.frmEmpLan.STAT.value="DEL";
+    document.frmEmpLan.submit();
 }
 
 function addNewEXT(str){
 	var EmpID = str;		
 	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
 }
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -180,14 +176,14 @@ function addNewEXT(str){
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$employeeskill?></h2></td>
+    <td width='100%'><h2><?=$employeelanguageflu?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpSkill" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
+<form name="frmEmpLan" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
 
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
@@ -243,6 +239,7 @@ if(isset($this->popArr['editArr']))
 {
     $edit = $this->popArr['editArr'];
 ?>
+        
 <table>
 		<tr>
       		<td>      			
@@ -255,7 +252,6 @@ if(isset($this->popArr['editArr']))
 			<td></td>
       	</tr>
 	  </table>	
-
 <br>
       <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -268,28 +264,44 @@ if(isset($this->popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><input type="hidden" name="cmbSkilCode" value="<?=$edit[0][1]?>"><strong>
-<?						$allSkilllist = $this->popArr['allSkilllist'];
-						for($c=0;count($allSkilllist)>$c;$c++)
-							if($this->getArr['editID1']==$allSkilllist[$c][0])
+                      <td width="200"><?=$language?></td>
+    				  <td><input type="hidden" name="cmbLanCode" value="<?=$edit[0][1]?>"><strong>
+<?						$lanlist = $this->popArr['lanlist'];
+						for($c=0;count($lanlist)>$c;$c++)
+							if($this->getArr['editID1']==$lanlist[$c][0])
 							     break;
 							     
-					  			echo $allSkilllist[$c][1];
+					  			echo $lanlist[$c][1];
 ?>
 					  </strong></td>
 					</tr>
-					  <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=isset($this->popArr['txtEmpYears']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"></td>
-    				  <td width="50">&nbsp;</td>
+					  <tr> 
+						<td valign="top"><?=$fluency?></td>
+						<td align="left" valign="top"><input type="hidden" name="cmbLanType" value="<?=$this->getArr['editID2']?>"><strong>
+<?						
+						$index=array_values($lantype);
+						$value=array_keys($lantype);
+						for($a=0;count($lantype)>$a;$a++)
+							if($this->getArr['editID2']==$index[$a])
+					  			echo $value[$a];
+?>
+						</td>
 					  </tr>
 					 
-					  <tr>
-						<td><?=$comments?></td>
-						<td> <textarea <?=isset($this->popArr['txtEmpComments']) ? '':'disabled'?>  name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] : $edit[0][3]?></textarea></td>
-    				  <td width="50">&nbsp;</td>
-					 </tr>
+					  <tr> 
+						<td valign="top"><?=$ratinggarde?></td>
+						<td align="left" valign="top"><select disabled name='cmbRatGrd'>
+<?
+						$code=array_values($grdcodes);
+						 $name=array_keys($grdcodes);
+						for($c=0;count($grdcodes)>$c;$c++)
+							if($code[$c]==$edit[0][4])
+								echo "<option selected value='" . $code[$c] . "'>" . $name[$c] ."</option>";
+							else 
+								echo "<option value='" . $code[$c] . "'>" . $name[$c] ."</option>";
+?>
+						</select></td>
+					  </tr>
 
 					  <tr> 
 						<td valign="top"></td>
@@ -328,29 +340,48 @@ if(isset($this->popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><select name="cmbSkilCode" <?=$locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">-----------Select Skill-------------</option>
+                      <td width="200"><?=$language?></td>
+    				  <td><select name="cmbLanCode" <?=$locRights['add'] ? '':'disabled'?>>
+    				  		<option selected value="0">--Select Language--</option>
 <?					  
-						$skilllist= $this->popArr['uskilllist'];
-						for($c=0;$skilllist && count($skilllist)>$c;$c++)
-							if(isset($this->popArr['cmbSkilCode']) && $this->popArr['cmbSkilCode']==$skilllist[$c][0]) 
-							   echo "<option  value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
+						$lanlist= $this->popArr['lanlist'];
+						for($c=0;$lanlist && count($lanlist)>$c;$c++)
+							if(isset($this->popArr['cmbLanCode']) && $this->popArr['cmbLanCode']==$lanlist[$c][0]) 
+							   echo "<option  value=" . $lanlist[$c][0] . ">" . $lanlist[$c][1] . "</option>";
 							 else
-							   echo "<option value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
+							   echo "<option value=" . $lanlist[$c][0] . ">" . $lanlist[$c][1] . "</option>";
 ?>					  
 					  </select></td>
 					</tr>
                     <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] :''?>"></td>
-    				  <td width="50">&nbsp;</td>
+<?                    if(isset($this->popArr['cmbLanCode'])) 
+   							  echo "<input type='hidden' name='cmbRat' value='" .$this->popArr['ratSel']. "'>";
+?>
+                      <td width="200"><?=$fluency?></td>
+    				  <td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbLanType">
+    				  		<option value="0">---Select Fluency---</option>
+<?					  
+						$index=array_values($lantype);
+						$value=array_keys($lantype);
+						for($c=0;$lantype && count($lantype)>$c;$c++)
+							   echo "<option value=" . $index[$c] . ">" . $value[$c] . "</option>";
+?>					  
+					  </select></td>
 					</tr>
-					 <tr>
-					<td><?=$comments?></td>
-						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] :''?></textarea></td>
-    				  <td width="50">&nbsp;</td>
-						 </tr>
+					  <tr> 
+						<td valign="top"><?=$ratinggarde?></td>
+						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> name='cmbRatGrd'>
+    				  		<option value="0">----Select Rating----</option>
+<?				
+				        $code=array_values($grdcodes);
+						$name=array_keys($grdcodes);
+						for($c=0;$grdcodes && count($grdcodes)>$c;$c++)
+							   echo "<option value=" . $code[$c] . ">" . $name[$c] . "</option>";
+?>					  
+
+					</select> 
+						</td>
+					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
@@ -382,7 +413,7 @@ if(isset($this->popArr['editArr']))
 
   <tr>
 
-    <td width='100%'><h3><?=$assignskills?></h3></td>
+    <td width='100%'><h3><?=$assignlanguage?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -408,25 +439,25 @@ if(isset($this->popArr['editArr']))
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$skill?></strong></td>
-						 <td><strong><?=$yearofex?></strong></td>
-						
+						 <td><strong><?=$language?></strong></td>
+						 <td><strong><?=$fluency?></strong></td>
 					</tr>
 <?
-$rset = $this->popArr['rsets'] ;
-$allSkilllist = $this->popArr['allSkilllist'];
+$rset = $this->popArr['rsets'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
 
-			for($a=0;count($allSkilllist)>$a;$a++) 
-				if($rset[$c][1] == $allSkilllist[$a][0])
-				   $lname=$allSkilllist[$a][1];
-			 echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
-			echo '<td>'. $rset[$c][2] .'</a></td>';
-			
+			for($a=0;count($lanlist)>$a;$a++)
+				if($rset[$c][1] == $lanlist[$a][0])
+				   $lname=$lanlist[$a][1];
+            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
+			for($a=0;count($lantype)>$a;$a++)
+				if($rset[$c][2] == $index[$a])
+				   $flu=$value[$a];
+            echo '<td>' . $flu .'</a></td>';
         echo '</tr>';
         }
 

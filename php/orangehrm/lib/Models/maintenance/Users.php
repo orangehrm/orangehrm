@@ -656,7 +656,8 @@ class Users {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_FULLNAME';
+		$arrFieldList[1] = 'EMP_FIRSTNAME';
+		$arrFieldList[1] = 'EMP_LASTNAME';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -669,7 +670,7 @@ class Users {
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
+		echo mysql_error();
 		$i=0;
 		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {

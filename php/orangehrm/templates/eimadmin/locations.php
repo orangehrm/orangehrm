@@ -1,20 +1,20 @@
 <?
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
+* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+* all the essential functionalities required for any enterprise. 
+* Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+*
+* OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+* the GNU General Public License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with this program;
+* if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA  02110-1301, USA
 */
 
 ////xajax header
@@ -67,12 +67,15 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? $objAjax->printJavascript(); ?>
+
+<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
+
 <script>			
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
-
-function addSave() {
+	
+	function addSave() {
 
 		var frm = document.frmLocation;
 			
@@ -103,16 +106,24 @@ function addSave() {
 		if ( frm.txtAddress.value == '') {		
 			alert ("Address empty!");
 			frm.txtAddress.focus();
+			return;
 		}
 		
-		if ( frm.txtZIP.value = '' ){		
+		if ( frm.txtZIP.value == '' ){		
 			alert ("Zip - Code Cannot be empty!");
 			frm.txtZIP.focus();
 			return;
 		}
+		
+		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){		
+			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
+				frm.txtZIP.focus();
+			return;
+			}		
+		}		
+		
 
-		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {		
-
+		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
 			alert("Should be Numeric!");
 			frm.txtPhone.focus();
 			return;
@@ -267,6 +278,9 @@ function addSave() {
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? $objAjax->printJavascript(); ?>
+
+<? require_once ROOT_PATH . '/templates/JavaScript/archive.js'; ?>
+
 <script>
 
 function edit()
@@ -324,7 +338,7 @@ function mover() {
 			return;
 		}
 
-		if ( frm.cmbDistrict.value = '0' ){		
+		if ( frm.cmbDistrict.value == '0' ){		
 			alert ("City Cannot be empty!");
 			frm.cmbDistrict.focus();
 			return;
@@ -336,11 +350,18 @@ function mover() {
 			return;
 		}
 
-		if ( frm.txtZIP.value = '' ){		
+		if ( frm.txtZIP.value == '' ){		
 			alert ("Zip - Code Cannot be empty!");
 			frm.txtZIP.focus();
 			return;
 		}
+		
+		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){		
+			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
+				frm.txtZIP.focus();
+			return;
+			}		
+		}	
 		
 		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {		
 
@@ -356,7 +377,7 @@ function mover() {
 			return;
 		}
 		
-		document.frmLocation.sqlState.value = "NewRecord";
+		document.frmLocation.sqlState.value = "UpdateRecord";
 		document.frmLocation.submit();		
 	}			
 
@@ -437,7 +458,7 @@ function mover() {
 					<?
 								$cntlist = $this->popArr['cntlist'];
 								for($c=0;$cntlist && count($cntlist)>$c;$c++)  
-									if($message[0][2]==$cntlist[$c][0])
+									if ($message[0][2] == $cntlist[$c][0])
 										echo "<option selected value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
 									else
 										echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
@@ -478,19 +499,19 @@ function mover() {
 					  </tr>
 					  <tr>
 						  <td><?=$ZIP?></td>
-						  <td><input disabled type="text" name="txtZIP"><?=$message[0][6]?></td>
+						  <td><input disabled type="text" name="txtZIP" value="<?=$message[0][6]?>"></td>
 					  </tr>
 					  <tr>
 						  <td><?=$phone?></td>
-						  <td><input disabled type="text" name="txtPhone"><?=$message[0][7]?></td>
+						  <td><input disabled type="text" name="txtPhone" value="<?=$message[0][7]?>"></td>
 					  </tr>
 					  <tr>
 						  <td><?=$fax?></td>
-						  <td><input disabled type="text" name="txtFax"><?=$message[0][8]?></td>
+						  <td><input disabled type="text" name="txtFax" value="<?=$message[0][8]?>"></td>
 					  </tr>
 					  <tr>
 						  <td><?=$comments?></td>
-						  <td><textarea disabled name="cmbComments"><?=$message[0][9]?></textarea></td>
+						  <td><textarea disabled name="txtComments"><?=$message[0][9]?></textarea></td>
 					  </tr>
 						  <tr><td></td><td align="right" width="100%">
 <?			if($locRights['edit']) { ?>

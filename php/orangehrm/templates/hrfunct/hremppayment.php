@@ -18,15 +18,14 @@ Boston, MA  02110-1301, USA
 */
 
 
-
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-		
-?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+?>
+<!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>Untitled Document</title>
@@ -83,7 +82,7 @@ function edit()
 		return;
 	}
 	
-	var frm=document.frmEmpSkill;
+	var frm=document.frmEmpBasSal;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -105,50 +104,70 @@ function mover() {
 }
 
 function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
+		location.href =  "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";				
 	}
+		             
 
 function addEXT()
 {
-	if(document.frmEmpSkill.cmbSkilCode.value=='0') {
-		alert("Field should be selected");
-		document.frmEmpSkill.cmbSkilCode.focus();
-		return;
-	}
-	
-	if (document.frmEmpSkill.txtEmpYears.value == '') {
-		alert ("Years of Experience Cannot be Blank!");
-		document.frmEmpSkill.txtEmpYears.focus();
-		return;
-	}
-	 
-	var txt = document.frmEmpSkill.txtEmpYears;
-		if (!numeric(txt)) {
-			alert ("Years of Experience Error!");
-			txt.focus();
+	if(document.frmEmpBasSal.cmbCurrCode.value=='0') {
+			alert("Field should be selected!");
+			document.frmEmpBasSal.cmbCurrCode.focus();
 			return;
 	}
-		
-	if (document.frmEmpSkill.txtEmpComments.value == '') {
-		alert ("Comments Cannot be Blank!");
-		document.frmEmpSkill.txtEmpComments.focus();
-		return;
-	}
+	
+var cnt=document.frmEmpBasSal.txtBasSal;
+if(!numeric(cnt)) {
+	alert("Field should be Numeric");
+	cnt.focus();
+	return;
+}
 
-	document.frmEmpSkill.STAT.value="ADD";
-    document.frmEmpSkill.submit();
+var min = eval(document.frmEmpBasSal.Min.value);
+var max = eval(document.frmEmpBasSal.Max.value);
+
+if(min > cnt.value || max < cnt.value) {
+	alert("Salary should be within Min and Max");
+	cnt.focus();
+	return;
+}
+
+document.frmEmpBasSal.STAT.value="ADD";
+document.frmEmpBasSal.submit();
+}
+
+function addCur()
+{
+document.frmEmpBasSal.STAT.value='OWN';
+document.frmEmpBasSal.submit();
 }
 
 function editEXT()
 {
-  document.frmEmpSkill.STAT.value="EDIT";
-  document.frmEmpSkill.submit();
+var cnt=document.frmEmpBasSal.txtBasSal;
+if(!numeric(cnt)) {
+	alert("Field should be Numeric");
+	cnt.focus();
+	return;
+}
+
+var min = eval(document.frmEmpBasSal.Min.value);
+var max = eval(document.frmEmpBasSal.Max.value);
+
+if(min > cnt.value || max < cnt.value) {
+	alert("Salary should be within Min and Max");
+	cnt.focus();
+	return;
+}
+
+  document.frmEmpBasSal.STAT.value="EDIT";
+  document.frmEmpBasSal.submit();
 }
 
 function delEXT()
 {
       var check = 0;
-		with (document.frmEmpSkill) {
+		with (document.frmEmpBasSal) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -162,14 +181,12 @@ function delEXT()
               return;
             }
 
-    document.frmEmpSkill.STAT.value="DEL";
-    document.frmEmpSkill.submit();
+
+    //alert(cntrl.value);
+    document.frmEmpBasSal.STAT.value="DEL";
+    document.frmEmpBasSal.submit();
 }
 
-function addNewEXT(str){
-	var EmpID = str;		
-	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
-}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -180,31 +197,31 @@ function addNewEXT(str){
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$employeeskill?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+    <td width='100%'><h2>Remuneration</h2></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 </table>
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpSkill" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
+<form name="frmEmpBasSal" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
 
   <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p>  <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
         <input type="hidden" name="STAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
   </tr><td width="177">
 </table>
- <?
-$empdet = $this->popArr['empDet'];
+<?
+ $einfo = $this -> popArr['einfo'];
+  $empdet = $this ->popArr['empdet'];
 ?>
-
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
+            <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
@@ -212,18 +229,18 @@ $empdet = $this->popArr['empDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$employeeid?></td>
-    				  <td width="75"><font color="#204242"><strong><?=$empdet[0][0]?></strong></font></td>
+                      <td>Employee ID</td>
+    				  <td width="75"><font color="#204242"><strong><?=$einfo[0][0]?></strong></font></td>
     				  <td width="50">&nbsp;</td>
-					  <td><?=$lastname?></td>
-						<td width="300"><font color="#204242"><strong><?=$empdet[0][1]?></strong></font></td>
+					  <td>Surname</td>
+						<td width="300"><font color="#204242"><strong><?=$einfo[0][1]?></strong></font></td>
 					</tr>
 					  <tr> 
-						<td><?=$firstname?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][2]?></strong></font></td>
+						<td>Calling Name</td>
+						<td><font color="#204242"><strong><?=$einfo[0][2]?></strong></font></td>
     				  <td width="50">&nbsp;</td>
-						<td><?=$middlename?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][3]?></</font></td>
+						<td>Initials</td>
+						<td><font color="#204242"><strong><?=$einfo[0][3]?></</font></td>
 					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -236,29 +253,21 @@ $empdet = $this->popArr['empDet'];
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-    <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 
+               <input type="hidden" name="txtEmpID" value="<?=$einfo[0][0]?>">
+               <input type="hidden" name="txtSalGrdId" value="<?=$empdet[0][5]?>">
 <?
-if(isset($this->popArr['editArr']))
+	if(isset($this ->popArr['editArr']))
 {
-    $edit = $this->popArr['editArr'];
-?>
-<table>
-		<tr>
-      		<td>      			
-      			<?	if ($locRights['edit'] ){ ?>
-        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-				<? 	} ?>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-      	</tr>
-	  </table>	
+	 $edit = $this -> popArr['editArr'];
+    
 
-<br>
+?>
+
+        
+<br><br>
       <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
+               <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
@@ -268,29 +277,50 @@ if(isset($this->popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><input type="hidden" name="cmbSkilCode" value="<?=$edit[0][1]?>"><strong>
-<?						$allSkilllist = $this->popArr['allSkilllist'];
-						for($c=0;count($allSkilllist)>$c;$c++)
-							if($this->getArr['editID1']==$allSkilllist[$c][0])
-							     break;
-							     
-					  			echo $allSkilllist[$c][1];
-?>
-					  </strong></td>
+                      <td>Salary Grade</td>
+    				  <td><strong><?=$empdet[0][5]?></strong></td>
 					</tr>
-					  <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=isset($this->popArr['txtEmpYears']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"></td>
-    				  <td width="50">&nbsp;</td>
+					  <tr> 
+						<td valign="top">Currency Code</td>
+						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?=$edit[0][2]?>">
+						<strong>
+<?
+						$currlist=$this -> popArr['currlist'];
+						for($c=0;count($currlist)>$c;$c++)
+						    if($currlist[$c][2]==$edit[0][2])
+						       echo $currlist[$c][0];
+?>						
+						</strong></td>
 					  </tr>
-					 
-					  <tr>
-						<td><?=$comments?></td>
-						<td> <textarea <?=isset($this->popArr['txtEmpComments']) ? '':'disabled'?>  name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] : $edit[0][3]?></textarea></td>
-    				  <td width="50">&nbsp;</td>
-					 </tr>
-
+					  <tr> 
+						<td valign="top">Min Point</td>
+						<td align="left" valign="top"><strong>
+<?
+						for($c=0;count($currlist)>$c;$c++)
+						    if($currlist[$c][2]==$edit[0][2]) {
+						    	echo "<input type='hidden' name='Min' value='" .$currlist[$c][3]. "'>";
+						    	echo $currlist[$c][3] ;
+						    }
+?>
+						</strong></td>
+					  </tr>
+					  <tr> 
+						<td valign="top">Max Point</td>
+						<td align="left" valign="top"><strong>
+<?
+						for($c=0;count($currlist)>$c;$c++)
+						    if($currlist[$c][2]==$edit[0][2]) {
+						    	echo "<input type='hidden' name='Max' value='" .$currlist[$c][5]. "'>";
+						    	echo $currlist[$c][5];
+						    }
+?>
+						</strong></td>
+					  </tr>
+					  <tr> 
+						<td valign="top">Basic Salary</td>
+						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?=$edit[0][3]?>">
+						</td>
+					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
@@ -301,6 +331,8 @@ if(isset($this->popArr['editArr']))
 		<?			}  ?>
 						</td>
 					  </tr>
+    
+
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -318,7 +350,7 @@ if(isset($this->popArr['editArr']))
         
 <br><br>
       <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
+                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
@@ -328,40 +360,71 @@ if(isset($this->popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><select name="cmbSkilCode" <?=$locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">-----------Select Skill-------------</option>
-<?					  
-						$skilllist= $this->popArr['uskilllist'];
-						for($c=0;$skilllist && count($skilllist)>$c;$c++)
-							if(isset($this->popArr['cmbSkilCode']) && $this->popArr['cmbSkilCode']==$skilllist[$c][0]) 
-							   echo "<option  value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
-							 else
-							   echo "<option value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
-?>					  
-					  </select></td>
+                      <td>Salary Grade</td>
+    				  <td><strong><?=$empdet[0][5]?></strong></td>
 					</tr>
-                    <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] :''?>"></td>
-    				  <td width="50">&nbsp;</td>
-					</tr>
-					 <tr>
-					<td><?=$comments?></td>
-						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] :''?></textarea></td>
-    				  <td width="50">&nbsp;</td>
-						 </tr>
+					  <tr> 
+						<td valign="top">Currency</td>
+						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> onChange='addCur();' name='cmbCurrCode'>
+                       						<option value="0">--Select Currency--</option>
+<?
+ 		
+						$curlist= $this->popArr['curlist'];
+						for($c=0;$curlist && count($curlist)>$c;$c++)
+							if(isset($this->popArr['cmbCurrCode']) && $this->popArr['cmbCurrCode']==$curlist[$c][2]) 
+								   echo "<option selected value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
+								  
+								 else
+								   echo "<option value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
+							   
+								echo "</select>";
+?>					
+						</td>
+					  </tr>
+					  <tr> 
+						<td valign="top">Min Point</td>
+						<td align="left" valign="top"><strong>
+<?						
+						if(isset($this->popArr['cmbCurrCode'])) {
+							for($c=0;count($curlist)>$c;$c++)
+								if($curlist[$c][2]==$this->popArr['cmbCurrCode']) {
+									echo "<input type='hidden' name='Min' value='" .$curlist[$c][3]. "'>";
+									echo $curlist[$c][3];
+								}
+							}
+?>
+						</strong></td>
+					  </tr>
+					  <tr> 
+						<td valign="top">Max Point</td>
+						<td align="left" valign="top"><strong>
+<?
+						if(isset($this->popArr['cmbCurrCode'])) {
+							for($c=0;count($curlist)>$c;$c++)
+								if($curlist[$c][2]==$this->popArr['cmbCurrCode']) {
+									echo "<input type='hidden' name='Max' value='" .$curlist[$c][5]. "'>";
+									echo $curlist[$c][5];
+								}
+							}
+?>
+						</strong></td>
+					  </tr>
+					  <tr> 
+						<td valign="top">Basic Salary</td>
+						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtBasSal">
+						</td>
+					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?	if($locRights['add']) { ?>
 					        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
-					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+		   				        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
-								</td>
+						</td>
 					  </tr>
-                  </table></td>
+                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
@@ -382,7 +445,7 @@ if(isset($this->popArr['editArr']))
 
   <tr>
 
-    <td width='100%'><h3><?=$assignskills?></h3></td>
+    <td width='100%'><h3>Assigned Salaries</h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -408,25 +471,22 @@ if(isset($this->popArr['editArr']))
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$skill?></strong></td>
-						 <td><strong><?=$yearofex?></strong></td>
-						
+						 <td><strong>Currency Code</strong></td>
+						 <td><strong>Basic Salary</strong></td>
 					</tr>
 <?
-$rset = $this->popArr['rsets'] ;
-$allSkilllist = $this->popArr['allSkilllist'];
+			$rset = $this->popArr['rset'];
+			$currlist=$this->popArr['currAlllist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
-
-			for($a=0;count($allSkilllist)>$a;$a++) 
-				if($rset[$c][1] == $allSkilllist[$a][0])
-				   $lname=$allSkilllist[$a][1];
-			 echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
-			echo '<td>'. $rset[$c][2] .'</a></td>';
-			
+            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
+			for($a=0;count($currlist)>$a;$a++)
+			    if($currlist[$a][0]==$rset[$c][2])
+				   $fname=$currlist[$a][1];
+            echo "<td><a href='" . $_SERVER['PHP_SELF'] . "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $fname . "</a></td>";
+            echo '<td>' . $rset[$c][3] .'</td>';
         echo '</tr>';
         }
 

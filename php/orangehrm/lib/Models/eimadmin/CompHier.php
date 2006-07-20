@@ -101,7 +101,7 @@ class CompHierachy {
 	}
 
 	function getHiId() {
-
+		
 		return $this->hiId;
 
 	}
@@ -431,7 +431,7 @@ class CompHierachy {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		$i=0;
-		
+		//echo mysql_error ();
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];

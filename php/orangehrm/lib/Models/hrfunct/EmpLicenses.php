@@ -139,7 +139,7 @@ function getListofEmpLicenses($page,$str,$mode) {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
-		 	
+		echo mysql_error();	
 	    	return $line[0];
 	}
 

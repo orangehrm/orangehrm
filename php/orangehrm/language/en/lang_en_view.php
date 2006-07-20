@@ -1,12 +1,12 @@
 <?
 $srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
+$srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 
 $Previous = 'Previous';
 $Next     = 'Next';
 $dispMessage = "No Records to Display !";
 $SearchBy = 'Search By:';
-$description = 'Description';
+$description = 'Name';
 $search = 'Search';
 
 switch ($_GET['uniqcode']) {
@@ -125,7 +125,7 @@ switch ($_GET['uniqcode']) {
 
 		case 'DEF' :
 
-			$headingInfo = array ('Hierarchy Definitiion ID','Hierarchy Definition Name',1,'Hierarchy Definition','Deletion might affect Company Hierachy!');
+			$headingInfo = array ('Hierarchy Definition ID','Hierarchy Definition Name',1,'Hierarchy Definition','Deletion might affect Company Hierachy!');
 			break;
 
 		case 'TAX' :
@@ -135,7 +135,7 @@ switch ($_GET['uniqcode']) {
 
 		case 'PRO' :
 
-			$headingInfo = array ('State ID','State Name',1, 'State','Deletion might affect Employee Information');
+			$headingInfo = array ('State/Province ID','State/Province Name',1, 'State/Province','Deletion might affect Employee Information');
 			break;
 
 		case 'DIS' :

@@ -29,14 +29,15 @@ class EXTRACTOR_Location {
 	function parseAddData($postArr) {	
 			
 			$this->parent_location -> setLocationId($this->parent_location ->getLastRecord());
-			$this->parent_location -> setLocationName($postArr['txtLoNa']);
-			$this->parent_location -> setLocationAddress($postArr['txtStr']);
-			$this->parent_location -> setLocationCity($postArr['txtCity']);
-			$this->parent_location -> setLocationCountry($postArr['txtCon']);
-			$this->parent_location -> setLocationState($postArr['txtState']);
-			$this->parent_location -> setLocationZIP($postArr['txtZip']);
+			$this->parent_location -> setLocationName($postArr['txtLocDescription']);
+			$this->parent_location -> setLocationAddress($postArr['txtAddress']);
+			$this->parent_location -> setLocationCity($postArr['cmbDistrict']);
+			$this->parent_location -> setLocationCountry($postArr['cmbCountry']);
+			$this->parent_location -> setLocationState($postArr['cmbProvince']);
+			$this->parent_location -> setLocationZIP($postArr['txtZIP']);
 			$this->parent_location -> setLocationPhone($postArr['txtPhone']);
 			$this->parent_location -> setLocationFax($postArr['txtFax']);
+			$this->parent_location -> setLocationComments($postArr['txtComments']);
 		
 			return $this->parent_location;
 	}
@@ -44,14 +45,15 @@ class EXTRACTOR_Location {
 	function parseEditData($postArr) {	
 			
 			$this->parent_location -> setLocationId(trim($postArr['txtLocationCode']));
-			$this->parent_location -> setLocationName($postArr['txtLoNa']);
-			$this->parent_location -> setLocationAddress($postArr['txtStr']);
-			$this->parent_location -> setLocationCity($postArr['txtCity']);
-			$this->parent_location -> setLocationCountry($postArr['txtCon']);
-			$this->parent_location -> setLocationState($postArr['txtState']);
-			$this->parent_location -> setLocationZIP($postArr['txtZip']);
+			$this->parent_location -> setLocationName($postArr['txtLocDescription']);
+			$this->parent_location -> setLocationAddress($postArr['txtAddress']);
+			$this->parent_location -> setLocationCity($postArr['cmbDistrict']);
+			$this->parent_location -> setLocationCountry($postArr['cmbCountry']);
+			$this->parent_location -> setLocationState($postArr['cmbProvince']);
+			$this->parent_location -> setLocationZIP($postArr['txtZIP']);
 			$this->parent_location -> setLocationPhone($postArr['txtPhone']);
 			$this->parent_location -> setLocationFax($postArr['txtFax']);
+			$this->parent_location -> setLocationComments($postArr['txtComments']);
 		
 			return $this->parent_location;
 	}

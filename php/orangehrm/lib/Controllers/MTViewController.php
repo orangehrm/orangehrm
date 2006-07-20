@@ -495,7 +495,7 @@ function reDirect($getArr,$object = null) {
 				switch ($index) {
 					
 					case 'BUG' :
-								$showMsg = "Bug%Sent,%Accepted"; 
+								$showMsg = "Bug%Sent,%Processed"; 
 										
 								$mtcode = $index;
 								header("Location:./CentralController.php?message=$showMsg&mtcode=$mtcode&capturemode=addmode");

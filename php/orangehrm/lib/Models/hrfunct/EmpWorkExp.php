@@ -124,8 +124,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$sql_builder->field = 'EMP_NUMBER';
 			
 		$sqlQString = $sql_builder->selectEmployee($page,$str,$mode);
-		
-		//echo $sqlQString;		
+			
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		

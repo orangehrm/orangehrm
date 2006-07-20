@@ -9,25 +9,16 @@ create table `hs_hr_geninfo` (
 	primary key (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		
-create table `hs_hr_company_hierarchy` (
-  `hie_code` varchar(6) not null default '',
-  `hie_name` varchar(70) default null,
-  `hie_relationship` varchar(6) default null,
-  `emp_number` varchar(6) default null,
-  `def_level` int(11) default null,
-  `hie_telephone` varchar(30) default null,
-  `hie_fax` varchar(20) default null,
-  `hie_email` varchar(50) default null,
-  `hie_url` varchar(200) default null,
-  `hie_lo` varchar(100) default null,
-  `loc_code` varchar(6) default null,
-  primary key  (`hie_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-create table `hs_hr_company_hierarchy_def` (
-  `def_level` int(11) not null default '0',
-  `def_name` varchar(70) not null default '',
-  primary key  (`def_level`)
+create table hs_hr_compstructtree (
+  title tinytext not null,
+  description text not null,
+  loc_code varchar(6) not null default '',
+  lft tinyint(4) not null default '0',
+  rgt tinyint(4) not null default '0',
+  id int(6) not null auto_increment,
+  parnt int(6) not null default '0',
+  primary key  (id),
+  key loc_code (loc_code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_job_title` (
@@ -109,13 +100,6 @@ create table `hs_hr_district` (
   `district_name` varchar(50) default null,
   `province_code` varchar(6) default null,
   primary key  (`district_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-create table `hs_hr_electorate` (
-  `electorate_code` varchar(6) not null default '',
-  `electorate_name` varchar(50) default null,
-  primary key  (`electorate_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -245,17 +229,16 @@ create table `hs_hr_emp_picture` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-
-create table `hs_hr_emp_qualification` (
-  `qualifi_code` varchar(6) not null default '',
+create table `hs_hr_emp_education` (
   `emp_number` varchar(6) not null default '',
-  `equalifi_institute` varchar(50) default null,
-  `equalifi_year` decimal(4,0) default null,
-  `equalifi_status` varchar(20) default null,
-  `equalifi_comments` varchar(200) default null,
-  primary key  (`qualifi_code`,`emp_number`)
+  `edu_code` varchar(6) not null default '',
+  `edu_major` varchar(25) default null,
+  `edu_year` decimal(4,0) default null,
+  `edu_gpa` varchar(25) default null,
+  `edu_start_date` datetime default null,
+  `edu_end_date` datetime default null,
+  primary key  (`edu_code`,`emp_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 create table `hs_hr_emp_reportto` (
@@ -269,22 +252,11 @@ create table `hs_hr_emp_reportto` (
 create table `hs_hr_emp_work_experience` (
   `emp_number` varchar(6) not null default '',
   `eexp_seqno` decimal(10,0) not null default '0',
-  `eexp_company` varchar(100) default null,
-  `eexp_address1` varchar(50) default null,
-  `eexp_address2` varchar(50) default null,
-  `eexp_address3` varchar(50) default null,
-  `eexp_desig_on_leave` varchar(120) default null,
-  `eexp_work_related_flg` smallint(6) default null,
+  `eexp_employer` varchar(100) default null,
+  `eexp_jobtit` varchar(120) default null,
   `eexp_from_date` datetime default null,
   `eexp_to_date` datetime default null,
-  `eexp_years` decimal(10,0) default null,
-  `eexp_months` smallint(6) default null,
-  `eexp_reason_for_leave` varchar(100) default null,
-  `eexp_contact_person` varchar(50) default null,
-  `eexp_telephone` varchar(20) default null,
-  `eexp_email` varchar(50) default null,
-  `eexp_accountabilities` varchar(200) default null,
-  `eexp_achievements` varchar(200) default null,
+  `eexp_comments` varchar(200) default null,
   primary key  (`emp_number`,`eexp_seqno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -296,7 +268,7 @@ create table `hs_hr_employee` (
   `emp_middle_name` varchar(100) default '',
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
-  `emp_eth_race` varchar(100) default '',
+  `ethnic_race_code` varchar(100) default '',
   `emp_birthday` datetime default null,
   `nation_code` varchar(100) default '',
   `emp_gender` smallint(6) default null,
@@ -526,14 +498,10 @@ create table `hs_hr_emprep_usergroup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-alter table hs_hr_company_hierarchy
-       add constraint foreign key (def_level)
-                             references hs_hr_company_hierarchy_def(def_level) on delete cascade;
 
-
-alter table hs_hr_company_hierarchy
-       add constraint foreign key (hie_relationship)
-                             references hs_hr_company_hierarchy(hie_code) on delete cascade;
+alter table hs_hr_compstructtree
+       add constraint foreign key (loc_code)
+                             references hs_hr_location(loc_code) on delete restrict;
 
 alter table hs_pr_salary_currency_detail
        add constraint foreign key (currency_id)
@@ -548,11 +516,9 @@ alter table hs_hr_location
                              references hs_hr_district(district_code) on delete cascade;
 
 
-
 alter table hs_hr_location
        add constraint foreign key (loc_state)
                              references hs_hr_province(province_code) on delete cascade;
-
 
 
 alter table hs_hr_location
@@ -584,24 +550,78 @@ alter table hs_hr_district
        add constraint foreign key (province_code)
                              references hs_hr_province(province_code) on delete cascade;
 
-
-
 alter table hs_hr_employee
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete cascade;
 
+alter table hs_hr_employee
+       add constraint foreign key (ethnic_race_code)
+                             references hs_hr_ethnic(ethnic_race_code) on delete cascade;
 
 alter table hs_hr_employee
        add constraint foreign key (nation_code)
                              references hs_hr_nationality(nat_code) on delete cascade;
 
+alter table hs_hr_emp_children
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+                             
+alter table hs_hr_emp_dependents
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+                             
+alter table hs_hr_emp_emergency_contacts
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_history_of_ealier_pos
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_licenses
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+                             
+alter table hs_hr_emp_licenses
+       add constraint foreign key (licenses_code)
+                             references hs_hr_licenses(licenses_code) on delete cascade;
+                             
+alter table hs_hr_emp_skill
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_skill
+       add constraint foreign key (skill_code)
+                             references hs_hr_skill(skill_code) on delete cascade;
+
+alter table hs_hr_emp_attachment
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+                             
 alter table hs_hr_emp_picture
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
+alter table hs_hr_emp_education
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_education
+       add constraint foreign key (edu_code)
+                             references hs_hr_education(edu_code) on delete cascade;
+                             
 alter table hs_hr_emp_work_experience
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_attachment
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
+alter table hs_hr_emp_passport
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
 alter table hs_hr_emp_member_detail
        add constraint foreign key (membtype_code)
                              references hs_hr_membership_type(membtype_code) on delete cascade;
@@ -727,3 +747,4 @@ INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 0
 INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00','USR001',null,0,'DVR001','FVR001','version 1.0');
 INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),('MOD003','Maintenance','Koshika','koshika@beyondm.net','VER001','Application Maintenance'),('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting');
 INSERT INTO `hs_hr_rights` VALUES ('USG001','MOD001',1,1,1,1),('USG001','MOD002',1,1,1,1),('USG001','MOD003',1,1,1,1),('USG001','MOD004',1,1,1,1);
+INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null ,'1','2', '', '0');

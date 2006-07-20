@@ -224,6 +224,11 @@ function delEXT()
     document.frmWrkExp.submit();
 }
 
+function addNewEXT(str){
+	var EmpID = str;		
+	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+}
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -300,8 +305,19 @@ if(isset($this->popArr['editArr']))
 ?>
     		 <input type="hidden" name="txtEmpExpID"  value="<?=isset($this->popArr['txtEmpExpID']) ? $this->popArr['txtEmpExpID'] : $edit[0][1]?>">
 
-        
-<br><br>
+<table>
+		<tr>
+      		<td>      			
+      			<?	if ($locRights['edit'] ){ ?>
+        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+				<? 	} ?>
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+      	</tr>
+	  </table>	
+<br>
       <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>

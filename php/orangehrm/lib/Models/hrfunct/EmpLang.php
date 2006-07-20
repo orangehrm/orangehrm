@@ -92,7 +92,7 @@ class EmpLanguage {
 		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
+		echo mysql_error();
 		$i=0;
 		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {

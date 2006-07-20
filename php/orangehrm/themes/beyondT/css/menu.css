@@ -1,0 +1,104 @@
+#menu {
+	width: 150px;
+	margin: 0px;
+	left: -6px;
+	position: relative;
+	top: 0px;
+    padding-top: 2px;
+    padding-left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+#menu a {
+	text-decoration: none;
+	color: #444444;
+	font-family: Arial, Helvetica, sans-serif;	
+	text-transform: capitalize;
+	height: 22px;
+	width: 150px;
+	font-size: 11px;
+	margin-top: -2px;
+	display: block;
+    padding-left: 30px;
+    
+    cursor:pointer;   
+    vertical-align:middle;
+    overflow: hidden;
+    background-color: #FFB121;
+}
+
+#menu a:hover {
+	color: #000000;
+    background-color: #F3A310;
+}
+
+#menu li{	
+	display: block;
+	list-style-position: outside;
+	list-style-type: none;
+	vertical-align: 48%;
+	background: url(../pictures/buttonplain.gif) no-repeat;
+}
+
+#menu li:hover{		
+	background: url(../pictures/buttonplain_o.gif) no-repeat;
+}
+
+
+
+#compinfo a {	
+    background: url(../pictures/compinfo.gif) no-repeat left top;
+}
+
+#compinfo a:hover {
+	background: url(../pictures/compinfo_o.gif)  no-repeat left top;
+}
+
+#menu #job a{	
+	background: url(../pictures/job.gif)  no-repeat left top;
+}
+
+#menu #job a:hover {	
+	background: url(../pictures/job_o.gif)  no-repeat left top;
+}
+
+#menu #qualification a{	
+	background: url(../pictures/qualification.gif)  no-repeat left top;
+}
+
+#menu #qualification a:hover {	
+	background: url(../pictures/qualification_o.gif)  no-repeat left top;
+}
+
+#menu #benefits a{	
+	background: url(../pictures/benefits.gif)  no-repeat left top;
+}
+
+#menu #benefits a:hover {	
+	background: url(../pictures/benefits_o.gif)  no-repeat left top;
+}
+
+#menu #memberships a{	
+	background: url(../pictures/memberships.gif)  no-repeat left top;
+}
+
+#menu #memberships a:hover {	
+	background: url(../pictures/memberships_o.gif)  no-repeat left top;
+}
+
+#menu #natandrace a{	
+	background: url(../pictures/natandrace.gif)  no-repeat left top;
+}
+
+#menu #natandrace a:hover {	
+	background: url(../pictures/natandrace_o.gif)  no-repeat left top;
+}
+
+#menu #geoinfo a{	
+	background: url(../pictures/geoinfo.gif)  no-repeat left top;
+}
+
+#menu #geoinfo a:hover {	
+	background: url(../pictures/geoinfo_o.gif)  no-repeat left top;
+}

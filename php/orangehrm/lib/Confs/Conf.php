@@ -28,7 +28,7 @@ class Conf {
 
 	function Conf() {
 		
-	$this->dbhost	= '192.168.0.196';
+	$this->dbhost	= '192.168.0.38';
 	$this->dbport 	= '3306';
 	$this->dbname	= 'temp_hr';
 	$this->dbuser	= 'user';

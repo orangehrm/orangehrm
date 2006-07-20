@@ -330,10 +330,7 @@ class RepViewController {
 								}
 
 								$sqlQ = $repgen->reportQueryBuilder();
-	  	 	
-			/*$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->logW($sqlQ);*/
-	  	 	
+	
 								$dbConnection = new DMLFunctions();
 								$message2 = $dbConnection -> executeQuery($sqlQ);
 										
@@ -345,9 +342,8 @@ class RepViewController {
 								   	$i++;
 								    }
 								
-									$repgen->reportDisplay($arrayDispList);
-									
-							return;
+								$repgen->reportDisplay($arrayDispList);
+								return;
 			
 							break;
 			

@@ -30,6 +30,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <script>		
 
 function echeck(str) {
@@ -68,7 +69,7 @@ function echeck(str) {
  		 return true;
 	}
 
-function alpha(txt)
+function name(txt)
 {
 var flag=true;
 var i,code;
@@ -90,29 +91,6 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-
 function goBack() {
 		location.href = "./CentralController.php?mtcode=<?=$this->getArr['mtcode']?>&VIEW=MAIN";
 	}
@@ -120,13 +98,13 @@ function goBack() {
 	function addSave() {
 		var frm=document.frmUsers;
 		if (frm.txtUserName.value.length < 5 ) {
-			alert ("UserName should be atleast five char. long!");
+			alert ("UserName should be atleast five characters long!");
 			frm.txtUserName.focus();
 			return false;
 		}
 		
 		if(frm.txtUserPassword.value.length < 4) {
-			alert("Password should be atleast four char. long!");
+			alert("Password should be atleast four characters long!");
 			frm.txtUserPassword.focus();
 			return;
 		}
@@ -137,13 +115,13 @@ function goBack() {
 			return;
 		}
 		
-		if(!alpha(frm.txtUserFirstName)) {
+		if(!name(frm.txtUserFirstName)) {
 			alert("Field should be Alphabetic!")
 			frm.txtUserFirstName.focus();
 			return;
 		}
 		
-		if(!alpha(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
+		if(!name(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
 			alert("Field should be Alphabetic!");
 			frm.txtUserLastName.focus();
 			return;
@@ -156,7 +134,7 @@ function goBack() {
 		}
 		
 		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserGroupID.value != '0') {
-			alert('Normal User, no User Group should be defined1');
+			alert('Normal User, no User Group should be defined');
 			frm.cmbUserGroupID.focus();
 			return;
 		}
@@ -360,6 +338,7 @@ function goBack() {
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<? require_once ROOT_PATH . '/templates/JavaScript/archive.js'; ?>
 <script>			
 function echeck(str) {
 
@@ -397,7 +376,7 @@ function echeck(str) {
  		 return true;
 	}
 
-function alpha(txt)
+function name(txt)
 {
 var flag=true;
 var i,code;
@@ -419,27 +398,6 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
 
 	function goBack() {
 		location.href = "./CentralController.php?mtcode=<?=$this->getArr['mtcode']?>&VIEW=MAIN";
@@ -478,13 +436,13 @@ function edit()
 		
 		var frm=document.frmUsers;
 		if (frm.txtUserName.value.length < 5 ) {
-			alert ("UserName should be atleast five char. long!");
+			alert ("UserName should be atleast five characters long!");
 			frm.txtUserName.focus();
 			return false;
 		}
 		
 		if(frm.txtUserPassword.value.length < 4) {
-			alert("Password should be atleast four char. long!");
+			alert("Password should be atleast four characters long!");
 			frm.txtUserPassword.focus();
 			return;
 		}
@@ -495,13 +453,13 @@ function edit()
 			return;
 		}
 		
-		if(!alpha(frm.txtUserFirstName)) {
+		if(!name(frm.txtUserFirstName)) {
 			alert("Field should be Alphabetic!")
 			frm.txtUserFirstName.focus();
 			return;
 		}
 		
-		if(!alpha(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
+		if(!name(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
 			alert("Field should be Alphabetic!");
 			frm.txtUserLastName.focus();
 			return;
@@ -514,7 +472,7 @@ function edit()
 		}
 		
 		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserGroupID.value != '0') {
-			alert('Normal User, no User Group should be defined1');
+			alert('Normal User, no User Group should be defined');
 			frm.cmbUserGroupID.focus();
 			return;
 		}

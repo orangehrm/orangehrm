@@ -19,7 +19,7 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	$parent_provinceinfo = new ProvinceInfo();
+	//$parent_provinceinfo = new ProvinceInfo();
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
 	

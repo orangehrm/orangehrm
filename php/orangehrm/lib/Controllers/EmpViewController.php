@@ -1212,7 +1212,7 @@ class EmpViewController {
 							break;
 										
 			case 'EMP' :	
-							$form_creator->formPath = '/templates/hrfunct/hremp.php';
+							$form_creator->formPath = '/templates/hrfunct/hrEmpMain.php';     //hremp.php';
 							
 							$form_creator->popArr['arrMStat'] = array ('Unmarried','Married','Divorced','Others');
 	
@@ -1525,6 +1525,7 @@ class EmpViewController {
 							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
 							$form_creator ->popArr['allLicenlist'] =  $licenlist = $licen ->getLicensesCodes();
 							
+							$form_creator ->popArr['unassLicenlist']   = $licen ->getUnAssLicensesCodes($getArr['id']);	
 							
 							if(isset($getArr['editID1'])) {
 								    $arr[0]=$getArr['id'];
@@ -1533,10 +1534,7 @@ class EmpViewController {
     						
 								$form_creator -> popArr['editArr'] = $emplicen ->filterEmpLicenses($arr);
 														
-							} else {
-															
-								$form_creator ->popArr['unassLicenlist']   = $licen ->getUnAssLicensesCodes($getArr['id']);								
-							}
+							};
 							
 							$form_creator ->popArr['rsets']    = $emplicen ->getAssEmpLicenses($getArr['id']);
 							break;

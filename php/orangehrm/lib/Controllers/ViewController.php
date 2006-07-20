@@ -1721,7 +1721,7 @@ class ViewController {
 								if($noRedirect)
 									break;
 					default:
-								$showMsg = "Addition%Successful!"; //If $message is 1 setting up the 
+								$showMsg = "ADDSUCCESS"; //If $message is 1 setting up the 
 								
 								$uniqcode = $index;
 								
@@ -1730,7 +1730,7 @@ class ViewController {
 				
 			} else {
 				
-				$showMsg = "Addition%Unsuccessful!";
+				$showMsg = "ADDFAILURE";
 				
 				$uniqcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&uniqcode=$uniqcode");
@@ -2022,7 +2022,7 @@ class ViewController {
 								if($noRedirect)
 									break;
 					
-					default : 	$showMsg = "Updation%Successful!"; //If $message is 1 setting up the 
+					default : 	$showMsg = "UPDATESUCCESS"; //If $message is 1 setting up the 
 	
 								$uniqcode = $index;
 								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN");
@@ -2030,7 +2030,7 @@ class ViewController {
 				
 			} else {
 				
-				$showMsg = "Updation%Unsuccessful!";
+				$showMsg = "UPDATEFAILURE";
 				
 				$uniqcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode");
@@ -2896,7 +2896,7 @@ class ViewController {
 			case 'LIC' :	$form_creator ->formPath = '/templates/eimadmin/licenses.php'; 
 							$licenses = new Licenses();
 							
-							if($getArr['capturemode'] == 'addmode') {
+							if($getArr['c$noPagesapturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $licenses->getLastRecord();
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $licenses->filterLicenses($getArr['id']);
@@ -2904,8 +2904,8 @@ class ViewController {
 							
 							break;
 														
-			case 'CST' :	$form_creator->formPath = '/templates/eimadmin/companystruct.php';
-
+			case 'CST' :	$form_creator->formPath = '/TreeDemo/index.php';
+							/*
 							$hierachinfo = new HierarchyDefInfo();
 							$comphier = new CompHierachy();
 							$compstruct = new CompStruct();
@@ -2913,6 +2913,10 @@ class ViewController {
 							$form_creator->popArr['hierlist'] = $hierachinfo -> getHierarchyDef();
 							$form_creator->popArr['compstruct'] = $comphier ->getAssCompHier(1,'');
 							$form_creator->popArr['unAssCompStruct'] = $compstruct->getUnAssCompStruct('',1);
+							*/
+							
+							$locations = new Location();
+							$form_creator->popArr['locationlist'] = $locations->getListofLocations(0,'',0);
 							
 							break;
 							

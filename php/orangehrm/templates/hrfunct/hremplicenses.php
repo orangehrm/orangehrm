@@ -162,7 +162,7 @@ function delEXT()
 
         if(check==0)
             {
-              alert("Select atleast one check box");
+              alert("Select at least one check box");
               return;
             }
 
@@ -170,6 +170,12 @@ function delEXT()
     //alert(cntrl.value);
     document.frmLicenses.STAT.value="DEL";
     document.frmLicenses.submit();
+}
+
+function addNewEXT(str){
+	
+	var EmpID = str;		
+	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=LIC";
 }
 
 </script>
@@ -242,14 +248,36 @@ $empdet = $this->popArr['empDet'];
              <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 
 <?
+
 if(isset($this->popArr['editArr']))
 {
     $edit = $this->popArr['editArr'];
 ?>
     		 <input type="hidden" name="txtEmpLicID"  value="<?=isset($this->popArr['txtEmpLicID']) ? $this->popArr['txtEmpLicID'] : $edit[0][1]?>">
 
-        
-<br><br>
+      <?php 
+      		 $unassLicenlist= $this->popArr['unassLicenlist'];
+      		 
+      		 //echo $unassLicenlist;
+      		 //echo 'hi';
+      		 if ( ( $unassLicenlist ) && ( count($unassLicenlist) > 0 ) ) {
+      		 	
+      ?>
+      		 
+      <table>
+		<tr>
+      		<td>      			
+      			<?	if ($locRights['edit'] ){ ?>
+        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+				<? 	} ?>
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+      	</tr>
+	  </table>	
+	  <?php };  ?>  
+	  <br>
       <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -261,11 +289,11 @@ if(isset($this->popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$startdate?></td>
+                      	<td><?=$startdate?></td>
 						<td> <input type="text" readonly name="txtEmpLicDat"  <?=isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLicenses.txtEmpLicDat);return false;"></td>
-    				  <tr>
+    				<tr>
 						<td><?=$enddate?></td>
-						<td> <input type="text" readonly name="txtEmpreDat" <?=isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?=isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLicenses.txtEmpreDat);return false;"></td>
+						<td><input type="text" readonly name="txtEmpreDat" <?=isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?=isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLicenses.txtEmpreDat);return false;"></td>
 					</tr>
 					 <tr>
                       <td width="200"><?=$licentype?></td>
@@ -301,13 +329,14 @@ if(isset($this->popArr['editArr']))
                   <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
-              </table>
-
+              </table>             
+      
 <? } else { ?>
-
          
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
+	  <br>	
+	  <br>	  
+	  		
+      <table border="0" cellpadding="0" cellspacing="0">      			
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -331,6 +360,7 @@ if(isset($this->popArr['editArr']))
     				  		<option selected value="0">--Select Licenses Type--</option>
 <?					  
 						$unassLicenlist= $this->popArr['unassLicenlist'];
+						
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)
 							if(isset($this->popArr['cmbLicCode']) && $this->popArr['cmbLicCode']==$unassLicenlist[$c][0]) 
 							   echo "<option  value=" . $unassLicenlist[$c][0] . ">" . $unassLicenlist[$c][1] . "</option>";
