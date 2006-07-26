@@ -161,6 +161,11 @@ function delEXT()
     document.frmEmpLan.submit();
 }
 
+function addNewEXT(str){
+	var EmpID = str;		
+	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+}
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -227,7 +232,6 @@ $empdet = $this->popArr['empDet'];
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-    <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 
 <?
 if(isset($this->popArr['editArr']))
@@ -235,7 +239,19 @@ if(isset($this->popArr['editArr']))
     $edit = $this->popArr['editArr'];
 ?>
         
-<br><br>
+<table>
+		<tr>
+      		<td>      			
+      			<?	if ($locRights['edit'] ){ ?>
+        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+				<? 	} ?>
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+      	</tr>
+	  </table>	
+<br>
       <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>

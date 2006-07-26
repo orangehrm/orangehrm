@@ -1,6 +1,6 @@
-<?
-$heading		= 'Extra Curricular Activities Category : Qualifications Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Extra Curricular Activities Category : Qualifications Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

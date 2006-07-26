@@ -73,16 +73,17 @@
 			  <td><?=$empstatus?></td>
 			  <td><select <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbType">
 			  		<option value="0"><?=$selempstat?></option>
-<?					for($c=0;count($arrEmpType)>$c;$c++)
-						if(isset($this->postArr['cmbType'])) {
-							if($this->postArr['cmbType']==$arrEmpType[$c])
-									echo "<option selected>" .$arrEmpType[$c]. "</option>";
-								else
-									echo "<option>" .$arrEmpType[$c]. "</option>";
-						} elseif($edit1[0][1]==$arrEmpType[$c])
-									echo "<option selected>" .$arrEmpType[$c]. "</option>";
-								else
-									echo "<option>" .$arrEmpType[$c]. "</option>";
+<?						$arrEmpType = $this->popArr['empstatlist'];
+						for($c=0;count($arrEmpType)>$c;$c++)
+							if(isset($this->postArr['cmbType'])) {
+								if($this->postArr['cmbType']==$arrEmpType[$c][0])
+										echo "<option selected value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+									else
+										echo "<option value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+							} elseif($edit1[0][1]==$arrEmpType[$c][0])
+										echo "<option selected value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+									else
+										echo "<option value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
 ?>			        
 			  </select></td>
               </tr>

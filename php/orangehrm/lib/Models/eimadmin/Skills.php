@@ -60,7 +60,7 @@ class Skills {
 		
 	}
 	
-	function getListofSkills($pageNO,$schStr,$mode) {
+	function getListofSkills($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_SKILL';			
 		$arrFieldList[0] = 'SKILL_CODE';
@@ -72,7 +72,7 @@ class Skills {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

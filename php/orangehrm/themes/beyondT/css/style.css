@@ -438,7 +438,7 @@ textarea {
 		color: #ff0000;
 	}
 	.success {
-		color: #00ee00;
+		color: #005500;
 	}
 	.dateFormat {
 		font-weight: normal;
@@ -537,3 +537,50 @@ textarea {
 	font-weight: bold;
 	color: #333333;
 }
+
+.ERR {
+    color: #FF0000;
+    background-color: #FFDDDD;
+}
+
+.odd {
+    background-color: #FFFFFF;
+}
+
+.even {
+    background-color: #EEEEEE;
+}
+
+.r2_c1 {
+    background: url('../pictures/table_r2_c1.gif') repeat-y right;
+}
+
+.r1_c1 {
+    background: url('../pictures/table_r1_c1.gif') no-repeat right top;
+}
+
+.r1_c3 {
+    background: url('../pictures/table_r1_c3.gif') no-repeat left top;
+}
+
+.r1_c2 {
+    background: url('../pictures/table_r1_c2.gif') repeat-x left top;
+}
+
+.r3_c1 {
+    background: url('../pictures/table_r3_c1.gif') no-repeat right bottom; 
+}
+
+.r3_c3 {
+    background: url('../pictures/table_r3_c3.gif') no-repeat left bottom;
+}
+
+.r3_c2 {
+    background: url('../pictures/table_r3_c2.gif') repeat-x left bottom;
+}
+
+.r2_c3 {
+    background: url('../pictures/table_r2_c3.gif') repeat-y left;
+}
+
+

@@ -122,8 +122,9 @@ a:hover {
 	
 input,select {
 	border: 1px solid #888888;
-	font-size: 11px;
+	font-size: 9px;
 	background-color: #ffffff;
+	height: 15px;
 	}
 	
 /* Content Specific Styles */

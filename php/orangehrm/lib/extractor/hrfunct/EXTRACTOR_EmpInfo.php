@@ -66,85 +66,6 @@ class EXTRACTOR_EmpInfo {
 	var $txtWorkEmail;
 	var $txtOtherEmail;
 	
-			/*var $txtEmpLastName;
-			var $txtEmpSurname;
-			var $txtEmpMaidenName;
-			var $txtEmpInitials;
-			var $txtEmpNamByIni;
-			var $txtEmpFullName;
-			var $txtEmpOtherName;
-			
-			//personal
-			var $txtNICDate;
-			var $cmbNation	;
-			var $cmbReligion;
-			var $DOB;
-			var $cmbBloodGrp;
-			var $txtBirthPlace;
-			var $cmbMarital;
-			var $optGender;
-			var $txtMarriedDate;
-			
-			//job info
-			var $txtDatJoin;
-			var $chkConfirmFlag;
-			var $txtResigDat	;
-			var $txtRetireDat;
-			var $cmbSalGrd	;
-			var $cmbCorpTit	;
-			var $cmbDesig;
-			var $cmbCostCode;
-			var $txtWorkHours;
-			var $txtJobPref;
-			
-			//job stat
-			var $cmbType;
-			var $cmbStatutory;
-			var $cmbCat;
-			var $txtStartDat;
-			var $chkConToPermFlag ;
-			var $txtConToPermDat;
-			var $chkHRActivFlag;
-			var $txtPayActivFlag;
-			var $chkTimeAttActivFlag ;
-			
-			//workstation	   
-			var $cmbLocation;
-			var $txtHiCode;
-			var $cmbTaxCountry;
-			*/
-			//tax
-			var $cmbTaxExempt;
-			var $chkTaxOnTaxFlag;
-			var $txtTaxID;
-			var $chkEPFEligibleFlag	;
-			var $txtEPFNo;
-			var $optCFundCBFundFlag;
-			var $txtEPFEmployeePercen;
-			var $txtEPFEmployerPercen;
-			var $chkETFEligibleFlag;
-			var $txtETFNo;
-			var $txtETFEmployeePercen;
-			var $txtETFDat;
-			var $chkMSPSEligibleFlag;
-			var $txtMSPSEmployeePercen;
-			var $txtMSPSEmployerPercen ;
-			
-		/*	//contact			
-			var $txtPermHouseNo;
-			var $txtPermStreet1;
-			var $txtPermStreet2;
-			var $txtPermCityTown;
-			var $txtPermPostCode;
-			var $txtPermTelep;
-			var $txtPermMobile;
-			var $txtPermFax	;
-			var $txtPermEmail;
-			var $cmbPermCountry;
-			var $cmbPermProvince;
-			var $cmbPermDistrict;
-			var $cmbPermElectorate;
-*/
 	function EXTRACTOR_EmpInfo() {
 
 		$this->parent_empinfo = new EmpInfo();
@@ -159,7 +80,7 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
 		
 		//personal
-		$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
+/*		$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
 		$this->parent_empinfo -> setEmpSSNNo(trim($postArr['txtNICNo']));
 		$this->parent_empinfo -> setEmpDOB(trim($postArr['DOB']));
 		$this->parent_empinfo -> setEmpOthID(trim($postArr['txtOtherID']));
@@ -178,41 +99,6 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpLocation(($postArr['cmbLocation']));
 		$this->parent_empinfo -> setEmpJoinedDate(($postArr['txtJoinedDate']));
 		
-	/*	//job stat
-		$this->parent_empinfo -> setEmpType(($postArr['cmbType']));
-		$this->parent_empinfo -> setEmpStatutory(($postArr['cmbStatutory']));
-		$this->parent_empinfo -> setEmpCat(($postArr['cmbCat']));
-		$this->parent_empinfo -> setEmpStartDat(trim($postArr['txtStartDat']));
-		$this->parent_empinfo -> setEmpEndDat(trim($postArr['txtEndDat']));
-		$this->parent_empinfo -> setEmpConToPermFlag(isset($postArr['chkConToPermFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpConToPermDat(trim($postArr['txtConToPermDat']));
-		$this->parent_empinfo -> setEmpHRActivFlag(isset($postArr['chkHRActivFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpPayActivFlag(isset($postArr['txtPayActivFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpTimAttActivFlag(isset($postArr['chkTimeAttActivFlag'])?'1':'0');
-		//workstation	   
-		//$this->parent_empinfo -> setEmpLoc($postArr['cmbLocation']);
-		$this->parent_empinfo -> setEmpPrefLoc($postArr['txtHiCode']);
-		$this->parent_empinfo -> setEmpTaxCountry($postArr['cmbTaxCountry']);
-		//tax
-		if(isset($postArr['skipTax']) && $postArr['skipTax']=='0') {
-		$this->parent_empinfo -> setEmpTaxExempt(($postArr['cmbTaxExempt']));
-		$this->parent_empinfo -> setEmpTaxOnTaxFlag(isset($postArr['chkTaxOnTaxFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpTaxID(trim($postArr['cmbTaxID']));
-		$this->parent_empinfo -> setEmpEPFEligibleFlag(isset($postArr['chkEPFEligibleFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpEPFNo(trim($postArr['txtEPFNo']));
-		$this->parent_empinfo -> setCFundCBFundFlag(trim($postArr['optCFundCBFundFlag']));
-		$this->parent_empinfo -> setEPFEmployeePercen(trim($postArr['txtEPFEmployeePercen']));
-		$this->parent_empinfo -> setEPFEmployerPercen(trim($postArr['txtEPFEmployerPercen']));
-		$this->parent_empinfo -> setETFEligibleFlag(isset($postArr['chkETFEligibleFlag'])?'1':'0');
-		$this->parent_empinfo -> setEmpETFNo(trim($postArr['txtETFNo']));
-		$this->parent_empinfo -> setETFEmployeePercen(trim($postArr['txtETFEmployeePercen']));
-		$this->parent_empinfo -> setETFDat(trim($postArr['txtETFDat']));
-		$this->parent_empinfo -> setMSPSEligibleFlag(isset($postArr['chkMSPSEligibleFlag'])?'1':'0');
-		$this->parent_empinfo -> setMSPSEmployeePercen(trim($postArr['txtMSPSEmployeePercen']));
-		$this->parent_empinfo -> setMSPSEmployerPercen(trim($postArr['txtMSPSEmployerPercen']));
-		}var $;
-	
-		*/
 		//contact
 		$this->parent_empinfo -> setEmpStreet1(trim($postArr['txtStreet1']));
 		$this->parent_empinfo -> setEmpStreet2(trim($postArr['txtStreet2']));
@@ -224,64 +110,10 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpMobile(trim($postArr['txtMobile']));
 		$this->parent_empinfo -> setEmpWorkTelephone(trim($postArr['txtWorkTelep']));
 		$this->parent_empinfo -> setEmpWorkEmail(($postArr['txtWorkEmail']));
-		$this->parent_empinfo -> setEmpOtherEmail(($postArr['txtOtherEmail']));
+		$this->parent_empinfo -> setEmpOtherEmail(($postArr['txtOtherEmail'])); */
 		
 		
 		$objectArr['EmpInfo'] =  $this->parent_empinfo;
-			
-		
-		if(isset($_POST['passportFlag']) && $_POST['passportFlag']==1 && $_POST['txtPPNo']!='') {
-			$pport= new EmpPassPort();
-			
-			$pport->setEmpId($_POST['txtEmpID']);
-			$pport->setEmpPPSeqNo(1);
-			$pport->setEmpPPNo(trim($_POST['txtPPNo']));
-			$pport->setEmpPPIssDat(trim($_POST['txtPPIssDat']));
-			$pport->setEmpI9ReviewDat(trim($_POST['txtI9ReviewDat']));
-			$pport->setEmpPPExpDat(trim($_POST['txtPPExpDat']));
-			$pport->setEmpPPComment(trim($_POST['txtComments']));
-			$pport->setEmppassportflag($_POST['PPType']);
-			$pport->setEmpNationality($_POST['cmbPPCountry']);
-			$pport->setEmpI9Status(trim($_POST['txtI9status']));
-			
-			$objectArr['EmpPassPort'] = $pport;
-		}
-		
-		if(isset($_POST['dependentsFlag']) && $_POST['dependentsFlag']==1 && $_POST['txtDepName']!='') {
-			$dep= new EmpDependents();
-			
-			$dep->setEmpId($_POST['txtEmpID']);
-			$dep->setEmpDSeqNo(1);
-			$dep->setEmpDepName(trim($_POST['txtDepName']));
-			$dep->setEmpDepRel(trim($_POST['txtRelShip']));
-						
-			$objectArr['EmpDependents'] = $dep;
-		}
-		
-		if(isset($_POST['childrenFlag']) && $_POST['childrenFlag']==1 && $_POST['txtChiName']!='') {
-			$chi= new EmpChildren();
-			
-			$chi->setEmpId($_POST['txtEmpID']);
-			$chi->setEmpCSeqNo(1);
-			$chi->setEmpChiName(trim($_POST['txtChiName']));
-			$chi->setEmpDOB(trim($_POST['ChiDOB']));
-						
-			$objectArr['EmpChildren'] = $chi;
-		}
-		
-		if(isset($_POST['econtactFlag']) && $_POST['econtactFlag']==1 && $_POST['txtEConName']!='') {
-			$econ= new EmpEmergencyCon();
-			
-			$econ->setEmpId($_POST['txtEmpID']);
-			$econ->setEmpECSeqNo(1);
-			$econ->setEmpEConName(trim($_POST['txtEConName']));
-			$econ->setEmpEConRel(trim($_POST['txtEConRel']));
-			$econ->setEmpEConHmTel(trim($_POST['txtEConHmTel']));
-			$econ->setEmpEConMobile(trim($_POST['txtEConMobile']));
-			$econ->setEmpEConWorkTel(trim($_POST['txtEConWorkTel']));
-						
-			$objectArr['EmpEContact'] = $econ;
-		}
 		
 		if($_FILES['photofile']['size']>0 && stristr($_FILES['photofile']['type'],'image') != false) {
 				
@@ -310,36 +142,6 @@ class EXTRACTOR_EmpInfo {
 									
 				$objectArr['EmpPhoto'] = $photo;
 		}
-			
-		if(isset($_POST['attachmentFlag']) && $_POST['attachmentFlag']==1 && $_FILES['ufile']['size']>0) {
-			$attachment = new EmpAttach();
-			
-			//file info
-			$fileName=$_FILES['ufile']['name'];
-			$tmpName  = $_FILES['ufile']['tmp_name'];
-			$fileSize = $_FILES['ufile']['size'];
-			$fileType = $_FILES['ufile']['type'];
-
-			//file read
-			$fp = fopen($tmpName,'r');
-			$contents = fread($fp,filesize($tmpName));
-			$contents = addslashes($contents);
-			fclose($fp);
-			
-			if(!get_magic_quotes_gpc())
-				$fileName=addslashes($fileName);
-				
-			$attachment->setEmpId($_POST['txtEmpID']);
-			$attachment->setEmpAttId(1);
-			$attachment->setEmpAttDesc(trim($_POST['txtAttDesc']));
-			$attachment->setEmpAttFilename($fileName);
-			$attachment->setEmpAttSize($fileSize);
-			$attachment->setEmpAttachment($contents);
-			$attachment->setEmpAttType($fileType);
-			
-			$objectArr['EmpAttach'] = $attachment;
-		}
-		
 	return $objectArr;
 	}
 	

@@ -1,21 +1,22 @@
 <?
 /*
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-// all the essential functionalities required for any enterprise. 
-// Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-// the GNU General Public License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-// See the GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License along with this program;
-// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-// Boston, MA  02110-1301, USA
+* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+* all the essential functionalities required for any enterprise. 
+* Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+*
+* OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+* the GNU General Public License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with this program;
+* if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA  02110-1301, USA
 */
+
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
@@ -121,6 +122,18 @@ class ViewController {
 								$district = new DistrictInfo();
 								return $district->getDistrictCodes($value);
 							}
+							
+							if($cntrl == 'addLocation') {
+								
+								$location = new Location();
+								return $location->addLocation();
+							}
+							
+							if($cntrl == 'getLocCodes') {
+								
+								$location = new Location();
+								return $location->getLocCodes();
+							}
 							break;
 							
 			case 'DIS' :    if($cntrl == 'province') {
@@ -185,9 +198,17 @@ class ViewController {
 
 	function viewList($getArr,$postArr) {
 		
+		if (!isset($getArr['sortField']))
+			$getArr['sortField']=0;
+			
+		$sortOrderFld='sortOrder'.$getArr['sortField'];
+		
+		if (!isset($getArr[$sortOrderFld]))
+			$getArr[$sortOrderFld]='ASC';
+			
 		switch ($getArr['uniqcode']) {
 
-			case 'CST' : 	
+			case 'CST' :
 			case 'GEN' :
 						$this->reDirect($getArr);
 						break;
@@ -195,7 +216,7 @@ class ViewController {
 			default:
 						$form_creator = new FormCreator($getArr,$postArr);
 						$form_creator ->formPath ='/view.php'; 
-								
+							
 						if ((isset($getArr['uniqcode'])) && ($getArr['uniqcode'] != '')) {
 							$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['uniqcode']));
 						}
@@ -205,15 +226,16 @@ class ViewController {
 						if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
 					    {
 							$choice=$postArr['loc_code'];
-						    $strName=trim($postArr['loc_name']);
-						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice);
-					    } else 
-							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage);
+						    $strName=trim($postArr['loc_name']);						    
+						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld]);
+					    } else  {
 							
+							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
+					    }	
 				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) 				
-							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']),$strName,$choice);
+							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
 						else
-							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']));
+							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
 							
 						$form_creator->display();
 						break;
@@ -540,26 +562,26 @@ class ViewController {
         }
     }
 
-	function selectIndexId($pageNO,$schStr,$mode) {
+	function selectIndexId($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		switch ($this->indexCode) {
 				
 		case 'EST' :
 			
 			$this->empstat = new EmploymentStatus();
-			$message = $this->empstat->getListofEmpStat($pageNO,$schStr,$mode);
+			$message = $this->empstat->getListofEmpStat($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'JOB' :
 		
 			$this->jobtit = new JobTitle();
-			$message = $this->jobtit->getListofJobTitles($pageNO,$schStr,$mode);
+			$message = $this->jobtit->getListofJobTitles($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'LOC' :
 		
 			$this-> location = new Location();
-			$message = $this-> location -> getListofLocations($pageNO,$schStr,$mode);
+			$message = $this-> location -> getListofLocations($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'COS' :
@@ -614,13 +636,13 @@ class ViewController {
 		case 'SKI' :
 			
 			$this-> skills = new Skills();
-			$message = $this-> skills -> getListofSkills($pageNO,$schStr,$mode);
+			$message = $this-> skills -> getListofSkills($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'ETH' :
 			
 			$this-> ethnicrace = new EthnicRace();
-			$message = $this-> ethnicrace -> getListofEthnicRace($pageNO,$schStr,$mode);
+			$message = $this-> ethnicrace -> getListofEthnicRace($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'EXC' :
@@ -632,7 +654,7 @@ class ViewController {
 		case 'MEM' :
 			
 			$this-> membershiptype = new MembershipType();
-			$message = $this-> membershiptype -> getListofMembershipType($pageNO,$schStr,$mode);
+			$message = $this-> membershiptype -> getListofMembershipType($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'UNI' :
@@ -674,7 +696,7 @@ class ViewController {
 		case 'NAT' :
 			
 			$this-> nationalityinfo = new NationalityInfo();
-			$message = $this-> nationalityinfo -> getListofNationalityInfo($pageNO,$schStr,$mode);
+			$message = $this-> nationalityinfo -> getListofNationalityInfo($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		case 'RLG' :
@@ -732,14 +754,14 @@ class ViewController {
 		case 'LAN' :
 			
 			$this-> languageinfo = new LanguageInfo();
-			$message = $this-> languageinfo -> getListofLanguageInfo($pageNO,$schStr,$mode);
+			$message = $this-> languageinfo -> getListofLanguageInfo($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
 			
 		case 'MME' :
 			
 			$this-> membershipinformation = new MembershipInfo();
-			$message = $this-> membershipinformation -> getListofMembershipInfo($pageNO,$schStr,$mode);
+			$message = $this-> membershipinformation -> getListofMembershipInfo($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
 			
@@ -760,7 +782,7 @@ class ViewController {
 		case 'SGR' :
 
 			$this-> salarygrade = new SalaryGrades();
-			$message = $this-> salarygrade -> getListofSalaryGrades($pageNO,$schStr,$mode);
+			$message = $this-> salarygrade -> getListofSalaryGrades($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 			return $message;
 
@@ -795,7 +817,7 @@ class ViewController {
     	case 'EDU' :
 
 			$this-> qual = new Education();
-			$message = $this-> qual -> getListofEducation($pageNO,$schStr,$mode);
+			$message = $this-> qual -> getListofEducation($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 			return $message;
 
@@ -809,7 +831,7 @@ class ViewController {
     	case 'CCB' :
 
 			$this-> cashben = new CashBen();
-			$message = $this-> cashben -> getListofCashBenefits($pageNO,$schStr,$mode);
+			$message = $this-> cashben -> getListofCashBenefits($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 			return $message;
 
@@ -851,14 +873,14 @@ class ViewController {
 		case 'EEC' :
 			
 			$this-> eeojobcat = new EEOJobCat();
-			$message = $this-> eeojobcat -> getListofEEOJobCat($pageNO,$schStr,$mode);
+			$message = $this-> eeojobcat -> getListofEEOJobCat($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
 
 		case 'LIC' :
 			
 			$this-> licenses = new Licenses();
-			$message = $this-> licenses -> getListofLicenses($pageNO,$schStr,$mode);
+			$message = $this-> licenses -> getListofLicenses($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
 		}
@@ -1107,10 +1129,10 @@ class ViewController {
         }
 	}
 	
-	function getInfo($indexCode,$pageNO,$schStr='',$mode=0) {
+	function getInfo($indexCode,$pageNO,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
 	
 		$this->indexCode = $indexCode;
-		return $this->selectIndexId($pageNO,$schStr,$mode);
+		return $this->selectIndexId($pageNO,$schStr,$schField, $sortField, $sortOrder);
 	}
 	
 	function getPageName($indexCode) {
@@ -1119,7 +1141,7 @@ class ViewController {
 		return $this->getPageID();
 	}
 	
-	function countList($index,$schStr='',$mode=0) {
+	function countList($index, $schStr='',$mode=-1) {
 		
 		$this->indexCode=$index;
 					
@@ -1466,7 +1488,8 @@ class ViewController {
 									$res = $jobtit ->addJobTitles();
 									break;
 
-				case 'CST'  :		$compstruct = new CompStruct();
+				case 'CST'  :		
+									$compstruct = new CompStruct();
 									$compstruct = $object;
 									$res = $compstruct -> addCompStruct();
 									break;
@@ -1708,7 +1731,9 @@ class ViewController {
 								header("Location: ./CentralController.php?uniqcode=RTG&id=$id");
 								break;
 			
-					case 'CST' : break;
+					case 'CST' : 
+								header("Location: ./CentralController.php?uniqcode=CST&VIEW=MAIN");
+								break;
 					
 					case 'JEM' : break;
 					
@@ -1717,11 +1742,14 @@ class ViewController {
 								break;
 						
 					case 'EST' :
+					case 'LOC' : 
+								if($noRedirect)
+									break;
 					case 'CUR' : 
 								if($noRedirect)
 									break;
 					default:
-								$showMsg = "ADDSUCCESS"; //If $message is 1 setting up the 
+								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the 
 								
 								$uniqcode = $index;
 								
@@ -1730,7 +1758,7 @@ class ViewController {
 				
 			} else {
 				
-				$showMsg = "ADDFAILURE";
+				$showMsg = "ADD_FAILURE";
 				
 				$uniqcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&uniqcode=$uniqcode");
@@ -2022,7 +2050,7 @@ class ViewController {
 								if($noRedirect)
 									break;
 					
-					default : 	$showMsg = "UPDATESUCCESS"; //If $message is 1 setting up the 
+					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the 
 	
 								$uniqcode = $index;
 								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN");
@@ -2030,7 +2058,7 @@ class ViewController {
 				
 			} else {
 				
-				$showMsg = "UPDATEFAILURE";
+				$showMsg = "UPDATE_FAILURE";
 				
 				$uniqcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode");
@@ -2110,6 +2138,16 @@ class ViewController {
 										$ratgrd->updateRatGrd();
 									break;
 			}
+	}
+	
+	function deleteData($index, $object) {
+		
+		switch ($index) {
+			case 'CST': $compstruct = new CompStruct();
+						$compstruct = $object;
+						$res = $compstruct -> deleteCompStruct();
+						break;
+		}
 	}
 				
 	function delAssignData($index,$postArr,$getArr) {		
@@ -2399,9 +2437,9 @@ class ViewController {
 							} elseif($getArr['capturemode'] == 'updatemode') {
 
 								$province = new ProvinceInfo();
-								$district = new DistrictInfo();
+								$district = new DistrictInfo();								
 
-								$form_creator ->popArr['editArr'] = $edit = $loc ->filterLocation($getArr['id']); 
+								$form_creator ->popArr['editArr'] = $edit = $loc ->filterLocation($getArr['id']); 								
 								$form_creator ->popArr['provlist'] = $province->getProvinceCodes($edit[0][2]);
 								$form_creator ->popArr['districtlist'] = $district->getDistrictCodes($edit[0][3]);
 							}
@@ -2896,7 +2934,7 @@ class ViewController {
 			case 'LIC' :	$form_creator ->formPath = '/templates/eimadmin/licenses.php'; 
 							$licenses = new Licenses();
 							
-							if($getArr['c$noPagesapturemode'] == 'addmode') {
+							if($getArr['capturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $licenses->getLastRecord();
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $licenses->filterLicenses($getArr['id']);
@@ -2904,7 +2942,7 @@ class ViewController {
 							
 							break;
 														
-			case 'CST' :	$form_creator->formPath = '/TreeDemo/index.php';
+			case 'CST' :	$form_creator->formPath = '/templates/eimadmin/compstruct.php';
 							/*
 							$hierachinfo = new HierarchyDefInfo();
 							$comphier = new CompHierachy();
@@ -2916,7 +2954,7 @@ class ViewController {
 							*/
 							
 							$locations = new Location();
-							$form_creator->popArr['locationlist'] = $locations->getListofLocations(0,'',0);
+							$form_creator->popArr['locations'] = $locations->getLocCodes();
 							
 							break;
 							
@@ -2977,7 +3015,8 @@ class ViewController {
 							break;
 				}
 				
-		$form_creator->display();							
+		$form_creator->display();		
+							
 	}
 	
 }

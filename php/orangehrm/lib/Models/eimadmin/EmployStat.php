@@ -53,7 +53,7 @@ class EmploymentStatus {
 		return $this->empStatName;
 	}
 	
-	function getListofEmpStat($pageNO,$schStr,$mode) {
+	function getListofEmpStat($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_EMPSTAT';
 		$arrFieldList[0] = 'ESTAT_CODE';
@@ -65,7 +65,7 @@ class EmploymentStatus {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

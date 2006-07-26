@@ -1,6 +1,6 @@
-<?
-$heading		= 'EEC : EEO Job Category';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'EEC : EEO Job Category';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

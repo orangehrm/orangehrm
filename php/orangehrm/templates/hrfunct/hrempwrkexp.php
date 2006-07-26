@@ -16,23 +16,10 @@ You should have received a copy of the GNU General Public License along with thi
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA  02110-1301, USA
 */
-
-
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-	$sysConst = new sysConf(); 
-	$locRights=$_SESSION['localRights'];
-
-	
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Untitled Document</title>
 
 <script language="JavaScript">
-function alpha(txt)
-{
+function alpha(txt) {
 var flag=true;
 var i,code;
 
@@ -53,8 +40,7 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
-function numeric(txt)
-{
+function numeric(txt) {
 var flag=true;
 var i,code;
 
@@ -75,8 +61,7 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
-function edit()
-{
+function edit() {
 	if(document.Edit.title=='Save') {
 		editEXT();
 		return;
@@ -113,13 +98,7 @@ function createDate(str) {
 		return tempDate;
 }
 
-
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
-	}
-
-function addEXT()
-{
+function addEXT() {
  	var txt = document.frmWrkExp.txtEmpExpDesOnLev;
 	if (!alpha(txt)) {
 		alert ("Description Error!");
@@ -172,8 +151,7 @@ function calcYearMonth() {
 	document.frmWrkExp.txtEmpExpYears.value = str.substr(0,str.indexOf('.'));
 }
 
-function editEXT()
-{
+function editEXT() {
  	var txt = document.frmWrkExp.txtEmpExpDesOnLev;
 	if (!alpha(txt)) {
 		alert ("Description Error!");
@@ -201,8 +179,7 @@ function editEXT()
   document.frmWrkExp.submit();
 }
 
-function delEXT()
-{
+function delEXT() {
       var check = 0;
 		with (document.frmWrkExp) {
 			for (var i=0; i < elements.length; i++) {
@@ -228,106 +205,18 @@ function addNewEXT(str){
 	var EmpID = str;		
 	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
 }
-
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$employerworkex?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmWrkExp" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?><?=isset($this->getArr['editID']) ? '&editID=' .$this->getArr['editID'] : ''?>">
-
-  <tr>
-    <td valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
-        <input type="hidden" name="STAT" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
-
- <?
-$empdet = $this->popArr['empDet'];
-?>
-
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?=$employeeid?></td>
-    				  <td width="75"><font color="#204242"><strong><?=$empdet[0][0]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-					  <td><?=$lastname?></td>
-						<td width="300"><font color="#204242"><strong><?=$empdet[0][1]?></strong></font></td>
-					</tr>
-					  <tr> 
-						<td><?=$firstname?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][2]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-						<td><?=$middlename?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][3]?></</font></td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-             <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
+    <input type="hidden" name="STAT" value="">
 
 <?
-if(isset($this->popArr['editArr']))
-{
+if(isset($this->popArr['editArr'])) {
     $edit = $this->popArr['editArr'];
 ?>
     		 <input type="hidden" name="txtEmpExpID"  value="<?=isset($this->popArr['txtEmpExpID']) ? $this->popArr['txtEmpExpID'] : $edit[0][1]?>">
 
-<table>
-		<tr>
-      		<td>      			
-      			<?	if ($locRights['edit'] ){ ?>
-        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-				<? 	} ?>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-      	</tr>
-	  </table>	
-<br>
       <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpCompany" <?=isset($this->popArr['txtEmpExpCompany']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] : $edit[0][2]?>"></td>
@@ -350,48 +239,21 @@ if(isset($this->popArr['editArr']))
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?		
-					if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
-		<?			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-				<?	} 
-			 ?>
+		<?		if($locRights['edit']) { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+		<?		} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+		<?		} 	 ?>
 						</td>
 					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                  </table>
 
 <? } else { ?>
 
- <?
-$newid = $this->popArr['newID'];
-?>
+<? $newid = $this->popArr['newID']; ?>
+<input type="hidden" name="txtEmpExpID"  value="<?=$newid?>">
 
-			 
-             <input type="hidden" name="txtEmpExpID"  value="<?=$newid?>">
-&nbsp;
-         
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpCompany" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] :''?>"></td>
@@ -422,17 +284,7 @@ $newid = $this->popArr['newID'];
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?	} ?>
 					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                  </table>
 <? } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
@@ -447,7 +299,7 @@ $newid = $this->popArr['newID'];
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
-  <td>
+   <td>
 <?	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
@@ -457,16 +309,8 @@ $newid = $this->popArr['newID'];
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
 						 <td width="125"><strong><?=$workexid?></strong></td>
@@ -493,18 +337,6 @@ $rset = $this->popArr['rset'];
         }
 
 ?>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</form>
-<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;">
-</iframe></body>
-</html>
+      </table>
+      
+<? } ?>

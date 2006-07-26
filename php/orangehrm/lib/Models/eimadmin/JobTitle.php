@@ -85,7 +85,7 @@ class JobTitle {
 		return $this->jobSalGrd;
 	}
 	
-	function getListofJobTitles($pageNO,$schStr,$mode) {
+	function getListofJobTitles($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_JOB_TITLE';
 		$arrFieldList[0] = 'JOBTIT_CODE';
@@ -97,7 +97,7 @@ class JobTitle {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

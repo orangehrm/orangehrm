@@ -61,7 +61,7 @@ class EthnicRace {
 		
 	}
 	
-	function getListofEthnicRace($pageNO,$schStr,$mode) {
+	function getListofEthnicRace($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_ETHNIC_RACE';			
 		$arrFieldList[0] = 'ETHNIC_RACE_CODE';
@@ -73,7 +73,7 @@ class EthnicRace {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 				
 		$logwriter = new LogWriter();
 		$logwriter ->writeLogDB($sqlQString);

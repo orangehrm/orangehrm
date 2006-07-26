@@ -1,6 +1,6 @@
-<?
-$heading		= 'Membership Type : Membership Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Membership Type : Membership Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

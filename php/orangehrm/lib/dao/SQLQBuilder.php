@@ -1,20 +1,20 @@
 <?
 /*
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-// all the essential functionalities required for any enterprise. 
-// Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-// the GNU General Public License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-// See the GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License along with this program;
-// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-// Boston, MA  02110-1301, USA
+* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+* all the essential functionalities required for any enterprise. 
+* Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+*
+* OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+* the GNU General Public License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with this program;
+* if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
@@ -78,7 +78,7 @@ class SQLQBuilder {
 	SELECT Query
 */
 
-	function selectFilter($arrComp='',$arrFlt='') {
+	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
 			$SQL1 = 'SELECT ';
@@ -115,7 +115,7 @@ class SQLQBuilder {
 
 			$SQL1 = $SQL1 . ' ORDER BY '. $arrayFieldList[0];
 		} else
-			$SQL1 = $SQL1 . ') ORDER BY '. $arrayFieldList[0];
+			$SQL1 = $SQL1 . ') ORDER BY '. $arrayFieldList[$sortField];
 			
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
@@ -123,7 +123,7 @@ class SQLQBuilder {
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 	
-	function passResultSetMessage($page=0, $schStr='',$mode=0) {
+	function passResultSetMessage($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC') {
 	
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 						
@@ -145,22 +145,17 @@ class SQLQBuilder {
 			
 				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name); //Tail of the SQL statement
 				
-				if($mode!=0)
+				if($schField!=-1)
 				{
-                $SQL1 = $SQL1 . ' WHERE ';
+                	$SQL1 = $SQL1 . ' WHERE ';
                 
-                    switch($mode)
-                            {
-                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($schStr) .'%\'';
-                                        break;
-                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim($schStr) .'%\'';
-                                        break;
-                            }
+                    $SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+                    
                 }
 				
 				//echo $SQL1;
 				//exit;
-            $SQL1 = $SQL1. ' ORDER BY '. $arrayFieldList[0];
+            $SQL1 = $SQL1. ' ORDER BY '. $arrayFieldList[$sortField].' '.$sortOrder;// Sort order is ASC or DESC as passed by the arguement. Default ASC.
             
             if($page!=0) {
        			$sysConst = new sysConf();
@@ -181,6 +176,8 @@ class SQLQBuilder {
 				
 		}
 	}
+	
+	
 
 	function passResultFilter($page,$str='',$mode=0) {
 			$arrayFieldList = $this->arr_select;
@@ -634,7 +631,7 @@ function filterNotEqualRecordSet($filID) {
 		}
 	}
 
-	function selectMultipleTab($page,$str,$mode) {
+	function selectMultipleTab($page,$str,$mode, $sortField = 0, $sortOrder = 'ASC') {
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
 			$SQL1 = 'SELECT ';
@@ -665,12 +662,92 @@ function filterNotEqualRecordSet($filID) {
 
             	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
             }
+      
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
 
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
+	
+	/*
+	 * @author : Mohanjith <mohanjith@beyondm.net> <moha@mohanjith.net>
+	 */
+	function passResultSetMessageMulti($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC') {
+	
+		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
+						
+			$arrayFieldList = $this->arr_select; 
+            $arrayFieldList2 = $this->arr_select2;//assign the sql_format->arr_select instance variable to arrayFieldList
 
+			$countArrSize = count($arrayFieldList); // check the array size
+			$SQL1 = 'SELECT ';
+
+			for ($i=0;$i<count($arrayFieldList); $i++) {
+			
+				$SQL1 .= 'a.'. $arrayFieldList[$i] . ', ';
+				
+			}
+			
+            for ($i=0;$i<(count($arrayFieldList2)-1); $i++) {
+			
+				$SQL1 .= 'b.'. $arrayFieldList2[$i] . ', ';
+				
+			}
+            $i=count($arrayFieldList2)-1;
+            
+			$SQL1 .= 'b.'. $arrayFieldList2[$i] . ' ';
+
+			$SQL1 .= ' FROM ' . strtolower($this->table_name).' a, '; //Tail of the SQL statement
+			$SQL1 .= strtolower($this->table2_name).' b ';
+				
+			$SQL1 .= ' WHERE a.'.$this->field;
+            $SQL1 .= ' = b.'.$this->field;
+                
+			if($schField!=-1)
+			{             
+                if ($schField > (count($arrayFieldList)-1)) {
+                	
+                	$SQL1 .= ' AND '.$arrayFieldList2[$schField-count($arrayFieldList)] . ' LIKE \'%' . trim($schStr) .'%\'';
+                	
+                } else {
+                	
+                	$SQL1 .= ' AND '.$arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+                
+                }    
+            }
+			if ($sortField > (count($arrayFieldList)-1)) {
+				
+				$SQL1 .= ' ORDER BY b.'. $arrayFieldList2[$sortField-count($arrayFieldList)].' '.$sortOrder;// Sort order is ASC or DESC as passed by the arguement. Default ASC.
+            
+			} else {
+				
+				$SQL1 .= ' ORDER BY a.'. $arrayFieldList[$sortField].' '.$sortOrder;// Sort order is ASC or DESC as passed by the arguement. Default ASC.
+            
+			}					
+            
+            if($page!=0) {
+       			
+       			$sysConst = new sysConf();
+
+            	$SQL1 .= ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',';
+            	$SQL1 .= $sysConst->itemsPerPage;
+            
+            }
+			//$exception_handler = new ExceptionHandler();
+	  	 	//$exception_handler->logW($SQL1);
+
+			return $SQL1; //returning the SQL1 which has the SQL Query
+			
+		} else {
+			
+			$exception_handler = new ExceptionHandler();
+	  	 	$exception_handler->dbexInvalidSQL();
+			echo "ERROR"; // put Exception Handling
+			exit;
+				
+		}
+	}
+	
 	function countMultipleTab($str,$mode) {
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
@@ -755,7 +832,7 @@ function filterNotEqualRecordSet($filID) {
 		}
 	}
 	
-	function countResultset($schStr='',$mode=0) {
+	function countResultset($schStr='',$schField=-1) {
 	
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 						
@@ -763,18 +840,13 @@ function filterNotEqualRecordSet($filID) {
 			$countArrSize = count($arrayFieldList); // check the array size
 			$SQL1 = 'SELECT count(*) FROM ' . strtolower($this->table_name); //Tail of the SQL statement
 				
-				if($mode!=0)
-				{
-                $SQL1 = $SQL1 . ' WHERE ';
+			if($schField!=-1)
+			{
+              	$SQL1 = $SQL1 . ' WHERE ';
                 
-                    switch($mode)
-                            {
-                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($schStr) .'%\'';
-                                        break;
-                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim($schStr) .'%\'';
-                                        break;
-                            }
-                }
+                $SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+                    
+			}
 				
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);

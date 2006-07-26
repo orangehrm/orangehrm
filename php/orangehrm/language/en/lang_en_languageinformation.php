@@ -1,5 +1,5 @@
 <?
-$heading		= 'Language Information : Qualification Information';
+$heading		= 'Qualification : Language';
 $code			= 'Code';
 $description	= 'Description';
 

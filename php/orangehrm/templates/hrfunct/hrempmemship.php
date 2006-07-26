@@ -278,7 +278,6 @@ $empdet = $this->popArr['empDet'];
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-			 <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 
 <?
 if(isset($this->popArr['editArr']))

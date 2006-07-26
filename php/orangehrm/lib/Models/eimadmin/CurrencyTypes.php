@@ -72,7 +72,7 @@ class CurrencyTypes {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode,1);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -292,9 +292,9 @@ class CurrencyTypes {
 			
 		$arr[0][0]='SAL_GRD_CODE';
 		$arr[0][1]=$id;
-		$sqlQString = $sql_builder->selectFilter($arr,1);
+		$sqlQString = $sql_builder->passResultSetMessage(0,'',-1,1, 'ASC');
 		
-		echo $sqlQString;		
+		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		

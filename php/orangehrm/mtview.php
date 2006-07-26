@@ -1,20 +1,20 @@
 <?
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
+* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+* all the essential functionalities required for any enterprise. 
+* Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+*
+* OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+* the GNU General Public License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+* See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with this program;
+* if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
@@ -89,6 +89,11 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 	}
 	
 	function returnSearch() {		
+		if (document.standardView.loc_code.value == 0) {	
+			alert("Select the field to search!");
+			document.standardView.loc_code.Focus();
+			return;
+		};
 		document.standardView.captureState.value = 'SearchMode';		
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
@@ -260,28 +265,29 @@ else
 	if($recCount%$sysConst->itemsPerPage)
 	   $noPages++;
 
-	   
-	if($currentPage==1)
-		echo "<font color='Gray'>Previous</font>";
-	else
-    	echo "<a href='#' onClick='prevPage()'>Previous</a>";
-    	
-    echo "  ";
-    	
-	for( $c = 1 ; $noPages >= $c ; $c++) {
-	    if($c == $currentPage)
-			echo "<font color='Gray'>" .$c. "</font>";
+	if ($noPages > 1) {
+		 
+		if ($currentPage==1)
+			echo "<font color='Gray'>Previous</font>";
 		else
-	    	echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    	
+    	echo "  ";
+    	
+		for ( $c = 1 ; $noPages >= $c ; $c++) {
+	    	if($c == $currentPage)
+				echo "<font color='Gray'>" .$c. "</font>";
+			else
+	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
 	    	
-	    echo "  ";
-	}
+	    	echo "  ";
+		}
 		
-	if($currentPage == $noPages || $noPages==0)
-		echo "<font color='Gray'>Next</font>";
-	else
-    	echo "<a href='#' onClick='nextPage()'>Next</a>";
-			
+		if ($currentPage == $noPages)
+			echo "<font color='Gray'>Next</font>";
+		else
+    		echo "<a href='#' onClick='nextPage()'>Next</a>";
+	}		
 ?> 
 		</td>
 		<td width="25"></td>

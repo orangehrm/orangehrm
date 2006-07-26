@@ -1,6 +1,6 @@
-<?
-$heading		= 'Licenses : Licenses Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Licenses : Licenses Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

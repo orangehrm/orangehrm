@@ -1,6 +1,6 @@
-<?
-$heading		= 'Skills : Qualification Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Skills : Qualification Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

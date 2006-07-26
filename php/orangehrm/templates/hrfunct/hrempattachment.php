@@ -1,17 +1,47 @@
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<script language="JavaScript">
 
-	<table onclick="setUpdate(8)" onkeypress="setUpdate(8)" width="352" height="200" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-				<td><?=$path?></td>
-				<td><input type="file" name="ufile"></td>
-              </tr>
-              <tr>
-              	<td><?=$description?></td>
-              	<td><textarea name="txtAttDesc"></textarea></td>
-              </tr>
-          </table>
-          
-<?  } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+function dwPopup() {
+        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
+        if(!popup.opener) popup.opener=self;
+}	
+
+function delAttach() {
+	
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkattdel[]') && (elements[i].checked == true)){
+				check = true;
+			}
+		}
+	}
+
+	if(!check){
+		alert('Select at least one Attachment to Delete')
+		return;
+	}
+		
+	document.frmEmp.attSTAT.value="DEL";
+	qCombo(6);
+}
+
+function addAttach() {
+	document.frmEmp.attSTAT.value="ADD";
+	qCombo(6);
+}
+
+function viewAttach(att) {
+	document.frmEmp.action=document.frmEmp.action + "&ATTACH=" + att;
+	document.frmEmp.pane.value=6;
+	document.frmEmp.submit();
+}
+
+function editAttach() {
+	document.frmEmp.attSTAT.value="EDIT";
+	qCombo(6);
+}
+</script>
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
 		

@@ -1,296 +1,509 @@
 <?
+
+/*
+
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+
+ * all the essential functionalities required for any enterprise. 
+
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+
+ *
+
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+
+ * the GNU General Public License as published by the Free Software Foundation; either
+
+ * version 2 of the License, or (at your option) any later version.
+
+ *
+
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+
+ * See the GNU General Public License for more details.
+
+ *
+
+ * You should have received a copy of the GNU General Public License along with this program;
+
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+
+ * Boston, MA  02110-1301, USA
+
+ *
+
+ * @Author	:	S.H.Mohanjith <moha@mohanjith.net> <mohanjith@beyondm.net>
+
+ * @Date		:	July 4th, 2006
+
+ *
+
+ */
+
+
+
+/*
+
+ *
+
+ * --------------------------------------------------------------------------
+
+ * 								REQUEST !
+
+ * --------------------------------------------------------------------------
+
+ *
+
+ * Please try to comment on what ever you make a change on.
+
+ * Clearly state out what you want it to do.
+
+ *
+
+ * I beg you. Please !
+
+ *
+
+ * Mohanjith
+
+ *
+ * --------------------------------------------------------------------------
+ *
+
+ */
+
+
+
+//require_once ROOT_PATH . '/lib/confs/Conf.php';
+
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+
+
+
 class CompStruct {
+
+
+
+	/*
+
+	 *
+
+	 * This class will be handling the data storage, retrival and basic displaying 
+
+	 * of the Company Structure.
+
+	 * The data structure used is Tree structure.
+
+	 *
+
+	 * Idea form SitePoint <http://www.sitepoint.com>
+
+	 *
+
+	 * Algorithm : Modified Preorder Tree Traversal
+
+	 *
+
+	 */
+
+
+
+	var $id, $rgt, $lft, $addStr, $strDesc, $addParnt, $location;
+
 	
-	var $compStructCode;
-	var $compStructName;
-	var $compStructDescription;
-	var $compStructComments;
-	var $compStructLevel;
-	
-	function CompStruct() {
-		
-	}
-	
-	function setCompStructCode($compStructCode) {
-		$this->compStructCode = $compStructCode;	
-	}
-	
-	function setCompStructName($compStructName) {
-		$this->compStructName = $compStructName;
-	}
-	
-	function setCompStructDescription($compStructDescription) {
-		$this->compStructDescription = $compStructDescription;
-	}
-	
-	function setCompStructComments($compStructComments) {
-		$this->compStructComments = $compStructComments;
-	}
-	
-	function setCompStructLevel($compStructLevel) {
-		$this->compStructLevel = $compStructLevel;
-	}
-	
-	function getCompStructCode() {
-		return $this->compStructCode;	
-	}
-	
-	function getCompStructName() {
-		return $this->compStructName;
-	}
-	
-	function getCompStructDescription() {
-		return $this->compStructDescription;
-	}
-	
-	function getCompStructComments() {
-		return $this->compStructComments;
-	}
-	
-	function getCompStructLevel() {
-		return $this->compStructLevel;
+
+	function setid ($val) {
+
+		$this->id = $val;
+
 	}
 
-	function getListofCompStruct($pageNO,$schStr,$mode) {
-		
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
-		$arrFieldList[1] = 'HIE_NAME';
-		$arrFieldList[2] = 'HIE_DESC';
-		$arrFieldList[3] = 'HIE_COMMENTS';
-		$arrFieldList[4] = 'DEF_LEVEL';
-		
-		$sql_builder = new SQLQBuilder();
-		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
-		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$arrayDispList[$i][3] = $line[3];
-	    	$arrayDispList[$i][4] = $line[4];
-	    	$i++;
-	     }
-	     
-	     if (isset($arrayDispList)) {
-			return $arrayDispList;
-			
-		} else {
-			$arrayDispList = '';
-			return $arrayDispList;
-		}
+	
+
+	function setrgt ($val) {
+
+		$this->rgt = $val;
+
 	}
 
-	function delCompStruct($arrList) {
+	
 
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
+	function setlft ($val) {
 
-		$sql_builder = new SQLQBuilder();
+		$this->lft = $val;
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_delete = 'true';
-		$sql_builder->arr_delete = $arrFieldList;
-
-		$sqlQString = $sql_builder->deleteRecord($arrList);
-
-		//echo $sqlQString;
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 	}
-	
-	function addCompStruct() {
-		
-		$arrFieldList[0] = "'". $this->getCompStructCode() . "'";
-		$arrFieldList[1] = "'". $this->getCompStructName() . "'";
-		$arrFieldList[2] = "'". $this->getCompStructDescription() . "'";
-		$arrFieldList[3] = "'". $this->getCompStructComments() . "'";
-		$arrFieldList[4] = "'". $this->getCompStructLevel() . "'";
 
-		$tableName = 'HS_HR_COMPANY_STRUCT';
 	
-		$sql_builder = new SQLQBuilder();
+
+	function setaddStr ($val) {
+
+		$this->addStr = $val;
+
+	}
+
+	
+
+	function setstrDesc ($val) {
+
+		$this->strDesc = $val;
+
+	}
+
+	
+
+	function setaddParnt ($val) {
+
+		$this->addParnt = $val;
+
+	}
+
+	
+
+	function setlocation ($val) {
+
+		$this->location = $val;
+
+	}
+
+	
+
+	function addCompStruct () {
+
+	
+
+		/*
+
+		 *
+
+		 * This function adds a node to the Company Structure.
+
+		 *
+
+		 */		
+
 		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrFieldList;		
-			
-	
-		$sqlQString = $sql_builder->addNewRecordFeature1();
-	
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		 return $message2;
-		 echo $message2;
+
+		/*
+
+		 *		
+
+		 * Idea form SitePoint <http://www.sitepoint.com>
+
+		 *
+
+		 */
+
 				
+
+		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET rgt=rgt+2 WHERE rgt>%d", $this->rgt-1);
+
+		$sqlString2=sprintf("UPDATE hs_hr_compstructtree SET lft=lft+2 WHERE lft>%d", $this->rgt-1);
+
+		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code='%s'", $this->rgt, $this->rgt+1, $this->addStr, $this->strDesc, $this->addParnt, $this->location);
+
+		
+
+		/*
+
+		 *
+
+		 * Execute the query
+
+		 * We just need to know if it was successful. That's all.
+
+		 * 
+
+		 */
+
+		
+		$dbConnection = new DMLFunctions();	
+
+			
+
+		$message2 = $dbConnection -> executeQuery($sqlString1);
+
+		$message2 = $dbConnection -> executeQuery($sqlString2);
+
+		$message2 = $dbConnection -> executeQuery($sqlString3);
+
+		
+
+	return true;		
+
 	}
-	
-	function updateCompStruct() {
 
-		$arrRecordsList[0] = "'". $this->getCompStructCode() . "'";
-		$arrRecordsList[1] = "'". $this->getCompStructName() . "'";
-		$arrRecordsList[2] = "'". $this->getCompStructDescription() . "'";
-		$arrRecordsList[3] = "'". $this->getCompStructComments() . "'";
-		$arrRecordsList[4] = "'". $this->getCompStructLevel() . "'";
+	
 
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
-		$arrFieldList[1] = 'HIE_NAME';
-        $arrFieldList[2] = 'HIE_DESC';
-        $arrFieldList[3] = 'HIE_COMMENTS';
-        $arrFieldList[4] = 'DEF_LEVEL';
+	function deleteCompStruct () {
+
 	
-		$sql_builder = new SQLQBuilder();
+
+		/*
+
+		 *
+
+		 * This function removes a node and all its child nodes from the Company Structure.
+
+		 *
+
+		 */		
+
 		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_update = 'true';
-		$sql_builder->arr_update = $arrFieldList;	
-		$sql_builder->arr_updateRecList = $arrRecordsList;	
-	
-		$sqlQString = $sql_builder->addUpdateRecord1();
-	
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		/*
+
+		 *
+
+		 * Build the SQL query string.
+
+		 *
+
+		 */
+
 		
-		return $message2;
+
+		$change=($this->rgt - $this->lft + 1); // Change in left and rignt from the delete. Think a bit!
+
+		
+
+		$sqlString1=sprintf("DELETE FROM hs_hr_compstructtree WHERE rgt<%d AND lft>%d", $this->rgt+1, $this->lft-1);		
+
+		$sqlString2=sprintf("UPDATE hs_hr_compstructtree SET lft=lft-%d WHERE lft>%d", $change, $this->lft-1);
+
+		$sqlString3=sprintf("UPDATE hs_hr_compstructtree SET rgt=rgt-%d WHERE rgt>%d", $change, $this->rgt-1);		
+
+		
+
+		/*
+
+		 *
+
+		 * Execute the query
+
+		 * We just need to know if it was successful. That's all.
+
+		 *
+
+		 */
+
+		
+
+		$dbConnection = new DMLFunctions();	
+
+			
+
+		$message2 = $dbConnection -> executeQuery($sqlString1);
+
+		$message2 = $dbConnection -> executeQuery($sqlString2);
+
+		$message2 = $dbConnection -> executeQuery($sqlString3);
+
+		
+
+	return true;		
+
 	}
-	
-	
-	function filterCompStruct($getID) {
-		
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
-		$arrFieldList[1] = 'HIE_NAME';
-        $arrFieldList[2] = 'HIE_DESC';
-        $arrFieldList[3] = 'HIE_COMMENTS';
-        $arrFieldList[4] = 'DEF_LEVEL';
 
+	
 
-		$sql_builder = new SQLQBuilder();
+	function updateCompStruct() {		
+
 		
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
+
+		//echo $this->addStr.$this->strDesc.$this->location.$this->id;
+
+		
+
+		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code='%s' WHERE ID=%d", $this->addStr, $this->strDesc, $this->location, $this->id);
+
+		
+
+		//echo $sqlString1;
+
+		$dbConnection = new DMLFunctions();	
+
 			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($getID);
+
+		$message2 = $dbConnection -> executeQuery($sqlString1);
+
 		
-		//echo $sqlQString;		
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$i=0;
-		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-	    	$arrayDispList[$i][2] = $line[2];
-	    	$arrayDispList[$i][3] = $line[3];
-	    	$arrayDispList[$i][4] = $line[4];
-	    	$i++;
-	    	
-	     }
-	     
-	     if (isset($arrayDispList)) {
-	     
-			return $arrayDispList;
-			
-		} else {
-		
-			$arrayDispList = '';
-			return $arrayDispList;
-		}
+
 	}
-	
-	
-	function getLastRecord() {
-		
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
 	
-		$sqlQString = $sql_builder->selectOneRecordOnly();
+
+	function displayTree ( $root ) {
+
 	
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
-		$common_func = new CommonFunctions();
-		
-		if (isset($message2)) {
-			
-			$i=0;
-		
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {		
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}		
-		}
-			
-		return $common_func->explodeString($this->singleField,"HIE");
+
+		/*
+
+		 *
+
+		 * This function displays all the nodes and their children in the
+
+		 * form of a indented node title.
+
+		 *
+
+		 */
+
+	
+
+		$sqlString = sprintf("SELECT lft, rgt FROM hs_hr_compstructtree WHERE title='%s';",$root); 
+
 				
+
+		$dbConnection = new DMLFunctions();		
+
+		$message2 = $dbConnection->executeQuery($sqlString);
+
+				
+
+		if ( !$message2 ) {
+
+			echo 'No data found!';
+
+			return false;
+
+		};
+
+		
+
+		$row = mysql_fetch_array($message2); 
+
+		
+
+		$sqlString =sprintf("SELECT ID, lft, rgt FROM hs_hr_compstructtree WHERE lft BETWEEN %d AND %d  ORDER BY lft ASC;", $row['lft'], $row['rgt']); 
+
+		
+
+		$message2 = $dbConnection -> executeQuery($sqlString);
+
+		
+
+		unset($relations);
+
+		
+
+		while ($dummyrun = mysql_fetch_array($message2)) {
+
+			
+
+			$relations[$dummyrun['ID']]=$dummyrun['rgt'];
+
+			
+
 		}
+
+		
+
+		$right = array(); 
+
+		
+
+		$sqlString =sprintf("SELECT * FROM hs_hr_compstructtree WHERE lft BETWEEN %d AND %d  ORDER BY lft ASC;", $row['lft'], $row['rgt']); 
+
+		
+
+		$message2 = $dbConnection -> executeQuery($sqlString);		
+
+		
+
+		unset($tree);
+
+		
+
+		while ( $row = mysql_fetch_array( $message2 ) ) {
+
+			
+
+			/*
+
+			 * 
+
+      		 * only check stack if there is one
+
+			 * 
+
+			 */
+
+			
+
+      		if ( count( $right ) > 0 ) {
+
+			 
+
+           		/*
+                 * check if we should remove a node from the stack
+
+				 *
+                 */
+
+
+           		while ( $right[count($right)-1]<$row['rgt'] ) {
+
+				
+
+               		 $rx=array_pop($right); 
+
+					
+
+           		}
+
+       		}
+
+			
+
+			/*
+
+			 * 
+
+			 * display indented node title
+
+			 * 
+
+			 */  
+
+			
+
+			if ( ($row['parnt'] != 0) && ( $relations[$row['parnt']] == ($row['rgt']+1) ) ) {
+
+				$isLast = true;
+
+			} else {
+
+				$isLast = false;
+
+			}
+
+				
+
+			$tree[] = array($row, 'depth'=>count($right), 'isLast'=>$isLast);
+
+			
+
+       		/*
+
+       		 * 
+
+       		 * add this node to the stack
+
+       		 * 
+
+       		 */ 
+
+			
+
+       		$right[] = $row['rgt']; 
+
+		}
+
+	return $tree;
+
 	}
 
-	function getUnAssCompStruct($hiRelat,$level) {
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_COMPANY_STRUCT';
-		$arrFieldList[0] = 'HIE_CODE';
-		$arrFieldList[1] = 'HIE_NAME';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-		$sql_builder->field = 'HIE_CODE';
-		$sql_builder->table2_name= 'HS_HR_COMPANY_HIERARCHY';
-		$arr[0][0]= 'HIE_RELATIONSHIP';
-		$arr[0][1]= $hiRelat;
-		$arr[1][0] = 'DEF_LEVEL';
-		$arr[1][1] = $level;
-		$arr2[0][0] = 'DEF_LEVEL';
-		$arr2[0][1] = $level;
-
-		$sqlQString = $sql_builder->selectFilter($arr,$arr2);
-
-		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		$i=0;
-
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
-
-	    	$i++;
-	     }
-
-	     if (isset($arrayDispList)) {
-
-	       	return $arrayDispList;
-
-	     } else {
-	     	//Handle Exceptions
-	     	//Create Logs
-	     }
-	}
 }
-?>

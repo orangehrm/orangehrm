@@ -70,7 +70,7 @@ class Education {
 		return $this->eduDeg;
 	}
 
-	function getListofEducation($pageNO,$schStr,$mode) {
+	function getListofEducation($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_EDUCATION';
 		$arrFieldList[0] = 'EDU_CODE';
@@ -84,7 +84,7 @@ class Education {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -95,7 +95,8 @@ class Education {
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1] .", " . $line[2];
+	    	$arrayDispList[$i][1] = $line[1] .
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }
@@ -116,18 +117,17 @@ class Education {
 		
 		$tableName = 'HS_HR_EDUCATION';
 		$arrFieldList[0] = 'EDU_CODE';
-		$arrFieldList[1] = 'EDU_UNI';
-		//$arrFieldList[2] = 'EDU_DEG';
+		$arrFieldList[1] = 'CONCAT(EDU_UNI, EDU_DEG)';
+		$arrFieldList[2] = 'EDU_DEG';
 		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
-			
+		
 		$sqlQString = $sql_builder->countResultset($schStr,$mode);
 		
-		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		

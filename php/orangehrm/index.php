@@ -86,24 +86,36 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="themes/beyondT/pictures/styles.css" rel="stylesheet" type="text/css">
 <link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">@import url("themes/beyondT/css/menu.css"); </style>
 <script language=javascript src="scripts/ypSlideOutMenus.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
 <script language="JavaScript">
 //window.onresize = setSize();
 
 		var yPosition = 108;
+		
+		var agt=navigator.userAgent.toLowerCase();
+		
+		var xPosition = 150;
+		
+		if (agt.indexOf("konqueror") != -1) var xPosition = 144;
+		
+		if (agt.indexOf("windows") != -1) var xPosition = 144;
+		
+		if (agt.indexOf("msie") != -1) var xPosition = 150;
+		
 
-		new ypSlideOutMenu("menu1", "right", 151, yPosition, 146, 230)
-		new ypSlideOutMenu("menu2", "right", 151, yPosition + 22, 146, 360)
-		new ypSlideOutMenu("menu3", "right", 151, yPosition + 44, 146, 220)
-		new ypSlideOutMenu("menu4", "right", 151, yPosition + 60, 146, 130)
-		//new ypSlideOutMenu("menu5", "right", 151, yPosition + 88, 146, 80)
-		//new ypSlideOutMenu("menu6", "right", 151, yPosition + 110, 146, 140)
-		//new ypSlideOutMenu("menu7", "right", 151, yPosition + 132, 146, 205)
-		//new ypSlideOutMenu("menu8", "right", 151, yPosition + 82, 146, 130)
-		new ypSlideOutMenu("menu9", "right", 151, yPosition + 83, 146, 80)
-		new ypSlideOutMenu("menu10", "right", 151, yPosition + 105, 146, 120)
-		//new ypSlideOutMenu("menu11", "right", 151, yPosition + 220, 146, 205)		
+		new ypSlideOutMenu("menu1", "right", xPosition, yPosition, 150, 230)
+		new ypSlideOutMenu("menu2", "right", xPosition, yPosition + 22, 146, 360)
+		new ypSlideOutMenu("menu3", "right", xPosition, yPosition + 44, 146, 220)
+		new ypSlideOutMenu("menu4", "right", xPosition, yPosition + 60, 146, 130)
+		//new ypSlideOutMenu("menu5", "right", xPosition, yPosition + 88, 146, 80)
+		//new ypSlideOutMenu("menu6", "right", xPosition, yPosition + 110, 146, 140)
+		//new ypSlideOutMenu("menu7", "right", xPosition, yPosition + 132, 146, 205)
+		//new ypSlideOutMenu("menu8", "right", xPosition, yPosition + 82, 146, 130)
+		new ypSlideOutMenu("menu9", "right", xPosition, yPosition + 83, 146, 80)
+		new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 105, 146, 120)
+		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)		
 
 function swapImgRestore() { 
   var i,x,a=document.sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -346,36 +358,30 @@ function setSize() {
           </tr>
         </table>        
       </table>
-	  <table border="0" align="top" cellpadding="0" cellspacing="0">
+      
+<? if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']!="hr")) {  ?>
+
+	<table border="0" align="top" cellpadding="0" cellspacing="0">
           <tr>
             <td width="200" valign="top"><!-- Rollover buttons -->
               <TABLE cellSpacing=0 cellPadding=0 border=0>
                 <TBODY>
                   <TR vAlign=top>
 <?			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
-                    <TD width=158><P><A onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons01_on.gif',1);ypSlideOutMenu.showMenu('menu1');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu1');"> <IMG height=22 src="themes/beyondT/pictures/buttons01.gif" width=150 border=0 name=Button1></A><BR>
-                        <A onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons02_on.gif',1);ypSlideOutMenu.showMenu('menu2');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu2');"> <IMG height=22 src="themes/beyondT/pictures/buttons02.gif" width=150 border=0 name=Button2></A><BR>
-                        <A onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons03_on.gif',1);ypSlideOutMenu.showMenu('menu3');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu3');"> <IMG height=22 src="themes/beyondT/pictures/buttons03.gif" width=150 border=0 name=Button3></A><BR>
-                        <A onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons04_on.gif',1);ypSlideOutMenu.showMenu('menu4');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu4');"> <IMG height=22 src="themes/beyondT/pictures/buttons04.gif" width=150 border=0 name=Button4></A><BR>
+                    <TD width=158>
                         <!--<A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>-->
                         <!--<A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>-->
                         <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
                         <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
-                        <A onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons09_on.gif',1);ypSlideOutMenu.showMenu('menu9');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu9');"> <IMG height=22 src="themes/beyondT/pictures/buttons09.gif" width=150 border=0 name=Button9></A><BR>
-                        <A onmouseover="swapImage('Button10','','themes/beyondT/pictures/buttons10_on.gif',1);ypSlideOutMenu.showMenu('menu10');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu10');"> <IMG height=22 src="themes/beyondT/pictures/buttons10.gif" width=150 border=0 name=Button10></A><BR>
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
-                      </P></TD>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
-                    <TD width=158><P>
-                    	<A href="index.php?reqcode=EMP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons21_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons21.gif" width=150 border=0 name=Button1></A><BR>
-                        <A href="index.php?reqcode=EXP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button3','','themes/beyondT/pictures/buttons12_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons12.gif" width=150 border=0 name=Button3></A><BR>
-                        <A href="index.php?reqcode=MEM&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button4','','themes/beyondT/pictures/buttons04_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons04.gif" width=150 border=0 name=Button4></A><BR>
-                        <A href="index.php?reqcode=LAN&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button9','','themes/beyondT/pictures/buttons17_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons17.gif" width=150 border=0 name=Button9></A><BR>
-                        <A href="index.php?reqcode=SKI&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button13','','themes/beyondT/pictures/buttons30_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons30.gif" width=150 border=0 name=Button13></A><BR>
-                        <A href="index.php?reqcode=LIC&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button14','','themes/beyondT/pictures/buttons31_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons31.gif" width=150 border=0 name=Button14></A><BR>
-                        <A href="index.php?reqcode=REP&menu_no=1&submenutop=HR&menu_no_top=hr" onmouseover="swapImage('Button12','','themes/beyondT/pictures/buttons20_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons20.gif" width=150 border=0 name=Button12></A><BR>
-                        
-                      </P></TD>
+                      
+                      <ul id="menu">
+  						<li id="compinfo"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu1');" onmouseout="ypSlideOutMenu.hideMenu('menu1');">company info</a></li>
+  						<li id="job"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu2');" onmouseout="ypSlideOutMenu.hideMenu('menu2');">job</a></li>
+  						<li id="qualification"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu3');" onmouseout="ypSlideOutMenu.hideMenu('menu3');">qualification</a></li>
+  						<li id="memberships"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu4');" onmouseout="ypSlideOutMenu.hideMenu('menu4');">memberships</a></li> 
+  						<li id="natandrace"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu9');" onmouseout="ypSlideOutMenu.hideMenu('menu9');">nationality & race</a></li> 
+</ul></TD>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
                     <TD width=158><P>
                     	<A href="index.php?mtcode=USR&menu_no=1&submenutop=HR&menu_no_top=mt" onmouseover="swapImage('Button1','','themes/beyondT/pictures/buttons22_on.gif',1);" onmouseout="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons22.gif" width=150 border=0 name=Button1></A><BR>
@@ -429,9 +435,6 @@ function setSize() {
                     <TBODY>
                       <TR>
                         <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=GEN&menu_no=1&submenutop=EIMModule&menu_no_top=eim">General</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=DEF&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Hierarchy Definition</A></TD>
                       </TR>
                       <TR>
                         <TD onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CST&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Company Structure</A></TD>
@@ -607,7 +610,7 @@ function setSize() {
                     <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=COU&menu_no=10&submenutop=EIMModule&menu_no_top=eim">Country</A></TD>
                     </TR>
                     <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=PRO&menu_no=10&submenutop=EIMModule&menu_no_top=eim">State</A></TD>
+                      <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=PRO&menu_no=10&submenutop=EIMModule&menu_no_top=eim">State/Province</A></TD>
                     </TR>
                     <TR>
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu10')" onmouseout="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
@@ -645,7 +648,7 @@ function setSize() {
                 <td>
             <td width="78%" valign="top">
 <?			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'DEF'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
@@ -663,6 +666,9 @@ function setSize() {
             </td>
           </tr>
 </table>
+<?	} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
+              <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+<? } ?>
 <table width="100%">
 <tr>
 <td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>

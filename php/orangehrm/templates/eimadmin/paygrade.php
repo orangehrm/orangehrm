@@ -56,6 +56,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 </head>
 <body>
+hi
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
@@ -277,29 +278,7 @@ function edit()
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-							  <tr> 
-							    <td><?=code?></td>
-							    <td> <input type="hidden"  name="txtSalGrdID" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
-							    <td>&nbsp;</td>
-							  </tr>
-							  <tr> 
-							    <td><?=description?></td>
-							  	  <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' disabled cols="30"><?=$message[0][1]?></textarea>
-							    </td>
-							  </tr>
-					  <tr><td><a href="<?=$_SERVER['PHP_SELF']?>?id=<?=$_GET['id']?>&uniqcode=SCD">Add Currency Detail</a></td>
-					  <td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
-					  
-</td>
-					  </tr>				  
-                  </table></td>
+                  <td></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>

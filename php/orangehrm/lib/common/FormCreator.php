@@ -1,4 +1,4 @@
-<?
+<?php
 //require_once OpenSourceEIM . '/lib/Exceptionhandling/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
 
@@ -24,12 +24,13 @@ class FormCreator
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 
+		
 			$lan = new Language();
 			if(!isset($this->getArr['mtcode']))
 				require_once($lan->getLangPath(basename($this->formPath)));
 			//print_r($lan->getLangPath(basename($this->formPath)));
-
-		require_once ROOT_PATH . $this->formPath;
+		
+		require_once ROOT_PATH . $this->formPath;		
 		
 	}
 }

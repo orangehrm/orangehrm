@@ -60,7 +60,7 @@ class MembershipType {
 		
 	}
 	
-	function getListofMembershipType($pageNO,$schStr,$mode) {
+	function getListofMembershipType($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_MEMBERSHIP_TYPE';			
 		$arrFieldList[0] = 'MEMBTYPE_CODE';
@@ -72,7 +72,7 @@ class MembershipType {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

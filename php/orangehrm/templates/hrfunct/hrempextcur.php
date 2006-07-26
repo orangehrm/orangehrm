@@ -236,7 +236,6 @@ $empdet = $this -> popArr['empdet'];
               </table>
 
               
-              <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
            
 <? 
 if(isset($this -> popArr['editArr']))

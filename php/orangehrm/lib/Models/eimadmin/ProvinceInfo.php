@@ -89,7 +89,7 @@ class ProvinceInfo {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, 1);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -490,7 +490,7 @@ function filterNotEqualCountryInfo($getID) {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 	
-		$sqlQString = $sql_builder->passResultSetMessage();
+		$sqlQString = $sql_builder->passResultSetMessage(0,'',-1,1);
 	
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

@@ -60,7 +60,7 @@ class SalaryGrades {
 		
 	}
 	
-	function getListofCashBenefits($pageNO,$schStr,$mode) {
+	function getListofCashBenefits($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -74,7 +74,7 @@ class SalaryGrades {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->selectMultipleTab($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -237,7 +237,7 @@ class SalaryGrades {
 
 	}
 	
-	function getListofSalaryGrades($pageNO,$schStr,$mode) {
+	function getListofSalaryGrades($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_PR_SALARY_GRADE';
 		$arrFieldList[0] = 'SAL_GRD_CODE';
@@ -249,7 +249,7 @@ class SalaryGrades {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

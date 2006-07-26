@@ -273,7 +273,6 @@ function delSubEXT()
                 </tr>
               </table>
 
-              <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 <br><br>			
 <?			
 if(isset($this->getArr['editIDSup']))

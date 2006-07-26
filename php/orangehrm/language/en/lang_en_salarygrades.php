@@ -1,5 +1,5 @@
 <?
-$heading		= 'Pay Grade';
+$heading		= 'Job : Pay Grade';
 $code			= 'Code';
 $description	= 'Name';
 $currAss		= 'Currency Assigned';

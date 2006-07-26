@@ -1,5 +1,5 @@
-<?
-$heading		= 'Employment Status';
-$code			= 'Code';
-$description	= 'Description';
+<?
+$heading		= 'Employment Status';
+$code			= 'Code';
+$description	= 'Description';
 ?>

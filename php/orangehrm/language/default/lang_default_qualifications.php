@@ -1,7 +1,7 @@
-<?
-$heading		= 'Education : Education Information';
-$Code			= 'Code';
-$University		= 'University';
-$Degree			= 'Degree';
-
+<?
+$heading		= 'Education : Education Information';
+$Code			= 'Code';
+$University		= 'University';
+$Degree			= 'Degree';
+
 ?>

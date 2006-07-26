@@ -16,115 +16,55 @@ You should have received a copy of the GNU General Public License along with thi
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA  02110-1301, USA
 */
-
-
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-	$sysConst = new sysConf(); 
-	$locRights=$_SESSION['localRights'];
-
-
 ?>
-<!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Untitled Document</title>
 
 <script language="JavaScript">
-function alpha(txt)
-{
-var flag=true;
-var i,code;
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		editEXT();
+function editPayment() {
+	
+	if(document.EditPayment.title=='Save') {
+		editEXTPayment();
 		return;
 	}
 	
-	var frm=document.frmEmpBasSal;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+	document.EditPayment.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditPayment.title="Save";
 }
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.EditPayment.title=='Save') 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.EditPayment.title=='Save') 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
-function goBack() {
-		location.href =  "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";				
-	}
-		             
-
-function addEXT()
+function addEXTPayment()
 {
-	if(document.frmEmpBasSal.cmbCurrCode.value=='0') {
+	if(document.frmEmp.cmbCurrCode.value=='0') {
 			alert("Field should be selected!");
-			document.frmEmpBasSal.cmbCurrCode.focus();
+			document.frmEmp.cmbCurrCode.focus();
 			return;
 	}
 	
-var cnt=document.frmEmpBasSal.txtBasSal;
+var cnt=document.frmEmp.txtBasSal;
 if(!numeric(cnt)) {
 	alert("Field should be Numeric");
 	cnt.focus();
 	return;
 }
 
-var min = eval(document.frmEmpBasSal.Min.value);
-var max = eval(document.frmEmpBasSal.Max.value);
+var min = eval(document.frmEmp.Min.value);
+var max = eval(document.frmEmp.Max.value);
 
 if(min > cnt.value || max < cnt.value) {
 	alert("Salary should be within Min and Max");
@@ -132,27 +72,26 @@ if(min > cnt.value || max < cnt.value) {
 	return;
 }
 
-document.frmEmpBasSal.STAT.value="ADD";
-document.frmEmpBasSal.submit();
+document.frmEmp.paymentSTAT.value="ADD";
+document.frmEmp.submit();
 }
 
-function addCur()
-{
-document.frmEmpBasSal.STAT.value='OWN';
-document.frmEmpBasSal.submit();
+function addCur() {
+	document.frmEmp.paymentSTAT.value='OWN';
+	document.frmEmp.submit();
 }
 
-function editEXT()
+function editEXTPayment()
 {
-var cnt=document.frmEmpBasSal.txtBasSal;
+var cnt=document.frmEmp.txtBasSal;
 if(!numeric(cnt)) {
 	alert("Field should be Numeric");
 	cnt.focus();
 	return;
 }
 
-var min = eval(document.frmEmpBasSal.Min.value);
-var max = eval(document.frmEmpBasSal.Max.value);
+var min = eval(document.frmEmp.Min.value);
+var max = eval(document.frmEmp.Max.value);
 
 if(min > cnt.value || max < cnt.value) {
 	alert("Salary should be within Min and Max");
@@ -160,14 +99,13 @@ if(min > cnt.value || max < cnt.value) {
 	return;
 }
 
-  document.frmEmpBasSal.STAT.value="EDIT";
-  document.frmEmpBasSal.submit();
+  document.frmEmp.paymentSTAT.value="EDIT";
+  document.frmEmp.submit();
 }
 
-function delEXT()
-{
+function delEXTPayment() {
       var check = 0;
-		with (document.frmEmpBasSal) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -183,105 +121,27 @@ function delEXT()
 
 
     //alert(cntrl.value);
-    document.frmEmpBasSal.STAT.value="DEL";
-    document.frmEmpBasSal.submit();
+    document.frmEmp.paymentSTAT.value="DEL";
+    document.frmEmp.submit();
 }
 
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style1.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Remuneration</h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpBasSal" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
+        <input type="hidden" name="paymentSTAT" value="">
 
-  <tr>
-    <td height="27" valign='top'> <p>  <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
-        <input type="hidden" name="STAT" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
-<?
- $einfo = $this -> popArr['einfo'];
-  $empdet = $this ->popArr['empdet'];
-?>
-            <table border="0" cellpadding="0" cellspacing="0">
-               <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td>Employee ID</td>
-    				  <td width="75"><font color="#204242"><strong><?=$einfo[0][0]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-					  <td>Surname</td>
-						<td width="300"><font color="#204242"><strong><?=$einfo[0][1]?></strong></font></td>
-					</tr>
-					  <tr> 
-						<td>Calling Name</td>
-						<td><font color="#204242"><strong><?=$einfo[0][2]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-						<td>Initials</td>
-						<td><font color="#204242"><strong><?=$einfo[0][3]?></</font></td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-               <input type="hidden" name="txtEmpID" value="<?=$einfo[0][0]?>">
                <input type="hidden" name="txtSalGrdId" value="<?=$empdet[0][5]?>">
 <?
-	if(isset($this ->popArr['editArr']))
-{
+	if(isset($this ->popArr['editArr'])) {
 	 $edit = $this -> popArr['editArr'];
-    
-
 ?>
-
-        
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-               <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+ 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Salary Grade</td>
+                      <td><?=$paygrade?></td>
     				  <td><strong><?=$empdet[0][5]?></strong></td>
 					</tr>
 					  <tr> 
-						<td valign="top">Currency Code</td>
+						<td valign="top"><?=$currency?></td>
 						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?=$edit[0][2]?>">
 						<strong>
 <?
@@ -293,7 +153,7 @@ function delEXT()
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Min Point</td>
+						<td valign="top"><?=$minpoint?></td>
 						<td align="left" valign="top"><strong>
 <?
 						for($c=0;count($currlist)>$c;$c++)
@@ -305,7 +165,7 @@ function delEXT()
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Max Point</td>
+						<td valign="top"><?=$maxpoint?></td>
 						<td align="left" valign="top"><strong>
 <?
 						for($c=0;count($currlist)>$c;$c++)
@@ -317,7 +177,7 @@ function delEXT()
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Basic Salary</td>
+						<td valign="top"><?=$bassalary?></td>
 						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?=$edit[0][3]?>">
 						</td>
 					  </tr>
@@ -331,40 +191,15 @@ function delEXT()
 		<?			}  ?>
 						</td>
 					  </tr>
-    
-
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
+                  </table>
 <? } else { ?>
-&nbsp;
-        
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td>Salary Grade</td>
+                      <td><?=$paygrade?></td>
     				  <td><strong><?=$empdet[0][5]?></strong></td>
 					</tr>
 					  <tr> 
-						<td valign="top">Currency</td>
+						<td valign="top"><?=$currency?></td>
 						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> onChange='addCur();' name='cmbCurrCode'>
                        						<option value="0">--Select Currency--</option>
 <?
@@ -382,7 +217,7 @@ function delEXT()
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Min Point</td>
+						<td valign="top"><?=$minpoint?></td>
 						<td align="left" valign="top"><strong>
 <?						
 						if(isset($this->popArr['cmbCurrCode'])) {
@@ -396,7 +231,7 @@ function delEXT()
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Max Point</td>
+						<td valign="top"><?=$maxpoint?></td>
 						<td align="left" valign="top"><strong>
 <?
 						if(isset($this->popArr['cmbCurrCode'])) {
@@ -410,7 +245,7 @@ function delEXT()
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top">Basic Salary</td>
+						<td valign="top"><?=$bassalary?></td>
 						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtBasSal">
 						</td>
 					  </tr>
@@ -424,17 +259,7 @@ function delEXT()
 					<?	} ?>
 						</td>
 					  </tr>
-                   </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                   </table>
 <? } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
@@ -445,7 +270,7 @@ function delEXT()
 
   <tr>
 
-    <td width='100%'><h3>Assigned Salaries</h3></td>
+    <td width='100%'><h3><?=$assignedsalary?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -459,20 +284,11 @@ function delEXT()
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong>Currency Code</strong></td>
-						 <td><strong>Basic Salary</strong></td>
+						 <td><strong><?=$currency?></strong></td>
+						 <td><strong><?=$bassalary?></strong></td>
 					</tr>
 <?
 			$rset = $this->popArr['rset'];
@@ -491,17 +307,6 @@ function delEXT()
         }
 
 ?>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</form>
-</body>
-</html>
+</table>
+
+<? } ?>

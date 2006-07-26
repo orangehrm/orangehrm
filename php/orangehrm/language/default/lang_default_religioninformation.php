@@ -1,6 +1,6 @@
-<?
-$heading		= 'Religion Information : Nationality & Religion Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Religion Information : Nationality & Religion Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

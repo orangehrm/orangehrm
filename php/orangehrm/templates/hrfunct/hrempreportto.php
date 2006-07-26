@@ -16,20 +16,7 @@ You should have received a copy of the GNU General Public License along with thi
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA  02110-1301, USA
 */
-
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-	$sysConst = new sysConf(); 
-	$locRights=$_SESSION['localRights'];
-
-	$arrRepType = array ('Supervisor','Subordinate');
-	$arrRepMethod = array ('Direct' => 1,'Indirect' => 2);
-	
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Untitled Document</title>
 
 <script language="JavaScript">
 function alpha(txt)
@@ -208,91 +195,18 @@ function delSubEXT()
 }
 
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style1.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$heading?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpRepTo" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-  <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
         <input type="hidden" name="STAT" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
-<? 
-  $empdet = $this -> popArr['empdet'];
-?>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?=$employeeid?></td>
-    				  <td width="75"><font color="#204242"><strong><?=$empdet[0][0]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-					  <td><?=$lastname?></td>
-						<td width="300"><font color="#204242"><strong><?=$empdet[0][1]?></strong></font></td>
-					</tr>
-					  <tr> 
-						<td><?=$firstname?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][2]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-						<td><?=$nickname?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][3]?></</font></td>
-					  </tr>
-                   </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-              <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 <br><br>			
-<?			
-if(isset($this->getArr['editIDSup']))
-{	
-?>
+<?	if(isset($this->getArr['editIDSup'])) {	?>
+
      <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['editIDSup']?>">
      <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['id']?>">
      <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">
      
-      <table border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
     				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[0]?>"><strong>
@@ -316,18 +230,16 @@ if(isset($this->getArr['editIDSup']))
 						
 						
 							
-<?										$keys = array_keys($arrRepMethod);
-										$values = array_values($arrRepMethod);
-									for($c=0;count($arrRepMethod)>$c;$c++)
-										if($this->getArr['RepMethod']==$values[$c]){
-										echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
-										}else{
-										echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
-										}
+<?						$keys = array_keys($arrRepMethod);
+						$values = array_values($arrRepMethod);
+						for($c=0;count($arrRepMethod)>$c;$c++)
+							if($this->getArr['RepMethod']==$values[$c]) {
+								echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
+							} else {
+								echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
+							}
 ?>
-
-</tr>
-					  
+					</tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
@@ -338,40 +250,15 @@ if(isset($this->getArr['editIDSup']))
 			<?			}  ?>
 						</td>
 					  </tr>
- </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-<?			
-}
-	elseif (isset($this->getArr['editIDSub']))
-{	
-	
-?>
+ </table>
+ 
+<? } elseif (isset($this->getArr['editIDSub'])) { ?>
 
 	 <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['id']?>">
      <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['editIDSub']?>">
   	 <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">
      
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
     				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[1]?>"><strong>
@@ -380,7 +267,6 @@ if(isset($this->getArr['editIDSup']))
 					  
 					  </strong></td>
 					</tr>
-					
 					<tr> 
 						<td valign="top"><?=$employeeid?></td>
 <?						$empsubid = $this->getArr['editIDSub'];  ?>
@@ -392,59 +278,34 @@ if(isset($this->getArr['editIDSup']))
 					  <tr> 
 						<td valign="top"><?=$reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name="cmbRepMethod"><strong>
-						
-						
 <?							
-										$keys = array_keys($arrRepMethod);
-										$values = array_values($arrRepMethod);
-									for($c=0;count($arrRepMethod)>$c;$c++)
-										if($this->getArr['RepMethod']==$values[$c]){
-										echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
-										}else{
-										echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
-										}
+						$keys = array_keys($arrRepMethod);
+						$values = array_values($arrRepMethod);
+						for($c=0;count($arrRepMethod)>$c;$c++)
+							if($this->getArr['RepMethod']==$values[$c]) {
+								echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
+							} else {
+								echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
+							}
 ?>
-				
-				</tr>
-					  
+					</tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
-			<?			} else { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-			<?			}  ?>
+				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+		<?			} else { ?>
+				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+		<?			}  ?>
 						</td>
 					  </tr>
- </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-<? 
-} else { 
-?>
+			</table>
+			
+<? } else { ?>
 		<input type="hidden" name="txtSupEmpID" value="">
      	<input type="hidden" name="txtSubEmpID" value="">
 	
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
     				  <td>
@@ -483,17 +344,7 @@ if(isset($this->getArr['editIDSup']))
 <?	} ?>
 						</td>
 					  </tr>
-                 </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                 </table>
 <? } ?>
 <br><br>
 	<input type="hidden" name="delSupSub">
@@ -520,16 +371,7 @@ if(isset($this->getArr['editIDSup']))
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+      <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?=$employeeid?></strong></td>
@@ -559,18 +401,8 @@ $empname = $this ->popArr['empname'];
         }
 
 ?>
-                   </table></td>
-                   
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table></td><td>
+                   </table>
+            </td><td>
 
  <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -594,16 +426,7 @@ $empname = $this ->popArr['empname'];
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?=$employeeid?></strong></td>
@@ -635,18 +458,5 @@ $empname = $this -> popArr['empname'];
         }
 
 ?>
-                   </table></td>
-                   
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table></td></tr></table>
-</form>
-</body>
-</html>
+                </table></td></tr></table>
+<? } ?>

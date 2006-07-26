@@ -19,6 +19,7 @@ require_once ROOT_PATH . '/lib/controllers/RepViewController.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_BankInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_TaxInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CashBen.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CompStruct.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CostCenter.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CountryInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CurrencyTypes.php';
@@ -34,7 +35,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Branches.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Location.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_MembershipType.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_NationalityInfo.php';
-require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_NonCashBen.php';
+//require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_NonCashBen.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CompHier.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_QualificationType.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ReligionInfo.php';
@@ -506,6 +507,12 @@ switch ($moduletype) {
 										}
 
 			 							break;
+			 			case 'CST'	:	
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_CompStruct();
+										}
+
+			 							break;
 
 						case 'BBS'	:	
 										if(isset($_POST['STAT'])) {
@@ -550,6 +557,10 @@ switch ($moduletype) {
 			 							break;
 					}
 
+										if(isset($_POST['sqlState']) && $_POST['sqlState']=='delete' && $locRights['delete']) {
+											$parsedObject = $extractor->parseDeleteData($_POST);
+											$view_controller->deleteData($_GET['uniqcode'],$parsedObject);
+										}										
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['uniqcode'],$parsedObject);
@@ -614,13 +625,20 @@ switch ($moduletype) {
 						} 
 						
 					// choosing which extractor
-
 					if(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpEmergencyCon();
 					}
 
 					if(isset($_POST['passportSTAT']) && $_POST['passportSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpPassPort();
+					}
+
+					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpLanguage();
+					}
+					
+					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpLicenses();
 					}
 
 					if(isset($_POST['brchSTAT']) && $_POST['brchSTAT']!= '') {
@@ -631,12 +649,15 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpAttach();
 					}
 
+					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpBasSalary();
+					}
 					
-					if(isset($_POST['depSTAT']) && $_POST['depSTAT']!= '') {
+					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
 
-					if(isset($_POST['chiSTAT']) && $_POST['chiSTAT']!= '') {
+					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpChildren();
 					}
 
@@ -645,11 +666,11 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
 
-
 					switch ($_GET['reqcode']) {	
 							
 							case 'EMP'	:	
 										if(isset($_POST['sqlState'])) {
+														print_r('TEST');						
 											
 											$extractor = new EXTRACTOR_EmpInfo();
 										}
@@ -662,110 +683,8 @@ switch ($moduletype) {
 										}
 										
 										break;	
-							
-							case 'LAN'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpLanguage();
-										}
-									
-										break;	
-							
-							case 'JSP'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpJobSpec();
-										}
-										
-										break;
-										
-										
-							case 'CXT'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpConExt();
-										}
-										
-										break;	
-										
-							case 'SAL'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpBasSalary();
-										}
-										
-										break;
-										
-							case 'MEM'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpMembership();
-										}
-										
-										break;
-										
-							case 'EXP'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpWorkExp();
-										}
-										
-										break;								
-										
-							case 'EXC'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpExCur();
-										}
-										
-										break;	
-										
-							case 'QUA'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpQualification();
-										}
-										
-										break;	
-											
-							case 'QAS'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpQualSub();
-										}
-										
-										break;	
-
-							case 'CBN'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpCashBen();
-										}
-										
-										break;	
-										
-							case 'NBN'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpNonCashBen();
-										}
-										
-										break;
-										
-							case 'REP'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpRepTo();
-										}
-										
-										break;
-										
-							case 'SKI'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpSkill();
-										}
-										
-										break;
-										
-							case 'LIC'	:	
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_EmpLicenses();
-										}
-										
-										break;
-										
-							
-											
 						}
-						
+										
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_POST,$_GET['reqcode'],$parsedObject);
@@ -791,6 +710,14 @@ switch ($moduletype) {
 										} elseif(isset($_POST['STAT']) && $_POST['STAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delAssignData($_GET['reqcode'],$_POST,$_GET);
 										}
+
+										if(isset($_POST['paymentSTAT']) && (($_POST['paymentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['paymentSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['paymentSTAT']);
+										} elseif(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
 										
 										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
@@ -805,19 +732,32 @@ switch ($moduletype) {
 										} elseif(isset($_POST['passportSTAT']) && $_POST['passportSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
 
-										if(isset($_POST['depSTAT']) && (($_POST['depSTAT'] == 'ADD' && $locRights['add']) || ($_POST['depSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['langSTAT']) && (($_POST['langSTAT'] == 'ADD' && $locRights['add']) || ($_POST['langSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
-												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['depSTAT']);
-										} elseif(isset($_POST['depSTAT']) && $_POST['depSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['langSTAT']);
+										} elseif(isset($_POST['langSTAT']) && $_POST['langSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+
+										if(isset($_POST['licenseSTAT']) && (($_POST['licenseSTAT'] == 'ADD' && $locRights['add']) || ($_POST['licenseSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['licenseSTAT']);
+										} elseif(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
-										if(isset($_POST['chiSTAT']) && (($_POST['chiSTAT'] == 'ADD' && $locRights['add']) || ($_POST['chiSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
-												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['chiSTAT']);
-										} elseif(isset($_POST['chiSTAT']) && $_POST['chiSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
+										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
+										if(isset($_POST['childrenSTAT']) && (($_POST['childrenSTAT'] == 'ADD' && $locRights['add']) || ($_POST['childrenSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['childrenSTAT']);
+										} elseif(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
@@ -986,7 +926,6 @@ switch ($moduletype) {
 												
 						// choosing which extractor
 						switch ($_GET['repcode']) {
-						
 											
 							case 'EMPDEF'	:	
 											if(isset($_POST['sqlState'])) {

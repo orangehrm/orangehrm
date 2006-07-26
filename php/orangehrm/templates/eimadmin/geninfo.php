@@ -29,11 +29,18 @@ function populateStates($value) {
 	
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$provlist,1,'frmGenInfo','cmbState');
-	$response->addAssign('status','innerHTML','');
+	if ($provlist) {
+		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'frmGenInfo.lrState','txtState');
+		
+	} else {
+		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
+	}
+	$objResponse->addAssign('status','innerHTML','');
 	
-return $response->getXML();
+return $objResponse->getXML();
 }
+
 
 function populateDistricts($value) {
 	
@@ -60,48 +67,9 @@ $objAjax->processRequests();
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? $objAjax->printJavascript(); ?>
+<? include(ROOT_PATH.'/scripts/archive.js'); ?>
 <script>
-function alpha(txt) {
-var flag=true;
-var i,code;
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt) {
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
 
 function mout() {
 	if(document.Edit.title=='Save') 
@@ -134,25 +102,26 @@ function edit()
 	function addUpdate() {
 
 		if (document.frmGenInfo.txtCompanyName.value == '') {
-			alert ("Company name cannot be blank!");
+			alert ("<?=$err_CompanyName?>");
 			document.frmGenInfo.txtCompanyName.focus();
 			return;
 		} 
 
 		var cntrl = document.frmGenInfo.txtPhone;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('Field should be numeric !');
+			alert('<?=$err_Phone?>');
 			cntrl.focus();
 			return;
 		}
 		
 		var cntrl = document.frmGenInfo.txtFax;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('Field should be numeric !');
+			alert('<?=$err_Phone?>');
 			cntrl.focus();
 			return;
 		}
 		
+		document.getElementById("cmbState").value=document.getElementById("txtState").value;
 		document.frmGenInfo.STAT.value = "EDIT";
 		document.frmGenInfo.submit();		
 	}
@@ -161,6 +130,11 @@ function edit()
 		document.frmGenInfo.txtBankInfoDesc.value = '';
 		document.frmGenInfo.txtBankAddress.value = '';	
 		document.frmGenInfo.txtBankCLRCode.value = '';
+	}
+	
+	function validate() {
+		
+	return 'return false;';
 	}
 				
 </script>
@@ -243,35 +217,34 @@ function edit()
 							    <td><?=$street2?></td>
 							    <td><input type="text" disabled name='txtStreet2' value="<?=isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
 							    <td><?=$phone?></td>
-							    <td><input type="text" disabled name='txtPhone' value="<?=isset($editArr['PHONE']) ? $editArr['STREET2'] : ''?>"></td>
+							    <td><input type="text" disabled name='txtPhone' value="<?=isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
 							  </tr>
-                  			  <tr> 
+                  			  <tr valign="top"> 
 							    <td><?=$state?></td>
-							    <td><select name="cmbState" disabled onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateDistricts(this.value);">
+							    <td><div id="lrState" name="lrState">
+							    <? if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
+							    	<select name="txtState" id="txtState" disabled>
 							    		<option value="0">--- Select ---</option>
-							    <?		$statlist = $this->popArr['provlist'];
+							     	<?	$statlist = $this->popArr['provlist'];
 							    		for($c=0; $statlist && count($statlist)>$c ;$c++) 
 							    			if($editArr['STATE'] == $statlist[$c][1])
 							    				echo "<option selected value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
 							    			else
 							    				echo "<option value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
-							    ?>
-							    </select></td>
+							    	?>
+							    	</select>
+							    	<? } else { ?>
+							    	<input type="text" disabled name="txtState" id="txtState" value="<?=isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
+							    	<? } ?>
+							    	</div>
+							    	<input type="hidden" name="cmbState" id="cmbState" value="<?=isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
+							    	</td>
 							    <td><?=$fax?></td>
 							    <td><input type="text" disabled name="txtFax" value="<?=isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
 							  </tr>
-							  <tr> 
+							  <tr valign="top"> 
 							    <td><?=$city?></td>
-							    <td><select disabled name='cmbCity'>
-							    		<option value="0">--- Select ---</option>
-							    <?		$citylist = $this->popArr['districtlist'];
-							    		for($c=0; $citylist && count($citylist)>$c ;$c++) 
-							    			if($editArr['CITY'] == $citylist[$c][1])
-							    				echo "<option selected value='" . $citylist[$c][1] . "'>" . $citylist[$c][2] . "</option>";
-							    			else
-							    				echo "<option value='" . $citylist[$c][1] . "'>" . $citylist[$c][2] . "</option>";
-							    ?>
-							    </select></td>
+							    <td><input type="text" disabled name="cmbCity" value="<?=isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>
 							    <td><?=$comments?></td>
 							    <td><textarea disabled name='txtComments'><?=isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea></td>
 							  </tr>

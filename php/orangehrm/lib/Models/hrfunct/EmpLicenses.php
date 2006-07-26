@@ -148,7 +148,6 @@ function getListofEmpLicenses($page,$str,$mode) {
 		$tableName = 'HS_HR_EMP_LICENSES';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'LICENSES_CODE';
-		$arrFieldList[2] = 'LICENSES_DATE';
 
 		$sql_builder = new SQLQBuilder();
 

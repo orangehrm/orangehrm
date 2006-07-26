@@ -76,19 +76,26 @@ class MembershipInfo {
 	}
 	
 	
-	function getListofMembershipInfo($pageNO,$schStr,$mode) {
+	function getListofMembershipInfo($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
-		$tableName = 'HS_HR_MEMBERSHIP';			
+		$tableName = 'HS_HR_MEMBERSHIP';
+		$tableName2 = 'HS_HR_MEMBERSHIP_TYPE';
+				
 		$arrFieldList[0] = 'MEMBSHIP_CODE';
 		$arrFieldList[1] = 'MEMBSHIP_NAME';
+		
+		$arrFieldList2[0] = 'MEMBTYPE_NAME';
 		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
+		$sql_builder->table2_name = $tableName2;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
+		$sql_builder->arr_select = $arrFieldList;	
+		$sql_builder->arr_select2 = $arrFieldList2;	
+		$sql_builder->field	= 'MEMBTYPE_CODE';
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessageMulti($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -100,6 +107,7 @@ class MembershipInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }

@@ -21,6 +21,7 @@ class LogWriter {
 
 	function writeLogDB($exceptionString) {
 	
+		
 		$this->exception_string = $exceptionString;
 		$somecontent = $this->exception_string;
 		$filename = $_SESSION['path'].'/lib/logs/logDB.txt';

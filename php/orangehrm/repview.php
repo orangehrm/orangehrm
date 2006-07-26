@@ -248,28 +248,31 @@ else
 	if($recCount%$sysConst->itemsPerPage)
 	   $noPages++;
 
-	   
-	if($currentPage==1)
-		echo "<font color='Gray'>Previous</font>";
-	else
-    	echo "<a href='#' onClick='prevPage()'>Previous</a>";
-    	
-    echo "  ";
-    	
-	for( $c = 1 ; $noPages >= $c ; $c++) {
-	    if($c == $currentPage)
-			echo "<font color='Gray'>" .$c. "</font>";
-		else
-	    	echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-	    	
-	    echo "  ";
-	}
+	if ($noPages > 1) {
 		
-	if($currentPage == $noPages || $noPages==0)
-		echo "<font color='Gray'>Next</font>";
-	else
-    	echo "<a href='#' onClick='nextPage()'>Next</a>";
-			
+	
+		if ($currentPage==1)
+			echo "<font color='Gray'>Previous</font>";
+		else
+    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    	
+    	echo "  ";
+    	
+		for( $c = 1 ; $noPages >= $c ; $c++) {
+	    	if($c == $currentPage)
+				echo "<font color='Gray'>" .$c. "</font>";
+			else
+	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+	    	
+	    	echo "  ";
+		}
+		
+		if($currentPage == $noPages)
+			echo "<font color='Gray'>Next</font>";
+		else
+    		echo "<a href='#' onClick='nextPage()'>Next</a>";
+	
+	}
 ?> 
 		</td>
 		<td width="25"></td>

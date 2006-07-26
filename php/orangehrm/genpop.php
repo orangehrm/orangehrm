@@ -15,6 +15,8 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program;
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA  02110-1301, USA
+
+@author
 */
 
 session_start();
@@ -83,6 +85,11 @@ else
 	}
 	
 	function Search() {
+		if (document.standardView.loc_code.value == 0) {	
+			alert("Select the field to search!");
+			document.standardView.loc_code.Focus();
+			return;
+		};
 		document.standardView.captureState.value = 'SearchMode';		
 		document.standardView.action="./genpop.php?uniqcode=<?=$_GET['uniqcode']?>"
 		document.standardView.pageNO.value=1;
@@ -189,28 +196,30 @@ else
 
 	if($recCount%$sysConst->itemsPerPage)
 	   $noPages++;
-
-	   
-	if($currentPage==1)
-		echo "<font color='Gray'>Previous</font>";
-	else
-    	echo "<a href='#' onClick='prevPage()'>Previous</a>";
-    	
-    echo "  ";
-    	
-	for( $c = 1 ; $noPages >= $c ; $c++) {
-	    if($c == $currentPage)
-			echo "<font color='Gray'>" .$c. "</font>";
+	echo $noPages;
+	if ($noPages > 1) {   
+			
+		if($currentPage==1)
+			echo "<font color='Gray'>Previous</font>";
 		else
-	    	echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    	
+    	echo "  ";
+    	
+		for( $c = 1 ; $noPages >= $c ; $c++) {
+	    	if($c == $currentPage)
+				echo "<font color='Gray'>" .$c. "</font>";
+			else
+	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
 	    	
-	    echo "  ";
-	}
+	    	echo "  ";
+		}
 		
-	if($currentPage == $noPages || $noPages==0)
-		echo "<font color='Gray'>Next</font>";
-	else
-    	echo "<a href='#' onClick='nextPage()'>Next</a>";
+		if($currentPage == $noPages || $noPages==0)
+			echo "<font color='Gray'>Next</font>";
+		else
+    		echo "<a href='#' onClick='nextPage()'>Next</a>";
+	};
 			
 ?> 
 		</td>

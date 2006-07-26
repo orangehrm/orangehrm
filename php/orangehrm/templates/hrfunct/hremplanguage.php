@@ -17,133 +17,79 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA  02110-1301, USA
 */
 
-
-
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-	$sysConst = new sysConf(); 
-	$locRights=$_SESSION['localRights'];
-	
 	$lantype  = $this->popArr['lantype'];
 	$grdcodes = $this->popArr['grdcodes'];
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Untitled Document</title>
-
 <script language="JavaScript">
-function alpha(txt)
+function editLang()
 {
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		editEXT();
+	if(document.EditLang.title=='Save') {
+		editEXTLang();
 		return;
 	}
 	
-	var frm=document.frmEmpLan;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+	document.EditLang.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditLang.title="Save";
 }
 
-function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+function moutLang() {
+	if(document.EditLang.title=='Save') 
+		document.EditLang.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditLang.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
-function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+function moverLang() {
+	if(document.EditLang.title=='Save') 
+		document.EditLang.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditLang.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
-	}
 
-function addEXT()
+function addEXTLang()
 {
-	if(document.frmEmpLan.cmbLanCode.value=='0') {
+	if(document.frmEmp.cmbLanCode.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpLan.cmbLanCode.focus();
+		document.frmEmp.cmbLanCode.focus();
 		return;
 	}
 	
-	if(document.frmEmpLan.cmbLanType.value=='0') {
+	if(document.frmEmp.cmbLanType.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpLan.cmbLanType.focus();
+		document.frmEmp.cmbLanType.focus();
 		return;
 	}
 
-	if(document.frmEmpLan.cmbRatGrd.value=='0') {
+	if(document.frmEmp.cmbRatGrd.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpLan.cmbRatGrd.focus();
+		document.frmEmp.cmbRatGrd.focus();
 		return;
 	}
 
-  document.frmEmpLan.STAT.value="ADD";
-  document.frmEmpLan.submit();
+  document.frmEmp.langSTAT.value="ADD";
+  qCombo(11);
 }
 
-function editEXT()
-{
-  document.frmEmpLan.STAT.value="EDIT";
-  document.frmEmpLan.submit();
+function editEXTLang() {
+  document.frmEmp.langSTAT.value="EDIT";
+  qCombo(11);
 }
 
-function delEXT()
-{
+function viewLang(lanSeq,lanFlu) {
+	
+	document.frmEmp.action=document.frmEmp.action + "&lanSEQ=" + lanSeq + "&lanFLU=" + lanFlu;
+	document.frmEmp.pane.value=11;
+	document.frmEmp.submit();
+}
+
+function delEXTLang() {
       var check = 0;
-		with (document.frmEmpLan) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -151,124 +97,44 @@ function delEXT()
 			}
         }
 
-        if(check==0)
-            {
+        if(check==0) {
               alert("Select atleast one check box");
               return;
             }
 
-    document.frmEmpLan.STAT.value="DEL";
-    document.frmEmpLan.submit();
-}
-
-function addNewEXT(str){
-	var EmpID = str;		
-	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+    document.frmEmp.langSTAT.value="DEL";
+   qCombo(11);
 }
 
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style1.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$employeelanguageflu?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
+<?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpLan" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
 
   <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
-        <input type="hidden" name="STAT" value="">
+    <td height="27" valign='top'> <p>
+        <input type="hidden" name="langSTAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
   </tr><td width="177">
 </table>
- <?
-$empdet = $this->popArr['empDet'];
-?>
 
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?=$employeeid?></td>
-    				  <td width="75"><font color="#204242"><strong><?=$empdet[0][0]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-					  <td><?=$lastname?></td>
-						<td width="300"><font color="#204242"><strong><?=$empdet[0][1]?></strong></font></td>
-					</tr>
-					  <tr> 
-						<td><?=$firstname?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][2]?></strong></font></td>
-    				  <td width="50">&nbsp;</td>
-						<td><?=$middlename?></td>
-						<td><font color="#204242"><strong><?=$empdet[0][3]?></</font></td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-    <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
 
 <?
-if(isset($this->popArr['editArr']))
-{
-    $edit = $this->popArr['editArr'];
+if(isset($this->getArr['lanSEQ'])) {
+    $edit = $this->popArr['editLanArr'];
 ?>
         
-<table>
-		<tr>
-      		<td>      			
-      			<?	if ($locRights['edit'] ){ ?>
-        			<img title="Add" onClick="addNewEXT('<?php echo $empdet[0][0]; ?>');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-				<? 	} ?>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-      	</tr>
-	  </table>	
 <br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?=$language?></td>
     				  <td><input type="hidden" name="cmbLanCode" value="<?=$edit[0][1]?>"><strong>
 <?						$lanlist = $this->popArr['lanlist'];
 						for($c=0;count($lanlist)>$c;$c++)
-							if($this->getArr['editID1']==$lanlist[$c][0])
+							if($edit[0][1]==$lanlist[$c][0])
 							     break;
 							     
 					  			echo $lanlist[$c][1];
@@ -277,12 +143,12 @@ if(isset($this->popArr['editArr']))
 					</tr>
 					  <tr> 
 						<td valign="top"><?=$fluency?></td>
-						<td align="left" valign="top"><input type="hidden" name="cmbLanType" value="<?=$this->getArr['editID2']?>"><strong>
+						<td align="left" valign="top"><input type="hidden" name="cmbLanType" value="<?=$this->getArr['lanFLU']?>"><strong>
 <?						
 						$index=array_values($lantype);
 						$value=array_keys($lantype);
 						for($a=0;count($lantype)>$a;$a++)
-							if($this->getArr['editID2']==$index[$a])
+							if($this->getArr['lanFLU']==$index[$a])
 					  			echo $value[$a];
 ?>
 						</td>
@@ -307,38 +173,20 @@ if(isset($this->popArr['editArr']))
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLang();" onmouseover="moverLang();" name="EditLang" onClick="editLang();">
 		<?			} else { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?			}  ?>
 						</td>
 					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                  </table>
 
 <? } else { ?>
 &nbsp;
         
 <br><br>
       <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?=$language?></td>
     				  <td><select name="cmbLanCode" <?=$locRights['add'] ? '':'disabled'?>>
@@ -354,9 +202,6 @@ if(isset($this->popArr['editArr']))
 					  </select></td>
 					</tr>
                     <tr>
-<?                    if(isset($this->popArr['cmbLanCode'])) 
-   							  echo "<input type='hidden' name='cmbRat' value='" .$this->popArr['ratSel']. "'>";
-?>
                       <td width="200"><?=$fluency?></td>
     				  <td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbLanType">
     				  		<option value="0">---Select Fluency---</option>
@@ -386,23 +231,13 @@ if(isset($this->popArr['editArr']))
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
 								</td>
 					  </tr>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+                  </table>
 <? } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
@@ -419,7 +254,7 @@ if(isset($this->popArr['editArr']))
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -427,34 +262,25 @@ if(isset($this->popArr['editArr']))
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?=$language?></strong></td>
 						 <td><strong><?=$fluency?></strong></td>
 					</tr>
 <?
-$rset = $this->popArr['rsets'];
+$rset = $this->popArr['rsetLang'];
 
-    for($c=0; $rset && $c < count($rset); $c++)
-        {
+    for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
+            echo "<td><input type='checkbox' class='checkbox' name='chklangdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
 
 			for($a=0;count($lanlist)>$a;$a++)
 				if($rset[$c][1] == $lanlist[$a][0])
 				   $lname=$lanlist[$a][1];
-            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
-			for($a=0;count($lantype)>$a;$a++)
+            ?> <td><a href="javascript:viewLang('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$lname?></a></td> <?
+
+            for($a=0;count($lantype)>$a;$a++)
 				if($rset[$c][2] == $index[$a])
 				   $flu=$value[$a];
             echo '<td>' . $flu .'</a></td>';
@@ -462,17 +288,7 @@ $rset = $this->popArr['rsets'];
         }
 
 ?>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</form>
-</body>
-</html>
+</table>
+
+<? } ?>
+                  

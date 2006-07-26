@@ -112,7 +112,48 @@ function MM_preloadImages() { //v3.0
     if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 }
 
-function addSave() {
+function alpha(txt) {
+var flag=true;
+var i,code;
+
+if(txt.value=="")
+   return false;
+
+for(i=0;txt.value.length>i;i++)
+	{
+	code=txt.value.charCodeAt(i);
+    if((code>=65 && code<=122) || code==32 || code==46)
+	   flag=true;
+	else
+	   {
+	   flag=false;
+	   break;
+	   }
+	}
+return flag;
+}
+
+function numeric(txt) {
+var flag=true;
+var i,code;
+
+if(txt.value=="")
+   return false;
+
+for(i=0;txt.value.length>i;i++)	{
+	code=txt.value.charCodeAt(i);
+    if(code>=48 && code<=57)
+	   flag=true;
+	else
+	   {
+	   flag=false;
+	   break;
+	   }
+	}
+return flag;
+}
+
+function addEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
 	if(!alpha(cnt)) {
@@ -135,31 +176,13 @@ function addSave() {
 		return;
 	}
 
-	if(document.frmEmp.txtNICNo.value=='') {
-		alert("Field Empty");
-
-        MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide');
-
-		document.frmEmp.txtNICNo.focus();
-		return;
-	}
-	
-	if(document.frmEmp.cmbJobTitle.value=='0') {
-		alert("Field should be selected");
-
-        MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide');
-
-		document.frmEmp.cmbJobTitle.focus();
-		return;
-	}
-
-		document.frmEmp.sqlState.value = "NewRecord";
-		document.frmEmp.submit();		
-	}
+	document.frmEmp.sqlState.value = "NewRecord";
+	document.frmEmp.submit();		
+}
 
 	function goBack() {
+
 		location.href ="./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
-		
 	}
 
 function mout() {
@@ -179,20 +202,20 @@ function mover() {
 function editEmpMain() {
 
 	if(document.frmEmp.EditMode.value=='1') {
-		addUpdate();
+		updateEmpMain();
 		return;
 	}
 	
 	var frm=document.frmEmp;
-//  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
+		
 	document.EditMain.src="../../themes/beyondT/pictures/btn_save.jpg";
 	document.EditMain.title="Save";
 	document.frmEmp.EditMode.value='1';
 }
 	
-function addUpdate() {
+function updateEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
 	if(!alpha(cnt)) {
@@ -215,24 +238,9 @@ function addUpdate() {
 		return;
 	}
 
-	if(document.frmEmp.txtNICNo.value=='') {
-		alert("Field Empty");
-		document.frmEmp.txtNICNo.focus();
-		return;
-	}
-
-	if(document.frmEmp.cmbJobTitle.value=='0') {
-		alert("Field should be selected");
-
-        MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide');
-
-		document.frmEmp.cmbJobTitle.focus();
-		return;
-	}
-
-		document.frmEmp.sqlState.value = "UpdateRecord";
-		document.frmEmp.submit();		
-	}			
+	document.frmEmp.sqlState.value = "UpdateRecord";
+	document.frmEmp.submit();		
+}			
 
 <? if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
 		function reLoad() {
@@ -252,50 +260,31 @@ function chgPane(lblPane) {
 }
 
 function qshowpane() {
+	
 	var opt=eval(document.frmEmp.pane.value);
-		switch(opt) {
-
-          	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //personal
-          	case 2 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //job
-          	case 3 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','show','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //dependents
-          	case 4 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','show','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //contacts
-          	case 5 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','show','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //emg-contacts
-          	case 6 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','show','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //attachements
-          	case 7 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','show','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //cash-benefits
-          	case 8 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','show','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //noncash-benefits
-          	case 9 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','show','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //education
-          	case 10 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','show','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //immigration
-          	case 11 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','show','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //languages
-          	case 12 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','show','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //licenses
-          	case 13 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','show','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //memberships
-          	case 14 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','show','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //payments
-          	case 15 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','show','skills','','hide','work-experiance','','hide'); break; //report-to
-          	case 16 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','show','work-experiance','','hide'); break; //skills
-          	case 17 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','show'); break; //work-experiance
-
-		}
+	displayLayer(opt);
 }
 
 function displayLayer(panelNo) {
 	
 	switch(panelNo) {
-          	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //personal
-          	case 2 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //job
-          	case 3 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','show','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //dependents
-          	case 4 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','show','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //contacts
-          	case 5 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','show','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //emg-contacts
-          	case 6 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','show','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //attachements
-          	case 7 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','show','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //cash-benefits
-          	case 8 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','show','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //noncash-benefits
-          	case 9 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','show','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //education
-          	case 10 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','show','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //immigration
-          	case 11 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','show','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //languages
-          	case 12 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','show','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //licenses
-          	case 13 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','show','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //memberships
-          	case 14 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','show','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //payments
-          	case 15 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','show','skills','','hide','work-experiance','','hide'); break; //report-to
-          	case 16 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','show','work-experiance','','hide'); break; //skills
-          	case 17 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','membershps','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','show'); break; //work-experiance
+          	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //personal
+          	case 2 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //job
+          	case 3 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','show','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //dependents
+          	case 4 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','show','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //contacts
+          	case 5 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','show','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //emg-contacts
+          	case 6 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','show','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //attachements
+          	case 7 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','show','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //cash-benefits
+          	case 8 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','show','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //noncash-benefits 
+          	case 9 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','show','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //education
+          	case 10 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','show','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //immigration
+          	case 11 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','show','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //languages
+          	case 12 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','show','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //licenses
+          	case 13 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','show','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //memberships
+          	case 14 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','show','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //payments
+          	case 15 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','show','skills','','hide','work-experiance','','hide'); break; //report-to
+          	case 16 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','show','work-experiance','','hide'); break; //skills
+          	case 17 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','show'); break; //work-experiance
 	}
 }
 
@@ -305,21 +294,10 @@ function setUpdate(opt) {
           	case 0 : document.frmEmp.main.value=1; break;
           	case 1 : document.frmEmp.personalFlag.value=1; break;
           	case 2 : document.frmEmp.jobFlag.value=1; break;
-          	case 3 : document.frmEmp.dependentsFlag.value=1;
-          			 document.frmEmp.workstationFlag.value=1; break;
-            case 4 : document.frmEmp.econtactFlag.value=1; break;
-            case 5 : document.frmEmp.contactFlag.value=1; break;
-            case 6 : document.frmEmp.passportFlag.value=1; break;
-            case 7 : document.frmEmp.bankFlag.value=1; break;
-            case 8 : document.frmEmp.attachmentFlag.value=1; break;
-            case 9 : document.frmEmp.childrenFlag.value=1; break;
+            case 3 : document.frmEmp.contactFlag.value=1; break;
 		}	
 }
 
-function dwPopup() {
-        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
-        if(!popup.opener) popup.opener=self;
-}	
 
 function popPhotoHandler() {
 	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=250,width=250');
@@ -371,75 +349,74 @@ function popPhotoHandler() {
 }
 
 #jobLink {
-	background-image: url(icons/job.jpg);	
+	background-image: url(../../themes/beyondT/icons/job.jpg);	
 }
 
 #personalLink {
-	background-image: url(icons/personal.jpg);
+	background-image: url(../../themes/beyondT/icons/personal.jpg);
 }
 
 #dependantsLink {
-	background-image: url(icons/dependants.jpg);
+	background-image: url(../../themes/beyondT/icons/dependants.jpg);
 }
 
 #contactLink {
-	background-image: url(icons/contact.jpg);
+	background-image: url(../../themes/beyondT/icons/contact.jpg);
 }
 
 #emergency_contactLink {
-	background-image: url(icons/emergency_contact.jpg);
+	background-image: url(../../themes/beyondT/icons/emergency_contact.jpg);
 }
 
 #attachmentsLink {
-	background-image: url(icons/attachments.jpg);
+	background-image: url(../../themes/beyondT/icons/attachments.jpg);
 }
 
 #cash_benefitsLink {
-	background-image: url(icons/cash_benefits.jpg);
+	background-image: url(../../themes/beyondT/icons/cash_benefits.jpg);
 }
 
 #educationLink {
-	background-image: url(icons/education.jpg);
+	background-image: url(../../themes/beyondT/icons/education.jpg);
 }
 
 #immigrationLink {
-	background-image: url(icons/immigration.jpg);
+	background-image: url(../../themes/beyondT/icons/immigration.jpg);
 }
 
 #languagesLink {
-	background-image: url(icons/languages.jpg);
+	background-image: url(../../themes/beyondT/icons/languages.jpg);
 }
 
 #licenseLink {
-	background-image: url(icons/license.jpg);
+	background-image: url(../../themes/beyondT/icons/license.jpg);
 }
 
 #membershipLink {
-	background-image: url(icons/membership.jpg);
+	background-image: url(../../themes/beyondT/icons/membership.jpg);
 }
 
 #non_cash_benefitsLink {
-	background-image: url(icons/non_cash_benefits.jpg);
+	background-image: url(../../themes/beyondT/icons/non_cash_benefits.jpg);
 }
 
 #paymentLink {
-	background-image: url(icons/payment.jpg);
+	background-image: url(../../themes/beyondT/icons/payment.jpg);
 }
 
 #report-toLink {
-	background-image: url(icons/report-to.jpg);
+	background-image: url(../../themes/beyondT/icons/report-to.jpg);
 }
 
 #skillsLink {
-	background-image: url(icons/skills.jpg);
+	background-image: url(../../themes/beyondT/icons/skills.jpg);
 }
 
 #work_experienceLink {
-	background-image: url(icons/work_experience.jpg);
+	background-image: url(../../themes/beyondT/icons/work_experience.jpg);
 }
 -->
 </style>
-<link href="hrEmpMain.css" rel="stylesheet" type="text/css" />
 
 <body onload="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>">
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
@@ -531,13 +508,16 @@ function popPhotoHandler() {
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
+             	<p align="center">Fields marked with an asterisk <font color=#ff0000>*</font> are required.</p>
               
     <table border="0" align="center" >
+                <tr>
+                </tr>
     <tr>
     <td><img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();"></td>
     <td>
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEmpMain();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 
@@ -576,10 +556,10 @@ function popPhotoHandler() {
 			  </tr>
 			  <tr> 
 				<td><?=$middlename?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][4]?>"></td>
+				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
 				<td>&nbsp;</td>
 			  <td><?=$nickname?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?=(isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][3]?>"></td>
+				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?=(isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"></td>
 			  </tr><tr><td><br>&nbsp;</td></tr>
 			    </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -629,7 +609,7 @@ function popPhotoHandler() {
     <td><img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();"></td>
     <td>
 <?			if($locRights['edit']) { ?>
-			        <img src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="editEmpMain();">
+			        <img src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onmouseout="mout();" onmouseover="mover();" name="EditMain" onClick="editEmpMain();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  ?>
@@ -638,7 +618,7 @@ function popPhotoHandler() {
     </tr>
     </table>
 
-<? } ?>
+
 
     
 	<table border="0">
@@ -722,6 +702,8 @@ function popPhotoHandler() {
       </table>
     </div>
     <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <table border="0" align="center">
+     <tr><td>
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -741,6 +723,30 @@ function popPhotoHandler() {
           <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
         </tr>
+      </table>
+      </td>
+     <td>
+	  <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+          <td width="514" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+          <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+        </tr>
+        <tr>
+          <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+          <td>
+          
+          <? require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
+          
+			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+        </tr>
+        <tr>
+          <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+          <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+          <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+        </tr>
+      </table>
+      </td></tr>
       </table>
     </div>
     <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
@@ -765,7 +771,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="emg-contacts" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -819,7 +825,7 @@ function popPhotoHandler() {
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
-          
+ 			Cash Benefits         
           <? //require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -841,7 +847,7 @@ function popPhotoHandler() {
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
-          
+          Non-cash benefits
           <? //require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -864,7 +870,7 @@ function popPhotoHandler() {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? //require(ROOT_PATH . "/templates/hrfunct/EmpEducation.php"); ?>
+          <? require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1055,7 +1061,10 @@ function popPhotoHandler() {
 			</td>
 		</tr>
 	<table>  
+
+<? } ?>		
 	
 		</form>
+		<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>
 	</body>
 </html>

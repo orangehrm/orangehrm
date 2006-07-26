@@ -1,45 +1,61 @@
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<script language="JavaScript">
+function delPassport() {
+	
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkpassportdel[]') && (elements[i].checked == true)) {
+				check = true;
+			}
+		}
+	}
 
-	<table onclick="setUpdate(6)" onkeypress="setUpdate(6)" height="200" border="0" cellpadding="0" cellspacing="0">
-				<tr>
-			 <td><?=$passport?> <input type="radio" checked <?=$locRights['add'] ? '':'disabled'?> name="PPType" value="1"></td><td><?=$visa?><input type="radio" <?=$locRights['add'] ? '':'disabled'?> <?=(isset($this->postArr['PPType']) && $this->postArr['PPType']!='1') ? 'checked':''?> name="PPType" value="2"></td>
-			  <td width="50">&nbsp;</td>
-		  	  <td><?=$citizenship?></td>
-                <td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbPPCountry">
-                		<option value="0"><?=$selectcountry?></option>
-<?				$list = $this->popArr['ppcntlist'];
-				for($c=0;$list && count($list)>$c;$c++)
-					if(isset($this->postArr['cmbPPCountry']) && $this->postArr['cmbPPCountry']==$list[$c][0])
-					    echo "<option selected value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
-					else
-					    echo "<option value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
-?>			 
-				</td>
-				</tr>
-              <tr>
-              <td><?=$passvisano?></td>
-                <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtPPNo" value="<?=isset($this->postArr['txtPPNo']) ? $this->postArr['txtPPNo'] : ''?>"></td>
-               <td width="50">&nbsp;</td>
-                <td><?=$issueddate?></td>
-                <td><input type="text" readonly name="txtPPIssDat" value=<?=isset($this->postArr['txtPPIssDat']) ? $this->postArr['txtPPIssDat'] : ''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
-              </tr>
-              <tr>
-              <td><?=$i9status?></td>
-                <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtI9status" value="<?=isset($this->postArr['txtI9status']) ? $this->postArr['txtI9status'] : ''?>"></td>
-                <td width="50">&nbsp;</td>
-                <td><?=$dateofexp?></td>
-                <td><input type="text" readonly name="txtPPExpDat" value=<?=isset($this->postArr['txtPPExpDat']) ? $this->postArr['txtPPExpDat'] : ''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPExpDat);return false;"></td>
-              </tr>
-               <tr>
-                <td><?=$i9reviewdate?></td>
-                <td><input type="text" readonly name="txtI9ReviewDat" value=<?=isset($this->postArr['txtI9ReviewDat']) ? $this->postArr['txtI9ReviewDat'] : ''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtI9ReviewDat);return false;"></td>
-                <td width="50">&nbsp;</td>
-      			<td><?=$comments?></td>
-                <td><textarea name="txtComments"<?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->postArr['txtComments']) ? $this->postArr['txtComments'] : ''?>"></textarea></td>
-               </tr>
-          </table>
-          
-<? } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
+	
+	document.frmEmp.passportSTAT.value="DEL";
+	qCombo(10);
+}
+
+function addPassport() {
+	
+	if(document.frmEmp.txtPPNo.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtPPNo.focus();
+		return;
+	}
+
+	if(document.frmEmp.txtPPIssDat.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtPPIssDat.focus();
+		return;
+	}
+	
+	if(document.frmEmp.txtPPExpDat.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtPPExpDat.focus();
+		return;
+	}
+	
+	document.frmEmp.passportSTAT.value="ADD";
+	qCombo(10);
+}
+
+function viewPassport(pSeq) {
+	document.frmEmp.action=document.frmEmp.action + "&PPSEQ=" + pSeq ;
+	document.frmEmp.pane.value = 10;
+	document.frmEmp.submit();
+}
+
+function editPassport() {
+	document.frmEmp.passportSTAT.value="EDIT";
+	qCombo(10);
+}
+
+</script>
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 
 	<table height="200" border="0" cellpadding="0" cellspacing="0">

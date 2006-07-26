@@ -67,9 +67,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 		document.loginForm.submit();
 	}
 </script>
-<link href="./themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("./themes/beyondT/css/style.css"); </style>
-
+<link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 body {
@@ -85,7 +83,9 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #666666;
-	height: 15px;
+	height: 19px;
+	vertical-align: middle;
+	padding-top:0;
 }
 -->
 </style></head>
@@ -131,7 +131,7 @@ body {
 <?		if(isset($_POST['txtUserName'])) {?>
               <input name="txtUserName" type="text" class="loginTXT" size="10" value="<?=$_POST['txtUserName']?>">
 <?		} else { ?>
-              <input name="txtUserName" type="text" class="loginTXT" size="10">
+              <input name="txtUserName" type="text" class="loginTXT" size="10" >
 <?		} ?>
               </td>
             </tr>

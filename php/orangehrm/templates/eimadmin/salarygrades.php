@@ -572,41 +572,10 @@ function delCurrency() {
 			               				for($c=0;$unAssCurrency && count($unAssCurrency)>$c;$c++) 
 				               				echo "<option value='" .$unAssCurrency[$c][0]. "'>" .$unAssCurrency[$c][1]. "</option>";
 									?>
-									</select>&nbsp;
-										<input type="button" value="Add" onclick="xajax_showAddCurrencyForm();">
-										<input type="button" value="Edit" onclick="showEditForm();">
-										<input type="button" value="Delete" onclick="delCurrency();">
+									</select>
  									</td>
 							</tr>
-							<tr>
-								<td></td>
-								<td>
-						  <!-- form fits here -->
-	<table border='0' cellpadding='0' cellspacing='0'>
-    <tr><td width='13'><img name='table_r1_c1' src='../../themes/beyondT/pictures/table_r1_c1.gif' width='13' height='12' border='0' alt=''></td>
-    <td width='220' background='../../themes/beyondT/pictures/table_r1_c2.gif'><img name='table_r1_c2' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-    <td width='13'><img name='table_r1_c3' src='../../themes/beyondT/pictures/table_r1_c3.gif' width='13' height='12' border='0' alt=''></td>
-    <td width='11'><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='12' border='0' alt=''></td></tr>
-    <tr><td background='../../themes/beyondT/pictures/table_r2_c1.gif'><img name='table_r2_c1' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-    <td><table width='100%' border='0' cellpadding='5' cellspacing='0' class=''>
-	<tr>
-		<td><?=$currency?></td>
-		<td><input type="hidden" name="txtCurrencyTypeID"><input type="text" name="txtCurrencyTypeDesc"></td>
-	</tr>
-	<tr>
-		<td></td>
-		<td align="right"><div id='buttonLayer'></div></td>
-	</tr>
-    </table></td><td background='../../themes/beyondT/pictures/table_r2_c3.gif'><img name='table_r2_c3' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-    <td><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td></tr>
-    <tr><td><img name='table_r3_c1' src='../../themes/beyondT/pictures/table_r3_c1.gif' width='13' height='16' border='0' alt=''></td>
-    <td background='../../themes/beyondT/pictures/table_r3_c2.gif'><img name='table_r3_c2' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-    <td><img name='table_r3_c3' src='../../themes/beyondT/pictures/table_r3_c3.gif' width='13' height='16' border='0' alt=''></td>
-    <td><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='16' border='0' alt=''></td></tr></table>
-						  <!-- form ends here -->
-								
-								</td>
-							</tr>
+							
 							<tr>
 								<td><?=$minSal?></td>
 								<td><input type="text" <?=($locRights['add']) ? '' : 'disabled'?> name="txtMinSal"></td>
@@ -629,7 +598,7 @@ function delCurrency() {
 
 			} elseif(isset($this->getArr['editID'])) { 
 				
-				$editAssCurrency = $this->popArr['editAssCurrency'];
+				$editAssCurrency = $this->popArr['editAssCurrency'];				
 				?>
 					  <tr>
 					  	<td height="40" valign="bottom"><h3><?=$currAss?></h3></td>
@@ -669,10 +638,16 @@ function delCurrency() {
 
 		}?>
 					</td>
-					  </tr>		
+					  </tr>	
+					  	
 					  </table>
 					  </td>
-					  </tr>		  
+					  </tr>	
+					<?php
+					  $assCurrency = $this->popArr['assCurrency'];	  
+					  
+					  if ($assCurrency) {
+					   ?>
 					  <tr>
 					  	<td>					  
 <?					if($locRights['delete']) { ?>
@@ -692,7 +667,7 @@ function delCurrency() {
 									 <td><strong><?=$maxSal?></strong></td>
 									 <td><strong><?=$stepSal?></strong></td>
 								</tr>
-			               		<? $assCurrency = $this->popArr['assCurrency'];
+			               		<? 
 			               			for($c=0;$assCurrency && count($assCurrency)>$c;$c++) {
 			               				echo '<tr>';
 			               				echo "<td><input type='checkbox' name='chkdel[]' value='".$assCurrency[$c][0]."'></td>";
@@ -701,15 +676,17 @@ function delCurrency() {
 				            			echo "<td>" .$assCurrency[$c][3]. "</td>";
 				            			echo "<td>" .$assCurrency[$c][4]. "</td>";
 			               				echo '</tr>';
-			               			}
+			               			} 					  
 								?>
 							</table>
 								</td>
 						</tr>
+						<? } ?>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
+                
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

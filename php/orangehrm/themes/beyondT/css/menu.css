@@ -4,8 +4,8 @@
 	left: -6px;
 	position: relative;
 	top: 0px;
-    padding-top: 2px;
-    padding-left: 0px;
+   padding-top: 2px;	
+   padding-left: 0px;
 	right: 0px;
 	bottom: 0px;
 }
@@ -13,45 +13,43 @@
 #menu a {
 	text-decoration: none;
 	color: #444444;
+	width: 150px;
 	font-family: Arial, Helvetica, sans-serif;	
 	text-transform: capitalize;
 	height: 22px;
-	width: 150px;
 	font-size: 11px;
 	margin-top: -2px;
 	display: block;
-    padding-left: 30px;
-    
-    cursor:pointer;   
-    vertical-align:middle;
-    overflow: hidden;
-    background-color: #FFB121;
+	padding-left: 30px;
+	cursor:pointer;   
+   vertical-align:middle;
+   overflow: hidden;
 }
 
 #menu a:hover {
-	color: #000000;
-    background-color: #F3A310;
+	color: #000000;   
 }
 
 #menu li{	
 	display: block;
 	list-style-position: outside;
 	list-style-type: none;
-	vertical-align: 48%;
-	background: url(../pictures/buttonplain.gif) no-repeat;
+	vertical-align: middle;			
+	margin-top:0;
 }
 
+#menu li {
+	background: url(../pictures/buttonplain.gif) no-repeat;
+}
 #menu li:hover{		
 	background: url(../pictures/buttonplain_o.gif) no-repeat;
 }
 
-
-
-#compinfo a {	
+#menu #compinfo a {	
     background: url(../pictures/compinfo.gif) no-repeat left top;
 }
 
-#compinfo a:hover {
+#menu #compinfo a:hover {
 	background: url(../pictures/compinfo_o.gif)  no-repeat left top;
 }
 
@@ -102,3 +100,9 @@
 #menu #geoinfo a:hover {	
 	background: url(../pictures/geoinfo_o.gif)  no-repeat left top;
 }
+
+
+#menum1 {
+	visibility:hidden;
+}
+

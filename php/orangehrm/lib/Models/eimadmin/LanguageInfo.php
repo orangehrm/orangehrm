@@ -62,7 +62,7 @@ class LanguageInfo {
 		
 	}
 	
-	function getListofLanguageInfo($pageNO,$schStr,$mode) {
+	function getListofLanguageInfo($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_LANGUAGE';
 		$arrFieldList[0] = 'LANG_CODE';
@@ -74,7 +74,7 @@ class LanguageInfo {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

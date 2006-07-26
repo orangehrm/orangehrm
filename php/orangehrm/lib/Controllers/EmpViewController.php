@@ -703,8 +703,30 @@ class EmpViewController {
 				
 		return;
 		}
+
+		if(isset($postArr['langSTAT']) && ($postArr['langSTAT'] == 'ADD' || $postArr['langSTAT'] == 'EDIT')) {
+			$emplanguage = new EmpLanguage();
+			$emplanguage = $object;
+			if($action == 'ADD')
+				$emplanguage->addEmpLang();
+			elseif($action == 'EDIT')
+				$emplanguage->updateEmpLang();
+				
+		return;
+		}
 		
-		if(isset($postArr['depSTAT']) && ($postArr['depSTAT'] == 'ADD' || $postArr['depSTAT'] == 'EDIT')) {
+		if(isset($postArr['licenseSTAT']) && ($postArr['licenseSTAT'] == 'ADD' || $postArr['licenseSTAT'] == 'EDIT')) {
+			$emplicense = new EmpLicenses();
+			$emplicense = $object;
+			if($action == 'ADD')
+				$emplicense->addEmpLicenses();
+			elseif($action == 'EDIT')
+				$emplicense->updateEmpLicenses();
+				
+		return;
+		}
+		
+		if(isset($postArr['dependentSTAT']) && ($postArr['dependentSTAT'] == 'ADD' || $postArr['dependentSTAT'] == 'EDIT')) {
 			$empdep = new EmpDependents();
 			$empdep = $object;
 			if($action == 'ADD')
@@ -715,7 +737,7 @@ class EmpViewController {
 		return;
 		}
 		
-		if(isset($postArr['chiSTAT']) && ($postArr['chiSTAT'] == 'ADD' || $postArr['chiSTAT'] == 'EDIT')) {
+		if(isset($postArr['childrenSTAT']) && ($postArr['childrenSTAT'] == 'ADD' || $postArr['childrenSTAT'] == 'EDIT')) {
 			$empchi = new EmpChildren();
 			$empchi = $object;
 			if($action == 'ADD')
@@ -775,7 +797,37 @@ class EmpViewController {
 			$passport->delEmpPP($arr);
 		}
 		
-		if(isset($postArr['depSTAT']) && $postArr['depSTAT'] =='DEL') {
+		if(isset($postArr['licenseSTAT']) && $postArr['licenseSTAT'] == 'DEL') {
+			
+			$license = new EmpLicenses();
+		
+			$arr[1]=$postArr['chklicdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$license->delEmpLicenses($arr);
+		}
+		
+		if(isset($postArr['langSTAT']) && $postArr['langSTAT'] =='DEL') {
+			
+		    $emplan = new EmpLanguage();
+			$arr=$postArr['chklangdel'];
+   
+   			for($c=0;count($arr)>$c;$c++) {
+   		  		$frg=explode("|",$arr[$c]);
+		   		$arrpass[1][$c]=$frg[0];
+		   		$arrpass[2][$c]=$frg[1];
+   	   		}
+
+   			for($c=0;count($arr)>$c;$c++)
+        		if($arr[$c]!=NULL)
+	    			$arrpass[0][$c]=$getArr['id'];
+	     					 	
+   			$emplan->delEmpLang($arrpass);
+		}
+		
+		if(isset($postArr['dependentSTAT']) && $postArr['dependentSTAT'] =='DEL') {
 			
 			$dep = new EmpDependents();
 		
@@ -787,7 +839,7 @@ class EmpViewController {
 			$dep->delEmpDep($arr);
 		}
 		
-		if(isset($postArr['chiSTAT']) && $postArr['chiSTAT'] =='DEL') {
+		if(isset($postArr['childrenSTAT']) && $postArr['childrenSTAT'] =='DEL') {
 			
 			$chi = new EmpChildren();
 		
@@ -955,7 +1007,6 @@ class EmpViewController {
 							$memtype = new MembershipType();
 							$memshipinfo = new MembershipInfo();
 							
-							$form_creator->popArr['subown'] = array ( 'Company' , 'Individual');
 							
 							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
 							$form_creator ->popArr['typlist'] = $typlist = $memtype ->getMembershipTypeCodes();
@@ -1227,7 +1278,6 @@ class EmpViewController {
 							$nationinfo = new NationalityInfo();
 							$location = new Location();
 							$distric = new DistrictInfo();
-							$electorate = new ElectorateInfo();
 							$hierarchy = new HierarchyDefInfo();
 							$comphire = new CompHierachy();
 							$jobtit = new JobTitle();
@@ -1236,8 +1286,10 @@ class EmpViewController {
 
 							$ethnicrace = new EthnicRace();
 							$eeojobcat  = new EEOJobCat();
-
-
+							$emplan = new EmpLanguage();
+							$laninfo = new LanguageInfo();
+							$emplicen = new EmpLicenses();
+							$licen = new Licenses();
 											 
 								$form_creator ->popArr['nation'] = $nationinfo ->getNationCodes();
 								$form_creator->popArr['loc'] = $location->getLocCodes();
@@ -1248,7 +1300,6 @@ class EmpViewController {
 								$form_creator->popArr['hier'] = isset($res) ? $res : false;
 								
 								$form_creator->popArr['cntlist'] = $countrylist = $countryinfo->getCountryCodes();
-								$form_creator->popArr['elelist'] = $electorate->getElectorateCodes();
 								$form_creator->popArr['ppcntlist'] = $countrylist;
 
 							if($getArr['capturemode'] == 'addmode') {
@@ -1268,8 +1319,10 @@ class EmpViewController {
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editMainArr'] = $empinfo ->filterEmpMain($getArr['id']);
 								$form_creator ->popArr['editPersArr'] = $empinfo->filterEmpPers($getArr['id']);
-								$form_creator ->popArr['editJobInfoArr'] = $editJobInfo = $empinfo->filterEmpJobInfo($getArr['id']);
-
+								$form_creator ->popArr['editJobInfoArr'] = $empJobInfo = $empinfo->filterEmpJobInfo($getArr['id']);
+								
+								$view_controller = new ViewController();
+								$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($empJobInfo[0][2],'JOB','assigned');
 
 								$form_creator->popArr['editPermResArr'] = $edit = $editPermRes = $empinfo->filterEmpContact($getArr['id']);
 								$form_creator->popArr['provlist'] = $porinfo ->getProvinceCodes($edit[0][4]);
@@ -1298,11 +1351,11 @@ class EmpViewController {
 									$form_creator->popArr['editECForm'] = $econ->filterEmpEC($arr);
 								}
 								
-								if(!isset($getArr['DSEQ'])) 
-									$form_creator->popArr['newDID'] = $dep->getLastRecord($getArr['id']);
-								elseif(isset($getArr['DSEQ'])) {
+								if(!isset($getArr['depSEQ'])) 
+									$form_creator->popArr['newDepID'] = $dep->getLastRecord($getArr['id']);
+								elseif(isset($getArr['depSEQ'])) {
 									$arr[0]=$getArr['id'];
-									$arr[1]=$getArr['DSEQ'];
+									$arr[1]=$getArr['depSEQ'];
 									$form_creator->popArr['editDepForm'] = $dep->filterEmpDep($arr);
 								}
 	
@@ -1319,6 +1372,37 @@ class EmpViewController {
 									$arr[1]=$getArr['ATTACH'];
 									$form_creator->popArr['editAttForm'] = $attachment->filterEmpAtt($arr);
 								}
+
+							$form_creator->popArr['lantype'] = array ( 'Writing'=> 1 , 'Speaking'=>2 , 'Reading'=>3 );
+							$form_creator->popArr['grdcodes'] = array( 'Poor'=> 1 ,'Basic'=>2 , 'Good'=>3 ,'Mother Tongue'=>4);
+
+							$form_creator ->popArr['lanlist'] = $lanlist = $laninfo ->getLang();
+							
+							if(isset($getArr['lanSEQ'])) {
+								
+								$arr[0]=$getArr['id'];
+    							$arr[1]=$getArr['lanSEQ'];
+    							$arr[2]=$getArr['lanFLU'];
+    						
+								$form_creator -> popArr['editLanArr'] = $emplan ->filterEmpLang($arr);
+							}
+							
+							$form_creator ->popArr['rsetLang'] = $emplan ->getAssEmpLang($getArr['id']);
+
+							
+							$form_creator ->popArr['allLicenlist'] =  $licenlist = $licen ->getLicensesCodes();
+							$form_creator ->popArr['unassLicenlist']   = $licen ->getUnAssLicensesCodes($getArr['id']);	
+							
+							if(isset($getArr['LIC'])) {
+								    $arr[0]=$getArr['id'];
+    								$arr[1]=$getArr['LIC'];
+    						
+								$form_creator -> popArr['editLicenseArr'] = $emplicen ->filterEmpLicenses($arr);
+														
+							}
+							
+							$form_creator ->popArr['rsetLicense'] = $emplicen ->getAssEmpLicenses($getArr['id']);
+
 										
 								if($object != null) {
 
@@ -1556,9 +1640,10 @@ class EmpViewController {
 				
 				case 'EMP'  :		$empinfo = new EmpInfo();
 									$empinfo = $object['EmpInfo'];
+									$id = $empinfo->getEmpId();
 									$res = $empinfo -> addEmpMain();
 									
-									if(isset($object['EmpEContact']) && $res) {
+/*									if(isset($object['EmpEContact']) && $res) {
 										$empecon = new EmpEmergencyCon();
 											
 										$empecon = $object['EmpEContact'];
@@ -1583,21 +1668,21 @@ class EmpViewController {
 										$empchi -> addEmpChi();
 									}
 									
-								/*	
+									
 									if(isset($object['EmpBank']) && $res) {
 										$empbank = new EmpBank();
 										
 										$empbank = $object['EmpBank'];
 										$empbank -> addEmpBank();
 									}
-									*/
+									
 									if(isset($object['EmpAttach']) && $res) {
 										$empatt = new EmpAttach();
 										
 										$empatt = $object['EmpAttach'];
 										$empatt -> addEmpAtt();
 									}
-									
+*/									
 									if(isset($object['EmpPhoto']) && $res) {
 										$empphoto = new EmpPicture();
 										
@@ -1611,7 +1696,7 @@ class EmpViewController {
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the 
 								
 				$reqcode = $index;
-				header("Location: ./CentralController.php?message=$showMsg&reqcode=$reqcode&VIEW=MAIN");
+				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
 			} else {
 				$showMsg = "Addition%Unsuccessful!";
 				

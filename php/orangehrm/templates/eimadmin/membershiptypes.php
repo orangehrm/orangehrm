@@ -272,7 +272,7 @@ function edit()
 							    <td> <input type="hidden" name="txtMemTypeID" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
 							  </tr>
 						  <tr> 
-						    <td>d<?=$description?></td>
+						    <td><?=$description?></td>
 						  	<td> <textarea name='txtMemTypeDescription' disabled rows="3" tabindex='3' cols="30"><?=$message[0][1]?></textarea></td>
 						  </tr>
   					  <tr><td></td><td align="right" width="100%">

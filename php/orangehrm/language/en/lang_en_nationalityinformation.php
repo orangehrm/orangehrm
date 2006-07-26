@@ -1,6 +1,6 @@
 <?
-$heading		= 'Nationality Information : Nationality & Religion Information';
+$heading		= 'Nationality & Race : Nationality';
 $code			= 'Code';
-$description	= 'Description';
+$description	= 'Name';
 
 ?>

@@ -226,10 +226,10 @@ function getUnAssSalCurDet($salgrd) {
 		$arr[0][0]= 'SAL_GRD_CODE';
 		$arr[0][1]= $salgrd;
 
-		$sqlQString = $sql_builder->selectFilter($arr);
+		$sqlQString = $sql_builder->selectFilter($arr,'',1);
 
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+       	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$common_func = new CommonFunctions();
 

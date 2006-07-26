@@ -254,7 +254,6 @@ function delEXT()
                 </tr>
               </table>
 
-               <input type="hidden" name="txtEmpID" value="<?=$einfo[0][0]?>">
                <input type="hidden" name="txtSalGrdId" value="<?=$empdet[0][5]?>">
 <?
 	if(isset($this ->popArr['editArr']))

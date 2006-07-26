@@ -1,6 +1,6 @@
-<?
-$heading		= 'Hierarchy Information : Company Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Hierarchy Information : Company Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

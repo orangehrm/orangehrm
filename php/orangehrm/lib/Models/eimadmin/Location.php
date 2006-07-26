@@ -130,19 +130,20 @@ class Location {
 		return $this->locationComments;
 	}
 
-	function getListofLocations($pageNO,$schStr,$mode) {
+	function getListofLocations($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 		
 		$tableName = 'HS_HR_LOCATION';			
 		$arrFieldList[0] = 'LOC_CODE';
-		$arrFieldList[1] = 'LOC_NAME';
+		$arrFieldList[1] = 'LOC_NAME';		
+		$arrFieldList[2] = 'LOC_CITY';
 		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sql_builder->arr_select = $arrFieldList;			
+		
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
@@ -152,8 +153,9 @@ class Location {
 		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
+	    	for($c=0;count($arrFieldList)>$c;$c++)
+			   $arrayDispList[$i][$c] = $line[$c];
+
 	    	$i++;
 	    	
 	     }
@@ -174,6 +176,7 @@ class Location {
 		$tableName = 'HS_HR_LOCATION';			
 		$arrFieldList[0] = 'LOC_CODE';
 		$arrFieldList[1] = 'LOC_NAME';
+		$arrFieldList[2] = 'LOC_CITY';		
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -338,15 +341,18 @@ class Location {
 		$tableName = 'HS_HR_LOCATION';
 		$arrFieldList[0] = 'LOC_CODE';
 		$arrFieldList[1] = 'LOC_NAME';
+		$arrFieldList[2] = 'LOC_CITY';
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
 		$sqlQString = $sql_builder->passResultSetMessage();
-
+		
+		//echo $sqlQString;
+		
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+       	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$common_func = new CommonFunctions();
 
@@ -363,13 +369,9 @@ class Location {
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
 	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
+			return false;
 	     }
 	}
 	

@@ -1,7 +1,7 @@
 <?
-$heading		= 'Location : Company Information';
+$heading		= 'Company Info : Locations';
 $code			= 'Code';
-$description	= 'Description';
+$description	= 'Name';
 $country		= 'Country';
 $state			= 'State';
 $city			= 'City';

@@ -493,15 +493,16 @@ function hierChg(cnt) {
 }
 
 
-function dwPopup() {
-        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
-        if(!popup.opener) popup.opener=self;
-}	
 
 function popPhotoHandler() {
 	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=250,width=250');
 	if(!popup.opener) popup.opener=self;
 }
+
+function dwPopup() {
+        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
+        if(!popup.opener) popup.opener=self;
+}	
 
 function delAttach() {
 	

@@ -50,9 +50,14 @@ class GenInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	
+		$compStruct_newTitle = explode("'",$arrRecordsList[2]);
+		$compStruct_newTitle = explode("|",$compStruct_newTitle[1]);
+		
+		$sqlQString1 = sprintf("UPDATE hs_hr_compstructtree SET title = '%s' WHERE lft =1 LIMIT 1", $compStruct_newTitle[0]);
+				
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$message3 = $dbConnection -> executeQuery($sqlQString1);
 		
 		return $message2;
 	}

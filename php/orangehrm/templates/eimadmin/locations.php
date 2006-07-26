@@ -28,11 +28,21 @@ function populateStates($value) {
 	
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$provlist,1,'frmLocation','cmbProvince');
-	$response->addScript("document.frmLocation.cmbDistrict.options.length = 1;");
-	$response->addAssign('status','innerHTML','');
+	if ($provlist) {
+		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
+		
+	} else {
+		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
+	}
+	$objResponse->addScript('document.getElementById("txtState").Focus();');
 	
-return $response->getXML();
+	$objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
+	$objResponse->addAssign('status','innerHTML','');
+	
+	
+	
+return $objResponse->getXML();
 }
 
 function populateDistrict($value) {
@@ -136,6 +146,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			return;
 		}
 		
+		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
 		document.frmLocation.sqlState.value = "NewRecord";
 		document.frmLocation.submit();		
 	}
@@ -170,7 +181,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <form name="frmLocation" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
 
   <tr> 
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -206,7 +217,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
 						  <td><?=$country?></td>
-						  <td><select name="cmbCountry" onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
 					<?
 								$cntlist = $this->popArr['cntlist'];
@@ -218,15 +229,15 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					  </tr>
 					  <tr>
 						  <td><?=$state?></td>
-						  <td><select name="cmbProvince" onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateDistrict(this.value);">
-						  		<option value="0">--Select State--</option>
-						  </select></td>
+						  <td><div id="lrState" name="lrState">							    
+							    <input type="text" name="txtState" id="txtState" >
+							  </div>
+							  <input type="hidden" name="cmbProvince" id="cmbProvince" >
+						   </td>
 					  </tr>
 					  <tr>
 						  <td><?=$city?></td>
-						  <td><select name="cmbDistrict">
-						  		<option value="0">--Select City--</option>
-						  </select></td>
+						  <td><input type="text" name="cmbDistrict" ></td>
 					  </tr>
 					  <tr>
 						  <td><?=$address?></td>
@@ -249,8 +260,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  <td><textarea name="txtComments"></textarea></td>
 					  </tr>
 					  
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-        <img onClick="clearAll();" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
+					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -279,7 +290,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? $objAjax->printJavascript(); ?>
 
-<? require_once ROOT_PATH . '/templates/JavaScript/archive.js'; ?>
+<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
 
 <script>
 
@@ -377,6 +388,8 @@ function mover() {
 			return;
 		}
 		
+		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
+		
 		document.frmLocation.sqlState.value = "UpdateRecord";
 		document.frmLocation.submit();		
 	}			
@@ -414,7 +427,7 @@ function mover() {
 <form name="frmLocation" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
 
   <tr> 
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -453,7 +466,7 @@ function mover() {
 						  </tr>
 				  <tr>
 						  <td><?=$country?></td>
-						  <td><select name="cmbCountry" disabled onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
 					<?
 								$cntlist = $this->popArr['cntlist'];
@@ -467,8 +480,11 @@ function mover() {
 					  </tr>
 					  <tr>
 						  <td><?=$state?></td>
-						  <td><select name="cmbProvince" disabled onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateDistrict(this.value);">
-						  		<option value="0">--Select State--</option>
+						  <td>
+						  	<div id="lrState" name="lrState">
+							    <? if (isset($message[0][2]) && ($message[0][2] == 'US')) { ?>
+							    	<select name="txtState" id="txtState" disabled>
+							    		<option value="0">--Select State--</option>
 					<?
 								$provlist = $this->popArr['provlist'];
 								for($c=0;$provlist && count($provlist)>$c;$c++)  
@@ -477,21 +493,17 @@ function mover() {
 									else
 										echo "<option value='" .$provlist[$c][1] . "'>" . $provlist[$c][2] . '</option>';
 					?>
-						  </select></td>
+							    	</select>
+							    	<? } else { ?>
+							    	<input type="text" disabled name="txtState" id="txtState" value="<?=isset($message[0][3]) ? $message[0][3] : ''?>">
+							    	<? } ?>
+							    	</div>
+							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?=isset($message[0][3]) ? $message[0][3] : ''?>">
+							    	</td>
 					  </tr>
 					  <tr>
 						  <td><?=$city?></td>
-						  <td><select disabled name="cmbDistrict">
-						  		<option value="0">--Select City--</option>
-					<?
-								$districtlist = $this->popArr['districtlist'];
-								for($c=0;$districtlist && count($districtlist)>$c;$c++)  
-									if($message[0][4]==$districtlist[$c][1])
-										echo "<option selected value='" .$districtlist[$c][1] . "'>" . $districtlist[$c][2] . '</option>';
-									else
-										echo "<option value='" .$districtlist[$c][1] . "'>" . $districtlist[$c][2] . '</option>';
-					?>
-						  </select></td>
+						  <td><input type="text" disabled name="cmbDistrict" value="<?=$message[0][4]?>"></td>
 					  </tr>
 					  <tr>
 						  <td><?=$address?></td>
@@ -515,11 +527,11 @@ function mover() {
 					  </tr>
 						  <tr><td></td><td align="right" width="100%">
 <?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 					  
 </td>
 					  </tr>				  

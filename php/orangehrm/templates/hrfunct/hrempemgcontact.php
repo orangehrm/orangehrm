@@ -1,27 +1,61 @@
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<script language="JavaScript">
+function delEContact() {
+	
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkecontactdel[]') && (elements[i].checked == true)) {
+				check = true;
+			}
+		}
+	}
 
-	<table height="150" border="0" cellpadding="0" cellspacing="0" onclick="setUpdate(4)" onkeypress="setUpdate(4)">
-         	<tr>	  
-			 <td><?=$name?></td>
-			  <td><input type="text" name="txtEConName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEConName']))?$this->postArr['txtEConName']:''?>"></td>
-			<td width="50">&nbsp;</td>  
-			 <td><?=$relationship?></td>
-			  <td><input type="text" name="txtEConRel" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEConRel']))?$this->postArr['txtEConRel']:''?>"></td>
-			</tr>
-			<tr>
-			 <td><?=$hmtele?></td>
-			 <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtEConHmTel" value="<?=(isset($this->postArr['txtEConHmTel']))?$this->postArr['txtEConHmTel']:''?>"></td>
-			 <td width="50">&nbsp;</td>
-			<td><?=$mobile?></td>
-			 <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtEConMobile" value="<?=(isset($this->postArr['txtEConMobile']))?$this->postArr['txtEConMobile']:''?>"></td>
-			 </tr>
-			 <tr>
-			<td><?=$worktele?></td>
-			 <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtEConWorkTel" value="<?=(isset($this->postArr['txtEConWorkTel']))?$this->postArr['txtEConWorkTel']:''?>"></td>
-			</tr>			  
-			  </table>
-			  
-<? } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
+	
+	document.frmEmp.econtactSTAT.value="DEL";
+	qCombo(6);
+}
+
+function addEContact() {
+	
+	if(document.frmEmp.txtEConName.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtEConName.focus();
+		return;
+	}
+
+	if(document.frmEmp.txtEConRel.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtEConRel.focus();
+		return;
+	}
+
+	if(document.frmEmp.txtEConHmTel.value == '') {
+		alert('Field Empty');
+		document.frmEmp.txtEConHmTel.focus();
+		return;
+	}
+	
+	document.frmEmp.econtactSTAT.value="ADD";
+	qCombo(6);
+}
+
+function viewEContact(ecSeq) {
+	document.frmEmp.action=document.frmEmp.action + "&ECSEQ=" + ecSeq ;
+	document.frmEmp.pane.value=6;
+	document.frmEmp.submit();
+}
+
+function editEContact() {
+	document.frmEmp.econtactSTAT.value="EDIT";
+	qCombo(6);
+}
+
+</script>
+<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 
 	<table height="200" border="0" cellpadding="0" cellspacing="0">

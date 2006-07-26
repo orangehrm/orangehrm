@@ -445,9 +445,7 @@ class EmpInfo {
 			$this->singleField = $col_value;
 			}		
 		}
-			
 		return $common_func->explodeString($this->singleField,"EMP");
-				
 		}
 		
 	}	
@@ -530,7 +528,7 @@ class EmpInfo {
 		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
 		
 		//personal
-		$arrRecordsList[5] = "'". $this->getEmpsmoker() . "'";
+/*		$arrRecordsList[5] = "'". $this->getEmpsmoker() . "'";
 		$arrRecordsList[6] = "'". $this->getEmpEthnicRace() . "'";
 		$arrRecordsList[7] = "'". $this->getEmpDOB() . "'";
 		$arrRecordsList[8] =($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";
@@ -562,7 +560,7 @@ class EmpInfo {
 		$arrRecordsList[29] = "'". $this->getEmpWorkTelephone() . "'";
 		$arrRecordsList[30] = "'". $this->getEmpWorkEmail() . "'";
 		$arrRecordsList[31] = "'". $this->getEmpOtherEmail() . "'";
-				
+*/
 		
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
@@ -571,7 +569,7 @@ class EmpInfo {
 		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
 		
 		//personal
-		$arrFieldList[5]  = 'EMP_SMOKER';
+/*		$arrFieldList[5]  = 'EMP_SMOKER';
 		$arrFieldList[6]  = 'EMP_ETH_RACE';
 		$arrFieldList[7]  = 'EMP_BIRTHDAY';
 		$arrFieldList[8]  = 'NATION_CODE';
@@ -603,7 +601,7 @@ class EmpInfo {
 		$arrFieldList[29] = 'EMP_WORK_TELEPHONE';
 		$arrFieldList[30] = 'EMP_WORK_EMAIL';
 		$arrFieldList[31] = 'EMP_OTH_EMAIL';
-			
+*/
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 
@@ -622,8 +620,6 @@ class EmpInfo {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
-		 echo $message2;
-				
 	}
 	
 	function updateEmpMain() {
@@ -664,7 +660,7 @@ class EmpInfo {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		
 		$arrFieldList[1]  = 'EMP_SMOKER';
-		$arrFieldList[2]  = 'EMP_ETH_RACE';
+		$arrFieldList[2]  = 'ETHNIC_RACE_CODE';
 		$arrFieldList[3]  = 'EMP_BIRTHDAY';
 		$arrFieldList[4]  = 'NATION_CODE';
 		$arrFieldList[5]  = 'EMP_GENDER';
@@ -731,7 +727,7 @@ class EmpInfo {
 		
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1]  = 'EMP_SMOKER';
-		$arrFieldList[2]  = 'EMP_ETH_RACE';
+		$arrFieldList[2]  = 'ETHNIC_RACE_CODE';
 		$arrFieldList[3]  = 'EMP_BIRTHDAY';
 		$arrFieldList[4]  = 'NATION_CODE';
 		$arrFieldList[5]  = 'EMP_GENDER';

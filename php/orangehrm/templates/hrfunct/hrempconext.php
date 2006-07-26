@@ -245,8 +245,7 @@ if(isset($this -> popArr['editArr']))
         $edit=$this -> popArr['editArr']; 
 ?>
 
-         <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
-         
+      
          <input type="hidden" name="txtEmpConExtID"  value="<?=$this->getArr['editID']?>">
 <br><br>
       <table border="0" cellpadding="0" cellspacing="0">
@@ -295,7 +294,6 @@ if(isset($this -> popArr['editArr']))
 <? } else { ?>
 &nbsp;
 <? $lastrec = $this ->popArr['lastrec']; ?>
-         <input type="hidden" name="txtEmpID" value="<?=$empdet[0][0]?>">
          <input type="hidden" name="txtEmpConExtID"  value="<?=$lastrec?>">
 <br><br>
       <table border="0" cellpadding="0" cellspacing="0">

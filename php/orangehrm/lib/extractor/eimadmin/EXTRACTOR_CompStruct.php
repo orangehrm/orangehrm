@@ -28,23 +28,30 @@ class EXTRACTOR_CompStruct {
 
 	function parseAddData($postArr) {	
 			
-			$this->compstruct -> setCompStructCode ($this->compstruct ->getLastRecord());
-			$this->compstruct -> setCompStructName(trim($postArr['txtCompStructName']));
-			$this->compstruct -> setCompStructDescription(trim($postArr['txtCompStructDescription']));
-			$this->compstruct -> setCompStructComments(trim($postArr['txtCompStructComments']));
-			$this->compstruct -> setCompStructLevel(trim($postArr['txtCompStructLevel']));
-		
+			$this->compstruct -> setrgt(trim($postArr['rgt']));
+			$this->compstruct -> setaddStr(trim($postArr['txtTitle']." ".$postArr['cmbType']));
+			$this->compstruct -> setstrDesc(trim($postArr['txtDesc']));
+			$this->compstruct -> setaddParnt(trim($postArr['txtParnt']));
+			$this->compstruct -> setlocation(trim($postArr['cmbLocation']));
+			
 			return $this->compstruct;
 	}
 			
-	function parseEditData($postArr) {	
+	function parseEditData($postArr) {
 			
-			$this->compstruct -> setCompStructCode (trim($postArr['txtCompStructID']));
-			$this->compstruct -> setCompStructName(trim($postArr['txtCompStructName']));
-			$this->compstruct -> setCompStructDescription(trim($postArr['txtCompStructDescription']));
-			$this->compstruct -> setCompStructComments(trim($postArr['txtCompStructComments']));
-			$this->compstruct -> setCompStructLevel(trim($postArr['txtCompStructLevel']));
-		
+			$this->compstruct -> setid(trim($postArr['rgt']));
+			$this->compstruct -> setaddStr(trim($postArr['txtTitle']." ".$postArr['cmbType']));
+			$this->compstruct -> setstrDesc(trim($postArr['txtDesc']));
+			$this->compstruct -> setlocation(trim($postArr['cmbLocation']));
+			
+			return $this->compstruct;
+	}
+	
+	function parseDeleteData($postArr) {
+			
+			$this->compstruct -> setrgt(trim($postArr['rgt']));
+			$this->compstruct -> setlft(trim($postArr['lft']));
+			
 			return $this->compstruct;
 	}
 	

@@ -1,7 +1,7 @@
 <?
-$heading		= 'Membership Information : Membership Information';
+$heading		= 'Memberships : Membership';
 $code			= 'Code';
-$description	= 'Description';
+$description	= 'Name';
 $membershiptype	= 'Membership Type'; 
 $selectmember	= '-Select Membership--';
 ?>
