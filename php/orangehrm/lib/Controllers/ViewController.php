@@ -3018,7 +3018,10 @@ class ViewController {
 							*/
 							
 							$locations = new Location();
+							$countries = new CountryInfo();
+							
 							$form_creator->popArr['locations'] = $locations->getLocCodes();
+							$form_creator->popArr['countries'] = $countries->getCountryCodes ();
 							
 							break;
 							

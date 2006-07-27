@@ -23,6 +23,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpBasSalary.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpCashBen.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpConExt.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpExCur.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpEducation.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpJobSpec.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLang.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpMembership.php';
@@ -289,10 +290,7 @@ class EmpViewController {
 			$this->emplicen = new EmpLicenses();
 			$message = $this->emplicen->getListofEmpLicenses($pageNO,$schStr,$mode);
 			return $message;
-
 		}
-		
-		
 	}
 	
 	function countList($indexCode,$schStr='',$mode=0) {
@@ -763,6 +761,17 @@ class EmpViewController {
 		return;
 		}
 		
+		if(isset($postArr['educationSTAT']) && ($postArr['educationSTAT'] == 'ADD' || $postArr['educationSTAT'] == 'EDIT')) {
+			$empeducation = new EmpEducation();
+			$empeducation = $object;
+			if($action == 'ADD')
+				$empeducation->addEmpEducation();
+			elseif($action == 'EDIT')
+				$empeducation->updateEmpEducation();
+				
+		return;
+		}
+		
 		if(isset($postArr['wrkexpSTAT']) && ($postArr['wrkexpSTAT'] == 'ADD' || $postArr['wrkexpSTAT'] == 'EDIT')) {
 			$empwrkexp = new EmpWorkExp();
 			$empwrkexp = $object;
@@ -901,6 +910,18 @@ class EmpViewController {
 				   $arr[0][$c]=$getArr['id'];
 				   
 			$empskill->delEmpSkill($arr);
+		}
+		
+		if(isset($postArr['educationSTAT']) && $postArr['educationSTAT'] == 'DEL') {
+			
+			$empeducation = new EmpEducation();
+		
+			$arr[1]=$postArr['chkedudel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$empeducation->delEmpEducation($arr);
 		}
 		
 		if(isset($postArr['membershipSTAT']) && $postArr['membershipSTAT'] == 'DEL') {
@@ -1425,6 +1446,7 @@ class EmpViewController {
 								
 							break;
 										
+			case 'ESS' :
 			case 'EMP' :	
 							$form_creator->formPath = '/templates/hrfunct/hrEmpMain.php';     //hremp.php';
 							
@@ -1460,7 +1482,10 @@ class EmpViewController {
 							$empskill = new EmpSkill();
 							$skill = new Skills();
 							$empworkex= new EmpWorkExp();
-											 
+							$empeducation = new EmpEducation();
+							$education = new Education();
+
+							
 								$form_creator ->popArr['nation'] = $nationinfo ->getNationCodes();
 								$form_creator->popArr['loc'] = $location->getLocCodes();
 								$form_creator->popArr['cntlist'] = $countryinfo->getCountryCodes();
@@ -1655,8 +1680,6 @@ class EmpViewController {
 							$form_creator ->popArr['rsetSkill']    = $empskill ->getAssEmpSkill($getArr['id']);
 
 							
-///////////////////////							
-							
 							if(isset($getArr['WRKEXP'])) {
 								
     							$arr[0]=$getArr['id'];
@@ -1670,7 +1693,22 @@ class EmpViewController {
 							}
 							
 							$form_creator-> popArr['rsetWrkExp']  =  $empworkex ->getAssEmpWorkExp($getArr['id']);
+
 							
+							$form_creator->popArr['allEduCodes'] = $education->getListofEducation(0,'',0);
+							
+							if(isset($getArr['EDU'])) { 
+							
+								$arr[0] = $getArr['id'];
+								$arr[1] = $getArr['EDU'];
+								
+								$form_creator->popArr['editEducationArr'] = $empeducation->filterEmpEducation($arr);
+								
+							} else {
+								$form_creator->popArr['unAssEduCodes'] = $empeducation->getUnAssEduCodes($getArr['id']);
+							}
+							
+							$form_creator->popArr['rsetEducation'] = $empeducation->getAssEmpEducation($getArr['id']);
 							
 								if($object != null) {
 
@@ -1695,7 +1733,7 @@ class EmpViewController {
 							
 							break;
 						
-				
+/*				
 			case 'ESS' :	
 							$form_creator->formPath = '/templates/hrfunct/hrempess.php';
 							
@@ -1809,7 +1847,7 @@ class EmpViewController {
 								}
 							
 							break;											
-											
+	*/										
 			case 'REP' :	
 							$form_creator ->formPath = '/templates/hrfunct/hremprepto.php'; 
 							

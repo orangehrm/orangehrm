@@ -7,6 +7,7 @@ $delete = 'Delete';
 $clear = 'Clear';
 $hide = 'hide';
 
+$save	= 'Save';
 
 //Field Labels
 

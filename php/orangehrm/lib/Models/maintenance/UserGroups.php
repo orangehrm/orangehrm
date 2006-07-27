@@ -221,8 +221,7 @@ class UserGroups {
 			
 		} else {
 		
-			$arrayDispList = '';
-			return $arrayDispList;
+			return null;
 			
 		}
 				

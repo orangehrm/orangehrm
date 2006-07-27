@@ -206,7 +206,7 @@
 	function locChange ($who) {
 		if ($who.value == 'Other') {
 			document.getElementById('status').innerHTML = '';
-			document.getElementById("layerFormLoc").reset;
+			document.getElementById("frmAddLoc").reset();
 			document.getElementById("layerFormLoc").style.visibility = "visible";
 		} else { 
 			document.getElementById("layerFormLoc").style.visibility = "hidden";

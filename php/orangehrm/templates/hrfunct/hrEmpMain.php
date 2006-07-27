@@ -27,16 +27,23 @@ require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 
 function populateStates($value) {
 	
-	$emp_view_controller = new EmpViewController();
-	$provlist = $emp_view_controller->xajaxObjCall($value,'EMP','province');
+	$view_controller = new ViewController();
+	$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
 	
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$provlist,1,'frmEmp','cmbProvince');
-	$response->addAssign('status','innerHTML','');
+	if ($provlist) {
+		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'frmGenInfo.lrState','txtState');
+		
+	} else {
+		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
+	}
+	$objResponse->addAssign('status','innerHTML','');
 	
-return $response->getXML();
+return $objResponse->getXML();
 }
+
 
 function populateDistrict($value) {
 	
@@ -278,7 +285,8 @@ function updateEmpMain() {
 		cnt.focus();
 		return;
 	}
-
+	
+	document.getElementById("cmbProvince").value=document.getElementById("txtState").value;
 	document.frmEmp.sqlState.value = "UpdateRecord";
 	document.frmEmp.submit();		
 }			
@@ -336,6 +344,7 @@ function setUpdate(opt) {
           	case 1 : document.frmEmp.personalFlag.value=1; break;
           	case 2 : document.frmEmp.jobFlag.value=1; break;
             case 3 : document.frmEmp.contactFlag.value=1; break;
+			
 		}	
 }
 
@@ -459,7 +468,7 @@ function popPhotoHandler() {
 -->
 </style>
 
-<body onload="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>">
+<body>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -555,17 +564,17 @@ function popPhotoHandler() {
                 <tr>
                 </tr>
     <tr>
-    <td><img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();"></td>
+    <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEmpMain();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEmpMain();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 
 					<?	} ?>
     </td>
     <td>&nbsp;</td>
-    <td><img onClick="document.frmEmp.reset();" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
+    <td><img onClick="document.frmEmp.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
     </tr>
     </table>
     
@@ -583,7 +592,7 @@ function popPhotoHandler() {
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table onclick="setUpdate(0)" onkeypress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+                  <td><table onClick="setUpdate(0)" onKeyPress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 				<td><?=$code?></td>
 				<td><strong><input type="hidden" name="txtEmpID" value="<?=$this->getArr['id']?>"><?=$this->getArr['id']?></strong></td>
@@ -629,7 +638,7 @@ function popPhotoHandler() {
                     <td width="100%" align="center"><img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?=$this->getArr['id']?>&action=VIEW"></td>
                     </tr>
                     <tr>
-                    <td width="100%" align="center"><input type="button" value="Browse" onclick="popPhotoHandler()"></td>
+                    <td width="100%" align="center"><input type="button" value="Browse" onClick="popPhotoHandler()"></td>
 					</tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -647,15 +656,15 @@ function popPhotoHandler() {
 </table>
     <table border="0" align="center" >
     <tr>
-    <td><img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();"></td>
+    <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
 <?			if($locRights['edit']) { ?>
-			        <img src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onmouseout="mout();" onmouseover="mover();" name="EditMain" onClick="editEmpMain();">
+			        <img src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  ?>
     </td>
-    <td><img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();" ></td>
+    <td><img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();" ></td>
     </tr>
     </table>
 
@@ -691,7 +700,7 @@ function popPhotoHandler() {
 		<tr>
     		<td align="center">
     		
-    <div id="personal" style="position:absolute; z-index:2; width: 540px; visibility: visible; left: 200px; top: 360px;">
+    <div id="personal" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
 	  <table  border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -720,7 +729,7 @@ function popPhotoHandler() {
     </table>	
     </div>
 
-    <div id="job" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="job" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '2') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -742,7 +751,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '3') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
     <table border="0" align="center">
      <tr><td>
 	  <table border="0" cellpadding="0" cellspacing="0">
@@ -790,7 +799,7 @@ function popPhotoHandler() {
       </td></tr>
       </table>
     </div>
-    <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '4') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -812,7 +821,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '5') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -834,7 +843,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="attachments" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="attachments" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -856,7 +865,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="cash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="cash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '7') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -878,7 +887,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="noncash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="noncash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '8') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -900,7 +909,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="education" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="education" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '9') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -911,7 +920,7 @@ function popPhotoHandler() {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? //require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
+          <? require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -922,7 +931,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="immigration" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="immigration" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '10') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -944,7 +953,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="languages" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="languages" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '11') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -966,7 +975,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="licenses" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="licenses" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '12') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -988,7 +997,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="memberships" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="memberships" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '13') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1010,7 +1019,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="payments" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="payments" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '14') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1032,7 +1041,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="report-to" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="report-to" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '15') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1054,7 +1063,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="skills" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="skills" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '16') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1076,7 +1085,7 @@ function popPhotoHandler() {
         </tr>
       </table>
     </div>
-    <div id="work-experiance" style="position:absolute; z-index:2; width: 540px; visibility: hidden; left: 200px; top: 360px;">
+    <div id="work-experiance" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '17') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>

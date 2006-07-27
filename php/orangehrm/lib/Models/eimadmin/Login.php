@@ -54,8 +54,8 @@ function filterUser($userName) {
 			$dbConnection = new DMLFunctions();
 			$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 			
-	
-			if(mysql_num_rows($message2)!=0) {
+			
+			if ( ($message2) && (mysql_num_rows($message2)!=0) ) {
 				$i=0;
 				while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 					

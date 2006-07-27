@@ -170,12 +170,14 @@ class EmpEducation {
 	function addEmpEducation() {
 		
 		$arrFieldList[0] = "'". $this->getEmpID()         . "'";
-		$arrFieldList[1] = "'". $this->g  . "'";
-		$arrFieldList[2] = "'". $this->getEmpYearsOfExp() . "'";
-		$arrFieldList[3] = "'". $this->getEmpComments()   . "'";
-		
+		$arrFieldList[1] = "'". $this->getEduCode()  . "'";
+		$arrFieldList[2] = "'". $this->getEduMajor() . "'";
+		$arrFieldList[3] = "'". $this->getEduYear()   . "'";
+		$arrFieldList[4] = "'". $this->getEduGPA()   . "'";
+		$arrFieldList[5] = "'". $this->getEduStartDate()   . "'";
+		$arrFieldList[6] = "'". $this->getEduEndDate()   . "'";
 
-		$tableName = 'HS_HR_EMP_SKILL';
+		$tableName = 'HS_HR_EMP_EDUCATION';
 	
 		$sql_builder = new SQLQBuilder();
 		
@@ -192,7 +194,7 @@ class EmpEducation {
 		 return $message2;
 	}
 	
-	function updateEmpSkill() {
+	function updateEmpEducation() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEduCode() . "'";
@@ -227,7 +229,7 @@ class EmpEducation {
 	}
 	
 	
-	function filterEmpSkill($getID) {
+	function filterEmpEducation($getID) {
 		
 		$tableName = 'HS_HR_EMP_EDUCATION';
 		$arrFieldList[0] = 'EMP_NUMBER';
@@ -238,14 +240,13 @@ class EmpEducation {
 		$arrFieldList[5] = 'EDU_START_DATE';
 		$arrFieldList[6] = 'EDU_END_DATE';
 		
-
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($getID,2);
+		$sqlQString = $sql_builder->selectOneRecordFiltered($getID,1);
 		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -272,7 +273,7 @@ class EmpEducation {
 		}
 	}
 
-	function getAssEmpSkill($getID) {
+	function getAssEmpEducation($getID) {
 		
 		$this->getID = $getID;
 		
@@ -316,9 +317,51 @@ class EmpEducation {
 		
 			$arrayDispList = '';
 			return $arrayDispList;
-			
 		}
-				
 	}
+	
+	function getUnAssEduCodes($id) {
+		
+		$sql_builder = new SQLQBuilder();
+		$tableName = 'HS_HR_EDUCATION';
+		$arrFieldList[0] = 'EDU_CODE';
+		$arrFieldList[1] = 'EDU_DEG';
+		$arrFieldList[2] = 'EDU_UNI';
+		
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;		
+		$sql_builder->field = 'EDU_CODE';		
+		$sql_builder->table2_name = 'HS_HR_EMP_EDUCATION';
+			
+		$arr[0][0]='EMP_NUMBER';
+		$arr[0][1]=$id;
+		$sqlQString = $sql_builder->selectFilter($arr,1);
+
+		//echo $sqlQString;		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		$i=0;
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 	
+	    	$arrayDispList[$i][0] = $line[0];
+	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+	    	$i++;
+	     }
+	     
+	     if (isset($arrayDispList)) {
+	     
+			return $arrayDispList;
+			
+		} else {
+		
+			$arrayDispList = '';
+			return $arrayDispList;
+		}
+	}
+	
 }
 ?>

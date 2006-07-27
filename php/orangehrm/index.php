@@ -269,7 +269,7 @@ function setSize() {
                       </tr>
                   </table></td>
                   <? } ?>
-                  <? 
+                  <? /*
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  
 					?>
                   <td style="background-image : url();" ></td>
@@ -291,7 +291,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <? } 
+                  <? } */
                   } else { 
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  
 					?>
@@ -360,7 +360,7 @@ function setSize() {
         </table>        
       </table>
       
-<? if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']!="hr")) {  ?>
+<? if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']!="hr" && $_GET['menu_no_top']!="ess" )) {  ?>
 
 	<table border="0" align="top" cellpadding="0" cellspacing="0">
           <tr>
@@ -384,7 +384,7 @@ function setSize() {
   						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');">nationality & race</a></li> 
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');">Users</a></li>
 </ul></TD>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
+<?			} else /* if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
                     <TD width=158><P>
                     	<A href="index.php?mtcode=USR&menu_no=1&submenutop=HR&menu_no_top=mt" onMouseOver="swapImage('Button1','','themes/beyondT/pictures/buttons22_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons22.gif" width=150 border=0 name=Button1></A><BR>
                     	<A href="index.php?mtcode=USG&menu_no=1&submenutop=BR&menu_no_top=mt" onMouseOver="swapImage('Button2','','themes/beyondT/pictures/buttons23_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons23.gif" width=150 border=0 name=Button2></A><BR>
@@ -405,11 +405,11 @@ function setSize() {
                       
 <?		/*	} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" || $_GET['menu_swapImgRestore()no_top']=="ess")) {  ?>
                   <TD height="800" bgcolor="#FFB121" width=158><p><br>
-                    </p></TD>  */ ?>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
+                    </p></TD>   ?>
+<?			} else */ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
 				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess") )  {  ?>
+<?			} /*elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess") )  {  ?>
                    <TD width=158><P>
                     	<A href="index.php?reqcode=EMP&menu_no=1&submenutop=HR&menu_no_top=ess" onMouseOver="swapImage('Button1','','themes/beyondT/pictures/buttons21_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons21.gif" width=150 border=0 name=Button1></A><BR>
                         <A href="index.php?reqcode=QUA&menu_no=1&submenutop=HR&menu_no_top=ess" onMouseOver="swapImage('Button2','','themes/beyondT/pictures/buttons03_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons03.gif" width=150 border=0 name=Button2></A><BR>
@@ -424,7 +424,7 @@ function setSize() {
                         <A href="index.php?reqcode=CXT&menu_no=1&submenutop=HR&menu_no_top=ess" onMouseOver="swapImage('Button11','','themes/beyondT/pictures/buttons19_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons19.gif" width=150 border=0 name=Button11></A><BR>
                         <A href="index.php?reqcode=REP&menu_no=1&submenutop=HR&menu_no_top=ess" onMouseOver="swapImage('Button12','','themes/beyondT/pictures/buttons20_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons20.gif" width=150 border=0 name=Button12></A><BR>
                       </P></TD>
-<? } ?>                   
+<? } */ ?>                   
                 </TR>
                 </TBODY>
               </TABLE>
@@ -642,10 +642,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu12')" onmouseout="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim">Users</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim">Users</A></TD>
 					 </TR>
 					 <tr>
-						<TD onmouseover="ypSlideOutMenu.showMenu('menu12')" onmouseout="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim">User Groups</A></TD>
+						<TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim">User Groups</A></TD>
 						</TR>
                     </TBODY>
                   </TABLE>
@@ -669,9 +669,9 @@ function setSize() {
               <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?mtcode=<?=(isset($_GET['mtcode'])) ? $_GET['mtcode'] : 'USR'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
+<?			} else /* if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
+              <iframe id="rightMenu" name="rightMenu" width="100%" frameborder="0">Sorry page you are looking for doesn't exsist anymore.</iframe>
+<?			} else  */ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?mtcode=BUG&capturemode=addmode" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?repcode=<?=isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
@@ -686,10 +686,12 @@ function setSize() {
 </table>
 <?	} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
+<? } elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) { ?>
+              <iframe src="./lib/controllers/CentralController.php?reqcode=ESS&id=<?=$_SESSION['empID']?>&capturemode=updatemode" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <? } ?>
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2_beta_1 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
 </tr>
 </table>
 </body>

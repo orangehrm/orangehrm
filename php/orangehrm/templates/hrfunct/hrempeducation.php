@@ -20,78 +20,70 @@ Boston, MA  02110-1301, USA
 
 <script language="JavaScript">
 
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		editEXT();
+function editEducation() {
+	
+	if(document.EditEducation.title=='Save') {
+		editEXTEducation();
 		return;
 	}
 	
-	var frm=document.frmEmpSkill;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+		
+	document.EditEducation.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditEducation.title="Save";
 }
 
-function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+function moutEducation() {
+	if(document.EditEducation.title=='Save') 
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
-function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+function moverEducation() {
+	if(document.EditEducation.title=='Save') 
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
-	}
-
-function addEXT()
-{
-	if(document.frmEmpSkill.cmbSkilCode.value=='0') {
+function addEXTEducation() {
+	
+	if(document.frmEmp.cmbEduCode.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpSkill.cmbSkilCode.focus();
+		document.frmEmp.cmbEduCode.focus();
 		return;
 	}
 	
-	if (document.frmEmpSkill.txtEmpYears.value == '') {
-		alert ("Years of Experience Cannot be Blank!");
-		document.frmEmpSkill.txtEmpYears.focus();
-		return;
-	}
-	 
-	var txt = document.frmEmpSkill.txtEmpYears;
+	var txt = document.frmEmp.txtEmpEduYear;
 		if (!numeric(txt)) {
-			alert ("Years of Experience Error!");
+			alert ("Field should be numeric!");
 			txt.focus();
 			return;
 	}
-		
-	if (document.frmEmpSkill.txtEmpComments.value == '') {
-		alert ("Comments Cannot be Blank!");
-		document.frmEmpSkill.txtEmpComments.focus();
-		return;
+	
+	document.frmEmp.educationSTAT.value="ADD";
+	qCombo(9);
+}
+
+function editEXTEducation() {
+	
+	var txt = document.frmEmp.txtEmpEduYear;
+		if (!numeric(txt)) {
+			alert ("Field should be numeric!");
+			txt.focus();
+			return;
 	}
-
-	document.frmEmpSkill.STAT.value="ADD";
-    document.frmEmpSkill.submit();
+	
+  document.frmEmp.educationSTAT.value="EDIT";
+  qCombo(9);
 }
 
-function editEXT()
-{
-  document.frmEmpSkill.STAT.value="EDIT";
-  document.frmEmpSkill.submit();
-}
-
-function delEXT() {
+function delEXTEducation() {
       var check = 0;
-		with (document.frmEmpSkill) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -104,55 +96,69 @@ function delEXT() {
            return;
         }
 
-    document.frmEmpSkill.STAT.value="DEL";
-    document.frmEmpSkill.submit();
+    document.frmEmp.educationSTAT.value="DEL";
+	qCombo(9);
 }
 
-function addNewEXT(str){
-	var EmpID = str;		
-	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+function viewEducation(edu) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&EDU=" + edu;
+	document.frmEmp.pane.value = 9;
+	document.frmEmp.submit();
 }
+
 </script>
 
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-    <input type="hidden" name="STAT" value="">
+    <input type="hidden" name="educationSTAT" value="">
 
 <?
-if(isset($this->popArr['editArr'])) {
-    $edit = $this->popArr['editArr'];
+if(isset($this->popArr['editEducationArr'])) {
+    $edit = $this->popArr['editEducationArr'];
 ?>
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><input type="hidden" name="cmbSkilCode" value="<?=$edit[0][1]?>"><strong>
-<?						$allSkilllist = $this->popArr['allSkilllist'];
-						for($c=0;count($allSkilllist)>$c;$c++)
-							if($this->getArr['editID1']==$allSkilllist[$c][0])
-							     break;
-							     
-					  	echo $allSkilllist[$c][1];
-?>
-					  </strong></td>
+                      <td width="200"><?=$education?></td>
+    				  <td><input type="hidden" name="cmbEduCode" value="<?=$edit[0][1]?>">
+						<?	$allEduCodes = $this->popArr['allEduCodes'];
+							for($c=0; $allEduCodes && count($allEduCodes)>$c; $c++) 
+								if($allEduCodes[$c][0] == $edit[0][1])
+									 echo $allEduCodes[$c][1] . ", ". $allEduCodes[$c][2];
+									 ?>					  
+					  </select></td>
+					  
 					</tr>
-					  <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=isset($this->popArr['txtEmpYears']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"></td>
+                    <tr>
+                      <td><?=$major?></td>
+    				  <td><input type="text" name="txtEmpEduMajor" disabled value="<?=$edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
-					  </tr>
-					 
-					  <tr>
-						<td><?=$comments?></td>
-						<td> <textarea <?=isset($this->popArr['txtEmpComments']) ? '':'disabled'?>  name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] : $edit[0][3]?></textarea></td>
+					</tr>
+					 <tr>
+					<td><?=$year?></td>
+						<td> <input type="text" disabled name="txtEmpEduYear" value="<?=$edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
+					 </tr>
+					 <tr>
+					<td><?=$gpa?></td>
+						<td> <input type="text" disabled name="txtEmpEduGPA" value="<?=$edit[0][4]?>"></td>
+    				  <td width="50">&nbsp;</td>
+					 </tr>
+					<tr>
+					<td><?=$startdate?></td>
+						<td> <input type="text" name="txtEmpEduStartDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
+					</tr>
+					  <tr> 
+						<td><?=$enddate?></td>
+						<td> <input type="text" name="txtEmpEduEndDate" readonly value=<?=$edit[0][6]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
 					 </tr>
 
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
 		<?			} else { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?			}  ?>
@@ -164,34 +170,44 @@ if(isset($this->popArr['editArr'])) {
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?=$skill?></td>
-    				  <td><select name="cmbSkilCode" <?=$locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">-----------Select Skill-------------</option>
-<?					  
-						$skilllist= $this->popArr['uskilllist'];
-						for($c=0;$skilllist && count($skilllist)>$c;$c++)
-							if(isset($this->popArr['cmbSkilCode']) && $this->popArr['cmbSkilCode']==$skilllist[$c][0]) 
-							   echo "<option  value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
-							 else
-							   echo "<option value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
-?>					  
+                      <td width="200"><?=$education?></td>
+    				  <td><select name="cmbEduCode" <?=$locRights['add'] ? '':'disabled'?>>
+    				  		<option selected value="0">--Select Education--</option>
+						<?	$unAssEduCodes = $this->popArr['unAssEduCodes'];
+							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++) 
+								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .$unAssEduCodes[$c][1]. ", ".$unAssEduCodes[$c][2]. "</option>";
+						 ?>					  
 					  </select></td>
 					</tr>
                     <tr>
-                      <td><?=$yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] :''?>"></td>
+                      <td><?=$major?></td>
+    				  <td><input type="text" name="txtEmpEduMajor" <?=$locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
-					<td><?=$comments?></td>
-						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpComments"><?=isset($this->popArr['txtEmpComments']) ? $this->popArr['txtEmpComments'] :''?></textarea></td>
+					<td><?=$year?></td>
+						<td> <input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtEmpEduYear"></td>
     				  <td width="50">&nbsp;</td>
-						 </tr>
+					 </tr>
+					 <tr>
+					<td><?=$gpa?></td>
+						<td> <input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtEmpEduGPA"></td>
+    				  <td width="50">&nbsp;</td>
+					 </tr>
+					<tr>
+					<td><?=$startdate?></td>
+						<td> <input type="text" name="txtEmpEduStartDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
+					</tr>
 					  <tr> 
+						<td><?=$enddate?></td>
+						<td> <input type="text" name="txtEmpEduEndDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
+					 </tr>
+					 
+					 <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
@@ -202,13 +218,13 @@ if(isset($this->popArr['editArr'])) {
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
-    <td width='100%'><h3><?=$assignskills?></h3></td>
+    <td width='100%'><h3><?=$assigneducation?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -219,24 +235,27 @@ if(isset($this->popArr['editArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$skill?></strong></td>
-						 <td><strong><?=$yearofex?></strong></td>
+						 <td><strong><?=$education?></strong></td>
+						 <td><strong><?=$year?></strong></td>
+						 <td><strong><?=$gpa?></strong></td>
 						
 					</tr>
 <?
-$rset = $this->popArr['rsets'] ;
-$allSkilllist = $this->popArr['allSkilllist'];
+$rset = $this->popArr['rsetEducation'] ;
+$allEduCodes = $this->popArr['allEduCodes'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
+            echo "<td><input type='checkbox' class='checkbox' name='chkedudel[]' value='" . $rset[$c][1] . "'>";
 
-			for($a=0;count($allSkilllist)>$a;$a++) 
-				if($rset[$c][1] == $allSkilllist[$a][0])
-				   $lname=$allSkilllist[$a][1];
-			 echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
-			echo '<td>'. $rset[$c][2] .'</a></td>';
+            for($a=0; $allEduCodes && count($allEduCodes)>$a; $a++) 
+				if($allEduCodes[$a][0] == $rset[$c][1])
+				   $lname = $allEduCodes[$a][1] . ", " .$allEduCodes[$a][2];
+				   
+			?><td><a href="javascript:viewEducation('<?=$rset[$c][1]?>')"><?=$lname?></td><?
+			echo '<td>'. $rset[$c][3] .'</a></td>';
+			echo '<td>'. $rset[$c][4] .'</a></td>';
 			
         echo '</tr>';
         }

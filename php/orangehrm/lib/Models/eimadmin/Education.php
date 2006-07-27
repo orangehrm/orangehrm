@@ -95,7 +95,7 @@ class Education {
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1] .
+	    	$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
@@ -117,7 +117,7 @@ class Education {
 		
 		$tableName = 'HS_HR_EDUCATION';
 		$arrFieldList[0] = 'EDU_CODE';
-		$arrFieldList[1] = 'CONCAT(EDU_UNI, EDU_DEG)';
+		$arrFieldList[1] = 'EDU_UNI';
 		$arrFieldList[2] = 'EDU_DEG';
 		
 		$sql_builder = new SQLQBuilder();

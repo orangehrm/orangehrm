@@ -406,7 +406,7 @@
 
 				<td align="right">
 
-					<input type="Submit" value="<?=$add?>" id="Add" name="Add"class="btnAdd">
+					<input type="Submit" value="<?=$save?>" id="Add" name="Add"class="btnAdd">
 
 					<input type="Reset" value="<?=$clear?>" id="Clear" name="Clear">
 
@@ -449,9 +449,10 @@
 					<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 
 
 					 		<option value="0"><?=$select?></option>
-
-					<?php include_once(ROOT_PATH.'/resources/countries.php');	?>
-
+<?		$cntlist = $this->popArr['countries'];
+							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
+							    			echo "<option value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
+							    ?>
 						</select>
 
 					</td>
@@ -523,7 +524,7 @@
 
 				<td align="right">
 
-					<input type="button" value="<?=$add?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
+					<input type="button" value="<?=$save?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
 
 					<input type="Reset" value="<?=$clear?>" id="Clear" name="Clear" onClick="resetx()">
 

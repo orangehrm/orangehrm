@@ -84,6 +84,7 @@ require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpLanguage.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpJobSpec.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpConExt.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpBasSalary.php';
+require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpEducation.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpMembership.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpWorkExp.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpExCur.php';
@@ -150,7 +151,7 @@ if($_SESSION['isAdmin'] != 'Yes')
 $ugroup = new UserGroups();
 $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 
-$locRights['repDef'] = $ugDet[0][2] == '1' ? true : false;
+$locRights['repDef'] = ($ugDet !== null && $ugDet[0][2] == '1') ? true : false;
 
 $_SESSION['localRights'] = $locRights;
 
@@ -560,6 +561,7 @@ switch ($moduletype) {
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Users();
 										}
+										break;
 										
 						case 'USG'	:	
 										if(isset($_POST['sqlState'])) {
@@ -577,8 +579,8 @@ switch ($moduletype) {
 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='delete' && $locRights['delete']) {
 											$parsedObject = $extractor->parseDeleteData($_POST);
-											$view_controller->deleteData($_GET['uniqcode'],$parsedObject);
-										}										
+											$view_controller->deleteData($_GET['uniqcode'],$parsedObject);												
+										} 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['uniqcode'],$parsedObject);
@@ -612,11 +614,11 @@ switch ($moduletype) {
 							$parsedObject = $extractor->parseData($_POST);
 							$view_controller -> reDirect($_GET,$parsedObject);
 							break;
-						} elseif(isset($_POST['sqlState']) && $_GET['capturemode'] == 'addmode') {
+						} elseif(isset($_POST['sqlState']) && isset($_POST['capturemode']) && $_GET['capturemode'] == 'addmode') {
 							$extObject = $extractor->reloadData($_POST);
 							$view_controller -> reDirect($_GET,$extObject);
 							break;
-						} elseif(isset($_POST['sqlState']) && $_GET['capturemode'] == 'updatemode') {
+						} elseif(isset($_POST['sqlState']) && isset($_POST['capturemode']) && $_GET['capturemode'] == 'updatemode') {
 							$extObject = $extractor->reloadData($_POST);
 							$view_controller -> reDirect($_GET,$extObject);
 							break;
@@ -665,6 +667,10 @@ switch ($moduletype) {
 
 					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpBasSalary();
+					}
+					
+					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpEducation();
 					}
 					
 					if(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT']!= '') {
@@ -747,6 +753,13 @@ switch ($moduletype) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['paymentSTAT']);
 										} elseif(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
+										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD' && $locRights['add']) || ($_POST['educationSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['educationSTAT']);
+										} elseif(isset($_POST['educationSTAT']) && $_POST['educationSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										

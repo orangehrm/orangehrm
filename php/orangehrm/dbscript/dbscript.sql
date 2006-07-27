@@ -1,4 +1,4 @@
-﻿create database hr_mysql;
+create database hr_mysql;
 
 use hr_mysql;
 
@@ -1223,6 +1223,5 @@ INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00',
 INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),('MOD003','Maintenance','Koshika','koshika@beyondm.net','VER001','Application Maintenance'),('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES ('USG001', 'MOD001', '1', '1', '1', '1'), ('USG001', 'MOD002', '1', '1', '1', '1'),('USG001', 'MOD003', '1', '1', '1', '1'), ('USG001', 'MOD004', '1', '1', '1', '1');
-INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null ,1,2,0,0);
-
+INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
 
