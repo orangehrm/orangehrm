@@ -19,73 +19,34 @@ Boston, MA  02110-1301, USA
 ?>
 
 <script language="JavaScript">
-function alpha(txt) {
-var flag=true;
-var i,code;
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt) {
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function edit() {
-	if(document.Edit.title=='Save') {
-		editEXT();
+function editWrkExp() {
+	
+	if(document.EditWrkExp.title=='Save') {
+		editEXTWrkExp();
 		return;
 	}
 	
-	var frm=document.frmWrkExp;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+		
+	document.EditWrkExp.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditWrkExp.title="Save";
 }
 
-function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+function moutWrkExp() {
+	if(document.EditWrkExp.title=='Save') 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
-function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+function moverWrkExp() {
+	if(document.EditWrkExp.title=='Save') 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
 function createDate(str) {
@@ -98,42 +59,42 @@ function createDate(str) {
 		return tempDate;
 }
 
-function addEXT() {
- 	var txt = document.frmWrkExp.txtEmpExpDesOnLev;
-	if (!alpha(txt)) {
-		alert ("Description Error!");
+function addEXTWrkExp() {
+	
+ 	var txt = document.frmEmp.txtEmpExpEmployer;
+	if (txt.value == '') {
+		alert ("Field Empty!");
 		txt.focus();
 		return false;
 	}
 
-    var txt = document.frmWrkExp.txtEmpResLev;
-	if (!alpha(txt)) {
-		alert ("Description Error!");
+    var txt = document.frmEmp.txtEmpExpJobTitle;
+	if (txt.value == '') {
+		alert ("Field Empty!");
 		txt.focus();
 		return false;
 	}
 
- 
-	var fromDate = createDate(document.frmWrkExp.txtEmpExpFromDat.value)
-	var toDate = createDate(document.frmWrkExp.txtEmpExpToDat.value);
+	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
+	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
 	
 	if(fromDate >= toDate){
 		alert("From Date should be before To date");
 		return;
 	}
 	
-  document.frmWrkExp.STAT.value="ADD";
-  document.frmWrkExp.submit();
+  document.frmEmp.wrkexpSTAT.value="ADD";
+  qCombo(17);
 }
 
 function calcYearMonth() {
 	
-	if(document.frmWrkExp.txtEmpExpFromDat.value == '') {
+	if(document.frmEmp.txtEmpExpFromDat.value == '') {
 		alert("Enter From Date first");
 		return;
 	}
-	var fromDate = createDate(document.frmWrkExp.txtEmpExpFromDat.value)
-	var toDate = createDate(document.frmWrkExp.txtEmpExpToDat.value);
+	var fromDate = createDate(document.frmEmp.txtEmpExpFromDat.value)
+	var toDate = createDate(document.frmEmp.txtEmpExpToDat.value);
 	
 	var diffMs = toDate.getTime() - fromDate.getTime();
 
@@ -146,42 +107,43 @@ function calcYearMonth() {
 	eMonth = eMonth / oneMonth;
 	
 	var str = eMonth.toString();
-	document.frmWrkExp.txtEmpExpMonths.value = str.substr(0,str.indexOf('.'));
+	document.frmEmp.txtEmpExpMonths.value = str.substr(0,str.indexOf('.'));
 	str = eYears.toString();
-	document.frmWrkExp.txtEmpExpYears.value = str.substr(0,str.indexOf('.'));
+	document.frmEmp.txtEmpExpYears.value = str.substr(0,str.indexOf('.'));
 }
 
-function editEXT() {
- 	var txt = document.frmWrkExp.txtEmpExpDesOnLev;
-	if (!alpha(txt)) {
-		alert ("Description Error!");
+function editEXTWrkExp() {
+	
+ 	var txt = document.frmEmp.txtEmpExpEmployer;
+	if (txt.value == '') {
+		alert ("Field Empty!");
 		txt.focus();
 		return false;
 	}
 
-    var txt = document.frmWrkExp.txtEmpResLev;
-	if (!alpha(txt)) {
-		alert ("Description Error!");
+    var txt = document.frmEmp.txtEmpExpJobTitle;
+	if (txt.value == '') {
+		alert ("Field Empty!");
 		txt.focus();
 		return false;
 	}
 
-
-	var fromDate = createDate(document.frmWrkExp.txtEmpExpFromDat.value)
-	var toDate = createDate(document.frmWrkExp.txtEmpExpToDat.value);
+	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
+	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
 	
 	if(fromDate >= toDate){
 		alert("From Date should be before To date");
 		return;
 	}
 
-  document.frmWrkExp.STAT.value="EDIT";
-  document.frmWrkExp.submit();
+  document.frmEmp.wrkexpSTAT.value="EDIT";
+  qCombo(17);
 }
 
-function delEXT() {
+function delEXTWrkExp() {
+	
       var check = 0;
-		with (document.frmWrkExp) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -189,58 +151,60 @@ function delEXT() {
 			}
         }
 
-        if(check==0)
-            {
+        if(check==0) {
               alert("Select atleast one check box");
               return;
-            }
+        }
 
 
     //alert(cntrl.value);
-    document.frmWrkExp.STAT.value="DEL";
-    document.frmWrkExp.submit();
+    document.frmEmp.wrkexpSTAT.value="DEL";
+    qCombo(17);
 }
 
-function addNewEXT(str){
-	var EmpID = str;		
-	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+function viewWrkExp(wrkexp) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&WRKEXP=" + wrkexp;
+	document.frmEmp.pane.value = 17;
+	document.frmEmp.submit();
 }
+
 </script>
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-    <input type="hidden" name="STAT" value="">
+    <input type="hidden" name="wrkexpSTAT" value="">
 
 <?
-if(isset($this->popArr['editArr'])) {
-    $edit = $this->popArr['editArr'];
+if(isset($this->popArr['editWrkExpArr'])) {
+    $edit = $this->popArr['editWrkExpArr'];
 ?>
-    		 <input type="hidden" name="txtEmpExpID"  value="<?=isset($this->popArr['txtEmpExpID']) ? $this->popArr['txtEmpExpID'] : $edit[0][1]?>">
+    		 <input type="hidden" name="txtEmpExpID" value="<?=$this->getArr['WRKEXP']?>">
 
       <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td><?=$employer?></td>
-    				  <td><input type="text" name="txtEmpExpCompany" <?=isset($this->popArr['txtEmpExpCompany']) ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] : $edit[0][2]?>"></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?=$edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpExpFromDat"  <?=isset($this->popArr['txtEmpExpFromDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpExpFromDat']) ? $this->popArr['txtEmpExpFromDat'] : $edit[0][8]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
+						<td> <input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
-						<td> <input type="text" name="txtEmpExpDesOnLev" <?=isset($this->popArr['txtEmpExpDesOnLev']) ? '':'disabled'?>  value="<?=isset($this->popArr['txtEmpExpDesOnLev']) ? $this->popArr['txtEmpExpDesOnLev'] : $edit[0][6]?>"></td>
+						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?=$edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
+						<td><?=$enddate?></td>
+						<td> <input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
 					  <tr>
-						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDat" <?=isset($this->popArr['txtEmpExpToDat']) ? '':'disabled'?> readonly value="<?=isset($this->popArr['txtEmpExpToDat']) ? $this->popArr['txtEmpExpToDat'] : $edit[0][9]?>">&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
 						<td><?=$briefdes?></td>
-						<td> <textarea <?=isset($this->popArr['txtEmpResLev']) ? '':'disabled'?>  name="txtEmpResLev"><?=isset($this->popArr['txtEmpResLev']) ? $this->popArr['txtEmpResLev'] : $edit[0][12]?></textarea></td>
+						<td> <textarea disabled name="txtEmpExpComments"><?=$edit[0][6]?></textarea></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?		if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editWrkExp();">
 		<?		} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?		} 	 ?>
@@ -250,28 +214,27 @@ if(isset($this->popArr['editArr'])) {
 
 <? } else { ?>
 
-<? $newid = $this->popArr['newID']; ?>
-<input type="hidden" name="txtEmpExpID"  value="<?=$newid?>">
+		<input type="hidden" name="txtEmpExpID"  value="<?=$this->popArr['newID']?>">
 
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$employer?></td>
-    				  <td><input type="text" name="txtEmpExpCompany" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpCompany']) ? $this->popArr['txtEmpExpCompany'] :''?>"></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" <?=$locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
 					<td><?=$startdate?></td>
-						<td> <input type="text" name="txtEmpExpFromDat" readonly value="<?=isset($this->popArr['txtEmpExpFromDat']) ?$this->popArr['txtEmpExpFromDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpFromDat);return false;"></td>
+						<td> <input type="text" name="txtEmpExpFromDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
-						<td> <input type="text" name="txtEmpExpDesOnLev" <?=$locRights['add'] ? '':'disabled'?> value="<?=isset($this->popArr['txtEmpExpDesOnLev']) ? $this->popArr['txtEmpExpDesOnLev'] :''?>"></td>
+						<td> <input type="text" name="txtEmpExpJobTitle" <?=$locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
 						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDat"  readonly onchange="calcYearMonth();" value="<?=isset($this->popArr['txtEmpExpToDat']) ?$this->popArr['txtEmpExpToDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmWrkExp.txtEmpExpToDat);return false;"></td>
+						<td> <input type="text" name="txtEmpExpToDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
     				  <td width="50">&nbsp;</td>
     				   </tr>
 					  <tr>
 					<td><?=$briefdes?></td>
-						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpResLev"><?=isset($this->popArr['txtEmpResLev']) ? $this->popArr['txtEmpResLev'] :''?></textarea></td>
+						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
     				  <td width="50">&nbsp;</td>
 						 </tr>
 					  
@@ -279,7 +242,7 @@ if(isset($this->popArr['editArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?	} ?>
@@ -301,7 +264,7 @@ if(isset($this->popArr['editArr'])) {
   <tr>
    <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -320,22 +283,19 @@ if(isset($this->popArr['editArr'])) {
 					</tr>
 <?
 
-$rset = $this->popArr['rset'];
+$rset = $this->popArr['rsetWrkExp'];
 
-
-    for($c=0; $rset && $c < count($rset); $c++)
-        {
+    for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."'></td>";
-            echo "<td><a href='".$_SERVER['PHP_SELF']. "?reqcode=" .$this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID=" . $rset[$c][1] . "'>Exp " . $rset[$c][1] . "</a></td>";
+            echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
+            ?><td><a href="javascript:viewWrkExp('<?=$rset[$c][1]?>')"><?=$rset[$c][1]?></a></td><?
             echo '<td>' . $rset[$c][2] .'</td>';
-            $str = explode(" ",$rset[$c][3]);
-            echo '<td>' . $str[0] .'</td>';
             $str = explode(" ",$rset[$c][4]);
+            echo '<td>' . $str[0] .'</td>';
+            $str = explode(" ",$rset[$c][5]);
             echo '<td>' . $str[0] .'</td>';
         echo '</tr>';
         }
-
 ?>
       </table>
       

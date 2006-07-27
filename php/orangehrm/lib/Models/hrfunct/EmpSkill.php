@@ -34,7 +34,7 @@ class EmpSkill {
 	var $arrayDispList;
 	var $singleField;
 	
-	function EmpLanguage() {
+	function EmpSkill() {
 		
 	}
 	
@@ -140,7 +140,6 @@ class EmpSkill {
 		$tableName = 'HS_HR_EMP_SKILL';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SKILL_CODE';
-		$arrFieldList[2] = 'YEARS_OF_EXP';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -162,7 +161,6 @@ class EmpSkill {
 		$arrFieldList[1] = "'". $this->getEmpSkillCode()  . "'";
 		$arrFieldList[2] = "'". $this->getEmpYearsOfExp() . "'";
 		$arrFieldList[3] = "'". $this->getEmpComments()   . "'";
-		
 
 		$tableName = 'HS_HR_EMP_SKILL';
 	
@@ -179,8 +177,6 @@ class EmpSkill {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
-		 echo $message2;
-				
 	}
 	
 	function updateEmpSkill() {
@@ -221,14 +217,13 @@ class EmpSkill {
 		$arrFieldList[2] = 'YEARS_OF_EXP';
 		$arrFieldList[3] = 'COMMENTS';
 		
-
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID,2);
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID,1);
 		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -285,7 +280,6 @@ class EmpSkill {
 			   $arrayDispList[$i][$c] = $line[$c];
 	    	
 	    	$i++;
-	    	
 	     }
 	     
 	     if (isset($arrayDispList)) {
@@ -296,12 +290,8 @@ class EmpSkill {
 		
 			$arrayDispList = '';
 			return $arrayDispList;
-			
 		}
-				
 	}
-
-
 }
 
 ?>

@@ -101,6 +101,13 @@
 	background: url(../pictures/geoinfo_o.gif)  no-repeat left top;
 }
 
+#menu #users a{	
+	background: url(../pictures/users.gif)  no-repeat left top;
+}
+
+#menu #users a:hover {	
+	background: url(../pictures/users_o.gif)  no-repeat left top;
+}
 
 #menum1 {
 	visibility:hidden;

@@ -363,7 +363,7 @@ else
 				<td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?=$headings[$j]?></a> <img src="../../themes/beyondT/icons/<?=$this->getArr['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
 				<? } ?>	                    
       		<td class="listViewThS1"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-      		<td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
+      		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
     		</tr>
     		<?php
 				if ((isset($message)) && ($message !='')) {	 
@@ -399,7 +399,7 @@ else
 		 		<td class="<?=$cssClass?>" width="400" ><?=$descField?></td>
 		 		<? } ?>
 				<td class="<?=$cssClass?>" width="400" >&nbsp;</td>
-		 		<td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
+		 		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
 		 	</tr>		 						
 		 	<?php
 		 		 } 

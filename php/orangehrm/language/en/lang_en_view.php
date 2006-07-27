@@ -377,6 +377,18 @@ switch ($_GET['uniqcode']) {
 		$headings= array('Licenses ID','Licenses Description');
 		$headingInfo = array ('Licenses ID','Licenses Description',1,'Qualification : Licenses','Deletion might affect Employee Information');
 		break;
+		
+	case 'USR' :
+		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$headings= array('User ID','User Name');
+		$headingInfo = array ('User ID','User Name',1, 'Users: Users','Deletion could make Orange HRM unusable');
+		break;
+		
+	case 'USG' :
+		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$headings= array('User Group ID','User Group Name');
+		$headingInfo = array ('User Group ID','User Group Name',1, 'Users: User Groups','Deletion could make Orange HRM unusable');
+		break;
 	
 
 }

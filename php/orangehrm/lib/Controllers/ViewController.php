@@ -76,6 +76,10 @@ require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
+require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
+require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
+require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
+
 class ViewController {
 
 	var $indexCode;
@@ -559,6 +563,18 @@ class ViewController {
 			$this-> Licenses -> delLicenses($arrList);
 			break;
 			
+		case 'USR':
+
+			$this-> users = new Users();
+			$this-> users -> delUsers($arrList);
+			break;
+		
+		case 'USG':
+
+			$this-> usergroups = new UserGroups();
+			$this-> usergroups -> delUserGroups($arrList);
+			break;
+				
         }
     }
 
@@ -881,6 +897,19 @@ class ViewController {
 			
 			$this-> licenses = new Licenses();
 			$message = $this-> licenses -> getListofLicenses($pageNO,$schStr,$mode, $sortField, $sortOrder);
+			
+			return $message;
+		case 'USG' :	
+		
+			$this-> userGroups = new UserGroups();
+			$message = $this->userGroups-> getListOfUserGroups($pageNO,$schStr,$mode, $sortField, $sortOrder);
+			
+			return $message;
+			
+		case 'USR' :	
+		
+			$this-> user = new Users();
+			$message = $this->user-> getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
 		}
@@ -1715,7 +1744,15 @@ class ViewController {
 									$licenses = $object;
 									$res = $licenses -> addLicenses();
 									break;		
+				case 'USR'  :		$users = new Users();
+									$users = $object;
+									$res = $users -> addUsers();
+									break;
 									
+				case 'USG'  :		$usergroups = new UserGroups();
+									$usergroups = $object;
+									$res = $usergroups -> addUserGroups();
+									break;
 			}
 			
 			// Checking whether the $message Value returned is 1 or 0
@@ -2035,7 +2072,17 @@ class ViewController {
 				case 'LIC'  :		$licenses = new Licenses();
 									$licenses = $object;
 									$res = $licenses -> updateLicenses();
-									break;		
+									break;			
+									
+				case 'USR'  :		$users = new Users();
+									$users = $object;
+									$res = $users -> updateUsers();
+									break;	
+									
+				case 'USG'  :		$usergroups = new UserGroups();
+									$usergroups = $object;
+									$res = $usergroups -> updateUserGroups();
+									break;	
 			}
 									
 			// Checking whether the $message Value returned is 1 or 0
@@ -2137,6 +2184,13 @@ class ViewController {
 									} elseif($action == 'EDIT')
 										$ratgrd->updateRatGrd();
 									break;
+				case 'UGR'  :		$ugrights = new Rights();
+									$ugrights = $object;
+									if($action == 'ADD')
+										$ugrights->addRights();
+									elseif($action == 'EDIT')
+										$ugrights->updateRights();
+									break;
 			}
 	}
 	
@@ -2216,6 +2270,16 @@ class ViewController {
 								
 								    $ratgrd -> delRatGrd($arr);
 								    break;
+				case 'UGR'  :		
+									$urights = new Rights();
+								    $arrpass[1]=$postArr['chkdel'];
+								   
+								    for($c=0;count($arrpass[1])>$c;$c++)
+								       if($arrpass[1][$c]!=NULL)
+									      $arrpass[0][$c]=$getArr['id'];
+										  
+								    $urights->delRights($arrpass);
+								      break;
 			}
 	}
 	
@@ -3012,6 +3076,54 @@ class ViewController {
 							if(isset($editArr['STATE']))
 								$form_creator ->popArr['districtlist'] = $district->getDistrictCodes($editArr['STATE']);
  							
+							break;
+							
+			case 'USR' :	$form_creator ->formPath = '/templates/maintenance/users.php'; 
+							$user= new Users();
+							
+							if($getArr['capturemode'] == 'addmode') {
+								$form_creator ->popArr['newID'] = $user->getLastRecord();
+								$form_creator ->popArr['emplist'] = $user->getEmployeeCodes();
+								$form_creator ->popArr['uglist'] = $user->getUserGroupCodes();
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = $user->filterUsers($getArr['id']);
+								$form_creator ->popArr['emplist'] = $user->getEmployeeCodes();
+								$form_creator ->popArr['uglist'] = $user->getUserGroupCodes();
+								//$form_creator ->popArr['editArr'] = $user->filterChangeUsers($getArr['id']);
+							}
+							break;
+			case 'USG'  :	$form_creator ->formPath = '/templates/maintenance/usergroups.php'; 
+							$usrgrp = new UserGroups();
+							
+							if($getArr['capturemode'] == 'addmode') {
+								$form_creator ->popArr['newID'] = $usrgrp->getLastRecord();
+
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = $usrgrp->filterUserGroups($getArr['id']);
+								
+							}
+							
+							break;				
+				
+			case 'UGR' :	$form_creator ->formPath = '/templates/maintenance/ugrights.php'; 
+							
+							$urights = new Rights();
+							$usergroup = new UserGroups();
+							
+							$form_creator->popArr['ugDet'] = $usergroup->filterUserGroups($getArr['id']);
+							$form_creator->popArr['modlist'] = $urights->getAllModules();
+
+							if(isset($getArr['editID'])) {
+								    $arr[0]=$getArr['id'];
+								    $arr[1]=$getArr['editID'];
+								$form_creator->popArr['editArr'] = $urights->filterRights($arr);
+								
+							} else {
+								$form_creator->popArr['modlistUnAss'] = $urights->getModuleCodes($getArr['id']);
+							}
+							
+							$form_creator->popArr['modlistAss'] = $urights->getAssRights($getArr['id']);
+							
 							break;
 				}
 				

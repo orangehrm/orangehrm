@@ -81,7 +81,7 @@ else
 
 	function empSel(cntrl) {
 <?      if($_GET['reqcode'] == 'REP'){ ?>
-        opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.title;
+        opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
         window.close();
 <?
 }else{

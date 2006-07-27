@@ -19,122 +19,70 @@ Boston, MA  02110-1301, USA
 ?>
 
 <script language="JavaScript">
-function alpha(txt)
-{
-var flag=true;
-var i,code;
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		editEXT();
+function editSkill() {
+	
+	if(document.EditSkill.title=='Save') {
+		editEXTSkill();
 		return;
 	}
 	
-	var frm=document.frmEmpSkill;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+		
+	document.EditSkill.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditSkill.title="Save";
 }
 
-function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+function moutSkill() {
+	if(document.EditSkill.title=='Save') 
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
-function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+function moverSkill() {
+	if(document.EditSkill.title=='Save') 
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
-	}
-
-function addEXT()
-{
-	if(document.frmEmpSkill.cmbSkilCode.value=='0') {
+function addEXTSkill() {
+	
+	if(document.frmEmp.cmbSkilCode.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpSkill.cmbSkilCode.focus();
+		document.frmEmp.cmbSkilCode.focus();
 		return;
 	}
 	
-	if (document.frmEmpSkill.txtEmpYears.value == '') {
+	if (document.frmEmp.txtEmpYears.value == '') {
 		alert ("Years of Experience Cannot be Blank!");
-		document.frmEmpSkill.txtEmpYears.focus();
+		document.frmEmp.txtEmpYears.focus();
 		return;
 	}
 	 
-	var txt = document.frmEmpSkill.txtEmpYears;
+	var txt = document.frmEmp.txtEmpYears;
 		if (!numeric(txt)) {
 			alert ("Years of Experience Error!");
 			txt.focus();
 			return;
 	}
 		
-	if (document.frmEmpSkill.txtEmpComments.value == '') {
-		alert ("Comments Cannot be Blank!");
-		document.frmEmpSkill.txtEmpComments.focus();
-		return;
-	}
-
-	document.frmEmpSkill.STAT.value="ADD";
-    document.frmEmpSkill.submit();
+	document.frmEmp.skillSTAT.value="ADD";
+	qCombo(16);
 }
 
-function editEXT()
-{
-  document.frmEmpSkill.STAT.value="EDIT";
-  document.frmEmpSkill.submit();
+function editEXTSkill() {
+  document.frmEmp.skillSTAT.value="EDIT";
+  qCombo(16);
 }
 
-function delEXT() {
+function delEXTSkill() {
+	
       var check = 0;
-		with (document.frmEmpSkill) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					check = 1;
@@ -147,23 +95,26 @@ function delEXT() {
            return;
         }
 
-    document.frmEmpSkill.STAT.value="DEL";
-    document.frmEmpSkill.submit();
+    document.frmEmp.skillSTAT.value="DEL";
+    qCombo(16);
 }
 
-function addNewEXT(str){
-	var EmpID = str;		
-	location.href = "./CentralController.php?id="+EmpID+"&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+function viewSkill(skill) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&SKILL=" + skill;
+	document.frmEmp.pane.value = 16;
+	document.frmEmp.submit();
 }
+
 </script>
 
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-    <input type="hidden" name="STAT" value="">
+    <input type="hidden" name="skillSTAT" value="">
 
 <?
-if(isset($this->popArr['editArr'])) {
-    $edit = $this->popArr['editArr'];
+if(isset($this->popArr['editSkillArr'])) {
+    $edit = $this->popArr['editSkillArr'];
 ?>
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
@@ -172,7 +123,7 @@ if(isset($this->popArr['editArr'])) {
     				  <td><input type="hidden" name="cmbSkilCode" value="<?=$edit[0][1]?>"><strong>
 <?						$allSkilllist = $this->popArr['allSkilllist'];
 						for($c=0;count($allSkilllist)>$c;$c++)
-							if($this->getArr['editID1']==$allSkilllist[$c][0])
+							if($this->getArr['SKILL']==$allSkilllist[$c][0])
 							     break;
 							     
 					  	echo $allSkilllist[$c][1];
@@ -195,7 +146,7 @@ if(isset($this->popArr['editArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutSkill();" onmouseover="moverSkill();" name="EditSkill" onClick="editSkill();">
 		<?			} else { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?			}  ?>
@@ -213,9 +164,6 @@ if(isset($this->popArr['editArr'])) {
 <?					  
 						$skilllist= $this->popArr['uskilllist'];
 						for($c=0;$skilllist && count($skilllist)>$c;$c++)
-							if(isset($this->popArr['cmbSkilCode']) && $this->popArr['cmbSkilCode']==$skilllist[$c][0]) 
-							   echo "<option  value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
-							 else
 							   echo "<option value=" . $skilllist[$c][0] . ">" . $skilllist[$c][1] . "</option>";
 ?>					  
 					  </select></td>
@@ -234,7 +182,7 @@ if(isset($this->popArr['editArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
@@ -251,7 +199,7 @@ if(isset($this->popArr['editArr'])) {
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -267,18 +215,18 @@ if(isset($this->popArr['editArr'])) {
 						
 					</tr>
 <?
-$rset = $this->popArr['rsets'] ;
+$rset = $this->popArr['rsetSkill'] ;
 $allSkilllist = $this->popArr['allSkilllist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
+            echo "<td><input type='checkbox' class='checkbox' name='chkskilldel[]' value='" . $rset[$c][1] ."'>";
 
 			for($a=0;count($allSkilllist)>$a;$a++) 
 				if($rset[$c][1] == $allSkilllist[$a][0])
 				   $lname=$allSkilllist[$a][1];
-			 echo "<td><a href='" .$_SERVER['PHP_SELF']. "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $lname . "</td>";
+			?><td><a href="javascript:viewSkill('<?=$rset[$c][1]?>')"><?=$lname?></td><?
 			echo '<td>'. $rset[$c][2] .'</a></td>';
 			
         echo '</tr>';

@@ -60,7 +60,7 @@ class UserGroups {
 		return $this->userGroupRepDef;
 	}
 
-	function getListOfUserGroups($pageNO,$schStr,$mode){
+	function getListOfUserGroups($pageNO,$schStr,$mode, $sortField, $sortOrder){
 		
 		$arrFieldList[0] = 'userg_id';
 		$arrFieldList[1] = 'userg_name';
@@ -69,7 +69,7 @@ class UserGroups {
 		$this->sql_builder->flg_select = 'true';
 		$this->sql_builder->arr_select = $arrFieldList;
 		
-		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		$message2 = $this->dbConnection -> executeQuery($sqlQString);
 		

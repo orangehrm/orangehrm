@@ -25,14 +25,14 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 class EmpWorkExp {
 
 	var $tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
-	
+  
 	var $empId;
 	var $empExpSeqNo;
-	var $empExpCompany;
-	var $empExpDesOnLev;
-	var $empExpFromDat;
-	var $empExpToDat;
-	var $empResLev;
+	var $empExpEmployer;
+	var $empExpJobTitle;
+	var $empExpFromDate;
+	var $empExpToDate;
+	var $empExpComments;
 	
 
 	var $arrayDispList;
@@ -52,29 +52,29 @@ class EmpWorkExp {
 	$this->empExpSeqNo=$empExpSeqNo;
 	}
 	
-	function setEmpExpCompany($empExpCompany) {
+	function setEmpExpEmployer($empExpEmployer) {
 	
-	$this->empExpCompany=$empExpCompany;
+		$this->empExpEmployer = $empExpEmployer;
 	}
 		
-	function setEmpExpDesOnLev($empExpDesOnLev) {
+	function setEmpExpJobTitle($empExpJobTitle) {
 	
-	$this->empExpDesOnLev=$empExpDesOnLev;
+		$this->empExpJobTitle = $empExpJobTitle;
 	}
 	
-	function setEmpExpFromDat($empExpFromDat) {
+	function setEmpExpFromDate($empExpFromDate) {
 	
-	$this->empExpFromDat=$empExpFromDat;
+		$this->empExpFromDate = $empExpFromDate;
 	}
 	
-	function setEmpExpToDat($empExpToDat) {
+	function setEmpExpToDate($empExpToDate) {
 	
-	$this->empExpToDat=$empExpToDat;
+		$this->empExpToDate = $empExpToDate;
 	}
 	
-	function setEmpResLev($empResLev) {
+	function setEmpExpComments($empExpComments) {
 	
-	$this->empResLev=$empResLev;
+		$this->empExpComments = $empExpComments;
 	}
 	
 	function getEmpId() {
@@ -87,29 +87,29 @@ class EmpWorkExp {
 	return $this->empExpSeqNo;
 	}
 	
-	function getEmpExpCompany() {
+	function getEmpExpEmployer() {
 	
-	return $this->empExpCompany;
+		return $this->empExpEmployer;
 	}
 		
-	function getEmpExpDesOnLev() {
+	function getEmpExpJobTitle() {
 	
-	return $this->empExpDesOnLev;
+		return $this->empExpJobTitle;
 	}
 	
-	function getEmpExpFromDat() {
+	function getEmpExpFromDate() {
 	
-	return $this->empExpFromDat;
+		return $this->empExpFromDate;
 	}
 	
-	function getEmpExpToDat() {
+	function getEmpExpToDate() {
 	
-	return $this->empExpToDat;
+		return $this->empExpToDate;
 	}
 	
-	function getEmpResLev() {
+	function getEmpExpComments() {
 	
-	return $this->empResLev;
+		return $this->empExpComments;
 	}
 		
 
@@ -193,25 +193,13 @@ function getListofEmpWorkExp($page,$str,$mode) {
 
 	function addEmpWorkExp() {
 		
-		$this->getEmpId();
 		$arrFieldList[0]  = "'". $this->getEmpId() . "'";
 		$arrFieldList[1]  = "'". $this->getEmpExpSeqNo() . "'";
-		$arrFieldList[2]  = "'". $this->getEmpExpCompany() . "'";
-		$arrFieldList[3]  = 'null';
-		$arrFieldList[4]  = 'null';
-		$arrFieldList[5]  = 'null';
-		$arrFieldList[6]  = "'". $this->getEmpExpDesOnLev() . "'";
-		$arrFieldList[7]  = 'null';
-		$arrFieldList[8]  = "'". $this->getEmpExpFromDat() . "'";
-		$arrFieldList[9]  = "'". $this->getEmpExpToDat() . "'";
-		$arrFieldList[10] = 'null';
-		$arrFieldList[11] = 'null';
-		$arrFieldList[12] = "'". $this->getEmpResLev() . "'";
-		$arrFieldList[13] = 'null';
-		$arrFieldList[14] = 'null';
-		$arrFieldList[15] = 'null';
-		$arrFieldList[16] = 'null';
-		$arrFieldList[17] = 'null';
+		$arrFieldList[2]  = "'". $this->getEmpExpEmployer() . "'";
+		$arrFieldList[3]  = "'". $this->getEmpExpJobTitle() . "'";
+		$arrFieldList[4]  = "'". $this->getEmpExpFromDate() . "'";
+		$arrFieldList[5]  = "'". $this->getEmpExpToDate() . "'";
+		$arrFieldList[6]  = "'". $this->getEmpExpComments() . "'";
 
 		$tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
 	
@@ -236,42 +224,20 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		
 		$arrRecordsList[0]  = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1]  = "'". $this->getEmpExpSeqNo() . "'";
-		$arrRecordsList[2]  = "'". $this->getEmpExpCompany() . "'";
-		$arrRecordsList[3]  = 'null';
-		$arrRecordsList[4]  = 'null';
-		$arrRecordsList[5]  = 'null';
-		$arrRecordsList[6]  = "'". $this->getEmpExpDesOnLev() . "'";
-		$arrRecordsList[7]  = 'null';
-		$arrRecordsList[8]  = "'". $this->getEmpExpFromDat() . "'";
-		$arrRecordsList[9]  = "'". $this->getEmpExpToDat() . "'";
-		$arrRecordsList[10] = 'null';
-		$arrRecordsList[11] = 'null';
-		$arrRecordsList[12] = "'". $this->getEmpResLev() . "'";
-		$arrRecordsList[13] = 'null';
-		$arrRecordsList[14] = 'null';
-		$arrRecordsList[15] = 'null';
-		$arrRecordsList[16] = 'null';
-		$arrRecordsList[17] = 'null';
+		$arrRecordsList[2]  = "'". $this->getEmpExpEmployer() . "'";
+		$arrRecordsList[3]  = "'". $this->getEmpExpJobTitle() . "'";
+		$arrRecordsList[4]  = "'". $this->getEmpExpFromDate() . "'";
+		$arrRecordsList[5]  = "'". $this->getEmpExpToDate() . "'";
+		$arrRecordsList[6]  = "'". $this->getEmpExpComments() . "'";
 
 		$tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EEXP_SEQNO';
-		$arrFieldList[2] = 'EEXP_COMPANY';
-		$arrFieldList[3] = 'EEXP_ADDRESS1';
-		$arrFieldList[4] = 'EEXP_ADDRESS2';
-		$arrFieldList[5] = 'EEXP_ADDRESS3';
-		$arrFieldList[6] = 'EEXP_DESIG_ON_LEAVE';
-		$arrFieldList[7] = 'EEXP_WORK_RELATED_FLG';
-		$arrFieldList[8] = 'EEXP_FROM_DATE';
-		$arrFieldList[9] = 'EEXP_TO_DATE';
-		$arrFieldList[10] = 'EEXP_YEARS';
-		$arrFieldList[11]= 'EEXP_MONTHS';
-		$arrFieldList[12] = 'EEXP_REASON_FOR_LEAVE';
-		$arrFieldList[13] = 'EEXP_CONTACT_PERSON';
-		$arrFieldList[14] = 'EEXP_TELEPHONE';
-		$arrFieldList[15] = 'EEXP_EMAIL';
-		$arrFieldList[16] = 'EEXP_ACCOUNTABILITIES';
-		$arrFieldList[17] = 'EEXP_ACHIEVEMENTS';
+		$arrFieldList[2] = 'EEXP_EMPLOYER';
+		$arrFieldList[3] = 'EEXP_JOBTIT';
+		$arrFieldList[4] = 'EEXP_FROM_DATE';
+		$arrFieldList[5] = 'EEXP_TO_DATE';
+		$arrFieldList[6] = 'EEXP_COMMENTS';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -294,22 +260,11 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EEXP_SEQNO';
-		$arrFieldList[2] = 'EEXP_COMPANY';
-		$arrFieldList[3] = 'EEXP_ADDRESS1';
-		$arrFieldList[4] = 'EEXP_ADDRESS2';
-		$arrFieldList[5] = 'EEXP_ADDRESS3';
-		$arrFieldList[6] = 'EEXP_DESIG_ON_LEAVE';
-		$arrFieldList[7] = 'EEXP_WORK_RELATED_FLG';
-		$arrFieldList[8] = 'EEXP_FROM_DATE';
-		$arrFieldList[9] = 'EEXP_TO_DATE';
-		$arrFieldList[10] = 'EEXP_YEARS';
-		$arrFieldList[11]= 'EEXP_MONTHS';
-		$arrFieldList[12] = 'EEXP_REASON_FOR_LEAVE';
-		$arrFieldList[13] = 'EEXP_CONTACT_PERSON';
-		$arrFieldList[14] = 'EEXP_TELEPHONE';
-		$arrFieldList[15] = 'EEXP_EMAIL';
-		$arrFieldList[16] = 'EEXP_ACCOUNTABILITIES';
-		$arrFieldList[17] = 'EEXP_ACHIEVEMENTS';
+		$arrFieldList[2] = 'EEXP_EMPLOYER';
+		$arrFieldList[3] = 'EEXP_JOBTIT';
+		$arrFieldList[4] = 'EEXP_FROM_DATE';
+		$arrFieldList[5] = 'EEXP_TO_DATE';
+		$arrFieldList[6] = 'EEXP_COMMENTS';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -353,9 +308,11 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EEXP_SEQNO';
-		$arrFieldList[2] = 'EEXP_COMPANY';
-		$arrFieldList[3] = 'EEXP_FROM_DATE';
-		$arrFieldList[4] = 'EEXP_TO_DATE';
+		$arrFieldList[2] = 'EEXP_EMPLOYER';
+		$arrFieldList[3] = 'EEXP_JOBTIT';
+		$arrFieldList[4] = 'EEXP_FROM_DATE';
+		$arrFieldList[5] = 'EEXP_TO_DATE';
+		$arrFieldList[6] = 'EEXP_COMMENTS';
 
 		$sql_builder = new SQLQBuilder();
 		

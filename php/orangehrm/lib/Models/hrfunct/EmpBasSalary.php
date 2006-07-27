@@ -355,7 +355,6 @@ class EmpBasSalary {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$i=0;
-
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 
 	    	$arrayDispList[$i][0] = $line[0];
@@ -365,7 +364,6 @@ class EmpBasSalary {
 	    	$arrayDispList[$i][4] = $line[4];
 	    	$arrayDispList[$i][5] = $line[5];
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {

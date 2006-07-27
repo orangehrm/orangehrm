@@ -21,31 +21,20 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpWorkExp.php';
 
 class EXTRACTOR_EmpWorkExp{
 	
-	var $txtEmpId;
-	var $txtEmpExpId;
-	var $txtEmpExpCompany;
-	var $txtEmpExpDesOnLev;
-	var $txtEmpExpFromDat;
-	var $txtEmpExpToDat;
-	var $txtEmpResLev;
-	
-	
 	function EXTRACTOR_EmpWorkExp() {
 
 		$this->empwrkexp = new EmpWorkExp();
 	}
 
-	
-
 	function parseData($postArr) {	
 			
 			$this->empwrkexp->setEmpId(trim($postArr['txtEmpID']));
     		$this->empwrkexp->setEmpExpSeqNo($postArr['txtEmpExpID']);
-    		$this->empwrkexp->setEmpExpCompany(trim($postArr['txtEmpExpCompany']));
-    		$this->empwrkexp->setEmpExpDesOnLev(trim($postArr['txtEmpExpDesOnLev']));
-    		$this->empwrkexp->setEmpExpFromDat(trim($postArr['txtEmpExpFromDat']));
-    		$this->empwrkexp->setEmpExpToDat(trim($postArr['txtEmpExpToDat']));
-    		$this->empwrkexp->setEmpResLev(trim($postArr['txtEmpResLev']));
+    		$this->empwrkexp->setEmpExpEmployer(trim($postArr['txtEmpExpEmployer']));
+    		$this->empwrkexp->setEmpExpJobTitle(trim($postArr['txtEmpExpJobTitle']));
+    		$this->empwrkexp->setEmpExpFromDate(trim($postArr['txtEmpExpFromDate']));
+    		$this->empwrkexp->setEmpExpToDate(trim($postArr['txtEmpExpToDate']));
+    		$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
     		    
 			return $this->empwrkexp;	
 	}

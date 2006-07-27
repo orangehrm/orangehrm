@@ -66,7 +66,7 @@ function editEXT()
 
 	function goBack() {
 		
-		location.href = "./CentralController.php?capturemode=updatemode&mtcode=USG&id=<?=$this->getArr['id']?>";
+		location.href = "./CentralController.php?capturemode=updatemode&uniqcode=USG&id=<?=$this->getArr['id']?>";
 	}
 
 function delEXT()
@@ -82,7 +82,7 @@ function delEXT()
 
         if(check==0)
             {
-              alert("Select atleast one check box");
+              alert("Select at least one check box");
               return;
             }
 
@@ -138,9 +138,9 @@ function edit()
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmURights" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&mtcode=<?=$this->getArr['mtcode']?>">
+<form name="frmURights" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
   <tr>
-    <td valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="STAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
@@ -230,7 +230,7 @@ if(isset($this->popArr['editArr']))
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  ?>
@@ -295,7 +295,7 @@ if(isset($this->popArr['editArr']))
 					  <tr>
 						<td valign="top"></td>
 <?					if($locRights['add']) { ?>
-						<td align="left" valign="top"><img onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?					} else { ?>
 						<td align="left" valign="top"><img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?					}		?>						
@@ -328,7 +328,7 @@ if(isset($this->popArr['editArr']))
   <tr>
   <td>
 <?					if($locRights['delete']) { ?>
-						<img onClick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?					} else { ?>
 						<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?					}		?>						
@@ -365,7 +365,7 @@ $modlist = $this->popArr['modlist'];
             echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] . "'></td>";
 			for($a=0;count($modlist)>$a;$a++)
 			    if($modlist[$a][0]==$rset[$c][1])
-		            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?id=" . $this->getArr['id']. "&editID=" . $rset[$c][1] . "&mtcode=" .$this->getArr['mtcode']. "'>" . $modlist[$a][1] . "</a></td>";
+		            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?id=" . $this->getArr['id']. "&editID=" . $rset[$c][1] . "&uniqcode=" .$this->getArr['uniqcode']. "'>" . $modlist[$a][1] . "</a></td>";
             echo '<td>' . (($rset[$c][2]==1) ? 'Yes' : 'No') .'</td>';
             echo '<td>' . (($rset[$c][3]==1) ? 'Yes' : 'No') .'</td>';
             echo '<td>' . (($rset[$c][4]==1) ? 'Yes' : 'No') .'</td>';

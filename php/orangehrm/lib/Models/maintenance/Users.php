@@ -233,7 +233,7 @@ class Users {
 	}
 	
 		
-	function getListOfUsers($pageNO,$schStr,$mode){
+	function getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder){
 		
 		$arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
@@ -243,8 +243,8 @@ class Users {
 		$this->sql_builder->flg_select = 'true';
 		$this->sql_builder->arr_select = $arrFieldList;
 		
-		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
-		
+		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
+			
 		$message2 = $this->dbConnection -> executeQuery($sqlQString);
 		
 		$i=0;

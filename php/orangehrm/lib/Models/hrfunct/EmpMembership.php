@@ -110,10 +110,6 @@ class EmpMembership {
 	
 	return $this->empMemRenDat;
 	}
-////
-	
-
-	
 
 	function getListofEmpMembership($page,$str,$mode) {
 		

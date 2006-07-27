@@ -555,6 +555,24 @@ switch ($moduletype) {
 										}
 
 			 							break;
+										
+						case 'USR'	:	
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Users();
+										}
+										
+						case 'USG'	:	
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_UserGroups();
+										}
+
+			 							break;
+						
+						case 'UGR'	:	
+										if(isset($_POST['STAT'])) {
+											$extractor = new EXTRACTOR_Rights();
+										}
+						
 					}
 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='delete' && $locRights['delete']) {
@@ -641,6 +659,26 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpLicenses();
 					}
 
+					if(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpMembership();
+					}
+
+					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpBasSalary();
+					}
+					
+					if(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpWorkExp();
+					}
+					
+					if(isset($_POST['skillSTAT']) && $_POST['skillSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpSkill();
+					}
+					
+					if(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpRepTo();
+					}
+					
 					if(isset($_POST['brchSTAT']) && $_POST['brchSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpBank();
 					}
@@ -649,10 +687,6 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpAttach();
 					}
 
-					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '') {
-						$extractorForm = new EXTRACTOR_EmpBasSalary();
-					}
-					
 					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
@@ -670,8 +704,6 @@ switch ($moduletype) {
 							
 							case 'EMP'	:	
 										if(isset($_POST['sqlState'])) {
-														print_r('TEST');						
-											
 											$extractor = new EXTRACTOR_EmpInfo();
 										}
 									
@@ -718,6 +750,26 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
+										if(isset($_POST['wrkexpSTAT']) && (($_POST['wrkexpSTAT'] == 'ADD' && $locRights['add']) || ($_POST['wrkexpSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['wrkexpSTAT']);
+										} elseif(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
+										if(isset($_POST['skillSTAT']) && (($_POST['skillSTAT'] == 'ADD' && $locRights['add']) || ($_POST['skillSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['skillSTAT']);
+										} elseif(isset($_POST['skillSTAT']) && $_POST['skillSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
+										if(isset($_POST['reporttoSTAT']) && (($_POST['reporttoSTAT'] == 'ADD' && $locRights['add']) || ($_POST['reporttoSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['reporttoSTAT']);
+										} elseif(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
 										
 										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
@@ -747,6 +799,13 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
+										if(isset($_POST['membershipSTAT']) && (($_POST['membershipSTAT'] == 'ADD' && $locRights['add']) || ($_POST['membershipSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['membershipSTAT']);
+										} elseif(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
 										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
@@ -761,7 +820,6 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
-
 										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
@@ -769,7 +827,6 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
-
 										if(isset($_POST['brchSTAT']) && (($_POST['brchSTAT'] == 'ADD' && $locRights['add']) || ($_POST['brchSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['brchSTAT']);

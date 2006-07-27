@@ -34,73 +34,68 @@ function editPayment() {
 	document.EditPayment.title="Save";
 }
 
-function mout() {
+function moutPayment() {
 	if(document.EditPayment.title=='Save') 
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
-function mover() {
+function moverPayment() {
 	if(document.EditPayment.title=='Save') 
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 
-function addEXTPayment()
-{
+function addEXTPayment() {
+	
 	if(document.frmEmp.cmbCurrCode.value=='0') {
 			alert("Field should be selected!");
 			document.frmEmp.cmbCurrCode.focus();
 			return;
 	}
 	
-var cnt=document.frmEmp.txtBasSal;
-if(!numeric(cnt)) {
-	alert("Field should be Numeric");
-	cnt.focus();
-	return;
-}
+	var cnt=document.frmEmp.txtBasSal;
+	if(!numeric(cnt)) {
+		alert("Field should be Numeric");
+		cnt.focus();
+		return;
+	}
 
-var min = eval(document.frmEmp.Min.value);
-var max = eval(document.frmEmp.Max.value);
-
-if(min > cnt.value || max < cnt.value) {
-	alert("Salary should be within Min and Max");
-	cnt.focus();
-	return;
-}
+	var min = eval(document.frmEmp.txtMinCurrency.value);
+	var max = eval(document.frmEmp.txtMaxCurrency.value);
+	
+	if(min > cnt.value || max < cnt.value) {
+		alert("Salary should be within Min and Max");
+		cnt.focus();
+		return;
+	}
 
 document.frmEmp.paymentSTAT.value="ADD";
-document.frmEmp.submit();
+qCombo(14);
 }
 
-function addCur() {
-	document.frmEmp.paymentSTAT.value='OWN';
-	document.frmEmp.submit();
-}
-
-function editEXTPayment()
-{
-var cnt=document.frmEmp.txtBasSal;
-if(!numeric(cnt)) {
-	alert("Field should be Numeric");
-	cnt.focus();
-	return;
-}
-
-var min = eval(document.frmEmp.Min.value);
-var max = eval(document.frmEmp.Max.value);
-
-if(min > cnt.value || max < cnt.value) {
-	alert("Salary should be within Min and Max");
-	cnt.focus();
-	return;
-}
-
+function editEXTPayment() {
+	
+	var cnt=document.frmEmp.txtBasSal;
+	if(!numeric(cnt)) {
+		alert("Field should be Numeric");
+		cnt.focus();
+		return;
+	}
+	
+	var min = eval(document.frmEmp.txtMinCurrency.value);
+	var max = eval(document.frmEmp.txtMaxCurrency.value);
+	
+	if(min > cnt.value || max < cnt.value) {
+		alert("Salary should be within Min and Max");
+		cnt.focus();
+		return;
+	}
+	
   document.frmEmp.paymentSTAT.value="EDIT";
-  document.frmEmp.submit();
+  qCombo(14);
 }
 
 function delEXTPayment() {
@@ -122,23 +117,43 @@ function delEXTPayment() {
 
     //alert(cntrl.value);
     document.frmEmp.paymentSTAT.value="DEL";
-    document.frmEmp.submit();
+	qCombo(14);
+}
+
+function viewPayment(pay,curr) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&PAY=" + pay + "&CUR=" + curr;
+	document.frmEmp.pane.value = 14;
+	document.frmEmp.submit();
 }
 
 </script>
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="paymentSTAT" value="">
+        <input type="hidden" name="txtSalGrdId" value="<?=$this->popArr['salGrd']?>">
+   	<?
+			$salGrd = $this->popArr['salGrd'];
+			
+			if($salGrd === null) {
+				echo "<p align='center'><strong>Please Select a Job Title for this Employee <a href='javascript:displayLayer(2)'>here</a></strong></p>";
+			}
+ 	?>
 
-               <input type="hidden" name="txtSalGrdId" value="<?=$empdet[0][5]?>">
 <?
-	if(isset($this ->popArr['editArr'])) {
-	 $edit = $this -> popArr['editArr'];
+	if(isset($this ->popArr['editPaymentArr'])) {
+	 $edit = $this -> popArr['editPaymentArr'];
 ?>
  	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$paygrade?></td>
-    				  <td><strong><?=$empdet[0][5]?></strong></td>
+    				  <td><strong>
+    				 <? $salgradelist = $this->popArr['salgradelist'];
+    				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
+    				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
+    				    		echo $salgradelist[$c][1];
+    				 ?>
+    				  </strong></td>
 					</tr>
 					  <tr> 
 						<td valign="top"><?=$currency?></td>
@@ -158,7 +173,7 @@ function delEXTPayment() {
 <?
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='Min' value='" .$currlist[$c][3]. "'>";
+						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'>";
 						    	echo $currlist[$c][3] ;
 						    }
 ?>
@@ -170,7 +185,7 @@ function delEXTPayment() {
 <?
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='Max' value='" .$currlist[$c][5]. "'>";
+						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'>";
 						    	echo $currlist[$c][5];
 						    }
 ?>
@@ -185,7 +200,7 @@ function delEXTPayment() {
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
 		<?			} else { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?			}  ?>
@@ -196,64 +211,49 @@ function delEXTPayment() {
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$paygrade?></td>
-    				  <td><strong><?=$empdet[0][5]?></strong></td>
+    				  <td><strong>
+    				 <? $salgradelist = $this->popArr['salgradelist'];
+    				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
+    				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
+    				    		echo $salgradelist[$c][1];
+    				 ?>
+    				  </strong></td>
 					</tr>
 					  <tr> 
 						<td valign="top"><?=$currency?></td>
-						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> onChange='addCur();' name='cmbCurrCode'>
+						<td align="left" valign="top"><select <?=($locRights['add'] && $salGrd !== null)? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?=$this->popArr['salGrd']?>')" name='cmbCurrCode'>
                        						<option value="0">--Select Currency--</option>
 <?
- 		
-						$curlist= $this->popArr['curlist'];
+						$curlist= $this->popArr['currlist'];
 						for($c=0;$curlist && count($curlist)>$c;$c++)
-							if(isset($this->popArr['cmbCurrCode']) && $this->popArr['cmbCurrCode']==$curlist[$c][2]) 
-								   echo "<option selected value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
-								  
-								 else
 								   echo "<option value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
-							   
-								echo "</select>";
-?>					
-						</td>
+?>							   
+							</select></td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$minpoint?></td>
 						<td align="left" valign="top"><strong>
-<?						
-						if(isset($this->popArr['cmbCurrCode'])) {
-							for($c=0;count($curlist)>$c;$c++)
-								if($curlist[$c][2]==$this->popArr['cmbCurrCode']) {
-									echo "<input type='hidden' name='Min' value='" .$curlist[$c][3]. "'>";
-									echo $curlist[$c][3];
-								}
-							}
-?>
+							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency'>
+							<div id='divMinCurrency'></div>
 						</strong></td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$maxpoint?></td>
 						<td align="left" valign="top"><strong>
-<?
-						if(isset($this->popArr['cmbCurrCode'])) {
-							for($c=0;count($curlist)>$c;$c++)
-								if($curlist[$c][2]==$this->popArr['cmbCurrCode']) {
-									echo "<input type='hidden' name='Max' value='" .$curlist[$c][5]. "'>";
-									echo $curlist[$c][5];
-								}
-							}
-?>
+							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency'>
+							<div id='divMaxCurrency'></div>
 						</strong></td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$bassalary?></td>
-						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtBasSal">
+						<td align="left" valign="top"><input type="text" <?=($locRights['add'] && $salGrd !== null) ? '':'disabled'?> name="txtBasSal">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="<?=$salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 		   				        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
@@ -276,7 +276,7 @@ function delEXTPayment() {
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -291,17 +291,17 @@ function delEXTPayment() {
 						 <td><strong><?=$bassalary?></strong></td>
 					</tr>
 <?
-			$rset = $this->popArr['rset'];
+			$rset = $this->popArr['rsetPayment'];
 			$currlist=$this->popArr['currAlllist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
+            echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
 			for($a=0;count($currlist)>$a;$a++)
 			    if($currlist[$a][0]==$rset[$c][2])
 				   $fname=$currlist[$a][1];
-            echo "<td><a href='" . $_SERVER['PHP_SELF'] . "?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editID1=" . $rset[$c][1] . "&editID2=" . $rset[$c][2] . "'>" . $fname . "</a></td>";
+            ?><td><a href="javascript:viewPayment('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$fname?></a></td><?
             echo '<td>' . $rset[$c][3] .'</td>';
         echo '</tr>';
         }

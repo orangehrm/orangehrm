@@ -64,10 +64,51 @@ function assEmpStat($value) {
 return $response->getXML();
 }
 
+function getUnAssMemberships($mtype) {
+	
+	$emp_view_controller = new EmpViewController();
+	
+	$value[0] = $_GET['id'];
+	$value[1] = $mtype;
+	
+	$unAssMembership = $emp_view_controller->xajaxObjCall($value,'MEM','unAssMembership');
+	
+	$response = new xajaxResponse();
+	$xajaxFiller = new xajaxElementFiller();
+	$response = $xajaxFiller->cmbFiller($response,$unAssMembership,0,'frmEmp','cmbMemCode');
+	$response->addAssign('status','innerHTML','');
+	
+return $response->getXML();
+}
+
+function getMinMaxCurrency($value, $salGrd) {
+
+	$emp_view_controller = new EmpViewController();
+	
+	$temp[0] = $salGrd;
+	$temp[1] = $_GET['id'];
+	
+	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
+	
+	for($c=0;count($currlist)>$c;$c++)
+		if($currlist[$c][2] == $value) 
+			break;
+			
+	$response = new xajaxResponse();
+	$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
+	$response->addAssign('divMinCurrency','innerHTML',$currlist[$c][3]);
+	$response->addAssign('txtMaxCurrency','value',$currlist[$c][5]);
+	$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);
+	
+return $response->getXML();
+}
+
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->registerFunction('populateDistrict');
 $objAjax->registerFunction('assEmpStat');
+$objAjax->registerFunction('getUnAssMemberships');
+$objAjax->registerFunction('getMinMaxCurrency');
 //$objAjax->registerFunction('viewPassport');
 //$objAjax->registerFunction('editPassport');
 //$objAjax->registerFunction('addPassport');
@@ -870,7 +911,7 @@ function popPhotoHandler() {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
+          <? //require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>

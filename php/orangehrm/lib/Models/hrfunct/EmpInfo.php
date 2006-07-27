@@ -760,7 +760,6 @@ class EmpInfo {
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		
 		$arrFieldList[1] = 'EMP_STATUS';
 		$arrFieldList[2] = 'JOB_TITLE_CODE';
 		$arrFieldList[3] = 'EEO_CAT_CODE';
@@ -803,10 +802,10 @@ class EmpInfo {
 	function updateEmpJobInfo() {
 		
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
-		$arrRecordsList[1] = "'". $this->getEmpStatus() . "'";
-		$arrRecordsList[2] = "'". $this->getEmpJobTitle() . "'";
-		$arrRecordsList[3] = "'". $this->getEmpEEOCat() . "'";
-		$arrRecordsList[4] = "'". $this->getEmpLocation() . "'";
+		$arrRecordsList[1] = $this->getEmpStatus() != '0' ? "'" . $this->getEmpStatus() . "'" : 'null';
+		$arrRecordsList[2] = $this->getEmpJobTitle() != '0' ? "'" . $this->getEmpJobTitle() . "'" : 'null';
+		$arrRecordsList[3] = $this->getEmpEEOCat() != '0' ? "'" . $this->getEmpEEOCat() . "'" : 'null';
+		$arrRecordsList[4] = $this->getEmpLocation()!= '0' ? "'" . $this->getEmpLocation() . "'" : 'null' ;
 		$arrRecordsList[5] = "'". $this->getEmpJoinedDate() . "'";
 		
 		$tableName = 'HS_HR_EMPLOYEE';
@@ -826,8 +825,7 @@ class EmpInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	//$logw = new LogWriter();
-	//$logw->writeLogDB($sqlQString);
+		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		

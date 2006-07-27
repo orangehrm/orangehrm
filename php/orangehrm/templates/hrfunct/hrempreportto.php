@@ -19,137 +19,87 @@ Boston, MA  02110-1301, USA
 ?>
 
 <script language="JavaScript">
-function alpha(txt)
-{
-var flag=true;
-var i,code;
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		editEXT();
+function editReportTo() {
+	
+	if(document.EditReportTo.title=='Save') {
+		editEXTReportTo();
 		return;
 	}
 	
-	var frm=document.frmEmpRepTo;
+	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
-}
-
-function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
-}
-
-function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
-}
-
-function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
 		
-	}
+	document.EditReportTo.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditReportTo.title="Save";
+}
+
+function moutReportTo() {
+	if(document.EditReportTo.title=='Save') 
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	else
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+}
+
+function moverReportTo() {
+	if(document.EditReportTo.title=='Save') 
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	else
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+}
 
 function returnEmpDetail(){
 		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;	
 }
 
-function addEXT()
-{
-	if(document.frmEmpRepTo.cmbRepType.value=='0') {
+function addEXTReportTo() {
+	
+	if(document.frmEmp.cmbRepType.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpRepTo.cmbRepType.focus();
+		document.frmEmp.cmbRepType.focus();
 		return;
 	}
 	
-	if(document.frmEmpRepTo.txtRepEmpID.value=='') {
+	if(document.frmEmp.txtRepEmpID.value=='') {
 		alert("Field should be selected");
-		document.frmEmpRepTo.txtRepEmpID.focus();
+		document.frmEmp.txtRepEmpID.focus();
 		return;
 	}
 
-	if(document.frmEmpRepTo.cmbRepMethod.value=='0') {
+	if(document.frmEmp.cmbRepMethod.value=='0') {
 		alert("Field should be selected");
-		document.frmEmpRepTo.cmbRepMethod.focus();
+		document.frmEmp.cmbRepMethod.focus();
 		return;
 	}
 
-	if(document.frmEmpRepTo.cmbRepType.value == 'Supervisor') {	
+	if(document.frmEmp.cmbRepType.value == 'Supervisor') {	
 		
-	    document.frmEmpRepTo.txtSubEmpID.value = document.frmEmpRepTo.txtEmpID.value;
-		document.frmEmpRepTo.txtSupEmpID.value = document.frmEmpRepTo.txtRepEmpID.value;
+	    document.frmEmp.txtSubEmpID.value = document.frmEmp.txtEmpID.value;
+		document.frmEmp.txtSupEmpID.value = document.frmEmp.txtRepEmpID.value;
 		
 	} 
 	
-	if(document.frmEmpRepTo.cmbRepType.value == 'Subordinate') {
-		document.frmEmpRepTo.txtSupEmpID.value = document.frmEmpRepTo.txtEmpID.value;
-		document.frmEmpRepTo.txtSubEmpID.value = document.frmEmpRepTo.txtRepEmpID.value;
+	if(document.frmEmp.cmbRepType.value == 'Subordinate') {
+		document.frmEmp.txtSupEmpID.value = document.frmEmp.txtEmpID.value;
+		document.frmEmp.txtSubEmpID.value = document.frmEmp.txtRepEmpID.value;
 		
 	}
 
-  document.frmEmpRepTo.STAT.value="ADD";
-  document.frmEmpRepTo.submit();
-	
+  document.frmEmp.reporttoSTAT.value="ADD";
+  qCombo(15);
 }
 
-function editEXT()
-    { 
-	 document.frmEmpRepTo.STAT.value="EDIT";
-  	 document.frmEmpRepTo.submit();	
-	
-	}
+function editEXTReportTo() { 
+	 document.frmEmp.reporttoSTAT.value="EDIT";
+	 qCombo(15);
+}
 
-function delSupEXT()
-{
+function delSupEXTReportTo() {
+	
       var check = 0;
-		with (document.frmEmpRepTo) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].name == 'chksupdel[]') && (elements[i].checked == true)){
 					check = 1;
@@ -157,23 +107,21 @@ function delSupEXT()
 			}
         }
 
-        if(check==0)
-            {
+        if(check==0) {
               alert("Select atleast one check box");
               return;
-            }
-
+        }
 
     //alert(cntrl.value);
-    document.frmEmpRepTo.delSupSub.value='sup';
-    document.frmEmpRepTo.STAT.value="DEL";
-    document.frmEmpRepTo.submit();
+    document.frmEmp.delSupSub.value='sup';
+    document.frmEmp.reporttoSTAT.value="DEL";
+    qCombo(15);
 }
 
-function delSubEXT()
-{
+function delSubEXTReportTo() {
+	
       var check = 0;
-		with (document.frmEmpRepTo) {
+		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].name == 'chksubdel[]') && (elements[i].checked == true)){
 					check = 1;
@@ -181,24 +129,35 @@ function delSubEXT()
 			}
         }
 
-        if(check==0)
-            {
+        if(check==0) {
               alert("Select atleast one check box");
               return;
-            }
-
+        }
 
     //alert(cntrl.value);
-    document.frmEmpRepTo.delSupSub.value='sub';
-    document.frmEmpRepTo.STAT.value="DEL";
-    document.frmEmpRepTo.submit();
+    document.frmEmp.delSupSub.value='sub';
+    document.frmEmp.reporttoSTAT.value="DEL";
+    qCombo(15);
 }
 
+function viewSub(sub,rep) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&editIDSub=" + sub + "&RepMethod=" + rep;
+	document.frmEmp.pane.value = 15;
+	document.frmEmp.submit();
+}
+
+function viewSup(sup,rep) {
+	
+	document.frmEmp.action = document.frmEmp.action + "&editIDSup=" + sup + "&RepMethod=" + rep;
+	document.frmEmp.pane.value = 15;
+	document.frmEmp.submit();
+}
 </script>
 
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-        <input type="hidden" name="STAT" value="">
+        <input type="hidden" name="reporttoSTAT" value="">
 <br><br>			
 <?	if(isset($this->getArr['editIDSup'])) {	?>
 
@@ -209,13 +168,9 @@ function delSubEXT()
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[0]?>"><strong>
- 				 
-					<?=$arrRepType[0]?>
-					  
-					  </strong></td>
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[0]?>">
+    				 <strong><?=$arrRepType[0]?></strong></td>
 					</tr>
-					
 					<tr> 
 						<td valign="top"><?=$employeeid?></td>
 <?						$empsupid =$this->getArr['editIDSup']; ?>
@@ -223,13 +178,9 @@ function delSubEXT()
 						<?=$this->getArr['editIDSup']?>
 						</strong></td>
 					  </tr>
-					  
 					  <tr> 
 						<td valign="top"><?=$reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name='cmbRepMethod'><strong>
-						
-						
-							
 <?						$keys = array_keys($arrRepMethod);
 						$values = array_values($arrRepMethod);
 						for($c=0;count($arrRepMethod)>$c;$c++)
@@ -244,7 +195,7 @@ function delSubEXT()
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 			<?			} else { ?>
 							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 			<?			}  ?>
@@ -261,15 +212,12 @@ function delSubEXT()
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[1]?>"><strong>
- 					 
-					<?=$arrRepType[1]?>
-					  
-					  </strong></td>
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[1]?>">
+    				 <strong><?=$arrRepType[1]?></strong></td>
 					</tr>
 					<tr> 
 						<td valign="top"><?=$employeeid?></td>
-<?						$empsubid = $this->getArr['editIDSub'];  ?>
+						<?	$empsubid = $this->getArr['editIDSub'];  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?=$empsubid?>"><strong>
 						<?=$empsubid?>
 						</strong></td>
@@ -293,7 +241,7 @@ function delSubEXT()
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
 		<?			if($locRights['edit']) { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 		<?			} else { ?>
 				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?			}  ?>
@@ -302,8 +250,8 @@ function delSubEXT()
 			</table>
 			
 <? } else { ?>
-		<input type="hidden" name="txtSupEmpID" value="">
-     	<input type="hidden" name="txtSubEmpID" value="">
+		<input type="hidden" name="txtSupEmpID">
+     	<input type="hidden" name="txtSubEmpID">
 	
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
@@ -311,11 +259,9 @@ function delSubEXT()
     				  <td>
 					  <select <?=$locRights['add'] ? '':'disabled'?> name="cmbRepType">
 					  <option value="0"><?=$selectreporttype?></option>
-<?					  
-		
-							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
+
+<?							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
 							echo "<option value=" . $arrRepType[1] . ">" . $arrRepType[1] . "</option>";
-	
 ?>					  
 					  </select></td>
 					</tr>
@@ -338,7 +284,7 @@ function delSubEXT()
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?	} ?>
@@ -363,7 +309,7 @@ function delSubEXT()
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSupEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -382,13 +328,13 @@ function delSubEXT()
 $rset = $this->popArr['suprset'];
 $empname = $this ->popArr['empname'];							
 
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+    for($c=0;$rset && $c < count($rset); $c++) {
+    	
         echo '<tr>';
              echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				  
-				   echo "<td><a href='". $_SERVER['PHP_SELF'] ."?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editIDSup=" . $rset[$c][1] . "&RepMethod=" . $rset[$c][2] ."'>" . $rset[$c][1] . "</a></td>";
+				   ?><td><a href="javascript:viewSup('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$rset[$c][1]?></a></td><?
 				   for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				     echo '<td>' . $empname[$a][1] .'</td>';
@@ -418,7 +364,7 @@ $empname = $this ->popArr['empname'];
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSubEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -439,21 +385,19 @@ $rset = $this -> popArr['subrset'];
 $empname = $this -> popArr['empname'];
 							
 
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+    for($c=0;$rset && $c < count($rset); $c++) {
+    	
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				   $subid=$rset[$c][1];
-				   echo "<td><a href='". $_SERVER['PHP_SELF'] ."?reqcode=" . $this->getArr['reqcode'] . "&id=" . $this->getArr['id']. "&editIDSub=" . $rset[$c][1] . "&RepMethod=" . $rset[$c][2] ."'>" . $rset[$c][1] . "</a></td>";
+				   ?><td><a href="javascript:viewSub('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$rset[$c][1]?></a></td><?
 				    for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				      echo '<td>' . $empname[$a][1] .'</td>';
 				   for($a=0;count($arrRepMethod)>$a;$a++)
 						if($rset[$c][2] == $values[$a])
 				     echo '<td>' . $keys[$a] .'</td>';
-			   
-            
         echo '</tr>';
         }
 

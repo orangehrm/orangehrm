@@ -131,8 +131,8 @@ function delEXTMembership() {
 			}
         }
 
-        if(check==0)
-            {
+        if(check==0) {
+        	
               alert("Select atleast one check box");
               return;
             }
@@ -143,9 +143,9 @@ function delEXTMembership() {
     qCombo(13);
 }
 
-function viewMembership(mem) {
+function viewMembership(mem,mtp) {
 	
-	document.frmEmp.action=document.frmEmp.action + "&MEM=" + mem;
+	document.frmEmp.action=document.frmEmp.action + "&MEM=" + mem + "&MTP=" + mtp;
 	document.frmEmp.pane.value=13;
 	document.frmEmp.submit();
 }
@@ -197,7 +197,6 @@ if(isset($this->popArr['editMembershipArr'])) {
 							    echo "<option selected value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
 							else
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
-							
 ?>
 						</select></td>
 					  </tr>
@@ -235,7 +234,7 @@ if(isset($this->popArr['editMembershipArr'])) {
                     <tr>
                       <td><?=$membershiptype?></td>
     				  <td>
-					  <select onChange="" <?=$locRights['add'] ? '':'disabled'?> name="cmbMemTypeCode">
+					  <select onChange="xajax_getUnAssMemberships(this.value);" <?=$locRights['add'] ? '':'disabled'?> name="cmbMemTypeCode">
 					  <option value=0><?=$selmemtype?></option>
 
 <?					  	$typlist= $this->popArr['typlist'];
@@ -346,7 +345,7 @@ $rset = $this->popArr['rsetMembership'];
 			    if($mship[$a][1]==$rset[$c][1])
 				   $fname=$mship[$a][2];
 				   
-            ?><td><a href="javascript:viewMembership('<?=$rset[$c][1]?>')"><?=$fname?></a></td><?
+            ?><td><a href="javascript:viewMembership('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$fname?></a></td><?
 			
             for($a=0;count($typlist)>$a;$a++)
 			    if($typlist[$a][0]==$rset[$c][2])
