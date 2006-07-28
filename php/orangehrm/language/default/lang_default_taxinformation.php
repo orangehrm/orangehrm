@@ -1,6 +1,6 @@
-<?
-$heading		= 'Tax : Tax Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Tax : Tax Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

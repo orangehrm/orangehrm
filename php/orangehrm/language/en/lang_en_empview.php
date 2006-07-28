@@ -1,5 +1,5 @@
 <?
-$srchlist[0] = array( 0 , 1 , 2 );
+$srchlist[0] = array( -1 , 0 , 1);
 $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 

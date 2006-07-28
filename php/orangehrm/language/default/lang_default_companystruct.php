@@ -1,3 +1,3 @@
-<?
-$select   = '-- Select --- ';
+<?
+$select   = '-- Select --- ';
 ?>

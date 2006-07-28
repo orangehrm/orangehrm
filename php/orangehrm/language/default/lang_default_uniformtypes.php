@@ -1,6 +1,6 @@
-<?
-$heading		= 'Uniform Type : Benefits Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Uniform Type : Benefits Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

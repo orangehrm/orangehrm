@@ -1,6 +1,6 @@
-<?
-$heading		= 'Employee Category : Nexus Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Employee Category : Nexus Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>

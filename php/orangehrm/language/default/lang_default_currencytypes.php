@@ -1,6 +1,6 @@
-<?
-$heading		= 'Currency Type : Job Information';
-$code			= 'Code';
-$description	= 'Description';
-
+<?
+$heading		= 'Currency Type : Job Information';
+$code			= 'Code';
+$description	= 'Description';
+
 ?>
