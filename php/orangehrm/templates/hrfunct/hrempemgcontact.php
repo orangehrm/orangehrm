@@ -16,7 +16,7 @@ function delEContact() {
 	}
 	
 	document.frmEmp.econtactSTAT.value="DEL";
-	qCombo(6);
+	qCombo(5);
 }
 
 function addEContact() {
@@ -40,18 +40,18 @@ function addEContact() {
 	}
 	
 	document.frmEmp.econtactSTAT.value="ADD";
-	qCombo(6);
+	qCombo(5);
 }
 
 function viewEContact(ecSeq) {
 	document.frmEmp.action=document.frmEmp.action + "&ECSEQ=" + ecSeq ;
-	document.frmEmp.pane.value=6;
+	document.frmEmp.pane.value=5;
 	document.frmEmp.submit();
 }
 
 function editEContact() {
 	document.frmEmp.econtactSTAT.value="EDIT";
-	qCombo(6);
+	qCombo(5);
 }
 
 </script>
