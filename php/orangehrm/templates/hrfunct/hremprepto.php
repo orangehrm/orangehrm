@@ -227,7 +227,7 @@ function delSubEXT()
 <form name="frmEmpRepTo" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&id=<?=$this->getArr['id']?>">
 
   <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="STAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
@@ -457,7 +457,7 @@ if(isset($this->getArr['editIDSup']))
 ?>					  
 					  </select></td>
 					</tr>
-					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value=".." onclick="returnEmpDetail();">
+					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value=".." onClick="returnEmpDetail();">
 						</td></tr>
 					  <tr> 
 						<td valign="top"><?=$reportingmethod?></td>
@@ -476,7 +476,7 @@ if(isset($this->getArr['editIDSup']))
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?	} ?>
@@ -511,7 +511,7 @@ if(isset($this->getArr['editIDSup']))
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSupEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onClick="delSupEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>
@@ -585,7 +585,7 @@ $empname = $this ->popArr['empname'];
   <tr>
   <td>
 <?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSubEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onClick="delSubEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} ?>

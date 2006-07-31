@@ -99,13 +99,11 @@ function delEXTSkill() {
     qCombo(16);
 }
 
-function viewSkill(skill) {
-	
+function viewSkill(skill) {	
 	document.frmEmp.action = document.frmEmp.action + "&SKILL=" + skill;
 	document.frmEmp.pane.value = 16;
 	document.frmEmp.submit();
 }
-
 </script>
 
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
@@ -198,6 +196,11 @@ if(isset($this->popArr['editSkillArr'])) {
   </tr>
   <tr>
   <td>
+<?	if($locRights['add']) { ?>
+		<img border="0" title="Save" onClick="resetAdd();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<? 	} else { ?>
+		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<?	} ?>
 <?	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
