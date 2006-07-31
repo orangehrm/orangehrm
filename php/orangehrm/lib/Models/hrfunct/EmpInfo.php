@@ -2260,7 +2260,7 @@ class EmpInfo {
 	    	return $line[0];
 	}
 	
-	function getUnAssEmployeeRepTo($pageNO,$schStr,$mode) {
+	function getUnAssEmployeeRepTo($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
@@ -2272,7 +2272,7 @@ class EmpInfo {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;		
 			
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();

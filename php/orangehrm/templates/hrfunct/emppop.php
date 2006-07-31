@@ -32,8 +32,36 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-$srchlist[0] = array( 0 , 1 , 2 );
+$srchlist[0] = array( -1 , 0 , 1 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
+
+	function getNextSortOrder($curSortOrder) {
+		switch ($curSortOrder) {
+			case 'null' :
+				return 'ASC';
+				break;
+			case 'ASC' :
+				return 'DESC';
+				break;
+			case 'DESC'	:
+				return 'ASC';
+				break;
+		}
+		
+	}
+	
+	function SortOrderInWords($SortOrder) {
+		if ($SortOrder == 'ASC') {
+			return 'Ascending';
+		} else {
+			return 'Descending';
+		}
+	}
+	
+	if (!isset($_GET['sortField']) || ($_GET['sortField'] == '')) {
+		$_GET['sortField']=0;
+		$_GET['sortOrder0']='ASC';
+	}
 
 	$sysConst = new sysConf(); 
 	$empviewcontroller = new EmpViewController();
@@ -47,10 +75,10 @@ if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
     $choice=$_POST['loc_code'];
     $strName=trim($_POST['loc_name']);
     
-    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage,$strName,$choice);
+    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage,$strName,$choice, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
     }
 else 
-    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage);
+    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage, '', -1, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -93,7 +121,7 @@ else
 	}
 	
 	function Search() {
-		if (document.standardView.loc_code.value == 0) {	
+		if (document.standardView.loc_code.value == -1) {	
 			alert("Select the field to search!");
 			document.standardView.loc_code.Focus();
 			return;
@@ -166,7 +194,7 @@ else
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                     <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="Search" onClick="Search();"/>
-                          <input title="Clear [Alt+K]" accessKey="K" onclick="clear_form();" class="button" type="button" name="clear" value=" Clear "/></td>
+                          <input title="Clear [Alt+K]" accessKey="K" onClick="clear_form();" class="button" type="button" name="clear" value=" Clear "/></td>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -241,8 +269,20 @@ else
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <td width="50" NOWRAP class="listViewThS1" scope="col"></td>
-						  <td scope="col" width="250" class="listViewThS1">Employee Id</td>
-						  <td scope="col" width="400" class="listViewThS1">Employee Name</td>
+						  <?php
+						  	$j=0;
+						  	if (!isset($_GET['sortOrder'.$j])) {
+								$_GET['sortOrder'.$j]='null';
+							};
+						  ?>
+						  <td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
+						  <?php 
+						  	$j=1;
+							if (!isset($_GET['sortOrder'.$j])) {
+								$_GET['sortOrder'.$j]='null';
+							};
+						  ?>
+						  <td scope="col" width="400" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

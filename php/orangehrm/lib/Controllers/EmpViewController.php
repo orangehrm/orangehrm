@@ -484,105 +484,105 @@ class EmpViewController {
 		
 	}
 
-	function getUnAssigned($indexCode,$pageNO,$schStr='',$mode=0) {
+	function getUnAssigned($indexCode,$pageNO,$schStr='',$mode=-1, $sortField = 0, $sortOrder = 'ASC') {
 
 		$this->indexCode = $indexCode;
 					
 		if(($this->indexCode) == 'BNK') {
 		
 			$this->empbank = new EmpBank();
-			$message = $this->empbank->getUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empbank->getUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'SAL') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getBasSalUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getBasSalUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'CBN') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getCashBenUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getCashBenUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'NBN') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getNonCashUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getNonCashUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'CXT') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXC') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getUnAssEmployeeExCur($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getUnAssEmployeeExCur($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'JSP') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getJobSpecUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getJobSpecUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 
 		} else if(($this->indexCode) == 'LAN') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getLangUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getLangUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'MEM') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getUnAssEmployeeMemShip($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getUnAssEmployeeMemShip($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'PAS') {
 		
 			$this->empPP = new EmpPassPort();
-			$message = $this->empPP->getUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empPP->getUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
 		} else if(($this->indexCode) == 'DEP') {
 		
 			$this->empDep = new EmpDependents();
-			$message = $this->empDep->getUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empDep->getUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'QUA') {
 		
 			$this->empinfo= new EmpInfo();
-			$message = $this->empinfo->getQulUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getQulUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'REP') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getUnAssEmployeeRepTo($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getUnAssEmployeeRepTo($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'EXP') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getUnAssEmployeeWorkExp($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getUnAssEmployeeWorkExp($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 	
 		} else if(($this->indexCode) == 'SKI') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getSkillUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getSkillUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		} else if(($this->indexCode) == 'LIC') {
 		
 			$this->empinfo = new EmpInfo();
-			$message = $this->empinfo->getLicensesUnAssEmployee($pageNO,$schStr,$mode);
+			$message = $this->empinfo->getLicensesUnAssEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
 		}
