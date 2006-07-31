@@ -297,11 +297,12 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 	}
 
 		
+parent.scrollTo(0, 0);
 
 </script>
 
-<body style="padding-left:20px;">
-<p> 
+<body style="padding-left:20px;" onFocus="document.getElementById('content').focus()">
+<p id="content"> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 
 <form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN">
