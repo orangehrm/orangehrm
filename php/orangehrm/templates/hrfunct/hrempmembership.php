@@ -313,6 +313,11 @@ if(isset($this->popArr['editMembershipArr'])) {
   </tr>
   <tr>
   <td>
+<?	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<? 	} else { ?>
+		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?	} ?>
 <?	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
