@@ -210,6 +210,11 @@ if(isset($this->getArr['LIC'])) {
   </tr>
   <tr>
   <td>
+ <?	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<? 	} else { ?>
+		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
+<? } ?>
 <?	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
@@ -221,10 +226,10 @@ if(isset($this->getArr['LIC'])) {
 </table>
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
-                      	<td></td>
-						 <td width="125"><strong><?=$licentype?></strong></td>
-						 <td width="135"><strong><?=$startdate?></strong></td>
-						 <td width="125"><strong><?=$enddate?></strong></td>
+                      	 <td ></td>
+						 <td ><strong><?=$licentype?></strong></td>
+						 <td ><strong><?=$startdate?></strong></td>
+						 <td ><strong><?=$enddate?></strong></td>
 						 
 					</tr>
 <?
@@ -233,9 +238,10 @@ $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chklicdel[]' value='" . $rset[$c][1] ."'>";
-
+?>
+        <tr>
+            <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?=$rset[$c][1]?>'></td>
+<?
 			for($a=0;count($allLicenlist)>$a;$a++) 
 				if($rset[$c][1] == $allLicenlist[$a][0])
 				   $lname=$allLicenlist[$a][1];
