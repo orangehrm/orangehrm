@@ -183,8 +183,7 @@ class EmpAttach {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
-		 return $message2;
-		 echo $message2;
+		 return $message2;		 
 				
 	}
 	
@@ -207,7 +206,7 @@ class EmpAttach {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1(1);
-	
+		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		

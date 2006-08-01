@@ -54,17 +54,7 @@ function editAttach() {
               	<td><?=$description?></td>
               	<td><textarea name="txtAttDesc"></textarea></td>
               </tr>
-				<tr>
-				<td>
-<?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
-				</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+			  <tr>
 				<td>
 <?	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -73,6 +63,25 @@ function editAttach() {
 <?	} ?>
 				</td>
 				</tr>
+				<tr>
+					<td nowrap="nowrap"><h3><?=$assignattach?></h3></td>
+					<td></td>
+				</tr>
+				<tr>
+				<td>
+<?	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<? 	} else { ?>
+		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?	} ?>
+<?	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<? 	} else { ?>
+        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<? 	} ?>
+				</td>
+				<td>&nbsp;</td>
+				</tr>				
 			<table border="0" width="450" align="center" class="tabForm">
 			
 			    <tr>
@@ -106,16 +115,7 @@ function editAttach() {
               <tr>
               	<td><input type="button" value="Show File" class="buton" onclick="dwPopup()"></td>
               </tr>
-				<tr>
-				<td>
-<?	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
-				</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+			  <tr>
 				<td>&nbsp;</td>
 				<td>
 <?	if($locRights['edit']) { ?>
@@ -125,6 +125,25 @@ function editAttach() {
 <?	} ?>
 				</td>
 				</tr>
+				<tr>
+					<td nowrap="nowrap"><h3><?=$assignattach?></h3></td>
+					<td></td>
+				</tr>
+				<tr>
+				<td>
+<?	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<? 	} else { ?>
+		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?	} ?>
+<?	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<? 	} else { ?>
+        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<? 	} ?>
+				</td>
+				<td></td>
+			</tr>	
 			<table border="0" width="450" align="center" class="tabForm">
 			
 			    <tr>

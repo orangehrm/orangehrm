@@ -354,9 +354,9 @@ function popPhotoHandler() {
 	if(!popup.opener) popup.opener=self;
 }
 
-function resetAdd() {
+function resetAdd(panel) {
 	document.frmEmp.action = document.frmEmp.action;
-	document.frmEmp.pane.value = 16;
+	document.frmEmp.pane.value = panel;
 	document.frmEmp.submit();
 }
 </script>

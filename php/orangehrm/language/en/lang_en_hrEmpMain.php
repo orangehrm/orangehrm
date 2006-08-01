@@ -173,4 +173,8 @@ $employeelanguageflu 	= 'Employee Language Fluency';
  $gpa					= 'GPA';
  $assigneducation		= 'Assigned Education';
  
+ //attachments
+ 
+ $assignattach 			= 'Assigned Attachments';
+ 
 ?>

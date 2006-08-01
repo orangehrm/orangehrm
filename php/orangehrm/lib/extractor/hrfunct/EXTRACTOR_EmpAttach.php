@@ -31,8 +31,8 @@ class EXTRACTOR_EmpAttach {
 	}
 
 	function parseData($postArr) {	
-		
-			if($_FILES['ufile']['size']>0) {
+			$this->attachment->setEmpId($postArr['txtEmpID']);
+			if (isset($_FILES['ufile']) && ($_FILES['ufile']['size']>0)) {
 					//file info
 					$fileName = $_FILES['ufile']['name'];
 					$tmpName  = $_FILES['ufile']['tmp_name'];
@@ -48,19 +48,20 @@ class EXTRACTOR_EmpAttach {
 					if(!get_magic_quotes_gpc())
 						$fileName=addslashes($fileName);
 						
-		
-				$this->attachment->setEmpId($postArr['txtEmpID']);
-				$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID']));
-				$this->attachment->setEmpAttDesc(trim($postArr['txtAttDesc']));
-				$this->attachment->setEmpAttFilename($fileName);
-				$this->attachment->setEmpAttSize($fileSize);
-				$this->attachment->setEmpAttachment($contents);
-				$this->attachment->setEmpAttType($fileType);
-									
-				return $this->attachment;
+					$this->attachment->setEmpAttFilename($fileName);
+					$this->attachment->setEmpAttSize($fileSize);
+					$this->attachment->setEmpAttachment($contents);
+					$this->attachment->setEmpAttType($fileType);
+					$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID']));					
 			} else {
-				return null;
+					$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID'])-1);					
 			}
+				
+				
+				$this->attachment->setEmpAttDesc(trim($postArr['txtAttDesc']));
+				
+				return $this->attachment;
+			
 	}
 
 	function reloadData($postArr) {	
