@@ -42,7 +42,7 @@ function editAttach() {
 }
 </script>
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
+	
 	<table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
 		
 <?		if(!isset($this->getArr['ATTACH'])) { ?>

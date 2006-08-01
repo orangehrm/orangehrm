@@ -54,7 +54,7 @@ class EXTRACTOR_EmpAttach {
 					$this->attachment->setEmpAttType($fileType);
 					$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID']));					
 			} else {
-					$this->attachment->setEmpAttId($this->attachment->getLastRecord($postArr['txtEmpID'])-1);					
+					$this->attachment->setEmpAttId(trim($postArr['seqNO']));					
 			}
 				
 				
