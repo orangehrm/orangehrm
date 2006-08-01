@@ -343,9 +343,9 @@ function setUpdate(opt) {
           	case 0 : document.frmEmp.main.value=1; break;
           	case 1 : document.frmEmp.personalFlag.value=1; break;
           	case 2 : document.frmEmp.jobFlag.value=1; break;
-            case 3 : document.frmEmp.contactFlag.value=1; break;
-			
-		}	
+            case 3 : document.frmEmp.contactFlag.value=1; break;		
+		}
+		document.frmEmp.pane.value = opt;			
 }
 
 
@@ -475,6 +475,14 @@ function resetAdd(panel) {
 </style>
 
 <body>
+<?
+ if (!isset($this->getArr['pane'])) {
+ 	$this->getArr['pane'] = 1;
+ };
+ if (!isset($this->postArr['pane'])) {
+ 	$this->postArr['pane'] = $this->getArr['pane'];
+ };
+ ?>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
