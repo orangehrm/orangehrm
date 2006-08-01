@@ -81,7 +81,8 @@ function editAttach() {
 <? 	} ?>
 				</td>
 				<td>&nbsp;</td>
-				</tr>				
+				</tr>
+				<tr><td>&nbsp;</td></tr>				
 			<table border="0" width="450" align="center" class="tabForm">
 			
 			    <tr>
@@ -144,6 +145,7 @@ function editAttach() {
 				</td>
 				<td></td>
 			</tr>	
+			<tr><td>&nbsp;</td></tr>
 			<table border="0" width="450" align="center" class="tabForm">
 			
 			    <tr>
