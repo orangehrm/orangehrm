@@ -2021,6 +2021,7 @@ class EmpViewController {
 									if(isset($object['EmpMain'])) {
 										$empinfo = $object['EmpMain'];
 										$empinfo -> updateEmpMain();
+										$id = $empinfo -> getEmpId();
 									}
 									
 									if(isset($object['EmpPers'])) {
@@ -2080,7 +2081,8 @@ class EmpViewController {
 			header("Location: ./CentralController.php?reqcode=ESS&id=$empid&capturemode=updatemode");	
 		} else {
 			$reqcode = $index;
-			header("Location: ./CentralController.php?reqcode=$reqcode&VIEW=MAIN");
+			$pane = $_POST['pane'];
+			header("Location: ./CentralController.php?reqcode=$reqcode&id=$id&capturemode=updatemode&pane=$pane");
 		}
 	}
 	
