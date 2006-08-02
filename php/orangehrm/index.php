@@ -393,17 +393,19 @@ function setSize() {
                     	<A href="index.php?mtcode=DVR&menu_no=1&submenutop=BR&menu_no_top=mt" onMouseOver="swapImage('Button5','','themes/beyondT/pictures/buttons26_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons26.gif" width=150 border=0 name=Button5></A><BR>
                     	<A href="index.php?mtcode=FVR&menu_no=1&submenutop=BR&menu_no_top=mt" onMouseOver="swapImage('Button6','','themes/beyondT/pictures/buttons27_on.gif',1);" onMouseOut="swapImgRestore();"> <IMG height=22 src="themes/beyondT/pictures/buttons27.gif" width=150 border=0 name=Button6></A><BR>
                       </P></TD>
-<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
-                    <TD width=158><P>
-                    	<A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep" onMouseOver="swapImage('Button1','','themes/beyondT/pictures/buttons28_on.gif',1);" onMouseOut="swapImgRestore();"><IMG height=22 src="themes/beyondT/pictures/buttons28.gif" width=150 border=0 name=Button1></A><BR>
+<?			} else*/if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
+                    <TD width=158>
+                    <ul id="menu">
+  						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep">View Employee Reports</A></li>
                     	
-<?                    	if($arrRights['repDef']) {?>
-							<IMG height=22 src="themes/beyondT/pictures/buttonsplain.gif" width=150 border=0><br>
-                    	<A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep"  onmouseover="swapImage('Button2','','themes/beyondT/pictures/buttons29_on.gif',1);" onMouseOut="swapImgRestore();"><IMG height=22 src="themes/beyondT/pictures/buttons29.gif" width=150 border=0 name=Button2></A><BR>
-<?					} ?>						
-                      </P></TD>
+<?                  if($arrRights['repDef']) {?>
+						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Employee Reports</A></li>
+<?					}
+					} ?>
+					</ul>						
+                      </TD>
                       
-<?		/*	} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" || $_GET['menu_swapImgRestore()no_top']=="ess")) {  ?>
+<?		/*} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" || $_GET['menu_swapImgRestore()no_top']=="ess")) {  ?>
                   <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>   ?>
 <?			} else */ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>

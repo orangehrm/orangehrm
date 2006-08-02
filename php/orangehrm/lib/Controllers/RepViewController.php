@@ -263,14 +263,13 @@ class RepViewController {
 							
 							$report = new EmpReport();
 							$empinfo = new EmpInfo();
-							$empqual = new EmpQualification();
+							$edu = new Education();
 							$jobtit   = new JobTitle();
-							$salgrd = new SalaryGrades();
-							$quli = new QualificationType;
+							$salgrd = new SalaryGrades();							
 							$empstat = new EmploymentStatus();
 
 							$form_creator ->popArr['grdlist'] = $salgrd ->getSalGrdCodes();
-							$form_creator-> popArr['typlist'] = $quli ->getQualificationTypeCodes();
+							$form_creator-> popArr['edulist'] = $edu ->getAllEducation();
 							$form_creator-> popArr['deslist'] = $jobtit ->getJobTit();
 							$form_creator-> popArr['arrEmpType'] = $empstat ->getEmpStat();
 							
