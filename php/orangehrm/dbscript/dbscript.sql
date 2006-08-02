@@ -236,7 +236,7 @@ create table `hs_hr_emp_picture` (
 create table `hs_hr_emp_education` (
   `emp_number` varchar(6) not null default '',
   `edu_code` varchar(6) not null default '',
-  `edu_major` varchar(25) default null,
+  `edu_major` varchar(100) default null,
   `edu_year` decimal(4,0) default null,
   `edu_gpa` varchar(25) default null,
   `edu_start_date` datetime default null,
