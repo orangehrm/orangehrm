@@ -234,7 +234,7 @@ class EXTRACTOR_EmpInfo {
 		//$objectArr['EmpWrkStation'] = $this->parent_empinfo;
 		
 			//contact			
-	if($postArr['contactFlag']=='1') {
+	if($postArr['contactFlag']=='1' || !isset($postArr['contactFlag'])) {
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpStreet1(trim($postArr['txtStreet1']));
 		$this->parent_empinfo -> setEmpStreet2(trim($postArr['txtStreet2']));

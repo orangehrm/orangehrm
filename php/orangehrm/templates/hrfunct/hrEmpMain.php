@@ -218,8 +218,11 @@ function addEmpMain() {
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!alpha(cnt)) {
+	if(!(cnt.value == '') && !alpha(cnt)) {
 		alert("Field should be Alphabetic");
+		cnt.focus();
+		return;
+	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
 		cnt.focus();
 		return;
 	}
@@ -280,8 +283,11 @@ function updateEmpMain() {
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!alpha(cnt)) {
+	if(!(cnt.value == '') && !alpha(cnt)) {
 		alert("Field should be Alphabetic");
+		cnt.focus();
+		return;
+	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
 		cnt.focus();
 		return;
 	}

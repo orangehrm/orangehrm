@@ -635,8 +635,8 @@ class EmpInfo {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
-		$arrFieldList[3] = 'EMP_MIDDLE_NAME';
-		$arrFieldList[4] = 'EMP_NICK_NAME';
+		$arrFieldList[3] = 'EMP_NICK_NAME';
+		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
 
 		$sql_builder = new SQLQBuilder();
 		
