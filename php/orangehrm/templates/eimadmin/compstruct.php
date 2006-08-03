@@ -306,7 +306,7 @@
 
 		<h3><LABEL id="parnt"></LABEL></h3>
 
-		<form name="frmAddNode" id="frmAddNode" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
+		<form name="frmAddNode" id="frmAddNode" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
 
 		<input type="hidden" value="" id="rgt" name="rgt">
 		<input type="hidden" value="" id="sqlState" name="sqlState">
