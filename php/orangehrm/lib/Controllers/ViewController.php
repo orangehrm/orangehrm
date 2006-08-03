@@ -278,7 +278,7 @@ class ViewController {
         	case 'LOC' :
 	
 	            $this->location = new Location();
-	            $this->location->delLocation($arrList);
+	            $res = $this->location->delLocation($arrList);
 	            break;
 
 			case 'COS' :
@@ -576,6 +576,10 @@ class ViewController {
 			break;
 				
         }
+		
+		if (!isset($res)) {
+			$_GET['message']='DELETE_FAILURE';
+		}
     }
 
 	function selectIndexId($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
@@ -2279,7 +2283,7 @@ class ViewController {
 									      $arrpass[0][$c]=$getArr['id'];
 										  
 								    $urights->delRights($arrpass);
-								      break;
+								    break;
 			}
 	}
 	

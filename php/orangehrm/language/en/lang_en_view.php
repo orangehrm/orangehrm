@@ -37,7 +37,7 @@ switch ($_GET['uniqcode']) {
 		case 'LOC' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name', 'City');
 			$headings= array('Location ID','Location Name', 'City');
-			$headingInfo = array ('Location ID','Location Name',1,'Company Info : Locations','Deletion might affect Company Hierarchy');
+			$headingInfo = array ('Location ID','Location Name',1,'Company Info : Locations','Deletion might affect Company Hierarchy. If the Location has associations deletion may fail');
 			break;
 			
 		case 'COS' :

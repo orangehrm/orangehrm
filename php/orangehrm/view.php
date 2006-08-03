@@ -229,7 +229,7 @@ if($headingInfo[2]==1) {
 			
 			$expString=$this->getArr['message'];
 	?>
-			<font class="<?=$col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
 	<?
 				echo $$expString;
 	?>
