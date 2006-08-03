@@ -158,14 +158,14 @@
 	}
 	
 	function frmAddHide () {
-		document.getElementById("txtType").style.visibility="hidden";
+		//document.getElementById("txtType").style.visibility="hidden";
 		document.getElementById("layerForm").style.visibility="hidden";
 		document.getElementById("layerFormLoc").style.visibility = "hidden";
 		document.getElementById("tblCompStruct").focus();
 	}
 	
 	function frmEditHide () {
-		document.getElementById("txtType").style.visibility="hidden";
+		//document.getElementById("txtType").style.visibility="hidden";
 		document.getElementById("layerEditForm").style.visibility="hidden";
 		document.getElementById("layerFormLoc").style.visibility = "hidden";
 	}
