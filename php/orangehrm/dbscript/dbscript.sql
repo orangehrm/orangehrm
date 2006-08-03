@@ -381,8 +381,8 @@ CREATE TABLE `hs_hr_province` (
 
 create table `hs_hr_education` (
 	`edu_code` varchar(6) not null default '',
-	`edu_uni` varchar(30) default null,
-	`edu_deg` varchar(30) default null,
+	`edu_uni` varchar(100) default null,
+	`edu_deg` varchar(100) default null,
 	primary key (`edu_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
