@@ -30,23 +30,13 @@ class EXTRACTOR_Users{
 		
 			$this->users ->setUserID($this->users->getLastRecord());
 		 	$this->users -> setUserName(trim($postArr['txtUserName']));
-		 	$this->users -> setUserPassword(trim($postArr['txtUserPassword'])); 
-		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 
-		 	$this->users -> setUserLastName(trim($postArr['txtUserLastName'])); 
+		 	$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword']))); 
+		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 		 	
 		 	$this->users -> setUserEmpID($postArr['cmbUserEmpID']); 
 		 	$this->users -> setUserIsAdmin(isset($postArr['chkUserIsAdmin']) ? 'Yes' : 'No'); 
-		 	$this->users -> setUserDesc(trim($postArr['txtUserDescription'])); 
 		 	$this->users -> setUserDateEntered(date("Y-m-d")); 
 		 	$this->users -> setUserCreatedBy($_SESSION['user']); 
-		 	$this->users -> setUserDepartment(trim($postArr['txtUserDepartment'])); 
-		 	$this->users -> setUserPhoneHome(trim($postArr['txtUserPhoneHome'])); 
-		 	$this->users -> setUserPhoneMobile(trim($postArr['txtUserPhoneMobile'])); 
-			$this->users -> setUserPhoneWork(trim($postArr['txtUserPhoneWork'])); 
-			$this->users -> setUserEmail1(trim($postArr['txtUserEmail1'])); 
-			$this->users -> setUserEmail2(trim($postArr['txtUserEmail2'])); 
-			$this->users -> setUserStatus($postArr['cmbUserStatus']);
-		 	$this->users -> setUserAddress(trim($postArr['txtUserAddress'])); 
-		 	$this->users -> setUserDeleted(isset($postArr['chkUserDeleted']) ? '1' : '0'); 
+		 	$this->users -> setUserStatus($postArr['cmbUserStatus']);		 	
 		 	$this->users -> setUserGroupID($postArr['cmbUserGroupID']); 
 		 
 			return $this->users;	
@@ -56,24 +46,13 @@ class EXTRACTOR_Users{
 	function parseEditData($postArr) {	
 			
 			$this->users -> setUserID($postArr['txtUserID']);
-		 	$this->users -> setUserName(trim($postArr['txtUserName']));
-		 	$this->users -> setUserPassword(trim($postArr['txtUserPassword'])); 
-		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 
-		 	$this->users -> setUserLastName(trim($postArr['txtUserLastName'])); 
+		 	$this->users -> setUserName(trim($postArr['txtUserName']));		 	
+		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 		 	
 		 	$this->users -> setUserEmpID($postArr['cmbUserEmpID']); 
 		 	$this->users -> setUserIsAdmin(isset($postArr['chkUserIsAdmin']) ? 'Yes' : 'No'); 
-		 	$this->users -> setUserDesc(trim($postArr['txtUserDescription'])); 
 		 	$this->users -> setUserDateModified(date("Y-m-d")); 
-			$this->users -> setUserModifiedBy($_SESSION['user']); 
-		 	$this->users -> setUserDepartment(trim($postArr['txtUserDepartment'])); 
-		 	$this->users -> setUserPhoneHome(trim($postArr['txtUserPhoneHome'])); 
-		 	$this->users -> setUserPhoneMobile(trim($postArr['txtUserPhoneMobile'])); 
-		 	$this->users -> setUserPhoneWork(trim($postArr['txtUserPhoneWork'])); 
-		 	$this->users -> setUserEmail1(trim($postArr['txtUserEmail1'])); 
-		 	$this->users -> setUserEmail2(trim($postArr['txtUserEmail2'])); 
-		 	$this->users -> setUserStatus($postArr['cmbUserStatus']);
-		 	$this->users -> setUserAddress(trim($postArr['txtUserAddress'])); 
-		 	$this->users -> setUserDeleted(isset($postArr['chkUserDeleted']) ? '1' : '0'); 
+			$this->users -> setUserModifiedBy($_SESSION['user']); 		 	
+		 	$this->users -> setUserStatus($postArr['cmbUserStatus']);		 	
 		 	$this->users -> setUserGroupID($postArr['cmbUserGroupID']); 
 		 	
 			return $this->users;	

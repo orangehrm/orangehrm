@@ -121,12 +121,6 @@ function goBack() {
 			return;
 		}
 		
-		if(!name(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
-			alert("Field should be Alphabetic!");
-			frm.txtUserLastName.focus();
-			return;
-		}
-
 		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserEmpID.value == '0') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
@@ -142,36 +136,6 @@ function goBack() {
 		if(frm.chkUserIsAdmin.checked == true && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
-			return;
-		}
-		
-		if(!numeric(frm.txtUserPhoneHome) && frm.txtUserPhoneHome.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneHome.focus();
-			return;
-		}
-
-		if(!numeric(frm.txtUserPhoneMobile) && frm.txtUserPhoneMobile.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneMobile.focus();
-			return;
-		}
-
-		if(!numeric(frm.txtUserPhoneWork) && frm.txtUserPhoneWork.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneWork.focus();
-			return;
-		}
-
-		if(!echeck(frm.txtUserEmail1.value) && frm.txtUserEmail1.value != '') {
-			alert("Invalid Email");
-			frm.txtUserEmail1.focus();
-			return;
-		}
-
-		if(!echeck(frm.txtUserEmail2.value) && frm.txtUserEmail2.value != '') {
-			alert("Invalid Email");
-			frm.txtUserEmail2.focus();
 			return;
 		}
 
@@ -219,9 +183,9 @@ function goBack() {
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="339"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -229,26 +193,31 @@ function goBack() {
 						  <tr> 
 							    <td>Code</td>
 							    <td><strong><?=$this->popArr['newID']?></strong></td>
+								<td></td>
+								<td></td>
+								<td></td>
 						  </tr>
 						  <tr> 
 							    <td>User Name</td>
 							    <td><input type="text" name="txtUserName"></td>
+								<td></td>
+								<td>Name</td>
+							  	<td><input type="text" name="txtUserFirstName"></td>
 						  </tr>
 						  <tr>
 							  <td>Password</td>
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
-							  <td>Confirm Password</td>
+							  <td nowrap="nowrap">Confirm Password</td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td> 
-						  </tr>
+						  </tr>						 
 						  <tr>
-							  <td>First Name</td>
-							  <td><input type="text" name="txtUserFirstName"></td>
+							  <td>Status</td>
+						   	  <td><select name="cmbUserStatus">
+						   			<option>Enabled</option>
+						   			<option>Disabled</option>
+						   		  </select></td>
 							  <td></td>
-							  <td>Last Name</td>
-							  <td><input type="text" name="txtUserLastName"></td>
-						  </tr>
-						  <tr>
 							  <td>Employee ID</td>
 							  <td><select name="cmbUserEmpID">
 							  		<option value="0">--Select EmpID--</option>
@@ -257,10 +226,15 @@ function goBack() {
 										echo "<option value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
 ?>							  
 							  
-							  </select></td> 
-							  <td></td>
-							  <td>User Group</td>
-							  <td><select name="cmbUserGroupID">
+							  </select></td> 							  
+						   </tr>
+						   <tr>
+							   <td>Is HR Admin</td>
+							   <td><input type="checkbox" name="chkUserIsAdmin"></td>
+							   <td></td>
+							   
+							   <td>User Group</td>
+							  	<td><select name="cmbUserGroupID">
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
@@ -268,51 +242,9 @@ function goBack() {
 ?>							  
 							  </select></td>
 						   </tr>
-						   <tr>
-							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin"></td>
-							   <td></td>
-							   <td>Deleted</td>
-							   <td><input type="checkbox" name="chkUserDeleted"></td>
-						   </tr>
-						   <tr>
-							   <td>Department</td>
-							   <td><input type="text" name="txtUserDepartment"></td>
-							   <td></td>
-							   <td>Phone (Home)</td>
-							   <td><input type="text" name="txtUserPhoneHome"></td> 
-						   </tr>
-						   <tr>
-							   <td>Phone (Mobile)</td>
-							   <td><input type="text" name="txtUserPhoneMobile"></td> 
-							   <td></td>
-							   <td>Phone (Work)</td>
-							   <td><input type="text" name="txtUserPhoneWork"></td> 
-						   </tr>
-						   <tr>
-							   <td>Email 1</td>
-							   <td><input type="text" name="txtUserEmail1"></td>
-							   <td></td>
-							   <td>Email 2</td>
-							   <td><input type="text" name="txtUserEmail2"></td>
-						   </tr>
-						   <tr>
-							   <td>Address</td>
-							   <td><textarea name="txtUserAddress"></textarea></td>
-							   <td></td>
-							   <td>Description</td>
-							   <td><textarea name="txtUserDescription"></textarea></td>
-						   </tr>
-						   <tr>
-						   <td>Status</td>
-						   <td><select name="cmbUserStatus">
-						   			<option>Enabled</option>
-						   			<option>Disabled</option>
-						   </select></td>
-						   </tr>
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-        <img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
-
+					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
+					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
+					  <td></td></tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -441,27 +373,9 @@ function edit()
 			return false;
 		}
 		
-		if(frm.txtUserPassword.value.length < 4) {
-			alert("Password should be atleast four characters long!");
-			frm.txtUserPassword.focus();
-			return;
-		}
-		
-		if(frm.txtUserPassword.value != frm.txtUserConfirmPassword.value) {
-			alert("Password Mismatch!");
-			frm.txtUserPassword.focus();
-			return;
-		}
-		
 		if(!name(frm.txtUserFirstName)) {
 			alert("Field should be Alphabetic!")
 			frm.txtUserFirstName.focus();
-			return;
-		}
-		
-		if(!name(frm.txtUserLastName) && frm.txtUserLastName.value != '') {
-			alert("Field should be Alphabetic!");
-			frm.txtUserLastName.focus();
 			return;
 		}
 
@@ -480,36 +394,6 @@ function edit()
 		if(frm.chkUserIsAdmin.checked == true && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
-			return;
-		}
-		
-		if(!numeric(frm.txtUserPhoneHome) && frm.txtUserPhoneHome.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneHome.focus();
-			return;
-		}
-
-		if(!numeric(frm.txtUserPhoneMobile) && frm.txtUserPhoneMobile.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneMobile.focus();
-			return;
-		}
-
-		if(!numeric(frm.txtUserPhoneWork) && frm.txtUserPhoneWork.value != '') {
-			alert("Field should be Numeric!");
-			frm.txtUserPhoneWork.focus();
-			return;
-		}
-
-		if(!echeck(frm.txtUserEmail1.value) && frm.txtUserEmail1.value != '') {
-			alert("Invalid Email");
-			frm.txtUserEmail1.focus();
-			return;
-		}
-
-		if(!echeck(frm.txtUserEmail2.value) && frm.txtUserEmail2.value != '') {
-			alert("Invalid Email");
-			frm.txtUserEmail2.focus();
 			return;
 		}
 
@@ -567,94 +451,55 @@ function edit()
 						  <tr> 
 							    <td>Code</td>
 							    <td> <input type="hidden"  name="txtUserID" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
+								<td></td>
+								<td></td>
+								<td></td>
 						  </tr>
 						  <tr> 
 							    <td>User Name</td>
 							    <td><input type="text" name="txtUserName" disabled value="<?=$message[0][1]?>"></td>
-						  </tr>
-				<? if($locRights['edit']) { ?>
+								<td></td>
+								<td>Name</td>
+							  	<td><input type="text" name="txtUserFirstName" disabled value="<?=$message[0][2]?>"></td>
+						  </tr>						  
 						  <tr>
-							  <td>Password</td>
-							  <td><input type="password" name="txtUserPassword" disabled value="<?=$message[0][2]?>"></td>
+						  	  <td>Status</td>
+							  <td><select name="cmbUserStatus" disabled>
+							   			<option>Enabled</option>
+							   			<option <?=$message[0][9]=='Disabled' ? 'selected' : ''?>>Disabled</option>
+							   	</select></td>
 							  <td></td>
-							  <td>Confirm Password</td>
-							  <td><input type="password" name="txtUserConfirmPassword" disabled value="<?=$message[0][2]?>"></td> 
-						  </tr>
-				<? } ?>
-						  <tr>
-							  <td>First Name</td>
-							  <td><input type="text" name="txtUserFirstName" disabled value="<?=$message[0][3]?>"></td>
-							  <td></td>
-							  <td>Last Name</td>
-							  <td><input type="text" name="txtUserLastName" disabled value="<?=$message[0][4]?>"></td>
-						  </tr>
-						  <tr>
 							  <td>Employee ID</td>
 							  <td><select name="cmbUserEmpID" disabled>
 							  		<option value="0">--Select EmpID--</option>
 <?									$emplist=$this->popArr['emplist'] ; 
 									for($c=0;$emplist && count($emplist)>$c;$c++)
-										if($message[0][5]==$emplist[$c][0])
+										if($message[0][3]==$emplist[$c][0])
 											echo "<option selected value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
 										else
 											echo "<option value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
 ?>							  
 							  </select></td> 
 							  <td></td>
-							  <td>User Group</td>
-							  <td><select name="cmbUserGroupID" disabled>
+							  <td></td>							  
+						   </tr>
+						   <tr>
+							   <td>Is HR Admin</td>
+							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][4]=='Yes' ? 'checked' : ''?>></td>
+							   <td></td>
+							   <td>User Group</td>
+							  	<td><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
-										if($message[0][21]==$uglist[$c][0])
+										if($message[0][10]==$uglist[$c][0])
 											echo "<option selected value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 										else
 											echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
 							  </select></td>
 						   </tr>
-						   <tr>
-							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][6]=='Yes' ? 'checked' : ''?>></td>
-							   <td></td>
-							   <td>Deleted</td>
-							   <td><input type="checkbox" name="chkUserDeleted" disabled <?=$message[0][20]=='1' ? 'checked' : ''?>></td>
-						   </tr>
-						   <tr>
-							   <td>Department</td>
-							   <td><input type="text" name="txtUserDepartment" disabled value="<?=$message[0][12]?>"></td>
-							   <td></td>
-							   <td>Phone (Home)</td>
-							   <td><input type="text" name="txtUserPhoneHome" disabled value="<?=$message[0][13]?>"></td> 
-						   </tr>
-						   <tr>
-							   <td>Phone (Mobile)</td>
-							   <td><input type="text" name="txtUserPhoneMobile" disabled value="<?=$message[0][14]?>"></td> 
-							   <td></td>
-							   <td>Phone (Work)</td>
-							   <td><input type="text" name="txtUserPhoneWork" disabled value="<?=$message[0][15]?>"></td> 
-						   </tr>
-						   <tr>
-							   <td>Email 1</td>
-							   <td><input type="text" name="txtUserEmail1" disabled value="<?=$message[0][16]?>"></td>
-							   <td></td>
-							   <td>Email 2</td>
-							   <td><input type="text" name="txtUserEmail2" disabled value="<?=$message[0][17]?>"></td>
-						   </tr>
-						   <tr>
-							   <td>Address</td>
-							   <td><textarea disabled name="txtUserAddress"><?=$message[0][19]?></textarea></td>
-							   <td></td>
-							   <td>Description</td>
-							   <td><textarea disabled name="txtUserDescription"><?=$message[0][7]?></textarea></td>
-						   </tr>
-						   <tr>
-							   <td>Status</td>
-							   <td><select name="cmbUserStatus" disabled>
-							   			<option>Enabled</option>
-							   			<option <?=$message[0][18]=='Disabled' ? 'selected' : ''?>>Disabled</option>
-							   	</select></td>
-						   </tr>
+						   
 					  <tr><td></td><td align="right" width="100%">
 <?			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">

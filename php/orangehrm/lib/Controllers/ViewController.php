@@ -254,25 +254,25 @@ class ViewController {
         	case 'EST' : 
         			
         		$this->empstat = new EmploymentStatus();
-        		$this->empstat->delEmpStat($arrList);
+        		$res = $this->empstat->delEmpStat($arrList);
         		break;
         		
         	case 'JEM' :
         		
         		$this->jobtit_empstat = new JobTitEmpStat();
-        		$this->jobtit_empstat->delJobTitEmpStat($arrList);
+        		$res = $this->jobtit_empstat->delJobTitEmpStat($arrList);
         		break;
         		
         	case 'JOB' :
         		
         		$this->jobtit = new JobTitle();
-        		$this->jobtit ->delJobTitles($arrList);
+        		$res = $this->jobtit ->delJobTitles($arrList);
         		break;
         		
         	case 'CST' :
 	
 	            $this->compstruct = new CompStruct();
-	            $this->compstruct->delCompStruct($arrList);
+	            $res = $this->compstruct->delCompStruct($arrList);
 	            break;
 
         	case 'LOC' :
@@ -284,301 +284,303 @@ class ViewController {
 			case 'COS' :
 
 				$this-> costcenter = new CostCenter();
-				$this-> costcenter -> delCostCenters($arrList);
+				$res = $this-> costcenter -> delCostCenters($arrList);
 				break;
 
 			case 'CUR' :
 
 				$this-> currencytype = new CurrencyTypes();
-				$this-> currencytype -> delCurrencyTypes($arrList);
+				$res = $this-> currencytype -> delCurrencyTypes($arrList);
 				break;
 
 			case 'CHI' :
 
 				$this-> comphier = new CompHierachy();
-				$this-> comphier -> delCompHierachy($arrList);
+				$res = $this-> comphier -> delCompHierachy($arrList);
 				break;
 
 			case  'CTT' :
 
 				$this-> corptit = new CorpTitle();
-				$this-> corptit -> delCorpTitles($arrList);
+				$res = $this-> corptit -> delCorpTitles($arrList);
 				break;
 
 			case 'JDC' :
 
 				$this-> jdcategory = new JDCategory();
-				$this-> jdcategory -> delJDCategorys($arrList);
+				$res = $this-> jdcategory -> delJDCategorys($arrList);
 				break;
 
 			case 'JDT' :
 
 				$this-> jdtype = new JDType();
-				$this-> jdtype -> delJDTypes($arrList);
+				$res = $this-> jdtype -> delJDTypes($arrList);
 				break;
 
 			case 'QLF' :
 
 				$this-> qualtype = new QualificationType();
-				$this-> qualtype -> delQualificationTypes($arrList);
+				$res = $this-> qualtype -> delQualificationTypes($arrList);
 				break;
 			
 			case 'RTM' :
 
 				$this-> ratingmethods = new RatingTypes();
-				$this-> ratingmethods -> delRatingTypes($arrList);
+				$res = $this-> ratingmethods -> delRatingTypes($arrList);
 				break;
 			
 			case 'SKI' :
 
 				$this-> skills = new Skills();
-				$this-> skills -> delSkills($arrList);
+				$res = $this-> skills -> delSkills($arrList);
 				break;
 				
 			case 'ETH' :
 
 				$this-> ethnicrace = new EthnicRace();
-				$this-> ethnicrace -> delEthnicRace($arrList);
+				$res = $this-> ethnicrace -> delEthnicRace($arrList);
 				break;
 
 			case 'EXC' :
 
 				$this-> extracurract = new ExtraCurrActCat();
-				$this-> extracurract -> delCurrActCat($arrList);
+				$res = $this-> extracurract -> delCurrActCat($arrList);
 				break;
 
 			case 'MEM' :
 
 				$this-> membershiptype = new MembershipType();
-				$this-> membershiptype -> delMembershipType($arrList);
+				$res = $this-> membershiptype -> delMembershipType($arrList);
 				break;
 
 			case 'UNI' :
 
 				$this-> uniformtypes = new UniformType();
-				$this-> uniformtypes -> delUniformType($arrList);
+				$res = $this-> uniformtypes -> delUniformType($arrList);
 				break;
 
 			case 'SAT' :
 
 				$this-> satutoryinfo = new SatutoryInfo();
-				$this-> satutoryinfo -> delSatutoryInfo($arrList);
+				$res = $this-> satutoryinfo -> delSatutoryInfo($arrList);
 				break;
 
 			case 'EMC' :
 
 			$this-> employeecat = new EmployeeCat();
-			$this-> employeecat -> delEmployeeCat($arrList);
+			$res = $this-> employeecat -> delEmployeeCat($arrList);
 			break;
 
 		case 'EMG' :
 
 			$this-> employeegroup = new EmployeeGroup();
-			$this-> employeegroup -> delEmployeeGroup($arrList);
+			$res = $this-> employeegroup -> delEmployeeGroup($arrList);
 			break;
 
 		case 'RTE' :
 
 			$this-> routeinformation = new RouteInfo();
-			$this-> routeinformation -> delRouteInfo($arrList);
+			$res = $this-> routeinformation -> delRouteInfo($arrList);
 			break;
 
 		case 'DWT' :
 		
 			$this-> routeinformation = new DwellingType();
-			$this-> routeinformation -> delDwellingType($arrList);
+			$res = $this-> routeinformation -> delDwellingType($arrList);
 			break;
 
 		case 'NAT' :
 
 			$this-> nationalityinfo = new NationalityInfo();
-			$this-> nationalityinfo -> delNationalityInfo($arrList);
+			$res = $this-> nationalityinfo -> delNationalityInfo($arrList);
 			break;
 
 		case 'RLG' :
 
 			$this-> religioninfo = new ReligionInfo();
-			$this-> religioninfo -> delReligionInfo($arrList);
+			$res = $this-> religioninfo -> delReligionInfo($arrList);
 			break;
 
 		case 'COU' :
 
 			$this-> countryinfo = new CountryInfo();
-			$this-> countryinfo -> delCountryInfo($arrList);
+			$res = $this-> countryinfo -> delCountryInfo($arrList);
 			break;
 
 		case 'DEF' :
 
 			$this-> hierachinfo = new HierarchyDefInfo();
-			$this-> hierachinfo -> delHierarchyDefInfo($arrList);
+			$res = $this-> hierachinfo -> delHierarchyDefInfo($arrList);
 			break;
 
 		case 'TAX' :
 
 			$this-> taxinfo = new TaxInfo();
-			$this-> taxinfo -> delTaxInfo($arrList);
+			$res = $this-> taxinfo -> delTaxInfo($arrList);
 			break;
 			
 		case 'PRO' :
 
 			$this-> provinceinfo = new ProvinceInfo();
-			$this-> provinceinfo -> delProvinceInfo($arrList);
+			$res = $this-> provinceinfo -> delProvinceInfo($arrList);
 			break;
 
 		case 'DIS' :
 
 			$this-> districtinfo = new DistrictInfo();
-			$this-> districtinfo -> delDistrictInfo($arrList);
+			$res = $this-> districtinfo -> delDistrictInfo($arrList);
 			break;
 
 		case 'ELE' :
 
 			$this-> electorateinfo = new ElectorateInfo();
-			$this-> electorateinfo -> delElectorateInfo($arrList);
+			$res = $this-> electorateinfo -> delElectorateInfo($arrList);
 			break;
 
 		case 'BNK':
 
 			$this-> bankinfo = new BankInfo();
-			$this-> bankinfo -> delBankInfo($arrList);
+			$res = $this-> bankinfo -> delBankInfo($arrList);
 			break;
 
 		case 'LAN':
 
 			$this-> languageinfo = new LanguageInfo();
-			$this-> languageinfo -> delLanguageInfo($arrList);
+			$res = $this-> languageinfo -> delLanguageInfo($arrList);
 			break;
 
 		case 'MME':
 
 			$this-> membershipinformation = new MembershipInfo();
-			$this-> membershipinformation -> delMembershipInfo($arrList);
+			$res = $this-> membershipinformation -> delMembershipInfo($arrList);
 			break;
 
 		case 'SSK':
 
 			$this-> subskillinformation = new SubSkillInfo();
-			$this-> subskillinformation -> delSubSkillInfo($arrList);
+			$res = $this-> subskillinformation -> delSubSkillInfo($arrList);
 			break;
 
 		case 'EXA':
 
 			$this-> extracurractinfo = new ExtraCurActInfo();
-			$this-> extracurractinfo -> delExtraCurActInfo($arrList);
+			$res = $this-> extracurractinfo -> delExtraCurActInfo($arrList);
 			break;
 
 		case 'SGR':
 
 			$this-> salarygrade = new SalaryGrades();
-			$this-> salarygrade -> delSalaryGrades($arrList);
+			$res = $this-> salarygrade -> delSalaryGrades($arrList);
 			break;
 
 		case 'DSG':
 
 			$this-> designation = new Designations();
-			$this-> designation -> delDesignations($arrList);
+			$res = $this-> designation -> delDesignations($arrList);
 			break;
 
 		case 'DDI':
 
 			$this-> desigdes = new DesDescription();
-			$this-> desigdes -> delJDKPI($arrList);
+			$res = $this-> desigdes -> delJDKPI($arrList);
 			break;
 
 		case 'DQA':
 
 			$this-> desigqual = new DesQualification();
-			$this-> desigqual -> delJDQual($arrList);
+			$res = $this-> desigqual -> delJDQual($arrList);
 			break;
 
     	case 'JDK':
 
 			$this-> jdkra = new JDKra();
-			$this-> jdkra -> delJDKra($arrList);
+			$res = $this-> jdkra -> delJDKra($arrList);
 			break;
 
     	case 'EDU':
 
 			$this-> qual = new Education();
-			$this-> qual -> delEducation($arrList);
+			$res = $this-> qual -> delEducation($arrList);
 			break;
 
     	case 'BCH':
 
 			$this-> brch = new Branches();
-			$this-> brch -> delBranches($arrList);
+			$res = $this-> brch -> delBranches($arrList);
 			break;
 
     	case 'CCB':
 
 			$this-> cashben = new CashBen();
-			$this-> cashben -> delCashBenefits($arrList);
+			$res = $this-> cashben -> delCashBenefits($arrList);
 			break;
 
     	case 'NCB':
 
 			$this-> noncashben = new NonCashBen();
-			$this-> noncashben -> delNonCashBenefits($arrList);
+			$res = $this-> noncashben -> delNonCashBenefits($arrList);
 			break;
 
     	case 'BBS':
 
 			$this-> cashbensal = new CashBenSalary();
-			$this-> cashbensal -> delCashBenefits($arrList);
+			$res = $this-> cashbensal -> delCashBenefits($arrList);
 			break;
 
     	case 'NBS':
 
 			$this-> noncashbensal = new NonCashBenSalary();
-			$this-> noncashbensal -> delCashBenefits($arrList);
+			$res = $this-> noncashbensal -> delCashBenefits($arrList);
 			break;
 
     	case 'ETY':
 
 			$this-> emptyp = new EmployeeType();
-			$this-> emptyp -> delEmployeeTypes($arrList);
+			$res = $this-> emptyp -> delEmployeeTypes($arrList);
 			break;
 
 		case 'SBJ':
 
 			$this-> subjectinfo = new SubjectInfo();
-			$this-> subjectinfo -> delSubjectInfo($arrList);
+			$res = $this-> subjectinfo -> delSubjectInfo($arrList);
 			break;
 			
 		case 'RTE':
 
 			$this-> RouteInfo = new RouteInfo();
-			$this-> RouteInfo -> delRouteInfo($arrList);
+			$res = $this-> RouteInfo -> delRouteInfo($arrList);
 			break;
 			
 		case 'EEC':
 
 			$this-> EEOJobCat = new EEOJobCat();
-			$this-> EEOJobCat -> delEEOJobCat($arrList);
+			$res = $this-> EEOJobCat -> delEEOJobCat($arrList);
 			break;
 
         case 'LIC':
 
 			$this-> Licenses = new Licenses();
-			$this-> Licenses -> delLicenses($arrList);
+			$res = $this-> Licenses -> delLicenses($arrList);
 			break;
 			
 		case 'USR':
 
 			$this-> users = new Users();
-			$this-> users -> delUsers($arrList);
+			$res = $this-> users -> delUsers($arrList);
 			break;
 		
 		case 'USG':
 
 			$this-> usergroups = new UserGroups();
-			$this-> usergroups -> delUserGroups($arrList);
+			$res = $this-> usergroups -> delUserGroups($arrList);
 			break;
 				
         }
 		
 		if (!isset($res)) {
 			$_GET['message']='DELETE_FAILURE';
+		} else {
+			$_GET['message']='DELETE_SUCCESS';
 		}
     }
 

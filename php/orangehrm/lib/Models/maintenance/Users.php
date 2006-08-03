@@ -31,23 +31,13 @@ class Users {
 	var $userFirstName;
 	var $userLastName;
 	var $userEmpID;
-	var $userIsAdmin;
-	var $userDesc;
+	var $userIsAdmin;	
 	var $userDateEntered;
 	var $userDateModified;
 	var $userModifiedBy;
 	var $userCreatedBy;
-	var $userDepartment;
-	var $userPhoneHome;
-	var $userPhoneMobile;
-	var $userPhoneWork;
-	var $userEmail1;
-	var $userEmail2;
-	var $userStatus;
-	var $userAddress;
-	var $userDeleted;
-	var $userGroupID;
-	
+	var $userStatus;	
+	var $userGroupID;	
 	var $arrayDispList;
 	
 	
@@ -83,11 +73,7 @@ class Users {
 	function setUserIsAdmin($userIsAdmin) {
 		$this->userIsAdmin=$userIsAdmin;
 	}
-	
-	function setUserDesc($userDesc) {
-		$this->userDesc=$userDesc;
-	}
-	
+		
 	function setUserDateEntered($userDateEntered) {
 		$this->userDateEntered=$userDateEntered;
 	}
@@ -104,30 +90,6 @@ class Users {
 		$this->userCreatedBy=$userCreatedBy;
 	}
 	
-	function setUserDepartment($userDepartment) {
-		$this->userDepartment=$userDepartment;
-	}
-	
-	function setUserPhoneHome($userPhoneHome) {
-		$this->userPhoneHome=$userPhoneHome;
-	}
-	
-	function setUserPhoneMobile($userPhoneMobile) {
-		$this->userPhoneMobile=$userPhoneMobile;
-	}
-
-	function setUserPhoneWork($userPhoneWork) {
-		$this->userPhoneWork=$userPhoneWork;
-	}
-
-	function setUserEmail1($userEmail1) {
-		$this->userEmail1=$userEmail1;
-	}
-	
-	function setUserEmail2($userEmail2) {
-		$this->userEmail2=$userEmail2;
-	}
-	
 	function setUserStatus($userStatus){
 		$this->userStatus=$userStatus;
 	}
@@ -135,11 +97,7 @@ class Users {
 	function setUserAddress($userAddress) {
 		$this->userAddress=$userAddress;
 	}
-	
-	function setUserDeleted($userDeleted) {
-		$this->userDeleted=$userDeleted;
-	}
-	
+		
 	function setUserGroupID($userGroupID) {
 		$this->userGroupID=$userGroupID;
 	}
@@ -159,11 +117,7 @@ class Users {
 	function getUserFirstName() {
 		return $this->userFirstName;
 	}
-	
-	function getUserLastName() {
-		return $this->userLastName;
-	}
-	
+
 	function getUserEmpID() {
 		return $this->userEmpID;
 	}
@@ -296,43 +250,23 @@ class Users {
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'"; 
 		 $arrFieldList[3] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[4] = "'" . $this->getUserLastName() . "'"; 
-		 $arrFieldList[5] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
-		 $arrFieldList[6] = "'" . $this->getUserIsAdmin() . "'"; 
-		 $arrFieldList[7] = "'" . $this->getUserDesc() . "'"; 
-		 $arrFieldList[8] = "'" . $this->getUserDateEntered() . "'"; 
-		 $arrFieldList[9] = "'" . $this->getUserCreatedBy() . "'"; 
-		 $arrFieldList[10] = "'" . $this->getUserDepartment() . "'"; 
-		 $arrFieldList[11] = "'" . $this->getUserPhoneHome() . "'"; 
-		 $arrFieldList[12] = "'" . $this->getUserPhoneMobile() . "'"; 
-		 $arrFieldList[13] = "'" . $this->getUserPhoneWork() . "'"; 
-		 $arrFieldList[14] = "'" . $this->getUserEmail1() . "'"; 
-		 $arrFieldList[15] = "'" . $this->getUserEmail2() . "'"; 
-		 $arrFieldList[16] = "'" . $this->getUserStatus() . "'";
-		 $arrFieldList[17] = "'" . $this->getUserAddress() . "'"; 
-		 $arrFieldList[18] = "'" . $this->getUserDeleted() . "'"; 
-		 $arrFieldList[19] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
+		 $arrFieldList[4] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[5] = "'" . $this->getUserIsAdmin() . "'"; 		 
+		 $arrFieldList[6] = "'" . $this->getUserDateEntered() . "'"; 
+		 $arrFieldList[7] = "'" . $this->getUserCreatedBy() . "'"; 		 
+		 $arrFieldList[8] = "'" . $this->getUserStatus() . "'";			 
+		 $arrFieldList[9] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
 /////						
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
 		$arrRecordsList[2] = 'user_password';
 		$arrRecordsList[3] = 'first_name';
-		$arrRecordsList[4] = 'last_name';
-		$arrRecordsList[5] = 'emp_number';
-		$arrRecordsList[6] = 'is_admin';
-		$arrRecordsList[7] = 'description';
-		$arrRecordsList[8] = 'date_entered';
-		$arrRecordsList[9] = 'created_by';
-		$arrRecordsList[10] = 'department';
-		$arrRecordsList[11] = 'phone_home';
-		$arrRecordsList[12] = 'phone_mobile';
-		$arrRecordsList[13] = 'phone_work';
-		$arrRecordsList[14] = 'email1';
-		$arrRecordsList[15] = 'email2';
-		$arrRecordsList[16] = 'status';
-		$arrRecordsList[17] = 'address_street';
-		$arrRecordsList[18] = 'deleted';
-		$arrRecordsList[19] = 'userg_id';
+		$arrRecordsList[4] = 'emp_number';
+		$arrRecordsList[5] = 'is_admin';		
+		$arrRecordsList[6] = 'date_entered';
+		$arrRecordsList[7] = 'created_by';		
+		$arrRecordsList[8] = 'status';		
+		$arrRecordsList[9] = 'userg_id';
 								
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_insert = 'true';
@@ -340,7 +274,7 @@ class Users {
 		$this->sql_builder->arr_insert = $arrFieldList;		
 	
 		$sqlQString = $this->sql_builder->addNewRecordFeature2();
-		
+		//echo $sqlQString;
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
@@ -355,45 +289,23 @@ class Users {
 
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
-		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'"; 
-		 $arrFieldList[3] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[4] = "'" . $this->getUserLastName() . "'"; 
-		 $arrFieldList[5] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
-		 $arrFieldList[6] = "'" . $this->getUserIsAdmin() . "'"; 
-		 $arrFieldList[7] = "'" . $this->getUserDesc() . "'"; 
-		 $arrFieldList[8] = "'" . $this->getUserDateModified() . "'"; 
-		 $arrFieldList[9] = "'" . $this->getUserModifiedBy() . "'"; 
-		 $arrFieldList[10] = "'" . $this->getUserDepartment() . "'"; 
-		 $arrFieldList[11] = "'" . $this->getUserPhoneHome() . "'"; 
-		 $arrFieldList[12] = "'" . $this->getUserPhoneMobile() . "'"; 
-		 $arrFieldList[13] = "'" . $this->getUserPhoneWork() . "'"; 
-		 $arrFieldList[14] = "'" . $this->getUserEmail1() . "'"; 
-		 $arrFieldList[15] = "'" . $this->getUserEmail2() . "'"; 
-		 $arrFieldList[16] = "'" . $this->getUserStatus() . "'";
-		 $arrFieldList[17] = "'" . $this->getUserAddress() . "'"; 
-		 $arrFieldList[18] = "'" . $this->getUserDeleted() . "'"; 
-		 $arrFieldList[19] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
+		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
+		 $arrFieldList[3] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[4] = "'" . $this->getUserIsAdmin() . "'"; 		 
+		 $arrFieldList[5] = "'" . $this->getUserDateModified() . "'"; 
+		 $arrFieldList[6] = "'" . $this->getUserModifiedBy() . "'"; 		
+		 $arrFieldList[7] = "'" . $this->getUserStatus() . "'";		
+		 $arrFieldList[8] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
 /////						
 	    $arrRecordsList[0] = 'id';
-		$arrRecordsList[1] = 'user_name';
-		$arrRecordsList[2] = 'user_password';
-		$arrRecordsList[3] = 'first_name';
-		$arrRecordsList[4] = 'last_name';
-		$arrRecordsList[5] = 'emp_number';
-		$arrRecordsList[6] = 'is_admin';
-		$arrRecordsList[7] = 'description';
-		$arrRecordsList[8] = 'date_modified';
-		$arrRecordsList[9] = 'modified_user_id';
-		$arrRecordsList[10] = 'department';
-		$arrRecordsList[11] = 'phone_home';
-		$arrRecordsList[12] = 'phone_mobile';
-		$arrRecordsList[13] = 'phone_work';
-		$arrRecordsList[14] = 'email1';
-		$arrRecordsList[15] = 'email2';
-		$arrRecordsList[16] = 'status';
-		$arrRecordsList[17] = 'address_street';
-		$arrRecordsList[18] = 'deleted';
-		$arrRecordsList[19] = 'userg_id';
+		$arrRecordsList[1] = 'user_name';	
+		$arrRecordsList[2] = 'first_name';
+		$arrRecordsList[3] = 'emp_number';
+		$arrRecordsList[4] = 'is_admin';
+		$arrRecordsList[5] = 'date_modified';
+		$arrRecordsList[6] = 'modified_user_id';		
+		$arrRecordsList[7] = 'status';		
+		$arrRecordsList[8] = 'userg_id';
 
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_update = 'true';
@@ -416,16 +328,14 @@ class Users {
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[3] = "'" . $this->getUserLastName() . "'"; 
 		if($this->getUserPassword() != '')
-		 $arrFieldList[4] = "'" . $this->getUserPassword() . "'"; 
+		 $arrFieldList[3] = "'" . $this->getUserPassword() . "'"; 
 /////						
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
 		$arrRecordsList[2] = 'first_name';
-		$arrRecordsList[3] = 'last_name';
 		if($this->getUserPassword() != '')
-			$arrRecordsList[4] = 'user_password';
+			$arrRecordsList[3] = 'user_password';
 
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_update = 'true';
@@ -471,27 +381,16 @@ class Users {
 		
 		$this->ID = $getID;
 	    $arrFieldList[0] = 'id';
-		$arrFieldList[1] = 'user_name';
-		$arrFieldList[2] = 'user_password';
-		$arrFieldList[3] = 'first_name';
-		$arrFieldList[4] = 'last_name';
-		$arrFieldList[5] = 'emp_number';
-		$arrFieldList[6] = 'is_admin';
-		$arrFieldList[7] = 'description';
-		$arrFieldList[8] = 'date_entered';
-		$arrFieldList[9] = 'date_modified';
-		$arrFieldList[10] = 'modified_user_id';
-		$arrFieldList[11] = 'created_by';
-		$arrFieldList[12] = 'department';
-		$arrFieldList[13] = 'phone_home';
-		$arrFieldList[14] = 'phone_mobile';
-		$arrFieldList[15] = 'phone_work';
-		$arrFieldList[16] = 'email1';
-		$arrFieldList[17] = 'email2';
-		$arrFieldList[18] = 'status';
-		$arrFieldList[19] = 'address_street';
-		$arrFieldList[20] = 'deleted';
-		$arrFieldList[21] = 'userg_id';
+		$arrFieldList[1] = 'user_name';		
+		$arrFieldList[2] = 'first_name';
+		$arrFieldList[3] = 'emp_number';
+		$arrFieldList[4] = 'is_admin';		
+		$arrFieldList[5] = 'date_entered';
+		$arrFieldList[6] = 'date_modified';
+		$arrFieldList[7] = 'modified_user_id';
+		$arrFieldList[8] = 'created_by';		
+		$arrFieldList[9] = 'status';		
+		$arrFieldList[10] = 'userg_id';
 
 						
 		$this->sql_builder->table_name = $this->tableName;
@@ -507,7 +406,7 @@ class Users {
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][1] = $line[1];	    	
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$arrayDispList[$i][3] = $line[3];
 	    	$arrayDispList[$i][4] = $line[4];
@@ -515,20 +414,9 @@ class Users {
 	    	$arrayDispList[$i][6] = $line[6];
 	    	$arrayDispList[$i][7] = $line[7];
 	    	$arrayDispList[$i][8] = $line[8];
-	    	$arrayDispList[$i][9] = $line[9];
-	    	$arrayDispList[$i][10] = $line[10];
-	    	$arrayDispList[$i][11] = $line[11];
-	    	$arrayDispList[$i][12] = $line[12];
-	    	$arrayDispList[$i][13] = $line[13];
-	    	$arrayDispList[$i][14] = $line[14];
-	    	$arrayDispList[$i][15] = $line[15];
-	    	$arrayDispList[$i][16] = $line[16];
-	    	$arrayDispList[$i][17] = $line[17];
-	    	$arrayDispList[$i][18] = $line[18];
-	    	$arrayDispList[$i][19] = $line[19];
-	    	$arrayDispList[$i][20] = $line[20];
-	    	$arrayDispList[$i][21] = $line[21];
-	    	
+	    	$arrayDispList[$i][9] = $line[9];	    	
+	    	$arrayDispList[$i][10] = $line[10];	    
+				    	
 	    	$i++;
 	    	
 	     }
@@ -552,8 +440,7 @@ class Users {
 	    $arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
 		$arrFieldList[2] = 'first_name';
-		$arrFieldList[3] = 'last_name';
-		$arrFieldList[4] = 'user_password';
+		$arrFieldList[3] = 'user_password';
 
 						
 		$this->sql_builder->table_name = $this->tableName;
@@ -572,7 +459,6 @@ class Users {
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$arrayDispList[$i][3] = $line[3];
-	    	$arrayDispList[$i][4] = $line[4];
 	    	
 	    	
 	    	$i++;
@@ -657,7 +543,6 @@ class Users {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_FIRSTNAME';
-		$arrFieldList[1] = 'EMP_LASTNAME';
 
 		$sql_builder = new SQLQBuilder();
 		
