@@ -1213,6 +1213,14 @@ INSERT INTO `hs_hr_province` VALUES (63, 'Armed Forces Europe', 'AE', 'US');
 INSERT INTO `hs_hr_province` VALUES (64, 'Armed Forces Middle East', 'AE', 'US');
 INSERT INTO `hs_hr_province` VALUES (65, 'Armed Forces Pacific', 'AP', 'US');
 
+INSERT INTO `hs_hr_eec` VALUES ('EEC001', 'OFFICIALS AND ADMINISTRATORS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC002', 'PROFESSIONALS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC003', 'TECHNICIANS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC004', 'PROTECTIVE SERVICE WORKERS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC005', 'PARAPROFESSIONALS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC006', 'ADMINISTRATIVE SUPPORT');
+INSERT INTO `hs_hr_eec` VALUES ('EEC007', 'SKILLED CRAFT WORKERS');
+INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
 				
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1'),('USG002','Operator','0');
