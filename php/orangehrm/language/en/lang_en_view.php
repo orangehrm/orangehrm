@@ -31,7 +31,7 @@ switch ($_GET['uniqcode']) {
 		case 'SKI' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Skill ID','Skill Name');
-			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect JDKRA');
+			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect Employee Information');
 			break;		
 				
 		case 'LOC' :
