@@ -173,9 +173,11 @@ class EmpEducation {
 		$arrFieldList[1] = "'". $this->getEduCode()  . "'";
 		$arrFieldList[2] = "'". $this->getEduMajor() . "'";
 		$arrFieldList[3] = "'". $this->getEduYear()   . "'";
-		$arrFieldList[4] = "'". $this->getEduGPA()   . "'";
-		$arrFieldList[5] = "'". $this->getEduStartDate()   . "'";
-		$arrFieldList[6] = "'". $this->getEduEndDate()   . "'";
+		$arrFieldList[4] = "'". $this->getEduGPA()   . "'";		
+		$arrFieldList[5] = $this->getEduStartDate();	
+		$arrFieldList[5] = (isset($arrFieldList[5]) && ($arrFieldList[5] != '')) ? "'".$arrFieldList[5]."'" : "null";	
+		$arrFieldList[6] = $this->getEduEndDate();
+		$arrFieldList[6] = (isset($arrFieldList[6]) && ($arrFieldList[6] != ''))? "'".$arrFieldList[6]."'" : "null";
 
 		$tableName = 'HS_HR_EMP_EDUCATION';
 	
@@ -185,9 +187,9 @@ class EmpEducation {
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;
 			
-	
+		
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-	
+		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
