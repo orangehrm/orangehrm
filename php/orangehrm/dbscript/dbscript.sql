@@ -422,7 +422,7 @@ create table `hs_hr_user_group` (
 create table `hs_hr_users` (
   `id` varchar(36) not null default '',
   `user_name` varchar(20) default '',
-  `user_password` varchar(30) default null,
+  `user_password` varchar(32) default null,
   `first_name` varchar(45) default null,
   `last_name` varchar(45) default null,
   `emp_number` varchar(36) default null,
