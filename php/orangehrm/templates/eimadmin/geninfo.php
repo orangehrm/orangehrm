@@ -137,7 +137,9 @@ function edit()
 				
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
+<style type="text/css">
+@import url("../../themes/beyondT/css/style.css"); .style1 {color: #FF0000}
+</style>
 </head>
 <body>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
@@ -185,11 +187,11 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			<tr>
-							    <td><?=$compname?></td>
+							    <td><span class="error">*</span><?=$compname?></td>
 							    <td><input type="text" disabled name="txtCompanyName" value="<?=isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
 							    <td><?=$taxID?></td>
 							    <td><input type="text" disabled name='txtTaxID'value="<?=isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
-							  </tr>
+				    </tr>
 							  <tr> 
 							    <td><?=$country?></td>
 							    <td><select name='cmbCountry' disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
@@ -236,7 +238,7 @@ function edit()
 							    	<? } ?>
 							    	</div>
 							    	<input type="hidden" name="cmbState" id="cmbState" value="<?=isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
-							    	</td>
+						    	</td>
 							    <td><?=$fax?></td>
 							    <td><input type="text" disabled name="txtFax" value="<?=isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
 							  </tr>
@@ -265,7 +267,7 @@ function edit()
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-</form>
+<center>Fields marked with an asterisk <span class="error">*</span> are required.</center>
 </form>
 </body>
 </html>
