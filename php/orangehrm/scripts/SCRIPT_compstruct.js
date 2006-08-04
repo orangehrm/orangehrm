@@ -88,7 +88,7 @@
 			flag = false;
 		};
 		
-		if (document.getElementById("cmbLocation").value == '') {
+		if ((document.getElementById("cmbLocation").value == '') || (document.getElementById("cmbLocation").value == 'Other')) {
 			errs+="- Please select a Location or define a new Location and select.\n";
 			flag = false;
 		};
