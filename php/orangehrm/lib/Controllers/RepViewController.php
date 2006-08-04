@@ -329,6 +329,7 @@ class RepViewController {
 								}
 
 								$sqlQ = $repgen->reportQueryBuilder();
+								echo $sqlQ;
 	
 								$dbConnection = new DMLFunctions();
 								$message2 = $dbConnection -> executeQuery($sqlQ);
@@ -340,7 +341,10 @@ class RepViewController {
 									   	$arrayDispList[$i][$c] = $line[$c];
 								   	$i++;
 								    }
-								
+																
+								if (!isset($arrayDispList)) {
+									$arrayDispList = null;
+								}
 								$repgen->reportDisplay($arrayDispList);
 								return;
 			

@@ -106,8 +106,8 @@ class ReportGenerator {
  		if(isset($this->criteria['QUL'])){
  			 			
  			$criteriaValue['QUL'] = '\'' . $this->criteria['QUL'] . '\'';
-			$criteriaField['QUL'] = 'c.QUALIFI_CODE';
-			$criteriaTable['QUL'] = 'HS_HR_EMP_QUALIFICATION c';
+			$criteriaField['QUL'] = 'c.EDU_CODE';
+			$criteriaTable['QUL'] = 'HS_HR_EMP_EDUCATION c';
 			$criteriaComOper['QUL'] = "=";
 		}
  		
@@ -224,11 +224,11 @@ class ReportGenerator {
  		if(isset($this->field['QUL'])==1){	
  			 			
  			$headingName['QUL'] 			= 'Qualifications';
- 			$parentTableFieldName['QUL']  	= 'e.QUALIFI_CODE';
- 			$parentTableName['QUL']	    	= 'HS_HR_QUALIFICATION e';
- 			$existingTableFieldName['QUL']	= 'c.QUALIFI_CODE';
- 			$existingTableName['QUL']		= 'HS_HR_EMP_QUALIFICATION c';
- 			$parentTableDescription['QUL']  = 'e.QUALIFI_NAME';		
+ 			$parentTableFieldName['QUL']  	= 'e.EDU_CODE';
+ 			$parentTableName['QUL']	    	= 'HS_HR_EDUCATION e';
+ 			$existingTableFieldName['QUL']	= 'c.EDU_CODE';
+ 			$existingTableName['QUL']		= 'HS_HR_EMP_EDUCATION c';
+ 			$parentTableDescription['QUL']  = 'CONCAT(e.EDU_DEG, \', \', e.EDU_UNI)';		
  		}
  		
  		if(isset($this->field['JOBTITLE'])==1){	
