@@ -143,6 +143,15 @@ function goBack() {
 		document.frmUsers.submit();		
 	}			
 	
+	function toggleAdmin(obj) {
+		if (obj.checked) {
+			document.getElementById("lyrUserGroupID").style.visibility = 'visible';
+			document.getElementById("lyrUserGroupID1").style.visibility = 'visible';
+		} else {
+			document.getElementById("lyrUserGroupID").style.visibility = 'hidden';
+			document.getElementById("lyrUserGroupID1").style.visibility = 'hidden';
+		}
+	}
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -219,7 +228,7 @@ function goBack() {
 						   		  </select></td>
 							  <td></td>
 							  <td>Employee ID</td>
-							  <td><select name="cmbUserEmpID">
+							  <td><select name="cmbUserEmpID" >
 							  		<option value="0">--Select EmpID--</option>
 <?									$emplist=$this->popArr['emplist'] ; 
 									for($c=0;$emplist && count($emplist)>$c;$c++)
@@ -230,17 +239,16 @@ function goBack() {
 						   </tr>
 						   <tr>
 							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin"></td>
-							   <td></td>
-							   
-							   <td>User Group</td>
-							  	<td><select name="cmbUserGroupID">
+							   <td><input type="checkbox" name="chkUserIsAdmin" onChange="toggleAdmin(this);"></td>
+							   <td></td>							   
+							   <td><div id="lyrUserGroupID" style="visibility:hidden">User Group</div></td>
+							   <td><div id="lyrUserGroupID1" style="visibility:hidden"><select name="cmbUserGroupID" id ="cmbUserGroupID">
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
-							  </select></td>
+							  </select></div></td>
 						   </tr>
 					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
 					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
@@ -402,6 +410,15 @@ function edit()
 		document.frmUsers.submit();		
 	}			
 
+	function toggleAdmin(obj) {
+		if (obj.checked) {
+			document.getElementById("lyrUserGroupID").style.visibility = 'visible';
+			document.getElementById("lyrUserGroupID1").style.visibility = 'visible';
+		} else {
+			document.getElementById("lyrUserGroupID").style.visibility = 'hidden';
+			document.getElementById("lyrUserGroupID1").style.visibility = 'hidden';
+		}
+	}
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -485,10 +502,10 @@ function edit()
 						   </tr>
 						   <tr>
 							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][4]=='Yes' ? 'checked' : ''?>></td>
+							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][4]=='Yes' ? 'checked' : ''?> onChange="toggleAdmin(this);"></td>
 							   <td></td>
-							   <td>User Group</td>
-							  	<td><select name="cmbUserGroupID" disabled>
+							   <td><div id="lyrUserGroupID" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>">User Group</div></td>
+							   <td><div id="lyrUserGroupID1" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>"><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
@@ -497,7 +514,7 @@ function edit()
 										else
 											echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
-							  </select></td>
+							  </select></div></td>
 						   </tr>
 						   
 					  <tr><td></td><td align="right" width="100%">
