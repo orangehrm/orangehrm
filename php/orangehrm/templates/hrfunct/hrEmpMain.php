@@ -386,6 +386,8 @@ function resetAdd(panel) {
 	display: table-cell;
 	position: relative;
 	padding: 2px 6px;
+	background-position: center top;
+	background-repeat: no-repeat;
 }
 
 
@@ -397,85 +399,82 @@ function resetAdd(panel) {
 	vertical-align: bottom;
 	padding-top: 40px;
 	//height:50px;
-	width:45px;	
-	background-repeat: no-repeat;
-	background-position: center top;
-}
-
-.mnuPIM td a{	
-	height: 50px;
-	width: 50px;
-	vertical-align: top;
+	width:52px;	
 	text-align:center;
-	text-align: center;
-	list-style-type: none;
 }
 
-#jobLink a{
+.mnuPIM td{	
+	height: 50px;
+	width: 52px;
+	vertical-align: top;
+	text-align:center;	
+}
+
+#jobLink {
 	background-image: url(../../themes/beyondT/icons/job.jpg);	
 }
 
-#personalLink a{
+#personalLink {
 	background-image: url(../../themes/beyondT/icons/personal.jpg);
 }
 
-#dependantsLink a{
+#dependantsLink {
 	background-image: url(../../themes/beyondT/icons/dependants.jpg);
 }
 
-#contactLink a{
+#contactLink {
 	background-image: url(../../themes/beyondT/icons/contact.jpg);
 }
 
-#emergency_contactLink a{
+#emergency_contactLink {
 	background-image: url(../../themes/beyondT/icons/emergency_contact.jpg);
 }
 
-#attachmentsLink a{
+#attachmentsLink {
 	background-image: url(../../themes/beyondT/icons/attachments.jpg);
 }
 
-#cash_benefitsLink a{
+#cash_benefitsLink {
 	background-image: url(../../themes/beyondT/icons/cash_benefits.jpg);
 }
 
-#educationLink a{
+#educationLink {
 	background-image: url(../../themes/beyondT/icons/education.jpg);
 }
 
-#immigrationLink a{
+#immigrationLink {
 	background-image: url(../../themes/beyondT/icons/immigration.jpg);
 }
 
-#languagesLink a{
+#languagesLink {
 	background-image: url(../../themes/beyondT/icons/languages.jpg);
 }
 
-#licenseLink a{
+#licenseLink {
 	background-image: url(../../themes/beyondT/icons/license.jpg);
 }
 
-#membershipLink a{
+#membershipLink {
 	background-image: url(../../themes/beyondT/icons/membership.jpg);
 }
 
-#non_cash_benefitsLink a{
+#non_cash_benefitsLink {
 	background-image: url(../../themes/beyondT/icons/non_cash_benefits.jpg);
 }
 
-#paymentLink a{
+#paymentLink {
 	background-image: url(../../themes/beyondT/icons/payment.jpg);
 }
 
-#report-toLink a{
+#report-toLink {
 	background-image: url(../../themes/beyondT/icons/report-to.jpg);
 }
 
-#skillsLink a{
+#skillsLink {
 	background-image: url(../../themes/beyondT/icons/skills.jpg);
 }
 
-#work_experienceLink a{
+#work_experienceLink {
 	background-image: url(../../themes/beyondT/icons/work_experience.jpg);
 }
 -->
@@ -688,14 +687,14 @@ function resetAdd(panel) {
     <td><img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();" ></td>
     </tr>
     </table>
-
+<br>
 
 
     
 	<table border="0">
 		<tr>
 			<td>
-			<table border="0" align="center">
+			<table border="0" align="center" cellpadding="0" cellspacing="0">
 				<tr class="mnuPIM">
 					<td id="personalLink"><a href="javascript:displayLayer(1)">Personal</a></td>
 					<td id="jobLink"><a href="javascript:displayLayer(2)">Job</a></td>
