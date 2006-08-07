@@ -154,8 +154,8 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
         <input type="hidden" name="pageNO" value="<?=isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
     
 <?	if($locRights['repDef'] && $headingInfo[2] == 1) { ?>
-        <img border="0" title="Add" onClick="returnAdd();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? } ?>
 
       </h3></td>
@@ -167,21 +167,25 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
   <tr>
     <td width="22%" nowrap><h3>Search</h3></td>
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-     <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"> 
-      <?
-    
-    
-      
+     <?
 		if (isset($this->getArr['message'])) {
+		
 			$expString  = $this->getArr['message'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
-			}
+			$expString = explode ("_",$expString);
+			$length = count($expString);		
+			
+			$col_def=$expString[$length-1];
+			
+			$expString=$this->getArr['message'];
+	?>
+			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?
+				echo $$expString;
+	?>
+			</font>
+	<?
 		}		
-		?>
-      &nbsp;&nbsp;&nbsp;&nbsp; </font> </td>
+		?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
@@ -210,7 +214,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
                         <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
                      </slot></td>
-                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onmouseout="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onclick="clear_form();" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
+                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
