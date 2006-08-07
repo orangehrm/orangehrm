@@ -31,8 +31,8 @@ class Conf {
 	$this->dbhost	= 'localhost';
 	$this->dbport 	= '3306';
 	$this->dbname	= 'hr_mysql';
-	$this->dbuser	= 'user';
-	$this->dbpass	= '';
+	$this->dbuser	= 'root';
+	$this->dbpass	= 'beyondm';
 	$this->smtphost = '';
 			
 	}
