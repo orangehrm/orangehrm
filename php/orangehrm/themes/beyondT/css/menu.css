@@ -1,19 +1,17 @@
 #menu {
-	width: 150px;
+	width: 160px;
 	margin: 0px;
 	left: -6px;
 	position: relative;
 	top: 0px;
-   padding-top: 2px;	
-   padding-left: 0px;
-	right: 0px;
-	bottom: 0px;
+    padding-top: 2px;	
+    padding-left: 0px;	
 }
 
 #menu a {
 	text-decoration: none;
 	color: #444444;
-	width: 150px;
+	width: 125px;
 	font-family: Arial, Helvetica, sans-serif;	
 	text-transform: capitalize;
 	height: 22px;
@@ -22,8 +20,8 @@
 	display: block;
 	padding-left: 30px;
 	cursor:pointer;   
-   vertical-align:middle;
-   overflow: hidden;
+    vertical-align:middle;
+    overflow: hidden;	
 }
 
 #menu a:hover {
@@ -35,17 +33,17 @@
 	list-style-position: outside;
 	list-style-type: none;
 	vertical-align: middle;			
-	margin-top:0;
+	margin-top:0;	
 }
 
 #menu li {
 	background-image: url(../pictures/buttonplain.gif);
 	background-repeat: no-repeat;
-	background-position: 20px;
+	background-position: 21px;
 }
 #menu li:hover{		
 	background: url(../pictures/buttonplain_o.gif) no-repeat;
-	background-position: 20px;
+	background-position: 21px;
 }
 
 #menu #compinfo a {	
