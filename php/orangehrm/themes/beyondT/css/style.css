@@ -7,9 +7,7 @@ body {
 	font-size: 12px;
 	background-color: #ffffff;
 	}
-img {
-	behavior:	url("include/pngbehavior.htc");
-}
+
 .body { 
 	font-size: 12px;
 	}
@@ -251,7 +249,6 @@ textarea {
 		text-align: right;
 		}
 	.searchButton {
-		behavior:	url("include/pngbehavior.htc");
 		background-color: transparent;
 		border: 0px;
 		padding-right: 10px;
@@ -583,4 +580,6 @@ textarea {
     background: url('../pictures/table_r2_c3.gif') repeat-y left;
 }
 
-
+.cmb {
+	width: 130px;
+}

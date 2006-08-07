@@ -14,9 +14,7 @@ body {
 	scrollbar-track-color: #cccccc; 
 	scrollbar-darkshadow-color: #666666;
 	}
-img {
-	behavior:	url("include/pngbehavior.htc");
-}
+
 .body { 
 	font-size: 12px;
 	}
