@@ -328,8 +328,7 @@ class RepViewController {
 									$repgen -> field[$field[$c]] = 1;
 								}
 
-								$sqlQ = $repgen->reportQueryBuilder();
-								echo $sqlQ;
+								$sqlQ = $repgen->reportQueryBuilder();								
 	
 								$dbConnection = new DMLFunctions();
 								$message2 = $dbConnection -> executeQuery($sqlQ);
