@@ -256,37 +256,59 @@ class ReportGenerator {
 
 		$SQL1 = $SQL1 . ' FROM ' ;
 				
-				$parentTableName   = array_values($parentTableName);
-				$existingTableName = array_values($existingTableName);
-				
-				$arrTabMerge1 	= array_merge($parentTableName, $existingTableName);
-				
-				$criteriaTable 	= array_values($criteriaTable);
-				
-				$arrTabMerge2 	= array_merge($arrTabMerge1, $criteriaTable);
-				
-				$arrTabUnique 	= array_unique($arrTabMerge2);
+		$joinQ = 'hs_hr_employee a';
+		$joinTail = '';
+		
 					
-				$countarrTabUniqueSize = count($arrTabUnique);
-				$i = 0;
-
-				foreach ($arrTabUnique as $val) {
-					if ($i == ($countarrTabUniqueSize - 1))   
-						$SQL1 = $SQL1 . strtolower($val) . ' ';		
-					else 
-						$SQL1 = $SQL1 . strtolower($val) . ', ';
-						
-				$i++;
-				}
+		if(isset($this->field['EMPSTATUS'])==1){
+			
+			$jfield = 'EMPSTATUS';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';						
+								
+		}
+			
+		if(isset($this->field['QUL'])==1){
+			
+			$jfield = 'QUL';
+			$joinQ = '('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+			$joinQ = $joinQ.' ON c.emp_number = a.emp_number )';
+			
+								
+		}
+			
+		if(isset($this->field['JOBTITLE'])==1){
+			
+			$jfield = 'JOBTITLE';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';						
+								
+		}
+		
+		if(isset($this->field['PAYGRD'])==1){
+			
+			$jfield = 'PAYGRD';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';						
+								
+		}
+		
+		$SQL1 = $SQL1 .$joinQ;
 				
 		$SQL1 = $SQL1 . ' WHERE ' ;
 				
-				$parent = array_values($parentTableFieldName);
+				/*$parent = array_values($parentTableFieldName);
 				$exsist = array_values($existingTableFieldName);
 				
 				for ($i=0;$i<count($parent); $i++) 
 				 	if($parent[$i] != $exsist[$i])
-				 		$SQL1 = $SQL1 . $parent[$i] . ' = '. $exsist[$i] . ' AND ';
+				 		$SQL1 = $SQL1 . $parent[$i] . ' = '. $exsist[$i] . ' AND ';*/
 				 		
 				$criteriaValue = array_values($criteriaValue);
 				$criteriaField = array_values($criteriaField);
