@@ -180,7 +180,7 @@ class RepViewController {
 								break;
 								
 					default:
-								$showMsg = "Addition%Successful!"; //If $message is 1 setting up the 
+								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the 
 								
 								$repcode = $index;
 								
@@ -189,7 +189,7 @@ class RepViewController {
 				
 			} else {
 				
-				$showMsg = "Addition%Unsuccessful!";
+				$showMsg = "ADD_FAILURE";
 				
 				$repcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&repcode=$repcode");
@@ -209,14 +209,14 @@ class RepViewController {
 									
 			// Checking whether the $message Value returned is 1 or 0
 			if ($res) { 
-				$showMsg = "Updation%Successful!"; //If $message is 1 setting up the 
+				$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the 
 
 				$repcode = $index;
 				
 				header("Location: ./CentralController.php?message=$showMsg&repcode=$repcode&VIEW=MAIN");
 			} else {
 				
-				$showMsg = "Updation%Unsuccessful!";
+				$showMsg = "UPDATE_FAILURE";
 				
 				$repcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&repcode=$repcode");

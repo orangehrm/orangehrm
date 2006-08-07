@@ -119,7 +119,7 @@ class EXTRACTOR_EmpReport {
 					case '<' 	 :	$criteriaStr .= '|AGE=<=' .$postArr['txtEmpAge1'];
 									 break;  
 									 
-					case '>' 	 :	$criteriaStr .= '|AGE=>=' .$postArr['txtEmpAge2'];
+					case '>' 	 :	$criteriaStr .= '|AGE=>=' .$postArr['txtEmpAge1'];
 									 break; 
 									 
 					case 'range' :	$criteriaStr .= '|AGE=range='.$postArr['txtEmpAge1'] .'=' .$postArr['txtEmpAge2'];    
@@ -146,7 +146,7 @@ class EXTRACTOR_EmpReport {
 					case '<' 	 :	$criteriaStr .= '|SERPIR=<=' .$postArr['Service1'];
 									 break;  
 									 
-					case '>' 	 :	$criteriaStr .= '|SERPIR=>='.$postArr['Service2'];
+					case '>' 	 :	$criteriaStr .= '|SERPIR=>='.$postArr['Service1'];
 									 break; 
 									 
 					case 'range' :	$criteriaStr .= '|SERPIR=range='.$postArr['Service1'] . '=' .$postArr['Service2'];
