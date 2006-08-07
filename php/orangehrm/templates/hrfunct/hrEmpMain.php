@@ -398,83 +398,84 @@ function resetAdd(panel) {
 	padding-top: 40px;
 	//height:50px;
 	width:45px;	
-}
-
-.mnuPIM td {
 	background-repeat: no-repeat;
 	background-position: center top;
+}
+
+.mnuPIM td a{	
 	height: 50px;
-	width: 45px;
+	width: 50px;
 	vertical-align: top;
+	text-align:center;
 	text-align: center;
 	list-style-type: none;
 }
 
-#jobLink {
+#jobLink a{
 	background-image: url(../../themes/beyondT/icons/job.jpg);	
 }
 
-#personalLink {
+#personalLink a{
 	background-image: url(../../themes/beyondT/icons/personal.jpg);
 }
 
-#dependantsLink {
+#dependantsLink a{
 	background-image: url(../../themes/beyondT/icons/dependants.jpg);
 }
 
-#contactLink {
+#contactLink a{
 	background-image: url(../../themes/beyondT/icons/contact.jpg);
 }
 
-#emergency_contactLink {
+#emergency_contactLink a{
 	background-image: url(../../themes/beyondT/icons/emergency_contact.jpg);
 }
 
-#attachmentsLink {
+#attachmentsLink a{
 	background-image: url(../../themes/beyondT/icons/attachments.jpg);
 }
 
-#cash_benefitsLink {
+#cash_benefitsLink a{
 	background-image: url(../../themes/beyondT/icons/cash_benefits.jpg);
 }
 
-#educationLink {
+#educationLink a{
 	background-image: url(../../themes/beyondT/icons/education.jpg);
 }
 
-#immigrationLink {
+#immigrationLink a{
 	background-image: url(../../themes/beyondT/icons/immigration.jpg);
 }
 
-#languagesLink {
+#languagesLink a{
 	background-image: url(../../themes/beyondT/icons/languages.jpg);
 }
 
-#licenseLink {
+#licenseLink a{
 	background-image: url(../../themes/beyondT/icons/license.jpg);
 }
 
-#membershipLink {
+#membershipLink a{
 	background-image: url(../../themes/beyondT/icons/membership.jpg);
 }
 
-#non_cash_benefitsLink {
+#non_cash_benefitsLink a{
 	background-image: url(../../themes/beyondT/icons/non_cash_benefits.jpg);
 }
 
-#paymentLink {
+#paymentLink a{
 	background-image: url(../../themes/beyondT/icons/payment.jpg);
 }
 
-#report-toLink {
+#report-toLink a{
 	background-image: url(../../themes/beyondT/icons/report-to.jpg);
 }
 
-#skillsLink {
+#skillsLink a{
 	background-image: url(../../themes/beyondT/icons/skills.jpg);
 }
 
-#work_experienceLink {
+#work_experienceLink a{
 	background-image: url(../../themes/beyondT/icons/work_experience.jpg);
 }
 -->
