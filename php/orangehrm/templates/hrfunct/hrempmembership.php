@@ -81,10 +81,18 @@ function addEXTMembership() {
 	}
 
 	var txt = document.frmEmp.txtMemSubAmount;
-	if (!numeric(txt)) {
-		alert ("Description Error!");
+	if ((txt.value != '') && !numeric(txt)) {
+		alert ("Subscription amount should be numeric!");
 		txt.focus();
 		return false;
+	} else if (txt.value == '') {
+		confirmx = confirm('Membership subscription amount is empty. Do you want to continue ?');
+		
+		if (!confirmx) {
+			txt.focus();
+			return confirmx;
+		}	
+		
 	}
 	
 	var commDate = createDate(document.frmEmp.txtMemCommDat.value);
@@ -151,7 +159,6 @@ function viewMembership(mem,mtp) {
 }
 
 </script>
-a
 <?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="membershipSTAT" value="">
