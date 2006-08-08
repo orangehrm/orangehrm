@@ -151,7 +151,7 @@ function viewMembership(mem,mtp) {
 }
 
 </script>
-
+a
 <?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="membershipSTAT" value="">
