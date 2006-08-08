@@ -257,7 +257,7 @@ function viewSup(sup,rep) {
 ?>					  
 					  </select></td>
 					</tr>
-					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value=".." onclick="returnEmpDetail();">
+					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
 						</td></tr>
 					  <tr> 
 						<td valign="top"><?=$reportingmethod?></td>

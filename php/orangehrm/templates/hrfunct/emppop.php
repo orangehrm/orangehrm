@@ -84,9 +84,10 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<title>Search Employees</title>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<title>Search Employees</title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <script>		
@@ -169,7 +170,7 @@ else
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table  border="0" cellpadding="5" cellspacing="0" class="">
+                  <td><table  border="0" cellpadding="5" cellspacing="0" class="" width="100%">
                     <tr>
                       <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code">
@@ -265,8 +266,8 @@ else
                   <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
                   <td background="../../themes/beyondT/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>			  
                 </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                <tr  valign="top" height="25">
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt=""></td>
 						  <?php
 						  	$j=0;
 						  	if (!isset($_GET['sortOrder'.$j])) {
@@ -291,13 +292,13 @@ else
 			
 		?>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>                  
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>                  
          <?		if(!($j%2)) { ?>				  
-				  <td >&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td >&nbsp;<?=$emplist[$j][1]?></td>
+				  <td >&nbsp;&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
+		  		  <td >&nbsp;&nbsp;<?=$emplist[$j][1]?></td>
 		<?		} else { ?>				  
-				  <td bgcolor="#EEEEEE" >&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td bgcolor="#EEEEEE" >&nbsp;<?=$emplist[$j][1]?></td>
+				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
+		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?=$emplist[$j][1]?></td>
 		<?		}	?>
 		  		  
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -305,8 +306,12 @@ else
                 </tr>
 
          <? } 
-        	  } else if ((isset($message)) && ($message =='')) {
-        		
+        	  } else if ((isset($message)) && ($message =='')) { ?>
+			  
+			   <tr>
+			   	<td></td>
+				<td>
+		<?        		
         		 $dispMessage = "No Records to Display !";
         		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
         		 echo $dispMessage;
@@ -314,7 +319,8 @@ else
         	}
          
          ?> 
-		
+		 		</td>
+			</tr>		
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -325,5 +331,6 @@ else
 <!--  newtable -->
 
 </form>
+
 </body>
 </html>
