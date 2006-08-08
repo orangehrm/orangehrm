@@ -32,7 +32,7 @@ class Conf {
 	$this->dbport 	= '3306';
 	$this->dbname	= 'hr_mysql';
 	$this->dbuser	= 'root';
-	$this->dbpass	= 'beyondm';
+	$this->dbpass	= 'moha';
 	$this->smtphost = '';
 			
 	}
