@@ -423,7 +423,7 @@ function disableSerPeriodField() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Report Generator</h2></td>
+    <td width='100%'><h2><?=$headingInfo[0]?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -723,7 +723,7 @@ function disableSerPeriodField() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Report Generator</h2></td>
+    <td width='100%'><h2><?=$headingInfo[1]?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>

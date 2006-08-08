@@ -111,13 +111,13 @@ class RepViewController {
 		
 		case 'EMPDEF' :
 		
-			$this->headingInfo = array ('Report ID','Report Name',1,'Employee Reports','Deletion might affect Company Hierarchy');
+			$this->headingInfo = array ('Report ID','Report Name',1,'Define Employee Reports','Deletion might affect Company Hierarchy');
 			return $this->headingInfo;
 			break;
 						
 		case 'EMPVIEW' :
 		
-			$this->headingInfo = array ('Report ID','Report Name',0,'Employee Reports','Deletion might affect Company Hierarchy');
+			$this->headingInfo = array ('Report ID','Report Name',0,'View Employee Reports','Deletion might affect Company Hierarchy');
 			return $this->headingInfo;
 			break;
         }
