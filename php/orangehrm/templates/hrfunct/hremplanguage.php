@@ -20,7 +20,6 @@ Boston, MA  02110-1301, USA
 	$lantype  = $this->popArr['lantype'];
 	$grdcodes = $this->popArr['grdcodes'];
 ?>
-
 <script language="JavaScript">
 function editLang()
 {
@@ -107,28 +106,13 @@ function delEXTLang() {
 }
 
 </script>
-
 <?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-
-  <tr>
-    <td height="27" valign='top'> <p>
-        <input type="hidden" name="langSTAT" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
-
-
+<input type="hidden" name="langSTAT" value="">
 <?
 if(isset($this->getArr['lanSEQ'])) {
     $edit = $this->popArr['editLanArr'];
 ?>
-        
-<br>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<table width="100%" border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td width="200"><?=$language?></td>
     				  <td><input type="hidden" name="cmbLanCode" value="<?=$edit[0][1]?>"><strong>
@@ -182,10 +166,7 @@ if(isset($this->getArr['lanSEQ'])) {
                   </table>
 
 <? } else { ?>
-&nbsp;
-        
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0">
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?=$language?></td>
