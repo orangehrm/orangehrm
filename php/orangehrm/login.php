@@ -27,7 +27,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	$login = new Login();
 	
 	$rset=$login->filterUser(trim($_POST['txtUserName']));
-
+	
 	if (md5($_POST['txtPassword']) == $rset[0][1]) {
 		if($rset[0][5]=='Enabled') {		
 			session_start();

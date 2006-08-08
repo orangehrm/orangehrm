@@ -1097,7 +1097,7 @@ INSERT INTO `hs_hr_currency_type` VALUES (160, 'XAU', 'Gold (oz.)');
 INSERT INTO `hs_hr_currency_type` VALUES (161, 'XCD', 'Eastern Caribbean Dollars');
 INSERT INTO `hs_hr_currency_type` VALUES (162, 'XOF', 'CFA Franc BCEAO');
 INSERT INTO `hs_hr_currency_type` VALUES (163, 'XPD', 'Palladium (oz.)');
-INSERT INTO `hs_hr_currency_type` VALUES (164, 'XPF', 'Franc des Comptoirs franÃ§ais du Pacifique');
+INSERT INTO `hs_hr_currency_type` VALUES (164, 'XPF', 'Franc des Comptoirs français du Pacifique');
 INSERT INTO `hs_hr_currency_type` VALUES (165, 'XPT', 'Platinum (oz.)');
 INSERT INTO `hs_hr_currency_type` VALUES (166, 'YER', 'Yemeni Riyal');
 INSERT INTO `hs_hr_currency_type` VALUES (167, 'YUM', 'Yugoslavian Dinar');
@@ -1224,7 +1224,7 @@ INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
 				
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1'),('USG002','Operator','0');
-INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e229','Demo','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,'USR001','','','','','','','','','','Enabled','','','','','','',0,'','USG001');
+INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e229','Demo','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001');
 INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00','USR001',null);
 INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00','USR001',null,'file_ver_01');
 INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00','USR001',null,0,'DVR001','FVR001','version 1.0');
