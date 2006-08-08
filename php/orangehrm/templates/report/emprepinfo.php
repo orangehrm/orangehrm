@@ -120,7 +120,7 @@ function edit()
 			frm.elements[i].disabled = false ;					
 		}
 	
-	chkboxCriteriaEnable();
+	chkboxCriteriaEnable();	
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
 	document.Edit.title="Save";
 }
@@ -136,6 +136,7 @@ function addUpdate() {
 	if(!validation())
 		return;
 
+	parent.scroll(0,0);
 	document.frmEmpRepTo.sqlState.value = "UpdateRecord";
 	document.frmEmpRepTo.submit();		
 }
@@ -276,6 +277,7 @@ function disableSerPeriodField() {
 	if(!validation())
 		return;
 	
+	parent.scroll(0,0);
 	document.frmEmpRepTo.sqlState.value="NewRecord";
 	document.frmEmpRepTo.submit(); 
 }	
