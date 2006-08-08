@@ -154,17 +154,12 @@ function viewSup(sup,rep) {
 	document.frmEmp.submit();
 }
 </script>
-
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
         <input type="hidden" name="reporttoSTAT" value="">
-<br><br>			
 <?	if(isset($this->getArr['editIDSup'])) {	?>
-
      <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['editIDSup']?>">
      <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['id']?>">
-     <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">
-     
+     <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">     
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
@@ -201,14 +196,11 @@ function viewSup(sup,rep) {
 			<?			}  ?>
 						</td>
 					  </tr>
- </table>
- 
+ </table> 
 <? } elseif (isset($this->getArr['editIDSub'])) { ?>
-
 	 <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['id']?>">
      <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['editIDSub']?>">
-  	 <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">
-     
+  	 <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">     
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?=$supervisorsubordinator?></td>
@@ -278,8 +270,6 @@ function viewSup(sup,rep) {
 										echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
 ?>						</select></td>
 					  </tr>
-					 		 					  
-					 
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
@@ -292,7 +282,6 @@ function viewSup(sup,rep) {
 					  </tr>
                  </table>
 <? } ?>
-<br><br>
 	<input type="hidden" name="delSupSub">
 <table><tr><td>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>

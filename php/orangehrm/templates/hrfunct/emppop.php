@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 $srchlist[0] = array( -1 , 0 , 1 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
+$srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 
 	function getNextSortOrder($curSortOrder) {
 		switch ($curSortOrder) {
@@ -133,7 +133,7 @@ else
 	}
 	
 </script>
-<body>
+<body style="padding-left:4; padding-right:4;">
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 <form name="standardView" method="post">
@@ -258,34 +258,30 @@ else
 		</tr>
 		</table>
 
-              <table border="0" cellpadding="0" cellspacing="0">
+              <table bordeir="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td ><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
+                  <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
+                  <td background="../../themes/beyondT/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>			  
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <td width="50" NOWRAP class="listViewThS1" scope="col"></td>
 						  <?php
 						  	$j=0;
 						  	if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
+						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
 						  <?php 
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td scope="col" width="400" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
-                  </table></td>
+						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>                  		
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
         <?
@@ -295,20 +291,17 @@ else
 			
 		?>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-         <?		if(!($j%2)) { ?>
-				  <td width="50"></td>
-				  <td width="250"><a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td width="400" ><?=$emplist[$j][1]?></td>
-		<?		} else { ?>
-				  <td bgcolor="#EEEEEE" width="50"></td>
-				  <td bgcolor="#EEEEEE" width="250"><a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td bgcolor="#EEEEEE" width="400" ><?=$emplist[$j][1]?></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>                  
+         <?		if(!($j%2)) { ?>				  
+				  <td >&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
+		  		  <td >&nbsp;<?=$emplist[$j][1]?></td>
+		<?		} else { ?>				  
+				  <td bgcolor="#EEEEEE" >&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
+		  		  <td bgcolor="#EEEEEE" >&nbsp;<?=$emplist[$j][1]?></td>
 		<?		}	?>
-		  		  </table></td>
+		  		  
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                 
                 </tr>
 
          <? } 
@@ -321,14 +314,14 @@ else
         	}
          
          ?> 
-
+		
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"></td>
+                  <td ><img src="../../themes/beyondT/pictures/table_r3_c3.gif" border="0" alt=""></td>
                 </tr>
-      
+      </table>
 <!--  newtable -->
 
 </form>
