@@ -166,4 +166,15 @@ $employeelanguageflu 	= 'Employee Language Fluency';
  $assignworkex			= 'Assigned Work Experiance';
  $workexid				= 'Work Experiance ID';
 
+ //education
+ $education 			= 'Education';
+ $major 				= 'Major';
+ $year					= 'Year';
+ $gpa					= 'GPA';
+ $assigneducation		= 'Assigned Education';
+ 
+ //attachments
+ 
+ $assignattach 			= 'Assigned Attachments';
+ 
 ?>

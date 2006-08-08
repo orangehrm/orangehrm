@@ -31,13 +31,13 @@ switch ($_GET['uniqcode']) {
 		case 'SKI' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Skill ID','Skill Name');
-			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect JDKRA');
+			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect Employee Information');
 			break;		
 				
 		case 'LOC' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name', 'City');
 			$headings= array('Location ID','Location Name', 'City');
-			$headingInfo = array ('Location ID','Location Name',1,'Company Info : Locations','Deletion might affect Company Hierarchy');
+			$headingInfo = array ('Location ID','Location Name',1,'Company Info : Locations','Deletion might affect Company Hierarchy. If the Location has associations deletion may fail');
 			break;
 			
 		case 'COS' :

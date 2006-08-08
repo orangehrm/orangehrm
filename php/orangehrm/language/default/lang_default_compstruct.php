@@ -5,8 +5,9 @@ $heading= 'Company Info : Company Structure';
 $add	= 'Add';
 $delete = 'Delete';
 $clear = 'Clear';
-$hide = 'hide';
+$hide = 'Hide';
 
+$save	= 'Save';
 
 //Field Labels
 
