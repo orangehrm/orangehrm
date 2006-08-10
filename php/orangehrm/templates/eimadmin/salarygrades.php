@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-
+		
 function showAddCurrencyForm() {
 	    
     $objResponse = new xajaxResponse();
@@ -122,16 +122,56 @@ $objAjax->registerFunction('editExt');
 $objAjax->registerFunction('delExt');
 $objAjax->processRequests();
 
-if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
+	$idens = split('uniqcode=', isset($_POST['referer']) ? $_POST['referer'] : $_SERVER['HTTP_REFERER']);
+	
+	$idens = split('&', $idens[1]);	
+	
+	if ($idens[0] == 'JOB') {
+		$backtype=1;
+	} else {
+		$backtype=0;
+	};
+				
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { 
 
+	
+	if ($backtype == 1) {
+	
+		$refcapturemode = split('capturemode=', isset($postArr['referer']) ? $postArr['referer'] : $_SERVER['HTTP_REFERER']);
+		$refcapturemode = split('&', $refcapturemode[1]);
+		
+		if ($refcapturemode[0] == 'updatemode') {
+		
+			$refcapturemode = $refcapturemode[0];
+			
+			$refid = split('id=', isset($postArr['referer']) ? $postArr['referer'] : $_SERVER['HTTP_REFERER']);
+						
+			$refid = split('&', $refid[1]);			
+			
+			$refid = $refid[0];						
+		} else {
+		
+			$refcapturemode = 'addmode';
+			$refid = '';
+			
+		}
+	}
+		
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>			
-	function goBack() {
+	function goBack() {	
+		
+	<?	if ($backtype == 1) { ?>
+		history.back();
+	<? } else { ?>			
 		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+	<? } ?>
+	
 	}
 
 	function addSave() {
@@ -166,8 +206,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <form name="frmSalGrd" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
 
   <tr> 
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
+		<input type="hidden" name="refcapturemode" value="<?=$refcapturemode?>">
+		<input type="hidden" name="refid" value="<?=$refid?>">
+		<input type="hidden" name="backtype" value="<?=$backtype?>">
+		<input type="hidden" name="referer" value="<?=$_SERVER['HTTP_REFERER']?>">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
       <?
@@ -203,8 +247,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						    <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' cols="30"></textarea>
 						    </td>
 						  </tr>
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-        <img onClick="clearAll();" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
+					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -221,6 +265,21 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+	 $backtype = isset($_GET['backtype']) ? $_GET['backtype'] : $backtype;
+	
+	 if (isset($_GET['backtype'])) {
+	 	if (isset($_GET['refcapturemode']) && ($_GET['refcapturemode'] == 'addmode')) {
+		
+			$referer = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?uniqcode=JOB&capturemode=".$_GET['refcapturemode'];
+			
+		} else {
+		
+			$referer = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?id=".$_GET['refid']."&uniqcode=JOB&capturemode=".$_GET['refcapturemode'];
+			
+		}
+	 } else { 
+	 	$referer = isset($_POST['referer']) ? $_POST['referer'] : $_SERVER['HTTP_REFERER'];
+	 }
 	 $message = $this->popArr['editArr'];
 ?>
 
@@ -252,8 +311,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	return flag;
 	}
 	
-	function goBack() {
+	function goBack() {			
+	<?	if ($backtype == 1) { ?>
+		location.href = "<?=$referer?>";
+	<? } else { ?>			
 		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+	<? } ?>
+	
 	}
 	
 	function mout() {
@@ -498,10 +562,12 @@ function delCurrency() {
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmSalGrd" id="frmSalGrd" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
-
+	
   <tr> 
-    <td height="27" valign='top'> <p>  <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
+		<input type="hidden" name="backtype" value="<?=$backtype?>">
+		<input type="hidden" name="referer" value="<?=$referer?>">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
       <?
@@ -542,11 +608,11 @@ function delCurrency() {
 			<tr>
 		  <td></td><td align="right">
 <?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 						</td>
 						</form>
 						</tr>				  
@@ -556,6 +622,7 @@ function delCurrency() {
 					  
 				<form name="frmSalCurDet" id="frmSalCurDet" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode">
 					  			<input type="hidden" name="STAT">
+								<input type="hidden" name="referer" value="<?=$referer?>">
 								<input type="hidden" name="txtSalGrdID" value="<?=$this->getArr['id']?>">
 <?			if (!isset($this->getArr['editID'])) { ?>
 					  <tr>
@@ -591,7 +658,7 @@ function delCurrency() {
 			<tr>
 				<td>
 <?					if($locRights['add']) { ?>
-						<td align="left" valign="top"><img onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?					} else { ?>
 						<td align="left" valign="top"><img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?					}
@@ -631,7 +698,7 @@ function delCurrency() {
 			<tr>
 		  <td></td><td align="right">
 <?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutAss();" onmouseover="moverAss();" name="EditAss" onClick="editAss();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="moutAss();" onMouseOver="moverAss();" name="EditAss" onClick="editAss();">
 <?			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 <?			}  
@@ -651,7 +718,7 @@ function delCurrency() {
 					  <tr>
 					  	<td>					  
 <?					if($locRights['delete']) { ?>
-						<img onClick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?					} else { ?>
 						<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?					}		?>						

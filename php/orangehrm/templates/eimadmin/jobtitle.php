@@ -1,37 +1,21 @@
 <?
 
 /*
-
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-
- * all the essential functionalities required for any enterprise. 
-
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
  *
-
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-
  * the GNU General Public License as published by the Free Software Foundation; either
-
  * version 2 of the License, or (at your option) any later version.
-
  *
-
  * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-
  * See the GNU General Public License for more details.
-
  *
-
  * You should have received a copy of the GNU General Public License along with this program;
-
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-
  * Boston, MA  02110-1301, USA
-
  */
 
 
@@ -41,8 +25,6 @@
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-
 
 function assignEmploymentStatus($valArr) {
 
@@ -303,7 +285,33 @@ return $objResponse->getXML();
 	$sysConst = new sysConf(); 
 
 	$locRights=$_SESSION['localRights'];
-
+	
+	$cookie = $_COOKIE;
+	
+  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
+	
+	$editArr = $this->popArr['editArr']; 
+	
+	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != $editArr[0][0]))) {		
+		unset($cookie);
+	}	
+	
+  }
+  
+  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { 
+		
+	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != ''))) {		
+		unset($cookie);
+	}	
+	
+  }
+  
+  setcookie('txtJobTitleName', 'null', time()-3600, '/');
+  setcookie('txtJobTitleDesc', 'null', time()-3600, '/');
+  setcookie('txtJobTitleComments', 'null', time()-3600, '/');
+  setcookie('cmbPayGrade', 'null', time()-3600, '/');
+  setcookie('txtJobTitleID', 'null', time()-3600, '/');
+    
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -313,11 +321,7 @@ return $objResponse->getXML();
 <head>
 
 <title>Untitled Document</title>
-
 <? $objAjax->printJavascript(); ?>
-
-
-
 <script language="JavaScript">
 
 
@@ -674,7 +678,46 @@ function editFormData() {
 
 }
 
+function preserveData() {
+	
+	if (!(document.getElementById('txtJobTitleName').disabled)) {
+		id="txtJobTitleID";
+		writeCookie(id,document.getElementById('txtJobTitleID').value);
+	
+		id="txtJobTitleName";
+		writeCookie(id,document.getElementById('txtJobTitleName').value);
+	
+		id="txtJobTitleDesc";
+		writeCookie(id,document.getElementById('txtJobTitleDesc').value);
+	
+		id="txtJobTitleComments";
+		writeCookie(id,document.getElementById('txtJobTitleComments').value);
+	
+		id="cmbPayGrade";
+		writeCookie(id,document.getElementById('cmbPayGrade').value);	
+	}
+	
+}
 
+function writeCookie(name, value, expire) {
+
+	if (!expire) {
+		expire = 3600000;
+	}
+	
+	var date = new Date();
+	date.setTime(date.getTime()+expire);
+	var expires = date.toGMTString();
+
+	document.cookie = name+"="+value+"; expires="+expires+"; path=/";
+
+}
+
+function promptUseCookieValues() {
+	if (!confirm('Currently showing the values saved in session\n when you last edited this record.\n Do you want to continue?')) {
+		history.go();
+	}
+}
 
 </script>
 
@@ -686,7 +729,7 @@ function editFormData() {
 
 </head>
 
-<body>
+<body onload="<?=(isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?=isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
 
 
@@ -740,7 +783,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitid?></td>
 
-				                  		<td><strong><?=$this->popArr['newID']?></strong></td>
+				                  		<td><strong><?=$this->popArr['newID']?></strong><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
 
 				                  </tr>
 
@@ -748,7 +791,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitname?></td>
 
-				                  		<td><input type="text" name="txtJobTitleName"></td>
+				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
 
 				                  </tr>
 
@@ -756,7 +799,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitdesc?></td>
 
-				                  		<td><textarea name="txtJobTitleDesc"></textarea></td>
+				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
 
 				                  </tr>
 
@@ -764,7 +807,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitcomments?></td>
 
-				                  		<td><textarea name="txtJobTitleComments"></textarea></td>
+				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?=isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
 
 				                  </tr>
 
@@ -772,23 +815,25 @@ function editFormData() {
 
 				                  		<td><?=$pgrade?></td>
 
-				                  		<td><select name="cmbPayGrade">
+				                  		<td><select name="cmbPayGrade" id="cmbPayGrade">
 
 				               				<option value='0'>---Select---</option>
 
 				               			<? $paygrade = $this->popArr['paygrade'];
 
-				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) 
+				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) {?>
 
-				               					echo "<option value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
+				               					<option <?=(isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?=$paygrade[$c][0]?>"><?=$paygrade[$c][1]?></option>
+											
+										<?	} ?>
 
-				               			?>	
+				               				
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode"><?=$addpaygrade?></a><br>
+				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onclick="preserveData();"><?=$addpaygrade?></a><br>
 
-				                  		<a href="javascript:editForeign(document.frmJobTitle.cmbPayGrade.value);"><?=$editpaygrade?></a></td>
+				                  		<a href="javascript:editForeign(document.frmJobTitle.cmbPayGrade.value);" onclick="preserveData();"><?=$editpaygrade?></a></td>
 
 				                  </tr>
 
@@ -831,9 +876,6 @@ function editFormData() {
 <? } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
 
 	
-
-	$editArr = $this->popArr['editArr']; 
-
 ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
@@ -888,11 +930,11 @@ function editFormData() {
 
 				                  </tr>
 
-				                  <tr><input type="hidden" name="txtJobTitleID" value="<?=$editArr[0][0]?>">
+				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?=$editArr[0][0]?>">
 
 				                  		<td><?=$jobtitname?></td>
 
-				                  		<td><input type="text" disabled name="txtJobTitleName" value="<?=$editArr[0][1]?>"></td>
+				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
 
 				                  </tr>
 
@@ -900,7 +942,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitdesc?></td>
 
-				                  		<td><textarea disabled name="txtJobTitleDesc"><?=$editArr[0][2]?></textarea></td>
+				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
 
 				                  </tr>
 
@@ -908,7 +950,7 @@ function editFormData() {
 
 				                  		<td><?=$jobtitcomments?></td>
 
-				                  		<td><textarea disabled name="txtJobTitleComments"><?=$editArr[0][3]?></textarea></td>
+				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?=isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
 
 				                  </tr>
 
@@ -920,7 +962,7 @@ function editFormData() {
 
 				                  			<tr><td width="100">
 
-				                  		<select disabled name="cmbPayGrade">
+				                  		<select disabled name="cmbPayGrade" id="cmbPayGrade">
 
 				               				<option value='0'>---Select---</option>
 
@@ -928,7 +970,7 @@ function editFormData() {
 
 				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) 
 
-				               					if($paygrade[$c][0] == $editArr[0][4])
+				               					if ((isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) || ((!isset($cookie['cmbPayGrade'])) && ($paygrade[$c][0] == $editArr[0][4])))
 
 					               					echo "<option selected value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
 
@@ -940,9 +982,9 @@ function editFormData() {
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode"><?=$addpaygrade?></a><br>
+				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onclick="preserveData();"><?=$addpaygrade?></a><br>
 
-				                  		<a href="javascript:editPayGrade(document.frmJobTitle.cmbPayGrade.value);"><?=$editpaygrade?></a></td>
+				                  		<a href="javascript:editPayGrade(document.frmJobTitle.cmbPayGrade.value);" onclick="preserveData();"><?=$editpaygrade?></a></td>
 
 				                  		</tr></table></td>
 
