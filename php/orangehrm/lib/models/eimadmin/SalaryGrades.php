@@ -316,7 +316,7 @@ class SalaryGrades {
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
+	return $message2;
 	}
 
 	

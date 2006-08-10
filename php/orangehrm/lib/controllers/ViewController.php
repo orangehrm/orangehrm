@@ -1556,7 +1556,7 @@ class ViewController {
 
 				case 'CUR'  :		$currency = new CurrencyTypes();
 									$currency = $object;
-									$res = $currency -> addCurrencyTypes();
+									$res = $currency -> addCurrencyTypes();									
 									break;
 
 				case 'DWT'  :		$dwinfo = new DwellingType();
@@ -1767,7 +1767,11 @@ class ViewController {
 				switch($index) {
 					
 					case 'SGR' :
-								header("Location: ./CentralController.php?uniqcode=SGR&id=$id&capturemode=updatemode");
+								$backtype = isset($_POST['backtype']) ? $_POST['backtype'] : '';
+								$refcapturemode = isset($_POST['refcapturemode']) ? $_POST['refcapturemode'] : '';
+								$refid = isset($_POST['refid']) ? $_POST['refid'] : '';
+																
+								header("Location: ./CentralController.php?uniqcode=SGR&id=$id&capturemode=updatemode&backtype=$backtype&refcapturemode=$refcapturemode&refid=$refid");
 								break;
 								
 					case 'RTM' :
@@ -2097,6 +2101,10 @@ class ViewController {
 				switch ($index) {
 
 					case 'CST' : break;
+					
+					case 'SGR' : $showMsg = "UPDATE_SUCCESS";
+					
+								 header("Location:".$_POST['referer']."&message=$showmessage");
 					
 					case 'EST' :
 					case 'CUR' : 
