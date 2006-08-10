@@ -44,7 +44,7 @@
 			  </tr>
 			  <tr>
 			  <td><?=$joindate?></td>
-				<td><input type="text" readonly name="txtJoinedDate" value=<?=(isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
+				<td><input type="text" readonly name="txtJoinedDate" value=<?=(isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
 			  </tr>
 			  </table>
 
@@ -125,7 +125,7 @@
 			  </tr>
 			  <tr>
 			  <td><?=$joindate?></td>
-				<td><input type="text" readonly name="txtJoinedDate" value=<?=(isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:$edit1[0][5]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
+				<td><input type="text" readonly name="txtJoinedDate" value=<?=(isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:$edit1[0][5]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
 		
 				
 			  </tr>

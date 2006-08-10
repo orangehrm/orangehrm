@@ -102,7 +102,7 @@
 					<td><input type="text" name="txtSINNo" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>"></td>
 					<td width="50">&nbsp;</td>
 				<td><?=$dateofbirth?></td>
-				<td><input type="text" readonly name="DOB" value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
+				<td nowrap><input type="text" readonly name="DOB" value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
 				</tr>
 				<tr>
 				<td><?=$otherid?></td>
@@ -149,7 +149,7 @@
 				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtLicenNo" value="<?=(isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>"></td>
 				<td>&nbsp;</td>
 				<td><?=$licexpdate?></td>
-				<td><input type="text" name="txtLicExpDate" readonly value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
+				<td nowrap><input type="text" name="txtLicExpDate" readonly value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
 				</tr> 
 				<tr>
 				<td><?=$militaryservice?></td>

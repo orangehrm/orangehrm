@@ -186,14 +186,14 @@ if(isset($this->popArr['editWrkExpArr'])) {
     				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?=$edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
+						<td> <input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?=$edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td> <input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
 					  <tr>
 						<td><?=$briefdes?></td>
@@ -221,15 +221,15 @@ if(isset($this->popArr['editWrkExpArr'])) {
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpEmployer" <?=$locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
-					<td><?=$startdate?></td>
-						<td> <input type="text" name="txtEmpExpFromDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
+					<td nowrap><?=$startdate?></td>
+						<td nowrap> <input type="text" name="txtEmpExpFromDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
 						<td> <input type="text" name="txtEmpExpJobTitle" <?=$locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
-						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td nowrap><?=$enddate?></td>
+						<td nowrap><input type="text" name="txtEmpExpToDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
     				  <td width="50">&nbsp;</td>
     				   </tr>
 					  <tr>

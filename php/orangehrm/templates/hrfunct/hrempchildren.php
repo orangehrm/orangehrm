@@ -66,7 +66,7 @@ function editChildren() {
                 </tr>
                 <tr>
                 <td><?=$dateofbirth?></td>
-				<td><input type="text" readonly name="ChiDOB">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.ChiDOB);return false;"></td>
+				<td><input type="text" readonly name="ChiDOB">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.ChiDOB);return false;"></td>
             </tr>
               				
 				  <td>
@@ -120,7 +120,7 @@ function editChildren() {
                </tr>
               <tr>
                 <td><?=$dateofbirth?></td>
-                <td><input type="text" name="ChiDOB" readonly value=<?=$edit[0][3]?>>&nbsp;<input type="button" <?=$locRights['edit'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.ChiDOB);return false;"></td>
+                <td><input type="text" name="ChiDOB" readonly value=<?=$edit[0][3]?>>&nbsp;<input type="button" <?=$locRights['edit'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.ChiDOB);return false;"></td>
                </tr>
               			  
 				  <td>

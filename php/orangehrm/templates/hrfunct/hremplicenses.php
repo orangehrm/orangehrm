@@ -142,10 +142,10 @@ if(isset($this->getArr['LIC'])) {
 					</tr>
 					<tr>
                       	<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpLicDat"  <?=isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+						<td> <input type="text" readonly name="txtEmpLicDat"  <?=isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				<tr>
 						<td><?=$enddate?></td>
-						<td><input type="text" readonly name="txtEmpreDat" <?=isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?=isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+						<td><input type="text" readonly name="txtEmpreDat" <?=isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?=isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
@@ -178,11 +178,11 @@ if(isset($this->getArr['LIC'])) {
 					</tr>
                     <tr>
                     <td><?=$startdate?></td>
-						<td> <input type="text" name="txtEmpLicDat" readonly value="<?=isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+						<td> <input type="text" name="txtEmpLicDat" readonly value="<?=isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				  </tr>
     				  <tr>
                        <td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpreDat"  readonly value="<?=isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+						<td> <input type="text" name="txtEmpreDat"  readonly value="<?=isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					  
 					  <tr>

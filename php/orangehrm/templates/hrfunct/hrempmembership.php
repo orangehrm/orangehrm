@@ -214,12 +214,12 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?=$edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?=$edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?=$edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?=$edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
 
@@ -287,12 +287,12 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 

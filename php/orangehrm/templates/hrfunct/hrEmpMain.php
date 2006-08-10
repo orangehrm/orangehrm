@@ -65,7 +65,7 @@ function assEmpStat($value) {
 		
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$empstatlist,0,'frmEmp','cmbType');
+	$response = $xajaxFiller->cmbFiller($objResponse,$empstatlist,0,'frmEmp','cmbType',3);
 	$response->addAssign('status','innerHTML','');
 		
 return $response->getXML();
