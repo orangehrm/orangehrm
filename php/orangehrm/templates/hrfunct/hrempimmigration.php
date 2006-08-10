@@ -64,11 +64,11 @@ function editPassport() {
 <?
 		if(!isset($this->getArr['PPSEQ'])) {
 ?>
-          <tr>
+          <tr nowrap>
               <input type="hidden" name="txtPPSeqNo" value="<?=$this->popArr['newPPID']?>">
-			  <td><?=$passport?> <input type="radio" <?=$locRights['add'] ? '':'disabled'?> checked name="PPType" value="1"></td><td><?=$visa?><input type="radio" <?=$locRights['add'] ? '':'disabled'?> name="PPType" value="2"></td>
+			  <td><?=$passport?>&nbsp;&nbsp;<input type="radio" <?=$locRights['add'] ? '':'disabled'?> checked name="PPType" value="1">&nbsp;&nbsp;<?=$visa?>&nbsp;&nbsp;<input type="radio" <?=$locRights['add'] ? '':'disabled'?> name="PPType" value="2"></td>
 			  <td width="50">&nbsp;</td>
-		  	  <td><?=$citizenship?></td>
+		  	  <td><?=$citizenship?>&nbsp;&nbsp;</td>
                 <td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbPPCountry">
                 		<option value="0"><?=$selectcountry?></option>
 <?				$list = $this->popArr['ppcntlist'];
@@ -77,23 +77,23 @@ function editPassport() {
 ?>			 
 				</td> 
 		    </tr>
-              <tr>
-                <td><?=$passvisano?></td>
+              <tr nowrap>
+                <td><?=$passvisano?>&nbsp;&nbsp;</td>
                 <td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtPPNo"></td>
                 <td width="50">&nbsp;</td>
-                <td><?=$issueddate?></td>
+                <td><?=$issueddate?>&nbsp;&nbsp;</td>
                 <td><input type="text" readonly name="txtPPIssDat">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
               </tr>
-              <tr>
+              <tr nowrap>
                 <td><?=$i9status?></td>
                 <td><input name="txtI9status" <?=$locRights['add'] ? '':'disabled'?> type="text">
                 <td width="50">&nbsp;</td>
                 <td><?=$dateofexp?></td>
                 <td><input type="text" readonly name="txtPPExpDat">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPExpDat);return false;"></td>
               </tr>
-              <tr>
+              <tr nowrap>
                <td><?=$i9reviewdate?></td>
-                <td><input type="text" readonly name="txtI9ReviewDat">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtI9ReviewDat);return false;"></td>
+                <td nowrap><input type="text" readonly name="txtI9ReviewDat">&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtI9ReviewDat);return false;"></td>
 				<td width="50">&nbsp;</td>
 				<td><?=$comments?></td>
 				<td><textarea <?=$locRights['add'] ? '':'disabled'?> name="txtComments"></textarea></td>
