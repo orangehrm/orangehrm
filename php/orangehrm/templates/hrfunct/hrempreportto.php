@@ -155,7 +155,7 @@ function viewSup(sup,rep) {
 }
 </script>
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-        <input type="hidden" name="reporttoSTAT" value="">
+        <input type="hidden" name="reporttoSTAT" value="">		
 <?	if(isset($this->getArr['editIDSup'])) {	?>
      <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['editIDSup']?>">
      <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['id']?>">
@@ -292,7 +292,7 @@ function viewSup(sup,rep) {
 
   <tr>
 
-    <td width='100%'><h3><?=$supervisorinfomation?></h3></td>
+    <td width='100%'><h3><?=$supervisorinfomation?></h3>i.e. Current Employee's Supervisors</td>
      <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
@@ -347,7 +347,7 @@ $empname = $this ->popArr['empname'];
 
   <tr>
 
-    <td width='100%'><h3><?=$subordinateinfomation?></h3></td>
+    <td width='100%'><h3><?=$subordinateinfomation?></h3>i.e. Current Employees Subordinate's</td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
