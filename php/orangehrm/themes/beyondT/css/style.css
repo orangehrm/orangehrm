@@ -583,3 +583,7 @@ textarea {
 .cmb {
 	width: 130px;
 }
+
+#notice {
+	padding-left: 10px;
+}

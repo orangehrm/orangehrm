@@ -213,10 +213,10 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					    <td><strong><?=$this->popArr['newID']?></strong></td> 
 					  </tr>
 					  <tr> 
-					    <td><?=$description?></td>
+					    <td><span class="error">*</span> <?=$description?></td>
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
-						  <td><?=$country?></td>
+						  <td><span class="error">*</span> <?=$country?></td>
 						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
 					<?
@@ -240,11 +240,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  <td><input type="text" name="cmbDistrict" ></td>
 					  </tr>
 					  <tr>
-						  <td><?=$address?></td>
+						  <td><span class="error">*</span> <?=$address?></td>
 						  <td><textarea name="txtAddress"></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><?=$ZIP?></td>
+						  <td><span class="error">*</span> <?=$ZIP?></td>
 						  <td><input type="text" name="txtZIP"></td>
 					  </tr>
 					  <tr>
@@ -277,6 +277,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 </form> 
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -460,12 +461,12 @@ function mover() {
 						   	<td><strong><?=$message[0][0]?></strong></td>
 						  </tr>
 						  <tr>
-						    <td><?=$description?></td>
+						    <td><span class="error">*</span> <?=$description?></td>
 						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?=$message[0][1]?></textarea>
 						    </td>
 						  </tr>
 				  <tr>
-						  <td><?=$country?></td>
+						  <td><span class="error">*</span> <?=$country?></td>
 						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
 					<?
@@ -506,11 +507,11 @@ function mover() {
 						  <td><input type="text" disabled name="cmbDistrict" value="<?=$message[0][4]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$address?></td>
+						  <td><span class="error">*</span> <?=$address?></td>
 						  <td><textarea disabled name="txtAddress"><?=$message[0][5]?></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><?=$ZIP?></td>
+						  <td><span class="error">*</span> <?=$ZIP?></td>
 						  <td><input disabled type="text" name="txtZIP" value="<?=$message[0][6]?>"></td>
 					  </tr>
 					  <tr>
@@ -549,6 +550,7 @@ function mover() {
 
 </form> 
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } ?>

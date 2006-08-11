@@ -729,7 +729,7 @@ function promptUseCookieValues() {
 
 </head>
 
-<body onload="<?=(isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?=isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
+<body onLoad="<?=(isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?=isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
 
 
@@ -789,7 +789,7 @@ function promptUseCookieValues() {
 
 				                  <tr>
 
-				                  		<td><?=$jobtitname?></td>
+				                  		<td><span class="error">*</span><?=$jobtitname?></td>
 
 				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
 
@@ -797,7 +797,7 @@ function promptUseCookieValues() {
 
 				                  <tr>
 
-				                  		<td><?=$jobtitdesc?></td>
+				                  		<td><span class="error">*</span><?=$jobtitdesc?></td>
 
 				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
 
@@ -831,9 +831,9 @@ function promptUseCookieValues() {
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onclick="preserveData();"><?=$addpaygrade?></a><br>
+				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onClick="preserveData();"><?=$addpaygrade?></a><br>
 
-				                  		<a href="javascript:editForeign(document.frmJobTitle.cmbPayGrade.value);" onclick="preserveData();"><?=$editpaygrade?></a></td>
+				                  		<a href="javascript:editForeign(document.frmJobTitle.cmbPayGrade.value);" onClick="preserveData();"><?=$editpaygrade?></a></td>
 
 				                  </tr>
 
@@ -866,7 +866,7 @@ function promptUseCookieValues() {
 
 
 </form>
-
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 
 </html>
@@ -932,7 +932,7 @@ function promptUseCookieValues() {
 
 				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?=$editArr[0][0]?>">
 
-				                  		<td><?=$jobtitname?></td>
+				                  		<td><span class="error">*</span> <?=$jobtitname?></td>
 
 				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
 
@@ -940,7 +940,7 @@ function promptUseCookieValues() {
 
 				                  <tr>
 
-				                  		<td><?=$jobtitdesc?></td>
+				                  		<td><span class="error">*</span> <?=$jobtitdesc?></td>
 
 				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
 
@@ -982,9 +982,9 @@ function promptUseCookieValues() {
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onclick="preserveData();"><?=$addpaygrade?></a><br>
+				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onClick="preserveData();"><?=$addpaygrade?></a><br>
 
-				                  		<a href="javascript:editPayGrade(document.frmJobTitle.cmbPayGrade.value);" onclick="preserveData();"><?=$editpaygrade?></a></td>
+				                  		<a href="javascript:editPayGrade(document.frmJobTitle.cmbPayGrade.value);" onClick="preserveData();"><?=$editpaygrade?></a></td>
 
 				                  		</tr></table></td>
 
@@ -1139,7 +1139,7 @@ function promptUseCookieValues() {
               </table>
 
 </form>
-
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 
 </html>

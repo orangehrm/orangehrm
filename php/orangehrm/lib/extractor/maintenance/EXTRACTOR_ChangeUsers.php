@@ -37,9 +37,7 @@ class EXTRACTOR_ChangeUsers{
 		 		$this->chusers -> setUserPassword(''); 
 		 	
 		 	$this->chusers -> setUserFirstName(trim($postArr['txtUserFirstName'])); 
-		 	$this->chusers -> setUserLastName(trim($postArr['txtUserLastName'])); 
-		 	
-		 	
+		 			 	
 			return $this->chusers;	
 	}
 	

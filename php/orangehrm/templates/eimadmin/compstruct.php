@@ -87,7 +87,7 @@
 
 		$xajaxFiller = new xajaxElementFiller();
 
-		$objResponse = $xajaxFiller->cmbFiller($objResponse,$getLoc,0,'frmAddNode','cmbLocation');
+		$objResponse = $xajaxFiller->cmbFiller($objResponse,$getLoc,0,'frmAddNode','cmbLocation',3);
 
 		$objResponse->addScript("document.getElementById('layerFormLoc').style.visibility='hidden';");
 
@@ -321,7 +321,7 @@
 
 					
 
-					<LABEL id="lblSubDivision" for="txtTitle"><?=$name?></LABEL>
+					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?=$name?></LABEL>
 
 				</td>
 
@@ -337,7 +337,7 @@
 
 				<td valign="top">		
 
-					<LABEL id="lblType" for="cmbType"><?=$type?></LABEL>
+					<LABEL id="lblType" for="cmbType"><span class="error">*</span> <?=$type?></LABEL>
 
 				</td>
 
@@ -361,7 +361,7 @@
 
 				<td valign="top">		
 
-					<LABEL id="lblLocation" for="cmbLocation"><?=$location?></LABEL>
+					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?=$location?></LABEL>
 
 				</td>				
 
@@ -420,7 +420,7 @@
 
 	</form>	
 
-	
+	<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 
 	<!-- Add Location  -->
 
@@ -438,13 +438,13 @@
 
 			  <tr> 
 
-				    <td><?=$name?></td>
+				    <td><span class="error">*</span> <?=$name?></td>
 
 				    <td> <input name="txtLocDescription" id="txtLocDescription"></td>
 
 			  <tr>
 
-  				  	<td><?=$country?></td>
+  				  	<td><span class="error">*</span> <?=$country?></td>
 
 					<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 
 
@@ -482,7 +482,7 @@
 
 				<tr>
 
-					  <td><?=$address?></td>
+					  <td><span class="error">*</span> <?=$address?></td>
 
 					  <td><textarea name="txtAddress"></textarea></td>
 
@@ -490,7 +490,7 @@
 
 				<tr>
 
-					  <td><?=$zip_code?></td>
+					  <td><span class="error">*</span> <?=$zip_code?></td>
 
 					  <td><input type="text" name="txtZIP"></td>
 

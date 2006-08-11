@@ -12,3 +12,4 @@
 48584 July 27, 2006, 8:18 am NO database found
 30692 July 27, 2006, 8:18 am NO database found
 62051 July 27, 2006, 8:21 am NO database found
+SELECT ETHNIC_RACE_CODE, ETHNIC_RACE_DESC  FROM hs_hr_ethnic_race ORDER BY ETHNIC_RACE_CODE ASC LIMIT 0,5

@@ -93,7 +93,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 							    <td><strong><?=$this->popArr['newID'] ?></strong></td>
 							  </tr>
 						  <tr> 
-						    <td>Description</td>
+						    <td valign="top" nowrap><span class="error">*</span> Description</td>
 						    <td> <textarea name='txtUserGroupName' rows="3" tabindex='3' cols="30"></textarea>
 						    </td>
 						  </tr>
@@ -119,6 +119,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
  
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this ->getArr['capturemode'])) && ($this ->getArr['capturemode'] == 'updatemode')) {
@@ -237,7 +238,7 @@ function edit()
      <td> <input type="hidden" name="txtUserGroupID" value=<?=$message[0][0]?> ><strong><?=$message[0][0]?></strong> </td>
   </tr>
 							  <tr> 
-							    <td><strong>Description</td>
+							    <td valign="top" nowrap><span class="error">*</span> <strong>Description</td>
 							  	  <td> <textarea name='txtUserGroupName' rows="3" tabindex='3' disabled cols="30"><?=$message[0][1]?></textarea>
 							    </td>
 							  </tr>
@@ -271,5 +272,6 @@ function edit()
  
 </form>
 </body>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </html>
 <? } ?>

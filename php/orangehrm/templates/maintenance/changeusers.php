@@ -141,46 +141,14 @@ function chkboxCheck() {
      	 }	
      	 	 	
 	 	 document.frmchange.txtUserFirstName.disabled = false;
-	 	 document.frmchange.txtUserLastName.disabled = false;
 	 	 document.frmchange.txtUserName.disabled = false;
+		 document.getElementById("checkChange").disabled = false;
      	
 	     document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
 		 document.Edit.title="Save";
     	
      }			
 }
-/*
-function chkboxCheck() {
-		if(document.Edit.title=='Save') {
-			chkPassword();
-     		return; 
-		}
-		
-     	var frm=document.frmchange;
-		//  alert(frm.elements.length);
-		for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
-		document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-		document.Edit.title="Save";
-		
-}
-		
-/*
-function addUpdateWithOutChange() {
-	if(document.frmchange.txtUserName.value=='') {
-		alert("Enter Your Username");
-		document.frmchange.txtUserName.focus();
-		return;
-	}
-	if(!alpha(document.frmchange.txtUserFirstName)) {
-			alert("Field should be Alphabetic!")
-			document.frmchange.txtUserFirstName.focus();
-			return;
-			
-	}
-	
-	document.frmchange.submit();
-}  */
 
 function addUpdate() {
 	if(document.frmchange.txtUserName.value=='') {
@@ -227,13 +195,13 @@ function addUpdate() {
 	
 	var frm=document.frmchange;
 		if (document.frmchange.checkChange.checked == true && document.frmchange.txtUserName.value.length < 5 ) {
-			alert ("UserName should be atleast five char. long!");
+			alert ("UserName should be at least five char. long!");
 			document.frmchange.txtUserName.focus();
 			return false;
 		}
 		
 		if(document.frmchange.checkChange.checked == true && document.frmchange.txtNewPassword.value.length < 4) {
-			alert("Password should be atleast four char. long!");
+			alert("Password should be at least four char. long!");
 			document.frmchange.txtNewPassword.focus();
 			return;
 		}
@@ -241,6 +209,23 @@ function addUpdate() {
 		
 		document.frmchange.sqlState.value = "UpdateRecord";
 		document.frmchange.submit();	
+}
+
+function prepCPW() {
+
+	if (document.getElementById("checkChange").checked) {
+		
+		document.getElementById("txtOldPassword").disabled = false;
+		document.getElementById("txtNewPassword").disabled = false;
+		document.getElementById("txtConfirmPassword").disabled = false;
+		
+	} else {
+	
+		document.getElementById("txtOldPassword").disabled = true;
+		document.getElementById("txtNewPassword").disabled = true;
+		document.getElementById("txtConfirmPassword").disabled = true;
+		
+	}
 }
 
 		
@@ -266,7 +251,7 @@ function addUpdate() {
 <form name="frmchange" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&mtcode=<?=$this->getArr['mtcode']?>">
 
   <tr> 
-    <td height="27" valign='top'> <p>  <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -281,7 +266,7 @@ function addUpdate() {
 		}		
 		?>
     </font> </td>
-  </tr><td width="177">
+  </tr>
 </table>
 
               <table border="0" cellpadding="0" cellspacing="0">
@@ -296,47 +281,42 @@ function addUpdate() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
 							    <td>Code</td>
-							    <td> <input type="hidden"  name="txtUserID" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
+							    <td><input type="hidden"  name="txtUserID" value="<?=$message[0][0]?>"><strong><?=$message[0][0]?></strong> </td>
+						  </tr>
+						  <tr> 
+							    <td>User Name</td>
+							    <td><b><?=$message[0][1]?></b><input type="hidden" name="txtUserName" value="<?=$message[0][1]?>"></td>
 						  </tr>
 						  <tr>
 							    <td>First Name</td>
 							    <td><input type="text" name="txtUserFirstName"  disabled value="<?=$message[0][2]?>"></td>
-						  </tr>
+						  </tr>						  
 						  <tr>
-							    <td>Last Name</td>
-							    <td><input type="text" name="txtUserLastName" disabled value="<?=$message[0][3]?>"></td>
-						  </tr>
-						  
-						  <tr> 
-							    <td>User Name</td>
-							    <td><input type="text" name="txtUserName" disabled  value="<?=$message[0][1]?>"></td>
-						  </tr>
-						  <tr>
-						  		<td><input type="checkbox" name="checkChange" ></td>
+						  		<td><input type="checkbox" name="checkChange" id="checkChange" onChange="prepCPW();" disabled></td>
 							   <td><strong>Change the Password</strong></td>
 								 <?	//<td><input type="button" name="chbutton" onclick="chkboxCheck()" value="Change the Password"></td> ?>								
 						  </tr>
 						  <tr>
 							    <td>Old Password</td>
-							    <td><input type="password" disabled name="txtOldPassword" ></td>></td> ></td>
+							    <td><input type="password" disabled name="txtOldPassword" id="txtOldPassword" ></td>
 						  </tr>
 						
 						  <tr>
 							    <td>New Password</td>
-							    <td><input type="password" disabled name="txtNewPassword" ></td>
+							    <td><input type="password" disabled name="txtNewPassword" id="txtNewPassword"  ></td>
 						  </tr>
 						  <tr>
 							    <td>Confirm Password</td>
-							    <td><input type="password" disabled name="txtConfirmPassword" ></td> 
+							    <td><input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" ></td> 
 						  </tr>
 				
 						
 						 
 					  <tr><td></td><td align="right" width="100%">
 
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="chkboxCheck();"  >
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="chkboxCheck();"  >
 
-					<img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+					<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

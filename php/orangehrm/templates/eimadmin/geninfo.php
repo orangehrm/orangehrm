@@ -188,7 +188,7 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			<tr>
-							    <td><span class="error">*</span><?=$compname?></td>
+							    <td><span class="error">*</span> <?=$compname?></td>
 							    <td><input type="text" disabled name="txtCompanyName" value="<?=isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
 							    <td><?=$taxID?></td>
 							    <td><input type="text" disabled name='txtTaxID'value="<?=isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
@@ -268,7 +268,7 @@ function edit()
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-<center>Fields marked with an asterisk <span class="error">*</span> are required.</center>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </form>
 </body>
 </html>

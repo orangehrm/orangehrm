@@ -123,11 +123,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						    <td><strong><?=$this->popArr['newID']?></strong></td>
 						  </tr>
 							  <tr>
-							    <td><?=$University?> </td>
+							    <td nowrap valign="top"><span class="error">*</span> <?=$University?> </td>
 							    <td> <input type="text" name="txtUni"></td>
 							  </tr>
 							  <tr>
-							     <td><?=$Degree?></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?=$Degree?></td>
 							     <td> <input type="text" name="txtDeg"></td>
 							  </tr>
 		
@@ -147,6 +147,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
               </table>
  
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -322,11 +323,11 @@ function edit()
 							    <td> <input type="hidden" name="txtEducationID" value=<?=$this->getArr['id']?>><strong><?=$this->getArr['id']?></strong></td>
 						  </tr>													
 						  <tr>
-							    <td><?=$University ?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?=$University ?></td>
 							    <td> <input type="text" name="txtUni" disabled value="<?=$message[0][1]?>"></td>
 					      </tr>
 					       <tr>
-							     <td><?=$Degree?></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?=$Degree?></td>
 							     <td> <input type="text" name="txtDeg" disabled value="<?=$message[0][2]?>"></td>
 						   </tr>
 						
@@ -352,6 +353,7 @@ function edit()
               </table>
 
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } ?>

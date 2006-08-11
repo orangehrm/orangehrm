@@ -49,7 +49,7 @@ class MTViewController {
 			case 'CPW' :
 							$use   = new Users();
 							$pass  = $use->filterChangeUsers($_SESSION['user']);
-							if($value == $pass[0][4])
+							if(md5($value) == $pass[0][3])
 								return true;
 							else 
 								return  false;	
@@ -614,8 +614,11 @@ function reDirect($getArr,$object = null) {
 				$showMsg = "Updation%Successful!"; //If $message is 1 setting up the 
 				
 				$mtcode = $index;
-				header("Location:./CentralController.php?message=$showMsg&mtcode=$mtcode&VIEW=MAIN");
-				
+				if ($mtcode == 'CPW') {
+					header("Location:../../");
+				} else {
+					header("Location:./CentralController.php?message=$showMsg&mtcode=$mtcode&VIEW=MAIN");
+				}
 			} else {
 				
 				$showMsg = "Updation%Unsuccessful!";

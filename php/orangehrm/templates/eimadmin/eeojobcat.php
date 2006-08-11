@@ -61,10 +61,15 @@ function goBack() {
 
 	function addSave() {
 		var txt=document.frmeeojobcat.txtEEOJobCatDesc;
-		if (!alpha(txt) && !confirm("Title contains numerals. Do you want to continue?")) {			
+		if ((txt.value != '') && !alpha(txt) && !confirm("Title contains numerals. Do you want to continue?"))
+		{			
 			txt.focus();
 			return;
-			}
+		} else if (txt.value == '') {
+			alert('Title empty!');
+			txt.focus();
+			return;
+		}
 				
 		document.frmeeojobcat.sqlState.value = "NewRecord";
 		document.frmeeojobcat.submit();		
@@ -127,7 +132,7 @@ function goBack() {
 							    <td><strong><?=$this->popArr['newID'] ?></strong></td>
 							  </tr>
 							  <tr valign="top"> 
-							    <td><?=$description?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?=$description?></td>
 							    <td> <textarea name='txtEEOJobCatDesc' rows="3" tabindex='3' cols="30"></textarea></td>
 							  </tr>
 							  
@@ -147,6 +152,7 @@ function goBack() {
               </table>
 </form>
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -241,10 +247,15 @@ function edit()
 
 	function addUpdate() {
 		var txt=document.frmeeojobcat.txtEEOJobCatDesc;
-		if (!alpha(txt) && !confirm("Title contains numerals. Do you want to continue?")) {			
+		if ((txt.value != '') && !alpha(txt) && !confirm("Title contains numerals. Do you want to continue?")) 
+		{			
 			txt.focus();
 			return;
-			}
+		} else if (txt.value == '') {
+			alert('Title empty!');
+			txt.focus();
+			return;
+		}
 						
 		document.frmeeojobcat.sqlState.value = "UpdateRecord";
 		document.frmeeojobcat.submit();		
@@ -307,7 +318,7 @@ function edit()
 							    <td> <input type="hidden" name="txtEEOJobCatId" value=<?=$message[0][0]?> ><strong><?=$message[0][0]?></strong> </td>
 							  </tr>
 							  <tr> 
-							    <td><?=$description?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?=$description?></td>
 							  	<td> <textarea name='txtEEOJobCatDesc' disabled rows="3" tabindex='3' cols="30"><?=$message[0][1]?></textarea></td>
 							  </tr>
 							  
@@ -333,6 +344,7 @@ function edit()
               </table>
 </form>
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } ?>

@@ -566,7 +566,7 @@ function filterNotEqualRecordSet($filID) {
 								
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
+			
 			return $SQL1; //returning the SQL1 which has the SQL Query
 			
 					

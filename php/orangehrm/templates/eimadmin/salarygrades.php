@@ -122,6 +122,8 @@ $objAjax->registerFunction('editExt');
 $objAjax->registerFunction('delExt');
 $objAjax->processRequests();
 
+	$_SERVER['HTTP_REFERER'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI'];
+	
 	$idens = split('uniqcode=', isset($_POST['referer']) ? $_POST['referer'] : $_SERVER['HTTP_REFERER']);
 	
 	$idens = split('&', $idens[1]);	
@@ -208,9 +210,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
-		<input type="hidden" name="refcapturemode" value="<?=$refcapturemode?>">
-		<input type="hidden" name="refid" value="<?=$refid?>">
-		<input type="hidden" name="backtype" value="<?=$backtype?>">
+		<input type="hidden" name="refcapturemode" value="<?=isset($refcapturemode)? $refcapturemode : ''?>">
+		<input type="hidden" name="refid" value="<?=isset($refid) ? $refid : ''?>">
+		<input type="hidden" name="backtype" value="<?=isset($backtype) ? $backtype : 0?>">
 		<input type="hidden" name="referer" value="<?=$_SERVER['HTTP_REFERER']?>">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -243,7 +245,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						    <td><strong><?=$this->popArr['newID']?></strong></td>
 						  </tr>
 						  <tr> 
-						    <td><?=$description?></td>
+						    <td nowrap><span class="error">*</span> <?=$description?></td>
 						    <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' cols="30"></textarea>
 						    </td>
 						  </tr>
@@ -262,6 +264,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 </tr>
               </table>
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -601,7 +604,7 @@ function delCurrency() {
 							    <td>&nbsp;</td>
 							  </tr>
 							  <tr> 
-							    <td><?=$description?></td>
+							    <td><span class="error">*</span> <?=$description?></td>
 							  	  <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' disabled cols="30"><?=$message[0][1]?></textarea>
 							    </td>
 							  </tr>
@@ -632,7 +635,7 @@ function delCurrency() {
 					  <td>
 					  		<table border="0">
 			                  <tr>
-									<td><?=$currency?></td>
+									<td><span class="error">*</span> <?=$currency?></td>
 									<td><select <?=($locRights['add']) ? '' : 'disabled'?> name="cmbUnAssCurrency">
 											<option value="0">---Select <?=$currency?>---</option>
 			               			<? $unAssCurrency = $this->popArr['unAssCurrency'];
@@ -644,15 +647,15 @@ function delCurrency() {
 							</tr>
 							
 							<tr>
-								<td><?=$minSal?></td>
+								<td><span class="error">*</span> <?=$minSal?></td>
 								<td><input type="text" <?=($locRights['add']) ? '' : 'disabled'?> name="txtMinSal"></td>
 							</tr>
 							<tr>
-								<td><?=$maxSal?></td>
+								<td><span class="error">*</span> <?=$maxSal?></td>
 								<td><input type="text" <?=($locRights['add']) ? '' : 'disabled'?> name="txtMaxSal"></td>
 							</tr>
 							<tr>
-								<td><?=$stepSal?></td>
+								<td><span class="error">*</span> <?=$stepSal?></td>
 								<td><input type="text" <?=($locRights['add']) ? '' : 'disabled'?> name="txtStepSal"></td>
 							</tr>
 			<tr>
@@ -674,7 +677,7 @@ function delCurrency() {
 					  <td>
 					  		<table border="0">
 			                  <tr>
-									<td><?=$currency?></td> <input type="hidden" name="cmbUnAssCurrency" value="<?=$editAssCurrency[0][1]?>">
+									<td><span class="error">*</span> <?=$currency?></td> <input type="hidden" name="cmbUnAssCurrency" value="<?=$editAssCurrency[0][1]?>">
 									<td><strong>
 			               			<? $assCurrency = $this->popArr['assCurrency'];
 			               				for($c=0;$assCurrency && count($assCurrency)>$c;$c++) 
@@ -684,15 +687,15 @@ function delCurrency() {
 									</strong></td>
 							</tr>
 							<tr>
-								<td><?=$minSal?></td>
+								<td><span class="error">*</span> <?=$minSal?></td>
 								<td><input type="text" disabled name="txtMinSal" value="<?=$editAssCurrency[0][2]?>"></td>
 							</tr>
 							<tr>
-								<td><?=$maxSal?></td>
+								<td><span class="error">*</span> <?=$maxSal?></td>
 								<td><input type="text" disabled name="txtMaxSal" value="<?=$editAssCurrency[0][3]?>"></td>
 							</tr>
 							<tr>
-								<td><?=$stepSal?></td>
+								<td><span class="error">*</span> <?=$stepSal?></td>
 								<td><input type="text" disabled name="txtStepSal" value="<?=$editAssCurrency[0][4]?>"></td>
 							</tr>
 			<tr>
@@ -763,5 +766,6 @@ function delCurrency() {
               </table>
 </form>
 </body>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </html>
 <? } ?>

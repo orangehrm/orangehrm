@@ -324,12 +324,12 @@ class Users {
 		 if($this->getUserID() == $_SESSION['user'] && ($this->getUserStatus() != 'Enabled')) {
 			return false;
 		} 
-
+		 
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
 		if($this->getUserPassword() != '')
-		 $arrFieldList[3] = "'" . $this->getUserPassword() . "'"; 
+		 $arrFieldList[3] = "'" . md5($this->getUserPassword()) . "'"; 
 /////						
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
@@ -341,9 +341,11 @@ class Users {
 		$this->sql_builder->flg_update = 'true';
 		$this->sql_builder->arr_update = $arrRecordsList;	
 		$this->sql_builder->arr_updateRecList = $arrFieldList;	
-	
-		$sqlQString = $this->sql_builder->addUpdateRecord1();
 		
+		$this->sql_builder->flg_update = true;
+		
+		$sqlQString = $this->sql_builder->addUpdateRecord1();
+		//echo $sqlQString;
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		return $message2;
