@@ -86,5 +86,10 @@
     	}    
 	return notNum;     
 	}
+	
+	function clearAll() {
+		//need to work
+		document.forms[0].reset('');
+	}
 
 </script>

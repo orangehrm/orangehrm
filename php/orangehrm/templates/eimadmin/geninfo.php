@@ -128,6 +128,7 @@ function edit()
 	
 	function clearAll() {
 		//need to work
+		document.forms[0].reset('');
 	}
 	
 	function validate() {

@@ -82,7 +82,7 @@ function getUnAssMemberships($mtype) {
 	
 	$response = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($response,$unAssMembership,0,'frmEmp','cmbMemCode',0);
+	$response = $xajaxFiller->cmbFiller($response,$unAssMembership,0,'frmEmp','cmbMemCode',3);
 	$response->addAssign('status','innerHTML','');
 	
 return $response->getXML();
