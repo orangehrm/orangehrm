@@ -1157,7 +1157,7 @@ INSERT INTO `hs_hr_province` VALUES (7, 'Colorado', 'CO', 'US');
 INSERT INTO `hs_hr_province` VALUES (8, 'Connecticut', 'CT', 'US');
 INSERT INTO `hs_hr_province` VALUES (9, 'Delaware', 'DE', 'US');
 INSERT INTO `hs_hr_province` VALUES (10, 'District of Columbia', 'DC', 'US');
-INSERT INTO `hs_hr_province` VALUES (11, 'Federated hs_hr_province of Micronesia', 'FM', 'US');
+INSERT INTO `hs_hr_province` VALUES (11, 'Federated States of Micronesia', 'FM', 'US');
 INSERT INTO `hs_hr_province` VALUES (12, 'Florida', 'FL', 'US');
 INSERT INTO `hs_hr_province` VALUES (13, 'Georgia', 'GA', 'US');
 INSERT INTO `hs_hr_province` VALUES (14, 'Guam', 'GU', 'US');
