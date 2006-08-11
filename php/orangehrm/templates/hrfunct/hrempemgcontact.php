@@ -66,21 +66,21 @@ function editEContact() {
 ?>
             <input type="hidden" name="txtECSeqNo" value="<?=$this->popArr['newECID']?>">
 			 <tr>
-			 <td><?=$name?></td>
+			 <td><?=$name?>&nbsp;&nbsp;</td>
 			  <td><input name="txtEConName" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			 <td width="50">&nbsp;</td>
-			<td><?=$relationship?></td>
+			<td><?=$relationship?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConRel" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			 </tr>
 			 <tr>
-			 <td><?=$hmtele?></td>
+			 <td><?=$hmtele?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConHmTel" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			 <td width="50">&nbsp;</td>
-			 <td><?=$mobile?></td>
+			 <td><?=$mobile?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConMobile" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			 </tr>
 			 <tr>
-			 <td><?=$worktele?></td>
+			 <td><?=$worktele?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConWorkTel" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			  </tr>
 				  <td>
