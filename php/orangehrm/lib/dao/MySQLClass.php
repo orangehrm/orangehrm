@@ -22,6 +22,7 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 class MySQLClass {
 
 	var $myHost; // server name
+	var $myHostPort;
 	var $userName; //db user
 	var $userPassword; // db user password
 	var $db_name; // database name
@@ -32,6 +33,7 @@ class MySQLClass {
 /* Class Constructor for MySQLClass*/	
 	function MySQLClass($conf) {
 		$this->myHost 		= $conf ->dbhost; //reference for the Host
+		$this->myHostPort	= $conf ->dbport; 
 		$this->userName 	= $conf ->dbuser; //reference for the Username
 		$this->userPassword = $conf ->dbpass; //reference for the Password
 		$this->db_name 		= $conf ->dbname; //reference for the DatabaseName
@@ -48,7 +50,7 @@ class MySQLClass {
 			
 		//$this -> conn = mysql_connect($this->myHost, $this->userName, $this->userPassword);
 	  	
-	  	if (!$this -> conn = mysql_connect($this->myHost, $this->userName, $this->userPassword)) {
+	  	if (!@$this -> conn = mysql_connect($this->myHost .':'.$this->myHostPort, $this->userName, $this->userPassword)) {
 	  		
 	  		$exception_handler = new ExceptionHandler();
 	  	 	$exception_handler->dbexNoConnection();
