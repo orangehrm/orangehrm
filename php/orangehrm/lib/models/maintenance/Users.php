@@ -320,18 +320,19 @@ class Users {
 	}
 	
 	function updateChangeUsers() {
-
-		 if($this->getUserID() == $_SESSION['user'] && ($this->getUserStatus() != 'Enabled')) {
+		//echo $this->getUserID(). $_SESSION['user'];
+		 if($this->getUserID() !== $_SESSION['user']) {
 			return false;
 		} 
-		 
+		 //echo 'hi';
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
 		if($this->getUserPassword() != '')
 		 $arrFieldList[3] = "'" . md5($this->getUserPassword()) . "'"; 
 /////						
-	    $arrRecordsList[0] = 'id';
+	   
+		$arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
 		$arrRecordsList[2] = 'first_name';
 		if($this->getUserPassword() != '')
