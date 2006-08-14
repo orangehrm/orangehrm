@@ -237,11 +237,11 @@ function prepCPW() {
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 </head>
-<body>
+<body style="padding-left:10px;">
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Change Username & Password </h2></td>
+    <td width='100%'><h2>Login Details</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -254,18 +254,27 @@ function prepCPW() {
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+    <td width="254" align='left' valign='bottom'>
+	<?
 		if (isset($this->getArr['msg'])) {
+		
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
-			}
+			$msgWord = join(' ', $expString);
+			
+			$length = count($expString);		
+			
+			$col_def=$expString[$length-1];
+			
+			$col_def = (isset($col_def) && ($col_def === 'Successful!')) ? 'SUCCESS' : 'FAILURE';
+			
+			$expString=$this->getArr['msg'];
+	?>
+			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?=$msgWord?>
+			</font>
+	<?
 		}		
-		?>
-    </font> </td>
+		?></td>
   </tr>
 </table>
 
@@ -293,8 +302,7 @@ function prepCPW() {
 						  </tr>						  
 						  <tr>
 						  		<td><input type="checkbox" name="checkChange" id="checkChange" onChange="prepCPW();" disabled></td>
-							   <td><strong>Change the Password</strong></td>
-								 <?	//<td><input type="button" name="chbutton" onclick="chkboxCheck()" value="Change the Password"></td> ?>								
+							   <td><strong>Change the Password</strong></td>							
 						  </tr>
 						  <tr>
 							    <td>Old Password</td>
