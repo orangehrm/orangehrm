@@ -17,10 +17,17 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA  02110-1301, USA
 */
 
+define('ROOT_PATH', dirname(__FILE__));
+
+if(!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
+	header('Location: ./install.php');
+	exit ();
+}
+
 session_start();
 if(!isset($_SESSION['fname'])) { 
 
-	header("Location: ./relogin.htm");
+	header("Location: ./login.htm");
 	exit();
 }
 
@@ -28,7 +35,6 @@ define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
 
-define('ROOT_PATH', dirname(__FILE__));
 $arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';

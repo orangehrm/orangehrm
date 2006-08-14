@@ -1,4 +1,40 @@
 <?php
+
+function sockComm($postArr) {
+
+	$host = 'orangehrm.com';
+	$method = 'POST';
+	$path = '/registration/register.php';
+	$data = "userName=" . $postArr['userName'] 
+			. "&userEmail=" . $postArr['userEmail'] 
+			. "&userComments=" . $postArr['userComments'] 
+			. "&updates=" . isset($postArr['chkUpdates']) ? '1' : '0';
+	
+	    $fp = fsockopen($host, 80);
+	    
+	    fputs($fp, "POST $path HTTP/1.1\r\n");
+	    fputs($fp, "Host: $host\r\n");
+	    fputs($fp,"Content-type: application/x-www-form-urlencoded\r\n");
+	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
+	    fputs($fp, "User-Agent: MSIE\r\n");
+	    fputs($fp, "Connection: close\r\n\r\n");
+	    fputs($fp, $data);
+	    
+	    $resp = '';
+	    while (!feof($fp)) {
+	        $resp .= fgets($fp,128);
+	    }
+	        
+	    fclose($fp);
+	    
+	    if(strpos($resp, 'SUCCESSFUL') === false)
+	    	return false;
+	    else 
+	    	return true;
+}
+
+
+
 if(!isset($_SESSION['SID']))
 	session_start();
 	
@@ -64,7 +100,7 @@ if(isset($_POST['actionResponse']))
 									break;
 								}
 								
-								mysql_create_db($_SESSION['dbInfo']['dbName']);
+								mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
 								if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 									$error = 'Unable to create Database!';
 									break;
@@ -198,6 +234,14 @@ CONFCONT;
     	
     						$_SESSION['CONFDONE'] = 'OK';
 								break;
+								
+		case 'REGINFO' :	$reqAccept = sockComm($_POST);
+							
+							break;
+
+		case 'LOGIN'   :	session_destroy();
+							header("Location: ./login.php");
+							break;
 	}
 
 if(isset($_SESSION['QQQQQ'])) {

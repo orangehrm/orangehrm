@@ -7,7 +7,7 @@ function welcomeSubmit() {
 
 <table cellspacing="0" cellpadding="0" border="0" align="center" class="shell">
     <tr>
-      <th width="400">Welcome to the OrangeCRM ver 1.2 Setup Wizard</th>
+      <th width="400">Welcome to the OrangeHRM ver 1.2 Setup Wizard</th>
 
       <th width="200" height="30" style="text-align: right;"><a href="http://www.orangehrm.com" target=
       "_blank">OrangeHRM.com</a></th>

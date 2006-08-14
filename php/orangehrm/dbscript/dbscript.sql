@@ -650,76 +650,76 @@ alter table hs_hr_emp_contract_extend
 
 
 alter table hs_hr_db_version
-       add constraint foreign key (`entered_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (entered_by) 
+       						references hs_hr_users (id) on delete cascade;
 
 alter table hs_hr_db_version
-       add constraint foreign key (`modified_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (modified_by) 
+       						references hs_hr_users (id) on delete cascade;
 
 alter table hs_hr_file_version
-       add constraint foreign key (`altered_module`)
-							references `hs_hr_module` (`mod_id`) on delete cascade;
+       add constraint foreign key (altered_module)
+							references hs_hr_module (mod_id) on delete cascade;
        
 alter table hs_hr_file_version
-       add constraint foreign key (`entered_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (entered_by) 
+       						references hs_hr_users (id) on delete cascade;
        						
 alter table hs_hr_file_version
-       add constraint foreign key (`modified_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (modified_by) 
+       						references hs_hr_users (id) on delete cascade;
 
 alter table hs_hr_module
-       add constraint foreign key (`version`) 
-       						references `hs_hr_versions` (`id`) on delete cascade;
+       add constraint foreign key (version) 
+       						references hs_hr_versions (id) on delete cascade;
 
 alter table hs_hr_rights
-       add constraint foreign key (`mod_id`) 
-       						references `hs_hr_module` (`mod_id`) on delete cascade;
+       add constraint foreign key (mod_id) 
+       						references hs_hr_module (mod_id) on delete cascade;
        						
 alter table hs_hr_rights
-       add constraint foreign key (`userg_id`) 
-       						references `hs_hr_user_group` (`userg_id`) on delete cascade;
+       add constraint foreign key (userg_id) 
+       						references hs_hr_user_group (userg_id) on delete cascade;
 
 alter table hs_hr_users
-       add constraint foreign key (`modified_user_id`)
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (modified_user_id)
+       						references hs_hr_users (id) on delete cascade;
        						
 alter table hs_hr_users
-       add constraint foreign key (`created_by`)
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (created_by)
+       						references hs_hr_users (id) on delete cascade;
        
 alter table hs_hr_users
-       add constraint foreign key (`userg_id`) 
-       						references `hs_hr_user_group` (`userg_id`) on delete cascade;
+       add constraint foreign key (userg_id) 
+       						references hs_hr_user_group (userg_id) on delete cascade;
        						
 alter table hs_hr_users
-       add constraint foreign key (`emp_number`) 
-       						references `hs_hr_employee` (`emp_number`) on delete cascade;
+       add constraint foreign key (emp_number) 
+       						references hs_hr_employee (emp_number) on delete cascade;
        						
 alter table hs_hr_versions
-       add constraint foreign key (`modified_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (modified_by) 
+       						references hs_hr_users (id) on delete cascade;
        						
 alter table hs_hr_versions
-       add constraint foreign key (`created_by`) 
-       						references `hs_hr_users` (`id`) on delete cascade;
+       add constraint foreign key (created_by) 
+       						references hs_hr_users (id) on delete cascade;
        						
 alter table hs_hr_versions
-       add constraint foreign key (`db_version`) 
-       						references `hs_hr_db_version` (`id`) on delete cascade;
+       add constraint foreign key (db_version) 
+       						references hs_hr_db_version (id) on delete cascade;
        						
 alter table hs_hr_versions
-       add constraint foreign key (`file_version`) 
-       						references `hs_hr_file_version` (`id`) on delete cascade;
+       add constraint foreign key (file_version) 
+       						references hs_hr_file_version (id) on delete cascade;
 
 alter table hs_hr_emprep_usergroup
-       add constraint foreign key (`userg_id`) 
-       						references `hs_hr_user_group` (`userg_id`) on delete cascade;
+       add constraint foreign key (userg_id) 
+       						references hs_hr_user_group (userg_id) on delete cascade;
 
 alter table hs_hr_emprep_usergroup
-       add constraint foreign key (`rep_code`) 
-       						references `hs_hr_empreport` (`rep_code`) on delete cascade;
+       add constraint foreign key (rep_code) 
+       						references hs_hr_empreport (rep_code) on delete cascade;
 
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
@@ -1220,9 +1220,9 @@ INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
 				
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
-INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00','USR001',null);
-INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00','USR001',null,'file_ver_01');
-INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00','USR001',null,0,'DVR001','FVR001','version 1.0');
+INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
+INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,'file_ver_01');
+INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,0,'DVR001','FVR001','version 1.0');
 INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),('MOD003','Maintenance','Koshika','koshika@beyondm.net','VER001','Application Maintenance'),('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES ('USG001', 'MOD001', '1', '1', '1', '1'), ('USG001', 'MOD002', '1', '1', '1', '1'),('USG001', 'MOD003', '1', '1', '1', '1'), ('USG001', 'MOD004', '1', '1', '1', '1');
