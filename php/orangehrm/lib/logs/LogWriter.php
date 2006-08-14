@@ -24,7 +24,7 @@ class LogWriter {
 		
 		$this->exception_string = $exceptionString;
 		$somecontent = $this->exception_string;
-		$filename = $_SESSION['path'].'/lib/logs/logDB.txt';
+		$filename = dirname(__FILE__).'/logDB.txt';
 		
 	    if (!$handle = fopen($filename, 'a+')) {
 	    }

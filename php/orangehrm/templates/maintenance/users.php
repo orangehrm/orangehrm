@@ -414,9 +414,11 @@ function edit()
 		if (obj.checked) {
 			document.getElementById("lyrUserGroupID").style.visibility = 'visible';
 			document.getElementById("lyrUserGroupID1").style.visibility = 'visible';
+			document.getElementById("lyrEmpID").style.visibility = 'hidden';
 		} else {
 			document.getElementById("lyrUserGroupID").style.visibility = 'hidden';
 			document.getElementById("lyrUserGroupID1").style.visibility = 'hidden';
+			document.getElementById("lyrEmpID").style.visibility = 'visible';
 		}
 	}
 </script>
@@ -437,7 +439,7 @@ function edit()
 <form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
 
   <tr> 
-    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+    <td height="27" valign='top'> <p>
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -473,10 +475,10 @@ function edit()
 								<td></td>
 						  </tr>
 						  <tr> 
-							    <td>User Name</td>
+							    <td valign="top" nowrap><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName" disabled value="<?=$message[0][1]?>"></td>
 								<td></td>
-								<td>Name</td>
+								<td valign="top" nowrap><span class="error">*</span> Name</td>
 							  	<td><input type="text" name="txtUserFirstName" disabled value="<?=$message[0][2]?>"></td>
 						  </tr>						  
 						  <tr>
@@ -486,7 +488,7 @@ function edit()
 							   			<option <?=$message[0][9]=='Disabled' ? 'selected' : ''?>>Disabled</option>
 							   	</select></td>
 							  <td></td>
-							  <td>Employee ID</td>
+							  <td valign="top" nowrap><div id="lyrEmpID"><span class="error">*</span></div> Employee ID</td>
 							  <td><select name="cmbUserEmpID" disabled>
 							  		<option value="0">--Select EmpID--</option>
 <?									$emplist=$this->popArr['emplist'] ; 
@@ -504,7 +506,7 @@ function edit()
 							   <td>Is HR Admin</td>
 							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][4]=='Yes' ? 'checked' : ''?> onChange="toggleAdmin(this);"></td>
 							   <td></td>
-							   <td><div id="lyrUserGroupID" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>">User Group</div></td>
+							   <td valign="top" nowrap><div id="lyrUserGroupID" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>"><span class="error">*</span> User Group</div></td>
 							   <td><div id="lyrUserGroupID1" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>"><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
@@ -539,6 +541,7 @@ function edit()
 
 
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } ?>
