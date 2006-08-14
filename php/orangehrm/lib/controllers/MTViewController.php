@@ -615,9 +615,9 @@ function reDirect($getArr,$object = null) {
 				
 				$mtcode = $index;
 				if ($mtcode == 'CPW') {
-					header("Location:../../");
+					header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&mtcode=$mtcode");
 				} else {
-					header("Location:./CentralController.php?message=$showMsg&mtcode=$mtcode&VIEW=MAIN");
+					header("Location: ./CentralController.php?message=$showMsg&mtcode=$mtcode&VIEW=MAIN");
 				}
 			} else {
 				
