@@ -27,7 +27,7 @@ if(!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 session_start();
 if(!isset($_SESSION['fname'])) { 
 
-	header("Location: ./login.htm");
+	header("Location: ./login.php");
 	exit();
 }
 
