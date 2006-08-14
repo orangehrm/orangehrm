@@ -4,7 +4,7 @@ function sockComm($postArr) {
 
 	$host = 'orangehrm.com';
 	$method = 'POST';
-	$path = '/registration/register.php';
+	$path = '/registration/registerAcceptor.php';
 	$data = "userName=" . $postArr['userName'] 
 			. "&userEmail=" . $postArr['userEmail'] 
 			. "&userComments=" . $postArr['userComments'] 

@@ -8,12 +8,6 @@ function login() {
 
 function regInfo() {
 	
-	if(!document.frmInstall.chkRegister.checked) {
-		document.frmInstall.actionResponse.value  = 'LOGIN';
-		document.frmInstall.submit();
-		return;
-	}
-
 	frm = document.frmInstall;
 	if(frm.userName.value == '') {
 		alert('Please fill the Name Field');
@@ -22,7 +16,7 @@ function regInfo() {
 	}
 	
 	if(frm.txtEmail.value == '') {
-		alert('Email Fiel Empty!');
+		alert('Email Field Empty!');
 		frm.txtEmail.focus();
 		return;
 	}
@@ -56,8 +50,8 @@ document.frmInstall.submit();
 <? } ?>
 <table width="100%" cellpadding="0" cellpadding="0" border="0">
 <tr>
-	<td>Do you want to register</td>
-	<td><input type="checkbox" name="chkRegister" value="1"></td>
+	<td height="25"></td>
+	<td></td>
 </tr>
 <tr>
 	<td>Name</td>
@@ -76,9 +70,9 @@ document.frmInstall.submit();
 	<td><input type="checkbox" name="chkUpdates" value="1"></td>
 </tr>
 <tr>
-	<td></td>
 <? if(!isset($reqAccept)) { ?>
-	<td><input type="button" value="OK" onclick="regInfo()"></td>
+	<td><input type="button" value="Register" onclick="regInfo()"></td>
+	<td><input type="button" value="No thanks!" onclick="login()"></td>
 <? } elseif($reqAccept) { ?>
 	<td><input type="button" value="Login to OrangeHRM" onclick="login()"></td>
 <? } else { ?>

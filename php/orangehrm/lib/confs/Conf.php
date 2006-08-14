@@ -12,7 +12,7 @@ class Conf {
 		
 	$this->dbhost	= 'localhost';
 	$this->dbport 	= '3306';
-	$this->dbname	= 'hr_mysql';
+	$this->dbname	= 'root';
 	$this->dbuser	= 'orangehrm';
 	$this->dbpass	= 'orangehrm';
 	$this->smtphost = 'mail.beyondm.net';
