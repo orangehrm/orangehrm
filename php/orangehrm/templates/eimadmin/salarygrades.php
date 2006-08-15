@@ -365,7 +365,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function addEXT() {
 		
 		if(document.frmSalCurDet.cmbUnAssCurrency.value=='0') {
-			alert("Field should be selected");
+			alert("Currency field should be selected");
 			document.frmSalCurDet.cmbUnAssCurrency.focus();
 			return;
 		}
