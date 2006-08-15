@@ -969,7 +969,7 @@ switch ($moduletype) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['mtcode'],$parsedObject);
 												break;
-										} elseif (isset($_POST['sqlState']) && ($_POST['sqlState']=='UpdateRecord') && ($locRights['edit'] || ($_GET['mtcode']=='BUG'))) {
+										} elseif (isset($_POST['sqlState']) && ($_POST['sqlState']=='UpdateRecord') && ($locRights['edit'] || ($_GET['mtcode']=='BUG') || ($_GET['mtcode']=='CPW'))) {
 												$parsedObject = $extractor->parseEditData($_POST);
 												$view_controller->updateData($_GET['mtcode'],$_GET['id'],$parsedObject);
 												break;

@@ -613,7 +613,8 @@ function reDirect($getArr,$object = null) {
 				
 				$showMsg = "Updation%Successful!"; //If $message is 1 setting up the 
 				
-				$mtcode = $index;
+				$mtcode = $index;				
+				
 				if ($mtcode == 'CPW') {
 					header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&mtcode=$mtcode");
 				} else {
@@ -624,7 +625,12 @@ function reDirect($getArr,$object = null) {
 				$showMsg = "Updation%Unsuccessful!";
 				
 				$mtcode = $index;
-				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&mtcode=$mtcode");
+				
+				if ($mtcode == 'CPW') {
+					header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&mtcode=$mtcode");
+				} else {
+					header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&mtcode=$mtcode");
+				}
 			}
 			
 	}
