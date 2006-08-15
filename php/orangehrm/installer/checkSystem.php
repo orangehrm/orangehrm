@@ -108,8 +108,7 @@ function sysCheckPassed() {
                if(function_exists('mysql_connect')) {
                   
                   if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0') {
-	                  echo "<b><font color='red'>ver 4.1.x or later required (reported ver " .$mysqlClient. ')</font></b>';
-	                  $error_found = true;
+	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
                   } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";

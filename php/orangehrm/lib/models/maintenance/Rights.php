@@ -121,7 +121,7 @@ class Rights {
 		$arrFieldList[4] = "'". $this->getRightDelete() . "'";
 		$arrFieldList[5] = "'". $this->getRightView() . "'";
 		
-		if($this->getUserGroupID() == 'USG001')
+		if($this->getUserGroupID() == $_SESSION['userGroup'])
 			return false;
 			
 		$arrRecordsList[0] = 'USERG_ID';

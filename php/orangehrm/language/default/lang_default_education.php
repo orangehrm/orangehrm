@@ -1,8 +1,8 @@
 <?
 $heading		= 'Qualification : Education';
 $Code			= 'Code';
-$University		= 'University';
-$Degree			= 'Education';
+$University		= 'Institute';
+$Degree			= 'Course';
 
 $ADD_FAILURE = 'Failed to Add';
 ?>

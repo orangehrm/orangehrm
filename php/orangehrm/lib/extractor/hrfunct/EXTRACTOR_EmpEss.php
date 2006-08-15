@@ -136,7 +136,6 @@ class EXTRACTOR_EmpEss{
 			
 			$this->cmbEmpTitle		    =	(trim($postArr['cmbEmpTitle']));
 			$this->txtEmpCallName		=	(trim($postArr['txtEmpCallName']));
-			$this->txtEmpCallName		=	(trim($postArr['txtEmpCallName']));
 			$this->txtEmpSurname		=	(trim($postArr['txtEmpSurname']));
 			$this->txtEmpMaidenName		=	(trim($postArr['txtEmpMaidenName']));
 			$this->txtEmpInitials		=	(trim($postArr['txtEmpInitials']));

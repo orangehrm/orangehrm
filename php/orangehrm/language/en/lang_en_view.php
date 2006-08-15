@@ -240,7 +240,7 @@ switch ($_GET['uniqcode']) {
 			
 		case 'EDU' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name', 'Institute');
-			$headings= array('Education ID','Education', 'Institute');
+			$headings= array('Education ID','Course', 'Institute');
 			$headingInfo = array ('Education ID','Education',1,'Qualification : Education','Deletion might affect Education');
 			break; 
 

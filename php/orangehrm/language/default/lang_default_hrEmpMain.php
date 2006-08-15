@@ -79,7 +79,7 @@ $employeelanguageflu 	= 'Employee Language Fluency';
  $middlename			= 'Middle Name';
  $language				= 'Language';
  $fluency				= 'Area Of Competence';
- $ratinggarde			= 'Fluency';
+ $ratinggarde			= 'Competency';
  $assignlanguage		= 'Assigned Languages';
  
  $lantype = array ( 'Writing'=> 1 , 'Speaking'=>2 , 'Reading'=>3 );
@@ -168,9 +168,9 @@ $employeelanguageflu 	= 'Employee Language Fluency';
 
  //education
  $education 			= 'Education';
- $major 				= 'Major';
+ $major 				= 'Major/Specialization';
  $year					= 'Year';
- $gpa					= 'GPA';
+ $gpa					= 'GPA/Score';
  $assigneducation		= 'Assigned Education';
  
  //attachments

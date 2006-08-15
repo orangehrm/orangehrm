@@ -48,7 +48,7 @@ function editAttach() {
 <?		if(!isset($this->getArr['ATTACH'])) { ?>
           <tr>
 				<td><?=$path?></td>
-				<td><input type="file" name="ufile" ></td>
+				<td><input type="file" name="ufile"></td>
               </tr>
               <tr>
               	<td><?=$description?></td>
