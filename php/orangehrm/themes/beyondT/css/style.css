@@ -587,3 +587,7 @@ textarea {
 #notice {
 	padding-left: 10px;
 }
+
+.button1 {
+	border:none;
+}

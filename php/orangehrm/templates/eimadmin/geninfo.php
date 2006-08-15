@@ -70,33 +70,40 @@ $objAjax->processRequests();
 <? include(ROOT_PATH.'/scripts/archive.js'); ?>
 <script>
 
-
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	var Edit = document.getElementById("btnEdit");
+	
+	if(Edit.title=='Save') 
+		Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	var Edit = document.getElementById("btnEdit");
+	
+	if(Edit.title=='Save') 
+		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 	
 function edit()
 {
-	if(document.Edit.title=='Save') {
+	var Edit = document.getElementById("btnEdit");
+	
+	if(Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
 	
 	var frm=document.frmGenInfo;
-	for (var i=0; i < frm.elements.length; i++)
+	for (var i=0; i < frm.elements.length; i++) {		
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-	document.Edit.title="Save";
+	}
+	document.getElementById("btnClear").disabled = false;
+	Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	Edit.title="Save";
 }
 
 	function addUpdate() {
@@ -135,7 +142,13 @@ function edit()
 		
 	return 'return false;';
 	}
-				
+	
+	function MM_preloadImages() { //v3.0
+  		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    	var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+	}	
+		
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -251,11 +264,11 @@ function edit()
 							  </tr>
 							  <tr><td></td><td></td><td></td><td align="right">
 <?			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
 <?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>'); return false;">
 <?			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll(); return false;" />
 							</td> </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
