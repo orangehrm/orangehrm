@@ -300,7 +300,11 @@ function updateEmpMain() {
 	document.getElementById("cmbProvince").value=document.getElementById("txtState").value;
 	document.frmEmp.sqlState.value = "UpdateRecord";
 	document.frmEmp.submit();		
-}			
+}	
+
+function hideLoad() {
+	document.getElementById("status").innerHTML = '';		
+}
 
 <? if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
 		function reLoad() {
@@ -485,7 +489,7 @@ function resetAdd(panel) {
 -->
 </style>
 
-<body>
+<body onLoad="hideLoad();">
 <?
  if (!isset($this->getArr['pane'])) {
  	$this->getArr['pane'] = 1;
@@ -499,7 +503,7 @@ function resetAdd(panel) {
     <td valign='top'>&nbsp; </td>
     <td width='100%'><h2 align="center"><?=$employeeinformation?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div align="right" id="status"></div></b></td>
+    <b><div align="right" id="status"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
   </tr>
 </table>
 
