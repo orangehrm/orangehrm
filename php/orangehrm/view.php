@@ -89,8 +89,10 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 
 	function returnAdd() {
 <?
+		$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
+		
 		switch($headingInfo[2]) {
-			case 1 : echo "location.href = './CentralController.php?uniqcode=".$this->getArr['uniqcode']."&capturemode=addmode'";
+			case 1 : echo "location.href = './CentralController.php?uniqcode=".$this->getArr['uniqcode']."&capturemode=addmode".$esp."'";
 					 break;
 			case 2 : echo "var popup=window.open('../../genpop.php?uniqcode=".$this->getArr['uniqcode']."','Employees','modal=yes,height=450,width=600');";
         			 echo "if(!popup.opener) popup.opener=self;";
@@ -177,7 +179,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 <body>
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$this->getArr['sortField']?>&sortOrder<?=$this->getArr['sortField']?>=<?=$this->getArr['sortOrder'.$this->getArr['sortField']]?>">
+<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$this->getArr['sortField']?>&sortOrder<?=$this->getArr['sortField']?>=<?=$this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
   </td>
   <td width='100%'><h2> 
       <?=$headingInfo[3]?>
@@ -360,7 +362,7 @@ else
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
 				?>
-				<td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?=$headings[$j]?></a> <img src="../../themes/beyondT/icons/<?=$this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+				<td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?=$headings[$j]?></a> <img src="../../themes/beyondT/icons/<?=$this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 				<? } ?>	                    
       		<td class="listViewThS1"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
       		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
@@ -384,7 +386,7 @@ else
 		 		<? 	} else { ?>
        		<td class="<?=$cssClass?>" width="50"></td>
 		 		<? 	}  ?>
-		 		<td class="<?=$cssClass?>" width="250"><a href="./CentralController.php?id=<?=$message[$j][0]?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?=$message[$j][0]?></a>
+		 		<td class="<?=$cssClass?>" width="250"><a href="./CentralController.php?id=<?=$message[$j][0]?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode<?=$esp?>" class="listViewTdLinkS1"><?=$message[$j][0]?></a>
 		 		<?php
 		 				for ($k=1; $k < count($headings); $k++) { 
 		  	 

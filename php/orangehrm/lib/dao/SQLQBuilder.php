@@ -123,7 +123,7 @@ class SQLQBuilder {
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 	
-	function passResultSetMessage($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC') {
+	function passResultSetMessage($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC', $schArr = false) {
 	
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 						
@@ -148,8 +148,18 @@ class SQLQBuilder {
 				if($schField!=-1)
 				{
                 	$SQL1 = $SQL1 . ' WHERE ';
-                
-                    $SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+					
+					if ($schArr) {
+						for ($i = 0; $i < count($schField) ; $i++) { 
+						 if($schField[$i]!=-1) {              
+                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim($schStr[$i]) .'%\' AND ';
+						 }
+						}
+						$SQL1 = substr($SQL1,0,-1-4);
+					} else {
+						$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+					}	
+					
                     
                 }
 				

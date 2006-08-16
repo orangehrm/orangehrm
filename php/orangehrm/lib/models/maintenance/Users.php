@@ -187,18 +187,28 @@ class Users {
 	}
 	
 		
-	function getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder){
+	function getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder, $isAdmin){
 		
 		$arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
+		$arrFieldList[2] = 'is_admin';
 	
 		
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_select = 'true';
 		$this->sql_builder->arr_select = $arrFieldList;
 		
-		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
-			
+		if ($isAdmin) {
+			$isAdmin = 'Yes';
+		} else {
+			$isAdmin = 'No';
+		}
+		
+		$schStr = array($schStr, $isAdmin);
+		$mode = array($mode, 2);
+		
+		$sqlQString =$this->sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder, true);
+				
 		$message2 = $this->dbConnection -> executeQuery($sqlQString);
 		
 		$i=0;

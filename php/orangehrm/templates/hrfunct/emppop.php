@@ -274,14 +274,14 @@ else
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>
+						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
 						  <?php 
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.gif" width="18" height="18" border="0" alt="" style="vertical-align: bottom"></td>                  		
+						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>                  		
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 

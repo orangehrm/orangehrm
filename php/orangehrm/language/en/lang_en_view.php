@@ -381,7 +381,10 @@ switch ($_GET['uniqcode']) {
 	case 'USR' :
 		$srchlist = array( '-Select-' , 'ID' , 'Name' );
 		$headings= array('User ID','User Name');
-		$headingInfo = array ('User ID','User Name',1, 'Users: Users','Deletion could make Orange HRM unusable');
+		
+		$esp = (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes'))? 'HR Admin' : 'ESS';
+		
+		$headingInfo = array ('User ID','User Name',1, 'Users: '.$esp.' Users','Deletion could make Orange HRM unusable');
 		break;
 		
 	case 'USG' :

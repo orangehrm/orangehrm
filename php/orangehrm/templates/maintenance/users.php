@@ -21,7 +21,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-	
+		
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
 ?>
 
@@ -92,7 +92,7 @@ return flag;
 }
 
 function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?=$_GET['isAdmin']?>";
 	}
 
 	function addSave() {
@@ -121,19 +121,14 @@ function goBack() {
 			return;
 		}
 		
-		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserEmpID.value == '0') {
+		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '0') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
+			
 		
-		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserGroupID.value != '0') {
-			alert('Normal User, no User Group should be defined');
-			frm.cmbUserGroupID.focus();
-			return;
-		}
-		
-		if(frm.chkUserIsAdmin.checked == true && frm.cmbUserGroupID.value == '0') {
+		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
 			return;
@@ -167,7 +162,7 @@ function goBack() {
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&isAdmin=<?=$_GET['isAdmin']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
@@ -207,17 +202,17 @@ function goBack() {
 								<td></td>
 						  </tr>
 						  <tr> 
-							    <td>User Name</td>
+							    <td nowrap="nowrap"><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName"></td>
 								<td></td>
-								<td>Name</td>
+								<td nowrap="nowrap"><span class="error">*</span> Name</td>
 							  	<td><input type="text" name="txtUserFirstName"></td>
 						  </tr>
 						  <tr>
-							  <td>Password</td>
+							  <td nowrap="nowrap"><span class="error">*</span> Password</td>
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
-							  <td nowrap="nowrap">Confirm Password</td>
+							  <td nowrap="nowrap"><span class="error">*</span> Confirm Password</td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td> 
 						  </tr>						 
 						  <tr>
@@ -227,7 +222,7 @@ function goBack() {
 						   			<option>Disabled</option>
 						   		  </select></td>
 							  <td></td>
-							  <td>Employee ID</td>
+							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee ID</td>
 							  <td><select name="cmbUserEmpID" >
 							  		<option value="0">--Select EmpID--</option>
 <?									$emplist=$this->popArr['emplist'] ; 
@@ -237,19 +232,23 @@ function goBack() {
 							  
 							  </select></td> 							  
 						   </tr>
-						   <tr>
-							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin" onChange="toggleAdmin(this);"></td>
-							   <td></td>							   
-							   <td><div id="lyrUserGroupID" style="visibility:hidden">User Group</div></td>
-							   <td><div id="lyrUserGroupID1" style="visibility:hidden"><select name="cmbUserGroupID" id ="cmbUserGroupID">
+						   <? if ($_GET['isAdmin'] == 'Yes') { ?>
+						   <tr>							   							   
+							   <td><span class="error">*</span> User Group</div></td>
+							   <td><select name="cmbUserGroupID" id ="cmbUserGroupID">
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
-							  </select></div></td>
+							  </select></td>
+							   <td>&nbsp;</td>
+							   <td>&nbsp;</td>
+							   <td><input type="hidden" name="chkUserIsAdmin" value="true"></td>							   
 						   </tr>
+						  <? } else { ?>						  
+						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
+						   <? } ?>
 					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
 					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 					  <td></td></tr>
@@ -267,6 +266,7 @@ function goBack() {
 
 
 </form>
+<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
 <? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -340,7 +340,7 @@ return flag;
 
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?=$_GET['isAdmin']?>";
 	}
 
 function mout() {
@@ -386,20 +386,14 @@ function edit()
 			frm.txtUserFirstName.focus();
 			return;
 		}
-
-		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserEmpID.value == '0') {
+		
+		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '0') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
-		
-		if(frm.chkUserIsAdmin.checked == false && frm.cmbUserGroupID.value != '0') {
-			alert('Normal User, no User Group should be defined');
-			frm.cmbUserGroupID.focus();
-			return;
-		}
-		
-		if(frm.chkUserIsAdmin.checked == true && frm.cmbUserGroupID.value == '0') {
+				
+		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
 			return;
@@ -436,10 +430,11 @@ function edit()
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>&isAdmin=<?=$_GET['isAdmin']?>">
 
   <tr> 
     <td height="27" valign='top'> <p>
+		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
@@ -488,7 +483,7 @@ function edit()
 							   			<option <?=$message[0][9]=='Disabled' ? 'selected' : ''?>>Disabled</option>
 							   	</select></td>
 							  <td></td>
-							  <td valign="top" nowrap><div id="lyrEmpID"><span class="error">*</span></div> Employee ID</td>
+							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][4]=='No')? '*' : '' ?></span> Employee ID</td>
 							  <td><select name="cmbUserEmpID" disabled>
 							  		<option value="0">--Select EmpID--</option>
 <?									$emplist=$this->popArr['emplist'] ; 
@@ -498,16 +493,12 @@ function edit()
 										else
 											echo "<option value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
 ?>							  
-							  </select></td> 
-							  <td></td>
-							  <td></td>							  
+							  </select></td>							  							  
 						   </tr>
-						   <tr>
-							   <td>Is HR Admin</td>
-							   <td><input type="checkbox" name="chkUserIsAdmin" disabled <?=$message[0][4]=='Yes' ? 'checked' : ''?> onChange="toggleAdmin(this);"></td>
-							   <td></td>
-							   <td valign="top" nowrap><div id="lyrUserGroupID" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>"><span class="error">*</span> User Group</div></td>
-							   <td><div id="lyrUserGroupID1" style="visibility:<?=$message[0][4]=='Yes' ? 'visible' : 'hidden'?>"><select name="cmbUserGroupID" disabled>
+						<? if ($_GET['isAdmin'] == 'Yes') { ?>
+						   <tr>							   
+							   <td valign="top" nowrap><span class="error">*</span> User Group</td>
+							   <td><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
@@ -516,9 +507,16 @@ function edit()
 										else
 											echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
-							  </select></div></td>
+							  </select></td>
+							  <td>&nbsp;</td>
+							   <td><? if ($message[0][4]=='Yes') { ?>
+							   		<input type="hidden" name="chkUserIsAdmin" value="true">
+								   <? } ?></td>
+							   <td></td>
 						   </tr>
-						   
+						   <? } else { ?>						  
+						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
+						   <? } ?>
 					  <tr><td></td><td align="right" width="100%">
 <?			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">

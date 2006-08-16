@@ -209,14 +209,15 @@ class ViewController {
 		
 		if (!isset($getArr[$sortOrderFld]))
 			$getArr[$sortOrderFld]='ASC';
+		
+		$esp = (isset($getArr['isAdmin']) && ($getArr['isAdmin'] == 'Yes')) ? true : false;
 			
 		switch ($getArr['uniqcode']) {
 
 			case 'CST' :
 			case 'GEN' :
 						$this->reDirect($getArr);
-						break;
-						
+						break;						
 			default:
 						$form_creator = new FormCreator($getArr,$postArr);
 						$form_creator ->formPath ='/view.php'; 
@@ -231,10 +232,10 @@ class ViewController {
 					    {
 							$choice=$postArr['loc_code'];
 						    $strName=trim($postArr['loc_name']);						    
-						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld]);
+						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld], $esp);
 					    } else  {
 							
-							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
+							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld],  $esp);
 					    }	
 				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) 				
 							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
@@ -584,7 +585,7 @@ class ViewController {
 		}
     }
 
-	function selectIndexId($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
+	function selectIndexId($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC', $esp = false) {
 		
 		switch ($this->indexCode) {
 				
@@ -915,7 +916,7 @@ class ViewController {
 		case 'USR' :	
 		
 			$this-> user = new Users();
-			$message = $this->user-> getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder);
+			$message = $this->user-> getListOfUsers($pageNO,$schStr,$mode, $sortField, $sortOrder, $esp);
 			
 			return $message;
 		}
@@ -1164,10 +1165,12 @@ class ViewController {
         }
 	}
 	
-	function getInfo($indexCode,$pageNO,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
+	function getInfo($indexCode,$pageNO,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC', $esp = false) {
 	
 		$this->indexCode = $indexCode;
-		return $this->selectIndexId($pageNO,$schStr,$schField, $sortField, $sortOrder);
+			
+		return $this->selectIndexId($pageNO,$schStr,$schField, $sortField, $sortOrder, $esp);
+		
 	}
 	
 	function getPageName($indexCode) {
@@ -1800,7 +1803,9 @@ class ViewController {
 								
 								$uniqcode = $index;
 								
-								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN");
+								$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
+								
+								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp");
 				}
 				
 			} else {
@@ -2109,12 +2114,15 @@ class ViewController {
 					case 'EST' :
 					case 'CUR' : 
 								if($noRedirect)
-									break;
+									break;					
 					
 					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the 
 	
 								$uniqcode = $index;
-								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN");
+								
+								$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';	
+													
+								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp");
 				}
 				
 			} else {
@@ -2122,7 +2130,11 @@ class ViewController {
 				$showMsg = "UPDATE_FAILURE";
 				
 				$uniqcode = $index;
-				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode");
+				
+				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';	
+				echo mysql_error();
+				
+				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp");
 			}
 	}
 

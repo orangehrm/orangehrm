@@ -646,7 +646,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim">Users</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=Yes">HR Admin Users</A></TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=No">ESS Users</A></TD>
 					 </TR>
 					 <tr>
 						<TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim">User Groups</A></TD>
@@ -669,7 +672,7 @@ function setSize() {
                 <td>
             <td width="78%" valign="top">
 <?			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?=(isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN<?=isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
 <?			} else /* if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt") && $arrRights['view']) {  ?>
