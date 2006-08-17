@@ -108,8 +108,11 @@ if(isset($_POST['actionResponse']))
 									$error = 'Unable to create Database!';
 									break;
 								}								
+								header('Location : install.php');
 								$_SESSION['INSTALLING'] = 1;
+								header('Location : install.php');								
 								break;
+								
 								
 		case 'FILLDATA'	:		if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
 									$error = 'Database Connection Error!';
@@ -136,6 +139,20 @@ if(isset($_POST['actionResponse']))
 									
 								if(isset($error))
 									break;
+								header('Location : install.php');
+								$_SESSION['INSTALLING'] = 2;
+								header('Location : install.php');								
+								break;
+									
+		case 'CREATEUSER'	:		if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
+									$error = 'Database Connection Error!';
+									break;
+								}
+								
+								if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+									$error = 'Unable to create Database!';
+									break;
+								}
 									
 if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
 	
@@ -204,7 +221,9 @@ $query = "INSERT INTO `hs_hr_users` VALUES ('USR001','" .$_SESSION['defUser']['A
 						         break;
 						      }
 								
-								$_SESSION['INSTALLING'] = 2;
+								header('Location : install.php');								
+								$_SESSION['INSTALLING'] = 3;
+								header('Location : install.php');
 								break;
 								
 				case 'WRITECONF' :
@@ -250,9 +269,10 @@ CONFCONT;
 		fwrite($handle, $confContent);
 	 
     	fclose($handle);
-    	
-    						
-							$_SESSION['INSTALLING'] = 3;
+    	    						
+							header('Location : install.php');
+							$_SESSION['INSTALLING'] = 4;
+							header('Location : install.php');							
 							break;
 							
 		case 'REGISTER'  :
@@ -297,7 +317,9 @@ for ($i=0; $i < 2; $i++) {
 	case 3 	: 	unset($_SESSION['DBCONFIG']); break;
 	case 4 	: 	unset($_SESSION['DEFUSER']); break;
 	case 5 	: 	unset($_SESSION['CONFDONE']); break;
-	case 6 	: 	return false; break;
+	case 6 	: 	unset($_SESSION['CONFDONE']);
+				unset($_SESSION['INSTALLING']);
+				break;
 	case 7 	: 	return false; break;
  }
 
@@ -335,7 +357,7 @@ function back() {
 </head>
 <body>
 <div id="body">
-<img src="/themes/beyondT/pictures/orange3.png"  width="264" height="62" alt="OrangeHRM" border="0" style="margin-left: 10px;" title="OrangeHRM" id="logo">
+  <a href="http://www.orangehrm.com"><img src="/themes/beyondT/pictures/orange3.png" alt="OrangeHRM" name="logo"  width="264" height="62" border="0" id="logo" style="margin-left: 10px;" title="OrangeHRM"></a>
 <form name="frmInstall" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
 <input type="hidden" name="txtScreen" value="<?=$currScreen?>">
 <input type="hidden" name="actionResponse">
@@ -381,7 +403,7 @@ switch ($currScreen) {
 ?>
 
 </form>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> Web Installation Wizard ver 0.1 &copy; hSenid Software 2005 - 2006 All rights reserved.</div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Installation Wizard ver 0.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</div>
 </div>
 </body>
 </html>

@@ -15,10 +15,10 @@ function licenseAccept() {
 	
   		<h2>Step 1: License Acceptance</h2>
 		
-		<p>Please read the license and click Accept to continue. </p>
-    	<textarea cols="80" rows="20" readonly><?=$license_file?></textarea><br /><br />
+		<p>Please read the license and click I Accept to continue. </p>
+    	<textarea cols="80" rows="20" readonly tabindex="1"><?=$license_file?></textarea><br /><br />
     
-    	<input class="button" type="button" value="Back" onclick="cancel();">
-		<input type="button" onClick='licenseAccept();' value="I Accept">
+    	<input class="button" type="button" value="Back" onclick="cancel();" tabindex="3">
+		<input type="button" onClick='licenseAccept();' value="I Accept" tabindex="2">
 
 	</div>

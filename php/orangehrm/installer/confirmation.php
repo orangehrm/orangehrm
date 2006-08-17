@@ -12,7 +12,7 @@ function confirm() {
     
         <p>All information required for OrangeHRM installation collected in the earlier
          steps are given below. On confirmation the installer will create the database, 
-         database users, Conf file, etc.</p>
+         database users, configuration file, etc.</p>
          
          <p><font color="Red"><?=isset($error) ? $error : ''?></font></p>
 
@@ -48,7 +48,7 @@ function confirm() {
 		</tr>
 </table>
 		<br />
-		<input class="button" type="button" value="Back" onclick="back();">
-		<input class="button" type="button" value="Cancel Install" onclick="cancel();">
-        <input class="button" type="button" value="Install" onclick="confirm();">
+		<input class="button" type="button" value="Back" onclick="back();" tabindex="3"/>
+		<input class="button" type="button" value="Cancel Install" onclick="cancel();" tabindex="2"/>
+        <input class="button" type="button" value="Install" onclick="confirm();" tabindex="1"/>
   </div>   

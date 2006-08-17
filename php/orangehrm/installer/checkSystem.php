@@ -135,7 +135,7 @@ function sysCheckPassed() {
           </tr>
 		</table>
 		<br />
-        <input class="button" type="button" value="Back" onclick="back();">
-		<input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();">
-		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?= ($error_found) ? 'disabled' : '' ?>>
+        <input class="button" type="button" value="Back" onclick="back();" tabindex="4">
+		<input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();" tabindex="3">
+		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?= ($error_found) ? 'disabled' : '' ?> tabindex="2">
 </div>
