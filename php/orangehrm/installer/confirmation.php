@@ -3,58 +3,52 @@ function confirm() {
 	document.frmInstall.actionResponse.value  = 'CONFIRMED';
 	document.frmInstall.submit();
 }
-
-function cancel() {
-	document.frmInstall.actionResponse.value  = 'CANCEL';
-	document.frmInstall.submit();
-}
 </script>
+<link href="style.css" rel="stylesheet" type="text/css" />
 
-  <table cellspacing="0" align="center">
-    <tr>
-      <th width="400">Step 5: Confirmation</th>
-    </tr>
 
-    <tr>
-      <td colspan="2" width="600">
+  <div id="content">
+	<h2>Step 5: Confirmation</h2>
+    
         <p>All information required for OrangeHRM installation collected in the earlier
          steps are given below. On confirmation the installer will create the database, 
          database users, Conf file, etc.</p>
          
          <p><font color="Red"><?=isset($error) ? $error : ''?></font></p>
 
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-		
+        <table cellpadding="0" cellspacing="0" border="0" class="table">
 		<tr>
-			<td>Host Name</td>
-			<td><?=$_SESSION['dbInfo']['dbHostName']?></td>
+			<th colspan="3" align="left" class="th">Details</th>
 		</tr>
 		<tr>
-			<td>Database Host Port</td>
-			<td><?=$_SESSION['dbInfo']['dbHostPort']?></td>
+			<td class="tdComponent">Host Name</td>
+			<td class="tdValues"><?=$_SESSION['dbInfo']['dbHostName']?></td>
 		</tr>
 		<tr>
-			<td>Database Name</td>
-			<td><?=$_SESSION['dbInfo']['dbName']?></td>
+			<td class="tdComponent">Database Host Port</td>
+			<td class="tdValues"><?=$_SESSION['dbInfo']['dbHostPort']?></td>
 		</tr>
 		<tr>
-			<td>Priviledged Database User-name</td>
-			<td><?=$_SESSION['dbInfo']['dbUserName']?></td>
+			<td class="tdComponent">Database Name</td>
+			<td class="tdValues"><?=$_SESSION['dbInfo']['dbName']?></td>
+		</tr>
+		<tr>
+			<td class="tdComponent">Priviledged Database User-name</td>
+			<td class="tdValues"><?=$_SESSION['dbInfo']['dbUserName']?></td>
 		</tr>
 <? if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) { ?>
 		<tr>
-			<td>OrangeHRM Database User-name</td>
-			<td><?=$_SESSION['dbInfo']['dbOHRMUserName']?></td>
+			<td class="tdComponent">OrangeHRM Database User-name</td>
+			<td class="tdValues"><?=$_SESSION['dbInfo']['dbOHRMUserName']?></td>
 		</tr>
 <? } ?>		
 		<tr>
-			<td>OrangeHRM Admin User Name</td>
-			<td><?=$_SESSION['defUser']['AdminUserName']?></td>
+			<td class="tdComponent">OrangeHRM Admin User Name</td>
+			<td class="tdValues"><?=$_SESSION['defUser']['AdminUserName']?></td>
 		</tr>
-		</table>
-        <table cellspacing="0" cellpadding="0" border="0">
-          <tr>
-            <td><input class="button" type="button" value="Install" onclick="confirm();"></td>
-            <td><input class="button" type="button" value="Cancel Install" onclick="cancel();"></td>
-          </tr>
-        </table>
+</table>
+		<br />
+		<input class="button" type="button" value="Back" onclick="back();">
+		<input class="button" type="button" value="Cancel Install" onclick="cancel();">
+        <input class="button" type="button" value="Install" onclick="confirm();">
+  </div>   

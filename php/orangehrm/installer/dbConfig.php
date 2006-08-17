@@ -3,13 +3,11 @@
 function disableFields() {
 	
 	if(document.frmInstall.chkSameUser.checked) {
-		document.frmInstall.dbOHRMUserName.disabled = false;
-		document.frmInstall.dbOHRMPassword.disabled = false;
-	} else {
 		document.frmInstall.dbOHRMUserName.disabled = true;
-		document.frmInstall.dbOHRMPassword.disabled = true;
-		//document.frmInstall.dbOHRMUserName.value = '';
-		//document.frmInstall.dbOHRMPassword.value = '';
+		document.frmInstall.dbOHRMPassword.disabled = true;			
+	} else {
+		document.frmInstall.dbOHRMUserName.disabled = false;
+		document.frmInstall.dbOHRMPassword.disabled = false;	
 	}
 	
 }
@@ -50,14 +48,13 @@ document.frmInstall.actionResponse.value  = 'DBINFO';
 document.frmInstall.submit();
 }
 </script>
+<link href="style.css" rel="stylesheet" type="text/css" />
 
-<table cellspacing="0" cellpadding="0" border="0" align="center">
-<tr>
-    <th width="400">Step 3: Database Configuration</th>
-</tr>
+<div id="content">
+	<h2>Step 3: Database Configuration</h2>
+
 <? if(isset($dbConnectError)) { ?>
-<tr>
-    <td colspan="2" width="600"><font color="Red">
+	<font color="Red">
 	    <? if($dbConnectError == 'WRONGDBINFO') {
 	    		echo "Wrong DB Information";
 	       } elseif ($dbConnectError == 'WRONGDBVER') {
@@ -67,52 +64,51 @@ document.frmInstall.submit();
 	       } elseif ($dbConnectError == 'DBUSEREXISTS') {
 	       	 	echo "Database User (" . $_SESSION['dbInfo']['dbOHRMUserName'] . ") already exists";
 	       } ?>
-    </font></td>
-</tr>
+    </font>
 <? } ?>
-<tr>
-    <td colspan="2" width="600">	
+
         <p>Please enter your database configuration information below. If you are
         unsure of what to fill in, we suggest that you use the default values.</p>
-    </td>
-</tr>
-<table width="100%" cellpadding="0" cellpadding="0" border="0">
-<tr><th colspan="3" align="left">Database Configuration</td></tr>
+   
+ <table cellpadding="0" cellspacing="0" border="0" class="table">
+	<tr>
+		<th colspan="3" align="left">Database Configuration</td>
+	</tr>
 <tr>
-	<td>Database Host Name</td>
-	<td><input type="text" name="dbHostName" value="<?= isset($_SESSION['dbInfo']['dbHostName']) ? $_SESSION['dbInfo']['dbHostName'] : 'localhost'?>"></td>
-</tr>
-<tr>
-	<td>Database Host Port</td>
-	<td><input type="text" maxlength="4" size="4" name="dbHostPort" value="<?= isset($_SESSION['dbInfo']['dbHostPort']) ? $_SESSION['dbInfo']['dbHostPort'] : '3306'?>"></td>
+	<td class="tdComponent_n">Database Host Name</td>
+	<td class="tdValues_n"><input type="text" name="dbHostName" value="<?= isset($_SESSION['dbInfo']['dbHostName']) ? $_SESSION['dbInfo']['dbHostName'] : 'localhost'?>"></td>
 </tr>
 <tr>
-	<td>Database Name</td>
-	<td><input type="text" name="dbName" value="<?= isset($_SESSION['dbInfo']['dbName']) ? $_SESSION['dbInfo']['dbName'] : 'hr_mysql'?>"></td>
+	<td class="tdComponent_n">Database Host Port</td>
+	<td class="tdValues_n"><input type="text" maxlength="4" size="4" name="dbHostPort" value="<?= isset($_SESSION['dbInfo']['dbHostPort']) ? $_SESSION['dbInfo']['dbHostPort'] : '3306'?>"></td>
 </tr>
 <tr>
-	<td>Priviledged Database User-name</td>
-	<td><input type="text" name="dbUserName" value="<?= isset($_SESSION['dbInfo']['dbUserName']) ? $_SESSION['dbInfo']['dbUserName'] : 'root'?>"></td>
+	<td class="tdComponent_n">Database Name</td>
+	<td class="tdValues_n"><input type="text" name="dbName" value="<?= isset($_SESSION['dbInfo']['dbName']) ? $_SESSION['dbInfo']['dbName'] : 'hr_mysql'?>"></td>
 </tr>
 <tr>
-	<td>Priviledged Database User-Password</td>
-	<td><input type="password" name="dbPassword" value="<?= isset($_SESSION['dbInfo']['dbPassword']) ? $_SESSION['dbInfo']['dbPassword'] : ''?>"></td>
+	<td class="tdComponent_n">Priviledged Database User-name</td>
+	<td class="tdValues_n"><input type="text" name="dbUserName" value="<?= isset($_SESSION['dbInfo']['dbUserName']) ? $_SESSION['dbInfo']['dbUserName'] : 'root'?>"></td>
 </tr>
 <tr>
-	<td>Use the same Database User for OrangeHRM</td>
-	<td><input type="checkbox" onclick="disableFields()" <?=isset($_POST['chkSameUser']) ? 'checked' : '' ?> name="chkSameUser" value="1"></td>
+	<td class="tdComponent_n">Priviledged Database User-Password</td>
+	<td class="tdValues_n"><input type="password" name="dbPassword" value="<?= isset($_SESSION['dbInfo']['dbPassword']) ? $_SESSION['dbInfo']['dbPassword'] : ''?>"></td>
 </tr>
 <tr>
-	<td>OrangeHRM Database User-name</td>
-	<td><input type="text" name="dbOHRMUserName" <?=isset($_POST['chkSameUser']) ? '' : 'disabled' ?> value="<?= isset($_SESSION['dbInfo']['dbOHRMUserName']) ? $_SESSION['dbInfo']['dbOHRMUserName'] : 'orangehrm'?>"></td>
+	<td class="tdComponent_n">Use the same Database User for OrangeHRM</td>
+	<td class="tdValues_n"><input type="checkbox" onclick="disableFields()" <?=isset($_POST['chkSameUser']) ? 'checked' : '' ?> name="chkSameUser" value="1"></td>
 </tr>
 <tr>
-	<td>OrangeHRM Database User-Password</td>
-	<td><input type="password" name="dbOHRMPassword" <?=isset($_POST['chkSameUser']) ? '' : 'disabled' ?> value="<?= isset($_SESSION['dbInfo']['dbOHRMPassword']) ? $_SESSION['dbInfo']['dbOHRMPassword'] : ''?>"></td>
+	<td class="tdComponent_n">OrangeHRM Database User-name</td>
+	<td class="tdValues_n"><input type="text" name="dbOHRMUserName" <?=isset($_POST['chkSameUser']) ? 'disabled' : '' ?> value="<?= isset($_SESSION['dbInfo']['dbOHRMUserName']) ? $_SESSION['dbInfo']['dbOHRMUserName'] : 'orangehrm'?>"></td>
 </tr>
 <tr>
-	<td></td>
-	<td><input type="button" value="OK" onclick="submitDBInfo()"></td>
+	<td class="tdComponent_n">OrangeHRM Database User-Password</td>
+	<td class="tdValues_n"><input type="password" name="dbOHRMPassword" <?=isset($_POST['chkSameUser']) ? 'disabled' : '' ?> value="<?= isset($_SESSION['dbInfo']['dbOHRMPassword']) ? $_SESSION['dbInfo']['dbOHRMPassword'] : ''?>"></td>
 </tr>
+
 </table>
-</table>
+<br />
+<input class="button" type="button" value="Back" onclick="back();">
+<input type="button" value="Next" onclick="submitDBInfo()">
+</div>

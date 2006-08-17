@@ -9,7 +9,7 @@ function sockComm($postArr) {
 			. "&userEmail=" . $postArr['userEmail'] 
 			. "&userComments=" . $postArr['userComments'] 
 			. "&updates=" . isset($postArr['chkUpdates']) ? '1' : '0';
-	
+			
 	    $fp = fsockopen($host, 80);
 	    
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
@@ -53,7 +53,7 @@ if(isset($_POST['actionResponse']))
 										 'dbUserName' => trim($_POST['dbUserName']),
 										 'dbPassword' => trim($_POST['dbPassword']));
 										 
-						if(isset($_POST['chkSameUser'])) {
+						if(!isset($_POST['chkSameUser'])) {
 							 $dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);
 							 $dbInfo['dbOHRMPassword'] = trim($_POST['dbOHRMPassword']);
 						}
@@ -67,7 +67,7 @@ if(isset($_POST['actionResponse']))
 								$dbConnectError = 'WRONGDBVER';
 							elseif(mysql_select_db($dbInfo['dbName'])) 
 									$dbConnectError = 'DBEXISTS';
-								elseif(isset($_POST['chkSameUser'])) {
+								elseif(!isset($_POST['chkSameUser'])) {
 									
 									mysql_select_db('mysql');
 									$rset = mysql_query("SELECT USER FROM user WHERE USER = '" .$dbInfo['dbOHRMUserName'] . "'");
@@ -92,6 +92,9 @@ if(isset($_POST['actionResponse']))
 		case 'CANCEL' :			session_destroy();
 								header("Location: ./install.php");
 								break;
+		
+		case 'BACK'		 :	back($_POST['txtScreen']);
+							break;
 								
 		case 'CONFIRMED' :
 		
@@ -104,7 +107,19 @@ if(isset($_POST['actionResponse']))
 								if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 									$error = 'Unable to create Database!';
 									break;
+								}								
+								$_SESSION['INSTALLING'] = 1;
+								break;
+								
+		case 'FILLDATA'	:		if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
+									$error = 'Database Connection Error!';
+									break;
 								}
+								
+								if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+									$error = 'Unable to create Database!';
+									break;
+								}	
 								
 								$queryFile = ROOT_PATH . "/dbscript/dbscript.sql";
 								$fp    = fopen($queryFile, 'r');
@@ -188,7 +203,11 @@ $query = "INSERT INTO `hs_hr_users` VALUES ('USR001','" .$_SESSION['defUser']['A
 						         $error = 'Unable to Create OrangeHRM Admin User Account';
 						         break;
 						      }
-
+								
+								$_SESSION['INSTALLING'] = 2;
+								break;
+								
+				case 'WRITECONF' :
 						      
 						      $dbHost = $_SESSION['dbInfo']['dbHostName'];
 							  $dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
@@ -232,8 +251,14 @@ CONFCONT;
 	 
     	fclose($handle);
     	
-    						$_SESSION['CONFDONE'] = 'OK';
-								break;
+    						
+							$_SESSION['INSTALLING'] = 3;
+							break;
+							
+		case 'REGISTER'  :
+							$_SESSION['CONFDONE'] = 'OK';
+							break;
+							
 								
 		case 'REGINFO' :	$reqAccept = sockComm($_POST);
 							
@@ -244,8 +269,9 @@ CONFCONT;
 							break;
 	}
 
-if(isset($_SESSION['QQQQQ'])) {
-} elseif(isset($_SESSION['CONFDONE'])) {
+if(isset($_SESSION['CONFDONE'])) {
+	$currScreen = 7;
+} elseif(isset($_SESSION['INSTALLING'])) {
 	$currScreen = 6;
 } elseif(isset($_SESSION['DEFUSER'])) {
 	$currScreen = 5;
@@ -259,6 +285,29 @@ if(isset($_SESSION['QQQQQ'])) {
 	$currScreen = 1;
 } else $currScreen = 0;
 
+function back($currScreen) {
+
+for ($i=0; $i < 2; $i++) {
+ switch ($currScreen) {
+	
+	default :
+	case 0 	: 	unset($_SESSION['WELCOME']); break;
+	case 1 	: 	unset($_SESSION['LICENSE']); break;
+	case 2 	: 	unset($_SESSION['SYSCHECK']); break;
+	case 3 	: 	unset($_SESSION['DBCONFIG']); break;
+	case 4 	: 	unset($_SESSION['DEFUSER']); break;
+	case 5 	: 	unset($_SESSION['CONFDONE']); break;
+	case 6 	: 	return false; break;
+	case 7 	: 	return false; break;
+ }
+
+ $currScreen--;
+}
+
+return true;
+}
+$steps = array('welcome', 'license', 'system check', 'database configuration', 'admin user creation', 'confirmation', 'Installing', 'registration');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -271,14 +320,51 @@ function goToScreen(screenNo) {
 	document.frmInstall.txtScreen.value = screenNo;
 }
 
+function cancel() {
+	document.frmInstall.actionResponse.value  = 'CANCEL';
+	document.frmInstall.submit();
+}
+
+function back() {
+	document.frmInstall.actionResponse.value  = 'BACK';
+	document.frmInstall.submit();
+}
+
 </script>
+<link href="installer/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div id="body">
+<img src="/themes/beyondT/pictures/orange3.png"  width="264" height="62" alt="OrangeHRM" border="0" style="margin-left: 10px;" title="OrangeHRM" id="logo">
 <form name="frmInstall" action="<?=$_SERVER['PHP_SELF']?>" method="POST">
 <input type="hidden" name="txtScreen" value="<?=$currScreen?>">
 <input type="hidden" name="actionResponse">
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
 <?php
+	$tocome = '';
+	for ($i=0; $i < count($steps); $i++) {
+		if ($currScreen == $i) {
+			$tabState = 'Active';
+		} else {
+			$tabState = 'Inactive';
+		}
+?>
 
+    <td nowrap="nowrap" class="left_<?=$tabState?>">&nbsp;</td>
+    <td nowrap="nowrap" class="middle_<?=$tabState.$tocome?>"><?=$steps[$i]?></td>
+	<td nowrap="nowrap" class="right_<?=$tabState?>">&nbsp;</td>
+	
+    <?php
+		if ($tabState == 'Active') {		
+			$tocome = '_tocome';
+		}
+	} 
+	?>
+  </tr>
+</table>
+
+<?php
 
 switch ($currScreen) {
 	
@@ -289,10 +375,13 @@ switch ($currScreen) {
 	case 3 	: 	require(ROOT_PATH . '/installer/dbConfig.php'); break;
 	case 4 	: 	require(ROOT_PATH . '/installer/defaultUser.php'); break;
 	case 5 	: 	require(ROOT_PATH . '/installer/confirmation.php'); break;
-	case 6 	: 	require(ROOT_PATH . '/installer/registration.php'); break;
+	case 6 	: 	require(ROOT_PATH . '/installer/progress.php'); break;
+	case 7 	: 	require(ROOT_PATH . '/installer/registration.php'); break;
 }
 ?>
 
 </form>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> Web Installation Wizard ver 0.1 &copy; hSenid Software 2005 - 2006 All rights reserved.</div>
+</div>
 </body>
 </html>

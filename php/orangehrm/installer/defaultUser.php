@@ -19,30 +19,27 @@ document.frmInstall.actionResponse.value  = 'DEFUSERINFO';
 document.frmInstall.submit();
 }
 </script>
+<link href="style.css" rel="stylesheet" type="text/css" />
 
-<table cellspacing="0" cellpadding="0" border="0" align="center">
-<tr>
-    <th width="400">Step 4: Admin User Creation</th>
-</tr>
-<tr>
-    <td colspan="2" width="600">	
+
+<div id="content">
+	<h2>Step 4: Admin User Creation</h2>
+
         <p>After OrangeHRM is configured you will need an Adminstrator Account to Login into OrangeHRM. 
         Please fill in how you want to login as Adminstrator</p>
-    </td>
-</tr>
-<table width="100%" cellpadding="0" cellpadding="0" border="0">
-<tr><th colspan="3" align="left">Admin User Creation</td></tr>
+    
+<table cellpadding="0" cellspacing="0" border="0" class="table">
+<tr><th colspan="3" align="left">Admin User Creation</th></tr>
 <tr>
-	<td>OrangeHRM Admin User Name</td>
-	<td><input type="text" name="OHRMAdminUserName" value="Admin"></td>
-</tr>
-<tr>
-	<td>OrangeHRM Admin User Password</td>
-	<td><input type="password" name="OHRMAdminPassword" value=""></td>
+	<td class="tdComponent_n">OrangeHRM Admin User Name</td>
+	<td class="tdValues_n"><input type="text" name="OHRMAdminUserName" value="Admin"></td>
 </tr>
 <tr>
-	<td></td>
-	<td><input type="button" value="OK" onclick="submitDefUserInfo()"></td>
+	<td class="tdComponent_n">OrangeHRM Admin User Password</td>
+	<td class="tdValues_n"><input type="password" name="OHRMAdminPassword" value=""></td>
 </tr>
-</table>
-</table>
+
+</table><br />
+<input class="button" type="button" value="Back" onclick="back();">
+<input type="button" value="Next" onclick="submitDefUserInfo()">
+</div>

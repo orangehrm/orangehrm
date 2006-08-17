@@ -55,29 +55,29 @@ function sysCheckPassed() {
 	document.frmInstall.submit();
 }
 </script>
+<link href="style.css" rel="stylesheet" type="text/css" />
 
-  <table cellspacing="0" align="center">
-    <tr>
-      <th width="400">Step 2: System Check</th>
-    </tr>
 
-    <tr>
-      <td colspan="2" width="600">
-        <p>In order for your OrangeHRM installation to function properly,
-        please ensure all of the system check items listed below are green. If
-        any are red, please take the necessary steps to fix them.</p>
+<div id="content">
 
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+  <h2>Step 2: System Check</h2>  
+  
+  <p>In order for your OrangeHRM installation to function properly,
+  please ensure all of the system check items listed below are green. If
+  any are red, please take the necessary steps to fix them.</p>
+
+        <table cellpadding="0" cellspacing="0" border="0" class="table">
           <tr>
-            <th align="left">Component</th>
+            <th align="left" class="th">Component</th>
 
-            <th style="text-align: right;">Status</th>
+            <th class="th" style="text-align: right;">Status</th>
           </tr>
 
 		<tr>
-            <td><b>PHP version</b></td>
+            <td class="tdComponent">PHP version</td>
 
-            <td align="right"><?php
+            <td align="right" class="tdValues"><strong>
+            <?php
 
             	$error_found = false;
 
@@ -96,12 +96,14 @@ function sysCheckPassed() {
       	            echo "<b><font color='green'>OK (ver $php_version)</font></b>";
             			break;
                }
-            ?></td>
+            ?>
+            </strong></td>
           </tr>
           <tr>
-            <td><strong>MySQL Client</strong></td>
+            <td class="tdComponent">MySQL Client</td>
 
-            <td align="right"><?php
+            <td align="right" class="tdValues"><strong>
+            <?php
 
             	$mysqlClient = mysql_get_client_info();
 
@@ -114,24 +116,26 @@ function sysCheckPassed() {
                   echo "<b><font color='red'>Not Available</font></b>";
                   $error_found = true;
                }
-            ?></td>
+            ?>
+            </strong></td>
           </tr>
           <tr>
-            <td><b>OrangeHRM Configuration File Writable</b></td>
+            <td class="tdComponent">OrangeHRM Configuration File Writable</td>
 
-            <td align="right"><?php
+            <td align="right" class="tdValues"><strong>
+            <?php
                if(is_writable(ROOT_PATH . '/lib/confs')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font></b>";
                   $error_found = true;
                }
-            ?></td>
+            ?>
+            </strong></td>
           </tr>
 		</table>
-        <table cellspacing="0" cellpadding="0" border="0">
-          <tr>
-            <td><input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();"></td>
-            <td><input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?= ($error_found) ? 'disabled' : '' ?>></td>
-          </tr>
-        </table>
+		<br />
+        <input class="button" type="button" value="Back" onclick="back();">
+		<input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();">
+		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?= ($error_found) ? 'disabled' : '' ?>>
+</div>
