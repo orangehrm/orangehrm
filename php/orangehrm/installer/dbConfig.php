@@ -53,15 +53,15 @@ document.frmInstall.submit();
 <div id="content">
 	<h2>Step 3: Database Configuration</h2>
 
-<? if(isset($dbConnectError)) { ?>
+<? if(isset($error)) { ?>
 	<font color="Red">
-	    <? if($dbConnectError == 'WRONGDBINFO') {
+	    <? if($error == 'WRONGDBINFO') {
 	    		echo "Wrong DB Information";
-	       } elseif ($dbConnectError == 'WRONGDBVER') {
+	       } elseif ($error == 'WRONGDBVER') {
 	       	 	echo "You need atleast MySQL 4.1.x, Detected MySQL ver " . $mysqlHost;
-	       } elseif ($dbConnectError == 'DBEXISTS') {
+	       } elseif ($error == 'DBEXISTS') {
 	       	 	echo "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
-	       } elseif ($dbConnectError == 'DBUSEREXISTS') {
+	       } elseif ($error == 'DBUSEREXISTS') {
 	       	 	echo "Database User (" . $_SESSION['dbInfo']['dbOHRMUserName'] . ") already exists";
 	       } ?>
     </font>
