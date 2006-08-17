@@ -116,26 +116,27 @@ if(isset($_POST['actionResponse']))
 								$_SESSION['DEFUSER'] = 'OK';
 								break;
 
-		case 'CANCEL' :			session_destroy();
-								header("Location: ./install.php");
-								break;
+		case 'CANCEL' :		session_destroy();							
+							header("Location: ./install.php");
+							exit(0);
+							break;
 		
 		case 'BACK'		 :	back($_POST['txtScreen']);
 							break;
 								
-		case 'CONFIRMED' :		$_SESSION['INSTALLING'] = 0;														
-								break;
+		case 'CONFIRMED' :	$_SESSION['INSTALLING'] = 0;														
+							break;
 								
 		case 'REGISTER'  :	$_SESSION['CONFDONE'] = 'OK';
 							break;
 							
 								
-		case 'REGINFO' :	$reqAccept = sockComm($_POST);
-							
+		case 'REGINFO' :	$reqAccept = sockComm($_POST);							
 							break;
 
 		case 'LOGIN'   :	session_destroy();
-							header("Location: ../login.php");
+							header("Location: ./login.php");
+							exit(0);							
 							break;
 	}
 

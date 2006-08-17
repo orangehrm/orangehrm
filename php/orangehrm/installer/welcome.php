@@ -10,7 +10,7 @@ function welcomeSubmit() {
       
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start. <br/>
-		Click Next to Start the Wizard.</p>
+		Click <b>[Next]</b> to Start the Wizard.</p>
         <input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
 		<input type="button" name="next" value="Next" onclick="welcomeSubmit();" id="next" tabindex="1">
      </div>

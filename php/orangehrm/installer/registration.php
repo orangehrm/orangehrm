@@ -1,9 +1,7 @@
 <script language="JavaScript">
-function login() {
-	
+function login() {	
 	document.frmInstall.actionResponse.value = 'LOGIN';
 	document.frmInstall.submit();
-	return;
 }
 
 function regInfo() {
@@ -68,12 +66,12 @@ document.frmInstall.btnRegister.disabled = true;
 	<br />
 	
         <? if(!isset($reqAccept)) { ?>        
-        <input name="button" type="button" onclick="login()" value="No thanks!" tabindex="7"/>
-		<input name="btnRegister" type="button" onclick="regInfo()" value="Register" tabindex="6"/>
+        <input name="button" type="button" onclick="login();" value="No thanks!" tabindex="7"/>
+		<input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
         <? } elseif($reqAccept) { ?>
-        <input name="button" type="button" onclick="login()" value="Login to OrangeHRM" tabindex="8"/>
+        <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
         <? } else { ?>        
-        <input name="button" type="button" onclick="login()" value="Skip" tabindex="9"/>
-        <input name="btnRegister" type="button" onclick="regInfo()" value="Retry" tabindex="1"/>
+        <input name="button" type="button" onclick="login();" value="Skip" tabindex="9"/>
+        <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <? } ?>
 </div>

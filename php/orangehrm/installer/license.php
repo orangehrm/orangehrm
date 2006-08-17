@@ -15,7 +15,7 @@ function licenseAccept() {
 	
   		<h2>Step 1: License Acceptance</h2>
 		
-		<p>Please read the license and click I Accept to continue. </p>
+		<p>Please read the license and click <b>[I Accept]</b> to continue. </p>
     	<textarea cols="80" rows="20" readonly tabindex="1"><?=$license_file?></textarea><br /><br />
     
     	<input class="button" type="button" value="Back" onclick="cancel();" tabindex="3">
