@@ -436,13 +436,8 @@ function reDirect($getArr,$object = null) {
 				
 				case 'UGR'  :		
 									$urights = new Rights();
-								    $arrpass[1]=$postArr['chkdel'];
-								   
-								    for($c=0;count($arrpass[1])>$c;$c++)
-								       if($arrpass[1][$c]!=NULL)
-									      $arrpass[0][$c]=$getArr['id'];
 										  
-								    $urights->delRights($arrpass);
+								    $urights->clearRights($getArr['id']);
 								      break;
 			}
 	}	

@@ -69,23 +69,9 @@ function editEXT()
 		location.href = "./CentralController.php?capturemode=updatemode&uniqcode=USG&id=<?=$this->getArr['id']?>";
 	}
 
-function delEXT()
-{
-      var check = 0;
-		with (document.frmURights) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
-			}
-        }
+function delEXT() {
 
-        if(check==0)
-            {
-              alert("Select at least one check box");
-              return;
-            }
-
+	if(confirm("Do you want to clear Rights!"))
 
     //alert(cntrl.value);
     document.frmURights.STAT.value="DEL";
@@ -374,7 +360,6 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      	<td></td>
 						 <td><strong>Module</strong></td>
 						 <td><strong>Add</strong></td>
 						 <td><strong>Edit</strong></td>
@@ -388,7 +373,6 @@ $modlist = $this->popArr['modlist'];
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] . "'></td>";
 			for($a=0;count($modlist)>$a;$a++)
 			    if($modlist[$a][0]==$rset[$c][1])
 		            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?id=" . $this->getArr['id']. "&editID=" . $rset[$c][1] . "&uniqcode=" .$this->getArr['uniqcode']. "'>" . $modlist[$a][1] . "</a></td>";

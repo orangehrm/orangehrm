@@ -556,7 +556,7 @@ function filterNotEqualRecordSet($filID) {
 			
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 			
-			for ($i=0;$i<count($arrayFieldList); $i++) {
+			for ($i = $num + 1; $i<count($arrayFieldList); $i++) {
 				
 				if ($i == ($countArrSize - 1))  { //String Manipulation
 				

@@ -113,7 +113,7 @@ class Rights {
 		 echo $message2;
 	}
 	
-	function updateRights(){
+	function updateRights() {
 		$arrFieldList[0] = "'". $this->getUserGroupID() . "'";
 		$arrFieldList[1] = "'". $this->getModuleID() . "'";		
 		$arrFieldList[2] = "'". $this->getRightAdd() . "'";
@@ -143,6 +143,17 @@ class Rights {
 		return $message2;
 	}
 	
+	function clearRights($ugID) {
+		
+		if($ugID == $_SESSION['userGroup'])
+			return false;
+
+		$sqlQString = "UPDATE hs_hr_rights SET addition = 0, editing = 0, deletion = 0, viewing = 0 WHERE userg_id = '$ugID'";
+
+		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		
+		return $message2;
+	}
 	
 	function filterRights($getID) {
 		

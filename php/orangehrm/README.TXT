@@ -20,10 +20,15 @@ the directory structure, for further details please refer to the changelog.txt
 -dbscript
 |	|
 |	-- (database script for MySQL)
+|
+-installer (contains the Web-Installer)
+|
+-language (contains the Language Packs)
+|
 -lib
 |	|
 |	-- common (commonly used objects and methods)
-|	-- onfs (Configuration files)
+|	-- confs (Configuration files)
 |	-- controllers (Primary & Secondary Controllers)
 |			CentralController.php (Main Controller)
 |			EmpViewController.php (Secondary Controller for PIM Module)
