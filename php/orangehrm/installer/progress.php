@@ -7,9 +7,11 @@ switch ($_SESSION['INSTALLING']) {
 			break;
 	case 2: $nextPhase = 'WRITECONF';
 			break;
-	case 3: $nextPhase = 'CREATEUSER';
+	case 3: $nextPhase = 'CREATEDBUSER';
+			break;			
+	case 4: $nextPhase = 'CREATEUSER';
 			break;
-	case 4: $nextPhase = 'REGISTER';
+	case 5: $nextPhase = 'REGISTER';
 			break;
 	default: $nextPhase = 'LOGIN';
 			break;
@@ -85,6 +87,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
 		</script>
 	<? }
  } ?>
+ <br />
  <input class="button" type="button" value="Back" onclick="back();" tabindex="2" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] < 5) && isset($error))? '' : 'disabled'?> />
  <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=5))? '' : 'disabled'?> />
 </div>
