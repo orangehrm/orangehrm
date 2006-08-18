@@ -91,6 +91,11 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
+function popEmpList() {
+	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
+    if(!popup.opener) popup.opener=self;		
+}
+
 function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?=$_GET['isAdmin']?>";
 	}
@@ -121,7 +126,7 @@ function goBack() {
 			return;
 		}
 		
-		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '0') {
+		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
@@ -189,11 +194,11 @@ function goBack() {
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+                  <td width="450"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
 							    <td>Code</td>
 							    <td><strong><?=$this->popArr['newID']?></strong></td>
@@ -223,14 +228,7 @@ function goBack() {
 						   		  </select></td>
 							  <td></td>
 							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee ID</td>
-							  <td><select name="cmbUserEmpID" >
-							  		<option value="0">--Select EmpID--</option>
-<?									$emplist=$this->popArr['emplist'] ; 
-									for($c=0;$emplist && count($emplist)>$c;$c++)
-										echo "<option value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
-?>							  
-							  
-							  </select></td> 							  
+							  <td><input type="text" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onclick="popEmpList();"></td>
 						   </tr>
 						   <? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   							   
@@ -357,8 +355,12 @@ function mover() {
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
 }
 	
-function edit()
-{
+function popEmpList() {
+	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
+    if(!popup.opener) popup.opener=self;		
+}
+
+function edit() {
 	if(document.Edit.title=='Save') {
 		addUpdate();
 		return;
@@ -387,7 +389,7 @@ function edit()
 			return;
 		}
 		
-		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '0') {
+		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
@@ -483,17 +485,8 @@ function edit()
 							   			<option <?=$message[0][9]=='Disabled' ? 'selected' : ''?>>Disabled</option>
 							   	</select></td>
 							  <td></td>
-							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][4]=='No')? '*' : '' ?></span> Employee ID</td>
-							  <td><select name="cmbUserEmpID" disabled>
-							  		<option value="0">--Select EmpID--</option>
-<?									$emplist=$this->popArr['emplist'] ; 
-									for($c=0;$emplist && count($emplist)>$c;$c++)
-										if($message[0][3]==$emplist[$c][0])
-											echo "<option selected value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
-										else
-											echo "<option value='" . $emplist[$c][0] ."'>" .$emplist[$c][0]. "</option>";
-?>							  
-							  </select></td>							  							  
+							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][4]=='No')? '*' : '' ?></span> Employee</td>
+							  <td><input type="text" readonly name="cmbUserEmpID" disabled value="<?=$message[0][3]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onclick="popEmpList()"></td>
 						   </tr>
 						<? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   

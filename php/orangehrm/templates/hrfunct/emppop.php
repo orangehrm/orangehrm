@@ -109,11 +109,16 @@ else
 	}
 
 	function empSel(cntrl) {
-<?      if($_GET['reqcode'] == 'REP'){ ?>
+		
+<?   if(isset($_GET['USR'])) { ?>
+
+        opener.document.frmUsers.cmbUserEmpID.value = cntrl.title;
+        window.close();
+		
+<?   } elseif($_GET['reqcode'] == 'REP'){ ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
         window.close();
-<?
-}else{
+<?  } else {
 ?>
 		opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?=$_GET['reqcode']?>";
         opener.document.standardView.submit();
