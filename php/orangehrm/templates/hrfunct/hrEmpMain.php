@@ -160,25 +160,28 @@ function MM_preloadImages() { //v3.0
     if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 }
 
-function alpha(txt) {
-var flag=true;
-var i,code;
+function alpha(txt)
+{
+	var flag=true;
+    var i,code;
 
-if(txt.value=="")
-   return false;
+    if(txt.value=='')
+    	return false;
 
-for(i=0;txt.value.length>i;i++)
+	for(i=0;txt.value.length>i;i++)
 	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
+		code=txt.value.charCodeAt(i);
+    
+		if (code>=48 && code<=57) {
+			flag=false;
+			break;
+		} else {
+	       flag=true;
+		}
+	   
 	}
-return flag;
+	
+  return flag;
 }
 
 function numeric(txt) {
@@ -204,22 +207,27 @@ return flag;
 function addEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
-	if(!alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
+		cnt.focus();
+		return;
+	}  if (cnt.value == '') {
+		alert('Last Name Empty!');
 		cnt.focus();
 		return;
 	}
 
 	var cnt = document.frmEmp.txtEmpFirstName;
-	if(!alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('First Name contains numbers. Do you want to continue?')) {		
+		cnt.focus();
+		return;
+	} else if (cnt.value == '') {
+		alert('First Name Empty!');
 		cnt.focus();
 		return;
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!(cnt.value == '') && !alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
 		cnt.focus();
 		return;
 	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
@@ -274,22 +282,27 @@ function editEmpMain() {
 function updateEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
-	if(!alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
+		cnt.focus();
+		return;
+	}  if (cnt.value == '') {
+		alert('Last Name Empty!');
 		cnt.focus();
 		return;
 	}
 
 	var cnt = document.frmEmp.txtEmpFirstName;
-	if(!alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('First Name contains numbers. Do you want to continue?')) {		
+		cnt.focus();
+		return;
+	} else if (cnt.value == '') {
+		alert('First Name Empty!');
 		cnt.focus();
 		return;
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!(cnt.value == '') && !alpha(cnt)) {
-		alert("Field should be Alphabetic");
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
 		cnt.focus();
 		return;
 	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
