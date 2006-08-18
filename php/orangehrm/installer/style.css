@@ -191,3 +191,11 @@ li {
 	top:0;
 	right:0;
 }
+
+.done {
+	color:#009900;
+}
+
+.pending {
+	color:  #FF9900;
+}

@@ -48,7 +48,7 @@ function fillData() {
 		return;
 }	
 
-function createUser() {
+function createDBUser() {
 
 	connectDB();
 	
@@ -69,7 +69,7 @@ $querryIdentifiedBy;
 USRSQL;
 
       	if(!mysql_query($query)) {
-         	$_SESSION['error'] = mysql_error();
+         	$_SESSION['error'] = mysql_error() or die();
          	return;
       	}
 
@@ -80,7 +80,7 @@ USRSQL;
 
 		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
       		if (!mysql_query($query)) {
-        		$_SESSION['error'] = mysql_error();
+        		$_SESSION['error'] = mysql_error() or die();
          		return;
       		}
 		}
@@ -97,7 +97,7 @@ $querryIdentifiedBy;
 USRSQL;
 
       	if(!mysql_query($query)) {
-         	$_SESSION['error'] = mysql_error();
+         	$_SESSION['error'] = mysql_error() or die();
          	return;
       	}
 
@@ -108,14 +108,19 @@ USRSQL;
 		
 		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
       		if(!mysql_query($query)) {
-         		$_SESSION['error'] = mysql_error();
+         		$_SESSION['error'] = mysql_error() or die();
          		return;
       		}
 		}
 	}
 	
-		
-	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+}
+
+function createUser() {
+
+	connectDB();
+			
+	if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to access OrangeHRM Database!';
 		return;
 	}
@@ -188,16 +193,22 @@ CONFCONT;
 						$_SESSION['INSTALLING'] = 2;
 					}																				
 					break;
-									
-		case 2	:	createUser();
+					
+		case 2	:	createDBUser();
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 3;
 					}													
 					break;
-								
-		case 3 :	writeConfFile();
+									
+		case 3	:	createUser();
 					if (!isset($error) || !isset($_SESSION['error'])) {
-						$_SESSION['INSTALLING'] = 4;																
+						$_SESSION['INSTALLING'] = 4;
+					}													
+					break;
+								
+		case 4 :	writeConfFile();
+					if (!isset($error) || !isset($_SESSION['error'])) {
+						$_SESSION['INSTALLING'] = 5;																
 					}
 					break;					
 		

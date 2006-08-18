@@ -15,6 +15,12 @@ function submitDefUserInfo() {
 		return;
 	}
 	
+	if(frm.OHRMAdminPassword.value != frm.OHRMAdminPasswordConfirm.value) {
+		alert('OrangeHRM Admin Password and Confirm OrangeHRM Admin Password don\'t match!');
+		frm.OHRMAdminPassword.focus();
+		return;
+	}
+	
 document.frmInstall.actionResponse.value  = 'DEFUSERINFO';
 document.frmInstall.submit();
 }
@@ -38,8 +44,12 @@ document.frmInstall.submit();
 	<td class="tdComponent_n">OrangeHRM Admin User Password</td>
 	<td class="tdValues_n"><input type="password" name="OHRMAdminPassword" value="" tabindex="2"/></td>
 </tr>
+<tr>
+	<td class="tdComponent_n">Confirm OrangeHRM Admin User Password</td>
+	<td class="tdValues_n"><input type="password" name="OHRMAdminPasswordConfirm" value="" tabindex="3"/></td>
+</tr>
 
 </table><br />
-<input class="button" type="button" value="Back" onclick="back();" tabindex="4"/>
-<input type="button" value="Next" onclick="submitDefUserInfo()" tabindex="3"/>
+<input class="button" type="button" value="Back" onclick="back();" tabindex="5"/>
+<input type="button" value="Next" onclick="submitDefUserInfo()" tabindex="4"/>
 </div>

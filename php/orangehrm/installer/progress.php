@@ -27,27 +27,30 @@ Please wait. Installation in progress.
 </p>
 <? } else { ?>
 <p>
-Installation aborted due to an error. Click back to correct the error and try installing again.
+Installation aborted due to an error. Click <b>[Back]</b> to correct the error and try installing again.
 </p>
-<input type="button" name="back" value="Back" onclick="back();" id="next" tabindex="1">
 <? } 
 
-$Phases = array('Database Creation', 'Fill default data into the database', 'Create Default User', 'Write Configuration File');
+$Phases = array('Database Creation', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File');
 
-  if (isset($error)) { ?>
+  $controlval = 0;
+  	
+  if (isset($error)) {
+  	$controlval = 1;  
+?>
 	<p class="error"><?=$error?></p>
 <? } ?>
 <table border="0" cellpadding="5" cellspacing="0">
- <? for ($i=0; $i < $_SESSION['INSTALLING']; $i++) { ?>
+ <? for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++) { ?>
   <tr>
     <td><?=$Phases[$i]?></td>
-    <td><span class="style3">Done</span></td>
+    <td><span class="done">Done</span></td>
   </tr>
  <? } 
  
  $j = $i--;
  
- $styleStatus = 'style1'; 
+ $styleStatus = 'pending'; 
  $msgNext = 'Pending';
  
  	if (isset($error)) { 			
@@ -62,7 +65,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
   </tr>
  <? $j++;
  	} 
- for ($i=$j; $i < 4; $i++) { ?>
+ for ($i=$j; $i < 5; $i++) { ?>
   <tr>
     <td><?=$Phases[$i]?></td>
     <td class="<?=$styleStatus?>"><?=$msgNext?></td>
@@ -70,7 +73,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
  <? } ?>
 </table>
 <? if (!isset($error)){
-		if ($_SESSION['INSTALLING'] < 4) { ?>
+		if ($_SESSION['INSTALLING'] < 5) { ?>
 			<meta http-equiv="refresh" content="2;URL=../install.php" />
 		<? } else {?>
 		<br/>		
@@ -80,8 +83,8 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
 				document.frmInstall.submit();
 			}			
 		</script>
-		<input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
-		<input type="button" onClick='next();' value="Next" tabindex="1">
 	<? }
  } ?>
+ <input class="button" type="button" value="Back" onclick="back();" tabindex="2" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] < 5) && isset($error))? '' : 'disabled'?> />
+ <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=5))? '' : 'disabled'?> />
 </div>
