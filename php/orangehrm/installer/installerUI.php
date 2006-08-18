@@ -55,7 +55,7 @@ function back() {
 }
 
 </script>
-<link href="/installer/style.css" rel="stylesheet" type="text/css">
+<link href="./style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="body">

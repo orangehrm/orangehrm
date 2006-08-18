@@ -50,6 +50,8 @@ function fillData() {
 
 function createUser() {
 
+	connectDB();
+	
 	if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
 	
 		$dbName = $_SESSION['dbInfo']['dbName'];
@@ -104,7 +106,8 @@ USRSQL;
          	return;
       	}
 	}
-
+	
+		
 	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to access OrangeHRM Database!';
 		return;
@@ -167,20 +170,28 @@ CONFCONT;
 
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {		
-		case 0	:	createDB();	
-					$_SESSION['INSTALLING'] = 1;																										
+		case 0	:	createDB();
+					if (!isset($error)) {	
+						$_SESSION['INSTALLING'] = 1;																										
+					}
 					break;
 								
-		case 1	:	fillData();								
-					$_SESSION['INSTALLING'] = 2;																				
+		case 1	:	fillData();
+					if (!isset($error)) {								
+						$_SESSION['INSTALLING'] = 2;
+					}																				
 					break;
 									
 		case 2	:	createUser();
-					$_SESSION['INSTALLING'] = 3;													
+					if (!isset($error)) {
+						$_SESSION['INSTALLING'] = 3;
+					}													
 					break;
 								
 		case 3 :	writeConfFile();
-					$_SESSION['INSTALLING'] = 4;																
+					if (!isset($error)) {
+						$_SESSION['INSTALLING'] = 4;																
+					}
 					break;					
 		
 	}

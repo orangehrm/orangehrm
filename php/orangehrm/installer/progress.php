@@ -1,15 +1,3 @@
-<style type="text/css">
-<!--
-.style1 {color: #FFCC00}
-.style3 {color: #009900}
--->
-</style>
-<script language="javascript">
-	function back() {				
-		document.frmInstall.actionResponse.value  = 'BACK';
-		document.frmInstall.submit();
-	}
-</script>
 <div id="content">
 <h2>Step 6: Installing</h2>
 <?php
@@ -41,7 +29,7 @@ Please wait. Installation in progress.
 <p>
 Installation aborted due to an error. Click back to correct the error and try installing again.
 </p>
-<input type="button" name="back" value="Back" onclick="back();" id="next">
+<input type="button" name="back" value="Back" onclick="back();" id="next" tabindex="1">
 <? } 
 
 $Phases = array('Database Creation', 'Fill default data into the database', 'Create Default User', 'Write Configuration File');
@@ -57,7 +45,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
   </tr>
  <? } 
  
- $j = $i;
+ $j = $i--;
  
  $styleStatus = 'style1'; 
  $msgNext = 'Pending';
