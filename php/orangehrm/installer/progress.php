@@ -4,6 +4,12 @@
 .style3 {color: #009900}
 -->
 </style>
+<script language="javascript">
+	function back() {				
+		document.frmInstall.actionResponse.value  = 'BACK';
+		document.frmInstall.submit();
+	}
+</script>
 <div id="content">
 <h2>Step 6: Installing</h2>
 <?php
@@ -56,8 +62,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
  $styleStatus = 'style1'; 
  $msgNext = 'Pending';
  
- 	if (isset($error)) { 		
-		$j++;
+ 	if (isset($error)) { 			
 		$styleStatus = 'error';
 		$msgNext = 'Aborted';
 		unset($_SESSION['INSTALLING']);
@@ -67,7 +72,8 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
     <td><?=$Phases[$j]?></td>
     <td class="error">Error</td>
   </tr>
- <? } 
+ <? $j++;
+ 	} 
  for ($i=$j; $i < 4; $i++) { ?>
   <tr>
     <td><?=$Phases[$i]?></td>
