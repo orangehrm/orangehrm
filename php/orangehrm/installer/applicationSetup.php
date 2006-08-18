@@ -58,11 +58,14 @@ function createUser() {
 		$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
 	
+		$querryIdentifiedBy = (isset($dbOHRMPassword) && ($dbOHRMPassword !== ''))? "IDENTIFIED BY '$dbOHRMPassword'": '';
+		
+		
       	$query = <<< USRSQL
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX
 ON `$dbName`.*
 TO "$dbOHRMUser"@"localhost"
-IDENTIFIED BY '$dbOHRMPassword';
+$querryIdentifiedBy;
 USRSQL;
 
       	if(!mysql_query($query)) {
@@ -75,10 +78,12 @@ set password for "$dbOHRMUser"@"localhost"
  = old_password('$dbOHRMPassword');
 USRSQL;
 
-      	if(!mysql_query($query)) {
-        	$_SESSION['error'] = mysql_error();
-         	return;
-      	}
+		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
+      		if (!mysql_query($query)) {
+        		$_SESSION['error'] = mysql_error();
+         		return;
+      		}
+		}
       
 	  	$dbName = $_SESSION['dbInfo']['dbName'];
 	  	$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
@@ -88,7 +93,7 @@ USRSQL;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX
 ON `$dbName`.*
 TO "$dbOHRMUser"@"%"
-IDENTIFIED BY '$dbOHRMPassword';
+$querryIdentifiedBy;
 USRSQL;
 
       	if(!mysql_query($query)) {
@@ -100,11 +105,13 @@ USRSQL;
 set password for "$dbOHRMUser"@"%"
  = old_password('$dbOHRMPassword');
 USRSQL;
-
-      	if(!mysql_query($query)) {
-         	$_SESSION['error'] = mysql_error();
-         	return;
-      	}
+		
+		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
+      		if(!mysql_query($query)) {
+         		$_SESSION['error'] = mysql_error();
+         		return;
+      		}
+		}
 	}
 	
 		
@@ -171,25 +178,25 @@ CONFCONT;
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {		
 		case 0	:	createDB();
-					if (!isset($error)) {	
+					if (!isset($error) || !isset($_SESSION['error'])) {	
 						$_SESSION['INSTALLING'] = 1;																										
 					}
 					break;
 								
 		case 1	:	fillData();
-					if (!isset($error)) {								
+					if (!isset($error) || !isset($_SESSION['error'])) {								
 						$_SESSION['INSTALLING'] = 2;
 					}																				
 					break;
 									
 		case 2	:	createUser();
-					if (!isset($error)) {
+					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 3;
 					}													
 					break;
 								
 		case 3 :	writeConfFile();
-					if (!isset($error)) {
+					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 4;																
 					}
 					break;					
