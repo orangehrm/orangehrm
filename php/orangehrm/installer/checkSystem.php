@@ -13,7 +13,7 @@ function check_php_version($sys_php_version = '') {
 		'4.3.10', '4.3.11',
 		'4.4.1', '4.4.2',
 		'5.0.1', '5.0.2', '5.0.3', '5.0.4',
-		'5.1.0', '5.1.1', '5.1.2'
+		'5.1.0', '5.1.1', '5.1.2', '5.1.4'
 	);
 
 	// invalid versions above the $min_considered_php_version,
@@ -138,8 +138,8 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-			   $gc_maxlifetime_min = floor(get_cfg_var("session.gc_maxlifetime")/60);
-			   $gc_maxlifetime_sec = get_cfg_var("session.gc_maxlifetime") % 60;
+			   $gc_maxlifetime_min = floor(ini_get("session.gc_maxlifetime")/60);
+			   $gc_maxlifetime_sec = ini_get("session.gc_maxlifetime") % 60;
                if ($gc_maxlifetime_min > 15) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else if ($gc_maxlifetime_min > 2){

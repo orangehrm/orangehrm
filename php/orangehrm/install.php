@@ -88,9 +88,9 @@ if(isset($_POST['actionResponse']))
 						$_SESSION['dbInfo'] = $dbInfo;
 										 
 						if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
-							$mysqlHost = substr(mysql_get_server_info(), 0, strpos(mysql_get_server_info(), "-"));
+							$mysqlHost = mysql_get_server_info();
 							
-							if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) == '4.0')
+							if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
 								$error = 'WRONGDBVER';
 							elseif(mysql_select_db($dbInfo['dbName'])) 
 									$error = 'DBEXISTS';
