@@ -114,6 +114,11 @@ body {
 	height:100%;	
 }
 
+#body {
+	height:95%;
+	width:860px;
+}
+
 
 #next {
 	position:relative;
@@ -198,4 +203,14 @@ li {
 
 .pending {
 	color:  #FF9900;
+}
+
+#help {
+	float:right;
+	color:#FF0000;
+	clear:both;
+	font-size:12px;
+	margin-top: 22px;
+	font-family:"Courier New", Courier, monospace;
+	
 }

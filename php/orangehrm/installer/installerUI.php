@@ -32,6 +32,8 @@ if (isset($_SESSION['reqAccept'])) {
 
 $steps = array('welcome', 'license', 'system check', 'database configuration', 'admin user creation', 'confirmation', 'Installing', 'registration');
 
+$helpLink = array("#welcome", "#license", "#systemChk", "#DBCreation", "#adminUsrCrt", "#confirm", "#installing", "#registration");
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -63,6 +65,7 @@ function back() {
 <form name="frmInstall" action="../install.php" method="POST">
 <input type="hidden" name="txtScreen" value="<?=$currScreen?>">
 <input type="hidden" name="actionResponse">
+<a href="./guide/<?=$helpLink[$currScreen]?>" id="help" target="_blank">Help ?</a>
 <table border="0" cellpadding="0" cellspacing="0">
   <tr>
 <?php
@@ -87,7 +90,6 @@ function back() {
 	?>
   </tr>
 </table>
-
 <?php
 
 switch ($currScreen) {
