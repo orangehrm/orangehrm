@@ -133,6 +133,24 @@ function sysCheckPassed() {
             ?>
             </strong></td>
           </tr>
+		  <tr>
+            <td class="tdComponent">Maximum Session Idle Time before Timeout</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+			   $gc_maxlifetime_min = floor(get_cfg_var("session.gc_maxlifetime")/60);
+			   $gc_maxlifetime_sec = get_cfg_var("session.gc_maxlifetime") % 60;
+               if ($gc_maxlifetime_min > 15) {
+                  echo "<b><font color='green'>OK</font></b>";
+				} else if ($gc_maxlifetime_min > 2){
+					echo "<b><font color='#C4C781'>Short ($gc_maxlifetime_min minutes and $gc_maxlifetime_sec seconds)</font></b>";
+				} else {
+                  echo "<b><font color='red'>Too short ($gc_maxlifetime_min minutes and $gc_maxlifetime_sec seconds)</font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
 		</table>
 		<br />
         <input class="button" type="button" value="Back" onclick="back();" tabindex="4">

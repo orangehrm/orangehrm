@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>OrangeHRM Installation Guide</title>
+<link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="content">
+<img src="../../themes/beyondT/pictures/orange_new_02.gif" alt="OrangeHRM" id="logo"/>
+<h1>Installation Guide</h1>
+<!-- Contents -->
+
+<div id="contents" class="section">
+<h2>Contents</h2>
+<p>
+<ol class="content_table">
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#pre-requisities">Pre-requisities</a>
+		<ol class="content_table_sub">
+			<li><a href="#windows">AMP stack for Windows</a></li>
+			<li><a href="#linux">AMP stack for Linux</a></li>
+		</ol></li>
+	<li><a href="#installation">Installation</a>
+		<ol class="content_table_sub">
+			<li><a href="#copying">Copying files</a></li>
+			<li><a href="#extracting">Extracting</a></li>
+		</ol></li>
+	<li><a href="#webinstallation">Web Installation</a>
+		<ol class="content_table_sub">
+			<li><a href="#welcome">Welcome Screen</a></li>
+			<li><a href="#license">License Acceptance</a></li>
+			<li><a href="#systemChk">System Check</a></li>
+			<li><a href="#DBCreation">Database Creation</a></li>
+			<li><a href="#adminUsrCrt">Admin User Creation</a></li>
+			<li><a href="#confirm">Confirmation</a></li>
+			<li><a href="#installing">Installing</a></li>
+			<li><a href="#registration">Registration</a></li>
+		</ol></li>
+</ol>
+</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+</div>
+<!-- Overview -->
+
+<div id="overview" class="section">
+<h2>Overview</h2>
+<p>
+This Guide describes how to install OrangeHRM 1.2. It is intended for experienced administrators and novices alike. After installation, you can configure users and do other administrative tasks.
+To install OrangeHRM 1.2, ensure that you have the appropriate pre-requisities: See <a href="#pre-requisities" class="see">Pre-requisities</a>
+</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+</div>
+
+<!-- Pre-requisities -->
+
+<div id="pre-requisities" class="section">
+<h2>Pre-requisities</h2>
+<p>
+You have two options to setup the pre-requisities.
+<ul>
+	<li>Use an AMP stack which has Apache, MySQL and PHP configured to work together. See <a href="#windows" class="see">AMP stack for Windows</a> if you are using Windows or else if you are using Linux, <a href="#linux" class="see">AMP stack for Linux</a>.</li>
+	<li>If you want you could configure Apache, MySQL and PHP on you own manually. Following are the required software
+<ol>
+	<li>Apache HTTP Server 1.3 or later)</li>
+	<li>MySQL 4.1 or later</li>
+	<li>PHP 4.3.0 or later</li>	
+</ol>
+</li>
+</ul>
+</p>
+
+<!-- pre-requisities - windows -->
+
+<div id="windows">
+<h3>AMP stack for Windows</h3>
+<p><cite>
+Recommended AMP stack for Windows is <a href="http://easyphp.org/telechargements.php3" class="external" target="_blank">EasyPHP 1.8</a></cite>
+</p>
+<p>
+After downloading, install EasyPHP. It's a simple installation. Please remember the location you installed EasyPHP. It will be required later. 
+</div>
+
+<!-- pre-requisities - windows -->
+
+<div id="linux">
+<h3>AMP stack for Linux</h3>
+<p><cite>
+Recommended AMP stack for Linux is <a href="http://www.apachefriends.org/en/xampp-linux.html#374" class="external" target="_blank">XAMPP Linux 1.5.3a</a></cite>
+</p>
+<p>
+After downloading, install XAMPP Linux. Follow the instructions that comes with XAMPP Linux or given in the XAMPP site.</p>
+
+<div class="notes">
+<h4>Notes</h4>
+<p>You will have to change the ownership of OrangeHRM files to <span class="code">nobody.nobody</span><br />
+Type the following in the shell. <span class="code">&lt;orangehrm&gt;</span> is the path where the OrangeHRM files are located. <br />
+Ex. /usr/xamp/orangehrm/
+<p class="bash">
+$ chown -R nobody.nobody &lt;orangehrm&gt;
+</p>
+</p>
+</div>
+<p>Please remember the location you installed XAMPP. It will be required later.</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+</div>
+
+</div>
+
+<!-- Installation -->
+
+<div id="installation" class="section">
+<h2>Installation</h2>
+<h3 id="copying">Copying files</h3>
+<p>
+Copy <span class="code">orangehrm.zip</span> into the document root of the Apache HTTP Server.
+</p>
+
+<div class="notes">
+<h4>Notes</h4>
+<p>If you used EasyPHP AMP stack, document root is <br />
+<p class="bash">&lt;EasyPHP Installed Location&gt;\www\</p></p>
+<p>If you used XAMPP Linux AMP stack, document root is  <br />
+<p class="bash">&lt;XAMPP Installed Location&gt;/htdocs/</p></p>
+</div>
+
+<h3 id="extracting">Extracting</h3>
+<p>Extract <span class="code">orangehrm.zip</span> into the same folder. (i.e. Extract here)</p>
+
+<h3>Web Installation</h3>
+<p>Using a JavaScript enabled browser goto <span class="code">http://&lt;webhost&gt;/orangehrm/</span><br />
+See <a href="#webinstallation" class="see">Web Installation</a>.
+</p>
+
+<div class="notes">
+<h4>Recommended Browsers</h4>
+<p>
+<ul>
+	<li><a href="http://www.mozilla.com/firefox/" class="external" target="_blank">Mozilla Firefox</a> 1.0 or later.</li>
+	<li>Microsoft<sup>&reg;</sup> Internet Explorer 5.5 or later.</li>
+</ul>
+</p>
+</div>
+<br />
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+</div>
+
+<!-- Web Installation -->
+
+<div id="webinstallation" class="section">
+<h2>Web Installation</h2>
+<p>
+Web installation will be briefly described here.
+</p>
+
+<h3 id="welcome">Welcome Screen</h3>
+<p>It will state which version of OrangeHRM will be installed and breiefly what it would be doing to install OrangeHRM</p>
+<p>Click <b>[Next]</b> button in the Welcome screen to proceed with the installation</p>
+
+<h3 id="license">License Acceptance</h3>
+
+<p>Here you will be provided with a copy of the <a href="http://www.gnu.org/licenses/gpl.html" class="external" target="_blank">GNU GENERAL PUBLIC LICENSE</a> and to continue the installation you will have to accept the licene. If you decline simply discontinue the installation and delete all OrangeHRM files you posses.</p>
+
+<p>Click <b>[I Accept]</b> button in the License Acceptance screen if you accept the terms and conditions of the license. Then you will be taken to the next page of the Web Installer.</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<h3 id="systemChk">System Check</h3>
+
+<p>Here the Web Installer will check whether the <a href="#pre-requisities" class="see">pre-requisities</a> are available.</p>
+
+<p>If all responses are in green you can safely continue. You have installed the correct versions of the pre-requisities and configured them to work in harmony.</p>
+
+<p>See bellow for all the color codes in a situation<br /><br />
+<div class="screenshot" >
+<img src="../images/system_check_01.gif" alt="System Check" width="755" height="200" />
+</div>
+<p class="caption">Rare occurance where all three states are in the same screen.</p>
+</p>
+
+<p>Click <b>[Next]</b> button in the System Check screen to continue.</p>
+
+<div class="notes">
+<h4>Notes</h4>
+<h5>Maximum Session Idle Time before Timeout</h5>
+<p>
+Maximum Session Idle Time before Timeout is checked to ensure that users don't get logged out with in a short period such as less than 15 minutes. As a precaution it's not possible to continue installing OrangeHRM if the session times out in lessthan 2 minutes.
+</p>
+<h5>How to Fix</h5>
+<p>
+You will have to change <span class="code">session.gc_maxlifetime</span> in the <span class="code">php.ini</span> file. (Default <span class="code">session.gc_maxlifetime = 1440</span>)
+</p>
+<h5>Important</h5>
+<p>
+It is still possible that some other php application running in the same server overriding <span class="code">session.gc_maxlifetime</span> value in the <span class="code">php.ini</span> file at runtime. This will be the case if you are running OrangeHRM in a shared host. Workaround is available but beyond the scope of this document.
+</p>
+</div>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<h3 id="DBCreation">Database Creation</h3>
+
+<p>Enter the relevant information about your MySQL database server and database users.<br/>
+Click <b>[Next]</b> in Database Creation screen to continue.</p>
+
+
+<div class="notes">
+<h4>Notes</h4>
+
+<h5>Priviledged Database Users and OrangeHRM Database Users</h5>
+<p>
+Database users could be assigned different rights. In which case there may be users who can't create databases, users and perform certain database operations but allowed to view data in the databse. A previleged user is a user with rights to perform all database operations is a Privileged User.
+</p>
+<p>OrangeHRM database user doesn't need to be a privileged user. OrangeHRM database user only needs the rights to INSERT, UPDATE, SELECT and DELETE.
+</p>
+<p>Since the database user details are stored in the file in plain text it would be a security threat to have OrangeHRM database user to be the Privileged user.</p>
+<h5>Make a wise decision!</h5>
+</div>
+
+<h3 id="adminUsrCrt">Admin User Creation</h3>
+<p>Type in the Admin Username, Password and Confirm Admin User Password.<br />
+Click <b>[Next]</b> button in Admin User Creation Screen to continue.
+</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<h3 id="confirm">Confirmation</h3>
+<p>Confirm whther the installation details are correct and Click <b>[Install]</b> button in the Confirmation screen to install.</p>
+
+<div class="notes">
+<h4>Notes</h4>
+
+<p>Installation will begin immediately. Once you click <b>[install]</b> there is no way that you can stop the installation from starting. You cannot roll back the installation as well. Click <b>[Install]</b> only if you are sure that you want to install with the given configuration</p>
+</div>
+
+<h3 id="installing">Installing</h3>
+
+<p>Here you will be shown the progress of the installation. Once the installation is completed the <b>[Next]</b> button will be enabled. Click <b>[Next]</b> button in the Installing screen to continue.</p>
+
+<p>If an error occurs during the installation the whole installation will be aborted. <br />
+Click <b>[Back]</b> to go to previous pages to correct the error and start the installation again.
+See <a href="#installing_error" class="see">screenshots</a>
+</p>
+
+<div class="notes">
+<h4>Notes</h4>
+
+<p>If the installation is aborted you will have to either DROP the database with the name you porovided in the <a href="#DBCreation" class="see">Database Creation</a> page if it exists or key in another name for the database.
+</div>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<p><a href="#registration" class="skip">[Skip screen shots]</a></p>
+
+<h4>Following are sample screenshots of the Installing screen</h4>
+
+<div class="screenshot" >
+<img src="../images/installing_01.gif" alt="Installing 01"  width="549" height="308" />
+</div>
+<p class="caption">Installation has just started.</p>
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+<br />
+<br />
+
+<div class="screenshot" >
+<img src="../images/installing_02.gif" alt="Installing 02"  width="555" height="304" />
+</div>
+<p class="caption">Installation in progress.</p>
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+<br />
+<br />
+
+<div class="screenshot" >
+<img src="../images/installing_03.gif" alt="Installing 03"  width="332" height="315" />
+</div>
+<p class="caption">Installation has finished successfuly.</p>
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+<br />
+<br />
+
+<div class="screenshot" id="installing_error">
+<img src="../images/installing_error_01.gif" alt="Installing Error 01"  width="645" height="314" />
+</div>
+<p class="caption">Installation has been aborted due to an error.</p>
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+<br />
+
+<h3 id="registration">Registration</h3>
+<p>If you want be Up to Date on news about OrangeHRM, please provide your E-mail address and a name that the e-mails should be addressed. It will be much appreciated if you register here, then we will know how many users have successfuly installed OrangeHRM.</p>
+<p>You can also provide your comments.<p>
+<p>If you want to receive Updates or Newsletter select the tick box <b>[Updates/Newsletter].</b>
+</p>
+<br />
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+</div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Installation Guide ver 0.1 &copy; hSenid Software 2005 - 2006 All rights reserved.</div>
+</div>
+</body>
+</html>
