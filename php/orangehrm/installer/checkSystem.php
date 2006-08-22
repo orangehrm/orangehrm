@@ -71,12 +71,12 @@ function chk_memory($limit=9, $recommended=16) {
 		
 		if ($max_memory_int < $limit) {
 			
-			$msg = "Warning at least $limitM required ($max_memoryM available, Recommended $recommendedM)";
+			$msg = "Warning at least $limitM required ($max_memory M available, Recommended $recommended M)";
 			$type = "error";
 			
 		} elseif ($max_memory_int < $recommended) {
 		
-				$msg = "OK (Recommended $recommendedM)";
+				$msg = "OK (Recommended $recommended M)";
 				$type = "pending";
 		
 		} else {			
