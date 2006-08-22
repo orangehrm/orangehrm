@@ -14,7 +14,7 @@ function sockComm($postArr) {
 	    
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
-	    fputs($fp,"Content-type: application/x-www-form-urlencoded\r\n");
+	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
 	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
 	    fputs($fp, "User-Agent: MSIE\r\n");
 	    fputs($fp, "Connection: close\r\n\r\n");
@@ -27,10 +27,8 @@ function sockComm($postArr) {
 	        
 	    fclose($fp);
 	    
-	    if(strpos($resp, 'SUCCESSFUL') === false) {
-			echo $resp;
+	    if(strpos($resp, 'SUCCESSFUL') === false) 
 	    	return false;
-		}
 	    else 
 	    	return true;
 }
