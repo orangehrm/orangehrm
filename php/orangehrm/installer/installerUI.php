@@ -65,7 +65,7 @@ function back() {
 <form name="frmInstall" action="../install.php" method="POST">
 <input type="hidden" name="txtScreen" value="<?=$currScreen?>">
 <input type="hidden" name="actionResponse">
-<a href="./guide/<?=$helpLink[$currScreen]?>" id="help" target="_blank">Help ?</a>
+
 <table border="0" cellpadding="0" cellspacing="0">
   <tr>
 <?php
@@ -90,6 +90,7 @@ function back() {
 	?>
   </tr>
 </table>
+<a href="./guide/<?=$helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
 <?php
 
 switch ($currScreen) {
@@ -107,7 +108,7 @@ switch ($currScreen) {
 ?>
 
 </form>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Installation Wizard ver 0.2 &copy; hSenid Software 2005 - 2006 All rights reserved.</div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Installation Wizard ver 0.2 &copy; hSenid Software 2005 - 2006 All rights reserved. </div>
 </div>
 </body>
 </html>

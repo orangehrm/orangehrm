@@ -47,6 +47,50 @@ function check_php_version($sys_php_version = '') {
 	return $retval;
 }
 
+function chk_memory($limit=9, $recommended=16) {
+
+	$msg = '';
+	$type = '';
+	
+	$max_memory = ini_get('memory_limit');
+	
+	if ($max_memory == "") {
+	
+		$msg = "OK (No Limit)";
+		$type = "done";
+		
+	} else if ($max_memory === "-1") {
+	
+		$msg = "OK (Unlimited)";
+		$type = "done";
+		
+	} else {
+	
+		$max_memory = rtrim($max_memory, "M");
+		$max_memory_int = (int) $max_memory;
+		
+		if ($max_memory_int < $limit) {
+			
+			$msg = "Warning at least $limitM required ($max_memoryM available, Recommended $recommendedM)";
+			$type = "error";
+			
+		} elseif ($max_memory_int < $recommended) {
+		
+				$msg = "OK (Recommended $recommendedM)";
+				$type = "pending";
+		
+		} else {			
+				$msg = "OK";
+				$type = "done";			
+		}
+		
+	}
+		
+	$msg = "<b class='$type'>".$msg."</b>";	
+		
+return $msg;
+}
+
 ?>
 
 <script language="JavaScript">
@@ -151,6 +195,10 @@ function sysCheckPassed() {
             ?>
             </strong></td>
           </tr>
+		  <tr>
+            <td class="tdComponent">Memory allocated for PHP script</td>
+            <td align="right" class="tdValues"><?=chk_memory(9, 16)?></td>
+          </tr>		 
 		</table>
 		<br />
         <input class="button" type="button" value="Back" onclick="back();" tabindex="4">

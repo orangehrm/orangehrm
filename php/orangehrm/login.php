@@ -90,6 +90,10 @@ body {
 -->
 </style></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<noscript>
+	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
+	</strong>
+</noscript>
 <!-- ImageReady Slices (orange_new.psd) -->
 <table id="Table_01" width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -112,7 +116,7 @@ body {
   </tr>
 </table>
   <form name="loginForm" method="post" action="./login.php">
-<input type="hidden" name="actionID">
+	<input type="hidden" name="actionID">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="20%"><img src="themes/beyondT/pictures/spacer.gif" width="5" height="5" alt=""></td>
@@ -144,7 +148,7 @@ body {
             <td align="center" valign="bottom"><input type="reset" name="clear" value="Clear" class="button"></td>
             </tr>
             <tr>
-            <td></td>
+             	<td></td>
 <?
 			if(isset($InvalidLogin)) {
 			   switch ($InvalidLogin) {
@@ -152,12 +156,11 @@ body {
 			   		case 1 : 	echo "<td align='center'><strong><font color='Red'>Invalid Login</font></strong></td>";
 			   					break;
 			   		case 2 : 	echo "<td align='center'><strong><font color='Red'>User Disabled</font></strong></td>";
-			   					break;
+			   					break;					
 			   }
 			} else
 		        echo "<td>&nbsp; </td>";
-?>
-            
+?>           
             </tr>
           </table></td>
           </form>
