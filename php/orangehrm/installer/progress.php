@@ -76,7 +76,12 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
 </table>
 <? if (!isset($error)){
 		if ($_SESSION['INSTALLING'] < 5) { ?>
+		<noscript>
 			<meta http-equiv="refresh" content="2;URL=../install.php" />
+		</noscript>
+		<script language="javascript">
+			setTimeout('window.location= "../install.php"', 2000);
+		</script>
 		<? } else {?>
 		<br/>		
 		<script language="JavaScript">

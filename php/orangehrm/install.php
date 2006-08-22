@@ -1,14 +1,14 @@
 <?php
 
-function sockComm($postArr) {
+function sockComm($postArr) {	
 
 	$host = 'orangehrm.com';
 	$method = 'POST';
 	$path = '/registration/registerAcceptor.php';
-	$data = "userName=" . $postArr['userName'] 
-			. "&userEmail=" . $postArr['userEmail'] 
-			. "&userComments=" . $postArr['userComments'] 
-			. "&updates=" . isset($postArr['chkUpdates']) ? '1' : '0';
+	$data = "userName=".$postArr['userName']
+			."&userEmail=".$postArr['userEmail']
+			."&userComments=".$postArr['userComments']
+			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
 			
 	    $fp = fsockopen($host, 80);
 	    
@@ -27,8 +27,10 @@ function sockComm($postArr) {
 	        
 	    fclose($fp);
 	    
-	    if(strpos($resp, 'SUCCESSFUL') === false)
+	    if(strpos($resp, 'SUCCESSFUL') === false) {
+			echo $resp;
 	    	return false;
+		}
 	    else 
 	    	return true;
 }

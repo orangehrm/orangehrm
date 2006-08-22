@@ -53,18 +53,12 @@
 	
 	$treeCompStruct = new CompStruct();	
 
-	
-
 	$objAjax = new xajax();
-
-	
 
 	$objAjax->registerFunction('addLocation');
 	$objAjax->registerFunction('populateStates');
 
 	$objAjax->processRequests();
-
-	
 
 	function addLocation($arrElements) {	
 
@@ -73,15 +67,9 @@
 
 		$objAddLoc = $ext_locAdd->parseAddData($arrElements);
 
-		
-
 		$view_controller -> addData('LOC',$objAddLoc, true);
 
-		
-
 		$getLoc = $view_controller->xajaxObjCall('', 'LOC','getLocCodes');
-
-		
 
 		$objResponse = new xajaxResponse();
 
@@ -99,10 +87,7 @@
 
 		$objResponse->addAssign('status','innerHTML','');
 
-		
-
 	return $objResponse->getXML();
-
 	}
 	
 	function populateStates($value) {
@@ -231,7 +216,7 @@
 
 							echo "<image src='/themes/beyondT/icons/arrow.gif'>";		?>				
 
-							<a class="title" href="#layerForm" onClick='edit(<?echo $child[0]['id']; ?>, "<?echo $child[0]['title']; ?>", "<? echo $child[0]['description']?>", "<? echo $child[0]['loc_code']?>")'><?echo $child[0]['title']; ?></a>
+							<a class="title" href="#layerForm" onClick="edit(<?=$child[0]['id']?>, '<?=escapeshellcmd($child[0]['title'])?>', '<?=escapeshellcmd($child[0]['description'])?>', '<?=$child[0]['loc_code']?>');"><?=$child[0]['title']?></a>
 
 						
 
@@ -255,7 +240,7 @@
 
 				<td id="ControlButton" valign="bottom">
 
-					<a href='#layerForm' class="add" onClick="addChild(<? echo $child[0]['rgt']; ?>, '<? echo $child[0]['title']; ?>', <? echo $child[0]['id']; ?>, '<? echo $child[0]['loc_code']?>')""><?=$add?></a>
+					<a href='#layerForm' class="add" onClick="addChild(<? echo $child[0]['rgt']; ?>, '<?=escapeshellcmd($child[0]['title'])?>', <? echo $child[0]['id']; ?>, '<? echo $child[0]['loc_code']?>')""><?=$add?></a>
 
 				</td>
 
@@ -267,7 +252,7 @@
 
 				<td id="ControlButton" valign="bottom">
 
-					<a class="delete" href="#" onClick="deleteChild(<? echo $child[0]['lft']; ?>, <? echo $child[0]['rgt']; ?>, '<? echo $child[0]['title']; ?>');"><?=$delete?></a>
+					<a class="delete" href="#" onClick="deleteChild(<? echo $child[0]['lft']; ?>, <? echo $child[0]['rgt']; ?>, '<?=escapeshellcmd($child[0]['title'])?>');"><?=$delete?></a>
 
 				<? }; ?>
 

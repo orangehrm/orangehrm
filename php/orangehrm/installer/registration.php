@@ -41,7 +41,9 @@ document.frmInstall.btnRegister.disabled = true;
         <? } else { ?>
     	    <p class="error">Registration information was collected, but NOT sent to OrangeHRM.com, please click Retry to try again, or click Skip to proceed and login into OrangeHRM</p>
             <? } 
-	} ?>
+	} 
+	
+	if(!isset($reqAccept) || (!$reqAccept)) { ?>        
     <table cellpadding="0" cellspacing="0" border="0" class="table">
 	  <tr>
 	 	<th colspan="3" align="left">Details</th>
@@ -63,6 +65,7 @@ document.frmInstall.btnRegister.disabled = true;
         <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="5" <?=(isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
       </tr>     
 </table>
+<? } ?>
 	<br />
 	
         <? if(!isset($reqAccept)) { ?>        
