@@ -160,7 +160,7 @@ function goBack() {
                     
   <tr> 
      <td>Found in Release</td>
-    <td><strong>v1.2_beta_1</strong><input type="hidden" readonly name="artifact_group_id" value="623769"></td>
+    <td><strong>v1.2_RC_2</strong><input type="hidden" readonly name="artifact_group_id" value="632569"></td>
   </tr>
   <tr> 
     <td>Category</td>
@@ -171,6 +171,7 @@ function goBack() {
 				<OPTION VALUE="813016">PHP</OPTION>
 				<OPTION VALUE="813015">Database</OPTION>
 				<OPTION VALUE="864255">Language Pack</OPTION>
+				<OPTION VALUE="883366">Web-Installer</OPTION>
     </select></td>
   </tr>
   <tr> 
@@ -179,7 +180,7 @@ function goBack() {
         		<option value="0">--Select Module--</option>
     <?  $module = $this->popArr['module'];
     	 for($c=0;$c < count($module);$c++)
-            echo "<option value='" . $module[$c][0] . "'>" . $module[$c][1] ."</option>";
+            echo "<option>" . $module[$c][1] ."</option>";
     ?></td>
   </tr>
   <tr> 

@@ -209,7 +209,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2_RC_1 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2_RC_2 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
 </tr>
 </table>
 
