@@ -215,7 +215,7 @@
 	
 	function swStatus() {
 	
-		document.getElementById('status').innerHTML = "<image src='/themes/beyondT/icons/loading.gif' width='20' height='20' style='vertical-align: bottom;'>Please Wait...."; 
+		document.getElementById('status').innerHTML = "<image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style='vertical-align: bottom;'>Please Wait...."; 
 		
 	}
 	

@@ -413,7 +413,7 @@
 
 	<div id="layerFormLoc"  name="layerFormLoc" class="frame">
 
-		<h3><?=$frmNewLocation?></h3>&nbsp;<span id="status"><image src='/themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
+		<h3><?=$frmNewLocation?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
 
 		
 

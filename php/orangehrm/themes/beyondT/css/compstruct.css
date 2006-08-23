@@ -9,7 +9,7 @@
 	}
 	
 	.btnAdd {		
-		background: url(/themes/beyondT/icons/add.gif) no-repeat left;		
+		background: url(../../../themes/beyondT/icons/add.gif) no-repeat left;		
 		padding-left: 15px;
 	}
 	
@@ -21,7 +21,7 @@
 	}
 	
 	#line {
-		background: url(/themes/beyondT/icons/line.gif) repeat-y;
+		background: url(../../../themes/beyondT/icons/line.gif) repeat-y;
 		
 	}
 	
@@ -45,13 +45,13 @@
     .add {
 		text-decoration: none;
 		color: #0000FF;
-		background: url(/themes/beyondT/icons/add.gif) no-repeat left;
+		background: url(../../../themes/beyondT/icons/add.gif) no-repeat left;
 		padding-left:15px;		
 	}
 	
 	.delete {
 		text-decoration: none;
-		background: url(/themes/beyondT/icons/remove.gif) no-repeat left;
+		background: url(../../../themes/beyondT/icons/remove.gif) no-repeat left;
 		color: #FF0000;
 		padding-left:15px;
 	}
