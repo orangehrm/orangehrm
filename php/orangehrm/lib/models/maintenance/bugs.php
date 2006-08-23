@@ -331,7 +331,7 @@ class Bugs {
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp,"Content-type: application/x-www-form-urlencoded\r\n");
 	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-	    fputs($fp, "User-Agent: MSIE\r\n");
+	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
 	    fputs($fp, "Connection: close\r\n\r\n");
 	    fputs($fp, $data);
 	
@@ -642,7 +642,7 @@ class Bugs {
 		$sysConf = new Conf();
 		
 		ini_set('SMTP',$sysConf->smtphost);
-		return mail($to, $subject, $body,$headers);		
+		return @mail($to, $subject, $body,$headers);		
 	}
 
 	function getModulesCodes() {

@@ -16,7 +16,7 @@ function sockComm($postArr) {
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
 	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-	    fputs($fp, "User-Agent: MSIE\r\n");
+	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
 	    fputs($fp, "Connection: close\r\n\r\n");
 	    fputs($fp, $data);
 	    
@@ -57,6 +57,12 @@ function back($currScreen) {
 return true;
 }
 
+define('ROOT_PATH', dirname(__FILE__));
+
+if(is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
+	header('Location: ./index.php');
+	exit ();
+}
 
 if(!isset($_SESSION['SID']))
 	session_start();
@@ -64,8 +70,6 @@ if(!isset($_SESSION['SID']))
 if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }
-	
-define('ROOT_PATH', dirname(__FILE__));
 
 if(isset($_POST['actionResponse']))
 	switch($_POST['actionResponse']) {
