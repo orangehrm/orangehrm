@@ -170,10 +170,11 @@ td {
 	width: 800px;
 	margin-top: 10px;
 	margin-left: 60px;
-	margin-bottom:10px;
-	background-color:#FFFFFF;
+	margin-bottom:10px;	
 	padding-left:20px;
 	padding-right:20px;
+	background:top right no-repeat url(../../themes/beyondT/pictures/orange_new_02.gif);
+	background-color:#FFFFFF;
 }
 
 .error {

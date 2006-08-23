@@ -24,7 +24,7 @@ Click <b>[Next]</b> to continue.
 </p>
 <? } elseif (!isset($error)) { ?>
 <p align="center">
-<img src="../themes/beyondT/pictures/installstatus30second.gif" width="140" height="30" alt="Installing..."><br/>
+<img src="images/progress_bar.gif" width="150" height="13" alt="Installing..." id="progressbar"><br/>
 Please wait. Installation in progress.
 </p>
 <? } else { ?>
@@ -81,6 +81,10 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
 		</noscript>
 		<script language="javascript">
 			setTimeout('window.location= "../install.php"', 2000);
+			if (document.images)
+			{ 
+				setTimeout('document.progressbar.src = document.progressbar.src', 2000);
+			}
 		</script>
 		<? } else {?>
 		<br/>		
