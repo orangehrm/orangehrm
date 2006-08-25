@@ -53,14 +53,14 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	
 	function submitForm() {
 		
-		if(document.loginForm.txtUserName == "") {
+		if(document.loginForm.txtUserName.value == "") {
 				alert("User Name not Given!");
-				return;
+				return false;
 		   }
 		   
-		if(document.loginForm.txtPassword == "") {
+		if(document.loginForm.txtPassword.value == "") {
 				alert("Password not Given!");
-				return;
+				return false;
 		   }
 		   
 		document.loginForm.actionID.value = "chkAuthentication";
@@ -119,7 +119,7 @@ body {
     </table></td>
   </tr>
 </table>
-  <form name="loginForm" method="post" action="./login.php">
+  <form name="loginForm" method="post" action="./login.php" onsubmit="submitForm(); return false;">
 	<input type="hidden" name="actionID">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -148,7 +148,7 @@ body {
               <td><input name="txtPassword" type="password" class="loginTXT" size="10"></td>
             </tr>
             <tr>
-			<td height="40" valign="bottom" align="center"><input type="button" name="Submit" value="Login" class="button" onClick="submitForm();"> </td>
+			<td height="40" valign="bottom" align="center"><input type="Submit" name="Submit" value="Login" class="button" > </td>
             <td align="center" valign="bottom"><input type="reset" name="clear" value="Clear" class="button"></td>
             </tr>
             <tr>
