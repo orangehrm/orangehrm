@@ -360,7 +360,9 @@ class EmpInfo {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[1] = "EMP_FIRSTNAME";		
+		$arrFieldList[2] = "EMP_LASTNAME";
+		$arrFieldList[3] = "EMP_MIDDLE_NAME";
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -379,7 +381,7 @@ class EmpInfo {
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][1] = $line[1].' '.$line[3].' '.$line[2];
 	    	$i++;
 	    	
 	     }
@@ -400,7 +402,9 @@ class EmpInfo {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[1] = "EMP_FIRSTNAME";		
+		$arrFieldList[2] = "EMP_LASTNAME";
+		$arrFieldList[3] = "EMP_MIDDLE_NAME";
 
 		$sql_builder = new SQLQBuilder();
 		

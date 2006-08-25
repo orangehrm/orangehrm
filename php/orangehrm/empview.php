@@ -447,9 +447,9 @@ parent.scrollTo(0, 0);
 
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
 
-                    <tr>
+                    <tr nowrap="nowrap">
 
-                      <td width="200" class="dataLabel"><slot><?=$searchby?></slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel" nowrap="nowrap"><slot><?=$searchby?></slot>&nbsp;&nbsp;<slot>
 
                         <select name="loc_code" id="loc_code">
 

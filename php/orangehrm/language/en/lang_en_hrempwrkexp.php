@@ -11,4 +11,5 @@
  $briefdes				= 'Brief Description';
  $assignworkex			= 'Assigned Work Experiance';
  $workexid				= 'Work Experiance ID';
+ $internal				= 'Internal';
 ?>

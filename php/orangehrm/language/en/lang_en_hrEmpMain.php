@@ -165,6 +165,7 @@ $employeelanguageflu 	= 'Employee Language Fluency';
  $briefdes				= 'Comments';
  $assignworkex			= 'Assigned Work Experiance';
  $workexid				= 'Work Experiance ID';
+ $internal				= 'Internal';
 
  //education
  $education 			= 'Education';
