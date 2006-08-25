@@ -209,47 +209,51 @@ if(isset($this->popArr['editWrkExpArr'])) {
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
 		<?		} 	 ?>
 						</td>
-					  </tr>
-                  </table>
+	    </tr>
+</table>
 
 <? } else { ?>
 
 		<input type="hidden" name="txtEmpExpID"  value="<?=$this->popArr['newID']?>">
-
-			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?=$employer?></td>
-    				  <td><input type="text" name="txtEmpExpEmployer" <?=$locRights['add'] ? '':'disabled'?>></td>
-    				  <td width="50">&nbsp;</td>
-					<td nowrap><?=$startdate?></td>
-						<td nowrap> <input type="text" name="txtEmpExpFromDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
-					</tr>
-					  <tr> 
-						<td><?=$jobtitle?></td>
-						<td> <input type="text" name="txtEmpExpJobTitle" <?=$locRights['add'] ? '':'disabled'?>></td>
-    				  <td width="50">&nbsp;</td>
-						<td nowrap><?=$enddate?></td>
-						<td nowrap><input type="text" name="txtEmpExpToDate" readonly>&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
-    				  <td width="50">&nbsp;</td>
-    				   </tr>
-					  <tr>
-					<td><?=$briefdes?></td>
-						<td> <textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
-    				  <td width="50">&nbsp;</td>
-						 </tr>
-					  
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-<?	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
-					  </tr>
-                  </table>
-<? } ?>
-
+		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+          <tr>
+            <td><?=$employer?></td>
+            <td><input type="text" name="txtEmpExpEmployer2" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td width="50">&nbsp;</td>
+            <td nowrap><?=$startdate?></td>
+            <td nowrap><input type="text" name="txtEmpExpFromDate2" readonly />
+              &nbsp;
+              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
+          </tr>
+          <tr>
+            <td><?=$jobtitle?></td>
+            <td><input type="text" name="txtEmpExpJobTitle2" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td width="50">&nbsp;</td>
+            <td nowrap><?=$enddate?></td>
+            <td nowrap><input type="text" name="txtEmpExpToDate2" readonly />
+              &nbsp;
+              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td width="50">&nbsp;</td>
+          </tr>
+          <tr valign="top">
+            <td><?=$briefdes?></td>
+            <td><textarea <?=$locRights['add'] ? '':'disabled'?> name="textarea"></textarea></td>
+            <td width="50">&nbsp;</td>
+			<td width="50"><?=$internal?></td>
+			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?=$locRights['add'] ? '':'disabled'?> /></td>
+			<td width="50">&nbsp;</td>
+          </tr>
+          <tr>
+            <td valign="top"></td>
+            <td align="left" valign="top"><?	if($locRights['add']) { ?>
+                <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
+                <? 	} else { ?>
+                <img onclick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg" />
+                <?	} ?>
+            </td>
+          </tr>
+        </table>
+		<? } ?>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -302,6 +306,6 @@ $rset = $this->popArr['rsetWrkExp'];
         echo '</tr>';
         }
 ?>
-      </table>
+</table>
       
 <? } ?>

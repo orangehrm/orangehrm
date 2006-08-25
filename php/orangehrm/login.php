@@ -148,7 +148,7 @@ body {
               <td><input name="txtPassword" type="password" class="loginTXT" size="10"></td>
             </tr>
             <tr>
-			<td height="40" valign="bottom" align="center"><input type="button" name="Submit" value="Submit" class="button" onClick="submitForm();"> </td>
+			<td height="40" valign="bottom" align="center"><input type="button" name="Submit" value="Login" class="button" onClick="submitForm();"> </td>
             <td align="center" valign="bottom"><input type="reset" name="clear" value="Clear" class="button"></td>
             </tr>
             <tr>

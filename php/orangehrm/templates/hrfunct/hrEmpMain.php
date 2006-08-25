@@ -719,22 +719,25 @@ function resetAdd(panel) {
 			<table border="0" align="center" cellpadding="0" cellspacing="0">
 				<tr class="mnuPIM">
 					<td id="personalLink"><a href="javascript:displayLayer(1)">Personal</a></td>
-					<td id="jobLink"><a href="javascript:displayLayer(2)">Job</a></td>
-					<td id="dependantsLink"><a href="javascript:displayLayer(3)">Dependents</a></td>
 					<td id="contactLink"><a href="javascript:displayLayer(4)">Contact</a></td>
-					<td id="emergency_contactLink"><a href="javascript:displayLayer(5)">Emergency Contact</a></td>
-					<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
-					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
-					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->			
-					<td id="educationLink"><a href="javascript:displayLayer(9)">Education</a></td>
+					<td id="emergency_contactLink"><a href="javascript:displayLayer(5)">Emergency Contact(s)</a></td>
+					<td id="dependantsLink"><a href="javascript:displayLayer(3)">Dependents</a></td>
 					<td id="immigrationLink"><a href="javascript:displayLayer(10)">Immigration</a></td>
-					<td id="languagesLink"><a href="javascript:displayLayer(11)">Languages</a></td>
-					<td id="licenseLink"><a href="javascript:displayLayer(12)">License</a></td>
-					<td id="membershipLink"><a href="javascript:displayLayer(13)">Membership</a></td>
+					
+					<td id="jobLink"><a href="javascript:displayLayer(2)">Job</a></td>
 					<td id="paymentLink"><a href="javascript:displayLayer(14)">Payments</a></td>
 					<td id="report-toLink"><a href="javascript:displayLayer(15)">Report-to</a></td>
-					<td id="skillsLink"><a href="javascript:displayLayer(16)">Skills</a></td>
+					
 					<td id="work_experienceLink"><a href="javascript:displayLayer(17)">Work experience</a></td>
+					<td id="educationLink"><a href="javascript:displayLayer(9)">Education</a></td>
+					<td id="skillsLink"><a href="javascript:displayLayer(16)">Skills</a></td>
+					<td id="languagesLink"><a href="javascript:displayLayer(11)">Languages</a></td>
+					<td id="licenseLink"><a href="javascript:displayLayer(12)">License</a></td>
+					
+					<td id="membershipLink"><a href="javascript:displayLayer(13)">Membership</a></td>
+					<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
+					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
+					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->		
 				</tr>
 			</table>
 			</td>
