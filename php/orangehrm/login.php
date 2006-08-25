@@ -90,6 +90,10 @@ body {
 -->
 </style></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<? if (isset($_COOKIE['PHPSESSID'])) { ?>
+	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active. Please re-login. <?=$_COOKIE['PHPSESSID']?></font>
+	</strong>
+<? } ?>
 <noscript>
 	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
 	</strong>
