@@ -59,7 +59,7 @@ return true;
 
 define('ROOT_PATH', dirname(__FILE__));
 
-if(is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['CONFDONE'])) {
+if(is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['INSTALLING'])) {
 	header('Location: ./index.php');
 	exit ();
 }

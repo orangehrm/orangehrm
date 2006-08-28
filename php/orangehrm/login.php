@@ -48,6 +48,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 <html>
 <head>
 <title>OrangeHRM - New Level of HR Management</title>
+<link href="favicon.ico" rel="icon" type="image/gif"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 	
@@ -119,7 +120,7 @@ body {
     </table></td>
   </tr>
 </table>
-  <form name="loginForm" method="post" action="./login.php" onsubmit="submitForm(); return false;">
+  <form name="loginForm" method="post" action="./login.php" onSubmit="submitForm(); return false;">
 	<input type="hidden" name="actionID">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
