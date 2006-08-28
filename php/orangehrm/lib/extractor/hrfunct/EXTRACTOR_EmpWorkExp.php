@@ -35,7 +35,7 @@ class EXTRACTOR_EmpWorkExp{
     		$this->empwrkexp->setEmpExpFromDate(trim($postArr['txtEmpExpFromDate']));
     		$this->empwrkexp->setEmpExpToDate(trim($postArr['txtEmpExpToDate']));
     		$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
-			$this->empwrkexp->setEmpExpInternal(trim($postArr['chkEmpExpInternal']));
+			$this->empwrkexp->setEmpExpInternal(isset($postArr['chkEmpExpInternal']) ? 1 : 0);
     		    
 			return $this->empwrkexp;	
 	}

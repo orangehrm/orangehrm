@@ -239,7 +239,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrRecordsList[4]  = "'". $this->getEmpExpFromDate() . "'";
 		$arrRecordsList[5]  = "'". $this->getEmpExpToDate() . "'";
 		$arrRecordsList[6]  = "'". $this->getEmpExpComments() . "'";
-		$arrFieldList[7]  = "'". $this->getEmpExpInternal() . "'";
+		$arrRecordsList[7]  = "'". $this->getEmpExpInternal() . "'";
 
 		$tableName = 'HS_HR_EMP_WORK_EXPERIENCE';
 		$arrFieldList[0] = 'EMP_NUMBER';
@@ -249,6 +249,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrFieldList[4] = 'EEXP_FROM_DATE';
 		$arrFieldList[5] = 'EEXP_TO_DATE';
 		$arrFieldList[6] = 'EEXP_COMMENTS';
+		$arrFieldList[7] = 'EEXP_INTERNAL';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -276,7 +277,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrFieldList[4] = 'EEXP_FROM_DATE';
 		$arrFieldList[5] = 'EEXP_TO_DATE';
 		$arrFieldList[6] = 'EEXP_COMMENTS';
-		$arrFieldList[6] = 'EEXP_INTERNAL';
+		$arrFieldList[7] = 'EEXP_INTERNAL';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -325,6 +326,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrFieldList[4] = 'EEXP_FROM_DATE';
 		$arrFieldList[5] = 'EEXP_TO_DATE';
 		$arrFieldList[6] = 'EEXP_COMMENTS';
+		$arrFieldList[7] = 'EEXP_INTERNAL';
 
 		$sql_builder = new SQLQBuilder();
 		

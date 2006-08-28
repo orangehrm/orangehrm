@@ -257,6 +257,7 @@ create table `hs_hr_emp_work_experience` (
   `eexp_from_date` datetime default null,
   `eexp_to_date` datetime default null,
   `eexp_comments` varchar(200) default null,
+  `eexp_internal` int(1) default null,
   primary key  (`emp_number`,`eexp_seqno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

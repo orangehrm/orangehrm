@@ -180,25 +180,28 @@ if(isset($this->popArr['editWrkExpArr'])) {
 ?>
     		 <input type="hidden" name="txtEmpExpID" value="<?=$this->getArr['WRKEXP']?>">
 
-      <table border="0" cellpadding="0" cellspacing="0">
+      <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td><?=$employer?></td>
     				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?=$edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
-					<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
+					  <td nowrap><?=$startdate?></td>
+					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
 						<td><?=$jobtitle?></td>
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?=$edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
-						<td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td nowrap><?=$enddate?></td>
+						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
-					  <tr>
+					  <tr valign="top">
 						<td><?=$briefdes?></td>
 						<td> <textarea disabled name="txtEmpExpComments"><?=$edit[0][6]?></textarea></td>
-    				  <td width="50">&nbsp;</td>
+    				  	<td width="50">&nbsp;</td>
+						<td width="50"><?=$internal?></td>
+						<td width="50"><input type="checkbox" name="chkEmpExpInternal" disabled value="1" <?=(isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
+						<td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 						<td valign="top"></td>
@@ -218,29 +221,29 @@ if(isset($this->popArr['editWrkExpArr'])) {
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
             <td><?=$employer?></td>
-            <td><input type="text" name="txtEmpExpEmployer2" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td><input type="text" name="txtEmpExpEmployer" <?=$locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
             <td nowrap><?=$startdate?></td>
-            <td nowrap><input type="text" name="txtEmpExpFromDate2" readonly />
+            <td nowrap><input type="text" name="txtEmpExpFromDate" readonly />
               &nbsp;
               <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
             <td><?=$jobtitle?></td>
-            <td><input type="text" name="txtEmpExpJobTitle2" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td><input type="text" name="txtEmpExpJobTitle" <?=$locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
             <td nowrap><?=$enddate?></td>
-            <td nowrap><input type="text" name="txtEmpExpToDate2" readonly />
+            <td nowrap><input type="text" name="txtEmpExpToDate" readonly />
               &nbsp;
               <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">
             <td><?=$briefdes?></td>
-            <td><textarea <?=$locRights['add'] ? '':'disabled'?> name="textarea"></textarea></td>
+            <td><textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
             <td width="50">&nbsp;</td>
 			<td width="50"><?=$internal?></td>
-			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?=$locRights['add'] ? '':'disabled'?> /></td>
+			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?=$locRights['add'] ? '':'disabled'?> value="1"/></td>
 			<td width="50">&nbsp;</td>
           </tr>
           <tr>
@@ -287,8 +290,9 @@ if(isset($this->popArr['editWrkExpArr'])) {
                       	<td></td>
 						 <td width="125"><strong><?=$workexid?></strong></td>
 						 <td width="135"><strong><?=$employer?></strong></td>
-						 <td width="125"><strong><?=$startdate?></strong></td>
-						 <td width="125"><strong><?=$enddate?></strong></td>
+						 <td width="65"><strong><?=$startdate?></strong></td>
+						 <td width="65"><strong><?=$enddate?></strong></td>
+						 <td><strong><?=$internal?></strong></td>
 					</tr>
 <?
 
@@ -303,6 +307,8 @@ $rset = $this->popArr['rsetWrkExp'];
             echo '<td>' . $str[0] .'</td>';
             $str = explode(" ",$rset[$c][5]);
             echo '<td>' . $str[0] .'</td>';
+			$str = (isset($rset[$c][7]) && ($rset[$c][7] == 1))? '<img src="../../themes/beyondT/icons/flag.gif" alt="internal" width="22" height="19" title="Internal"/>' : '';
+			echo '<td>' .$str.'</td>';
         echo '</tr>';
         }
 ?>
