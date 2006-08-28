@@ -283,7 +283,7 @@ create table `hs_hr_employee` (
   `emp_status` varchar(100) default null,
   `job_title_code` varchar(100) default null,
   `eeo_cat_code` varchar(100) default null,
-  `loc_code` varchar(100) default null,
+  `work_station` int(6) default null,
   `emp_street1` varchar(100) default '',
   `emp_street2` varchar(100) default '',
   `city_code` varchar(100) default '',
@@ -534,8 +534,8 @@ alter table hs_hr_membership
                              references hs_hr_membership_type(membtype_code) on delete cascade;
 
 alter table hs_hr_employee
-       add constraint foreign key (loc_code)
-                             references hs_hr_location(loc_code) on delete cascade;
+       add constraint foreign key (work_station)
+                             references hs_hr_compstructtree(id) on delete cascade;
 
 alter table hs_hr_employee
        add constraint foreign key (ethnic_race_code)

@@ -590,7 +590,7 @@ class EmpInfo {
 		$arrFieldList[17] = 'EMP_STATUS';
 		$arrFieldList[18] = 'JOB_TITLE_CODE';
 		$arrFieldList[19] = 'EEO_CAT_CODE';
-		$arrFieldList[20] = 'LOC_CODE';
+		$arrFieldList[20] = 'WORK_STATION';
 		$arrFieldList[32] = 'JOINED_DATE';
 		
 		//contact
@@ -767,7 +767,7 @@ class EmpInfo {
 		$arrFieldList[1] = 'EMP_STATUS';
 		$arrFieldList[2] = 'JOB_TITLE_CODE';
 		$arrFieldList[3] = 'EEO_CAT_CODE';
-		$arrFieldList[4] = 'LOC_CODE';
+		$arrFieldList[4] = 'WORK_STATION';
 		$arrFieldList[5] = 'JOINED_DATE';
 
 		$sql_builder = new SQLQBuilder();
@@ -818,7 +818,7 @@ class EmpInfo {
 		$arrFieldList[1] = 'EMP_STATUS';
 		$arrFieldList[2] = 'JOB_TITLE_CODE';
 		$arrFieldList[3] = 'EEO_CAT_CODE';
-		$arrFieldList[4] = 'LOC_CODE';
+		$arrFieldList[4] = 'WORK_STATION';
 		$arrFieldList[5] = 'JOINED_DATE';
 
 		$sql_builder = new SQLQBuilder();
@@ -986,7 +986,7 @@ class EmpInfo {
 		$arrFieldList[7] = 'EMP_LASTNAME';
 		$arrFieldList[8] = 'EMP_OTHER_NAMES';
 
-		$arrFieldList[9] = 'LOC_CODE';
+		$arrFieldList[9] = 'WORK_STATION';
 		$arrFieldList[10] = 'EMP_PREF_WORK_STATION';
 
 		$sql_builder = new SQLQBuilder();
@@ -1029,7 +1029,7 @@ class EmpInfo {
 		$arrRecordsList[2] = ($this->getEmpPrefLoc()=='0') ? 'null' :"'". $this->getEmpPrefLoc() . "'";
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'LOC_CODE';
+		$arrFieldList[1] = 'WORK_STATION';
 		$arrFieldList[2] = 'EMP_PREF_WORK_STATION';
 
 		$sql_builder = new SQLQBuilder();

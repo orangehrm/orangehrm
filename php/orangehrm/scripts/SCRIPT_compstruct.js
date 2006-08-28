@@ -116,6 +116,7 @@
 	}
 	
 	function edit(id, txt, desc, loc){
+	<? if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 		var words = txt.split(" ");
 		var found =false;
 		
@@ -155,6 +156,11 @@
 		document.getElementById("txtTitle").value=words.join(" ");	
 		document.getElementById("txtDesc").value=desc;
 		document.getElementById("layerForm").style.visibility="visible";
+	<? } else { ?>
+		opener.document.frmEmp.txtLocation.value=txt;
+		opener.document.frmEmp.cmbLocation.value=id;
+		window.close(0);	
+	<? } ?>
 	}
 	
 	function frmAddHide () {

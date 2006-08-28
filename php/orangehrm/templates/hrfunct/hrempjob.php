@@ -1,6 +1,12 @@
+<script language="javascript">
+	function returnLocDet(){
+		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400');
+        if(!popup.opener) popup.opener=self;	
+	}
+</script>
 <? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
-	<table height="150" border="0" cellpadding="0" cellspacing="0">
+	<table height="150" border="0" cellpadding="5" cellspacing="0">
 	<tr>
 			   <td><?=$jobtitle?></td>
 			  <td><select name="cmbJobTitle" <?=$locRights['add'] ? '':'disabled'?> onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_assEmpStat(this.value);">
@@ -32,15 +38,11 @@
 						    ?>			
 					</select></td>
 			   <td width="50">&nbsp;</td>
-			  <td><?=$location?></td>
-				<td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbLocation">
-						<option value="0"><?=$selectlocation?></option>
-<?						$loc = $this->popArr['loc'];
-						for($c=0;$loc && count($loc)>$c;$c++)
-						    echo '<option value=' . $loc[$c][0] . '>' . $loc[$c][1] .'</option>';
-							    
-?>			  
-			  </select></td>
+			  <td nowrap><?=$workstation?></td>
+			  <td nowrap><input type="text"  name="txtLocation" value="" readonly />
+			  			 <input type="hidden"  name="cmbLocation" value="" readonly />
+			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?=$locRights['add'] ? '':'disabled'?> class="button" />
+			  </td>
 			  </tr>
 			  <tr>
 			  <td><?=$joindate?></td>
@@ -50,7 +52,7 @@
 
 <? } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="150" border="0" cellpadding="0" cellspacing="0">
+	<table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="150" border="0" cellpadding="5" cellspacing="0">
 
     
 <?
@@ -106,22 +108,10 @@
 			  </select></td>
 			  
 			  <td width="50">&nbsp;</td>
-			  <td><?=$location?></td>
-			  <td><select <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbLocation">
-			  		<option value="0"><?=$selectlocation?></option>
-<?					$loc = $this->popArr['loc'];
-						for($c=0;$loc && count($loc)>$c;$c++)
-							if(isset($this->postArr['cmbLocation'])) {
-							   if($this->postArr['cmbLocation']==$loc[$c][0])
-								    echo "<option selected value='".$loc[$c][0]. "'>" . $loc[$c][1] ."</option>";
-								else
-								    echo "<option value='".$loc[$c][0]. "'>" . $loc[$c][1] ."</option>";
-							} elseif($edit1[0][4]==$loc[$c][0])
-								    echo "<option selected value='".$loc[$c][0]. "'>" . $loc[$c][1] ."</option>";
-								else
-								    echo "<option value='".$loc[$c][0]. "'>" . $loc[$c][1] ."</option>";
-?>			  
-			  </select></td>
+			  <td nowrap><?=$workstation?></td>
+			  <td nowrap><input type="text"  name="txtLocation" value="<?=$edit1[0][4]?>" readonly />
+			  			 <input type="hidden"  name="cmbLocation" value="<?=$edit1[0][4]?>" readonly />
+			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
 			  </tr>
 			  <tr>
 			  <td><?=$joindate?></td>

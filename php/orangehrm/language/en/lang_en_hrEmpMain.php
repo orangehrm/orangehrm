@@ -33,6 +33,7 @@
  $location              		= 'Location';
  $selectlocation				= '--Select Location--';
  $joindate						= 'Joined Date';
+ $workstation					= 'Workstation';
  
  $dependents			  		= 'Dependents';
  $children						= 'Children';
