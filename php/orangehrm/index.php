@@ -89,6 +89,7 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="themes/beyondT/pictures/styles.css" rel="stylesheet" type="text/css">
 <link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<link href="favicon.ico" rel="icon" type="image/gif"/>
 <style type="text/css">@import url("themes/beyondT/css/menu.css"); </style>
 <script language=javascript src="scripts/ypSlideOutMenus.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
