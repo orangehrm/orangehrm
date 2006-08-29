@@ -429,7 +429,7 @@ class SQLQBuilder {
 	
 ///////////////////
 	
-	function selectOneRecordFiltered($filID, $num=0, $start=1, $quote="'") {
+	function selectOneRecordFiltered($filID, $num=0) {
 				
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 						
@@ -454,8 +454,8 @@ class SQLQBuilder {
             else
                 {
                   $SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '=' . "'" . $filID[0] . "'";
-                  for($c = $start ; $c <= $num ; $c++)
-                    $SQL1 = $SQL1 . ' AND '. $arrayFieldList[$c] . '=' .$quote . $filID[$c] . $quote;
+                  for($c = 1 ; $c <= $num ; $c++)
+                    $SQL1 = $SQL1 . ' AND '. $arrayFieldList[$c] . "=" . "'" . $filID[$c] . "'";
                 }
 				//echo $SQL1; 
 				//exit;
