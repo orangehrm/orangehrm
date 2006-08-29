@@ -65,7 +65,7 @@ $objAjax->processRequests();
 <html>
 <head>
 <title>Untitled Document</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <? $objAjax->printJavascript(); ?>
 <? include(ROOT_PATH.'/scripts/archive.js'); ?>
 <script>

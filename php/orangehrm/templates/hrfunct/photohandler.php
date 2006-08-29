@@ -82,7 +82,7 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'EDIT') {
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 <title>Select a Photo</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 function addPic() {
 	document.frmPhoto.STAT.value = 'ADD';

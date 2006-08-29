@@ -60,7 +60,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 <title>Untitled Document</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 
@@ -274,7 +274,7 @@ function goBack() {
 
 <title>Untitled Document</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 
 

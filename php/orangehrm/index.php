@@ -86,7 +86,7 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 <html>
 <head>
 <title>OrangeHRM</title>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="themes/beyondT/pictures/styles.css" rel="stylesheet" type="text/css">
 <link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <link href="favicon.ico" rel="icon" type="image/gif"/>

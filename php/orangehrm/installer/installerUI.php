@@ -40,7 +40,8 @@ $helpLink = array("#welcome", "#license", "#systemChk", "#DBCreation", "#adminUs
 <head>
 <title>OrangeHRM Web Installation Wizard</title>
 <link href="../favicon.ico" rel="icon" type="image/gif"/>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="favicon.ico" rel="icon" type="image/gif"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script language="JavaScript">
 
 function goToScreen(screenNo) {

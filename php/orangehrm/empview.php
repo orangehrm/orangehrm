@@ -80,7 +80,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 <title>Untitled Document</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 </head>
 

@@ -59,7 +59,7 @@ class MySQLClass {
 	  	} else {
 	  		
 	  	 if ($this -> conn) {
-	  	 		  	 	
+	  	 	mysql_query("SET NAMES 'utf8'");	  	 	
 	  	 	if (mysql_select_db ($this->db_name)) {
 	  	 		
 		 	    return true;
