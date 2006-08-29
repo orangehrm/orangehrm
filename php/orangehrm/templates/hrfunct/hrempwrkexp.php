@@ -217,7 +217,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
 <? } else { ?>
 
-		<input type="hidden" name="txtEmpExpID"  value="<?=$this->popArr['newID']?>">
+		<input type="hidden" name="txtEmpExpID"  value="<?=$this->popArr['newWrkExpID']?>">
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
             <td><?=$employer?></td>

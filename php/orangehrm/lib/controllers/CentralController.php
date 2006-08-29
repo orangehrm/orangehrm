@@ -706,6 +706,10 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
 
+					if(isset($_POST['conextSTAT']) && $_POST['conextSTAT']!= '') {
+						$extractorForm = new EXTRACTOR_EmpConExt();
+					}
+					
 					switch ($_GET['reqcode']) {	
 							
 							case 'EMP'	:	
@@ -837,6 +841,13 @@ switch ($moduletype) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
 										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+										
+										if(isset($_POST['conextSTAT']) && (($_POST['conextSTAT'] == 'ADD' && $locRights['add']) || ($_POST['conextSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['conextSTAT']);
+										} elseif(isset($_POST['conextSTAT']) && $_POST['conextSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										

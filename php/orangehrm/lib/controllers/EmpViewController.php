@@ -59,23 +59,21 @@ class EmpViewController {
 	function viewList($getArr,$postArr) {
 
 		$form_creator = new FormCreator($getArr,$postArr);
-		$form_creator ->formPath ='/empview.php'; 
+		$form_creator ->formPath = '/empview.php'; 
 		
 		if (isset($getArr['reqcode'])) {
  			$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['reqcode']));
     	}	
 			
-    		$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;		 	
+    	$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;		 	
  		
 			
-		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
-    	{
+		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) {
+			
 		    $choice=$postArr['loc_code'];
     		$strName=trim($postArr['loc_name']);
     		$form_creator ->popArr['emplist'] = $this ->  getInfo(trim($getArr['reqcode']),$currentPage,$strName,$choice);
-    	}
-		else 
-			$form_creator ->popArr['emplist'] = $this ->  getInfo(trim($getArr['reqcode']),$currentPage);
+    	} else $form_creator ->popArr['emplist'] = $this ->  getInfo(trim($getArr['reqcode']),$currentPage);
 						
    		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) 				
 			$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['reqcode']),$strName,$choice);
@@ -816,6 +814,17 @@ class EmpViewController {
 		return;
 		}
 		
+		if(isset($postArr['conextSTAT']) && ($postArr['conextSTAT'] == 'ADD' || $postArr['conextSTAT'] == 'EDIT')) {
+			$empconext = new EmpConExt();
+			$empconext = $object;
+			if($action == 'ADD')
+				$empconext -> addConExt();
+			elseif($action == 'EDIT')
+				$empconext -> updateConExt();
+				
+		return;
+		}
+		
 		if(isset($postArr['childrenSTAT']) && ($postArr['childrenSTAT'] == 'ADD' || $postArr['childrenSTAT'] == 'EDIT')) {
 			$empchi = new EmpChildren();
 			$empchi = $object;
@@ -1028,6 +1037,18 @@ class EmpViewController {
 				   $arr[0][$c]=$getArr['id'];
 				   
 			$dep->delEmpDep($arr);
+		}
+		
+		if(isset($postArr['conextSTAT']) && $postArr['conextSTAT'] =='DEL') {
+			
+			$conext = new EmpConExt();
+		
+			$arr[1]=$postArr['chkconextdel'];
+			for($c=0;count($arr[1])>$c;$c++)
+				if($arr[1][$c]!=NULL)
+				   $arr[0][$c]=$getArr['id'];
+				   
+			$conext -> delConExt($arr);
 		}
 		
 		if(isset($postArr['childrenSTAT']) && $postArr['childrenSTAT'] =='DEL') {
@@ -1693,7 +1714,7 @@ class EmpViewController {
     							
 							} else {
 							 
-								$form_creator->popArr['newID'] = $empworkex ->getLastRecord($getArr['id']);
+								$form_creator->popArr['newWrkExpID'] = $empworkex ->getLastRecord($getArr['id']);
 							}
 							
 							$form_creator-> popArr['rsetWrkExp']  =  $empworkex ->getAssEmpWorkExp($getArr['id']);
@@ -1733,6 +1754,19 @@ class EmpViewController {
 									$form_creator->popArr['resplist'] = $porinfo->getProvinceCodes($editPermRes[0][10]);
 									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($editPermRes[0][11]);
 								}
+								
+							$empconext = new EmpConExt();
+							
+							if(isset($getArr['CONEXT'])) {
+								
+	   							$arr[0]=$getArr['id'];
+    							$arr[1]=$getArr['CONEXT'];
+    								
+    							$form_creator->popArr['editConExtArr'] = $empconext->filterConExt($arr);
+    							
+							} else $form_creator->popArr['newConExtID'] = $empconext->getLastRecord($getArr['id']);
+							
+							$form_creator->popArr['rsetConExt'] = $empconext ->getAssConExt($getArr['id']);
 							}
 							
 							break;
