@@ -110,7 +110,7 @@
 			  <td width="50">&nbsp;</td>
 			  <td nowrap><?=$workstation?></td>
 			  <td nowrap><input type="text"  name="txtLocation" value="<?=$edit1[0][4]?>" readonly />
-			  			 <input type="hidden"  name="cmbLocation" value="<?=$edit1[0][4]?>" readonly />
+			  			 <input type="hidden"  name="cmbLocation" value="<?=$edit1[0][6]?>" readonly />
 			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
 			  </tr>
 			  <tr>

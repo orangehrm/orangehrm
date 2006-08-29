@@ -762,21 +762,22 @@ class EmpInfo {
 	function filterEmpJobInfo($getID) {
 		
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_STATUS';
-		$arrFieldList[2] = 'JOB_TITLE_CODE';
-		$arrFieldList[3] = 'EEO_CAT_CODE';
-		$arrFieldList[4] = 'WORK_STATION';
-		$arrFieldList[5] = 'JOINED_DATE';
+		$tableName = 'HS_HR_EMPLOYEE A, HS_HR_COMPSTRUCTTREE B';
+		$arrFieldList[0] = 'a.EMP_NUMBER';
+		$arrFieldList[1] = 'a.EMP_STATUS';
+		$arrFieldList[2] = 'a.JOB_TITLE_CODE';
+		$arrFieldList[3] = 'a.EEO_CAT_CODE';
+		$arrFieldList[4] = 'b.TITLE';
+		$arrFieldList[5] = 'a.JOINED_DATE';	
+		$arrFieldList[6] = 'b.ID';		
 
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		$sql_builder->arr_select = $arrFieldList;
+		
+		$sqlQString = $sql_builder->selectOneRecordFiltered(array(0 => $this->getID, 6 => "a.WORK_STATION"), 6, 6, "");
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
