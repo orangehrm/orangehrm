@@ -59,13 +59,15 @@ return true;
 
 define('ROOT_PATH', dirname(__FILE__));
 
-if(is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['INSTALLING'])) {
+if(!isset($_SESSION['SID']))
+	session_start();
+
+clearstatcache();
+	
+if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['INSTALLING'])) {
 	header('Location: ./index.php');
 	exit ();
 }
-
-if(!isset($_SESSION['SID']))
-	session_start();
 	
 if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);

@@ -21,13 +21,13 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
 class MySQLClass {
 
-	var $myHost; // server name
-	var $myHostPort;
-	var $userName; //db user
-	var $userPassword; // db user password
-	var $db_name; // database name
-	var $conn; // database connection
-	var $result;
+	private $myHost; // server name
+	private $myHostPort;
+	private $userName; //db user
+	private $userPassword; // db user password
+	private $db_name; // database name
+	private $conn; // database connection
+	private $result;
 
 
 /* Class Constructor for MySQLClass*/	
@@ -47,7 +47,6 @@ class MySQLClass {
 	
 */
 	function dbConnect() {
-			
 		//$this -> conn = mysql_connect($this->myHost, $this->userName, $this->userPassword);
 	  	
 	  	if (!@$this -> conn = mysql_connect($this->myHost .':'.$this->myHostPort, $this->userName, $this->userPassword)) {
@@ -74,8 +73,8 @@ class MySQLClass {
 		 } else {
 		   	
 		   return false;
-		}
-	}	  	
+		 }		
+	    }	  	
 	  		
 	  	
 	  	
@@ -121,17 +120,22 @@ class MySQLClass {
 	
 */
 
-	function sqlQuery($sql)	{
-		
+	function sqlQuery($sql)	{		
 		if( (isset($this -> conn)) && ($sql != '') ){
-			$this->result = mysql_query($sql);
-			 return $this->result;
-	 		 echo mysql_error();
+			 $this->result = mysql_query($sql);
+			 
+			 if ($this->result) {
+			 	return $this->result;
+			 }
+			 
+	 		 $exception_handler = new ExceptionHandler();
+	  	 	 $exception_handler->dbexInvalidSQL();
+	 		 return false;
 	
 	 	} else {	
 	 		 	
 	 		$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->dbexNoQueryFound();
+	  	 	$exception_handler->dbexNoQueryFound($sql);
 	 		return false;
 	 		
 		}
