@@ -21,27 +21,55 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 
 	switch ($errlevel) {
 		case E_USER_WARNING : $type = "Warning";
-					break;
-		case E_USER_NOTICE : $type = "Notice";
-					break;
-		case E_USER_ERROR : $type = "Error";
-					break;
+							  break;
+		case E_USER_NOTICE 	: $type = "Notice";
+							  break;
+		case E_USER_ERROR 	: $type = "Error";
+							  break;
+		case E_WARNING 		: $type = "Warning";
+							  $sysErr = true;
+							  break;
+		case E_NOTICE 		: $type = "Notice";
+							  $sysErr = true;
+							  break;
+		case E_ERROR 		: $type = "Error";
+							  $sysErr = true;
+							  break;
+		case E_ALL			: $type = "General Error";
+							  $sysErr = true;
 	}
+	
 	if (isset($type)) {
+	if (!isset($_SESSION)) {
+		session_start();
+	}
 	$message = "<?xml version='1.0' encoding='iso-8859-1'?>\n";
-	$message .= "<?xml-stylesheet href='error.xsl' type='text/xsl'?>\n";
+	$message .= "<?xml-stylesheet href='".$_SESSION['WPATH']."/error.xsl' type='text/xsl'?>\n";
 	$message .= "<report>\n";
 	$message .= "	<heading>$type</heading>\n";
 	$message .= "	<message>$errstr</message>\n";
 	$message .= "	<root>".ROOT_PATH."</root>\n";
+	if (isset($sysErr)) {
+	
+		$message .= "	<cause>\n";
+		$message .= "		<message>".$errfile."</message>\n";
+		$message .= "	</cause>\n";
+		$message .= "	<cause>\n";
+		$message .= "		<message>Line ".$errline."</message>\n";
+		$message .= "	</cause>\n";
+	
+	} else {
 	$message .= "	<cause>\n";
 	$message .= "		<message>".mysql_error()."</message>\n";
-	$message .= "	</cause>\n";		
+	$message .= "	</cause>\n";
+	}		
 	$message .= "</report>\n";
 	
 	header("Content-type: application/xml");
 	
 	echo $message;
+	
+	error_log(strip_tags("\n".$errstr.' in '.$errfile.' on line '.$errline."\n") , 3, ROOT_PATH.'/lib/logs/logDB.txt');
 		
 	exit;
 	}

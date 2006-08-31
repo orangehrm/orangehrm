@@ -21,13 +21,13 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
 class MySQLClass {
 
-	private $myHost; // server name
-	private $myHostPort;
-	private $userName; //db user
-	private $userPassword; // db user password
-	private $db_name; // database name
-	private $conn; // database connection
-	private $result;
+	var $myHost; // server name
+	var $myHostPort;
+	var $userName; //db user
+	var $userPassword; // db user password
+	var $db_name; // database name
+	var $conn; // database connection
+	var $result;
 
 
 /* Class Constructor for MySQLClass*/	

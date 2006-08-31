@@ -142,13 +142,13 @@ class EXTRACTOR_EmpInfo {
 									
 				$objectArr['EmpPhoto'] = $photo;
 		}
-	return $objectArr;
+	return isset($objectArr)? $objectArr : false;
 	}
 	
 			
 	function parseEditData($postArr) {	
 		
-	if($postArr['main']=='1') {
+	if ($postArr['main']=='1') {
 		
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		//$this->parent_empinfo -> setEmpId($this->parent_empinfo->getLastRecord());
@@ -252,7 +252,7 @@ class EXTRACTOR_EmpInfo {
 		$objectArr['EmpPermRes'] = $this->parent_empinfo;
 		}
 	
-	return $objectArr;
+  return isset($objectArr)? $objectArr : false;
   }
 
 	function parseCountryData($postArr) {

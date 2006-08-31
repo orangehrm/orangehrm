@@ -19,6 +19,11 @@ Boston, MA  02110-1301, USA
 
 define('ROOT_PATH', dirname(__FILE__));
 
+session_start();
+
+$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);			
+$_SESSION['WPATH']= $wpath[0];
+
 require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 
 
@@ -29,14 +34,17 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	$rset=$login->filterUser(trim($_POST['txtUserName']));
 	
 	if (md5($_POST['txtPassword']) == $rset[0][1]) {
-		if($rset[0][5]=='Enabled') {		
-			session_start();
+		if($rset[0][5]=='Enabled') {			
 			$_SESSION['user']=$rset[0][3];
 			$_SESSION['userGroup']=$rset[0][4];
 			$_SESSION['isAdmin']=$rset[0][7];
 			$_SESSION['empID']=$rset[0][6];
 			
 			$_SESSION['fname']=$rset[0][2];
+			
+			$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);			
+			$_SESSION['WPATH']= $wpath[0];
+			
 			header("Location: ./index.php");
 		} else $InvalidLogin=2;
 	} else {

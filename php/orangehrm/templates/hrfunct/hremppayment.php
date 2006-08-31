@@ -234,14 +234,14 @@ function viewPayment(pay,curr) {
 						<td valign="top"><?=$minpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency'>
-							<div id='divMinCurrency'></div>
+							<div id='divMinCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
 					  <tr> 
 						<td valign="top"><?=$maxpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency'>
-							<div id='divMaxCurrency'></div>
+							<div id='divMaxCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
 					  <tr> 

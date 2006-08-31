@@ -96,17 +96,25 @@ function getMinMaxCurrency($value, $salGrd) {
 	$temp[1] = $_GET['id'];
 	
 	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
-	
-	for($c=0;count($currlist)>$c;$c++)
+		
+	for($c=0; $c < count($currlist);$c++)
 		if($currlist[$c][2] == $value) 
 			break;
 			
 	$response = new xajaxResponse();
-	$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
-	$response->addAssign('divMinCurrency','innerHTML',$currlist[$c][3]);
-	$response->addAssign('txtMaxCurrency','value',$currlist[$c][5]);
-	$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);
 	
+	if ($value === '0') {
+		$response->addAssign('txtMinCurrency','value', '');
+		$response->addAssign('divMinCurrency','innerHTML', '-N/A-');
+		$response->addAssign('txtMaxCurrency','value', '');
+		$response->addAssign('divMaxCurrency','innerHTML', '-N/A-');
+	
+	} else {
+		$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
+		$response->addAssign('divMinCurrency','innerHTML',$currlist[$c][3]);
+		$response->addAssign('txtMaxCurrency','value',$currlist[$c][5]);
+		$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);	
+	}
 return $response->getXML();
 }
 
