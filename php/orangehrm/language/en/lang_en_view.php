@@ -31,7 +31,7 @@ switch ($_GET['uniqcode']) {
 		case 'SKI' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Skill ID','Skill Name');
-			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect Employee Information');
+			$headingInfo = array('Skill ID','Skill Name',1,'Skills : Skills','Deletion might affect Employee Information');
 			break;		
 				
 		case 'LOC' :
@@ -187,7 +187,7 @@ switch ($_GET['uniqcode']) {
 		case 'LAN' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Language ID','Language Name');
-			$headingInfo = array ('Language ID','Language Name',1,'Qualification : Languages','Deletion might affect Employee Language');
+			$headingInfo = array ('Language ID','Language Name',1,'Skills : Languages','Deletion might affect Employee Language');
 			break;
 
 		case 'MME' :

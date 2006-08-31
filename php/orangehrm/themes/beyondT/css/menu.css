@@ -62,6 +62,14 @@
 	background: url(../pictures/job_o.gif)  no-repeat left top;
 }
 
+#menu #skills a{	
+	background: url(../pictures/skills.gif)  no-repeat left top;
+}
+
+#menu #skills a:hover {	
+	background: url(../pictures/skills_o.gif)  no-repeat left top;
+}
+
 #menu #qualification a{	
 	background: url(../pictures/qualification.gif)  no-repeat left top;
 }
