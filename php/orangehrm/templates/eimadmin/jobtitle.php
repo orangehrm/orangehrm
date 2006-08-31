@@ -1,5 +1,4 @@
-<?
-
+<?php
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise.
@@ -17,277 +16,153 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-
-
-
-
+ 
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
-
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-function assignEmploymentStatus($valArr) {
-
-	
+function assignEmploymentStatus($valArr) {	
 
 	$view_controller = new ViewController();
-
 	$ext_jobtitempstat = new EXTRACTOR_JobTitEmpStat();
-
 	$filledObj = $ext_jobtitempstat->parseAddData($valArr);
-
 	$view_controller->addData('JEM',$filledObj);
 
-
-
 	$assList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','assigned');
-
-	$unAssList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','unAssigned');
-
-	
+	$unAssList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','unAssigned');	
 
 	$objResponse = new xajaxResponse();
-
 	$xajaxFiller = new xajaxElementFiller();
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$assList,0,'frmJobTitle','cmbAssEmploymentStatus',0);
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssList,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
-
 	$objResponse->addAssign('status','innerHTML','');
 
-
-
-	return $objResponse->getXML();
-
+return $objResponse->getXML();
 }
 
 
 
 function unAssignEmploymentStatus($jobtit,$empstat) {
 
-	
-
 	$delArr[0][0] = $jobtit;
-
-	$delArr[1][0] = $empstat;
-
-	
+	$delArr[1][0] = $empstat;	
 
 	$view_controller = new ViewController();
-
-	$view_controller ->delParser('JEM',$delArr);
-
-	
+	$view_controller ->delParser('JEM',$delArr);	
 
 	$view_controller = new ViewController();
-
 	$assList = $view_controller->xajaxObjCall($jobtit,'JOB','assigned');
-
-	$unAssList = $view_controller->xajaxObjCall($jobtit,'JOB','unAssigned');
-
-	
+	$unAssList = $view_controller->xajaxObjCall($jobtit,'JOB','unAssigned');	
 
 	$objResponse = new xajaxResponse();
-
 	$xajaxFiller = new xajaxElementFiller();
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$assList,0,'frmJobTitle','cmbAssEmploymentStatus',0);
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssList,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 
 	$objResponse->addAssign('status','innerHTML','');
 
-
-
-	return $objResponse->getXML();
-
+return $objResponse->getXML();
 }
 
 
 
-function showAddEmpStatForm() {
+function showAddEmpStatForm() {	    
 
-	    
-
-   $objResponse = new xajaxResponse();
-
+    $objResponse = new xajaxResponse();
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = false;");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
-
-	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
 	
 	$objResponse->addAssign('layerEmpStat','style','visibility:hidden;');
-
 	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='addFormData();'>");
+	$objResponse->addAssign('status','innerHTML','');	
 
-	$objResponse->addAssign('status','innerHTML','');
-
-	
-
-	return $objResponse->getXML();
-
+return $objResponse->getXML();
 }
 
-
-
-function showEditEmpStatForm($estatCode) {
-
-	
+function showEditEmpStatForm($estatCode) {	
 
 	$view_controller = new ViewController();
-
-	$editArr = $view_controller->xajaxObjCall($estatCode,'JOB','editEmpStat');
-
-	
+	$editArr = $view_controller->xajaxObjCall($estatCode,'JOB','editEmpStat');	
 
 	$objResponse = new xajaxResponse();
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = false;");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatID.value = '" .$editArr[0][0]."';");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '" .$editArr[0][1]."';");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
-
-	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
 
 	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='editFormData();'>");
+	$objResponse->addAssign('status','innerHTML','');	
 
-	$objResponse->addAssign('status','innerHTML','');
-
-	
-
-	return $objResponse->getXML();
-
+return $objResponse->getXML();
 }
 
 
 
 function addExt($arrElements) {
 
-
-
 	$view_controller = new ViewController();
-
-	$ext_empstat = new EXTRACTOR_EmployStat();
-
-	
+	$ext_empstat = new EXTRACTOR_EmployStat();	
 
 	$objEmpStat = $ext_empstat->parseAddData($arrElements);
-
-	$view_controller -> addData('EST',$objEmpStat,true);
-
-	
+	$view_controller -> addData('EST',$objEmpStat,true);	
 
 	$view_controller = new ViewController();
-
-	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');
-
-	
+	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');	
 
 	$objResponse = new xajaxResponse();
-
 	$xajaxFiller = new xajaxElementFiller();
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssEmpStat,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = true;");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");
-	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");	
 
 	$objResponse->addAssign('buttonLayer','innerHTML','');
-
-	$objResponse->addAssign('status','innerHTML','');
-
-	
+	$objResponse->addAssign('status','innerHTML','');	
 
 return $objResponse->getXML();
-
 }
-
-
 
 function editExt($arrElements) {
 
-
-
 	$view_controller = new ViewController();
-
-	$ext_empstat = new EXTRACTOR_EmployStat();
-
-	
+	$ext_empstat = new EXTRACTOR_EmployStat();	
 
 	$objEmpStat = $ext_empstat -> parseEditData($arrElements);
-
-	$view_controller->updateData('EST',$arrElements['txtEmpStatID'],$objEmpStat,true);
-
-	
+	$view_controller->updateData('EST',$arrElements['txtEmpStatID'],$objEmpStat,true);	
 
 	$view_controller = new ViewController();
-
-	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');
-
-	
+	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');	
 
 	$objResponse = new xajaxResponse();
-
 	$xajaxFiller = new xajaxElementFiller();
-
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssEmpStat,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatID.value = '';");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
-
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = true;");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");
-	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");	
 
 	$objResponse->addAssign('buttonLayer','innerHTML','');
-
-	$objResponse->addAssign('status','innerHTML','');
-
-	
+	$objResponse->addAssign('status','innerHTML','');	
 
 return $objResponse->getXML();
-
 }
 
-
-
 	$objAjax = new xajax();
-
 	$objAjax->registerFunction('assignEmploymentStatus');
-
 	$objAjax->registerFunction('unAssignEmploymentStatus');
-
 	$objAjax->registerFunction('showAddEmpStatForm');
-
 	$objAjax->registerFunction('showEditEmpStatForm');
-
 	$objAjax->registerFunction('addExt');
-
 	$objAjax->registerFunction('editExt');
-
 	$objAjax->processRequests();
 
-
-
-	$sysConst = new sysConf(); 
-
-	$locRights=$_SESSION['localRights'];
+	$sysConst = new sysConf();
 	
+	$locRights=$_SESSION['localRights'];	
 	$cookie = $_COOKIE;
-	
+		
   if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
 	
 	$editArr = $this->popArr['editArr']; 
@@ -992,7 +867,10 @@ function promptUseCookieValues() {
 
 				                  <tr>
 
-										<td><?=$emstat?></td>
+										<td valign="top">
+										# <?=$emstat?><br>
+										
+										</td>
 
 										<td><table border="0">
 
@@ -1139,7 +1017,12 @@ function promptUseCookieValues() {
               </table>
 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice">
+Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<br>
+<span id="notice">
+# = <?=$emstatExpl?>
+</span>
 </body>
 
 </html>

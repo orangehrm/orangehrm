@@ -20,7 +20,7 @@
 					<td><input type="text" name="txtSINNo" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:''?>"></td>
 					<td width="50">&nbsp;</td>
 				<td><?=$dateofbirth?></td>
-				<td><input type="text" name="DOB" readonly value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
+				<td><input type="text" name="DOB" readonly value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
 				</tr>
 				<tr>
 				<td><?=$otherid?></td>
@@ -50,7 +50,7 @@
 				<td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtLicenNo" value="<?=(isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:''?>"></td>
 				<td>&nbsp;</td>
 				<td><?=$licexpdate?></td>
-				<td><input type="text" readonly name="txtLicExpDate" value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
+				<td><input type="text" readonly name="txtLicExpDate" value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
 				</tr> 
 				<tr>
 				<td><?=$militaryservice?></td>
