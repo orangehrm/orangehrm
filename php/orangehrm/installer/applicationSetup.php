@@ -1,11 +1,11 @@
 <?php
-
+// Installing
 function createDB() {
 	
 	connectDB();							
 	mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
 	
-	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+	if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to create Database!';
 		return;
 	}								
@@ -39,7 +39,7 @@ function fillData() {
 	$dbScriptStatements = explode(";", $query);
 								
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++)
-		if(!mysql_query($dbScriptStatements[$c])) {  
+		if(!@mysql_query($dbScriptStatements[$c])) {  
 			$_SESSION['error'] = mysql_error();
 			return;
 		}
@@ -68,7 +68,7 @@ TO "$dbOHRMUser"@"localhost"
 $querryIdentifiedBy;
 USRSQL;
 
-      	if(!mysql_query($query)) {
+      	if(!@mysql_query($query)) {
          	$_SESSION['error'] = mysql_error() or die();
          	return;
       	}
@@ -79,7 +79,7 @@ set password for "$dbOHRMUser"@"localhost"
 USRSQL;
 
 		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
-      		if (!mysql_query($query)) {
+      		if (!@mysql_query($query)) {
         		$_SESSION['error'] = mysql_error() or die();
          		return;
       		}
@@ -96,7 +96,7 @@ TO "$dbOHRMUser"@"%"
 $querryIdentifiedBy;
 USRSQL;
 
-      	if(!mysql_query($query)) {
+      	if(!@mysql_query($query)) {
          	$_SESSION['error'] = mysql_error() or die();
          	return;
       	}
@@ -107,7 +107,7 @@ set password for "$dbOHRMUser"@"%"
 USRSQL;
 		
 		if (isset($dbOHRMPassword) && ($dbOHRMPassword !== '')) {
-      		if(!mysql_query($query)) {
+      		if(!@mysql_query($query)) {
          		$_SESSION['error'] = mysql_error() or die();
          		return;
       		}

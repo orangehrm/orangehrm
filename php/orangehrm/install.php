@@ -45,7 +45,8 @@ function back($currScreen) {
 	case 3 	: 	unset($_SESSION['DBCONFIG']); break;
 	case 4 	: 	unset($_SESSION['DEFUSER']); break;
 	case 5 	: 	unset($_SESSION['CONFDONE']); break;
-	case 6 	: 	unset($_SESSION['CONFDONE']);
+	case 6 	: 	$_SESSION['UNISTALL'] = true;
+				unset($_SESSION['CONFDONE']);
 				unset($_SESSION['INSTALLING']);
 				break;
 	case 7 	: 	return false; break;
@@ -154,8 +155,12 @@ if (isset($reqAccept)) {
 	$_SESSION['reqAccept'] = $reqAccept;
 }
 
-if (isset($_SESSION['INSTALLING'])) {
+if (isset($_SESSION['INSTALLING']) && !isset($_SESSION['UNISTALL'])) {
 	include(ROOT_PATH.'/installer/applicationSetup.php');
+}
+
+if (isset($_SESSION['UNISTALL'])) {
+	include(ROOT_PATH.'/installer/cleanUp.php');
 }
 
 header('Location: ./installer/installerUI.php');

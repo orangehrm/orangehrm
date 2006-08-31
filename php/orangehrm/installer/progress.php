@@ -97,6 +97,6 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
 	<? }
  } ?>
  <br />
- <input class="button" type="button" value="Back" onclick="back();" tabindex="2" <?=(isset($error))? '' : 'disabled'?> />
+ <input class="button" type="button" value="<?=(isset($error))? 'Clean Up Install' : 'Back'?>" onclick="back();" tabindex="2" <?=(isset($error))? '' : 'disabled'?> />
  <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=5))? '' : 'disabled'?> />
 </div>
