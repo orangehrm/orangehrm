@@ -868,7 +868,7 @@ function promptUseCookieValues() {
 				                  <tr>
 
 										<td valign="top">
-										# <?=$emstat?><br>
+										<span class="success">#</span> <?=$emstat?><br>
 										
 										</td>
 
@@ -1021,7 +1021,7 @@ function promptUseCookieValues() {
 Fields marked with an asterisk <span class="error">*</span> are required.</span>
 <br>
 <span id="notice">
-# = <?=$emstatExpl?>
+<span class="success">#</span> = <?=$emstatExpl?>
 </span>
 </body>
 
