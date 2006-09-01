@@ -190,7 +190,7 @@ function goBack() {
 </td>
   </tr>
   <tr> 
-    <td>Name(50 character maximum)</td>
+    <td>Summary</td>
     <td><input type="text" name="summary"></td> 
     <td>Your Email</td>
     <td><input type="text" name="txtEmail" value="<?=isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"></td> 
