@@ -19,6 +19,8 @@
 
 function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
 
+	$errMsg = "\n".$errstr.' in '.$errfile.' on line '.$errline."\n";
+
 	switch ($errlevel) {
 		case E_USER_WARNING : $type = "Warning";
 							  break;
@@ -47,30 +49,44 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	$message .= "<?xml-stylesheet href='".$_SESSION['WPATH']."/error.xsl' type='text/xsl'?>\n";
 	$message .= "<report>\n";
 	$message .= "	<heading>$type</heading>\n";
+	
+	$errstr = strip_tags($errstr);
+	
 	$message .= "	<message>$errstr</message>\n";
+	
 	$message .= "	<root>".ROOT_PATH."</root>\n";
+	$message .= "	<Wroot>".$_SESSION['WPATH']."</Wroot>\n";
+	
+	$errfileEsc = str_replace("\\", "/", $errfile);
+	
 	if (isset($sysErr)) {
 	
 		$message .= "	<cause>\n";
-		$message .= "		<message>".$errfile."</message>\n";
+		$message .= "		<message>Encountered the problem in ".$errfile."</message>\n";
 		$message .= "	</cause>\n";
 		$message .= "	<cause>\n";
 		$message .= "		<message>Line ".$errline."</message>\n";
-		$message .= "	</cause>\n";
+		$message .= "	</cause>\n";		
+		
+		error_log( strip_tags($errMsg), 3, ROOT_PATH.'/lib/logs/logDB.txt');
+		
+		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."in ".$errfileEsc.'\n'."on line ".$errline));
 	
 	} else {
-	$message .= "	<cause>\n";
-	$message .= "		<message>".mysql_error()."</message>\n";
-	$message .= "	</cause>\n";
-	}		
+		$message .= "	<cause>\n";
+		$message .= "		<message>".mysql_error()."</message>\n";
+		$message .= "	</cause>\n";
+		
+		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."Tech Info".'\n'."------------".'\n'.mysql_error()));
+	}	
+	
+	$message .= "	<cmd n='js'><![CDATA[alert('$errMsgEsc');]]></cmd>\n";		
 	$message .= "</report>\n";
 	
 	header("Content-type: application/xml");
 	
 	echo $message;
-	
-	error_log(strip_tags("\n".$errstr.' in '.$errfile.' on line '.$errline."\n") , 3, ROOT_PATH.'/lib/logs/logDB.txt');
-		
+				
 	exit;
 	}
 }	

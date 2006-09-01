@@ -113,7 +113,7 @@ function getMinMaxCurrency($value, $salGrd) {
 		$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
 		$response->addAssign('divMinCurrency','innerHTML',$currlist[$c][3]);
 		$response->addAssign('txtMaxCurrency','value',$currlist[$c][5]);
-		$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);	
+		$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);
 	}
 return $response->getXML();
 }

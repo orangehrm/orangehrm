@@ -31,7 +31,7 @@
 		width:80%;
 		min-width: 700px;		
 		margin: auto;
-		background: url(<xsl:value-of select="root"/>/themes/beyondT/pictures/orange_new_02.gif) no-repeat right top;
+		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/pictures/orange_new_02.gif) no-repeat right top;
 		background-color: #FFFFFF;
 		display:block;
 		min-height:75px;
