@@ -21,7 +21,7 @@ function check_php_version($sys_php_version = '') {
 	
 	// invalid versions above the $min_considered_php_version,
 	// should be mutually exclusive with $supported_php_versions
-	$invalid_php_versions = array('4.4.0', '5.0.0', '5.0.5');
+	$invalid_php_versions = array('5.0.0', '5.0.5');
 
 	// default unsupported
 	$retval = 0;
