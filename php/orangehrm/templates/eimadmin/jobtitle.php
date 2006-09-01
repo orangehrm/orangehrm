@@ -594,6 +594,13 @@ function promptUseCookieValues() {
 	}
 }
 
+function addSalaryGrade() {
+	this.location = '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
+}
+
+function editSalaryGrade() {
+	editPayGrade(document.frmJobTitle.cmbPayGrade.value);
+}
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -706,9 +713,9 @@ function promptUseCookieValues() {
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onClick="preserveData();"><?=$addpaygrade?></a><br>
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?=$addpaygrade?>" />
 
-				                  		<a href="javascript:editForeign(document.frmJobTitle.cmbPayGrade.value);" onClick="preserveData();"><?=$editpaygrade?></a></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?=$editpaygrade?>"  /></td>
 
 				                  </tr>
 
@@ -857,9 +864,9 @@ function promptUseCookieValues() {
 
 				                  		</select></td>
 
-				                  		<td><a href="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" onClick="preserveData();"><?=$addpaygrade?></a><br>
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?=$addpaygrade?>" disabled="disabled"/>
 
-				                  		<a href="javascript:editPayGrade(document.frmJobTitle.cmbPayGrade.value);" onClick="preserveData();"><?=$editpaygrade?></a></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?=$editpaygrade?>"  disabled="disabled" /></td>
 
 				                  		</tr></table></td>
 
