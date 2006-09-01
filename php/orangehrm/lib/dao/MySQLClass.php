@@ -129,7 +129,7 @@ class MySQLClass {
 			 }
 			 
 	 		 $exception_handler = new ExceptionHandler();
-	  	 	 $exception_handler->dbexInvalidSQL();
+	  	 	 $exception_handler->dbexInvalidSQL($sql);
 	 		 return false;
 	
 	 	} else {	

@@ -810,7 +810,7 @@ class EmpInfo {
 		$arrRecordsList[1] = $this->getEmpStatus() != '0' ? "'" . $this->getEmpStatus() . "'" : 'null';
 		$arrRecordsList[2] = $this->getEmpJobTitle() != '0' ? "'" . $this->getEmpJobTitle() . "'" : 'null';
 		$arrRecordsList[3] = $this->getEmpEEOCat() != '0' ? "'" . $this->getEmpEEOCat() . "'" : 'null';
-		$arrRecordsList[4] = $this->getEmpLocation()!= '0' ? "'" . $this->getEmpLocation() . "'" : 'null' ;
+		$arrRecordsList[4] = $this->getEmpLocation()!= '' ? "'" . $this->getEmpLocation() . "'" : 'null' ;
 		$arrRecordsList[5] = "'". $this->getEmpJoinedDate() . "'";
 		
 		$tableName = 'HS_HR_EMPLOYEE';

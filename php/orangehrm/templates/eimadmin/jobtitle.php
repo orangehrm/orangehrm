@@ -695,7 +695,7 @@ function editSalaryGrade() {
 
 				                  <tr>
 
-				                  		<td><?=$pgrade?></td>
+				                  		<td><span class="error">*</span> <?=$pgrade?></td>
 
 				                  		<td><select name="cmbPayGrade" id="cmbPayGrade">
 
@@ -838,7 +838,7 @@ function editSalaryGrade() {
 
 				                  <tr>
 
-				                  		<td><?=$pgrade?></td>
+				                  		<td><span class="error">*</span><?=$pgrade?></td>
 
 				                  		<td><table border="0">
 
