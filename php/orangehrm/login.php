@@ -100,7 +100,7 @@ body {
 </style></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <? if (isset($_COOKIE['PHPSESSID'])) { ?>
-	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active. Please re-login.</font>
+	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active or closed your browser. Please re-login.</font>
 	</strong>
 <? } ?>
 <noscript>
