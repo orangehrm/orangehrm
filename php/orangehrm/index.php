@@ -79,7 +79,7 @@ if (($styleSheet == '') && (!isset($styleSheet))) {
 
 if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 	session_destroy();
-	setcookie('PHPSESSID', '', time()-3600, '/');
+	//setcookie('Loggedin', '', time()-3600, '/');
 	header("Location: ./login.php");
 }
 ?>

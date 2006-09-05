@@ -45,6 +45,8 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 			$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);			
 			$_SESSION['WPATH']= $wpath[0];
 			
+			setcookie('Loggedin', 'True', 0, '/');
+			
 			header("Location: ./index.php");
 		} else $InvalidLogin=2;
 	} else {
@@ -103,8 +105,8 @@ body {
 	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
 	</strong>
 </noscript>
-<? if (isset($_COOKIE['PHPSESSID']) && isset($_SERVER['HTTP_REFERER'])) { ?>
-	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active or closed your browser. Please re-login.</font>
+<? if (isset($_COOKIE['Loggedin'])) { ?>
+	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were inactive. Please re-login.</font>
 	</strong>
 <? } ?>
 
