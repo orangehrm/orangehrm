@@ -99,14 +99,15 @@ body {
 -->
 </style></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<? if (isset($_COOKIE['PHPSESSID'])) { ?>
-	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active or closed your browser. Please re-login.</font>
-	</strong>
-<? } ?>
 <noscript>
 	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
 	</strong>
 </noscript>
+<? if (isset($_COOKIE['PHPSESSID']) && isset($_SERVER['HTTP_REFERER'])) { ?>
+	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were in-active or closed your browser. Please re-login.</font>
+	</strong>
+<? } ?>
+
 <!-- ImageReady Slices (orange_new.psd) -->
 <table id="Table_01" width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
