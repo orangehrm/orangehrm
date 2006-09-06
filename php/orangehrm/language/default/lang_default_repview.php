@@ -21,11 +21,11 @@ $DELETE_FAILURE = 'Failed to Delete';
 switch ($_GET['repcode']) {
 
 		case 'EMPVIEW' :
-			$headingInfo = array ('Report ID','Report Name',1,'Employee Reports','Deletion might affect Company Hierarchy');
+			$heading = array ('Report ID','Report Name',1,'View Employee Reports','Deletion might affect Company Hierarchy');
 			break;
 
 		case 'EMPDEF' :
-			$headingInfo = array ('Report ID','Report Name',0,'Employee Reports','Deletion might affect Company Hierarchy');
+			$heading = array ('Report ID','Report Name',0,'Define Employee Reports','Deletion might affect viewing of reports.');
 			break;
 }
 ?>	

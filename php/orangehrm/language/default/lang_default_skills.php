@@ -1,5 +1,5 @@
 <?
-$heading		= 'Qualification : Skills';
+$heading		= 'Skills : Skills';
 $code			= 'Code';
 $description	= 'Description';
 

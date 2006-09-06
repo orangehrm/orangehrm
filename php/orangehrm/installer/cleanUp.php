@@ -16,7 +16,10 @@ function cleanUp() {
 		return false;
 	}
 	
-	$query = dropUser();
+	if (isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
+		$query = dropUser();
+	}
+	
 	$query[0] = dropDB();
 	
 	$sucExec = $query;

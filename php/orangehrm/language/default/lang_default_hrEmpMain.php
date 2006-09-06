@@ -4,7 +4,7 @@
  $employeeid		  			= 'Employee ID';
  $lastname			  			= 'Last Name';
  $firstname						= 'First Name';
- $middlename					= 'Middle Name';
+ $middlename					= 'Middle Name(s)';
  $nickname						= 'Nick Name';
  $photo      					= 'Photo';
  
@@ -33,6 +33,7 @@
  $location              		= 'Location';
  $selectlocation				= '--Select Location--';
  $joindate						= 'Joined Date';
+ $workstation					= 'Workstation';
  
  $dependents			  		= 'Dependents';
  $children						= 'Children';
@@ -72,11 +73,7 @@
  $type      					= 'Type';
 
  //language
-$employeelanguageflu 	= 'Employee Language Fluency';
- $employeeid		  	= 'Employee ID';
- $lastname			  	= 'Last Name';
- $firstname				= 'First Name';
- $middlename			= 'Middle Name';
+ $employeelanguageflu 	= 'Employee Language Fluency';
  $language				= 'Language';
  $fluency				= 'Area Of Competence';
  $ratinggarde			= 'Competency';
@@ -87,10 +84,6 @@ $employeelanguageflu 	= 'Employee Language Fluency';
 
  //license
  $employeelicen			= 'Employee Licenses';
- $employeeid		  	= 'Employee ID';
- $lastname			  	= 'Last Name';
- $firstname				= 'First Name';
- $middlename			= 'Middle Name';
  $assignlicenses		= 'Assigned Licenses';
  $startdate				= 'Date';
  $enddate 				= 'Renewal Date';
@@ -100,10 +93,6 @@ $employeelanguageflu 	= 'Employee Language Fluency';
  //memberships
  $subown = array ( 'Company' , 'Individual');
  $employeemembership 	= 'Employee Memberships';
- $employeeid 			= 'Employee ID';
- $lastname			  	= 'Last Name';
- $firstname				= 'First Name';
- $middlename			= 'Middle Name';
  $membershiptype 		= 'Membership Type';
  $membership 			= 'Membership';
  $subownership 			= 'Subscription Ownership';
@@ -142,10 +131,6 @@ $employeelanguageflu 	= 'Employee Language Fluency';
 
  //skills
  $employeeskill			= 'Employee Skills';
- $employeeid		  	= 'Employee ID';
- $lastname			  	= 'Last Name';
- $firstname				= 'First Name';
- $middlename			= 'Middle Name';
  $yearofex      		= 'Years of Experience';
  $comments              = 'Comments';
  $assignskill			= 'Assigned Skills';
@@ -154,17 +139,14 @@ $employeelanguageflu 	= 'Employee Language Fluency';
 
  //work-experiance
  $employerworkex		= 'Employee Work Experience';
- $employeeid		  	= 'Employee ID';
- $lastname			  	= 'Last Name';
- $firstname				= 'First Name';
- $middlename			= 'Middle Name';
  $employer				= 'Employer';
  $enddate				= 'End Date';
  $jobtitle				= 'Job title';
  $startdate				= 'Start Date';
  $briefdes				= 'Comments';
- $assignworkex			= 'Assigned Work Experiance';
+ $assignworkex			= 'Assigned Work Experience';
  $workexid				= 'Work Experiance ID';
+ $internal				= 'Internal';
 
  //education
  $education 			= 'Education';

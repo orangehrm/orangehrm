@@ -31,7 +31,7 @@ switch ($_GET['uniqcode']) {
 		case 'SKI' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Skill ID','Skill Name');
-			$headingInfo = array('Skill ID','Skill Name',1,'Qualification : Skills','Deletion might affect Employee Information');
+			$headingInfo = array('Skill ID','Skill Name',1,'Skills : Skills','Deletion might affect Employee Information');
 			break;		
 				
 		case 'LOC' :
@@ -187,7 +187,7 @@ switch ($_GET['uniqcode']) {
 		case 'LAN' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name' );
 			$headings= array('Language ID','Language Name');
-			$headingInfo = array ('Language ID','Language Name',1,'Qualification : Languages','Deletion might affect Employee Language');
+			$headingInfo = array ('Language ID','Language Name',1,'Skills : Languages','Deletion might affect Employee Language');
 			break;
 
 		case 'MME' :
@@ -240,7 +240,7 @@ switch ($_GET['uniqcode']) {
 			
 		case 'EDU' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name', 'Institute');
-			$headings= array('Education ID','Education', 'Institute');
+			$headings= array('Education ID','Course', 'Institute');
 			$headingInfo = array ('Education ID','Education',1,'Qualification : Education','Deletion might affect Education');
 			break; 
 
@@ -381,7 +381,10 @@ switch ($_GET['uniqcode']) {
 	case 'USR' :
 		$srchlist = array( '-Select-' , 'ID' , 'Name' );
 		$headings= array('User ID','User Name');
-		$headingInfo = array ('User ID','User Name',1, 'Users: Users','Deletion could make Orange HRM unusable');
+		
+		$esp = (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes'))? 'HR Admin' : 'ESS';
+		
+		$headingInfo = array ('User ID','User Name',1, 'Users: '.$esp.' Users','Deletion could make Orange HRM unusable');
 		break;
 		
 	case 'USG' :

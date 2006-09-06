@@ -1,6 +1,6 @@
 <?
-$srchlist[0] = array( -1 , 0 , 1);
-$srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
+$srchlist[0] = array( -1 , 0 , 1, 2, 3);
+$srchlist[1] = array( '-Select-', 'Emp. ID', 'Emp. First Name', 'Emp. Last Name', 'Emp. Middle Name' );
 
 
 $serach    			= 'Search';
