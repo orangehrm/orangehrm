@@ -212,7 +212,7 @@ function edit()
 							    		<option value="0">--- Select ---</option>
 							    <?		$cntlist = $this->popArr['cntlist'];
 							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
-							    			if($editArr['COUNTRY'] == $cntlist[$c][0])
+							    			if(isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == $cntlist[$c][0]))
 							    				echo "<option selected value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 							    			else
 							    				echo "<option value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";

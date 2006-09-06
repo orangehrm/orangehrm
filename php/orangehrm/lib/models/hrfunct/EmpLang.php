@@ -161,6 +161,7 @@ class EmpLanguage {
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpLangCode() . "'";
 		$arrFieldList[2] = "'". $this->getEmpLangType() . "'";
+		$arrFieldList[3] = "'". $this->empLangRatGrd . "'";
 
 		$tableName = 'HS_HR_EMP_LANGUAGE';
 	
@@ -186,11 +187,13 @@ class EmpLanguage {
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEmpLangCode() . "'";
 		$arrRecordsList[2] = "'". $this->getEmpLangType() . "'";
+		$arrRecordsList[3] = "'". $this->empLangRatGrd . "'";
 
 		$tableName = 'HS_HR_EMP_LANGUAGE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'LANG_CODE';
 		$arrFieldList[2] = 'ELANG_TYPE';
+		$arrFieldList[3] = 'COMPETENCY';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -215,6 +218,7 @@ class EmpLanguage {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'LANG_CODE';
 		$arrFieldList[2] = 'ELANG_TYPE';
+		$arrFieldList[3] = 'COMPETENCY';
 
 		$sql_builder = new SQLQBuilder();
 		

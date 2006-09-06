@@ -145,7 +145,7 @@ if(isset($this->getArr['lanSEQ'])) {
 						$code=array_values($grdcodes);
 						 $name=array_keys($grdcodes);
 						for($c=0;count($grdcodes)>$c;$c++)
-							if($code[$c]==$edit[0][4])
+							if($code[$c]==$edit[0][3])
 								echo "<option selected value='" . $code[$c] . "'>" . $name[$c] ."</option>";
 							else 
 								echo "<option value='" . $code[$c] . "'>" . $name[$c] ."</option>";

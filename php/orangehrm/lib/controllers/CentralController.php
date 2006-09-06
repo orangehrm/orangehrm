@@ -1,5 +1,7 @@
 <?php
 	
+ob_start();
+
 session_start();
 
 if(!isset($_SESSION['fname'])) { 
@@ -1057,3 +1059,5 @@ switch ($moduletype) {
 	
 						
 }
+
+ob_end_flush();

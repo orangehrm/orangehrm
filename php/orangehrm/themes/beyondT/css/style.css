@@ -591,3 +591,9 @@ textarea {
 .button1 {
 	border:none;
 }
+
+textarea {
+	border: 1px solid #888888;
+	font-size: 11px;
+	background-color: #ffffff;
+}

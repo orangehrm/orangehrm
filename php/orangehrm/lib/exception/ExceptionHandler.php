@@ -45,6 +45,9 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	if (!isset($_SESSION)) {
 		session_start();
 	}
+	
+	ob_get_clean();
+	
 	$message = "<?xml version='1.0' encoding='iso-8859-1'?>\n";
 	$message .= "<?xml-stylesheet href='".$_SESSION['WPATH']."/error.xsl' type='text/xsl'?>\n";
 	$message .= "<report>\n";
