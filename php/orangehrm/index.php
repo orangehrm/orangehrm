@@ -462,16 +462,16 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Job Title</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Job Titles</A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Pay Grade</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Pay Grades</A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=EST&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Employment Status</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=EST&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Employment Statuses</A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EEC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">EEO Job Category</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EEC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">EEO Job Categories</A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>

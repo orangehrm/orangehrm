@@ -69,7 +69,7 @@
 			 
 <? } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<table onclick="setUpdate(3)" onkeypress="setUpdate(3)" height="250" border="0" cellpadding="0" cellspacing="0">
+	<table onclick="setUpdate(4)" onkeypress="setUpdate(4)" height="250" border="0" cellpadding="0" cellspacing="0">
 <?
 		$edit = $this->popArr['editPermResArr'];
 ?>

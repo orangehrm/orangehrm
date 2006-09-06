@@ -164,7 +164,7 @@ class ExceptionHandler {
 		$noQuery = rand (10000,100000) . ' ' . $today . ' ' . "MySQL Query Error\n";
 		$log_writer = new LogWriter();
 		$log_writer->writeLogDB($noQuery);
-		trigger_error("MySQL Query Error", E_USER_ERROR);			
+		trigger_error("MySQL Query Error: No query found", E_USER_ERROR);			
 		
 	}	
 	

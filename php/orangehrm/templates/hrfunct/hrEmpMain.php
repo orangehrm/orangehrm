@@ -581,14 +581,14 @@ function resetAdd(panel) {
 				<td><input type="hidden" name="txtEmpID" value=<?=$this->popArr['newID']?>><strong><?=$this->popArr['newID']?></strong></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font><?=$lastname?></td>
+				<td><font color=#ff0000>*</font> <?=$lastname?></td>
 				<td> <input type="text" name="txtEmpLastName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font><?=$firstname?></td>
+				<td><font color=#ff0000>*</font> <?=$firstname?></td>
 				<td> <input type="text" name="txtEmpFirstName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font><?=$middlename?></td>
+				<td><font color=#ff0000>*</font> <?=$middlename?></td>
 				<td> <input type="text" name="txtEmpMiddleName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
 				<td>&nbsp;</td>
 			  <td><?=$nickname?></td>
@@ -596,7 +596,7 @@ function resetAdd(panel) {
 			  </tr>
 			 <tr>
 				<td><?=$photo?></td>
-				<td> <input type="file" name='photofile' <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
+				<td><input type="file" name='photofile' <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
 			  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -649,11 +649,11 @@ function resetAdd(panel) {
 				<td><strong><input type="hidden" name="txtEmpID" value="<?=$this->getArr['id']?>"><?=$this->getArr['id']?></strong></td>
 			  </tr>
 			  <tr> 
-				<td><?=$lastname?></td>
+				<td><font color=#ff0000>*</font> <?=$lastname?></td>
 				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpLastName" value="<?=(isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$edit[0][1]?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$firstname?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
+				<td><font color=#ff0000>*</font> <?=$firstname?></td>
+				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
 			  </tr>
 			  <tr> 
 				<td><?=$middlename?></td>

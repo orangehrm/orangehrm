@@ -161,7 +161,7 @@ class EmpDependents {
 	//$logw = new LogWriter();
 	//$logw->writeLogDB($sqlQString.'hhh');
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
 		 echo $message2;
