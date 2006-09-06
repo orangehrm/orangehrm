@@ -288,7 +288,7 @@ function editEmpMain() {
 }
 	
 function updateEmpMain() {
-
+	//alert('hi');
 	var cnt = document.frmEmp.txtEmpLastName;
 	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
 		cnt.focus();
@@ -310,10 +310,11 @@ function updateEmpMain() {
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
+	
+	if((document.frmEmp.main.value == 1) && !(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
 		cnt.focus();
 		return;
-	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
+	} else if ((document.frmEmp.main.value == 1) && (cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
 		cnt.focus();
 		return;
 	}
@@ -374,7 +375,7 @@ function displayLayer(panelNo) {
 }
 
 function setUpdate(opt) {
-	
+		//alert(opt);
 		switch(eval(opt)) {
           	case 0 : document.frmEmp.main.value=1; break;
           	case 1 : document.frmEmp.personalFlag.value=1; break;
