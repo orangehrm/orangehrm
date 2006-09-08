@@ -275,9 +275,12 @@
 				<td>
   					<select name="cmbLocation" id="cmbLocation" onChange="locChange(this);">
   						<option value=""><?=$select?></option>
-  						<? foreach ($locations as $location) { ?>
+  						<?php
+						  if ($locations) {
+							foreach ($locations as $location) { ?>
   						<option value="<? echo $location[0]; ?>"><? echo $location[1]; ?></option>
-  						<?	} ?>
+  						<?	}
+						  } ?>
     					<option value="Other">Other</option>
   					</select>
   				</td>
