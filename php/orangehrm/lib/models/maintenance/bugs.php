@@ -642,7 +642,10 @@ class Bugs {
 		$sysConf = new Conf();
 		
 		ini_set('SMTP',$sysConf->smtphost);
-		return @mail($to, $subject, $body,$headers);		
+		
+		//mail($to, $subject, $body, $headers);
+		
+	return true;	
 	}
 
 	function getModulesCodes() {
