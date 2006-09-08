@@ -703,12 +703,7 @@ switch ($moduletype) {
 					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpChildren();
 					}
-
-					
-					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '') {
-						$extractorForm = new EXTRACTOR_EmpDependents();
-					}
-
+			
 					if(isset($_POST['conextSTAT']) && $_POST['conextSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpConExt();
 					}
@@ -837,13 +832,6 @@ switch ($moduletype) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['childrenSTAT']);
 										} elseif(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT'] == 'DEL' && $locRights['delete']) {
-												$view_controller->delEmpFormData($_GET,$_POST);
-										}
-										
-										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
-												$parsedObject = $extractorForm->parseData($_POST);
-												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
-										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										

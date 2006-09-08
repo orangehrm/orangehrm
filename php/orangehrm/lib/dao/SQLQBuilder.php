@@ -265,7 +265,7 @@ class SQLQBuilder {
 			$countArrSize = count($arrayFieldList); // check the array size
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
-			
+						
 			for ($i=0;$i<count($arrayFieldList); $i++) {
 				
 				if ($i == ($countArrSize - 1))  { //String Manipulation
@@ -283,7 +283,7 @@ class SQLQBuilder {
 			
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
+			
 			return $SQL1; //returning the SQL1 which has the SQL Query
 			
 			

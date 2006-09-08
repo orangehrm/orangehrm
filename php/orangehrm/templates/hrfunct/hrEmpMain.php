@@ -657,7 +657,7 @@ function resetAdd(panel) {
 				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
 			  </tr>
 			  <tr> 
-				<td><?=$middlename?></td>
+				<td><font color=#ff0000>*</font> <?=$middlename?></td>
 				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
 				<td>&nbsp;</td>
 			  <td><?=$nickname?></td>

@@ -806,9 +806,9 @@ class EmpViewController {
 		if(isset($postArr['dependentSTAT']) && ($postArr['dependentSTAT'] == 'ADD' || $postArr['dependentSTAT'] == 'EDIT')) {
 			$empdep = new EmpDependents();
 			$empdep = $object;
-			if($action == 'ADD')
+			if($action == 'ADD') {				
 				$empdep->addEmpDep();
-			elseif($action == 'EDIT')
+			} elseif($action == 'EDIT')
 				$empdep->updateEmpDep();
 				
 		return;
@@ -1982,48 +1982,8 @@ class EmpViewController {
 				case 'EMP'  :		$empinfo = new EmpInfo();
 									$empinfo = $object['EmpInfo'];
 									$id = $empinfo->getEmpId();
-									$res = $empinfo -> addEmpMain();
-									
-/*									if(isset($object['EmpEContact']) && $res) {
-										$empecon = new EmpEmergencyCon();
-											
-										$empecon = $object['EmpEContact'];
-										$empecon -> addEmpEC();
-									}
-									
-									if(isset($object['EmpPassPort']) && $res) {
-										$emppport = new EmpPassPort();
-										$emppport = $object['EmpPassPort'];
-										$emppport -> addEmpPP();
-									}
-									
-									if(isset($object['EmpDependents']) && $res) {
-										$empdep = new EmpDependents();
-										$empdep = $object['EmpDependents'];
-										$empdep -> addEmpDep();
-									}
-									
-									if(isset($object['EmpChildren']) && $res) {
-										$empchi = new EmpChildren();
-										$empchi = $object['EmpChildren'];
-										$empchi -> addEmpChi();
-									}
-									
-									
-									if(isset($object['EmpBank']) && $res) {
-										$empbank = new EmpBank();
-										
-										$empbank = $object['EmpBank'];
-										$empbank -> addEmpBank();
-									}
-									
-									if(isset($object['EmpAttach']) && $res) {
-										$empatt = new EmpAttach();
-										
-										$empatt = $object['EmpAttach'];
-										$empatt -> addEmpAtt();
-									}
-*/									
+									$res = $empinfo -> addEmpMain();								
+				
 									if(isset($object['EmpPhoto']) && $res) {
 										$empphoto = new EmpPicture();
 										

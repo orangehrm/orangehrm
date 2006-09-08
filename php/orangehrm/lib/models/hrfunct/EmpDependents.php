@@ -140,7 +140,7 @@ class EmpDependents {
 
 	function addEmpDep() {
 		
-		$this->getEmpId();
+		//$this->getEmpId();
 		
 		$arrFieldList[0] = "'". $this->getEmpId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpDSeqNo() . "'";
@@ -156,16 +156,13 @@ class EmpDependents {
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;		
 			
+		$sqlQString = "";
+		$sqlQString = $sql_builder->addNewRecordFeature1();		
 	
-		$sqlQString = $sql_builder->addNewRecordFeature1();
-	//$logw = new LogWriter();
-	//$logw->writeLogDB($sqlQString.'hhh');
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 		
-		 return $message2;
-		 echo $message2;
-		
+	return $message2;		
 	}
 	
 	function updateEmpDep() {
