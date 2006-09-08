@@ -57,6 +57,10 @@
 		text-decoration: none;	
 	}
 </style>
+<script language="javascript">
+	parent.scrollTo(0, 0);
+	alert(parent);
+</script>
 <body>
 	<div id="body">
 		<h2>		
