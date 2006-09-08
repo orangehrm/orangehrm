@@ -29,7 +29,7 @@ Please wait. Installation in progress.
 </p>
 <? } else { ?>
 <p>
-Installation aborted due to an error. Click <b>[Back]</b> to correct the error and try installing again.
+Installation aborted due to an error. Click <b>[Clean Up Install]</b> to correct the error and try installing again.
 </p>
 <? } 
 
