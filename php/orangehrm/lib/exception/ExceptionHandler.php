@@ -19,8 +19,7 @@
 
 function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
 
-	$errMsg = "\n".$errstr.' in '.$errfile.' on line '.$errline."\n";
-
+	$errMsg = "\n".$errstr.' in '.$errfile.' on line '.$errline."\n";	
 	switch ($errlevel) {
 		case E_USER_WARNING : $type = "Warning";
 							  break;
