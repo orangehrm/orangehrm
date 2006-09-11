@@ -763,7 +763,7 @@ function disableSerPeriodField() {
 					  <td ><input type="text" disabled name="txtRepName" value="<?=isset($this->post['txtRepName']) ? $this->post['txtRepName'] : $edit[0][1]?>"></td>
 					</tr>
     				 <tr>
- 					  <td><b><a href="<?=$_SERVER['PHP_SELF']?>?id=<?=$message[0][0]?>&repcode=RUG">Assign User Groups</a></b></td>
+ 					  <td><b><a href="<?=$_SERVER['PHP_SELF']?>?id=<?=$edit[0][0]?>&repcode=RUG">Assign User Groups</a></b></td>
 					</tr>
 
                   </table></td>
@@ -921,7 +921,7 @@ function disableSerPeriodField() {
 									else
 										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>"; 
 								} else {
-									  if($criteriaData['SERPIR'][0]==$values[$c])
+									  if(isset($criteriaData['SERPIR'][0]) && ($criteriaData['SERPIR'][0]==$values[$c]))
 										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
 									else
 										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";

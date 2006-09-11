@@ -136,7 +136,7 @@ else
 		document.standardView.action="./emppop.php?reqcode=<?=$_GET['reqcode']?>"
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
-	}
+	}	
 	
 </script>
 <body style="padding-left:4; padding-right:4;">

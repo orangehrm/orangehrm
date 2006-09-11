@@ -93,7 +93,8 @@ return flag;
 
 function popEmpList() {
 	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
-    if(!popup.opener) popup.opener=self;		
+    if(!popup.opener) popup.opener=self;	
+	popup.focus();	
 }
 
 function goBack() {
@@ -160,7 +161,7 @@ function goBack() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Users</h2></td>
+    <td width='100%'><h2><?=(isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -228,7 +229,7 @@ function goBack() {
 						   		  </select></td>
 							  <td></td>
 							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee ID</td>
-							  <td><input type="text" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onclick="popEmpList();"></td>
+							  <td><input type="text" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
 						   </tr>
 						   <? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   							   
@@ -358,6 +359,7 @@ function mover() {
 function popEmpList() {
 	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
     if(!popup.opener) popup.opener=self;		
+	popup.focus();	
 }
 
 function edit() {
@@ -425,7 +427,7 @@ function edit() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Users</h2></td>
+    <td width='100%'><h2><?=(isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -486,7 +488,7 @@ function edit() {
 							   	</select></td>
 							  <td></td>
 							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][4]=='No')? '*' : '' ?></span> Employee</td>
-							  <td><input type="text" readonly name="cmbUserEmpID" disabled value="<?=$message[0][3]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onclick="popEmpList()"></td>
+							  <td><input type="text" readonly name="cmbUserEmpID" disabled value="<?=$message[0][3]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   

@@ -52,6 +52,7 @@ function moverReportTo() {
 function returnEmpDetail(){
 		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;	
+		popup.focus();
 }
 
 function addEXTReportTo() {
