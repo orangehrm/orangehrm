@@ -354,7 +354,7 @@ function setSize() {
             <td class="subTabBar" colspan="2"><table width="100%" cellspacing="0" cellpadding="0" border="0" height="20">
                 <tr>
                   <td class="welcome" width="100%">Welcome <?=(isset($_SESSION['fname'])) ? $_SESSION['fname'] : '' ?></td>
-                  <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?=$_SESSION['user']?>" target="rightMenu"><strong>Login Details</strong></a></td>
+                  <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?=$_SESSION['user']?>" target="rightMenu"><strong>Change Password</strong></a></td>
                   <td class="search" style="padding: 0px" align="right" width="11"><img src="themes/beyondT/pictures/nSearchSeparator.gif" width="12" height="20" border="0" alt="Search"></td>
                   <td class="search" style="padding: 0px" align="right" nowrap="nowrap">&nbsp;&nbsp;<a href="./index.php?ACT=logout"><strong>Logout</strong></a></td>
                   <td class="search" nowrap>&nbsp;&nbsp; </td>
