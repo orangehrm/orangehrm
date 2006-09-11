@@ -58,8 +58,7 @@
 	}
 </style>
 <script language="javascript">
-	parent.scrollTo(0, 0);
-	alert(parent);
+	parent.scrollTo(0, 0);	
 </script>
 <body>
 	<div id="body">
