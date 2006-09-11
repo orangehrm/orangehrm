@@ -260,7 +260,7 @@ class Users {
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'"; 
 		 $arrFieldList[3] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[4] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[4] = ($this->getUserEmpID()=='') ? 'null' :"'". $this->getUserEmpID() . "'";
 		 $arrFieldList[5] = "'" . $this->getUserIsAdmin() . "'"; 		 
 		 $arrFieldList[6] = "'" . $this->getUserDateEntered() . "'"; 
 		 $arrFieldList[7] = "'" . $this->getUserCreatedBy() . "'"; 		 
@@ -300,7 +300,7 @@ class Users {
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[3] = ($this->getUserEmpID()=='0') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[3] = ($this->getUserEmpID()=='') ? 'null' :"'". $this->getUserEmpID() . "'";
 		 $arrFieldList[4] = "'" . $this->getUserIsAdmin() . "'"; 		 
 		 $arrFieldList[5] = "'" . $this->getUserDateModified() . "'"; 
 		 $arrFieldList[6] = "'" . $this->getUserModifiedBy() . "'"; 		
