@@ -31,13 +31,11 @@ class EXTRACTOR_ChangeUsers{
 			
 			$this->chusers -> setUserID($postArr['txtUserID']);
 		 	$this->chusers -> setUserName(trim($postArr['txtUserName']));
-		 	if(isset($postArr['checkChange']))
+		 	if(isset($postArr['txtNewPassword']) && ($postArr['txtNewPassword'] !== ""))
 		 		$this->chusers -> setUserPassword(trim($postArr['txtNewPassword'])); 
 		 	else 
 		 		$this->chusers -> setUserPassword(''); 
-		 	
-		 	$this->chusers -> setUserFirstName(trim($postArr['txtUserFirstName'])); 
-		 			 	
+				
 			return $this->chusers;	
 	}
 	

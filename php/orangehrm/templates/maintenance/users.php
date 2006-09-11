@@ -121,12 +121,6 @@ function goBack() {
 			return;
 		}
 		
-		if(!name(frm.txtUserFirstName)) {
-			alert("Field should be Alphabetic!")
-			frm.txtUserFirstName.focus();
-			return;
-		}
-		
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
@@ -211,8 +205,8 @@ function goBack() {
 							    <td nowrap="nowrap"><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName"></td>
 								<td></td>
-								<td nowrap="nowrap"><span class="error">*</span> Name</td>
-							  	<td><input type="text" name="txtUserFirstName"></td>
+								<td nowrap="nowrap"></td>
+							  	<td></td>
 						  </tr>
 						  <tr>
 							  <td nowrap="nowrap"><span class="error">*</span> Password</td>
@@ -221,15 +215,15 @@ function goBack() {
 							  <td nowrap="nowrap"><span class="error">*</span> Confirm Password</td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td> 
 						  </tr>						 
-						  <tr>
+						  <tr valign="top">
 							  <td>Status</td>
 						   	  <td><select name="cmbUserStatus">
 						   			<option>Enabled</option>
 						   			<option>Disabled</option>
 						   		  </select></td>
 							  <td></td>
-							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee ID</td>
-							  <td><input type="text" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
+							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee</td>
+							  <td nowrap="nowrap"><input type="text" readonly name="txtUserEmpID"><input type="hidden" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
 						   </tr>
 						   <? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   							   
@@ -384,13 +378,7 @@ function edit() {
 			frm.txtUserName.focus();
 			return false;
 		}
-		
-		if(!name(frm.txtUserFirstName)) {
-			alert("Field should be Alphabetic!")
-			frm.txtUserFirstName.focus();
-			return;
-		}
-		
+				
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
@@ -477,18 +465,18 @@ function edit() {
 							    <td valign="top" nowrap><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName" disabled value="<?=$message[0][1]?>"></td>
 								<td></td>
-								<td valign="top" nowrap><span class="error">*</span> Name</td>
-							  	<td><input type="text" name="txtUserFirstName" disabled value="<?=$message[0][2]?>"></td>
+								<td valign="top" nowrap></td>
+							  	<td></td>
 						  </tr>						  
-						  <tr>
+						  <tr valign="top">
 						  	  <td>Status</td>
 							  <td><select name="cmbUserStatus" disabled>
 							   			<option>Enabled</option>
-							   			<option <?=$message[0][9]=='Disabled' ? 'selected' : ''?>>Disabled</option>
+							   			<option <?=$message[0][8]=='Disabled' ? 'selected' : ''?>>Disabled</option>
 							   	</select></td>
 							  <td></td>
-							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][4]=='No')? '*' : '' ?></span> Employee</td>
-							  <td><input type="text" readonly name="cmbUserEmpID" disabled value="<?=$message[0][3]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
+							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
+							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?=$message[0][2]?> - <?=$message[0][10]?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?=$message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   
@@ -497,14 +485,14 @@ function edit() {
 							  		<option value="0">--Select UserGroup--</option>
 <?									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
-										if($message[0][10]==$uglist[$c][0])
+										if($message[0][9]==$uglist[$c][0])
 											echo "<option selected value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 										else
 											echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
 							  </select></td>
 							  <td>&nbsp;</td>
-							   <td><? if ($message[0][4]=='Yes') { ?>
+							   <td><? if ($message[0][3]=='Yes') { ?>
 							   		<input type="hidden" name="chkUserIsAdmin" value="true">
 								   <? } ?></td>
 							   <td></td>

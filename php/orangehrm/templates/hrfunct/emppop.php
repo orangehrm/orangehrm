@@ -113,6 +113,7 @@ else
 <?   if(isset($_GET['USR'])) { ?>
 
         opener.document.frmUsers.cmbUserEmpID.value = cntrl.title;
+		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
         window.close();
 		
 <?   } elseif($_GET['reqcode'] == 'REP'){ ?>

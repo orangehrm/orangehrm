@@ -2269,7 +2269,7 @@ class EmpInfo {
 
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[1] = "CONCAT(EMP_FIRSTNAME, ' ', EMP_MIDDLE_NAME, ' ', EMP_LASTNAME)";
 
 		$sql_builder = new SQLQBuilder();
 		

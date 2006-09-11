@@ -258,25 +258,23 @@ class Users {
 	function addUsers(){
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
-		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'"; 
-		 $arrFieldList[3] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[4] = ($this->getUserEmpID()=='') ? 'null' :"'". $this->getUserEmpID() . "'";
-		 $arrFieldList[5] = "'" . $this->getUserIsAdmin() . "'"; 		 
-		 $arrFieldList[6] = "'" . $this->getUserDateEntered() . "'"; 
-		 $arrFieldList[7] = "'" . $this->getUserCreatedBy() . "'"; 		 
-		 $arrFieldList[8] = "'" . $this->getUserStatus() . "'";			 
-		 $arrFieldList[9] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
+		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'"; 		
+		 $arrFieldList[3] = ($this->getUserEmpID() == '') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[4] = "'" . $this->getUserIsAdmin() . "'"; 		 
+		 $arrFieldList[5] = "'" . $this->getUserDateEntered() . "'"; 
+		 $arrFieldList[6] = "'" . $this->getUserCreatedBy() . "'"; 		 
+		 $arrFieldList[7] = "'" . $this->getUserStatus() . "'";			 
+		 $arrFieldList[8] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
 /////						
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
-		$arrRecordsList[2] = 'user_password';
-		$arrRecordsList[3] = 'first_name';
-		$arrRecordsList[4] = 'emp_number';
-		$arrRecordsList[5] = 'is_admin';		
-		$arrRecordsList[6] = 'date_entered';
-		$arrRecordsList[7] = 'created_by';		
-		$arrRecordsList[8] = 'status';		
-		$arrRecordsList[9] = 'userg_id';
+		$arrRecordsList[2] = 'user_password';		
+		$arrRecordsList[3] = 'emp_number';
+		$arrRecordsList[4] = 'is_admin';		
+		$arrRecordsList[5] = 'date_entered';
+		$arrRecordsList[6] = 'created_by';		
+		$arrRecordsList[7] = 'status';		
+		$arrRecordsList[8] = 'userg_id';
 								
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_insert = 'true';
@@ -298,24 +296,22 @@ class Users {
 		}
 
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
-		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
-		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
-		 $arrFieldList[3] = ($this->getUserEmpID()=='') ? 'null' :"'". $this->getUserEmpID() . "'";
-		 $arrFieldList[4] = "'" . $this->getUserIsAdmin() . "'"; 		 
-		 $arrFieldList[5] = "'" . $this->getUserDateModified() . "'"; 
-		 $arrFieldList[6] = "'" . $this->getUserModifiedBy() . "'"; 		
-		 $arrFieldList[7] = "'" . $this->getUserStatus() . "'";		
-		 $arrFieldList[8] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
+		 $arrFieldList[1] = "'" . $this->getUserName() . "'";		
+		 $arrFieldList[2] = ($this->getUserEmpID() == '') ? 'null' :"'". $this->getUserEmpID() . "'";
+		 $arrFieldList[3] = "'" . $this->getUserIsAdmin() . "'"; 		 
+		 $arrFieldList[4] = "'" . $this->getUserDateModified() . "'"; 
+		 $arrFieldList[5] = "'" . $this->getUserModifiedBy() . "'"; 		
+		 $arrFieldList[6] = "'" . $this->getUserStatus() . "'";		
+		 $arrFieldList[7] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
 /////						
 	    $arrRecordsList[0] = 'id';
-		$arrRecordsList[1] = 'user_name';	
-		$arrRecordsList[2] = 'first_name';
-		$arrRecordsList[3] = 'emp_number';
-		$arrRecordsList[4] = 'is_admin';
-		$arrRecordsList[5] = 'date_modified';
-		$arrRecordsList[6] = 'modified_user_id';		
-		$arrRecordsList[7] = 'status';		
-		$arrRecordsList[8] = 'userg_id';
+		$arrRecordsList[1] = 'user_name';			
+		$arrRecordsList[2] = 'emp_number';
+		$arrRecordsList[3] = 'is_admin';
+		$arrRecordsList[4] = 'date_modified';
+		$arrRecordsList[5] = 'modified_user_id';		
+		$arrRecordsList[6] = 'status';		
+		$arrRecordsList[7] = 'userg_id';
 
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_update = 'true';
@@ -336,17 +332,15 @@ class Users {
 		} 
 		 //echo 'hi';
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
-		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
-		 $arrFieldList[2] = "'" . $this->getUserFirstName() . "'"; 
+		 $arrFieldList[1] = "'" . $this->getUserName() . "'";		 
 		if($this->getUserPassword() != '')
-		 $arrFieldList[3] = "'" . md5($this->getUserPassword()) . "'"; 
+		 $arrFieldList[2] = "'" . md5($this->getUserPassword()) . "'"; 
 /////						
 	   
 		$arrRecordsList[0] = 'id';
-		$arrRecordsList[1] = 'user_name';
-		$arrRecordsList[2] = 'first_name';
+		$arrRecordsList[1] = 'user_name';		
 		if($this->getUserPassword() != '')
-			$arrRecordsList[3] = 'user_password';
+			$arrRecordsList[2] = 'user_password';
 
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_update = 'true';
@@ -393,20 +387,20 @@ class Users {
 	function filterUsers($getID) {
 		
 		$this->ID = $getID;
-	    $arrFieldList[0] = 'id';
-		$arrFieldList[1] = 'user_name';		
-		$arrFieldList[2] = 'first_name';
-		$arrFieldList[3] = 'emp_number';
-		$arrFieldList[4] = 'is_admin';		
-		$arrFieldList[5] = 'date_entered';
-		$arrFieldList[6] = 'date_modified';
-		$arrFieldList[7] = 'modified_user_id';
-		$arrFieldList[8] = 'created_by';		
-		$arrFieldList[9] = 'status';		
-		$arrFieldList[10] = 'userg_id';
+	    $arrFieldList[0] = 'a.id';
+		$arrFieldList[1] = 'a.user_name';				
+		$arrFieldList[2] = 'a.emp_number';
+		$arrFieldList[3] = 'a.is_admin';		
+		$arrFieldList[4] = 'a.date_entered';
+		$arrFieldList[5] = 'a.date_modified';
+		$arrFieldList[6] = 'a.modified_user_id';
+		$arrFieldList[7] = 'a.created_by';		
+		$arrFieldList[8] = 'a.status';		
+		$arrFieldList[9] = 'a.userg_id';
+		$arrFieldList[10] = 'b.EMP_FIRSTNAME';
 
 						
-		$this->sql_builder->table_name = $this->tableName;
+		$this->sql_builder->table_name = $this->tableName.' a LEFT JOIN HS_HR_EMPLOYEE b ON (a.EMP_NUMBER = b.EMP_NUMBER)';
 		$this->sql_builder->flg_select = 'true';
 		$this->sql_builder->arr_select = $arrFieldList;		
 			
@@ -418,9 +412,11 @@ class Users {
 		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
-	    	$arrayDispList[$i][0] = $line[0];
-	    	$arrayDispList[$i][1] = $line[1];	    	
-	    	$arrayDispList[$i][2] = $line[2];
+	    	for ($j=0; $j < count($line); $j++) {
+				$arrayDispList[$i][$j] = $line[$j];
+			}
+	    	/*
+			$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][3] = $line[3];
 	    	$arrayDispList[$i][4] = $line[4];
 	    	$arrayDispList[$i][5] = $line[5];
@@ -428,7 +424,8 @@ class Users {
 	    	$arrayDispList[$i][7] = $line[7];
 	    	$arrayDispList[$i][8] = $line[8];
 	    	$arrayDispList[$i][9] = $line[9];	    	
-	    	$arrayDispList[$i][10] = $line[10];	    
+	    	$arrayDispList[$i][10] = $line[10];
+			*/
 				    	
 	    	$i++;
 	    	
@@ -452,8 +449,7 @@ class Users {
 		$this->ID = $getID;
 	    $arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
-		$arrFieldList[2] = 'first_name';
-		$arrFieldList[3] = 'user_password';
+		$arrFieldList[2] = 'user_password';
 
 						
 		$this->sql_builder->table_name = $this->tableName;
@@ -471,11 +467,8 @@ class Users {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][2] = $line[2];
-	    	$arrayDispList[$i][3] = $line[3];
 	    	
-	    	
-	    	$i++;
-	    	
+			$i++;	    	
 	     }
 	     
 	     if (isset($arrayDispList)) {

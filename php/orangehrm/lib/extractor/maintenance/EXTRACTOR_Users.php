@@ -30,8 +30,7 @@ class EXTRACTOR_Users{
 		
 			$this->users ->setUserID($this->users->getLastRecord());
 		 	$this->users -> setUserName(trim($postArr['txtUserName']));
-		 	$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword']))); 
-		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 		 	
+		 	$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword'])));	 			 	
 		 	$this->users -> setUserEmpID($postArr['cmbUserEmpID']); 
 		 	$this->users -> setUserIsAdmin(isset($postArr['chkUserIsAdmin']) ? 'Yes' : 'No'); 
 		 	$this->users -> setUserDateEntered(date("Y-m-d")); 
@@ -46,8 +45,7 @@ class EXTRACTOR_Users{
 	function parseEditData($postArr) {	
 			
 			$this->users -> setUserID($postArr['txtUserID']);
-		 	$this->users -> setUserName(trim($postArr['txtUserName']));		 	
-		 	$this->users -> setUserFirstName(trim($postArr['txtUserFirstName'])); 		 	
+		 	$this->users -> setUserName(trim($postArr['txtUserName']));		 			 		 	
 		 	$this->users -> setUserEmpID($postArr['cmbUserEmpID']); 
 		 	$this->users -> setUserIsAdmin(isset($postArr['chkUserIsAdmin']) ? 'Yes' : 'No'); 
 		 	$this->users -> setUserDateModified(date("Y-m-d")); 

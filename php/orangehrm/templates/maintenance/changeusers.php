@@ -1,60 +1,59 @@
-<?
+<?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-	
-	$sysConst = new sysConf(); 
-	$locRights=$_SESSION['localRights'];
-	
 
+$sysConst = new sysConf();
+$locRights = $_SESSION['localRights'];
 
-function chkPassword($value) {
-	
-	$mtview_controller = new MTViewController() ;
-	$matchResult = $mtview_controller->xajaxObjCall($value,'CPW','password');	
-	
-	$objResponse = new xajaxResponse(); 
-		
-	if($matchResult) 
-		$objResponse->addScript("addUpdate();"); 
-	else
-	    $objResponse->addAlert("Not Match With Your Old Password");	
+function chkPassword($value)
+{
+    $mtview_controller = new MTViewController() ;
+    $matchResult = $mtview_controller->xajaxObjCall($value, 'CPW', 'password');
 
-	    
-	return $objResponse ->getXML();
+    $objResponse = new xajaxResponse();
+
+    if ($matchResult)
+        $objResponse->addScript("addUpdate();");
+    else
+        $objResponse->addAlert("Not Match With Your Old Password");
+
+    return $objResponse->getXML();
 }
 
-	$objAjax = new xajax();
-	$objAjax->registerFunction('chkPassword');
-	$objAjax->processRequests();
+$objAjax = new xajax();
+$objAjax->registerFunction('chkPassword');
+$objAjax->processRequests();
 
-  if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	$message = $this->popArr['editArr'];
-?>
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+    $message = $this->popArr['editArr'];
+
+    ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? $objAjax->printJavascript(); ?>
-<script>			
+<?php $objAjax->printJavascript();
+    ?>
+<script>
 
 
 function alpha(txt)
@@ -101,53 +100,42 @@ for(i=0;txt.value.length>i;i++)
 return flag;
 }
 
-	
+
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
-function chkboxCheck() {
-     if (document.frmchange.checkChange.checked == true) {
-     	
-	     	if(document.Edit.title=='Save') {
-				xajax_chkPassword(document.frmchange.txtOldPassword.value);
-	     		return; 
-			} 
-	     	
-	     	var frm=document.frmchange;
-			//  alert(frm.elements.length);
-			for (var i=0; i < frm.elements.length; i++)
-			frm.elements[i].disabled = false;
-			document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-			document.Edit.title="Save";
-		 	
- 	 	 
-		 
-	 	
-     } else  {
-     	 if(document.Edit.title=='Save') {
-     	 	addUpdate();
-     	 	return; 	
-     	 }	
-     	 	 	
-	 	 document.frmchange.txtUserFirstName.disabled = false;
-	 	 document.frmchange.txtUserName.disabled = false;
-		 document.getElementById("checkChange").disabled = false;
-     	
-	     document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-		 document.Edit.title="Save";
-    	
-     }			
+function chkboxCheck() {	
+	
+	if(document.Edit.title=='Save') {
+		xajax_chkPassword(document.frmchange.txtOldPassword.value);
+	    return;
+	}
+	
+    if(document.Edit.title!='Save') {
+    	edit();
+     	return;
+    }
+}
+
+function edit() {
+	var frm=document.frmchange;
+	
+	for (var i=0; i < frm.elements.length; i++)
+		frm.elements[i].disabled = false;
+	
+	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.title="Save";
 }
 
 function addUpdate() {
@@ -156,79 +144,68 @@ function addUpdate() {
 		document.frmchange.txtUserName.focus();
 		return;
 	}
-	
-	if(document.frmchange.txtUserFirstName.value=='') {
-		alert("Enter Your FirstName");
-		document.frmchange.txtUserFirstName.focus();
-		return;
-	}
-	
-	if(document.frmchange.checkChange.checked == true && document.frmchange.txtOldPassword.value=='') {
+
+	if(document.frmchange.txtOldPassword.value=='') {
 		alert("Enter Your Old Password");
 		document.frmchange.txtOldPassword.focus();
 		return;
 	}
-   
-	if(document.frmchange.checkChange.checked == true && document.frmchange.txtNewPassword.value=='') {
+
+	if(document.frmchange.txtNewPassword.value=='') {
 		alert("Enter Your New Password");
 		document.frmchange.txtNewPassword.focus();
 		return;
-	}    
-	
-	if(document.frmchange.checkChange.checked == true && document.frmchange.txtConfirmPassword.value=='') {
+	}
+
+	if(document.frmchange.txtConfirmPassword.value=='') {
 		alert("Retype Your New Password");
 		document.frmchange.txtConfirmPassword.focus();
 		return;
 	}
-	
-	if(document.frmchange.checkChange.checked == true && document.frmchange.txtNewPassword.value != document.frmchange.txtConfirmPassword.value) {
+
+	if(document.frmchange.txtNewPassword.value != document.frmchange.txtConfirmPassword.value) {
 		alert("Passwords Are Not Matching.Retype Your New Password");
 		document.frmchange.txtConfirmPassword.focus();
 		return;
 	}
 
-	if(document.frmchange.checkChange.checked == true && document.frmchange.txtOldPassword.value == document.frmchange.txtNewPassword.value) {
+	if(document.frmchange.txtOldPassword.value == document.frmchange.txtNewPassword.value) {
 		alert("Your Old & New Passwords Are Equal");
 		document.frmchange.txtNewPassword.focus();
 		return;
 	}
-	
+
 	var frm=document.frmchange;
-		if (document.frmchange.checkChange.checked == true && document.frmchange.txtUserName.value.length < 5 ) {
-			alert ("UserName should be at least five char. long!");
-			document.frmchange.txtUserName.focus();
-			return false;
-		}
-		
-		if(document.frmchange.checkChange.checked == true && document.frmchange.txtNewPassword.value.length < 4) {
-			alert("Password should be at least four char. long!");
-			document.frmchange.txtNewPassword.focus();
-			return;
-		}
-					
-		
-		document.frmchange.sqlState.value = "UpdateRecord";
-		document.frmchange.submit();	
+
+	if(document.frmchange.txtNewPassword.value.length < 4) {
+		alert("Password should be at least four char. long!");
+		document.frmchange.txtNewPassword.focus();
+		return;
+	}
+
+
+	document.frmchange.sqlState.value = "UpdateRecord";
+	document.frmchange.submit();
 }
 
 function prepCPW() {
 
 	if (document.getElementById("checkChange").checked) {
-		
+
 		document.getElementById("txtOldPassword").disabled = false;
 		document.getElementById("txtNewPassword").disabled = false;
 		document.getElementById("txtConfirmPassword").disabled = false;
-		
+
 	} else {
-	
+
 		document.getElementById("txtOldPassword").disabled = true;
 		document.getElementById("txtNewPassword").disabled = true;
 		document.getElementById("txtConfirmPassword").disabled = true;
-		
+
 	}
 }
 
-		
+
 
 
 </script>
@@ -241,40 +218,41 @@ function prepCPW() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Login Details</h2></td>
+    <td width='100%'><h2>Change Password</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmchange" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&mtcode=<?=$this->getArr['mtcode']?>&capturemode=updatemode">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'>
-	<?
-		if (isset($this->getArr['msg'])) {
-		
-			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$msgWord = join(' ', $expString);
-			
-			$length = count($expString);		
-			
-			$col_def=$expString[$length-1];
-			
-			$col_def = (isset($col_def) && ($col_def === 'Successful!')) ? 'SUCCESS' : 'FAILURE';
-			
-			$expString=$this->getArr['msg'];
-	?>
+	<?php
+    if (isset($this->getArr['msg'])) {
+        $expString = $this->getArr['msg'];
+        $expString = explode ("%", $expString);
+        $msgWord = join(' ', $expString);
+
+        $length = count($expString);
+
+        $col_def = $expString[$length-1];
+
+        $col_def = (isset($col_def) && ($col_def === 'Successful!')) ? 'SUCCESS' : 'FAILURE';
+
+        $expString = $this->getArr['msg'];
+
+        ?>
 			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?=$msgWord?>
 			</font>
-	<?
-		}		
-		?></td>
+	<?php
+    }
+
+    ?></td>
   </tr>
 </table>
 
@@ -288,38 +266,30 @@ function prepCPW() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 							    <td>Code</td>
 							    <td><input type="hidden"  name="txtUserID" value="<?=$message[0][0]?>"><strong><?=$message[0][0]?></strong> </td>
 						  </tr>
-						  <tr> 
-							    <td>User Name</td>
-							    <td><b><?=$message[0][1]?></b><input type="hidden" name="txtUserName" value="<?=$message[0][1]?>"></td>
+						  <tr>
+							    <td nowrap="nowrap">User Name</td>
+							    <td nowrap="nowrap"><b><?=$message[0][1]?></b><input type="hidden" name="txtUserName" value="<?=$message[0][1]?>"></td>
 						  </tr>
 						  <tr>
-							    <td>First Name</td>
-							    <td><input type="text" name="txtUserFirstName"  disabled value="<?=$message[0][2]?>"></td>
-						  </tr>						  
-						  <tr>
-						  		<td><input type="checkbox" name="checkChange" id="checkChange" onChange="prepCPW();" disabled></td>
-							   <td><strong>Change the Password</strong></td>							
-						  </tr>
-						  <tr>
-							    <td>Old Password</td>
+							    <td nowrap="nowrap">Old Password</td>
 							    <td><input type="password" disabled name="txtOldPassword" id="txtOldPassword" ></td>
 						  </tr>
-						
+
 						  <tr>
-							    <td>New Password</td>
+							    <td nowrap="nowrap">New Password</td>
 							    <td><input type="password" disabled name="txtNewPassword" id="txtNewPassword"  ></td>
 						  </tr>
 						  <tr>
-							    <td>Confirm Password</td>
-							    <td><input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" ></td> 
+							    <td nowrap="nowrap">Confirm Password</td>
+							    <td><input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" ></td>
 						  </tr>
-				
-						
-						 
+
+
+
 					  <tr><td></td><td align="right" width="100%">
 
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="chkboxCheck();"  >
@@ -342,4 +312,5 @@ function prepCPW() {
 </form>
 </body>
 </html>
-<? } ?>
+<?php }
+?>

@@ -31,15 +31,15 @@ class Login {
 
 function filterUser($userName) {
 			$this->username=$userName;
-			$tableName = 'HS_HR_USERS';
-			$arrFieldList[0] = 'USER_NAME';
-			$arrFieldList[1] = 'USER_PASSWORD';
-			$arrFieldList[2] = 'FIRST_NAME';
-			$arrFieldList[3] = 'ID';
-			$arrFieldList[4] = 'USERG_ID';
-			$arrFieldList[5] = 'STATUS';
-			$arrFieldList[6] = 'EMP_NUMBER';
-			$arrFieldList[7] = 'IS_ADMIN';
+			$tableName = 'HS_HR_USERS a LEFT JOIN HS_HR_EMPLOYEE b ON (a.EMP_NUMBER = b.EMP_NUMBER)';
+			$arrFieldList[0] = 'a.USER_NAME';
+			$arrFieldList[1] = 'a.USER_PASSWORD';
+			$arrFieldList[2] = 'IFNULL(b.EMP_FIRSTNAME, a.USER_NAME)';
+			$arrFieldList[3] = 'a.ID';
+			$arrFieldList[4] = 'a.USERG_ID';
+			$arrFieldList[5] = 'a.STATUS';
+			$arrFieldList[6] = 'a.EMP_NUMBER';
+			$arrFieldList[7] = 'a.IS_ADMIN';
 			
 	
 			$sql_builder = new SQLQBuilder();
