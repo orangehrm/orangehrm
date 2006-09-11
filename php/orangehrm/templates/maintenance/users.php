@@ -476,7 +476,7 @@ function edit() {
 							   	</select></td>
 							  <td></td>
 							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
-							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?=$message[0][2]?> - <?=$message[0][10]?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?=$message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
+							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?=$message[0][2]?><?=(isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?=$message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<? if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   
