@@ -22,25 +22,41 @@ function connectDB() {
 	
 }
 
-function fillData() {
+function fillData($phase=1) {
 
 	connectDB();
 	
+	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "log.txt");
+	
 	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to create Database!';
+		error_log (date("r")." Fill Data Phase $phase - Error - Unable to create Database\n",3, "log.txt");
 		return;
 	}
 	
-	$queryFile = ROOT_PATH . "/dbscript/dbscript.sql";
+	error_log (date("r")." Fill Data Phase $phase - Selected the DB\n",3, "log.txt");
+	error_log (date("r")." Fill Data Phase $phase - Reading DB Script\n",3, "log.txt");
+	
+	$queryFile = ROOT_PATH . "/dbscript/dbscript-$phase.sql";
 	$fp    = fopen($queryFile, 'r');
+	
+	error_log (date("r")." Fill Data Phase $phase - Opened DB Script\n",3, "log.txt");
+	
 	$query = fread($fp, filesize($queryFile));
 	fclose($fp);
+	
+	error_log (date("r")." Fill Data Phase $phase - Read DB script\n",3, "log.txt");
 								
 	$dbScriptStatements = explode(";", $query);
+	
+	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, "log.txt");
 								
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++)
 		if(!@mysql_query($dbScriptStatements[$c])) {  
 			$_SESSION['error'] = mysql_error();
+			$error = mysql_error();
+			error_log (date("r")." Fill Data Phase $phase - Error Statement # $c \n",3, "log.txt");
+			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, "log.txt");
 			return;
 		}
 									
@@ -178,39 +194,106 @@ CONFCONT;
 	 
     fclose($handle);
 
-}						
+}
 
+function writeLog() {
+	$Content = "Client Info\n\n";
+	
+	$Content .= "User Agent : ".$_SERVER['HTTP_USER_AGENT']."\n";
+	$Content .= "Remote Address : ".$_SERVER['REMOTE_ADDR']."\n\n";
+	
+	$Content .= "Server Info\n\n";
+	$Content .= "Host : ".$_SERVER['HTTP_HOST']."\n";	
+	$Content .= "PHP Version : ".constant('PHP_VERSION')."\n";
+	$Content .= "Server : ".$_SERVER['SERVER_SOFTWARE']."\n";
+	$Content .= "Admin : ".$_SERVER['SERVER_ADMIN']."\n\n";
+	
+	$Content .= "Document Root : ".$_SERVER['DOCUMENT_ROOT']."\n";
+	$Content .= "ROOT_PATH : ".ROOT_PATH."\n\n";
+	
+	$Content .= "OrangeHRM Installation Log\n\n";
+	
+	$filename = 'log.txt';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $Content);
+	fclose($handle);
+}		
+   
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {		
-		case 0	:	createDB();
+		case 0	:	writeLog();
+					error_log (date("r")." DB Creation - Starting\n",3, "log.txt");
+					createDB();
+					error_log (date("r")." DB Creation - Done\n",3, "log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {	
-						$_SESSION['INSTALLING'] = 1;																										
+						$_SESSION['INSTALLING'] = 1;
+						error_log (date("r")." DB Creation - No Errors\n",3, "log.txt");																										
+					} else {
+						error_log (date("r")." DB Creation - Errors\n",3, "log.txt");
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
 					}
+					
 					break;
 								
-		case 1	:	fillData();
+		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, "log.txt");		
+					fillData();
+					error_log (date("r")." Fill Data Phase 1 - Done\n",3, "log.txt");		
 					if (!isset($error) || !isset($_SESSION['error'])) {								
 						$_SESSION['INSTALLING'] = 2;
+						error_log (date("r")." Fill Data Phase 1 - No Errors\n",3, "log.txt");		
+					} else {
+						error_log (date("r")." Fill Data Phase 1 - Errors\n",3, "log.txt");		
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
 					}																				
 					break;
 					
-		case 2	:	createDBUser();
-					if (!isset($error) || !isset($_SESSION['error'])) {
+		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, "log.txt");		
+					fillData(2);
+					error_log (date("r")." Fill Data Phase 2 - Done\n",3, "log.txt");		
+					if (!isset($error) || !isset($_SESSION['error'])) {								
 						$_SESSION['INSTALLING'] = 3;
-					}													
+						error_log (date("r")." Fill Data Phase 2 - No Errors\n",3, "log.txt");		
+					} else {
+						error_log (date("r")." Fill Data Phase 2 - Errors\n",3, "log.txt");		
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
+					}																				
 					break;
-									
-		case 3	:	createUser();
+					
+		case 3	:	error_log (date("r")." Create DB user - Starting\n",3, "log.txt");		
+					createDBUser();
+					error_log (date("r")." Create DB user - Done\n",3, "log.txt");		
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 4;
-					}													
+						error_log (date("r")." Create DB user - No Errors\n",3, "log.txt");		
+					} else {
+						error_log (date("r")." Create DB user - Errors\n",3, "log.txt");	
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");	
+					}												
+					break;
+									
+		case 4	:	error_log (date("r")." Create OrangeHRM user - Starting\n",3, "log.txt");		
+					createUser();
+					error_log (date("r")." Create OrangeHRM user - Done\n",3, "log.txt");
+					if (!isset($error) || !isset($_SESSION['error'])) {
+						$_SESSION['INSTALLING'] = 5;
+						error_log (date("r")." Create OrangeHRM user - No Errors\n",3, "log.txt");
+					} else {
+						error_log (date("r")." Create OrangeHRM user - Errors\n",3, "log.txt");	
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
+					}											
 					break;
 								
-		case 4 :	writeConfFile();
+		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "log.txt");
+					writeConfFile();
+					error_log (date("r")." Write Conf - Done\n",3, "log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
-						$_SESSION['INSTALLING'] = 5;																
+						$_SESSION['INSTALLING'] = 6;	
+						error_log (date("r")." Write Conf - No Errors\n",3, "log.txt");															
+					} else {
+						error_log (date("r")." Write Conf - Errors\n",3, "log.txt");
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
 					}
-					break;					
+					break;						
 		
 	}
   }

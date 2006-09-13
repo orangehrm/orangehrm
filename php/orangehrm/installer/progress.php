@@ -1,17 +1,20 @@
+<? $installFinishValue = 6; ?>
 <div id="content">
 <h2>Step 6: Installing</h2>
 <?php
 $_SESSION['INSTALLING'] = isset($_SESSION['INSTALLING'])? $_SESSION['INSTALLING'] : 0;
 switch ($_SESSION['INSTALLING']) {
-	case 1: $nextPhase = 'FILLDATA';
+	case 1: $nextPhase = 'MAKETABLE';
 			break;
-	case 2: $nextPhase = 'WRITECONF';
+	case 2: $nextPhase = 'FILLDATA';
 			break;
-	case 3: $nextPhase = 'CREATEDBUSER';
+	case 3: $nextPhase = 'WRITECONF';
+			break;
+	case 4: $nextPhase = 'CREATEDBUSER';
 			break;			
-	case 4: $nextPhase = 'CREATEUSER';
+	case 5: $nextPhase = 'CREATEUSER';
 			break;
-	case 5: $nextPhase = 'REGISTER';
+	case 6: $nextPhase = 'REGISTER';
 			break;
 	default: $nextPhase = 'LOGIN';
 			break;
@@ -33,7 +36,7 @@ Installation aborted due to an error. Click <b>[Clean Up Install]</b> to correct
 </p>
 <? } 
 
-$Phases = array('Database Creation', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File');
+$Phases = array('Database Creation', 'Create Database Tables', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File');
 
   $controlval = 0;
   	
@@ -67,7 +70,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
   </tr>
  <? $j++;
  	} 
- for ($i=$j; $i < 5; $i++) { ?>
+ for ($i=$j; $i < $installFinishValue; $i++) { ?>
   <tr>
     <td><?=$Phases[$i]?></td>
     <td class="<?=$styleStatus?>"><?=$msgNext?></td>
@@ -75,7 +78,7 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
  <? } ?>
 </table>
 <? if (!isset($error)){
-		if ($_SESSION['INSTALLING'] < 5) { ?>
+		if ($_SESSION['INSTALLING'] < $installFinishValue) { ?>
 		<noscript>
 			<meta http-equiv="refresh" content="2;URL=../install.php" />
 		</noscript>
@@ -98,5 +101,5 @@ $Phases = array('Database Creation', 'Fill default data into the database', 'Cre
  } ?>
  <br />
  <input class="button" type="button" value="<?=(isset($error))? 'Clean Up Install' : 'Back'?>" onclick="back();" tabindex="2" <?=(isset($error))? '' : 'disabled'?> />
- <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=5))? '' : 'disabled'?> />
+ <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=$installFinishValue))? '' : 'disabled'?> />
 </div>

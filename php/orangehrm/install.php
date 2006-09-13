@@ -143,7 +143,7 @@ if(isset($_POST['actionResponse']))
 
 		case 'LOGIN'   :	session_destroy();
 							setcookie('PHPSESSID', '', time()-3600, '/');
-							header("Location: ./login.php");
+							header("Location: ./");
 							exit(0);							
 							break;
 	}
