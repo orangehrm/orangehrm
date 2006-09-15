@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-
+	
 	$arrMStat = $this->popArr['arrMStat'];
 
 function populateStates($value) {
@@ -269,6 +269,9 @@ function mover() {
 }
 	
 function editEmpMain() {
+	
+	var lockedEl = Array(100);
+	var lockEmpCont = false;
 
 	var Edit = document.getElementById("btnEdit");
 
@@ -278,8 +281,54 @@ function editEmpMain() {
 	}
 	
 	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
+	
+	for (var i=0; i < frm.elements.length; i++) {
+		frm.elements[i].disabled=false;		
+		<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+		if (frm.elements[i].name == 'txtEmpLastName')
+			lockEmpCont=false;
+		if (frm.elements[i].name == 'cmbCountry')
+			lockEmpCont=false;
+		if (frm.elements[i].name == 'txtEConName')
+			lockEmpCont=false;
+		if (frm.elements[i].name == 'dependentSTAT')
+			lockEmpCont=true;			
+		
+		frm.elements[i].disabled=lockEmpCont;	
+			
+		if (frm.elements[i].name == 'txtEmpNickName')
+			lockEmpCont=true;
+		if (frm.elements[i].name == 'txtOtherEmail')
+			lockEmpCont=true;		
+			
+		if (frm.elements[i].type == "hidden")
+			frm.elements[i].disabled=false;	
+			
+		if (frm.elements[i].name == "btnBrowser")
+			frm.elements[i].disabled=false;	
+			
+		if (frm.elements[i].name == "chkSmokeFlag")
+			frm.elements[i].disabled=false;
+			
+		if (frm.elements[i].name == "txtMilitarySer")
+			frm.elements[i].disabled=false;
+			
+		if (frm.elements[i].name == "cmbNation")
+			frm.elements[i].disabled=false;
+		
+		if (frm.elements[i].name == "cmbMarital")
+			frm.elements[i].disabled=false;
+			
+		if (frm.elements[i].name == "cmbEthnicRace")
+			frm.elements[i].disabled=false;
+		
+		if ((frm.elements[i].name == "btnLicExpDate") || (frm.elements[i].name == "txtLicExpDate"))
+			frm.elements[i].disabled=false;
+			
+		if ((frm.elements[i].name == "btnDOB") || (frm.elements[i].name == "DOB"))
+			frm.elements[i].disabled=false;
+		<? } ?>		
+	}
 		
 	document.getElementById("btnClear").disabled = false;
 	Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -430,7 +479,7 @@ function resetAdd(panel) {
 	display: block;	
 	vertical-align: bottom;
 	padding-top: 40px;
-	//height:50px;
+	/*height:50px;*/
 	width:52px;	
 	text-align:center;
 }
@@ -618,7 +667,7 @@ function resetAdd(panel) {
     <tr>
     <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
-					<?	if($locRights['add']) { ?>
+					<?	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
 					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<? 	} else { ?>
 					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?=$sysConst->accessDenied?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -690,7 +739,7 @@ function resetAdd(panel) {
                     <td width="100%" align="center"><img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?=$this->getArr['id']?>&action=VIEW"></td>
                     </tr>
                     <tr>
-                    <td width="100%" align="center"><input type="button" value="Browse" onClick="popPhotoHandler()"></td>
+                    <td width="100%" align="center"><input type="button" value="Browse" name="btnBrowser" onClick="popPhotoHandler()"></td>
 					</tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -710,7 +759,7 @@ function resetAdd(panel) {
     <tr>
     <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
-<?			if($locRights['edit']) { ?>
+<?			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
 			        <input type="image" class="button1" id="btnEdit" src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
 <?			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');  return false;">

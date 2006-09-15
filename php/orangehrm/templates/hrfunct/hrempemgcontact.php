@@ -84,7 +84,7 @@ function editEContact() {
 			 <td><input name="txtEConWorkTel" <?=$locRights['add'] ? '':'disabled'?> type="text"></td>
 			  </tr>
 				  <td>
-<?	if($locRights['add']) { ?>
+<?	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
         <img border="0" title="Save" onClick="addEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -93,7 +93,7 @@ function editEContact() {
 				</tr>
 				<tr>
 				<td>
-<?	if($locRights['delete']) { ?>
+<?	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
         <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
@@ -156,16 +156,16 @@ function editEContact() {
 			
 				  
 				  <td>
-					<?	if($locRights['edit']) { ?>
+					<?	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")){ ?>
 					        <img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<? 	} else { ?>
+					<? 	} else { ?>							
 					        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?	} ?>
 				  </td>
 				</tr>
 				<tr>
 				<td>
-<?	if($locRights['delete']) { ?>
+<?	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
         <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <? 	} else { ?>
         <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
