@@ -22,8 +22,8 @@ function connectDB() {
 	
 }
 
-function fillData($phase=1, $source='/dbscript/dbscript-') {
-	$source .= $phase.'.sql';
+function fillData($phase=1) {
+
 	connectDB();
 	
 	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
@@ -37,7 +37,7 @@ function fillData($phase=1, $source='/dbscript/dbscript-') {
 	error_log (date("r")." Fill Data Phase $phase - Selected the DB\n",3, "installer/log.txt");
 	error_log (date("r")." Fill Data Phase $phase - Reading DB Script\n",3, "installer/log.txt");
 	
-	$queryFile = ROOT_PATH . $source;
+	$queryFile = ROOT_PATH . "/dbscript/dbscript-$phase.sql";
 	$fp    = fopen($queryFile, 'r');
 	
 	error_log (date("r")." Fill Data Phase $phase - Opened DB Script\n",3, "installer/log.txt");
