@@ -20,7 +20,7 @@
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
 
 class EXTRACTOR_EmpEmergencyCon {
-	
+		
 	var $empId;
 	var $empECSeqNo;
 	var $empEConName;
@@ -31,11 +31,10 @@ class EXTRACTOR_EmpEmergencyCon {
 	
 	
 	function EXTRACTOR_EmpEmergencyCon() {
-
 		$this->econ = new EmpEmergencyCon();
 	}
-
-	function parseData($postArr) {	
+	
+	function parseData($postArr) {
 			
 			$this->econ->setEmpId($postArr['txtEmpID']);
 			$this->econ->setEmpECSeqNo(trim($postArr['txtECSeqNo']));

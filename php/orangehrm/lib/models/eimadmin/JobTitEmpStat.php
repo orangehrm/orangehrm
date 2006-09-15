@@ -205,7 +205,7 @@ class JobTitEmpStat {
 		$sqlQString = $sql_builder->getAssEmpStat($jobtit);
 
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+       	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$common_func = new CommonFunctions();
 

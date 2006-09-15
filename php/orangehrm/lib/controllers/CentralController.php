@@ -6,7 +6,7 @@ session_start();
 
 if(!isset($_SESSION['fname'])) { 
 
-	header("Location: ../../relogin.htm");
+	header("Location: ../../login.php");
 	exit();
 }
 
@@ -150,6 +150,10 @@ if(!is_array($locRights) && $locRights == false)
 
 if($_SESSION['isAdmin'] != 'Yes')	
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> true);
+	
+if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id']) && ($_GET['id'] !== $_SESSION['empID']))) {
+	trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
+}
 	
 $ugroup = new UserGroups();
 $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
@@ -652,78 +656,74 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpEmergencyCon();
 					}
 
-					if(isset($_POST['passportSTAT']) && $_POST['passportSTAT']!= '') {
+					if(isset($_POST['passportSTAT']) && $_POST['passportSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpPassPort();
 					}
 
-					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '') {
+					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpLanguage();
 					}
 					
-					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '') {
+					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpLicenses();
 					}
 
-					if(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT']!= '') {
+					if(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpMembership();
 					}
 
-					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '') {
+					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpBasSalary();
 					}
 					
-					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '') {
+					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpEducation();
 					}
 					
-					if(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT']!= '') {
+					if(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpWorkExp();
 					}
 					
-					if(isset($_POST['skillSTAT']) && $_POST['skillSTAT']!= '') {
+					if(isset($_POST['skillSTAT']) && $_POST['skillSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpSkill();
 					}
 					
-					if(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT']!= '') {
+					if(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpRepTo();
 					}
 					
-					if(isset($_POST['brchSTAT']) && $_POST['brchSTAT']!= '') {
+					if(isset($_POST['brchSTAT']) && $_POST['brchSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpBank();
 					}
 
-					if(isset($_POST['attSTAT']) && $_POST['attSTAT']!= '') {
+					if(isset($_POST['attSTAT']) && $_POST['attSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpAttach();
 					}
 
-					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '') {
+					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
 
-					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '') {
+					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpChildren();
 					}
 			
-					if(isset($_POST['conextSTAT']) && $_POST['conextSTAT']!= '') {
+					if(isset($_POST['conextSTAT']) && $_POST['conextSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpConExt();
 					}
 					
-					switch ($_GET['reqcode']) {	
-							
-							case 'EMP'	:	
-										if(isset($_POST['sqlState'])) {
+					switch ($_GET['reqcode']) {					
+						case 'ESS'	:	if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmpInfo();
-										}
-									
+											$extractor->ESS();
+										}									
 										break;
-										
-							case 'ESS'	:	
+						case 'EMP'	:	
 										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_EmpEss();
-										}
-										
-										break;	
-						}
+											$extractor = new EXTRACTOR_EmpInfo();											
+										}									
+										break;
+					}
 										
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
@@ -786,10 +786,10 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										
-										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']) || ($_GET['reqcode'] === "ESS") && (($_POST['econtactSTAT'] == 'ADD') || ($_POST['econtactSTAT'] == 'EDIT')))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['econtactSTAT']);
-										} elseif(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT'] == 'DEL' && ($locRights['delete'] || (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")))) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 										

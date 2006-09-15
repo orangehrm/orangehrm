@@ -165,10 +165,7 @@ class ViewController {
 
 								$level = $value[0];
 								$val = $value[1];
-									
-							//$exception_handler = new ExceptionHandler();
-						  	//$exception_handler->logW("UnAssigned" .(int)$level+2 .",".$val);
-								
+																
 								$compstruct = new CompStruct();
 								return $compstruct->getUnAssCompStruct($val,$level);
 							}
