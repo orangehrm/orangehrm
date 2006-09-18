@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost:3306
--- Generation Time: Sep 15, 2006 at 12:25 PM
+-- Generation Time: Sep 18, 2006 at 07:46 AM
 -- Server version: 5.0.22
 -- PHP Version: 5.1.6
 -- 
--- Database: `hr_mysql_test`
+-- Database: `hs_hr_mysqltest`
 -- 
 
 -- --------------------------------------------------------
@@ -16,6 +16,7 @@
 -- Table structure for table `hs_hr_compstructtree`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_compstructtree`;
 CREATE TABLE `hs_hr_compstructtree` (
   `title` tinytext NOT NULL,
   `description` text NOT NULL,
@@ -40,6 +41,7 @@ INSERT INTO `hs_hr_compstructtree` VALUES ('hSenid', 'Parent Company', NULL, 1, 
 -- Table structure for table `hs_hr_country`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_country`;
 CREATE TABLE `hs_hr_country` (
   `cou_code` char(2) NOT NULL default '',
   `name` varchar(80) NOT NULL default '',
@@ -299,6 +301,7 @@ INSERT INTO `hs_hr_country` VALUES ('ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716);
 -- Table structure for table `hs_hr_currency_type`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_currency_type`;
 CREATE TABLE `hs_hr_currency_type` (
   `code` int(11) NOT NULL default '0',
   `currency_id` char(3) NOT NULL default '',
@@ -494,6 +497,7 @@ INSERT INTO `hs_hr_currency_type` VALUES (170, 'ZWD', 'Zimbabwe Dollar');
 -- Table structure for table `hs_hr_db_version`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_db_version`;
 CREATE TABLE `hs_hr_db_version` (
   `id` varchar(36) NOT NULL default '',
   `name` varchar(45) default NULL,
@@ -519,6 +523,7 @@ INSERT INTO `hs_hr_db_version` VALUES ('DVR001', 'mysql4.1', 'initial DB', '2005
 -- Table structure for table `hs_hr_developer`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_developer`;
 CREATE TABLE `hs_hr_developer` (
   `id` varchar(36) NOT NULL default '',
   `first_name` varchar(45) default NULL,
@@ -540,6 +545,7 @@ CREATE TABLE `hs_hr_developer` (
 -- Table structure for table `hs_hr_district`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_district`;
 CREATE TABLE `hs_hr_district` (
   `district_code` varchar(6) NOT NULL default '',
   `district_name` varchar(50) default NULL,
@@ -558,6 +564,7 @@ CREATE TABLE `hs_hr_district` (
 -- Table structure for table `hs_hr_education`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_education`;
 CREATE TABLE `hs_hr_education` (
   `edu_code` varchar(6) NOT NULL default '',
   `edu_uni` varchar(100) default NULL,
@@ -576,6 +583,7 @@ CREATE TABLE `hs_hr_education` (
 -- Table structure for table `hs_hr_eec`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_eec`;
 CREATE TABLE `hs_hr_eec` (
   `eec_code` varchar(6) NOT NULL default '',
   `eec_desc` varchar(50) default NULL,
@@ -601,6 +609,7 @@ INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
 -- Table structure for table `hs_hr_emp_attachment`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_attachment`;
 CREATE TABLE `hs_hr_emp_attachment` (
   `emp_number` varchar(6) NOT NULL default '',
   `eattach_id` decimal(10,0) NOT NULL default '0',
@@ -623,6 +632,7 @@ CREATE TABLE `hs_hr_emp_attachment` (
 -- Table structure for table `hs_hr_emp_basicsalary`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_basicsalary`;
 CREATE TABLE `hs_hr_emp_basicsalary` (
   `emp_number` varchar(6) NOT NULL default '',
   `sal_grd_code` varchar(6) NOT NULL default '',
@@ -644,6 +654,7 @@ CREATE TABLE `hs_hr_emp_basicsalary` (
 -- Table structure for table `hs_hr_emp_children`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_children`;
 CREATE TABLE `hs_hr_emp_children` (
   `emp_number` varchar(6) NOT NULL default '',
   `ec_seqno` decimal(2,0) NOT NULL default '0',
@@ -663,6 +674,7 @@ CREATE TABLE `hs_hr_emp_children` (
 -- Table structure for table `hs_hr_emp_contract_extend`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_contract_extend`;
 CREATE TABLE `hs_hr_emp_contract_extend` (
   `emp_number` varchar(6) NOT NULL default '',
   `econ_extend_id` decimal(10,0) NOT NULL default '0',
@@ -682,6 +694,7 @@ CREATE TABLE `hs_hr_emp_contract_extend` (
 -- Table structure for table `hs_hr_emp_dependents`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_dependents`;
 CREATE TABLE `hs_hr_emp_dependents` (
   `emp_number` varchar(6) NOT NULL default '',
   `ed_seqno` decimal(2,0) NOT NULL default '0',
@@ -701,6 +714,7 @@ CREATE TABLE `hs_hr_emp_dependents` (
 -- Table structure for table `hs_hr_emp_education`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_education`;
 CREATE TABLE `hs_hr_emp_education` (
   `emp_number` varchar(6) NOT NULL default '',
   `edu_code` varchar(6) NOT NULL default '',
@@ -724,6 +738,7 @@ CREATE TABLE `hs_hr_emp_education` (
 -- Table structure for table `hs_hr_emp_emergency_contacts`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_emergency_contacts`;
 CREATE TABLE `hs_hr_emp_emergency_contacts` (
   `emp_number` varchar(6) NOT NULL default '',
   `eec_seqno` decimal(2,0) NOT NULL default '0',
@@ -746,6 +761,7 @@ CREATE TABLE `hs_hr_emp_emergency_contacts` (
 -- Table structure for table `hs_hr_emp_history_of_ealier_pos`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_history_of_ealier_pos`;
 CREATE TABLE `hs_hr_emp_history_of_ealier_pos` (
   `emp_number` varchar(6) NOT NULL default '',
   `emp_seqno` decimal(2,0) NOT NULL default '0',
@@ -765,6 +781,7 @@ CREATE TABLE `hs_hr_emp_history_of_ealier_pos` (
 -- Table structure for table `hs_hr_emp_language`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_language`;
 CREATE TABLE `hs_hr_emp_language` (
   `emp_number` varchar(6) NOT NULL default '',
   `lang_code` varchar(6) NOT NULL default '',
@@ -785,6 +802,7 @@ CREATE TABLE `hs_hr_emp_language` (
 -- Table structure for table `hs_hr_emp_licenses`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_licenses`;
 CREATE TABLE `hs_hr_emp_licenses` (
   `emp_number` varchar(6) NOT NULL default '',
   `licenses_code` varchar(100) NOT NULL default '',
@@ -805,6 +823,7 @@ CREATE TABLE `hs_hr_emp_licenses` (
 -- Table structure for table `hs_hr_emp_member_detail`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_member_detail`;
 CREATE TABLE `hs_hr_emp_member_detail` (
   `emp_number` varchar(6) NOT NULL default '',
   `membship_code` varchar(6) NOT NULL default '',
@@ -829,6 +848,7 @@ CREATE TABLE `hs_hr_emp_member_detail` (
 -- Table structure for table `hs_hr_emp_passport`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_passport`;
 CREATE TABLE `hs_hr_emp_passport` (
   `emp_number` varchar(6) NOT NULL default '',
   `ep_seqno` decimal(2,0) NOT NULL default '0',
@@ -854,6 +874,7 @@ CREATE TABLE `hs_hr_emp_passport` (
 -- Table structure for table `hs_hr_emp_picture`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_picture`;
 CREATE TABLE `hs_hr_emp_picture` (
   `emp_number` varchar(6) NOT NULL default '',
   `epic_picture` blob,
@@ -874,6 +895,7 @@ CREATE TABLE `hs_hr_emp_picture` (
 -- Table structure for table `hs_hr_emp_reportto`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_reportto`;
 CREATE TABLE `hs_hr_emp_reportto` (
   `erep_sup_emp_number` varchar(6) NOT NULL default '',
   `erep_sub_emp_number` varchar(6) NOT NULL default '',
@@ -893,6 +915,7 @@ CREATE TABLE `hs_hr_emp_reportto` (
 -- Table structure for table `hs_hr_emp_skill`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_skill`;
 CREATE TABLE `hs_hr_emp_skill` (
   `emp_number` varchar(6) NOT NULL default '',
   `skill_code` varchar(6) NOT NULL default '',
@@ -913,6 +936,7 @@ CREATE TABLE `hs_hr_emp_skill` (
 -- Table structure for table `hs_hr_emp_work_experience`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emp_work_experience`;
 CREATE TABLE `hs_hr_emp_work_experience` (
   `emp_number` varchar(6) NOT NULL default '',
   `eexp_seqno` decimal(10,0) NOT NULL default '0',
@@ -936,6 +960,7 @@ CREATE TABLE `hs_hr_emp_work_experience` (
 -- Table structure for table `hs_hr_employee`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_employee`;
 CREATE TABLE `hs_hr_employee` (
   `emp_number` varchar(6) NOT NULL default '',
   `emp_lastname` varchar(100) default '',
@@ -988,6 +1013,7 @@ CREATE TABLE `hs_hr_employee` (
 -- Table structure for table `hs_hr_emprep_usergroup`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_emprep_usergroup`;
 CREATE TABLE `hs_hr_emprep_usergroup` (
   `userg_id` varchar(6) NOT NULL default '',
   `rep_code` varchar(6) NOT NULL default '',
@@ -1006,6 +1032,7 @@ CREATE TABLE `hs_hr_emprep_usergroup` (
 -- Table structure for table `hs_hr_empreport`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_empreport`;
 CREATE TABLE `hs_hr_empreport` (
   `rep_code` varchar(6) NOT NULL default '',
   `rep_name` varchar(60) default NULL,
@@ -1025,6 +1052,7 @@ CREATE TABLE `hs_hr_empreport` (
 -- Table structure for table `hs_hr_empstat`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_empstat`;
 CREATE TABLE `hs_hr_empstat` (
   `estat_code` varchar(6) NOT NULL default '',
   `estat_name` varchar(50) default NULL,
@@ -1044,6 +1072,7 @@ INSERT INTO `hs_hr_empstat` VALUES ('EST002', 'Part Time');
 -- Table structure for table `hs_hr_ethnic_race`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_ethnic_race`;
 CREATE TABLE `hs_hr_ethnic_race` (
   `ethnic_race_code` varchar(6) NOT NULL default '',
   `ethnic_race_desc` varchar(50) default NULL,
@@ -1055,12 +1084,14 @@ CREATE TABLE `hs_hr_ethnic_race` (
 -- 
 
 
+
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `hs_hr_file_version`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_file_version`;
 CREATE TABLE `hs_hr_file_version` (
   `id` varchar(36) NOT NULL default '',
   `altered_module` varchar(36) default NULL,
@@ -1088,6 +1119,7 @@ INSERT INTO `hs_hr_file_version` VALUES ('FVR001', NULL, 'Release 1', '2006-03-1
 -- Table structure for table `hs_hr_geninfo`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_geninfo`;
 CREATE TABLE `hs_hr_geninfo` (
   `code` varchar(8) NOT NULL default '',
   `geninfo_keys` varchar(200) default NULL,
@@ -1107,6 +1139,7 @@ INSERT INTO `hs_hr_geninfo` VALUES ('001', 'COMPANY|COUNTRY|STREET1|STREET2|STAT
 -- Table structure for table `hs_hr_job_title`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_job_title`;
 CREATE TABLE `hs_hr_job_title` (
   `jobtit_code` varchar(6) NOT NULL default '',
   `jobtit_name` varchar(50) default NULL,
@@ -1129,6 +1162,7 @@ INSERT INTO `hs_hr_job_title` VALUES ('JOB001', 'Web Developer', 'RTT', 'YYX', '
 -- Table structure for table `hs_hr_jobtit_empstat`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_jobtit_empstat`;
 CREATE TABLE `hs_hr_jobtit_empstat` (
   `jobtit_code` varchar(6) NOT NULL default '',
   `estat_code` varchar(6) NOT NULL default '',
@@ -1148,6 +1182,7 @@ INSERT INTO `hs_hr_jobtit_empstat` VALUES ('JOB001', 'EST001');
 -- Table structure for table `hs_hr_language`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_language`;
 CREATE TABLE `hs_hr_language` (
   `lang_code` varchar(6) NOT NULL default '',
   `lang_name` varchar(120) default NULL,
@@ -1165,6 +1200,7 @@ CREATE TABLE `hs_hr_language` (
 -- Table structure for table `hs_hr_licenses`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_licenses`;
 CREATE TABLE `hs_hr_licenses` (
   `licenses_code` varchar(6) NOT NULL default '',
   `licenses_desc` varchar(50) default NULL,
@@ -1182,6 +1218,7 @@ CREATE TABLE `hs_hr_licenses` (
 -- Table structure for table `hs_hr_location`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_location`;
 CREATE TABLE `hs_hr_location` (
   `loc_code` varchar(6) NOT NULL default '',
   `loc_name` varchar(100) default NULL,
@@ -1189,6 +1226,7 @@ CREATE TABLE `hs_hr_location` (
   `loc_state` varchar(50) default NULL,
   `loc_city` varchar(50) default NULL,
   `loc_add` varchar(100) default NULL,
+
   `loc_zip` varchar(10) default NULL,
   `loc_phone` varchar(30) default NULL,
   `loc_fax` varchar(30) default NULL,
@@ -1208,6 +1246,7 @@ CREATE TABLE `hs_hr_location` (
 -- Table structure for table `hs_hr_membership`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_membership`;
 CREATE TABLE `hs_hr_membership` (
   `membship_code` varchar(6) NOT NULL default '',
   `membtype_code` varchar(6) default NULL,
@@ -1227,6 +1266,7 @@ CREATE TABLE `hs_hr_membership` (
 -- Table structure for table `hs_hr_membership_type`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_membership_type`;
 CREATE TABLE `hs_hr_membership_type` (
   `membtype_code` varchar(6) NOT NULL default '',
   `membtype_name` varchar(120) default NULL,
@@ -1244,6 +1284,7 @@ CREATE TABLE `hs_hr_membership_type` (
 -- Table structure for table `hs_hr_module`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_module`;
 CREATE TABLE `hs_hr_module` (
   `mod_id` varchar(36) NOT NULL default '',
   `name` varchar(45) default NULL,
@@ -1270,6 +1311,7 @@ INSERT INTO `hs_hr_module` VALUES ('MOD004', 'Report', 'Koshika', 'koshika@beyon
 -- Table structure for table `hs_hr_nationality`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_nationality`;
 CREATE TABLE `hs_hr_nationality` (
   `nat_code` varchar(6) NOT NULL default '',
   `nat_name` varchar(120) default NULL,
@@ -1287,6 +1329,7 @@ CREATE TABLE `hs_hr_nationality` (
 -- Table structure for table `hs_hr_province`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_province`;
 CREATE TABLE `hs_hr_province` (
   `id` int(11) NOT NULL auto_increment,
   `province_name` varchar(40) NOT NULL default '',
@@ -1371,6 +1414,7 @@ INSERT INTO `hs_hr_province` VALUES (65, 'Armed Forces Pacific', 'AP', 'US');
 -- Table structure for table `hs_hr_rights`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_rights`;
 CREATE TABLE `hs_hr_rights` (
   `userg_id` varchar(36) NOT NULL default '',
   `mod_id` varchar(36) NOT NULL default '',
@@ -1397,6 +1441,7 @@ INSERT INTO `hs_hr_rights` VALUES ('USG001', 'MOD004', 1, 1, 1, 1);
 -- Table structure for table `hs_hr_skill`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_skill`;
 CREATE TABLE `hs_hr_skill` (
   `skill_code` varchar(6) NOT NULL default '',
   `skill_name` varchar(120) default NULL,
@@ -1414,6 +1459,7 @@ CREATE TABLE `hs_hr_skill` (
 -- Table structure for table `hs_hr_user_group`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_user_group`;
 CREATE TABLE `hs_hr_user_group` (
   `userg_id` varchar(36) NOT NULL default '',
   `userg_name` varchar(45) default NULL,
@@ -1433,6 +1479,7 @@ INSERT INTO `hs_hr_user_group` VALUES ('USG001', 'Admin', 1);
 -- Table structure for table `hs_hr_users`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_users`;
 CREATE TABLE `hs_hr_users` (
   `id` varchar(36) NOT NULL default '',
   `user_name` varchar(20) default '',
@@ -1487,6 +1534,7 @@ INSERT INTO `hs_hr_users` VALUES ('USR001', 'Admin', 'f2c84b9f7a7bff99f21cdbae50
 -- Table structure for table `hs_hr_versions`
 -- 
 
+DROP TABLE IF EXISTS `hs_hr_versions`;
 CREATE TABLE `hs_hr_versions` (
   `id` varchar(36) NOT NULL default '',
   `name` varchar(45) default NULL,
@@ -1517,6 +1565,7 @@ INSERT INTO `hs_hr_versions` VALUES ('VER001', 'Release 1', '2006-03-15 00:00:00
 -- Table structure for table `hs_pr_salary_currency_detail`
 -- 
 
+DROP TABLE IF EXISTS `hs_pr_salary_currency_detail`;
 CREATE TABLE `hs_pr_salary_currency_detail` (
   `sal_grd_code` varchar(6) NOT NULL default '',
   `currency_id` varchar(6) NOT NULL default '',
@@ -1539,6 +1588,7 @@ INSERT INTO `hs_pr_salary_currency_detail` VALUES ('SAL001', 'BTN', 123, 235, 45
 -- Table structure for table `hs_pr_salary_grade`
 -- 
 
+DROP TABLE IF EXISTS `hs_pr_salary_grade`;
 CREATE TABLE `hs_pr_salary_grade` (
   `sal_grd_code` varchar(6) NOT NULL default '',
   `sal_grd_name` varchar(60) default NULL,
@@ -1727,7 +1777,6 @@ ALTER TABLE `hs_hr_membership`
 -- 
 ALTER TABLE `hs_hr_module`
   ADD CONSTRAINT `hs_hr_module_ibfk_1` FOREIGN KEY (`version`) REFERENCES `hs_hr_versions` (`id`) ON DELETE CASCADE;
-
 
 -- 
 -- Constraints for table `hs_hr_rights`

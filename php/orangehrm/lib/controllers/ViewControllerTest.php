@@ -33,18 +33,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
         $suite  = new PHPUnit_Framework_TestSuite("ViewControllerTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
-
-	function createDB() {
 	
-		$this->connectDB();							
-		mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
-	
-		if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-			$_SESSION['error'] = 'Unable to create Database!';
-			return;
-		}					
-	}
-
 	function connectDB() {
 
 		if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
@@ -95,51 +84,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 			return;
 	}	
 	
-function writeConfFile() {
 
-	$dbHost = $_SESSION['dbInfo']['dbHostName'];
-	$dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
-	$dbName = $_SESSION['dbInfo']['dbName'];
-							  
-	if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
-		$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
-		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
-	} else {	
-		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
-	}
-
-    $confContent = <<< CONFCONT
-<?
-class Conf {
-
-	var \$smtphost;
-	var \$dbhost;
-	var \$dbport;
-	var \$dbname;
-	var \$dbuser;
-	var \$dbpass;
-
-	function Conf() {
-		
-	\$this->dbhost	= '$dbHost';
-	\$this->dbport 	= '$dbHostPort';
-	\$this->dbname	= '$dbName';
-	\$this->dbuser	= '$dbOHRMUser';
-	\$this->dbpass	= '$dbOHRMPassword';
-	\$this->smtphost = 'mail.beyondm.net';
-	}
-}
-?>
-CONFCONT;
-						      
-	$filename = ROOT_PATH . '/lib/confs/Conf.php';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $confContent);
-	 
-    fclose($handle);
-
-}
 	
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -155,12 +100,11 @@ CONFCONT;
 		$_SESSION['dbInfo']['dbUserName'] = "root";
 		$_SESSION['dbInfo']['dbPassword'] = "moha";
 		
-		$_SESSION['dbInfo']['dbName'] = "hs_hr_mysqltest";
-		
-		$this->createDB();			
+		$_SESSION['dbInfo']['dbName'] = "hr_mysqltest";
 		
 		$this->fillData();	
-		$this->writeConfFile();
+		unset($error);	
+		unset($_SESSION['error']);		
 		
 		$this->view = new ViewController();	
     }
@@ -172,6 +116,7 @@ CONFCONT;
      * @access protected
      */
     protected function tearDown() {
+		
     }
 
     /*
@@ -203,8 +148,12 @@ CONFCONT;
 	/**
 	  * GeoInfo - addLocation
 	  */
-	/*public function testXajaxObjCall_addLocation_1() { 
-		$test = array      
+	/*public function testXajaxObjCall_addLocation_1() {	
+		$extractor = new EXTRACTOR_Location(); 
+		
+		$test = array('txtLocDescription'=>"Nawam Mawatha", 'txtAddress'=>"Sayuru Sevana", 'cmbDistrict'=>"Colombo", 'cmbCountry'=>"LK", 'cmbProvince'=>"Western", 'txtZIP'=>"00200", 'txtPhone'=>"011-2446111", 'txtFax'=>"011-2446112", 'txtComments'=>"PHPUnit");    
+		
+		$parsedObject = $extractor->parseAddData($test);
         $this->assertEquals(false, $this->view->xajaxObjCall("US", "LOC", "addLocation"));		
     }	
 	public function testXajaxObjCall_addLocation_2() {        
@@ -268,21 +217,20 @@ CONFCONT;
     /**
      * @todo Implement testViewList().
      */
-    public function testViewList() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    public function testViewList() {       
+        $this->assertEquals(true,true);
+		//  No tests for HTML
     }
 
     /**
      * @todo Implement testDelParser().
      */
-    public function testDelParser() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    public function testDelParser_emloyment_status() {
+        $delArr = array(array('EST001')); 
+        $this->view->delParser("EST", $delArr);
+		
+		$test = array(array("EST002", "Part Time")); 
+		$this->assertEquals($test, $this->view->xajaxObjCall("EST002", "JOB", "editEmpStat"));
     }
 
     /**

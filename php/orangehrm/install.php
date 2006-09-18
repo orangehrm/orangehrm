@@ -2,9 +2,9 @@
 
 function sockComm($postArr) {	
 
-	$host = 'orangehrm.com';
+	$host = '127.0.0.1';
 	$method = 'POST';
-	$path = '/registration/registerAcceptor.php';
+	$path = '/orangehrm/registration/registerAcceptor.php';
 	$data = "userName=".$postArr['userName']
 			."&userEmail=".$postArr['userEmail']
 			."&userComments=".$postArr['userComments']
@@ -123,7 +123,7 @@ if(isset($_POST['actionResponse']))
 								$_SESSION['DEFUSER'] = 'OK';
 								break;
 
-		case 'CANCEL' :		session_destroy();							
+		case 'CANCEL' 	:	session_destroy();							
 							header("Location: ./install.php");
 							exit(0);
 							break;
@@ -138,10 +138,12 @@ if(isset($_POST['actionResponse']))
 							break;
 							
 								
-		case 'REGINFO' :	$reqAccept = sockComm($_POST);							
+		case 'REGINFO' 	:	$reqAccept = sockComm($_POST);							
 							break;
+							
+		case 'NOREG' 	:	$reqAccept = sockComm($_POST);
 
-		case 'LOGIN'   :	session_destroy();
+		case 'LOGIN'   	:	session_destroy();
 							setcookie('PHPSESSID', '', time()-3600, '/');
 							header("Location: ./");
 							exit(0);							

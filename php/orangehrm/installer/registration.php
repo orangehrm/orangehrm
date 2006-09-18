@@ -4,6 +4,12 @@ function login() {
 	document.frmInstall.submit();
 }
 
+function noREG() {	
+	document.frmInstall.actionResponse.value = 'NOREG';
+	document.frmInstall.submit();
+}
+
+
 function regInfo() {
 	
 	frm = document.frmInstall;
@@ -69,12 +75,12 @@ document.frmInstall.btnRegister.disabled = true;
 	<br />
 	
         <? if(!isset($reqAccept)) { ?>        
-        <input name="button" type="button" onclick="login();" value="No thanks!" tabindex="7"/>
+        <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
 		<input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
         <? } elseif($reqAccept) { ?>
         <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
         <? } else { ?>        
-        <input name="button" type="button" onclick="login();" value="Skip" tabindex="9"/>
+        <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <? } ?>
 </div>

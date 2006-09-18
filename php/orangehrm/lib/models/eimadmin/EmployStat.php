@@ -113,7 +113,7 @@ class EmploymentStatus {
 	}
 
 	function delEmpStat($arrList) {
-
+		
 		$tableName = 'HS_HR_EMPSTAT';
 		$arrFieldList[0] = 'ESTAT_CODE';
 
