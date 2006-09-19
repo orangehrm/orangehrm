@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost:3306
--- Generation Time: Sep 18, 2006 at 07:46 AM
+-- Generation Time: Sep 19, 2006 at 08:29 AM
 -- Server version: 5.0.22
 -- PHP Version: 5.1.6
 -- 
--- Database: `hs_hr_mysqltest`
+-- Database: `hr_mysqltest`
 -- 
 
 -- --------------------------------------------------------
@@ -674,6 +674,7 @@ CREATE TABLE `hs_hr_emp_children` (
 -- Table structure for table `hs_hr_emp_contract_extend`
 -- 
 
+
 DROP TABLE IF EXISTS `hs_hr_emp_contract_extend`;
 CREATE TABLE `hs_hr_emp_contract_extend` (
   `emp_number` varchar(6) NOT NULL default '',
@@ -1084,7 +1085,6 @@ CREATE TABLE `hs_hr_ethnic_race` (
 -- 
 
 
-
 -- --------------------------------------------------------
 
 -- 
@@ -1155,6 +1155,7 @@ CREATE TABLE `hs_hr_job_title` (
 -- 
 
 INSERT INTO `hs_hr_job_title` VALUES ('JOB001', 'Web Developer', 'RTT', 'YYX', 'SAL001');
+INSERT INTO `hs_hr_job_title` VALUES ('JOB002', 'Technical Writer', 'Technical Writer', 'RTX', 'SAL001');
 
 -- --------------------------------------------------------
 
@@ -1226,7 +1227,6 @@ CREATE TABLE `hs_hr_location` (
   `loc_state` varchar(50) default NULL,
   `loc_city` varchar(50) default NULL,
   `loc_add` varchar(100) default NULL,
-
   `loc_zip` varchar(10) default NULL,
   `loc_phone` varchar(30) default NULL,
   `loc_fax` varchar(30) default NULL,
