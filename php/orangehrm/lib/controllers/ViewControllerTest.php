@@ -4,13 +4,13 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "ViewControllerTest::main");
 }
 
-define("ROOT_PATH", "E:/moha/source/orangehrm/trunk/php/orangehrm");
+define("ROOT_PATH", "C:/temp/trunk/php/orangehrm/");
 define("WPATH", "http://localhost/orangehrm");
 
 session_start();
 
-require_once "PHPUnit/Framework/TestCase.php";
-require_once "PHPUnit/Framework/TestSuite.php";
+require_once "PHPUnit2/Framework/TestCase.php";
+require_once "PHPUnit2/Framework/TestSuite.php";
 
 require_once "ViewController.php";
 
@@ -28,7 +28,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
      */	 
 	
     public static function main() {
-        require_once "PHPUnit/TextUI/TestRunner.php";		
+        require_once "PHPUnit2/TextUI/TestRunner.php";		
 			
         $suite  = new PHPUnit_Framework_TestSuite("ViewControllerTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
