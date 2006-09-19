@@ -237,11 +237,80 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
     /**
      * @todo Implement testSelectIndexId().
      */
-   /* public function testSelectIndexId() {
+	 
+    //EST
+	
+	public function testSelectIndexId_EST_1() {
+		$this->view->indexCode = "EST";
 		$test = array(array("EST001", "Permanent"), array("EST002", "Part Time"));    
-        $this->assertEquals($test, $this->view->selectIndexId(0, '', 0));
-    }*/
+        $this->assertEquals($test, $this->view->selectIndexId(0, '', -1));
+    }
+	
+	public function testSelectIndexId_EST_2() {
+		$this->view->indexCode = "EST";
+		$test = array(array("EST001", "Permanent"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'EST001', 0));
+    }
+	
+	public function testSelectIndexId_EST_3() {
+		$this->view->indexCode = "EST";
+		$test = array( array("EST002", "Part Time"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Part Time', 1));
+    }
+	
+	public function testSelectIndexId_EST_4() {
+		$this->view->indexCode = "EST";
+		$test = array( array("EST001", "Permanent"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Perm', 1));
+    }
+	
+	public function testSelectIndexId_EST_5() {
+		$this->view->indexCode = "EST";
+		$test = array( array("EST001", "Permanent"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '001', 0));
+    }
+	public function testSelectIndexId_EST_6() {
+		$this->view->indexCode = "EST";		
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 0));
+    }
+	
+	//JOB
 
+	public function testSelectIndexId_JOB_1() {
+		$this->view->indexCode = "JOB";
+		$test = array(array("JOB001", "Web Developer"), array("JOB002", "Technical Writer"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '', -1));
+    }
+	
+	public function testSelectIndexId_JOB_2() {
+		$this->view->indexCode = "JOB";
+		$test = array(array("JOB001", "Web Developer"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'JOB001', 0));
+    }
+	
+	public function testSelectIndexId_JOB_3() {
+		$this->view->indexCode = "JOB";
+		$test = array( array("JOB002", "Technical Writer"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Technical Writer', 1));
+    }
+	
+	public function testSelectIndexId_JOB_4() {
+		$this->view->indexCode = "JOB";
+		$test = array( array("JOB001", "Web Developer"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'We', 1));
+    }
+	
+	public function testSelectIndexId_JOB_5() {
+		$this->view->indexCode = "JOB";
+		$test = array( array("JOB001", "Web Developer"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '001', 0));
+    }
+	
+	public function testSelectIndexId_JOB_6() {
+		$this->view->indexCode = "JOB";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 0));
+    }
+	
     /**
      * @todo Implement testGetHeadingInfo().
      */
