@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost:3306
--- Generation Time: Sep 19, 2006 at 08:29 AM
+-- Generation Time: Sep 20, 2006 at 02:22 PM
 -- Server version: 5.0.22
 -- PHP Version: 5.1.6
 -- 
@@ -576,6 +576,8 @@ CREATE TABLE `hs_hr_education` (
 -- Dumping data for table `hs_hr_education`
 -- 
 
+INSERT INTO `hs_hr_education` VALUES ('EDU001', 'University of Moratuwa', 'Bachelor of Science in Engineering');
+INSERT INTO `hs_hr_education` VALUES ('EDU002', 'University of Colombo', 'Bachelor of Science in Computer Science');
 
 -- --------------------------------------------------------
 
@@ -673,7 +675,6 @@ CREATE TABLE `hs_hr_emp_children` (
 -- 
 -- Table structure for table `hs_hr_emp_contract_extend`
 -- 
-
 
 DROP TABLE IF EXISTS `hs_hr_emp_contract_extend`;
 CREATE TABLE `hs_hr_emp_contract_extend` (
@@ -1084,6 +1085,8 @@ CREATE TABLE `hs_hr_ethnic_race` (
 -- Dumping data for table `hs_hr_ethnic_race`
 -- 
 
+INSERT INTO `hs_hr_ethnic_race` VALUES ('ETH001', 'Sinhala');
+INSERT INTO `hs_hr_ethnic_race` VALUES ('ETH002', 'Islam');
 
 -- --------------------------------------------------------
 
@@ -1194,6 +1197,8 @@ CREATE TABLE `hs_hr_language` (
 -- Dumping data for table `hs_hr_language`
 -- 
 
+INSERT INTO `hs_hr_language` VALUES ('LAN001', 'Tamil');
+INSERT INTO `hs_hr_language` VALUES ('LAN002', 'French');
 
 -- --------------------------------------------------------
 
@@ -1239,6 +1244,8 @@ CREATE TABLE `hs_hr_location` (
 -- Dumping data for table `hs_hr_location`
 -- 
 
+INSERT INTO `hs_hr_location` VALUES ('LOC001', 'Nawam Mawatha', 'LK', 'Western', 'Colombo', 'Sayuru Sevana', '00200', '2446623', '2307579', 'RTZ');
+INSERT INTO `hs_hr_location` VALUES ('LOC002', 'NJ', 'US', 'NJ', 'Secaucus', 'hSenid Software USA Inc.\r\n538, Teal Plaza', '07094', '2013622585', '1917592944', 'RTX');
 
 -- --------------------------------------------------------
 
@@ -1259,6 +1266,10 @@ CREATE TABLE `hs_hr_membership` (
 -- Dumping data for table `hs_hr_membership`
 -- 
 
+INSERT INTO `hs_hr_membership` VALUES ('MME001', 'MEM001', 'BCS');
+INSERT INTO `hs_hr_membership` VALUES ('MME002', 'MEM001', 'CIMA');
+INSERT INTO `hs_hr_membership` VALUES ('MME003', 'MEM002', 'SIAM');
+INSERT INTO `hs_hr_membership` VALUES ('MME004', 'MEM002', 'FIG');
 
 -- --------------------------------------------------------
 
@@ -1277,6 +1288,8 @@ CREATE TABLE `hs_hr_membership_type` (
 -- Dumping data for table `hs_hr_membership_type`
 -- 
 
+INSERT INTO `hs_hr_membership_type` VALUES ('MEM001', 'Professional');
+INSERT INTO `hs_hr_membership_type` VALUES ('MEM002', 'Academic');
 
 -- --------------------------------------------------------
 
@@ -1322,6 +1335,8 @@ CREATE TABLE `hs_hr_nationality` (
 -- Dumping data for table `hs_hr_nationality`
 -- 
 
+INSERT INTO `hs_hr_nationality` VALUES ('NAT001', 'Sri Lankan');
+INSERT INTO `hs_hr_nationality` VALUES ('NAT002', 'Indian');
 
 -- --------------------------------------------------------
 
@@ -1452,6 +1467,8 @@ CREATE TABLE `hs_hr_skill` (
 -- Dumping data for table `hs_hr_skill`
 -- 
 
+INSERT INTO `hs_hr_skill` VALUES ('SKI001', 'Driving');
+INSERT INTO `hs_hr_skill` VALUES ('SKI002', 'Rowing');
 
 -- --------------------------------------------------------
 
@@ -1581,6 +1598,7 @@ CREATE TABLE `hs_pr_salary_currency_detail` (
 -- 
 
 INSERT INTO `hs_pr_salary_currency_detail` VALUES ('SAL001', 'BTN', 123, 235, 456);
+INSERT INTO `hs_pr_salary_currency_detail` VALUES ('SAL002', 'USD', 589, 15, 1588);
 
 -- --------------------------------------------------------
 
@@ -1600,6 +1618,7 @@ CREATE TABLE `hs_pr_salary_grade` (
 -- 
 
 INSERT INTO `hs_pr_salary_grade` VALUES ('SAL001', 'Rupee');
+INSERT INTO `hs_pr_salary_grade` VALUES ('SAL002', 'Dollars');
 
 -- 
 -- Constraints for dumped tables

@@ -19,8 +19,14 @@ function regInfo() {
 		return;
 	}
 	
+	var reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/;
+	
 	if(frm.userEmail.value == '') {
 		alert('Email Field Empty!');
+		frm.userEmail.focus();
+		return;
+	} else if (!reg.test(frm.userEmail.value)) {
+		alert('Invalid E-mail Address!');
 		frm.userEmail.focus();
 		return;
 	}
