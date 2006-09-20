@@ -89,7 +89,7 @@ class ViewController {
 		
 	function ViewController() {
 		if(!isset($_SESSION)) {
-			header("Location: ./relogin.htm");
+			header("Location: ../../login.htm");
 			exit();
 		}
 	}

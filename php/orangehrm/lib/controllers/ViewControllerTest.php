@@ -80,7 +80,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 				
 			}
 			
-		unset($query);						
+		unset($query);
 		if(isset($error))
 			return;
 	}	
