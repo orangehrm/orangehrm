@@ -205,10 +205,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 	 /*
 	  * *********************************************************************************
 	  */
-
-    /**
-     * @todo Implement testViewList().
-     */
+    
     public function testViewList() {       
         $this->assertEquals(true,true);
 		//  No tests for HTML
@@ -224,11 +221,7 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 		$test = array(array("EST002", "Part Time")); 
 		$this->assertEquals($test, $this->view->xajaxObjCall("EST002", "JOB", "editEmpStat"));
     }*/
-
-    /**
-     * @todo Implement testSelectIndexId().
-     */
-	 
+    
     //EST
 	
 	public function testSelectIndexId_EST_1() {
@@ -837,35 +830,35 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 	
 	// LIC
 	 
-	/*public function testSelectIndexId_LIC_1() {
+	public function testSelectIndexId_LIC_1() {
 		$this->view->indexCode = "LIC";
-		$test = array(array("LIC001", "Tamil"), array("LIC002", "French"));    
+		$test = array(array("LIC001", "Driving License"), array("LIC002", "Surveyor"));    
         $this->assertEquals($test, $this->view->selectIndexId(0, '', -1));
     }
 	
 	public function testSelectIndexId_LIC_2() {
 		$this->view->indexCode = "LIC";
-		$test = array(array("LIC001", "Tamil"));    
+		$test = array(array("LIC001", "Driving License"));    
         $this->assertEquals($test, $this->view->selectIndexId(0, 'LIC001', 0));
     }
 	
 	public function testSelectIndexId_LIC_3() {
 		$this->view->indexCode = "LIC";
-		$test = array(array("LIC002", "French"));    
-        $this->assertEquals($test, $this->view->selectIndexId(0, 'French', 1));
+		$test = array(array("LIC002", "Surveyor"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Surveyor', 1));
     }
 	
 	public function testSelectIndexId_LIC_4() {
 		$this->view->indexCode = "LIC";
-		$test = array( array("LIC001", "Tamil"));    
-        $this->assertEquals($test, $this->view->selectIndexId(0, 'Tam', 1));
+		$test = array(array("LIC001", "Driving License"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Dri', 1));
     }
 	
 	public function testSelectIndexId_LIC_5() {
 		$this->view->indexCode = "LIC";
-		$test = array( array("LIC001", "Tamil"));    
+		$test = array(array("LIC001", "Driving License"));    
         $this->assertEquals($test, $this->view->selectIndexId(0, '001', 0));
-    }*/
+    }
 	
 	public function testSelectIndexId_LIC_6() {
 		$this->view->indexCode = "LIC";		  
@@ -876,35 +869,145 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 		$this->view->indexCode = "LIC";		  
         $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 1));
     }
+	
+	// USG
 	 
-    /**
-     * @todo Implement testGetHeadingInfo().
-     */
+	public function testSelectIndexId_USG_1() {
+		$this->view->indexCode = "USG";
+		$test = array(array("USG001", "Admin"), array("USG002", "HR Excecutive"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '', -1));
+    }
+	
+	public function testSelectIndexId_USG_2() {
+		$this->view->indexCode = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'USG001', 0));
+    }
+	
+	public function testSelectIndexId_USG_3() {
+		$this->view->indexCode = "USG";
+		$test = array(array("USG002", "HR Excecutive"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'HR Excecutive', 1));
+    }
+	
+	public function testSelectIndexId_USG_4() {
+		$this->view->indexCode = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Adm', 1));
+    }
+	
+	public function testSelectIndexId_USG_5() {
+		$this->view->indexCode = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '001', 0));
+    }
+	
+	public function testSelectIndexId_USG_6() {
+		$this->view->indexCode = "USG";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 0));
+    }
+	
+	public function testSelectIndexId_USG_7() {
+		$this->view->indexCode = "USG";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 1));
+    }
+	
+	// USR - ESS
+	 
+	public function testSelectIndexId_USR_ESS_1() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR003", "Prasad"), array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '', -1));
+    }
+	
+	public function testSelectIndexId_USR_ESS_2() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR003", "Prasad"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'USR003', 0));
+    }
+	
+	public function testSelectIndexId_USR_ESS_3() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Arnold', 1));
+    }
+	
+	public function testSelectIndexId_USR_ESS_4() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR003", "Prasad"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Pra', 1));
+    }
+	
+	public function testSelectIndexId_USR_ESS_5() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '004', 0));
+    }
+	
+	public function testSelectIndexId_USR_ESS_6() {
+		$this->view->indexCode = "USR";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 0));
+    }
+	
+	public function testSelectIndexId_USR_ESS_7() {
+		$this->view->indexCode = "USR";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 1));
+    }
+	
+	// USR - HR Admin
+	 
+	public function testSelectIndexId_USR_Admin_1() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR001", "Admin"), array("USR002", "Samie"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '', -1, 0, 'ASC', true));
+    }
+	
+	public function testSelectIndexId_USR_Admin_2() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'USR001', 0, 0, 'ASC', true));
+    }
+	
+	public function testSelectIndexId_USR_Admin_3() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR002", "Samie"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Samie', 1, 0, 'ASC', true));
+    }
+	
+	public function testSelectIndexId_USR_Admin_4() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, 'Ad', 1, 0, 'ASC', true));
+    }
+	
+	public function testSelectIndexId_USR_Admin_5() {
+		$this->view->indexCode = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->selectIndexId(0, '001', 0, 0, 'ASC', true));
+    }
+	
+	public function testSelectIndexId_USR_Admin_6() {
+		$this->view->indexCode = "USR";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 0));
+    }
+	
+	public function testSelectIndexId_USR_Admin_7() {
+		$this->view->indexCode = "USR";		  
+        $this->assertEquals('', $this->view->selectIndexId(0, 'Perm', 1));
+    }
+	
+	    
     public function testGetHeadingInfo() {
         $this->assertEquals(true,true);
 		//  method is hard coded
     }
 
-    /**
-     * @todo Implement testGetInfo().
-     */
+    
     public function testGetInfo() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+        $this->assertEquals(true,true);
+		//  method is a mirror of selectIndexId
     }
-
-    /**
-     * @todo Implement testGetPageName().
-     */
-    public function testGetPageName() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
-
+   
     /**
      * @todo Implement testCountList().
      */

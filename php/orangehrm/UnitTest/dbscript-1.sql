@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost:3306
--- Generation Time: Sep 20, 2006 at 02:22 PM
+-- Generation Time: Sep 21, 2006 at 10:12 AM
 -- Server version: 5.0.22
 -- PHP Version: 5.1.6
 -- 
@@ -1008,6 +1008,8 @@ CREATE TABLE `hs_hr_employee` (
 -- Dumping data for table `hs_hr_employee`
 -- 
 
+INSERT INTO `hs_hr_employee` VALUES ('EMP001', 'Prasad', 'Frey', '', 'Franc', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL);
+INSERT INTO `hs_hr_employee` VALUES ('EMP002', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL);
 
 -- --------------------------------------------------------
 
@@ -1217,6 +1219,8 @@ CREATE TABLE `hs_hr_licenses` (
 -- Dumping data for table `hs_hr_licenses`
 -- 
 
+INSERT INTO `hs_hr_licenses` VALUES ('LIC001', 'Driving License');
+INSERT INTO `hs_hr_licenses` VALUES ('LIC002', 'Surveyor');
 
 -- --------------------------------------------------------
 
@@ -1489,6 +1493,7 @@ CREATE TABLE `hs_hr_user_group` (
 -- 
 
 INSERT INTO `hs_hr_user_group` VALUES ('USG001', 'Admin', 1);
+INSERT INTO `hs_hr_user_group` VALUES ('USG002', 'HR Excecutive', 0);
 
 -- --------------------------------------------------------
 
@@ -1544,6 +1549,9 @@ CREATE TABLE `hs_hr_users` (
 -- 
 
 INSERT INTO `hs_hr_users` VALUES ('USR001', 'Admin', 'f2c84b9f7a7bff99f21cdbae50238873', 'Admin', '', NULL, '', 'Yes', '1', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, '', '', '', '', '', '', '', '', '', 'Enabled', '', '', '', '', '', '', 0, '', 'USG001');
+INSERT INTO `hs_hr_users` VALUES ('USR002', 'Samie', 'ff7539f768d2569642f23bf3035d32c6', NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, '2006-09-21 00:00:00', '0000-00-00 00:00:00', NULL, 'USR001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001');
+INSERT INTO `hs_hr_users` VALUES ('USR003', 'Prasad', '59402cf1a28054b8df0d6cdd62dec86c', NULL, NULL, 'EMP001', NULL, 'No', NULL, NULL, '2006-09-21 00:00:00', '0000-00-00 00:00:00', NULL, 'USR001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `hs_hr_users` VALUES ('USR004', 'Arnold', '0952dfc8d6a1ba5cdde6b842203a0cb7', NULL, NULL, 'EMP002', NULL, 'No', NULL, NULL, '2006-09-21 00:00:00', '0000-00-00 00:00:00', NULL, 'USR001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 

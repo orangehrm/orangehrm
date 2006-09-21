@@ -1165,35 +1165,29 @@ class ViewController {
 	
 		$this->indexCode = $indexCode;
 			
-		return $this->selectIndexId($pageNO,$schStr,$schField, $sortField, $sortOrder, $esp);
-		
+		return $this->selectIndexId($pageNO,$schStr,$schField, $sortField, $sortOrder, $esp);		
 	}
 	
-	function getPageName($indexCode) {
 		
-		$this->indexCode = $indexCode;
-		return $this->getPageID();
-	}
-	
 	function countList($index, $schStr='',$mode=-1) {
 		
-		$this->indexCode=$index;
+	   $this->indexCode=$index;
 					
-		switch ($this->indexCode) {
+	   switch ($this->indexCode) {
 
-			case 'EST' :
+		case 'EST' :
 		
 			$this->empstat = new EmploymentStatus();
 			$message = $this->empstat->countEmpStat($schStr,$mode);
 			return $message;
 
-			case 'JOB' :
+		case 'JOB' :
 		
 			$this->jobtit = new JobTitle();
 			$message = $this->jobtit->countJobTitles($schStr,$mode);
 			return $message;
 
-			case 'LOC' :
+		case 'LOC' :
 		
 			$this-> location = new Location();
 			$message = $this-> location -> countLocations($schStr,$mode);
