@@ -122,7 +122,6 @@ class EXTRACTOR_EmpInfo {
 	if ($postArr['main']=='1') {
 		
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
-		//$this->parent_empinfo -> setEmpId($this->parent_empinfo->getLastRecord());
 		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
 		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
 		$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
@@ -151,9 +150,7 @@ class EXTRACTOR_EmpInfo {
 	}
 				
 	//job info
-	echo isset($this->isESS) ? 'true' : 'false';
-	
-	if (($postArr['jobFlag']=='1') && $this->isESS) {
+	if ($postArr['jobFlag']=='1' && !(isset($this->isESS) && $this->isESS)) {
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpJobTitle(trim($postArr['cmbJobTitle']));
 		$this->parent_empinfo -> setEmpStatus(trim($postArr['cmbType']));
@@ -162,11 +159,9 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpJoinedDate(($postArr['txtJoinedDate']));
 		
 		$objectArr['EmpJobInfo'] = $this->parent_empinfo;
-		
 	}
-	
 				
-	if($postArr['contactFlag']=='1' || !isset($postArr['contactFlag'])) {
+	if($postArr['contactFlag']=='1') {
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpStreet1(trim($postArr['txtStreet1']));
 		$this->parent_empinfo -> setEmpStreet2(trim($postArr['txtStreet2']));
@@ -186,13 +181,6 @@ class EXTRACTOR_EmpInfo {
 	
   return isset($objectArr)? $objectArr : false;
   }
-
-	function parseCountryData($postArr) {
-		$this->parent_empinfo -> setEmpId(trim($_POST['txtEmpID']));
-		$this->parent_empinfo->setEmpTaxCountry($_POST['cmbTaxCountry']);
-		
-		return $this->parent_empinfo;
-	}	
 
 }
 ?>
