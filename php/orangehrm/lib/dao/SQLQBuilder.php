@@ -842,7 +842,7 @@ function filterNotEqualRecordSet($filID) {
 		}
 	}
 	
-	function countResultset($schStr='',$schField=-1) {
+	function countResultset($schStr='',$schField=-1, $schArr = false) {
 	
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 						
@@ -850,13 +850,21 @@ function filterNotEqualRecordSet($filID) {
 			$countArrSize = count($arrayFieldList); // check the array size
 			$SQL1 = 'SELECT count(*) FROM ' . strtolower($this->table_name); //Tail of the SQL statement
 				
-			if($schField!=-1)
-			{
-              	$SQL1 = $SQL1 . ' WHERE ';
-                
-                $SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
-                    
-			}
+			if($schField!=-1){
+                $SQL1 = $SQL1 . ' WHERE ';
+					
+				if ($schArr) {
+					
+					for ($i = 0; $i < count($schField) ; $i++) { 
+						if($schField[$i]!=-1) {              
+                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim($schStr[$i]) .'%\' AND ';
+						 }
+					}
+					$SQL1 = substr($SQL1,0,-1-4);
+				} else {
+					$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+				}  
+             }
 				
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);

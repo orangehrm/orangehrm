@@ -117,8 +117,8 @@ class Education {
 		
 		$tableName = 'HS_HR_EDUCATION';
 		$arrFieldList[0] = 'EDU_CODE';
-		$arrFieldList[1] = 'EDU_UNI';
-		$arrFieldList[2] = 'EDU_DEG';
+		$arrFieldList[1] = 'EDU_DEG';
+		$arrFieldList[2] = 'EDU_UNI';		
 		
 		$sql_builder = new SQLQBuilder();
 		

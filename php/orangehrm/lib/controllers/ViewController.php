@@ -1169,7 +1169,7 @@ class ViewController {
 	}
 	
 		
-	function countList($index, $schStr='',$mode=-1) {
+	function countList($index, $schStr='',$mode=-1, $esp=false) {
 		
 	   $this->indexCode=$index;
 					
@@ -1490,6 +1490,20 @@ class ViewController {
 			
 			$this-> licenses = new Licenses();
 			$message = $this-> licenses -> countLicenses($schStr,$mode);
+			
+			return $message;
+			
+		case 'USG' :
+			
+			$this-> usergroups = new UserGroups();
+			$message = $this-> usergroups -> countUserGroups($schStr,$mode);
+			
+			return $message;
+			
+		case 'USR' :
+			
+			$this-> users = new Users();
+			$message = $this-> users -> countUsers($schStr,$mode, $esp);
 			
 			return $message;
 		}

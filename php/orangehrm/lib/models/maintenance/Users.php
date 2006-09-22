@@ -233,18 +233,28 @@ class Users {
 		}
 	}
 	
-	function countUsers($schStr,$mode) {
+	function countUsers($schStr,$mode, $isAdmin) {
 		
 		$arrFieldList[0] = 'id';
 		$arrFieldList[1] = 'user_name';
+		$arrFieldList[2] = 'is_admin';
 	
 		$sql_builder = new SQLQBuilder();
 		$sql_builder->table_name = $this->tableName;
 		
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
+		$sql_builder->arr_select = $arrFieldList;	
+		
+		if ($isAdmin) {
+			$isAdmin = 'Yes';
+		} else {
+			$isAdmin = 'No';
+		}
+		
+		$schStr = array($schStr, $isAdmin);
+		$mode = array($mode, 2);
 			
-		$sqlQString = $sql_builder->countResultset($schStr,$mode);
+		$sqlQString = $sql_builder->countResultset($schStr,$mode, true);
 		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
