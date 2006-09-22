@@ -90,15 +90,21 @@ class EmpViewController {
         if(($this->indexCode) == 'EMP') {
 
             $this->employee = new EmpInfo();
-            $this->employee->delEmployee($arrList);
+            $res=$this->employee->delEmployee($arrList);
 			
 		}
 		
 		if(($this->indexCode) == 'JSP') {
 
             $this->empjob = new EmpJobSpec();
-            $this->empjob->delEmpJobSpec($arrList);
+            $res=$this->empjob->delEmpJobSpec($arrList);
 			
+		}
+		
+		if (!isset($res)) {
+			$_GET['message']='DELETE_FAILURE';
+		} else {
+			$_GET['message']='DELETE_SUCCESS';
 		}
 	} 
 

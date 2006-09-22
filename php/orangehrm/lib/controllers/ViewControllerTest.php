@@ -1008,15 +1008,779 @@ class ViewControllerTest extends PHPUnit_Framework_TestCase {
 		//  method is a mirror of selectIndexId
     }
    
-    /**
-     * @todo Implement testCountList().
-     */
-    public function testCountList() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	
+	public function testCountList_EST_1() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("EST", '', -1));
     }
+	
+	public function testCountList_EST_2() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("EST", 'EST001', 0));
+    }
+	
+	public function testCountList_EST_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("EST", 'Part Time', 1));
+    }
+	
+	public function testCountList_EST_4() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("EST", 'Perm', 1));
+    }
+	
+	public function testCountList_EST_5() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("EST", '001', 0));
+    }
+	
+	public function testCountList_EST_6() {
+		 		
+        $this->assertEquals(0, $this->view->countList("EST", 'Perm', 0));
+    }
+	
+	public function testCountList_EST_7() {
+		 		
+        $this->assertEquals(0, $this->view->countList("EST", '001', 1));
+    }
+	
+	//JOB
+
+	public function testCountList_JOB_1() {
+			 
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("JOB", '', -1));
+    }
+	
+	public function testCountList_JOB_2() {
+			 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("JOB", 'JOB001', 0));
+    }
+	
+	public function testCountList_JOB_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("JOB", 'Technical Writer', 1));
+    }
+	
+	public function testCountList_JOB_4() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("JOB", 'We', 1));
+    }
+	
+	public function testCountList_JOB_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("JOB", '001', 0));
+    }
+	
+	public function testCountList_JOB_6() {
+				  
+        $this->assertEquals(0, $this->view->countList("JOB", 'Perm', 0));
+    }
+	
+	public function testCountList_JOB_7() {
+				  
+        $this->assertEquals(0, $this->view->countList("JOB", '001', 1));
+    }	
+	
+	//LOC
+	
+	public function testCountList_LOC_1() {
+		 
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("LOC", '', -1));
+    }
+	
+	public function testCountList_LOC_2() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", 'LOC001', 0));
+    }
+	
+	public function testCountList_LOC_3() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", 'NJ', 1));
+    }
+	
+	public function testCountList_LOC_4() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", 'Naw', 1));
+    }
+	
+	public function testCountList_LOC_5() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", '001', 0));
+    }
+	
+	public function testCountList_LOC_6() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", 'Secaucus', 2));
+    }
+	
+	public function testCountList_LOC_7() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LOC", 'Col', 2));
+    }
+	
+	public function testCountList_LOC_8() {
+		 		  
+        $this->assertEquals(0, $this->view->countList("LOC", 'Perm', 0));
+    }
+	
+	public function testCountList_LOC_9() {
+		 		  
+        $this->assertEquals(0, $this->view->countList("LOC", 'Perm', 1));
+    }
+	
+	public function testCountList_LOC_10() {
+		 		  
+        $this->assertEquals(0, $this->view->countList("LOC", 'Perm', 2));
+    }
+	
+	/* 
+	 * No tests for
+	 * COS, CUR, CHI, CTT, 
+	 * JDC, JDT, QLF, RTM 
+	 */
+	 
+	 // SKI
+	 
+	public function testCountList_SKI_1() {
+		 
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("SKI", '', -1));
+    }
+	
+	public function testCountList_SKI_2() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("SKI", 'SKI001', 0));
+    }
+	
+	public function testCountList_SKI_3() {
+		 		
+		$test = 1;		
+        $this->assertEquals($test, $this->view->countList("SKI", 'Rowing', 1));		
+    }
+	
+	public function testCountList_SKI_4() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("SKI", 'Dr', 1));
+    }
+	
+	public function testCountList_SKI_5() {
+		 
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("SKI", '001', 0));
+    }
+	
+	public function testCountList_SKI_6() {
+		 		  
+        $this->assertEquals(0, $this->view->countList("SKI", 'Perm', 0));
+    }
+	
+	public function testCountList_SKI_7() {
+		 		  
+        $this->assertEquals(0, $this->view->countList("SKI", 'Perm', 1));
+    }
+	
+	// ETH
+	 
+	public function testCountList_ETH_1() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("ETH", '', -1));
+    }
+	
+	public function testCountList_ETH_2() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("ETH", 'ETH001', 0));
+    }
+	
+	public function testCountList_ETH_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("ETH", 'Islam', 1));
+    }
+	
+	public function testCountList_ETH_4() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("ETH", 'Sin', 1));
+    }
+	
+	public function testCountList_ETH_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("ETH", '001', 0));
+    }
+	
+	public function testCountList_ETH_6() {
+				  
+        $this->assertEquals(0, $this->view->countList("ETH", 'Perm', 0));
+    }
+	
+	public function testCountList_ETH_7() {
+				  
+        $this->assertEquals(0, $this->view->countList("ETH", 'Perm', 1));
+    }
+	
+	/* 
+	 * No tests for
+	 * EXC
+	 */
+	
+	// MEM
+	 
+	public function testCountList_MEM_1() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("MEM", '', -1));
+    }
+	
+	public function testCountList_MEM_2() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MEM", 'MEM001', 0));
+    }
+	
+	public function testCountList_MEM_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MEM", 'Academic', 1));
+    }
+	
+	public function testCountList_MEM_4() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MEM", 'Prof', 1));
+    }
+	
+	public function testCountList_MEM_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MEM", '001', 0));
+    }
+	
+	public function testCountList_MEM_6() {
+				  
+        $this->assertEquals(0, $this->view->countList("MEM", 'Perm', 0));
+    }
+	
+	public function testCountList_MEM_7() {
+				  
+        $this->assertEquals(0, $this->view->countList("MEM", 'Perm', 1));
+    }
+	
+	/* 
+	 * No tests for
+	 * UNI, STAT, EMC, EMG,
+	 * RTE, DWT
+	 */
+	 
+	// NAT
+	 
+	public function testCountList_NAT_1() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("NAT", '', -1));
+    }
+	
+	public function testCountList_NAT_2() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("NAT", 'NAT001', 0));
+    }
+	
+	public function testCountList_NAT_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("NAT", 'Indian', 1));
+    }
+	
+	public function testCountList_NAT_4() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("NAT", 'Sri', 1));
+    }
+	
+	public function testCountList_NAT_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("NAT", '001', 0));
+    }
+	
+	public function testCountList_NAT_6() {
+				  
+        $this->assertEquals(0, $this->view->countList("NAT", 'Perm', 0));
+    }
+	
+	public function testCountList_NAT_7() {
+				  
+        $this->assertEquals(0, $this->view->countList("NAT", 'Perm', 1));
+    }
+	
+	/* 
+	 * No tests for
+	 * RLG, COU, DEF, TAX,
+	 * PRO, DIS, ELE, BNK
+	 */
+	 
+	// LAN
+	 
+	public function testCountList_LAN_1() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("LAN", '', -1));
+    }
+	
+	public function testCountList_LAN_2() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LAN", 'LAN001', 0));
+    }
+	
+	public function testCountList_LAN_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LAN", 'French', 1));
+    }
+	
+	public function testCountList_LAN_4() {
+		
+		$test =1;
+        $this->assertEquals($test, $this->view->countList("LAN", 'Tam', 1));
+    }
+	
+	public function testCountList_LAN_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("LAN", '001', 0));
+    }
+	
+	public function testCountList_LAN_6() {
+				  
+        $this->assertEquals(0, $this->view->countList("LAN", 'Perm', 0));
+    }
+	
+	public function testCountList_LAN_7() {
+				  
+        $this->assertEquals(0, $this->view->countList("LAN", 'Perm', 1));
+    }
+	
+	// MME
+	 
+	public function testCountList_MME_1() {
+		
+		$test = 4;    
+        $this->assertEquals($test, $this->view->countList("MME", '', -1));
+    }
+	
+	public function testCountList_MME_2() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MME", 'MME001', 0));
+    }
+	
+	public function testCountList_MME_3() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MME", 'CIMA', 1));
+    }
+	
+	public function testCountList_MME_4() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MME", 'Professional', 2));
+    }
+	
+	/*public function testCountList_MME_5() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MME", '001', 0));
+    }
+	
+	public function testCountList_MME_6() {
+		
+		$test = 1;    
+        $this->assertEquals($test, $this->view->countList("MME", 'SI', 1));
+    }
+	
+	public function testCountList_MME_7() {
+		
+		$test = 2;    
+        $this->assertEquals($test, $this->view->countList("MME", 'Aca', 2));
+    }
+	
+	public function testCountList_MME_8() {
+				  
+        $this->assertEquals(0, $this->view->countList("MME", 'Perm', 0));
+    }
+	
+	public function testCountList_MME_9() {
+				  
+        $this->assertEquals(0, $this->view->countList("MME", 'Perm', 1));
+    }
+	
+	public function testCountList_MME_10() {
+				  
+        $this->assertEquals(0, $this->view->countList("MME", 'Perm', 2));
+    }*/
+	
+	/* 
+	 * No tests for
+	 * SSK, EXA
+	 */
+	 
+	// SGR
+	 
+	/*public function testCountList_SGR_1() {
+		 = "SGR";
+		$test = array(array("SAL001", "Rupee"), array("SAL002", "Dollars"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_SGR_2() {
+		 = "SGR";
+		$test = array(array("SAL001", "Rupee"));    
+        $this->assertEquals($test, $this->view->countList(0, 'SAL001', 0));
+    }
+	
+	public function testCountList_SGR_3() {
+		 = "SGR";
+		$test = array(array("SAL002", "Dollars"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Dollars', 1));
+    }
+	
+	public function testCountList_SGR_4() {
+		 = "SGR";
+		$test = array(array("SAL001", "Rupee"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Rup', 1));
+    }
+	
+	public function testCountList_SGR_5() {
+		 = "SGR";
+		$test = array(array("SAL001", "Rupee"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0));
+    }
+	
+	public function testCountList_SGR_6() {
+		 = "SGR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_SGR_7() {
+		 = "SGR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }*/
+	
+	/* 
+	 * No tests for
+	 * DSG, DDI, DQA, JDK
+	 */
+	 
+	// EDU
+	 
+	/*public function testCountList_EDU_1() {
+		 = "EDU";
+		$test = array(array("EDU001", "Bachelor of Science in Engineering", "University of Moratuwa"), array("EDU002", "Bachelor of Science in Computer Science", "University of Colombo"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_EDU_2() {
+		 = "EDU";
+		$test = array(array("EDU001", "Bachelor of Science in Engineering", "University of Moratuwa"));    
+        $this->assertEquals($test, $this->view->countList(0, 'EDU001', 0));
+    }
+	
+	public function testCountList_EDU_3() {
+		 = "EDU";
+		$test = array(array("EDU002", "Bachelor of Science in Computer Science", "University of Colombo"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Bachelor of Science in Computer Science', 1));
+    }
+	
+	public function testCountList_EDU_4() {
+		 = "EDU";
+		$test = array(array("EDU002", "Bachelor of Science in Computer Science", "University of Colombo"));    
+        $this->assertEquals($test, $this->view->countList(0, 'University of Colombo', 2));
+    }
+	
+	public function testCountList_EDU_5() {
+		 = "EDU";
+		$test = array(array("EDU001", "Bachelor of Science in Engineering", "University of Moratuwa"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0));
+    }
+	
+	public function testCountList_EDU_6() {
+		 = "EDU";
+		$test = array(array("EDU001", "Bachelor of Science in Engineering", "University of Moratuwa"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Eng', 1));
+    }
+		
+	public function testCountList_EDU_7() {
+		 = "EDU";
+		$test = array(array("EDU002", "Bachelor of Science in Computer Science", "University of Colombo"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Col', 2));
+    }
+	
+	public function testCountList_EDU_8() {
+		 = "EDU";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_EDU_9() {
+		 = "EDU";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }
+	
+	public function testCountList_EDU_10() {
+		 = "EDU";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 2));
+    }*/
+	
+	/* 
+	 * No tests for
+	 * BCH, CCB, NCB, BBS,
+	 * NBS, ETY, SBJ
+	 */
+	 
+	 // EEC
+	 
+	/*public function testCountList_EEC_1() {
+		 = "EEC";
+		$test = array(array("EEC001", "OFFICIALS AND ADMINISTRATORS"), array("EEC002", "PROFESSIONALS"), array("EEC003", "TECHNICIANS"), array("EEC004", "PROTECTIVE SERVICE WORKERS"), array("EEC005", "PARAPROFESSIONALS"), array("EEC006", "ADMINISTRATIVE SUPPORT"), array("EEC007", "SKILLED CRAFT WORKERS"), array("EEC008", "SERVICE-MAINTENANCE"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_EEC_2() {
+		 = "EEC";
+		$test = array(array("EEC001", "OFFICIALS AND ADMINISTRATORS"), array("EEC002", "PROFESSIONALS"), array("EEC003", "TECHNICIANS"), array("EEC004", "PROTECTIVE SERVICE WORKERS"), array("EEC005", "PARAPROFESSIONALS"));    
+        $this->assertEquals($test, $this->view->countList(1, '', -1));
+    }
+	
+	public function testCountList_EEC_3() {
+		 = "EEC";
+		$test = array(array("EEC006", "ADMINISTRATIVE SUPPORT"), array("EEC007", "SKILLED CRAFT WORKERS"), array("EEC008", "SERVICE-MAINTENANCE"));    
+        $this->assertEquals($test, $this->view->countList(2, '', -1));
+    }
+	
+	public function testCountList_EEC_4() {
+		 = "EEC";
+		$test = array(array("EEC001", "OFFICIALS AND ADMINISTRATORS"));    
+        $this->assertEquals($test, $this->view->countList(0, 'EEC001', 0));
+    }
+	
+	public function testCountList_EEC_5() {
+		 = "EEC";
+		$test = array(array("EEC006", "ADMINISTRATIVE SUPPORT"));    
+        $this->assertEquals($test, $this->view->countList(0, 'ADMINISTRATIVE SUPPORT', 1));
+    }
+	
+	public function testCountList_EEC_6() {
+		 = "EEC";
+		$test = array(array("EEC005", "PARAPROFESSIONALS"));    
+        $this->assertEquals($test, $this->view->countList(0, 'PARA', 1));
+    }
+	
+	public function testCountList_EEC_7() {
+		 = "EEC";
+		$test = array(array("EEC001", "OFFICIALS AND ADMINISTRATORS"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0));
+    }
+	
+	public function testCountList_EEC_8() {
+		 = "EEC";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_EEC_9() {
+		 = "EEC";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }*/
+	
+	// LIC
+	 
+	/*public function testCountList_LIC_1() {
+		 = "LIC";
+		$test = array(array("LIC001", "Driving License"), array("LIC002", "Surveyor"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_LIC_2() {
+		 = "LIC";
+		$test = array(array("LIC001", "Driving License"));    
+        $this->assertEquals($test, $this->view->countList(0, 'LIC001', 0));
+    }
+	
+	public function testCountList_LIC_3() {
+		 = "LIC";
+		$test = array(array("LIC002", "Surveyor"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Surveyor', 1));
+    }
+	
+	public function testCountList_LIC_4() {
+		 = "LIC";
+		$test = array(array("LIC001", "Driving License"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Dri', 1));
+    }
+	
+	public function testCountList_LIC_5() {
+		 = "LIC";
+		$test = array(array("LIC001", "Driving License"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0));
+    }
+	
+	public function testCountList_LIC_6() {
+		 = "LIC";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_LIC_7() {
+		 = "LIC";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }
+	
+	// USG
+	 
+	public function testCountList_USG_1() {
+		 = "USG";
+		$test = array(array("USG001", "Admin"), array("USG002", "HR Excecutive"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_USG_2() {
+		 = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, 'USG001', 0));
+    }
+	
+	public function testCountList_USG_3() {
+		 = "USG";
+		$test = array(array("USG002", "HR Excecutive"));    
+        $this->assertEquals($test, $this->view->countList(0, 'HR Excecutive', 1));
+    }
+	
+	public function testCountList_USG_4() {
+		 = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Adm', 1));
+    }
+	
+	public function testCountList_USG_5() {
+		 = "USG";
+		$test = array(array("USG001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0));
+    }
+	
+	public function testCountList_USG_6() {
+		 = "USG";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_USG_7() {
+		 = "USG";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }
+	
+	// USR - ESS
+	 
+	public function testCountList_USR_ESS_1() {
+		 = "USR";
+		$test = array(array("USR003", "Prasad"), array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1));
+    }
+	
+	public function testCountList_USR_ESS_2() {
+		 = "USR";
+		$test = array(array("USR003", "Prasad"));    
+        $this->assertEquals($test, $this->view->countList(0, 'USR003', 0));
+    }
+	
+	public function testCountList_USR_ESS_3() {
+		 = "USR";
+		$test = array(array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Arnold', 1));
+    }
+	
+	public function testCountList_USR_ESS_4() {
+		 = "USR";
+		$test = array(array("USR003", "Prasad"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Pra', 1));
+    }
+	
+	public function testCountList_USR_ESS_5() {
+		 = "USR";
+		$test = array(array("USR004", "Arnold"));    
+        $this->assertEquals($test, $this->view->countList(0, '004', 0));
+    }
+	
+	public function testCountList_USR_ESS_6() {
+		 = "USR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_USR_ESS_7() {
+		 = "USR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }
+	
+	// USR - HR Admin
+	 
+	public function testCountList_USR_Admin_1() {
+		 = "USR";
+		$test = array(array("USR001", "Admin"), array("USR002", "Samie"));    
+        $this->assertEquals($test, $this->view->countList(0, '', -1, 0, 'ASC', true));
+    }
+	
+	public function testCountList_USR_Admin_2() {
+		 = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, 'USR001', 0, 0, 'ASC', true));
+    }
+	
+	public function testCountList_USR_Admin_3() {
+		 = "USR";
+		$test = array(array("USR002", "Samie"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Samie', 1, 0, 'ASC', true));
+    }
+	
+	public function testCountList_USR_Admin_4() {
+		 = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, 'Ad', 1, 0, 'ASC', true));
+    }
+	
+	public function testCountList_USR_Admin_5() {
+		 = "USR";
+		$test = array(array("USR001", "Admin"));    
+        $this->assertEquals($test, $this->view->countList(0, '001', 0, 0, 'ASC', true));
+    }
+	
+	public function testCountList_USR_Admin_6() {
+		 = "USR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 0));
+    }
+	
+	public function testCountList_USR_Admin_7() {
+		 = "USR";		  
+        $this->assertEquals('', $this->view->countList(0, 'Perm', 1));
+    }	    */
+   
 
     /**
      * @todo Implement testAddData().

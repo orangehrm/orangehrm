@@ -469,8 +469,17 @@ class EmpInfo {
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
+		$sqlQString1 = sprintf("SELECT * FROM `hs_hr_users` WHERE `emp_number` = '%s'", 
+		implode("' OR `emp_number` = '", $arrList[0]));
+		
+		$message1 = $dbConnection -> executeQuery($sqlQString1);
+		
+		if (mysql_num_rows($message1) == 0) {	
+			$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+			return true;
+		}
+		
+		return;		
 	}
 
 	function filterEmpMain($getID) {

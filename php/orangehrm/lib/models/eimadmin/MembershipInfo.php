@@ -127,9 +127,12 @@ class MembershipInfo {
 	
 	function countMembershipInfo($schStr,$mode) {
 		
-		$tableName = 'HS_HR_MEMBERSHIP';			
-		$arrFieldList[0] = 'MEMBSHIP_CODE';
-		$arrFieldList[1] = 'MEMBSHIP_NAME';
+		$tableName = 'HS_HR_MEMBERSHIP a LEFT JOIN HS_HR_MEMBERSHIP_TYPE b ON (a.membtype_code = b.membtype_code)';			
+				
+		$arrFieldList[0] = 'a.MEMBSHIP_CODE';
+		$arrFieldList[1] = 'a.MEMBSHIP_NAME';
+		
+		$arrFieldList[2] = 'b.MEMBTYPE_NAME';
 		
 		$sql_builder = new SQLQBuilder();
 		

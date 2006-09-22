@@ -9,30 +9,16 @@
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
-
-* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-
-* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-
-* See the GNU General Public License for more details.
-
-*
-
-* You should have received a copy of the GNU General Public License along with this program;
-
-* if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-
-* Boston, MA  02110-1301, USA
-
-*/
-
-
-
-
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
-
 
 /*$srchlist[0] = array( 0 , 1 , 2 );
 
@@ -294,22 +280,19 @@ parent.scrollTo(0, 0);
 </script>
 
 <body style="padding-left:20px;" onFocus="document.getElementById('content').focus()">
-<p id="content"> 
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-
+<p id="content">
 <form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN">
+<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
+<tr>
+	<td valign='top'>		
+	</td>
+  <td width='100%'>
+  <h2><?=$headingInfo[0]?></h2></td>
 
-</td>
-
-  <td width='100%'><h2> 
-
-      <?=$headingInfo[0]?>
-
-    </h2></td>
-
-  <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
-
-</table></p>
+  <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+</tr>
+</table>
+</p>
 
 </p> 
 
@@ -367,7 +350,8 @@ parent.scrollTo(0, 0);
 
         </h3></td>
 
-    <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
+    <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''>
+	 </td>
 
   </tr>
 
@@ -382,34 +366,26 @@ parent.scrollTo(0, 0);
     <td width="22%" nowrap><h3><?=$serach?></h3></td>
 
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-
-     <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"> 
-
-      <?
-
-    
-
-      
-
-		if (isset($this->getArr['emplist'])) {
-
-			$expString  = $this->getArr['emplist'];
-
-			$expString = explode ("%",$expString);
-
-			$length = sizeof($expString);
-
-			for ($x=0; $x < $length; $x++) {		
-
-				echo " " . $expString[$x];		
-
-			}
-
+<?	 			
+		if (isset($this->getArr['message'])) {
+		
+			$expString  = $this->getArr['message'];
+			$expString = explode ("_",$expString);
+			$length = count($expString);		
+			
+			$col_def=$expString[$length-1];
+			
+			$expString=$this->getArr['message'];
+	?>
+			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?
+				echo $$expString;
+	?>
+			</font>
+	<?
 		}		
-
 		?>
-
-      &nbsp;&nbsp;&nbsp;&nbsp; </font> </td>
+      &nbsp;&nbsp;&nbsp;&nbsp;</td>
 
   </tr>
 

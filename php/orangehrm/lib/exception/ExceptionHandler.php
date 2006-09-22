@@ -75,9 +75,14 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."in ".$errfileEsc.'\n'."on line ".$errline));
 	
 	} else {
+				
 		$message .= "	<cause>\n";
 		$message .= "		<message>".mysql_error()."</message>\n";
-		$message .= "	</cause>\n";
+		$message .= "	</cause>\n";	
+		
+		$message .= "	<cause>\n";
+		$message .= "		<message>MySQL Error # :".mysql_errno()."</message>\n";
+		$message .= "	</cause>\n";	
 		
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."Tech Info".'\n'."------------".'\n'.mysql_error()));
 	}	

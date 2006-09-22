@@ -498,7 +498,7 @@ class Users {
 				$delFlag = true;
 		
 		if($delFlag) {
-			return false;
+			return;
 		}
 		
 		$sqlQString = $this->sql_builder->deleteRecord($arrList);
