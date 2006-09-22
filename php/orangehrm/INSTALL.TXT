@@ -4,7 +4,7 @@ Hardware requirements;
   40GB Hard Disk Space
 
 Software Requirements
-  Linux 8 or above / Fedora 4 or above / Windows 2000 or later 
+  Linux 8 or above / Fedora Core 4 or above / Windows 2000 or later 
   MySQL 4.1 or later 
   Apache HTTP Server  ver 1.3 or later 
   PHP ver 4.3.x or later
@@ -70,13 +70,24 @@ Note: the path should be specified using forward slashes instead of black slashe
   Goto the end of LoadModule section 
 
 If you are using Apache HTTP server ver 1.3.xx  add line
-  LoadModule php4_module “c:/php/sapi/php4apache.dll”
+	  LoadModule php4_module “c:/php/sapi/php4apache.dll”
 
-Then at the end of AddModule section add line 
-  AddModule mod_php4.c
+	Then at the end of AddModule section add line 
+	  AddModule mod_php4.c
 
 If you are using Apache HTTP server ver 2.0.xx  add line
-  LoadModule php4_module  “c:/php/sapi/php4apache2.dll”
+	  LoadModule php4_module  “c:/php/sapi/php4apache2.dll”
+
+Note: if you are using PHP5 the LoadModule lines should be altered as 
+
+		LoadModule php5_module “c:/php/sapi/php5apache.dll”
+
+				OR
+
+		LoadModule php5_module  “c:/php/sapi/php5apache2.dll”
+
+	for Apache OR Apache 2 Web servers respectively
+
 
 Then at the end of AddType section add line
   AddType application/x-httpd-php .php
@@ -167,9 +178,8 @@ Start installing MySQL server
 
   Apache HTTP server (ver 1.3 or later)
 
-  PHP (ver 4.3.0, later versions supported but not tested). 
-  It should be installed with all PHP plugins running as Apache modules and not as a 
-  CGI interpreter.
+  PHP (ver 4.3.0, ). 
+  It should be loaded as an Apache Web Server module and not as a CGI interpreter.
 
 For Linux Installation these steps should be followed;
 
@@ -178,17 +188,34 @@ For Linux Installation these steps should be followed;
   2. change the owner & group of the source directory (and all files and sub-directories 
      within it)
      ex: /var/html/orangehrm/;  to apache. 
-  3. In the MySQL server create a user account with all priviledges, 
-     please note down the username and password since it will be required to configure the 
-     application to give it access to the database in step (5). 
-  4. Create the database using the script dbscript.sql residing in orangehrm/dbscript 
-     directory. 
+  3. now you need to create the database. To do this get MySQL prompt (you should be logged in as 
+     a user having rights create databases and users). Create the database using command;
+     (please note down the database name)
+
+		CREATE DATABASE <orangehrm-db-name>
+
+     then you need to create the tables using the script dbscript.sql residing in 
+     /orangehrm/dbscript directory. Then type in command
+
+		SOURCE <path-to-doc-root>/orangehrm/dbscript/dbscript.sql
+
+  4. In the MySQL server create a user account with all priviledges, please note down the username 
+     and password since it will be required to configure the application to give it access to the 
+     database in step (5). You will also need the database name given in step (3).
+     Use the commands as follows;
+
+     grant all privileges on <orangehrm-db-name>.* to '<username>'@'%'  identified by '<password>' with grant option;
+
+     SET PASSWORD FOR '<username>'@'%' = OLD_PASSWORD('<password>');
+
   5. Then you have to configure the application to give the authentication information it 
-     requires to access MySQL server. To do this edit file orangehrm/lib/Confs/Conf.php as
+     requires to access MySQL server. To do this rename file Conf.php-distribution(in /orangehrm/lib/Confs/Conf.php)
+     to Conf.php and edit followinf settings.
      set the following parameters;
  
             $this->dbhost = '<IP address of MySQL server>';
-            $this->dbport  = '<port no, of MySQL server>';
+            $this->dbport = '<port no, of MySQL server>';
+	    $this->dbname = '<orangehrm-db-name>';
             $this->dbuser = '<username>';    the user name of the account you created 
             $this->dbpass = '<password>';    the user name of the account you created 
             $this->smtphost = '<SMTP server DNS or IP address>'; the DNS or IP address
@@ -201,24 +228,36 @@ For Windows Installation these steps should be followed;
 
   1. Extract the PHP source of OrangeHRM onto the directory that is configured as 
      Apache Server htdocs directory; ex: c:\apache\Apache\htdocs\orangehrm\ 
-  2. You need to create the database using the script dbscript.sql residing in 
-     c:\apache\Apache\htdocs \orangehrm\dbscript directory. Goto this directory first, 
-     then relevant command is as follows, first goto  mysql command prompt login in as root
-     of MySQL server. Then type in command
-     source dbscript.sql
-  3. In the MySQL server create a user account with all priviledges,
-     please note down the username and password since it will be required to configure the
-     application to give it access to the database in step (4). 
+
+  2. now you need to create the database. To do this get MySQL prompt (you should be logged in as 
+     a user having rights create databases and users). Create the database using command;
+     (please note down the database name)
+
+		CREATE DATABASE <orangehrm-db-name>
+
+     then you need to create the tables using the script dbscript.sql residing in 
+     /orangehrm/dbscript directory. Then type in command
+
+		SOURCE c:\apache\Apache\htdocs\orangehrm\dbscript\dbscript.sql
+
+  3. In the MySQL server create a user account with all priviledges, please note down the username 
+     and password since it will be required to configure the application to give it access to the 
+     database in step (5). You will also need the database name given in step (3).
      Use the commands as follows;
 
-     grant all privileges on hr_mysql.* to '<username>'@'%'  identified by '<password>' with grant option;
+     grant all privileges on <orangehrm-db-name>.* to '<username>'@'%'  identified by '<password>' with grant option;
 
      SET PASSWORD FOR '<username>'@'%' = OLD_PASSWORD('<password>');
 
-  4. You have to configure the application to give the authentication information it requires to access MySQL server. To do this edit file c:\apache\Apache\htdocs\orangehrm\lib\Confs\Conf.php as set the following parameters;
+
+  4. Then you have to configure the application to give the authentication information it 
+     requires to access MySQL server. To do this rename file Conf.php-distribution(in \orangehrm\lib\Confs\Conf.php)
+     to Conf.php and edit followinf settings.
+     set the following parameters;
  
             $this->dbhost = '<IP address of MySQL server>';
-            $this->dbport  = '<port no, of MySQL server>';
+            $this->dbport = '<port no, of MySQL server>';
+	    $this->dbname = '<orangehrm-db-name>';
             $this->dbuser = '<username>';    the user name of the account you created 
             $this->dbpass = '<password>';    the user name of the account you created 
             $this->smtphost = '<SMTP server DNS or IP address>'; the DNS or IP address
