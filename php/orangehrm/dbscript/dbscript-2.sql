@@ -493,6 +493,13 @@ INSERT INTO `hs_hr_eec` VALUES ('EEC005', 'PARAPROFESSIONALS');
 INSERT INTO `hs_hr_eec` VALUES ('EEC006', 'ADMINISTRATIVE SUPPORT');
 INSERT INTO `hs_hr_eec` VALUES ('EEC007', 'SKILLED CRAFT WORKERS');
 INSERT INTO `hs_hr_eec` VALUES ('EEC008', 'SERVICE-MAINTENANCE');
+
+INSERT INTO `hs_hr_empstat` VALUES ('EST001', 'Full Time Contract');
+INSERT INTO `hs_hr_empstat` VALUES ('EST002', 'Full Time Internship');
+INSERT INTO `hs_hr_empstat` VALUES ('EST003', 'Full Time Permanent');
+INSERT INTO `hs_hr_empstat` VALUES ('EST004', 'Part Time Contract');
+INSERT INTO `hs_hr_empstat` VALUES ('EST005', 'Part Time Internship');
+INSERT INTO `hs_hr_empstat` VALUES ('EST006', 'Part Time Permanent');
 				
 INSERT INTO `hs_hr_geninfo` VALUES ('001','','');
 INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
