@@ -883,7 +883,7 @@ function editSalaryGrade() {
 
 										<tr><td width="100">
 
-										<select disabled size="3" name="cmbAssEmploymentStatus" style="width=70px;">
+										<select disabled size="3" name="cmbAssEmploymentStatus" style="width:125px;">
 
 				               			<? $assEmploymentStat = $this->popArr['assEmploymentStat'];
 
@@ -895,9 +895,9 @@ function editSalaryGrade() {
 
 										</select></td>
 
-										<td align="center" width="100"><input type="button" disabled name="butAssEmploymentStatus" onClick="assignEmploymentStatus();" value="< Add"><br><br><input type="button" disabled name="butUnAssEmploymentStatus" onClick="unAssignEmploymentStatus();" value="Remove >"></td>
+										<td align="center" width="100"><input type="button" disabled name="butAssEmploymentStatus" onClick="assignEmploymentStatus();" value="< Add" style="width:80%"><br><br><input type="button" disabled name="butUnAssEmploymentStatus" onClick="unAssignEmploymentStatus();" value="Remove >" style="width:80%"></td>
 
-										<td><select disabled size="3" name="cmbUnAssEmploymentStatus" style="width:70px;">
+										<td><select disabled size="3" name="cmbUnAssEmploymentStatus" style="width:125px;">
 
 				               			<? $unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
 
