@@ -27,7 +27,7 @@ Note: Download PHP4 complete ZIP package  from http://www.php.net/downloads.php.
 Firstly Install Apache HTTP Server by following these steps;
   Accept the license agreement and press next
   Press next again after reading about Apache HTTP Server
-  When promted fordetails about; Network Domain,  Server Name, etc., use the values below :
+  When promted for details about; Network Domain,  Server Name, etc., use the values below :
 
     Network Domain: 	localhost
     Server Name:		localhost
@@ -252,7 +252,7 @@ For Windows Installation these steps should be followed;
 
   4. Then you have to configure the application to give the authentication information it 
      requires to access MySQL server. To do this rename file Conf.php-distribution(in \orangehrm\lib\Confs\Conf.php)
-     to Conf.php and edit followinf settings.
+     to Conf.php and edit following settings.
      set the following parameters;
  
             $this->dbhost = '<IP address of MySQL server>';
