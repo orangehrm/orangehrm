@@ -804,7 +804,7 @@ function resetAdd(panel) {
 		<tr>
     		<td align="center">
     		
-    <div id="personal" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
+    <div id="personal" style="position:absolute; z-index:3; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
 	  <table  border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
