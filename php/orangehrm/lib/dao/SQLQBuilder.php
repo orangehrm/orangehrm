@@ -70,6 +70,18 @@ class SQLQBuilder {
 	
 	}
 	
+	function quoteCorrect($arr) {
+		
+		foreach ($arr as $value) {
+			
+			$temp = substr($value,1,strlen($value)-2);
+			$temp = str_replace("'","''",$temp);
+			$tempArr[] = "'" . $temp . "'";
+		}
+		
+		return $tempArr;
+	}
+
 /* 	
 	Function passresultSetMessage Will 
 	will get the SQLFormat Object as an input 
@@ -263,6 +275,7 @@ class SQLQBuilder {
 						
 			$arrayFieldList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
+			$arrayFieldList = $this->quoteCorrect($arrayFieldList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
 						
@@ -305,6 +318,7 @@ class SQLQBuilder {
 			$arrayFieldList = $this->arr_insertfield;		
 			$arrayRecordList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
+			$arrayRecordList = $this->quoteCorrect($arrayRecordList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' ( ';
 
@@ -553,6 +567,7 @@ function filterNotEqualRecordSet($filID) {
 			$arrayFieldList = $this->arr_update; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
+			$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
 			
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 			
