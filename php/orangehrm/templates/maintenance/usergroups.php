@@ -41,7 +41,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function addSave() {
 		
 		if (document.frmUserGroup.txtUserGroupName.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+			alert ("Name Cannot be a Blank Value!");
 			return false;
 		}
 		
@@ -93,9 +93,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 							    <td><strong><?=$this->popArr['newID'] ?></strong></td>
 							  </tr>
 						  <tr> 
-						    <td valign="top" nowrap><span class="error">*</span> Description</td>
-						    <td> <textarea name='txtUserGroupName' rows="3" tabindex='3' cols="30"></textarea>
-						    </td>
+						    <td valign="top" nowrap><span class="error">*</span>Name</td>
+						    <td> <input type="text" name='txtUserGroupName' tabindex='3'></td>
 						  </tr>
 						  <tr> 
 						    <td>Define Reports</td>
@@ -238,9 +237,8 @@ function edit()
      <td> <input type="hidden" name="txtUserGroupID" value=<?=$message[0][0]?> ><strong><?=$message[0][0]?></strong> </td>
   </tr>
 							  <tr> 
-							    <td valign="top" nowrap><span class="error">*</span> <strong>Description</td>
-							  	  <td> <textarea name='txtUserGroupName' rows="3" tabindex='3' disabled cols="30"><?=$message[0][1]?></textarea>
-							    </td>
+							    <td valign="top" nowrap><span class="error">*</span> <strong>Name</td>
+							  	  <td> <input type="text" name='txtUserGroupName' tabindex='3' disabled value="<?=$message[0][1]?>"></td>
 							  </tr>
 						  <tr> 
 						    <td>Define Reports</td>
