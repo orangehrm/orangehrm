@@ -72,18 +72,22 @@ class SQLQBuilder {
 	
 	function quoteCorrect($arr) {
 		
-		/*foreach ($arr as $value) {
+		foreach ($arr as $value) {
 			if ($value != 'null') {
-				
-				$temp = substr($value,1,strlen($value)-2);
-				//$tempArr[] = "'" . mysql_real_escape_string($temp) . "'";
-				//$temp = str_replace("'","\'",$temp);
-				$tempArr[] = "'" . $temp . "'";
-				
+			
+				//$temp = substr($value,1,strlen($value)-2);				
+				if (preg_match('//', $value) == 0) {
+					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));					
+					$temp = mysql_real_escape_string($temp)/*str_replace("'","\'",$temp)*/;
+					$tempArr[] = "'" . $temp . "'";
+				} else {
+					$tempArr[] = $value;
+				}				
+								
 			} else {
 				$tempArr[] = $value;
 			}
-		}*/
+		}
 		
 		return $arr;
 	}
