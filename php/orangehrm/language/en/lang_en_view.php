@@ -25,7 +25,7 @@ switch ($_GET['uniqcode']) {
 		case 'JOB' :
 			$srchlist = array( '-Select-' , 'ID' , 'Name');
 			$headings= array('Job Title ID','Job Title Name');
-			$headingInfo = array('Job Title ID','Job Title Name',1,'Job : Job Title','Deletion may affetct Pay Grades');
+			$headingInfo = array('Job Title ID','Job Title Name',1,'Job : Job Title','Deletion may affect Pay Grade of Employees in PIM');
 			break;
 			
 		case 'SKI' :

@@ -73,10 +73,13 @@ class SQLQBuilder {
 	function quoteCorrect($arr) {
 		
 		foreach ($arr as $value) {
-			
-			$temp = substr($value,1,strlen($value)-2);
-			$temp = str_replace("'","''",$temp);
-			$tempArr[] = "'" . $temp . "'";
+			if ($value != 'null') {
+				$temp = substr($value,1,strlen($value)-2);
+				$temp = str_replace("'","''",$temp);
+				$tempArr[] = "'" . $temp . "'";
+			} else {
+				$tempArr[] = $value;
+			}
 		}
 		
 		return $tempArr;

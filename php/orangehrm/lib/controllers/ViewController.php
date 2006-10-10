@@ -2113,7 +2113,7 @@ class ViewController {
 					
 					case 'SGR' : $showMsg = "UPDATE_SUCCESS";
 					
-								 header("Location:".$_POST['referer']."&message=$showmessage");
+								 header("Location:".$_POST['referer']."&message=$showMsg");
 					
 					case 'EST' :
 					case 'CUR' : 

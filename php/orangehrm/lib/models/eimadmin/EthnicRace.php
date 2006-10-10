@@ -75,9 +75,6 @@ class EthnicRace {
 			
 		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
 				
-		$logwriter = new LogWriter();
-		$logwriter ->writeLogDB($sqlQString);
-		
 		//echo $sqlQString;		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
