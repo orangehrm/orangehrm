@@ -35,7 +35,7 @@ $edit=$attachment->filterEmpAtt($arr);
 
 header("Content-length: " .$edit[0][4]);
 header("Content-type: " .$edit[0][6]);
-//header("Content-Disposition: attachment; filename=" .$edit[0][3]);
+header("Content-Disposition: attachment; filename=" .$edit[0][3]);
 echo $edit[0][5];
 
 exit();
