@@ -38,5 +38,5 @@ header("Content-type: " .$edit[0][6]);
 header("Content-Disposition: attachment; filename=" .$edit[0][3]);
 echo $edit[0][5];
 
-exit();
+exit(0);
 ?>

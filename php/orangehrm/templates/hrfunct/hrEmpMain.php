@@ -794,8 +794,8 @@ function resetAdd(panel) {
 					<td id="licenseLink"><a href="javascript:displayLayer(12)">License</a></td>
 					
 					<td id="membershipLink"><a href="javascript:displayLayer(13)">Membership</a></td>
-					<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
-					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
+					<!--<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
+					<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
 					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->		
 				</tr>
 			</table>
