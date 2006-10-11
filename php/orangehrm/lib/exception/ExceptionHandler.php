@@ -64,10 +64,10 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	if (isset($sysErr)) {
 	
 		$message .= "	<cause>\n";
-		$message .= "		<message>Encountered the problem in ".$errfile."</message>\n";
+		$message .= "		<message><![CDATA[Encountered the problem in ".$errfile."]]></message>\n";
 		$message .= "	</cause>\n";
 		$message .= "	<cause>\n";
-		$message .= "		<message>Line ".$errline."</message>\n";
+		$message .= "		<message><![CDATA[Line ".$errline."]]></message>\n";
 		$message .= "	</cause>\n";		
 		
 		error_log( strip_tags($errMsg), 3, ROOT_PATH.'/lib/logs/logDB.txt');
@@ -77,11 +77,11 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	} else {
 				
 		$message .= "	<cause>\n";
-		$message .= "		<message>".mysql_error()."</message>\n";
+		$message .= "		<message><![CDATA[".mysql_error()."]]></message>\n";
 		$message .= "	</cause>\n";	
 		
 		$message .= "	<cause>\n";
-		$message .= "		<message>MySQL Error # :".mysql_errno()."</message>\n";
+		$message .= "		<message><![CDATA[MySQL Error # :".mysql_errno()."]]></message>\n";
 		$message .= "	</cause>\n";	
 		
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."Tech Info".'\n'."------------".'\n'.mysql_error()));
