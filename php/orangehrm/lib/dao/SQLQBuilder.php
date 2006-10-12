@@ -1004,6 +1004,42 @@ function getCurrencyAssigned($salgrd) {
 	
 	return $sqlQString;
 	}
+	
+	
+	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinType = "LEFT") {
+		$query = "SELECT ";
+		
+		foreach ($arrFields as $arrField) {
+			$query .= $arrField." , ";
+		}
+		
+		$query = $this->_trimLastChar($query);
+		
+		$query .= "FROM ";
+		
+		$joins = $arrTables[0];
+		
+		for ($i=1; $i < count($arrTables); $i++) {
+			$joins = "( ".$joins." ".$joinType." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) )";
+		}
+		
+		$query .= $joins." WHERE ";
+		
+		foreach ($selectConditions as $selectCondition) {
+			$query .= $selectCondition." AND ";
+		}
+		
+		$query = $this->_trimLastChar($query, "AND");
+		
+		return $query;
+	}
+	
+	function _trimLastChar($str, $char = ",") {
+		
+		$str = preg_replace("/".$char."$/", "", trim($str));
+
+		return $str;	
+	}
 
 }
 ?>
