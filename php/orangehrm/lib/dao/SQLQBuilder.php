@@ -70,7 +70,7 @@ class SQLQBuilder {
 	
 	}
 	
-	function quoteCorrect($arr) {
+/*	function quoteCorrect($arr) {
 		
 		foreach ($arr as $value) {
 			if ($value != 'null') {
@@ -78,7 +78,7 @@ class SQLQBuilder {
 				//$temp = substr($value,1,strlen($value)-2);				
 				if (preg_match('//', $value) == 0) {
 					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));					
-					$temp = mysql_real_escape_string($temp)/*str_replace("'","\'",$temp)*/;
+					$temp = mysql_real_escape_string($temp)/*str_replace("'","\'",$temp);
 					$tempArr[] = "'" . $temp . "'";
 				} else {
 					$tempArr[] = $value;
@@ -92,7 +92,6 @@ class SQLQBuilder {
 		return $arr;
 	}
 
-/* 	
 	Function passresultSetMessage Will 
 	will get the SQLFormat Object as an input 
 	Parameter and extract the Object's Instance
@@ -285,7 +284,6 @@ class SQLQBuilder {
 						
 			$arrayFieldList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
-			$arrayFieldList = $this->quoteCorrect($arrayFieldList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
 						
@@ -328,7 +326,6 @@ class SQLQBuilder {
 			$arrayFieldList = $this->arr_insertfield;		
 			$arrayRecordList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
-			$arrayRecordList = $this->quoteCorrect($arrayRecordList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' ( ';
 
@@ -577,7 +574,6 @@ function filterNotEqualRecordSet($filID) {
 			$arrayFieldList = $this->arr_update; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
-			$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
 			
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 			
