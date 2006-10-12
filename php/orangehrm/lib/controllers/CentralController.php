@@ -117,6 +117,9 @@ require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpReport.php';
 //require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_ReportGenerator.php';
 require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpRepUserGroups.php';
 
+//leave modules extractorss go here
+
+
 if(isset($_GET['uniqcode'])) {
 	$moduletype = 'admin';
 } elseif (isset($_GET['reqcode'])) {
@@ -125,6 +128,8 @@ if(isset($_GET['uniqcode'])) {
 	$moduletype = 'mt';
 } elseif (isset($_GET['repcode'])) {
 	$moduletype = 'rep';
+} elseif (isset($_GET['leavecode'])) {
+	$moduletype = 'leave';
 }
 
 //authentication
@@ -138,11 +143,13 @@ $locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> f
 define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
+define('LEAVE', 'MOD004');
 	
 switch ($moduletype) {   
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
 	case 'mt'		:	$locRights = $rights->getRights($_SESSION['userGroup'],MT); break;
+	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
 }
 
 if(!is_array($locRights) && $locRights == false)
@@ -1045,7 +1052,8 @@ switch ($moduletype) {
 												break;
 										}
 	
-						
+	case 'leave'	:	
+						break;
 }
 
 ob_end_flush();
