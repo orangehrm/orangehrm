@@ -26,6 +26,104 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class Leave {
+	
+	/*
+	 *	Leave Status Constants
+	 *
+	 **/
+	
+	private $statusLeaveCancelled = 0;
+	private $statusLeavePendingApproval = 1;
+	private $statusLeaveApproved = 2;
+	private $statusLeaveTaken = 3;
+	
+	/*
+	 *	Class Attributes
+	 *
+	 **/
+
+	private $leaveId;
+	private $employeeId;
+	private $leaveTypeId;
+	private $leaveTypeNameId;
+	private $dateApplied;
+	private $leaveDate;
+	private $leaveLength;
+	private $leaveStatus;
+	private $leaveComments;
+
+	public function setLeaveId($leaveId) {
+		$this->leaveId = $leaveId;
+	}
+	
+	public function getLeaveId() {
+		return $this->leaveId;
+	}
+	
+	public function setEmployeeId($employeeId) {
+		$this->employeeId = $employeeId;
+	}
+	
+	public function getEmployeeId() {
+		return $this->employeeId;
+	}
+	
+	public function setLeaveTypeId($leaveTypeId) {
+		$this->leaveTypeId = $leaveTypeId;
+	}
+	
+	public function getLeaveTypeId() {
+		return $this->leaveTypeId;
+	}
+	
+	public function setLeaveTypeNameId($leaveTypeNameId) {
+		$this->leaveTypeNameId = $leaveTypeNameId;
+	}
+	
+	public function getLeaveTypeNameId() {
+		return $this->leaveTypeNameTypeId;
+	}
+	
+	public function setDateApplied($dateApplied) {
+		$this->dateApplied = $dateApplied;
+	}
+	
+	public function getDateApplied() {
+		return $this->dateApplied;
+	}
+	
+	public function setLeaveDate($leaveDate) {
+		$this->leaveDate = $leaveDate;
+	}
+		
+	public function getLeaveDate() {
+		return $this->leaveDate;
+	}
+	
+	public function setLeaveLength($leaveLength) {
+		$this->leaveLength = $leaveLength;
+	}
+	
+	public function getLeaveLength() {
+		return $this->leaveLength;
+	}
+	
+	public function setLeaveStatus($leaveStatus) {
+		$this->leaveStatus = $leaveStatus;
+	}
+	
+	public function getLeaveStatus() {
+		return $this->leaveStatus;
+	}
+	
+	public function setLeaveComments($leaveComments) {
+		$this->leaveComments = $leaveComments;
+	}
+	
+	public function getLeaveComments() {
+		return $this->leaveComments;
+	}
+	
 
 	/*
 	 *	Retrieves Leave Details of all leave that have been applied for but
@@ -43,7 +141,7 @@ class Leave {
 	 *
 	 **/
 	
-	public function retriveLeaveEmployee($employeeID) {
+	public function retriveLeaveEmployee() {
 		
 		$sqlBuilder = new SQLQBuilder();
 		
@@ -59,9 +157,9 @@ class Leave {
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
 		
 		$selectConditions[0] = "b.`Available_Flag` = 1";
-		$selectConditions[1] = "a.`Employee_Id` = '$employeeID'";
-		$selectConditions[2] = "a.`Status` != 0";
-		$selectConditions[3] = "a.`Status` != 3";
+		$selectConditions[1] = "a.`Employee_Id` = '".$this->getEmployeeId()."'";
+		$selectConditions[2] = "a.`Status` != ".$this->statusLeaveCancelled;
+		$selectConditions[3] = "a.`Status` != ".$this->statusLeaveTaken;
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 				
@@ -95,11 +193,12 @@ class Leave {
 	 *
 	 **/
 	
-	public function cancelLeave($leaveID) {
-		return $this->_changeLeaveStatus($leaveID, "0");
-	}
+	public function cancelLeave() {
+		$this->setLeaveStatus($this->statusLeaveCancelled);
+		return $this->_changeLeaveStatus();
+	}	
 	
-	private function _changeLeaveStatus($leaveID, $status="3") {
+	private function _changeLeaveStatus() {
 		
 		$sqlBuilder = new SQLQBuilder();
 		
@@ -107,9 +206,9 @@ class Leave {
 		
 		$changeFields[0] = "`Status`";
 		
-		$changeValues[0] = $status;
+		$changeValues[0] = $this->getLeaveStatus();
 		
-		$updateConditions[0] = "`Leave_ID` = $leaveID";
+		$updateConditions[0] = "`Leave_ID` = ".$this->getLeaveId();
 		
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
 		
@@ -117,9 +216,9 @@ class Leave {
 		
 		$dbConnection = new DMLFunctions();	
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 		
-		if (isset($result) && $result) {
+		if (isset($result) && (mysql_affected_rows() > 0)) {
 			return true;
 		};
 		

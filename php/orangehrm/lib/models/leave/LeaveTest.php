@@ -73,37 +73,47 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
      */
     public function testRetriveLeaveEmployee1() {
         
-        $res = $this->classLeave->retriveLeaveEmployee("EMP101");        
+    	$this->classLeave->setEmployeeId("EMP101");
+    	
+        $res = $this->classLeave->retriveLeaveEmployee();        
         
-        $this->assertEquals($res, null);
+        $this->assertEquals($res, null, "Retured non exsistant record ");
     }     
     
     public function testRetriveLeaveEmployeeAccuracy() {
+    	
+    	$this->classLeave->setEmployeeId("EMP011");
         
-        $res = $this->classLeave->retriveLeaveEmployee("EMP011");
+        $res = $this->classLeave->retriveLeaveEmployee();
+        
         $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 1');
         $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
         
-        $this->assertEquals($res, $expected);
+        $this->assertEquals($res, $expected, "Didn't return expected result ");
     }
     
     public function testCancelLeaveAccuracy() {
+    	
+    	$this->classLeave->setLeaveId(10);
         
-        $res = $this->classLeave->cancelLeave(10);
+        $res = $this->classLeave->cancelLeave();
         $expected = true;
                 
-        $this->assertEquals($res, $expected);
-    }
-    
-    public function testCancelLeaveAccuracy2() {
+        $this->assertEquals($res, $expected, "Cancel of leave failed ");
         
-        $this->classLeave->cancelLeave(10);
+        $res = $this->classLeave->cancelLeave();
+        $expected = false;
+                
+        $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
         
-        $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
+        $this->classLeave->setEmployeeId("EMP011");
+        
+        $res = $this->classLeave->retriveLeaveEmployee();        
         $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
                 
-        $this->assertEquals($res, $expected);
-    }
+        $this->assertEquals($res, $expected, "Didn't return expected result ");
+    }    
+    
 }
 
 // Call LeaveTest::main() if this source file is executed directly.
