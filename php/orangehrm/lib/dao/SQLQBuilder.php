@@ -1022,9 +1022,9 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 	}
 	
-	function simpleInsert($insertTable, $insertValues, $insertFields=false) {
-		
-		$query = "INSERT INTO $insertTable VALUES ("._buildList($insertValues, ",").")";
+	function simpleInsert($insertTable, $insertValues, $insertFields=false) {		
+
+		$query = "INSERT INTO $insertTable VALUES ( ".$this->_buildList($insertValues, ",").")";
 		
 		return $query;
 	}
@@ -1053,7 +1053,7 @@ function getCurrencyAssigned($salgrd) {
 	
 	function _buildWhere($selectConditions) {
 		
-		$query = "WHERE ".$this->_buildList($selectConditions, "AND");		
+		$query = "WHERE ".$this->_buildList($selectConditions, " AND ");		
 		
 		return $query;		
 	}
@@ -1067,7 +1067,7 @@ function getCurrencyAssigned($salgrd) {
 	
 	function _buildSet($arrFields, $arrValues) {
 		
-		$query = "SET".$this->_buildFormattedList($arrFields, $arrValues, "=");		
+		$query = "SET".$this->_buildFormattedList($arrFields, $arrValues, " = ");		
 
 		return $query;
 	}
@@ -1101,9 +1101,9 @@ function getCurrencyAssigned($salgrd) {
 	 *
 	 **/
 	
-	function _buildList($arrList, $strJoiner=",") {
+	function _buildList($arrList, $strJoiner=" , ") {				
 		
-		$query = implode(" $strJoiner ", $arrList);		
+		$query = implode($strJoiner, $arrList);		
 		
 		$query = $this->_trimLastChar($query, $strJoiner);
 
@@ -1129,7 +1129,7 @@ function getCurrencyAssigned($salgrd) {
 	 *
 	 **/
 	
-	function _trimLastChar($subject, $strJoiner = ",") {
+	function _trimLastChar($subject, $strJoiner = " , ") {
 		
 		$str = preg_replace("/".$strJoiner."$/", "", trim($subject));
 
