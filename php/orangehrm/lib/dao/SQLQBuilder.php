@@ -1024,7 +1024,7 @@ function getCurrencyAssigned($salgrd) {
 	
 	function simpleInsert($insertTable, $insertValues, $insertFields=false) {
 		
-		$query = "INSERT INTO $updateTable VALUES ("._buildList($insertValues, $strJoiner=",").")";
+		$query = "INSERT INTO $insertTable VALUES ("._buildList($insertValues, ",").")";
 		
 		return $query;
 	}
@@ -1034,7 +1034,22 @@ function getCurrencyAssigned($salgrd) {
 		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
 		
 		return $query;		
-	}	
+	}
+	
+	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null) {
+		
+		$query=$this->_buildSelect($selectFields)." FROM `$selectTable`";
+
+		if (isset($selectConditions)) {
+			$query .= $this->_buildWhere($selectConditions);
+		}
+		
+		if (isset($selectOrderBy)) {
+			$query .= " ORDER BY $selectOrderBy $selectOrder";
+		}
+		
+		return $query;		
+	}
 	
 	function _buildWhere($selectConditions) {
 		
