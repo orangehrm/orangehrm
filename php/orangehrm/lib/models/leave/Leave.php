@@ -45,7 +45,7 @@ class Leave {
 	private $leaveId;
 	private $employeeId;
 	private $leaveTypeId;
-	private $leaveTypeNameId;
+	private $leaveTypeNameTypeId;
 	private $dateApplied;
 	private $leaveDate;
 	private $leaveLength;
@@ -81,14 +81,14 @@ class Leave {
 	}
 	
 	public function getLeaveTypeNameId() {
-		return $this->leaveTypeNameTypeId;
+		return $this->leaveTypeNameId;
 	}
 	
-	public function setDateApplied($dateApplied) {
+	public function setDateApplied($dateApplied) {		
 		$this->dateApplied = $dateApplied;
 	}
 	
-	public function getDateApplied() {
+	public function getDateApplied() {		
 		return $this->dateApplied;
 	}
 	
@@ -122,8 +122,7 @@ class Leave {
 	
 	public function getLeaveComments() {
 		return $this->leaveComments;
-	}
-	
+	}	
 
 	/*
 	 *	Retrieves Leave Details of all leave that have been applied for but
@@ -132,7 +131,7 @@ class Leave {
 	 *	Arguements
 	 *	----------
 	 *
-	 *		$employeeID	-	String	-	Employee ID of the format EMP999
+	 *		$empID	-	String	-	Employee ID of the format EMP999
 	 *
 	 *	Returns
 	 *	-------
@@ -157,14 +156,16 @@ class Leave {
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
 		
 		$selectConditions[0] = "b.`Available_Flag` = 1";
+		
 		$selectConditions[1] = "a.`Employee_Id` = '".$this->getEmployeeId()."'";
-		$selectConditions[2] = "a.`Status` != ".$this->statusLeaveCancelled;
-		$selectConditions[3] = "a.`Status` != ".$this->statusLeaveTaken;
+		$selectConditions[2] = "a.`Status` != ".$this->statusLeaveCancelled." ";
+		$selectConditions[3] = "a.`Status` != ".$this->statusLeaveTaken." ";
+
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
-				
-		//echo $query."\n";
 		
+		//echo $query;
+				
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
@@ -176,53 +177,105 @@ class Leave {
 		}
 		
 		return $leaveArr; 
-	}
+	}	
 	
 	/*
-	 *	Marks the status to be cancelled
+	 *	Add Leave record to for a employee.
 	 *
-	 *	Arguements
-	 *	----------
-	 *
-	 *		$leaveID	-	Integer/String	-	Leave ID of integer
-	 *
-	 *	Returns
-	 *	-------
-	 *
-	 *	A 2D array of the leaves
 	 *
 	 **/
 	
+
+	public function applyLeave ()
+	{
+		$this->_addLeave();
+	}
+
 	public function cancelLeave() {
 		$this->setLeaveStatus($this->statusLeaveCancelled);
 		return $this->_changeLeaveStatus();
 	}	
+
 	
-	private function _changeLeaveStatus() {
+
+	private function _addLeave() {
 		
-		$sqlBuilder = new SQLQBuilder();
+		$this->_getNewLeaveId();
+		$this->setDateApplied(date('Y-m-d'));
 		
-		$table = "`hs_hr_leave`";
+		$arrRecordsList[0] = $this->getLeaveId($this->_getNewLeaveId());
+		$arrRecordsList[1] = "'". $this->getEmployeeId() . "'";
+		$arrRecordsList[2] = "'".$this->getLeaveTypeId()."'";
+		$arrRecordsList[3] = $this->getLeaveTypeNameId();
+		$arrRecordsList[4] = "'". $this->getDateApplied()."'";
+		$arrRecordsList[5] = "'". $this->getLeaveDate()."'";
+		$arrRecordsList[6] = "'". $this->getLeaveLength()."'";
+		$arrRecordsList[7] = $this->statusLeavePendingApproval;
+		$arrRecordsList[8] = "'". $this->getLeaveComments()."'";
+
 		
-		$changeFields[0] = "`Status`";
+		$sqlBuilder = new SQLQBuilder();		
+				
+		$arrTable = "`hs_hr_leave`";
 		
-		$changeValues[0] = $this->getLeaveStatus();
+		//print_r($arrRecordsList);	
 		
-		$updateConditions[0] = "`Leave_ID` = ".$this->getLeaveId();
+		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList);
 		
-		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
-		
-		//echo $query."\n";
+		//echo  $query;
 		
 		$dbConnection = new DMLFunctions();	
 
-		$result = $dbConnection->executeQuery($query);
+		$result = $dbConnection -> executeQuery($query);
 		
+	}
+	
+	private function _getNewLeaveId() {		
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leave`";		
+		$selectFields[0] = '`Leave_ID`';
+		$selectOrder = "DESC";
+		$selectLimit = 1;
+		$sortingField = '`Leave_ID`';
+		
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
+		//echo $query;
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$row = mysql_fetch_row($result);
+		
+		$this->setLeaveId($row[0]+1);
+	}
+
+	private function _changeLeaveStatus() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$table = "`hs_hr_leave`";
+
+		$changeFields[0] = "`Status`";
+
+		$changeValues[0] = $this->getLeaveStatus();
+
+		$updateConditions[0] = "`Leave_ID` = ".$this->getLeaveId();
+
+		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
+
+		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+
 		if (isset($result) && (mysql_affected_rows() > 0)) {
 			return true;
 		};
-		
-		return false;	
+
+		return false; 
 	}
 }
 

@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-define('ROOT_PATH', "E:/moha/source/orangehrm/trunk/php/orangehrm");
+define('ROOT_PATH', "D:/original codes/work/trunk/php/orangehrm");
 define('WPATH', "http://127.0.0.1/orangehrm");
 $_SESSION['WPATH'] = WPATH;
 
@@ -51,8 +51,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'Leave 1', NULL)");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'Leave 2', 'vdfs')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
     			
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 1, 'Medical', 1)");	
     }
@@ -64,13 +64,33 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	mysql_query("DELETE FROM `hs_hr_leave` WHERE `Leave_ID` = 10 OR `Leave_ID` = 11", $this->connection);    	
+    	   	
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);    	
+    	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);    	
     }
 
-    /**
-     * @todo Implement testRetriveLeaveEmployee().
-     */
+    public function testApplyLeave()
+    {
+    	$this->classLeave->setEmployeeId("EMP012");
+    	$this->classLeave->setLeaveTypeId("LTY010");
+    	$this->classLeave->setLeaveTypeNameId("1");    	
+    	$this->classLeave->setLeaveDate("2006-10-12");
+    	$this->classLeave->setLeaveLength("1");
+    	$this->classLeave->setLeaveStatus("1");
+    	$this->classLeave->setLeaveComments("Leave 1");
+    	
+    	$res = $this->classLeave->applyLeave();		
+    	
+    	$res = $this->classLeave->retriveLeaveEmployee();
+        $expected[] = array(date('Y-m-d'), 'Medical', 1, 1, 'Leave 1');
+        
+        $this->assertEquals($res, $expected); 
+        
+        $this->classLeave->setLeaveComments("Leave 2");
+        
+        $res = $this->classLeave->retriveLeaveEmployee();   	
+    }
+    
     public function testRetriveLeaveEmployee1() {
         
     	$this->classLeave->setEmployeeId("EMP101");
@@ -78,7 +98,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $res = $this->classLeave->retriveLeaveEmployee();        
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
-    }     
+    }      
     
     public function testRetriveLeaveEmployeeAccuracy() {
     	
@@ -88,6 +108,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         
         $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 1');
         $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
+
         
         $this->assertEquals($res, $expected, "Didn't return expected result ");
     }
@@ -109,11 +130,12 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $this->classLeave->setEmployeeId("EMP011");
         
         $res = $this->classLeave->retriveLeaveEmployee();        
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
-                
+        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');                
+
         $this->assertEquals($res, $expected, "Didn't return expected result ");
-    }    
+    }   
     
+
 }
 
 // Call LeaveTest::main() if this source file is executed directly.

@@ -1036,16 +1036,20 @@ function getCurrencyAssigned($salgrd) {
 		return $query;		
 	}
 	
-	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null) {
-		
-		$query=$this->_buildSelect($selectFields)." FROM `$selectTable`";
-
+	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
+				
+		$query=$this->_buildSelect($selectFields)." FROM $selectTable";
+      
 		if (isset($selectConditions)) {
 			$query .= $this->_buildWhere($selectConditions);
 		}
 		
 		if (isset($selectOrderBy)) {
 			$query .= " ORDER BY $selectOrderBy $selectOrder";
+		}
+		
+		if (isset($selectLimit)) {
+			$query .= " LIMIT $selectLimit";
 		}
 		
 		return $query;		
@@ -1060,7 +1064,9 @@ function getCurrencyAssigned($salgrd) {
 	
 	function _buildSelect($arrFields) {
 		
-		$query = "SELECT ".$this->_buildList($arrFields);		
+		//print_r($arrFields);
+		
+		$query = "SELECT ".$this->_buildList($arrFields, " , ");		
 
 		return $query;
 	}
