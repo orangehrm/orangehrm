@@ -1022,6 +1022,13 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 	}
 	
+	function simpleInsert($insertTable, $insertValues, $insertFields=false) {
+		
+		$query = "INSERT INTO $updateTable VALUES ("._buildList($insertValues, $strJoiner=",").")";
+		
+		return $query;
+	}
+	
 	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions) {
 		
 		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
