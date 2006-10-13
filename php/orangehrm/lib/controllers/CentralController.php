@@ -1052,7 +1052,16 @@ switch ($moduletype) {
 												break;
 										}
 	
-	case 'leave'	:	
+	case 'leave'	:	switch ($_GET['leavecode']) {
+							case 'Leave':	if (isset($_GET['action']) && ($_GET['action'] === "Leave_FetchLeaveEmployee")) {
+												echo 1;
+											}
+			
+											break;
+	
+							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
+											break;
+	}
 						break;
 }
 

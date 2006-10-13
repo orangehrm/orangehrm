@@ -1,7 +1,7 @@
 <?php
 
 /*
-
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
@@ -17,8 +17,6 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
- * @Date	:	October 12th, 2006
  *
  */
 
@@ -46,11 +44,28 @@ class Leave {
 	private $employeeId;
 	private $leaveTypeId;
 	private $leaveTypeNameTypeId;
+	private $leaveTypeName;
 	private $dateApplied;
 	private $leaveDate;
 	private $leaveLength;
 	private $leaveStatus;
 	private $leaveComments;
+	
+	/*
+	 *
+	 *	Class Constructor
+	 *
+	 **/
+
+	public function __construct() {
+		// nothing to do
+	}
+	
+	/*
+	 *	Setter method followed by getter method for each
+	 *	attribute
+	 *
+	 **/
 
 	public function setLeaveId($leaveId) {
 		$this->leaveId = $leaveId;
@@ -84,9 +99,17 @@ class Leave {
 		return $this->leaveTypeNameId;
 	}
 	
+	public function setLeaveTypeName($leaveTypeName) {
+		$this->leaveTypeName = $leaveTypeName;
+	}
+	
+	public function getLeaveTypeName() {
+		return $this->leaveTypeName;
+	}	
+	
 	public function setDateApplied($dateApplied) {		
 		$this->dateApplied = $dateApplied;
-	}
+	}	
 	
 	public function getDateApplied() {		
 		return $this->dateApplied;
@@ -128,11 +151,6 @@ class Leave {
 	 *	Retrieves Leave Details of all leave that have been applied for but
 	 *	not yet taken.
 	 *
-	 *	Arguements
-	 *	----------
-	 *
-	 *		$empID	-	String	-	Employee ID of the format EMP999
-	 *
 	 *	Returns
 	 *	-------
 	 *
@@ -140,15 +158,15 @@ class Leave {
 	 *
 	 **/
 	
-	public function retriveLeaveEmployee() {
+	public function retriveLeaveEmployee($employeeId) {
 		
 		$sqlBuilder = new SQLQBuilder();
 		
-		$arrFields[0] = 'a.`Date_Applied`';
+		$arrFields[0] = 'a.`Leave_Date`';
 		$arrFields[1] = 'b.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`Status`';
+		$arrFields[2] = 'a.`Leave_Status`';
 		$arrFields[3] = 'a.`Leave_Length`';
-		$arrFields[4] = 'a.`subordinate_comments`';
+		$arrFields[4] = 'a.`Leave_Comments`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leavetype` b";		
@@ -156,10 +174,10 @@ class Leave {
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
 		
 		$selectConditions[0] = "b.`Available_Flag` = 1";
-		
-		$selectConditions[1] = "a.`Employee_Id` = '".$this->getEmployeeId()."'";
-		$selectConditions[2] = "a.`Status` != ".$this->statusLeaveCancelled." ";
-		$selectConditions[3] = "a.`Status` != ".$this->statusLeaveTaken." ";
+
+		$selectConditions[1] = "a.`Employee_Id` = '".$employeeId."'";
+		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
+		$selectConditions[3] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
 
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
@@ -173,7 +191,16 @@ class Leave {
 		$leaveArr = null;
 		
 		while ($row = mysql_fetch_row($result)) {
-			$leaveArr[] = $row;
+			
+			$tmpLeaveArr = new Leave();
+			
+			$tmpLeaveArr->setLeaveDate($row[0]);
+			$tmpLeaveArr->setLeaveTypeName($row[1]);
+			$tmpLeaveArr->setLeaveStatus($row[2]);
+			$tmpLeaveArr->setLeaveLength($row[3]);
+			$tmpLeaveArr->setLeaveComments($row[4]);
+			
+			$leaveArr[] = $tmpLeaveArr;
 		}
 		
 		return $leaveArr; 
@@ -182,6 +209,10 @@ class Leave {
 	/*
 	 *	Add Leave record to for a employee.
 	 *
+	 *	Returns
+	 *	-------
+	 *
+	 *	A 2D array of the leaves
 	 *
 	 **/
 	
@@ -212,10 +243,10 @@ class Leave {
 		$arrRecordsList[6] = "'". $this->getLeaveLength()."'";
 		$arrRecordsList[7] = $this->statusLeavePendingApproval;
 		$arrRecordsList[8] = "'". $this->getLeaveComments()."'";
-
 		
-		$sqlBuilder = new SQLQBuilder();		
-				
+		
+		$sqlBuilder = new SQLQBuilder();
+					
 		$arrTable = "`hs_hr_leave`";
 		
 		//print_r($arrRecordsList);	
@@ -257,7 +288,7 @@ class Leave {
 
 		$table = "`hs_hr_leave`";
 
-		$changeFields[0] = "`Status`";
+		$changeFields[0] = "`Leave_Status`";
 
 		$changeValues[0] = $this->getLeaveStatus();
 

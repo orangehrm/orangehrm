@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-define('ROOT_PATH', "D:/original codes/work/trunk/php/orangehrm");
+define('ROOT_PATH', "E:/moha/source/orangehrm/trunk/php/orangehrm");
 define('WPATH', "http://127.0.0.1/orangehrm");
 $_SESSION['WPATH'] = WPATH;
 
@@ -75,42 +75,64 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$this->classLeave->setLeaveTypeId("LTY010");
     	$this->classLeave->setLeaveTypeNameId("1");    	
     	$this->classLeave->setLeaveDate("2006-10-12");
-    	$this->classLeave->setLeaveLength("1");
+    	$this->classLeave->setLeaveLength("2");
     	$this->classLeave->setLeaveStatus("1");
     	$this->classLeave->setLeaveComments("Leave 1");
     	
     	$res = $this->classLeave->applyLeave();		
     	
-    	$res = $this->classLeave->retriveLeaveEmployee();
-        $expected[] = array(date('Y-m-d'), 'Medical', 1, 1, 'Leave 1');
+    	$res = $this->classLeave->retriveLeaveEmployee("EMP012");
+        $expected[0] = array("2006-10-12", 'Medical', 1, 2, 'Leave 1');
         
-        $this->assertEquals($res, $expected); 
+        for ($i=0; $i < count($expected); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Checking added / applied leave ");
+        }
         
         $this->classLeave->setLeaveComments("Leave 2");
+        $res = $this->classLeave->applyLeave();      
         
-        $res = $this->classLeave->retriveLeaveEmployee();   	
+        $res = $this->classLeave->retriveLeaveEmployee("EMP012");  
+        $expected[1] = array("2006-10-12", 'Medical', 1, 2, 'Leave 2'); 
+        
+        for ($i=0; $i < count($expected); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Checking added / applied leave ");
+        }	
     }
     
     public function testRetriveLeaveEmployee1() {
-        
-    	$this->classLeave->setEmployeeId("EMP101");
     	
-        $res = $this->classLeave->retriveLeaveEmployee();        
+        $res = $this->classLeave->retriveLeaveEmployee("EMP101");        
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
     }      
     
     public function testRetriveLeaveEmployeeAccuracy() {
-    	
-    	$this->classLeave->setEmployeeId("EMP011");
-        
-        $res = $this->classLeave->retriveLeaveEmployee();
-        
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 1');
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
 
+        $res = $this->classLeave->retriveLeaveEmployee("EMP011");
         
-        $this->assertEquals($res, $expected, "Didn't return expected result ");
+        $expected[0] = array('2006-10-17', 'Medical', 1, 1, 'Leave 1');
+        $expected[1] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2');
+        
+        $this->assertEquals($res, true, "No record found ");
+        
+        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        }
+       
     }
     
     public function testCancelLeaveAccuracy() {
@@ -126,13 +148,19 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $expected = false;
                 
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
-        
-        $this->classLeave->setEmployeeId("EMP011");
-        
-        $res = $this->classLeave->retriveLeaveEmployee();        
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');                
+                
+        $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
+        $expected[0] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2');                
 
-        $this->assertEquals($res, $expected, "Didn't return expected result ");
+        $this->assertEquals($res, true, "No record found ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[0]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        }
     }   
     
 
