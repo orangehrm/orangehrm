@@ -51,8 +51,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'ggfd', NULL)");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'ggfd', 'vdfs')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'Leave 1', NULL)");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'Leave 2', 'vdfs')");
     			
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 1, 'Medical', 1)");	
     }
@@ -81,9 +81,27 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     public function testRetriveLeaveEmployeeAccuracy() {
         
         $res = $this->classLeave->retriveLeaveEmployee("EMP011");
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'ggfd');
-        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'ggfd');
+        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 1');
+        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
         
+        $this->assertEquals($res, $expected);
+    }
+    
+    public function testCancelLeaveAccuracy() {
+        
+        $res = $this->classLeave->cancelLeave(10);
+        $expected = true;
+                
+        $this->assertEquals($res, $expected);
+    }
+    
+    public function testCancelLeaveAccuracy2() {
+        
+        $this->classLeave->cancelLeave(10);
+        
+        $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
+        $expected[] = array('2006-10-12', 'Medical', 1, 1, 'Leave 2');
+                
         $this->assertEquals($res, $expected);
     }
 }

@@ -1007,15 +1007,9 @@ function getCurrencyAssigned($salgrd) {
 	
 	
 	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinType = "LEFT") {
-		$query = "SELECT ";
+		$query = $this->_buildSelect($arrFields);
 		
-		foreach ($arrFields as $arrField) {
-			$query .= $arrField." , ";
-		}
-		
-		$query = $this->_trimLastChar($query);
-		
-		$query .= "FROM ";
+		$query .= " FROM ";
 		
 		$joins = $arrTables[0];
 		
@@ -1023,23 +1017,101 @@ function getCurrencyAssigned($salgrd) {
 			$joins = "( ".$joins." ".$joinType." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) )";
 		}
 		
-		$query .= $joins." WHERE ";
-		
-		foreach ($selectConditions as $selectCondition) {
-			$query .= $selectCondition." AND ";
-		}
-		
-		$query = $this->_trimLastChar($query, "AND");
+		$query .= $joins.$this->_buildWhere($selectConditions);
 		
 		return $query;
 	}
 	
-	function _trimLastChar($str, $char = ",") {
+	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions) {
 		
-		$str = preg_replace("/".$char."$/", "", trim($str));
+		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
+		
+		return $query;		
+	}	
+	
+	function _buildWhere($selectConditions) {
+		
+		$query = "WHERE ".$this->_buildList($selectConditions, "AND");		
+		
+		return $query;		
+	}
+	
+	function _buildSelect($arrFields) {
+		
+		$query = "SELECT ".$this->_buildList($arrFields);		
+
+		return $query;
+	}
+	
+	function _buildSet($arrFields, $arrValues) {
+		
+		$query = "SET".$this->_buildFormattedList($arrFields, $arrValues, "=");		
+
+		return $query;
+	}
+	
+	function _buildFormattedList($arrFields, $arrValues, $strJoiner, $strPrepend = "", $strAppend = "") {
+		
+		$query = "";
+		
+		for ($i=0; $i < count($arrFields); $i++) {
+			$query = sprintf(" %s %s %s %s ", $strPrepend, $arrFields[$i], $strJoiner, $arrValues[$i], $strAppend);
+		}
+		
+		return $query;			
+	}	
+	
+	/*
+	 *	Handy function to build a list out of an array
+	 *	Can be used in building all types of SQL statements
+	 *	
+	 *	Arguements
+	 *	----------
+	 *	
+	 *	$arrLists 	-	1D array	-	Array of the values (mixed)
+	 *	$strJoiner	-	String		-	String to be used in joining
+	 *
+	 *	Return
+	 *	------
+	 *	
+	 *	String that can be used in a SQL statements
+	 *	E.x. filed1, filed2, filed3
+	 *
+	 **/
+	
+	function _buildList($arrList, $strJoiner=",") {
+		
+		$query = implode(" $strJoiner ", $arrList);		
+		
+		$query = $this->_trimLastChar($query, $strJoiner);
+
+		return $query;
+		
+	}
+	
+	/*
+	 *	Trims a string of the glue word used to join array elements.
+	 *	used in function _buildList
+	 *	
+	 *	Arguements
+	 *	----------
+	 *	
+	 *	$subject 	-	String	-	String to be trimmed
+	 *	$strJoiner	-	String	-	String to used in joining
+	 *
+	 *	Return
+	 *	------
+	 *	
+	 *	String with last glue word removed
+	 *	
+	 *
+	 **/
+	
+	function _trimLastChar($subject, $strJoiner = ",") {
+		
+		$str = preg_replace("/".$strJoiner."$/", "", trim($subject));
 
 		return $str;	
 	}
-
 }
 ?>

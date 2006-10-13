@@ -34,7 +34,7 @@ class Leave {
 	 *	Arguements
 	 *	----------
 	 *
-	 *		$empID	-	String	-	Employee ID of the format EMP999
+	 *		$employeeID	-	String	-	Employee ID of the format EMP999
 	 *
 	 *	Returns
 	 *	-------
@@ -43,7 +43,7 @@ class Leave {
 	 *
 	 **/
 	
-	public function retriveLeaveEmployee($empID) {
+	public function retriveLeaveEmployee($employeeID) {
 		
 		$sqlBuilder = new SQLQBuilder();
 		
@@ -59,11 +59,14 @@ class Leave {
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
 		
 		$selectConditions[0] = "b.`Available_Flag` = 1";
-		$selectConditions[1] = "a.`Employee_Id` = '$empID'";
+		$selectConditions[1] = "a.`Employee_Id` = '$employeeID'";
 		$selectConditions[2] = "a.`Status` != 0";
+		$selectConditions[3] = "a.`Status` != 3";
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 				
+		//echo $query."\n";
+		
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
@@ -75,7 +78,53 @@ class Leave {
 		}
 		
 		return $leaveArr; 
-	}	
+	}
+	
+	/*
+	 *	Marks the status to be cancelled
+	 *
+	 *	Arguements
+	 *	----------
+	 *
+	 *		$leaveID	-	Integer/String	-	Leave ID of integer
+	 *
+	 *	Returns
+	 *	-------
+	 *
+	 *	A 2D array of the leaves
+	 *
+	 **/
+	
+	public function cancelLeave($leaveID) {
+		return $this->_changeLeaveStatus($leaveID, "0");
+	}
+	
+	private function _changeLeaveStatus($leaveID, $status="3") {
+		
+		$sqlBuilder = new SQLQBuilder();
+		
+		$table = "`hs_hr_leave`";
+		
+		$changeFields[0] = "`Status`";
+		
+		$changeValues[0] = $status;
+		
+		$updateConditions[0] = "`Leave_ID` = $leaveID";
+		
+		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
+		
+		//echo $query."\n";
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		if (isset($result) && $result) {
+			return true;
+		};
+		
+		return false;	
+	}
 }
 
 ?>
