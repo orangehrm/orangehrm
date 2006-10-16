@@ -178,9 +178,7 @@ class Leave {
 
 		$selectConditions[1] = "a.`Employee_Id` = '".$employeeId."'";
 		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
-		$selectConditions[3] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
-
-		
+				
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
 		//echo $query;
