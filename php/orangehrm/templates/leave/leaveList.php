@@ -25,8 +25,19 @@
  $lan = new Language();
  
  require_once($lan->getLangPath("leave/leaveList.php")); 
+ if (isset($_GET['message'])) {
 ?>
+<var><?php echo $_GET['message']; ?></var>
+<?php } ?>
 <h3><?php echo $lang_Title?></h3>
+<?php 
+	if (!is_array($records)) { 
+?>
+	<h5>No records found!</h5>
+<?php
+	}
+?>
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelLeave">
 <table border="1" cellpadding="2" cellspacing="0">
   <thead>
   	<tr>
@@ -37,11 +48,41 @@
     	<th><?php echo $lang_Comments;?></th>
 	</tr>
   </thead>
+  <tbody>
+<?php
+	if (is_array($records))
+		foreach ($records as $record) {
+?> 
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td><?php echo $record->getLeaveDate(); ?></td>
+    <td><?php echo $record->getLeaveTypeName(); ?></td>
+    <td><?php 
+   			$statusArr = array($record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
+   			
+   			//sort($statusArr);
+   			    		
+    		if (($record->getLeaveStatus() == 1) || ($record->getLeaveStatus() == 2)) {
+    	?>
+    			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
+    			<select name="cmbStatus[]">
+  					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
+  					<option value="0">Cancel</option>
+  				</select>
+    	<?php		
+    		} else {
+    			echo $statusArr[$record->getLeaveStatus()];
+    		}
+    		
+    		?></td>
+    <td><?php echo $record->getLeaveLength(); ?></td>
+    <td><?php echo $record->getLeaveComments(); ?></td>
   </tr>
+
+<?php 	
+		}
+?>	
+  </tbody>
 </table>
+
+<input type="submit" name="Save" value="Save" />
+</form>

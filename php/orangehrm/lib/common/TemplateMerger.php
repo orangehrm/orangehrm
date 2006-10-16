@@ -54,6 +54,8 @@ class TemplateMerger {
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 		
+		$records = $this->getObj();		
+		
 		require_once ROOT_PATH . $this->getTemplateHeader();
 		require_once ROOT_PATH . $this->getTemplatePath();
 		require_once ROOT_PATH . $this->getTemplateFooter();		

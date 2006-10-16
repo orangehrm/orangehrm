@@ -30,10 +30,10 @@ class Leave {
 	 *
 	 **/
 	
-	private $statusLeaveCancelled = 0;
-	private $statusLeavePendingApproval = 1;
-	private $statusLeaveApproved = 2;
-	private $statusLeaveTaken = 3;
+	public  $statusLeaveCancelled = 0;
+	public $statusLeavePendingApproval = 1;
+	public $statusLeaveApproved = 2;
+	public $statusLeaveTaken = 3;
 	
 	/*
 	 *	Class Attributes
@@ -160,13 +160,14 @@ class Leave {
 	
 	public function retriveLeaveEmployee($employeeId) {
 		
-		$sqlBuilder = new SQLQBuilder();
+		$sqlBuilder = new SQLQBuilder();		
 		
 		$arrFields[0] = 'a.`Leave_Date`';
 		$arrFields[1] = 'b.`Leave_Type_Name`';
 		$arrFields[2] = 'a.`Leave_Status`';
 		$arrFields[3] = 'a.`Leave_Length`';
 		$arrFields[4] = 'a.`Leave_Comments`';
+		$arrFields[5] = 'a.`Leave_ID`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leavetype` b";		
@@ -193,12 +194,13 @@ class Leave {
 		while ($row = mysql_fetch_row($result)) {
 			
 			$tmpLeaveArr = new Leave();
-			
+						
 			$tmpLeaveArr->setLeaveDate($row[0]);
 			$tmpLeaveArr->setLeaveTypeName($row[1]);
 			$tmpLeaveArr->setLeaveStatus($row[2]);
 			$tmpLeaveArr->setLeaveLength($row[3]);
 			$tmpLeaveArr->setLeaveComments($row[4]);
+			$tmpLeaveArr->setLeaveId($row[5]);
 			
 			$leaveArr[] = $tmpLeaveArr;
 		}
@@ -222,7 +224,8 @@ class Leave {
 		$this->_addLeave();
 	}
 
-	public function cancelLeave() {
+	public function cancelLeave($id) {
+		$this->setLeaveId($id);
 		$this->setLeaveStatus($this->statusLeaveCancelled);
 		return $this->_changeLeaveStatus();
 	}	

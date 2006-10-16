@@ -136,15 +136,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testCancelLeaveAccuracy() {
-    	
-    	$this->classLeave->setLeaveId(10);
-        
-        $res = $this->classLeave->cancelLeave();
+    	        
+        $res = $this->classLeave->cancelLeave(10);
         $expected = true;
                 
         $this->assertEquals($res, $expected, "Cancel of leave failed ");
         
-        $res = $this->classLeave->cancelLeave();
+        $res = $this->classLeave->cancelLeave(10);
         $expected = false;
                 
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
@@ -161,8 +159,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
         	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
         }
-    }   
-    
+    }    
 
 }
 

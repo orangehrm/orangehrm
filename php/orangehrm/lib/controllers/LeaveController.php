@@ -55,27 +55,56 @@ class LeaveController {
 	
 	//public function
 
-	public function viewLeaves($id, $modifier="employee") {
-		$this->setObjLeave(new Leave());
-		$this->setId($id);	
+	public function viewLeaves($modifier="employee") {
+		$this->setObjLeave(new Leave());		
 			
 		switch ($modifier) {
 			case "employee": $this->_viewLeavesEmployee();
 		}
 	}
 	
+	public function changeStatus($modifier="cancel") {
+		$this->setObjLeave(new Leave());
+		
+		switch ($modifier) {
+			case "cancel": $res = $this->_cancelLeave();
+		}
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
+		
+		//$this->redirect($message);
+	}
+	
 	private function _viewLeavesEmployee() {
 		$tmpObj = $this->getObjLeave();
-		$tmpObj->retriveLeaveEmployee($this->getId());
+		$tmpObj = $tmpObj->retriveLeaveEmployee($this->getId());
 		
 		$path = "/templates/leave/leaveList.php";
 		
 		$template = new TemplateMerger($tmpObj, $path);
 		
-		$template->display();
-		
+		$template->display();		
 	}
 	
-	
+	private function _cancelLeave() {
+		$tmpObj = $this->getObjLeave();
+		
+		return $tmpObj->cancelLeave($this->getId());		
+	}
+
+	public function redirect($message=null) {
+		if (isset($message)) {
+			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
+				$message = "&message=".$message;
+			} else {
+				$message = "?message=".$message;
+			}
+		}
+		header("Location: ".$_SERVER['HTTP_REFERER'].$message);
+	}
 }
 ?>

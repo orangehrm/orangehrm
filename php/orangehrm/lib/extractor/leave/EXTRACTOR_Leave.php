@@ -48,5 +48,19 @@ class EXTRACTOR_Leave {
 		return $this->parent_Leave;
 	}
 	
+	public function parseDeleteData($postArr) {
+		
+		for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
+			if ($postArr['cmbStatus'][$i] == 0) {
+				$tmpObj = new Leave();
+				$tmpObj->setLeaveId($postArr['id'][$i]);
+				
+				$objLeave[] = $tmpObj;
+			}
+		}
+		
+		return $objLeave;		
+	}
+	
 }
 ?>

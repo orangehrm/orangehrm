@@ -23,12 +23,19 @@
  *
  **/
  
- $lang_Title		=	"Leave List";
+ $lang_Title			=	"Leave List";
  
- $lang_Date			=	"Date";
- $lang_LeaveType	=	"Leave Type";
- $lang_Status		=	"Status";
- $lang_Length		=	"Full Day/Haf Day";
- $lang_Comments		=	"Comments";
+ $lang_Date				=	"Date";
+ $lang_LeaveType		=	"Leave Type";
+ $lang_Status			=	"Status";
+ $lang_Length			=	"Full Day/Haf Day";
+ $lang_Comments			=	"Comments";
+ 
+ $lang_Approved			=	"Approved";
+ $lang_Cancelled		=	"Cancelled";
+ $lang_PendingApproval	=	"Pending Approval";
+ $lang_Taken			=	"Taken";
+ 
+ $lang_InvalidStatus	=	"Invalid Status";
 
 ?>
