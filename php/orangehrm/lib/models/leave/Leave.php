@@ -58,7 +58,7 @@ class Leave {
 	 **/
 
 	public function __construct() {
-		// nothing to do
+		// nothing to do		
 	}
 	
 	/*

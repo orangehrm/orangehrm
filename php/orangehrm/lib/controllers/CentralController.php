@@ -18,6 +18,7 @@ require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/controllers/MTViewController.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/controllers/RepViewController.php';
+require_once ROOT_PATH . '/lib/controllers/LeaveController.php';
 
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_BankInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_TaxInfo.php';
@@ -1053,8 +1054,17 @@ switch ($moduletype) {
 										}
 	
 	case 'leave'	:	switch ($_GET['leavecode']) {
-							case 'Leave':	if (isset($_GET['action']) && ($_GET['action'] === "Leave_FetchLeaveEmployee")) {
-												echo 1;
+							case 'Leave':	if (isset($_GET['action'])) {
+								
+												$leaveController = new LeaveController();
+												
+												switch ($_GET['action']) {
+													case 'Leave_FetchLeaveEmployee' : $leaveController->viewLeaves($_GET['id']);
+																						break;
+													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
+												}
+											} else {
+												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
 			
 											break;

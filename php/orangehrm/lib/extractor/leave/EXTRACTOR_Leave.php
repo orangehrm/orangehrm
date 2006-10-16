@@ -1,4 +1,5 @@
-<?
+<?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
@@ -19,63 +20,33 @@
  *
  */
 
-
-//the model objects are included here
-
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 
-require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
-
-class LeaveController {
+class EXTRACTOR_Leave {
 	
-	private $indexCode;
-	private $id;
-	private $objLeave;
+	private $parent_Leave;
 	
-	public function setId($id) {
-		$this->id = $id;
-	}
-	
-	public function getId() {
-		return $this->id;
-	}
-	
-	public function setObjLeave($obj) {
-		$this->objLeave = $obj;
-	}
-	
-	public function getObjLeave() {
-		return $this->objLeave;
+	function __construct() {
+		$this->parent_Leave = new Leave();
 	}
 
-
-	public function __construct() {
-		//nothing to do
+	public function parseAddData($postArr) {	
+		
+		$this->parent_Leave->setEmployeeId($postArr['txtEmployeeId']);
+		$this->parent_Leave->setLeaveDate($postArr['txtLeaveTypeId']);
+		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
+		
+		return $this->parent_Leave;
 	}
-	
-	//public function
-
-	public function viewLeaves($id, $modifier="employee") {
-		$this->setObjLeave(new Leave());
-		$this->setId($id);	
 			
-		switch ($modifier) {
-			case "employee": $this->_viewLeavesEmployee();
-		}
+	public function parseEditData($postArr) {	
+			
+		$this->parent_Leave->setEmployeeId($postArr['txtEmployeeId']);
+		$this->parent_Leave->setLeaveDate($postArr['txtLeaveTypeId']);			
+		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
+		
+		return $this->parent_Leave;
 	}
-	
-	private function _viewLeavesEmployee() {
-		$tmpObj = $this->getObjLeave();
-		$tmpObj->retriveLeaveEmployee($this->getId());
-		
-		$path = "/templates/leave/leaveList.php";
-		
-		$template = new TemplateMerger($tmpObj, $path);
-		
-		$template->display();
-		
-	}
-	
 	
 }
 ?>

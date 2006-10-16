@@ -82,8 +82,16 @@ define('LANG_DIR','/language');
 	}
 	//echo $lang;
 	
-	// include '../Language1/'.$lang.'/lang_'.$lang.'.php' ;	
-	$path = ROOT_PATH . LANG_DIR .'/'.$lang .'/lang_'.$lang.'_'.$template; //dirname(__FILE__)
+	// include '../Language1/'.$lang.'/lang_'.$lang.'.php' ;
+	$tempPath = dirname($template);
+	
+	if ($tempPath !== ".") {
+		$tempPath = "/".$tempPath;
+	} else {
+		$tempPath = "";
+	}
+	
+	$path = ROOT_PATH . LANG_DIR .'/'.$lang .$tempPath.'/lang_'.$lang.'_'.basename($template); //dirname(__FILE__)
 	  
 	     
 	    return $path;
