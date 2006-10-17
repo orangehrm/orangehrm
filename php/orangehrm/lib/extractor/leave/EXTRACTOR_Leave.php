@@ -32,9 +32,11 @@ class EXTRACTOR_Leave {
 
 	public function parseAddData($postArr) {	
 		
-		$this->parent_Leave->setEmployeeId($postArr['txtEmployeeId']);
-		$this->parent_Leave->setLeaveDate($postArr['txtLeaveTypeId']);
+		$this->parent_Leave->setEmployeeId($postArr[$_SESSION['empID']]);
+		$this->parent_Leave->setLeaveDate($postArr['sltLeaveType']);
 		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
+		$this->parent_Leave->setEmployeeId($postArr['sltLeaveLength']);
+		$this->parent_Leave->setLeaveDate($postArr['txtComments']);
 		
 		return $this->parent_Leave;
 	}

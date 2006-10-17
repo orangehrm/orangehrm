@@ -22,6 +22,7 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
 class Leave {
 	
@@ -30,7 +31,7 @@ class Leave {
 	 *
 	 **/
 	
-	public  $statusLeaveCancelled = 0;
+	public $statusLeaveCancelled = 0;
 	public $statusLeavePendingApproval = 1;
 	public $statusLeaveApproved = 2;
 	public $statusLeaveTaken = 3;
@@ -233,9 +234,10 @@ class Leave {
 	private function _addLeave() {
 		
 		$this->_getNewLeaveId();
+		$this->_getLeaveNameTypeId();
 		$this->setDateApplied(date('Y-m-d'));
 		
-		$arrRecordsList[0] = $this->getLeaveId($this->_getNewLeaveId());
+		$arrRecordsList[0] = $this->getLeaveId();
 		$arrRecordsList[1] = "'". $this->getEmployeeId() . "'";
 		$arrRecordsList[2] = "'".$this->getLeaveTypeId()."'";
 		$arrRecordsList[3] = $this->getLeaveTypeNameId();
@@ -308,6 +310,27 @@ class Leave {
 		};
 
 		return false; 
+	}
+	
+	private function _getLeaveNameTypeId() {
+		
+		$sql_builder = new SQLQBuilder();
+		$leave_Type  = new LeaveType();
+		
+		$selectTable = "`hs_hr_leavetype`";		
+		$selectFields[0] = '`Leave_Type_Name_ID`';
+    	$updateConditions[0] = "`Available_Flag` = ".$leave_Type->avalableStatuFlag;
+    	$updateConditions[1] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+    	    	
+    	$query = $sql_builder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
+		//echo $query;
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$row = mysql_fetch_row($result);
+		
+		$this->setLeaveTypeNameId($row[0]);
 	}
 }
 

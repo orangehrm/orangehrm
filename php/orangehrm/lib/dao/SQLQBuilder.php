@@ -1051,7 +1051,7 @@ function getCurrencyAssigned($salgrd) {
 		if (isset($selectLimit)) {
 			$query .= " LIMIT $selectLimit";
 		}
-		
+
 		return $query;		
 	}
 	

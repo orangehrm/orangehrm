@@ -106,5 +106,10 @@ class LeaveController {
 		}
 		header("Location: ".$_SERVER['HTTP_REFERER'].$message);
 	}
+	
+	public function addLeave() {
+		$tmpObj = $this->getObjLeave();
+		$res = $tmpObj->applyLeave();
+	}
 }
 ?>

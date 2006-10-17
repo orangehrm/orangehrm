@@ -1073,12 +1073,16 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect("SUCCESS");
 																						break;
+													case 'Leave_Apply'				: 	$obj = $leaveExtractor->parseAddData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->addLeave();
+																						break;
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
-			
+										
 											break;
 	
 							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
