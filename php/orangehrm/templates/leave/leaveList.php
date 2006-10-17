@@ -51,11 +51,11 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
-    	<th class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
-    	<th class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
-    	<th class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
-    	<th class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
+    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
+    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
+    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>
@@ -73,9 +73,9 @@
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td width="100px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveDate(); ?></td>
-    <td width="100px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
-    <td width="200px" class="<?php echo $cssClass; ?>"><?php 
+    <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveDate(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php 
    			$statusArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
    			
    			//sort($statusArr);
@@ -93,7 +93,7 @@
     		}
     		
     		?></td>
-    <td width="200px" class="<?php echo $cssClass; ?>"><?php 
+    <td class="<?php echo $cssClass; ?>"><?php 
     		$leaveLength = null;
     		switch ($record->getLeaveLength()) { 
     			case $record->lenthFullDay :	$leaveLength = $lang_FullDay;
@@ -104,7 +104,7 @@
     		
     		echo $leaveLength;			
     ?></td>
-    <td width="200px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveComments(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveComments(); ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
 
