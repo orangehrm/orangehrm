@@ -51,6 +51,7 @@ class EXTRACTOR_Leave {
 	}
 	
 	public function parseDeleteData($postArr) {
+		$objLeave = null;
 		
 		for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
 			if ($postArr['cmbStatus'][$i] == 0) {

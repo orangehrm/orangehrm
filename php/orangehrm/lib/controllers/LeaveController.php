@@ -100,11 +100,13 @@ class LeaveController {
 		if (isset($message)) {
 			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
 				$message = "&message=".$message;
+				$url = preg_split('/(&||\?)message=[A-Za-z0-9]*/', $_SERVER['HTTP_REFERER']);				
 			} else {
 				$message = "?message=".$message;
 			}
-		}
-		header("Location: ".$_SERVER['HTTP_REFERER'].$message);
+		}		
+		
+		header("Location: ".$url[0].$message);
 	}
 	
 	public function addLeave() {

@@ -30,11 +30,22 @@ class Leave {
 	 *	Leave Status Constants
 	 *
 	 **/
-	
+
+	public $statusLeaveRejected = -1;
 	public $statusLeaveCancelled = 0;
 	public $statusLeavePendingApproval = 1;
 	public $statusLeaveApproved = 2;
 	public $statusLeaveTaken = 3;
+	
+	/*
+	 *
+	 *	Leave Length Constant
+	 *
+	 **/
+	
+	public $lenthFullDay = 8;
+	public $lengthHalfDay = 4;
+	
 	
 	/*
 	 *	Class Attributes

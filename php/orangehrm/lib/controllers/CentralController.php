@@ -1066,6 +1066,7 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves();
 																						break;
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
+																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());

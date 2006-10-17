@@ -34,8 +34,12 @@
  $lang_Approved			=	"Approved";
  $lang_Cancelled		=	"Cancelled";
  $lang_PendingApproval	=	"Pending Approval";
+ $lang_Rejected			=	"Rejected";
  $lang_Taken			=	"Taken";
  
  $lang_InvalidStatus	=	"Invalid Status";
+ 
+ $lang_FullDay			=	"Full Day";
+ $lang_HalfDay			= 	"Half Day";
 
 ?>

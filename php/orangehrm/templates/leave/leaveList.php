@@ -38,26 +38,45 @@
 	}
 ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelLeave">
-<table border="1" cellpadding="2" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
-    	<th><?php echo $lang_Date;?></th>
-    	<th><?php echo $lang_LeaveType;?></th>
-    	<th><?php echo $lang_Status;?></th>
-    	<th><?php echo $lang_Length;?></th>
-    	<th><?php echo $lang_Comments;?></th>
+		<th class="tableTopLeft"></th>	
+    	<th class="tableTopMiddle"></th>
+    	<th class="tableTopMiddle"></th>
+    	<th class="tableTopMiddle"></th>
+    	<th class="tableTopMiddle"></th>
+    	<th class="tableTopMiddle"></th>
+		<th class="tableTopRight"></th>	
+	</tr>
+	<tr>
+		<th class="tableMiddleLeft"></th>	
+    	<th class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<th class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
+    	<th class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
+    	<th class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
+    	<th class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
+		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>
   <tbody>
 <?php
+	$j = 0;
 	if (is_array($records))
 		foreach ($records as $record) {
+			if(!($j%2)) { 
+				$cssClass = 'odd';
+			 } else {
+			 	$cssClass = 'even';
+			 }
+			 $j++;
 ?> 
   <tr>
-    <td><?php echo $record->getLeaveDate(); ?></td>
-    <td><?php echo $record->getLeaveTypeName(); ?></td>
-    <td><?php 
-   			$statusArr = array($record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
+  	<td class="tableMiddleLeft"></td>
+    <td width="100px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveDate(); ?></td>
+    <td width="100px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
+    <td width="200px" class="<?php echo $cssClass; ?>"><?php 
+   			$statusArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
    			
    			//sort($statusArr);
    			    		
@@ -74,15 +93,38 @@
     		}
     		
     		?></td>
-    <td><?php echo $record->getLeaveLength(); ?></td>
-    <td><?php echo $record->getLeaveComments(); ?></td>
+    <td width="200px" class="<?php echo $cssClass; ?>"><?php 
+    		$leaveLength = null;
+    		switch ($record->getLeaveLength()) { 
+    			case $record->lenthFullDay :	$leaveLength = $lang_FullDay;
+    											break; 
+    			case $record->lengthHalfDay:	$leaveLength = $lang_HalfDay;
+    											break; 	
+    		}
+    		
+    		echo $leaveLength;			
+    ?></td>
+    <td width="200px" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveComments(); ?></td>
+	<td class="tableMiddleRight"></td>
   </tr>
 
 <?php 	
 		}
 ?>	
   </tbody>
+  <tfoot>
+  	<tr>
+		<td class="tableBottomLeft"></td>
+		<td class="tableBottomMiddle"></td>
+		<td class="tableBottomMiddle"></td>
+		<td class="tableBottomMiddle"></td>
+		<td class="tableBottomMiddle"></td>
+		<td class="tableBottomMiddle"></td>
+		<td class="tableBottomRight"></td>
+	</tr>
+  </tfoot>
 </table>
-
-<input type="submit" name="Save" value="Save" />
+<p id="controls">
+<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.jpg"/>
+</p>
 </form>
