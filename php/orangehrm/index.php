@@ -320,6 +320,29 @@ function setSize() {
                   </table></td>
                   <? } 
                   }
+                  
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  
+					?>
+                  <td style="background-image : url();" ></td>
+                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" >Leave Module</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } else { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=leave">Leave Module</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <? } 
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  
 									
 					?>
@@ -406,14 +429,23 @@ function setSize() {
 <?                  if($arrRights['repDef']) {?>
 						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Employee Reports</A></li>
 <?					}
-					} ?>
+					} else ?>
 					</ul>						
                       </TD>
+<?			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave" )) { ?>
+             <TD width=158>
+                        <!--<A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
+                        <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
-<?		/*} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" || $_GET['menu_swapImgRestore()no_top']=="ess")) {  ?>
-                  <TD height="800" bgcolor="#FFB121" width=158><p><br>
-                    </p></TD>   ?>
-<?			} else */ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
+                      <ul id="menu">
+  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee&id=<?php echo $_SESSION['empID'];?>" target="rightMenu">Leave List</a></li>
+					</ul>
+			</TD>         
+<?			}
+			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
 				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>
 <?			} /*elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess") )  {  ?>
@@ -682,6 +714,8 @@ function setSize() {
               <iframe src="./lib/controllers/CentralController.php?reqcode=ESS&id=<?=$_SESSION['empID']?>&capturemode=updatemode" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?=$_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>        
+<?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  ?>
+              <iframe src="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee&id=<?php echo $_SESSION['empID'];?>" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
          <? } ?>
             
             </td>

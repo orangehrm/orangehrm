@@ -22,6 +22,9 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
 class Leave {
@@ -62,6 +65,8 @@ class Leave {
 	private $leaveLength;
 	private $leaveStatus;
 	private $leaveComments;
+	
+	private $employeeName;
 	
 	/*
 	 *
@@ -157,11 +162,19 @@ class Leave {
 	
 	public function getLeaveComments() {
 		return $this->leaveComments;
-	}	
+	}
+
+	public function setEmployeeName($employeeName) {
+		$this->employeeName = $employeeName;
+	}
+	
+	public function  getEmployeeName() {
+		return $this->employeeName;
+	}
 
 	/*
 	 *	Retrieves Leave Details of all leave that have been applied for but
-	 *	not yet taken.
+	 *	not yet taken of the employee.
 	 *
 	 *	Returns
 	 *	-------
@@ -199,24 +212,63 @@ class Leave {
 
 		$result = $dbConnection -> executeQuery($query);
 		
-		$leaveArr = null;
-		
-		while ($row = mysql_fetch_row($result)) {
-			
-			$tmpLeaveArr = new Leave();
-						
-			$tmpLeaveArr->setLeaveDate($row[0]);
-			$tmpLeaveArr->setLeaveTypeName($row[1]);
-			$tmpLeaveArr->setLeaveStatus($row[2]);
-			$tmpLeaveArr->setLeaveLength($row[3]);
-			$tmpLeaveArr->setLeaveComments($row[4]);
-			$tmpLeaveArr->setLeaveId($row[5]);
-			
-			$leaveArr[] = $tmpLeaveArr;
-		}
+		$leaveArr = $this->_buildObjArr($result);
 		
 		return $leaveArr; 
-	}	
+	}
+
+	/*
+	 *	Retrieves Leave Details of all leave that have been applied for but
+	 *	not yet taken.
+	 *
+	 *	Returns
+	 *	-------
+	 *
+	 *	A 2D array of the leaves
+	 *
+	 **/
+	
+	public function retriveLeaveSupervisor($supervisorId) {
+		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$arrFields[0] = 'a.`Leave_Date`';
+		$arrFields[1] = 'b.`Leave_Type_Name`';
+		$arrFields[2] = 'a.`Leave_Status`';
+		$arrFields[3] = 'a.`Leave_Length`';
+		$arrFields[4] = 'a.`Leave_Comments`';
+		$arrFields[5] = 'a.`Leave_ID`';		
+		$arrFields[6] = 'd.`emp_firstname`';
+		
+		$arrTables[0] = "`hs_hr_leave` a";
+		$arrTables[1] = "`hs_hr_leavetype` b";
+		$arrTables[2] = "`hs_hr_emp_reportto` c";
+		$arrTables[3] = "`hs_hr_employee` d";		
+		
+		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
+		$joinConditions[2] = "a.`Employee_Id` = c.`erep_sub_emp_number`";
+		$joinConditions[3] = "a.`Employee_Id` = d.`emp_number`";
+		
+		$selectConditions[0] = "b.`Available_Flag` = 1";
+
+		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
+		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
+		$selectConditions[3] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
+		$selectConditions[4] = "a.`Leave_Status` != ".$this->statusLeaveRejected;
+				
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		
+		//echo $query;
+				
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+				
+		$leaveArr = $this->_buildObjArr($result, true);
+		
+		return $leaveArr; 
+	}
+	
 	
 	/*
 	 *	Add Leave record to for a employee.
@@ -256,8 +308,7 @@ class Leave {
 		$arrRecordsList[5] = "'". $this->getLeaveDate()."'";
 		$arrRecordsList[6] = "'". $this->getLeaveLength()."'";
 		$arrRecordsList[7] = $this->statusLeavePendingApproval;
-		$arrRecordsList[8] = "'". $this->getLeaveComments()."'";
-		
+		$arrRecordsList[8] = "'". $this->getLeaveComments()."'";		
 		
 		$sqlBuilder = new SQLQBuilder();
 					
@@ -342,6 +393,31 @@ class Leave {
 		$row = mysql_fetch_row($result);
 		
 		$this->setLeaveTypeNameId($row[0]);
+	}
+		
+	private function _buildObjArr($result, $supervisor=false) {
+		
+		$objArr = null;
+		
+		while ($row = mysql_fetch_row($result)) {
+			
+			$tmpLeaveArr = new Leave();
+						
+			$tmpLeaveArr->setLeaveDate($row[0]);
+			$tmpLeaveArr->setLeaveTypeName($row[1]);
+			$tmpLeaveArr->setLeaveStatus($row[2]);
+			$tmpLeaveArr->setLeaveLength($row[3]);
+			$tmpLeaveArr->setLeaveComments($row[4]);
+			$tmpLeaveArr->setLeaveId($row[5]);
+			
+			if ($supervisor) {
+				$tmpLeaveArr->setEmployeeName($row[6]);
+			}
+			
+			$objArr[] = $tmpLeaveArr;
+		}
+		
+		return $objArr;
 	}
 }
 

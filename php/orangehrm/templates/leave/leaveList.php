@@ -53,9 +53,9 @@
 		<th class="tableMiddleLeft"></th>	
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
-    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
-    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
-    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>

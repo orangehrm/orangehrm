@@ -53,7 +53,12 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
-    			
+    	
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+
+		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('EMP012', 'EMP011', 1);");	
+		
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 1, 'Medical', 1)");	
     }
 
@@ -65,7 +70,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	   	
-    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);    	
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
+    	
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
+    	
+    	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = 'EMP012' AND `erep_sub_emp_number` = 'EMP011'", $this->connection);
+    	    	
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);    	
     }
 
@@ -112,7 +123,36 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $res = $this->classLeave->retriveLeaveEmployee("EMP101");        
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
-    }      
+    }
+
+    public function testRetriveLeaveSupervisor1() {
+    	
+        $res = $this->classLeave->retriveLeaveSupervisor("EMP041");        
+        
+        $this->assertEquals($res, null, "Retured non exsistant record ");
+    }
+    
+    public function testRetriveLeaveSupervisorAccuracy() {
+
+        $res = $this->classLeave->retriveLeaveSupervisor("EMP012");
+        
+        $expected[0] = array('2006-10-17', 'Medical', 1, 1, 'Leave 1', 'Subasinghe');
+        $expected[1] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2', 'Subasinghe');
+        
+        $this->assertEquals($res, true, "No record found ");
+        
+        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getEmployeeName(), $expected[$i][5], "Didn't return expected result ");
+        }
+       
+    }
     
     public function testRetriveLeaveEmployeeAccuracy() {
 
