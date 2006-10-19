@@ -41,14 +41,11 @@ class Leave {
 	public $statusLeaveTaken = 3;
 	
 	/*
-	 *
-	 *	Leave Length Constant
+	 *	Leave Length Constants
 	 *
 	 **/
-	
-	public $lenthFullDay = 8;
-	public $lengthHalfDay = 4;
-	
+	public $fulldayStatusFlag = 8;
+	public $halfdayStatusFlag = 4;
 	
 	/*
 	 *	Class Attributes
@@ -65,15 +62,15 @@ class Leave {
 	private $leaveLength;
 	private $leaveStatus;
 	private $leaveComments;
-	
 	private $employeeName;
 	
+
 	/*
 	 *
 	 *	Class Constructor
 	 *
 	 **/
-
+	
 	public function __construct() {
 		// nothing to do		
 	}
@@ -296,9 +293,11 @@ class Leave {
 
 	private function _addLeave() {
 		
+
 		$this->_getNewLeaveId();
 		$this->_getLeaveNameTypeId();
 		$this->setDateApplied(date('Y-m-d'));
+
 		
 		$arrRecordsList[0] = $this->getLeaveId();
 		$arrRecordsList[1] = "'". $this->getEmployeeId() . "'";
@@ -394,6 +393,7 @@ class Leave {
 		
 		$this->setLeaveTypeNameId($row[0]);
 	}
+
 		
 	private function _buildObjArr($result, $supervisor=false) {
 		
@@ -419,6 +419,7 @@ class Leave {
 		
 		return $objArr;
 	}
+
 }
 
 ?>

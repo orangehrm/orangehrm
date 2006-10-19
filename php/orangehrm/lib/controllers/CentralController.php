@@ -1078,6 +1078,9 @@ switch ($moduletype) {
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
 																						break;
+													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo ();
+
+																						break;
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}
 											} else {

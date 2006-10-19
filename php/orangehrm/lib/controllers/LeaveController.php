@@ -23,6 +23,7 @@
 //the model objects are included here
 
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 
@@ -112,6 +113,16 @@ class LeaveController {
 	public function addLeave() {
 		$tmpObj = $this->getObjLeave();
 		$res = $tmpObj->applyLeave();
+	}
+	public function displayLeaveInfo () {
+		$this->setObjLeave(new Leave());
+		$tmpObj[0] = $this->getObjLeave();
+		
+		$path = "/templates/leave/leaveApply.php";
+		
+		$template = new TemplateMerger($tmpObj, $path);
+		
+		$template->display();
 	}
 }
 ?>

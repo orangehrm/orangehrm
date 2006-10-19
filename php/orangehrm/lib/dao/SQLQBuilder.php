@@ -1036,8 +1036,7 @@ function getCurrencyAssigned($salgrd) {
 		return $query;		
 	}
 	
-	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
-				
+	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {		
 		$query=$this->_buildSelect($selectFields)." FROM $selectTable";
       
 		if (isset($selectConditions)) {
