@@ -7,8 +7,10 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-define('ROOT_PATH', "D:/original codes/work/trunk/php/orangehrm");
-define('WPATH', "http://127.0.0.1/orangehrm");
+require_once "testConf.php";
+
+define('ROOT_PATH', $rootPath);
+define('WPATH', $webPath);
 $_SESSION['WPATH'] = WPATH;
 
 require_once "Leave.php";
