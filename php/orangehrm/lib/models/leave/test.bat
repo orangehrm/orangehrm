@@ -1,0 +1,6 @@
+@ echo off
+
+echo Testing Leave Object...
+call phpunit LeaveTest
+echo Testing LeaveQuota Object...
+call phpunit LeaveQuotaTest

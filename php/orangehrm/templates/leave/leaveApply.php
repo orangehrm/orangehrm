@@ -70,10 +70,16 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td rowspan="6" valign="top"><input name="txtLeaveDate" type="text" id="txtLeaveDate" />
           <input type="submit" name="Submit" value="...." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveDate);return false;"/></td>
       <td align="right" valign="top">&nbsp;</td>
-      <td colspan="2" align="left" valign="top"><select name="sltLeaveType" id="sltLeaveType">
-	  <? foreach ($records[1] as $record) {?>
-        <option value="<? echo $record->getLeaveTypeID();?>"><? echo $record->getLeaveTypeName(); ?></option> <? }?>
-                        </select></td>
+      <td colspan="2" align="left" valign="top">
+      	<select name="sltLeaveType" id="sltLeaveType">
+	  <?php
+	  	if (is_array($records[1]))
+	  	 	foreach ($records[1] as $record) {
+	  ?>
+        	<option value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option> 
+      <?php 	}?>
+         </select>
+      </td>
       <td rowspan="4" background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
     <tr>
@@ -84,10 +90,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td height="55" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td align="right" valign="top">&nbsp;</td>
-      <td colspan="2" align="left" valign="top"><select name="sltLeaveLength" id="sltLeaveLength">
-        <option value="<? echo ($records[0]->fulldayStatusFlag);?>"><? echo $lang_Fullday;?></option>
-		<option value="<? echo ($records[0]->halfdayStatusFlag);?>"><? echo $lang_Halfday;?></option>
-            </select></td>
+      <td colspan="2" align="left" valign="top">
+      	<select name="sltLeaveLength" id="sltLeaveLength">
+        	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_Fullday;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDay);?>"><?php echo $lang_Halfday;?></option>
+       </select>
+    </td>
     </tr>
     <tr>
       <td height="19" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>

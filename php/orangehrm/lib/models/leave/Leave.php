@@ -42,8 +42,8 @@ class Leave {
 	 *	Leave Length Constants
 	 *
 	 **/
-	public $fulldayStatusFlag = 8;
-	public $halfdayStatusFlag = 4;
+	public $lengthFullDay = 8;
+	public $lengthHalfDay = 4;
 	
 	/*
 	 *	Class Attributes

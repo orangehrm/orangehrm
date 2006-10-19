@@ -1062,7 +1062,7 @@ switch ($moduletype) {
 												$leaveExtractor = new EXTRACTOR_Leave();																						
 																								
 												switch ($_GET['action']) {
-													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_REQUEST['id']);
+													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves();
 																						break;
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
