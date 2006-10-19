@@ -54,8 +54,7 @@ class Leave {
 
 	private $leaveId;
 	private $employeeId;
-	private $leaveTypeId;
-	private $leaveTypeNameTypeId;
+	private $leaveTypeId;	
 	private $leaveTypeName;
 	private $dateApplied;
 	private $leaveDate;
@@ -104,15 +103,7 @@ class Leave {
 	public function getLeaveTypeId() {
 		return $this->leaveTypeId;
 	}
-	
-	public function setLeaveTypeNameId($leaveTypeNameId) {
-		$this->leaveTypeNameId = $leaveTypeNameId;
-	}
-	
-	public function getLeaveTypeNameId() {
-		return $this->leaveTypeNameId;
-	}
-	
+		
 	public function setLeaveTypeName($leaveTypeName) {
 		$this->leaveTypeName = $leaveTypeName;
 	}
@@ -184,24 +175,19 @@ class Leave {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
-		$arrFields[0] = 'a.`Leave_Date`';
-		$arrFields[1] = 'b.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`Leave_Status`';
-		$arrFields[3] = 'a.`Leave_Length`';
-		$arrFields[4] = 'a.`Leave_Comments`';
-		$arrFields[5] = 'a.`Leave_ID`';
+		$arrFields[0] = '`Leave_Date`';
+		$arrFields[1] = '`Leave_Type_Name`';
+		$arrFields[2] = '`Leave_Status`';
+		$arrFields[3] = '`Leave_Length`';
+		$arrFields[4] = '`Leave_Comments`';
+		$arrFields[5] = '`Leave_ID`';
 		
-		$arrTables[0] = "`hs_hr_leave` a";
-		$arrTables[1] = "`hs_hr_leavetype` b";		
-		
-		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
-		
-		$selectConditions[0] = "b.`Available_Flag` = 1";
+		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "a.`Employee_Id` = '".$employeeId."'";
-		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
+		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
+		$selectConditions[2] = "`Leave_Status` != ".$this->statusLeaveCancelled;
 				
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
 		//echo $query;
 				
@@ -230,32 +216,28 @@ class Leave {
 		$sqlBuilder = new SQLQBuilder();		
 		
 		$arrFields[0] = 'a.`Leave_Date`';
-		$arrFields[1] = 'b.`Leave_Type_Name`';
+		$arrFields[1] = 'a.`Leave_Type_Name`';
 		$arrFields[2] = 'a.`Leave_Status`';
 		$arrFields[3] = 'a.`Leave_Length`';
 		$arrFields[4] = 'a.`Leave_Comments`';
 		$arrFields[5] = 'a.`Leave_ID`';		
 		$arrFields[6] = 'd.`emp_firstname`';
 		
-		$arrTables[0] = "`hs_hr_leave` a";
-		$arrTables[1] = "`hs_hr_leavetype` b";
-		$arrTables[2] = "`hs_hr_emp_reportto` c";
-		$arrTables[3] = "`hs_hr_employee` d";		
+		$arrTables[0] = "`hs_hr_leave` a";		
+		$arrTables[1] = "`hs_hr_emp_reportto` c";
+		$arrTables[2] = "`hs_hr_employee` d";		
 		
-		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";
-		$joinConditions[2] = "a.`Employee_Id` = c.`erep_sub_emp_number`";
-		$joinConditions[3] = "a.`Employee_Id` = d.`emp_number`";
+		$joinConditions[1] = "a.`Employee_Id` = c.`erep_sub_emp_number`";
+		$joinConditions[2] = "a.`Employee_Id` = d.`emp_number`";
 		
-		$selectConditions[0] = "b.`Available_Flag` = 1";
-
 		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
 		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
 		$selectConditions[3] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
 		$selectConditions[4] = "a.`Leave_Status` != ".$this->statusLeaveRejected;
-				
+		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
-		//echo $query;
+		//echo $query."\n";
 				
 		$dbConnection = new DMLFunctions();	
 
@@ -302,7 +284,7 @@ class Leave {
 		$arrRecordsList[0] = $this->getLeaveId();
 		$arrRecordsList[1] = "'". $this->getEmployeeId() . "'";
 		$arrRecordsList[2] = "'".$this->getLeaveTypeId()."'";
-		$arrRecordsList[3] = $this->getLeaveTypeNameId();
+		$arrRecordsList[3] = "'".$this->getLeaveTypeName()."'";
 		$arrRecordsList[4] = "'". $this->getDateApplied()."'";
 		$arrRecordsList[5] = "'". $this->getLeaveDate()."'";
 		$arrRecordsList[6] = "'". $this->getLeaveLength()."'";
@@ -379,8 +361,7 @@ class Leave {
 		$leave_Type  = new LeaveType();
 		
 		$selectTable = "`hs_hr_leavetype`";		
-		$selectFields[0] = '`Leave_Type_Name_ID`';
-    	$updateConditions[0] = "`Available_Flag` = ".$leave_Type->avalableStatuFlag;
+		$selectFields[0] = '`Leave_Type_Name`';    	
     	$updateConditions[1] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
     	    	
     	$query = $sql_builder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
@@ -391,7 +372,7 @@ class Leave {
 		
 		$row = mysql_fetch_row($result);
 		
-		$this->setLeaveTypeNameId($row[0]);
+		$this->setLeaveTypeName($row[0]);
 	}
 
 		

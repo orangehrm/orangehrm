@@ -44,7 +44,7 @@ class LeaveQuota {
 	}
 	
 	public function getLeaveTypeName() {
-		return $this->noOfDaysAllotted;
+		return $this->leaveTypeName;
 	}
 
 	public function setLeaveTypeName($leaveTypeName) {

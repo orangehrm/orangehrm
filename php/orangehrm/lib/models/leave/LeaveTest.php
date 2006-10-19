@@ -53,15 +53,15 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 1, '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
     	
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('EMP012', 'EMP011', 1);");	
 		
-		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 1, 'Medical', 1)");	
+		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");	
     }
 
     /**
@@ -85,8 +85,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     public function testApplyLeave()
     {
     	$this->classLeave->setEmployeeId("EMP012");
-    	$this->classLeave->setLeaveTypeId("LTY010");
-    	$this->classLeave->setLeaveTypeNameId("1");    	
+    	$this->classLeave->setLeaveTypeId("LTY010");    	 	
     	$this->classLeave->setLeaveDate("2006-10-12");
     	$this->classLeave->setLeaveLength("2");
     	$this->classLeave->setLeaveStatus("1");
