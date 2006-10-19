@@ -5,6 +5,7 @@ class LeaveQuota {
 	private $leaveTypeNameId;
 	private $employeeId;
 	private $noOfDaysAllotted;
+	private $leaveTypeName;
 	
 	public function __construct() {
 		
@@ -42,6 +43,14 @@ class LeaveQuota {
 		$this->noOfDaysAllotted = $noOfDaysAlotted;
 	}
 	
+	public function getLeaveTypeName() {
+		return $this->noOfDaysAllotted;
+	}
+
+	public function setLeaveTypeName($leaveTypeName) {
+		$this->leaveTypeName = $leaveTypeName;
+	}
+	
 	public function addLeaveQuota() {
 		
 	}
@@ -54,8 +63,22 @@ class LeaveQuota {
 		
 	}
 
-	public function fetchLeaveQuota() {
+	public function fetchLeaveQuota($eployeeId) {
+		$tmpObj = new LeaveQuota();
 		
+		$tmpObj->setLeaveTypeId("LTY011");
+		$tmpObj->setLeaveTypeName("Medical");
+		
+		$leaveTypeArr[] = $tmpObj;
+		
+		$tmpObj = new LeaveQuota();
+		
+		$tmpObj->setLeaveTypeId("LTY012");
+		$tmpObj->setLeaveTypeName("Casual");
+		
+		$leaveTypeArr[] = $tmpObj;
+		
+		return $leaveTypeArr;
 	}
 }
 ?>
