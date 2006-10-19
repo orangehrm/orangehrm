@@ -23,8 +23,6 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
-
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
 class Leave {
@@ -202,7 +200,7 @@ class Leave {
 
 	/*
 	 *	Retrieves Leave Details of all leave that have been applied for but
-	 *	not yet taken.
+	 *	not yet taken by all supervisors subordinates.
 	 *
 	 *	Returns
 	 *	-------
