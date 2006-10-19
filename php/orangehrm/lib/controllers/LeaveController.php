@@ -24,6 +24,7 @@
 
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 
@@ -113,14 +114,25 @@ class LeaveController {
 	public function addLeave() {
 		$tmpObj = $this->getObjLeave();
 		$res = $tmpObj->applyLeave();
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
 	}
 	public function displayLeaveInfo () {
-		$this->setObjLeave(new Leave());
-		$tmpObj[0] = $this->getObjLeave();
+		$tmpObjs[0] = new Leave();
+				
+		$tmpObj = new LeaveQuota();
+		$this->setId($_SESSION['empID']);		
+		$tmpObjs[1] = $tmpObj->fetchLeaveQuota($this->getId());
+		
+		$this->setObjLeave($tmpObjs);
 		
 		$path = "/templates/leave/leaveApply.php";
 		
-		$template = new TemplateMerger($tmpObj, $path);
+		$template = new TemplateMerger($tmpObjs, $path);
 		
 		$template->display();
 	}

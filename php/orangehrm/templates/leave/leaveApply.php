@@ -108,7 +108,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     </tr>
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
-      <td>  <img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />      <input type="submit" name="Submit2" value="Submit" /></td>
+      <td>  <img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></td>
       <td align="right">&nbsp;</td>
       <td width="132" align="right">&nbsp;</td>
       <td width="220">&nbsp;</td>

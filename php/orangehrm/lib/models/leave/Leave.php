@@ -277,7 +277,7 @@ class Leave {
 		
 
 		$this->_getNewLeaveId();
-		$this->_getLeaveNameTypeId();
+		$this->_getLeaveTypeName();
 		$this->setDateApplied(date('Y-m-d'));
 
 		
@@ -355,7 +355,7 @@ class Leave {
 		return false; 
 	}
 	
-	private function _getLeaveNameTypeId() {
+	private function _getLeaveTypeName() {
 		
 		$sql_builder = new SQLQBuilder();
 		$leave_Type  = new LeaveType();
@@ -371,7 +371,7 @@ class Leave {
 		$result = $dbConnection -> executeQuery($query);
 		
 		$row = mysql_fetch_row($result);
-		
+
 		$this->setLeaveTypeName($row[0]);
 	}
 
