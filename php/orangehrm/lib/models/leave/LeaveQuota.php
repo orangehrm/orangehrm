@@ -112,7 +112,7 @@ class LeaveQuota {
 		
 		$arrFields[0] = 'a.`Leave_Type_ID`';
 		$arrFields[1] = 'b.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`No_of_days_alotted`';		
+		$arrFields[2] = 'a.`No_of_days_allotted`';		
 		
 		$arrTables[0] = "`hs_hr_employee_leave_quota` a";		
 		$arrTables[1] = "`hs_hr_leavetype` b";			
@@ -123,7 +123,7 @@ class LeaveQuota {
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
-		//echo $query;
+		//echo $query."\n";
 		
 		$dbConnection = new DMLFunctions();	
 

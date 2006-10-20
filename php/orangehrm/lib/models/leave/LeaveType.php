@@ -20,7 +20,8 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class LeaveType {
@@ -72,24 +73,25 @@ class LeaveType {
 		$this->leaveTypeName = $leaveTypeName;
 	}
 	
-	
+	/**
+	 * Enter description here...
+	 *
+	 */
 	public function addLeaveType() {
+		$this->_getNewLeaveTypeId();
+
+		$arrRecordsList[0] = "'".$this->getLeaveTypeId()."'";
+		$arrRecordsList[1] = "'".$this->getLeaveTypeName() ."'";
+		$arrRecordsList[2] = $this->avalableStatuFlag;
 		
-		
-		$arrRecordsList[0] = $this->getLeaveTypeId($this->_getNewLeaveTypeId());
-		$arrRecordsList[1] = $this->getLeaveTypeId($this->_getNewLeaveTypeNameId());
-		$arrRecordsList[2] = "'".$this->getLeaveTypeName() ."'";
-		$arrRecordsList[3] = $this->avalableStatuFlag;
-		
+
 		$sqlBuilder = new SQLQBuilder();
 					
 		$arrTable = "`hs_hr_leavetype`";
 		
-		//print_r($arrRecordsList);	
+
 		
 		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList);
-		
-		//echo  $query;
 		
 		$dbConnection = new DMLFunctions();	
 
@@ -99,55 +101,48 @@ class LeaveType {
 	private function _getNewLeaveTypeId() {		
 		
 		$sql_builder = new SQLQBuilder();
-		$tableName = "'hs_hr_leave'";		
-		$arrFieldList[0] = 'Leave_Type_ID';
-				
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-	
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-			
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-				
-		$common_func = new CommonFunctions();
-		
-		if (isset($message2)) {
-			
-			$i=0;
-		
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {		
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}		
-		}
-			
-		return $common_func->explodeString($this->singleField,"LTY"); 
-				
-		}
-	}
-	
-	private function _getNewLeaveNameId() {		
-		
-		$sql_builder = new SQLQBuilder();
-		
 		$selectTable = "`hs_hr_leavetype`";		
-		$selectFields[0] = '`Leave_Type_NameID`';
+		$selectFields[0] = '`Leave_Type_ID`';
 		$selectOrder = "DESC";
 		$selectLimit = 1;
-		$sortingField = '`Leave_Type_NameID`';
+		$sortingField = '`Leave_Type_ID`';
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-		//echo $query;
+
 		$dbConnection = new DMLFunctions();	
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection -> executeQuery($query);		
+		$common_func = new CommonFunctions();
+		
+		$row = mysql_fetch_row($result);
+
+		$this->setLeaveTypeId($common_func->explodeString($row[0],"LTY"));  
+				
+		
+
+	}
+	public function retriveLeaveType($leaveType)
+	{
+		$sql_builder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leavetype` ";	
+			
+		$selectFields[0] = '`Leave_Type_ID`';
+		$selectFields[1] = '`Leave_Type_Name`';		
+		
+		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveType."'";
+		
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection->executeQuery($query);
 		
 		$row = mysql_fetch_row($result);
 		
-		$this->setLeaveId($row[0]+1);
+		return $row;
 	}
-
+	
+	
 }
 ?>

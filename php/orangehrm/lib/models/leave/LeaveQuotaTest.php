@@ -129,8 +129,8 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
                 
-        $expected[] = array("LTY010", "Medical", "10");
         $expected[] = array("LTY011", "Casual", "20");
+        $expected[] = array("LTY010", "Medical", "10");        
         
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result ");
