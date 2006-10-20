@@ -39,7 +39,6 @@
 <?php
 	}
 ?>
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelLeave">
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
@@ -91,7 +90,3 @@
 	</tr>
   </tfoot>
 </table>
-<p id="controls">
-<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.jpg"/>
-</p>
-</form>

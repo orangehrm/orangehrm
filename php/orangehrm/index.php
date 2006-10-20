@@ -441,6 +441,7 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
                       <ul id="menu">
+  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu">Leave Summary</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leave List</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
 					</ul>
@@ -716,7 +717,7 @@ function setSize() {
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?=(isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?=$_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>        
 <?			} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  ?>
-              <iframe src="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
+              <iframe src="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
          <? } ?>
             
             </td>
