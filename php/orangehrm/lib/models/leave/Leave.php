@@ -247,13 +247,10 @@ class Leave {
 	}
 	
 	
-	/*
+	/**
 	 *	Add Leave record to for a employee.
 	 *
-	 *	Returns
-	 *	-------
-	 *
-	 *	A 2D array of the leaves
+	 * 	@access public	 
 	 *
 	 **/
 	
@@ -267,10 +264,41 @@ class Leave {
 		$this->setLeaveId($id);
 		$this->setLeaveStatus($this->statusLeaveCancelled);
 		return $this->_changeLeaveStatus();
-	}	
-
+	}
 	
+	/**
+	 *	Counts Leaves taken of particular Leave type
+	 *
+	 * 	@return Integer count of the leaves of the particular type
+	 *
+	 */
+	public function countLeave($leaveTypeId, $status=null) {
+		if ($status == null) {
+			$status = $this->statusLeaveTaken;
+		}		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$arrFields[0] = 'COUNT(*)';
+		
+		$arrTable = "`hs_hr_leave`";
 
+		$selectConditions[1] = "`Employee_Id` = '".$this->getEmployeeId()."'";
+		$selectConditions[2] = "`Leave_Status` = ".$status;
+		$selectConditions[3] = "`Leave_Type_Id` = '".$leaveTypeId."'";
+				
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		
+		//echo $query;
+				
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$count = mysql_fetch_row($result);
+		
+		return $count[0];		
+	}
+	
 	private function _addLeave() {
 		
 

@@ -56,6 +56,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
     	
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 8, 3, 'Leave 4')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 8, 3, 'Leave 5')");
+    	
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
@@ -200,7 +203,14 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
         	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
         }
-    }    
+    }
+
+    public function testCountLeave() {
+    	$this->classLeave->setEmployeeId("EMP013");
+    	$res = $this->classLeave->countLeave( "LTY010");
+    	
+    	$this->assertEquals($res, 2, "Retruned wrong count");
+    }
 
 }
 

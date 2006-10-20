@@ -134,7 +134,7 @@ class LeaveQuota {
 		return $leaveTypeArr;
 	}
 	
-	private function _buildObjArr($result) {
+	protected function _buildObjArr($result) {
 		
 		$objArr = null;
 		
