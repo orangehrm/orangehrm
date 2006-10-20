@@ -25,6 +25,9 @@
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveSummary.php';
+
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 
@@ -58,10 +61,14 @@ class LeaveController {
 	//public function
 
 	public function viewLeaves($modifier="employee") {
-		$this->setObjLeave(new Leave());		
-			
+					
 		switch ($modifier) {
-			case "employee": $this->_viewLeavesEmployee();
+			case "employee": $this->setObjLeave(new Leave());
+							 $this->_viewLeavesEmployee();
+							 break;
+			case "summary" : $this->setObjLeave(new LeaveSummary());
+							 $this->_displayLeaveSummary();
+							 break;
 		}
 	}
 	
@@ -135,6 +142,42 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObjs, $path);
 		
 		$template->display();
+	}
+	
+	/**
+	 * Displays the Leave Summary
+	 *
+	 */
+	private function _displayLeaveSummary() {
+		$this->_authenticateViewLeaveSummary();
+		
+		$tmpObj = $this->getObjLeave();
+		$tmpObj = $tmpObj->fetchLeaveSummary($this->getId());
+		
+		$path = "/templates/leave/leaveSummary.php";
+		
+		$template = new TemplateMerger($tmpObj, $path);
+		
+		$template->display();
+	}
+	
+	/**
+	 * Checks whether the user is allowed to
+	 * view the particular employee's Leave Summary
+	 *
+	 */
+	private function _authenticateViewLeaveSummary() {
+		$id = $this->getId();
+		if ($id !== $_SESSION['empID']) {
+			
+			$objReportTo = new EmpRepTo();
+			
+			$subordinates = $objReportTo->getEmpSub($id);
+			
+			if (!array_search($id, $subordinates)) {
+				trigger_error("Unautorized access", E_USER_NOTICE);
+			}
+		}
 	}
 }
 ?>

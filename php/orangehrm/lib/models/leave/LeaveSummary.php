@@ -23,23 +23,30 @@
 require_once "Leave.php";
 require_once "LeaveQuota.php";
 
+/**
+ * Leave Summary Operations
+ *
+ * @package OrangeHRM
+ * @author S.H.Mohanjith
+ * @copyright hSenid Software International
+ * 
+ */
 class LeaveSummary extends LeaveQuota {
 	
-	/*
-	 *
+	/**
 	 *	Class atributes
 	 *
-	 **/
+	 */
 	
 	private $leaveTaken;
 	private $leaveAvailable;	
 	
 	
-	/*
+	/**
 	 *	Setter method followed by getter method for each
 	 *	attribute
 	 *
-	 **/
+	 */
 	
 	public function setLeaveTaken($leaveTaken) {
 		$this->leaveTaken = $leaveTaken;
@@ -57,15 +64,34 @@ class LeaveSummary extends LeaveQuota {
 		return $this->leaveAvailable;
 	}
 	
+	/**
+	 * Leave summary of the employee
+	 *
+	 * @param String $employeeId e.g. EMP001
+	 * @return Array[][] LeaveSummary
+	 * @access public
+	 * @author S.H.Mohanjith
+	 * 
+	 */
 	public function fetchLeaveSummary($employeeId) {
 		
 		$this->setEmployeeId($employeeId);
 		
 		$leaveQuotas = $this->fetchLeaveQuota($this->getEmployeeId());
 		
-		return $leaveQuotas;		
+		return $leaveQuotas;				
 	}
 	
+	/**
+	 * Overrides _buildObjArr of LeaveQuota
+	 * Builds the Leave Summary from the resource
+	 *
+	 * @param resource $result
+	 * @return Array[][] LeaveSummary
+	 * @access protected
+	 * @author S.H.Mohanjith
+	 * 
+	 */
 	protected function _buildObjArr($result) {
 		
 		$leaveObj = new Leave();		

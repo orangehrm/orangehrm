@@ -1062,9 +1062,15 @@ switch ($moduletype) {
 												$leaveExtractor = new EXTRACTOR_Leave();																						
 																								
 												switch ($_GET['action']) {
-													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);
+													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
 																						$leaveController->viewLeaves();
 																						break;
+																						
+													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+																						$leaveController->setId($id);																						
+																						$leaveController->viewLeaves("summary");
+																						break;																						
+																						
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
@@ -1074,14 +1080,16 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect("SUCCESS");
 																						break;
+																						
 													case 'Leave_Apply'				: 	$obj = $leaveExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
 																						$leaveController->redirect("SUCCESS");
 																						break;
+																						
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo ();
-
 																						break;
+
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}
 											} else {
