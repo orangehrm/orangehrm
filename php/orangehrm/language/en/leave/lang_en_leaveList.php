@@ -1,4 +1,5 @@
 <?php
+
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
@@ -15,31 +16,16 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- */
- 
-/*
  *
+ */
+
+/**
+ 
+/**
  *	Language pack for the leaveList.php in Leave Module
  *
- **/
+ */
  
- $lang_Title			=	"Leave List";
+ $lang_Title			=	"Leave List"; 
  
- $lang_Date				=	"Date";
- $lang_LeaveType		=	"Leave Type";
- $lang_Status			=	"Status";
- $lang_Length			=	"Full Day/Haf Day";
- $lang_Comments			=	"Comments";
- 
- $lang_Approved			=	"Approved";
- $lang_Cancelled		=	"Cancelled";
- $lang_PendingApproval	=	"Pending Approval";
- $lang_Rejected			=	"Rejected";
- $lang_Taken			=	"Taken";
- 
- $lang_InvalidStatus	=	"Invalid Status";
- 
- $lang_FullDay			=	"Full Day";
- $lang_HalfDay			= 	"Half Day";
-
 ?>
