@@ -53,7 +53,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
-        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1)");
+        mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Medical', 1)");
 			
     }
 
@@ -65,8 +65,8 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	   	
+    	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY001'", $this->connection); 
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY002'", $this->connection); 
-    	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY003'", $this->connection); 
     }
 	
     public function testAddLeaveType() {
@@ -75,9 +75,9 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
     	
     	$res = $this->classLeaveType->addLeaveType();
     	
-    	$res = $this->classLeaveType->retriveLeaveType("LTY003");
+    	$res = $this->classLeaveType->retriveLeaveType("LTY002");
         
-        $expected[0] = array('LTY003', 'Anual');
+        $expected[0] = array('LTY002', 'Anual');
 
     }
 	
