@@ -120,8 +120,11 @@ class LeaveQuota {
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";		
 		
 		$selectConditions[1] = "a.`Employee_ID` = '".$employeeId."'";
+		
+		$selectOrderBy = $arrFields[1];
+		$selectOrder   = "DESC";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, "LEFT", $selectOrderBy, $selectOrder);
 		
 		//echo $query."\n";
 		

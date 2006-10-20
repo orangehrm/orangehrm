@@ -1006,7 +1006,7 @@ function getCurrencyAssigned($salgrd) {
 	}
 	
 	
-	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinType = "LEFT") {
+	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinType = "LEFT", $selectOrderBy = null, $selectOrder = null, $selectLimit = null) {
 		$query = $this->_buildSelect($arrFields);
 		
 		$query .= " FROM ";
@@ -1018,6 +1018,14 @@ function getCurrencyAssigned($salgrd) {
 		}
 		
 		$query .= $joins.$this->_buildWhere($selectConditions);
+		
+		if (isset($selectOrderBy)) {
+			$query .= " ORDER BY $selectOrderBy $selectOrder";
+		}
+		
+		if (isset($selectLimit)) {
+			$query .= " LIMIT $selectLimit";
+		}
 		
 		return $query;
 	}
