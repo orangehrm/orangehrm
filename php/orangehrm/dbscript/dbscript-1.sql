@@ -500,6 +500,29 @@ create table `hs_hr_emprep_usergroup` (
   primary key  (`userg_id`,`rep_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+create table `hs_hr_leave` (
+  `Leave_ID` int(11) NOT NULL,
+  `Employee_ID` varchar(6) NOT NULL,
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Leave_Type_Name` varchar(20) NOT NULL,
+  `Date_Applied` date default NULL,
+  `Leave_Date` date default NULL,
+  `Leave_Length` smallint(6) default NULL,
+  `Leave_Status` smallint(6) default NULL,
+  `Leave_Comments` varchar(80) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table `hs_hr_leavetype` (
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Leave_Type_Name` varchar(20) default NULL,
+  `Available_Flag` smallint(6) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table `hs_hr_employee_leave_quota` (
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Employee_ID` varchar(6) NOT NULL,
+  `No_of_days_allotted` smallint(6) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 alter table hs_hr_compstructtree

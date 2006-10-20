@@ -9,9 +9,9 @@ require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once "testConf.php";
 
-$_SESSION['WPATH'] = WPATH;
 define('ROOT_PATH', $rootPath);
 define('WPATH', $webPath);
+$_SESSION['WPATH'] = WPATH;
 
 require_once "LeaveType.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";

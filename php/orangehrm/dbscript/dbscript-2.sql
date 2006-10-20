@@ -510,3 +510,6 @@ INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.n
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES ('USG001', 'MOD001', '1', '1', '1', '1'), ('USG001', 'MOD002', '1', '1', '1', '1'),('USG001', 'MOD003', '1', '1', '1', '1'), ('USG001', 'MOD004', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
+
+INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
+INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);

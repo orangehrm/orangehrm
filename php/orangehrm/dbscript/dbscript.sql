@@ -500,6 +500,29 @@ create table `hs_hr_emprep_usergroup` (
   primary key  (`userg_id`,`rep_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+create table `hs_hr_leave` (
+  `Leave_ID` int(11) NOT NULL,
+  `Employee_ID` varchar(6) NOT NULL,
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Leave_Type_Name` varchar(20) NOT NULL,
+  `Date_Applied` date default NULL,
+  `Leave_Date` date default NULL,
+  `Leave_Length` smallint(6) default NULL,
+  `Leave_Status` smallint(6) default NULL,
+  `Leave_Comments` varchar(80) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table `hs_hr_leavetype` (
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Leave_Type_Name` varchar(20) default NULL,
+  `Available_Flag` smallint(6) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table `hs_hr_employee_leave_quota` (
+  `Leave_Type_ID` varchar(6) NOT NULL,
+  `Employee_ID` varchar(6) NOT NULL,
+  `No_of_days_allotted` smallint(6) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 alter table hs_hr_compstructtree
@@ -1237,3 +1260,6 @@ INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `d
 VALUES ('USG001', 'MOD001', '1', '1', '1', '1'), ('USG001', 'MOD002', '1', '1', '1', '1'),('USG001', 'MOD003', '1', '1', '1', '1'), ('USG001', 'MOD004', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
 INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e229','Admin','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001');
+
+INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
+INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
