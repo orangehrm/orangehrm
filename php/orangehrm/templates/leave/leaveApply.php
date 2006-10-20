@@ -40,10 +40,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function addSave() {
 		
 		if (document.frmLeaveApp.txtLeaveDate.value == '') {
-			alert ("Leave Cannot be a Blank Value!");
+			alert ("Leave Date Cannot be a Blank Value!");
 			return false;
 		}
-		
+		if (document.frmLeaveApp.sltLeaveType.value == '') {
+			alert ("Leave Type Cannot be a Blank Value!");
+			return false;
+		}
+			
 		//document.frmSkills.sqlState.value = "NewRecord";
 		document.frmLeaveApp.submit();		
 	}			
