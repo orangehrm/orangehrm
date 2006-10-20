@@ -20,10 +20,10 @@
  */
 
 /**
- *	Language pack for the applyLeave.php in Leave Module
+ *	Language pack for the leaveApply.php in Leave Module
  *
  */
 
- $lang_Title 		= 'Apply data';
+ $lang_Title 		= 'Apply Leave';
 
 ?>

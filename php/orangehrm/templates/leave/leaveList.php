@@ -24,7 +24,9 @@
  
  $lan = new Language();
  
+ require_once($lan->getLangPath("leave/leaveCommon.php")); 
  require_once($lan->getLangPath("leave/leaveList.php")); 
+ 
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>

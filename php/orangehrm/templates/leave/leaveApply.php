@@ -25,9 +25,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  
  $lan = new Language();
  
- require_once($lan->getLangPath("leave/applyLeave.php")); 
+ require_once($lan->getLangPath("leave/leaveCommon.php")); 
+ require_once($lan->getLangPath("leave/leaveApply.php")); 
+
  if (isset($_GET['message'])) {
 ?>
+<var><?php echo $_GET['message']; ?></var>
+<?php } ?>
 <script>			
 	//function goBack() {
 	//	location.href = "./CentralController.php?uniqcode=&VIEW=MAIN";
@@ -48,8 +52,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
 </script>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
+
 <h3><?php echo $lang_Title?></h3>
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Apply">
   <table width="600" border="0" cellspacing="0" cellpadding="0">
@@ -62,7 +65,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
       <td width="188"><? echo $lang_Date;?></td>
       <td width="33" align="right">&nbsp;</td>
-      <td colspan="2" align="left"><? echo $lang_Leavetype; ?></td>
+      <td colspan="2" align="left"><? echo $lang_LeaveType; ?></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif."><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c3" width="1" height="1" border="0" id="table_r2_c3" /></td>
     </tr>
     <tr>
@@ -85,15 +88,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td height="27" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td align="right" valign="top">&nbsp;</td>
-      <td colspan="2" align="left" valign="top"><? echo $lang_Leavelength; ?></td>
+      <td colspan="2" align="left" valign="top"><? echo $lang_Length; ?></td>
     </tr>
     <tr>
       <td height="55" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td align="right" valign="top">&nbsp;</td>
       <td colspan="2" align="left" valign="top">
       	<select name="sltLeaveLength" id="sltLeaveLength">
-        	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_Fullday;?></option>
-			<option value="<?php echo ($records[0]->lengthHalfDay);?>"><?php echo $lang_Halfday;?></option>
+        	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_FullDay;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDay);?>"><?php echo $lang_HalfDay;?></option>
        </select>
     </td>
     </tr>
