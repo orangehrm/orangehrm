@@ -184,10 +184,12 @@ class Leave {
 
 		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
 		$selectConditions[2] = "`Leave_Status` != ".$this->statusLeaveCancelled;
+		$selectConditions[3] = "NOT ((`Leave_Status` = ".$this->statusLeaveTaken." OR `Leave_Status` = ".$this->statusLeaveRejected.")";
+		$selectConditions[4] = "`Leave_Date` > ".date('Y')."-01-01)";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
-		//echo $query;
+		//echo "\n".$query."\n";
 				
 		$dbConnection = new DMLFunctions();	
 
@@ -269,7 +271,8 @@ class Leave {
 	/**
 	 *	Counts Leaves taken of particular Leave type
 	 *
-	 * 	@return Integer count of the leaves of the particular type
+	 * 	@return int
+	 *	@param String LeaveTypeId, [int status]
 	 *
 	 */
 	public function countLeave($leaveTypeId, $status=null) {
@@ -285,6 +288,7 @@ class Leave {
 		$selectConditions[1] = "`Employee_Id` = '".$this->getEmployeeId()."'";
 		$selectConditions[2] = "`Leave_Status` = ".$status;
 		$selectConditions[3] = "`Leave_Type_Id` = '".$leaveTypeId."'";
+		$selectConditions[4] = "`Leave_Date` > ".date('Y')."-01-01";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		

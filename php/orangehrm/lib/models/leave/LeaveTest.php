@@ -94,9 +94,14 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$this->classLeave->setLeaveStatus("1");
     	$this->classLeave->setLeaveComments("Leave 1");
     	
-    	$res = $this->classLeave->applyLeave();		
+    	$res = $this->classLeave->applyLeave();    	
     	
     	$res = $this->classLeave->retriveLeaveEmployee("EMP012");
+    	
+    	$this->assertEquals($res, true, "No record found");
+    	
+    	$this->assertEquals(count($res), 1, "Wrong number of records found");
+    	
         $expected[0] = array("2006-10-12", 'Medical', 1, 2, 'Leave 1');
         
         for ($i=0; $i < count($expected); $i++) {
@@ -143,9 +148,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $expected[0] = array('2006-10-17', 'Medical', 1, 1, 'Leave 1', 'Subasinghe');
         $expected[1] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2', 'Subasinghe');
         
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertEquals($res, true, "No record found");
         
-        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
+        $this->assertEquals(count($res), 2, "Number of records found is not accurate");
 
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");

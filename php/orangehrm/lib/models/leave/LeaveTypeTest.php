@@ -83,7 +83,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 	
      public function testRetriveLeaveType() {
     	
-        $res = $this->classLeaveType->retriveLeaveType("LTY005"); 
+        $res = $this->classLeaveType->retriveLeaveType("LTY015"); 
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
    } 
