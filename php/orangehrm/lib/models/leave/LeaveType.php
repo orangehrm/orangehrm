@@ -121,6 +121,7 @@ class LeaveType {
 		
 
 	}
+	
 	public function retriveLeaveType($leaveType)
 	{
 		$sql_builder = new SQLQBuilder();
@@ -128,7 +129,8 @@ class LeaveType {
 		$selectTable = "`hs_hr_leavetype` ";	
 			
 		$selectFields[0] = '`Leave_Type_ID`';
-		$selectFields[1] = '`Leave_Type_Name`';		
+		$selectFields[1] = '`Leave_Type_Name`';	
+		$selectFields[2] = '`Available_Flag`';	
 		
 		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveType."'";
 		
@@ -143,6 +145,60 @@ class LeaveType {
 		return $row;
 	}
 	
+	public function editLeaveType ($leaveTypeId) {
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leavetype` ";	
+			
+		$changeFields[0] = "`Leave_Type_Name`";
+		
+		$changeValues[0] = "'".$this->getLeaveTypeName()."'";
+
+		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveTypeId."'";
+		
+		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
+
+		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false; 
+		
+	}
 	
+	public function deleteLeaveType($leaveTypeId) {
+		
+			$sql_builder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leavetype` ";	
+			
+		$changeFields[0] = "`Available_Flag`";
+		
+		$changeValues[0] = "'".$this->unAvalableStatuFlag."'";
+
+		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveTypeId."'";
+		
+		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
+
+		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false; 
+		
+	}
 }
 ?>

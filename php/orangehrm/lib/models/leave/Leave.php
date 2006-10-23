@@ -18,6 +18,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
+ *
+ *
+ *
+ *
+ *
  */
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
@@ -303,6 +308,15 @@ class Leave {
 		return $count[0];		
 	}
 	
+	
+	/**
+	 *
+	 * function _addLeave, access is private, will not be documented
+	 *
+	 * @access private
+	 *
+	 **/
+	
 	private function _addLeave() {
 		
 
@@ -337,6 +351,14 @@ class Leave {
 		
 	}
 	
+	/**
+	 *
+	 * function _getNewLeaveId, access is private, will not be documented
+	 *
+	 * @access private
+	 *
+	 **/
+	
 	private function _getNewLeaveId() {		
 		
 		$sql_builder = new SQLQBuilder();
@@ -358,6 +380,14 @@ class Leave {
 		$this->setLeaveId($row[0]+1);
 	}
 
+	/**
+	 *
+	 * function _changeLeaveStatus, access is private, will not be documented
+	 *
+	 * @access private
+	 *
+	 **/
+	
 	private function _changeLeaveStatus() {
 
 		$sqlBuilder = new SQLQBuilder();
@@ -385,6 +415,13 @@ class Leave {
 		return false; 
 	}
 	
+	/**
+	 *
+	 * function _getLeaveTypeName, access is private, will not be documented
+	 *
+	 * @access private
+	 *
+	 **/
 	private function _getLeaveTypeName() {
 		
 		$sql_builder = new SQLQBuilder();
@@ -405,6 +442,13 @@ class Leave {
 		$this->setLeaveTypeName($row[0]);
 	}
 
+	/**
+	 *
+	 * function _buildObjArr, access is private, will not be documented
+	 *
+	 * @access private
+	 *
+	 **/
 		
 	private function _buildObjArr($result, $supervisor=false) {
 		
