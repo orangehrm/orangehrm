@@ -85,10 +85,11 @@ class LeaveQuota {
 	}
 	
 	/**
-	 * Add Leave Quota for an employee
+	 * Add Leave Quota of an employee
 	 *
 	 * @param String $employeeId
 	 * @return boolean
+	 * @access public
 	 */
 	public function addLeaveQuota($employeeId) {
 		
@@ -115,8 +116,37 @@ class LeaveQuota {
 		return false;
 	}
 	
+	/**
+	 * Edit leave quota of an employee
+	 * 
+	 * @return boolean
+	 * @access public
+	 */
 	public function editLeaveQuota() {
+		$sqlBuilder = new SQLQBuilder();
 		
+		$updateTable = "`hs_hr_employee_leave_quota`";
+
+		$updateFileds[] = "`No_of_days_allotted`";	
+		
+		$updateValues[] = "'".$this->getNoOfDaysAllotted()."'";
+		
+		$updateConditions[] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+		$updateConditions[] = "`Employee_ID` = '".$this->getEmployeeId()."'";
+		
+		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFileds, $updateValues, $updateConditions);
+		
+		//echo $query."\n";
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection->executeQuery($query);
+				
+		if ($result && (mysql_affected_rows() == 1)) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function deleteLeaveQuota() {
