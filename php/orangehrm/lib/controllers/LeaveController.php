@@ -28,6 +28,7 @@ require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveSummary.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 
@@ -66,17 +67,28 @@ class LeaveController {
 			case "employee": $this->setObjLeave(new Leave());
 							 $this->_viewLeavesEmployee();
 							 break;
+			case "suprevisor": $this->setObjLeave(new Leave());
+							 $this->_viewLeavesSupervisor();
+							 break;
 			case "summary" : $this->setObjLeave(new LeaveSummary());
 							 $this->_displayLeaveSummary();
 							 break;
 		}
 	}
 	
+	/**
+	 * Changes the status of the leave
+	 * 
+	 * @param [String $modifier]
+	 * @return String
+	 */
 	public function changeStatus($modifier="cancel") {
-		$this->setObjLeave(new Leave());
-		
+				
 		switch ($modifier) {
 			case "cancel": $res = $this->_cancelLeave();
+						   break;
+			case "change": $res = $this->_changeLeaveStatus();
+						   break;
 		}
 		
 		if ($res) {
@@ -85,7 +97,17 @@ class LeaveController {
 			$message="FAILURE";
 		}
 		
-		//$this->redirect($message);
+		return $message;
+	}
+	
+	private function _changeLeaveStatus() {
+		$this->_authenticateChangeLeaveStatus();
+		
+		$tmpObj = $this->getObjLeave();
+		
+		echo $tmpObj->getLeaveStatus();
+		
+		return $tmpObj->changeLeaveStatus($this->getId());		
 	}
 	
 	private function _viewLeavesEmployee() {
@@ -97,6 +119,22 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObj, $path);
 		
 		$template->display();		
+	}
+	
+	/**
+	 * Suprevisor's view of the leaves of subordinates
+	 * 
+	 * @return void
+	 */
+	private function _viewLeavesSupervisor() {
+		$tmpObj = $this->getObjLeave();
+		$tmpObj = $tmpObj->retriveLeaveSupervisor($this->getId());
+		
+		$path = "/templates/leave/leaveList.php";
+		
+		$template = new TemplateMerger($tmpObj, $path);
+		
+		$template->display("SUP");		
 	}
 	
 	private function _cancelLeave() {
@@ -128,7 +166,7 @@ class LeaveController {
 			$message="FAILURE";
 		}
 	}
-	public function displayLeaveInfo () {
+	public function displayLeaveInfo() {
 		$tmpObjs[0] = new Leave();
 				
 		$tmpObj = new LeaveQuota();
@@ -151,12 +189,15 @@ class LeaveController {
 	private function _displayLeaveSummary() {
 		$this->_authenticateViewLeaveSummary();
 		
-		$tmpObj = $this->getObjLeave();
-		$tmpObj = $tmpObj->fetchLeaveSummary($this->getId());
+		$empInfoObj = new EmpInfo();
 		
+		$tmpObj = $this->getObjLeave();
+		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId());
+		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
+		//print_r($tmpObjX);
 		$path = "/templates/leave/leaveSummary.php";
 		
-		$template = new TemplateMerger($tmpObj, $path);
+		$template = new TemplateMerger($tmpObjX, $path);
 		
 		$template->display();
 	}
@@ -172,10 +213,29 @@ class LeaveController {
 			
 			$objReportTo = new EmpRepTo();
 			
-			$subordinates = $objReportTo->getEmpSub($id);
+			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
+					
+			if (!array_search($id, $subordinates[0])) {
+				trigger_error("Unauthorized access", E_USER_NOTICE);
+			}
+		}
+	}
+	
+	/**
+	 * Checks whether the user is allowed to
+	 * change the particular employee's Leave status
+	 *
+	 */
+	private function _authenticateChangeLeaveStatus() {
+		$id = $this->getId();
+		if ($id !== $_SESSION['empID']) {
 			
-			if (!array_search($id, $subordinates)) {
-				trigger_error("Unautorized access", E_USER_NOTICE);
+			$objReportTo = new EmpRepTo();
+			
+			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
+			
+			if (!array_search($id, $subordinates[0])) {
+				//trigger_error("Unauthorized access", E_USER_NOTICE);
 			}
 		}
 	}

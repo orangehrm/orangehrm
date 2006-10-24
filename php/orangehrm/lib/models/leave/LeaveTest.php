@@ -53,11 +53,11 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 1, 1, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 1, 1, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 1, 1, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 1, 1, 'Leave 2')");
     	
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 8, 3, 'Leave 4')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 8, 3, 'Leave 5')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 4')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 8, 3, 'Leave 5')");
     	
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
@@ -89,7 +89,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     {
     	$this->classLeave->setEmployeeId("EMP012");
     	$this->classLeave->setLeaveTypeId("LTY010");    	 	
-    	$this->classLeave->setLeaveDate("2006-10-12");
+    	$this->classLeave->setLeaveDate(date('Y-m-d', time()+3600*24));
     	$this->classLeave->setLeaveLength("2");
     	$this->classLeave->setLeaveStatus("1");
     	$this->classLeave->setLeaveComments("Leave 1");
@@ -102,7 +102,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	
     	$this->assertEquals(count($res), 1, "Wrong number of records found");
     	
-        $expected[0] = array("2006-10-12", 'Medical', 1, 2, 'Leave 1');
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 2, 'Leave 1');
         
         for ($i=0; $i < count($expected); $i++) {
         	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Checking added / applied leave ");
@@ -116,7 +116,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $res = $this->classLeave->applyLeave();      
         
         $res = $this->classLeave->retriveLeaveEmployee("EMP012");  
-        $expected[1] = array("2006-10-12", 'Medical', 1, 2, 'Leave 2'); 
+        $expected[1] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 2, 'Leave 2'); 
         
         for ($i=0; $i < count($expected); $i++) {
         	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Checking added / applied leave ");
@@ -145,8 +145,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
         $res = $this->classLeave->retriveLeaveSupervisor("EMP012");
         
-        $expected[0] = array('2006-10-17', 'Medical', 1, 1, 'Leave 1', 'Subasinghe');
-        $expected[1] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2', 'Subasinghe');
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe');
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe');
         
         $this->assertEquals($res, true, "No record found");
         
@@ -167,8 +167,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
         $res = $this->classLeave->retriveLeaveEmployee("EMP011");
         
-        $expected[0] = array('2006-10-17', 'Medical', 1, 1, 'Leave 1');
-        $expected[1] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2');
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1');
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');
         
         $this->assertEquals($res, true, "No record found ");
         
@@ -197,7 +197,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
                 
         $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
-        $expected[0] = array('2006-10-25', 'Medical', 1, 1, 'Leave 2');                
+        $expected[0] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');                
 
         $this->assertEquals($res, true, "No record found ");
 

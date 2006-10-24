@@ -27,11 +27,17 @@
  require_once($lan->getLangPath("leave/leaveCommon.php")); 
  require_once($lan->getLangPath("leave/leaveList.php")); 
  
+ if ($modifier === "SUP") {
+ 	$action = "Leave_ChangeStatus";
+ } else {
+ 	$action = "Leave_CancelLeave";
+ }
+ 
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<h3><?php echo $lang_Title?></h3>
+<h3><?php echo $lang_Title?><hr/></h3>
 <?php 
 	if (!is_array($records)) { 
 ?>
@@ -39,12 +45,15 @@
 <?php
 	}
 ?>
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelLeave">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
 		<th class="tableTopLeft"></th>	
     	<th class="tableTopMiddle"></th>
+    	<?php if ($modifier == "SUP") { ?>
+    	<th class="tableTopMiddle"></th>
+    	<?php } ?>
     	<th class="tableTopMiddle"></th>
     	<th class="tableTopMiddle"></th>
     	<th class="tableTopMiddle"></th>
@@ -54,6 +63,9 @@
 	<tr>
 		<th class="tableMiddleLeft"></th>	
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<?php if ($modifier == "SUP") { ?>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
+    	<?php } ?>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
     	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
     	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
@@ -76,23 +88,43 @@
   <tr>
   	<td class="tableMiddleLeft"></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveDate(); ?></td>
+    <?php if ($modifier == "SUP") { ?>
+    <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
+    <?php } ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php 
    			$statusArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
-   			
+   			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveApproved => $lang_Approved);
+   			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Cancelled);
    			//sort($statusArr);
    			    		
-    		if (($record->getLeaveStatus() == 1) || ($record->getLeaveStatus() == 2)) {
+    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
-  					<option value="0">Cancel</option>
+  					<?php if ($modifier == null) { 
+  							foreach($employeeRespArr as $key => $value) {
+  								if ($key != $record->getLeaveStatus()) {
+  					?>
+  							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+  					<?php 		}
+  							}
+  						} else if ($modifier == "SUP") { 
+		  					foreach($suprevisorRespArr as $key => $value) {	
+		  						if ($key != $record->getLeaveStatus()) {
+  					?>
+  							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+  					<?php 		}
+		  					}
+  						}
+  					?>
   				</select>
     	<?php		
     		} else {
     			echo $statusArr[$record->getLeaveStatus()];
     		}
+   			
     		
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php 
@@ -118,6 +150,9 @@
   	<tr>
 		<td class="tableBottomLeft"></td>
 		<td class="tableBottomMiddle"></td>
+		<?php if ($modifier == "SUP") { ?>
+    	<td class="tableBottomMiddle"></td>
+    	<?php } ?>
 		<td class="tableBottomMiddle"></td>
 		<td class="tableBottomMiddle"></td>
 		<td class="tableBottomMiddle"></td>

@@ -49,7 +49,7 @@ class TemplateMerger {
 		return $this->obj;
 	}
 	
-	public function display() {		
+	public function display($modifier=null) {		
 
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';

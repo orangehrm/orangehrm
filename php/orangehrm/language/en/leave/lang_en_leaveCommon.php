@@ -44,6 +44,6 @@
  
  $lang_LeaveTaken		= 	"Leave Taken";
  $lang_LeaveAvailable	=	"Leave Available";
-
-
+ 
+ $lang_EmployeeName 	=	"Empoloyee Name";
 ?>

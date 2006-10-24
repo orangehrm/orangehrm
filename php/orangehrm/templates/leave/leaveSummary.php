@@ -21,17 +21,26 @@
  *	Including the language pack
  *
  **/
+ $empInfo = $records[count($records)-1][0];
  
+ array_pop($records);
+  
  $lan = new Language();
  
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveSummary.php"));
+ require_once($lan->getLangPath("leave/leaveCommon.php"));
+ 
+ if ($empInfo[0] === $_SESSION['empID']) {
+ 	require_once($lan->getLangPath("leave/leaveSummaryEmployee.php"));
+ } else {
+ 	require_once($lan->getLangPath("leave/leaveSummarySupervisor.php"));
+ }
  
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<h3><?php echo $lang_Title?></h3>
+<h3><?php echo $lang_Title.date('Y'); ?><hr/></h3>
+
 <?php 
 	if (!is_array($records)) { 
 ?>
@@ -58,9 +67,9 @@
   </thead>
   <tbody>
 <?php
-	$j = 0;
-	if (is_array($records))
-		foreach ($records as $record) {
+	$j = 0;	
+	if (is_array($records[0]))
+		foreach ($records[0] as $record) {
 			if(!($j%2)) { 
 				$cssClass = 'odd';
 			 } else {

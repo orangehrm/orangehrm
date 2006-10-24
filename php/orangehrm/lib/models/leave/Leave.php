@@ -189,8 +189,8 @@ class Leave {
 
 		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
 		$selectConditions[2] = "`Leave_Status` != ".$this->statusLeaveCancelled;
-		$selectConditions[3] = "NOT ((`Leave_Status` = ".$this->statusLeaveTaken." OR `Leave_Status` = ".$this->statusLeaveRejected.")";
-		$selectConditions[4] = "`Leave_Date` > ".date('Y')."-01-01)";
+		$selectConditions[3] = "`Leave_Status` != ".$this->statusLeaveRejected;//" OR `Leave_Status` != ".$this->statusLeaveTaken.")";
+		$selectConditions[4] = "`Leave_Date` > '".date('Y')."-01-01'";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
@@ -236,9 +236,8 @@ class Leave {
 		$joinConditions[2] = "a.`Employee_Id` = d.`emp_number`";
 		
 		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
-		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveCancelled;
-		$selectConditions[3] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
-		$selectConditions[4] = "a.`Leave_Status` != ".$this->statusLeaveRejected;
+		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
+		$selectConditions[3] = "a.`Leave_Date` > NOW()";
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
@@ -270,6 +269,11 @@ class Leave {
 	public function cancelLeave($id) {
 		$this->setLeaveId($id);
 		$this->setLeaveStatus($this->statusLeaveCancelled);
+		return $this->_changeLeaveStatus();
+	}
+	
+	public function changeLeaveStatus($id) {
+		$this->setLeaveId($id);		
 		return $this->_changeLeaveStatus();
 	}
 	

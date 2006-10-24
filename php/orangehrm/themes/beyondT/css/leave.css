@@ -96,3 +96,8 @@ input, select, textarea {
 	font-size: 11px;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
+
+hr {
+	border: 1px solid #DDDDDD;	
+	height: 1px;
+}

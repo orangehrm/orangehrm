@@ -40,16 +40,35 @@ class EXTRACTOR_Leave {
 		
 		return $this->parent_Leave;
 	}
-			
+	
+	
+	/**
+	 * Pares edit data in the UI form
+	 *
+	 * @param mixed $postArr
+	 * @return Leave[]
+	 */
 	public function parseEditData($postArr) {	
 			
-		$this->parent_Leave->setEmployeeId($postArr['txtEmployeeId']);
-		$this->parent_Leave->setLeaveDate($postArr['txtLeaveTypeId']);			
-		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
+		$objLeave = null;
 		
-		return $this->parent_Leave;
+		for ($i=0; $i < count($postArr['cmbStatus']); $i++) {			
+			$tmpObj = new Leave();
+			$tmpObj->setLeaveId($postArr['id'][$i]);
+			$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
+				
+			$objLeave[] = $tmpObj;			
+		}
+		
+		return $objLeave;
 	}
 	
+	/**
+	 * Pares delete data in the UI form
+	 *
+	 * @param mixed $postArr
+	 * @return Leave[]
+	 */
 	public function parseDeleteData($postArr) {
 		$objLeave = null;
 		

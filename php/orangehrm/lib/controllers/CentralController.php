@@ -1065,7 +1065,9 @@ switch ($moduletype) {
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
 																						$leaveController->viewLeaves();
 																						break;
-																						
+													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);																						
+																						$leaveController->viewLeaves("suprevisor");
+																						break;																						
 													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$leaveController->setId($id);																						
 																						$leaveController->viewLeaves("summary");
@@ -1076,9 +1078,20 @@ switch ($moduletype) {
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
-																							$leaveController->changeStatus();
+																							$mes=$leaveController->changeStatus();
 																						}
-																						$leaveController->redirect("SUCCESS");
+																						$leaveController->redirect($mes);
+																						break;
+													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
+													
+																						if (isset($objs)) 
+																						foreach ($objs as $obj) {
+																							$leaveController->setObjLeave($obj);
+																							$leaveController->setId($obj->getLeaveId());
+																							echo $leaveController->getObjLeave()->getLeaveStatus();
+																							$mes=$leaveController->changeStatus("change");
+																						}
+																						$leaveController->redirect($mes);
 																						break;
 																						
 													case 'Leave_Apply'				: 	$obj = $leaveExtractor->parseAddData($_POST);
@@ -1087,7 +1100,7 @@ switch ($moduletype) {
 																						$leaveController->redirect("SUCCESS");
 																						break;
 																						
-													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo ();
+													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
 																						break;
 
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
