@@ -151,6 +151,12 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, true, "No record found ");
    }
    
+  /* public function testFetchLeaveQuota() {
+        $res = $this->classLeaveQuota->fetchLeaveType();
+        
+        $this->assertEquals($res, null, "Retured non exsistant record ");            
+    }*/
+   
 }
 
 // Call LeaveTypeTest::main() if this source file is executed directly.

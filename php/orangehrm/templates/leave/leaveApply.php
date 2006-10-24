@@ -67,9 +67,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     </tr>
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
-      <td width="188"><? echo $lang_Date;?></td>
+      <td width="188"><?php echo $lang_Date;?></td>
       <td width="33" align="right">&nbsp;</td>
-      <td colspan="2" align="left"><? echo $lang_LeaveType; ?></td>
+      <td colspan="2" align="left"><?php echo $lang_LeaveType; ?></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif."><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c3" width="1" height="1" border="0" id="table_r2_c3" /></td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td height="27" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td align="right" valign="top">&nbsp;</td>
-      <td colspan="2" align="left" valign="top"><? echo $lang_Length; ?></td>
+      <td colspan="2" align="left" valign="top"><?php echo $lang_Length; ?></td>
     </tr>
     <tr>
       <td height="55" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>

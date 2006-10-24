@@ -18,36 +18,12 @@
  * Boston, MA  02110-1301, USA
  *
  */
- 
+
 /**
- *	Language pack common words in Leave Module
+ *	Language pack for the leaveApply.php in Leave Module
  *
  */
 
- $lang_Date				=	"Date";
- $lang_LeaveType		=	"Leave Type";
- $lang_Status			=	"Status";
- $lang_Length			=	"Full Day/Haf Day";
- $lang_Comments			=	"Comments";
- $lang_Comment			=	"Comment";
- 
- $lang_Approved			=	"Approved";
- $lang_Cancelled		=	"Cancelled";
- $lang_PendingApproval	=	"Pending Approval";
- $lang_Rejected			=	"Rejected";
- $lang_Taken			=	"Taken";
- 
- $lang_InvalidStatus	=	"Invalid Status";
- 
- $lang_FullDay			=	"Full Day";
- $lang_HalfDay			= 	"Half Day";
- 
- $lang_LeaveTaken		= 	"Leave Taken";
- $lang_LeaveAvailable	=	"Leave Available";
-
- $lang_LeaveTypeName    = 	"Leave Type Name";
- $lang_LeaveTypeId		= 	"Leave Type Id"
-
- $lang_EmployeeName 	=	"Empoloyee Name";
+ $lang_Title 		= 'Define Leave Type';
 
 ?>

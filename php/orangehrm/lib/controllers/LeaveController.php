@@ -239,5 +239,45 @@ class LeaveController {
 			}
 		}
 	}
+	
+	public function displayLeaveTypeDefine () {
+		
+		$tmpObj = new LeaveType();
+				
+		$this->setObjLeave($tmpObj);
+		
+		$path = "/templates/leave/leaveTypeDefine.php";
+		
+		$template = new TemplateMerger($tmpObj, $path);
+		
+		$template->display();
+	}
+	
+	
+	public function addLeaveType() {
+		
+		$tmpObj = new LeaveType();
+		$this->setObjLeave($tmpObj);
+		$res = $tmpObj->addLeaveType();
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
+	}
+	
+	public function displayLeaveTypeSummary(){
+		
+		$tmpObj = new LeaveType();
+				
+		$this->setObjLeave($tmpObj);
+		
+		$path = "/templates/leave/leaveTypeSummary.php";
+		
+		$template = new TemplateMerger($tmpObj, $path);
+		
+		$template->display();
+	}
 }
 ?>

@@ -119,6 +119,7 @@ require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpReport.php';
 require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpRepUserGroups.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Leave.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveType.php';
 
 //leave modules extractorss go here
 
@@ -1058,8 +1059,9 @@ switch ($moduletype) {
 	case 'leave'	:	switch ($_GET['leavecode']) {
 							case 'Leave':	if (isset($_GET['action'])) {
 								
-												$leaveController = new LeaveController();	
-												$leaveExtractor = new EXTRACTOR_Leave();																						
+												$leaveController 	= new LeaveController();	
+												$leaveExtractor 	= new EXTRACTOR_Leave();
+												$LeaveTypeExtractor = new EXTRACTOR_LeaveType();																				
 																								
 												switch ($_GET['action']) {
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
@@ -1102,7 +1104,19 @@ switch ($moduletype) {
 																						
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
 																						break;
-
+																						
+											  		case 'Leave_Type_define_view'	: 	$leaveController->displayLeaveTypeDefine ();
+																						break;
+													
+													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->addLeaveType();
+																						$leaveController->redirect("SUCCESS");
+																						break;
+													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
+																						break;
+																						
+																						
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}
 											} else {

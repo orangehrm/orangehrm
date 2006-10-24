@@ -1,9 +1,9 @@
 <?php
-
 /*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
- * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
@@ -18,36 +18,22 @@
  * Boston, MA  02110-1301, USA
  *
  */
- 
-/**
- *	Language pack common words in Leave Module
- *
- */
+require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
- $lang_Date				=	"Date";
- $lang_LeaveType		=	"Leave Type";
- $lang_Status			=	"Status";
- $lang_Length			=	"Full Day/Haf Day";
- $lang_Comments			=	"Comments";
- $lang_Comment			=	"Comment";
- 
- $lang_Approved			=	"Approved";
- $lang_Cancelled		=	"Cancelled";
- $lang_PendingApproval	=	"Pending Approval";
- $lang_Rejected			=	"Rejected";
- $lang_Taken			=	"Taken";
- 
- $lang_InvalidStatus	=	"Invalid Status";
- 
- $lang_FullDay			=	"Full Day";
- $lang_HalfDay			= 	"Half Day";
- 
- $lang_LeaveTaken		= 	"Leave Taken";
- $lang_LeaveAvailable	=	"Leave Available";
-
- $lang_LeaveTypeName    = 	"Leave Type Name";
- $lang_LeaveTypeId		= 	"Leave Type Id"
-
- $lang_EmployeeName 	=	"Empoloyee Name";
-
+class EXTRACTOR_LeaveType {
+	
+	private $parent_LeaveType;
+	
+	function __construct() {
+		$this->parent_LeaveType = new LeaveType();
+	}
+	
+	
+	public function parseLeaveType($postArr) {
+		
+		$this->parent_LeaveType->setLeaveTypeName($postArr['txtLeaveTypeName']);
+		
+		return $this->parent_LeaveType;
+	}
+}
 ?>

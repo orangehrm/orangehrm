@@ -200,5 +200,40 @@ class LeaveType {
 		return false; 
 		
 	}
+	
+	public function fatchLeaveTypes () {
+		
+		$sqlBuilder = new SQLQBuilder();
+		
+		$selectFields[0] = '`Leave_Type_ID`';
+		$selectFields[1] = '`Leave_Type_Name`';	
+		
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, null, null, null);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection->executeQuery($query);
+		
+		$leaveTypeArr = $this->_buildObjArr($result);	
+		
+		return $leaveTypeArr;
+	}
+	
+	protected function _buildObjArr($result) {
+		
+		$objArr = null;
+		
+		while ($row = mysql_fetch_row($result)) {
+			
+			$tmpLeaveArr = new LeaveQuota();
+						
+			$tmpLeaveArr->setLeaveTypeId($row[0]);
+			$tmpLeaveArr->setLeaveTypeName($row[1]);
+			
+			$objArr[] = $tmpLeaveArr;
+		}
+		
+		return $objArr;
+	}
 }
 ?>
