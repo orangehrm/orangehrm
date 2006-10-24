@@ -425,7 +425,7 @@ class Leave {
 	 *
 	 * @access private
 	 *
-	 **/
+	 */
 	private function _getLeaveTypeName() {
 		
 		$sql_builder = new SQLQBuilder();
@@ -452,8 +452,7 @@ class Leave {
 	 *
 	 * @access private
 	 *
-	 **/
-		
+	 */		
 	private function _buildObjArr($result, $supervisor=false) {
 		
 		$objArr = null;

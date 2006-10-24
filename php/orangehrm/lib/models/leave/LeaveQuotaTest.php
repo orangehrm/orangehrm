@@ -55,6 +55,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         
         mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");	
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
@@ -76,8 +77,10 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     	
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP020'", $this->connection);
     	
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP020'", $this->connection);
     	
     	$this->connection = null;
     }
@@ -85,12 +88,32 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     /**
      * @todo Implement testAddLeaveQuota().
      */
-    /*public function testAddLeaveQuota() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }*/
+    public function testAddLeaveQuotaAccuracy1() {
+    	$expected[] = array("LTY010", "Medical", "10");
+        $expected[] = array("LTY011", "Casual", "20");  
+        
+        for ($i=0; $i < count($expected); $i++) {
+        	
+    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
+    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
+    		
+    		$res = $this->classLeaveQuota->addLeaveQuota("EMP020"); 
+    		
+    		$this->assertEquals($res, true, "Addition failed - $i ");
+        } 
+
+    	$res = $this->classLeaveQuota->fetchLeaveQuota("EMP020"); 
+               
+        $this->assertEquals($res, true, "No record found ");
+
+        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");  
+        
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][2], "Didn't return expected result ");
+        }
+    }
 
     /**
      * @todo Implement testEditLeaveQuota().

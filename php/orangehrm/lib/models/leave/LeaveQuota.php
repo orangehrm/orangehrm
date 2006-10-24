@@ -84,8 +84,35 @@ class LeaveQuota {
 		$this->leaveTypeName = $leaveTypeName;
 	}
 	
-	public function addLeaveQuota() {
+	/**
+	 * Add Leave Quota for an employee
+	 *
+	 * @param String $employeeId
+	 * @return boolean
+	 */
+	public function addLeaveQuota($employeeId) {
 		
+		$this->setEmployeeId($employeeId);
+		
+		$sqlBuilder = new SQLQBuilder();
+
+		$insertTable = '`hs_hr_employee_leave_quota`';
+		
+		$insertValues[] = "'".$this->getLeaveTypeId()."'";
+		$insertValues[] = "'".$this->getEmployeeId()."'";
+		$insertValues[] = $this->getNoOfDaysAllotted();
+		
+		$query = $sqlBuilder->simpleInsert($insertTable, $insertValues);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		if ($result) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function editLeaveQuota() {
@@ -96,17 +123,14 @@ class LeaveQuota {
 		
 	}
 	
-	/*
+	/**
 	 *	Retrieves Leave Quota Details of all Leave Quota 
 	 *	avaliable to the employee.
-	 *
-	 *	Returns
-	 *	-------
-	 *
-	 *	A 2D array of the leave quotas
-	 *
-	 **/
-
+	 * 	
+	 * 	@param String $employeeId
+	 * 	@return LeaveQuota[][]
+	 * 	@access public
+	 */
 	public function fetchLeaveQuota($employeeId) {
 		$sqlBuilder = new SQLQBuilder();
 		
