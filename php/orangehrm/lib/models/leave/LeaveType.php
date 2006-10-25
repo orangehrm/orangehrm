@@ -201,14 +201,19 @@ class LeaveType {
 		
 	}
 	
-	public function fatchLeaveTypes () {
+	public function fatchLeaveTypes() {
 		
-		$sqlBuilder = new SQLQBuilder();
+		$sql_builder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leavetype` ";	
 		
 		$selectFields[0] = '`Leave_Type_ID`';
 		$selectFields[1] = '`Leave_Type_Name`';	
 		
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, null, null, null);
+    	$selectOrder = "ASE";
+
+		
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, null, $selectOrder, null);
 		
 		$dbConnection = new DMLFunctions();	
 
@@ -225,7 +230,7 @@ class LeaveType {
 		
 		while ($row = mysql_fetch_row($result)) {
 			
-			$tmpLeaveArr = new LeaveQuota();
+			$tmpLeaveArr = new LeaveType();
 						
 			$tmpLeaveArr->setLeaveTypeId($row[0]);
 			$tmpLeaveArr->setLeaveTypeName($row[1]);

@@ -151,11 +151,30 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, true, "No record found ");
    }
    
-  /* public function testFetchLeaveQuota() {
-        $res = $this->classLeaveQuota->fetchLeaveType();
+   public function testFetchLeave() {
+        $res = $this->classLeaveType->fatchLeaveTypes();
         
-        $this->assertEquals($res, null, "Retured non exsistant record ");            
-    }*/
+        $this->assertEquals($res, true, "No record found ");            
+    }
+    
+    
+    public function testFetchLeaveAccuracy() {
+    	
+        $res = $this->classLeaveType->fatchLeaveTypes();
+               
+
+        $this->assertEquals(count($res), 3, "Number of records found is not accurate ");
+                
+        $expected[2] = array("LTY001", "Medical");
+        $expected[1] = array("LTY002", "Medicals");
+        $expected[0] = array("LTY003", "Medicals");                  
+        
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result 1");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result 2");
+
+        }    
+    }
    
 }
 
