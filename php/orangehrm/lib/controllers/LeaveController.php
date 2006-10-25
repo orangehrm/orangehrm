@@ -255,9 +255,8 @@ class LeaveController {
 	
 	
 	public function addLeaveType() {
-		
-		$tmpObj = new LeaveType();
-		$this->setObjLeave($tmpObj);
+				
+		$tmpObj = $this->getObjLeave();
 		$res = $tmpObj->addLeaveType();
 		
 		if ($res) {

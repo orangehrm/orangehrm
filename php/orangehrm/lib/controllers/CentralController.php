@@ -1105,7 +1105,7 @@ switch ($moduletype) {
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
 																						break;
 																						
-											  		case 'Leave_Type_define_view'	: 	$leaveController->displayLeaveTypeDefine ();
+											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();
 																						break;
 													
 													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);

@@ -53,6 +53,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
+        mysql_query("TRUNCATE TABLE `hs_hr_leavetype`");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Medical', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Medicals', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY013', 'Medicalx', 1)");
