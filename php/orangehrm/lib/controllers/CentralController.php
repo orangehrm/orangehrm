@@ -1113,6 +1113,7 @@ switch ($moduletype) {
 																						$leaveController->addLeaveType();
 																						$leaveController->redirect("SUCCESS");
 																						break;
+																						
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
 																						break;
 																						

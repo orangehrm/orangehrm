@@ -270,12 +270,14 @@ class LeaveController {
 	public function displayLeaveTypeSummary(){
 		
 		$tmpObj = new LeaveType();
-				
+		
 		$this->setObjLeave($tmpObj);
+	    
+		$tmpObjArr = $tmpObj->fetchLeaveTypes();		
 		
 		$path = "/templates/leave/leaveTypeSummary.php";
 		
-		$template = new TemplateMerger($tmpObj, $path);
+		$template = new TemplateMerger($tmpObjArr, $path);
 		
 		$template->display();
 	}

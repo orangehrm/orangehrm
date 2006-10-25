@@ -25,7 +25,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  $lan = new Language();
  
  require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveTypeDefine.php")); 
+ require_once($lan->getLangPath("leave/leaveTypeSummary.php")); 
 
  if (isset($_GET['message'])) {
 ?>
@@ -94,8 +94,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td class="tableMiddleLeft"></td>
       <td align="center" class="<?php echo $cssClass; ?>"><input type="checkbox" name="checkbox" value="checkbox"></td>
-      <td class="<?php echo $cssClass; ?>">&nbsp;</td>
-      <td colspan="4" class="<?php echo $cssClass; ?>">&nbsp;</td>
+      <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?></td>
+      <td colspan="4" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName();?></td>
       <td class="tableMiddleRight"></td>
     </tr>
     <?php 	

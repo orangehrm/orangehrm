@@ -46,7 +46,7 @@
  $lang_LeaveAvailable	=	"Leave Available";
 
  $lang_LeaveTypeName    = 	"Leave Type Name";
- $lang_LeaveTypeId		= 	"Leave Type Id"
+ $lang_LeaveTypeId		= 	"Leave Type Id";
 
  $lang_EmployeeName 	=	"Empoloyee Name";
 

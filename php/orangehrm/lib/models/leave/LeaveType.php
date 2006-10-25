@@ -175,7 +175,7 @@ class LeaveType {
 	
 	public function deleteLeaveType($leaveTypeId) {
 		
-			$sql_builder = new SQLQBuilder();
+		$sql_builder = new SQLQBuilder();
 		
 		$selectTable = "`hs_hr_leavetype` ";	
 			
@@ -201,7 +201,7 @@ class LeaveType {
 		
 	}
 	
-	public function fatchLeaveTypes() {
+	public function fetchLeaveTypes() {
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -210,10 +210,13 @@ class LeaveType {
 		$selectFields[0] = '`Leave_Type_ID`';
 		$selectFields[1] = '`Leave_Type_Name`';	
 		
+		$selectConditions[0] = "`Available_Flag` = '".$this->avalableStatuFlag."'";
+		
     	$selectOrder = "ASC";
 
+    	$selectOrderBy = $selectFields[0];
 		
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, null, $selectOrder, null);
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $selectOrderBy, $selectOrder, null);
 		
 		$dbConnection = new DMLFunctions();	
 
