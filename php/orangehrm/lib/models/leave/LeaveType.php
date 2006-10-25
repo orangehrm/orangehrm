@@ -210,7 +210,7 @@ class LeaveType {
 		$selectFields[0] = '`Leave_Type_ID`';
 		$selectFields[1] = '`Leave_Type_Name`';	
 		
-    	$selectOrder = "ASE";
+    	$selectOrder = "ASC";
 
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, null, $selectOrder, null);
