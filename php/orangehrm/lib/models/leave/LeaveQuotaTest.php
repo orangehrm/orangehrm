@@ -84,19 +84,18 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP012'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP020'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP015'", $this->connection);
     	
     	$this->connection = null;
     }
     
-    /**
-     * @todo Implement testAddLeaveQuota().
-     */
     public function testAddLeaveQuotaAccuracy1() {
     	$expected[] = array("LTY010", "Medical", "10");
         $expected[] = array("LTY011", "Casual", "20");  
         
         for ($i=0; $i < count($expected); $i++) {
         	
+        	//$this->classLeaveQuota->setEmployeeId();
     		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
     		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
     		
@@ -133,7 +132,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     		
     		$res = $this->classLeaveQuota->editLeaveQuota(); 
     		
-    		$this->assertEquals($res, false, "Update non exsistant record - $i ");
+    		$this->assertEquals($res, true, "Didn't add non exsistant record - $i ");
         }
     }
     public function testEditLeaveQuota1() {

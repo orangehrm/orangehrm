@@ -49,5 +49,7 @@
  $lang_LeaveTypeId		= 	"Leave Type Id";
 
  $lang_EmployeeName 	=	"Empoloyee Name";
+ 
+ $lang_LeaveEntitled	=	"Leave Entitled";
 
 ?>

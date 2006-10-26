@@ -1020,7 +1020,6 @@ function getCurrencyAssigned($salgrd) {
 		
 		for ($i=1; $i < count($arrTables); $i++) {
 			$joins = "( ".$joins." ".$joinTypes[$i]." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) ) ";
-			$joins = "( ".$joins." ".$joinTypes[$i]." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) ) ";
 		}
 		
 		if (isset($selectConditions)) {

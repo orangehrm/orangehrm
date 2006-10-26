@@ -54,6 +54,8 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         
+        mysql_query("TRUNCATE TABLE `hs_hr_leavetype`");
+        
         mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		
@@ -97,11 +99,6 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     /**
      * @todo Implement testFetchLeaveSummary().
      */
-    public function testFetchLeaveSummary() {
-        $res = $this->leaveSummary->fetchLeaveSummary("EMP041");
-        
-        $this->assertEquals($res, null, "Returned non existent summary");
-    }
     
     public function testFetchLeaveSummaryAccuracy() {
     	
@@ -128,8 +125,8 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, true, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
         
-        $expected[] = array("Medical", 2, 8);
-        $expected[] = array("Casual", 0, 20);
+        $expected[1] = array("Medical", 2, 8);
+        $expected[0] = array("Casual", 0, 20);
         
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");

@@ -22,6 +22,7 @@
 
 require_once "Leave.php";
 require_once "LeaveQuota.php";
+require_once "LeaveType.php";
 
 /**
  * Leave Summary Operations
@@ -77,9 +78,9 @@ class LeaveSummary extends LeaveQuota {
 		
 		$this->setEmployeeId($employeeId);
 		
-		$leaveQuotas = $this->fetchLeaveQuota($this->getEmployeeId());
+		$leaveTypeArr = $this->fetchLeaveQuota($employeeId);	
 		
-		return $leaveQuotas;				
+		return $leaveTypeArr;				
 	}
 	
 	/**
@@ -96,25 +97,47 @@ class LeaveSummary extends LeaveQuota {
 		
 		$leaveObj = new Leave();		
 		$leaveObj->setEmployeeId($this->getEmployeeId());
-		
+						
 		$objArr = null;
+		
+		$leveTypeObj = new LeaveType();		
+		
+		$leaveTypes = $leveTypeObj->fetchLeaveTypes();
+		
+		if (is_array($leaveTypes)) {
+			foreach ($leaveTypes as $leaveType) {
+				$tmpLeaveSummary = new LeaveSummary();
+						
+				$tmpLeaveSummary->setLeaveTypeId($leaveType->getLeaveTypeId());
+				$tmpLeaveSummary->setLeaveTypeName($leaveType->getLeaveTypeName());
+				$tmpLeaveSummary->setNoOfDaysAllotted(0);				
+				
+				$taken = $leaveObj->countLeave($tmpLeaveSummary->getLeaveTypeId());
+				
+				$tmpLeaveSummary->setLeaveTaken($taken);
+				$tmpLeaveSummary->setLeaveAvailable(0);
+				
+				$leaveTypeList[$leaveType->getLeaveTypeId()] = $tmpLeaveSummary;
+			}
+		}	
 		
 		while ($row = mysql_fetch_row($result)) {
 			
-			$tmpLeaveSummary = new LeaveSummary();
-						
-			$tmpLeaveSummary->setLeaveTypeId($row[0]);
-			$tmpLeaveSummary->setLeaveTypeName($row[1]);
-			$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
-
-			$taken = $leaveObj->countLeave($tmpLeaveSummary->getLeaveTypeId());
-			$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();
+			$tmpLeaveSummary = $leaveTypeList[$row[0]];
 			
-			$tmpLeaveSummary->setLeaveTaken($taken);
+			$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
+			
+			$taken = $tmpLeaveSummary->getLeaveTaken();
+			$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();			
+			
 			$tmpLeaveSummary->setLeaveAvailable($alloted-$taken);		
 			
-			$objArr[] = $tmpLeaveSummary;
+			$leaveTypeList[$row[0]] = $tmpLeaveSummary;
 		}
+		
+		$objArr = $leaveTypeList;
+		
+		sort($objArr);
 		
 		return $objArr;
 	}

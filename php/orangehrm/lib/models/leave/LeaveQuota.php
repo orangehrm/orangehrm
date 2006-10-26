@@ -123,6 +123,20 @@ class LeaveQuota {
 	 * @access public
 	 */
 	public function editLeaveQuota() {
+		if ($this->checkRecordExsist()) {
+			return $this->updateLeaveQuota();
+		}
+		
+		return $this->addLeaveQuota($this->getEmployeeId());
+	}
+	
+	/**
+	 * Update leave quota of an employee
+	 * 
+	 * @return boolean
+	 * @access public
+	 */
+	private function updateLeaveQuota() {
 		$sqlBuilder = new SQLQBuilder();
 		
 		$updateTable = "`hs_hr_employee_leave_quota`";
@@ -142,15 +156,44 @@ class LeaveQuota {
 
 		$result = $dbConnection->executeQuery($query);
 				
-		if ($result && (mysql_affected_rows() == 1)) {
+		if ($result) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public function deleteLeaveQuota() {
+	/**
+	 * Checks whether an employee has a quota record
+	 * already for particular leave type to decide whether
+	 * to add or edit the quota.
+	 * 
+	 * @access private
+	 * @return boolean
+	 */
+	private function checkRecordExsist() {
+		$sqlBuilder = new SQLQBuilder();
 		
+		$selectTable = "`hs_hr_employee_leave_quota`";
+		
+		$selectFields[] = "COUNT(*)";
+		
+		$selectConditions[] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+		$selectConditions[] = "`Employee_ID` = '".$this->getEmployeeId()."'";
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);		
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection->executeQuery($query);
+		
+		$count = mysql_fetch_row($result);
+		
+		if ($count[0] > 0) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -173,12 +216,17 @@ class LeaveQuota {
 		
 		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";		
 		
-		$selectConditions[1] = "a.`Employee_ID` = '".$employeeId."'";
+		$selectConditions = null;
 		
+		$selectConditions[0] = "a.`Employee_ID` = '".$employeeId."'";
+		$selectConditions[1] = "a.`No_of_days_allotted` > 0";
+				
 		$selectOrderBy = $arrFields[1];
 		$selectOrder   = "DESC";
+		
+		$joinTypes[1] = "LEFT";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, "LEFT", $selectOrderBy, $selectOrder);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes, $selectOrderBy, $selectOrder);
 		
 		//echo $query."\n";
 		
@@ -204,7 +252,7 @@ class LeaveQuota {
 			$tmpLeaveArr->setNoOfDaysAllotted($row[2]);						
 			
 			$objArr[] = $tmpLeaveArr;
-		}
+		}	
 		
 		return $objArr;
 	}
