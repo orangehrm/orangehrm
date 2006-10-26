@@ -76,6 +76,14 @@ class LeaveController {
 		}
 	}
 	
+	public function editLeaves($modifier="summary") {
+		switch ($modifier) {			
+			case "summary" : $this->setObjLeave(new LeaveSummary());
+							 $this->_displayLeaveSummary("edit");
+							 break;
+		}
+	}
+	
 	/**
 	 * Changes the status of the leave
 	 * 
@@ -186,8 +194,10 @@ class LeaveController {
 	 * Displays the Leave Summary
 	 *
 	 */
-	private function _displayLeaveSummary() {
-		$this->_authenticateViewLeaveSummary();
+	private function _displayLeaveSummary($modifier='display') {
+		$auth = $this->_authenticateViewLeaveSummary();
+		
+		$modifiers = array($modifier, $auth);
 		
 		$empInfoObj = new EmpInfo();
 		
@@ -199,7 +209,7 @@ class LeaveController {
 		
 		$template = new TemplateMerger($tmpObjX, $path);
 		
-		$template->display();
+		$template->display($modifiers);
 	}
 	
 	/**
@@ -209,7 +219,8 @@ class LeaveController {
 	 */
 	private function _authenticateViewLeaveSummary() {
 		$id = $this->getId();
-		if ($id !== $_SESSION['empID']) {
+		
+		if (($_SESSION['isAdmin'] !== 'Yes') && ($id !== $_SESSION['empID'])){
 			
 			$objReportTo = new EmpRepTo();
 			
@@ -217,8 +228,16 @@ class LeaveController {
 					
 			if (!array_search($id, $subordinates[0])) {
 				trigger_error("Unauthorized access", E_USER_NOTICE);
+			} else {
+				return "supervisor";
 			}
+		} else if ($_SESSION['isAdmin'] === 'Yes') {
+			return "admin";
+		} else if ($id === $_SESSION['empID']) {
+			return "self";
 		}
+		
+		trigger_error("Unauthorized access", E_USER_NOTICE);
 	}
 	
 	/**
@@ -235,12 +254,12 @@ class LeaveController {
 			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
 			
 			if (!array_search($id, $subordinates[0])) {
-				//trigger_error("Unauthorized access", E_USER_NOTICE);
+				trigger_error("Unauthorized access", E_USER_NOTICE);
 			}
 		}
 	}
 	
-	public function displayLeaveTypeDefine () {
+	public function displayLeaveTypeDefine() {
 		
 		$tmpObj = new LeaveType();
 				
@@ -279,6 +298,20 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObjArr, $path);
 		
 		$template->display();
+	}
+	
+	public function saveLeaveQuota() {
+		$tmpObj = $this->getObjLeave();
+		
+		$res = $tmpObj->editLeaveQuota();
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
+		
+		return $message;
 	}
 }
 ?>

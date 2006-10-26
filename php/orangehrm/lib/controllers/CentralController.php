@@ -120,6 +120,7 @@ require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpRepUserGroups.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Leave.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveType.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveQuota.php';
 
 //leave modules extractorss go here
 
@@ -1061,31 +1062,51 @@ switch ($moduletype) {
 								
 												$leaveController 	= new LeaveController();	
 												$leaveExtractor 	= new EXTRACTOR_Leave();
-												$LeaveTypeExtractor = new EXTRACTOR_LeaveType();																				
+												$LeaveTypeExtractor = new EXTRACTOR_LeaveType();
+												$leaveQuotaExtractor= new EXTRACTOR_LeaveQuota();																				
 																								
 												switch ($_GET['action']) {
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
 																						$leaveController->viewLeaves();
 																						break;
+																						
 													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);																						
 																						$leaveController->viewLeaves("suprevisor");
-																						break;																						
+																						break;		
+																																										
 													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$leaveController->setId($id);																						
 																						$leaveController->viewLeaves("summary");
-																						break;																						
+																						break;
+																						
+													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+																						$leaveController->setId($id);																						
+																						$leaveController->editLeaves("summary");
+																						break;
+																						
+													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
+																						$mes = "Empty record";
+																						if (isset($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);
+																								$mes = $leaveController->saveLeaveQuota();
+																							}
+																						}
+																						$leaveController->redirect($mes);
+																						break;							
 																						
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
+																						$mes = "Empty record";
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
-																							$mes=$leaveController->changeStatus();
+																							$mes = $leaveController->changeStatus();
 																						}
 																						$leaveController->redirect($mes);
 																						break;
 													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
-													
+																						$mes = "Empty record";
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
