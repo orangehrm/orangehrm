@@ -1006,7 +1006,12 @@ function getCurrencyAssigned($salgrd) {
 	}
 	
 	
-	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinType = "LEFT", $selectOrderBy = null, $selectOrder = null, $selectLimit = null) {
+	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null) {
+		
+		if (!isset($joinTypes)) {
+			$joinTypes = array_fill(1, count($arrTables)-1, "LEFT");
+		}
+		
 		$query = $this->_buildSelect($arrFields);
 		
 		$query .= " FROM ";
@@ -1014,10 +1019,13 @@ function getCurrencyAssigned($salgrd) {
 		$joins = $arrTables[0];
 		
 		for ($i=1; $i < count($arrTables); $i++) {
-			$joins = "( ".$joins." ".$joinType." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) )";
+			$joins = "( ".$joins." ".$joinTypes[$i]." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) ) ";
+			$joins = "( ".$joins." ".$joinTypes[$i]." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) ) ";
 		}
 		
-		$query .= $joins.$this->_buildWhere($selectConditions);
+		if (isset($selectConditions)) {
+			$query .= $joins.$this->_buildWhere($selectConditions);
+		}
 		
 		if (isset($selectOrderBy)) {
 			$query .= " ORDER BY $selectOrderBy $selectOrder";
