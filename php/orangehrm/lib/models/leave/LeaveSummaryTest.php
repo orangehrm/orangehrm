@@ -67,8 +67,8 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', 'EMP011', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', 'EMP011', 20);");
 		
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-17', 1, 3, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '2006-10-25', 1, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
     	
     
     }
@@ -102,7 +102,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     
     public function testFetchLeaveSummaryAccuracy() {
     	
-        $res = $this->leaveSummary->fetchLeaveSummary("EMP012");
+        $res = $this->leaveSummary->fetchLeaveSummary("EMP012", date('Y', time()+3600*24));
 
         $this->assertEquals($res, true, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
@@ -120,7 +120,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     
     public function testFetchLeaveSummaryAccuracy2() {
     	
-        $res = $this->leaveSummary->fetchLeaveSummary("EMP011");
+        $res = $this->leaveSummary->fetchLeaveSummary("EMP011", date('Y', time()+3600*24));
 
         $this->assertEquals($res, true, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
