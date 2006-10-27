@@ -1136,8 +1136,8 @@ switch ($moduletype) {
 													
 													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addLeaveType();
-																						$leaveController->redirect("SUCCESS");
+																						$mes = $leaveController->addLeaveType();
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Type_Summary&message='.$mes));
 																						break;
 																						
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();

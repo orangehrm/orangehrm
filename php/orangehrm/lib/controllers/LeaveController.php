@@ -171,6 +171,8 @@ class LeaveController {
 		} else {
 			$message="FAILURE";
 		}
+		
+		return $message;
 	}
 	public function displayLeaveInfo() {
 		$tmpObjs[0] = new Leave();

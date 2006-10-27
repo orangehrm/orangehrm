@@ -446,6 +446,7 @@ function setSize() {
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leave List</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
+						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave</a></li>
 					</ul>
 			</TD>         
 <?			}
