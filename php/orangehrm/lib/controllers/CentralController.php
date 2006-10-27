@@ -1072,9 +1072,13 @@ switch ($moduletype) {
 																						
 													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);																						
 																						$leaveController->viewLeaves("suprevisor");
-																						break;		
+																						break;
+																						
+													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
+																								 break;
 																																										
 													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveController->setId($id);																						
 																						$leaveController->viewLeaves("summary");
 																						break;
@@ -1092,7 +1096,7 @@ switch ($moduletype) {
 																								$mes = $leaveController->saveLeaveQuota();
 																							}
 																						}
-																						$leaveController->redirect($mes);
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes));
 																						break;							
 																						
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);

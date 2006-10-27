@@ -27,6 +27,11 @@
  
  $auth = $modifier[1];
  $modifier = $modifier[0];
+ 
+ if (is_array($records[0])) { 	
+ 	$year = $records[0][0];
+ 	$year =  $year->getYear();
+ }
 
  $lan = new Language();
  
@@ -56,7 +61,7 @@
 		document.frmSummary.submit();
 	}
 </script>
-<h3><?php echo $lang_Title.date('Y'); ?><hr/></h3>
+<h3><?php echo $lang_Title.$year; ?><hr/></h3>
 
 <?php 
 	if (!is_array($records)) { 

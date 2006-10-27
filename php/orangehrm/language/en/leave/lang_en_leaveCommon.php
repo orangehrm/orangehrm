@@ -53,5 +53,7 @@
  $lang_EmployeeName 	=	"Empoloyee Name";
  
  $lang_LeaveEntitled	=	"Leave Entitled";
+ 
+ $lang_Year				= 	"Year";
 
 ?>

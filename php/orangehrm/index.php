@@ -120,6 +120,7 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 		new ypSlideOutMenu("menu9", "right", xPosition, yPosition + 110, 146, 80)
 		//new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 110, 146, 120)
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
+		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)		
 
 function swapImgRestore() { 
@@ -441,7 +442,7 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
                       <ul id="menu">
-  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu">Leave Summary</a></li>
+  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leave List</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
   						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
@@ -686,6 +687,22 @@ function setSize() {
 					 <tr>
 						<TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim">User Groups</A></TD>
 						</TR>
+                    </TBODY>
+                  </TABLE>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu12 -->
+               <!-- Begin SubMenu13 -->
+              <DIV id=menu13Container>
+                <DIV id=menu13Content>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>
+                      <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu">Personal Leave Summary</A></TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu">Employee Leave Summary</A></TD>
+					 </TR>					 
                     </TBODY>
                   </TABLE>
                 </DIV>

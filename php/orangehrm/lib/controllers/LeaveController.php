@@ -151,7 +151,7 @@ class LeaveController {
 		return $tmpObj->cancelLeave($this->getId());		
 	}
 
-	public function redirect($message=null) {
+	public function redirect($message=null, $url = null) {
 		if (isset($message)) {
 			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
 				$message = "&message=".$message;
@@ -194,7 +194,11 @@ class LeaveController {
 	 * Displays the Leave Summary
 	 *
 	 */
-	private function _displayLeaveSummary($modifier='display') {
+	private function _displayLeaveSummary($modifier='display', $year = null) {		
+		if (!isset($year)) {
+			$year = date('Y');
+		}		
+		
 		$auth = $this->_authenticateViewLeaveSummary();
 		
 		$modifiers = array($modifier, $auth);
@@ -202,7 +206,7 @@ class LeaveController {
 		$empInfoObj = new EmpInfo();
 		
 		$tmpObj = $this->getObjLeave();
-		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId());
+		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId(), $year);
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
 		//print_r($tmpObjX);
 		$path = "/templates/leave/leaveSummary.php";
@@ -358,6 +362,28 @@ class LeaveController {
 		}
 		
 		return $message;
+	}
+	
+	/**
+	 * Display select employee
+	 *
+	 * @param String $action
+	 */
+	public function viewSelectEmployee($action) {
+		$tmpObj = new Leave();		
+		$this->setObjLeave($tmpObj);
+		
+		$tmpOb[] = $tmpObj->getLeaveYears();
+		
+		$empObj = new EmpInfo();
+		
+		$tmpOb[] = $empObj->getListofEmployee();
+		
+		$path = "/templates/leave/leaveSelectEmployeeAndYear.php";
+		
+		$template = new TemplateMerger($tmpOb, $path);
+		
+		$template->display($action);
 	}
 
 }

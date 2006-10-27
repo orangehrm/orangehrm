@@ -212,7 +212,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
     public function testCountLeave() {
     	$this->classLeave->setEmployeeId("EMP013");
-    	$res = $this->classLeave->countLeave( "LTY010");
+    	$res = $this->classLeave->countLeave( "LTY010", date('Y', time()+3600*24));
     	
     	$this->assertEquals($res, 2, "Retruned wrong count");
     }

@@ -284,7 +284,7 @@ class Leave {
 	 *	@param String LeaveTypeId, [int status]
 	 *
 	 */
-	public function countLeave($leaveTypeId, $status=null) {
+	public function countLeave($leaveTypeId, $year=2006, $status=null) {
 		if ($status == null) {
 			$status = $this->statusLeaveTaken;
 		}		
@@ -297,11 +297,11 @@ class Leave {
 		$selectConditions[1] = "`Employee_Id` = '".$this->getEmployeeId()."'";
 		$selectConditions[2] = "`Leave_Status` = ".$status;
 		$selectConditions[3] = "`Leave_Type_Id` = '".$leaveTypeId."'";
-		$selectConditions[4] = "`Leave_Date` > ".date('Y')."-01-01";
+		$selectConditions[4] = "`Leave_Date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
-		//echo $query;
+		//echo "\n".$query."\n";
 				
 		$dbConnection = new DMLFunctions();	
 
@@ -428,14 +428,14 @@ class Leave {
 	 */
 	private function _getLeaveTypeName() {
 		
-		$sql_builder = new SQLQBuilder();
+		$sqlBuilder = new SQLQBuilder();
 		$leave_Type  = new LeaveType();
 		
 		$selectTable = "`hs_hr_leavetype`";		
 		$selectFields[0] = '`Leave_Type_Name`';    	
     	$updateConditions[1] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
     	    	
-    	$query = $sql_builder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
+    	$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
 		//echo $query;
 		$dbConnection = new DMLFunctions();	
 
@@ -477,7 +477,43 @@ class Leave {
 		
 		return $objArr;
 	}
+	
+	/**
+	 * Retrieve the years where there are any leave records
+	 * returns atleast current year
+	 * 
+	 * @return String[]
+	 * @access public
+	 */
+	public function getLeaveYears() {
+		
+		$sqlBuilder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leave`";
 
+		$selectFields[] = "DISTINCT YEAR(`Leave_Date`) ";
+		
+		$selectConditions[] = "`Leave_Date` < '".date('Y')."-01-01'";
+
+		$selectOrder = "DESC";
+		
+		$selectOrderBy = "`Leave_Date`";	
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$years[] = date('Y');
+		
+		while ($row = mysql_fetch_row($result)) {
+			$years[] = $row[0];	
+		}
+		
+		return $years;
+
+	}
 }
 
 ?>
