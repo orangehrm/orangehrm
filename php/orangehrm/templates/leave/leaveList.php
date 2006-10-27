@@ -67,8 +67,8 @@
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
     	<?php } ?>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
+    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
+    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
     	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>

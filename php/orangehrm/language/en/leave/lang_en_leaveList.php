@@ -26,6 +26,10 @@
  *
  */
  
- $lang_Title			=	"Leave List"; 
+if ($modifier === "SUP") {
+ $lang_Title			=	"Approve Leave";
+} else {
+ $lang_Title			=	"Leave List";	
+}
  
 ?>
