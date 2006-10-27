@@ -33,12 +33,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <?php } ?>
 <script>			
 	
-	function returnAdd() {
+	function actionAdd() {
+				
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_View_Define';
  		document.DefineLeaveType.submit();
 	}
 	
-	function returnEdit() {
+	function actionEdit() {
 		
 	  with (document.DefineLeaveType) {		
 			for (var i=0; i < elements.length; i++) {
@@ -48,11 +49,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			}
 		}
 		document.getElementById("btnEdit").src = '../../themes/beyondT/pictures/btn_save.jpg' ;
-		document.getElementById("btnEdit").onmouseover = switchToSave;
-		document.getElementById("btnEdit").onmouseout = switchToSave2;
+		document.getElementById("btnEdit").onmouseover = switchToSave2;
+		document.getElementById("btnEdit").onmouseout = switchToSave;
 		document.getElementById("btnEdit").onclick = editRecord;
 		
-		
+		document.getElementById("btnAdd").disabled = 'true';
+		document.getElementById("btnDel").disabled = 'true';
 	}			
 	
 	function switchToSave() {
@@ -63,14 +65,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.getElementById("btnEdit").src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	}
 	
-	function returnEditData()
+	function actionEditData()
 	{
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
 	
 	
-	function returnDelete() {
+	function actionDelete() {
 		$check = 0;
 		with (document.DefineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
@@ -136,22 +138,17 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	
 	
 </script>
-<h3><?php echo $lang_Title?></h3>
-<form method="post" name="DefineLeaveType" id="DefineLeaveType" action=""><div>
-  <table width="161" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="32">
-	  <input type="image"  onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" name="btnAdd" id="btnAdd" onclick="returnAdd();"/>
-	</td>
-      <td width="48"></td>
-      <td width="33"><input type="image" src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="returnEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" name="btnEdit" id="btnEdit"/></td>
-      <td width="48"><input type="image" onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" name="btnDel" id="btnDel"/></td>
-    </tr>
-    <tr>
-      <td colspan="5">&nbsp;</td>
-    </tr>
-  </table>
-</div> 
+<h3><?php echo $lang_Title?><hr/></h3>
+<form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
+<p class="navigation">
+  
+	  <input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
+	  
+	<input type="image" src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" name="btnEdit" id="btnEdit"/>
+	
+      <input type="image" onclick="actionDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" name="btnDel" id="btnDel"/>
+</p>
+ 
   <table width="516" border="0" cellpadding="0" cellspacing="0">
   <thead>
     <tr>

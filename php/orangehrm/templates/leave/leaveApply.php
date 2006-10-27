@@ -57,7 +57,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//}
 </script>
 
-<h3><?php echo $lang_Title?></h3>
+<h3><?php echo $lang_Title?><hr/></h3>
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Apply">
   <table width="600" border="0" cellspacing="0" cellpadding="0">
     <tr>
