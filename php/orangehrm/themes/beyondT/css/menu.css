@@ -138,6 +138,48 @@
 	background: url(../pictures/defemprep_d.gif)  no-repeat left top;
 }
 
+/* Leave Module */
+
+#menu #applyLeave a:hover {	
+	background: url(../icons/applyLeave_o.gif)  no-repeat left top;
+}
+
+#menu #applyLeave a {	
+	background: url(../icons/applyLeave.gif)  no-repeat left top;
+}
+
+#menu #approveLeave a:hover {	
+	background: url(../icons/approveLeave_o.gif)  no-repeat left top;
+}
+
+#menu #approveLeave a {	
+	background: url(../icons/approveLeave.gif)  no-repeat left top;
+}
+
+#menu #defineLeaveType a:hover {	
+	background: url(../icons/defineLeaveType_o.gif)  no-repeat left top;
+}
+
+#menu #defineLeaveType a {	
+	background: url(../icons/defineLeaveType.gif)  no-repeat left top;
+}
+
+#menu #leaveList a:hover {	
+	background: url(../icons/leaveList_o.gif)  no-repeat left top;
+}
+
+#menu #leaveList a {	
+	background: url(../icons/leaveList.gif)  no-repeat left top;
+}
+
+#menu #leaveSummary a:hover {	
+	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
+}
+
+#menu #leaveSummary a {	
+	background: url(../icons/leaveSummary.gif)  no-repeat left top;
+}
+
 
 #menum1 {
 	visibility:hidden;

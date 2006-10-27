@@ -442,11 +442,11 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
                       <ul id="menu">
-  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
-  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leave List</a></li>
-  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
-  						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
-						<li id="compinfo"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave</a></li>
+  						<li id="leaveSummary"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
+  						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leave List</a></li>
+  						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
+  						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
+						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave</a></li>
 					</ul>
 			</TD>         
 <?			}
