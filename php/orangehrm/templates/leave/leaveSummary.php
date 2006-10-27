@@ -24,15 +24,12 @@
  $empInfo = $records[count($records)-1][0];
  
  array_pop($records);
- 
+  
  $auth = $modifier[1];
- $modifier = $modifier[0];
+ $dispYear = $modifier[2];
  
- if (is_array($records[0])) { 	
- 	$year = $records[0][0];
- 	$year =  $year->getYear();
- }
-
+ $modifier = $modifier[0];
+  
  $lan = new Language();
  
  if ($modifier === 'edit') {
@@ -61,10 +58,10 @@
 		document.frmSummary.submit();
 	}
 </script>
-<h3><?php echo $lang_Title.$year; ?><hr/></h3>
+<h3><?php echo $lang_Title.$dispYear; ?><hr/></h3>
 
 <?php 
-	if (!is_array($records)) { 
+	if (!is_array($records[0])) { 
 ?>
 	<h5>No records found!</h5>
 <?php

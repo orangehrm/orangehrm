@@ -61,7 +61,7 @@ class LeaveController {
 	
 	//public function
 
-	public function viewLeaves($modifier="employee") {
+	public function viewLeaves($modifier="employee", $year=null) {
 					
 		switch ($modifier) {
 			case "employee": $this->setObjLeave(new Leave());
@@ -71,15 +71,15 @@ class LeaveController {
 							 $this->_viewLeavesSupervisor();
 							 break;
 			case "summary" : $this->setObjLeave(new LeaveSummary());
-							 $this->_displayLeaveSummary();
+							 $this->_displayLeaveSummary("display", $year);							 
 							 break;
 		}
 	}
 	
-	public function editLeaves($modifier="summary") {
+	public function editLeaves($modifier="summary", $year=null) {
 		switch ($modifier) {			
 			case "summary" : $this->setObjLeave(new LeaveSummary());
-							 $this->_displayLeaveSummary("edit");
+							 $this->_displayLeaveSummary("edit", $year);
 							 break;
 		}
 	}
@@ -111,9 +111,7 @@ class LeaveController {
 	private function _changeLeaveStatus() {
 		$this->_authenticateChangeLeaveStatus();
 		
-		$tmpObj = $this->getObjLeave();
-		
-		echo $tmpObj->getLeaveStatus();
+		$tmpObj = $this->getObjLeave();		
 		
 		return $tmpObj->changeLeaveStatus($this->getId());		
 	}
@@ -201,19 +199,19 @@ class LeaveController {
 		
 		$auth = $this->_authenticateViewLeaveSummary();
 		
-		$modifiers = array($modifier, $auth);
+		$modifier = array($modifier, $auth, $year);
 		
 		$empInfoObj = new EmpInfo();
 		
 		$tmpObj = $this->getObjLeave();
 		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId(), $year);
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
-		//print_r($tmpObjX);
+		
 		$path = "/templates/leave/leaveSummary.php";
 		
 		$template = new TemplateMerger($tmpObjX, $path);
 		
-		$template->display($modifiers);
+		$template->display($modifier);
 	}
 	
 	/**

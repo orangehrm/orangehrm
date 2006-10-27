@@ -1080,12 +1080,13 @@ switch ($moduletype) {
 													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveController->setId($id);																						
-																						$leaveController->viewLeaves("summary");
+																						$leaveController->viewLeaves("summary", $year);
 																						break;
 																						
 													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
-																						$leaveController->setId($id);																						
-																						$leaveController->editLeaves("summary");
+																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+																						$leaveController->setId($id);																																												
+																						$leaveController->editLeaves("summary", $year);
 																						break;
 																						
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
@@ -1141,10 +1142,6 @@ switch ($moduletype) {
 																						
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
 																						break;
-																						
-													/*case 'Leave_Type_Edit_View'		:   $leaveController->setId($_POST['id']);
-																						$leaveController->displayLeaveEditTypeDefine();
-																						break;*/
 																						
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);
 																						if (isset($objs)) 
