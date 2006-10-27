@@ -43,7 +43,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			return false;
 		}
 		
-		//document.frmSkills.sqlState.value = "NewRecord";
+		<?php if ($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
+		//alert("test");
+		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
+		<?php } else {?>
+		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Define';
+		<? }?>
 		document.DefineLeaveType.submit();		
 	}			
 	
@@ -59,20 +64,39 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td colspan="2" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r1_c2" width="1" height="1" border="0" id="table_r1_c2" /></td>
       <td width="14"><img src="../../themes/beyondT/pictures/table_r1_c3.gif" alt="" name="table_r1_c3" width="13" height="12" border="0" id="table_r1_c3" /></td>
     </tr>
+	<?php if($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
     <tr>
-      <td rowspan="4" background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
-      <td width="182"><?php echo $lang_LeaveTypeName;?></td>
+      <td height="24" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
+      <td><?php echo $lang_oldLeaveTypeName; ?></td>
+      <td><?php //print_r($records); 
+	foreach ($records as $record) {
+	  echo $record->getLeaveTypeName(); }?></td>
+      <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
+    </tr>
+	<? }?>
+    <tr>
+      <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
+      <td width="182"><?php if($_REQUEST['action'] == "Leave_Type_Edit_View") { echo $lang_newLeaveTypeName; } else { echo $lang_LeaveTypeName;}?></td>
       <td width="391"><input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName"></td>
-      <td rowspan="4" background="../../themes/beyondT/pictures/table_r2_c3.gif."><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c3" width="1" height="1" border="0" id="table_r2_c3" /></td>
+      <td background="../../themes/beyondT/pictures/table_r2_c3.gif."><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c3" width="1" height="1" border="0" id="table_r2_c3" /></td>
     </tr>
     <tr></tr>
     <tr>
+      <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td colspan="2">&nbsp;</td>
+      <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
+    </tr>
+    <tr>
+      <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
+      <td colspan="2">&nbsp;</td>
+      <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
     
     
     <tr>
+      <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></td>
+      <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
     <tr>
       <td><img src="../../themes/beyondT/pictures/table_r3_c1.gif" alt="" name="table_r3_c1" width="13" height="16" border="0" id="table_r3_c1" /></td>

@@ -82,14 +82,14 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
     	
     	$res = $this->classLeaveType->retriveLeaveType("LTY014");
         
-        $expected = array('LTY014', 'Anual' , 1);
+        $expected = array('LTY014', 'Anual');
         
-        $this->assertEquals($res[0], $expected[0], "Didn't return expected result 1");
-        $this->assertEquals($res[1], $expected[1], "Didn't return expected result 2");
-        $this->assertEquals($res[2], $expected[2], "Didn't return expected result 3");
+        $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
+        $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
+
        
         
-        $this->assertEquals(count($res), 3, "Number of records found is not accurate ");
+        $this->assertEquals(count($res), 1, "Number of records found is not accurate ");
 
    }
 	
@@ -106,7 +106,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
 
         $res = $this->classLeaveType->retriveLeaveType("LTY011");
         
-        $expected[0] = array('Anual', 'LTY011', 1);
+        $expected[0] = array('Anual', 'LTY011');
       
         
         $this->assertEquals($res, true, "No record found ");
@@ -124,12 +124,11 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
    		
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
         
-
-        $expected = array('LTY012', 'New Medicals' , 1);
+   		$expected = array('LTY012', 'New Medicals');
         
-        $this->assertEquals($res[0], $expected[0], "Didn't return expected result 1");
-        $this->assertEquals($res[1], $expected[1], "Didn't return expected result 2");
-        $this->assertEquals($res[2], $expected[2], "Didn't return expected result 3");
+        $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
+        $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
+
         
         $this->assertEquals($res, true, "No record found ");
    		
@@ -138,16 +137,18 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
    
    public function testDeleteLeaveType () {
      	
+   		$this ->classLeaveType->setLeaveTypeId("LTY012");
+   		
    		$res = $this->classLeaveType->deleteLeaveType("LTY012");
    		
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
         
-
-        $expected = array('LTY012', 'Medicals' , 0);
+	
+        $expected = array('LTY012', 'Medicals' , $res[0]->unAvalableStatuFlag);
         
-        $this->assertEquals($res[0], $expected[0], "Didn't return expected result 1");
-        $this->assertEquals($res[1], $expected[1], "Didn't return expected result 2");
-        $this->assertEquals($res[2], $expected[2], "Didn't return expected result 3");
+        $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
+        $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
+
         
         $this->assertEquals($res, true, "No record found ");
    }

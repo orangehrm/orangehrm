@@ -96,6 +96,7 @@ class LeaveType {
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
+		
 	}
 	
 	private function _getNewLeaveTypeId() {		
@@ -140,9 +141,9 @@ class LeaveType {
 
 		$result = $dbConnection->executeQuery($query);
 		
-		$row = mysql_fetch_row($result);
+		$leaveTypeArr = $this->_buildObjArr($result);	
 		
-		return $row;
+		return $leaveTypeArr;
 	}
 	
 	public function editLeaveType ($leaveTypeId) {
@@ -173,7 +174,7 @@ class LeaveType {
 		
 	}
 	
-	public function deleteLeaveType($leaveTypeId) {
+	public function deleteLeaveType() {
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -183,8 +184,9 @@ class LeaveType {
 		
 		$changeValues[0] = "'".$this->unAvalableStatuFlag."'";
 
-		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveTypeId."'";
-		
+			
+		$updateConditions[0] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
 		//echo $query."\n";
@@ -192,7 +194,7 @@ class LeaveType {
 		$dbConnection = new DMLFunctions(); 
 
 		$result = $dbConnection->executeQuery($query);
-
+		
 		if (isset($result) && (mysql_affected_rows() > 0)) {
 			return true;
 		};
@@ -216,8 +218,8 @@ class LeaveType {
 
     	$selectOrderBy = $selectFields[0];
 		
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $selectOrderBy, $selectOrder, null);
-		
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder, null);
+		//echo $query."\n";
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection->executeQuery($query);

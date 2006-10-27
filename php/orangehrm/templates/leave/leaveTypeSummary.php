@@ -32,35 +32,82 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
 <script>			
-	//function goBack() {
-	//	location.href = "./CentralController.php?uniqcode=&VIEW=MAIN";
-	//}
-
-	function addSave() {
-		
-		if (document.DefineLeaveType.txtLeaveTypeName.value == '') {
-			alert ("Leave Date Cannot be a Blank Value!");
-			return false;
-		}
-		
-		//document.frmSkills.sqlState.value = "NewRecord";
-		document.DefineLeaveType.submit();		
+	function returnEdit() {
+			
 	}			
 	
+	function returnDelete() {
+		$check = 0;
+		with (document.DefineLeaveType) {
+			for (var i=0; i < elements.length; i++) {
+				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
+					$check = 1;
+				}
+			}
+		}
+	
+		if ( $check == 1 ){
+			
+			var res = confirm("Do you want to delete ?");
+			
+			if(!res) return;
+			
+			document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Delete';
+ 			document.DefineLeaveType.submit();
+		}else{
+			alert("Select At Least One Record To Delete");
+		}		
+	}
+	function doHandleAll() {
+		with (document.DefineLeaveType) {		
+			if(elements['allCheck'].checked == false){
+				doUnCheckAll();
+			}
+			else if(elements['allCheck'].checked == true){
+				doCheckAll();
+			}
+		}	
+	}
+	function doCheckAll() {
+		with (document.DefineLeaveType) {		
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox') {
+					elements[i].checked = true;
+				}
+			}
+		}
+	}
+
+	function doUnCheckAll() {
+		with (document.DefineLeaveType) {		
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox') {
+					elements[i].checked = false;
+				}
+			}
+		}
+	}
+	
+	function editRecord(id) {
+	
+ 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit_View';
+ 		document.DefineLeaveType.id.value = id; 
+ 		document.DefineLeaveType.submit();
+	}
 	//function clearAll() {
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
 </script>
 <h3><?php echo $lang_Title?></h3>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Type_Define"><div>
-  <table width="198" border="0" cellspacing="0" cellpadding="0">
+  <table width="161" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="65"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></td>
-      <td width="65"><img title="Edit" onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" src="../../themes/beyondT/pictures/btn_edit.jpg" name="EditAss" onClick="editAss();"></td>
-      <td width="206"><img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg"></td>
+      <td width="65"><a href="./CentralController.php?leavecode=Leave&amp;action=Leave_Type_View_Define"><img border="0" title="Add" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></a></td>
+      <td width="48"><img src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="returnEdit();" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" /></td>
+      <td width="48"><img onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" /></td>
     </tr>
     <tr>
-      <td colspan="3">&nbsp;</td>
+      <td colspan="4">&nbsp;</td>
     </tr>
   </table>
 </div> 
@@ -73,7 +120,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     </tr>
     <tr>
       <th class="tableMiddleLeft"></th>
-      <th width="77" class="tableMiddleMiddle">&nbsp;</th>
+      <th width="77" align="center" class="tableMiddleMiddle"><div align="center">
+        <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" /><input type="hidden" name="id" value="" />
+      </div></th>
       <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveTypeId?></th>
       <th colspan="4" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
       <th class="tableMiddleRight"></th>
@@ -93,8 +142,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 ?>
     <tr>
       <td class="tableMiddleLeft"></td>
-      <td align="center" class="<?php echo $cssClass; ?>"><input type="checkbox" name="checkbox" value="checkbox"></td>
-      <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?></td>
+      <td align="center" class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
+      <td class="<?php echo $cssClass; ?>">
+	  <a href="#" onclick="editRecord('<?php echo $record->getLeaveTypeId();?>');" class="listViewThS1"><?php echo $record->getLeaveTypeId();?></a>
+	  </td>
       <td colspan="4" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName();?></td>
       <td class="tableMiddleRight"></td>
     </tr>

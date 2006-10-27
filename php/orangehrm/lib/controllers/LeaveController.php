@@ -299,6 +299,53 @@ class LeaveController {
 		
 		$template->display();
 	}
+
+	
+	public function displayLeaveEditTypeDefine(){
+		
+		$tmpObj = new LeaveType();
+				
+		$this->setObjLeave($tmpObj);
+		
+		$tmpOb = $tmpObj->retriveLeaveType($this->getId());
+		
+		$path = "/templates/leave/leaveTypeDefine.php";
+		
+		$template = new TemplateMerger($tmpOb, $path);
+		
+		$template->display();
+	}
+	
+	public function editLeaveType() {
+		
+		$tmpObj = new LeaveType();
+		
+		$this->setObjLeave($tmpObj);
+		
+		$res = $tmpObj->editLeaveType($this->getId());
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
+	}
+	
+	public function LeaveTypeDelete() {
+		
+		$tmpObj = $this->getObjLeave();
+		
+		return $tmpObj->deleteLeaveType();
+		
+		if ($res) {
+			$message="SUCCESS";
+		} else {
+			$message="FAILURE";
+		}
+		
+		
+	}
+
 	
 	public function saveLeaveQuota() {
 		$tmpObj = $this->getObjLeave();
@@ -313,5 +360,6 @@ class LeaveController {
 		
 		return $message;
 	}
+
 }
 ?>

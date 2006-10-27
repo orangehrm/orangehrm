@@ -1138,6 +1138,29 @@ switch ($moduletype) {
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
 																						break;
 																						
+													case 'Leave_Type_Edit_View'		:   $leaveController->setId($_POST['id']);
+																						$leaveController->displayLeaveEditTypeDefine();
+																						break;
+																						
+													case 'Leave_Type_Edit'			: 	$obj = $LeaveTypeExtractor->parseEditData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->setId($obj->getLeaveTypeId());
+																						$leaveController->editLeaveType();
+																						$leaveController->redirect("SUCCESS");
+																						break;
+																						
+													case 'Leave_Type_Delete'		: 	$objs = $LeaveTypeExtractor->parseDeleteData($_POST);
+																						if (isset($objs)) 
+																						foreach ($objs as $obj) {
+																							$leaveController->setObjLeave($obj);
+																							$leaveController->setId($obj->getLeaveTypeId());
+																							$mes=$leaveController->LeaveTypeDelete();
+																							
+																						}
+
+																						$leaveController->redirect($mes);
+																						break;
+																												
 																						
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}

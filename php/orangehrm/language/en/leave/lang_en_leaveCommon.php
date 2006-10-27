@@ -47,7 +47,9 @@
 
  $lang_LeaveTypeName    = 	"Leave Type Name";
  $lang_LeaveTypeId		= 	"Leave Type Id";
-
+ $lang_oldLeaveTypeName = 	"Existing Leave Type Name";
+ $lang_newLeaveTypeName =	"New Leave Type Name";	
+ 
  $lang_EmployeeName 	=	"Empoloyee Name";
  
  $lang_LeaveEntitled	=	"Leave Entitled";
