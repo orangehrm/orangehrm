@@ -32,9 +32,43 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
 <script>			
+	
+	function returnAdd() {
+		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_View_Define';
+ 		document.DefineLeaveType.submit();
+	}
+	
 	function returnEdit() {
-			
+		
+	  with (document.DefineLeaveType) {		
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'text') {
+					elements[i].disabled = "";
+				}
+			}
+		}
+		document.getElementById("btnEdit").src = '../../themes/beyondT/pictures/btn_save.jpg' ;
+		document.getElementById("btnEdit").onmouseover = switchToSave;
+		document.getElementById("btnEdit").onmouseout = switchToSave2;
+		document.getElementById("btnEdit").onclick = editRecord;
+		
+		
 	}			
+	
+	function switchToSave() {
+		document.getElementById("btnEdit").src='../../themes/beyondT/pictures/btn_save.jpg';
+	}
+	
+	function switchToSave2() {
+		document.getElementById("btnEdit").src='../../themes/beyondT/pictures/btn_save_02.jpg';
+	}
+	
+	function returnEditData()
+	{
+		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
+ 		document.DefineLeaveType.submit();
+	}
+	
 	
 	function returnDelete() {
 		$check = 0;
@@ -58,6 +92,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			alert("Select At Least One Record To Delete");
 		}		
 	}
+	
+	
 	function doHandleAll() {
 		with (document.DefineLeaveType) {		
 			if(elements['allCheck'].checked == false){
@@ -68,6 +104,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			}
 		}	
 	}
+	
+	
 	function doCheckAll() {
 		with (document.DefineLeaveType) {		
 			for (var i=0; i < elements.length; i++) {
@@ -77,6 +115,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			}
 		}
 	}
+
 
 	function doUnCheckAll() {
 		with (document.DefineLeaveType) {		
@@ -88,26 +127,28 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 	}
 	
-	function editRecord(id) {
 	
- 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit_View';
- 		document.DefineLeaveType.id.value = id; 
+	function editRecord() {
+	
+ 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
-	//function clearAll() {
-	//	document.frmLeaveApp.txtSkillDesc.value = '';
-	//}
+	
+	
 </script>
 <h3><?php echo $lang_Title?></h3>
-<form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Type_Define"><div>
+<form method="post" name="DefineLeaveType" id="DefineLeaveType" action=""><div>
   <table width="161" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="65"><a href="./CentralController.php?leavecode=Leave&amp;action=Leave_Type_View_Define"><img border="0" title="Add" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></a></td>
-      <td width="48"><img src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="returnEdit();" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" /></td>
-      <td width="48"><img onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" /></td>
+      <td width="32">
+	  <input type="image"  onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" name="btnAdd" id="btnAdd" onclick="returnAdd();"/>
+	</td>
+      <td width="48"></td>
+      <td width="33"><input type="image" src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="returnEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" name="btnEdit" id="btnEdit"/></td>
+      <td width="48"><input type="image" onclick="returnDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" name="btnDel" id="btnDel"/></td>
     </tr>
     <tr>
-      <td colspan="4">&nbsp;</td>
+      <td colspan="5">&nbsp;</td>
     </tr>
   </table>
 </div> 
@@ -121,7 +162,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <th class="tableMiddleLeft"></th>
       <th width="77" align="center" class="tableMiddleMiddle"><div align="center">
-        <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" /><input type="hidden" name="id" value="" />
+        <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
       </div></th>
       <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveTypeId?></th>
       <th colspan="4" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
@@ -143,10 +184,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td class="tableMiddleLeft"></td>
       <td align="center" class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
-      <td class="<?php echo $cssClass; ?>">
-	  <a href="#" onclick="editRecord('<?php echo $record->getLeaveTypeId();?>');" class="listViewThS1"><?php echo $record->getLeaveTypeId();?></a>
+      <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
-      <td colspan="4" class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName();?></td>
+      <td colspan="4" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" size="10" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" />
+        <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
       <td class="tableMiddleRight"></td>
     </tr>
     <?php 	

@@ -318,24 +318,23 @@ class LeaveController {
 	
 	public function editLeaveType() {
 		
-		$tmpObj = new LeaveType();
+		$tmpObj = $this->getObjLeave();
 		
-		$this->setObjLeave($tmpObj);
-		
-		$res = $tmpObj->editLeaveType($this->getId());
+		$res = $tmpObj->editLeaveType();
 		
 		if ($res) {
-			$message="SUCCESS";
-		} else {
 			$message="FAILURE";
+		} else {
+			$message="SUCCESS";
 		}
+		return $message;
 	}
 	
 	public function LeaveTypeDelete() {
 		
 		$tmpObj = $this->getObjLeave();
-		
-		return $tmpObj->deleteLeaveType();
+
+		$res = $tmpObj->deleteLeaveType();
 		
 		if ($res) {
 			$message="SUCCESS";
@@ -343,7 +342,7 @@ class LeaveController {
 			$message="FAILURE";
 		}
 		
-		
+		return $message;
 	}
 
 	

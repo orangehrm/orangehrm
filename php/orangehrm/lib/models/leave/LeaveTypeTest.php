@@ -119,8 +119,8 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
    public function testEditLeavetype () {
    		
    		$this->classLeaveType->setLeaveTypeName("New Medicals");
-   		
-   		$res = $this->classLeaveType->editLeaveType("LTY012");
+   		$this->classLeaveType->setLeaveTypeId("LTY012");
+   		$res = $this->classLeaveType->editLeaveType();
    		
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
         

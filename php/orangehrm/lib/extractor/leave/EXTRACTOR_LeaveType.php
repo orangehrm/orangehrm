@@ -37,9 +37,21 @@ class EXTRACTOR_LeaveType {
 	
 	public function parseEditData($postArr) {
 		
-		$this->parent_LeaveType->setLeaveTypeId($postArr['id']);
+		$objLeave = null;
+	
+		for ($i=0; $i < count($postArr['txtLeaveTypeName']); $i++) {			
+			$tmpObj = new LeaveType();
+			$tmpObj->setLeaveTypeId($postArr['id'][$i]);
+			$tmpObj->setLeaveTypeName($postArr['txtLeaveTypeName'][$i]);
+
+			$objLeave[] = $tmpObj;			
+		}
+
+		return $objLeave;
+		
+		/*$this->parent_LeaveType->setLeaveTypeId($postArr['id']);
 		$this->parent_LeaveType->setLeaveTypeName($postArr['txtLeaveTypeName']);
-		return $this->parent_LeaveType;
+		return $this->parent_LeaveType;*/
 	}
 	
 	public function parseDeleteData($postArr) {

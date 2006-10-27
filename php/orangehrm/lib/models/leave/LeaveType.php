@@ -146,7 +146,7 @@ class LeaveType {
 		return $leaveTypeArr;
 	}
 	
-	public function editLeaveType ($leaveTypeId) {
+	public function editLeaveType () {
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -156,7 +156,7 @@ class LeaveType {
 		
 		$changeValues[0] = "'".$this->getLeaveTypeName()."'";
 
-		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveTypeId."'";
+		$updateConditions[0] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
 		
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
