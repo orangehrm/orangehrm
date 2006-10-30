@@ -1,3 +1,7 @@
+New & Changed Features for OrangeHRM ver 2.0 (30/10/2006)
+
+	In OrangeHRM-ver-2.0 Leave module is introduced.
+
 New & Changed Features for OrangeHRM ver 1.2 (16/08/2006)
 
 	The main idea behind releasing OrangeHRM-ver-1.2 is to make the application more 
