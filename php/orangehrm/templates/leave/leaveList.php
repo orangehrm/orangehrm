@@ -138,7 +138,14 @@
     		
     		echo $leaveLength;			
     ?></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveComments(); ?></td>
+    <td class="<?php echo $cssClass; ?>">	
+	<?php if ($modifier == null) { 
+			echo $record->getLeaveComments(); ?>
+		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />			
+	<?php } else if ($modifier == "SUP") { ?>
+		<input type="text" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />		
+		<?php } ?>	</td>
 	<td class="tableMiddleRight"></td>
   </tr>
 

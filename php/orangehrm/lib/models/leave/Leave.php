@@ -183,7 +183,7 @@ class Leave {
 		$arrFields[2] = '`Leave_Status`';
 		$arrFields[3] = '`Leave_Length`';
 		$arrFields[4] = '`Leave_Comments`';
-		$arrFields[5] = '`Leave_ID`';
+		$arrFields[5] = '`Leave_ID`';		
 		
 		$arrTable = "`hs_hr_leave`";
 
@@ -227,6 +227,7 @@ class Leave {
 		$arrFields[4] = 'a.`Leave_Comments`';
 		$arrFields[5] = 'a.`Leave_ID`';		
 		$arrFields[6] = 'd.`emp_firstname`';
+		$arrFields[7] = 'a.`Employee_Id`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";		
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
@@ -399,8 +400,12 @@ class Leave {
 		$table = "`hs_hr_leave`";
 
 		$changeFields[0] = "`Leave_Status`";
+		$changeFields[1] = "`Leave_Comments`";
 
 		$changeValues[0] = $this->getLeaveStatus();
+		$changeValues[1] = "'".$this->getLeaveComments()."'";
+		
+		//print_r($changeValues);
 
 		$updateConditions[0] = "`Leave_ID` = ".$this->getLeaveId();
 
@@ -470,6 +475,7 @@ class Leave {
 			
 			if ($supervisor) {
 				$tmpLeaveArr->setEmployeeName($row[6]);
+				$tmpLeaveArr->setEmployeeId($row[7]);
 			}
 			
 			$objArr[] = $tmpLeaveArr;

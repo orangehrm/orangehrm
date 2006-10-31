@@ -1116,7 +1116,7 @@ switch ($moduletype) {
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
-																							echo $leaveController->getObjLeave()->getLeaveStatus();
+																							//echo $leaveController->getObjLeave()->getLeaveStatus();
 																							$mes=$leaveController->changeStatus("change");
 																						}
 																						$leaveController->redirect($mes);

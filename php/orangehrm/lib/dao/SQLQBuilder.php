@@ -1089,18 +1089,20 @@ function getCurrencyAssigned($salgrd) {
 	
 	function _buildSet($arrFields, $arrValues) {
 		
-		$query = "SET".$this->_buildFormattedList($arrFields, $arrValues, " = ");		
-
+		$query = "SET ".$this->_buildFormattedList($arrFields, $arrValues, " = ", "", ",");		
+		
 		return $query;
 	}
 	
 	function _buildFormattedList($arrFields, $arrValues, $strJoiner, $strPrepend = "", $strAppend = "") {
 		
-		$query = "";
+		$query = "";		
 		
 		for ($i=0; $i < count($arrFields); $i++) {
-			$query = sprintf(" %s %s %s %s ", $strPrepend, $arrFields[$i], $strJoiner, $arrValues[$i], $strAppend);
+			$query .= sprintf(" %s %s %s %s %s ", $strPrepend, $arrFields[$i], $strJoiner, $arrValues[$i], $strAppend);			
 		}
+		
+		$query = $this->_trimLastChar($query, $strAppend);
 		
 		return $query;			
 	}	

@@ -56,6 +56,11 @@ class EXTRACTOR_Leave {
 			$tmpObj = new Leave();
 			$tmpObj->setLeaveId($postArr['id'][$i]);
 			$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
+			$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
+			
+			if (isset($postArr['txtEmployeeId'][$i])) {
+				$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);				
+			}
 				
 			$objLeave[] = $tmpObj;			
 		}

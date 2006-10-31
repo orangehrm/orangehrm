@@ -250,16 +250,24 @@ class LeaveController {
 	 *
 	 */
 	private function _authenticateChangeLeaveStatus() {
-		$id = $this->getId();
-		if ($id !== $_SESSION['empID']) {
+		$status = $this->getObjLeave()->getLeaveStatus();
+		
+		if ($status != $this->getObjLeave()->statusLeaveCancelled) {
+			$id = $this->getObjLeave()->getEmployeeId();
+		}		
+		
+		if (isset($id) && ($id != $_SESSION['empID'])) {
 			
 			$objReportTo = new EmpRepTo();
 			
-			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
+			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);			
 			
 			if (!array_search($id, $subordinates[0])) {
 				trigger_error("Unauthorized access", E_USER_NOTICE);
+				
 			}
+		} else if (isset($id)) {
+			trigger_error("Unauthorized access", E_USER_NOTICE);
 		}
 	}
 	
