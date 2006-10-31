@@ -143,10 +143,12 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     
     public function testRetriveLeaveSupervisorAccuracy() {
 
-        $res = $this->classLeave->retriveLeaveSupervisor("EMP012");
+    	$empId = "EMP012";
+    	
+        $res = $this->classLeave->retriveLeaveSupervisor($empId);
         
-        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe');
-        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe');
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe', "EMP011");
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe', "EMP011");
         
         $this->assertEquals($res, true, "No record found");
         
@@ -159,6 +161,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
         	$this->assertEquals($res[$i]->getEmployeeName(), $expected[$i][5], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getEmployeeId(), $expected[$i][6], "Didn't return expected result ");
         }
        
     }
