@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
@@ -256,18 +256,26 @@ class LeaveController {
 			$id = $this->getObjLeave()->getEmployeeId();
 		}		
 		
-		if (isset($id) && ($id != $_SESSION['empID'])) {
+		if (isset($id)) {
 			
 			$objReportTo = new EmpRepTo();
 			
 			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);			
 			
-			if (!array_search($id, $subordinates[0])) {
-				trigger_error("Unauthorized access", E_USER_NOTICE);
-				
+			$subordinate = false;
+			
+			for ($i=0; $i < count($subordinates); $i++) {
+				if (in_array($id, $subordinates[$i])) {
+					$subordinate = true;
+					break;
+				}
+			}			
+			
+			if (!$subordinate) {
+				trigger_error("Unauthorized access", E_USER_NOTICE);				
 			}
-		} else if (isset($id)) {
-			trigger_error("Unauthorized access", E_USER_NOTICE);
+		} else if (isset($id) && ($id === $_SESSION['empID'])) {
+			trigger_error("Unauthorized access1", E_USER_NOTICE);
 		}
 	}
 	

@@ -98,7 +98,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	}
 }	
 
-set_error_handler('notifyUser');
+//set_error_handler('notifyUser');
 
 require_once ROOT_PATH . '/lib/logs/LogWriter.php';
 
