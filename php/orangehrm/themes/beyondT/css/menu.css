@@ -28,6 +28,10 @@
 	color: #000000;   
 }
 
+#menu li a:focus, #menu li a:active {
+	outline: none;  
+}
+
 #menu li{	
 	display: block;
 	list-style-position: outside;
