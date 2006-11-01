@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -78,11 +78,11 @@ return flag;
 
 
 function goBack() {
-	location.href = "./CentralController.php?repcode=<?=$this->getArr['repcode']?>&VIEW=MAIN";
+	location.href = "./CentralController.php?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN";
 	}
 	
 function returnEmpDetail(){
-		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&REPORT=REPORT','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;	
 }
 
@@ -420,12 +420,12 @@ function disableSerPeriodField() {
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style1.css"); </style>
 </head>
-<? if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>	
+<?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>	
 <body>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$headingInfo[0]?></h2></td>
+    <td width='100%'><h2><?php echo $headingInfo[0]?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -438,7 +438,7 @@ function disableSerPeriodField() {
 <p>
 <p>
 <table border="0">
-<form name="frmEmpRepTo" method="post" action="<?=$_SERVER['PHP_SELF']?>?repcode=<?=$this->getArr['repcode']?>&capturemode=addmode">
+<form name="frmEmpRepTo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&capturemode=addmode">
 <input type="hidden" name="sqlState">
 
 
@@ -455,11 +455,11 @@ function disableSerPeriodField() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td>Report ID</td>
-                      <td ><strong><?=$this->popArr['newID']?></strong></td>
+                      <td ><strong><?php echo $this->popArr['newID']?></strong></td>
       				 </tr>
     				 <tr>
  					  <td>Report Name</td>
-						<td ><input type="text"  name="txtRepName" value="<?=(isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : '') ?>"  ></td>
+						<td ><input type="text"  name="txtRepName" value="<?php echo (isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : '') ?>"  ></td>
 					</tr>
 					  
                   </table></td>
@@ -491,20 +491,20 @@ function disableSerPeriodField() {
                
                    
                     <tr>
-                       <td><input type='checkbox' class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+                       <td><input type='checkbox' class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
                       <td valign="top">EMP No</td>
-                      <td align="left" valign="top"><input type="text"  readonly name="txtRepEmpID" value="<?=isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>"   ></td>
-                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
+                      <td align="left" valign="top"><input type="text"  readonly name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>"   ></td>
+                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
   					</tr>
  	
 
 
 					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
   					 <td valign="top">Age Group</td>
-					 <td align="left" valign="top"> <select   name="cmbAgeCode" onChange="disableAgeField();" <?= (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					 <td align="left" valign="top"> <select   name="cmbAgeCode" onChange="disableAgeField();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
  					  <option value="0">--Select Comparison-</option>
-<?					  
+<?php					  
 							$keys   = array_keys($arrAgeSim);
 							$values = array_values($arrAgeSim);
 							
@@ -516,8 +516,8 @@ function disableSerPeriodField() {
 ?>					  
 					  </select>
 				    </td> 
-					<td> <input type="text" <?=isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'disabled'?>  name='txtEmpAge1' value="<?=isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" ></td>
-					<td> <input type="text" <?=isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'disabled'?> name='txtEmpAge2' value="<?=isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" ></td>
+					<td> <input type="text" <?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'disabled'?>  name='txtEmpAge1' value="<?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" ></td>
+					<td> <input type="text" <?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'disabled'?> name='txtEmpAge2' value="<?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" ></td>
 					
 					</tr>
 	
@@ -525,11 +525,11 @@ function disableSerPeriodField() {
 
                
 				<tr>
-				  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
+				  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
 				  <td>Pay Grade</td>
-			      <td><select  name="cmbSalGrd" <?= (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
+			      <td><select  name="cmbSalGrd" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
 			  		<option value="0">--Select Pay. Grade--</option>
-<?					$grdlist = $this->popArr['grdlist'];
+<?php					$grdlist = $this->popArr['grdlist'];
 					for($c=0;$grdlist && count($grdlist)>$c;$c++)
 						if(isset($this->postArr['cmbSalGrd']) && $this->postArr['cmbSalGrd']==$grdlist[$c][0])
 							echo "<option selected value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
@@ -541,12 +541,12 @@ function disableSerPeriodField() {
 			
 
    					<tr>
-					<td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					<td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
 				    <td>Education</td>
     				  <td>
-					  <select name="TypeCode"  <?= (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
+					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
 					  <option value=0>-Select Edu. Type-</option>
-<?					  
+<?php					  
 						$edulist=$this -> popArr['edulist'];
 						for($c=0;$edulist && count($edulist)>$c;$c++)
 							if(isset($this->postArr['TypeCode']) && $this->postArr['TypeCode']==$edulist[$c][0])
@@ -561,11 +561,11 @@ function disableSerPeriodField() {
 
             	
 <tr>																														
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
-					  <td valign="top">Employee Status</td>
-					  	<td><select name="cmbEmpType" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
+					  <td valign="top">Employment Status</td>
+					  	<td><select name="cmbEmpType" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 			  		    <option value="0">--Select Empl. Status--</option>
-<?
+<?php
 					//if(isset($this->postArr['cmbEmpType'])) {
 						$arrEmpType=$this-> popArr['arrEmpType'];
 						for($c=0;$arrEmpType && count($arrEmpType)>$c;$c++)
@@ -579,11 +579,11 @@ function disableSerPeriodField() {
 
                 
 					<tr>
-					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
+					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
 					  <td valign="top">Service Period</td>
-					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()" <?= (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					     <option value="0">--Select Comparison-</option>
-<?					  
+<?php					  
 							$keys   = array_keys($arrAgeSim);
 							$values = array_values($arrAgeSim);
 							
@@ -596,17 +596,17 @@ function disableSerPeriodField() {
 							?>					  
 					     </select>
 					  	</td>
-				        <td><input type="text" <?=isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'disabled'?> name="Service1" value="<?=isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" ></td>
-                        <td><input type="text" <?=isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'disabled'?> name="Service2" value="<?=isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" ></td>
+				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'disabled'?> name="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" ></td>
+                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'disabled'?> name="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" ></td>
 					</tr>
 					
 
    					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
+					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
 					 <td>Job Title</td>
-					  <td><select  name="cmbDesig" <?=(isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  <td><select  name="cmbDesig" <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  		<option value="0">---Select JobTitle---</option>
-<?
+<?php
 							$deslist = $this->popArr['deslist'];
 							for($c=0;$deslist && count($deslist)>$c;$c++)
 								if(isset($this->postArr['cmbDesig']) && $this->postArr['cmbDesig']==$deslist[$c][0])
@@ -720,12 +720,12 @@ function disableSerPeriodField() {
 </table>
 </form>
 </body>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {  ?>
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {  ?>
 <body>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$headingInfo[1]?></h2></td>
+    <td width='100%'><h2><?php echo $headingInfo[1]?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -738,10 +738,10 @@ function disableSerPeriodField() {
 <p>
 <p>
 <table border="0">
-<form name="frmEmpRepTo" method="post" action="<?=$_SERVER['PHP_SELF']?>?repcode=<?=$this->getArr['repcode']?>&id=<?=$this->getArr['id']?>&capturemode=updatemode">
+<form name="frmEmpRepTo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>&capturemode=updatemode">
 <input type="hidden" name="sqlState">
 
-<? $edit = $this->popArr['editArr']; ?>
+<?php $edit = $this->popArr['editArr']; ?>
 <tr><td>
    <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -755,15 +755,15 @@ function disableSerPeriodField() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td>Report ID</td>
-    				  <td ><strong><?=$edit[0][0]?></strong><input type="hidden" name="txtRepID" value="<?=$edit[0][0]?>"></td>
+    				  <td ><strong><?php echo $edit[0][0]?></strong><input type="hidden" name="txtRepID" value="<?php echo $edit[0][0]?>"></td>
     				 
     				 </tr>
     				 <tr>
  					  <td>Report Name</td>
-					  <td ><input type="text" disabled name="txtRepName" value="<?=isset($this->post['txtRepName']) ? $this->post['txtRepName'] : $edit[0][1]?>"></td>
+					  <td ><input type="text" disabled name="txtRepName" value="<?php echo isset($this->post['txtRepName']) ? $this->post['txtRepName'] : $edit[0][1]?>"></td>
 					</tr>
     				 <tr>
- 					  <td><b><a href="<?=$_SERVER['PHP_SELF']?>?id=<?=$edit[0][0]?>&repcode=RUG">Assign User Groups</a></b></td>
+ 					  <td><b><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $edit[0][0]?>&repcode=RUG">Assign User Groups</a></b></td>
 					</tr>
 
                   </table></td>
@@ -793,23 +793,23 @@ function disableSerPeriodField() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
-                  <? $editCriteriaChk= $this->popArr['editCriteriaChk'];?>
-                   <?$criteriaData=$this->popArr['editCriteriaData'];?>
+                  <?php $editCriteriaChk= $this->popArr['editCriteriaChk'];?>
+                  <?php $criteriaData=$this->popArr['editCriteriaData'];?>
                     <tr>
-                       <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+                       <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
                       <td valign="top">EMP No</td>
-                      <td align="left" valign="top"><input type="text"  readonly name="txtRepEmpID" value="<?=isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
-                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
+                      <td align="left" valign="top"><input type="text"  readonly name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
+                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
   					</tr>
  	
 
 
 					<tr>
-					 <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('AGE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('AGE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
   					 <td valign="top">Age Group</td>
-					 <td align="left" valign="top"> <select name="cmbAgeCode" onChange="disableAgeField()" <?= (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					 <td align="left" valign="top"> <select name="cmbAgeCode" onChange="disableAgeField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
  					  <option value="0">--Select Comparison-</option>
-<?					  
+<?php					  
 							$keys   = array_keys($arrAgeSim);
 							$values = array_values($arrAgeSim);
 							
@@ -820,7 +820,7 @@ function disableSerPeriodField() {
 									else
 										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>"; 
 								} else {
-									if($criteriaData['AGE'][0]==$values[$c])
+									if(isset($criteriaData['AGE']) && $criteriaData['AGE'][0]==$values[$c])
 										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
 									else
 										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>"; 
@@ -828,21 +828,17 @@ function disableSerPeriodField() {
 ?>
 					  </select>
 				    </td> 
-					<td> <input type="text" disabled name='txtEmpAge1' value="<?=isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" ></td>
-					<td> <input type="text" disabled name='txtEmpAge2' value="<?=isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" ></td>
+					<td> <input type="text" disabled name='txtEmpAge1' value="<?php echo isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" ></td>
+					<td> <input type="text" disabled name='txtEmpAge2' value="<?php echo isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" ></td>
 					
 					</tr>
-	
-<?/*$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->logW(print_r($criteriaData).'ddd');*/?>
-
-               
+            
 					<tr>
-				  <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('PAYGRD',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
+				  <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('PAYGRD',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
 				  <td>Pay Grade</td>
-			      <td><select  name="cmbSalGrd"   <?= (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
+			      <td><select  name="cmbSalGrd"   <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
 		<option value="0">--Select Sal. Grade--</option>
-<?					$grdlist = $this->popArr['grdlist'];
+<?php					$grdlist = $this->popArr['grdlist'];
 					for($c=0;$grdlist && count($grdlist)>$c;$c++)
 						if(isset($this->postArr['cmbSalGrd'])) {
 							if($this->postArr['cmbSalGrd']==$grdlist[$c][0])
@@ -850,7 +846,7 @@ function disableSerPeriodField() {
 							else
 								echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
 						} else {
-							if($criteriaData['PAYGRD'][0]==$grdlist[$c][0])
+							if(isset($criteriaData['PAYGRD']) && $criteriaData['PAYGRD'][0]==$grdlist[$c][0])
 								echo "<option selected value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
 							else
 								echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
@@ -861,15 +857,15 @@ function disableSerPeriodField() {
 			
 
    					<tr>
-					<td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('QUL',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					<td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('QUL',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
 				    <td>Education</td>
     				  <td>
-					  <select name="TypeCode"  <?= (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
+					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
 					  <option value=0>-Select Edu. Type-</option>
-<?					  
+<?php					
 						$edulist=$this -> popArr['edulist'];
 						for($c=0;$edulist && count($edulist)>$c;$c++)
-							if(isset($this->postArr['TypeCode']) && $this->postArr['TypeCode']==$edulist[$c][0])
+							if(isset($criteriaData['QUL']) && $criteriaData['QUL'][0]==$edulist[$c][0])
 							   echo "<option selected value=" . $edulist[$c][0] . ">" . $edulist[$c][2].', '.$edulist[$c][1] . "</option>";
 							else
 							   echo "<option value=" . $edulist[$c][0] . ">" .$edulist[$c][2].', '. $edulist[$c][1] . "</option>";
@@ -882,21 +878,22 @@ function disableSerPeriodField() {
             	
 <tr>					
 																									
-					  <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('EMPSTATUS',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
-					  <td valign="top">Employee States</td>
-					  	<td><select name="cmbEmpType"  <?= (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPSTATUS',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
+					  <td valign="top">Employment Status</td>
+					  	<td><select name="cmbEmpType"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 			  		<option value="0">--Select Empl. Type--</option>
-<?							for($c=0;count($arrEmpType)>$c;$c++)
+<?php							$arrEmpType = $this->popArr['arrEmpType'];
+								for($c=0;count($arrEmpType)>$c;$c++)
 								if(isset($this->postArr['cmbEmpType'])){
-									if($this->postArr['cmbEmpType']==$arrEmpType[$c])
-										echo "<option selected>" .$arrEmpType[$c]. "</option>";
+									if($this->postArr['cmbEmpType']==$arrEmpType[$c][0])
+										echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 									else
-										echo "<option>" .$arrEmpType[$c]. "</option>";
+										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 								} else {
-									if($criteriaData['EMPSTATUS'][0]==$arrEmpType[$c])
-										echo "<option selected>" .$arrEmpType[$c]. "</option>";
+									if(isset($criteriaData['EMPSTATUS']) && $criteriaData['EMPSTATUS'][0]==$arrEmpType[$c][0])
+										echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 									else
-										echo "<option>" .$arrEmpType[$c]. "</option>";
+										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 								}
 ?>			        
 			         		</select>
@@ -906,11 +903,11 @@ function disableSerPeriodField() {
 
                 
 					<tr>
-					   <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('SERPIR',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
+					   <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SERPIR',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>  
 					  <td valign="top">Service Period</td>
-					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()"  <?= (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
+					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
 					     <option value="0">--Select Comparison-</option>
-<?					  
+<?php					  
 							$keys   = array_keys($arrAgeSim);
 							$values = array_values($arrAgeSim);
 							
@@ -929,17 +926,17 @@ function disableSerPeriodField() {
 							?>					  
 					     </select>
 					  	</td>
-				        <td><input type="text" disabled name="Service1" value="<?=isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" ></td>
-                        <td><input type="text" disabled name="Service2" value="<?=isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>" ></td>
+				        <td><input type="text" disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" ></td>
+                        <td><input type="text" disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>" ></td>
 					</tr>
 					
    					<tr>
-					 <td><input <?=isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?=in_array('JOBTITLE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onclick="chkboxCriteriaEnable()" <?= (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
+					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOBTITLE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
 					  
 					 <td>Job Title</td>
-					  <td><select  name="cmbDesig"  <?=(isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  <td><select  name="cmbDesig"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 				  		<option value="0">---Select JobTitle---</option>
-<?
+<?php
 							$deslist = $this->popArr['deslist'];
 							for($c=0;$deslist && count($deslist)>$c;$c++)
 								if(isset($this->postArr['cmbDesig'])) {
@@ -949,7 +946,7 @@ function disableSerPeriodField() {
 										else
 											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
 								} else {
-									 if($criteriaData['JOBTITLE'][0]==$deslist[$c][0])
+									 if(isset($criteriaData['JOBTITLE']) && $criteriaData['JOBTITLE'][0]==$deslist[$c][0])
 										
 											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
 										else
@@ -990,60 +987,60 @@ function disableSerPeriodField() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  <? $fieldArr= $this->popArr['fieldList'];?>
+                  <?php $fieldArr= $this->popArr['fieldList'];?>
                   
                     <tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('EMPNO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPNO'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPNO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPNO'></td>
 						 <td>Emp No</td>
 					</tr>
                 
                  
                   	
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('EMPLASTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPLASTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
 						 <td>Last Name</td>
 					</tr>
                  
                 
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('ADDRESS1',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('ADDRESS1',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
 						 <td>Address</td>
 					</tr>
                 
                  
                   	
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('TELENO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='TELENO'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('TELENO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='TELENO'></td>
 						 <td>Tel No</td>
 					</tr>
                 
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('AGE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='AGE'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('AGE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='AGE'></td>
 						 <td>Date Of Birth</td>
 					</tr>
                 
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('JOBTITLE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('JOBTITLE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
 						 <td>Job Title</td>
 					</tr>
                
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('SERPIR',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='SERPIR'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('SERPIR',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='SERPIR'></td>
 						 <td>Join Date</td>
 					</tr>
               
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('QUL',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='QUL'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('QUL',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='QUL'></td>
 						 <td>Qualification</td>
 					</tr>
                
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('EMPSTATUS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPSTATUS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
 						 <td>Employee States</td>
 					</tr>
                
 					<tr>
-                      	 <td><input disabled type='checkbox' <?=in_array('PAYGRD',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='PAYGRD'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('PAYGRD',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='PAYGRD'></td>
 						 <td>Pay Grade</td>
 					</tr>
 					
@@ -1066,5 +1063,5 @@ function disableSerPeriodField() {
 </table>
 </form>
 </body>	
-<?}?>
+<?php } ?>
 </html>

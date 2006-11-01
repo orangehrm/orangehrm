@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Currency Assignment to Salary Grade';
 $salgradeid		= 'Salary Grade ID';
 $salgradename	= 'Salary Grade Name';

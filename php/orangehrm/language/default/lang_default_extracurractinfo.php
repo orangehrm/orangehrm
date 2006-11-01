@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Extra Curricular Activity Information : Qualification Information';
 $code			= 'Code';
 $description	= 'Description';

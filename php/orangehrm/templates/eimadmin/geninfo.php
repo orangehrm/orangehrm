@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -66,8 +66,8 @@ $objAjax->processRequests();
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? $objAjax->printJavascript(); ?>
-<? include(ROOT_PATH.'/scripts/archive.js'); ?>
+<?php $objAjax->printJavascript(); ?>
+<?php include(ROOT_PATH.'/scripts/archive.js'); ?>
 <script>
 
 function mout() {
@@ -109,21 +109,21 @@ function edit()
 	function addUpdate() {
 
 		if (document.frmGenInfo.txtCompanyName.value == '') {
-			alert ("<?=$err_CompanyName?>");
+			alert ("<?php echo $err_CompanyName?>");
 			document.frmGenInfo.txtCompanyName.focus();
 			return;
 		} 
 
 		var cntrl = document.frmGenInfo.txtPhone;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('<?=$err_Phone?>');
+			alert('<?php echo $err_Phone?>');
 			cntrl.focus();
 			return;
 		}
 		
 		var cntrl = document.frmGenInfo.txtFax;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('<?=$err_Phone?>');
+			alert('<?php echo $err_Phone?>');
 			cntrl.focus();
 			return;
 		}
@@ -159,22 +159,22 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><div id="status"></div></td>
   </tr>
 </table>
 <p>
 <p> 
-<? $editArr = $this->popArr['editArr']; ?>
+<?php $editArr = $this->popArr['editArr']; ?>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmGenInfo" id="frmGenInfo" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> 
        <input type="hidden" name="STAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -188,7 +188,7 @@ function edit()
   </tr><td width="177">
 </table>
 
-<? $editArr = $this->popArr['editArr']; ?>
+<?php $editArr = $this->popArr['editArr']; ?>
 
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -201,16 +201,16 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			<tr>
-							    <td><span class="error">*</span> <?=$compname?></td>
-							    <td><input type="text" disabled name="txtCompanyName" value="<?=isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
-							    <td><?=$taxID?></td>
-							    <td><input type="text" disabled name='txtTaxID'value="<?=isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
+							    <td><span class="error">*</span> <?php echo $compname?></td>
+							    <td><input type="text" disabled name="txtCompanyName" value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
+							    <td><?php echo $taxID?></td>
+							    <td><input type="text" disabled name='txtTaxID'value="<?php echo isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
 				    </tr>
 							  <tr> 
-							    <td><?=$country?></td>
+							    <td><?php echo $country?></td>
 							    <td><select name='cmbCountry' disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 							    		<option value="0">--- Select ---</option>
-							    <?		$cntlist = $this->popArr['cntlist'];
+							    <?php		$cntlist = $this->popArr['cntlist'];
 							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
 							    			if(isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == $cntlist[$c][0]))
 							    				echo "<option selected value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
@@ -218,28 +218,28 @@ function edit()
 							    				echo "<option value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 							    ?>
 							    </select></td>
-							    <td><?=$naics?></td>
-							    <td><input type="text" disabled name='txtNAICS' value="<?=isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>"></td>
+							    <td><?php echo $naics?></td>
+							    <td><input type="text" disabled name='txtNAICS' value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>"></td>
 							  </tr>
 							  <tr> 
-							    <td><?=$street1?></td>
-							    <td><input type="text" disabled name='txtStreet1' value="<?=isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>"></td>
-							    <td><?=$zip?></td>
-							    <td><input type="text" disabled name='txtZIP' value="<?=isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>"></td>
+							    <td><?php echo $street1?></td>
+							    <td><input type="text" disabled name='txtStreet1' value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>"></td>
+							    <td><?php echo $zip?></td>
+							    <td><input type="text" disabled name='txtZIP' value="<?php echo isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>"></td>
 							  </tr>
 							  <tr> 
-							    <td><?=$street2?></td>
-							    <td><input type="text" disabled name='txtStreet2' value="<?=isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
-							    <td><?=$phone?></td>
-							    <td><input type="text" disabled name='txtPhone' value="<?=isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
+							    <td><?php echo $street2?></td>
+							    <td><input type="text" disabled name='txtStreet2' value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
+							    <td><?php echo $phone?></td>
+							    <td><input type="text" disabled name='txtPhone' value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
 							  </tr>
                   			  <tr valign="top"> 
-							    <td><?=$state?></td>
+							    <td><?php echo $state?></td>
 							    <td><div id="lrState" name="lrState">
-							    <? if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
+							    <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>
 							    		<option value="0">--- Select ---</option>
-							     	<?	$statlist = $this->popArr['provlist'];
+							     	<?php	$statlist = $this->popArr['provlist'];
 							    		for($c=0; $statlist && count($statlist)>$c ;$c++) 
 							    			if($editArr['STATE'] == $statlist[$c][1])
 							    				echo "<option selected value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
@@ -247,27 +247,27 @@ function edit()
 							    				echo "<option value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
 							    	?>
 							    	</select>
-							    	<? } else { ?>
-							    	<input type="text" disabled name="txtState" id="txtState" value="<?=isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
-							    	<? } ?>
+							    	<?php } else { ?>
+							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
+							    	<?php } ?>
 							    	</div>
-							    	<input type="hidden" name="cmbState" id="cmbState" value="<?=isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
+							    	<input type="hidden" name="cmbState" id="cmbState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
 						    	</td>
-							    <td><?=$fax?></td>
-							    <td><input type="text" disabled name="txtFax" value="<?=isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
+							    <td><?php echo $fax?></td>
+							    <td><input type="text" disabled name="txtFax" value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
 							  </tr>
 							  <tr valign="top"> 
-							    <td><?=$city?></td>
-							    <td><input type="text" disabled name="cmbCity" value="<?=isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>
-							    <td><?=$comments?></td>
-							    <td><textarea disabled name='txtComments'><?=isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea></td>
+							    <td><?php echo $city?></td>
+							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>
+							    <td><?php echo $comments?></td>
+							    <td><textarea disabled name='txtComments'><?php echo isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea></td>
 							  </tr>
 							  <tr><td></td><td></td><td></td><td align="right">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
-<?			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>'); return false;">
-<?			}  ?>
+<?php			} else { ?>
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;">
+<?php			}  ?>
 					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll(); return false;" />
 							</td> </tr>
                   </table></td>

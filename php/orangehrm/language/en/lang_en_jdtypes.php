@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Job Description Type : Job Profile';
 $code			= 'Code';
 $description	= 'Description';

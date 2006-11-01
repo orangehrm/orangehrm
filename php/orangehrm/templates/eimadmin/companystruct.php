@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
@@ -220,7 +220,7 @@ function traceCompStruct($level,$value,$maxlev) {
 <html>
 <head>
 <title>Untitled Document</title>
-<? $objAjax->printJavascript(); ?>
+<?php $objAjax->printJavascript(); ?>
 <script language="JavaScript">
 
 function addFormData(level) {
@@ -389,20 +389,20 @@ function clearFrmLevData(level) {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
-						<? 
+						<?php 
 							$hierlist = $this->popArr['hierlist'];
 							
 						for($c=0;$hierlist && count($hierlist) > $c;$c++) { ?>
 						
-	                  <form name="frmCompStruct<?=$c?>" id="frmCompStruct<?=$c?>">
+	                  <form name="frmCompStruct<?php echo $c?>" id="frmCompStruct<?php echo $c?>">
 
 						<tr><td><table width="100%">
 						  <tr>
-						    <td height="25"><strong><?=$hierlist[$c][1]?></strong></td>
+						    <td height="25"><strong><?php echo $hierlist[$c][1]?></strong></td>
 						  </tr><tr>
 						    <td width="16%">
-						        <select size="3" id="cmbAssCompStruct<?=$c?>" name="cmbAssCompStruct<?=$c?>" onchange="document.getElementById('status').innerHTML = 'Please Wait.......'; xajax_traceCompStruct(<?=$c?>,this.value,<?=count($hierlist)?>);">
-							<?		if($c == 0) {
+						        <select size="3" id="cmbAssCompStruct<?php echo $c?>" name="cmbAssCompStruct<?php echo $c?>" onchange="document.getElementById('status').innerHTML = 'Please Wait.......'; xajax_traceCompStruct(<?php echo $c?>,this.value,<?php echo count($hierlist)?>);">
+							<?php		if($c == 0) {
 								
 										$toplist = $this->popArr['compstruct'];
 										for($i=0; $toplist && count($toplist)>$i ; $i++) {
@@ -413,11 +413,11 @@ function clearFrmLevData(level) {
 						        </select>
 						     </td>
 						     <td width="16%" align="center">
-						     <input type="button" id="butAssCompStruct<?=$c?>" value="< Add" onclick="assignCompStruct(<?=$c?>)"><br><br>
-						     <input type="button" id="butUnAssCompStruct<?=$c?>" value="> Remove" onclick="unAssignCompStruct(<?=$c?>,<?=count($hierlist)?>)"></td>
+						     <input type="button" id="butAssCompStruct<?php echo $c?>" value="< Add" onclick="assignCompStruct(<?php echo $c?>)"><br><br>
+						     <input type="button" id="butUnAssCompStruct<?php echo $c?>" value="> Remove" onclick="unAssignCompStruct(<?php echo $c?>,<?php echo count($hierlist)?>)"></td>
 						    <td>
-						        <select size="3" id="cmbUnAssCompStruct<?=$c?>" name="cmbUnAssCompStruct<?=$c?>">
-							<?		if($c == 0) {
+						        <select size="3" id="cmbUnAssCompStruct<?php echo $c?>" name="cmbUnAssCompStruct<?php echo $c?>">
+							<?php		if($c == 0) {
 								
 										$unAsslist = $this->popArr['unAssCompStruct'];
 										for($i=0; $unAsslist && count($unAsslist)>$i ; $i++) {
@@ -426,12 +426,12 @@ function clearFrmLevData(level) {
 									}
 							?>
 						        </select></td><td width="50%">
-						        <input type="button" id="butAdd<?=$c?>" name="butAddCompStruct" value="New <?=$hierlist[$c][1]?>" onclick="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_showAddCompStructForm(<?=$c?>);">
-						        <input type="button" id="butEdit<?=$c?>" name="butEditCompStruct" value="Edit <?=$hierlist[$c][1]?>" onclick="showEditForm(<?=$c?>,document.getElementById('cmbUnAssCompStruct<?=$c?>').value);">
-						        <input type="button" id="butRem<?=$c?>" name="butRemCompStruct" value="Remove <?=$hierlist[$c][1]?>" onclick="document.getElementById('status').innerHTML = 'Please Wait....'; removeCompStruct(<?=$c?>,document.getElementById('cmbUnAssCompStruct<?=$c?>').value);">
+						        <input type="button" id="butAdd<?php echo $c?>" name="butAddCompStruct" value="New <?php echo $hierlist[$c][1]?>" onclick="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_showAddCompStructForm(<?php echo $c?>);">
+						        <input type="button" id="butEdit<?php echo $c?>" name="butEditCompStruct" value="Edit <?php echo $hierlist[$c][1]?>" onclick="showEditForm(<?php echo $c?>,document.getElementById('cmbUnAssCompStruct<?php echo $c?>').value);">
+						        <input type="button" id="butRem<?php echo $c?>" name="butRemCompStruct" value="Remove <?php echo $hierlist[$c][1]?>" onclick="document.getElementById('status').innerHTML = 'Please Wait....'; removeCompStruct(<?php echo $c?>,document.getElementById('cmbUnAssCompStruct<?php echo $c?>').value);">
 						      </td>
 						  </tr></form>
-						  <tr><td><form name='frmLevData<?=$c?>' id='frmLevData<?=$c?>'>
+						  <tr><td><form name='frmLevData<?php echo $c?>' id='frmLevData<?php echo $c?>'>
 				</table></td></tr>
 				<tr><td>
 						  <!-- form fits here -->
@@ -452,8 +452,8 @@ function clearFrmLevData(level) {
 	<td><textarea disabled name='txtCompStructComments'></textarea></td>
 	  </tr>
 	    <td></td><td></td><td></td><td></td><td></td><td align='right'>
-	    <div id="buttonLayer<?=$c?>"></div>
-		<input type='hidden' name='txtCompStructLevel' value='<?=$c+1?>'>
+	    <div id="buttonLayer<?php echo $c?>"></div>
+		<input type='hidden' name='txtCompStructLevel' value='<?php echo $c+1?>'>
 		</td>
 	</tr>
     </table></td><td background='../../themes/beyondT/pictures/table_r2_c3.gif'><img name='table_r2_c3' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
@@ -467,7 +467,7 @@ function clearFrmLevData(level) {
 							</td></tr>
 							</td>
 						  </tr>
-						  <? } ?>
+						  <?php } ?>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

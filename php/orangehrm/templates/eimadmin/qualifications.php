@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -36,7 +36,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>			
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 	function addSave() {
@@ -70,21 +70,21 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEducation" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmEducation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-           <?
+           <?php
 		if (isset($this->getArr['msg'])) {
 		
 			$expString  = $this->getArr['msg'];
@@ -95,12 +95,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			
 			$expString=$this->getArr['msg'];
 	?>
-			<font class="<?=$col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
-	<?
+			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?php
 				echo $$expString;
 	?>
 			</font>
-	<?
+	<?php
 		}		
 		?>
       </font> </td>
@@ -119,15 +119,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
 							  <tr> 
-						    <td><?=$Code?></td>
-						    <td><strong><?=$this->popArr['newID']?></strong></td>
+						    <td><?php echo $Code?></td>
+						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
 							  <tr>
-							    <td nowrap valign="top"><span class="error">*</span> <?=$University?> </td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $University?> </td>
 							    <td> <input type="text" name="txtUni"></td>
 							  </tr>
 							  <tr>
-							     <td nowrap valign="top"><span class="error">*</span> <?=$Degree?></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
 							     <td> <input type="text" name="txtDeg"></td>
 							  </tr>
 		
@@ -150,7 +150,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this->popArr['editArr'];
 ?>
 
@@ -205,7 +205,7 @@ return flag;
 }
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 function mout() {
@@ -272,21 +272,21 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEducation" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmEducation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-            <?
+            <?php
 		if (isset($this->getArr['msg'])) {
 		
 			$expString  = $this->getArr['msg'];
@@ -297,12 +297,12 @@ function edit()
 			
 			$expString=$this->getArr['msg'];
 	?>
-			<font class="<?=$col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
-	<?
+			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?php
 				echo $$expString;
 	?>
 			</font>
-	<?
+	<?php
 		}		
 		?>
       </font> </td>
@@ -319,24 +319,24 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
-							    <td><?=$Code?></td>
-							    <td> <input type="hidden" name="txtEducationID" value=<?=$this->getArr['id']?>><strong><?=$this->getArr['id']?></strong></td>
+							    <td><?php echo $Code?></td>
+							    <td> <input type="hidden" name="txtEducationID" value=<?php echo $this->getArr['id']?>><strong><?php echo $this->getArr['id']?></strong></td>
 						  </tr>													
 						  <tr>
-							    <td nowrap valign="top"><span class="error">*</span> <?=$University ?></td>
-							    <td> <input type="text" name="txtUni" disabled value="<?=$message[0][1]?>"></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $University ?></td>
+							    <td> <input type="text" name="txtUni" disabled value="<?php echo $message[0][1]?>"></td>
 					      </tr>
 					       <tr>
-							     <td nowrap valign="top"><span class="error">*</span> <?=$Degree?></td>
-							     <td> <input type="text" name="txtDeg" disabled value="<?=$message[0][2]?>"></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
+							     <td> <input type="text" name="txtDeg" disabled value="<?php echo $message[0][2]?>"></td>
 						   </tr>
 						
 					  <tr><td></td><td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>
 					  </tr>				  
@@ -356,4 +356,4 @@ function edit()
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } ?>
+<?php } ?>

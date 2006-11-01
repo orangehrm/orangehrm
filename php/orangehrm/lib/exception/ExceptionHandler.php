@@ -24,7 +24,6 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		case E_USER_WARNING : $type = "Warning";
 							  break;
 		case E_USER_NOTICE 	: $type = "Notice";
-							  $sysErr = true;
 							  break;
 		case E_USER_ERROR 	: $type = "Error";
 							  break;

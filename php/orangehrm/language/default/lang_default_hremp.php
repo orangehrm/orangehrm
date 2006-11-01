@@ -1,4 +1,4 @@
-<?
+<?php
  $employeeinformation			= 'Employee Information';
  $code							= 'Code';
  $employeeid		  			= 'Employee ID';

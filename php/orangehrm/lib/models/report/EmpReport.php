@@ -1,4 +1,4 @@
-<?
+<?php
 class EmpReport {
 	
 	var $repID;

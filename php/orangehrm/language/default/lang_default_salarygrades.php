@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Job : Pay Grade';
 $code			= 'Code';
 $description	= 'Name';

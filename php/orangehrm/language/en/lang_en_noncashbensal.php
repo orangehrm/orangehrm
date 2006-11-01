@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Non Cash Benefits Assigned to Salary Grade: Benefit Information';
 $code			= 'Code';
 $description	= 'Description';

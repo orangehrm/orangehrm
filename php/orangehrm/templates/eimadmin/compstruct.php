@@ -131,17 +131,17 @@
 
 <script language="JavaScript" type="text/javascript">
 
-<? require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
+<?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
 
 </script>
 <body style="padding-left:5px;">
 
  	<div id="layerComStruct">
-	<h2><?=$heading?></h2>
+	<h2><?php echo $heading?></h2>
 	<br>
-	<? if ($_GET['root'] === '') { ?>
-	<div class="err"><?='Please define Company General Information first!'?></div>
-	<? } else { ?>
+	<?php if ($_GET['root'] === '') { ?>
+	<div class="err"><?php echo 'Please define Company General Information first!'?></div>
+	<?php } else { ?>
 	<table id="tblCompStruct" border="0" cellspacing="0" cellpadding="0" style="BORDER-COLLAPSE: collapse" bordercolor="#111111">	
 
 	<?php
@@ -179,7 +179,7 @@
 					echo "<image src='../../themes/beyondT/icons/arrow.gif'>";
 			?>				
 
-			<a class="title" href="#layerForm" onClick="edit(<?=$child[0]['id']?>, '<?=escapeshellcmd($child[0]['title'])?>', '<?=escapeshellcmd($child[0]['description'])?>', '<?=$child[0]['loc_code']?>');"><?=$child[0]['title']?></a>
+			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
 
 			<?php
 
@@ -190,23 +190,23 @@
 				} 
 			?>
 			</td>
-			<? if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
+			<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 			<td id="ControlButton" valign="bottom">
-				<a href='#layerForm' class="add" onClick="addChild(<? echo $child[0]['rgt']; ?>, '<?=escapeshellcmd($child[0]['title'])?>', <? echo $child[0]['id']; ?>, '<? echo $child[0]['loc_code']?>')"><?=$add?></a>
+				<a href='#layerForm' class="add" onClick="addChild(<?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>', <?php echo $child[0]['id']; ?>, '<?php echo $child[0]['loc_code']?>')"><?php echo $add?></a>
 			</td>
 
 			<td valign="bottom">
-			<? if ( $child['depth'] > 0 ) {?>
+			<?php if ( $child['depth'] > 0 ) {?>
 
 			| </td>
 			
 			<td id="ControlButton" valign="bottom">
-					<a class="delete" href="#" onClick="deleteChild(<? echo $child[0]['lft']; ?>, <? echo $child[0]['rgt']; ?>, '<?=escapeshellcmd($child[0]['title'])?>');"><?=$delete?></a>
+					<a class="delete" href="#" onClick="deleteChild(<?php echo $child[0]['lft']; ?>, <?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>');"><?php echo $delete?></a>
 
-			<? } ?>
+			<?php } ?>
 
 			</td>
-			<? } ?>
+			<?php } ?>
 		</tr>
 
 		<?php
@@ -216,15 +216,15 @@
 		} else { 
 		
 		?>
-	<p class='ERR'><?=$no_root?></p>
+	<p class='ERR'><?php echo $no_root?></p>
 
-	<? } ?>	
+	<?php } ?>	
 
 	</table>
 
     </div>
     <!-- Delete Subdivision -->
-    <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
+    <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
 		<input type="hidden" value="" id="rgt" name="rgt">
 		<input type="hidden" value="" id="lft" name="lft">
 		<input type="hidden" value="" id="sqlState" name="sqlState">		
@@ -239,7 +239,7 @@
 
 		<h3><LABEL id="parnt"></LABEL></h3>
 
-		<form name="frmAddNode" id="frmAddNode" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
+		<form name="frmAddNode" id="frmAddNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
 
 		<input type="hidden" value="" id="rgt" name="rgt">
 		<input type="hidden" value="" id="sqlState" name="sqlState">
@@ -249,7 +249,7 @@
 		<table>
 			<tr>
 				<td valign="top">
-					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?=$name?></LABEL>
+					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?php echo $name?></LABEL>
 				</td>
 				<td>
 					<input type="text" value="" id="txtTitle" name="txtTitle" >
@@ -257,29 +257,29 @@
 			</tr>
 			<tr>
 				<td valign="top">
-					<LABEL id="lblType" for="cmbType"><span class="error">*</span> <?=$type?></LABEL>
+					<LABEL id="lblType" for="cmbType"><span class="error">*</span> <?php echo $type?></LABEL>
 				</td>
 				<td>
   					<select name="cmbType" id="cmbType">
-    					<option value="null"><?=$select?></option>
-    					<? foreach ($types as $typex) { ?>
-    						<? vprintf('<option value="%s">%s</option>', $typex);?>
-    					<? } ?>
+    					<option value="null"><?php echo $select?></option>
+    					<?php foreach ($types as $typex) { ?>
+    						<?php vprintf('<option value="%s">%s</option>', $typex);?>
+    					<?php } ?>
   					</select>
   				</td>
   			</tr>
   			<tr>
 				<td valign="top">
-					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?=$location?></LABEL>
+					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?php echo $location?></LABEL>
 				</td>
 				<td>
   					<select name="cmbLocation" id="cmbLocation" onChange="locChange(this);">
-  						<option value=""><?=$select?></option>
+  						<option value=""><?php echo $select?></option>
   						<?php
 						  if ($locations) {
 							foreach ($locations as $location) { ?>
-  						<option value="<? echo $location[0]; ?>"><? echo $location[1]; ?></option>
-  						<?	}
+  						<option value="<?php echo $location[0]; ?>"><?php echo $location[1]; ?></option>
+  						<?php	}
 						  } ?>
     					<option value="Other">Other</option>
   					</select>
@@ -287,7 +287,7 @@
   			</tr>
   			<tr>
 				<td valign="top">
-					<LABEL id="lblDesc" for="txtDesc"><?=$decription?></LABEL>
+					<LABEL id="lblDesc" for="txtDesc"><?php echo $decription?></LABEL>
 				</td>
 				<td>	  					
   					<textarea name="txtDesc" id="txtDesc"></textarea>  
@@ -296,9 +296,9 @@
 			<tr>
 				<td></td>
 				<td align="right">
-					<input type="Submit" value="<?=$save?>" id="Add" name="Add"class="btnAdd">
-					<input type="Reset" value="<?=$clear?>" id="Clear" name="Clear">
-					<input type="Reset" value="<?=$hide?>" id="Hide" name="Hide" onClick="frmAddHide()">
+					<input type="Submit" value="<?php echo $save?>" id="Add" name="Add" class="btnAdd">
+					<input type="Reset" value="<?php echo $clear?>" id="Clear" name="Clear">
+					<input type="Reset" value="<?php echo $hide?>" id="Hide" name="Hide" onClick="frmAddHide()">
 				</td>
 			</tr>
 		</table>
@@ -309,15 +309,15 @@
 	<!-- Add Location  -->	
 
 	<div id="layerFormLoc"  name="layerFormLoc" class="frame">
-		<h3><?=$frmNewLocation?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
+		<h3><?php echo $frmNewLocation?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
 		<form id="frmAddLoc" name="frmAddLoc" method="post" onSubmit="return false;">
 		<table>
 			<tr>
-				<td><span class="error">*</span> <?=$name?></td>
+				<td><span class="error">*</span> <?php echo $name?></td>
 				<td> <input name="txtLocDescription" id="txtLocDescription"></td>
 			<tr>
-  				<td><span class="error">*</span> <?=$country?></td>
-				<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 						<option value="0"><?=$select?></option>
+  				<td><span class="error">*</span> <?php echo $country?></td>
+				<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 						<option value="0"><?php echo $select?></option>
 						<?php
 							$cntlist = $this->popArr['countries'];
 								for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
@@ -327,45 +327,45 @@
 				</td>
 			</tr>
 			<tr>
-				<td><?=$state?></td>
+				<td><?php echo $state?></td>
 				<td><div id="lrState" name="lrState" ><input type="text" name="txtState" id="txtState"></div>
 					 <input type="hidden" name="cmbProvince" id="cmbProvince">
 				</td>
 			</tr>			
 			<tr>
-				<td><?=$city?></td>
+				<td><?php echo $city?></td>
 				<td><input type="text" name="cmbDistrict"></td>
 			</tr>
 			<tr>
-				<td><span class="error">*</span> <?=$address?></td>
+				<td><span class="error">*</span> <?php echo $address?></td>
 				<td><textarea name="txtAddress"></textarea></td>
 			</tr>
 			<tr>
-				<td><span class="error">*</span> <?=$zip_code?></td>
+				<td><span class="error">*</span> <?php echo $zip_code?></td>
 				<td><input type="text" name="txtZIP"></td>
 			</tr>
 			<tr>
-				<td><?=$phone?></td>
+				<td><?php echo $phone?></td>
 				<td><input type="text" name="txtPhone"></td>
 			</tr>
 			<tr>
-				<td><?=$fax?></td>
+				<td><?php echo $fax?></td>
 				<td><input type="text" name="txtFax"></td>
 			</tr>
 			<tr valign="top">
-				<td><?=$comments?></td>
+				<td><?php echo $comments?></td>
 				<td><textarea name="txtComments"></textarea></td>
 			</tr>
 			<tr>
 				<td align="right">
-					<input type="button" value="<?=$save?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
-					<input type="Reset" value="<?=$clear?>" id="Clear" name="Clear" onClick="resetx()">
+					<input type="button" value="<?php echo $save?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
+					<input type="Reset" value="<?php echo $clear?>" id="Clear" name="Clear" onClick="resetx()">
 				</td>
 			</tr>
 		</table>
 	</form>
 	</div>
 	</div>
-	<? } ?>
+	<?php } ?>
 </body>
 </html>

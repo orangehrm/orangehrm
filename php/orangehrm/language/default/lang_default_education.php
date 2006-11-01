@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Qualification : Education';
 $Code			= 'Code';
 $University		= 'Institute';

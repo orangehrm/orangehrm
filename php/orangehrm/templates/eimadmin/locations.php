@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 * all the essential functionalities required for any enterprise. 
@@ -76,13 +76,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? $objAjax->printJavascript(); ?>
+<?php $objAjax->printJavascript(); ?>
 
-<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 
 <script>			
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 	
 	function addSave() {
@@ -170,7 +170,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
     <b><div  id="status"></div></b></td>
   </tr>
@@ -178,14 +178,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmLocation" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -209,17 +209,17 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr> 
-					    <td><?=$code?></td>
-					    <td><strong><?=$this->popArr['newID']?></strong></td> 
+					    <td><?php echo $code?></td>
+					    <td><strong><?php echo $this->popArr['newID']?></strong></td> 
 					  </tr>
 					  <tr> 
-					    <td><span class="error">*</span> <?=$description?></td>
+					    <td><span class="error">*</span> <?php echo $description?></td>
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
-						  <td><span class="error">*</span> <?=$country?></td>
+						  <td><span class="error">*</span> <?php echo $country?></td>
 						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
-					<?
+					<?php
 								$cntlist = $this->popArr['cntlist'];
 								for($c=0;$cntlist && count($cntlist)>$c;$c++) { 
 									echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
@@ -228,7 +228,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  </select></td>
 					  </tr>
 					  <tr>
-						  <td><?=$state?></td>
+						  <td><?php echo $state?></td>
 						  <td><div id="lrState" name="lrState">							    
 							    <input type="text" name="txtState" id="txtState" >
 							  </div>
@@ -236,27 +236,27 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						   </td>
 					  </tr>
 					  <tr>
-						  <td><?=$city?></td>
+						  <td><?php echo $city?></td>
 						  <td><input type="text" name="cmbDistrict" ></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?=$address?></td>
+						  <td><span class="error">*</span> <?php echo $address?></td>
 						  <td><textarea name="txtAddress"></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?=$ZIP?></td>
+						  <td><span class="error">*</span> <?php echo $ZIP?></td>
 						  <td><input type="text" name="txtZIP"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$phone?></td>
+						  <td><?php echo $phone?></td>
 						  <td><input type="text" name="txtPhone"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$fax?></td>
+						  <td><?php echo $fax?></td>
 						  <td><input type="text" name="txtFax"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$comments?></td>
+						  <td><?php echo $comments?></td>
 						  <td><textarea name="txtComments"></textarea></td>
 					  </tr>
 					  
@@ -280,7 +280,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this->popArr['editArr'];
 ?>
 
@@ -289,9 +289,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? $objAjax->printJavascript(); ?>
+<?php $objAjax->printJavascript(); ?>
 
-<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 
 <script>
 
@@ -311,7 +311,7 @@ function edit()
 }
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 function mout() {
@@ -417,7 +417,7 @@ function mover() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
 	<b><div align="right" id="status"></div></b></td>
   </tr>
@@ -425,14 +425,14 @@ function mover() {
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmLocation" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  =$this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -456,20 +456,20 @@ function mover() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
-						    <td><?=$code?></td>
-						   	<input type="hidden" name="txtLocationCode" value=<?=$message[0][0]?>>
-						   	<td><strong><?=$message[0][0]?></strong></td>
+						    <td><?php echo $code?></td>
+						   	<input type="hidden" name="txtLocationCode" value=<?php echo $message[0][0]?>>
+						   	<td><strong><?php echo $message[0][0]?></strong></td>
 						  </tr>
 						  <tr>
-						    <td><span class="error">*</span> <?=$description?></td>
-						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?=$message[0][1]?></textarea>
+						    <td><span class="error">*</span> <?php echo $description?></td>
+						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea>
 						    </td>
 						  </tr>
 				  <tr>
-						  <td><span class="error">*</span> <?=$country?></td>
+						  <td><span class="error">*</span> <?php echo $country?></td>
 						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">--Select Country--</option>
-					<?
+					<?php
 								$cntlist = $this->popArr['cntlist'];
 								for($c=0;$cntlist && count($cntlist)>$c;$c++)  
 									if ($message[0][2] == $cntlist[$c][0])
@@ -480,13 +480,13 @@ function mover() {
 						  </select></td>
 					  </tr>
 					  <tr>
-						  <td><?=$state?></td>
+						  <td><?php echo $state?></td>
 						  <td>
 						  	<div id="lrState" name="lrState">
-							    <? if (isset($message[0][2]) && ($message[0][2] == 'US')) { ?>
+							    <?php if (isset($message[0][2]) && ($message[0][2] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>
 							    		<option value="0">--Select State--</option>
-					<?
+					<?php
 								$provlist = $this->popArr['provlist'];
 								for($c=0;$provlist && count($provlist)>$c;$c++)  
 									if($message[0][3]==$provlist[$c][1])
@@ -495,43 +495,43 @@ function mover() {
 										echo "<option value='" .$provlist[$c][1] . "'>" . $provlist[$c][2] . '</option>';
 					?>
 							    	</select>
-							    	<? } else { ?>
-							    	<input type="text" disabled name="txtState" id="txtState" value="<?=isset($message[0][3]) ? $message[0][3] : ''?>">
-							    	<? } ?>
+							    	<?php } else { ?>
+							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($message[0][3]) ? $message[0][3] : ''?>">
+							    	<?php } ?>
 							    	</div>
-							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?=isset($message[0][3]) ? $message[0][3] : ''?>">
+							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo isset($message[0][3]) ? $message[0][3] : ''?>">
 							    	</td>
 					  </tr>
 					  <tr>
-						  <td><?=$city?></td>
-						  <td><input type="text" disabled name="cmbDistrict" value="<?=$message[0][4]?>"></td>
+						  <td><?php echo $city?></td>
+						  <td><input type="text" disabled name="cmbDistrict" value="<?php echo $message[0][4]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?=$address?></td>
-						  <td><textarea disabled name="txtAddress"><?=$message[0][5]?></textarea></td>
+						  <td><span class="error">*</span> <?php echo $address?></td>
+						  <td><textarea disabled name="txtAddress"><?php echo $message[0][5]?></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?=$ZIP?></td>
-						  <td><input disabled type="text" name="txtZIP" value="<?=$message[0][6]?>"></td>
+						  <td><span class="error">*</span> <?php echo $ZIP?></td>
+						  <td><input disabled type="text" name="txtZIP" value="<?php echo $message[0][6]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$phone?></td>
-						  <td><input disabled type="text" name="txtPhone" value="<?=$message[0][7]?>"></td>
+						  <td><?php echo $phone?></td>
+						  <td><input disabled type="text" name="txtPhone" value="<?php echo $message[0][7]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$fax?></td>
-						  <td><input disabled type="text" name="txtFax" value="<?=$message[0][8]?>"></td>
+						  <td><?php echo $fax?></td>
+						  <td><input disabled type="text" name="txtFax" value="<?php echo $message[0][8]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?=$comments?></td>
-						  <td><textarea disabled name="txtComments"><?=$message[0][9]?></textarea></td>
+						  <td><?php echo $comments?></td>
+						  <td><textarea disabled name="txtComments"><?php echo $message[0][9]?></textarea></td>
 					  </tr>
 						  <tr><td></td><td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 					  
 </td>
@@ -553,4 +553,4 @@ function mover() {
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } ?>
+<?php } ?>

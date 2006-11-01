@@ -110,13 +110,13 @@
 		document.getElementById("cmbType").selectedIndex = 0;
 		document.frmAddNode.rgt.value=rgtz;			
 		document.frmAddNode.sqlState.value='NewRecord';			
-		document.getElementById("parnt").innerHTML="<?=$frmSub_divisionHeadingAdd?>"+txt;
+		document.getElementById("parnt").innerHTML="<?php echo $frmSub_divisionHeadingAdd?>"+txt;
 		document.getElementById("txtParnt").value=parnt;
 		document.getElementById("layerForm").style.visibility="visible";
 	}
 	
 	function edit(id, txt, desc, loc){
-	<? if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
+	<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 		var words = txt.split(" ");
 		var found =false;
 		
@@ -124,7 +124,7 @@
 					
 		document.frmAddNode.sqlState.value='UpdateRecord';
 		document.frmAddNode.rgt.value=id;
-		document.getElementById("parnt").innerHTML="<?=$frmSub_divisionHeadingEdit?> "+txt;
+		document.getElementById("parnt").innerHTML="<?php echo $frmSub_divisionHeadingEdit?> "+txt;
 		
 		for(i=0; i < document.getElementById("cmbType").options.length; i++) {
 			
@@ -156,11 +156,11 @@
 		document.getElementById("txtTitle").value=words.join(" ");	
 		document.getElementById("txtDesc").value=desc;
 		document.getElementById("layerForm").style.visibility="visible";
-	<? } else { ?>
+	<?php } else { ?>
 		opener.document.frmEmp.txtLocation.value=txt;
 		opener.document.frmEmp.cmbLocation.value=id;
 		window.close(0);	
-	<? } ?>
+	<?php } ?>
 	}
 	
 	function frmAddHide () {

@@ -65,7 +65,7 @@ function back() {
 <div id="body">
   <a href="http://www.orangehrm.com"><img src="../themes/beyondT/pictures/orange3.png" alt="OrangeHRM" name="logo"  width="264" height="62" border="0" id="logo" style="margin-left: 10px;" title="OrangeHRM"></a>
 <form name="frmInstall" action="../install.php" method="POST">
-<input type="hidden" name="txtScreen" value="<?=$currScreen?>">
+<input type="hidden" name="txtScreen" value="<?php echo $currScreen?>">
 <input type="hidden" name="actionResponse">
 
 <table border="0" cellpadding="0" cellspacing="0">
@@ -80,9 +80,9 @@ function back() {
 		}
 ?>
 
-    <td nowrap="nowrap" class="left_<?=$tabState?>">&nbsp;</td>
-    <td nowrap="nowrap" class="middle_<?=$tabState.$tocome?>"><?=$steps[$i]?></td>
-	<td nowrap="nowrap" class="right_<?=$tabState?>">&nbsp;</td>
+    <td nowrap="nowrap" class="left_<?php echo $tabState?>">&nbsp;</td>
+    <td nowrap="nowrap" class="middle_<?php echo $tabState.$tocome?>"><?php echo $steps[$i]?></td>
+	<td nowrap="nowrap" class="right_<?php echo $tabState?>">&nbsp;</td>
 	
     <?php
 		if ($tabState == 'Active') {		
@@ -92,7 +92,7 @@ function back() {
 	?>
   </tr>
 </table>
-<a href="./guide/<?=$helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
+<a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
 <?php
 
 switch ($currScreen) {

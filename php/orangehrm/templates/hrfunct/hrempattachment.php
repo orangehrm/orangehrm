@@ -1,7 +1,7 @@
 <script language="JavaScript">
 
 function dwPopup() {
-        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
+        var popup=window.open('../../templates/hrfunct/download.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?php echo isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
         if(!popup.opener) popup.opener=self;
 }	
 
@@ -41,44 +41,44 @@ function editAttach() {
 	qCombo(6);
 }
 </script>
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	
 	<table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
 		
-<?		if(!isset($this->getArr['ATTACH'])) { ?>
+<?php		if(!isset($this->getArr['ATTACH'])) { ?>
           <tr>
-				<td><?=$path?></td>
+				<td><?php echo $path?></td>
 				<td><input type="file" name="ufile"></td>
               </tr>
               <tr>
-              	<td><?=$description?></td>
+              	<td><?php echo $description?></td>
               	<td><textarea name="txtAttDesc"></textarea></td>
               </tr>
 			  <tr>
 				<td>
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
 				</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap"><h3><?=$assignattach?></h3></td>
+					<td nowrap="nowrap"><h3><?php echo $assignattach?></h3></td>
 					<td></td>
 				</tr>
 				<tr>
 				<td>
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<? 	} else { ?>
-		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?	} ?>
-<?	if($locRights['delete']) { ?>
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php	} ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
 				</td>
 				<td>&nbsp;</td>
 				</tr>
@@ -87,31 +87,31 @@ function editAttach() {
 			
 			    <tr>
                       	<td></td>
-						 <td><strong><?=$filename?></strong></td>
-						 <td><strong><?=$size?></strong></td>
-						 <td><strong><?=$type?></strong></td>
+						 <td><strong><?php echo $filename?></strong></td>
+						 <td><strong><?php echo $size?></strong></td>
+						 <td><strong><?php echo $type?></strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empAttAss'] ;
 
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?> <td><a href="#" title="<?=$rset[$c][2]?>" onmousedown="viewAttach('<?=$rset[$c][1]?>')" ><?=$rset[$c][3]?></a></td> <?
+            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
             echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
         }
 ?>
               
-<?		} elseif(isset($this->getArr['ATTACH'])) {
+<?php		} elseif(isset($this->getArr['ATTACH'])) {
 		$edit = $this->popArr['editAttForm'];
 ?>
-              <input type="hidden" name="seqNO" value="<?=$edit[0][1]?>">
+              <input type="hidden" name="seqNO" value="<?php echo $edit[0][1]?>">
               <tr>
               	<td>Description</td>
-              	<td><textarea name="txtAttDesc"><?=$edit[0][2]?></textarea></td>
+              	<td><textarea name="txtAttDesc"><?php echo $edit[0][2]?></textarea></td>
               </tr>
               <tr>
               	<td><input type="button" value="Show File" class="buton" onclick="dwPopup()"></td>
@@ -119,29 +119,29 @@ function editAttach() {
 			  <tr>
 				<td>&nbsp;</td>
 				<td>
-<?	if($locRights['edit']) { ?>
+<?php	if($locRights['edit']) { ?>
         <img border="0" title="Save" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
 				</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap"><h3><?=$assignattach?></h3></td>
+					<td nowrap="nowrap"><h3><?php echo $assignattach?></h3></td>
 					<td></td>
 				</tr>
 				<tr>
 				<td>
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<? 	} else { ?>
-		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?	} ?>
-<?	if($locRights['delete']) { ?>
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php	} ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
 				</td>
 				<td></td>
 			</tr>	
@@ -150,18 +150,18 @@ function editAttach() {
 			
 			    <tr>
                       	<td></td>
-						 <td><strong><?=$filename?></strong></td>
-						 <td><strong><?=$size?></strong></td>
-						 <td><strong><?=$type?></strong></td>
+						 <td><strong><?php echo $filename?></strong></td>
+						 <td><strong><?php echo $size?></strong></td>
+						 <td><strong><?php echo $type?></strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empAttAss'] ;
 
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?> <td><a href="#" title="<?=$rset[$c][2]?>" onmousedown="viewAttach('<?=$rset[$c][1]?>')" ><?=$rset[$c][3]?></a></td> <?
+            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
             echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
@@ -169,7 +169,7 @@ function editAttach() {
 ?>
 
 
-<? } ?>
+<?php } ?>
               
           </table>
-	<? } ?>
+	<?php } ?>

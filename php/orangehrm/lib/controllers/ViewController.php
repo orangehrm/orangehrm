@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 * all the essential functionalities required for any enterprise. 
@@ -20,54 +20,22 @@
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Location.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CostCenter.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CurrencyTypes.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/Designations.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/SalaryGrades.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CompHier.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CurrencyTypes.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/SalCurDet.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/JDKra.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CorpTit.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Education.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/Branches.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CashBen.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/NonCashBen.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CashBenSal.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/NonCashBenSal.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/EmployeeTypes.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/JDCategory.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/JDType.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/QualificationType.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/RatingTypes.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/Skills.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/ExtraCurrActCat.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Skills.php';;
 require_once ROOT_PATH . '/lib/models/eimadmin/MembershipType.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/UniformType.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/SatutoryInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/EmployeeCat.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/EmployeeGroup.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/RouteInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/DwellingType.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/NationalityInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/ReligionInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/DesDis.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/DesQual.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/HierarchyDefInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/TaxInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/ProvinceInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/DistrictInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/ElectorateInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/BankInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/LanguageInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/MembershipInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/SubSkillInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/ExtraCurActInfo.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/SubjectInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EEOJobCat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Licenses.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EthnicRace.php';
-
+require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProvinceInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/DistrictInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/JobTitEmpStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
@@ -278,54 +246,6 @@ class ViewController {
 	            $res = $this->location->delLocation($arrList);
 	            break;
 
-			case 'COS' :
-
-				$this-> costcenter = new CostCenter();
-				$res = $this-> costcenter -> delCostCenters($arrList);
-				break;
-
-			case 'CUR' :
-
-				$this-> currencytype = new CurrencyTypes();
-				$res = $this-> currencytype -> delCurrencyTypes($arrList);
-				break;
-
-			case 'CHI' :
-
-				$this-> comphier = new CompHierachy();
-				$res = $this-> comphier -> delCompHierachy($arrList);
-				break;
-
-			case  'CTT' :
-
-				$this-> corptit = new CorpTitle();
-				$res = $this-> corptit -> delCorpTitles($arrList);
-				break;
-
-			case 'JDC' :
-
-				$this-> jdcategory = new JDCategory();
-				$res = $this-> jdcategory -> delJDCategorys($arrList);
-				break;
-
-			case 'JDT' :
-
-				$this-> jdtype = new JDType();
-				$res = $this-> jdtype -> delJDTypes($arrList);
-				break;
-
-			case 'QLF' :
-
-				$this-> qualtype = new QualificationType();
-				$res = $this-> qualtype -> delQualificationTypes($arrList);
-				break;
-			
-			case 'RTM' :
-
-				$this-> ratingmethods = new RatingTypes();
-				$res = $this-> ratingmethods -> delRatingTypes($arrList);
-				break;
-			
 			case 'SKI' :
 
 				$this-> skills = new Skills();
@@ -338,106 +258,16 @@ class ViewController {
 				$res = $this-> ethnicrace -> delEthnicRace($arrList);
 				break;
 
-			case 'EXC' :
-
-				$this-> extracurract = new ExtraCurrActCat();
-				$res = $this-> extracurract -> delCurrActCat($arrList);
-				break;
-
 			case 'MEM' :
 
 				$this-> membershiptype = new MembershipType();
 				$res = $this-> membershiptype -> delMembershipType($arrList);
 				break;
 
-			case 'UNI' :
-
-				$this-> uniformtypes = new UniformType();
-				$res = $this-> uniformtypes -> delUniformType($arrList);
-				break;
-
-			case 'SAT' :
-
-				$this-> satutoryinfo = new SatutoryInfo();
-				$res = $this-> satutoryinfo -> delSatutoryInfo($arrList);
-				break;
-
-			case 'EMC' :
-
-			$this-> employeecat = new EmployeeCat();
-			$res = $this-> employeecat -> delEmployeeCat($arrList);
-			break;
-
-		case 'EMG' :
-
-			$this-> employeegroup = new EmployeeGroup();
-			$res = $this-> employeegroup -> delEmployeeGroup($arrList);
-			break;
-
-		case 'RTE' :
-
-			$this-> routeinformation = new RouteInfo();
-			$res = $this-> routeinformation -> delRouteInfo($arrList);
-			break;
-
-		case 'DWT' :
-		
-			$this-> routeinformation = new DwellingType();
-			$res = $this-> routeinformation -> delDwellingType($arrList);
-			break;
-
 		case 'NAT' :
 
 			$this-> nationalityinfo = new NationalityInfo();
 			$res = $this-> nationalityinfo -> delNationalityInfo($arrList);
-			break;
-
-		case 'RLG' :
-
-			$this-> religioninfo = new ReligionInfo();
-			$res = $this-> religioninfo -> delReligionInfo($arrList);
-			break;
-
-		case 'COU' :
-
-			$this-> countryinfo = new CountryInfo();
-			$res = $this-> countryinfo -> delCountryInfo($arrList);
-			break;
-
-		case 'DEF' :
-
-			$this-> hierachinfo = new HierarchyDefInfo();
-			$res = $this-> hierachinfo -> delHierarchyDefInfo($arrList);
-			break;
-
-		case 'TAX' :
-
-			$this-> taxinfo = new TaxInfo();
-			$res = $this-> taxinfo -> delTaxInfo($arrList);
-			break;
-			
-		case 'PRO' :
-
-			$this-> provinceinfo = new ProvinceInfo();
-			$res = $this-> provinceinfo -> delProvinceInfo($arrList);
-			break;
-
-		case 'DIS' :
-
-			$this-> districtinfo = new DistrictInfo();
-			$res = $this-> districtinfo -> delDistrictInfo($arrList);
-			break;
-
-		case 'ELE' :
-
-			$this-> electorateinfo = new ElectorateInfo();
-			$res = $this-> electorateinfo -> delElectorateInfo($arrList);
-			break;
-
-		case 'BNK':
-
-			$this-> bankinfo = new BankInfo();
-			$res = $this-> bankinfo -> delBankInfo($arrList);
 			break;
 
 		case 'LAN':
@@ -452,46 +282,10 @@ class ViewController {
 			$res = $this-> membershipinformation -> delMembershipInfo($arrList);
 			break;
 
-		case 'SSK':
-
-			$this-> subskillinformation = new SubSkillInfo();
-			$res = $this-> subskillinformation -> delSubSkillInfo($arrList);
-			break;
-
-		case 'EXA':
-
-			$this-> extracurractinfo = new ExtraCurActInfo();
-			$res = $this-> extracurractinfo -> delExtraCurActInfo($arrList);
-			break;
-
 		case 'SGR':
 
 			$this-> salarygrade = new SalaryGrades();
 			$res = $this-> salarygrade -> delSalaryGrades($arrList);
-			break;
-
-		case 'DSG':
-
-			$this-> designation = new Designations();
-			$res = $this-> designation -> delDesignations($arrList);
-			break;
-
-		case 'DDI':
-
-			$this-> desigdes = new DesDescription();
-			$res = $this-> desigdes -> delJDKPI($arrList);
-			break;
-
-		case 'DQA':
-
-			$this-> desigqual = new DesQualification();
-			$res = $this-> desigqual -> delJDQual($arrList);
-			break;
-
-    	case 'JDK':
-
-			$this-> jdkra = new JDKra();
-			$res = $this-> jdkra -> delJDKra($arrList);
 			break;
 
     	case 'EDU':
@@ -500,54 +294,6 @@ class ViewController {
 			$res = $this-> qual -> delEducation($arrList);
 			break;
 
-    	case 'BCH':
-
-			$this-> brch = new Branches();
-			$res = $this-> brch -> delBranches($arrList);
-			break;
-
-    	case 'CCB':
-
-			$this-> cashben = new CashBen();
-			$res = $this-> cashben -> delCashBenefits($arrList);
-			break;
-
-    	case 'NCB':
-
-			$this-> noncashben = new NonCashBen();
-			$res = $this-> noncashben -> delNonCashBenefits($arrList);
-			break;
-
-    	case 'BBS':
-
-			$this-> cashbensal = new CashBenSalary();
-			$res = $this-> cashbensal -> delCashBenefits($arrList);
-			break;
-
-    	case 'NBS':
-
-			$this-> noncashbensal = new NonCashBenSalary();
-			$res = $this-> noncashbensal -> delCashBenefits($arrList);
-			break;
-
-    	case 'ETY':
-
-			$this-> emptyp = new EmployeeType();
-			$res = $this-> emptyp -> delEmployeeTypes($arrList);
-			break;
-
-		case 'SBJ':
-
-			$this-> subjectinfo = new SubjectInfo();
-			$res = $this-> subjectinfo -> delSubjectInfo($arrList);
-			break;
-			
-		case 'RTE':
-
-			$this-> RouteInfo = new RouteInfo();
-			$res = $this-> RouteInfo -> delRouteInfo($arrList);
-			break;
-			
 		case 'EEC':
 
 			$this-> EEOJobCat = new EEOJobCat();
@@ -603,55 +349,6 @@ class ViewController {
 			$message = $this-> location -> getListofLocations($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
-		case 'COS' :
-			
-			$this-> costcenter = new CostCenter();
-			$message = $this-> costcenter -> getListofCostCenters($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'CUR' :
-			
-			$this-> currencytype = new CurrencyTypes();
-			$message = $this-> currencytype -> getListofCurrencyTypes($pageNO,$schStr,$mode);
-			return $message;
-
-		case 'CHI' :
-
-			$this-> comphier = new CompHierachy();
-			$message = $this-> comphier -> getListofCompHierachy($pageNO,$schStr,$mode);
-			return $message;
-
-		case 'CTT' :
-
-			$this-> corptit = new CorpTitle();
-			$message = $this-> corptit -> getListofCorpTitles($pageNO,$schStr,$mode);
-			return $message;
-
-		case 'JDC' :
-			
-			$this-> jdcategory = new JDCategory();
-			$message = $this-> jdcategory -> getListofJDCategorys($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'JDT' :
-			
-			$this-> jdtype = new JDType();
-			$message = $this-> jdtype -> getListofJDTypes($pageNO,$schStr,$mode);
-			return $message;
-
-			
-		case 'QLF' :
-			
-			$this-> qualtype = new QualificationType();
-			$message = $this-> qualtype -> getListofQualificationTypes($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'RTM' :
-			
-			$this-> ratingmethods = new RatingTypes();
-			$message = $this-> ratingmethods -> getListofRatingTypes($pageNO,$schStr,$mode);
-			return $message;
-			
 		case 'SKI' :
 			
 			$this-> skills = new Skills();
@@ -664,110 +361,16 @@ class ViewController {
 			$message = $this-> ethnicrace -> getListofEthnicRace($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
-		case 'EXC' :
-			
-			$this-> extracurract = new ExtraCurrActCat();
-			$message = $this-> extracurract -> getListofExtraCurrActCat($pageNO,$schStr,$mode);
-			return $message;
-			
 		case 'MEM' :
 			
 			$this-> membershiptype = new MembershipType();
 			$message = $this-> membershiptype -> getListofMembershipType($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 			
-		case 'UNI' :
-			
-			$this-> uniformtypes = new UniformType();
-			$message = $this-> uniformtypes -> getListofUniformType($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'SAT' :
-			
-			$this-> satutoryinfo = new SatutoryInfo();
-			$message = $this-> satutoryinfo -> getListofSatutoryInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'EMC' :
-			
-			$this-> employeecat = new EmployeeCat();
-			$message = $this-> employeecat -> getListofEmployeeCat($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'EMG' :
-			
-			$this-> employeegroup = new EmployeeGroup();
-			$message = $this-> employeegroup -> getListofEmployeeGroup($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'RTE' :
-			
-			$this-> routeinformation = new RouteInfo();
-			$message = $this-> routeinformation -> getListofRouteInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'DWT' :
-			
-			$this-> routeinformation = new DwellingType();
-			$message = $this-> routeinformation -> getListofDwellingType($pageNO,$schStr,$mode);
-			return $message;
-			
 		case 'NAT' :
 			
 			$this-> nationalityinfo = new NationalityInfo();
 			$message = $this-> nationalityinfo -> getListofNationalityInfo($pageNO,$schStr,$mode, $sortField, $sortOrder);
-			return $message;
-			
-		case 'RLG' :
-			
-			$this-> religioninfo = new ReligionInfo();
-			$message = $this-> religioninfo -> getListofReligionInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'COU' :
-			
-			$this-> countryinfo = new CountryInfo();
-			$message = $this-> countryinfo -> getListofCountryInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'DEF' :
-			
-			$this-> hierachinfo = new HierarchyDefInfo();
-			$message = $this-> hierachinfo -> getListofHierarchyDefInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'TAX' :
-			
-			$this-> taxinfo = new TaxInfo();
-			$message = $this-> taxinfo -> getListofTaxInfo($pageNO,$schStr,$mode);
-			return $message;
-			
-		case 'PRO' :
-			
-			$this-> provinceinfo = new ProvinceInfo();
-			$message = $this-> provinceinfo -> getListofProvinceInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-			
-		case 'DIS' :
-			
-			$this-> districtinfo = new DistrictInfo();
-			$message = $this-> districtinfo -> getListofDistrictInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-			 
-		case 'ELE' :
-			
-			$this-> electorateinfo = new ElectorateInfo();
-			$message = $this-> electorateinfo -> getListofElectorateInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-			
-		case 'BNK' :
-			
-			$this-> bankinfo = new BankInfo();
-			$message = $this-> bankinfo -> getListofBankInfo($pageNO,$schStr,$mode);
-			
 			return $message;
 			
 		case 'LAN' :
@@ -784,20 +387,6 @@ class ViewController {
 			
 			return $message;
 			
-		case 'SSK' :
-			
-			$this-> subskillinformation = new SubSkillInfo();
-			$message = $this-> subskillinformation -> getListofSubSkillInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-			
-		case 'EXA' :
-			
-			$this-> extracurractinfo = new ExtraCurActInfo();
-			$message = $this-> extracurractinfo -> getListofExtraCurActInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-
 		case 'SGR' :
 
 			$this-> salarygrade = new SalaryGrades();
@@ -805,59 +394,10 @@ class ViewController {
 
 			return $message;
 
-		case 'DSG' :
-
-			$this-> designation = new Designations();
-			$message = $this-> designation -> getListofDesignations($pageNO,$schStr,$mode);
-
-			return $message;
-
-		case 'DDI' :
-
-			$this-> designation = new Designations();
-			$message = $this-> designation -> getListofDesignations($pageNO,$schStr,$mode);
-
-			return $message;
-
-		case 'DQA' :
-
-			$this-> designation = new Designations();
-			$message = $this-> designation -> getListofDesignationsDes($pageNO,$schStr,$mode);
-
-			return $message;
-
-    	case 'JDK' :
-
-			$this-> jdkra = new JDKra();
-			$message = $this-> jdkra -> getListofJDKra($pageNO,$schStr,$mode);
-
-			return $message;
-
     	case 'EDU' :
 
 			$this-> qual = new Education();
 			$message = $this-> qual -> getListofEducation($pageNO,$schStr,$mode, $sortField, $sortOrder);
-
-			return $message;
-
-    	case 'BCH' :
-
-			$this-> brch = new Branches();
-			$message = $this-> brch -> getListofBranches($pageNO,$schStr,$mode);
-
-			return $message;
-
-    	case 'CCB' :
-
-			$this-> cashben = new CashBen();
-			$message = $this-> cashben -> getListofCashBenefits($pageNO,$schStr,$mode, $sortField, $sortOrder);
-
-			return $message;
-
-    	case 'NCB' :
-
-			$this-> noncashben = new NonCashBen();
-			$message = $this-> noncashben -> getListofNonCashBenefits($pageNO,$schStr,$mode);
 
 			return $message;
 
@@ -875,20 +415,6 @@ class ViewController {
 
 			return $message;
 
-    	case 'ETY' :
-
-			$this-> emptyp = new EmployeeType();
-			$message = $this-> emptyp -> getListofEmployeeTypes($pageNO,$schStr,$mode);
-
-			return $message;
-
-		case 'SBJ' :
-			
-			$this-> subjectinfo = new SubjectInfo();
-			$message = $this-> subjectinfo -> getListofSubjectInfo($pageNO,$schStr,$mode);
-			
-			return $message;
-			
 		case 'EEC' :
 			
 			$this-> eeojobcat = new EEOJobCat();
@@ -902,6 +428,7 @@ class ViewController {
 			$message = $this-> licenses -> getListofLicenses($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			
 			return $message;
+
 		case 'USG' :	
 		
 			$this-> userGroups = new UserGroups();
@@ -1764,6 +1291,7 @@ class ViewController {
 									
 				case 'USG'  :		$usergroups = new UserGroups();
 									$usergroups = $object;
+									$id = $usergroups ->getUserGroupID();
 									$res = $usergroups -> addUserGroups();
 									break;
 			}
@@ -1789,6 +1317,10 @@ class ViewController {
 								header("Location: ./CentralController.php?uniqcode=CST&VIEW=MAIN");
 								break;
 					
+									
+					case 'USG' : header("Location: ./CentralController.php?uniqcode=UGR&id=$id");
+								break;
+								
 					case 'JEM' : break;
 					
 					case 'JOB' : 
@@ -1796,12 +1328,14 @@ class ViewController {
 								break;
 						
 					case 'EST' :
+						
 					case 'LOC' : 
 								if($noRedirect)
 									break;
 					case 'CUR' : 
 								if($noRedirect)
 									break;
+								
 					default:
 								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the 
 								
@@ -2214,6 +1748,7 @@ class ViewController {
 									} elseif($action == 'EDIT')
 										$ratgrd->updateRatGrd();
 									break;
+									
 				case 'UGR'  :		$ugrights = new Rights();
 									$ugrights = $object;
 									if($action == 'ADD')
@@ -2300,6 +1835,7 @@ class ViewController {
 								
 								    $ratgrd -> delRatGrd($arr);
 								    break;
+								    
 				case 'UGR'  :		
 									$urights = new Rights();
 										  

@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Memberships : Membership';
 $code			= 'Code';
 $description	= 'Name';

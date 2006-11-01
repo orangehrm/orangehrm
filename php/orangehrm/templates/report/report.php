@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -36,10 +36,10 @@ function goBack() {
 <body>
 <table border="0">
 <tr><td></td>
-<td height="35"><img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();"></td>
+<td height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
 </tr>
 <tr><td></td><td>
-	<h2><center>Report: <?=$this->repName?></center></h2></td>
+	<h2><center>Report: <?php echo $this->repName?></center></h2></td>
 </tr>
 <tr><td></td><td>
 		<table border="0" cellpadding="0" cellspacing="0" align="center">
@@ -53,20 +53,21 @@ function goBack() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-<?				
+<?php				
 				for($i=0;$i<count($this->headName); $i++){
 				echo "<td valign='top'>" . '<strong>' . $this->headName[$i] . '</strong>' . '</td>';
 }?>
 						
 					</tr>
 
-<?				
+<?php				
 				for($i=0;$i<$rows; $i++){ ?>
 					<tr>
-<?					for($j=0;$j<$columns; $j++)
+<?php					for($j=0;$j<$columns; $j++)
 					echo '<td>' .$repDetails[$i][$j] . '</td>';
-?>					</tr>
-					<?}?>
+?>					
+					</tr>
+<?php } ?>
 					
 					
                    </table></td>

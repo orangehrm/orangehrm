@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -19,9 +19,6 @@
 
 require_once OpenSourceEIM . '/lib/Models/bugs/bugs.php';
 require_once OpenSourceEIM . '/lib/Models/bugs/modules.php';
-require_once OpenSourceEIM . '/lib/Models/bugs/versions.php';
-require_once OpenSourceEIM . '/lib/Models/bugs/fileversions.php';
-require_once OpenSourceEIM . '/lib/Models/bugs/dbversions.php';
 require_once OpenSourceEIM . '/lib/Models/bugs/UserGroups.php';
 require_once OpenSourceEIM . '/lib/Models/bugs/Users.php';
 

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -19,12 +19,8 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
-
-	
-
 
 ?>
 <!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -143,7 +139,7 @@ if(min>max) {
 }
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=SGR&id=<?=$this->getArr['id']?>&capturemode=updatemode";
+		location.href = "./CentralController.php?uniqcode=SGR&id=<?php echo $this->getArr['id']?>&capturemode=updatemode";
 	}
 
 function delEXT()
@@ -208,14 +204,14 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmSalCurDet" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&id=<?=$this->getArr['id']?>">
+<form name="frmSalCurDet" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&id=<?php echo $this->getArr['id']?>">
 
   <tr>
     <td valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
@@ -226,7 +222,7 @@ function edit()
   </tr><td width="177">
 </table>
 
-<?
+<?php
 $salCurDet = $this->popArr['salcurdet'];
 ?>
 
@@ -241,12 +237,12 @@ $salCurDet = $this->popArr['salcurdet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>	
-                          	    <td><?=$salgradeid?></td>
-						  	  <td><strong><?=$salCurDet[0][0]?></strong></td>
+                          	    <td><?php echo $salgradeid?></td>
+						  	  <td><strong><?php echo $salCurDet[0][0]?></strong></td>
 						  </tr>
 					  <tr>
-						    <td><?=$salgradename?></td>
-						    <td><strong><?=$salCurDet[0][1]?></strong></td>
+						    <td><?php echo $salgradename?></td>
+						    <td><strong><?php echo $salCurDet[0][1]?></strong></td>
 						  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -263,8 +259,8 @@ $salCurDet = $this->popArr['salcurdet'];
 
 
 
-              	<input type="hidden" name="txtSalGrdID" value="<?=$salCurDet[0][0]?>">
-<?
+              	<input type="hidden" name="txtSalGrdID" value="<?php echo $salCurDet[0][0]?>">
+<?php
 if(isset($this -> popArr['editArr']))
 {
         $edit=$this -> popArr['editArr'];
@@ -283,9 +279,9 @@ if(isset($this -> popArr['editArr']))
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					 <tr>
-						             <td><?=$currency?></td>
-						             <td align="left"><input type="hidden" name="cmbCurrCode" value="<?=$edit[0][1]?>"><strong>
-<?
+						             <td><?php echo $currency?></td>
+						             <td align="left"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][1]?>"><strong>
+<?php
 						$currlist=$this -> popArr['currlistAll'];
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][0]==$edit[0][1])
@@ -294,23 +290,23 @@ if(isset($this -> popArr['editArr']))
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$minimumsal?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtMinSal" value="<?=$edit[0][2]?>">
+						<td valign="top"><?php echo $minimumsal?></td>
+						<td align="left" valign="top"><input type="text" disabled name="txtMinSal" value="<?php echo $edit[0][2]?>">
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><strong><?=$maxsal?></strong></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtMaxSal" value="<?=$edit[0][3]?>">
+						<td valign="top"><strong><?php echo $maxsal?></strong></td>
+						<td align="left" valign="top"><input type="text" disabled name="txtMaxSal" value="<?php echo $edit[0][3]?>">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="right" valign="top">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 						</td>
 					  </tr>
     
@@ -327,7 +323,7 @@ if(isset($this -> popArr['editArr']))
                 </tr>
               </table>
 
-<?
+<?php
 }
 else
     {
@@ -345,11 +341,11 @@ else
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr> 
-						<td valign="top"><?=$currency?></td>
+						<td valign="top"><?php echo $currency?></td>
 						<td align="left" valign="top">
-						<select <?=$locRights['add'] ? '' : 'disabled'?> name="cmbCurrCode">
-									<option value="0"><?=$select?></option>
-<?
+						<select <?php echo $locRights['add'] ? '' : 'disabled'?> name="cmbCurrCode">
+									<option value="0"><?php echo $select?></option>
+<?php
 						$currlist=$this -> popArr['currlistUnAss'];
 						for($c=0;$currlist && count($currlist)>$c;$c++)
 						       echo "<option value='". $currlist[$c][0] . "'>". $currlist[$c][1] . "</option>";
@@ -358,22 +354,22 @@ else
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$minimumsal?></td>
-						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtMinSal" >
+						<td valign="top"><?php echo $minimumsal?></td>
+						<td align="left" valign="top"><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMinSal" >
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$maxsal?></td>
-						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtMaxSal" >
+						<td valign="top"><?php echo $maxsal?></td>
+						<td align="left" valign="top"><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMaxSal" >
 						</td>
 					  </tr>
 					  <tr> 
 						<td></td><td align="right">
-<?					if($locRights['add']) { ?>
+<?php					if($locRights['add']) { ?>
 						<td align="left" valign="top"><img onClick="addEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?					} else { ?>
-						<td align="left" valign="top"><img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?					}		?>						
+<?php					} else { ?>
+						<td align="left" valign="top"><img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php					}		?>						
 						</td>
 					  </tr>
                   </table></td>
@@ -387,7 +383,7 @@ else
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-<? } ?>
+<?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -397,16 +393,16 @@ else
 
   <tr>
 
-    <td width='100%'><h3><?=$assigncurr?></h3></td>
+    <td width='100%'><h3><?php echo $assigncurr?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
   <td>
-<?					if($locRights['delete']) { ?>
+<?php					if($locRights['delete']) { ?>
 						<img onClick="delEXT();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?					} else { ?>
-						<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?					}		?>						
+<?php					} else { ?>
+						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php					}		?>						
   
   </td>
   </tr>
@@ -424,11 +420,11 @@ else
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$currency?></strong></td>
-						 <td><strong><?=$minimumsal?></strong></td>
-						 <td><strong><?=$maxsal?></strong></td>
+						 <td><strong><?php echo $currency?></strong></td>
+						 <td><strong><?php echo $minimumsal?></strong></td>
+						 <td><strong><?php echo $maxsal?></strong></td>
 					</tr>
-<?
+<?php
    $rset = $this->popArr['currlistAss'];
   $currlist=$this ->popArr['currlistAll'];
 

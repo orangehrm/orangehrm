@@ -1,4 +1,4 @@
-<?
+<?php
 $srchlist[0] = array( 0 , 1 , 2 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 

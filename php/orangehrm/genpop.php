@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -56,7 +56,7 @@ else
 <head>
 <link href="./themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("./themes/beyondT/css/style.css"); </style>
-<title>Un Assigned <?=$headingInfo[3]?></title>
+<title>Un Assigned <?php echo $headingInfo[3]?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <script>		
@@ -78,7 +78,7 @@ else
 	}
 
 	function selItm(cntrl) {
-        opener.document.standardView.action="./CentralController.php?id=" + cntrl.title + "&uniqcode=<?=$_GET['uniqcode']?>";
+        opener.document.standardView.action="./CentralController.php?id=" + cntrl.title + "&uniqcode=<?php echo $_GET['uniqcode']?>";
         
 		opener.document.standardView.submit();
 		window.close();
@@ -91,7 +91,7 @@ else
 			return;
 		};
 		document.standardView.captureState.value = 'SearchMode';		
-		document.standardView.action="./genpop.php?uniqcode=<?=$_GET['uniqcode']?>"
+		document.standardView.action="./genpop.php?uniqcode=<?php echo $_GET['uniqcode']?>"
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
@@ -106,14 +106,14 @@ else
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 <form name="standardView" method="post">
-</td><td width="100%"><h2>Un Assigned <?=$headingInfo[3]?>
+</td><td width="100%"><h2>Un Assigned <?php echo $headingInfo[3]?>
     </h2></td>
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3> 
-        <input type="hidden" name="captureState" value="<?=isset($_POST['captureState'])?$_POST['captureState']:''?>">
-        <input type="hidden" name="pageNO" value="<?=isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
+        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>">
+        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
         <input type="hidden" name="empID" value="">
 
       </h3></td>
@@ -144,7 +144,7 @@ else
                     <tr>
                       <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
                         <select style="z-index: 99;" name="loc_code">
-<?                        for($c=0;count($srchlist[0])>$c;$c++)
+<?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
@@ -153,9 +153,9 @@ else
                         </select>
                       </slot></td>
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
                      </slot></td>
-                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="Search();" onmouseout="this.src='./themes/beyondT/pictures/btn_search.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_search_02.jpg';" src="./themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onclick="clear_form();" onmouseout="this.src='./themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='./themes/beyondT/pictures/btn_clear_02.jpg';" src="./themes/beyondT/pictures/btn_clear.jpg"></td>
+                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="Search();" onMouseOut="this.src='./themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='./themes/beyondT/pictures/btn_search_02.jpg';" src="./themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='./themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='./themes/beyondT/pictures/btn_clear_02.jpg';" src="./themes/beyondT/pictures/btn_clear.jpg"></td>
 
                   </table></td>
                   <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -181,7 +181,7 @@ else
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
 			  
-<?
+<?php
 if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) 				
     $temp = $genviewcontroller -> countList($_GET['uniqcode'],$strName,$choice);
 else 
@@ -238,14 +238,14 @@ else
                   <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <td width="50" NOWRAP class="listViewThS1" scope="col"></td>
-						  <td scope="col" width="250" class="listViewThS1"><?=$headingInfo[0]?></td>
-						  <td scope="col" width="400" class="listViewThS1"><?=$headingInfo[1]?></td>
+						  <td scope="col" width="250" class="listViewThS1"><?php echo $headingInfo[0]?></td>
+						  <td scope="col" width="400" class="listViewThS1"><?php echo $headingInfo[1]?></td>
                   </table></td>
                   <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
-        <?
+        <?php
 			if ((isset($list)) && ($list !='')) {
 	 
 			 for ($j=0; $j<count($list);$j++) {
@@ -254,21 +254,21 @@ else
                 <tr>
                   <td background="themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-         <?		if(!($j%2)) { ?>
+         <?php		if(!($j%2)) { ?>
 				  <td width="50"></td>
-				  <td width="250"><a title="<?=$list[$j][0]?>" href="#" onClick="selItm(this)"><?=$list[$j][0]?></a></td>
-		  		  <td width="400" ><?=$list[$j][1]?></td>
-		<?		} else { ?>
+				  <td width="250"><a title="<?php echo $list[$j][0]?>" href="#" onClick="selItm(this)"><?php echo $list[$j][0]?></a></td>
+		  		  <td width="400" ><?php echo $list[$j][1]?></td>
+		<?php		} else { ?>
 				  <td bgcolor="#EEEEEE" width="50"></td>
-				  <td bgcolor="#EEEEEE" width="250"><a title="<?=$list[$j][0]?>" href="#" onClick="selItm(this)"><?=$list[$j][0]?></a></td>
-		  		  <td bgcolor="#EEEEEE" width="400" ><?=$list[$j][1]?></td>
-		<?		}	?>
+				  <td bgcolor="#EEEEEE" width="250"><a title="<?php echo $list[$j][0]?>" href="#" onClick="selItm(this)"><?php echo $list[$j][0]?></a></td>
+		  		  <td bgcolor="#EEEEEE" width="400" ><?php echo $list[$j][1]?></td>
+		<?php		}	?>
 		  		  </table></td>
                   <td background="themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
-         <? } 
+         <?php } 
         	  } else if ((isset($message)) && ($message =='')) {
         		
         		 $dispMessage = "No Records to Display !";

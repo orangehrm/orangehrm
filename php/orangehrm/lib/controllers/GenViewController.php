@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -17,12 +17,7 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once ROOT_PATH . '/lib/models/eimadmin/DesDis.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/DesQual.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/CashBenSal.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/NonCashBenSal.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/salarygrades.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/Designations.php';
 
 
 class GenViewController {

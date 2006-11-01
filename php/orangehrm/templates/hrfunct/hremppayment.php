@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -99,21 +99,20 @@ function editEXTPayment() {
 }
 
 function delEXTPayment() {
-      var check = 0;
-		with (document.frmEmp) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
+	
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkpaydel[]') && (elements[i].checked == true)) {
+				check = true;
 			}
-        }
+		}
+	}
 
-        if(check==0)
-            {
-              alert("Select atleast one check box");
-              return;
-            }
-
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
 
     //alert(cntrl.value);
     document.frmEmp.paymentSTAT.value="DEL";
@@ -128,11 +127,11 @@ function viewPayment(pay,curr) {
 }
 
 </script>
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="paymentSTAT" value="">
-        <input type="hidden" name="txtSalGrdId" value="<?=$this->popArr['salGrd']?>">
-   	<?
+        <input type="hidden" name="txtSalGrdId" value="<?php echo $this->popArr['salGrd']?>">
+   	<?php
 			$salGrd = $this->popArr['salGrd'];
 			
 			if($salGrd === null) {
@@ -140,15 +139,15 @@ function viewPayment(pay,curr) {
 			}
  	?>
 
-<?
+<?php
 	if(isset($this ->popArr['editPaymentArr'])) {
 	 $edit = $this -> popArr['editPaymentArr'];
 ?>
  	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$paygrade?></td>
+                      <td><?php echo $paygrade?></td>
     				  <td><strong>
-    				 <? $salgradelist = $this->popArr['salgradelist'];
+    				 <?php $salgradelist = $this->popArr['salgradelist'];
     				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
     				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
     				    		echo $salgradelist[$c][1];
@@ -156,10 +155,10 @@ function viewPayment(pay,curr) {
     				  </strong></td>
 					</tr>
 					  <tr> 
-						<td valign="top"><?=$currency?></td>
-						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?=$edit[0][2]?>">
+						<td valign="top"><?php echo $currency?></td>
+						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][2]?>">
 						<strong>
-<?
+<?php
 						$currlist=$this -> popArr['currlist'];
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2])
@@ -168,9 +167,9 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$minpoint?></td>
+						<td valign="top"><?php echo $minpoint?></td>
 						<td align="left" valign="top"><strong>
-<?
+<?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
 						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'>";
@@ -180,9 +179,9 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$maxpoint?></td>
+						<td valign="top"><?php echo $maxpoint?></td>
 						<td align="left" valign="top"><strong>
-<?
+<?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
 						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'>";
@@ -192,27 +191,27 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$bassalary?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?=$edit[0][3]?>">
+						<td valign="top"><?php echo $bassalary?></td>
+						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?php echo $edit[0][3]?>">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
-		<?			if($locRights['edit']) { ?>
+		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
-		<?			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-		<?			}  ?>
+		<?php			} else { ?>
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+		<?php			}  ?>
 						</td>
 					  </tr>
                   </table>
-<? } else { ?>
+<?php } else { ?>
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$paygrade?></td>
+                      <td><?php echo $paygrade?></td>
     				  <td><strong>
-    				 <? $salgradelist = $this->popArr['salgradelist'];
+    				 <?php $salgradelist = $this->popArr['salgradelist'];
     				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
     				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
     				    		echo $salgradelist[$c][1];
@@ -220,10 +219,10 @@ function viewPayment(pay,curr) {
     				  </strong></td>
 					</tr>
 					  <tr> 
-						<td valign="top"><?=$currency?></td>
-						<td align="left" valign="top"><select <?=($locRights['add'] && $salGrd !== null)? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?=$this->popArr['salGrd']?>')" name='cmbCurrCode'>
+						<td valign="top"><?php echo $currency?></td>
+						<td align="left" valign="top"><select <?php echo ($locRights['add'] && $salGrd !== null)? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?php echo $this->popArr['salGrd']?>')" name='cmbCurrCode'>
                        						<option value="0">--Select Currency--</option>
-<?
+<?php
 						$curlist= $this->popArr['currlist'];
 						for($c=0;$curlist && count($curlist)>$c;$c++)
 								   echo "<option value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
@@ -231,36 +230,36 @@ function viewPayment(pay,curr) {
 							</select></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$minpoint?></td>
+						<td valign="top"><?php echo $minpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency'>
 							<div id='divMinCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$maxpoint?></td>
+						<td valign="top"><?php echo $maxpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency'>
 							<div id='divMaxCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$bassalary?></td>
-						<td align="left" valign="top"><input type="text" <?=($locRights['add'] && $salGrd !== null) ? '':'disabled'?> name="txtBasSal">
+						<td valign="top"><?php echo $bassalary?></td>
+						<td align="left" valign="top"><input type="text" <?php echo ($locRights['add'] && $salGrd !== null) ? '':'disabled'?> name="txtBasSal">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					<?	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="<?=$salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<? 	} else { ?>
-		   				        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?	} ?>
+					<?php	if($locRights['add']) { ?>
+					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					<?php 	} else { ?>
+		   				        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+					<?php	} ?>
 						</td>
 					  </tr>
                    </table>
-<? } ?>
+<?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -270,16 +269,16 @@ function viewPayment(pay,curr) {
 
   <tr>
 
-    <td width='100%'><h3><?=$assignedsalary?></h3></td>
+    <td width='100%'><h3><?php echo $assignedsalary?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
   <td>
-<?	if($locRights['delete']) { ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -287,10 +286,10 @@ function viewPayment(pay,curr) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$currency?></strong></td>
-						 <td><strong><?=$bassalary?></strong></td>
+						 <td><strong><?php echo $currency?></strong></td>
+						 <td><strong><?php echo $bassalary?></strong></td>
 					</tr>
-<?
+<?php
 			$rset = $this->popArr['rsetPayment'];
 			$currlist=$this->popArr['currAlllist'];
 
@@ -301,7 +300,7 @@ function viewPayment(pay,curr) {
 			for($a=0;count($currlist)>$a;$a++)
 			    if($currlist[$a][0]==$rset[$c][2])
 				   $fname=$currlist[$a][1];
-            ?><td><a href="javascript:viewPayment('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$fname?></a></td><?
+            ?><td><a href="javascript:viewPayment('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
             echo '<td>' . $rset[$c][3] .'</td>';
         echo '</tr>';
         }
@@ -309,4 +308,4 @@ function viewPayment(pay,curr) {
 ?>
 </table>
 
-<? } ?>
+<?php } ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Designation Description: Designation Profile';
 $code			= 'Code';
 $description	= 'Description';

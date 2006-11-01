@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -87,20 +87,19 @@ function editEXTLicense() {
 
 function delEXTLicense() {
 	
-      var check = 0;
-		with (document.frmEmp) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chklicdel[]') && (elements[i].checked == true)) {
+				check = true;
 			}
-        }
+		}
+	}
 
-        if(check==0)             {
-              alert("Select at least one check box");
-              return;
-        }
-
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
 
     //alert(cntrl.value);
     document.frmEmp.licenseSTAT.value="DEL";
@@ -117,10 +116,10 @@ function viewLicense(lic) {
 </script>
 
 
-<?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="licenseSTAT" value="">
-<?
+<?php
 
 if(isset($this->getArr['LIC'])) {
 	
@@ -129,9 +128,9 @@ if(isset($this->getArr['LIC'])) {
 
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 				 <tr>
-                      <td width="200"><?=$licentype?></td>
-    				  <td><input type="hidden" name="cmbLicCode" value="<?=$edit[0][1]?>"><strong>
-<?						$allLicenlist = $this->popArr['allLicenlist'];
+                      <td width="200"><?php echo $licentype?></td>
+    				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"><strong>
+<?php						$allLicenlist = $this->popArr['allLicenlist'];
 						for($c=0;count($allLicenlist)>$c;$c++)
 							if($this->getArr['LIC']==$allLicenlist[$c][0])
 							     break;
@@ -141,32 +140,32 @@ if(isset($this->getArr['LIC'])) {
 					  </strong></td>
 					</tr>
 					<tr>
-                      	<td><?=$startdate?></td>
-						<td> <input type="text" readonly name="txtEmpLicDat"  <?=isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?=isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+                      	<td><?php echo $startdate?></td>
+						<td> <input type="text" readonly name="txtEmpLicDat"  <?php echo isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				<tr>
-						<td><?=$enddate?></td>
-						<td><input type="text" readonly name="txtEmpreDat" <?=isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?=isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+						<td><?php echo $enddate?></td>
+						<td><input type="text" readonly name="txtEmpreDat" <?php echo isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 						
-			<?		if($locRights['edit']) { ?>
+			<?php		if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editLicense();">
-			<?		} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-			<?		} 		 ?>
+			<?php		} else { ?>
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			<?php		} 		 ?>
 						</td>
 					  </tr>
                   </table>
-<? } else { ?>
+<?php } else { ?>
          
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
-                      <td width="200"><?=$licentype?></td>
-    				  <td><select name="cmbLicCode" <?=$locRights['add'] ? '':'disabled'?>>
+                      <td width="200"><?php echo $licentype?></td>
+    				  <td><select name="cmbLicCode" <?php echo $locRights['add'] ? '':'disabled'?>>
     				  		<option selected value="0">--Select Licenses Type--</option>
-<?						$unassLicenlist= $this->popArr['unassLicenlist'];
+<?php						$unassLicenlist= $this->popArr['unassLicenlist'];
 						
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)
 							if(isset($this->popArr['cmbLicCode']) && $this->popArr['cmbLicCode']==$unassLicenlist[$c][0]) 
@@ -177,25 +176,25 @@ if(isset($this->getArr['LIC'])) {
 					  </select></td>
 					</tr>
                     <tr>
-                    <td><?=$startdate?></td>
-						<td> <input type="text" name="txtEmpLicDat" readonly value="<?=isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+                    <td><?php echo $startdate?></td>
+						<td> <input type="text" name="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				  </tr>
     				  <tr>
-                       <td><?=$enddate?></td>
-						<td> <input type="text" name="txtEmpreDat"  readonly value="<?=isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :''?>">&nbsp;<input <?=$locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+                       <td><?php echo $enddate?></td>
+						<td> <input type="text" name="txtEmpreDat"  readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					  
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
 					  </tr>
                   </table>
-<? } ?>
+<?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -205,21 +204,21 @@ if(isset($this->getArr['LIC'])) {
 
   <tr>
 
-    <td width='100%'><h3><?=$assignlicen?></h3></td>
+    <td width='100%'><h3><?php echo $assignlicen?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
   <td>
- <?	if($locRights['add']) { ?>
+ <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<? 	} else { ?>
-		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
-<? } ?>
-<?	if($locRights['delete']) { ?>
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
+<?php } ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -227,12 +226,12 @@ if(isset($this->getArr['LIC'])) {
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	 <td ></td>
-						 <td ><strong><?=$licentype?></strong></td>
-						 <td ><strong><?=$startdate?></strong></td>
-						 <td ><strong><?=$enddate?></strong></td>
+						 <td ><strong><?php echo $licentype?></strong></td>
+						 <td ><strong><?php echo $startdate?></strong></td>
+						 <td ><strong><?php echo $enddate?></strong></td>
 						 
 					</tr>
-<?
+<?php
 $rset = $this->popArr['rsetLicense'];
 $allLicenlist = $this -> popArr['allLicenlist'];
 
@@ -240,12 +239,12 @@ $allLicenlist = $this -> popArr['allLicenlist'];
         {
 ?>
         <tr>
-            <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?=$rset[$c][1]?>'></td>
-<?
+            <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?php echo $rset[$c][1]?>'></td>
+<?php
 			for($a=0;count($allLicenlist)>$a;$a++) 
 				if($rset[$c][1] == $allLicenlist[$a][0])
 				   $lname=$allLicenlist[$a][1];
-			?><td><a href="javascript:viewLicense('<?=$rset[$c][1]?>')"><?=$lname?></td><?
+			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo $lname?></td><?php
             $str = explode(" ",$rset[$c][2]);
             echo '<td>' . $str[0] .'</td>';
             $str = explode(" ",$rset[$c][3]);
@@ -256,4 +255,4 @@ $allLicenlist = $this -> popArr['allLicenlist'];
 ?>
 </table>
 
-<? } ?>
+<?php } ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'City Information : Geo Information';
 $code			= 'Code';
 $description	= 'Description';

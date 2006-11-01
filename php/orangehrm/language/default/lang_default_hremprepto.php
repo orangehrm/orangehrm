@@ -1,4 +1,4 @@
-<?
+<?php
 $heading				= 'Employee Report';
 $employeeid				= 'Employee ID';
 $lastname				= 'Last Name';

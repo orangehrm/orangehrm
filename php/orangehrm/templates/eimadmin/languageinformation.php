@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -81,7 +81,7 @@ return flag;
 }
 
 	function goBack() {
-		location.href ="./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href ="./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 	function addSave() {
@@ -109,21 +109,21 @@ return flag;
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmLanguageInformation" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmLanguageInformation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -148,11 +148,11 @@ return flag;
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   		
 						  <tr> 
-						    <td><?=$code?></td>
-						   <td><strong><?=$this->popArr['newID']?></strong></td>
+						    <td><?php echo $code?></td>
+						   <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
 						  <tr>
-						    <td nowrap valign="top"><span class="error">*</span> <?=$description?></td>
+						    <td nowrap valign="top"><span class="error">*</span> <?php echo $description?></td>
 						    <td><textarea name='txtLanguageInfoDesc' rows="3" cols="30"></textarea></td></td>
 						  </tr>
 						 
@@ -176,7 +176,7 @@ return flag;
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this->popArr['editArr'];
 ?>
 
@@ -232,7 +232,7 @@ return flag;
 }
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 function mout() {
@@ -291,21 +291,21 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmLanguageInformation" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmLanguageInformation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -329,20 +329,20 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 							  <tr> 
-							    <td><?=$code?></td>
-							    <td><input type="hidden"  name="txtLanguageInfoId" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
+							    <td><?php echo $code?></td>
+							    <td><input type="hidden"  name="txtLanguageInfoId" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 							  </tr>
 							  <tr> 
-							    <td nowrap valign="top"><span class="error">*</span> <?=$description?></td>
-							  	<td><textarea name='txtLanguageInfoDesc' rows="3" disabled tabindex='3' cols="30"><?=$message[0][1]?></textarea></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $description?></td>
+							  	<td><textarea name='txtLanguageInfoDesc' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
 							  </tr>
 							  
 					  <tr><td></td><td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>
 					  </tr>				  
@@ -362,4 +362,4 @@ function edit()
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } ?>
+<?php } ?>

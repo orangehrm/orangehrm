@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -57,7 +57,7 @@ function createDate(str) {
 }
 
 function goBack() {
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
 	}
 
 function addEXTMembership() {
@@ -130,20 +130,19 @@ function editEXTMembership() {
 
 function delEXTMembership() {
 	
-		var check = 0;
-		with (document.frmEmp) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkmemdel[]') && (elements[i].checked == true)) {
+				check = true;
 			}
-        }
+		}
+	}
 
-        if(check==0) {
-        	
-              alert("Select atleast one check box");
-              return;
-            }
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
 
 
     //alert(cntrl.value);
@@ -159,11 +158,11 @@ function viewMembership(mem,mtp) {
 }
 
 </script>
-<?  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="membershipSTAT" value="">
 
-<?
+<?php
 if(isset($this->popArr['editMembershipArr'])) {
 	
     $edit = $this->popArr['editMembershipArr'];
@@ -172,10 +171,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 <br>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$membershiptype?></td>
+                      <td><?php echo $membershiptype?></td>
     				  <td><strong>
-					  <input type="hidden" name="cmbMemTypeCode" value="<?=$edit[0][2]?>">
-<?					    
+					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>">
+<?php					    
 						$typlist = $this->popArr['typlist'];
 						for($c=0;count($typlist)>$c;$c++)
 							if($typlist[$c][0]==$edit[0][2])
@@ -184,10 +183,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </strong></td>
 					</tr>
 					  <tr> 
-						<td valign="top"><?=$membership?></td>
+						<td valign="top"><?php echo $membership?></td>
 						<td align="left" valign="top"><strong>
-						<input type="hidden" name="cmbMemCode" value="<?=$edit[0][1]?>">
-<?
+						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>">
+<?php
 						$mship = $this->popArr['mship'];
 						for($c=0;count($mship)>$c;$c++)
 						    if($mship[$c][1]==$edit[0][1])
@@ -196,9 +195,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subownership?></td>
+						<td valign="top"><?php echo $subownership?></td>
 						<td align="left" valign="top"><select disabled name="cmbMemSubOwn">
-<?
+<?php
 						for($c=0;count($subown)>$c;$c++)
 						    if($edit[0][3]==$subown[$c])
 							    echo "<option selected value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
@@ -208,43 +207,43 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subamount?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" value="<?=$edit[0][4]?>">
+						<td valign="top"><?php echo $subamount?></td>
+						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" value="<?php echo $edit[0][4]?>">
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?=$edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td valign="top"><?php echo $subcomdate?></td>
+						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?php echo $edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?=$edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td valign="top"><?php echo $subredate?></td>
+						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?php echo $edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
 
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
-		<?			if($locRights['edit']) { ?>
+		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onClick="editMembership();">
-		<?			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-		<?			}  ?>
+		<?php			} else { ?>
+						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+		<?php			}  ?>
 						</td>
 					  </tr>
        </table>
 
-<? } else { ?>
+<?php } else { ?>
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$membershiptype?></td>
+                      <td><?php echo $membershiptype?></td>
     				  <td>
-					  <select onChange="xajax_getUnAssMemberships(this.value);" <?=$locRights['add'] ? '':'disabled'?> name="cmbMemTypeCode">
-					  <option value=0><?=$selmemtype?></option>
+					  <select onChange="xajax_getUnAssMemberships(this.value);" <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemTypeCode">
+					  <option value=0><?php echo $selmemtype?></option>
 
-<?					  	$typlist= $this->popArr['typlist'];
+<?php					  	$typlist= $this->popArr['typlist'];
 							for($c=0;$typlist && count($typlist)>$c;$c++)
 							if(isset($this->popArr['cmbMemTypeCode']) && $this->popArr['cmbMemTypeCode']==$typlist[$c][0]) 
 							
@@ -256,10 +255,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </select></td>
 					</tr>
 					  <tr> 
-						<td valign="top"><?=$membership?></td>
-						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> name='cmbMemCode'>
-						   		<option value=0><?=$selmemship?></option>
-<?
+						<td valign="top"><?php echo $membership?></td>
+						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbMemCode'>
+						   		<option value=0><?php echo $selmemship?></option>
+<?php
 					if(isset($this->popArr['cmbMemTypeCode'])) {
 						
 						$mship=$this->popArr['mship'];
@@ -270,10 +269,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subownership?></td>
-						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> name="cmbMemSubOwn">
-						   		<option value=0><?=$selownership?></option>
-<?
+						<td valign="top"><?php echo $subownership?></td>
+						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemSubOwn">
+						   		<option value=0><?php echo $selownership?></option>
+<?php
 						for($c=0;count($subown)>$c;$c++)
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
 							
@@ -281,32 +280,32 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subamount?></td>
-						<td align="left" valign="top"><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtMemSubAmount" >
+						<td valign="top"><?php echo $subamount?></td>
+						<td align="left" valign="top"><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMemSubAmount" >
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td valign="top"><?php echo $subcomdate?></td>
+						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" >&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td valign="top"><?php echo $subredate?></td>
+						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
 						</td>
 					  </tr>
                   </table>
-<? } ?>
+<?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -315,21 +314,21 @@ if(isset($this->popArr['editMembershipArr'])) {
   </tr>
 
   <tr>
-    <td width='100%'><h3><?=$assignmemship?></h3></td>
+    <td width='100%'><h3><?php echo $assignmemship?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
   <td>
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<? 	} else { ?>
-		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?	} ?>
-<?	if($locRights['delete']) { ?>
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php	} ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -337,13 +336,13 @@ if(isset($this->popArr['editMembershipArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$membership?></strong></td>
-						 <td><strong><?=$membershiptype?></strong></td>
-						 <td><strong><?=$subownership?></strong></td>
-						 <td><strong><?=$subcomdate?></strong></td>
-						 <td><strong><?=$subredate?></strong></td>
+						 <td><strong><?php echo $membership?></strong></td>
+						 <td><strong><?php echo $membershiptype?></strong></td>
+						 <td><strong><?php echo $subownership?></strong></td>
+						 <td><strong><?php echo $subcomdate?></strong></td>
+						 <td><strong><?php echo $subredate?></strong></td>
 					</tr>
-<?
+<?php
 
 $mship= $this->popArr['mshipAll'];
 $rset = $this->popArr['rsetMembership'];
@@ -357,7 +356,7 @@ $rset = $this->popArr['rsetMembership'];
 			    if($mship[$a][1]==$rset[$c][1])
 				   $fname=$mship[$a][2];
 				   
-            ?><td><a href="javascript:viewMembership('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$fname?></a></td><?
+            ?><td><a href="javascript:viewMembership('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
 			
             for($a=0;count($typlist)>$a;$a++)
 			    if($typlist[$a][0]==$rset[$c][2])
@@ -373,4 +372,4 @@ $rset = $this->popArr['rsetMembership'];
 ?>
 </table>
 
-<? } ?>
+<?php } ?>

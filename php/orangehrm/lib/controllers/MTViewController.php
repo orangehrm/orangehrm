@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -19,9 +19,6 @@
 
 require_once ROOT_PATH . '/lib/models/maintenance/bugs.php';
 require_once ROOT_PATH . '/lib/models/maintenance/modules.php';
-require_once ROOT_PATH . '/lib/models/maintenance/versions.php';
-require_once ROOT_PATH . '/lib/models/maintenance/fileversions.php';
-require_once ROOT_PATH . '/lib/models/maintenance/dbversions.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 

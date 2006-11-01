@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -18,29 +18,21 @@
 */
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpBank.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpBasSalary.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpCashBen.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpConExt.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpExCur.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpEducation.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpJobSpec.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLang.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpMembership.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpNonCashBen.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPassPort.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpQual.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpQualSub.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpWorkExp.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpTax.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpAttach.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpDependents.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpSkill.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLicenses.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpDependents.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
-
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -1494,8 +1486,6 @@ class EmpViewController {
 							$nationinfo = new NationalityInfo();
 							$location = new Location();
 							$distric = new DistrictInfo();
-							$hierarchy = new HierarchyDefInfo();
-							$comphire = new CompHierachy();
 							$jobtit = new JobTitle();
 
 							$depen = new EmpDependents();
@@ -1681,7 +1671,7 @@ class EmpViewController {
 							if(isset($getArr['editIDSup'])){
 								$arr[0]=$getArr['editIDSup'];
 								$arr[1]=$getArr['id'];
-								$arr[2]=$getArr['repmethod'];
+								$arr[2]=$getArr['RepMethod'];
 								
 							    $form_creator->popArr['editIDSupInfo'] = $emprepto->filterEmpRepTo($arr);
 							 }
@@ -1689,7 +1679,7 @@ class EmpViewController {
 							if(isset($getArr['editIDSub'])){
 								$arr[0]=$getArr['id'];
 								$arr[1]=$getArr['editIDSub'];
-								$arr[2]=$getArr['repmethod'];
+								$arr[2]=$getArr['RepMethod'];
 								
 							    $form_creator->popArr['editIDSubInfo'] = $emprepto->filterEmpRepTo($arr);
 							}

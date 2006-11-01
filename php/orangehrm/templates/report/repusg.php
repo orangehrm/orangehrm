@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -60,7 +60,7 @@ function parseUSG()
 
 
 	function goBack() {
-		location.href =  "./CentralController.php?id=<?=$this->getArr['id']?>&repcode=EMPDEF&capturemode=updatemode";
+		location.href =  "./CentralController.php?id=<?php echo $this->getArr['id']?>&repcode=EMPDEF&capturemode=updatemode";
 	}
 
 function mout() {
@@ -132,16 +132,16 @@ function delUSG()
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmRepUserGroup" method="post" action="<?=$_SERVER['PHP_SELF']?>?repcode=<?=$this->getArr['repcode']?>&id=<?=$this->getArr['id']?>">
+<form name="frmRepUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>">
   <tr> 
-    <td height="27" valign='top'> <p> <img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="USG" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
       </font> </td>
   </tr><td width="177">
 </table>
-<?
+<?php
 $repDet = $this->popArr['repDet'];
 ?>
               <table border="0" cellpadding="0" cellspacing="0">
@@ -155,17 +155,17 @@ $repDet = $this->popArr['repDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
-<?						for($c=0;$repDet && count($repDet)>$c;$c++)
+<?php						for($c=0;$repDet && count($repDet)>$c;$c++)
 							if($repDet[$c][0]==$this->getArr['id'])
 								break;
 ?>                  
 						  <tr> 
 						    <td>Report Code</td>
-						  	  <td> <strong><?=$repDet[$c][0]?></strong></td>
+						  	  <td> <strong><?php echo $repDet[$c][0]?></strong></td>
 						  </tr>
 						  <tr> 
 						    <td>Report Name</td>
-						  	  <td> <strong><?=$repDet[$c][1]?></strong></td>
+						  	  <td> <strong><?php echo $repDet[$c][1]?></strong></td>
 						  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -179,7 +179,7 @@ $repDet = $this->popArr['repDet'];
                 </tr>
               </table>
 
-<? 
+<?php 
 $rset = $this->popArr['repUsgAss'];
 $usglist = $this->popArr['usgAll'];
 ?>
@@ -196,8 +196,8 @@ $usglist = $this->popArr['usgAll'];
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr><td>
-  <img onClick="addUSG();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-	<img onClick="delUSG();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+  <img onClick="addUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+	<img onClick="delUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 		</td>
 		</tr>
 </table>
@@ -212,12 +212,12 @@ $usglist = $this->popArr['usgAll'];
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-<?						if($rset) {	?>
+<?php						if($rset) {	?>
 						<tr>
 						         <td></td>
 						         <td><strong>User Groups</strong></td>
 						</tr>
-						<?
+						<?php
 						
 						    for($c=0;$c < count($rset); $c++)
 						        {
@@ -248,10 +248,10 @@ $usglist = $this->popArr['usgAll'];
               </table>
 
 </form>
-<form name="frmUSG" method="post" action="<?=$_SERVER['PHP_SELF']?>?repcode=<?=$this->getArr['repcode']?>&id=<?=$this->getArr['id']?>" >
+<form name="frmUSG" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>" >
 <input type="hidden" name="USG" value="">
-<input type="hidden" name="txtRepID" value="<?=$this->getArr['id']?>">
-<? if(isset($this->getArr['addForm'])&&($this->getArr['addForm']=="ADD")) { ?>
+<input type="hidden" name="txtRepID" value="<?php echo $this->getArr['id']?>">
+<?php if(isset($this->getArr['addForm'])&&($this->getArr['addForm']=="ADD")) { ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -264,7 +264,7 @@ $usglist = $this->popArr['usgAll'];
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
-  <td><img onClick="parseUSG();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg"></td>
+  <td><img onClick="parseUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg"></td>
   </tr>
 </table>				
 			   <input type="hidden" name="dummy">
@@ -283,7 +283,7 @@ $usglist = $this->popArr['usgAll'];
 								         <td></td>
 								         <td><strong>User Group</strong></td>
 								</tr>
-								<?
+								<?php
 								$rset=$this->popArr['usgUnAss'];
 								
 								    for($c=0;$rset && $c < count($rset); $c++)
@@ -306,7 +306,7 @@ $usglist = $this->popArr['usgAll'];
                 </tr>
               </table>
 
-<?    }
+<?php    }
 ?>
 </form>
 </body>

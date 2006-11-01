@@ -196,7 +196,7 @@ return $objResponse->getXML();
 <head>
 
 <title>Untitled Document</title>
-<? $objAjax->printJavascript(); ?>
+<?php $objAjax->printJavascript(); ?>
 <script language="JavaScript">
 
 
@@ -253,7 +253,7 @@ function goBack() {
 
 
 
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 
 	}
 
@@ -611,11 +611,11 @@ function editSalaryGrade() {
 
 </head>
 
-<body onLoad="<?=(isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?=isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
+<body onLoad="<?php echo (isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?php echo isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
 
 
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
 
@@ -623,7 +623,7 @@ function editSalaryGrade() {
 
     <td valign='top'></td>
 
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
 
@@ -637,7 +637,7 @@ function editSalaryGrade() {
 
 <br>
 
-		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
 		<input type="hidden" name="sqlState">
 
@@ -663,59 +663,59 @@ function editSalaryGrade() {
 
 				                  <tr>
 
-				                  		<td><?=$jobtitid?></td>
+				                  		<td><?php echo $jobtitid?></td>
 
-				                  		<td><strong><?=$this->popArr['newID']?></strong><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><span class="error">*</span><?=$jobtitname?></td>
-
-				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
+				                  		<td><strong><?php echo $this->popArr['newID']?></strong><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
 
 				                  </tr>
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span><?=$jobtitdesc?></td>
+				                  		<td><span class="error">*</span><?php echo $jobtitname?></td>
 
-				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><?=$jobtitcomments?></td>
-
-				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?=isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
+				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
 
 				                  </tr>
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span> <?=$pgrade?></td>
+				                  		<td><span class="error">*</span><?php echo $jobtitdesc?></td>
+
+				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
+
+				                  </tr>
+
+				                  <tr>
+
+				                  		<td><?php echo $jobtitcomments?></td>
+
+				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
+
+				                  </tr>
+
+				                  <tr>
+
+				                  		<td><span class="error">*</span> <?php echo $pgrade?></td>
 
 				                  		<td><select name="cmbPayGrade" id="cmbPayGrade">
 
 				               				<option value='0'>---Select---</option>
 
-				               			<? $paygrade = $this->popArr['paygrade'];
+				               			<?php $paygrade = $this->popArr['paygrade'];
 
 				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) {?>
 
-				               					<option <?=(isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?=$paygrade[$c][0]?>"><?=$paygrade[$c][1]?></option>
+				               					<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>"><?php echo $paygrade[$c][1]?></option>
 											
-										<?	} ?>
+										<?php	} ?>
 
 				               				
 
 				                  		</select></td>
 
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?=$addpaygrade?>" />
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $addpaygrade?>" />
 
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?=$editpaygrade?>"  /></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $editpaygrade?>"  /></td>
 
 				                  </tr>
 
@@ -755,7 +755,7 @@ function editSalaryGrade() {
 
 
 
-<? } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
+<?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
 
 	
 ?>
@@ -766,7 +766,7 @@ function editSalaryGrade() {
 
     <td valign='top'></td>
 
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
 
@@ -790,7 +790,7 @@ function editSalaryGrade() {
 
                 <tr>
 
-                	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode">
+                	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
 						<input type="hidden" name="sqlState">
 
@@ -806,39 +806,39 @@ function editSalaryGrade() {
 
 				                  <tr>
 
-				                  		<td><?=$jobtitid?></td>
+				                  		<td><?php echo $jobtitid?></td>
 
-				                  		<td><strong><?=$editArr[0][0]?></strong></td>
-
-				                  </tr>
-
-				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?=$editArr[0][0]?>">
-
-				                  		<td><span class="error">*</span> <?=$jobtitname?></td>
-
-				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?=isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
+				                  		<td><strong><?php echo $editArr[0][0]?></strong></td>
 
 				                  </tr>
 
-				                  <tr>
+				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>">
 
-				                  		<td><span class="error">*</span> <?=$jobtitdesc?></td>
+				                  		<td><span class="error">*</span> <?php echo $jobtitname?></td>
 
-				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?=isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
+				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
 
 				                  </tr>
 
 				                  <tr>
 
-				                  		<td><?=$jobtitcomments?></td>
+				                  		<td><span class="error">*</span> <?php echo $jobtitdesc?></td>
 
-				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?=isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
+				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
 
 				                  </tr>
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span><?=$pgrade?></td>
+				                  		<td><?php echo $jobtitcomments?></td>
+
+				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
+
+				                  </tr>
+
+				                  <tr>
+
+				                  		<td><span class="error">*</span><?php echo $pgrade?></td>
 
 				                  		<td><table border="0">
 
@@ -848,7 +848,7 @@ function editSalaryGrade() {
 
 				               				<option value='0'>---Select---</option>
 
-				               			<? $paygrade = $this->popArr['paygrade'];
+				               			<?php $paygrade = $this->popArr['paygrade'];
 
 				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) 
 
@@ -864,9 +864,9 @@ function editSalaryGrade() {
 
 				                  		</select></td>
 
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?=$addpaygrade?>" disabled="disabled"/>
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $addpaygrade?>" disabled="disabled"/>
 
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?=$editpaygrade?>"  disabled="disabled" /></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $editpaygrade?>"  disabled="disabled" /></td>
 
 				                  		</tr></table></td>
 
@@ -875,7 +875,7 @@ function editSalaryGrade() {
 				                  <tr>
 
 										<td valign="top">
-										<span class="success">#</span> <?=$emstat?><br>
+										<span class="success">#</span> <?php echo $emstat?><br>
 										
 										</td>
 
@@ -885,7 +885,7 @@ function editSalaryGrade() {
 
 										<select disabled size="3" name="cmbAssEmploymentStatus" style="width:125px;">
 
-				               			<? $assEmploymentStat = $this->popArr['assEmploymentStat'];
+				               			<?php $assEmploymentStat = $this->popArr['assEmploymentStat'];
 
 				               				for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++) 
 
@@ -899,7 +899,7 @@ function editSalaryGrade() {
 
 										<td><select disabled size="3" name="cmbUnAssEmploymentStatus" style="width:125px;">
 
-				               			<? $unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
+				               			<?php $unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
 
 				               				for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++) 
 
@@ -917,13 +917,13 @@ function editSalaryGrade() {
 
 								<tr>
 
-									<td><!--<a href="../../lib/controllers/CentralController.php?uniqcode=EST&capturemode=addmode"><?=$addempstat?></a><br>
+									<td><!--<a href="../../lib/controllers/CentralController.php?uniqcode=EST&capturemode=addmode"><?php echo $addempstat?></a><br>
 
-				                  		<a href="javascript:editEmpStat();"><?=$editempstat?></a>-->
+				                  		<a href="javascript:editEmpStat();"><?php echo $editempstat?></a>-->
 
-									<input type="button" disabled value="<?=$addempstat?>" onClick="xajax_showAddEmpStatForm();"><br><br>
+									<input type="button" disabled value="<?php echo $addempstat?>" onClick="xajax_showAddEmpStatForm();"><br><br>
 
-									<input type="button" disabled value="<?=$editempstat?>" onClick="showEditForm();">
+									<input type="button" disabled value="<?php echo $editempstat?>" onClick="showEditForm();">
 
 									</td>
 
@@ -949,7 +949,7 @@ function editSalaryGrade() {
 
 	<tr>
 
-		<td><?=$emstat?></td>
+		<td><?php echo $emstat?></td>
 
 		<td><input type="hidden" name="txtEmpStatID"><input type="text" name="txtEmpStatDesc" disabled></td>
 
@@ -985,15 +985,15 @@ function editSalaryGrade() {
 
 					  <tr><td></td><td align="right" width="100%">
 
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 
-<?			} else { ?>
+<?php			} else { ?>
 
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 
-<?			}  ?>
+<?php			}  ?>
 
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 
@@ -1028,10 +1028,10 @@ function editSalaryGrade() {
 Fields marked with an asterisk <span class="error">*</span> are required.</span>
 <br>
 <span id="notice">
-<span class="success">#</span> = <?=$emstatExpl?>
+<span class="success">#</span> = <?php echo $emstatExpl?>
 </span>
 </body>
 
 </html>
 
-<? } ?>
+<?php } ?>

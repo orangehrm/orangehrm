@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -34,7 +34,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>			
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 		
 	}
 
@@ -67,7 +67,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUserGroup" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
@@ -90,7 +90,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
        							<td>Code</td>
-							    <td><strong><?=$this->popArr['newID'] ?></strong></td>
+							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
 							  </tr>
 						  <tr> 
 						    <td valign="top" nowrap><span class="error">*</span>Name</td>
@@ -121,7 +121,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } else if ((isset($this ->getArr['capturemode'])) && ($this ->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this ->getArr['capturemode'])) && ($this ->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this -> popArr['editArr'];
 ?>
 
@@ -134,7 +134,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <script>			
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 		
 	}
 
@@ -201,14 +201,14 @@ function edit()
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUserGroup" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['uniqcode']?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode">
+<form name="frmUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['uniqcode']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
   <tr> 
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
       	
       	if ((isset($message)) && ($message != '')) {
       		
@@ -234,23 +234,23 @@ function edit()
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 							  <tr> 
     <td>Code</td>
-     <td> <input type="hidden" name="txtUserGroupID" value=<?=$message[0][0]?> ><strong><?=$message[0][0]?></strong> </td>
+     <td> <input type="hidden" name="txtUserGroupID" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
   </tr>
 							  <tr> 
 							    <td valign="top" nowrap><span class="error">*</span> <strong>Name</td>
-							  	  <td> <input type="text" name='txtUserGroupName' tabindex='3' disabled value="<?=$message[0][1]?>"></td>
+							  	  <td> <input type="text" name='txtUserGroupName' tabindex='3' disabled value="<?php echo $message[0][1]?>"></td>
 							  </tr>
 						  <tr> 
 						    <td>Define Reports</td>
-						    <td> <input type="checkbox" disabled <?=$message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
+						    <td> <input type="checkbox" disabled <?php echo $message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
 						  </tr>
-					  <tr><td><a href="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=UGR">Assign User Rights</a></td>
+					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR">Assign User Rights</a></td>
 					  <td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 					  
 </td>
@@ -272,4 +272,4 @@ function edit()
 </body>
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </html>
-<? } ?>
+<?php } ?>

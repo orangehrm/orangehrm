@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -20,7 +20,7 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-$srchlist[0] = array( 0 , 1 , 2 );
+$srchlist[0] = array( -1 , 0 , 1 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 
 	$sysConst = new sysConf(); 
@@ -59,14 +59,14 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 		document.standardView.submit();
 	}
 
-<?	if($headingInfo[2] == '1') { ?>
+<?php	if($headingInfo[2] == '1') { ?>
 
 	function returnAdd() {
 
-		location.href = "./CentralController.php?repcode=<?=$this->getArr['repcode']?>&capturemode=addmode";
+		location.href = "./CentralController.php?repcode=<?php echo $this->getArr['repcode']?>&capturemode=addmode";
 	}
 	
-<?  }	?>
+<?php  }	?>
 
 	function returnDelete() {
 		$check = 0;
@@ -136,10 +136,10 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 <body>
 <p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?repcode=<?=$this->getArr['repcode']?>&VIEW=MAIN">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN">
   </td>
   <td width='100%'><h2> 
-      <?=$headingInfo[3]?>
+      <?php echo $headingInfo[3]?>
     </h2></td>
   <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 </table></p>
@@ -148,15 +148,15 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3> 
-        <input type="hidden" name="captureState" value="<?=isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
+        <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
         <input type="hidden" name="delState" value="">
         
-        <input type="hidden" name="pageNO" value="<?=isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
+        <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
     
-<?	if($locRights['repDef'] && $headingInfo[2] == 1) { ?>
+<?php	if($locRights['repDef'] && $headingInfo[2] == 1) { ?>
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
         <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? } ?>
+<?php } ?>
 
       </h3></td>
     <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
@@ -167,7 +167,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
   <tr>
     <td width="22%" nowrap><h3>Search</h3></td>
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-     <?
+     <?php
 		if (isset($this->getArr['message'])) {
 		
 			$expString  = $this->getArr['message'];
@@ -178,12 +178,12 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 			
 			$expString=$this->getArr['message'];
 	?>
-			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
-	<?
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?php
 				echo $$expString;
 	?>
 			</font>
-	<?
+	<?php
 		}		
 		?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
@@ -203,7 +203,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
                     <tr>
                       <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
                         <select style="z-index: 99;" name="loc_code">
-<?                        for($c=0;count($srchlist[0])>$c;$c++)
+<?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
@@ -212,7 +212,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
                         </select>
                       </slot></td>
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
                      </slot></td>
                     <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 
@@ -240,7 +240,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
 			  
-<?
+<?php
 $temp = $this->popArr['temp']; 
 if($temp)    
     $recCount=$temp;
@@ -293,18 +293,18 @@ else
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <td width="50" NOWRAP class="listViewThS1" scope="col">
-<?				if($headingInfo[2]==1) { ?>	  
+<?php				if($headingInfo[2]==1) { ?>	  
 						  <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-<?				}	?>						  
+<?php				}	?>						  
 						  </td>
-						  <td scope="col" width="250" class="listViewThS1"><?=$headingInfo[0]?></td>
-						  <td scope="col" width="400" class="listViewThS1"><?=$headingInfo[1]?></td>
+						  <td scope="col" width="250" class="listViewThS1"><?php echo $headingInfo[0]?></td>
+						  <td scope="col" width="400" class="listViewThS1"><?php echo $headingInfo[1]?></td>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
-        <?
+        <?php
 			if ((isset($message)) && ($message !='')) {
 	 
 			 for ($j=0; $j<count($message);$j++) {
@@ -320,30 +320,30 @@ else
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-		<?	if(!($j%2)) { 
+		<?php	if(!($j%2)) { 
 				if($headingInfo[2]==1) { ?>	  
-                  <td width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?=$message[$j][0]?>'></td>
-		<? 		} else { ?>
+                  <td width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
+		<?php 		} else { ?>
                   <td width="50"></td>
-		<? 		}  ?>
+		<?php 		}  ?>
                   
-				  <td width="250"><a href="./CentralController.php?id=<?=$message[$j][0]?>&repcode=<?=$this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?=$message[$j][0]?></a>
-		  		  <td width="400" ><?=$descField?></td>
-		 <? } else {  
+				  <td width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
+		  		  <td width="400" ><?php echo $descField?></td>
+		 <?php } else {  
 				if($headingInfo[2]==1) { ?>	  
-                  <td bgcolor="#EEEEEE" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?=$message[$j][0]?>'></td>
-		<? 		} else { ?>
+                  <td bgcolor="#EEEEEE" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
+		<?php 		} else { ?>
                   <td bgcolor="#EEEEEE" width="50"></td>
-		<? 		}  ?>
-				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?=$message[$j][0]?>&repcode=<?=$this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?=$message[$j][0]?></a>
-		  		  <td bgcolor="#EEEEEE" width="400" ><?=$descField?></td>
-		 <? } ?>		 
+		<?php 		}  ?>
+				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
+		  		  <td bgcolor="#EEEEEE" width="400" ><?php echo $descField?></td>
+		 <?php } ?>		 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
-         <? } 
+         <?php } 
         	  } else if ((isset($message)) && ($message =='')) {
         		
         		 $dispMessage = "No Records to Display !";

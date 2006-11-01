@@ -32,7 +32,7 @@ function chkPassword($value)
     if ($matchResult)
         $objResponse->addScript("addUpdate();");
     else
-        $objResponse->addAlert("Not Match With Your Old Password");
+        $objResponse->addAlert("Mismatch with your old password");
 
     return $objResponse->getXML();
 }
@@ -51,8 +51,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php $objAjax->printJavascript();
-    ?>
+<?php $objAjax->printJavascript(); ?>
 <script>
 
 
@@ -225,7 +224,7 @@ function prepCPW() {
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmchange" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&mtcode=<?=$this->getArr['mtcode']?>&capturemode=updatemode">
+<form name="frmchange" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&mtcode=<?php echo $this->getArr['mtcode']?>&capturemode=updatemode">
 
   <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
@@ -247,7 +246,7 @@ function prepCPW() {
         $expString = $this->getArr['msg'];
 
         ?>
-			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?=$msgWord?>
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $msgWord?>
 			</font>
 	<?php
     }
@@ -268,11 +267,11 @@ function prepCPW() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
 							    <td>Code</td>
-							    <td><input type="hidden"  name="txtUserID" value="<?=$message[0][0]?>"><strong><?=$message[0][0]?></strong> </td>
+							    <td><input type="hidden"  name="txtUserID" value="<?php echo $message[0][0]?>"><strong><?php echo $message[0][0]?></strong> </td>
 						  </tr>
 						  <tr>
 							    <td nowrap="nowrap">User Name</td>
-							    <td nowrap="nowrap"><b><?=$message[0][1]?></b><input type="hidden" name="txtUserName" value="<?=$message[0][1]?>"></td>
+							    <td nowrap="nowrap"><b><?php echo $message[0][1]?></b><input type="hidden" name="txtUserName" value="<?php echo $message[0][1]?>"></td>
 						  </tr>
 						  <tr>
 							    <td nowrap="nowrap">Old Password</td>
@@ -312,5 +311,4 @@ function prepCPW() {
 </form>
 </body>
 </html>
-<?php }
-?>
+<?php } ?>

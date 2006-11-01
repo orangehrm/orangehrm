@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -135,7 +135,7 @@ $objAjax->processRequests();
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?  $objAjax->printJavascript(); 
+<?php  $objAjax->printJavascript(); 
 	require_once ROOT_PATH . '/scripts/archive.js'; ?>
 	
 <script language="JavaScript">
@@ -249,7 +249,7 @@ function addEmpMain() {
 
 	function goBack() {
 
-		location.href ="./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN";
+		location.href ="./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
 	}
 
 function mout() {
@@ -284,7 +284,7 @@ function editEmpMain() {
 	
 	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled=false;		
-		<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+		<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
 		if (frm.elements[i].name == 'txtEmpLastName')
 			lockEmpCont=false;
 		if (frm.elements[i].name == 'cmbCountry')
@@ -327,7 +327,7 @@ function editEmpMain() {
 			
 		if ((frm.elements[i].name == "btnDOB") || (frm.elements[i].name == "DOB"))
 			frm.elements[i].disabled=false;
-		<? } ?>		
+		<?php } ?>		
 	}
 		
 	document.getElementById("btnClear").disabled = false;
@@ -377,11 +377,11 @@ function hideLoad() {
 	document.getElementById("status").innerHTML = '';		
 }
 
-<? if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
+<?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
 		function reLoad() {
-			location.href ="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>";
+			location.href ="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>";
 		}
-<? } ?>
+<?php } ?>
 
  function qCombo(lblPane) {
 
@@ -429,14 +429,14 @@ function setUpdate(opt) {
           	case 0 : document.frmEmp.main.value=1; break;
           	case 1 : document.frmEmp.personalFlag.value=1; break;
           	case 2 : document.frmEmp.jobFlag.value=1; break;
-            case 3 : document.frmEmp.contactFlag.value=1; break;		
+            case 4 : document.frmEmp.contactFlag.value=1; break;		
 		}
 		document.frmEmp.pane.value = opt;			
 }
 
 
 function popPhotoHandler() {
-	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=250,width=250');
+	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=250,width=250');
 	if(!popup.opener) popup.opener=self;
 	popup.focus()
 }
@@ -562,7 +562,7 @@ function resetAdd(panel) {
 </style>
 
 <body onLoad="hideLoad();">
-<?
+<?php
  if (!isset($this->getArr['pane'])) {
  	$this->getArr['pane'] = 1;
  };
@@ -573,47 +573,47 @@ function resetAdd(panel) {
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2 align="center"><?=$employeeinformation?></h2></td>
+    <td width='100%'><h2 align="center"><?php echo $employeeinformation?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
     <b><div align="right" id="status"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
   </tr>
 </table>
 
-<?	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&capturemode=<?=$this->getArr['capturemode']?>" enctype="multipart/form-data">
-<?
+<?php	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<?php
 	} elseif ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	$edit = $this->popArr['editMainArr'];
 ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&reqcode=<?=$this->getArr['reqcode']?>&capturemode=<?=$this->getArr['capturemode']?>" enctype="multipart/form-data">
-<? } ?>
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<?php } ?>
 
 <input type="hidden" name="sqlState">
-<input type="hidden" name="pane" value="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>">
+<input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>">
 
-<input type="hidden" name="main" value="<?=isset($this->postArr['main'])? $this->postArr['main'] : '0'?>">
-<input type="hidden" name="personalFlag" value="<?=isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>">
-<input type="hidden" name="jobFlag" value="<?=isset($this->postArr['jobFlag'])? $this->postArr['jobFlag'] : '0'?>">
+<input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>">
+<input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>">
+<input type="hidden" name="jobFlag" value="<?php echo isset($this->postArr['jobFlag'])? $this->postArr['jobFlag'] : '0'?>">
 
-<input type="hidden" name="dependentFlag" value="<?=isset($this->postArr['dependentFlag'])? $this->postArr['dependentFlag'] : '0'?>">
-<input type="hidden" name="childrenFlag" value="<?=isset($this->postArr['childrenFlag'])? $this->postArr['childrenFlag'] : '0'?>">
-<input type="hidden" name="contactFlag" value="<?=isset($this->postArr['contactFlag'])? $this->postArr['contactFlag'] : '0'?>">
-<input type="hidden" name="econtactFlag" value="<?=isset($this->postArr['econtactFlag'])? $this->postArr['econtactFlag'] : '0'?>">
-<input type="hidden" name="cash-benefitsFlag" value="<?=isset($this->postArr['cash-benefitsFlag'])? $this->postArr['cash-benefitsFlag'] : '0'?>">
-<input type="hidden" name="noncash-benefitsFlag" value="<?=isset($this->postArr['noncash-benefitsFlag'])? $this->postArr['noncash-benefitsFlag'] : '0'?>">
-<input type="hidden" name="educationFlag" value="<?=isset($this->postArr['educationFlag'])? $this->postArr['educationFlag'] : '0'?>">
-<input type="hidden" name="immigrationFlag" value="<?=isset($this->postArr['immigrationFlag'])? $this->postArr['immigrationFlag'] : '0'?>">
-<input type="hidden" name="languageFlag" value="<?=isset($this->postArr['languageFlag'])? $this->postArr['languageFlag'] : '0'?>">
-<input type="hidden" name="licenseFlag" value="<?=isset($this->postArr['licenseFlag'])? $this->postArr['licenseFlag'] : '0'?>">
-<input type="hidden" name="membershipFlag" value="<?=isset($this->postArr['membershipFlag'])? $this->postArr['membershipFlag'] : '0'?>">
-<input type="hidden" name="paymentFlag" value="<?=isset($this->postArr['paymentFlag'])? $this->postArr['paymentFlag'] : '0'?>">
-<input type="hidden" name="report-toFlag" value="<?=isset($this->postArr['report-toFlag'])? $this->postArr['report-toFlag'] : '0'?>">
-<input type="hidden" name="skillsFlag" value="<?=isset($this->postArr['skillsFlag'])? $this->postArr['skillsFlag'] : '0'?>">
-<input type="hidden" name="work-experianceFlag" value="<?=isset($this->postArr['work-experianceFlag'])? $this->postArr['work-experianceFlag'] : '0'?>">
+<input type="hidden" name="dependentFlag" value="<?php echo isset($this->postArr['dependentFlag'])? $this->postArr['dependentFlag'] : '0'?>">
+<input type="hidden" name="childrenFlag" value="<?php echo isset($this->postArr['childrenFlag'])? $this->postArr['childrenFlag'] : '0'?>">
+<input type="hidden" name="contactFlag" value="<?php echo isset($this->postArr['contactFlag'])? $this->postArr['contactFlag'] : '0'?>">
+<input type="hidden" name="econtactFlag" value="<?php echo isset($this->postArr['econtactFlag'])? $this->postArr['econtactFlag'] : '0'?>">
+<input type="hidden" name="cash-benefitsFlag" value="<?php echo isset($this->postArr['cash-benefitsFlag'])? $this->postArr['cash-benefitsFlag'] : '0'?>">
+<input type="hidden" name="noncash-benefitsFlag" value="<?php echo isset($this->postArr['noncash-benefitsFlag'])? $this->postArr['noncash-benefitsFlag'] : '0'?>">
+<input type="hidden" name="educationFlag" value="<?php echo isset($this->postArr['educationFlag'])? $this->postArr['educationFlag'] : '0'?>">
+<input type="hidden" name="immigrationFlag" value="<?php echo isset($this->postArr['immigrationFlag'])? $this->postArr['immigrationFlag'] : '0'?>">
+<input type="hidden" name="languageFlag" value="<?php echo isset($this->postArr['languageFlag'])? $this->postArr['languageFlag'] : '0'?>">
+<input type="hidden" name="licenseFlag" value="<?php echo isset($this->postArr['licenseFlag'])? $this->postArr['licenseFlag'] : '0'?>">
+<input type="hidden" name="membershipFlag" value="<?php echo isset($this->postArr['membershipFlag'])? $this->postArr['membershipFlag'] : '0'?>">
+<input type="hidden" name="paymentFlag" value="<?php echo isset($this->postArr['paymentFlag'])? $this->postArr['paymentFlag'] : '0'?>">
+<input type="hidden" name="report-toFlag" value="<?php echo isset($this->postArr['report-toFlag'])? $this->postArr['report-toFlag'] : '0'?>">
+<input type="hidden" name="skillsFlag" value="<?php echo isset($this->postArr['skillsFlag'])? $this->postArr['skillsFlag'] : '0'?>">
+<input type="hidden" name="work-experianceFlag" value="<?php echo isset($this->postArr['work-experianceFlag'])? $this->postArr['work-experianceFlag'] : '0'?>">
 <input type="hidden" name="attSTAT" value="">
-<input type="hidden" name="EditMode" value="<?=isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>">
+<input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>">
 
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
 <table width="550" align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -627,26 +627,26 @@ function resetAdd(panel) {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 			  
-				<td><?=$code?></td>
-				<td><input type="hidden" name="txtEmpID" value=<?=$this->popArr['newID']?>><strong><?=$this->popArr['newID']?></strong></td>
+				<td><?php echo $code?></td>
+				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>><strong><?php echo $this->popArr['newID']?></strong></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?=$lastname?></td>
-				<td> <input type="text" name="txtEmpLastName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>
+				<td> <input type="text" name="txtEmpLastName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?=$firstname?></td>
-				<td> <input type="text" name="txtEmpFirstName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $firstname?></td>
+				<td> <input type="text" name="txtEmpFirstName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?=$middlename?></td>
-				<td> <input type="text" name="txtEmpMiddleName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $middlename?></td>
+				<td> <input type="text" name="txtEmpMiddleName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
 				<td>&nbsp;</td>
-			  <td><?=$nickname?></td>
-				<td> <input type="text" name="txtEmpNickName" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"></td>
+			  <td><?php echo $nickname?></td>
+				<td> <input type="text" name="txtEmpNickName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"></td>
 			  </tr>
 			 <tr>
-				<td><?=$photo?></td>
-				<td><input type="file" name='photofile' <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
+				<td><?php echo $photo?></td>
+				<td><input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
 			  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -667,19 +667,19 @@ function resetAdd(panel) {
     <tr>
     <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
-					<?	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
+					<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
 					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<? 	} else { ?>
-					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?=$sysConst->accessDenied?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
+					<?php 	} else { ?>
+					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
 
-					<?	} ?>
+					<?php	} ?>
     </td>
     <td>&nbsp;</td>
     <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
     </tr>
     </table>
     
-<? } elseif(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php } elseif(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 <table width="100%">
 <tr>
@@ -695,22 +695,22 @@ function resetAdd(panel) {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table onClick="setUpdate(0)" onKeyPress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
-				<td><?=$code?></td>
-				<td><strong><input type="hidden" name="txtEmpID" value="<?=$this->getArr['id']?>"><?=$this->getArr['id']?></strong></td>
+				<td><?php echo $code?></td>
+				<td><strong><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>"><?php echo $this->getArr['id']?></strong></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?=$lastname?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpLastName" value="<?=(isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$edit[0][1]?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>
+				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpLastName" value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$edit[0][1]?>"></td>
 				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?=$firstname?></td>
-				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?=(isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $firstname?></td>
+				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?=$middlename?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?=(isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
+				<td><font color=#ff0000>*</font> <?php echo $middlename?></td>
+				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
 				<td>&nbsp;</td>
-			  <td><?=$nickname?></td>
-				<td> <input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?=(isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"></td>
+			  <td><?php echo $nickname?></td>
+				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"></td>
 			  </tr><tr><td><br>&nbsp;</td></tr>
 			    </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -736,7 +736,7 @@ function resetAdd(panel) {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                    <td width="100%" align="center"><img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?=$this->getArr['id']?>&action=VIEW"></td>
+                    <td width="100%" align="center"><img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $this->getArr['id']?>&action=VIEW"></td>
                     </tr>
                     <tr>
                     <td width="100%" align="center"><input type="button" value="Browse" name="btnBrowser" onClick="popPhotoHandler()"></td>
@@ -759,11 +759,11 @@ function resetAdd(panel) {
     <tr>
     <td><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
     <td>
-<?			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="<?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="EditMain" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
-<?			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');  return false;">
-<?			}  ?>
+<?php			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
+			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
+<?php			} else { ?>
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');  return false;">
+<?php			}  ?>
     </td>
     <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();  return false;" ></td>
     </tr>
@@ -804,7 +804,7 @@ function resetAdd(panel) {
 		<tr>
     		<td align="center">
     		
-    <div id="personal" style="position:absolute; z-index:3; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
+    <div id="personal" style="position:absolute; z-index:3; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
 	  <table  border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -815,7 +815,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hremppers.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hremppers.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -833,7 +833,7 @@ function resetAdd(panel) {
     </table>	
     </div>
 
-    <div id="job" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '2') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="job" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '2') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -844,7 +844,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -855,7 +855,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '3') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '3') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
     <table border="0" align="center">
      <tr><td>
 	  <table border="0" cellpadding="0" cellspacing="0">
@@ -868,7 +868,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempdependent.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempdependent.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -890,7 +890,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -903,7 +903,7 @@ function resetAdd(panel) {
       </td></tr>
       </table>
     </div>
-    <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '4') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '4') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -914,7 +914,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempcontact.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempcontact.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -925,7 +925,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '5') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '5') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -936,7 +936,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempemgcontact.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempemgcontact.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -947,7 +947,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="attachments" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="attachments" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -958,7 +958,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempattachment.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempattachment.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -969,7 +969,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="cash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '7') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="cash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '7') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -980,7 +980,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
  			Cash Benefits         
-          <? //require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php"); ?>
+          <?php //require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -991,7 +991,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="noncash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '8') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="noncash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '8') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1002,7 +1002,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           Non-cash benefits
-          <? //require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php"); ?>
+          <?php //require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1013,7 +1013,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="education" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '9') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="education" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '9') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1024,7 +1024,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1035,7 +1035,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="immigration" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '10') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="immigration" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '10') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1046,7 +1046,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempimmigration.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempimmigration.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1057,7 +1057,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="languages" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '11') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="languages" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '11') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1068,7 +1068,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hremplanguage.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hremplanguage.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1079,7 +1079,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="licenses" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '12') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="licenses" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '12') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1090,7 +1090,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hremplicenses.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hremplicenses.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1101,7 +1101,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="memberships" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '13') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="memberships" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '13') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1112,7 +1112,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempmembership.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempmembership.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1123,7 +1123,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="payments" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '14') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="payments" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '14') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1134,7 +1134,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hremppayment.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hremppayment.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1145,7 +1145,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="report-to" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '15') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="report-to" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '15') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1156,7 +1156,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempreportto.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempreportto.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1167,7 +1167,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="skills" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '16') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="skills" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '16') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1178,7 +1178,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempskill.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempskill.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1189,7 +1189,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="work-experiance" style="position:absolute; z-index:2; width: 540px; visibility: <?=(isset($this->postArr['pane']) && $this->postArr['pane'] == '17') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="work-experiance" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '17') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1200,7 +1200,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           
-          <? require(ROOT_PATH . "/templates/hrfunct/hrempwrkexp.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempwrkexp.php"); ?>
           
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1216,7 +1216,7 @@ function resetAdd(panel) {
 		</tr>
 	<table>  
 
-<? } ?>		
+<?php } ?>		
 	
 		</form>
 		<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>

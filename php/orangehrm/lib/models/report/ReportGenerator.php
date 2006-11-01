@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -316,7 +316,7 @@ class ReportGenerator {
 				 
 				$countCriteriaVal = count($criteriaValue);
 				
-				for ($i=0;$i<count($criteriaValue); $i++){ 
+				for ($i=0;$i < count($criteriaValue); $i++){ 
 					if ($i == ($countCriteriaVal - 1))  
 						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' ';		
 					else 
@@ -324,7 +324,7 @@ class ReportGenerator {
 				}
 
 
-			return $SQL1;
+			return strtolower($SQL1);
 		}
 		
 		function  reportDisplay($repDetails) {

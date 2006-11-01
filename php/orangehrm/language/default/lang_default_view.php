@@ -1,4 +1,4 @@
-<?
+<?php
 
 $Previous = 'Previous';
 $Next     = 'Next';

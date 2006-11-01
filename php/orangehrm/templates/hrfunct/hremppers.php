@@ -1,14 +1,14 @@
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
 		<table height="200" border="0" cellpadding="0" cellspacing="0">
 		<tr>
-					<td><font color=#ff0000>*</font><?=$ssnno?></td>
-					<td><input type="text" name="txtNICNo" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:''?>"></td>
+					<td><font color=#ff0000>*</font><?php echo $ssnno?></td>
+					<td><input type="text" name="txtNICNo" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:''?>"></td>
 					<td width="50">&nbsp;</td>
-					<td><?=$nationality?></td>
-					<td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbNation">
-						<option value="0"><?=$selectnatio?></option>
-<?
+					<td><?php echo $nationality?></td>
+					<td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbNation">
+						<option value="0"><?php echo $selectnatio?></option>
+<?php
 					$nation = $this->popArr['nation'];
 					 for($c=0;$nation && $c < count($nation);$c++)
 						            echo '<option value=' . $nation[$c][0] . '>' . $nation[$c][1] .'</option>';
@@ -16,20 +16,20 @@
 					</select></td>
 		  </tr>
 				<tr>
-				<td><?=$sinno?></td>
-					<td><input type="text" name="txtSINNo" <?=$locRights['add'] ? '':'disabled'?> value="<?=(isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:''?>"></td>
+				<td><?php echo $sinno?></td>
+					<td><input type="text" name="txtSINNo" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:''?>"></td>
 					<td width="50">&nbsp;</td>
-				<td><?=$dateofbirth?></td>
-				<td><input type="text" name="DOB" readonly value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
+				<td><?php echo $dateofbirth?></td>
+				<td><input type="text" name="DOB" readonly value=<?php echo (isset($this->postArr['DOB']))?$this->postArr['DOB']:''?>>&nbsp;<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
 				</tr>
 				<tr>
-				<td><?=$otherid?></td>
-				<td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtOtherID" value="<?=(isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:''?>"></td>
+				<td><?php echo $otherid?></td>
+				<td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtOtherID" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$maritalstatus?></td>
-				<td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbMarital">
-					<option><?=$selmarital?></option>
-<?					
+				<td><?php echo $maritalstatus?></td>
+				<td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMarital">
+					<option><?php echo $selmarital?></option>
+<?php					
 					for($c=0;count($arrMStat)>$c;$c++)
 						if(isset($this->postArr['cmbMarital']) && $this->postArr['cmbMarital']==$arrMStat[$c])
 						    echo "<option selected>" .$arrMStat[$c]."</option>";
@@ -39,27 +39,27 @@
 				</select></td>
 				</tr>
 				<tr>
-				<td><?=$smoker?></td>
-			  <td><input type="checkbox" <?=$locRights['add'] ? '':'disabled'?> name="chkSmokeFlag" <?=(isset($this->postArr['chkSmokeFlag']) && $this->postArr['chkSmokeFlag']=='1'?'checked':'')?> value="1"></td>
+				<td><?php echo $smoker?></td>
+			  <td><input type="checkbox" <?php echo $locRights['add'] ? '':'disabled'?> name="chkSmokeFlag" <?php echo (isset($this->postArr['chkSmokeFlag']) && $this->postArr['chkSmokeFlag']=='1'?'checked':'')?> value="1"></td>
 			  <td width="50">&nbsp;</td>
-				<td><?=$gender?></td>
-				<td valign="middle">Male<input <?=$locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="1" checked>		Female<input <?=$locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="2" <?=(isset($this->postArr['optGender']) && isset($this->postArr['optGender'])==2)?'checked':''?>></td>
+				<td><?php echo $gender?></td>
+				<td valign="middle">Male<input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="1" checked>		Female<input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="2" <?php echo (isset($this->postArr['optGender']) && isset($this->postArr['optGender'])==2)?'checked':''?>></td>
 				</tr>
 				<tr>
-				<td><?=$dlicenno?></td>
-				<td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtLicenNo" value="<?=(isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:''?>"></td>
+				<td><?php echo $dlicenno?></td>
+				<td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$licexpdate?></td>
-				<td><input type="text" readonly name="txtLicExpDate" value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?>>&nbsp;<input type="button" <?=$locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
+				<td><?php echo $licexpdate?></td>
+				<td><input type="text" readonly name="txtLicExpDate" value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?>>&nbsp;<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
 				</tr> 
 				<tr>
-				<td><?=$militaryservice?></td>
-				<td><input type="text" <?=$locRights['add'] ? '':'disabled'?> name="txtMilitarySer" value="<?=(isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:''?>"></td>
+				<td><?php echo $militaryservice?></td>
+				<td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMilitarySer" value="<?php echo (isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$ethnicrace?></td>
-					<td><select <?=$locRights['add'] ? '':'disabled'?> name="cmbEthnicRace">
-						<option value="0"><?=$selethnicrace?></option>
-<?  			    	$ethRace = $this->popArr['ethRace'];
+				<td><?php echo $ethnicrace?></td>
+					<td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbEthnicRace">
+						<option value="0"><?php echo $selethnicrace?></option>
+<?php  			    	$ethRace = $this->popArr['ethRace'];
 						      for($c=0;$ethRace && $c < count($ethRace);$c++)
 						            echo '<option value=' . $ethRace[$c][0] . '>' . $ethRace[$c][1] .'</option>';
 						    ?>			
@@ -67,25 +67,25 @@
 				</tr>
 </table>
 
-<? } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<table onclick="setUpdate(1)" onkeypress="setUpdate(1)" height="200" border="0" cellpadding="0" cellspacing="0">
-	<?
+	<?php
 			  $edit = $this->popArr['editPersArr'];
 	?>
 
           <tr>
-					<td><font color=#ff0000>*</font><?=$ssnno?></td>
-					<td><input type="text" name="txtNICNo" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>">
-					<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtNICNo" value="<?=(isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>" />
-					<? } ?>
+					<td><font color=#ff0000>*</font><?php echo $ssnno?></td>
+					<td><input type="text" name="txtNICNo" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>">
+					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+					<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>" />
+					<?php } ?>
 					</td>
 					<td width="50">&nbsp;</td>
-					<td><?=$nationality?></td>
-					<td><select <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbNation">
-						<option value="0"><?=$selectnatio?></option>
-<?
+					<td><?php echo $nationality?></td>
+					<td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbNation">
+						<option value="0"><?php echo $selectnatio?></option>
+<?php
 					$nation = $this->popArr['nation'];
 					for($c=0;$nation && count($nation)>$c;$c++)
 						if(isset($this->postArr['cmbNation'])) {
@@ -102,28 +102,28 @@
 					</select></td>
 				</tr>
 				<tr>
-				<td><?=$sinno?></td>
-					<td><input type="text" name="txtSINNo" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>">
-					<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtSINNo" value="<?=(isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>" />
-					<? } ?>
+				<td><?php echo $sinno?></td>
+					<td><input type="text" name="txtSINNo" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>">
+					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+					<input type="hidden" name="txtSINNo" value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>" />
+					<?php } ?>
 					</td>
 					<td width="50">&nbsp;</td>
-				<td><?=$dateofbirth?></td>
-				<td nowrap><input type="text" readonly name="DOB" value=<?=(isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;" name="btnDOB"></td>
+				<td><?php echo $dateofbirth?></td>
+				<td nowrap><input type="text" readonly name="DOB" value=<?php echo (isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;" name="btnDOB"></td>
 				</tr>
 				<tr>
-				<td><?=$otherid?></td>
-				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtOtherID" value="<?=(isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>">
-					<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtOtherID" value="<?=(isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>" />
-					<? } ?>
+				<td><?php echo $otherid?></td>
+				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtOtherID" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>">
+					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+					<input type="hidden" name="txtOtherID" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>" />
+					<?php } ?>
 				</td>
 				<td>&nbsp;</td>
-				<td><?=$maritalstatus?></td>
-				<td><select <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbMarital">
-					<option value="0"><?=$selmarital?></option>
-<?					
+				<td><?php echo $maritalstatus?></td>
+				<td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbMarital">
+					<option value="0"><?php echo $selmarital?></option>
+<?php					
 					for($c=0;count($arrMStat)>$c;$c++)
 						if(isset($this->postArr['cmbMarital'])) {
 						 	if($this->postArr['cmbMarital']==$arrMStat[$c])
@@ -138,50 +138,50 @@
 				</select></td>
 				</tr>
 				<tr>
-				<td><?=$smoker?></td>
+				<td><?php echo $smoker?></td>
 			  <td> 
-<?
+<?php
 			  if(isset($this->postArr['chkSmokeFlag'])) { ?>
-			  <input type="checkbox" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="chkSmokeFlag" <?=$this->postArr['chkSmokeFlag']=='1'?'checked':''?> value="1">
-<?			 } else { ?> 
-			  <input type="checkbox" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="chkSmokeFlag" <?=$edit[0][1]==1?'checked':''?> value="1">
-<? } ?>			  </td>
+			  <input type="checkbox" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="chkSmokeFlag" <?php echo $this->postArr['chkSmokeFlag']=='1'?'checked':''?> value="1">
+<?php			 } else { ?> 
+			  <input type="checkbox" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="chkSmokeFlag" <?php echo $edit[0][1]==1?'checked':''?> value="1">
+<?php } ?>			  </td>
 				<td>&nbsp;</td>
-				<td><?=$gender?></td>
-				<td valign="middle">Male<input <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>
+				<td><?php echo $gender?></td>
+				<td valign="middle">Male<input <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>
 				
-<?				if(isset($this->postArr['optGender'])) { ?>
-				Female<input type="radio" name="optGender" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?=($this->postArr['optGender']==2)?'checked':''?>></td>
+<?php				if(isset($this->postArr['optGender'])) { ?>
+				Female<input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($this->postArr['optGender']==2)?'checked':''?>></td>
 				
-<?				} else {  ?>
-				Female<input type="radio" name="optGender" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?=($edit[0][5]==2)?'checked':''?>>
+<?php				} else {  ?>
+				Female<input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($edit[0][5]==2)?'checked':''?>>
 				
 				</td>
-<? } ?>				
-				<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-				<input type="hidden" name="optGender" value="<?=(isset($edit[0][5]))?$edit[0][5]:$this->postArr['optGender']?>" />
-				<? } ?>
+<?php } ?>				
+				<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+				<input type="hidden" name="optGender" value="<?php echo (isset($edit[0][5]))?$edit[0][5]:$this->postArr['optGender']?>" />
+				<?php } ?>
 				</tr>
 				<tr>
-				<td><?=$dlicenno?></td>
-				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtLicenNo" value="<?=(isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>">
-					<? if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtLicenNo" value="<?=(isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>" />
-					<? } ?>
+				<td><?php echo $dlicenno?></td>
+				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>">
+					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+					<input type="hidden" name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>" />
+					<?php } ?>
 					</td>
 				<td>&nbsp;</td>
-				<td><?=$licexpdate?></td>
-				<td nowrap><input type="text" name="txtLicExpDate" readonly value=<?=(isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?> />
+				<td><?php echo $licexpdate?></td>
+				<td nowrap><input type="text" name="txtLicExpDate" readonly value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?> />
 				  &nbsp;
-				  <input type="button" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;" name="btnLicExpDate"></td></tr> 
+				  <input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;" name="btnLicExpDate"></td></tr> 
 				<tr>
-				<td><?=$militaryservice?></td>
-				<td><input type="text" <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtMilitarySer" value="<?=(isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:$edit[0][12]?>"></td>
+				<td><?php echo $militaryservice?></td>
+				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtMilitarySer" value="<?php echo (isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:$edit[0][12]?>"></td>
 				<td>&nbsp;</td>
-				<td><?=$ethnicrace?></td>
-					<td><select <?=(isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbEthnicRace">
-						<option value="0"><?=$selethnicrace?></option>
-<?
+				<td><?php echo $ethnicrace?></td>
+					<td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbEthnicRace">
+						<option value="0"><?php echo $selethnicrace?></option>
+<?php
 					$ethRace = $this->popArr['ethRace'];
 					for($c=0;$nation && count($ethRace)>$c;$c++)
 						if(isset($this->postArr['cmbEthnicRace'])) {
@@ -198,4 +198,4 @@
 					</select></td>
 				</tr>
 				</table>
-<? } ?>    
+<?php } ?>    

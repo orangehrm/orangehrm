@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		  = 'Designation : Job Information';
 $code			  = 'Code';
 $description	  = 'Description';

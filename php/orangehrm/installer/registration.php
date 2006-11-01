@@ -46,13 +46,13 @@ document.frmInstall.btnRegister.disabled = true;
         <p>By registering you will be kept Up to Date and receive information on OrangeHRM (releases, updates, etc.).</p>
         
    
-        <? if(isset($reqAccept)) { 
+        <?php if(isset($reqAccept)) { 
 
 		if($reqAccept) { ?>
 	        <p>Registration information was collected, and Succesfully sent to OrangeHRM.com</p>
-        <? } else { ?>
+        <?php } else { ?>
     	    <p class="error">Registration information was collected, but NOT sent to OrangeHRM.com, please click Retry to try again, or click Skip to proceed and login into OrangeHRM</p>
-            <? } 
+            <?php } 
 	} 
 	
 	if(!isset($reqAccept) || (!$reqAccept)) { ?>        
@@ -62,31 +62,31 @@ document.frmInstall.btnRegister.disabled = true;
 	  </tr>
       <tr>
         <td class="tdComponent_n">Name</td>
-        <td class="tdValues_n"><input type="text" name="userName" tabindex="2" value="<?=isset($_POST['userName'])? $_POST['userName'] : ''?>"/></td>
+        <td class="tdValues_n"><input type="text" name="userName" tabindex="2" value="<?php echo isset($_POST['userName'])? $_POST['userName'] : ''?>"/></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Email</td>
-        <td class="tdValues_n"><input type="text" name="userEmail" tabindex="3" value="<?=isset($_POST['userEmail'])? $_POST['userEmail'] : ''?>"/></td>
+        <td class="tdValues_n"><input type="text" name="userEmail" tabindex="3" value="<?php echo isset($_POST['userEmail'])? $_POST['userEmail'] : ''?>"/></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Comments</td>
-        <td class="tdValues_n"><textarea name="userComments" tabindex="4"><?=isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
+        <td class="tdValues_n"><textarea name="userComments" tabindex="4"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Updates/Newsletter</td>
-        <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="5" <?=(isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
+        <td class="tdValues_n"><input type="checkbox" name="chkUpdates" value="1" tabindex="5" <?php echo (isset($_POST['chkUpdates']) && ($_POST['chkUpdates'] == 1)) ? 'checked' : ''?> /></td>
       </tr>     
 </table>
-<? } ?>
+<?php } ?>
 	<br />
 	
-        <? if(!isset($reqAccept)) { ?>        
+        <?php if(!isset($reqAccept)) { ?>        
         <input name="button" type="button" onclick="noREG();" value="No thanks!" tabindex="7"/>
 		<input name="btnRegister" type="button" onclick="regInfo();" value="Register" tabindex="6"/>
-        <? } elseif($reqAccept) { ?>
+        <?php } elseif($reqAccept) { ?>
         <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="8"/>
-        <? } else { ?>        
+        <?php } else { ?>        
         <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
-        <? } ?>
+        <?php } ?>
 </div>

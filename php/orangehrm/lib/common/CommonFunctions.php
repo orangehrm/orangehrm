@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 // all the essential functionalities required for any enterprise. 
@@ -30,9 +30,9 @@ $explodedString = the String that is exploded -- This is will return an Array
 */
 
 function explodeString($string,$explodeVal) {
-    
+
 	$explodedString  = explode($explodeVal,$string);		
-	
+		
 		if (isset($explodedString[1])) {
 				
 			$str = (int)$explodedString[1] + 1;		
@@ -46,8 +46,6 @@ function explodeString($string,$explodeVal) {
 		} else if (strlen($str) == 2) {
 			return  $explodeVal . "0" . $str;		
 		} else {		
-			
-			echo $explodeVal .$str;
 			return $explodeVal .  $str;		
 		}
 }

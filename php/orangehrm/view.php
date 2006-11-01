@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 * all the essential functionalities required for any enterprise. 
@@ -88,7 +88,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 	}
 
 	function returnAdd() {
-<?
+<?php
 		$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 		
 		switch($headingInfo[2]) {
@@ -113,7 +113,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 	
 		if ( $check == 1 ){
 			
-			var res = confirm("<?=$headingInfo[4]?>. Do you want to delete ?");
+			var res = confirm("<?php echo $headingInfo[4]?>. Do you want to delete ?");
 			
 			if(!res) return;
 			
@@ -179,10 +179,10 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 <body>
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$this->getArr['sortField']?>&sortOrder<?=$this->getArr['sortField']?>=<?=$this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $this->getArr['sortField']?>&sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
   </td>
   <td width='100%'><h2> 
-      <?=$headingInfo[3]?>
+      <?php echo $headingInfo[3]?>
     </h2></td>
   <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 </table></p>
@@ -191,24 +191,24 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3> 
-        <input type="hidden" name="captureState" value="<?=isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
+        <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
         <input type="hidden" name="delState" value="">
         
-        <input type="hidden" name="pageNO" value="<?=isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
+        <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
     
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?	}
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php	}
 
 if($headingInfo[2]==1) {
 	
 	if($locRights['delete']) { ?>
         <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} 
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} 
 }?>
 
       </h3></td>
@@ -218,9 +218,9 @@ if($headingInfo[2]==1) {
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3><?=$search?></h3></td>
+    <td width="22%" nowrap><h3><?php echo $search?></h3></td>
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-     <?
+     <?php
 		if (isset($this->getArr['message'])) {
 		
 			$expString  = $this->getArr['message'];
@@ -231,12 +231,12 @@ if($headingInfo[2]==1) {
 			
 			$expString=$this->getArr['message'];
 	?>
-			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
-	<?
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?php
 				echo $$expString;
 	?>
 			</font>
-	<?
+	<?php
 		}		
 		?>
       &nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -255,9 +255,9 @@ if($headingInfo[2]==1) {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200" class="dataLabel"><slot><?=$SearchBy?></slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel"><slot><?php echo $SearchBy?></slot>&nbsp;&nbsp;<slot>
                         <select style="z-index: 99;" name="loc_code">
-<?                        for($c=-1;count($srchlist)-1>$c;$c++)
+<?php                        for($c=-1;count($srchlist)-1>$c;$c++)
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$c)
 								   echo "<option selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
 								else
@@ -265,8 +265,8 @@ if($headingInfo[2]==1) {
 ?>								   
                         </select>
                       </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot><?=$description?></slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
+                      <td width="200" class="dataLabel" noWrap><slot><?php echo $description?></slot>&nbsp;&nbsp;<slot>
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
                      </slot></td>
                     <td align="right" width="180" class="dataLabel"><img tabindex=3 title="Search" onClick="returnSearch();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 
@@ -294,7 +294,7 @@ if($headingInfo[2]==1) {
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
 			  
-<?
+<?php
 $temp = $this->popArr['temp']; 
 if($temp)    
     $recCount=$temp;
@@ -334,7 +334,7 @@ else
 		
 	if ($message == '') { ?>
 		<span class="error">No records to display!</span>
-<?  } ?> 
+<?php  } ?> 
 		</td>
 		<td width="25"></td>
 		</tr>		
@@ -343,18 +343,18 @@ else
 			<tr>
           <td class="r1_c1" width="12"></td>
           <td class="r1_c2" width="50"></td>
-          <? for ($j=0; $j < count($headings); $j++) {?>
+          <?php for ($j=0; $j < count($headings); $j++) {?>
           <td width="200" class="r1_c2"></td>
-          <? } ?>
+          <?php } ?>
           <td class="r1_c2" width="300"></td>
           <td class="r1_c3"></td>
          </tr>
 			<tr nowrap>
 				<td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 				<td width="50" NOWRAP class="listViewThS1" scope="col">
-				<?	if($headingInfo[2]==1) { ?>	  
+				<?php	if($headingInfo[2]==1) { ?>	  
 					<input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-				<?	}	?>						  
+				<?php	}	?>						  
 				</td>
 				<?php
 					for ($j=0; $j < count($headings); $j++) {
@@ -362,8 +362,8 @@ else
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
 				?>
-				<td scope="col" width="250" class="listViewThS1"><a href="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?=$headings[$j]?></a> <img src="../../themes/beyondT/icons/<?=$this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
-				<? } ?>	                    
+				<td scope="col" width="250" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $headings[$j]?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+				<?php } ?>	                    
       		<td class="listViewThS1"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
       		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
     		</tr>
@@ -382,11 +382,11 @@ else
 			 		 	
 		 	 			if($headingInfo[2]==1) {
 		 		?>	  
-       		<td class="<?=$cssClass?>" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?=$message[$j][0]?>'></td>
-		 		<? 	} else { ?>
-       		<td class="<?=$cssClass?>" width="50"></td>
-		 		<? 	}  ?>
-		 		<td class="<?=$cssClass?>" width="250"><a href="./CentralController.php?id=<?=$message[$j][0]?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode<?=$esp?>" class="listViewTdLinkS1"><?=$message[$j][0]?></a>
+       		<td class="<?php echo $cssClass?>" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
+		 		<?php 	} else { ?>
+       		<td class="<?php echo $cssClass?>" width="50"></td>
+		 		<?php 	}  ?>
+		 		<td class="<?php echo $cssClass?>" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
 		 		<?php
 		 				for ($k=1; $k < count($headings); $k++) { 
 		  	 
@@ -398,9 +398,9 @@ else
 			 	   				$descField .= "....";
 			 				}
 		 		?>	 
-		 		<td class="<?=$cssClass?>" width="400" ><?=$descField?></td>
-		 		<? } ?>
-				<td class="<?=$cssClass?>" width="400" >&nbsp;</td>
+		 		<td class="<?php echo $cssClass?>" width="400" ><?php echo $descField?></td>
+		 		<?php } ?>
+				<td class="<?php echo $cssClass?>" width="400" >&nbsp;</td>
 		 		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
 		 	</tr>		 						
 		 	<?php
@@ -410,9 +410,9 @@ else
 		  <tr>
           <td class="r3_c1" height="16"></td>
           <td class="r3_c2" height="16"></td>
-          <? for ($j=0; $j < count($headings); $j++) {?>
+          <?php for ($j=0; $j < count($headings); $j++) {?>
           <td width="250" class="r3_c2" height="16"</td>
-          <? } ?>
+          <?php } ?>
           <td class="r3_c2" height="16"></td>
           <td class="r3_c3" height="16"></td>
          </tr>					

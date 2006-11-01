@@ -1,4 +1,4 @@
-<?
+<?php
  $employeelicen			= 'Employee Licenses';
  $employeeid		  	= 'Employee ID';
  $lastname			  	= 'Last Name';

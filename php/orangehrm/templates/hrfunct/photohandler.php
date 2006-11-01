@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -100,7 +100,7 @@ function windowClose() {
 }
 </script>
 </head>
-<body onload="<?=isset($_POST['STAT']) ? 'windowClose()' : ''?>">
+<body onload="<?php echo isset($_POST['STAT']) ? 'windowClose()' : ''?>">
 <p> 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
@@ -111,7 +111,7 @@ function windowClose() {
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td></td><td>
-<form name="frmPhoto" method="POST" enctype="multipart/form-data" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$_GET['id']?>">
+<form name="frmPhoto" method="POST" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']?>">
 <input type="hidden" name="STAT">
       <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -124,18 +124,18 @@ function windowClose() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                    <td align="center" width="100%"><img width="100" height="120" src="<?=$_SERVER['PHP_SELF']?>?id=<?=$_GET['id']?>&action=VIEW"></td>
+                    <td align="center" width="100%"><img width="100" height="120" src="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']?>&action=VIEW"></td>
                     </tr>
                     <tr>
                     <td align="center" width="100%"><input type="file" name="photofile" accept="image/gif,image/jpeg,image/png"></td>
 					</tr>
                     <tr>
                     <td align="center" width="100%">
-                    <? if($edit) { ?>
+                    <?php if($edit) { ?>
 					        <img border="0" title="Save" onClick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-                    <? } else { ?>
+                    <?php } else { ?>
 					        <img border="0" title="Save" onClick="addPic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-                    <? } ?>
+                    <?php } ?>
                     </td>
 					</tr>
                   </table></td>

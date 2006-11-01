@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -102,7 +102,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 
 
-<? if($this->getArr['reqcode']=='EMP') { ?>
+<?php if($this->getArr['reqcode']=='EMP') { ?>
 
 
 
@@ -110,7 +110,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 	
 
-		location.href = "./CentralController.php?reqcode=<?=$this->getArr['reqcode']?>&capturemode=addmode";
+		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=addmode";
 
 		
 
@@ -156,13 +156,13 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 	
 
-<? } else { ?>
+<?php } else { ?>
 
 	function returnAdd() {
 
 
 
-        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?=$this->getArr['reqcode']?>','Employees','height=450,width=400');
+        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?php echo $this->getArr['reqcode']?>','Employees','height=450,width=400');
 
         if(!popup.opener) popup.opener=self;
 
@@ -170,7 +170,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 
 
-<? } ?>
+<?php } ?>
 
 
 
@@ -281,13 +281,13 @@ parent.scrollTo(0, 0);
 
 <body style="padding-left:20px;" onFocus="document.getElementById('content').focus()">
 <p id="content">
-<form name="standardView" method="post" action="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$this->getArr['reqcode']?>&VIEW=MAIN">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN">
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
 	<td valign='top'>		
 	</td>
   <td width='100%'>
-  <h2><?=$headingInfo[0]?></h2></td>
+  <h2><?php echo $headingInfo[0]?></h2></td>
 
   <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
 </tr>
@@ -304,27 +304,27 @@ parent.scrollTo(0, 0);
 
     <td width="22%" nowrap><h3> 
 
-        <input type="hidden" name="captureState" value="<?=isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
+        <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
 
         <input type="hidden" name="delState" value="">
 
         
 
-        <input type="hidden" name="pageNO" value="<?=isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
+        <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
 
         <input type="hidden" name="empID" value="">
 
 
 
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
 
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
 
-<? 	} else { ?>
+<?php 	} else { ?>
 
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 
-<?	}
+<?php	}
 
 
 
@@ -336,11 +336,11 @@ parent.scrollTo(0, 0);
 
 	        <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 
-	<? 	} else { ?>
+	<?php 	} else { ?>
 
-	        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 
-	<? 	}
+	<?php 	}
 
  } 
 
@@ -363,10 +363,10 @@ parent.scrollTo(0, 0);
 
   <tr>
 
-    <td width="22%" nowrap><h3><?=$serach?></h3></td>
+    <td width="22%" nowrap><h3><?php echo $serach?></h3></td>
 
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-<?	 			
+<?php	 			
 		if (isset($this->getArr['message'])) {
 		
 			$expString  = $this->getArr['message'];
@@ -377,12 +377,12 @@ parent.scrollTo(0, 0);
 			
 			$expString=$this->getArr['message'];
 	?>
-			<font class="<?=$col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
-	<?
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+	<?php
 				echo $$expString;
 	?>
 			</font>
-	<?
+	<?php
 		}		
 		?>
       &nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -417,11 +417,11 @@ parent.scrollTo(0, 0);
 
                     <tr nowrap="nowrap">
 
-                      <td width="200" class="dataLabel" nowrap="nowrap"><slot><?=$searchby?></slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel" nowrap="nowrap"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
 
                         <select name="loc_code" id="loc_code">
 
-<?                        for($c=0;count($srchlist[0])>$c;$c++)
+<?php                        for($c=0;count($srchlist[0])>$c;$c++)
 
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
 
@@ -437,9 +437,9 @@ parent.scrollTo(0, 0);
 
                       </slot></td>
 
-                      <td width="200" class="dataLabel" noWrap><slot><?=$description?></slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel" noWrap><slot><?php echo $description?></slot>&nbsp;&nbsp;<slot>
 
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
 
                      </slot></td>
 
@@ -491,7 +491,7 @@ parent.scrollTo(0, 0);
 
 			  <tr>
 
-<? 		if ((isset($emplist)) && ($emplist =='')) {
+<?php 		if ((isset($emplist)) && ($emplist =='')) {
 
         		
 
@@ -515,7 +515,7 @@ parent.scrollTo(0, 0);
 
 			  
 
-<?
+<?php
 
 $temp = $this->popArr['temp'];     
 
@@ -621,13 +621,13 @@ else
 
                   		  <td width="50">&nbsp;&nbsp;&nbsp;</td>
 
-						  <td scope="col" width="250" class="listViewThS1"><?=$employeeid?></td>
+						  <td scope="col" width="250" class="listViewThS1"><?php echo $employeeid?></td>
 
-						  <td scope="col" width="400" class="listViewThS1"><?=$employeename?></td>
+						  <td scope="col" width="400" class="listViewThS1"><?php echo $employeename?></td>
 
 						 </tr>
 
-        <?
+        <?php
 
 			if ((isset($emplist)) && ($emplist !='')) {
 
@@ -653,47 +653,47 @@ else
 
 					<tr>             
 
-<?		if(!($j%2)) { ?>
+<?php		if(!($j%2)) { ?>
 
-<? 			if($_GET['reqcode']=='EMP') { ?>
+<?php 			if($_GET['reqcode']=='EMP') { ?>
 
-                  <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?=$emplist[$j][0]?>"></td>
+                  <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][0]?>"></td>
 
-                  <? } else { ?>
+                  <?php } else { ?>
 
                   <td width="50"></td>
 
-<? 					} ?>                  
+<?php 					} ?>                  
 
-				  <td width="250"><a href="./CentralController.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
+				  <td width="250"><a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" class="listViewTdLinkS1"><?php echo $emplist[$j][0]?></a></td>
 
 
 
-		  		  <td width="400" ><?=$descField?></td>
+		  		  <td width="400" ><?php echo $descField?></td>
 
-<?			} else { ?>
+<?php			} else { ?>
 
-<? 			if($_GET['reqcode']=='EMP') { ?>
+<?php 			if($_GET['reqcode']=='EMP') { ?>
 
-                  <td bgcolor="#EEEEEE" width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?=$emplist[$j][0]?>"></td>
+                  <td bgcolor="#EEEEEE" width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][0]?>"></td>
 
-                  <? } else { ?>
+                  <?php } else { ?>
 
                   <td bgcolor="#EEEEEE" width="50"></td>
 
-<? } ?>                  
+<?php } ?>                  
 
-				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?=$emplist[$j][0]?>&capturemode=updatemode&reqcode=<?=$this->getArr['reqcode']?>" class="listViewTdLinkS1"><?=$emplist[$j][0]?></a></td>
+				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" class="listViewTdLinkS1"><?php echo $emplist[$j][0]?></a></td>
 
 
 
-		  		  <td bgcolor="#EEEEEE" width="400" ><?=$descField?></td>
+		  		  <td bgcolor="#EEEEEE" width="400" ><?php echo $descField?></td>
 
-<?			}	?>
+<?php			}	?>
 
 			</tr>
 
-         <? } 
+         <?php } 
 
         	  }
 
@@ -716,24 +716,9 @@ else
                   <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
 
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-
                 </tr>
-
               </table>
-
-
-
-
-
-      
-
 <!--  newtable -->
-
-
-
 </form>
-
 </body>
-
 </html>
-

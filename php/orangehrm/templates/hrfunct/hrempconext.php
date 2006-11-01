@@ -61,61 +61,61 @@ function viewConExt(pSeq) {
 }
 </script>
 
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<input type="hidden" name="conextSTAT" value="">
 
     <p><h3>Employee Contracts</h3></p>
-<? if(isset($this -> popArr['editConExtArr'])) {
+<?php if(isset($this -> popArr['editConExtArr'])) {
 	
         $edit = $this -> popArr['editConExtArr']; 
 ?>
-      <input type="hidden" name="txtEmpConExtID" value="<?=$this->getArr['CONEXT']?>">
+      <input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>">
 
       <table height="80" border="0" cellpadding="0" cellspacing="0">
       <tr>
           <td width="200">Contract Extension Start Date</td>
-    	  <td><input type="text" readonly name="txtEmpConExtStartDat" value=<?=$edit[0][2]?>>&nbsp;<input class="button" type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
+    	  <td><input type="text" readonly name="txtEmpConExtStartDat" value=<?php echo $edit[0][2]?>>&nbsp;<input class="button" type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
 	  </tr>
 	  <tr> 
 		<td valign="top">Contract Extension End Date</td>
-		<td align="left" valign="top"> <input type="text" readonly name="txtEmpConExtEndDat" value=<?=$edit[0][3]?>>&nbsp;<input type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
+		<td align="left" valign="top"> <input type="text" readonly name="txtEmpConExtEndDat" value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
 	  </tr>
 	  <tr> 
 		<td valign="top"></td>
 		<td align="left" valign="top"> 
-		<?			if($locRights['edit']) { ?>
+		<?php			if($locRights['edit']) { ?>
 					        <img border="0" title="Save" onClick="editConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-		<?			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_save.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-		<?			}  ?>
+		<?php			} else { ?>
+						        <img src="../../themes/beyondT/pictures/btn_save.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+		<?php			}  ?>
 		</td>
 	  </tr>
 	</table>	  
-<? } else { ?>
-         <input type="hidden" name="txtEmpConExtID"  value="<?=$this->popArr['newConExtID']?>">
+<?php } else { ?>
+         <input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>">
 
       <table height="80" border="0" cellpadding="0" cellspacing="0">
          <tr>
           <td width="200">Contract Extension Start Date</td>
-		  <td><input type="text" readonly name="txtEmpConExtStartDat">&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
+		  <td><input type="text" readonly value="0000-00-00" name="txtEmpConExtStartDat">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
 		</tr>
   	  <tr> 
 		<td valign="top">Contract Extension End Date</td>
-		<td align="left" valign="top"> <input type="text" readonly name="txtEmpConExtEndDat">&nbsp;<input class="button" <?=$locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
+		<td align="left" valign="top"> <input type="text" readonly value="0000-00-00" name="txtEmpConExtEndDat">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
 	  </tr>
 	  <tr> 
 		<td valign="top"></td>
 		<td align="left" valign="top">
-			<?	if($locRights['add']) { ?>
+			<?php	if($locRights['add']) { ?>
 			        <img border="0" title="Save" onClick="addConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-			<? 	} else { ?>
-			        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-			<?	} ?>
+			<?php 	} else { ?>
+			        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+			<?php	} ?>
 		</td>
 	  </tr>
 	  </table>
-<? } ?>
+<?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -130,11 +130,11 @@ function viewConExt(pSeq) {
   </tr>
   <tr>
   <td>
-<?	if($locRights['delete']) { ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -146,7 +146,7 @@ function viewConExt(pSeq) {
 						 <td><strong>Contract Start Date</strong></td>
 						 <td><strong>Contract End Date</strong></td>
 					</tr>
-<?
+<?php
 $rset = $this->popArr['rsetConExt'];
 
 
@@ -154,7 +154,7 @@ $rset = $this->popArr['rsetConExt'];
         {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkconextdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?> <td><a href="#" onmousedown="viewConExt(<?=$rset[$c][1]?>)" ><?=$rset[$c][1]?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewConExt(<?php echo $rset[$c][1]?>)" ><?php echo $rset[$c][1]?></a></td> <?php
             $dtfield = explode(" ",$rset[$c][2]);
             echo '<td>' . $dtfield[0] .'</td>';
             $dtfield = explode(" ",$rset[$c][3]);
@@ -164,4 +164,4 @@ $rset = $this->popArr['rsetConExt'];
 
 ?>
 </table>
-<? } ?>
+<?php } ?>

@@ -165,7 +165,7 @@ function writeConfFile() {
 	}
 
     $confContent = <<< CONFCONT
-<?
+<?php
 class Conf {
 
 	var \$smtphost;

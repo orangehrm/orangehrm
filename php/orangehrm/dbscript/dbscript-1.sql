@@ -489,8 +489,8 @@ create table `hs_pr_salary_grade` (
 create table `hs_hr_empreport` (
   `rep_code` varchar(6) not null default '',
   `rep_name` varchar(60) default null,
-  `rep_cridef_str` varchar(100) default null,
-  `rep_flddef_str` varchar(100) default null,
+  `rep_cridef_str` varchar(200) default null,
+  `rep_flddef_str` varchar(200) default null,
   primary key  (`rep_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

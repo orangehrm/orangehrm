@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Company Info : General';
 $compname		= 'Company Name';
 $country		= 'Country';

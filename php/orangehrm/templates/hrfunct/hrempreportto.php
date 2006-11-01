@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -155,29 +155,29 @@ function viewSup(sup,rep) {
 	document.frmEmp.submit();
 }
 </script>
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
         <input type="hidden" name="reporttoSTAT" value="">		
-<?	if(isset($this->getArr['editIDSup'])) {	?>
-     <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['editIDSup']?>">
-     <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['id']?>">
-     <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">     
+<?php	if(isset($this->getArr['editIDSup'])) {	?>
+     <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>">
+     <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>">
+     <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">     
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[0]?>">
-    				 <strong><?=$arrRepType[0]?></strong></td>
+                      <td><?php echo $supervisorsubordinator?></td>
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[0]?>">
+    				 <strong><?php echo $arrRepType[0]?></strong></td>
 					</tr>
 					<tr> 
-						<td valign="top"><?=$employeeid?></td>
-<?						$empsupid =$this->getArr['editIDSup']; ?>
-						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?=$this->getArr['editIDSup']?>"><strong>
-						<?=$this->getArr['editIDSup']?>
+						<td valign="top"><?php echo $employeeid?></td>
+<?php						$empsupid =$this->getArr['editIDSup']; ?>
+						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"><strong>
+						<?php echo $this->getArr['editIDSup']?>
 						</strong></td>
 					  </tr>
 					  <tr> 
-						<td valign="top"><?=$reportingmethod?></td>
+						<td valign="top"><?php echo $reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name='cmbRepMethod'><strong>
-<?						$keys = array_keys($arrRepMethod);
+<?php						$keys = array_keys($arrRepMethod);
 						$values = array_values($arrRepMethod);
 						for($c=0;count($arrRepMethod)>$c;$c++)
 							if($this->getArr['RepMethod']==$values[$c]) {
@@ -190,36 +190,36 @@ function viewSup(sup,rep) {
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
-		<?			if($locRights['edit']) { ?>
+		<?php			if($locRights['edit']) { ?>
 							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
-			<?			} else { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-			<?			}  ?>
+			<?php			} else { ?>
+							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			<?php			}  ?>
 						</td>
 					  </tr>
  </table> 
-<? } elseif (isset($this->getArr['editIDSub'])) { ?>
-	 <input type="hidden" name="txtSupEmpID" value="<?=$this->getArr['id']?>">
-     <input type="hidden" name="txtSubEmpID" value="<?=$this->getArr['editIDSub']?>">
-  	 <input type="hidden" name="oldRepMethod" value="<?=$this->getArr['RepMethod']?>">     
+<?php } elseif (isset($this->getArr['editIDSub'])) { ?>
+	 <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>">
+     <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>">
+  	 <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">     
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?=$arrRepType[1]?>">
-    				 <strong><?=$arrRepType[1]?></strong></td>
+                      <td><?php echo $supervisorsubordinator?></td>
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[1]?>">
+    				 <strong><?php echo $arrRepType[1]?></strong></td>
 					</tr>
 					<tr> 
-						<td valign="top"><?=$employeeid?></td>
-						<?	$empsubid = $this->getArr['editIDSub'];  ?>
-						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?=$empsubid?>"><strong>
-						<?=$empsubid?>
+						<td valign="top"><?php echo $employeeid?></td>
+						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
+						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"><strong>
+						<?php echo $empsubid?>
 						</strong></td>
 					  </tr>
 					  
 					  <tr> 
-						<td valign="top"><?=$reportingmethod?></td>
+						<td valign="top"><?php echo $reportingmethod?></td>
 						<td align="left" valign="top"><select disabled name="cmbRepMethod"><strong>
-<?							
+<?php							
 						$keys = array_keys($arrRepMethod);
 						$values = array_values($arrRepMethod);
 						for($c=0;count($arrRepMethod)>$c;$c++)
@@ -233,38 +233,38 @@ function viewSup(sup,rep) {
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top"> 
-		<?			if($locRights['edit']) { ?>
+		<?php			if($locRights['edit']) { ?>
 				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
-		<?			} else { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-		<?			}  ?>
+		<?php			} else { ?>
+				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+		<?php			}  ?>
 						</td>
 					  </tr>
 			</table>
 			
-<? } else { ?>
+<?php } else { ?>
 		<input type="hidden" name="txtSupEmpID">
      	<input type="hidden" name="txtSubEmpID">
 	
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?=$supervisorsubordinator?></td>
+                      <td><?php echo $supervisorsubordinator?></td>
     				  <td>
-					  <select <?=$locRights['add'] ? '':'disabled'?> name="cmbRepType">
-					  <option value="0"><?=$selectreporttype?></option>
+					  <select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbRepType">
+					  <option value="0"><?php echo $selectreporttype?></option>
 
-<?							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
+<?php							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
 							echo "<option value=" . $arrRepType[1] . ">" . $arrRepType[1] . "</option>";
 ?>					  
 					  </select></td>
 					</tr>
-					<tr><td><?=$employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="" readonly>&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
+					<tr><td><?php echo $employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="" readonly>&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
 						</td></tr>
 					  <tr> 
-						<td valign="top"><?=$reportingmethod?></td>
-						<td align="left" valign="top"><select <?=$locRights['add'] ? '':'disabled'?> name='cmbRepMethod'>
-						   		<option value="0"><?=$selecttype?></option>
-<?
+						<td valign="top"><?php echo $reportingmethod?></td>
+						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbRepMethod'>
+						   		<option value="0"><?php echo $selecttype?></option>
+<?php
 									$keys = array_keys($arrRepMethod);
 									$values = array_values($arrRepMethod);
 									for($c=0;count($arrRepMethod)>$c;$c++)
@@ -274,15 +274,15 @@ function viewSup(sup,rep) {
 					  <tr> 
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
 						</td>
 					  </tr>
                  </table>
-<? } ?>
+<?php } ?>
 	<input type="hidden" name="delSupSub">
 <table><tr><td>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
@@ -293,16 +293,16 @@ function viewSup(sup,rep) {
 
   <tr>
 
-    <td width='100%'><h3><?=$supervisorinfomation?></h3>i.e. Current Employee's Supervisors</td>
+    <td width='100%'><h3><?php echo $supervisorinfomation?></h3>i.e. Current Employee's Supervisors</td>
      <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
   <td>
-<?	if($locRights['delete']) { ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -310,11 +310,11 @@ function viewSup(sup,rep) {
       <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$employeeid?></strong></td>
-						 <td><strong><?=$employeename?></strong></td>
-						 <td><strong><?=$reportingmethod?></strong></td>
+						 <td><strong><?php echo $employeeid?></strong></td>
+						 <td><strong><?php echo $employeename?></strong></td>
+						 <td><strong><?php echo $reportingmethod?></strong></td>
 					</tr>
-<?
+<?php
 $rset = $this->popArr['suprset'];
 $empname = $this ->popArr['empname'];							
 
@@ -324,7 +324,7 @@ $empname = $this ->popArr['empname'];
              echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				  
-				   ?><td><a href="javascript:viewSup('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$rset[$c][1]?></a></td><?
+				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][1]?></a></td><?php
 				   for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				     echo '<td>' . $empname[$a][1] .'</td>';
@@ -348,16 +348,16 @@ $empname = $this ->popArr['empname'];
 
   <tr>
 
-    <td width='100%'><h3><?=$subordinateinfomation?></h3>i.e. Current Employees Subordinate's</td>
+    <td width='100%'><h3><?php echo $subordinateinfomation?></h3>i.e. Current Employees Subordinate's</td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
   <td>
-<?	if($locRights['delete']) { ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -365,11 +365,11 @@ $empname = $this ->popArr['empname'];
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?=$employeeid?></strong></td>
-						 <td><strong><?=$employeename?></strong></td>
-						 <td><strong><?=$reportingmethod?></strong></td>
+						 <td><strong><?php echo $employeeid?></strong></td>
+						 <td><strong><?php echo $employeename?></strong></td>
+						 <td><strong><?php echo $reportingmethod?></strong></td>
 					</tr>
-<?
+<?php
 
 $rset = $this -> popArr['subrset'];
 $empname = $this -> popArr['empname'];
@@ -381,7 +381,7 @@ $empname = $this -> popArr['empname'];
             echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				   $subid=$rset[$c][1];
-				   ?><td><a href="javascript:viewSub('<?=$rset[$c][1]?>','<?=$rset[$c][2]?>')"><?=$rset[$c][1]?></a></td><?
+				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][1]?></a></td><?php
 				    for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				      echo '<td>' . $empname[$a][1] .'</td>';
@@ -393,4 +393,4 @@ $empname = $this -> popArr['empname'];
 
 ?>
                 </table></td></tr></table>
-<? } ?>
+<?php } ?>

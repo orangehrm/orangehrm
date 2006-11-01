@@ -1,4 +1,4 @@
-<? $installFinishValue = 6; ?>
+<?php $installFinishValue = 6; ?>
 <div id="content">
 <h2>Step 6: Installing</h2>
 <?php
@@ -20,21 +20,21 @@ switch ($_SESSION['INSTALLING']) {
 			break;
 }
 ?>
-<? if (!isset($error) && ($nextPhase == 'REGISTER')) { ?>
+<?php if (!isset($error) && ($nextPhase == 'REGISTER')) { ?>
 <p>
 Installation completed successfuly.<br  />
 Click <b>[Next]</b> to continue.
 </p>
-<? } elseif (!isset($error)) { ?>
+<?php } elseif (!isset($error)) { ?>
 <p align="center">
 <img src="images/progress_bar.gif" width="150" height="13" alt="Installing..." id="progressbar"><br/>
 Please wait. Installation in progress.
 </p>
-<? } else { ?>
+<?php } else { ?>
 <p>
 Installation aborted due to an error. Click <b>[Clean Up Install]</b> to correct the error and try installing again.
 </p>
-<? } 
+<?php } 
 
 $Phases = array('Database Creation', 'Create Database Tables', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File');
 
@@ -43,15 +43,15 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
   if (isset($error)) {
   	$controlval = 1;  
 ?>
-	<p class="error"><?=$error?></p>
-<? } ?>
+	<p class="error"><?php echo $error?></p>
+<?php } ?>
 <table border="0" cellpadding="5" cellspacing="0">
- <? for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++) { ?>
+ <?php for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++) { ?>
   <tr>
-    <td><?=$Phases[$i]?></td>
+    <td><?php echo $Phases[$i]?></td>
     <td><span class="done">Done</span></td>
   </tr>
- <? } 
+ <?php } 
  
  $j = $i--;
  
@@ -65,19 +65,19 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
 		
  ?>
  <tr>
-    <td><?=$Phases[$j]?></td>
+    <td><?php echo $Phases[$j]?></td>
     <td class="error">Error</td>
   </tr>
- <? $j++;
+ <?php $j++;
  	} 
  for ($i=$j; $i < $installFinishValue; $i++) { ?>
   <tr>
-    <td><?=$Phases[$i]?></td>
-    <td class="<?=$styleStatus?>"><?=$msgNext?></td>
+    <td><?php echo $Phases[$i]?></td>
+    <td class="<?php echo $styleStatus?>"><?php echo $msgNext?></td>
   </tr>
- <? } ?>
+ <?php } ?>
 </table>
-<? if (!isset($error)){
+<?php if (!isset($error)){
 		if ($_SESSION['INSTALLING'] < $installFinishValue) { ?>
 		<noscript>
 			<meta http-equiv="refresh" content="2;URL=../install.php" />
@@ -89,7 +89,7 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
 				setTimeout('document.progressbar.src = document.progressbar.src', 2000);
 			}
 		</script>
-		<? } else {?>
+		<?php } else {?>
 		<br/>		
 		<script language="JavaScript">
 			function next() {				
@@ -97,9 +97,9 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
 				document.frmInstall.submit();
 			}			
 		</script>
-	<? }
+	<?php }
  } ?>
  <br />
- <input class="button" type="button" value="<?=(isset($error))? 'Clean Up Install' : 'Back'?>" onclick="back();" tabindex="2" <?=(isset($error))? '' : 'disabled'?> />
- <input type="button" onClick='next();' value="Next" tabindex="1" <?=(isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=$installFinishValue))? '' : 'disabled'?> />
+ <input class="button" type="button" value="<?php echo (isset($error))? 'Clean Up Install' : 'Back'?>" onclick="back();" tabindex="2" <?php echo (isset($error))? '' : 'disabled'?> />
+ <input type="button" onClick='next();' value="Next" tabindex="1" <?php echo (isset($_SESSION['INSTALLING']) && ($_SESSION['INSTALLING'] >=$installFinishValue))? '' : 'disabled'?> />
 </div>

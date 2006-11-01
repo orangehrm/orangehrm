@@ -16,7 +16,7 @@ function confirm() {
 		 Click <b>[Install]</b> to continue.
 		 </p>
          
-         <p><font color="Red"><?=isset($error) ? $error : ''?></font></p>
+         <p><font color="Red"><?php echo isset($error) ? $error : ''?></font></p>
 
         <table cellpadding="0" cellspacing="0" border="0" class="table">
 		<tr>
@@ -24,29 +24,29 @@ function confirm() {
 		</tr>
 		<tr>
 			<td class="tdComponent">Host Name</td>
-			<td class="tdValues"><?=$_SESSION['dbInfo']['dbHostName']?></td>
+			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbHostName']?></td>
 		</tr>
 		<tr>
 			<td class="tdComponent">Database Host Port</td>
-			<td class="tdValues"><?=$_SESSION['dbInfo']['dbHostPort']?></td>
+			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbHostPort']?></td>
 		</tr>
 		<tr>
 			<td class="tdComponent">Database Name</td>
-			<td class="tdValues"><?=$_SESSION['dbInfo']['dbName']?></td>
+			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbName']?></td>
 		</tr>
 		<tr>
 			<td class="tdComponent">Priviledged Database User-name</td>
-			<td class="tdValues"><?=$_SESSION['dbInfo']['dbUserName']?></td>
+			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbUserName']?></td>
 		</tr>
-<? if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) { ?>
+<?php if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) { ?>
 		<tr>
 			<td class="tdComponent">OrangeHRM Database User-name</td>
-			<td class="tdValues"><?=$_SESSION['dbInfo']['dbOHRMUserName']?></td>
+			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbOHRMUserName']?></td>
 		</tr>
-<? } ?>		
+<?php } ?>		
 		<tr>
 			<td class="tdComponent">OrangeHRM Admin User Name</td>
-			<td class="tdValues"><?=$_SESSION['defUser']['AdminUserName']?></td>
+			<td class="tdValues"><?php echo $_SESSION['defUser']['AdminUserName']?></td>
 		</tr>
 </table>
 		<br />

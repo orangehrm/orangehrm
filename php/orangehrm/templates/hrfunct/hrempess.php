@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -171,7 +171,7 @@ function addUpdate() {
 
 
 function reLoad() {
-	location.href ="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&reqcode=<?=$this->getArr['reqcode']?>";
+	location.href ="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&reqcode=<?php echo $this->getArr['reqcode']?>";
 }
 
  
@@ -217,7 +217,7 @@ function setUpdate(opt) {
 }
 
 function dwPopup() {
-        var popup=window.open('../../templates/hrfunct/download.php?id=<?=isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?=isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
+        var popup=window.open('../../templates/hrfunct/download.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : '' ?>&ATTACH=<?php echo isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : '' ?>','Downloads');
         if(!popup.opener) popup.opener=self;
 }	
 
@@ -282,7 +282,7 @@ function viewTax(taxID,fdFlag) {
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 
 </head>
-<body onload="<?=(isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>">
+<body onload="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?'qshowpane();':''?>">
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -290,19 +290,19 @@ function viewTax(taxID,fdFlag) {
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
-<form name="frmEmp" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&reqcode=<?=$this->getArr['reqcode']?>&capturemode=<?=$this->getArr['capturemode']?>">
+<form name="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=<?php echo $this->getArr['capturemode']?>">
 <input type="hidden" name="sqlState">
-<input type="hidden" name="pane" value="<?=(isset($_POST['pane']) && $_POST['pane']!='')?$_POST['pane']:''?>">
+<input type="hidden" name="pane" value="<?php echo (isset($_POST['pane']) && $_POST['pane']!='')?$_POST['pane']:''?>">
 
-<input type="hidden" name="main" value="<?=isset($_POST['main'])? $_POST['main'] : '0'?>">
-<input type="hidden" name="personalFlag" value="<?=isset($_POST['personalFlag'])? $_POST['personalFlag'] : '0'?>">
-<input type="hidden" name="jobFlag" value="<?=isset($_POST['jobFlag'])? $_POST['jobFlag'] : '0'?>">
-<input type="hidden" name="workstationFlag" value="<?=isset($_POST['workstationFlag'])? $_POST['workstationFlag'] : '0'?>">
-<input type="hidden" name="taxFlag" value="<?=isset($_POST['taxFlag'])? $_POST['taxFlag'] : '0'?>">
-<input type="hidden" name="contactFlag" value="<?=isset($_POST['contactFlag'])? $_POST['contactFlag'] : '0'?>">
+<input type="hidden" name="main" value="<?php echo isset($_POST['main'])? $_POST['main'] : '0'?>">
+<input type="hidden" name="personalFlag" value="<?php echo isset($_POST['personalFlag'])? $_POST['personalFlag'] : '0'?>">
+<input type="hidden" name="jobFlag" value="<?php echo isset($_POST['jobFlag'])? $_POST['jobFlag'] : '0'?>">
+<input type="hidden" name="workstationFlag" value="<?php echo isset($_POST['workstationFlag'])? $_POST['workstationFlag'] : '0'?>">
+<input type="hidden" name="taxFlag" value="<?php echo isset($_POST['taxFlag'])? $_POST['taxFlag'] : '0'?>">
+<input type="hidden" name="contactFlag" value="<?php echo isset($_POST['contactFlag'])? $_POST['contactFlag'] : '0'?>">
 <input type="hidden" name="attSTAT" value="">
-<input type="hidden" name="EditMode" value="<?=isset($_POST['EditMode'])? $_POST['EditMode'] : '0'?>">
-<?
+<input type="hidden" name="EditMode" value="<?php echo isset($_POST['EditMode'])? $_POST['EditMode'] : '0'?>">
+<?php
 $edit = $this->popArr['editMainArr'];
 ?>
 			<table width="550" align="center" border="0" cellpadding="0" cellspacing="0">
@@ -317,12 +317,12 @@ $edit = $this->popArr['editMainArr'];
                   <td><table onclick="setUpdate(0)" onkeypress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 				<td>Code</td>
-				<td><strong><input type="hidden" name="txtEmpID" value="<?=$this->getArr['id']?>"><?=$this->getArr['id']?></strong></td>
+				<td><strong><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>"><?php echo $this->getArr['id']?></strong></td>
 			  </tr>
 			  <tr>
 				<td>Title</td>
-				<td> <select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbEmpTitle">
-				<?      
+				<td> <select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbEmpTitle">
+				<?php      
 					for($c=0;$c < count($arrTitle);$c++)
 						if($edit[0][1]==$arrTitle[$c])
 							echo '<option selected value=' . $arrTitle[$c] . '>' . $arrTitle[$c] .'</option>';
@@ -333,28 +333,28 @@ $edit = $this->popArr['editMainArr'];
 			  </tr>
 			  <tr> 
 				<td>Calling Name</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpCallName" value="<?=(isset($_POST['txtEmpCallName']))?$_POST['txtEmpCallName']:$edit[0][2]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpCallName" value="<?php echo (isset($_POST['txtEmpCallName']))?$_POST['txtEmpCallName']:$edit[0][2]?>"></td>
 				<td>&nbsp;</td>
 				<td>Surname</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpSurname" value="<?=(isset($_POST['txtEmpSurname']))?$_POST['txtEmpSurname']:$edit[0][3]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpSurname" value="<?php echo (isset($_POST['txtEmpSurname']))?$_POST['txtEmpSurname']:$edit[0][3]?>"></td>
 			  </tr>
 			  <tr> 
 				<td>Maiden Name</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMaidenName" value="<?=(isset($_POST['txtEmpMaidenName']))?$_POST['txtEmpMaidenName']:$edit[0][4]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMaidenName" value="<?php echo (isset($_POST['txtEmpMaidenName']))?$_POST['txtEmpMaidenName']:$edit[0][4]?>"></td>
 				<td>&nbsp;</td>
 			  <td>Initials</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpInitials" value="<?=(isset($_POST['txtEmpInitials']))?$_POST['txtEmpInitials']:$edit[0][5]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpInitials" value="<?php echo (isset($_POST['txtEmpInitials']))?$_POST['txtEmpInitials']:$edit[0][5]?>"></td>
 			  </tr>
 			  <tr>
 				<td>Names By Initials</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpNamByIni' value="<?=(isset($_POST['txtEmpNamByIni']))?$_POST['txtEmpNamByIni']:$edit[0][6]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpNamByIni' value="<?php echo (isset($_POST['txtEmpNamByIni']))?$_POST['txtEmpNamByIni']:$edit[0][6]?>"></td>
 			  <td>&nbsp;</td>
 				<td>Full Name</td>
-				<td> <input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpFullName' value="<?=(isset($_POST['txtEmpFullName']))?$_POST['txtEmpFullName']:$edit[0][7]?>"></td>
+				<td> <input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpFullName' value="<?php echo (isset($_POST['txtEmpFullName']))?$_POST['txtEmpFullName']:$edit[0][7]?>"></td>
 			  </tr>
 				<tr>
 				<td>Other Names</td>
-				<td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpOtherName' value="<?=(isset($_POST['txtEmpOtherName']))?$_POST['txtEmpOtherName']:$edit[0][8]?>"></td>
+				<td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name='txtEmpOtherName' value="<?php echo (isset($_POST['txtEmpOtherName']))?$_POST['txtEmpOtherName']:$edit[0][8]?>"></td>
 			  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -371,7 +371,7 @@ $edit = $this->popArr['editMainArr'];
     <table border="0" align="center" >
     <tr>
     <td>
-			        <img src="<?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
+			        <img src="<?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="Edit" onmouseout="mout();" onmouseover="mover();" name="Edit" onClick="edit();">
     </td>
     <td><img src="../../themes/beyondT/pictures/btn_clear.jpg" onmouseout="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();" ></td>
     </tr>
@@ -425,18 +425,18 @@ $edit = $this->popArr['editMainArr'];
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td><table onclick="setUpdate(1)" onkeypress="setUpdate(1)" height="200" border="0" cellpadding="0" cellspacing="0">
-<?
+<?php
 		  $edit = $this->popArr['editPersArr'];
 ?>
 
           <tr>
 					<td>SSN:</td>
-					<td><input type="text" name="txtNICNo" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtNICNo']))?$_POST['txtNICNo']:$edit[0][1]?>"></td>
+					<td><input type="text" name="txtNICNo" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtNICNo']))?$_POST['txtNICNo']:$edit[0][1]?>"></td>
 					<td width="50">&nbsp;</td>
 					<td>Nationality</td>
-					<td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbNation">
+					<td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbNation">
 						<option value="0">--Select Nationality--</option>
-<?
+<?php
 					$nation = $this->popArr['nation'];
 					for($c=0;$nation && count($nation)>$c;$c++)
 						if(isset($_POST['cmbNation'])) {
@@ -454,12 +454,12 @@ $edit = $this->popArr['editMainArr'];
 				</tr>
 				<tr>
 				<td>SSN Issued Date</td>
-				<td><input type="text" name="txtNICDate" readonly value=<?=(isset($_POST['txtNICDate']))?$_POST['txtNICDate']:$edit[0][2]?>>&nbsp;<input type="button" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtNICDate);return false;"></td>
+				<td><input type="text" name="txtNICDate" readonly value=<?php echo (isset($_POST['txtNICDate']))?$_POST['txtNICDate']:$edit[0][2]?>>&nbsp;<input type="button" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtNICDate);return false;"></td>
 				<td>&nbsp;</td>
 				<td>Religion</td>
-				<td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbReligion">
+				<td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbReligion">
 						<option value="0">---Select Religion---</option>
-<?
+<?php
 					$rel = $this->popArr['rel'];
 					for($c=0;$rel && count($rel)>$c;$c++)
 						if(isset($_POST['cmbReligion'])) {
@@ -477,11 +477,11 @@ $edit = $this->popArr['editMainArr'];
 				</tr>
 				<tr>
 				<td>Date of Birth</td>
-				<td><input type="text" readonly name="DOB" value=<?=(isset($_POST['DOB']))?$_POST['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
+				<td><input type="text" readonly name="DOB" value=<?php echo (isset($_POST['DOB']))?$_POST['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;"></td>
 				<td>&nbsp;</td>
 				<td>Blood Group</td>
-				<td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbBloodGrp">
-<?
+				<td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbBloodGrp">
+<?php
 					$keys = array_keys($arrBGroup);
 					$values = array_values($arrBGroup);
 					for($c=0;count($arrBGroup)>$c;$c++)
@@ -499,12 +499,12 @@ $edit = $this->popArr['editMainArr'];
 				</tr>
 				<tr>
 				<td>Place of Birth</td>
-				<td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtBirthPlace" value="<?=(isset($_POST['txtBirthPlace']))?$_POST['txtBirthPlace']:$edit[0][4]?>"></td>
+				<td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtBirthPlace" value="<?php echo (isset($_POST['txtBirthPlace']))?$_POST['txtBirthPlace']:$edit[0][4]?>"></td>
 				<td>&nbsp;</td>
 				<td>Marital Status</td>
-				<td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbMarital">
+				<td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbMarital">
 					<option value="0">--Select--</option>
-<?					
+<?php					
 					for($c=0;count($arrMStat)>$c;$c++)
 						if(isset($_POST['cmbMarital'])) {
 						 	if($_POST['cmbMarital']==$arrMStat[$c])
@@ -520,15 +520,15 @@ $edit = $this->popArr['editMainArr'];
 				</tr>
 				<tr>
 				<td>Gender</td>
-				<td valign="middle">Male<input <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>		
-<?				if(isset($_POST['optGender'])) { ?>
-				Female<input type="radio" name="optGender" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="2" <?=($_POST['optGender']==2)?'checked':''?>></td>
-<?				} else {  ?>
-				Female<input type="radio" name="optGender" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="2" <?=($edit[0][5]==2)?'checked':''?>></td>
-<? } ?>				
+				<td valign="middle">Male<input <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>		
+<?php				if(isset($_POST['optGender'])) { ?>
+				Female<input type="radio" name="optGender" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($_POST['optGender']==2)?'checked':''?>></td>
+<?php				} else {  ?>
+				Female<input type="radio" name="optGender" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($edit[0][5]==2)?'checked':''?>></td>
+<?php } ?>				
 				<td>&nbsp;</td>
 				<td>Married Date</td>
-				<td><input type="text" name="txtMarriedDate" readonly value=<?=(isset($_POST['txtMarriedDate']))?$_POST['txtMarriedDate']:$edit[0][10]?>>&nbsp;<input type="button" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMarriedDate);return false;"></td>
+				<td><input type="text" name="txtMarriedDate" readonly value=<?php echo (isset($_POST['txtMarriedDate']))?$_POST['txtMarriedDate']:$edit[0][10]?>>&nbsp;<input type="button" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMarriedDate);return false;"></td>
 				</tr> 
 				</table></td>
           <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -550,21 +550,21 @@ $edit = $this->popArr['editMainArr'];
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td><table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="350" border="0" cellpadding="0" cellspacing="0">
-<?
+<?php
 		  $edit1 = $this->popArr['editJobInfoArr'];
 		  $edit2 = $this->popArr['editJobStatArr'];
 ?>
 <tr>
 			  <td>Date Joined</td>
-			  <?
+			  <?php
 			  $dtField = explode(" ",$edit1[0][1])
 			  ?>
-			  <td><strong><?=$dtField[0]?></strong></td>
+			  <td><strong><?php echo $dtField[0]?></strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Employment Type</td>
 			  <td>
 			  		<strong>
-<?					for($c=0;count($arrEmpType)>$c;$c++)
+<?php					for($c=0;count($arrEmpType)>$c;$c++)
 						if($edit2[0][1]==$arrEmpType[$c])
 								echo $arrEmpType[$c];
 								
@@ -575,12 +575,12 @@ $edit = $this->popArr['editMainArr'];
 			  <tr>
 			  <td>Confirmed</td>
 			  <td> 
-			  <input type="checkbox" readonly name="chkConfirmFlag" <?=$edit1[0][2]==1?'checked':''?> value="1">
+			  <input type="checkbox" readonly name="chkConfirmFlag" <?php echo $edit1[0][2]==1?'checked':''?> value="1">
 			  </td>
 			  <td width="50">&nbsp;</td>
 			  <td>Statutory Classification</td>
 			  <td><strong>
-<?					$stat = $this->popArr['stat'];
+<?php					$stat = $this->popArr['stat'];
 						for($c=0;$stat && count($stat)>$c;$c++)
 							if($edit2[0][2]==$stat[$c][0])
 								    echo  $stat[$c][1];
@@ -589,14 +589,14 @@ $edit = $this->popArr['editMainArr'];
 			  </tr>
 			  <tr>
 			  <td>Resignation Date</td>
-			  <td> <?
+			  <td> <?php
 			  $dtField = explode(" ",$edit1[0][3])
 			  ?>
-			  <strong><?=$dtField[0]?></strong>
+			  <strong><?php echo $dtField[0]?></strong>
 			  <td width="50">&nbsp;</td>
 			  <td>Employment Category</td>
 			  <td><strong>
-<?					$catlist = $this->popArr['catlist'];
+<?php					$catlist = $this->popArr['catlist'];
 					for($c=0;$catlist && count($catlist)>$c;$c++)
 						if($edit2[0][3]==$catlist[$c][0])
 							  	echo $catlist[$c][1];
@@ -605,21 +605,21 @@ $edit = $this->popArr['editMainArr'];
 			  </tr>
 			  <tr>
 			  <td>Retire Date</td>
-			   <?
+			   <?php
 			  $dtField = explode(" ",$edit1[0][1])
 			  ?>
-			  <td><strong><?=$dtField[0]?></strong></td>
+			  <td><strong><?php echo $dtField[0]?></strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Start Date</td>
-			   <?
+			   <?php
 			  $dtField = explode(" ",$edit1[0][1])
 			  ?>
-			  <td><strong><?=$dtField[0]?></strong></td>
+			  <td><strong><?php echo $dtField[0]?></strong></td>
 			  </tr>
 			  <tr>
  			  <td>Salary Grade</td>
 			  <td><strong>
-			  <?	$grdlist = $this->popArr['grdlist'];
+			  <?php	$grdlist = $this->popArr['grdlist'];
 					for($c=0;$grdlist && count($grdlist)>$c;$c++)
 						if($edit1[0][5]==$grdlist[$c][0])
 									echo $grdlist[$c][1];
@@ -628,15 +628,15 @@ $edit = $this->popArr['editMainArr'];
 			 </strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>End Date</td>
-			   <?
+			   <?php
 			  $dtField = explode(" ",$edit1[0][1])
 			  ?>
-			  <td><strong><?=$dtField[0]?></strong></td>
+			  <td><strong><?php echo $dtField[0]?></strong></td>
 			  </tr>
 			  <tr>
 			  <td>Corporate Title</td>
 			  <td><strong>
-<?				
+<?php				
 					$ctlist = $this->popArr['ctlist'];
 					for($c=0;$ctlist && count($ctlist)>$c;$c++)
 						if($edit1[0][6]==$ctlist[$c][1])
@@ -649,14 +649,14 @@ $edit = $this->popArr['editMainArr'];
 			  <td>
 
 			
-			  <input type="checkbox" readonly name="chkConToPermFlag" <?=($edit2[0][6]=='1')?'checked':''?> value="1">
+			  <input type="checkbox" readonly name="chkConToPermFlag" <?php echo ($edit2[0][6]=='1')?'checked':''?> value="1">
 			
 			  </td>
 			  </tr>
 			  <tr>
 			  <td>Designation</td>
 			  <td> <strong>
-<?					$deslist = $this->popArr['deslist'];
+<?php					$deslist = $this->popArr['deslist'];
 					for($c=0;$deslist && count($deslist)>$c;$c++)
 						if($edit1[0][7]==$deslist[$c][1])
 							echo $deslist[$c][2];
@@ -664,15 +664,15 @@ $edit = $this->popArr['editMainArr'];
 			  </strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Contract to Permanent Date</td>
-			  <td> <?
+			  <td> <?php
 			  $dtField = explode(" ",$edit1[0][3])
 			  ?>
-			  <strong><?=$dtField[0]?></strong></td>
+			  <strong><?php echo $dtField[0]?></strong></td>
 			  </tr>
 			  <tr>
 			  <td>Costing Centre</td>
 			  <td><strong>
-<?					$costlist = $this->popArr['costlist'];
+<?php					$costlist = $this->popArr['costlist'];
 					for($c=0;$costlist && count($costlist)>$c;$c++)
 						 if($edit1[0][8]==$costlist[$c][0])
 									echo $costlist[$c][1];
@@ -683,30 +683,30 @@ $edit = $this->popArr['editMainArr'];
 			  <td>HR Active</td>
 			  <td>
 
-			  <input type="checkbox" name="chkHRActivFlag" readonly <?=($edit2[0][8]=='1'?'checked':'')?> value="1">
+			  <input type="checkbox" name="chkHRActivFlag" readonly <?php echo ($edit2[0][8]=='1'?'checked':'')?> value="1">
 
 			  </td>
 			  </tr>
 			  <tr>
 			  <td>Work Hours</td>
-			  <td><strong><?=(isset($_POST['txtWorkHours']))?$_POST['txtWorkHours']:$edit1[0][9]?><strong></td>
+			  <td><strong><?php echo (isset($_POST['txtWorkHours']))?$_POST['txtWorkHours']:$edit1[0][9]?><strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Payroll Activ</td>
 			  <td>
 
-			  <input type="checkbox" name="txtPayActivFlag" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> <?=($edit2[0][9]=='1'?'checked':'')?> value="1">
+			  <input type="checkbox" name="txtPayActivFlag" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> <?php echo ($edit2[0][9]=='1'?'checked':'')?> value="1">
 		
 
 			  </td>
 			  </tr>
 			  <tr>
 			  <td>Job Preference</td>
-			  <td><strong><?=(isset($_POST['txtJobPref']))?$_POST['txtJobPref']:$edit1[0][10]?></strong></td>
+			  <td><strong><?php echo (isset($_POST['txtJobPref']))?$_POST['txtJobPref']:$edit1[0][10]?></strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Time &amp; Attendance Active</td>
 			  <td>
 			
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkTimeAttActivFlag" <?=($edit2[0][10]=='1'?'checked':'')?> value="1">
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkTimeAttActivFlag" <?php echo ($edit2[0][10]=='1'?'checked':'')?> value="1">
 						  
 			  </td>
 			  </tr>          </table></td>
@@ -729,7 +729,7 @@ $edit = $this->popArr['editMainArr'];
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
-<? $edit=$this->popArr['editTaxArr']; 
+<?php $edit=$this->popArr['editTaxArr']; 
 	$clist = $this->popArr['taxcntlist'];
 		for($c=0;count($clist)>$c;$c++)
 	   if($clist[$c][0]==$edit[0][16]) {
@@ -749,7 +749,7 @@ $edit = $this->popArr['editMainArr'];
 	             <tr>
           <td valign="top">Country</td>
           <td valign="top"><strong>
-<?				$list = $this->popArr['taxcntlist'];
+<?php				$list = $this->popArr['taxcntlist'];
 					for($c=0;$list && count($list)>$c;$c++)
 					if($list[$c][0]==$edit[0][16])
 						    echo  $list[$c][1];
@@ -759,71 +759,71 @@ $edit = $this->popArr['editMainArr'];
 				</strong></td>
 				</tr>
 
-<?		if(isset($showTax) && $showTax=='1') {
+<?php		if(isset($showTax) && $showTax=='1') {
 	
 ?>
 			<input type="hidden" name="taxSTAT" value="">
 
       
 
-<? if(isset($this->getArr['TAXID'])) {
+<?php if(isset($this->getArr['TAXID'])) {
 	
 	$edit = $this->popArr['editTaxForm'];
 ?>
 				<tr>
 				<td>Tax</td>
-          <td><input type="hidden" name="cmbTaxID" value="<?=$edit[0][1]?>"><strong>
-<?				$list=$this->popArr['taxlist'];
+          <td><input type="hidden" name="cmbTaxID" value="<?php echo $edit[0][1]?>"><strong>
+<?php				$list=$this->popArr['taxlist'];
 					for($c=0;$list && count($list)>$c;$c++)
 					   if($edit[0][1]==$list[$c][0])
 					    echo $list[$c][1];
 ?>          	
 				</strong></td>
 				</tr>
-		<input type="hidden" name="optFedStateFlag" value="<?=$edit[0][2]?>">
+		<input type="hidden" name="optFedStateFlag" value="<?php echo $edit[0][2]?>">
           <tr>
           <td>Tax/State</td>
-          <td><strong><?=$edit[0][2]==1 ? 'Federal':'State'?></strong></td>
+          <td><strong><?php echo $edit[0][2]==1 ? 'Federal':'State'?></strong></td>
           </tr>
           <tr>
-<? if($edit[0][2]==1) { ?>
+<?php if($edit[0][2]==1) { ?>
           <td>Filing Status</td>
           <td><strong>
 			 		
-<?			for($c=0;$edit[0][2]==1 && count($arrFillStat)>$c;$c++)
+<?php			for($c=0;$edit[0][2]==1 && count($arrFillStat)>$c;$c++)
 				if($edit[0][3]==$arrFillStat[$c])
           		   echo $arrFillStat[$c];
           		
 ?>          		
           </strong></td>
-<? } 
+<?php } 
  
 if($edit[0][2]==2) { ?>
 
  		  <td>Filing Status</td>
           <td><select disabled name="cmbStateTaxFillStat">
 			 		<option>--Select--</option>
-<?			for($c=0;$edit[0][2]==2 && count($arrFillStat)>$c;$c++)
+<?php			for($c=0;$edit[0][2]==2 && count($arrFillStat)>$c;$c++)
 				if($edit[0][3]==$arrFillStat[$c])
           		   echo "<option selected>" .$arrFillStat[$c] . "</option>";
           		else
           		   echo "<option>" .$arrFillStat[$c] . "</option>";
 ?>          		
           </select></td>
-<? } ?>          
+<?php } ?>          
           </tr>
           <tr>
-<? if($edit[0][2]==1) { ?>
+<?php if($edit[0][2]==1) { ?>
           <td>Allowances</td>
-          <td><input type="text" disabled name="txtFedTaxAllowance" value="<?=$edit[0][2]==1 ? $edit[0][4] : ''?>"></td>
-<? } 
+          <td><input type="text" disabled name="txtFedTaxAllowance" value="<?php echo $edit[0][2]==1 ? $edit[0][4] : ''?>"></td>
+<?php } 
  
 if($edit[0][2]==2) { ?>
 
           <td>Taxed State</td>
           <td><select disabled name="cmbStateTaxState">
 			 		<option value="0">-Select State-</option>
-<?			$plist = $this->popArr['plist'];
+<?php			$plist = $this->popArr['plist'];
 				for($c=0;$edit[0][2]==2 && $plist && count($plist)>$c;$c++)
 					if($edit[0][6]==$plist[$c][1])
 					    echo "<option selected value='" . $plist[$c][1]. "'>" . $plist[$c][2]. "</option>";
@@ -835,19 +835,19 @@ if($edit[0][2]==2) { ?>
 
 			</tr>
 			<tr>
-<? if($edit[0][2]==1) { ?>
+<?php if($edit[0][2]==1) { ?>
 			<td>Extra</td>
-			<td><input type="text" disabled name="txtFedTaxExtra" value="<?=$edit[0][2]==1 ? $edit[0][5] : '' ?>"></td>
-<? }
+			<td><input type="text" disabled name="txtFedTaxExtra" value="<?php echo $edit[0][2]==1 ? $edit[0][5] : '' ?>"></td>
+<?php }
 if($edit[0][2]==2) { ?>
 			
 			<td>Allowances</td>
-            <td><input type="text" name="txtStateTaxAllowance" disabled value="<?=$edit[0][2]==2 ? $edit[0][4] : '' ?>"></td>
+            <td><input type="text" name="txtStateTaxAllowance" disabled value="<?php echo $edit[0][2]==2 ? $edit[0][4] : '' ?>"></td>
             </tr>
             <tr>
 			<td>Extra</td>
-			<td><input type="text" name="txtStateTaxExtra" disabled value="<?=$edit[0][2]==2 ? $edit[0][5] : '' ?>"></td>
-<? } ?>			
+			<td><input type="text" name="txtStateTaxExtra" disabled value="<?php echo $edit[0][2]==2 ? $edit[0][5] : '' ?>"></td>
+<?php } ?>			
 			</tr>
 
 
@@ -860,7 +860,7 @@ if($edit[0][2]==2) { ?>
 						 <td><strong>Allowance</strong></td>
 						 <td><strong>Extra</strong></td>
 					</tr>
-<?
+<?php
 $rset = $this ->popArr['empTaxAss'];
 $list = $this->popArr['taxlist'];
 
@@ -873,7 +873,7 @@ $list = $this->popArr['taxlist'];
             else
             	$fname="State";
 
-            ?> <td><a href="#" onmousedown="viewTax('<?=$rset[$c][1]?>',<?=$rset[$c][2]?>)" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewTax('<?php echo $rset[$c][1]?>',<?php echo $rset[$c][2]?>)" ><?php echo $fname?></a></td> <?php
 					for($a=0;count($list)>$a;$a++)
 						if($rset[$c][1]==$list[$a][0])
 						  $fname=$list[$a][1];
@@ -895,7 +895,7 @@ $list = $this->popArr['taxlist'];
 						 <td><strong>Allowance</strong></td>
 						 <td><strong>Extra</strong></td>
 					</tr>
-<?
+<?php
 $rset = $this ->popArr['empTaxAss'];
 $list = $this->popArr['taxlist'];
 
@@ -908,7 +908,7 @@ $list = $this->popArr['taxlist'];
             else
             	$fname="State";
 
-            ?> <td><a href="#" onmousedown="viewTax('<?=$rset[$c][1]?>',<?=$rset[$c][2]?>)" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewTax('<?php echo $rset[$c][1]?>',<?php echo $rset[$c][2]?>)" ><?php echo $fname?></a></td> <?php
 					for($a=0;count($list)>$a;$a++)
 						if($rset[$c][1]==$list[$a][0])
 						  $fname=$list[$a][1];
@@ -928,7 +928,7 @@ $list = $this->popArr['taxlist'];
 ?>
 			  	<td>Tax Exempt</td>
 				<td><strong>
-<?				
+<?php				
 				for($c=0;count($arrTaxExempt)>$c;$c++)
 					if ($edit[0][1]==$arrTaxExempt[$c])
 						    echo $arrTaxExempt[$c];
@@ -937,58 +937,58 @@ $list = $this->popArr['taxlist'];
 				<td width="50">&nbsp;</td>
 				<td>ETF Eligibility</td>
 				<td>
-<?				if(isset($_POST['chkETFEligibleFlag'])) { ?>
-				<input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($_POST['chkETFEligibleFlag']=='1'?'checked':'')?> name="chkETFEligibleFlag">
-<?				} else { ?>
-				<input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($edit[0][9]=='1'?'checked':'')?> name="chkETFEligibleFlag">
-<?				} ?>
+<?php				if(isset($_POST['chkETFEligibleFlag'])) { ?>
+				<input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($_POST['chkETFEligibleFlag']=='1'?'checked':'')?> name="chkETFEligibleFlag">
+<?php				} else { ?>
+				<input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($edit[0][9]=='1'?'checked':'')?> name="chkETFEligibleFlag">
+<?php				} ?>
 				</td>
               </tr>
 			  <tr>
 			  <td>Tax on Tax</td>
 			  <td>
-<?			if(isset($_POST['chkTaxOnTaxFlag'])) { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($_POST['chkTaxOnTaxFlag']=='1'?'checked':'')?> name="chkTaxOnTaxFlag">
-<?			} else { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($edit[0][2]=='1'?'checked':'')?> name="chkTaxOnTaxFlag">
-<?			} ?>
+<?php			if(isset($_POST['chkTaxOnTaxFlag'])) { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($_POST['chkTaxOnTaxFlag']=='1'?'checked':'')?> name="chkTaxOnTaxFlag">
+<?php			} else { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($edit[0][2]=='1'?'checked':'')?> name="chkTaxOnTaxFlag">
+<?php			} ?>
 			  
 			  </td>
 			  <td width="50">&nbsp;</td>
 			  <td>ETF No.</td>
-			  <td><strong><?=(isset($_POST['txtETFNo']))?$_POST['txtETFNo']:$edit[0][10]?></strong></td>
+			  <td><strong><?php echo (isset($_POST['txtETFNo']))?$_POST['txtETFNo']:$edit[0][10]?></strong></td>
 			  </tr>
 			  <tr>
 			  <td>Tax ID</td>
-			  <td><strong><?=(isset($_POST['txtTaxID']))?$_POST['txtTaxID']:$edit[0][3]?></strong></td>
+			  <td><strong><?php echo (isset($_POST['txtTaxID']))?$_POST['txtTaxID']:$edit[0][3]?></strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Employee %</td>
-			  <td><select><?=(isset($_POST['txtETFEmployeePercen']))?$_POST['txtETFEmployeePercen']:$edit[0][11]?></select></td>
+			  <td><select><?php echo (isset($_POST['txtETFEmployeePercen']))?$_POST['txtETFEmployeePercen']:$edit[0][11]?></select></td>
 			  </tr>
 			  <tr>
 			  <td>EPF Eligible</td>
 			  <td>
-<?			  if(isset($_POST['chkEPFEligibleFlag'])) { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($_POST['chkEPFEligibleFlag']=='1'?'checked':'')?> name="chkEPFEligibleFlag">
-<?			} else { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?=($edit[0][4]=='1'?'checked':'')?> name="chkEPFEligibleFlag">
-<?			} ?>  
+<?php			  if(isset($_POST['chkEPFEligibleFlag'])) { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($_POST['chkEPFEligibleFlag']=='1'?'checked':'')?> name="chkEPFEligibleFlag">
+<?php			} else { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> value="1" <?php echo ($edit[0][4]=='1'?'checked':'')?> name="chkEPFEligibleFlag">
+<?php			} ?>  
 			  </td>
 			  <td width="50">&nbsp;</td>
 			  <td>ETF Date</td>
-			  <td><strong><?=(isset($_POST['txtETFDat']))?$_POST['txtETFDat']:$edit[0][12]?></strong>;</td>
+			  <td><strong><?php echo (isset($_POST['txtETFDat']))?$_POST['txtETFDat']:$edit[0][12]?></strong>;</td>
 			  </tr>
 			  <tr>
 			  <td>EPF No.</td>
-			  <td><strong><?=(isset($_POST['txtEPFNo']))?$_POST['txtEPFNo']:$edit[0][5]?></strong></td>
+			  <td><strong><?php echo (isset($_POST['txtEPFNo']))?$_POST['txtEPFNo']:$edit[0][5]?></strong></td>
 			  <td width="50">&nbsp;</td>
 			  <td>MSPS</td>
 			  <td>
-<? 			if(isset($_POST['chkMSPSEligibleFlag'])) { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkMSPSEligibleFlag" <?=($_POST['chkMSPSEligibleFlag']=='1'?'checked':'')?> value="1">
-<?			} else { ?>
-			  <input type="checkbox" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkMSPSEligibleFlag" <?=$edit[0][13]=='1'?'checked':''?> value="1">
-<?			} ?>
+<?php 			if(isset($_POST['chkMSPSEligibleFlag'])) { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkMSPSEligibleFlag" <?php echo ($_POST['chkMSPSEligibleFlag']=='1'?'checked':'')?> value="1">
+<?php			} else { ?>
+			  <input type="checkbox" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'readonly'?> name="chkMSPSEligibleFlag" <?php echo $edit[0][13]=='1'?'checked':''?> value="1">
+<?php			} ?>
 			  </td>
 			  </tr>
 			  <tr>
@@ -996,28 +996,28 @@ $list = $this->popArr['taxlist'];
 			  <td width="50">&nbsp;</td>
 			  <tr>
 			  <td>
-<?			  if(isset($_POST['optCFundCBFundFlag'])) { ?>
-			  Central Bank EPF fund</td><td><input type="radio" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="optCFundCBFundFlag" <?=($_POST['optCFundCBFundFlag']!=1)?'checked':''?> value="0">
-<?			} else { ?>
-			  Central Bank EPF fund</td><td><input type="radio" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="optCFundCBFundFlag" <?=($edit[0][6]!=1)?'checked':''?> value="0">
-<?			} ?>
+<?php			  if(isset($_POST['optCFundCBFundFlag'])) { ?>
+			  Central Bank EPF fund</td><td><input type="radio" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="optCFundCBFundFlag" <?php echo ($_POST['optCFundCBFundFlag']!=1)?'checked':''?> value="0">
+<?php			} else { ?>
+			  Central Bank EPF fund</td><td><input type="radio" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="optCFundCBFundFlag" <?php echo ($edit[0][6]!=1)?'checked':''?> value="0">
+<?php			} ?>
 			  </td>
 			  <td width="50">&nbsp;</td>
 			  <td>Employee %</td>
-			  <td><input type="text" name="txtMSPSEmployeePercen" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtMSPSEmployeePercen']))?$_POST['txtMSPSEmployeePercen']:$edit[0][14]?>"></td>
+			  <td><input type="text" name="txtMSPSEmployeePercen" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtMSPSEmployeePercen']))?$_POST['txtMSPSEmployeePercen']:$edit[0][14]?>"></td>
 			  </tr>
 			  <tr>
 			  <td>Employee %</td>
-			  <td><input type="text" name="txtEPFEmployeePercen" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtEPFEmployeePercen']))?$_POST['txtEPFEmployeePercen']:$edit[0][7]?>"></td>
+			  <td><input type="text" name="txtEPFEmployeePercen" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtEPFEmployeePercen']))?$_POST['txtEPFEmployeePercen']:$edit[0][7]?>"></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Employer %</td>
-			  <td><input type="text" name="txtMSPSEmployerPercen" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtMSPSEmployerPercen']))?$_POST['txtMSPSEmployerPercen']:$edit[0][15]?>"></td>
+			  <td><input type="text" name="txtMSPSEmployerPercen" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtMSPSEmployerPercen']))?$_POST['txtMSPSEmployerPercen']:$edit[0][15]?>"></td>
 			  </tr>
 			  <tr>
 			  <td>Employer %</td>
-			  <td><input type="text" name="txtEPFEmployerPercen" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtEPFEmployerPercen']))?$_POST['txtEPFEmployerPercen']:$edit[0][8]?>"></td>
+			  <td><input type="text" name="txtEPFEmployerPercen" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtEPFEmployerPercen']))?$_POST['txtEPFEmployerPercen']:$edit[0][8]?>"></td>
 			  </tr>
-	<? }
+	<?php }
 	
    ?>
           </table></td>
@@ -1040,31 +1040,31 @@ $list = $this->popArr['taxlist'];
         <tr>
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td><table onclick="setUpdate(5)" onkeypress="setUpdate(5)" height="350" border="0" cellpadding="0" cellspacing="0">
-<?
+<?php
 		$edit = $this->popArr['editPermResArr'];
 ?>
           <tr>
 			  <td>House No.</td>
-			  <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermHouseNo" value="<?=(isset($_POST['txtPermHouseNo']))?$_POST['txtPermHouseNo']:$edit[0][1]?>"></td>
+			  <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermHouseNo" value="<?php echo (isset($_POST['txtPermHouseNo']))?$_POST['txtPermHouseNo']:$edit[0][1]?>"></td>
 			  <td width="50">&nbsp;</td>
 			  <td>Fax</td>
-			  <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermFax" value="<?=(isset($_POST['txtPermFax']))?$_POST['txtPermFax']:$edit[0][8]?>"></td>
+			  <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermFax" value="<?php echo (isset($_POST['txtPermFax']))?$_POST['txtPermFax']:$edit[0][8]?>"></td>
              </tr>
 			 <tr>
 			 <td>Street 1</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermStreet1" value="<?=(isset($_POST['txtPermStreet1']))?$_POST['txtPermStreet1']:$edit[0][2]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermStreet1" value="<?php echo (isset($_POST['txtPermStreet1']))?$_POST['txtPermStreet1']:$edit[0][2]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td>Email</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermEmail" value="<?=(isset($_POST['txtPermEmail']))?$_POST['txtPermEmail']:$edit[0][9]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermEmail" value="<?php echo (isset($_POST['txtPermEmail']))?$_POST['txtPermEmail']:$edit[0][9]?>"></td>
 			 </tr>
 			 <tr>
 			 <td>Street 2</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermStreet2" value="<?=(isset($_POST['txtPermStreet2']))?$_POST['txtPermStreet2']:$edit[0][3]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermStreet2" value="<?php echo (isset($_POST['txtPermStreet2']))?$_POST['txtPermStreet2']:$edit[0][3]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td>Country</td>
-			 <td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> onChange="document.frmEmp.cmbPermDistrict.options[0].selected=true,qCombo(5);" name="cmbPermCountry">
+			 <td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> onChange="document.frmEmp.cmbPermDistrict.options[0].selected=true,qCombo(5);" name="cmbPermCountry">
 			 		<option value="0">-Select Country--</option>
-<?				$list = $this->popArr['rescntlist'];
+<?php				$list = $this->popArr['rescntlist'];
 				for($c=0;$list && count($list)>$c;$c++)
 					if(isset($_POST['cmbPermCountry'])) {
 						if($_POST['cmbPermCountry']==$list[$c][0])
@@ -1080,12 +1080,12 @@ $list = $this->popArr['taxlist'];
 			 </tr>
 			 <tr>
 			 <td>City/Town</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermCityTown" value="<?=(isset($_POST['txtPermCityTown']))?$_POST['txtPermCityTown']:$edit[0][4]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermCityTown" value="<?php echo (isset($_POST['txtPermCityTown']))?$_POST['txtPermCityTown']:$edit[0][4]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td>State</td>
-			 <td><select onChange="qCombo(5)" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermProvince">
+			 <td><select onChange="qCombo(5)" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermProvince">
 			 		<option value="0">-Select State-</option>
-<?			if(isset($_POST['cmbPermCountry'])) {
+<?php			if(isset($_POST['cmbPermCountry'])) {
 				$plist = $this->popArr['resplist'];
 				for($c=0;$plist && count($plist)>$c;$c++)
 					if(isset($_POST['cmbPermProvince'])) {
@@ -1110,12 +1110,12 @@ $list = $this->popArr['taxlist'];
 			 </tr>
 			 <tr>
 			 <td>Post Code</td>
-			 <td><input type="text" name="txtPermPostCode" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?=(isset($_POST['txtPermPostCode']))?$_POST['txtPermPostCode']:$edit[0][5]?>"></td>
+			 <td><input type="text" name="txtPermPostCode" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($_POST['txtPermPostCode']))?$_POST['txtPermPostCode']:$edit[0][5]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td>County</td>
-			 <td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermDistrict">
+			 <td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermDistrict">
 			 		<option value="0">-Select County-</option>
-<?			if(isset($_POST['cmbPermProvince'])) {
+<?php			if(isset($_POST['cmbPermProvince'])) {
 				$dlist = $this->popArr['resdlist'];
 				for($c=0;$dlist && count($dlist)>$c;$c++)
 					if(isset($_POST['cmbPermDistrict'])) {
@@ -1141,12 +1141,12 @@ $list = $this->popArr['taxlist'];
 			 </tr>
 			 <tr>
 			 <td>Telephone</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermTelep" value="<?=(isset($_POST['txtPermTelep']))?$_POST['txtPermTelep']:$edit[0][6]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermTelep" value="<?php echo (isset($_POST['txtPermTelep']))?$_POST['txtPermTelep']:$edit[0][6]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td>Electorate</td>
-			 <td><select <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermElectorate">
+			 <td><select <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="cmbPermElectorate">
 			 		<option value="0">-Select Electorate-</option>
-<?
+<?php
 			$elelist = $this->popArr['elelist'];
 			for($c=0;$elelist && count($elelist)>$c;$c++)
 				if(isset($_POST['cmbPermElectorate'])) {
@@ -1164,7 +1164,7 @@ $list = $this->popArr['taxlist'];
 			 </tr>
 			 <tr>
 			 <td>Mobile</td>
-			 <td><input type="text" <?=(isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermMobile" value="<?=(isset($_POST['txtPermMobile']))?$_POST['txtPermMobile']:$edit[0][7]?>"></td>
+			 <td><input type="text" <?php echo (isset($_POST['EditMode']) && $_POST['EditMode']=='1') ? '' : 'disabled'?> name="txtPermMobile" value="<?php echo (isset($_POST['txtPermMobile']))?$_POST['txtPermMobile']:$edit[0][7]?>"></td>
 			 </tr>
 			 </table></td>
           <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -1188,11 +1188,11 @@ $list = $this->popArr['taxlist'];
           <td><table height="200" border="0" cellpadding="0" cellspacing="0">
 
           <input type="hidden" name="passportSTAT" value="">
-<?		
+<?php		
 		if(!isset($this->getArr['PPSEQ'])) {
 ?>
           <tr>
-              <input type="hidden" name="txtPPSeqNo" value="<?=$this->popArr['newPPID']?>">
+              <input type="hidden" name="txtPPSeqNo" value="<?php echo $this->popArr['newPPID']?>">
 			  <td>Passport <input type="radio" checked name="PPType" value="1"></td><td> Visa <input type="radio" name="PPType" value="2"></td>
 			  <td width="50">&nbsp;</td>
 		  	  <td>Issued Place</td>
@@ -1216,7 +1216,7 @@ $list = $this->popArr['taxlist'];
                 <td>Country</td>
                 <td><select name="cmbPPCountry">
                 		<option value="0">-Select Country-</option>
-<?				$list = $this->popArr['ppcntlist'];
+<?php				$list = $this->popArr['ppcntlist'];
 				for($c=0;$list && count($list)>$c;$c++)
 				    echo "<option value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
 ?>			 
@@ -1253,7 +1253,7 @@ $list = $this->popArr['taxlist'];
 						 <td><strong>Issued Date</strong></td>
 						 <td><strong>Expiry Date</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empPPAss'];
 
     for($c=0;$rset && $c < count($rset); $c++)
@@ -1265,7 +1265,7 @@ $list = $this->popArr['taxlist'];
             else
             	$fname="Visa";
 
-            ?> <td><a href="#" onmousedown="viewPassport(<?=$rset[$c][1]?>)" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewPassport(<?php echo $rset[$c][1]?>)" ><?php echo $fname?></a></td> <?php
             echo '<td>' . $rset[$c][2] .'</td>';
             echo '<td>' . $rset[$c][9] .'</td>';
             $dtPrint = explode(" ",$rset[$c][3]);
@@ -1280,30 +1280,30 @@ $list = $this->popArr['taxlist'];
 ?>
 
           <tr>
-              <input type="hidden" name="txtPPSeqNo" value="<?=$edit[0][1]?>">
-			  <td>Passport <input type="radio" checked disabled name="PPType" value="1"></td><td> Visa <input type="radio" disabled name="PPType" <?=($edit[0][8]=='2')?'checked':''?> value="2"></td>
+              <input type="hidden" name="txtPPSeqNo" value="<?php echo $edit[0][1]?>">
+			  <td>Passport <input type="radio" checked disabled name="PPType" value="1"></td><td> Visa <input type="radio" disabled name="PPType" <?php echo ($edit[0][8]=='2')?'checked':''?> value="2"></td>
 			  <td width="50">&nbsp;</td>
 		  	  <td>Issued Place</td>
-		  	  <td><input type="text" name="txtPPIssPlace" disabled value="<?=$edit[0][4]?>"></td>
+		  	  <td><input type="text" name="txtPPIssPlace" disabled value="<?php echo $edit[0][4]?>"></td>
               </tr>
               <tr>
                 <td>Passport/Visa No</td>
-                <td><input type="text" name="txtPPNo" disabled value="<?=$edit[0][2]?>"></td>
+                <td><input type="text" name="txtPPNo" disabled value="<?php echo $edit[0][2]?>"></td>
                 <td width="50">&nbsp;</td>
                 <td>Issued Date</td>
-                <td><input type="text" name="txtPPIssDat" readonly value=<?=$edit[0][3]?>>&nbsp;<input type="button" disabled class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
+                <td><input type="text" name="txtPPIssDat" readonly value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" disabled class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
               </tr>
               <tr>
                 <td>Passport/Visa Type</td>
-                <td><input name="txtVisaType" type="text" disabled value="<?=$edit[0][7]?>">
+                <td><input name="txtVisaType" type="text" disabled value="<?php echo $edit[0][7]?>">
                 <td width="50">&nbsp;</td>
                 <td>Date of Expiry</td>
-                <td><input type="text" name="txtPPExpDat" readonly value=<?=$edit[0][5]?>>&nbsp;<input type="button" disabled class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPExpDat);return false;"></td>
+                <td><input type="text" name="txtPPExpDat" readonly value=<?php echo $edit[0][5]?>>&nbsp;<input type="button" disabled class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPExpDat);return false;"></td>
               </tr>
               <tr>
                 <td>Country</td>
                 <td><select disabled name="cmbPPCountry">
-<?				$list = $this->popArr['ppcntlist'];
+<?php				$list = $this->popArr['ppcntlist'];
 				for($c=0;count($list)>$c;$c++)
 					if($edit[0][9]==$list[$c][0])
 					    echo "<option selected value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
@@ -1313,10 +1313,10 @@ $list = $this->popArr['taxlist'];
 				</td>
 				<td width="50">&nbsp;</td>
 				<td>Comments</td>
-				<td><textarea disabled name="PPComment"><?=$edit[0][6]?></textarea></td>
+				<td><textarea disabled name="PPComment"><?php echo $edit[0][6]?></textarea></td>
 				<tr>
 				  <td>No of Entries</td>
-				  <td><input type="text" disabled name="txtPPNoOfEntries" value="<?=$edit[0][10]?>"></td>
+				  <td><input type="text" disabled name="txtPPNoOfEntries" value="<?php echo $edit[0][10]?>"></td>
 				  <td width="50">&nbsp;</td>
 				  <td width="50">&nbsp;</td>
 				  <td>
@@ -1342,7 +1342,7 @@ $list = $this->popArr['taxlist'];
 						 <td><strong>Issued Date</strong></td>
 						 <td><strong>Expiry Date</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empPPAss'];
 
     for($c=0;$rset && $c < count($rset); $c++)
@@ -1354,7 +1354,7 @@ $list = $this->popArr['taxlist'];
             else
             	$fname="Visa";
 
-            ?> <td><a href="#" onmousedown="viewPassport(<?=$rset[$c][1]?>)" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewPassport(<?php echo $rset[$c][1]?>)" ><?php echo $fname?></a></td> <?php
             echo '<td>' . $rset[$c][2] .'</td>';
             echo '<td>' . $rset[$c][9] .'</td>';
             $dtPrint = explode(" ",$rset[$c][3]);
@@ -1388,7 +1388,7 @@ $list = $this->popArr['taxlist'];
 
           <input type="hidden" name="brchSTAT" value="">
 
-<?   
+<?php   
 if(isset($this->getArr['BRCH'])) {
 	
 		$edit = $this->popArr['editBankForm'];
@@ -1401,31 +1401,31 @@ if(isset($this->getArr['BRCH'])) {
 		?>
           <tr> 
 				<td>Bank Name</td> <td></td>
-				<td><strong><?=$brchlist[$a][3]?></strong></td>
+				<td><strong><?php echo $brchlist[$a][3]?></strong></td>
 				<td width="50">&nbsp;</td>
 				
 				<td>Account Type</td>
 				<td><input type="radio" name="optAccType" disabled checked value="1">Current</td>
 
-<?				if($edit[0][3]==2) { ?>
+<?php				if($edit[0][3]==2) { ?>
 					<td><input type="radio" disabled name="optAccType" checked value="2">Savings</td>
-<?				} else { ?>
+<?php				} else { ?>
 					<td><input type="radio" disabled name="optAccType" value="2">Savings</td>
-<?				} ?>
+<?php				} ?>
               </tr>
               <tr>
               	
                 <td>Branch Name</td> <td></td>
-                <td><input type="hidden" name="cmbBranchCode" value="<?=$edit[0][0]?>">
-                    <strong><?=$brchlist[$a][1]?></strong>
+                <td><input type="hidden" name="cmbBranchCode" value="<?php echo $edit[0][0]?>">
+                    <strong><?php echo $brchlist[$a][1]?></strong>
 				</td>
 				<td width="50">&nbsp;</td>
 				<td>Amount</td>
-				<td><strong><?=$edit[0][4]?></strong></td>
+				<td><strong><?php echo $edit[0][4]?></strong></td>
 			</tr>
 			<tr>
 				<td>Account No</td>
-				<td><strong><?=$edit[0][2]?></strong></td>
+				<td><strong><?php echo $edit[0][2]?></strong></td>
 				
 				
 			</tr>
@@ -1440,7 +1440,7 @@ if(isset($this->getArr['BRCH'])) {
 						 <td><strong>Account Type</strong></td>
 						 <td><strong>Amount</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empBankAss'];
     $brchlist = $this->popArr['brchlistAll'];
 	$bankname='';
@@ -1454,7 +1454,7 @@ if(isset($this->getArr['BRCH'])) {
                     $bankname=$brchlist[$a][3];
                     break;
                  }
-            ?> <td><a href="#" onmousedown="viewBranch('<?=$rset[$c][1]?>')" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewBranch('<?php echo $rset[$c][1]?>')" ><?php echo $fname?></a></td> <?php
             echo '<td>' . $bankname .'</td>';     
             echo '<td>' . $rset[$c][2] .'</td>';
 			if($rset[$c][3]==1)
@@ -1474,7 +1474,7 @@ if(isset($this->getArr['BRCH'])) {
 						 <td><strong>Account Type</strong></td>
 						 <td><strong>Amount</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empBankAss'];
     $brchlist = $this->popArr['brchlistAll'];
 	$bankname='';
@@ -1488,7 +1488,7 @@ if(isset($this->getArr['BRCH'])) {
                     $bankname=$brchlist[$a][3];
                     break;
                  }
-            ?> <td><a href="#" onmousedown="viewBranch('<?=$rset[$c][1]?>')" ><?=$fname?></a></td> <?
+            ?> <td><a href="#" onmousedown="viewBranch('<?php echo $rset[$c][1]?>')" ><?php echo $fname?></a></td> <?php
             echo '<td>' . $bankname .'</td>';     
             echo '<td>' . $rset[$c][2] .'</td>';
 			if($rset[$c][3]==1)
@@ -1524,13 +1524,13 @@ if(isset($this->getArr['BRCH'])) {
           <td><table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
 		
 
-<?  if(isset($this->getArr['ATTACH'])) {
+<?php  if(isset($this->getArr['ATTACH'])) {
 		$edit = $this->popArr['editAttForm'];
 ?>
-              <input type="hidden" name="seqNO" value="<?=$edit[0][1]?>">
+              <input type="hidden" name="seqNO" value="<?php echo $edit[0][1]?>">
               <tr>
               	<td>Description</td>
-              	<td><strong><?=$edit[0][2]?></strong>></td>
+              	<td><strong><?php echo $edit[0][2]?></strong>></td>
               </tr>
               <tr>
               	<td><input type="button" value="Show File" class="buton" onclick="dwPopup()"></td>
@@ -1549,14 +1549,14 @@ if(isset($this->getArr['BRCH'])) {
 						 <td><strong>Size</strong></td>
 						 <td><strong>Type</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empAttAss'] ;
 
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
 
-            ?> <td><a href="#" title="<?=$rset[$c][2]?>" onmousedown="viewAttach('<?=$rset[$c][1]?>')" ><?=$rset[$c][3]?></a></td> <?
+            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
             echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
@@ -1564,7 +1564,7 @@ if(isset($this->getArr['BRCH'])) {
 ?>
 
 
-<? }else { ?>
+<?php }else { ?>
     <table border="0" width="450" align="center" class="tabForm">
 			
 			        <tr>
@@ -1572,14 +1572,14 @@ if(isset($this->getArr['BRCH'])) {
 						 <td><strong>Size</strong></td>
 						 <td><strong>Type</strong></td>
 					</tr>
-<?
+<?php
 	$rset = $this->popArr['empAttAss'] ;
 
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
 
-            ?> <td><a href="#" title="<?=$rset[$c][2]?>" onmousedown="viewAttach('<?=$rset[$c][1]?>')" ><?=$rset[$c][3]?></a></td> <?
+            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
             echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';

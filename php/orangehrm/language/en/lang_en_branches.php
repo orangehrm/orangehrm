@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		= 'Branches Information : Bank Info';
 $code			= 'Code';
 $bank	        = 'Bank';

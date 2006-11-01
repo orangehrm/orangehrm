@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 
@@ -68,7 +68,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 function goBack() {
 
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 
 	}
 
@@ -126,7 +126,7 @@ function goBack() {
 
     <td valign='top'></td>
 
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
 
@@ -140,7 +140,7 @@ function goBack() {
 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 
-<form name="frmEmpStat" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>">
+<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
 
 
@@ -154,7 +154,7 @@ function goBack() {
 
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
 
-      <?
+      <?php
 
 		if (isset($this->getArr['msg'])) {
 
@@ -206,15 +206,15 @@ function goBack() {
 
                   			  <tr> 
 
-							    <td><?=$code?></td>
+							    <td><?php echo $code?></td>
 
-							    <td><strong><?=$this->popArr['newID'] ?></strong></td>
+							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
 
 							  </tr>
 
 							  <tr> 
 
-							    <td nowrap><span class="error">*</span> <?=$description?></td>
+							    <td nowrap><span class="error">*</span> <?php echo $description?></td>
 
 							    <td> <textarea name='txtEmpStatDesc' rows="3" tabindex='3' cols="30"></textarea></td>
 
@@ -256,7 +256,7 @@ function goBack() {
 
 </html>
 
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 
 	 
 
@@ -372,7 +372,7 @@ return flag;
 
 
 
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 
 	}
 
@@ -486,7 +486,7 @@ function edit()
 
     <td valign='top'> </td>
 
-    <td width='100%'><h2><?=$heading?></h2></td>
+    <td width='100%'><h2><?php echo $heading?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='../../index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
 
@@ -500,7 +500,7 @@ function edit()
 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 
-<form name="frmEmpStat" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>&capturemode=updatemode">
+<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
 
 
@@ -514,7 +514,7 @@ function edit()
 
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
 
-      <?
+      <?php
 
 		if (isset($this->getArr['msg'])) {
 
@@ -562,31 +562,31 @@ function edit()
 
 							  <tr> 
 
-							    <td><?=$code?></td>
+							    <td><?php echo $code?></td>
 
-							    <td> <input type="hidden" name="txtEmpStatID" value=<?=$message[0][0]?> ><strong><?=$message[0][0]?></strong> </td>
+							    <td> <input type="hidden" name="txtEmpStatID" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
 
 							  </tr>
 
 							  <tr> 
 
-							    <td nowrap><span class="error">*</span> <?=$description?></td>
+							    <td nowrap><span class="error">*</span> <?php echo $description?></td>
 
-							  	<td> <textarea name='txtEmpStatDesc' disabled rows="3" tabindex='3' cols="30"><?=$message[0][1]?></textarea></td>
+							  	<td> <textarea name='txtEmpStatDesc' disabled rows="3" tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
 
 							  </tr>
 
 					  <tr><td></td><td align="right" width="100%">
 
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 
-<?			} else { ?>
+<?php			} else { ?>
 
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 
-<?			}  ?>
+<?php			}  ?>
 
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 
@@ -624,4 +624,4 @@ function edit()
 
 </html>
 
-<? } ?>
+<?php } ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		   = 'JD Key Result Area : Job Profile';
 $code			   = 'Code';
 $description	   = 'Description';

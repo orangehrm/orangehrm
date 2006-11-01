@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -105,10 +105,10 @@ body {
 	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
 	</strong>
 </noscript>
-<? if (isset($_COOKIE['Loggedin']) && isset($_SERVER['HTTP_REFERER'])) { ?>
+<?php if (isset($_COOKIE['Loggedin']) && isset($_SERVER['HTTP_REFERER'])) { ?>
 	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were inactive. Please re-login.</font>
 	</strong>
-<? } ?>
+<?php } ?>
 
 <!-- ImageReady Slices (orange_new.psd) -->
 <table id="Table_01" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -148,11 +148,11 @@ body {
             <tr>
               <td align="right" class="bodyTXT">Login Name : </td>
               <td>
-<?		if(isset($_POST['txtUserName'])) {?>
-              <input name="txtUserName" type="text" class="loginTXT" size="10" value="<?=$_POST['txtUserName']?>">
-<?		} else { ?>
+<?php		if(isset($_POST['txtUserName'])) {?>
+              <input name="txtUserName" type="text" class="loginTXT" size="10" value="<?php echo $_POST['txtUserName']?>">
+<?php		} else { ?>
               <input name="txtUserName" type="text" class="loginTXT" size="10" >
-<?		} ?>
+<?php		} ?>
               </td>
             </tr>
             <tr>
@@ -165,7 +165,7 @@ body {
             </tr>
             <tr>
              	<td></td>
-<?
+<?php
 			if(isset($InvalidLogin)) {
 			   switch ($InvalidLogin) {
 			   	
@@ -225,7 +225,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.0a1 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 1.2.1 &copy; hSenid Software 2005 - 2006 All rights reserved.</td>
 </tr>
 </table>
 

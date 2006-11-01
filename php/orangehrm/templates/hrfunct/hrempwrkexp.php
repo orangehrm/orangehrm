@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -142,19 +142,19 @@ function editEXTWrkExp() {
 
 function delEXTWrkExp() {
 	
-      var check = 0;
-		with (document.frmEmp) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
+	var check = false;
+	with (document.frmEmp) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].name == 'chkwrkexpdel[]') && (elements[i].checked == true)) {
+				check = true;
 			}
-        }
+		}
+	}
 
-        if(check==0) {
-              alert("Select atleast one check box");
-              return;
-        }
+	if(!check) {
+		alert('Select at least one record to Delete')
+		return;
+	}
 
 
     //alert(cntrl.value);
@@ -170,93 +170,93 @@ function viewWrkExp(wrkexp) {
 }
 
 </script>
-<? if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
     <input type="hidden" name="wrkexpSTAT" value="">
 
-<?
+<?php
 if(isset($this->popArr['editWrkExpArr'])) {
     $edit = $this->popArr['editWrkExpArr'];
 ?>
-    		 <input type="hidden" name="txtEmpExpID" value="<?=$this->getArr['WRKEXP']?>">
+    		 <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>">
 
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
-                      <td><?=$employer?></td>
-    				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?=$edit[0][2]?>"></td>
+                      <td><?php echo $employer?></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
-					  <td nowrap><?=$startdate?></td>
-					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?=$edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
+					  <td nowrap><?php echo $startdate?></td>
+					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?php echo $edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr> 
-						<td><?=$jobtitle?></td>
-						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?=$edit[0][3]?>"></td>
+						<td><?php echo $jobtitle?></td>
+						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
-						<td nowrap><?=$enddate?></td>
-						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?=$edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td nowrap><?php echo $enddate?></td>
+						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
 					  <tr valign="top">
-						<td><?=$briefdes?></td>
-						<td> <textarea disabled name="txtEmpExpComments"><?=$edit[0][6]?></textarea></td>
+						<td><?php echo $briefdes?></td>
+						<td> <textarea disabled name="txtEmpExpComments"><?php echo $edit[0][6]?></textarea></td>
     				  	<td width="50">&nbsp;</td>
-						<td width="50"><?=$internal?></td>
-						<td width="50"><input type="checkbox" name="chkEmpExpInternal" disabled value="1" <?=(isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
+						<td width="50"><?php echo $internal?></td>
+						<td width="50"><input type="checkbox" name="chkEmpExpInternal" disabled value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
 						<td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?		if($locRights['edit']) { ?>
+		<?php		if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editWrkExp();">
-		<?		} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-		<?		} 	 ?>
+		<?php		} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+		<?php		} 	 ?>
 						</td>
 	    </tr>
 </table>
 
-<? } else { ?>
+<?php } else { ?>
 
-		<input type="hidden" name="txtEmpExpID"  value="<?=$this->popArr['newWrkExpID']?>">
+		<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>">
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
-            <td><?=$employer?></td>
-            <td><input type="text" name="txtEmpExpEmployer" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td><?php echo $employer?></td>
+            <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
-            <td nowrap><?=$startdate?></td>
-            <td nowrap><input type="text" name="txtEmpExpFromDate" readonly />
+            <td nowrap><?php echo $startdate?></td>
+            <td nowrap><input type="text" name="txtEmpExpFromDate" readonly value="0000-00-00">
               &nbsp;
-              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
+              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
-            <td><?=$jobtitle?></td>
-            <td><input type="text" name="txtEmpExpJobTitle" <?=$locRights['add'] ? '':'disabled'?> /></td>
+            <td><?php echo $jobtitle?></td>
+            <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
-            <td nowrap><?=$enddate?></td>
-            <td nowrap><input type="text" name="txtEmpExpToDate" readonly />
+            <td nowrap><?php echo $enddate?></td>
+            <td nowrap><input type="text" name="txtEmpExpToDate" readonly value="0000-00-00">
               &nbsp;
-              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?=$locRights['add'] ? '':'disabled'?> /></td>
+              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">
-            <td><?=$briefdes?></td>
-            <td><textarea <?=$locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
+            <td><?php echo $briefdes?></td>
+            <td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
             <td width="50">&nbsp;</td>
-			<td width="50"><?=$internal?></td>
-			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?=$locRights['add'] ? '':'disabled'?> value="1"/></td>
+			<td width="50"><?php echo $internal?></td>
+			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?php echo $locRights['add'] ? '':'disabled'?> value="1"/></td>
 			<td width="50">&nbsp;</td>
           </tr>
           <tr>
             <td valign="top"></td>
-            <td align="left" valign="top"><?	if($locRights['add']) { ?>
+            <td align="left" valign="top"><?php	if($locRights['add']) { ?>
                 <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
-                <? 	} else { ?>
-                <img onclick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg" />
-                <?	} ?>
+                <?php 	} else { ?>
+                <img onclick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg" />
+                <?php	} ?>
             </td>
           </tr>
         </table>
-		<? } ?>
+		<?php } ?>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -265,21 +265,21 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
   <tr>
 
-    <td width='100%'><h3><?=$assignworkex?></h3></td>
+    <td width='100%'><h3><?php echo $assignworkex?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
    <td>
-<?	if($locRights['add']) { ?>
+<?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(17);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<? 	} else { ?>
-		<img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
-<? } ?>
-<?	if($locRights['delete']) { ?>
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
+<?php } ?>
+<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} else { ?>
-        <img onClick="alert('<?=$sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<? 	} ?>
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
@@ -288,20 +288,20 @@ if(isset($this->popArr['editWrkExpArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td width="125"><strong><?=$workexid?></strong></td>
-						 <td width="135"><strong><?=$employer?></strong></td>
-						 <td width="65"><strong><?=$startdate?></strong></td>
-						 <td width="65"><strong><?=$enddate?></strong></td>
-						 <td><strong><?=$internal?></strong></td>
+						 <td width="125"><strong><?php echo $workexid?></strong></td>
+						 <td width="135"><strong><?php echo $employer?></strong></td>
+						 <td width="65"><strong><?php echo $startdate?></strong></td>
+						 <td width="65"><strong><?php echo $enddate?></strong></td>
+						 <td><strong><?php echo $internal?></strong></td>
 					</tr>
-<?
+<?php
 
 $rset = $this->popArr['rsetWrkExp'];
 
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?><td><a href="javascript:viewWrkExp('<?=$rset[$c][1]?>')"><?=$rset[$c][1]?></a></td><?
+            ?><td><a href="javascript:viewWrkExp('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][1]?></a></td><?php
             echo '<td>' . $rset[$c][2] .'</td>';
             $str = explode(" ",$rset[$c][4]);
             echo '<td>' . $str[0] .'</td>';
@@ -314,4 +314,4 @@ $rset = $this->popArr['rsetWrkExp'];
 ?>
 </table>
       
-<? } ?>
+<?php } ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -30,7 +30,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <script>		
 
 function echeck(str) {
@@ -98,7 +98,7 @@ function popEmpList() {
 }
 
 function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?=$_GET['isAdmin']?>";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?php echo $_GET['isAdmin']?>";
 	}
 
 	function addSave() {
@@ -155,21 +155,21 @@ function goBack() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?=(isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2><?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?uniqcode=<?=$this->getArr['uniqcode']?>&isAdmin=<?=$_GET['isAdmin']?>">
+<form name="frmUsers" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&isAdmin=<?php echo $_GET['isAdmin']?>">
 
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -196,7 +196,7 @@ function goBack() {
                   <td width="450"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
 							    <td>Code</td>
-							    <td><strong><?=$this->popArr['newID']?></strong></td>
+							    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -222,15 +222,15 @@ function goBack() {
 						   			<option>Disabled</option>
 						   		  </select></td>
 							  <td></td>
-							  <td><span id="lyrEmpID" class="error"><?=($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee</td>
+							  <td><span id="lyrEmpID" class="error"><?php echo ($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee</td>
 							  <td nowrap="nowrap"><input type="text" readonly name="txtUserEmpID"><input type="hidden" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
 						   </tr>
-						   <? if ($_GET['isAdmin'] == 'Yes') { ?>
+						   <?php if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   							   
 							   <td><span class="error">*</span> User Group</div></td>
 							   <td><select name="cmbUserGroupID" id ="cmbUserGroupID">
 							  		<option value="0">--Select UserGroup--</option>
-<?									$uglist=$this->popArr['uglist'] ; 
+<?php									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 ?>							  
@@ -239,9 +239,9 @@ function goBack() {
 							   <td>&nbsp;</td>
 							   <td><input type="hidden" name="chkUserIsAdmin" value="true"></td>							   
 						   </tr>
-						  <? } else { ?>						  
+						  <?php } else { ?>						  
 						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
-						   <? } ?>
+						   <?php } ?>
 					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
 					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 					  <td></td></tr>
@@ -262,7 +262,7 @@ function goBack() {
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	$message = $this->popArr['editArr'];
 ?>
 
@@ -271,7 +271,7 @@ function goBack() {
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<? require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <script>			
 function echeck(str) {
 
@@ -333,7 +333,7 @@ return flag;
 
 
 	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?=$this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?=$_GET['isAdmin']?>";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?php echo $_GET['isAdmin']?>";
 	}
 
 function mout() {
@@ -415,14 +415,14 @@ function edit() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?=(isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2><?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmUsers" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&uniqcode=<?=$this->getArr['uniqcode']?>&isAdmin=<?=$_GET['isAdmin']?>">
+<form name="frmUsers" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&isAdmin=<?php echo $_GET['isAdmin']?>">
 
   <tr> 
     <td height="27" valign='top'> <p>
@@ -430,7 +430,7 @@ function edit() {
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-      <?
+      <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
@@ -456,14 +456,14 @@ function edit() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
 							    <td>Code</td>
-							    <td> <input type="hidden"  name="txtUserID" value=<?=$message[0][0]?>> <strong><?=$message[0][0]?></strong> </td>
+							    <td> <input type="hidden"  name="txtUserID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 								<td></td>
 								<td></td>
 								<td></td>
 						  </tr>
 						  <tr> 
 							    <td valign="top" nowrap><span class="error">*</span> User Name</td>
-							    <td><input type="text" name="txtUserName" disabled value="<?=$message[0][1]?>"></td>
+							    <td><input type="text" name="txtUserName" disabled value="<?php echo $message[0][1]?>"></td>
 								<td></td>
 								<td valign="top" nowrap></td>
 							  	<td></td>
@@ -472,18 +472,18 @@ function edit() {
 						  	  <td>Status</td>
 							  <td><select name="cmbUserStatus" disabled>
 							   			<option>Enabled</option>
-							   			<option <?=$message[0][8]=='Disabled' ? 'selected' : ''?>>Disabled</option>
+							   			<option <?php echo $message[0][8]=='Disabled' ? 'selected' : ''?>>Disabled</option>
 							   	</select></td>
 							  <td></td>
-							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?=($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
-							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?=$message[0][2]?><?=(isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?=$message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
+							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?php echo ($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
+							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?php echo $message[0][2]?><?php echo (isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?php echo $message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
-						<? if ($_GET['isAdmin'] == 'Yes') { ?>
+						<?php if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   
 							   <td valign="top" nowrap><span class="error">*</span> User Group</td>
 							   <td><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
-<?									$uglist=$this->popArr['uglist'] ; 
+<?php									$uglist=$this->popArr['uglist'] ; 
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										if($message[0][9]==$uglist[$c][0])
 											echo "<option selected value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
@@ -492,20 +492,20 @@ function edit() {
 ?>							  
 							  </select></td>
 							  <td>&nbsp;</td>
-							   <td><? if ($message[0][3]=='Yes') { ?>
+							   <td><?php if ($message[0][3]=='Yes') { ?>
 							   		<input type="hidden" name="chkUserIsAdmin" value="true">
-								   <? } ?></td>
+								   <?php } ?></td>
 							   <td></td>
 						   </tr>
-						   <? } else { ?>						  
+						   <?php } else { ?>						  
 						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
-						   <? } ?>
+						   <?php } ?>
 					  <tr><td></td><td align="right" width="100%">
-<?			if($locRights['edit']) { ?>
+<?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?=$sysConst->accessDenied?>');">
-<?			}  ?>
+<?php			} else { ?>
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+<?php			}  ?>
 									  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 
                   </table></td>
@@ -525,4 +525,4 @@ function edit() {
 <span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
 </body>
 </html>
-<? } ?>
+<?php } ?>

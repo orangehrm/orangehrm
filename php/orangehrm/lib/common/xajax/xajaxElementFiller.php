@@ -1,4 +1,4 @@
-<?
+<?php
 class xajaxElementFiller {
 	
 	function xajaxElementFiller() { 

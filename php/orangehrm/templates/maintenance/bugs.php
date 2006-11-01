@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -75,7 +75,7 @@ return flag;
 
 
 function goBack() {
-		location.href = "./CentralController.php?mtcode=<?=$this->getArr['mtcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?mtcode=<?php echo $this->getArr['mtcode']?>&VIEW=MAIN";
 	}
 
 	function addSave() {
@@ -124,13 +124,13 @@ function goBack() {
 
 <p>
 <table width="500" border="0" cellspacing="0" cellpadding="0" ><!--DWLayoutTable--><td width="177">
-<form name="frmBugs" method="post" action="<?=$_SERVER['PHP_SELF']?>?mtcode=<?=$this->getArr['mtcode']?>">
+<form name="frmBugs" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?mtcode=<?php echo $this->getArr['mtcode']?>">
   <tr> 
         <td height="27" valign='top'> <p> <!--<img title="Back" onmouseout="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onclick="goBack();">-->
             <input type="hidden" name="sqlState" value="">
           </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
-          <?
+          <?php
 		if (isset($this->getArr['message'])) {
 			$expString  = $this->getArr['message'];
 			$expString = explode ("%",$expString);
@@ -160,7 +160,7 @@ function goBack() {
                     
   <tr> 
      <td>Found in Release</td>
-    <td><strong>v2.0a1</strong><input type="hidden" readonly name="artifact_group_id" value="643435"></td>
+    <td><strong>v1.2.1</strong><input type="hidden" readonly name="artifact_group_id" value="655260"></td>
   </tr>
   <tr> 
     <td>Category</td>
@@ -178,7 +178,7 @@ function goBack() {
     <td>Module</td>
     <td><select name="cmbModule">
         		<option value="0">--Select Module--</option>
-    <?  $module = $this->popArr['module'];
+    <?php  $module = $this->popArr['module'];
     	 for($c=0;$c < count($module);$c++)
             echo "<option>" . $module[$c][1] ."</option>";
     ?></td>
@@ -193,7 +193,7 @@ function goBack() {
     <td>Summary</td>
     <td><input type="text" name="summary"></td> 
     <td>Your Email</td>
-    <td><input type="text" name="txtEmail" value="<?=isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"></td> 
+    <td><input type="text" name="txtEmail" value="<?php echo isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"></td> 
    
   </tr>
    <tr> 
@@ -221,7 +221,7 @@ function goBack() {
 <p> 
 </body>
 </html>
-<? } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this->popArr['editArr'];
 ?>
 
@@ -277,7 +277,7 @@ return flag;
 }
 
 	function goBack() {
-		location.href = "./CentralController.php?mtcode=<?=$this->getArr['mtcode']?>&VIEW=MAIN";
+		location.href = "./CentralController.php?mtcode=<?php echo $this->getArr['mtcode']?>&VIEW=MAIN";
 	}
 
 function mout() {
@@ -335,7 +335,7 @@ function edit()
 <p>
 <p> 
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmBugs" method="post" action="<?=$_SERVER['PHP_SELF']?>?id=<?=$this->getArr['id']?>&mtcode=<?=$this->getArr['mtcode']?>">
+<form name="frmBugs" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&mtcode=<?php echo $this->getArr['mtcode']?>">
   <tr> 
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
@@ -356,26 +356,26 @@ function edit()
                   <td><table border="0" cellpadding="5" cellspacing="0" class="">
 			<tr> 
     <td>Bug ID</td>
-    <td><input type="hidden" name="txtID" value=<?=$message[0][0]?>><strong><?=$message[0][0]?></strong></td>
+    <td><input type="hidden" name="txtID" value=<?php echo $message[0][0]?>><strong><?php echo $message[0][0]?></strong></td>
   </tr>
   <tr> 
     <td>Bug Number</td>
-    <td><input type="hidden" name="txtBugNumber" value="<?=$message[0][1]?>"><strong><?=$message[0][1]?></strong></td>
+    <td><input type="hidden" name="txtBugNumber" value="<?php echo $message[0][1]?>"><strong><?php echo $message[0][1]?></strong></td>
     <td>Entered Date</td> 
     
-    <?
+    <?php
     $arr = explode(" ",$message[0][16]);
     ?>
-    <td><input type="hidden" name="txtDate" value=<?=$message[0][16]?>><strong><?=$arr[0]?></strong></td>
+    <td><input type="hidden" name="txtDate" value=<?php echo $message[0][16]?>><strong><?php echo $arr[0]?></strong></td>
   </tr>
   <tr> 
    <td>Name</td>
-    <td><input type="hidden" name="txtName" value=<?=$message[0][9]?>>
-    <strong><?=$message[0][9]?></strong></td>
+    <td><input type="hidden" name="txtName" value=<?php echo $message[0][9]?>>
+    <strong><?php echo $message[0][9]?></strong></td>
     
     <td>Created By</td>
     <td><strong>
-    <?  $user = $this->popArr['user'];
+    <?php  $user = $this->popArr['user'];
     for($c=0;$c < count($user);$c++){
             if($user[$c][0]==$message[0][17])
                echo $user[$c][1];
@@ -385,7 +385,7 @@ function edit()
   <tr> 
     <td>Status</td>
     <td><select name="cmbStatus" disabled>
-    <?  $status = $this->popArr['status'];
+    <?php  $status = $this->popArr['status'];
     	  for($c=0;$c < count($status);$c++){
             if($status[$c]==$message[0][13])
                echo "<option selected value='" . $status[$c] . "'>" . $status[$c] ."</option>";
@@ -394,12 +394,12 @@ function edit()
         }
     ?></td>
     <td>Source</td>
-    <td><input type="hidden" name="txtSource" value="<?=$message[0][12]?>"><strong><?=$message[0][12]?></strong></td>
+    <td><input type="hidden" name="txtSource" value="<?php echo $message[0][12]?>"><strong><?php echo $message[0][12]?></strong></td>
   </tr>
   <tr> 
     <td>Resolution</td>
     <td><select name="cmbResolution" disabled>
-    <?  $resolution = $this->popArr['resolution'];
+    <?php  $resolution = $this->popArr['resolution'];
     	  for($c=0;$c < count($resolution);$c++){
             if($resolution[$c]==$message[0][11])
                echo "<option selected value='" . $resolution[$c] . "'>" . $resolution[$c] ."</option>";
@@ -408,7 +408,7 @@ function edit()
         }
     ?></td>
     <td>Found in Release</td>
-    <td><strong> <?  $ver = $this->popArr['version'];
+    <td><strong> <?php  $ver = $this->popArr['version'];
     for($c=0;$c < count($ver);$c++){
             if($ver[$c][0]==$message[0][18])
                echo $ver[$c][1];
@@ -418,7 +418,7 @@ function edit()
   <tr> 
     <td>Priority</td>
     <td><select name="cmbPriority" disabled>
-    <?  $priority = $this->popArr['priority'];
+    <?php  $priority = $this->popArr['priority'];
     	  for($c=0;$c < count($priority);$c++){
             if($priority[$c]==$message[0][10])
                echo "<option selected value='" . $priority[$c] . "'>" . $priority[$c] ."</option>";
@@ -428,7 +428,7 @@ function edit()
     ?>
     </td>  
     <td>Module</td>
-    <td><strong><?  $mod = $this->popArr['module'];
+    <td><strong><?php  $mod = $this->popArr['module'];
     for($c=0;$c < count($mod);$c++){
             if($mod[$c][0]==$message[0][8])
             {
@@ -439,10 +439,10 @@ function edit()
   </tr>
   <tr> 
   <td>Deleted</td>
-    <td><input type="checkbox" disabled name="chkDeleted" <?=($message[0][4]=='1'?'checked':'')?> value="1"></td>
+    <td><input type="checkbox" disabled name="chkDeleted" <?php echo ($message[0][4]=='1'?'checked':'')?> value="1"></td>
     <td>Fixed in Release</td>
     <td><select disabled name="cmbFixedRelease"> 
-    <?  $fixedRelease = $this->popArr['version'];
+    <?php  $fixedRelease = $this->popArr['version'];
 
         for($c=0;$c < count($fixedRelease);$c++){
             if($fixedRelease[$c][0]==$message[0][6])
@@ -456,9 +456,9 @@ function edit()
     </tr>
    <tr> 
     <td>Description</td>
-    <td><textarea name='txtDescription' disabled rows="3" cols="30"><?=$message[0][5]?></textarea></td>
+    <td><textarea name='txtDescription' disabled rows="3" cols="30"><?php echo $message[0][5]?></textarea></td>
     <td>Work Log</td>
-    <td><textarea name='txtWorkLog' disabled rows="3" cols="30"><?=$message[0][15]?></textarea> </td>
+    <td><textarea name='txtWorkLog' disabled rows="3" cols="30"><?php echo $message[0][15]?></textarea> </td>
   </tr>
    <tr> 
     <td></td>
@@ -483,4 +483,4 @@ function edit()
 </form>
 </body>
 </html>
-<? } ?>
+<?php } ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -110,21 +110,25 @@ else
 
 	function empSel(cntrl) {
 		
-<?   if(isset($_GET['USR'])) { ?>
+<?php   if(isset($_GET['USR'])) { ?>
 
         opener.document.frmUsers.cmbUserEmpID.value = cntrl.title;
 		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
         window.close();
+
+<?php   } elseif($_GET['REPORT'] == 'REPORT') { ?>
+        opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.title;
+        window.close();
 		
-<?   } elseif($_GET['reqcode'] == 'REP'){ ?>
+<?php   } elseif($_GET['reqcode'] == 'REP'){ ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
         window.close();
-<?  } else {
-?>
-		opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?=$_GET['reqcode']?>";
+        
+<?php  } else { ?>
+		opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?php echo $_GET['reqcode']?>";
         opener.document.standardView.submit();
 		window.close();
-<? } ?>
+<?php } ?>
 	}
 	
 	function Search() {
@@ -133,8 +137,13 @@ else
 			document.standardView.loc_code.Focus();
 			return;
 		};
-		document.standardView.captureState.value = 'SearchMode';		
-		document.standardView.action="./emppop.php?reqcode=<?=$_GET['reqcode']?>"
+		document.standardView.captureState.value = 'SearchMode';
+				
+<?php   if(isset($_GET['USR'])) { ?>
+		document.standardView.action="./emppop.php?reqcode=<?php echo $_GET['reqcode']?>&USR=USR"
+<?php   } else { ?>
+		document.standardView.action="./emppop.php?reqcode=<?php echo $_GET['reqcode']?>"
+<?php   } ?>
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}	
@@ -148,8 +157,8 @@ else
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3> 
-        <input type="hidden" name="captureState" value="<?=isset($_POST['captureState'])?$_POST['captureState']:''?>">
-        <input type="hidden" name="pageNO" value="<?=isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
+        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>">
+        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
         <input type="hidden" name="empID" value="">
 
       </h3></td>
@@ -180,7 +189,7 @@ else
                     <tr>
                       <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code">
-<?                        for($c=0;count($srchlist[0])>$c;$c++)
+<?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
@@ -189,7 +198,7 @@ else
                         </select>
                       </slot></td>
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?=isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
                      </slot></td>
 
                   </table></td>
@@ -219,7 +228,7 @@ else
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
 			  
-<?
+<?php
 if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) 				
     $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
 else 
@@ -280,18 +289,18 @@ else
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
 						  <?php 
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?=$_SERVER['PHP_SELF']?>?reqcode=<?=$_GET['reqcode']?>&VIEW=MAIN&sortField=<?=$j?>&sortOrder<?=$j?>=<?=getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?=SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?=$_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>                  		
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>                  		
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
-        <?
+        <?php
 			if ((isset($emplist)) && ($emplist !='')) {
 	 
 			 for ($j=0; $j<count($emplist);$j++) {
@@ -299,25 +308,25 @@ else
 		?>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>                  
-         <?		if(!($j%2)) { ?>				  
-				  <td >&nbsp;&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td >&nbsp;&nbsp;<?=$emplist[$j][1]?></td>
-		<?		} else { ?>				  
-				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?=$emplist[$j][0]?>" href="" onClick="empSel(this)"><?=$emplist[$j][0]?></a></td>
-		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?=$emplist[$j][1]?></td>
-		<?		}	?>
+         <?php		if(!($j%2)) { ?>				  
+				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo $emplist[$j][0]?></a></td>
+		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
+		<?php		} else { ?>				  
+				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo $emplist[$j][0]?></a></td>
+		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
+		<?php		}	?>
 		  		  
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                  
                 </tr>
 
-         <? } 
+         <?php } 
         	  } else if ((isset($message)) && ($message =='')) { ?>
 			  
 			   <tr>
 			   	<td></td>
 				<td>
-		<?        		
+		<?php        		
         		 $dispMessage = "No Records to Display !";
         		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
         		 echo $dispMessage;

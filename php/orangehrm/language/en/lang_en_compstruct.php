@@ -1,4 +1,4 @@
-<?
+<?php
 $heading= 'Company Info : Company Structure';
 
 // Buttons

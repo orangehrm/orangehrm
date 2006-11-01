@@ -1,4 +1,4 @@
-<?
+<?php
 $heading		  = 'Designation Qualification Subjects: Designation Profile';
 $designation	  = 'Designation';
 $qualification	  = 'qualification';
