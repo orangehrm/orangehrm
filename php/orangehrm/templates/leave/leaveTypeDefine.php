@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -48,7 +48,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
 		<?php } else {?>
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Define';
-		<? }?>
+		<?php }?>
 		document.DefineLeaveType.submit();		
 	}			
 	
@@ -73,7 +73,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  echo $record->getLeaveTypeName(); }?></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
-	<? }?>
+	<?php }?>
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
       <td width="182"><?php if($_REQUEST['action'] == "Leave_Type_Edit_View") { echo $lang_newLeaveTypeName; } else { echo $lang_LeaveTypeName;}?></td>

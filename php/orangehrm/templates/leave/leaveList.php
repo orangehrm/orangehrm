@@ -142,7 +142,7 @@
 	<?php if ($modifier == null) { 
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />			
-	<?php } else if ($modifier == "SUP") { ?>
+	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) { ?>
 		<input type="text" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />		
 		<?php } ?>	</td>

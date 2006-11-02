@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -107,7 +107,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td height="19" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td align="right" valign="top">&nbsp;</td>
-      <td colspan="2" align="left" valign="top"><? echo $lang_Comment; ?></td>
+      <td colspan="2" align="left" valign="top"><?php echo $lang_Comment; ?></td>
     </tr>
     <tr>
       <td height="22" valign="top" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
