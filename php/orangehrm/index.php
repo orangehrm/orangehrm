@@ -82,6 +82,11 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 	setcookie('Loggedin', '', time()-3600, '/');
 	header("Location: ./login.php");
 }
+
+require_once ROOT_PATH . '/lib/common/authorize.php';
+
+$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
 ?>
 <html>
 <head>
@@ -414,9 +419,16 @@ function setSize() {
   						<li id="leaveSummary"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leaves List</a></li>
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
+  						<?php                  	
+                 			if ($authorizeObj->isSupervisor()) {
+                 		?>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leaves</a></li>
-						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave Types</a></li>
-					</ul>
+						<?php }  
+							if ($authorizeObj->isAdmin()) {
+						?>
+  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave Types</a></li>
+						<?php } ?>
+  					</ul>
 			</TD>         
 <?php			}
 			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
@@ -650,6 +662,11 @@ function setSize() {
                <!-- Begin SubMenu13 -->
               <DIV id=menu13Container>
                 <DIV id=menu13Content>
+                 <?php 
+                 	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
+                 	
+                 	if ($authorizeObj->firstRole($allowedRoles)) {
+                 ?>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
@@ -660,6 +677,9 @@ function setSize() {
 					 </TR>					 
                     </TBODY>
                   </TABLE>
+                  <?php 
+                 	}
+                 ?>
                 </DIV>
               </DIV>
               <!-- End SubMenu12 -->

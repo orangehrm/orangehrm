@@ -22,7 +22,7 @@
 
 require_once "Leave.php";
 require_once "LeaveQuota.php";
-require_once "LeaveType.php";
+//require_once "LeaveType.php";
 
 /**
  * Leave Summary Operations
