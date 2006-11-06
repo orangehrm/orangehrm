@@ -162,6 +162,43 @@ class Leave {
 	public function  getEmployeeName() {
 		return $this->employeeName;
 	}
+	
+	/**
+	 * Retrieves leave taken for supervisors and
+	 * HRAdmin
+	 *
+	 * @param unknown_type $year
+	 * @return unknown
+	 */
+	function retrieveTakenLeave($year, $employeeId) {
+		
+		$this->setEmployeeId($employeeId);
+		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$arrFields[0] = '`Leave_Date`';
+		$arrFields[1] = '`Leave_Type_Name`';
+		$arrFields[2] = '`Leave_Status`';
+		$arrFields[3] = '`Leave_Length`';
+		$arrFields[4] = '`Leave_Comments`';
+		$arrFields[5] = '`Leave_ID`';		
+		
+		$arrTable = "`hs_hr_leave`";
+
+		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
+		$selectConditions[2] = "`Leave_Status` = ".$this->statusLeaveTaken;		
+		$selectConditions[3] = "`Leave_Date` > '".$year."-01-01'";
+		
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$leaveArr = $this->_buildObjArr($result);
+		
+		return $leaveArr; 
+	}
 
 	/*
 	 *	Retrieves Leave Details of all leave that have been applied for but
