@@ -175,27 +175,33 @@ class Leave {
 		$this->setEmployeeId($employeeId);
 		
 		$sqlBuilder = new SQLQBuilder();		
-		
-		$arrFields[0] = '`Leave_Date`';
-		$arrFields[1] = '`Leave_Type_Name`';
-		$arrFields[2] = '`Leave_Status`';
-		$arrFields[3] = '`Leave_Length`';
-		$arrFields[4] = '`Leave_Comments`';
-		$arrFields[5] = '`Leave_ID`';		
-		
-		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
-		$selectConditions[2] = "`Leave_Status` = ".$this->statusLeaveTaken;		
-		$selectConditions[3] = "`Leave_Date` > '".$year."-01-01'";
+		$arrFields[0] = 'a.`Leave_Date`';	
+		$arrFields[1] = 'a.`Leave_Type_Name`';
+		$arrFields[2] = 'a.`Leave_Status`';
+		$arrFields[3] = 'a.`Leave_Length`';
+		$arrFields[4] = 'a.`Leave_Comments`';
+		$arrFields[5] = 'a.`Leave_ID`';		
+		$arrFields[6] = 'd.`emp_firstname`';
+		$arrFields[7] = 'a.`Employee_Id`';
 		
-		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		$arrTables[0] = "`hs_hr_leave` a";				
+		$arrTables[1] = "`hs_hr_employee` d";		
+				
+		$joinConditions[1] = "a.`Employee_Id` = d.`emp_number`";				
+
+		$selectConditions[1] = "a.`Employee_Id` = '".$employeeId."'";
+		$selectConditions[2] = "a.`Leave_Status` = ".$this->statusLeaveTaken;		
+		$selectConditions[3] = "a.`Leave_Date` > '".$year."-01-01'";
+		
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		
 		
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
 		
-		$leaveArr = $this->_buildObjArr($result);
+		$leaveArr = $this->_buildObjArr($result, true);
 		
 		return $leaveArr; 
 	}

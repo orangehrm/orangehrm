@@ -117,6 +117,18 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, true, "ESS not an ESS");
     }
     
+    public function testIsTheSupervisor() {
+    	$res = $this->authorizeObj->isTheSupervisor("EMP051");
+    	
+    	$this->assertEquals($res, false, "The supervisor of unknown employee");
+    }
+    
+    public function testIsTheSupervisor2() {
+    	$res = $this->authorizeObj->isTheSupervisor("EMP011");
+    	
+    	$this->assertEquals($res, true, "The supervisor of unknown emplyee");
+    }
+    
     public function testFirstRole() {
     	$authObj = new authorize("EMP041", 'No');
     	$roleArr = array($authObj->roleAdmin, $authObj->roleSupervisor);

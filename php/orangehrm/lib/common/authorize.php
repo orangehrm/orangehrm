@@ -160,6 +160,27 @@ class authorize {
 	}
 	
 	/**
+	 * Checks whether the particular employee is
+	 * the supervisor of the subordinate concerned
+	 *
+	 * @param unknown_type $subordinateId
+	 * @return boolean
+	 */
+	public function isTheSupervisor($subordinateId) {
+		$id = $this->getEmployeeId();
+		
+		$objReportTo = new EmpRepTo();
+			
+		$subordinates = $objReportTo->getEmpSub($id);			
+		
+		if (isset($subordinates[0]) && is_array($subordinates[0]) && array_search($subordinateId, $subordinates[0])) {			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Delegates all checks for all is<Role>
 	 * functions
 	 *

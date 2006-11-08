@@ -71,6 +71,9 @@ class LeaveController {
 			case "suprevisor": $this->setObjLeave(new Leave());
 							 $this->_viewLeavesSupervisor();
 							 break;
+			case "taken"	: $this->setObjLeave(new Leave());
+							 $this->_viewLeavesTaken($year);
+							 break;
 			case "summary" : $this->setObjLeave(new LeaveSummary());
 							 $this->_displayLeaveSummary("display", $year);							 
 							 break;
@@ -141,7 +144,9 @@ class LeaveController {
 		
 		$template = new TemplateMerger($tmpObj, $path);
 		
-		$template->display("SUP");		
+		$modifiers[] = "SUP";
+		
+		$template->display($modifiers);		
 	}
 	
 	private function _cancelLeave() {
@@ -401,6 +406,34 @@ class LeaveController {
 		$template = new TemplateMerger($tmpOb, $path);
 		
 		$template->display($action);
+	}
+	
+	private function _viewLeavesTaken($year = null) {
+		$authorizeObj  = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+		
+			
+		if ($authorizeObj->isAdmin()) {
+			
+			$employeeId = $this->getId();
+			$tmpObj = $this->getObjLeave();
+			
+			$empInfoObj = new EmpInfo();
+
+			$res[] = $tmpObj->retrieveTakenLeave($year, $employeeId);
+			$res[] = $empInfoObj->filterEmpMain($this->getId());
+			
+			$path = "/templates/leave/leaveList.php";
+		
+			$template = new TemplateMerger($res, $path);
+			
+			$modifiers[] = "Taken";
+			$modifiers[] = $year;
+			
+			$template->display($modifiers);
+			
+		} else {
+			trigger_error("Unauthorized access1", E_USER_NOTICE);
+		}
 	}
 
 }

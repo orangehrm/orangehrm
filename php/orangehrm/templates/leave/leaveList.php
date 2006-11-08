@@ -21,8 +21,20 @@
  *	Including the language pack
  *
  **/
+ if (isset($modifier[1])) {
+ 	$dispYear = $modifier[1];
+ }
  
- $lan = new Language();
+ $modifier = $modifier[0];
+ 
+ if (isset($modifier) && (($modifier == "SUP") || ($modifier == "Taken"))) {
+ 	$empInfo = $records[count($records)-1][0]; 	
+ 	array_pop($records);
+ 	
+ 	$records = $records[0];
+ }
+ 
+ $lan = new Language(); 
  
  require_once($lan->getLangPath("leave/leaveCommon.php")); 
  require_once($lan->getLangPath("leave/leaveList.php")); 
@@ -43,7 +55,7 @@
 ?>
 	<h5>No records found!</h5>
 <?php
-	}
+	} else {
 ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
 <table border="0" cellpadding="0" cellspacing="0">
@@ -139,7 +151,7 @@
     		echo $leaveLength;			
     ?></td>
     <td class="<?php echo $cssClass; ?>">	
-	<?php if ($modifier == null) { 
+	<?php if (($modifier == null) || ($modifier == "Taken")) { 
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />			
 	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) { ?>
@@ -168,7 +180,10 @@
 	</tr>
   </tfoot>
 </table>
+<?php 	if ($modifier !== "Taken") { ?>
 <p id="controls">
 <input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.jpg"/>
 </p>
 </form>
+<?php   }
+	 } ?>

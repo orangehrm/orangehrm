@@ -28,6 +28,8 @@
  
 if ($modifier === "SUP") {
  $lang_Title			=	"Approve Leave";
+} else if ($modifier === "Taken") {
+ $lang_Title			=	"Leaves Taken in ".$dispYear." by ".$empInfo[2].' '.$empInfo[1];	
 } else {
  $lang_Title			=	"Leave List";	
 }

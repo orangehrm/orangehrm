@@ -101,3 +101,9 @@ hr {
 	border: 1px solid #DDDDDD;	
 	height: 1px;
 }
+
+#frmSummary a {
+	padding: 5px;
+	vertical-align: top;	
+	height: 25px;
+}

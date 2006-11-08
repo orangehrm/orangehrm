@@ -57,6 +57,17 @@
 		document.frmSummary.action = '<?php echo $frmAction; ?>';
 		document.frmSummary.submit();
 	}
+	
+<?php	if ($auth === 'admin') { ?>
+
+		function actTakenLeave() {
+			document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
+			document.frmSummary.submit();
+		}
+		
+		
+<?php	} ?>
+	
 </script>
 <h3><?php echo $lang_Title.$dispYear; ?><hr/></h3>
 
@@ -68,10 +79,11 @@
 	} else {
 		if ($auth === 'admin') {
 ?>
-	<form method="post" onsubmit="actForm(); return false;" name="frmSummary">
+	<form method="post" onsubmit="actForm(); return false;" name="frmSummary" id="frmSummary">
 		<input type="hidden" name="id" value="<?php echo $empInfo[0]; ?>"/>
 	<p class="controls">
 		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" >
+		<a href="javascript:actTakenLeave()">List of Taken Leave</a>
 	</p>
 <?php
 		}

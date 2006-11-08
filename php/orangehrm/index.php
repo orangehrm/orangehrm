@@ -426,7 +426,7 @@ function setSize() {
 						<?php }  
 							if ($authorizeObj->isAdmin()) {
 						?>
-  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Define Leave Types</a></li>
+  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Leave Types</a></li>
 						<?php } ?>
   					</ul>
 			</TD>         

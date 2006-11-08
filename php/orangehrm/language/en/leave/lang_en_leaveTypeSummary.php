@@ -24,6 +24,6 @@
  *
  */
 
- $lang_Title 		= 'Leave Type Summary';
+ $lang_Title 		= 'Leave Types';
 
 ?>

@@ -1090,6 +1090,12 @@ switch ($moduletype) {
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
 																						break;
 																						
+													case 'Leave_List_Taken'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+																						$leaveController->setId($id);
+																						$leaveController->viewLeaves("taken", $year);
+																						break;
+																						
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
