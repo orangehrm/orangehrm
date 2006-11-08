@@ -333,9 +333,40 @@ class EmpRepTo {
 				
 	}
 	
-	
-	
+	function getEmpSubDetails($getID) {
+		
+		$sqlBuilder = new SQLQBuilder();
+		
+		$arrFields[0] = 'b.`emp_number`';
+		$arrFields[1] = "CONCAT(b.`emp_firstname`, ' ', b.`emp_lastname`)";	
+		
+		$arrTables[0] = '`hs_hr_emp_reportto` a';
+		$arrTables[1] = '`hs_hr_employee` b';
+		
+		$joinConditions[1] = "a.`erep_sub_emp_number` = b.`emp_number`";
+		
+		$selectConditions[1] = "a.`erep_sup_emp_number` = '".$getID."'";
+		
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
+		
+		//echo $query."\n";
+				
+		$dbConnection = new DMLFunctions();	
 
+		$result = $dbConnection -> executeQuery($query);
+		
+		$i=0;
+		
+		while ($line = mysql_fetch_array($result, MYSQL_NUM)) {
+		 	
+			for($c=0;count($arrFields)>$c;$c++)
+			   $arrayDispList[$i][$c] = $line[$c];
+	    	
+	    	$i++;	    	
+	    }
+	    
+	    return $arrayDispList;
+	}
 }
 
 ?>

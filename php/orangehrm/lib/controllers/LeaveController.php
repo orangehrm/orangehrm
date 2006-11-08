@@ -38,6 +38,7 @@ class LeaveController {
 	private $indexCode;
 	private $id;
 	private $objLeave;
+	private $authorize;
 	
 	public function setId($id) {
 		$this->id = $id;
@@ -54,10 +55,20 @@ class LeaveController {
 	public function getObjLeave() {
 		return $this->objLeave;
 	}
+	
+	public function setAuthorize($obj) {
+		$this->authorize = $obj;
+	}
+	
+	public function getAuthorize() {
+		return $this->authorize;
+	}
 
 
 	public function __construct() {
-		//nothing to do
+		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+		
+		$this->setAuthorize($authorizeObj);
 	}
 	
 	//public function
@@ -214,7 +225,7 @@ class LeaveController {
 		$tmpObj = $this->getObjLeave();
 		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId(), $year);
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
-		
+			
 		$path = "/templates/leave/leaveSummary.php";
 		
 		$template = new TemplateMerger($tmpObjX, $path);
@@ -396,11 +407,15 @@ class LeaveController {
 		$this->setObjLeave($tmpObj);
 		
 		$tmpOb[] = $tmpObj->getLeaveYears();
-		
-		$empObj = new EmpInfo();
-		
-		$tmpOb[] = $empObj->getListofEmployee();
-		
+				
+		if ($this->getAuthorize()->isAdmin()) {
+			$empObj = new EmpInfo();
+			$tmpOb[] = $empObj->getListofEmployee();
+		} else {
+			$repObj = new EmpRepTo();
+			$tmpOb[] = $repObj->getEmpSubDetails($_SESSION['empID']);
+		}
+			
 		$path = "/templates/leave/leaveSelectEmployeeAndYear.php";
 		
 		$template = new TemplateMerger($tmpOb, $path);
