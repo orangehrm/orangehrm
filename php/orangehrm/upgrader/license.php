@@ -6,7 +6,7 @@ fclose( $fh );
 ?>
 <script language="JavaScript">
 function licenseAccept() {
-	document.frmInstall.actionResponse.value  = 'LICENSEOK';
+	document.frmInstall.actionResponse.value = 'LICENSEOK';
 	document.frmInstall.submit();
 }
 </script>

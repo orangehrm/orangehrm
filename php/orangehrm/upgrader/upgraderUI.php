@@ -6,11 +6,15 @@ $cupath = realpath(dirname(__FILE__).'/../');
 define('ROOT_PATH', $cupath);
 
 
-if(isset($_SESSION['WELCOME'])) {
-	$currScreen = 1;
+if(isset($_SESSION['DBCHOICE'])) {
+	$currScreen = 4;
+}elseif(isset($_SESSION['DISCLAIMER'])) {
+	$currScreen = 3;
 } elseif(isset($_SESSION['LICENSE'])) {
 	$currScreen = 2;
-} elseif(isset($_SESSION[''])) 
+} elseif(isset($_SESSION['WELCOME'])) {
+	$currScreen = 1;
+} else $currScreen = 0;
 
 if (isset($_SESSION['error'])) {
 	$error = $_SESSION['error'];
@@ -20,9 +24,9 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license');
+$steps = array('welcome', 'license' ,'disclaimer', 'select DB');
 
-$helpLink = array("#welcome", '#license');
+$helpLink = array("#welcome", '#license','#disclaimer', '#select DB');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -84,12 +88,13 @@ function back() {
 </table>
 <a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
 <?php
-
 switch ($currScreen) {
 	
 	default :
 	case 0 	: 	require(ROOT_PATH . '/upgrader/welcome.php'); break;
 	case 1 	: 	require(ROOT_PATH . '/upgrader/license.php'); break;
+	case 2 	: 	require(ROOT_PATH . '/upgrader/disclaimer.php'); break;
+	case 3 	: 	require(ROOT_PATH . '/upgrader/dbchoice.php'); break;
 	
 }
 ?>

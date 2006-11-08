@@ -9,8 +9,10 @@ function back($currScreen) {
 	default :
 	case 0 	: 	unset($_SESSION['WELCOME']); break;
 	case 1 	: 	unset($_SESSION['LICENSE']); break;
+	case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
+	case 3 	: 	unset($_SESSION['DBCHOICEOK']); break;
 	
-	case 2 	: 	return false; break;
+	case 4 	: 	return false; break;
  }
 
  $currScreen--;
@@ -33,14 +35,16 @@ if (isset($_SESSION['error'])) {
 if(isset($_POST['actionResponse']))
 	switch($_POST['actionResponse']) {
 		
-		case 'WELCOMEOK' : $_SESSION['WELCOME'] = 'OK'; break;
-		case 'LICENSEOK' : $_SESSION['LICENSE'] = 'OK'; break;
-		case 'CANCEL' 	:	session_destroy();							
-							header("Location: ./Upgrader.php");
-							exit(0);
-							break;
+		case 'WELCOMEOK' 	: $_SESSION['WELCOME'] = 'OK'; break;
+		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
+		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;
+		case 'DBCHOICEOK' 	: $_SESSION['DBCHOICE'] = 'OK'; break;
+		case 'CANCEL' 		:	session_destroy();							
+								header("Location: ./Upgrader.php");
+								exit(0);
+								break;
 		
-		case 'BACK'		 :	back($_POST['txtScreen']);
+		case 'BACK'		 	:	back($_POST['txtScreen']);
 							break;
 	}
 
