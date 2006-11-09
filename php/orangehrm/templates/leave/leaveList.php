@@ -27,7 +27,7 @@
  
  $modifier = $modifier[0];
  
- if (isset($modifier) && (($modifier == "SUP") || ($modifier == "Taken"))) {
+ if (isset($modifier) && ($modifier == "Taken")) {
  	$empInfo = $records[count($records)-1][0]; 	
  	array_pop($records);
  	

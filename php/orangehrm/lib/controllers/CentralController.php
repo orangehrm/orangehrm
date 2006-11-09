@@ -1072,7 +1072,7 @@ switch ($moduletype) {
 													case 'Leave_Apply'				: 	$obj = $leaveExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
-																						$leaveController->redirect("SUCCESS");
+																						$leaveController->redirect("");
 																						break;
 																						
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();

@@ -119,7 +119,7 @@ class LeaveController {
 		}
 		
 		if ($res) {
-			$message="SUCCESS";
+			$message="";
 		} else {
 			$message="FAILURE";
 		}
@@ -188,7 +188,7 @@ class LeaveController {
 		$res = $tmpObj->applyLeave();
 		
 		if ($res) {
-			$message="SUCCESS";
+			$message="";
 		} else {
 			$message="FAILURE";
 		}
@@ -320,7 +320,7 @@ class LeaveController {
 		$res = $tmpObj->addLeaveType();
 		
 		if ($res) {
-			$message="SUCCESS";
+			$message="";
 		} else {
 			$message="FAILURE";
 		}
@@ -366,7 +366,7 @@ class LeaveController {
 		if ($res) {
 			$message="FAILURE";
 		} else {
-			$message="SUCCESS";
+			$message="";
 		}
 		return $message;
 	}
@@ -378,7 +378,7 @@ class LeaveController {
 		$res = $tmpObj->deleteLeaveType();
 		
 		if ($res) {
-			$message="SUCCESS";
+			$message="";
 		} else {
 			$message="FAILURE";
 		}
@@ -393,7 +393,7 @@ class LeaveController {
 		$res = $tmpObj->editLeaveQuota();
 		
 		if ($res) {
-			$message="SUCCESS";
+			$message="";
 		} else {
 			$message="FAILURE";
 		}
