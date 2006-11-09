@@ -87,6 +87,11 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
+if ($authorizeObj->isESS()) {
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary';
+} else {
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
+}
 ?>
 <html>
 <head>
@@ -416,10 +421,14 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
                       <ul id="menu">
+                      	<?php 
+                      		if ($authorizeObj->isESS()) { 
+                      	?>
   						<li id="leaveSummary"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leaves List</a></li>
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
-  						<?php                  	
+  						<?php 
+                      		}               	
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leaves</a></li>
@@ -669,9 +678,15 @@ function setSize() {
                  ?>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
+                    <?php
+                    	if ($authorizeObj->isESS()) {
+                    ?>                    	
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu">Personal Leave Summary</A></TD>
 					 </TR>
+					<?php
+                    	}
+                    ?>
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu">Employee Leave Summary</A></TD>
 					 </TR>					 
@@ -708,7 +723,7 @@ function setSize() {
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?php echo $_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>        
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  ?>
-              <iframe src="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
+              <iframe src="<?php echo $leaveHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
 <?php 		} ?>
             
             </td>
