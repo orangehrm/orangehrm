@@ -69,6 +69,10 @@ class LeaveController {
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 		
 		$this->setAuthorize($authorizeObj);
+		
+		$tmpLeaveObj = new Leave();
+		
+		$tmpLeaveObj->takeLeave();
 	}
 	
 	//public function

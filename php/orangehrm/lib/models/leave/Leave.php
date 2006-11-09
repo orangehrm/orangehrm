@@ -529,7 +529,7 @@ class Leave {
 	
 	/**
 	 * Retrieve the years where there are any leave records
-	 * returns atleast current year
+	 * returns at least current year
 	 * 
 	 * @return String[]
 	 * @access public
@@ -565,41 +565,37 @@ class Leave {
 	}
 	
 	/**
-	 * Retrieve the years where there are any leave records
-	 * returns atleast current year
+	 * Changes the leave status to taken if the date is before
+	 * or on today
 	 * 
 	 * @access public
 	 */
-	 public function takenLeave(){
+	 public function takeLeave(){
+		$sqlBuilder = new SQLQBuilder();
 		
-	 }
-	 
-	 /**
-	 * Retrieve the years where there are any leave records
-	 * returns atleast current year
-	 * 
-	 * @return String[]
-	 * @access private
-	 */
-	 public function _modifyLeaveStatus(){
+		$updateTable = "`hs_hr_leave`";
 		
-	 	$sqlBuilder = new SQLQBuilder();
+		$changeFields[] = '`Leave_Status`';
 		
-		$selectTable = "`hs_hr_leave`";
-
-		$changeField = "`Leave_Status`";
-	
-		$changeValue = $this->statusLeaveTaken;
-	
+		$changeValues[] = 3;
 		
-		$selectConditions[] = "`Leave_ID` = 1";
+		$updateConditions[] = "`Leave_Date` <= NOW()";
 		
-		$query = $sqlBuilder->simpleUpdate($selectTable, $changeField, $changeValue, $updateConditions);
+		$query = $sqlBuilder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions);
+		
+		//echo $query."\n";
 		
 		$dbConnection = new DMLFunctions();	
 
-		$result = $dbConnection -> executeQuery($query);
-	 }
+		$dbConnection -> executeQuery($query);
+		
+		if (mysql_affected_rows() > 0) {
+			return true;
+		}
+		
+		return false;
+	 }	 
+	
 }
 
 ?>

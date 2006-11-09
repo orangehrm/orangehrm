@@ -59,9 +59,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 4')");
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 8, 3, 'Leave 5')");
     	
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (15, 'EMP014', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()-3600*24*2)."', 8, 1, 'Leave 6')");
+		
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP013', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('EMP012', 'EMP011', 1);");	
 		
@@ -81,6 +85,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP013'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP014'", $this->connection);
     	
     	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = 'EMP012' AND `erep_sub_emp_number` = 'EMP011'", $this->connection);
     	    	
@@ -270,6 +275,46 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$expected = array(date('Y'));
     	
     	$this->assertEquals($res, $expected, "Retruned wrong count");
+    }
+    
+    public function testTakeLeaveAccuracy() {
+
+    	$res = $this->classLeave->retriveLeaveEmployee("EMP014");        
+        $this->assertEquals($res, true, "Exsistent record not found ");   
+        
+        $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 1, 8, 'Leave 6');                
+
+        $this->assertEquals($res, true, "No record found ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[0]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        } 
+    	
+    	$res = $this->classLeave->takeLeave();
+    	$this->assertEquals($res, true, "Unexpected behavior ");
+    	
+        $res = $this->classLeave->retriveLeaveEmployee("EMP014");        
+        $this->assertEquals($res, true, "Exsistent record not found ");    
+        
+         $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 3, 8, 'Leave 6');                
+
+        $this->assertEquals($res, true, "No record found ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[0]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        }
+        
+        $res = $this->classLeave->takeLeave();
+    	$this->assertEquals($res, false, "Unexpected behavior ");   
+       
     }
 
 }
