@@ -563,6 +563,43 @@ class Leave {
 		return $years;
 
 	}
+	
+	/**
+	 * Retrieve the years where there are any leave records
+	 * returns atleast current year
+	 * 
+	 * @access public
+	 */
+	 public function takenLeave(){
+		
+	 }
+	 
+	 /**
+	 * Retrieve the years where there are any leave records
+	 * returns atleast current year
+	 * 
+	 * @return String[]
+	 * @access private
+	 */
+	 public function _modifyLeaveStatus(){
+		
+	 	$sqlBuilder = new SQLQBuilder();
+		
+		$selectTable = "`hs_hr_leave`";
+
+		$changeField = "`Leave_Status`";
+	
+		$changeValue = $this->statusLeaveTaken;
+	
+		
+		$selectConditions[] = "`Leave_ID` = 1";
+		
+		$query = $sqlBuilder->simpleUpdate($selectTable, $changeField, $changeValue, $updateConditions);
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+	 }
 }
 
 ?>
