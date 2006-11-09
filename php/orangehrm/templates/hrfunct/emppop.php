@@ -116,11 +116,11 @@ else
 		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
         window.close();
 
-<?php   } elseif($_GET['REPORT'] == 'REPORT') { ?>
+<?php   } elseif(isset($_GET['REPORT'])) { ?>
         opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.title;
         window.close();
 		
-<?php   } elseif($_GET['reqcode'] == 'REP'){ ?>
+<?php   } elseif(isset($_GET['reqcode'])) { ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
         window.close();
         
@@ -198,7 +198,7 @@ else
                         </select>
                       </slot></td>
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])?$_POST['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>">
                      </slot></td>
 
                   </table></td>
