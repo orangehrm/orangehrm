@@ -103,10 +103,10 @@ class LeaveType {
 		
 		$sql_builder = new SQLQBuilder();
 		$selectTable = "`hs_hr_leavetype`";		
-		$selectFields[0] = '`Leave_Type_ID`';
+		$selectFields[0] = '`leave_type_id`';
 		$selectOrder = "DESC";
 		$selectLimit = 1;
-		$sortingField = '`Leave_Type_ID`';
+		$sortingField = '`leave_type_id`';
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
 
@@ -129,11 +129,11 @@ class LeaveType {
 		
 		$selectTable = "`hs_hr_leavetype` ";	
 			
-		$selectFields[0] = '`Leave_Type_ID`';
-		$selectFields[1] = '`Leave_Type_Name`';	
-		$selectFields[2] = '`Available_Flag`';	
+		$selectFields[0] = '`leave_type_id`';
+		$selectFields[1] = '`leave_type_name`';	
+		$selectFields[2] = '`available_flag`';	
 		
-		$updateConditions[0] = "`Leave_Type_ID` = '".$leaveType."'";
+		$updateConditions[0] = "`leave_type_id` = '".$leaveType."'";
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
 		
@@ -152,11 +152,11 @@ class LeaveType {
 		
 		$selectTable = "`hs_hr_leavetype` ";	
 			
-		$changeFields[0] = "`Leave_Type_Name`";
+		$changeFields[0] = "`leave_type_name`";
 		
 		$changeValues[0] = "'".$this->getLeaveTypeName()."'";
 
-		$updateConditions[0] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+		$updateConditions[0] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
 		
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
@@ -180,12 +180,12 @@ class LeaveType {
 		
 		$selectTable = "`hs_hr_leavetype` ";	
 			
-		$changeFields[0] = "`Available_Flag`";
+		$changeFields[0] = "`available_flag`";
 		
 		$changeValues[0] = "'".$this->unAvalableStatuFlag."'";
 
 			
-		$updateConditions[0] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+		$updateConditions[0] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
 
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
@@ -209,10 +209,10 @@ class LeaveType {
 		
 		$selectTable = "`hs_hr_leavetype` ";	
 		
-		$selectFields[0] = '`Leave_Type_ID`';
-		$selectFields[1] = '`Leave_Type_Name`';	
+		$selectFields[0] = '`leave_type_id`';
+		$selectFields[1] = '`leave_type_name`';	
 		
-		$selectConditions[0] = "`Available_Flag` = '".$this->avalableStatuFlag."'";
+		$selectConditions[0] = "`available_flag` = '".$this->avalableStatuFlag."'";
 		
     	$selectOrder = "ASC";
 

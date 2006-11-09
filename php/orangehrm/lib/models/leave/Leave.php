@@ -176,23 +176,23 @@ class Leave {
 		
 		$sqlBuilder = new SQLQBuilder();		
 
-		$arrFields[0] = 'a.`Leave_Date`';	
-		$arrFields[1] = 'a.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`Leave_Status`';
-		$arrFields[3] = 'a.`Leave_Length`';
-		$arrFields[4] = 'a.`Leave_Comments`';
-		$arrFields[5] = 'a.`Leave_ID`';		
+		$arrFields[0] = 'a.`leave_date`';	
+		$arrFields[1] = 'a.`leave_type_name`';
+		$arrFields[2] = 'a.`leave_status`';
+		$arrFields[3] = 'a.`leave_length`';
+		$arrFields[4] = 'a.`leave_comments`';
+		$arrFields[5] = 'a.`leave_id`';		
 		$arrFields[6] = 'd.`emp_firstname`';
-		$arrFields[7] = 'a.`Employee_Id`';
+		$arrFields[7] = 'a.`employee_id`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";				
 		$arrTables[1] = "`hs_hr_employee` d";		
 				
-		$joinConditions[1] = "a.`Employee_Id` = d.`emp_number`";				
+		$joinConditions[1] = "a.`employee_id` = d.`emp_number`";				
 
-		$selectConditions[1] = "a.`Employee_Id` = '".$employeeId."'";
-		$selectConditions[2] = "a.`Leave_Status` = ".$this->statusLeaveTaken;		
-		$selectConditions[3] = "a.`Leave_Date` > '".$year."-01-01'";
+		$selectConditions[1] = "a.`employee_id` = '".$employeeId."'";
+		$selectConditions[2] = "a.`leave_status` = ".$this->statusLeaveTaken;		
+		$selectConditions[3] = "a.`leave_date` > '".$year."-01-01'";
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
@@ -221,19 +221,19 @@ class Leave {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
-		$arrFields[0] = '`Leave_Date`';
-		$arrFields[1] = '`Leave_Type_Name`';
-		$arrFields[2] = '`Leave_Status`';
-		$arrFields[3] = '`Leave_Length`';
-		$arrFields[4] = '`Leave_Comments`';
-		$arrFields[5] = '`Leave_ID`';		
+		$arrFields[0] = '`leave_date`';
+		$arrFields[1] = '`leave_type_name`';
+		$arrFields[2] = '`leave_status`';
+		$arrFields[3] = '`leave_length`';
+		$arrFields[4] = '`leave_comments`';
+		$arrFields[5] = '`leave_id`';		
 		
 		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "`Employee_Id` = '".$employeeId."'";
-		$selectConditions[2] = "`Leave_Status` != ".$this->statusLeaveCancelled;
-		$selectConditions[3] = "`Leave_Status` != ".$this->statusLeaveRejected;//" OR `Leave_Status` != ".$this->statusLeaveTaken.")";
-		$selectConditions[4] = "`Leave_Date` > '".date('Y')."-01-01'";
+		$selectConditions[1] = "`employee_id` = '".$employeeId."'";
+		$selectConditions[2] = "`leave_status` != ".$this->statusLeaveCancelled;
+		$selectConditions[3] = "`leave_status` != ".$this->statusLeaveRejected;//" OR `Leave_Status` != ".$this->statusLeaveTaken.")";
+		$selectConditions[4] = "`leave_date` > '".date('Y')."-01-01'";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
@@ -263,25 +263,25 @@ class Leave {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
-		$arrFields[0] = 'a.`Leave_Date`';
-		$arrFields[1] = 'a.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`Leave_Status`';
-		$arrFields[3] = 'a.`Leave_Length`';
-		$arrFields[4] = 'a.`Leave_Comments`';
-		$arrFields[5] = 'a.`Leave_ID`';		
+		$arrFields[0] = 'a.`leave_date`';
+		$arrFields[1] = 'a.`leave_type_name`';
+		$arrFields[2] = 'a.`leave_status`';
+		$arrFields[3] = 'a.`leave_length`';
+		$arrFields[4] = 'a.`leave_comments`';
+		$arrFields[5] = 'a.`leave_id`';		
 		$arrFields[6] = 'd.`emp_firstname`';
-		$arrFields[7] = 'a.`Employee_Id`';
+		$arrFields[7] = 'a.`employee_id`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";		
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
 		$arrTables[2] = "`hs_hr_employee` d";		
 		
-		$joinConditions[1] = "a.`Employee_Id` = c.`erep_sub_emp_number`";
-		$joinConditions[2] = "a.`Employee_Id` = d.`emp_number`";
+		$joinConditions[1] = "a.`employee_id` = c.`erep_sub_emp_number`";
+		$joinConditions[2] = "a.`employee_id` = d.`emp_number`";
 		
 		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
-		$selectConditions[2] = "a.`Leave_Status` != ".$this->statusLeaveTaken;
-		$selectConditions[3] = "a.`Leave_Date` > NOW()";
+		$selectConditions[2] = "a.`leave_status` != ".$this->statusLeaveTaken;
+		$selectConditions[3] = "a.`leave_date` > NOW()";
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
@@ -338,10 +338,10 @@ class Leave {
 		
 		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "`Employee_Id` = '".$this->getEmployeeId()."'";
-		$selectConditions[2] = "`Leave_Status` = ".$status;
-		$selectConditions[3] = "`Leave_Type_Id` = '".$leaveTypeId."'";
-		$selectConditions[4] = "`Leave_Date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
+		$selectConditions[1] = "`employee_id` = '".$this->getEmployeeId()."'";
+		$selectConditions[2] = "`leave_status` = ".$status;
+		$selectConditions[3] = "`leave_type_id` = '".$leaveTypeId."'";
+		$selectConditions[4] = "`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
@@ -412,10 +412,10 @@ class Leave {
 		$sql_builder = new SQLQBuilder();
 		
 		$selectTable = "`hs_hr_leave`";		
-		$selectFields[0] = '`Leave_ID`';
+		$selectFields[0] = '`leave_id`';
 		$selectOrder = "DESC";
 		$selectLimit = 1;
-		$sortingField = '`Leave_ID`';
+		$sortingField = '`leave_id`';
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
 		//echo $query;
@@ -442,15 +442,15 @@ class Leave {
 
 		$table = "`hs_hr_leave`";
 
-		$changeFields[0] = "`Leave_Status`";
-		$changeFields[1] = "`Leave_Comments`";
+		$changeFields[0] = "`leave_status`";
+		$changeFields[1] = "`leave_comments`";
 
 		$changeValues[0] = $this->getLeaveStatus();
 		$changeValues[1] = "'".$this->getLeaveComments()."'";
 		
 		//print_r($changeValues);
 
-		$updateConditions[0] = "`Leave_ID` = ".$this->getLeaveId();
+		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
 
@@ -480,8 +480,8 @@ class Leave {
 		$leave_Type  = new LeaveType();
 		
 		$selectTable = "`hs_hr_leavetype`";		
-		$selectFields[0] = '`Leave_Type_Name`';    	
-    	$updateConditions[1] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
+		$selectFields[0] = '`leave_type_name`';    	
+    	$updateConditions[1] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
     	    	
     	$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $updateConditions, null, null, null);
 		//echo $query;
@@ -540,13 +540,13 @@ class Leave {
 		
 		$selectTable = "`hs_hr_leave`";
 
-		$selectFields[] = "DISTINCT YEAR(`Leave_Date`) ";
+		$selectFields[] = "DISTINCT YEAR(`leave_date`) ";
 		
-		$selectConditions[] = "`Leave_Date` < '".date('Y')."-01-01'";
+		$selectConditions[] = "`leave_date` < '".date('Y')."-01-01'";
 
 		$selectOrder = "DESC";
 		
-		$selectOrderBy = "`Leave_Date`";	
+		$selectOrderBy = "`leave_date`";	
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder);
 		
@@ -575,12 +575,12 @@ class Leave {
 		
 		$updateTable = "`hs_hr_leave`";
 		
-		$changeFields[] = '`Leave_Status`';
+		$changeFields[] = '`leave_status`';
 		
 		$changeValues[] = 3;
 		
-		$updateConditions[] = "`Leave_Status` = ".$this->statusLeaveApproved;
-		$updateConditions[] = "`Leave_Date` <= NOW()";
+		$updateConditions[] = "`leave_status` = ".$this->statusLeaveApproved;
+		$updateConditions[] = "`leave_date` <= NOW()";
 		
 		$query = $sqlBuilder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions);
 		

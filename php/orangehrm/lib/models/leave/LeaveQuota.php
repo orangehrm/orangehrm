@@ -141,12 +141,12 @@ class LeaveQuota {
 		
 		$updateTable = "`hs_hr_employee_leave_quota`";
 
-		$updateFileds[] = "`No_of_days_allotted`";	
+		$updateFileds[] = "`no_of_days_allotted`";	
 		
 		$updateValues[] = "'".$this->getNoOfDaysAllotted()."'";
 		
-		$updateConditions[] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
-		$updateConditions[] = "`Employee_ID` = '".$this->getEmployeeId()."'";
+		$updateConditions[] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
+		$updateConditions[] = "`employee_id` = '".$this->getEmployeeId()."'";
 		
 		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFileds, $updateValues, $updateConditions);
 		
@@ -178,8 +178,8 @@ class LeaveQuota {
 		
 		$selectFields[] = "COUNT(*)";
 		
-		$selectConditions[] = "`Leave_Type_ID` = '".$this->getLeaveTypeId()."'";
-		$selectConditions[] = "`Employee_ID` = '".$this->getEmployeeId()."'";
+		$selectConditions[] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
+		$selectConditions[] = "`employee_id` = '".$this->getEmployeeId()."'";
 		
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);		
 		
@@ -207,19 +207,19 @@ class LeaveQuota {
 	public function fetchLeaveQuota($employeeId) {
 		$sqlBuilder = new SQLQBuilder();
 		
-		$arrFields[0] = 'a.`Leave_Type_ID`';
-		$arrFields[1] = 'b.`Leave_Type_Name`';
-		$arrFields[2] = 'a.`No_of_days_allotted`';		
+		$arrFields[0] = 'a.`leave_type_id`';
+		$arrFields[1] = 'b.`leave_type_name`';
+		$arrFields[2] = 'a.`no_of_days_allotted`';		
 		
 		$arrTables[0] = "`hs_hr_employee_leave_quota` a";		
 		$arrTables[1] = "`hs_hr_leavetype` b";			
 		
-		$joinConditions[1] = "a.`Leave_Type_ID` = b.`Leave_Type_ID`";		
+		$joinConditions[1] = "a.`leave_type_id` = b.`leave_type_id`";		
 		
 		$selectConditions = null;
 		
-		$selectConditions[0] = "a.`Employee_ID` = '".$employeeId."'";
-		$selectConditions[1] = "a.`No_of_days_allotted` > 0";
+		$selectConditions[0] = "a.`employee_id` = '".$employeeId."'";
+		$selectConditions[1] = "a.`no_of_days_allotted` > 0";
 				
 		$selectOrderBy = $arrFields[1];
 		$selectOrder   = "DESC";
