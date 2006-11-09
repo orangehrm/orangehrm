@@ -10,8 +10,9 @@ function sockComm($postArr) {
 			."&userComments=".$postArr['userComments']
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
 			
-	    $fp = fsockopen($host, 80);
-	    
+	$fp = fsockopen($host, 80);
+	  
+	if ($fp) {
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
@@ -27,10 +28,12 @@ function sockComm($postArr) {
 	        
 	    fclose($fp);
 	    
+	    
 	    if(strpos($resp, 'SUCCESSFUL') === false) 
 	    	return false;
-	    else 
-	    	return true;
+	}
+	
+	return true;
 }
 
 function back($currScreen) {
