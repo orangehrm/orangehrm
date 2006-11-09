@@ -579,6 +579,7 @@ class Leave {
 		
 		$changeValues[] = 3;
 		
+		$updateConditions[] = "`Leave_Status` = ".$this->statusLeaveApproved;
 		$updateConditions[] = "`Leave_Date` <= NOW()";
 		
 		$query = $sqlBuilder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions);
