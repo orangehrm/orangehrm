@@ -10,7 +10,7 @@ function sockComm($postArr) {
 			."&userComments=".$postArr['userComments']
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
 			
-	$fp = fsockopen($host, 80);
+	$fp = @fsockopen($host, 80);
 	  
 	if ($fp) {
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
