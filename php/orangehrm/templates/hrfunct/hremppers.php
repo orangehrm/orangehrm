@@ -159,7 +159,7 @@
 				</td>
 <?php } ?>				
 				<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-				<input type="hidden" name="optGender" value="<?php echo (isset($edit[0][5]))?$edit[0][5]:$this->postArr['optGender']?>" />
+				<input type="hidden" name="optGender" value="<?php echo (isset($edit[0][5])?$edit[0][5]:'1')?>" />
 				<?php } ?>
 				</tr>
 				<tr>

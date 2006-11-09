@@ -5,16 +5,15 @@ function check_php_version($sys_php_version = '') {
 	// versions below $min_considered_php_version considered invalid by default,
 	// versions equal to or above this ver will be considered depending
 	// on the rules that follow 
-	$min_considered_php_version = '4.1.0';
+	$min_considered_php_version = '5.1.0';
 
 	// only the supported versions,
 	// should be mutually exclusive with $invalid_php_versions
-	$supported_php_versions = array (
-		'4.3.10', '4.3.11',
-		'4.4.1', '4.4.2',
+	$supported_php_versions = array (		
 		'5.0.1', '5.0.2', '5.0.3', '5.0.4',
 		'5.1.0', '5.1.1', '5.1.2', '5.1.3',
-		'5.1.4', '5.1.5', '5.1.6', '5.1.7'
+		'5.1.4', '5.1.5', '5.1.6', '5.1.7',
+		'5.2.0'
 	);
 	
 	sort($supported_php_versions);
@@ -137,7 +136,7 @@ function sysCheckPassed() {
             	switch($check_php_version_result)
             	{
             		case -1:
-	                  echo "<b><font color='red'>Invalid version ($php_version) Installed</font></b>";
+	                  echo "<b><font color='red'>Invalid version, ($php_version) Installed</font></b>";
    	               $error_found = true;
             			break;
             		case 0:
