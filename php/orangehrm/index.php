@@ -422,9 +422,15 @@ function setSize() {
                       
                       <ul id="menu">
                       	<?php 
-                      		if ($authorizeObj->isESS()) { 
+                      		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
+                 	
+                 			if ($authorizeObj->firstRole($allowedRoles)) {                      		
                       	?>
   						<li id="leaveSummary"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
+  						<?php 
+                 			}
+                 			if ($authorizeObj->isESS()) { 
+  						?>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leaves List</a></li>
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
   						<?php 
