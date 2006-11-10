@@ -12,6 +12,14 @@ $next				= 'Next';
 $employeeid 		= 'Employee Id';
 $employeename 		= 'Employee Name';
 
+$ADD_SUCCESS = 'Successfully Added';
+$UPDATE_SUCCESS = 'Successfully Updated';
+$DELETE_SUCCESS = 'Successfully Deleted';
+
+$ADD_FAILURE = 'Failed to Add';
+$UPDATE_FAILURE = 'Failed to Update';
+$DELETE_FAILURE = 'Failed to Delete';
+
 switch ($_GET['reqcode']) {
 	
 	case  'LAN' :

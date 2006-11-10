@@ -173,7 +173,7 @@ class LeaveController {
 	public function redirect($message=null, $url = null) {
 		if (isset($message)) {
 			
-			preg_replace('/[&|?]+id=[A-Za-z0-9]*', "", $_SERVER['HTTP_REFERER']);
+			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
 			
 			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
 				$message = "&message=".$message;
