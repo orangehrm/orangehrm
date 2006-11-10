@@ -31,8 +31,8 @@ class LeaveType {
 	 *
 	 **/
 	
-	public  $avalableStatuFlag = 1;
-	public  $unAvalableStatuFlag = 0;
+	public  $availableStatusFlag = 1;
+	public  $unAvailableStatusFlag = 0;
 	
 	/*
 	 *	Class Attributes
@@ -40,6 +40,7 @@ class LeaveType {
 	 **/
 	private $leaveTypeId;
 	private $leaveTypeName;
+	private $leaveTypeAvailable;
 	
 	/*
 	 *
@@ -73,8 +74,16 @@ class LeaveType {
 		$this->leaveTypeName = $leaveTypeName;
 	}
 	
+	public function getLeaveTypeAvailable () {
+		return $this->leaveTypeAvailable;
+	}
+	
+	public function setLeaveTypeAvailable($flag) {
+		$this->leaveTypeAvailable = $flag;
+	}
+	
 	/**
-	 * Enter description here...
+	 * Add the Leave Type
 	 *
 	 */
 	public function addLeaveType() {
@@ -82,7 +91,7 @@ class LeaveType {
 
 		$arrRecordsList[0] = "'".$this->getLeaveTypeId()."'";
 		$arrRecordsList[1] = "'".$this->getLeaveTypeName() ."'";
-		$arrRecordsList[2] = $this->avalableStatuFlag;
+		$arrRecordsList[2] = $this->availableStatusFlag;
 		
 
 		$sqlBuilder = new SQLQBuilder();
@@ -182,7 +191,7 @@ class LeaveType {
 			
 		$changeFields[0] = "`available_flag`";
 		
-		$changeValues[0] = "'".$this->unAvalableStatuFlag."'";
+		$changeValues[0] = "'".$this->unAvailableStatusFlag."'";
 
 			
 		$updateConditions[0] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
@@ -203,7 +212,7 @@ class LeaveType {
 		
 	}
 	
-	public function fetchLeaveTypes() {
+	public function fetchLeaveTypes($all=false) {
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -211,8 +220,13 @@ class LeaveType {
 		
 		$selectFields[0] = '`leave_type_id`';
 		$selectFields[1] = '`leave_type_name`';	
-		
-		$selectConditions[0] = "`available_flag` = '".$this->avalableStatuFlag."'";
+						
+		if (!$all) {
+			$selectConditions[0] = "`available_flag` = '".$this->availableStatusFlag."'";
+		} else {
+			$selectConditions = null;
+			$selectFields[2] = '`available_flag`';	
+		}
 		
     	$selectOrder = "ASC";
 
@@ -239,6 +253,10 @@ class LeaveType {
 						
 			$tmpLeaveArr->setLeaveTypeId($row[0]);
 			$tmpLeaveArr->setLeaveTypeName($row[1]);
+			
+			if (isset($row[2])) {
+				$tmpLeaveArr->setLeaveTypeAvailable($row[2]);
+			}
 			
 			$objArr[] = $tmpLeaveArr;
 		}

@@ -34,7 +34,6 @@ $helpLink = array("#welcome", '#license','#disclaimer', '#select DB');
 <head>
 <title>OrangeHRM Web Upgrader Wizard</title>
 <link href="../favicon.ico" rel="icon" type="image/gif"/>
-<link href="favicon.ico" rel="icon" type="image/gif"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script language="JavaScript">
 
@@ -58,7 +57,7 @@ function back() {
 <body>
 <div id="body">
   <a href="http://www.orangehrm.com"><img src="../themes/beyondT/pictures/orange3.png" alt="OrangeHRM" name="logo"  width="264" height="62" border="0" id="logo" style="margin-left: 10px;" title="OrangeHRM"></a>
-<form name="frmInstall" action="./Upgrader.php" method="POST">
+<form name="frmInstall" action="../upgrade.php" method="POST">
 <input type="hidden" name="txtScreen" value="<?php echo $currScreen?>">
 <input type="hidden" name="actionResponse">
 

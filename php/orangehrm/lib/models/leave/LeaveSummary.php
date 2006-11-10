@@ -42,6 +42,7 @@ class LeaveSummary extends LeaveQuota {
 	private $leaveTaken;
 	private $leaveAvailable;
 	private $year;	
+	private $leaveTypeAvailable;
 	
 	
 	/**
@@ -72,6 +73,14 @@ class LeaveSummary extends LeaveQuota {
 	
 	public function getYear() {
 		return $this->year;
+	}
+	
+	public function getLeaveTypeAvailable () {
+		return $this->leaveTypeAvailable;
+	}
+	
+	public function setLeaveTypeAvailable($flag) {
+		$this->leaveTypeAvailable = $flag;
 	}
 	
 	/**
@@ -113,7 +122,7 @@ class LeaveSummary extends LeaveQuota {
 		
 		$leveTypeObj = new LeaveType();		
 		
-		$leaveTypes = $leveTypeObj->fetchLeaveTypes();
+		$leaveTypes = $leveTypeObj->fetchLeaveTypes(true);
 		
 		if (is_array($leaveTypes)) {
 			foreach ($leaveTypes as $leaveType) {
@@ -130,15 +139,22 @@ class LeaveSummary extends LeaveQuota {
 				
 				$tmpLeaveSummary->setYear($this->getYear());
 				
+				$tmpLeaveSummary->setLeaveTypeAvailable($leaveType->getLeaveTypeAvailable());
+				
 				$leaveTypeList[$leaveType->getLeaveTypeId()] = $tmpLeaveSummary;
 			}
 			
-		
+			$objLeaveType = new LeaveType();
+			
 			while ($row = mysql_fetch_row($result)) {
 			
 				$tmpLeaveSummary = $leaveTypeList[$row[0]];
-			
-				$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
+				
+				$leaveTypeAvailable = $tmpLeaveSummary->getLeaveTypeAvailable();
+								
+				if (isset($leaveTypeAvailable) && ($leaveTypeAvailable == $objLeaveType->availableStatusFlag)) {
+					$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
+				}
 			
 				$taken = $tmpLeaveSummary->getLeaveTaken();
 				$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();			

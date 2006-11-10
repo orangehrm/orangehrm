@@ -198,7 +198,7 @@ class LeaveQuota {
 	
 	/**
 	 *	Retrieves Leave Quota Details of all Leave Quota 
-	 *	avaliable to the employee.
+	 *	available to the employee.
 	 * 	
 	 * 	@param String $employeeId
 	 * 	@return LeaveQuota[][]

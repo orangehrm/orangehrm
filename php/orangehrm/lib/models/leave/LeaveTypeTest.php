@@ -144,7 +144,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
         
 	
-        $expected = array('LTY012', 'Medicals' , $res[0]->unAvalableStatuFlag);
+        $expected = array('LTY012', 'Medicals' , $res[0]->unAvailableStatusFlag);
         
         $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
