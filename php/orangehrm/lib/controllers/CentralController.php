@@ -1024,7 +1024,8 @@ switch ($moduletype) {
 													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
 																								 break;
 																																										
-													case 'Leave_Summary'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+													case 'Leave_Summary'			: 	//echo $_REQUEST['id'];
+																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveController->setId($id);																						
 																						$leaveController->viewLeaves("summary", $year);

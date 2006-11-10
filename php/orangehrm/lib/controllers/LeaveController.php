@@ -172,15 +172,32 @@ class LeaveController {
 
 	public function redirect($message=null, $url = null) {
 		if (isset($message)) {
+			
+			preg_replace('/[&|?]+id=[A-Za-z0-9]*', "", $_SERVER['HTTP_REFERER']);
+			
 			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
 				$message = "&message=".$message;
 				$url = preg_split('/(&||\?)message=[A-Za-z0-9]*/', $_SERVER['HTTP_REFERER']);				
 			} else {
 				$message = "?message=".$message;
 			}
-		}		
+			
+			if (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+				$id = "&id=".$_REQUEST['id'];
+			} else {
+				$id="";
+			}
+		} else {
+			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0)) {
+				$id = "&id=".$_REQUEST['id'];
+			} else if (preg_match('/&/', $_SERVER['HTTP_REFERER']) == 0){
+				$id = "?id=".$_REQUEST['id'];			
+			} else {
+				$id="";
+			}
+		}
 		
-		header("Location: ".$url[0].$message);
+		header("Location: ".$url[0].$message.$id);
 	}
 	
 	public function addLeave() {
