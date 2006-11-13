@@ -118,7 +118,7 @@
  $lastname				= 'Last Name';
  $firstname	    		= 'First Name';
  $nickname    			= 'Nick Name';
- $supervisorsubordinator= 'Supervisor / Subordinator';
+ $supervisorsubordinator= 'Supervisor / Subordinate';
  $reportingmethod 	 	= 'Reporting Method';
  $supervisorinfomation  = 'Supervisor Infomation';
  $employeename  		= 'Employee Name';

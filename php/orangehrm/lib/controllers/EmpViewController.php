@@ -1528,6 +1528,9 @@ class EmpViewController {
 									$form_creator->popArr['plist'] = $porinfo->getProvinceCodes($object->cmbTaxCountry);
 									$form_creator->popArr['resplist'] = $porinfo->getProvinceCodes($object->cmbPermCountry);
 									$form_creator->popArr['resdlist'] = $distric->getDistrictCodes($object->cmbPermProvince);
+									
+									if(isset($postArr['cmbJobTitle']))
+										$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($postArr['cmbJobTitle'],'JOB','assigned');
 
 									$form_creator->popArr['ethRace'] = $ethnicrace->getEthnicRaceCodes($object->cmbEthnicRace);
 								}

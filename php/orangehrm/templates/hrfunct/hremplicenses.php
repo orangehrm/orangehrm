@@ -57,9 +57,14 @@ function createDate(str) {
 }
 
 function addEXTLicense() {
- 	
+	
 	var fromDate = createDate(document.frmEmp.txtEmpLicDat.value)
 	var toDate = createDate(document.frmEmp.txtEmpreDat.value);
+
+	if(document.frmEmp.cmbLicCode.value == '0') {
+		alert("No license selected");
+		return;
+	}
 	
 	if(toDate <= fromDate){
 		alert("From Date should be before To date");
@@ -164,7 +169,7 @@ if(isset($this->getArr['LIC'])) {
 					  <tr>
                       <td width="200"><?php echo $licentype?></td>
     				  <td><select name="cmbLicCode" <?php echo $locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">--Select Licenses Type--</option>
+    				  		<option selected value="0">--Select License Type--</option>
 <?php						$unassLicenlist= $this->popArr['unassLicenlist'];
 						
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)

@@ -107,8 +107,8 @@
  //payment
  $paygrade 				= 'Pay Grade';
  $currency				= 'Currency';
- $minpoint				= 'Min Point';
- $maxpoint				= 'Max Point';
+ $minpoint				= 'Min Salary';
+ $maxpoint				= 'Max Salary';
  $bassalary				= 'Basic Salary';
  $assignedsalary		= 'Assigned Salary';
  
@@ -118,7 +118,7 @@
  $lastname				= 'Last Name';
  $firstname	    		= 'First Name';
  $nickname    			= 'Nick Name';
- $supervisorsubordinator= 'Supervisor / Subordinator';
+ $supervisorsubordinator= 'Supervisor / Subordinate';
  $reportingmethod 	 	= 'Reporting Method';
  $supervisorinfomation  = 'Supervisor Infomation';
  $employeename  		= 'Employee Name';

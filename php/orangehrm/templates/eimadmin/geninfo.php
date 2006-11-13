@@ -134,8 +134,8 @@ function edit()
 	}
 	
 	function clearAll() {
-		//need to work
-		document.forms[0].reset('');
+		
+		window.location.reload();
 	}
 	
 	function validate() {

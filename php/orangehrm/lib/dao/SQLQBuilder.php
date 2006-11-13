@@ -67,32 +67,27 @@ class SQLQBuilder {
 	Constructor for the SQLQBuilder
 */
 	function SQLQBuilder() {
-	
 	}
 	
-/*	function quoteCorrect($arr) {
+	function quoteCorrect($arr) {
 		
-		foreach ($arr as $value) {
-			if ($value != 'null') {
-			
-				//$temp = substr($value,1,strlen($value)-2);				
-				if (preg_match('//', $value) == 0) {
+			foreach ($arr as $value) {
+				if ($value != 'null') {
+				
+					//$temp = substr($value,1,strlen($value)-2);				
 					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));					
-					$temp = mysql_real_escape_string($temp)/*str_replace("'","\'",$temp);
+					$temp = mysql_real_escape_string($temp); //str_replace("'","\'",$temp);
 					$tempArr[] = "'" . $temp . "'";
+									
 				} else {
 					$tempArr[] = $value;
-				}				
-								
-			} else {
-				$tempArr[] = $value;
+				}
 			}
-		}
 		
 		return $arr;
 	}
 
-	Function passresultSetMessage Will 
+/*	Function passresultSetMessage Will 
 	will get the SQLFormat Object as an input 
 	Parameter and extract the Object's Instance
 	Variables and by using them Build up the
@@ -100,6 +95,7 @@ class SQLQBuilder {
 */
 
 	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
+		
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
 			$SQL1 = 'SELECT ';
@@ -173,12 +169,12 @@ class SQLQBuilder {
 					if ($schArr) {
 						for ($i = 0; $i < count($schField) ; $i++) { 
 						 if($schField[$i]!=-1) {              
-                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim($schStr[$i]) .'%\' AND ';
+                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr[$i])) .'%\' AND ';
 						 }
 						}
 						$SQL1 = substr($SQL1,0,-1-4);
 					} else {
-						$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+						$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
 					}	
 					
                     
@@ -230,7 +226,7 @@ class SQLQBuilder {
                             {
                               case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                             }
                 }
@@ -259,7 +255,7 @@ class SQLQBuilder {
                             {
                               case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                             }
                 }
@@ -278,12 +274,15 @@ class SQLQBuilder {
 	INSERT Query
 */
 	
-	function addNewRecordFeature1() { 
+	function addNewRecordFeature1($quoteCorrect = true) { 
 		
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 						
 			$arrayFieldList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
+			
+			if($quoteCorrect)
+				$arrayFieldList = $this->quoteCorrect($arrayFieldList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
 						
@@ -319,50 +318,56 @@ class SQLQBuilder {
 		
 	}
 
-	function addNewRecordFeature2() { 
+	function addNewRecordFeature2($quoteCorrect = true, $duplicateInsert = false) { 
 		
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 
 			$arrayFieldList = $this->arr_insertfield;		
 			$arrayRecordList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
+
+			if($quoteCorrect)
+				$arrayRecordList = $this->quoteCorrect($arrayRecordList);
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' ( ';
 
 			for ($i=0;$i<count($arrayRecordList); $i++) {
-				
 				if ($i == ($countArrSize - 1))  { //String Manipulation
-				
 					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' ';		
-				
 				} else {
-				
 					$SQL1 = $SQL1 . $arrayFieldList[$i] . ', ';
-					
 				}
 			}
 			
 			$SQL1 = $SQL1 . ' ) VALUES (';
 			
 			for ($i=0;$i<count($arrayRecordList); $i++) {
-				
 				if ($i == ($countArrSize - 1))  { //String Manipulation
-				
 					$SQL1 = $SQL1 . $arrayRecordList[$i] . ' ';		
-				
 				} else {
-				
 					$SQL1 = $SQL1 . $arrayRecordList[$i] . ', ';
-					
 				}
 			}
 			
 			$SQL1 = $SQL1 . ')';
+			
+			if($duplicateInsert) {
+
+				$SQL1 = $SQL1 . ' ON DUPLICATE KEY UPDATE ';
+
+				for ($i = 0; $i<count($arrayFieldList); $i++) {
+					if ($i == ($countArrSize - 1))  { //String Manipulation
+						$SQL1 = $SQL1 . $arrayFieldList[$i] . '=' . $arrayRecordList[$i];		
+					} else {
+						$SQL1 = $SQL1 . $arrayFieldList[$i] . '=' . $arrayRecordList[$i]. ', ';
+					}
+				}
+			}
+			
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
 
 			return $SQL1; //returning the SQL1 which has the SQL Query
-			
 			
 		} else {
 			
@@ -567,13 +572,16 @@ function filterNotEqualRecordSet($filID) {
 		
 	}
 
-	function addUpdateRecord1($num=0) {
+	function addUpdateRecord1($num = 0, $quoteCorrect = true) {
 		
 		if ($this->flg_update == 'true') { // check whether the flg_insert is 'True'
 						
 			$arrayFieldList = $this->arr_update; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
+			
+			if($quoteCorrect)
+				$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
 			
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 			
@@ -682,7 +690,7 @@ function filterNotEqualRecordSet($filID) {
                             {
                               case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                                     }
                 }
@@ -738,11 +746,11 @@ function filterNotEqualRecordSet($filID) {
 			{             
                 if ($schField > (count($arrayFieldList)-1)) {
                 	
-                	$SQL1 .= ' AND '.$arrayFieldList2[$schField-count($arrayFieldList)] . ' LIKE \'%' . trim($schStr) .'%\'';
+                	$SQL1 .= ' AND '.$arrayFieldList2[$schField-count($arrayFieldList)] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
                 	
                 } else {
                 	
-                	$SQL1 .= ' AND '.$arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+                	$SQL1 .= ' AND '.$arrayFieldList[$schField] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
                 
                 }    
             }
@@ -792,7 +800,7 @@ function filterNotEqualRecordSet($filID) {
                             {
                               case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                                     }
                 }
@@ -812,13 +820,13 @@ function filterNotEqualRecordSet($filID) {
 				{
                 $SQL1 = $SQL1 . ' AND ';
                 
-                    switch($mode)
-                            {
+                    switch($mode) {
+                    	
                               case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
-                                    }
+                   }
                 }
 
 		
@@ -851,7 +859,7 @@ function filterNotEqualRecordSet($filID) {
                             {
                               case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim($str) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                                     }
                 }
@@ -878,12 +886,12 @@ function filterNotEqualRecordSet($filID) {
 					
 					for ($i = 0; $i < count($schField) ; $i++) { 
 						if($schField[$i]!=-1) {              
-                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim($schStr[$i]) .'%\' AND ';
+                    		$SQL1 = $SQL1 . $arrayFieldList[$schField[$i]] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr[$i])) .'%\' AND ';
 						 }
 					}
 					$SQL1 = substr($SQL1,0,-1-4);
 				} else {
-					$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim($schStr) .'%\'';
+					$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
 				}  
              }
 				
@@ -902,24 +910,22 @@ function filterNotEqualRecordSet($filID) {
 		}
 	}
 
-function listReports($userGroup, $page, $str = '' ,$mode = 0) {
+function listReports($userGroup, $page, $str = '' ,$mode = -1) {
 	
 		$SQL1 = "SELECT a.REP_CODE, a.REP_NAME FROM HS_HR_EMPREPORT a, HS_HR_EMPREP_USERGROUP b WHERE a.REP_CODE = b.REP_CODE AND b.USERG_ID = '" .$userGroup . "'";
 
-		if($mode!=0)
-				{
+		if($mode != (-1)) {
+			
                 $SQL1 = $SQL1 . " AND ";
                 
-                    switch($mode)
-                            {
-                              case 1 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim($str) .'%\'';
+                    switch($mode) {
+                    	
+                        case 0 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim($str) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim($str) .'%\'';
+                        case 1:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
-                                    }
-                }
-
-		
+                    }
+        }
 		
 		$SQL1 = $SQL1 . " GROUP BY a.REP_CODE";
 
@@ -950,7 +956,7 @@ function listReports($userGroup, $page, $str = '' ,$mode = 0) {
                             {
                               case 1 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim($schStr) .'%\'';
                                         break;
-                              case 2:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim($schStr) .'%\'';
+                              case 2:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
                                         break;
                             }
                 }

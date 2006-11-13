@@ -148,7 +148,7 @@ class ReportGenerator {
  			$parentTableName['ADDRESS1']	     = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['ADDRESS1']  = 'a.EMP_STREET1';
  			$existingTableName['ADDRESS1']	     = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['ADDRESS1']  = 'a.EMP_STREET1';
+ 			$parentTableDescription['ADDRESS1']  = "CONCAT(a.EMP_STREET1, a.EMP_STREET2)";
  		}   
  		
  		if(isset($this->field['ADDRESS2'])==1){	
@@ -188,7 +188,7 @@ class ReportGenerator {
  			$parentTableName['AGE']	    	= 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['AGE']	= 'a.EMP_BIRTHDAY';
  			$existingTableName['AGE']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['AGE']  = 'a.EMP_BIRTHDAY';			
+ 			$parentTableDescription['AGE']  = "DATE_FORMAT(a.EMP_BIRTHDAY, CONCAT(YEAR(a.EMP_BIRTHDAY), '-%m-%d'))"; 
  		}
  		
  		if(isset($this->field['PAYGRD'])==1){	
@@ -218,7 +218,7 @@ class ReportGenerator {
  			$parentTableName['SERPIR']	    	= 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['SERPIR']	= 'a.JOINED_DATE';
  			$existingTableName['SERPIR']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['SERPIR']  	= 'a.JOINED_DATE';	
+ 			$parentTableDescription['SERPIR']  	= "DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d'))";
  		}
  		
  		if(isset($this->field['QUL'])==1){	

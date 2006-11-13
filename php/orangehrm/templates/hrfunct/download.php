@@ -19,12 +19,12 @@ Boston, MA  02110-1301, USA
 
 session_start();
 
-if(!isset($_SESSION['fname'])) { 
+/*if(!isset($_SESSION['fname'])) { 
 
-	header("Location: ../../relogin.htm");
+	header("Location: ../../login.htm");
 	exit();
 }
-
+*/
 define("ROOT_PATH",$_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpAttach.php';
 
@@ -33,10 +33,15 @@ $arr[0]=$_GET['id'];
 $arr[1]=$_GET['ATTACH'];
 $edit=$attachment->filterEmpAtt($arr);
 
-header("Content-length: " .$edit[0][4]);
-header("Content-type: " .$edit[0][6]);
-header("Content-Disposition: attachment; filename=" .$edit[0][3]);
-echo $edit[0][5];
+///
+header("Pragma: public");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header("Cache-Control: private", false);
+header("Content-Type: " .$edit[0][6]);
+header("Content-Disposition: attachment; filename=\"".$edit[0][3]."\";");
+header("Content-Transfer-Encoding: binary");
+header("Content-Length: " .$edit[0][4]);
 
-exit(0);
+echo $edit[0][5];
 ?>

@@ -157,11 +157,15 @@ class EmpLanguage {
 
 	function addEmpLang() {
 		
-		$this->getEmpId();
-		$arrFieldList[0] = "'". $this->getEmpId() . "'";
-		$arrFieldList[1] = "'". $this->getEmpLangCode() . "'";
-		$arrFieldList[2] = "'". $this->getEmpLangType() . "'";
-		$arrFieldList[3] = "'". $this->empLangRatGrd . "'";
+		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpLangCode() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpLangType() . "'";
+		$arrRecordsList[3] = "'". $this->empLangRatGrd . "'";
+
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'LANG_CODE';
+		$arrFieldList[2] = 'ELANG_TYPE';
+		$arrFieldList[3] = 'COMPETENCY';
 
 		$tableName = 'HS_HR_EMP_LANGUAGE';
 	
@@ -169,17 +173,15 @@ class EmpLanguage {
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrFieldList;
-			
+		$sql_builder->arr_insertfield = $arrFieldList;
+		$sql_builder->arr_insert = $arrRecordsList;
 	
-		$sqlQString = $sql_builder->addNewRecordFeature1();
-	
+		$sqlQString = $sql_builder->addNewRecordFeature2(true, true);
+
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
-		 echo $message2;
-				
 	}
 	
 	function updateEmpLang() {
@@ -260,6 +262,7 @@ class EmpLanguage {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'LANG_CODE';
 		$arrFieldList[2] = 'ELANG_TYPE';
+		$arrFieldList[3] = 'COMPETENCY';
 
 		$sql_builder = new SQLQBuilder();
 		

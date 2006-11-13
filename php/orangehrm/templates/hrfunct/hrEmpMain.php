@@ -794,8 +794,8 @@ function resetAdd(panel) {
 					<td id="licenseLink"><a href="javascript:displayLayer(12)">License</a></td>
 					
 					<td id="membershipLink"><a href="javascript:displayLayer(13)">Membership</a></td>
-					<!--<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
-					<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
+					<td id="attachmentsLink"><a href="javascript:displayLayer(6)">Attachments</a></td>
+					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
 					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->		
 				</tr>
 			</table>
@@ -947,7 +947,7 @@ function resetAdd(panel) {
         </tr>
       </table>
     </div>
-    <div id="attachments" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
+    <div id="attachments" style="position:absolute; z-index:3; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>

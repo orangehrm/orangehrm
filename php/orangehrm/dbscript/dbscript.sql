@@ -270,9 +270,9 @@ create table `hs_hr_employee` (
   `emp_middle_name` varchar(100) default '',
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
-  `ethnic_race_code` varchar(100) default null,
+  `ethnic_race_code` varchar(6) default null,
   `emp_birthday` datetime default '0000-00-00',
-  `nation_code` varchar(100) default null,
+  `nation_code` varchar(6) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,
   `emp_ssn_num` varchar(100) default '',
@@ -281,9 +281,9 @@ create table `hs_hr_employee` (
   `emp_dri_lice_num` varchar(100) default '',
   `emp_dri_lice_exp_date` date default '0000-00-00',
   `emp_military_service` varchar(100) default '',
-  `emp_status` varchar(100) default null,
-  `job_title_code` varchar(100) default null,
-  `eeo_cat_code` varchar(100) default null,
+  `emp_status` varchar(6) default null,
+  `job_title_code` varchar(6) default null,
+  `eeo_cat_code` varchar(6) default null,
   `work_station` int(6) default null,
   `emp_street1` varchar(100) default '',
   `emp_street2` varchar(100) default '',
@@ -292,10 +292,10 @@ create table `hs_hr_employee` (
   `provin_code` varchar(100) default '',
   `emp_zipcode` varchar(20) default null,
   `emp_hm_telephone` varchar(50) default null,
-  `emp_mobile` varchar(6) default null,
-  `emp_work_telephone` varchar(6) default null,
+  `emp_mobile` varchar(50) default null,
+  `emp_work_telephone` varchar(50) default null,
   `emp_work_email` varchar(50) default null,
-  `sal_grd_code` varchar(100) default null,
+  `sal_grd_code` varchar(6) default null,
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
   primary key  (`emp_number`)
@@ -571,7 +571,7 @@ alter table hs_hr_location
 
 alter table hs_hr_job_title
        add constraint foreign key (sal_grd_code)
-                             references hs_pr_salary_grade(sal_grd_code) on delete cascade;
+                             references hs_pr_salary_grade(sal_grd_code) on delete set null;
 
 alter table hs_hr_jobtit_empstat
        add constraint foreign key (jobtit_code)
@@ -587,15 +587,27 @@ alter table hs_hr_membership
 
 alter table hs_hr_employee
        add constraint foreign key (work_station)
-                             references hs_hr_compstructtree(id) on delete cascade;
+                             references hs_hr_compstructtree(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (ethnic_race_code)
-                             references hs_hr_ethnic_race(ethnic_race_code) on delete cascade;
+                             references hs_hr_ethnic_race(ethnic_race_code) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (nation_code)
-                             references hs_hr_nationality(nat_code) on delete cascade;
+                             references hs_hr_nationality(nat_code) on delete set null;
+
+alter table hs_hr_employee
+       add constraint foreign key (job_title_code)
+                             references hs_hr_job_title(jobtit_code) on delete set null;
+
+alter table hs_hr_employee
+       add constraint foreign key (emp_status)
+                             references hs_hr_empstat(estat_code) on delete set null;
+
+alter table hs_hr_employee
+       add constraint foreign key (eeo_cat_code)
+                             references hs_hr_eec(eec_code) on delete set null;
 
 alter table hs_hr_emp_children
        add constraint foreign key (emp_number)
@@ -649,9 +661,6 @@ alter table hs_hr_emp_work_experience
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_emp_attachment
-       add constraint foreign key (emp_number)
-                             references hs_hr_employee(emp_number) on delete cascade;
 
 alter table hs_hr_emp_passport
        add constraint foreign key (emp_number)
@@ -676,6 +685,7 @@ alter table hs_hr_emp_reportto
 alter table hs_hr_emp_reportto
        add constraint foreign key (erep_sub_emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
+                             
 alter table hs_hr_emp_basicsalary
        add constraint foreign key (sal_grd_code)
                              references hs_pr_salary_grade(sal_grd_code) on delete cascade;
@@ -692,7 +702,6 @@ alter table hs_hr_emp_language
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-
 alter table hs_hr_emp_language
        add constraint foreign key (lang_code)
                              references hs_hr_language(lang_code) on delete cascade;
@@ -700,7 +709,6 @@ alter table hs_hr_emp_language
 alter table hs_hr_emp_contract_extend
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
-
 
 alter table hs_hr_db_version
        add constraint foreign key (entered_by) 
@@ -744,7 +752,7 @@ alter table hs_hr_users
        
 alter table hs_hr_users
        add constraint foreign key (userg_id) 
-       						references hs_hr_user_group (userg_id) on delete cascade;
+       						references hs_hr_user_group (userg_id) on delete set null;
        						
 alter table hs_hr_users
        add constraint foreign key (emp_number) 
@@ -789,7 +797,6 @@ alter table hs_hr_leave
 alter table hs_hr_leave
        add constraint foreign key (leave_type_id) 
        						references hs_hr_leavetype (leave_type_id) on delete cascade;
-
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);

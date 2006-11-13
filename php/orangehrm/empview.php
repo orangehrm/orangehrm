@@ -439,7 +439,7 @@ parent.scrollTo(0, 0);
 
                       <td width="200" class="dataLabel" noWrap><slot><?php echo $description?></slot>&nbsp;&nbsp;<slot>
 
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>">
 
                      </slot></td>
 

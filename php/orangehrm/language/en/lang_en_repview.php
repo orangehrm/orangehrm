@@ -1,6 +1,9 @@
 <?php
-$srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
+$srchlist[0] = array( -1 , 0 , 1 );
+$srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
+
+$searchby = 'Search by:';
+$searchfor = 'Search for:';
 
 $Previous = 'Previous';
 $Next     = 'Next';

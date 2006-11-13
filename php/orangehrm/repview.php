@@ -20,8 +20,6 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-$srchlist[0] = array( -1 , 0 , 1 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
@@ -201,7 +199,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
                         <select style="z-index: 99;" name="loc_code">
 <?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
@@ -211,8 +209,8 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 ?>								   
                         </select>
                       </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])?$this->postArr['loc_name']:''?>">
+                      <td width="200" class="dataLabel" noWrap><slot><?php echo $searchfor?></slot>&nbsp;&nbsp;<slot>
+                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>">
                      </slot></td>
                     <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.jpg';" src="../../themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
 
@@ -256,9 +254,9 @@ else
 		
 	
 		if ($currentPage==1)
-			echo "<font color='Gray'>Previous</font>";
+			echo "<font color='Gray'>$Previous</font>";
 		else
-    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
+    		echo "<a href='#' onClick='prevPage()'>$Previous</a>";
     	
     	echo "  ";
     	
@@ -272,9 +270,9 @@ else
 		}
 		
 		if($currentPage == $noPages)
-			echo "<font color='Gray'>Next</font>";
+			echo "<font color='Gray'>$Next</font>";
 		else
-    		echo "<a href='#' onClick='nextPage()'>Next</a>";
+    		echo "<a href='#' onClick='nextPage()'>$Next</a>";
 	
 	}
 ?> 

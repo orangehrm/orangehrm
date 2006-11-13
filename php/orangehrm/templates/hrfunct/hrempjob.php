@@ -1,6 +1,6 @@
 <script language="javascript">
 	function returnLocDet(){
-		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400');
+		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400,resizable=1');
         if(!popup.opener) popup.opener=self;	
 	}
 </script>
@@ -20,11 +20,14 @@
 			  <td><?php echo $empstatus?></td>
 			  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbType">
 			  		<option value="0"><?php echo $selempstat?></option>
-<?php					for($c=0;count($arrEmpType)>$c;$c++)
-						if(isset($this->postArr['cmbType']) && $this->postArr['cmbType']==$arrEmpType[$c])
-							echo "<option selected>" .$arrEmpType[$c]. "</option>";
-						else
-							echo "<option>" .$arrEmpType[$c]. "</option>";
+<?php				if(isset($this->postArr['cmbType'])) {
+						$arrEmpType = $this->popArr['empstatlist'];
+						for($c=0;count($arrEmpType)>$c;$c++)
+							if($this->postArr['cmbType']==$arrEmpType[$c][0])
+								echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+							else
+								echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
+					}
 ?>			        
 			  </select></td>
               </tr>
@@ -64,11 +67,16 @@
 			  		<option value="0">---Select <?php echo $jobtitle?>---</option>
 			  		<?php $jobtit = $this->popArr['jobtit'];
 			  			for ($c=0; $jobtit && count($jobtit)>$c ; $c++) 
-			  				if($edit1[0][2] == $jobtit[$c][0])
-				  				echo "<option selected value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
-				  			else
-				  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
-			  			 ?>
+			  				if(isset($this->postArr['cmbJobTitle'])) {
+			  					if($this->postArr['cmbJobTitle'] == $jobtit[$c][0])
+					  				echo "<option selected value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+					  			else
+					  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+			  				} elseif($edit1[0][2] == $jobtit[$c][0])
+					  				echo "<option selected value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+					  			else
+					  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+			  		?>
 
 			  			
 			  <td width="50">&nbsp;</td>
@@ -109,8 +117,8 @@
 			  
 			  <td width="50">&nbsp;</td>
 			  <td nowrap><?php echo $workstation?></td>
-			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo $edit1[0][4]?>" readonly />
-			  			 <input type="hidden"  name="cmbLocation" value="<?php echo $edit1[0][6]?>" readonly />
+			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly />
+			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly />
 			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
 			  </tr>
 			  <tr>

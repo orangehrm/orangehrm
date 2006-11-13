@@ -13,6 +13,12 @@ function sockComm($postArr) {
 	$fp = @fsockopen($host, 80);
 	  
 	if ($fp) {
+	    if(!$fp)
+	    	return false;
+	    	
+	    if(!$fp)
+	    	return false;
+	    	
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");

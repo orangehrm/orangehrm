@@ -178,7 +178,7 @@ class EmpAttach {
 		$sql_builder->arr_insert = $arrFieldList;		
 			
 	
-		$sqlQString = $sql_builder->addNewRecordFeature1();
+		$sqlQString = $sql_builder->addNewRecordFeature1(false);
 	
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -205,7 +205,7 @@ class EmpAttach {
 		$sql_builder->arr_update = $arrFieldList;	
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
-		$sqlQString = $sql_builder->addUpdateRecord1(1);
+		$sqlQString = $sql_builder->addUpdateRecord1(1, false);
 		
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

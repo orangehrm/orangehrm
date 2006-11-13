@@ -21,9 +21,10 @@ session_start();
 
 if(!isset($_SESSION['fname'])) { 
 
-	header("Location: ../../relogin.htm");
+	header("Location: ../../login.htm");
 	exit();
 }
+
 define("ROOT_PATH",$_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPhoto.php';

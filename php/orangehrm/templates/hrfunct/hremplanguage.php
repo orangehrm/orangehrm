@@ -254,6 +254,7 @@ if(isset($this->getArr['lanSEQ'])) {
                       	<td></td>
 						 <td><strong><?php echo $language?></strong></td>
 						 <td><strong><?php echo $fluency?></strong></td>
+						 <td><strong><?php echo $ratinggarde?></strong></td>
 					</tr>
 <?php
 $rset = $this->popArr['rsetLang'];
@@ -271,6 +272,11 @@ $rset = $this->popArr['rsetLang'];
 				if($rset[$c][2] == $index[$a])
 				   $flu=$value[$a];
             echo '<td>' . $flu .'</a></td>';
+            for($a=0;count($grdcodes)>$a;$a++)
+				if($rset[$c][3] == $code[$a])
+				   $rate=$name[$a];
+            echo '<td>' . $rate.'</a></td>';
+
         echo '</tr>';
         }
 

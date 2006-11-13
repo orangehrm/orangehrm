@@ -69,35 +69,20 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 function goBack() {
 
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-
 	}
 
-
-
-
-
-	function addSave() {
-
-		
+function addSave() {
 
 		var txt=document.frmEmpStat.txtEmpStatDesc;
 
-		if (!alpha(txt)) {
-
-			alert ("Description Error!");
-
-			txt.focus();
-
-			return;
-
+		if (txt.value == '') {
+				alert ("Description Error!");
+				txt.focus();
+				return;
 			}
 
-			
-
 		document.frmEmpStat.sqlState.value = "NewRecord";
-
 		document.frmEmpStat.submit();		
-
 	}
 
 	
@@ -105,7 +90,6 @@ function goBack() {
 	function clearAll() {
 
 		document.frmEmpStat.txtEmpStatDesc.value = '';
-
 	}
 
 				
@@ -280,194 +264,109 @@ function goBack() {
 
 <script>			
 
-function alpha(txt)
+function alpha(txt) {
 
-{
+	var flag=true;
+	var i,code;
 
-var flag=true;
+	if(txt.value=="")
+	   return false;
 
-var i,code;
-
-
-
-if(txt.value=="")
-
-   return false;
-
-
-
-for(i=0;txt.value.length>i;i++)
-
-	{
+	for(i=0;txt.value.length>i;i++) {
 
 	code=txt.value.charCodeAt(i);
-
     if((code>=65 && code<=122) || code==32 || code==46)
-
 	   flag=true;
-
-	else
-
-	   {
-
+	else {
 	   flag=false;
-
 	   break;
-
 	   }
-
 	}
 
-return flag;
-
+	return flag;
 }
 
-
-
-function numeric(txt)
-
-{
-
-var flag=true;
-
-var i,code;
-
-
-
-if(txt.value=="")
-
-   return false;
-
-
-
-for(i=0;txt.value.length>i;i++)
-
-	{
-
-	code=txt.value.charCodeAt(i);
-
-    if(code>=48 && code<=57)
-
-	   flag=true;
-
-	else
-
-	   {
-
-	   flag=false;
-
-	   break;
-
-	   }
-
-	}
-
-return flag;
-
+function numeric(txt) {
+	
+	var flag=true;
+	var i,code;
+	
+	if(txt.value=="")
+	   return false;
+	
+	for(i=0;txt.value.length>i;i++) {
+	
+		code=txt.value.charCodeAt(i);
+	    if(code>=48 && code<=57)
+		   flag=true;
+		else {
+		   flag=false;
+		   break;
+		   }
+		}
+	
+	return flag;
 }
 
-
-
-	function goBack() {
-
-
+function goBack() {
 
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-
 	}
 
 
 
 function mout() {
-
 	if(document.Edit.title=='Save') 
-
 		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
-
 	else
-
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
-
 }
 
 
 
 function mover() {
-
 	if(document.Edit.title=='Save') 
-
 		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
-
 	else
-
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
-
 }
 
 	
 
-function edit()
-
-{
+function edit() {
 
 	if(document.Edit.title=='Save') {
-
 		addUpdate();
-
 		return;
-
 	}
-
-	
 
 	var frm=document.frmEmpStat;
 
-//  alert(frm.elements.length);
-
 	for (var i=0; i < frm.elements.length; i++)
-
 		frm.elements[i].disabled = false;
 
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
-
 	document.Edit.title="Save";
-
 }
 
+function addUpdate() {
+	var txt=document.frmEmpStat.txtEmpStatDesc;
 
+	if (txt.value == '') {
+		alert ("Description Error!");
+		return;
+	} 
 
-	function addUpdate() {
-
-		var txt=document.frmEmpStat.txtEmpStatDesc;
-
-		if (!alpha(txt)) {
-
-			alert ("Description Error!");
-
-			return;
-
-		} 
-
-		
-
-		document.frmEmpStat.sqlState.value = "UpdateRecord";
-
-		document.frmEmpStat.submit();		
-
+	document.frmEmpStat.sqlState.value = "UpdateRecord";
+	document.frmEmpStat.submit();		
 	}
 
-	
-
-	function clearAll() {
+function clearAll() {
 
 		if(document.Edit.title!='Save') 
-
 			return;
 
-
-
 		document.frmEmpStat.txtEmpStatDesc.value = '';
-
 	}			
 
 </script>
