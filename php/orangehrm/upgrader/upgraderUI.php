@@ -6,7 +6,7 @@ $cupath = realpath(dirname(__FILE__).'/../');
 define('ROOT_PATH', $cupath);
 
 
-if(isset($_SESSION['DBCHOICE'])) {
+if(isset($_SESSION['OPTIONS'])) {
 	$currScreen = 4;
 }elseif(isset($_SESSION['DISCLAIMER'])) {
 	$currScreen = 3;
@@ -24,9 +24,9 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license' ,'disclaimer', 'select DB');
+$steps = array('welcome', 'license' ,'disclaimer', 'options');
 
-$helpLink = array("#welcome", '#license','#disclaimer', '#select DB');
+$helpLink = array("#welcome", '#license','#disclaimer', '#options');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -93,7 +93,7 @@ switch ($currScreen) {
 	case 0 	: 	require(ROOT_PATH . '/upgrader/welcome.php'); break;
 	case 1 	: 	require(ROOT_PATH . '/upgrader/license.php'); break;
 	case 2 	: 	require(ROOT_PATH . '/upgrader/disclaimer.php'); break;
-	case 3 	: 	require(ROOT_PATH . '/upgrader/dbchoice.php'); break;
+	case 3 	: 	require(ROOT_PATH . '/upgrader/options.php'); break;
 	
 }
 ?>
