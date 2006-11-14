@@ -80,10 +80,10 @@ class BackupTest extends PHPUnit_Framework_TestCase {
   	public function testdumpDatabase(){
   		$con = mysql_connect("localhost", "root", "beyondm");
   		$this->classBackup->setConnection($con);
-		$this->classBackup->setDatabase("hsenidco_hsenid");
+		$this->classBackup->setDatabase("BackupTest");
 		
 		$filecontent=$this->classBackup->dumpDatabase(null);
-		
+		echo $filecontent;
 		$this->assertEquals($filecontent, true, "No record found");
   	}
 	

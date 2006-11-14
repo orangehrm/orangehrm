@@ -70,8 +70,9 @@ class Backup {
 	
 	
 	public function dumpDatabase($stracture=null) {
-		
+		$stracture="";
 		if(isset($stracture)) {
+			$stracture="";
 		 	$structure= $this->_dumpStructure();	
 		}
 		$data = $this-> _dumpData();
@@ -82,6 +83,7 @@ class Backup {
 	
 	public function _dumpData() {
 
+		
 		// Connect to database
 		$db = @mysql_select_db($this->getDatabase());
 
@@ -106,7 +108,7 @@ class Backup {
 				$table = $arr_tables[$y];
 
 				// Dump data
-				unset($data);
+				$data ="";
 				$result     = mysql_query("SELECT * FROM `$table`");
 				$num_rows   = mysql_num_rows($result);
 				$num_fields = mysql_num_fields($result);
@@ -156,7 +158,7 @@ class Backup {
 		
 			// Connect to database
 		$db = @mysql_select_db($this->getDatabase());
-
+        $structure="";
 		if (!empty($db)) {
 
 			// Get all table names from database
@@ -176,7 +178,7 @@ class Backup {
 				
 				// DB Table name
 				$table = $arr_tables[$y];
-				
+
 				// Dump Structure
 				$structure .= "DROP TABLE IF EXISTS `{$table}`; \n";
 				$structure .= "CREATE TABLE `{$table}` (\n";
