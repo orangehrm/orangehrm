@@ -5,7 +5,7 @@ $srchlist[1] = array( '-Select-', 'Emp. ID', 'Emp. First Name', 'Emp. Last Name'
 
 $serach    			= 'Search';
 $searchby 			= 'Search By:';
-$description		= 'Description';
+$description		= 'Search For:';
 $norecorddisplay 	= '"No Records to Display !"';
 $previous 			= 'Previous';
 $next				= 'Next';

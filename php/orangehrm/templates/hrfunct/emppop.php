@@ -197,7 +197,7 @@ else
 ?>								   
                         </select>
                       </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel" noWrap><slot>Search For:</slot>&nbsp;&nbsp;<slot>
                         <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>">
                      </slot></td>
 
