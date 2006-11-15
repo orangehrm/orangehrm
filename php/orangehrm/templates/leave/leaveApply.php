@@ -38,19 +38,59 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//}
 
 	function addSave() {
-		
-		if (document.frmLeaveApp.txtLeaveDate.value == '') {
-			alert ("Leave Date Cannot be a Blank Value!");
+		obj = document.frmLeaveApp.txtLeaveDate;
+		if ((obj.value == '') || !validDate(obj.value)) {
+			alert ("Invalid Date or Date in the Past!");
 			return false;
 		}
-		if (document.frmLeaveApp.sltLeaveType.value == '') {
-			alert ("Leave Type Cannot be a Blank Value!");
+		obj = document.frmLeaveApp.sltLeaveType;
+		if (obj.value == -1) {
+			alert ("Please select a leave type!");
 			return false;
 		}
 			
 		//document.frmSkills.sqlState.value = "NewRecord";
 		document.frmLeaveApp.submit();		
-	}			
+	}
+	
+	function validDate(txt) {
+		dateExpression = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
+		
+		if (!dateExpression.test(txt)) {
+			return false;
+		}
+			
+		todayTxt = '<?php echo date('Y-m-d');	?>';
+			
+		txtDate = new Date();
+		today = new Date();	
+		
+		txtArr = txt.split(/-/);
+		todayArr = todayTxt.split(/-/);
+		
+		txtDate.setYear(txtArr[0]);	
+		today.setYear(todayArr[0]);
+		
+		if (txtDate.getYear() < today.getYear()) {
+			return false;
+		}
+		
+		txtDate.setMonth(txtArr[1]);
+		today.setMonth(todayArr[1]);
+				
+		if (txtDate.getMonth() < today.getMonth()) {
+			return false;
+		}
+		
+		txtDate.setDate(txtArr[2]);
+		today.setDate(todayArr[2]);
+				
+		if (txtDate.getDate() < today.getDate()) {
+			return false;
+		}				
+		
+		return true;
+	}
 	
 	//function clearAll() {
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
@@ -78,13 +118,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
           <input type="submit" name="Submit" value="...." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveDate);return false;"/></td>
       <td align="right" valign="top">&nbsp;</td>
       <td colspan="2" align="left" valign="top">
-      	<select name="sltLeaveType" id="sltLeaveType">
+      	<select name="sltLeaveType" id="sltLeaveType">      		
 	  <?php
 	  	if (is_array($records[1]))
 	  	 	foreach ($records[1] as $record) {
 	  ?>
         	<option value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option> 
-      <?php 	}?>
+      <?php } else {?>
+      		<option value="-1">-- No Leave Types --</option> 
+      <?php } ?>
          </select>
       </td>
       <td rowspan="4" background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
