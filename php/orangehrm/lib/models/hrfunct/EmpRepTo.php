@@ -163,28 +163,29 @@ class EmpRepTo {
 
 	function addEmpRepTo() {
 		
-		$this->getEmpId();
-		$arrFieldList[0] = "'". $this->getEmpSupId() . "'";
-		$arrFieldList[1] = "'". $this->getEmpSubId() . "'";
-		$arrFieldList[2] = "'". $this->getEmpRepMod() . "'";
+		$arrRecordsList[0] = "'". $this->getEmpSupId() . "'";
+		$arrRecordsList[1] = "'". $this->getEmpSubId() . "'";
+		$arrRecordsList[2] = "'". $this->getEmpRepMod() . "'";
 
 		$tableName = 'HS_HR_EMP_REPORTTO';
 	
+		$arrFieldList[0] = 'EREP_SUP_EMP_NUMBER';
+		$arrFieldList[1] = 'EREP_SUB_EMP_NUMBER';
+		$arrFieldList[2] = 'EREP_REPORTING_MODE';
+		
 		$sql_builder = new SQLQBuilder();
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrFieldList;
-			
+		$sql_builder->arr_insertfield = $arrFieldList;
+		$sql_builder->arr_insert = $arrRecordsList;
 	
-		$sqlQString = $sql_builder->addNewRecordFeature1();
+		$sqlQString = $sql_builder->addNewRecordFeature2(true, true);
 	
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
-		 echo $message2;
-				
 	}
 	
 	function updateEmpRepTo($supEmpID,$subEmpID,$oldRepMethod,$newRepMethod) {
