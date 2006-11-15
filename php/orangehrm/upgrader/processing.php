@@ -1,8 +1,6 @@
-<?php $installFinishValue = 3; ?>
+<?php $installFinishValue = 4; ?>
 <div id="content">
-		<h2>Step 2: Restoring the database </h2>
-   
-		<p>&nbsp;</p>
+		<h2>Restoring the database </h2>
 <?php
 $_SESSION['RESTORING'] = isset($_SESSION['RESTORING'])? $_SESSION['RESTORING'] : 0;
 switch ($_SESSION['RESTORING']) {
@@ -10,7 +8,9 @@ switch ($_SESSION['RESTORING']) {
 			break;
 	case 2: $nextPhase = 'Phase 2';
 			break;
-	case 3: $nextPhase = 'REGISTER';
+	case 3: $nextPhase = 'Phase 2';
+			break;
+	case 4: $nextPhase = 'REGISTER';
 			break;
 	default: $nextPhase = 'LOGIN';
 			break;
@@ -24,7 +24,7 @@ Click <b>[Next]</b> to continue.
 </p>
 <?php } elseif (!isset($error)) { ?>
 <p align="center">
-<img src="images/progress_bar.gif" width="150" height="13" alt="Upgrading..." id="progressbar"><br/>
+<img src="../installer/images/progress_bar.gif" width="150" height="13" alt="Upgrading..." id="progressbar"><br/>
 Please wait. Upgrading in progress.
 </p>
 <?php } else { ?>
@@ -33,7 +33,7 @@ Upgrading is  aborted due to an error. Click <b>[Clean Up Upgrade]</b> to correc
 </p>
 <?php } 
 
-$Phases = array('Phase 1', 'Phase 2', 'Phase 3');
+$Phases = array('Phase 1', 'Phase 2', 'Phase 3', 'Phase 4');
 
   $controlval = 0;
   	
@@ -79,10 +79,10 @@ $Phases = array('Phase 1', 'Phase 2', 'Phase 3');
 	<?php if (!isset($error)){
 		if ($_SESSION['RESTORING'] < $installFinishValue) { ?>
           <noscript>
-          <meta http-equiv="Refresh" content="2;URL=Restorer.php" />
+          <meta http-equiv="Refresh" content="2;URL=../upgrade.php" />
           </noscript>
           <script language="JavaScript" type="text/javascript">
-			setTimeout('window.location= "Restorer.php"', 2000);
+			setTimeout('window.location= "../upgrade.php"', 2000);
 			if (document.images)
 			{ 
 				setTimeout('document.progressbar.src = document.progressbar.src', 2000);
@@ -94,5 +94,3 @@ $Phases = array('Phase 1', 'Phase 2', 'Phase 3');
 		<input class="button" type="button" value="<?php echo (isset($error))? 'Clean Up Upgrade' : 'Back'?>" onclick="back();" tabindex="2" <?php echo (isset($error))? '' : 'disabled'?> />
  <input type="button" onClick='next();' value="Next" tabindex="1" <?php echo (isset($_SESSION['RESTORING']) && ($_SESSION['RESTORING'] >=$installFinishValue))? '' : 'disabled'?> />
 </div>
-		<h4 id="welcomeLink"><a href="http://www.orangehrm.com" target="_blank" tabindex="36">OrangeHRM.com</a></h4>
-	 

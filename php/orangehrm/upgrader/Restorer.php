@@ -53,18 +53,16 @@ if(isset($_POST['actionResponse']))
 	switch($_POST['actionResponse']) {
 		
 		case 'UPLOADOK' 	:	if($_FILES['file']['size']<0) {
-								$error = "UPLOAD THE BACK UP FILE!";
+									$error = "UPLOAD THE BACK UP FILE!";
 								}else if ($_FILES['file']['type'] != "text/plain") { 
-	 							$error = "WRONGFILEFORMAT!";  
-								} else  { 
-									
-										 $_SESSION['RESTORING'] = 0;
+	 								$error = "WRONGFILEFORMAT!";  
+								} else  {									
+									$_SESSION['RESTORING'] = 0;
 								
-										  $_SESSION['FILEDUMP'] = file_get_contents($_FILES['file']['tmp_name']);
-										  $_SESSION['DATABASE_BACKUP']="";
-										  							
-									 }
-							  break;
+									$_SESSION['FILEDUMP'] = file_get_contents($_FILES['file']['tmp_name']);
+									$_SESSION['DATABASE_BACKUP']="";										  							
+								}
+							  	break;
 	
 		case 'CANCEL' 		:	session_destroy();							
 								header("Location: ./Upgrader.php");

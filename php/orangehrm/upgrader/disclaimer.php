@@ -13,7 +13,7 @@ function disclaimerAccept() {
 
 	<div id="content">
 	
-  		<h2>Step 2: Disclaimer</h2>
+  		<h2>Disclaimer</h2>
 		
 		<p>Please read the disclaimer and click <b>[Accept]</b> to continue. </p>
     	<textarea cols="80" rows="20" readonly tabindex="1"><?php echo $license_file?></textarea><br /><br />

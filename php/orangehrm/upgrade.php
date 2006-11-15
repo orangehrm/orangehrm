@@ -12,10 +12,15 @@ function back($currScreen) {
 		case 4 	: 	unset($_SESSION['LOCCONFOPT']);	break;
 		case 3 	: 	unset($_SESSION['DBCONFOPT']); break;		
 		case 5 	: 	unset($_SESSION['LOCCONF']); break;
-		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;
-		case 7 	: 	unset($_SESSION['DOWNLOAD']); break;		
+		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;		
+		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
+		case 8 	: 	unset($_SESSION['RESTORE']);
+					if(isset($_SESSION['DATABASE_BACKUP'])) {
+				 		include(ROOT_PATH.'/upgrader/restoreBackup.php');
+					}
+					break;		
 	
-		case 8 	: 	return false; break;
+		case 9 	: 	return false; break;
  	}
 
  	$currScreen--;
@@ -89,6 +94,19 @@ if(isset($_POST['actionResponse']))
 		case 'DBINFO'		: extractDbInfo();
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 		
+		case 'UPLOADOK' 	:	if ($_FILES['file']['size']<0) {
+									$error = "UPLOAD THE BACK UP FILE!";
+								}else if ($_FILES['file']['type'] != "application/sql") { 
+	 								$error = "WRONG FILE FORMAT!";  
+								} else  {									
+									$_SESSION['RESTORING'] = 0;
+								
+									$_SESSION['FILEDUMP'] = file_get_contents($_FILES['file']['tmp_name']);
+									$_SESSION['DATABASE_BACKUP']="";										  							
+								}
+							  	break;
+		case 'SYSCHECKOK'	: $_SESSION['SYSCHECK'] = 'OK'; break;
+		
 		case 'CANCEL' 		:	session_destroy();							
 								header("Location: upgrade.php");
 								exit(0);
@@ -105,6 +123,10 @@ if (isset($error)) {
 
 if (isset($reqAccept)) {
 	$_SESSION['reqAccept'] = $reqAccept;
+}
+
+if (isset($_SESSION['RESTORING'])) {
+	include(ROOT_PATH.'/upgrader/RestoringData.php');
 }
 
 header('Location: upgrader/upgraderUI.php');

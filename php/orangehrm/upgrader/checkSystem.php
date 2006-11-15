@@ -110,7 +110,7 @@ function sysCheckPassed() {
 
 <div id="content">
 
-  <h2>Step 2: System Check</h2>  
+  <h2>System Check</h2>  
   
   <p>In order for your OrangeHRM installation to function properly,
   please ensure all of the system check items listed below are green. If

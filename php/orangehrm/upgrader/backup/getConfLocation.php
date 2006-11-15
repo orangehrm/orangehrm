@@ -5,7 +5,7 @@ function confLocationSubmit() {
 }
 </script>
 <div id="content">
-	<h2>Step 4: OrangeHRM 1.2 </h2>   
+	<h2>OrangeHRM 1.2 </h2>   
 	<?php if (isset($_SESSION['error'])) { ?>
     <p><?php echo $_SESSION['error']; ?></p>
     <?php } ?>

@@ -5,8 +5,11 @@ if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }	
 
+unset($error);
+
 //require_once(ROOT_PATH.'/upgrader/applicationSetup.php');
-require ROOT_PATH.'/upgrader/Restore.php';
+require_once ROOT_PATH.'/upgrader/Restore.php';
+require_once ROOT_PATH.'/upgrader/backup/Backup.php';
 
 function createDB() {
 	
@@ -25,13 +28,13 @@ function connectDB() {
 
 	if(!$connect = @mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
 		$_SESSION['error'] =  'Database Connection Error!';		
-		return;
+		return false;
 	}
 	return $connect;
 }
 
 
-function fillData($phase=1, $source='/dbscript/dbscript-') {
+function fillData($phase=1, $source='/dbscript/dbscript-u') {
 	$source .= $phase.'.sql';
 	connectDB();
 	
@@ -98,7 +101,10 @@ function writeLog() {
 }
 
 if (isset($_SESSION['RESTORING'])) {
-	connectDB();
+	
+	$conn = connectDB();
+	
+	if ($conn)	
 	switch ($_SESSION['RESTORING']) {		
 		case 0	:	$db = mysql_select_db($_SESSION['dbInfo']['dbName']);
 					writeLog();
@@ -118,7 +124,7 @@ if (isset($_SESSION['RESTORING'])) {
 						
 						$dump = new Backup();
 						$connec = connectDB();
-						$dump->setConnection($connec);
+						$dump->setConnection($conn);
 						$dump->setDatabase($_SESSION['dbInfo']['dbName']);
 						$_SESSION['DATABASE_BACKUP']=$dump->dumpDatabase(true);
 						
@@ -148,16 +154,18 @@ if (isset($_SESSION['RESTORING'])) {
 					error_log (date("r")." File content ok  - \n",3, "log.txt");
 					$restorex = new Restore();
 					//$connection = mysql_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword']);	 			//						
-					//mysql_close();
-					$connec = connectDB();
-					$restorex->setConnection($connec);
+					//mysql_close();					
+					$restorex->setConnection($conn);
 					$restorex->setDatabase($_SESSION['dbInfo']['dbName']);
 					$restorex->setFileSource($_SESSION['FILEDUMP']);
 					error_log (date("r")." Fill Data  - Starting\n",3, "log.txt");
-					$restorex->fillDatabase();
+					$restorex->fillDatabase();					
 					error_log (date("r")." Fill Data  finish- \n",3, "log.txt");
-					error_log (date("r")." connection".$connec ." finish- \n",3, "log.txt");
+					error_log (date("r")." connection".$conn ." finish- \n",3, "log.txt");
 					$_SESSION['RESTORING'] = 3;
+					break;
+		case 3 	:	fillData(2);
+					$_SESSION['RESTORING'] = 4;
 					break;
 	}
 }

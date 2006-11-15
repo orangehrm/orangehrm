@@ -81,29 +81,27 @@ class Restore {
 	
 	
 	
-	public function fillDatabase() {
-		
-		return  $this-> _restoreDatabase();
-		
-		
+	public function fillDatabase() {		
+		return  $this-> _restoreDatabase();		
 	}
 	
 	public function _restoreDatabase() {
 		
 		//echo $this->getConnection();
 		$_arrSQL = explode(";", $this->getfileSource());
+		
 		$noofrec = count($_arrSQL);
-		$count = 0;
+		
 		mysql_select_db($this->getDatabase());
-		while ($count<$noofrec -1) 
-		{
-			$result = mysql_query($_arrSQL[$count],$this->getConnection());
-			if(!$result) {	
-				return $result = "Failure";
+		for($i=0; $i<($noofrec-1); $i++)
+		{			
+			$result = mysql_query($_arrSQL[$i], $this->getConnection());
+			if(!$result) {				
+				return false;
 			}
-			$count++;
+			
 		}
-		return $result ="success";		 
+		return "success";		 
 	}
 }
 ?>

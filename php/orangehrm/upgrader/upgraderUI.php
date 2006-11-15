@@ -5,8 +5,11 @@ $cupath = realpath(dirname(__FILE__).'/../');
 
 define('ROOT_PATH', $cupath);
 
-
-if(isset($_SESSION['DOWNLOAD'])) {
+if(isset($_SESSION['RESTORING'])) {
+	$currScreen = 9;
+} else if (isset($_SESSION['SYSCHECK'])){ 
+	$currScreen = 8;
+} else if(isset($_SESSION['DOWNLOAD'])) {
 	$currScreen = 7;
 } else if(isset($_SESSION['LOCCONF'])) {
 	$currScreen = 6;
@@ -30,9 +33,27 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license' ,'disclaimer', 'options', 'database configuration', 'OrangeHRM 1.2', 'Backup Data', 'System Check');
+$steps = array('welcome',
+			   'license',
+			   'disclaimer', 
+			   'options', 
+			   'database', 
+			   'OrangeHRM 1.2', 
+			   'Backup Data', 
+			   'System Check', 
+			   'Upload', 
+			   'upgrading');
 
-$helpLink = array("#welcome", '#license','#disclaimer', '#options', "#DBCreation", "#old", "#backup", '#syscheck');
+$helpLink = array("#welcome", 
+				  '#license',
+				  '#disclaimer', 
+				  '#options', 
+				  "#DBCreation", 
+				  "#old", 
+				  "#backup", 
+				  '#syscheck',
+				  "#upload", 
+				  '#upgrading');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -63,7 +84,7 @@ function back() {
 <body>
 <div id="body">
   <a href="http://www.orangehrm.com"><img src="../themes/beyondT/pictures/orange3.png" alt="OrangeHRM" name="logo"  width="264" height="62" border="0" id="logo" style="margin-left: 10px;" title="OrangeHRM"></a>
-<form name="frmInstall" action="../upgrade.php" method="POST">
+<form name="frmInstall" action="../upgrade.php" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="txtScreen" value="<?php echo $currScreen?>">
 <input type="hidden" name="actionResponse">
 
@@ -104,6 +125,8 @@ switch ($currScreen) {
 	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
 	case 6 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
 	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
+	case 8 	: 	require(ROOT_PATH . '/upgrader/Restoredata.php'); break;
+	case 9 	: 	require(ROOT_PATH . '/upgrader/processing.php'); break;
 }
 ?>
 

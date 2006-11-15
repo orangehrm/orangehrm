@@ -15,7 +15,7 @@ function optionSubmit() {
 }
 </script>
 <div id="content">
-	<h2>Step 3: Options </h2>
+	<h2>Options </h2>
    
       
 	<p>Select one of the options and click <b>[Next]</b> to continue.</p>

@@ -13,7 +13,7 @@ function licenseAccept() {
 
 	<div id="content">
 	
-  		<h2>Step 1: License Acceptance</h2>
+  		<h2>License Acceptance</h2>
 		
 		<p>Please read the license and click <b>[Accept]</b> to continue. </p>
     	<textarea cols="80" rows="20" readonly tabindex="1"><?php echo $license_file?></textarea><br /><br />

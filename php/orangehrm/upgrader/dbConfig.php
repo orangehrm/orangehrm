@@ -51,7 +51,7 @@ document.frmInstall.submit();
 <link href="style.css" rel="stylesheet" type="text/css" />
 
 <div id="content">
-	<h2>Step 3: Database Configuration</h2>
+	<h2>Database Configuration</h2>
 
 <?php if(isset($error)) { ?>
 	<font color="Red">

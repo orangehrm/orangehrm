@@ -101,6 +101,7 @@ class Backup {
 
 			// List tables
 			$dump = '';
+			if (isset($arr_tables) && is_array($arr_tables)) {
 			for ($y = 0; $y < count($arr_tables); $y++){
 
 				// DB Table name
@@ -132,8 +133,16 @@ class Backup {
 					// Values
 					for ($x = 0; $x < $num_fields; $x++) {
 						$field_name = mysql_field_name($result, $x);
+						
+						$valueOfFiled = str_replace('\"', '"', mysql_escape_string($row->$field_name));
 
-						$data .= "'" . str_replace('\"', '"', mysql_escape_string($row->$field_name)) . "'";
+						if (empty($valueOfFiled)) {
+							$valueOfFiled = 'NULL';
+						} else {
+							$valueOfFiled = "'" .$valueOfFiled. "'";
+						}
+						
+						$data .= $valueOfFiled;
 						$data .= ($x < ($num_fields - 1)) ? ", " : false;
 
 					}
@@ -145,6 +154,7 @@ class Backup {
 
 				$dump .= $data;
 				
+			}
 			}
 
 			return $dump;
@@ -173,6 +183,7 @@ class Backup {
 			
 			// List tables
 			$dump = '';
+			if (isset($arr_tables) && is_array($arr_tables)) {
 			for ($y = 0; $y < count($arr_tables); $y++) {
 				
 				// DB Table name
@@ -218,7 +229,7 @@ class Backup {
 				}
 
 				// Return all Column Indexes of array
-				if (is_array($index)) {
+				if (isset($index) && is_array($index)) {
 					foreach ($index as $xy => $columns) {
 
 						$structure .= ",\r\n";
@@ -242,6 +253,8 @@ class Backup {
 				}
 
 				$structure .= "\r\n);\r\n\r\n";
+			}
+			
 			}
 			
 			return $structure;
