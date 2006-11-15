@@ -1,7 +1,6 @@
 <?php
 // Installing
-function createDB() {
-	
+function createDB() {	
 	connectDB();							
 	mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
 	

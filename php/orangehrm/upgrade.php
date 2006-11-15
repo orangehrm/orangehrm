@@ -1,24 +1,63 @@
 <?php
 
-
 function back($currScreen) {
 
  for ($i=0; $i < 2; $i++) {
- switch ($currScreen) {
+ 	switch ($currScreen) {
 	
-	default :
-	case 0 	: 	unset($_SESSION['WELCOME']); break;
-	case 1 	: 	unset($_SESSION['LICENSE']); break;
-	case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
-	case 3 	: 	unset($_SESSION['DBCHOICEOK']); break;
+		default :
+		case 0 	: 	unset($_SESSION['WELCOME']); break;
+		case 1 	: 	unset($_SESSION['LICENSE']); break;
+		case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
+		case 4 	: 	unset($_SESSION['LOCCONFOPT']);	break;
+		case 3 	: 	unset($_SESSION['DBCONFOPT']); break;		
+		case 5 	: 	unset($_SESSION['LOCCONF']); break;
+		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;
+		case 7 	: 	unset($_SESSION['DOWNLOAD']); break;		
 	
-	case 4 	: 	return false; break;
- }
+		case 8 	: 	return false; break;
+ 	}
 
- $currScreen--;
+ 	$currScreen--;
  }
 
 return true;
+}
+
+function fetchDbInfo($location) {
+	$path = realpath(ROOT_PATH."/../")."/".$location."/lib/confs/";
+	
+	if (@include $path."Conf.php") {
+	
+		$confObj = new Conf();
+	
+		$dbInfo = array( 'dbHostName' => $confObj->dbhost, 
+					 	 'dbHostPort' => $confObj->dbport,
+					 	 'dbName' => $confObj->dbname,
+					 	 'dbUserName' => $confObj->dbuser,
+					 	 'dbPassword' => $confObj->dbpass
+						);
+					
+		$_SESSION['dbInfo'] = $dbInfo;
+		return true;
+	}
+	
+	$_SESSION['error'] = 'Conf.php file not found in '.$path." $location";
+	
+	return false;
+}
+
+function extractDbInfo() {
+	$dbInfo = array('dbHostName' => trim($_POST['dbHostName']),
+					'dbHostPort' => trim($_POST['dbHostPort']),
+					'dbName' => trim($_POST['dbName']),
+					'dbUserName' => trim($_POST['dbUserName']),
+					'dbPassword' => trim($_POST['dbPassword']));
+										 
+	if(!isset($_POST['chkSameUser'])) {
+		$dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);
+		$dbInfo['dbOHRMPassword'] = trim($_POST['dbOHRMPassword']);
+	}
 }
 
 define('ROOT_PATH', dirname(__FILE__));
@@ -37,8 +76,19 @@ if(isset($_POST['actionResponse']))
 		
 		case 'WELCOMEOK' 	: $_SESSION['WELCOME'] = 'OK'; break;
 		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
-		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;
-		case 'DBCHOICEOK' 	: $_SESSION['DBCHOICE'] = 'OK'; break;
+		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;		
+		case 'LOCCONFOK' 	: $_SESSION['dbInfo']['locationOhrm'] = $_POST['locationOhrm'];
+							  if (fetchDbInfo( $_SESSION['dbInfo']['locationOhrm'])) {							  	
+							  	$_SESSION['LOCCONF'] = 'OK';							  	
+							  } else {
+							  	$error = "failed";
+							  }
+							  break;		
+		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
+		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
+		case 'DBINFO'		: extractDbInfo();
+		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
+		
 		case 'CANCEL' 		:	session_destroy();							
 								header("Location: upgrade.php");
 								exit(0);

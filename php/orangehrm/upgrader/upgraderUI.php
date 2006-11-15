@@ -6,13 +6,19 @@ $cupath = realpath(dirname(__FILE__).'/../');
 define('ROOT_PATH', $cupath);
 
 
-if(isset($_SESSION['OPTIONS'])) {
+if(isset($_SESSION['DOWNLOAD'])) {
+	$currScreen = 7;
+} else if(isset($_SESSION['LOCCONF'])) {
+	$currScreen = 6;
+} else if(isset($_SESSION['LOCCONFOPT'])) {
+	$currScreen = 5;
+} else if(isset($_SESSION['DBCONFOPT'])) {
 	$currScreen = 4;
-}elseif(isset($_SESSION['DISCLAIMER'])) {
+}else if(isset($_SESSION['DISCLAIMER'])) {
 	$currScreen = 3;
-} elseif(isset($_SESSION['LICENSE'])) {
+} else if(isset($_SESSION['LICENSE'])) {
 	$currScreen = 2;
-} elseif(isset($_SESSION['WELCOME'])) {
+} else if(isset($_SESSION['WELCOME'])) {
 	$currScreen = 1;
 } else $currScreen = 0;
 
@@ -24,9 +30,9 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license' ,'disclaimer', 'options');
+$steps = array('welcome', 'license' ,'disclaimer', 'options', 'database configuration', 'OrangeHRM 1.2', 'Backup Data', 'System Check');
 
-$helpLink = array("#welcome", '#license','#disclaimer', '#options');
+$helpLink = array("#welcome", '#license','#disclaimer', '#options', "#DBCreation", "#old", "#backup", '#syscheck');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -94,7 +100,10 @@ switch ($currScreen) {
 	case 1 	: 	require(ROOT_PATH . '/upgrader/license.php'); break;
 	case 2 	: 	require(ROOT_PATH . '/upgrader/disclaimer.php'); break;
 	case 3 	: 	require(ROOT_PATH . '/upgrader/options.php'); break;
-	
+	case 4 	: 	require(ROOT_PATH . '/upgrader/dbConfig.php'); break;
+	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
+	case 6 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
+	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
 }
 ?>
 
