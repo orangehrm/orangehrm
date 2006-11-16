@@ -123,31 +123,36 @@ class Backup {
 
 						$field_name = mysql_field_name($result, $x);
 						
-						if (!empty($row->$field_name)) {
-							$data .= "`{$field_name}`";
-							$data .= ($x < ($num_fields - 1)) ? ", " : false;
+						$valueOfFiled = str_replace('\"', '"', mysql_escape_string($row->$field_name));
+						$type = mysql_field_type($result, $x);
+						
+						if (!empty($valueOfFiled) || (($type == 'int') && ($valueOfFiled === 0))) {
+							$data .= "`{$field_name}`, ";							
 						}
-
 					}
+					
+					$data = substr($data, 0, -2);
 
 					$data .= ") VALUES (";
 
 					// Values
 					for ($x = 0; $x < $num_fields; $x++) {
 						$field_name = mysql_field_name($result, $x);
+						$type = mysql_field_type($result, $x);
 						
 						$valueOfFiled = str_replace('\"', '"', mysql_escape_string($row->$field_name));
 
-						if (empty($valueOfFiled)) {
-							$valueOfFiled = 'NULL';
-						} else {
+						if (!empty($valueOfFiled)) {							
 							$valueOfFiled = "'" .$valueOfFiled. "'";
+							$data .= $valueOfFiled.", ";
+						} else if (($type == 'int') && ($valueOfFiled === 0)) {
+							$valueOfFiled = $valueOfFiled;
+							$data .= $valueOfFiled.", ";
 						}
-						
-						$data .= $valueOfFiled;
-						$data .= ($x < ($num_fields - 1)) ? ", " : false;
 
 					}
+					
+					$data = substr($data, 0, -2);
 
 					$data.= ");\r\n";
 				}

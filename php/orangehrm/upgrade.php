@@ -57,7 +57,7 @@ function back($currScreen) {
 		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
 		case 8 	: 	unset($_SESSION['RESTORE']);
 					if(isset($_SESSION['DATABASE_BACKUP'])) {
-				 		include(ROOT_PATH.'/upgrader/restoreBackup.php');
+				 		include(ROOT_PATH.'/upgrader/restore/restoreBackup.php');
 					}
 					break;		
 	

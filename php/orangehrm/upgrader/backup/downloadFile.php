@@ -15,7 +15,7 @@ function downloadSubmit() {
 	<?php if (isset($_SESSION['error'])) { ?>
     <p><?php echo $_SESSION['error']; ?></p>
     <?php } ?>
-	<p>Please save the backup file that will start downloading in few seconds. If the download doesn't start automatically click <a href="download.php">here</a>.</p>
+	<p>Please save the backup file that will start downloading in few seconds. If the download doesn't start automatically click <a href="backup/download.php">here</a>.</p>
 	<p>To continue select <b>Downloaded</b> and click <b>[Next]</b> to continue.</p>
 	<p><label>
 	  <input type="checkbox" id="downloaded" name="downloaded" value="1" tabindex="1"/>
