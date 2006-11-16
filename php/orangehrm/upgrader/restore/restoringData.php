@@ -8,7 +8,7 @@ if (isset($_SESSION['error'])) {
 unset($error);
 
 //require_once(ROOT_PATH.'/upgrader/applicationSetup.php');
-require_once ROOT_PATH.'/upgrader/Restore.php';
+require_once ROOT_PATH.'/upgrader/restore/Restore.php';
 require_once ROOT_PATH.'/upgrader/backup/Backup.php';
 
 function createDB() {
@@ -74,7 +74,54 @@ function fillData($phase=1, $source='/dbscript/dbscript-u') {
 									
 	if(isset($error))
 		return;
-}	
+}
+
+function writeConfFile() {
+
+	$dbHost = $_SESSION['dbInfo']['dbHostName'];
+	$dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
+	$dbName = $_SESSION['dbInfo']['dbName'];
+							  
+	if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
+		$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
+		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
+	} else {	
+		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
+		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
+	}
+
+    $confContent = <<< CONFCONT
+<?php
+class Conf {
+
+	var \$smtphost;
+	var \$dbhost;
+	var \$dbport;
+	var \$dbname;
+	var \$dbuser;
+	var \$dbpass;
+
+	function Conf() {
+		
+	\$this->dbhost	= '$dbHost';
+	\$this->dbport 	= '$dbHostPort';
+	\$this->dbname	= '$dbName';
+	\$this->dbuser	= '$dbOHRMUser';
+	\$this->dbpass	= '$dbOHRMPassword';
+	\$this->smtphost = 'mail.beyondm.net';
+	\$this->version	= '2.0.0';
+	}
+}
+?>
+CONFCONT;
+						      
+	$filename = ROOT_PATH . '/lib/confs/Conf.php';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $confContent);
+	 
+    fclose($handle);
+
+}
 
 
 function writeLog() {
@@ -166,6 +213,9 @@ if (isset($_SESSION['RESTORING'])) {
 					break;
 		case 3 	:	fillData(2);
 					$_SESSION['RESTORING'] = 4;
+					break;
+		case 4 	:	writeConfFile();
+					$_SESSION['RESTORING'] = 5;
 					break;
 	}
 }

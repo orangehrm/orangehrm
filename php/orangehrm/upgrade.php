@@ -1,4 +1,45 @@
 <?php
+function sockComm($postArr) {	
+
+	$host = 'www.orangehrm.com';
+	$method = 'POST';
+	$path = '/registration/registerAcceptor.php';
+	$data = "userName=".$postArr['userName']
+			."&userEmail=".$postArr['userEmail']
+			."&userComments=".$postArr['userComments']
+			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
+			
+	$fp = @fsockopen($host, 80);
+	  
+	if ($fp) {
+	    if(!$fp)
+	    	return false;
+	    	
+	    if(!$fp)
+	    	return false;
+	    	
+	    fputs($fp, "POST $path HTTP/1.1\r\n");
+	    fputs($fp, "Host: $host\r\n");
+	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
+	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
+	    fputs($fp, "Connection: close\r\n\r\n");
+	    fputs($fp, $data);
+	    
+	    $resp = '';
+	    while (!feof($fp)) {
+	        $resp .= fgets($fp,128);
+	    }
+	        
+	    fclose($fp);
+	    
+	    
+	    if(strpos($resp, 'SUCCESSFUL') === false) 
+	    	return false;
+	}
+	
+	return true;
+}
 
 function back($currScreen) {
 
@@ -111,6 +152,21 @@ if(isset($_POST['actionResponse']))
 								header("Location: upgrade.php");
 								exit(0);
 								break;
+								
+		case 'REGISTER'  :	$_SESSION['CONFDONE'] = 'OK';
+							break;
+							
+								
+		case 'REGINFO' 	:	$reqAccept = sockComm($_POST);							
+							break;
+							
+		case 'NOREG' 	:	$reqAccept = sockComm($_POST);
+
+		case 'LOGIN'   	:	session_destroy();
+							setcookie('PHPSESSID', '', time()-3600, '/');
+							header("Location: ./");
+							exit(0);							
+							break;
 		
 		case 'BACK'		 	:	back($_POST['txtScreen']);
 							break;
@@ -126,7 +182,7 @@ if (isset($reqAccept)) {
 }
 
 if (isset($_SESSION['RESTORING'])) {
-	include(ROOT_PATH.'/upgrader/RestoringData.php');
+	include(ROOT_PATH.'/upgrader/restore/restoringData.php');
 }
 
 header('Location: upgrader/upgraderUI.php');

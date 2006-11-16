@@ -5,7 +5,9 @@ $cupath = realpath(dirname(__FILE__).'/../');
 
 define('ROOT_PATH', $cupath);
 
-if(isset($_SESSION['RESTORING'])) {
+if(isset($_SESSION['CONFDONE'])) {
+	$currScreen = 10;
+} else if(isset($_SESSION['RESTORING'])) {
 	$currScreen = 9;
 } else if (isset($_SESSION['SYSCHECK'])){ 
 	$currScreen = 8;
@@ -42,7 +44,8 @@ $steps = array('welcome',
 			   'Backup Data', 
 			   'System Check', 
 			   'Upload', 
-			   'upgrading');
+			   'upgrading',
+			   'registration');
 
 $helpLink = array("#welcome", 
 				  '#license',
@@ -53,7 +56,8 @@ $helpLink = array("#welcome",
 				  "#backup", 
 				  '#syscheck',
 				  "#upload", 
-				  '#upgrading');
+				  '#upgrading',
+				  "#registration");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -112,7 +116,7 @@ function back() {
 	?>
   </tr>
 </table>
-<a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
+<!--<a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>-->
 <?php
 switch ($currScreen) {
 	
@@ -125,8 +129,9 @@ switch ($currScreen) {
 	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
 	case 6 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
 	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
-	case 8 	: 	require(ROOT_PATH . '/upgrader/Restoredata.php'); break;
-	case 9 	: 	require(ROOT_PATH . '/upgrader/processing.php'); break;
+	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/restoredata.php'); break;
+	case 9 	: 	require(ROOT_PATH . '/upgrader/restore/processing.php'); break;
+	case 10	: 	require(ROOT_PATH . '/upgrader/registration.php'); break;
 }
 ?>
 
