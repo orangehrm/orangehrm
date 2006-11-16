@@ -55,8 +55,8 @@
   <div id="overview" class="section">
 <h2>Overview</h2>
 <p>
-This Guide describes how to install OrangeHRM 1.2. It is intended for experienced administrators and novices alike. After installation, you can configure users and do other administrative tasks.
-To install OrangeHRM 1.2, ensure that you have the appropriate pre-requisities: See <a href="#pre-requisities" class="see">Pre-requisities</a>
+This Guide describes how to install OrangeHRM 2.0. It is intended for experienced administrators and novices alike. After installation, you can configure users and do other administrative tasks.
+To install OrangeHRM 2.0, ensure that you have the appropriate pre-requisities: See <a href="#pre-requisities" class="see">Pre-requisities</a>
 </p>
 
 <div class="navigate">
@@ -75,10 +75,10 @@ The pre-requisites are;
 <ul>
 	<li>Apache HTTP Server 1.3 or later</li>
 	<li>MySQL 4.1 or later</li>
-	<li>PHP 5.1.0 or later</li>	
+	<li>PHP 5.1.2 or later</li>	
 </ul>
 </p>
-<p>If you already have Apache HTTP Webserver(and PHP loaded as an Apache Module) and MySQL running, then you have everything you need.</p>
+<p>If you already have Apache HTTP Webserver(and PHP5 loaded as an Apache Module) and MySQL running, then you have everything you need. (Note: OrangeHRM 2.0 requires PHP5) </p>
     <p>In case you dont have the requisites setup, you have two options. 
     <ul>
 	  <li>Use an AMP stack which has Apache, MySQL and PHP pre-configured to work 
@@ -93,25 +93,28 @@ The pre-requisites are;
 
 <div id="windows">
 <h3>AMP stack for Windows</h3>
-      <p><cite> We don't have a recommended AMP stack for Windows at the moment.</cite> </p>
-      <!--<p> After downloading, install EasyPHP. It's a simple installation. After installation you
-        will have to start EasyPHP manually everytime before you use it. Goto the start meny and EasyPHP 
-        program group and click on EasyPHP. This would open a console showing 
-        the status of Apache/MySQL.(after starting EasyPHP, this console can be activated by double clciking on EasyPHP icon in the taskbar) Please remember the location you installed 
-        EasyPHP. It will be required later.</p>
+<p><cite>Recommended AMP stack for Windows is <a href="http://www.apachefriends.org/en/xampp-windows.html#641" class="external" target="_blank">XAMPP Windows 1.5.4a</a></cite></p>
+<p><b>Notice:</b> make sure you download complete stack, (usually the biggest download out of the lot) and not the upgrades, developer packs, etc.</p>
+
+      <p> After downloading, start installing XAMP for Windows. 
+	  <ul>
+	  <li>You can choose the default installation location and click Next</li>
+	  <li>When asked to "Install XAMP Servers (Apache, MySQL, .....) as service?", select Yes</li>
+	  <li>When asked "Install Apache 2 as service?", select Yes</li>
+	  <li>When asked "Install MySQL as service?", select Yes</li>
+	  <li>You may skip the other services by selecting no since they are not required for OrangeHRM</li>
+	  <li>Select Yes to start the XAMP control panel too.</li>
+	  </ul>
+	  </p>
       <p><b>Notice:</b><br>
       <ul>
-        <li>If you use any firewall software(ie; Windows Firewall) please make 
-          sure that EasyPHP is exempted from the blocked list</li>
+        <li>If you use any firewall software(ie; Windows Firewall) if prompted please make 
+          sure that XAMP services (Apache Web Server, MySQL) are exempted from the blocked list</li>
         <li>If you use Skype, this may result in a port conflict with Apache web-server 
-          included in EasyPHP when you start EasyPHP. Therefore make sure you 
-          start EasyPHP before you start Skype (then Skype will go for an alternate 
+          included in XAMP when install . Therefore make sure you 
+          re-start Windows to make sure that XAMP services start before Skype (then Skype will go for an alternate 
           port).</li>
-        <li>EasyPHP by default has limited the its Webserver usage to the local 
-          machine where it is installed. This means that OrangeHRM deployed on 
-          EasyPHP will not be accessible remotely until the 'Listen' directive 
-          in 'httpd.conf' is altered. To do this open 'httpd.conf' by right clicking on EasyPHP icon in taskbar go in to sub menus configuration -> Apache and click on it. This would open the 'httpd.conf', now search for <b>Listen 127.0.0.1:80</b>. And now alter it such that it reads as <b>Listen *:80</b>, save and close the file and restart apache using the EasyPHP taskbar icon and clicking on Restart.</li>
-      </ul>-->
+      </ul>
 	  
 	  </p>
 </div>
@@ -159,9 +162,9 @@ Copy <span class="code">orangehrm.zip</span> into the document root of the Apach
 
 <div class="notes">
 <h4>Notes</h4>
-<!--<p>If you used EasyPHP AMP stack, document root is <br />
-<p class="bash">&lt;EasyPHP Installed Location&gt;\www\</p></p>
-<p class="bash">ex. C:\Program Files\EasyPHP1-8\www</p></p>-->
+<p>If you used XAMP for Windows, document root is <br />
+<p class="bash">&lt;XAMP Installed Location&gt;\htdocs\</p></p>
+<p class="bash">ex. C:\Program Files\xampp\htdocs</p></p>
 <p>If you used XAMPP Linux AMP stack, document root is  <br />
 <p class="bash">&lt;XAMPP Installed Location&gt;/htdocs/</p></p>
 </div>

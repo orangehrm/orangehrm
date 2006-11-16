@@ -124,8 +124,8 @@
  $employeename  		= 'Employee Name';
  $subordinateinfomation = 'Subordinate Infomation';
 
- $selectreporttype		= '-Select Report Type-';
- $selecttype			= '------Select Type------';
+ $selectreporttype		= '--------- Select ---------';
+ $selecttype			= '----Select Method----';
  $arrRepType = array ('Supervisor','Subordinate');
  $arrRepMethod = array ('Direct' => 1,'Indirect' => 2);
 
