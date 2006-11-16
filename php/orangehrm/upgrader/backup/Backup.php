@@ -122,9 +122,11 @@ class Backup {
 					for ($x = 0; $x < $num_fields; $x++) {
 
 						$field_name = mysql_field_name($result, $x);
-
-						$data .= "`{$field_name}`";
-						$data .= ($x < ($num_fields - 1)) ? ", " : false;
+						
+						if (!empty($row->$field_name)) {
+							$data .= "`{$field_name}`";
+							$data .= ($x < ($num_fields - 1)) ? ", " : false;
+						}
 
 					}
 
