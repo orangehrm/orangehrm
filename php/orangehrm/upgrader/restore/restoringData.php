@@ -175,6 +175,8 @@ if (isset($_SESSION['RESTORING'])) {
 						$dump->setDatabase($_SESSION['dbInfo']['dbName']);
 						$_SESSION['DATABASE_BACKUP']=$dump->dumpDatabase(true);
 						
+						$_SESSION['DATABASE_CONSTRAINTS']=$dump->getConstraints();					
+						
 						error_log (date("r")." Going to drop existing database- \n",3, "log.txt");
 										  
 						@mysql_query('DROP DATABASE `'.$_SESSION['dbInfo']['dbName']."`");

@@ -13,5 +13,8 @@ $restore->setDatabase($_SESSION['dbInfo']['dbName']);
 $restore->setfileSource($_SESSION['DATABASE_BACKUP']);
 $restore->fillDatabase();
 $_SESSION['DATABASE_BACKUP']="";
+$restore->setfileSource($_SESSION['DATABASE_CONSTRAINTS']);
+$restore->fillDatabase();
+$_SESSION['DATABASE_CONSTRAINTS']="";
 }
 ?>
