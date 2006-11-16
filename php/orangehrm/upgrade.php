@@ -104,6 +104,33 @@ function extractDbInfo() {
 		$dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);
 		$dbInfo['dbOHRMPassword'] = trim($_POST['dbOHRMPassword']);
 	}
+						
+	$_SESSION['dbInfo'] = $dbInfo;
+										 
+	if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
+		$mysqlHost = mysql_get_server_info();
+							
+		if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
+			$error = 'WRONGDBVER';
+		elseif(mysql_select_db($dbInfo['dbName'])) 
+			$error = 'DBEXISTS';
+		elseif(!isset($_POST['chkSameUser'])) {
+			mysql_select_db('mysql');
+			$rset = mysql_query("SELECT USER FROM user WHERE USER = '" .$dbInfo['dbOHRMUserName'] . "'");
+									
+			if(mysql_num_rows($rset) > 0)
+				$error = 'DBUSEREXISTS';
+			else $_SESSION['DBCONFIG'] = 'OK';	
+									
+	} else $_SESSION['DBCONFIG'] = 'OK';	
+								
+									
+	} else $error = 'WRONGDBINFO';
+
+	if (isset($error)) {
+		$_SESSION['error'] = $error;
+	}
+						
 }
 
 function validateMime($mime) {
@@ -145,6 +172,9 @@ if(isset($_POST['actionResponse']))
 		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
 		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
 		case 'DBINFO'		: extractDbInfo();
+							  if (!isset($_SESSION['DBCONFIG'])) {
+							  	break;
+							  }
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 		
 		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {

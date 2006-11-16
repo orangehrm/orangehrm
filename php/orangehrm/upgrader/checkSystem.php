@@ -5,7 +5,7 @@ function check_php_version($sys_php_version = '') {
 	// versions below $min_considered_php_version considered invalid by default,
 	// versions equal to or above this ver will be considered depending
 	// on the rules that follow 
-	$min_considered_php_version = '5.1.0';
+	$min_considered_php_version = '5.1.2';
 
 	// only the supported versions,
 	// should be mutually exclusive with $invalid_php_versions
@@ -116,7 +116,7 @@ function sysCheckPassed() {
 }
 
 function howToResolve() {
-	window.open('howToResolve.php','Resolve?','width=500,height=325')
+	window.open('howToResolve.php','Resolve','width=500,height=325');
 }
 </script>
 <link href="style.css" rel="stylesheet" type="text/css" />

@@ -27,8 +27,8 @@ class Backup {
 	 *	Class Attributes
 	 *
 	 **/
-	 public $connection;
-	 public $database;
+	 var $connection;
+	 var $database;
 	 
 	 
 	 
@@ -38,7 +38,7 @@ class Backup {
 	 *
 	 **/
 	
-	public function __construct() {
+	function __construct() {
 		// nothing to do		
 	}
 	
@@ -48,28 +48,28 @@ class Backup {
 	 *
 	 **/
 	
-	public function setConnection($connection){
+	function setConnection($connection){
 		
 		$this->connection = $connection;
 	}
 	
-	public function getConnection (){
+	function getConnection (){
 		
 		return $this->connection;
 	}
 	
-	public function setDatabase($database) {
+	function setDatabase($database) {
 		
 		$this->database = $database;
 	}
 	
-	public function getDatabase() {
+	function getDatabase() {
 		
 		return $this->database;
 	}
 	
 	
-	public function dumpDatabase($structure=false) {
+	function dumpDatabase($structure=false) {
 		$struc="";
 		if($structure) {			
 		 	$struc= $this->_dumpStructure();	
@@ -80,7 +80,7 @@ class Backup {
 	}
 	
 	
-	public function _dumpData() {
+	function _dumpData() {
 
 		
 		// Connect to database
@@ -170,7 +170,7 @@ class Backup {
 
 	}
 	
-	public function _dumpStructure() {
+	function _dumpStructure() {
 		
 			// Connect to database
 		$db = @mysql_select_db($this->getDatabase());
