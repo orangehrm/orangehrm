@@ -100,6 +100,10 @@ class Restore {
 				return false;
 			}
 			
+			if (($i%50) == 0) {
+				set_time_limit(30);
+			}
+			
 		}
 		return "success";		 
 	}

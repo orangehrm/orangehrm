@@ -53,6 +53,16 @@ function check_php_version($sys_php_version = '') {
 	return $retval;
 }
 
+function isPHP4() {
+	$sys_php_version = empty($sys_php_version) ? constant('PHP_VERSION') : $sys_php_version;
+	
+	if(1 == version_compare($sys_php_version, '4.3.0', '>')) {
+		return true;
+	}
+	
+	return false;
+}
+
 function chk_memory($limit=9, $recommended=16) {
 
 	$msg = '';
@@ -104,6 +114,10 @@ function sysCheckPassed() {
 	document.frmInstall.actionResponse.value  = 'SYSCHECKOK';
 	document.frmInstall.submit();
 }
+
+function howToResolve() {
+	window.open('howToResolve.php','Resolve?','width=500,height=325')
+}
 </script>
 <link href="style.css" rel="stylesheet" type="text/css" />
 
@@ -137,7 +151,7 @@ function sysCheckPassed() {
             	{
             		case -1:
 	                  echo "<b><font color='red'>Invalid version, ($php_version) Installed</font></b>";
-   	               $error_found = true;
+   	               			$error_found = true;
             			break;
             		case 0:
       	            echo "<b><font color='red'>Unsupported (ver $php_version)</font></b>";
@@ -145,9 +159,13 @@ function sysCheckPassed() {
             		case 1:
       	            echo "<b><font color='green'>OK (ver $php_version)</font></b>";
             			break;
-               }
+               }               
             ?>
-            </strong></td>
+            </strong>
+            <?php if ($error_found && isPHP4()) { ?>
+				<a href="javascript:howToResolve()">Resolve?</a>
+            <?php } ?>           
+            </td>
           </tr>
           <tr>
             <td class="tdComponent">MySQL Client</td>
@@ -209,5 +227,5 @@ function sysCheckPassed() {
 		<br />
         <input class="button" type="button" value="Back" onclick="back();" tabindex="4">
 		<input class="button" type="button" name="Re-check" value="Re-check" onclick="document.frmInstall.submit();" tabindex="3">
-		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?php echo  ($error_found) ? 'disabled' : '' ?> tabindex="2">
+		<input class="button" type="button" value="Next" onclick="sysCheckPassed();" <?php echo ($error_found) ? 'disabled' : '' ?> tabindex="2">
 </div>

@@ -138,7 +138,7 @@ if(isset($_POST['actionResponse']))
 		case 'UPLOADOK' 	:	if ($_FILES['file']['size']<0) {
 									$error = "UPLOAD THE BACK UP FILE!";
 								}else if ($_FILES['file']['type'] != "application/sql") { 
-	 								$error = "WRONG FILE FORMAT!";  
+	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type'];  
 								} else  {									
 									$_SESSION['RESTORING'] = 0;
 								
