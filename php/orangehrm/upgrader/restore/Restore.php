@@ -105,7 +105,7 @@ class Restore {
 			}
 			
 		}
-		return "success";		 
+		return true;		 
 	}
 }
 ?>

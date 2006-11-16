@@ -106,6 +106,18 @@ function extractDbInfo() {
 	}
 }
 
+function validateMime($mime) {
+	$allowedMimes = array("application/octet-stream", "application/sql", "text/plain", "application/plain");
+
+	foreach ($allowedMimes as $allowedMime) {
+		if ($allowedMime == $mime) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 define('ROOT_PATH', dirname(__FILE__));
 
 if(!isset($_SESSION['SID']))
@@ -135,10 +147,11 @@ if(isset($_POST['actionResponse']))
 		case 'DBINFO'		: extractDbInfo();
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 		
-		case 'UPLOADOK' 	:	if ($_FILES['file']['size']<0) {
+		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {
 									$error = "UPLOAD THE BACK UP FILE!";
-								}else if ($_FILES['file']['type'] != "application/sql") { 
-	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type'];  
+								}else if (!validateMime($_FILES['file']['type'])) { 
+	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type']; 
+	 									 								
 								} else  {									
 									$_SESSION['RESTORING'] = 0;
 								

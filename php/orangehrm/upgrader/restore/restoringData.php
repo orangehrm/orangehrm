@@ -206,10 +206,15 @@ if (isset($_SESSION['RESTORING'])) {
 					$restorex->setDatabase($_SESSION['dbInfo']['dbName']);
 					$restorex->setFileSource($_SESSION['FILEDUMP']);
 					error_log (date("r")." Fill Data  - Starting\n",3, "log.txt");
-					$restorex->fillDatabase();					
-					error_log (date("r")." Fill Data  finish- \n",3, "log.txt");
-					error_log (date("r")." connection".$conn ." finish- \n",3, "log.txt");
-					$_SESSION['RESTORING'] = 3;
+					$res = $restorex->fillDatabase();				
+					if ($res) {	
+						$_SESSION['RESTORING'] = 3;
+						error_log (date("r")." Fill Data - Finished \n",3, "log.txt");
+						
+					} else {
+						error_log (date("r")." Fill Data - Failed \n",3, "log.txt");
+						error_log (date("r")." Fill Data - Error \n ".mysql_error()."\n" ,3, "log.txt");						
+					}
 					break;
 		case 3 	:	fillData(2);
 					$_SESSION['RESTORING'] = 4;
