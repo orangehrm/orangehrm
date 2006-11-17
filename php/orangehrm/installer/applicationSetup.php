@@ -172,16 +172,17 @@ class Conf {
 	var \$dbport;
 	var \$dbname;
 	var \$dbuser;
-	var \$dbpass;
+	var \$version;
 
 	function Conf() {
 		
-	\$this->dbhost	= '$dbHost';
-	\$this->dbport 	= '$dbHostPort';
-	\$this->dbname	= '$dbName';
-	\$this->dbuser	= '$dbOHRMUser';
-	\$this->dbpass	= '$dbOHRMPassword';
-	\$this->smtphost = 'mail.beyondm.net';
+		\$this->dbhost	= '$dbHost';
+		\$this->dbport 	= '$dbHostPort';
+		\$this->dbname	= '$dbName';
+		\$this->dbuser	= '$dbOHRMUser';
+		\$this->dbpass	= '$dbOHRMPassword';
+		\$this->smtphost = 'mail.beyondm.net';
+		\$this->version = '2.0.0';
 	}
 }
 ?>

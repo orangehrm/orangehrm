@@ -142,7 +142,7 @@ function writeLog() {
 	
 	$Content .= "OrangeHRM Upgrading Log\n\n";
 	
-	$filename = 'log.txt';
+	$filename = 'upgrader/log.txt';
 	$handle = fopen($filename, 'a');
 	fwrite($handle, $Content);
 	fclose($handle);

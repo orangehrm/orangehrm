@@ -23,6 +23,7 @@ function quit() {
 	header('Location: ./index.php');
 	exit ();
 }
+
 function sockComm($postArr) {	
 
 	$host = 'www.orangehrm.com';
@@ -34,14 +35,12 @@ function sockComm($postArr) {
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
 			
 	$fp = @fsockopen($host, 80);
+	
+	if(!$fp)
+	    	return false;
 	  
-	if ($fp) {
-	    if(!$fp)
-	    	return false;
-	    	
-	    if(!$fp)
-	    	return false;
-	    	
+	if ($fp) {	    
+
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
@@ -98,7 +97,7 @@ return true;
 function fetchDbInfo($location) {
 	$path = realpath(ROOT_PATH."/../")."/".$location."/lib/confs/";
 	
-	if (@include $path."Conf.php") {
+	if (@include_once $path."Conf.php") {
 	
 		$confObj = new Conf();
 	
@@ -113,7 +112,7 @@ function fetchDbInfo($location) {
 		return true;
 	}
 	
-	$_SESSION['error'] = 'Conf.php file not found in '.$path." $location";
+	$_SESSION['error'] = 'Conf.php file not found in '.$path;
 	
 	return false;
 }
@@ -172,7 +171,6 @@ function validateMime($mime) {
 
 define('ROOT_PATH', dirname(__FILE__));
 
-needToUpgrade();
 
 if(!isset($_SESSION['SID']))
 	session_start();
@@ -186,15 +184,15 @@ if (isset($_SESSION['error'])) {
 if(isset($_POST['actionResponse']))
 	switch($_POST['actionResponse']) {
 		
-		case 'WELCOMEOK' 	: $_SESSION['WELCOME'] = 'OK'; break;
+		case 'WELCOMEOK' 	: needToUpgrade();
+							  $_SESSION['WELCOME'] = 'OK'; break;
 		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
 		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;		
 		case 'LOCCONFOK' 	: $_SESSION['dbInfo']['locationOhrm'] = $_POST['locationOhrm'];
 							  if (fetchDbInfo( $_SESSION['dbInfo']['locationOhrm'])) {							  	
 							  	$_SESSION['LOCCONF'] = 'OK';							  	
-							  } else {
-							  	$error = "failed";
 							  }
+							  //echo '1'.$error;
 							  break;		
 		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
 		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
