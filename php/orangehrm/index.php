@@ -404,10 +404,10 @@ function setSize() {
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
                     <ul id="menu">
-  						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep">View Employee Reports</A></li>
+  						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep">View Reports</A></li>
                     	
 <?php               if($arrRights['repDef']) {?>
-						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Employee Reports</A></li>
+						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Reports</A></li>
 <?php					}
 					} else ?>
 					</ul>						
@@ -452,7 +452,18 @@ function setSize() {
   					</ul>
 			</TD>         
 <?php			}
-			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
+
+				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
+		                <TD valign="top" width=158>
+		                    <ul id="menu">
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/home/index.php?option=com_content&task=section&id=13&Itemid=73" target="_blank">OrangeHRM Support</a></li>
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/forum/" target="_blank">OrangeHRM Forums</a></li>
+		  						<li id="viewemprep"><a href="http://orangehrm.blogspot.com/" target="_blank">OrangeHRM Blog</a></li>
+		  				    </ul>
+		  				</td>
+
+<?php			}
+				 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
 				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>
 <?php			}  ?>                   
@@ -712,17 +723,13 @@ function setSize() {
               <!-- End SubMenu12 -->
               <!--------------------- End Menu --------------------->
             </td>
-<?php		if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
-			<tr>
-			<td><iframe src="home.html" id="rightMenu" name="rightMenu" width="1024" height="450" frameborder="0"></iframe>
-			</td>
-			</tr>
-<?php			}   ?>
             <td width="779" valign="top"><table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
               <tr>
                 <td>
             <td width="78%" valign="top">
-<?php		if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
+<?php		if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
+			  <iframe src="home.html" id="rightMenu" name="rightMenu" width="100%" height="450" frameborder="0"></iframe>
+<?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="550" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="800" frameborder="0"> </iframe>
