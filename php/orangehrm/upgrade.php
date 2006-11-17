@@ -39,8 +39,6 @@ function sockComm($postArr) {
 	if(!$fp)
 	    	return false;
 	  
-	if ($fp) {	    
-
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
@@ -56,10 +54,8 @@ function sockComm($postArr) {
 	        
 	    fclose($fp);
 	    
-	    
 	    if(strpos($resp, 'SUCCESSFUL') === false) 
 	    	return false;
-	}
 	
 	return true;
 }
