@@ -374,8 +374,8 @@ switch ($_GET['uniqcode']) {
 		
 	case 'LIC' :
 		$srchlist = array( '-Select-' , 'ID' , 'Name' );
-		$headings= array('Licenses ID','Licenses Description');
-		$headingInfo = array ('Licenses ID','Licenses Description',1,'Qualification : Licenses','Deletion might affect Employee Information');
+		$headings= array('License ID','License Description');
+		$headingInfo = array ('License ID','License Description',1,'Qualification : License','Deletion might affect Employee Information');
 		break;
 		
 	case 'USR' :
