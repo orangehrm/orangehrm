@@ -214,6 +214,7 @@ if (isset($_SESSION['RESTORING'])) {
 						error_log (date("r")." Fill Data - Finished \n",3, "log.txt");
 						
 					} else {
+						$_SESSION['error'] = mysql_error();
 						error_log (date("r")." Fill Data - Failed \n",3, "log.txt");
 						error_log (date("r")." Fill Data - Error \n ".mysql_error()."\n" ,3, "log.txt");						
 					}

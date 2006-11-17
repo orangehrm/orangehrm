@@ -95,7 +95,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
-      <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" /></td>
+      <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" /></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
     <tr>

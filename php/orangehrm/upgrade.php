@@ -55,13 +55,14 @@ function back($currScreen) {
 		case 5 	: 	unset($_SESSION['LOCCONF']); break;
 		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;		
 		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
-		case 8 	: 	unset($_SESSION['RESTORE']);
+		case 8 	: 	unset($_SESSION['RESTORE']); break;
+		case 9 	: 	unset($_SESSION['RESTORING']);
 					if(isset($_SESSION['DATABASE_BACKUP'])) {
 				 		include(ROOT_PATH.'/upgrader/restore/restoreBackup.php');
 					}
 					break;		
 	
-		case 9 	: 	return false; break;
+		case 10 	: 	return false; break;
  	}
 
  	$currScreen--;

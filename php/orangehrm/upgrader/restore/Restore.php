@@ -102,6 +102,7 @@ class Restore {
 			
 			if (($i%50) == 0) {
 				set_time_limit(30);
+				error_log($_arrSQL[$i], 3, 'log.txt');
 			}
 			
 		}
