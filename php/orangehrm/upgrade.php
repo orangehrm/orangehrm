@@ -1,4 +1,28 @@
 <?php
+
+function needToUpgrade() {
+	
+	$currentVersion = '2.0.0';
+	
+	if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['RESTORING'])) {
+		
+		include_once ROOT_PATH . '/lib/confs/Conf.php';
+		
+		$confObj = new Conf();
+		
+		$installedVersion = $confObj->version;
+		
+		if ((version_compare($installedVersion, $currentVersion) >= 0) && isset($confObj->upgrade) && ($confObj->upgrade)) {
+			quit();
+		}
+		
+	}
+}
+
+function quit() {
+	header('Location: ./index.php');
+	exit ();
+}
 function sockComm($postArr) {	
 
 	$host = 'www.orangehrm.com';
@@ -147,6 +171,8 @@ function validateMime($mime) {
 }
 
 define('ROOT_PATH', dirname(__FILE__));
+
+needToUpgrade();
 
 if(!isset($_SESSION['SID']))
 	session_start();
