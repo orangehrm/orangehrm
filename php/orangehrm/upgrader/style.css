@@ -2,6 +2,10 @@
 
 /* Top Table */
 
+a {
+	color: #009900;
+}
+
 .left_Active {
 	background-image : url('../themes/beyondT/pictures/nCurrentTab_left.gif');
 	width:9px;

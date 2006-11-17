@@ -9,7 +9,7 @@ function confLocationSubmit() {
 	<?php if (isset($_SESSION['error'])) { ?>
     <p><font color="Red"><?php echo $_SESSION['error']; ?></font></p>
     <?php } ?>
-	<p>Please enter the location of the previous installtion of OrangeHRM  and Click <b>[Next]</b> to continue.</p>
+	<p>Please enter the location of the previous installation of OrangeHRM  and Click <b>[Next]</b> to continue.</p>
 <table cellpadding="0" cellspacing="0" border="0" class="table">
 	<tr>
 		<th colspan="3" align="left">Database Configuration</td>

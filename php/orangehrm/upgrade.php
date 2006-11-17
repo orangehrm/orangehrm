@@ -177,11 +177,9 @@ if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }
 
-if(isset($_POST['actionResponse']))
+if(isset($_POST['actionResponse'])) {
 	switch($_POST['actionResponse']) {
-		
-		case 'WELCOMEOK' 	: needToUpgrade();
-							  $_SESSION['WELCOME'] = 'OK'; break;
+		case 'WELCOMEOK' 	: $_SESSION['WELCOME'] = 'OK'; break;
 		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
 		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;		
 		case 'LOCCONFOK' 	: $_SESSION['dbInfo']['locationOhrm'] = $_POST['locationOhrm'];
@@ -233,8 +231,11 @@ if(isset($_POST['actionResponse']))
 							break;
 		
 		case 'BACK'		 	:	back($_POST['txtScreen']);
-							break;
+							break;		
 	}
+} else {
+	needToUpgrade();
+}
 
 
 if (isset($error)) {

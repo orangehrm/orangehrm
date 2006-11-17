@@ -136,7 +136,7 @@ switch ($currScreen) {
 ?>
 
 </form>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Upgrader Wizard ver 0.1 &copy; hSenid Software 2005 - 2006 All rights reserved. </div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Upgrader Wizard ver 0.1 &copy; OrangeHRM Inc. 2005 - 2006 All rights reserved. </div>
 </div>
 </body>
 </html>

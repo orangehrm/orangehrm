@@ -21,7 +21,7 @@ switch ($_SESSION['RESTORING']) {
 
 <?php if (!isset($error) && ($nextPhase == 'REGISTER')) { ?>
 <p>
-Upgrading is completed successfuly.<br  />
+Upgrading was completed successfuly.<br  />
 Click <b>[Next]</b> to continue.
 </p>
 <?php } elseif (!isset($error)) { ?>
@@ -31,7 +31,7 @@ Please wait. Upgrading in progress.
 </p>
 <?php } else { ?>
 <p>
-Upgrading is  aborted due to an error. Click <b>[Clean Up Upgrade]</b> to correct the error and try Upgrading again.
+Upgrading is  aborted due to an error. Click <b>[Clean Up Upgrade]</b> to go back and correct the error and try Upgrading again.
 </p>
 <?php } 
 
