@@ -846,6 +846,11 @@ class EmpViewController {
 		}
 		
 		if(isset($postArr['attSTAT']) && ($postArr['attSTAT'] == 'ADD' || $postArr['attSTAT'] == 'EDIT')) {
+			
+			if($object == null){
+				return;
+			}
+			
 			if (isset($_FILES['ufile']) && ($_FILES['ufile']['size']>0)) {
 				$empatt = new EmpAttach();
 				$empatt = $object;
