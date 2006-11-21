@@ -116,7 +116,7 @@ function back() {
 	?>
   </tr>
 </table>
-<!--<a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>-->
+<a href="./guide/<?php echo $helpLink[$currScreen]?>" id="help" target="_blank">[Help ?]</a>
 <?php
 switch ($currScreen) {
 	
