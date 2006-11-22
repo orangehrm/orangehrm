@@ -25,10 +25,13 @@
 		<ol class="content_table_sub">
 			<li><a href="#welcome">Welcome Screen</a></li>
 			<li><a href="#license">License Acceptance</a></li>
-			<li><a href="#systemChk">System Check</a></li>
+			<li><a href="#disclaimer">Disclaimer</a></li>
+			<li><a href="#options">Options</a></li>
+			<li><a href="#old">OrangeHRM 1.2</a></li>
+			<li><a href="#backup">Backup Data</a></li>
 			<li><a href="#DBCreation">Database Creation</a></li>
-			<li><a href="#adminUsrCrt">Admin User Creation</a></li>
-			<li><a href="#confirm">Confirmation</a></li>
+			<li><a href="#syscheck">System Check</a></li>		
+			<li><a href="#upload">Upload</a></li>
 			<li><a href="#installing">Installing</a></li>
 			<li><a href="#registration">Registration</a></li>
 		</ol></li>
@@ -124,16 +127,101 @@ Web upgrade will be briefly described here.
 
 <p>Here you will be provided with a copy of the <a href="http://www.gnu.org/licenses/gpl.html" class="external" target="_blank">GNU GENERAL PUBLIC LICENSE</a> and to continue the installation you will have to accept the licene. If you decline simply discontinue the installation and delete all OrangeHRM files you posses.</p>
 
-<p>Click <b>[I Accept]</b> button in the License Acceptance screen if you accept the terms and conditions of the license. Then you will be taken to the next page of the Web Installer.</p>
+<p>Click <b>[Accept]</b> button in the License Acceptance screen if you accept the terms and conditions of the license. Then you will be taken to the next page of the Web Installer.</p>
+
+<h3 id="disclaimer">Disclaimer</h3>
+
+<p>Upgrader has been tested for most scenarios, but we cannot be sure whether we have covered all scenarios.
+Disclaimer there to let you know that we are not responsible for the actions of the upgrader. To continue the upgrade you will have to accept the disclaimer. If you decline simply discontinue the upgrade.</p>
+
+<p>Click <b>[Accept]</b> button in the Disclaimer screen if you accept the terms and conditions of the license. Then you will be taken to the next page of the Web Installer.</p>
 
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
 </div>
 
-<h3 id="systemChk">System Check</h3>
+<h3 id="options">Options</h3>
+<h4>Upgrade Exsisting Database</h4>
+<p>Every user is expected to select this in the first attempt to upgrade.
+You will get a backup of the database in next screens if you select this option.
+</p>
+<h4>Create New Database</h4>
+<p>You could select this option if you already have a database backup file with you.
+Here a new database will be created and the database will be filled with data in the
+backup file.
+</p>
+<p>
+Click <b>[Next]</b> button in Options Screen to continue.
+</p>
 
-<p>Here the Web Installer will check whether the <a href="#pre-requisities" class="see">pre-requisities</a> are available.</p>
+<h3 id="old">OrangeHRM 1.2</h3>
+<p>Enter the relative location of the previous installation of OrangeHRM in the textbox. 
+You can only upgrade from version 1.2 to current version. 
+</p>
+<p>
+Click <b>[Next]</b> button in this Screen to continue.
+</p>
+
+<div class="notes">
+<h5>Example</h5>
+<p>If you have OrangeHRM 1.2 and OrangeHRM 2.0 stored in the same parent directory and
+OrangeHRM 1.2 is stored in a folder called <span class="code">orangehrm</span> and OrangeHRM 2.0
+in a directory called <span class="code">orangehrm2</span> you should enter <span class="code">orangehrm</span>.</p>
+</div>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<h3 id="backup">Backup Data</h3>
+<p>Database backup file should download in a little while after Backup Data screen loads. Save this file
+safely. Please do not save the file in the same location as installation of OrangeHRM. The file could be deleted.
+</p>
+<p>If the download doesn't start immediately click the link to download the Database backup file.</p>
+<p>If you do not save this file you cannot continue with the upgrade.</p>
+<p>
+Select Downloaded and click <b>[Next]</b> button in Backup Data screen to continue.
+</p>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<p>Click [Skip] bellow if you are not interested to read about screens you will get if you selected
+Create new database in the <a href="#options" class="see">Options screen</a>.</p>
+<p><a href="#systemChk" class="skip">[Skip]</a></p>
+
+<h3 id="DBCreation">Database Creation</h3>
+
+<p>Enter the relevant information about your MySQL database server and database users.<br>
+Click <b>[Next]</b> in Database Creation screen to continue.</p>
+
+
+<div class="notes">
+<h4>Notes</h4>
+
+<h5>Priviledged Database Users and OrangeHRM Database Users</h5>
+<p>
+
+Database users could be assigned different rights. In which case there may be users who can't create databases, users and perform certain database operations but allowed to view data in the databse. A previleged user is a user with rights to perform all database operations is a Privileged User.
+</p>
+<p>OrangeHRM database user doesn't need to be a privileged user. OrangeHRM database user only needs the rights to INSERT, UPDATE, SELECT and DELETE.
+</p>
+<p>Since the database user details are stored in the file in plain text it would be a security threat to have OrangeHRM database user to be the Privileged user.</p>
+<h5>Make a wise decision!</h5>
+</div>
+
+<div class="navigate">
+<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
+<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
+</div>
+
+<h3 id="syscheck">System Check</h3>
+
+<p>Here the Web Upgrader will check whether the <a href="../../installer/guide/#pre-requisities" class="see" target="_blank">pre-requisities</a> are available.</p>
 
 <p>If all responses are in green you can safely continue. You have installed the correct versions of the pre-requisities and configured them to work in harmony.</p>
 
@@ -160,35 +248,6 @@ You will have to change <span class="code">session.gc_maxlifetime</span> in the 
 It is still possible that some other php application running in the same server overriding <span class="code">session.gc_maxlifetime</span> value in the <span class="code">php.ini</span> file at runtime. This will be the case if you are running OrangeHRM in a shared host. Workaround is available but beyond the scope of this document.
 </p>
 </div>
-
-<div class="navigate">
-<a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
-<a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
-</div>
-
-<h3 id="DBCreation">Database Creation</h3>
-
-<p>Enter the relevant information about your MySQL database server and database users.<br/>
-Click <b>[Next]</b> in Database Creation screen to continue.</p>
-
-
-<div class="notes">
-<h4>Notes</h4>
-
-<h5>Priviledged Database Users and OrangeHRM Database Users</h5>
-<p>
-Database users could be assigned different rights. In which case there may be users who can't create databases, users and perform certain database operations but allowed to view data in the databse. A previleged user is a user with rights to perform all database operations is a Privileged User.
-</p>
-<p>OrangeHRM database user doesn't need to be a privileged user. OrangeHRM database user only needs the rights to INSERT, UPDATE, SELECT and DELETE.
-</p>
-<p>Since the database user details are stored in the file in plain text it would be a security threat to have OrangeHRM database user to be the Privileged user.</p>
-<h5>Make a wise decision!</h5>
-</div>
-
-<h3 id="adminUsrCrt">Admin User Creation</h3>
-<p>Type in the Admin Username, Password and Confirm Admin User Password.<br />
-Click <b>[Next]</b> button in Admin User Creation Screen to continue.
-</p>
 
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
