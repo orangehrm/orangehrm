@@ -193,7 +193,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 						<td nowrap><?php echo $enddate?></td>
-						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?> >&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $briefdes?></td>

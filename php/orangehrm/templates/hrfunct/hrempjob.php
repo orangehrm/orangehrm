@@ -18,7 +18,7 @@
 			  </select> </td>
 			  <td width="50">&nbsp;</td>
 			  <td><?php echo $empstatus?></td>
-			  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbType">
+	  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbType">
 			  		<option value="0"><?php echo $selempstat?></option>
 <?php				if(isset($this->postArr['cmbType'])) {
 						$arrEmpType = $this->popArr['empstatlist'];

@@ -165,7 +165,7 @@ if(isset($this->popArr['editEducationArr'])) {
 		<?php			}  ?>
 						</td>
 					  </tr>
-                  </table>
+</table>
 
 <?php } else { ?>
 
@@ -187,7 +187,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					</tr>
 					 <tr>
 					<td><?php echo $year?></td>
-						<td> <input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear"></td>
+					   <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear2" /></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
@@ -211,8 +211,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?php 	} else { ?>
 					        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php	} ?>
-								</td>
+					<?php	} ?>								</td>
 					  </tr>
                   </table>
 <?php } ?>
@@ -262,6 +261,6 @@ $allEduCodes = $this->popArr['allEduCodes'];
         }
 
 ?>
-     </table>
+</table>
      
 <?php } ?>

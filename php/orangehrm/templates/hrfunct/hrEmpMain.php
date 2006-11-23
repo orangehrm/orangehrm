@@ -303,7 +303,22 @@ function editEmpMain() {
 								"btnLicExpDate",
 								"txtLicExpDate",
 								"btnDOB",
-								"DOB");
+								"DOB",
+								"txtState",
+								"cmbCity",
+								"txtHmTelep",
+								"txtWorkTelep",
+								"txtOtherEmail",
+								"txtStreet1",
+								"txtStreet2",
+								"txtzipCode",
+								"txtMobile",
+								"txtWorkEmail",
+								"txtEConRel",
+								"txtEConHmTel",
+								"txtEConMobile",
+								"txtEConWorkTel",
+								"txtEConName");
 								
 		for (j=0; j<enableArr.length; j++) {
 			frm[enableArr[j]].disabled = false;
@@ -353,6 +368,7 @@ function editEmpMain() {
 			
 		if ((frm.elements[i].name == "btnDOB") || (frm.elements[i].name == "DOB"))
 			frm.elements[i].disabled=false;*/		
+		
 		<?php } ?>		
 	}
 		
