@@ -59,7 +59,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		if (!dateExpression.test(txt)) {
 			return false;
 		}
-			
+		/*
 		todayTxt = '<?php echo date('Y-m-d');	?>';
 			
 		txtDate = new Date();
@@ -87,7 +87,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				
 		if (txtDate.getDate() < today.getDate()) {
 			return false;
-		}				
+		}*/				
 		
 		return true;
 	}
