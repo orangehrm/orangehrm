@@ -202,7 +202,7 @@ if(isset($_POST['actionResponse'])) {
 	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type']; 
 	 									 								
 								} else  {									
-									$_SESSION['RESTORING'] = 0;
+									$_SESSION['RESTORING'] = -1;
 								
 									$_SESSION['FILEDUMP'] = file_get_contents($_FILES['file']['tmp_name']);
 									$_SESSION['DATABASE_BACKUP']="";										  							

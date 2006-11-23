@@ -153,22 +153,9 @@ if (isset($_SESSION['RESTORING'])) {
 	$conn = connectDB();
 	
 	if ($conn)	
-	switch ($_SESSION['RESTORING']) {		
-		case 0	:	$db = mysql_select_db($_SESSION['dbInfo']['dbName']);
-					writeLog();
-					error_log (date("r")." DB ".$_SESSION['dbInfo']['dbName']." selected".$db." - Starting\n",3, "log.txt");
-					if (!$db) {
-						error_log (date("r")." DB Creation - Starting\n",3, "log.txt");
-						createDB();
-						error_log (date("r")." DB Creation - Done\n",3, "log.txt");
-						if (!isset($error) || !isset($_SESSION['error'])) {	
-							$_SESSION['RESTORING'] = 1;
-							error_log (date("r")." DB Creation - No Errors\n",3, "log.txt");																										
-						} else {
-							error_log (date("r")." DB Creation - Errors\n",3, "log.txt");
-							error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
-						}
-					}else {
+	switch ($_SESSION['RESTORING']) {	
+		case -1 : $db = mysql_select_db($_SESSION['dbInfo']['dbName']);
+					if ($db) {
 						
 						$dump = new Backup();
 						$connec = connectDB();
@@ -185,7 +172,23 @@ if (isset($_SESSION['RESTORING'])) {
 						error_log (date("r")."database ".$_SESSION['dbInfo']['dbName']." is droped".mysql_errno()."- \n",3, "log.txt");
 										 
 						$_SESSION['RESTORING'] = 0;
-				    } 
+				    };
+				    
+		case 0	:	$db = mysql_select_db($_SESSION['dbInfo']['dbName']);
+					writeLog();
+					error_log (date("r")." DB ".$_SESSION['dbInfo']['dbName']." selected".$db." - Starting\n",3, "log.txt");
+					if (!$db) {
+						error_log (date("r")." DB Creation - Starting\n",3, "log.txt");
+						createDB();
+						error_log (date("r")." DB Creation - Done\n",3, "log.txt");
+						if (!isset($error) || !isset($_SESSION['error'])) {	
+							$_SESSION['RESTORING'] = 1;
+							error_log (date("r")." DB Creation - No Errors\n",3, "log.txt");																										
+						} else {
+							error_log (date("r")." DB Creation - Errors\n",3, "log.txt");
+							error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "log.txt");
+						}
+					} 
 				   error_log (date("r")." Next step".$_SESSION['RESTORING']." - Starting\n",3, "log.txt");
 					break;
 		case 1 	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, "log.txt");		

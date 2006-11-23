@@ -17,6 +17,7 @@ switch ($_SESSION['RESTORING']) {
 	default: $nextPhase = 'LOGIN';
 			break;
 }
+
 ?>
 
 <?php if (!isset($error) && ($nextPhase == 'REGISTER')) { ?>
@@ -40,7 +41,7 @@ $Phases = array('Create Database', 'Database Structure - Phase 1', 'Filling User
   $controlval = 0;
   	
   if (isset($error)) {
-  	$controlval = 1;  
+  	$controlval = 0;  
 ?>
 	<p class="error"><?php echo $error?></p>
 <?php } ?>
