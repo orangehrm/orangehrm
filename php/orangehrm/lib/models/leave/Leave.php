@@ -279,9 +279,9 @@ class Leave {
 		$joinConditions[1] = "a.`employee_id` = c.`erep_sub_emp_number`";
 		$joinConditions[2] = "a.`employee_id` = d.`emp_number`";
 		
+		$selectConditionsTmp = "(a.`leave_status` IN ('".$this->statusLeaveApproved."', '".$this->statusLeaveRejected."') AND a.`leave_date` > NOW())";
 		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
-		$selectConditions[2] = "a.`leave_status` != ".$this->statusLeaveTaken;
-		$selectConditions[3] = "a.`leave_date` > NOW()";
+		$selectConditions[2] = "a.`leave_status` != ".$this->statusLeaveTaken." OR ".$selectConditionsTmp;
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		

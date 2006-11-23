@@ -129,7 +129,7 @@ switch ($currScreen) {
 	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
 	case 6 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
 	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
-	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/restoredata.php'); break;
+	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/restoreData.php'); break;
 	case 9 	: 	require(ROOT_PATH . '/upgrader/restore/processing.php'); break;
 	case 10	: 	require(ROOT_PATH . '/upgrader/registration.php'); break;
 }
