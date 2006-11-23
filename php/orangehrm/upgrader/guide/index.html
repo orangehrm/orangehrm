@@ -182,7 +182,7 @@ safely. Please do not save the file in the same location as installation of Oran
 <p>If the download doesn't start immediately click the link to download the Database backup file.</p>
 <p>If you do not save this file you cannot continue with the upgrade.</p>
 <p>
-Select Downloaded and click <b>[Next]</b> button in Backup Data screen to continue.
+Select <b>[Downloaded]</b> tick box and click <b>[Next]</b> button in Backup Data screen to continue.
 </p>
 
 <div class="navigate">
@@ -192,7 +192,7 @@ Select Downloaded and click <b>[Next]</b> button in Backup Data screen to contin
 
 <p>Click [Skip] bellow if you are not interested to read about screens you will get if you selected
 Create new database in the <a href="#options" class="see">Options screen</a>.</p>
-<p><a href="#systemChk" class="skip">[Skip]</a></p>
+<p><a href="#syscheck" class="skip">[Skip]</a></p>
 
 <h3 id="DBCreation">Database Creation</h3>
 
@@ -254,40 +254,35 @@ It is still possible that some other php application running in the same server 
 <a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
 </div>
 
-<h3 id="confirm">Confirmation</h3>
-<p>Confirm whther the installation details are correct and Click <b>[Install]</b> button in the Confirmation screen to install.</p>
+<h3 id="upload">Upload</h3>
+<p>Upload the Database backup file downloaded in <a href="#backup" class="see">Backup Data</a> screen. Without uploading you cannot continue.</p>
 
 <div class="notes">
 <h4>Notes</h4>
 
-<p>Installation will begin immediately. Once you click <b>[install]</b> there is no way that you can stop the installation from starting. You cannot roll back the installation as well. Click <b>[Install]</b> only if you are sure that you want to install with the given configuration</p>
+<p>Upgrade will begin immediately. Once you click <b>[Next]</b> there is no way that you can stop the upgrade from starting. You cannot roll back the upgrade as well. Click <b>[Next]</b> only if you are sure that you want to upgrade with the given configuration.</p>
 </div>
 
-<h3 id="installing">Installing</h3>
+<h3 id="installing">Upgrading</h3>
 
-<p>Here you will be shown the progress of the installation. Once the installation is completed the <b>[Next]</b> button will be enabled. Click <b>[Next]</b> button in the Installing screen to continue.</p>
+<p>Here you will be shown the progress of the upgrade. Once the upgrade is completed the <b>[Next]</b> button will be enabled. Click <b>[Next]</b> button in the Upgrading screen to continue.</p>
 
-<p>If an error occurs during the installation the whole installation will be aborted. <br />
-Click <b>[Clean Up Install]</b> to go to previous pages to correct the error and start the installation again.
+<p>If an error occurs during the upgrade the whole upgrade will be aborted. <br />
+Click <b>[Clean Up Upgrade]</b> to go to previous pages to correct the error and start the upgrade again.
 See <a href="#installing_error" class="see">screenshots</a></p>
 
-<div class="notes">
-<h4>Notes</h4>
-
-<p>If the installation is aborted you will have to either DROP the database with the name you porovided in the <a href="#DBCreation" class="see">Database Creation</a> page if it exists or key in another name for the database.</p>
-</div>
 
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
 </div>
 
-<p><a href="#registration" class="skip">[Skip screen shots]</a></p>
+<p><a href="#registration" class="skip">[Skip screenshots]</a></p>
 
 <h4>Following are sample screenshots of the Installing screen</h4>
 
 <div class="screenshot" >
-<img src="../images/installing_01.gif" alt="Installing 01"  width="588" height="323" /></div>
+<img src="../images/installing_01.gif" alt="Installing 01"  /></div>
 <p class="caption">Installation has just started.</p>
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -297,7 +292,7 @@ See <a href="#installing_error" class="see">screenshots</a></p>
 <br />
 
 <div class="screenshot" >
-<img src="../images/installing_02.gif" alt="Installing 02"  width="575" height="325" /></div>
+<img src="../images/installing_02.gif" alt="Installing 02"  /></div>
 <p class="caption">Installation in progress.</p>
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -307,7 +302,7 @@ See <a href="#installing_error" class="see">screenshots</a></p>
 <br />
 
 <div class="screenshot" >
-<img src="../images/installing_03.gif" alt="Installing 03"  width="321" height="344" /></div>
+<img src="../images/installing_03.gif" alt="Installing 03" /></div>
 <p class="caption">Installation has finished successfuly.</p>
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -317,7 +312,7 @@ See <a href="#installing_error" class="see">screenshots</a></p>
 <br />
 
 <div class="screenshot" id="installing_error">
-<img src="../images/installing_error_01.gif" alt="Installing Error 01"  width="750" height="340" /></div>
+<img src="../images/installing_error_01.gif" alt="Installing Error 01" /></div>
 <p class="caption">Installation has been aborted due to an error.</p>
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -326,7 +321,11 @@ See <a href="#installing_error" class="see">screenshots</a></p>
 <br />
 
 <h3 id="registration">Registration</h3>
-<p>If you want be Up to Date on news about OrangeHRM, please provide your E-mail address and a name that the e-mails should be addressed. It will be much appreciated if you register here, then we will know how many users have successfuly installed OrangeHRM.</p>
+<p>If you want be Up to Date on news about OrangeHRM, please provide your E-mail address and a 
+name that the e-mails should be addressed. It will be much appreciated if you register here, 
+then we will know how many users have successfuly upgraded to OrangeHRM 2.0.</p>
+<p>Even if you have already registered during installation of OrangeHRM 1.2 it's alright to register.
+We will be considering the last registration when sending Updates and News.</p>
 <p>You can also provide your comments.<p>
 <p>If you want to receive Updates or Newsletter select the tick box <b>[Updates/Newsletter].</b> Click <b>[Register]</b> to send the information.
 </p>
@@ -341,7 +340,7 @@ See <a href="#installing_error" class="see">screenshots</a></p>
 <br />
 
 <h3>Login into OrangeHRM</h3>
-<p>Now use the Admin Username and Password you have given earlier to login into OrangeHRM.</p>
+<p>Now use your username and password used for OrangeHRM 1.2 to login into OrangeHRM 2.0.</p>
 <div class="navigate">
 <a href="javascript:window.history.go(-1);" ><img src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#" ><img src="../images/top.gif" width="15" height="15" border="0" class="top" /></a>
