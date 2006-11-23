@@ -282,9 +282,33 @@ function editEmpMain() {
 	
 	var frm=document.frmEmp;
 	
-	for (var i=0; i < frm.elements.length; i++) {
-		frm.elements[i].disabled=false;		
-		<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+	for (var i=0; i < frm.elements.length; i++) {				
+		<?php if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) { ?>
+		
+		frm.elements[i].disabled=false;
+		
+		<?php } else if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+		enableArr = new Array(	'txtEmpFirstName',
+								'txtEmpMiddleName',
+								'txtEmpLastName',
+								'txtEmpNickName',
+								'cmbCountry', 
+								'txtEConName', 
+								"btnBrowser", 
+								"chkSmokeFlag",
+								"txtMilitarySer",
+								"cmbNation",
+								"cmbMarital",
+								"cmbEthnicRace",
+								"btnLicExpDate",
+								"txtLicExpDate",
+								"btnDOB",
+								"DOB");
+								
+		for (j=0; j<enableArr.length; j++) {
+			frm[enableArr[j]].disabled = false;
+		}
+		/*
 		if (frm.elements[i].name == 'txtEmpLastName')
 			lockEmpCont=false;
 		if (frm.elements[i].name == 'cmbCountry')
@@ -292,18 +316,20 @@ function editEmpMain() {
 		if (frm.elements[i].name == 'txtEConName')
 			lockEmpCont=false;
 		if (frm.elements[i].name == 'dependentSTAT')
-			lockEmpCont=true;			
+			lockEmpCont=true;		
 		
 		frm.elements[i].disabled=lockEmpCont;	
 			
 		if (frm.elements[i].name == 'txtEmpNickName')
 			lockEmpCont=true;
 		if (frm.elements[i].name == 'txtOtherEmail')
-			lockEmpCont=true;		
+			lockEmpCont=true;		*/
 			
 		if (frm.elements[i].type == "hidden")
 			frm.elements[i].disabled=false;	
 			
+			
+		/*	
 		if (frm.elements[i].name == "btnBrowser")
 			frm.elements[i].disabled=false;	
 			
@@ -326,7 +352,7 @@ function editEmpMain() {
 			frm.elements[i].disabled=false;
 			
 		if ((frm.elements[i].name == "btnDOB") || (frm.elements[i].name == "DOB"))
-			frm.elements[i].disabled=false;
+			frm.elements[i].disabled=false;*/		
 		<?php } ?>		
 	}
 		
