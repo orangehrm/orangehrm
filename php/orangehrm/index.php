@@ -447,7 +447,7 @@ function setSize() {
                       		}               	
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
-  						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leaves</a></li>
+  						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
 						<?php }  
 							if ($authorizeObj->isAdmin()) {
 						?>

@@ -121,7 +121,7 @@ class LeaveController {
 		if ($res) {
 			$message="";
 		} else {
-			$message="FAILURE";
+			$message="";
 		}
 		
 		return $message;
