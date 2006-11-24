@@ -109,7 +109,7 @@
 		 ?>	
   	    		</select>
 		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" src="../../themes/beyondT/pictures/btn_search.jpg" /></th>
+    	<th width="100px" class="odd"><input type="image" name="btnView" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
 	<tr>
