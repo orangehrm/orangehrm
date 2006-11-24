@@ -680,7 +680,7 @@ function resetAdd(panel) {
 				<td> <input type="text" name="txtEmpFirstName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?php echo $middlename?></td>
+				<td><?php echo $middlename?></td>
 				<td> <input type="text" name="txtEmpMiddleName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
 				<td>&nbsp;</td>
 			  <td><?php echo $nickname?></td>
@@ -748,7 +748,7 @@ function resetAdd(panel) {
 				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?php echo $middlename?></td>
+				<td><?php echo $middlename?></td>
 				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
 				<td>&nbsp;</td>
 			  <td><?php echo $nickname?></td>

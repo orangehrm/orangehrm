@@ -87,7 +87,7 @@ return flag;
 	function addSave() {
 		var txt = document.frmLanguageInformation.txtLanguageInfoDesc;
 		if (!alpha(txt)) {
-			alert ("Description Error!");
+			alert ("Name Error!");
 			txt.focus();
 			return false;
 		}

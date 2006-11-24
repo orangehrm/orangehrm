@@ -67,21 +67,21 @@ function editEContact() {
             <input type="hidden" name="txtECSeqNo" value="<?php echo $this->popArr['newECID']?>">
 			 <tr>
 			 <td><?php echo $name?>&nbsp;&nbsp;</td>
-			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':'disabled'?> type="text"></td>
+			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 <td width="50">&nbsp;</td>
 			<td><?php echo $relationship?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':'disabled'?> type="text"></td>
+			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $hmtele?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':'disabled'?> type="text"></td>
+			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $mobile?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConMobile" <?php echo $locRights['add'] ? '':'disabled'?> type="text"></td>
+			 <td><input name="txtEConMobile" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $worktele?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':'disabled'?> type="text"></td>
+			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			  </tr>
 				  <td>
 <?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
