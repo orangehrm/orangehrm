@@ -348,7 +348,7 @@ $empname = $this ->popArr['empname'];
 
   <tr>
 
-    <td width='100%'><h3><?php echo $subordinateinfomation?></h3>i.e. Current Employees Subordinate's</td>
+    <td width='100%'><h3><?php echo $subordinateinfomation?></h3>i.e. Current Employee's Subordinates</td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
