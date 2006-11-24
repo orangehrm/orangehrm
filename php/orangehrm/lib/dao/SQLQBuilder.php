@@ -77,6 +77,7 @@ class SQLQBuilder {
 					//$temp = substr($value,1,strlen($value)-2);				
 					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));					
 					$temp = mysql_real_escape_string($temp); //str_replace("'","\'",$temp);
+					
 					$tempArr[] = "'" . $temp . "'";
 									
 				} else {
@@ -84,7 +85,7 @@ class SQLQBuilder {
 				}
 			}
 		
-		return $arr;
+		return $tempArr;
 	}
 
 /*	Function passresultSetMessage Will 
@@ -209,15 +210,10 @@ class SQLQBuilder {
 	function passResultFilter($page,$str='',$mode=0) {
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
-			$SQL1 = 'SELECT ';
-			for ($i=0;$i<count($arrayFieldList); $i++) 
-				if ($i == ($countArrSize - 1))   //String Manipulation
-					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' ';		
-				else 
-				
-					$SQL1 = $SQL1 . $arrayFieldList[$i] . ', ';
 			
-		$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $this->field . ' NOT IN (SELECT ' . $this->field . ' FROM ' . strtolower($this->table2_name) . ' ) '; 
+			$SQL1 = $this->_buildSelect($arrayFieldList);			
+			
+			$SQL1 .= ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $this->field . ' NOT IN (SELECT ' . $this->field . ' FROM ' . strtolower($this->table2_name) . ' ) '; 
 
 				if($mode!=0)
 				{
@@ -281,8 +277,10 @@ class SQLQBuilder {
 			$arrayFieldList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
 			
-			if($quoteCorrect)
+			if($quoteCorrect) {
 				$arrayFieldList = $this->quoteCorrect($arrayFieldList);
+				print_r($arrayFieldList);
+			}			
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
 						
@@ -1047,7 +1045,18 @@ function getCurrencyAssigned($salgrd) {
 
 		//print_r($insertValues);
 		
-		$query = "INSERT INTO $insertTable VALUES ( ".$this->_buildList($insertValues, ",").")";
+		//$query = "INSERT INTO $insertTable VALUES ( ".$this->_buildList($insertValues, ",").")";
+		$this->flg_insert = true;
+		
+		$this->table_name = $insertTable;
+		$this->arr_insert = $insertValues;
+		
+		if ($insertFields) {
+			$this->arr_insertfield = $insertFields;			
+			$query = $this->addNewRecordFeature2('true');
+		} else {
+			$query = $this->addNewRecordFeature1('true');
+		}
 		
 		return $query;
 	}
