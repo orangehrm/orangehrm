@@ -88,7 +88,11 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 if ($authorizeObj->isESS()) {
-	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary';
+	if ($authorizeObj->isSupervisor()) {
+		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
+	} else {
+		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary';
+	}
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 }
