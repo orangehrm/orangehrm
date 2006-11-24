@@ -231,9 +231,8 @@ class Leave {
 		
 		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "`employee_id` = '".$employeeId."'";
-		$selectConditions[2] = "`leave_status` != ".$this->statusLeaveRejected;//" OR `Leave_Status` != ".$this->statusLeaveTaken.")";
-		$selectConditions[3] = "`leave_date` > '".date('Y')."-01-01'";
+		$selectConditions[1] = "`employee_id` = '".$employeeId."'";		
+		$selectConditions[2] = "`leave_date` > '".date('Y')."-01-01'";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 		
