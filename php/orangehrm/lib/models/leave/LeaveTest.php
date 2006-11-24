@@ -245,7 +245,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
                 
         $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
-        $expected[0] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');                
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 0, 1, ''); 
+        $expected[1] = array(date('Y-m-d', time()+3600*24*1), 'Medical', 0, 1, '');                 
 
         $this->assertEquals($res, true, "No record found ");
 

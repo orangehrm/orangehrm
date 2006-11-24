@@ -278,8 +278,7 @@ class SQLQBuilder {
 			$countArrSize = count($arrayFieldList); // check the array size
 			
 			if($quoteCorrect) {
-				$arrayFieldList = $this->quoteCorrect($arrayFieldList);
-				print_r($arrayFieldList);
+				$arrayFieldList = $this->quoteCorrect($arrayFieldList);				
 			}			
 			
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';

@@ -183,7 +183,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td align="center" class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
       <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
-      <td colspan="4" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" size="10" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" />
+      <td colspan="4" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" />
         <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
       <td class="tableMiddleRight"></td>
     </tr>
