@@ -145,7 +145,7 @@
  $startdate				= 'Start Date';
  $briefdes				= 'Comments';
  $assignworkex			= 'Assigned Work Experience';
- $workexid				= 'Work Experiance ID';
+ $workexid				= 'Work Experience ID';
  $internal				= 'Internal';
 
  //education

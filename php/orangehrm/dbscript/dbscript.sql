@@ -524,34 +524,6 @@ create table `hs_hr_employee_leave_quota` (
   `no_of_days_allotted` smallint(6) default null
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_leave` (
-  `leave_id` int(11) not null,
-  `employee_id` varchar(6) not null,
-  `leave_type_id` varchar(6) not null,
-  `leave_type_name` varchar(20) not null,
-  `date_applied` date default null,
-  `leave_date` date default null,
-  `leave_length` smallint(6) default null,
-  `leave_status` smallint(6) default null,
-  `leave_comments` varchar(80) default null,
-  primary key  (`leave_id`,`employee_id`,`leave_type_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_leavetype` (
-  `leave_type_id` varchar(6) not null,
-  `leave_type_name` varchar(20) default null,
-  `available_flag` smallint(6) default null,
-  primary key  (`leave_type_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_employee_leave_quota` (
-  `leave_type_id` varchar(6) not null,
-  `employee_id` varchar(6) not null,
-  `no_of_days_allotted` smallint(6) default null,
-  primary key  (`leave_type_id`,`employee_id`)
-) engine=innodb default charset=utf8;
-
-
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)

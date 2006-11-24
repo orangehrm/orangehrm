@@ -102,7 +102,7 @@ class CompStruct {
 
 		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET rgt=rgt+2 WHERE rgt>%d", $this->rgt-1);
 		$sqlString2=sprintf("UPDATE hs_hr_compstructtree SET lft=lft+2 WHERE lft>%d", $this->rgt-1);
-		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code='%s'", $this->rgt, $this->rgt+1, $this->addStr, $this->strDesc, $this->addParnt, $this->location);
+		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code='%s'", $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $this->location);
 
 		/*
 		 *
@@ -158,7 +158,7 @@ class CompStruct {
 	function updateCompStruct() {	
 
 
-		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code='%s' WHERE ID=%d", $this->addStr, $this->strDesc, $this->location, $this->id);
+		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code='%s' WHERE ID=%d", mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $this->location, $this->id);
 
 		$dbConnection = new DMLFunctions();	
 		
@@ -174,7 +174,7 @@ class CompStruct {
 		 *
 		 */
 
-		$sqlString = sprintf("SELECT lft, rgt FROM hs_hr_compstructtree WHERE title='%s';",$root); 
+		$sqlString = sprintf("SELECT `lft`, `rgt` FROM `hs_hr_compstructtree` WHERE `title`='%s'", mysql_real_escape_string($root)); 
 
 		$dbConnection = new DMLFunctions();		
 
@@ -251,7 +251,11 @@ class CompStruct {
 
        		$right[] = $row['rgt']; 
 		}
-	return $tree;
+		if (isset($tree)) {
+			return $tree;
+		} else {
+			return false;
+		}
 	}
 
 }
