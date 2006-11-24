@@ -109,10 +109,10 @@ The pre-requisites are;
       <p><b>Notice:</b><br>
       <ul>
         <li>If you use any firewall software(ie; Windows Firewall) if prompted please make 
-          sure that XAMP services (Apache Web Server, MySQL) are exempted from the blocked list</li>
+          sure that XAMP services (Apache Web Server, MySQL) are exempted from the blocked list.</li>
         <li>If you use Skype, this may result in a port conflict with Apache web-server 
           included in XAMP when install . Therefore make sure you 
-          re-start Windows to make sure that XAMP services start before Skype (then Skype will go for an alternate 
+          re-start Windows to make sure that XAMP services start before Skype (then Skype will go for another free  
           port).</li>
       </ul>
 	  
@@ -171,7 +171,7 @@ Copy <span class="code">OrangeHRM-ver-2.0.zip</span> into the document root of t
 </div>
 
 <h3 id="extracting">Extracting</h3>
-<p>Extract <span class="code">OrangeHRM-ver-2.0.zip</span> into the same folder. </p>
+<p>Extract <span class="code">OrangeHRM-ver-2.0.zip</span> into the same folder, which would extract every thing into a directory called 'orangehrm2'.</p>
 
 <h3>Web Installation</h3>
 <p>Using a JavaScript enabled browser goto <span class="code">http://&lt;webhost&gt;/orangehrm2/</span><br />
@@ -266,14 +266,12 @@ Click <b>[Next]</b> in Database Creation screen to continue.</p>
 <div class="notes">
 <h4>Notes</h4>
 
-<h5>Priviledged Database Users and OrangeHRM Database Users</h5>
+<h5>Privileged Database Users and OrangeHRM Database Users</h5>
 <p>
-Database users could be assigned different rights. In which case there may be users who can't create databases, users and perform certain database operations but allowed to view data in the databse. A previleged user is a user with rights to perform all database operations is a Privileged User.
+Database Server users could be assigned different rights. For the web installer to create the OrangeHRM Database, you need to give  a Database user account details (user-name/password) with permissions CREATE, ALTER, DROP, INSERT under the field Privileged Database User/Password.
 </p>
-<p>OrangeHRM database user doesn't need to be a privileged user. OrangeHRM database user only needs the rights to INSERT, UPDATE, SELECT and DELETE.
-</p>
-<p>Since the database user details are stored in the file in plain text it would be a security threat to have OrangeHRM database user to be the Privileged user.</p>
-<h5>Make a wise decision!</h5>
+<p>Since OrangeHRM requires only permissions INSERT, UPDATE, SELECT and DELETE to interact with database, the web installer could create a separate database user account to for OrangeHRM. It is always recommended that you create a separate user account for OrangeHRM. To do so fill in OrangeHRM User details(user-name/password) as required by you, and web-installer would create the account for you.</p>
+<p><b>Note:</b> Since the database user account details used by OrangeHRM are stored in plain text, it would be a security threat to have OrangeHRM use Privileged user account.</p>
 </div>
 
 <h3 id="adminUsrCrt">Admin User Creation</h3>
