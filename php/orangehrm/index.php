@@ -424,17 +424,17 @@ function setSize() {
                       	<?php 
                       		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
                  	
-                 			if ($authorizeObj->firstRole($allowedRoles)) { 
+                 			//if ($authorizeObj->firstRole($allowedRoles)) { 
                  				
-                 				if ($authorizeObj->isESS()) {
-                 					$linkSummary = 'href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary"';              
-                 				} else {
-                 					$linkSummary = "";
-                 				}
+                 			if ($authorizeObj->isESS()) {
+                 				$linkSummary = 'href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary"';              
+                 			} else {
+                 				$linkSummary = "";
+                 			}
                       	?>
   						<li id="leaveSummary"><a <?php echo $linkSummary; ?> target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
   						<?php 
-                 			}
+                 			//}
                  			if ($authorizeObj->isESS()) { 
   						?>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leaves List</a></li>

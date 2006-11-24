@@ -1062,7 +1062,7 @@ function getCurrencyAssigned($salgrd) {
 	
 	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions) {
 		
-		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
+		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $this->quoteCorrect($changeValues)).$this->_buildWhere($updateConditions);
 		
 		return $query;		
 	}
