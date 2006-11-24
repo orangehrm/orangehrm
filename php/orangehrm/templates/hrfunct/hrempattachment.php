@@ -47,8 +47,9 @@ function editAttach() {
 		
 <?php		if(!isset($this->getArr['ATTACH'])) { ?>
           <tr>
-				<td><?php echo $path?></td>
-				<td><input type="file" name="ufile"></td>
+				<td valign="top"><?php echo $path?></td>
+				<td><input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+					<input type="file" name="ufile"> [1M Max]</td>
               </tr>
               <tr>
               	<td><?php echo $description?></td>
