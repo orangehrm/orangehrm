@@ -272,9 +272,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	
     	$this->assertEquals($res, true, "No years returned");
     	
-    	$this->assertEquals(count($res), 1, "Retruned wrong number of records");
+    	$this->assertEquals(count($res), 2, "Retruned wrong number of records");
     	
-    	$expected = array(date('Y'));
+    	$expected = array(date('Y')+1, date('Y'));
     	
     	$this->assertEquals($res, $expected, "Retruned wrong count");
     }

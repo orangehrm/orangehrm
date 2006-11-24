@@ -542,21 +542,31 @@ class Leave {
 		
 		$selectConditions[] = "`leave_date` < '".date('Y')."-01-01'";
 
-		$selectOrder = "DESC";
+		$selectOrder = "ASC";
 		
 		$selectOrderBy = "`leave_date`";	
 
-		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder);
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder, 1);
 		
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
 		
-		$years[] = date('Y');
+		if ($row = mysql_fetch_row($result)) {
+			$firstYears = $row[0];	
+			
+			for ($i=$firstYears; $i<date('Y'); $i++) {
+				$years[] = $i;
+			}						
+		}		
 		
-		while ($row = mysql_fetch_row($result)) {
-			$years[] = $row[0];	
-		}
+		$years[] = date('Y');		
+		
+		$years[] = date('Y')+1;		
+				
+		$years = array_unique($years);
+
+		rsort($years);		
 		
 		return $years;
 

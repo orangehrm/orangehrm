@@ -87,9 +87,9 @@
 		   			foreach ($years as $year) {
 		  ?>
 		 		  	<option value="<?php echo $year ?>"><?php echo $year ?></option>		
-		  <?php 			}
+		  <?php 	}
 		   		} 
-		 ?>		   		
+		 ?>		   	
   	    		  </select>
    	    </th>
     	
