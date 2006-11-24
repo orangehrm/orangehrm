@@ -142,10 +142,12 @@
     <td class="<?php echo $cssClass; ?>"><?php 
     		$leaveLength = null;
     		switch ($record->getLeaveLength()) { 
-    			case $record->lengthFullDay :	$leaveLength = $lang_FullDay;
-    											break; 
-    			case $record->lengthHalfDay:	$leaveLength = $lang_HalfDay;
-    											break; 	
+    			case $record->lengthFullDay 		 :	$leaveLength = $lang_FullDay;
+    													break; 
+    			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_HalfDayMorning;
+    													break;
+				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_HalfDayAfternoon;
+    													break;  	
     		}
     		
     		echo $leaveLength;			

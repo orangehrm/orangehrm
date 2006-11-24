@@ -48,7 +48,8 @@ class Leave {
 	 *
 	 **/
 	public $lengthFullDay = 8;
-	public $lengthHalfDay = 4;
+	public $lengthHalfDayMorning = -4;
+	public $lengthHalfDayAfternoon = 4;
 	
 	/*
 	 *	Class Attributes

@@ -78,7 +78,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		txtDate.setMonth(txtArr[1]);
 		today.setMonth(todayArr[1]);
 				
-		if (txtDate.getMonth() < today.getMonth()) {
+		if (txtDate.getMonth() > today.getMonth()) {
 			return false;
 		}
 		
@@ -142,7 +142,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td colspan="2" align="left" valign="top">
       	<select name="sltLeaveLength" id="sltLeaveLength">
         	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_FullDay;?></option>
-			<option value="<?php echo ($records[0]->lengthHalfDay);?>"><?php echo $lang_HalfDay;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDayMorning);?>"><?php echo $lang_HalfDayMorning;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDayAfternoon);?>"><?php echo $lang_HalfDayAfternoon;?></option>
        </select>
     </td>
     </tr>

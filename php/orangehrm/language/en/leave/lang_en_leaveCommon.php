@@ -40,7 +40,8 @@
  $lang_InvalidStatus	=	"Invalid Status";
  
  $lang_FullDay			=	"Full Day";
- $lang_HalfDay			= 	"Half Day";
+ $lang_HalfDayMorning   = 	"Half Day / Morning";
+ $lang_HalfDayAfternoon = 	"Half Day / Afternoon";
  
  $lang_LeaveTaken		= 	"Leave Taken";
  $lang_LeaveAvailable	=	"Leave Available";

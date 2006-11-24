@@ -30,7 +30,7 @@ class EXTRACTOR_LeaveType {
 	
 	
 	public function parseLeaveType($postArr) {		
-		$this->parent_LeaveType->setLeaveTypeName($postArr['txtLeaveTypeName']);
+		$this->parent_LeaveType->setLeaveTypeName(preg_quote($postArr['txtLeaveTypeName'], '/'));
 		
 		return $this->parent_LeaveType;
 	}
