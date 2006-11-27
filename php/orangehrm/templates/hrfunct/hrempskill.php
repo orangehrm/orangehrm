@@ -63,9 +63,9 @@ function addEXTSkill() {
 		return;
 	}
 	 
-	var txt = document.frmEmp.txtEmpYears;
-		if (!numeric(txt)) {
-			alert ("Years of Experience Error!");
+	var txt = document.frmEmp.txtEmpYears;		
+		if (!decimal(txt.value)) {
+			alert ("Years of Experience - Wrong input format");
 			txt.focus();
 			return;
 	}
@@ -79,6 +79,16 @@ function addEXTSkill() {
 
 	document.frmEmp.skillSTAT.value="ADD";
 	qCombo(16);
+}
+
+function decimal(txt) {
+	regExp = /^[0-9]+(\.[0-9]+){0,1}$/;
+	
+	if (regExp.test(txt)) {
+		return true;
+	}
+	
+	return false;
 }
 
 function editEXTSkill() {
