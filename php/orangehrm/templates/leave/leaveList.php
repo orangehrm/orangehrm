@@ -74,7 +74,7 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th width="75px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<th width="125px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
     	<?php if ($modifier == "SUP") { ?>
     	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
     	<?php } ?>
@@ -96,10 +96,14 @@
 			 	$cssClass = 'even';
 			 }
 			 $j++;
+			 $tmpDate = $record->getLeaveDate();
+			 
+			 $tmpDate = split('-', $tmpDate);
+			 $tmpTimeStamp = mktime(0, 0, 0, $tmpDate[1], $tmpDate[2], $tmpDate[0]);
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveDate(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d Y', $tmpTimeStamp); ?></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>

@@ -24,7 +24,9 @@
  *
  */
 
- $lang_Date				=	"Date";
+ $lang_Date				=	"Date"; 
+ $lang_FromDate			=	"From Date";
+ $lang_ToDate			=	"To Date";
  $lang_LeaveType		=	"Leave Type";
  $lang_Status			=	"Status";
  $lang_Length			=	"Full Day/Half Day";

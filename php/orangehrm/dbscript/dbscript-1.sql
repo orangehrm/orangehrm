@@ -18,7 +18,6 @@ create table hs_hr_compstructtree (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_job_title` (
-
 	`jobtit_code` varchar(6) not null default '',
 	`jobtit_name` varchar(50) default null,
 	`jobtit_desc` varchar(200) default null,
