@@ -515,14 +515,17 @@ create table `hs_hr_leave` (
 create table `hs_hr_leavetype` (
   `leave_type_id` varchar(6) not null,
   `leave_type_name` varchar(20) default null,
-  `available_flag` smallint(6) default null
+  `available_flag` smallint(6) default null,
+  primary key  (`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_employee_leave_quota` (
   `leave_type_id` varchar(6) not null,
   `employee_id` varchar(6) not null,
-  `no_of_days_allotted` smallint(6) default null
+  `no_of_days_allotted` smallint(6) default null,
+  primary key  (`leave_type_id`,`employee_id`)
 ) engine=innodb default charset=utf8;
+
 
 
 alter table hs_hr_compstructtree
