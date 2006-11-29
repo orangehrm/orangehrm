@@ -18,6 +18,7 @@
 */
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
@@ -65,6 +66,8 @@ class EmpInfo {
 	var $empWorkEmail;
 	var $empOtherEmail;
 	
+	var $employeeIdLength;
+	
 /*	//immigration
 	
 	*/
@@ -73,7 +76,9 @@ class EmpInfo {
 	var $singleField;
 
 	function EmpInfo() {
+		$sysConfObj = new sysConf();
 		
+		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
 	}
 
 	function setEmpId($empId) {
@@ -359,7 +364,7 @@ class EmpInfo {
 	function getListofEmployee($pageNO=0,$schStr='',$mode=0) {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[0] = "LPAD(`EMP_NUMBER`, ".$this->employeeIdLength.", 0)";
 		$arrFieldList[1] = "EMP_FIRSTNAME";		
 		$arrFieldList[2] = "EMP_LASTNAME";
 		$arrFieldList[3] = "EMP_MIDDLE_NAME";
@@ -449,10 +454,21 @@ class EmpInfo {
 			$this->singleField = $col_value;
 			}		
 		}
-		return $common_func->explodeString($this->singleField,"EMP");
+		
+		return str_pad(((int) $this->singleField)+1, 7, "0", STR_PAD_LEFT);
 		}
 		
-	}	
+	}
+	
+	function getEmployeeIdLength() {
+		$confObj = new Conf();
+		
+		if (isset($confObj->maxEmp)) {
+			return strlen($confObj->maxEmp);
+		}
+		
+		return 6;
+	}
 	
 	function delEmployee($arrList) {
 
@@ -2254,7 +2270,7 @@ class EmpInfo {
 	function countUnAssEmployeeRepTo($schStr,$mode) {
 
 		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = 'EMP_LASTNAME';
 
 		$sql_builder = new SQLQBuilder();
@@ -2277,7 +2293,7 @@ class EmpInfo {
 	function getUnAssEmployeeRepTo($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 
 		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = "CONCAT(EMP_FIRSTNAME, ' ', EMP_MIDDLE_NAME, ' ', EMP_LASTNAME)";
 
 		$sql_builder = new SQLQBuilder();

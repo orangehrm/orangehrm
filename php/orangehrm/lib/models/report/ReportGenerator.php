@@ -17,6 +17,8 @@
 // Boston, MA  02110-1301, USA
 */
 
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
+
 class ReportGenerator {
 
 	var $criteria;
@@ -24,11 +26,15 @@ class ReportGenerator {
 	var $repID;
 	var $repName;
 	var $headName;
-	//var $repDetails;
+	var $employeeIdLength;
 	
 	function ReportGenerator() {
 		$this->criteria=array();
 		$this->field=array();
+		
+		$sysConfObj = new sysConf();
+		
+		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
 	}
     
 	function ageToYear($age) {
@@ -124,11 +130,11 @@ class ReportGenerator {
  		if(isset($this->field['EMPNO'])==1){	
  			
  			$headingName['EMPNO'] = 'Employee No';
- 			$parentTableFieldName['EMPNO']  = 'a.EMP_NUMBER';
+ 			$parentTableFieldName['EMPNO']  = 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
  			$parentTableName['EMPNO']	    = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['EMPNO']= 'a.EMP_NUMBER';
  			$existingTableName['EMPNO']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPNO']= 'a.EMP_NUMBER';
+ 			$parentTableDescription['EMPNO']= 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
  		}
  		
  		if(isset($this->field['EMPLASTNAME'])==1){	

@@ -19,22 +19,26 @@
 
 class sysConf {
 	
-	var $itemsPerPage;
+	var $itemsPerPage;	
 	
-	//alerts
 	var $accessDenied;
 	var $viewDescLen;
 	var $userEmail;
+	var $maxEmployees;
 	
 	function sysConf() {
 		
 		$this->itemsPerPage=5;
-
-		
+				
 		$this->accessDenied="Access Denied";
 		
 		$this->viewDescLen=60;
 		$this->userEmail = 'youremail@mailhost.com';
+		$this->maxEmployees = '999';
+	}
+	
+	function getEmployeeIdLength() {
+		return strlen($this->maxEmployees);
 	}
 	
 }

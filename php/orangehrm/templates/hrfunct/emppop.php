@@ -28,7 +28,6 @@ if(!isset($_SESSION['fname'])) {
 
 define('ROOT_PATH', $_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 

@@ -39,11 +39,16 @@ class Users {
 	var $userStatus;	
 	var $userGroupID;	
 	var $arrayDispList;
+	var $employeeIdLength;
 	
 	
 	function Users() {
 		$this->sql_builder = new SQLQBuilder();
-		$this->dbConnection = new DMLFunctions();		
+		$this->dbConnection = new DMLFunctions();
+		
+		$tmpSysConf = new sysConf();
+		
+		$this->employeeIdLength	= $tmpSysConf->getEmployeeIdLength();
 	}
 	
 	function setUserID($userID){
@@ -279,7 +284,7 @@ class Users {
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
 		$arrRecordsList[2] = 'user_password';		
-		$arrRecordsList[3] = 'emp_number';
+		$arrRecordsList[3] = 'LPAD(`emp_number`, '.$this->employeeIdLength.', 0)';
 		$arrRecordsList[4] = 'is_admin';		
 		$arrRecordsList[5] = 'date_entered';
 		$arrRecordsList[6] = 'created_by';		
@@ -316,7 +321,7 @@ class Users {
 /////						
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';			
-		$arrRecordsList[2] = 'emp_number';
+		$arrRecordsList[2] = 'LPAD(`emp_number`, '.$this->employeeIdLength.', 0)';
 		$arrRecordsList[3] = 'is_admin';
 		$arrRecordsList[4] = 'date_modified';
 		$arrRecordsList[5] = 'modified_user_id';		
@@ -399,7 +404,7 @@ class Users {
 		$this->ID = $getID;
 	    $arrFieldList[0] = 'a.id';
 		$arrFieldList[1] = 'a.user_name';				
-		$arrFieldList[2] = 'a.emp_number';
+		$arrFieldList[2] = 'LPAD(a.`emp_number`, '.$this->employeeIdLength.', 0)';;
 		$arrFieldList[3] = 'a.is_admin';		
 		$arrFieldList[4] = 'a.date_entered';
 		$arrFieldList[5] = 'a.date_modified';
@@ -557,7 +562,7 @@ class Users {
 	function getEmployeeCodes() {
 		
 		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = 'EMP_FIRSTNAME';
 
 		$sql_builder = new SQLQBuilder();

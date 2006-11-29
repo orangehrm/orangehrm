@@ -29,25 +29,28 @@ $String  = The string that should be passed to explode
 $explodedString = the String that is exploded -- This is will return an Array
 */
 
-function explodeString($string,$explodeVal) {
+function explodeString($string, $explodeVal, $length=3) {
 
 	$explodedString  = explode($explodeVal,$string);		
 		
-		if (isset($explodedString[1])) {
-				
-			$str = (int)$explodedString[1] + 1;		
-		}	else {
-			$str = 1;	
-		}
-		//echo 
+	if (isset($explodedString[1])) {				
+		$str = (int)$explodedString[1] + 1;		
+	}	else {
+		$str = 1;	
+	}
+	//echo 
 		
-		if (strlen($str) == 1) {		
-			return  $explodeVal . "00" . $str;
-		} else if (strlen($str) == 2) {
-			return  $explodeVal . "0" . $str;		
-		} else {		
-			return $explodeVal .  $str;		
+	if (strlen($str) > 0) {	
+		$zeroLength = $length-strlen($str);
+		
+		if ($zeroLength < 0) {
+			$zeroLength = 0;
 		}
+		
+		return  $explodeVal . str_repeat("0", $zeroLength). $str;	
+	} else {		
+		return $explodeVal .  $str;		
+	}
 }
 	
 

@@ -34,8 +34,12 @@ class EmpRepTo {
 	var $arrayDispList;
 	var $singleField;
 	
+	var $employeeIdLength;
+	
 	function EmpRepTo() {
+		$sysConfObj = new sysConf();
 		
+		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
 	}
 	
 	function setEmpId($empId) {
@@ -58,7 +62,7 @@ class EmpRepTo {
 	$this->empRepMod=$empRepMod;
 	}
 
-		function getEmpId() {
+	function getEmpId() {
 	
 	return $this->empId;
 	}
@@ -87,7 +91,7 @@ class EmpRepTo {
 		
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->field = 'EMP_NUMBER';
+		$sql_builder->field = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 			
 		$sqlQString = $sql_builder->selectEmployee($page,$str,$mode);
 		
@@ -205,8 +209,8 @@ class EmpRepTo {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'EREP_SUP_EMP_NUMBER';
-		$arrFieldList[1] = 'EREP_SUB_EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[2] = 'EREP_REPORTING_MODE';
 
 		$sql_builder = new SQLQBuilder();
@@ -250,8 +254,8 @@ class EmpRepTo {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'EREP_SUB_EMP_NUMBER';
-		$arrFieldList[1] = 'EREP_SUP_EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[2] = 'EREP_REPORTING_MODE';
 
 		$sql_builder = new SQLQBuilder();
@@ -294,8 +298,8 @@ class EmpRepTo {
 		
 		$this->getID = $getID;
 		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'EREP_SUP_EMP_NUMBER';
-		$arrFieldList[1] = 'EREP_SUB_EMP_NUMBER';
+		$arrFieldList[0] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[2] = 'EREP_REPORTING_MODE';
 
 		$sql_builder = new SQLQBuilder();
@@ -338,7 +342,7 @@ class EmpRepTo {
 		
 		$sqlBuilder = new SQLQBuilder();
 		
-		$arrFields[0] = 'b.`emp_number`';
+		$arrFields[0] = 'LPAD(b.`emp_number`, '.$this->employeeIdLength.', 0)';
 		$arrFields[1] = "CONCAT(b.`emp_firstname`, ' ', b.`emp_lastname`)";	
 		
 		$arrTables[0] = '`hs_hr_emp_reportto` a';
