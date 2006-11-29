@@ -187,7 +187,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					</tr>
 					 <tr>
 					<td><?php echo $year?></td>
-					   <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear2" /></td>
+					   <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear" /></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>

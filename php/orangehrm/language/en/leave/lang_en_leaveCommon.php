@@ -53,7 +53,7 @@
  $lang_oldLeaveTypeName = 	"Existing Leave Type Name";
  $lang_newLeaveTypeName =	"New Leave Type Name";	
  
- $lang_EmployeeName 	=	"Empoloyee Name";
+ $lang_EmployeeName 	=	"Employee Name";
  
  $lang_LeaveEntitled	=	"Leave Entitled";
  
