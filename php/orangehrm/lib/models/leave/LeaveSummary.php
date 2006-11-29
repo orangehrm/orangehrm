@@ -86,7 +86,7 @@ class LeaveSummary extends LeaveQuota {
 	/**
 	 * Leave summary of the employee
 	 *
-	 * @param String $employeeId e.g. EMP001
+	 * @param String $employeeId e.g. 001
 	 * @return Array[][] LeaveSummary
 	 * @access public
 	 * @author S.H.Mohanjith

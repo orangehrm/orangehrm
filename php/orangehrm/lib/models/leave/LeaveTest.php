@@ -53,23 +53,23 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);
         		
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP013', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('013', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		
-		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('EMP012', 'EMP011', 1);");	
+		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");	
 		
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");	
 		
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 1, 1, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 1, 1, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 1, 1, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 1, 1, 'Leave 2')");
     	
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 4')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, 'EMP013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 8, 3, 'Leave 5')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, '013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 4')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (13, '013', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()+3600*24*2)."', 8, 3, 'Leave 5')");
     	
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (15, 'EMP014', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()-3600*24*2)."', 8, 2, 'Leave 6')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (15, '014', 'LTY010', 'Medical', '2006-10-12', '".date('Y-m-d', time()-3600*24*2)."', 8, 2, 'Leave 6')");
 	
     }
 
@@ -83,12 +83,12 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	   	
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
     	
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP013'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP014'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '013'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '014'", $this->connection);
     	
-    	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = 'EMP012' AND `erep_sub_emp_number` = 'EMP011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = '012' AND `erep_sub_emp_number` = '011'", $this->connection);
     	    	
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);    	
     }
@@ -96,7 +96,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     public function testRetrieveTakenLeaveAccuracy1() {
     	$leveObj = $this->classLeave;
     		
-    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24*367), 'EMP013');
+    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24*367), '013');
     	
     	$this->assertEquals($res, false, "Returned future record");
     }
@@ -104,7 +104,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     public function testRetrieveTakenLeaveAccuracy2() {
     	$leveObj = $this->classLeave;
     		
-    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24), 'EMP010');
+    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24), '010');
     	
     	$this->assertEquals($res, false, "Returned non exsiting record");
     }
@@ -112,7 +112,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     public function testRetrieveTakenLeaveAccuracy3() {
     	$leveObj = $this->classLeave;
     		
-    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24), 'EMP013');
+    	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24), '013');
 	
     	$expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 3, 8, 'Leave 4');
         $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 3, 8, 'Leave 5');
@@ -132,7 +132,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
     public function testApplyLeave()
     {
-    	$this->classLeave->setEmployeeId("EMP012");
+    	$this->classLeave->setEmployeeId("012");
     	$this->classLeave->setLeaveTypeId("LTY010");    	 	
     	$this->classLeave->setLeaveDate(date('Y-m-d', time()+3600*24));
     	$this->classLeave->setLeaveLength("2");
@@ -141,7 +141,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	
     	$res = $this->classLeave->applyLeave();    	
     	
-    	$res = $this->classLeave->retriveLeaveEmployee("EMP012");
+    	$res = $this->classLeave->retriveLeaveEmployee("012");
     	
     	$this->assertEquals($res, true, "No record found");
     	
@@ -160,7 +160,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $this->classLeave->setLeaveComments("Leave 2");
         $res = $this->classLeave->applyLeave();      
         
-        $res = $this->classLeave->retriveLeaveEmployee("EMP012");  
+        $res = $this->classLeave->retriveLeaveEmployee("012");  
         $expected[1] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 2, 'Leave 2'); 
         
         for ($i=0; $i < count($expected); $i++) {
@@ -174,26 +174,26 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     
     public function testRetriveLeaveEmployee1() {
     	
-        $res = $this->classLeave->retriveLeaveEmployee("EMP101");        
+        $res = $this->classLeave->retriveLeaveEmployee("101");        
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
     }
 
     public function testRetriveLeaveSupervisor1() {
     	
-        $res = $this->classLeave->retriveLeaveSupervisor("EMP041");        
+        $res = $this->classLeave->retriveLeaveSupervisor("041");        
         
         $this->assertEquals($res, null, "Retured non exsistant record ");
     }
     
     public function testRetriveLeaveSupervisorAccuracy() {
 
-    	$empId = "EMP012";
+    	$empId = "012";
     	
         $res = $this->classLeave->retriveLeaveSupervisor($empId);
         
-        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe', "EMP011");
-        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe', "EMP011");
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe', "011");
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe', "011");
         
         $this->assertEquals($res, true, "No record found");
         
@@ -213,7 +213,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     
     public function testRetriveLeaveEmployeeAccuracy() {
 
-        $res = $this->classLeave->retriveLeaveEmployee("EMP011");
+        $res = $this->classLeave->retriveLeaveEmployee("011");
         
         $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1');
         $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');
@@ -244,7 +244,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
                 
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
                 
-        $res = $this->classLeave->retriveLeaveEmployee("EMP011");        
+        $res = $this->classLeave->retriveLeaveEmployee("011");        
         $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 0, 1, ''); 
         $expected[1] = array(date('Y-m-d', time()+3600*24*1), 'Medical', 0, 1, '');                 
 
@@ -260,7 +260,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCountLeave() {
-    	$this->classLeave->setEmployeeId("EMP013");
+    	$this->classLeave->setEmployeeId("013");
     	$res = $this->classLeave->countLeave( "LTY010", date('Y', time()+3600*24));
     	
     	$this->assertEquals($res, 2, "Retruned wrong count");
@@ -281,7 +281,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     
     public function testTakeLeaveAccuracy() {
 
-    	$res = $this->classLeave->retriveLeaveEmployee("EMP014");        
+    	$res = $this->classLeave->retriveLeaveEmployee("014");        
         $this->assertEquals($res, true, "Exsistent record not found ");   
         
         $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 2, 8, 'Leave 6');                
@@ -299,7 +299,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$res = $this->classLeave->takeLeave();
     	$this->assertEquals($res, true, "Unexpected behavior ");
     	
-        $res = $this->classLeave->retriveLeaveEmployee("EMP014");        
+        $res = $this->classLeave->retriveLeaveEmployee("014");        
         $this->assertEquals($res, true, "Exsistent record not found ");    
         
          $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 3, 8, 'Leave 6');                

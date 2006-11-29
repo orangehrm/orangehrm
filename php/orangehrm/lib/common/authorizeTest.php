@@ -24,7 +24,7 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
     
 	public $authorizeObj = null;
 	public $connection = null;
-	public $testSubject = array('employeeId' => "EMP012", 'isAdmin' => "Yes");
+	public $testSubject = array('employeeId' => "012", 'isAdmin' => "Yes");
 	
 	/**
      * Runs the test methods of this class.
@@ -54,10 +54,10 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
 		
         mysql_select_db($conf->dbname);        
     	
-    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
-		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('EMP012', 'EMP011', 1);");
+		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");
     	
     }
 
@@ -68,10 +68,10 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
     	
-    	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = 'EMP012' AND `erep_sub_emp_number` = 'EMP011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = '012' AND `erep_sub_emp_number` = '011'", $this->connection);
     }
     
     public function testIsAdmin() {
@@ -89,7 +89,7 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
     }
    
     public function testIsSupervisor() {
-        $authObj = new authorize("EMP041", 'Yes');
+        $authObj = new authorize("041", 'Yes');
         
     	$res = $authObj->isSupervisor();
         
@@ -118,19 +118,19 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testIsTheSupervisor() {
-    	$res = $this->authorizeObj->isTheSupervisor("EMP051");
+    	$res = $this->authorizeObj->isTheSupervisor("051");
     	
     	$this->assertEquals($res, false, "The supervisor of unknown employee");
     }
     
     public function testIsTheSupervisor2() {
-    	$res = $this->authorizeObj->isTheSupervisor("EMP011");
+    	$res = $this->authorizeObj->isTheSupervisor("011");
     	
     	$this->assertEquals($res, true, "The supervisor of unknown emplyee");
     }
     
     public function testFirstRole() {
-    	$authObj = new authorize("EMP041", 'No');
+    	$authObj = new authorize("041", 'No');
     	$roleArr = array($authObj->roleAdmin, $authObj->roleSupervisor);
         $res = $authObj->firstRole($roleArr);
         

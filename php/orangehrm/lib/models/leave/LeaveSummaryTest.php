@@ -56,19 +56,19 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         
         mysql_query("TRUNCATE TABLE `hs_hr_leavetype`");
         
-        mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('EMP012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+        mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");	
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 		
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', 'EMP012', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', 'EMP012', 20);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', 'EMP011', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', 'EMP011', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '012', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '012', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
 		
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, 'EMP011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, 'EMP011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
     	
     
     }
@@ -84,11 +84,11 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
     	
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP011'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 'EMP012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
     	
-    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP012'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = 'EMP011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '011'", $this->connection);
     	
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
     	
@@ -102,7 +102,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     
     public function testFetchLeaveSummaryAccuracy() {
     	
-        $res = $this->leaveSummary->fetchLeaveSummary("EMP012", date('Y', time()+3600*24));
+        $res = $this->leaveSummary->fetchLeaveSummary("012", date('Y', time()+3600*24));
 
         $this->assertEquals($res, true, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
@@ -120,7 +120,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     
     public function testFetchLeaveSummaryAccuracy2() {
     	
-        $res = $this->leaveSummary->fetchLeaveSummary("EMP011", date('Y', time()+3600*24));
+        $res = $this->leaveSummary->fetchLeaveSummary("011", date('Y', time()+3600*24));
 
         $this->assertEquals($res, true, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
