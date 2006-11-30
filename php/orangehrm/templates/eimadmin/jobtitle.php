@@ -601,6 +601,13 @@ function addSalaryGrade() {
 function editSalaryGrade() {
 	editPayGrade(document.frmJobTitle.cmbPayGrade.value);
 }
+
+function clearAll() {
+		document.frmJobTitle.txtJobTitleName.value = '';
+		document.frmJobTitle.txtJobTitleDesc.value = '';
+		document.frmJobTitle.txtJobTitleComments.value = '';
+		document.frmJobTitle.cmbPayGrade.value = 0;
+	}
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -995,7 +1002,7 @@ function editSalaryGrade() {
 
 <?php			}  ?>
 
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="" >
 
 </td>
 
