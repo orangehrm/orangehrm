@@ -74,9 +74,9 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th width="125px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<th width="135px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
     	<?php if ($modifier == "SUP") { ?>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
+    	<th width="140px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
     	<?php } ?>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
     	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
@@ -103,7 +103,7 @@
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d Y', $tmpTimeStamp); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d, Y', $tmpTimeStamp); ?></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>

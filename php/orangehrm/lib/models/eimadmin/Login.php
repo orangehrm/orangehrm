@@ -25,8 +25,12 @@ class Login {
 
 		var $username;
 		var $password;
+		var $employeeIdLength;
 		
 		function Login() {
+			$tmpSysConf = new sysConf();
+			
+			$this->employeeIdLength = $tmpSysConf->getEmployeeIdLength();
 		}
 
 function filterUser($userName) {
@@ -38,7 +42,7 @@ function filterUser($userName) {
 			$arrFieldList[3] = 'a.ID';
 			$arrFieldList[4] = 'a.USERG_ID';
 			$arrFieldList[5] = 'a.STATUS';
-			$arrFieldList[6] = 'a.EMP_NUMBER';
+			$arrFieldList[6] = 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 			$arrFieldList[7] = 'a.IS_ADMIN';
 			
 	

@@ -96,6 +96,7 @@ if ($authorizeObj->isESS()) {
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 }
+
 ?>
 <html>
 <head>

@@ -123,7 +123,7 @@ class authorize {
 		
 		$objReportTo = new EmpRepTo();
 			
-		$subordinates = $objReportTo->getEmpSub($id);			
+		$subordinates = $objReportTo->getEmpSub($id);	
 		
 		if (isset($subordinates[0]) && is_array($subordinates[0])) {			
 			return true;
