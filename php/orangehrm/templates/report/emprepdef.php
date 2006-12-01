@@ -257,10 +257,10 @@ function addUpdate() {
 					  <td valign="top">Age Group</td>
 					</tr>
 					
-  					<tr>
+  					<!--<tr>
 					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='PayGrade'></td> 
 				      <td>Pay Grade</td>
-  					</tr>
+  					</tr>-->
   					
 					<tr>
 					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='QualType'></td> 
@@ -345,10 +345,10 @@ function addUpdate() {
                       	 <td><input type='checkbox' class='checkbox' name='chkfield[]' value='EmployeeType'></td>
 						 <td>Employee Status</td>
 					</tr>
-					<tr>
+					<!--<tr>
                       	 <td><input type='checkbox' class='checkbox' name='chkfield[]' value='PayGrade'></td>
 						 <td>Pay Grade</td>
-					</tr>
+					</tr>-->
 					
               	</table>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -441,10 +441,10 @@ function addUpdate() {
 					  <td valign="top">Age Group</td>
 					</tr>
 					
-  					<tr>
+  					<!--<tr>
 					  <td><input disabled type='checkbox' <?php echo in_array('PayGrade',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='PayGrade'></td> 
 				      <td>Pay Grade</td>
-  					</tr>
+  					</tr>-->
   					
 					<tr>
 					  <td><input disabled type='checkbox' <?php echo in_array('QualType',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='QualType'></td> 
@@ -535,10 +535,10 @@ function addUpdate() {
                       	 <td><input disabled type='checkbox' <?php echo in_array('EmployeeType',$fieldArr) ? 'checked': ''?>  class='checkbox' name='chkfield[]' value='EmployeeType'></td>
 						 <td>Employee Status</td>
 					</tr>
-					<tr>
+					<!--<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('PayGrade',$fieldArr) ? 'checked': ''?>  class='checkbox' name='chkfield[]' value='PayGrade'></td>
 						 <td>Pay Grade</td>
-					</tr>
+					</tr>-->
 					
 			  <tr> 
 						<td valign="top"></td>

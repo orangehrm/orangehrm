@@ -524,7 +524,7 @@ function disableSerPeriodField() {
 
 
                
-				<tr>
+				<!--<tr>
 				  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
 				  <td>Pay Grade</td>
 			      <td><select  name="cmbSalGrd" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
@@ -537,7 +537,7 @@ function disableSerPeriodField() {
 							echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
 ?>			  
 			  </select></td>
-					</tr>
+					</tr>-->
 			
 
    					<tr>
@@ -697,10 +697,10 @@ function disableSerPeriodField() {
 						 <td>Employee Status</td>
 					</tr>
                
-					<tr>
+					<!--<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='PAYGRD'></td>
 						 <td>Pay Grade</td>
-					</tr>
+					</tr>-->
               
 
                   </table></td>
@@ -833,7 +833,7 @@ function disableSerPeriodField() {
 					
 					</tr>
             
-					<tr>
+					<!--<tr>
 				  <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('PAYGRD',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td> 
 				  <td>Pay Grade</td>
 			      <td><select  name="cmbSalGrd"   <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" > 
@@ -853,7 +853,7 @@ function disableSerPeriodField() {
 						}
 ?>			  
 			  </select></td>
-					</tr>
+					</tr>-->
 			
 
    					<tr>
@@ -1039,10 +1039,10 @@ function disableSerPeriodField() {
 						 <td>Employee States</td>
 					</tr>
                
-					<tr>
+					<!--<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('PAYGRD',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='PAYGRD'></td>
 						 <td>Pay Grade</td>
-					</tr>
+					</tr>-->
 					
              
 
