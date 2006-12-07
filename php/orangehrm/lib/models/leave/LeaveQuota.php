@@ -209,7 +209,7 @@ class LeaveQuota {
 		
 		$arrFields[0] = 'a.`leave_type_id`';
 		$arrFields[1] = 'b.`leave_type_name`';
-		$arrFields[2] = 'a.`no_of_days_allotted`';		
+		$arrFields[2] = 'a.`no_of_days_allotted`';					
 		
 		$arrTables[0] = "`hs_hr_employee_leave_quota` a";		
 		$arrTables[1] = "`hs_hr_leavetype` b";			

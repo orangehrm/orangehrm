@@ -58,17 +58,23 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         
         mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('013', 'Rasmus', 'Vido', 'Q', 'Ras', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");	
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
+		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Annual', 0)");
 		
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '012', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '012', 20);");
+		
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY012', '013', 30);");
+		
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
 		
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 1')");
 		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, '013', 'LTY012', 'Annual', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
     	
     
     }
@@ -83,11 +89,14 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
     	
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '013'", $this->connection);
     	
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '012'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '013'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '011'", $this->connection);
     	
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
@@ -127,6 +136,25 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         
         $expected[1] = array("Medical", 2, 8);
         $expected[0] = array("Casual", 0, 20);
+        
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTaken(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveAvailable(), $expected[$i][2], "Didn't return expected result ");
+        }
+        
+    }
+    
+    public function testFetchLeaveSummaryAccuracy3() {
+    	
+        $res = $this->leaveSummary->fetchLeaveSummary("013", date('Y', time()+3600*24));
+
+        $this->assertEquals($res, true, "No records returned");               
+        $this->assertEquals(count($res), 3, "Returned invalid numner of records");
+                
+        $expected[0] = array("Medical", 0, 0); 
+        $expected[1] = array("Casual", 0, 0);
+        $expected[2] = array("Annual", 1, 29);
         
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");

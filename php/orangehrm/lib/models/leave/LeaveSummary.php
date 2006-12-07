@@ -124,6 +124,8 @@ class LeaveSummary extends LeaveQuota {
 		
 		$leaveTypes = $leveTypeObj->fetchLeaveTypes(true);
 		
+		$objLeaveType = new LeaveType();
+		
 		if (is_array($leaveTypes)) {
 			foreach ($leaveTypes as $leaveType) {
 				$tmpLeaveSummary = new LeaveSummary();
@@ -141,27 +143,29 @@ class LeaveSummary extends LeaveQuota {
 				
 				$tmpLeaveSummary->setLeaveTypeAvailable($leaveType->getLeaveTypeAvailable());
 				
-				$leaveTypeList[$leaveType->getLeaveTypeId()] = $tmpLeaveSummary;
+				if (($tmpLeaveSummary->getLeaveTypeAvailable() == $objLeaveType->availableStatusFlag) || ($tmpLeaveSummary->getLeaveTaken() > 0)) {
+					$leaveTypeList[$leaveType->getLeaveTypeId()] = $tmpLeaveSummary;
+				}
 			}
 			
 			$objLeaveType = new LeaveType();
 			
 			while ($row = mysql_fetch_row($result)) {
 			
-				$tmpLeaveSummary = $leaveTypeList[$row[0]];
+				if (isset($leaveTypeList[$row[0]])) {
+					$tmpLeaveSummary = $leaveTypeList[$row[0]];
 				
-				$leaveTypeAvailable = $tmpLeaveSummary->getLeaveTypeAvailable();
-								
-				if (isset($leaveTypeAvailable) && ($leaveTypeAvailable == $objLeaveType->availableStatusFlag)) {
-					$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
-				}
-			
-				$taken = $tmpLeaveSummary->getLeaveTaken();
-				$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();			
-			
-				$tmpLeaveSummary->setLeaveAvailable($alloted-$taken);		
-			
-				$leaveTypeList[$row[0]] = $tmpLeaveSummary;
+					$leaveTypeAvailable = $tmpLeaveSummary->getLeaveTypeAvailable();
+											
+					$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);				
+				
+					$taken = $tmpLeaveSummary->getLeaveTaken();
+					$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();			
+				
+					$tmpLeaveSummary->setLeaveAvailable($alloted-$taken);			
+							
+					$leaveTypeList[$row[0]] = $tmpLeaveSummary;
+				}				
 			}
 		
 			$objArr = $leaveTypeList;
