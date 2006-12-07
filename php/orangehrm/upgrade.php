@@ -19,6 +19,10 @@ function needToUpgrade() {
 	}
 }
 
+function parseOldData($str) {
+	return preg_replace("/EMP([0-9]{3})/", "$1", $str);
+}
+
 function quit() {
 	header('Location: ./index.php');
 	exit ();
@@ -204,7 +208,7 @@ if(isset($_POST['actionResponse'])) {
 								} else  {									
 									$_SESSION['RESTORING'] = -1;
 								
-									$_SESSION['FILEDUMP'] = file_get_contents($_FILES['file']['tmp_name']);
+									$_SESSION['FILEDUMP'] = parseOldData(file_get_contents($_FILES['file']['tmp_name']));
 									$_SESSION['DATABASE_BACKUP']="";										  							
 								}
 							  	break;
