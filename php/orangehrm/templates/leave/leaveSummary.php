@@ -113,6 +113,7 @@
   </thead>
   <tbody>
 <?php
+	$leaveTypeObj = new LeaveType();
 	$j = 0;	
 	if (is_array($records[0]))
 		foreach ($records[0] as $record) {
@@ -128,11 +129,17 @@
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <?php if (($auth === 'admin') && ($modifier === 'display')) { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getNoOfDaysAllotted(); ?></td>    
-    <?php } else if (($auth === 'admin') && ($modifier === 'edit')) {?>    
+    <?php } else if (($auth === 'admin') && ($modifier === 'edit')) {
+    	
+    				$readOnly = "readonly";    				
+    				if ($record->getLeaveTypeAvailable() == $leaveTypeObj->availableStatusFlag) {
+    					$readOnly = "";
+    				}
+    ?>    
     <td class="<?php echo $cssClass; ?>">
     <input type="hidden" name="txtLeaveTypeId[]" value="<?php echo $record->getLeaveTypeId(); ?>"/>
        
-    <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record->getNoOfDaysAllotted(); ?>" size="3"/></td>
+    <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record->getNoOfDaysAllotted(); ?>" size="3" <?php echo $readOnly; ?>/></td>
     <?php } ?>    
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTaken(); ?></td>    
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveAvailable(); ?></td>
