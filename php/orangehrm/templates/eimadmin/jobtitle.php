@@ -457,25 +457,18 @@ return flag;
 
 function editPayGrade() {
 
-	
-
-	paygrade = document.frmJobTitle.cmbPayGrade.value;
-
-	
+	paygrade = document.frmJobTitle.cmbPayGrade.value;	
 
 	if(paygrade == '0') {
-
 		alert('Please Select!');
-
 		document.frmJobTitle.cmbPayGrade.focus();
-
 		return;
-
 	}
-
 	
+	document.gotoPayGrade.action = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
 
-	location.href = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
+	document.gotoPayGrade.submit();	
+ 
 
 }
 
@@ -483,10 +476,7 @@ function editPayGrade() {
 
 function showEditForm() {
 
-	
-
 	empstat = document.frmJobTitle.cmbUnAssEmploymentStatus.value;
-
 	
 
 	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
@@ -595,7 +585,9 @@ function promptUseCookieValues() {
 }
 
 function addSalaryGrade() {
-	this.location = '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
+	document.gotoPayGrade.action =  '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
+	
+	document.gotoPayGrade.submit();	
 }
 
 function editSalaryGrade() {
@@ -603,11 +595,11 @@ function editSalaryGrade() {
 }
 
 function clearAll() {
-		document.frmJobTitle.txtJobTitleName.value = '';
-		document.frmJobTitle.txtJobTitleDesc.value = '';
-		document.frmJobTitle.txtJobTitleComments.value = '';
-		document.frmJobTitle.cmbPayGrade.value = 0;
-	}
+	document.frmJobTitle.txtJobTitleName.value = '';
+	document.frmJobTitle.txtJobTitleDesc.value = '';
+	document.frmJobTitle.txtJobTitleComments.value = '';
+	document.frmJobTitle.cmbPayGrade.value = 0;
+}
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -620,7 +612,9 @@ function clearAll() {
 
 <body onLoad="<?php echo (isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?php echo isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
-
+<form id="gotoPayGrade" name="gotoPayGrade" action="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" method="post">
+<input type="hidden" name="referer" value="<?php echo $_SERVER['REQUEST_URI'];?>">
+</form>
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
@@ -646,7 +640,7 @@ function clearAll() {
 
 		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-		<input type="hidden" name="sqlState">
+		<input type="hidden" name="sqlState">		
 
            <table border="0" cellpadding="0" cellspacing="0">
 
@@ -800,7 +794,7 @@ function clearAll() {
                 	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
 						<input type="hidden" name="sqlState">
-
+						
 						<br>
 
 						<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">

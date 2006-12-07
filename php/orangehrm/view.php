@@ -340,15 +340,17 @@ else
 		</tr>		
 		</table>
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-			<tr>
+		<thead>
+		<tr>
           <td class="r1_c1" width="12"></td>
-          <td class="r1_c2" width="50"></td>
+          <td class="tableTopMiddle" width="50"></td>
           <?php for ($j=0; $j < count($headings); $j++) {?>
-          <td width="200" class="r1_c2"></td>
+          <td width="200" class="tableTopMiddle"></td>
           <?php } ?>
-          <td class="r1_c2" width="300"></td>
-          <td class="r1_c3"></td>
+          <td class="tableTopMiddle" width="300"></td>
+          <td class="tableTopRight"></td>
          </tr>
+		 </thead>
 			<tr nowrap>
 				<td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 				<td width="50" NOWRAP class="listViewThS1" scope="col">

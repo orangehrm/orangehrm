@@ -597,3 +597,19 @@ textarea {
 	font-size: 11px;
 	background-color: #ffffff;
 }
+
+.tableTopLeft {
+	background:url(../pictures/table_r1_c1.gif) no-repeat top left;
+	width:12px;
+	height:11px;
+}
+
+.tableTopMiddle {
+	background:url(../pictures/table_r1_c2.gif) repeat-x top;	
+}
+
+.tableTopRight {
+	background:url(../pictures/table_r1_c3.gif) no-repeat top left;
+	width:12px;
+	height:11px;
+}
