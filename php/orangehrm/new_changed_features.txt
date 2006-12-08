@@ -1,3 +1,69 @@
+New & Changed Features for OrangeHRM ver 2.0.3 (8/12/2006)
+	This is a maintenance release (bug Fixes)
+	the closed bug list is as follows (as maintained at SourceForge bug tracker)
+
+		BugID	Name
+		1610801	ESS 
+		1611313	verify function 
+		1602012	Need an option to go back from leave summary 
+		1611331	leave summary 
+		1587897	Unable to enter Pay grade 
+		1601952	Apply for leave -> button should be Apply 
+		1601937	Changing entitled leave - don\'t enable changing for deleted 
+		1601919	Deleted leave types appear in employee leave summary 
+		1609918	cannot apply form 
+		1601764	When adding pay grade error encounted. 
+		1601768	Error on web installation guide 
+		1595318	Not possible to specify payments 
+		1605780	leaveApply.php 
+		1606034	nothing is wrong 
+		1603663	Pay grade not visible in Payment tab 
+		1602126	Spelling mistake 
+		1602997	Company Structure Enhancement 
+		1605016	Not Saving 
+		1604697	Error saving Education Info 
+		1605063	Error in database script (dbscript.sql) 
+		1586485	Job Titles - clear button does not work 
+		1587517	Employee Info - Skills - Experience - fractions not allowed 
+		1586043	Installation guide - 'Database Creation' is unclear 
+		1600964	employee id for report to is not populated 
+		1595310	Incorrect English in report to 
+		1595128	no empl.-ID . bug in popup 
+		1601995	New links to support and forum does not appear well in IE 
+		1595886	Attachment - browser gets stuck trying to upload large files 
+		1595872	Cannot upload attachment with IE6 
+		1586028	Installation guide - previous button does not work properly 
+		1586001	Incorrect spelling and grammar in installation guide 
+		1601998	Employee does not see rejected leave 
+		1601943	Selecting employee for leave summary for years should be ava 
+		1588298	In reports if you select address only 'Street 1' is displaye 
+		1601972	Manager view - approve leaves should be changed to approve 
+		1601979	Manager can\'t approve leave 
+		1602018	Enhancement - consider giving the option to manager to mark 
+		1596006	ESS - inconsistency in the way emergency contacts are added 
+		1602000	Employee cannot view cancelled leave 
+		1601974	The default view for the supervisor must be approve leave 
+		1587529	Skills - Language - Incorrect Language 
+		1601965	In ESS there should be a leave summary menu option on the le 
+		1601950	Error in applying for leave 
+		1586053	Adding an Employee - Middle name need not be mandatory 
+		1601955	Applying for leave if half day no option to select morning o 
+		1601913	Define leave type --> name field too short 
+		1601852	Doesnt list leave type 
+		1601954	It possible to apply for leave once 
+		1601010	  Select Past Date    
+		1601707	File inclusion failure in upgrader 
+		1596007	ESS - in dependents by default the text boxes are disabled. 
+		1596014	ESS - Payments - don't let user enter values by pressing edi 
+		1596016	ESS - Don't let user enter report-to details and then deny a 
+		1596002	ESS - Error in clicking back button 
+		1599550	Apply leave from date to date 
+		1600063	Leave Module malfunction 
+		1597948	cant create admin user 
+		1597951	apply leave online 
+
+
+
 New & Changed Features for OrangeHRM ver 2.0 (30/10/2006)
 
 	In OrangeHRM-ver-2.0 Leave module is introduced.

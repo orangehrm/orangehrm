@@ -34,7 +34,7 @@ You will need to be running an Operationg System that supports the Apache HTTP S
 <ol>
 	<li>Apache HTTP Server 1.3 or later</li>
 	<li>MySQL 4.1 or later</li>
-	<li>PHP 4.3.0 or later</li>	
+	<li>PHP 5.1.0 or later</li>	
 </ol>
 
 Instead of installing above mentioned pre-requisities seperately, it is possible to install a stack which has MySQL, Apache and PHP configured to work together.
@@ -162,7 +162,7 @@ For Linux Installation these steps should be followed;
 		Versions Requirements :
 		  <ul>
   			<li>Apache HTTP Server ver 1.33 or later</li>
-  			<li>PHP Windows package ver 4.3.0 or later</li>
+  			<li>PHP Windows package ver 5.1.0 or later</li>
   			<li>MySQL Server ver 4.1 or later</li>
 		  </ul>
 	
@@ -233,13 +233,6 @@ For Linux Installation these steps should be followed;
   			Remove the leading '#' char to make the line active</li>
   			<li>Goto the end of LoadModule section<br/>
 
-			If you are using PHP4 and Apache HTTP server ver 1.3.xx  add line
-	  		<div class="code">LoadModule php4_module “c:/php/sapi/php4apache.dll”</div>
-			Then at the end of AddModule section add line 
-	  		<div class="code">AddModule mod_php4.c</div>
-		
-			If you are using PHP4 and Apache HTTP server ver 2.0.xx  add line
-	  		<div class="code">LoadModule php4_module  “c:/php/sapi/php4apache2.dll”</div>
 
 				
 		</li>
@@ -279,8 +272,6 @@ For Linux Installation these steps should be followed;
   			<div class="code">
 				error_reporting = E_ALL<br />
   				display_errors = On<br />
-				<b>for PHP4, extension_dir should read as;</b><br /> 
-  				extension_dir = “c:\php\extensions”<br />
 				<b>for PHP5, extension_dir should read as;</b><br /> 
   				extension_dir = “c:\php\ext”<br />
 				<b>and in the 'Dynamic Extension' area should have; <br />  'extension=php_mysql.dll',<br />'extension=php_xmlrpc.dll',<br />'extension=php_xsl.dll' <br />enabled by removing preceding ';' if any</b><br /> 
