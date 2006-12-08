@@ -34,11 +34,15 @@
  
  if ($modifier === 'edit') {
  	$btnImage = '../../themes/beyondT/pictures/btn_save.jpg';
- 	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save';
+ 	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.jpg';
+ 	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save'; 	
  } else {
  	$btnImage = '../../themes/beyondT/pictures/btn_edit.jpg';
- 	$frmAction = '?leavecode=Leave&action=Leave_Edit_Summary';
+ 	$btnImageMO = '../../themes/beyondT/pictures/btn_edit_02.jpg';
+ 	$frmAction = '?leavecode=Leave&action=Leave_Edit_Summary'; 	
  }
+ 
+ $backLink = "./CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary";
  
  require_once($lan->getLangPath("leave/leaveCommon.php"));
  
@@ -58,22 +62,31 @@
 		document.frmSummary.submit();
 	}
 	
+	function goBack() {
+	<?php if ($modifier === 'edit') { ?>
+		document.frmSummary.reset();
+		actForm();
+	<?php } else { ?>
+		location.href = '<?php echo $backLink; ?>';
+	<?php } ?>
+	}
+	
 <?php	if ($auth === 'admin') { ?>
 
-		function actTakenLeave() {
-			document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
-			document.frmSummary.submit();
-		}
+	function actTakenLeave() {
+		document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
+		document.frmSummary.submit();
+	}
 		
 		
 <?php	} ?>
 	
 </script>
 <h3><?php echo $lang_Title.$dispYear; ?><hr/></h3>
-
 <?php 
 	if (!is_array($records[0])) { 
 ?>
+	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 	<h5>No records found!</h5>
 <?php
 	} else {
@@ -82,7 +95,8 @@
 	<form method="post" onsubmit="actForm(); return false;" name="frmSummary" id="frmSummary">
 		<input type="hidden" name="id" value="<?php echo $empInfo[0]; ?>"/>
 	<p class="controls">
-		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" >
+		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';">
 		<a href="javascript:actTakenLeave()">List of Taken Leave</a>
 	</p>
 <?php

@@ -112,7 +112,6 @@
    			$statusArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveApproved => $lang_Approved);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Cancelled);
-   			//sort($statusArr);
    			    		
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>

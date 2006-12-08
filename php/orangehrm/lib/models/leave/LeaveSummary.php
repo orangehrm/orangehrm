@@ -167,10 +167,12 @@ class LeaveSummary extends LeaveQuota {
 					$leaveTypeList[$row[0]] = $tmpLeaveSummary;
 				}				
 			}
-		
-			$objArr = $leaveTypeList;
-		
-			sort($objArr);
+			
+			if (isset($leaveTypeList)) {	
+				$objArr = $leaveTypeList;
+			
+				sort($objArr);
+			}
 		}
 		return $objArr;
 	}
