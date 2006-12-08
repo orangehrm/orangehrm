@@ -1,5 +1,11 @@
 <script language="JavaScript">
 
+function decimalCurr(txt) {
+	regExp = /^[0-9]+(\.[0-9]+)*$/;
+	
+	return regExp.test(txt.value);
+}
+	
 function editPayment() {
 	
 	if(document.EditPayment.title=='Save') {
@@ -37,7 +43,7 @@ function addEXTPayment() {
 	}
 	
 	var cnt=document.frmEmp.txtBasSal;
-	if(!numeric(cnt)) {
+	if(!decimalCurr(cnt)) {
 		alert("Field should be Numeric");
 		cnt.focus();
 		return;
@@ -59,7 +65,7 @@ qCombo(14);
 function editEXTPayment() {
 	
 	var cnt=document.frmEmp.txtBasSal;
-	if(!numeric(cnt)) {
+	if(!decimalCurr(cnt)) {
 		alert("Field should be Numeric");
 		cnt.focus();
 		return;

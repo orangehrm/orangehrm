@@ -81,7 +81,7 @@ function addEXTMembership() {
 	}
 
 	var txt = document.frmEmp.txtMemSubAmount;
-	if ((txt.value != '') && !numeric(txt)) {
+	if ((txt.value != '') && !decimalCurr(txt)) {
 		alert ("Subscription amount should be numeric!");
 		txt.focus();
 		return false;

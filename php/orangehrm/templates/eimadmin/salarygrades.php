@@ -296,24 +296,30 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <?php $objAjax->printJavascript(); ?>
 <script language="JavaScript">
 	function numeric(txt) {
-	var flag=true;
-	var i,code;
+		var flag=true;
+		var i,code;
+		
+		if(txt.value=="")
+		   return false;
+		
+		for(i=0;txt.value.length>i;i++)
+			{
+			code=txt.value.charCodeAt(i);
+		    if(code>=48 && code<=57)
+			   flag=true;
+			else
+			   {
+			   flag=false;
+			   break;
+			   }
+			}
+		return flag;
+	}
 	
-	if(txt.value=="")
-	   return false;
-	
-	for(i=0;txt.value.length>i;i++)
-		{
-		code=txt.value.charCodeAt(i);
-	    if(code>=48 && code<=57)
-		   flag=true;
-		else
-		   {
-		   flag=false;
-		   break;
-		   }
-		}
-	return flag;
+	function decimal(txt) {
+		regExp = /^[0-9]+(\.[0-9]+)*$/;
+		
+		return regExp.test(txt.value);
 	}
 	
 	function goBack() {			
@@ -374,7 +380,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		
 		var cnt=document.frmSalCurDet.txtMinSal;
 		
-		if(!numeric(cnt)) {
+		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
@@ -383,7 +389,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		
 		var cnt=document.frmSalCurDet.txtMaxSal;
 		
-		if(!numeric(cnt)) {
+		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
@@ -397,7 +403,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		
 		var cnt=document.frmSalCurDet.txtStepSal;
 		
-		if(!numeric(cnt)) {
+		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
