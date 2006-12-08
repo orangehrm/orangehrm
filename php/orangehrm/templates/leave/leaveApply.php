@@ -159,7 +159,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	</tr>
 	<tr>
 		<td class="tableMiddleLeft"></td>
-		<td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" /></td>
+		<td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/icons/apply.gif';" onmouseover="this.src='../../themes/beyondT/icons/apply_o.gif';" src="../../themes/beyondT/icons/apply.gif" /></td>
 		<td width="25px">&nbsp;</td>
 		<td>&nbsp;</td>
 		<td width="25px">&nbsp;</td>
