@@ -91,7 +91,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
   <tbody>
   	<tr>
 		<td class="tableMiddleLeft"></td>
-		<td><?php echo $lang_FromDate;?></td>
+		<td><?php echo $lang_Date;?></td>
 		<td width="25px">&nbsp;</td>
 		<td><?php echo $lang_LeaveType; ?></td>
 		<td width="25px">&nbsp;</td>
