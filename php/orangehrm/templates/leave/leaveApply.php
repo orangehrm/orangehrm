@@ -74,8 +74,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
 </script>
-
-<h3><?php echo $lang_Title?><hr/></h3>
+<h2><?php echo $lang_Title?><hr/></h2>
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Apply">
   <table border="0" cellpadding="0" cellspacing="0">
   <thead>

@@ -138,7 +138,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	
 	
 </script>
-<h3><?php echo $lang_Title?><hr/></h3>
+<h2><?php echo $lang_Title?><hr/></h2>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
 <p class="navigation">
   

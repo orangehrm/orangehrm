@@ -82,7 +82,7 @@
 <?php	} ?>
 	
 </script>
-<h3><?php echo $lang_Title.$dispYear; ?><hr/></h3>
+<h2><?php echo $lang_Title.$dispYear; ?><hr/></h2>
 <?php 
 	if (!is_array($records[0])) { 
 ?>

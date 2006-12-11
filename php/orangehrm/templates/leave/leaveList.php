@@ -49,7 +49,7 @@
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<h3><?php echo $lang_Title?><hr/></h3>
+<h2><?php echo $lang_Title?><hr/></h2>
 <?php 
 	if (!is_array($records)) { 
 ?>
