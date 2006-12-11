@@ -265,8 +265,31 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } ?>
-                  <?php 
+                  <?php } 
+                  }
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  
+					?>
+                  <td style="background-image : url();" ></td>
+                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" >Leave</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php } else { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=leave">Leave</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php } 
+                  if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  
 					?>
                   <td style="background-image : url();" ></td>
@@ -314,29 +337,6 @@ function setSize() {
                   </table></td>
                   <?php } 
                   }
-                  
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  
-					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
-                      <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" >Leave</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
-                      </tr>
-                  </table></td>
-                  <?php } else { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
-                      <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=leave">Leave</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
-                      </tr>
-                  </table></td>
-                  <?php } 
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  
 									
 					?>
