@@ -72,9 +72,9 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
 		
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, '013', 'LTY012', 'Annual', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 1, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, '013', 'LTY012', 'Annual', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 2')");
     	
     
     }

@@ -327,10 +327,19 @@ class Leave {
 	 *	@param String LeaveTypeId, [int status]
 	 *
 	 */
-	public function countLeave($leaveTypeId, $year=2006, $status=null) {
+	public function countLeave($leaveTypeId, $year=null, $status=null) {
+		if ($year == null) {
+			$year = date('Y');
+		}
+		
 		if ($status == null) {
 			$status = $this->statusLeaveTaken;
 		}		
+		
+		$totalLeaveLength = 0;
+		
+		$leaveLengths = array($this->lengthFullDay, $this->lengthHalfDayAfternoon, $this->lengthHalfDayMorning);
+				
 		$sqlBuilder = new SQLQBuilder();		
 		
 		$arrFields[0] = 'COUNT(*)';
@@ -341,18 +350,25 @@ class Leave {
 		$selectConditions[2] = "`leave_status` = ".$status;
 		$selectConditions[3] = "`leave_type_id` = '".$leaveTypeId."'";
 		$selectConditions[4] = "`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
-				
-		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		foreach ($leaveLengths as $length) {
+			$selectConditions[5] = "`leave_length` = '".$length."'";
+					
+			$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+							
+			$dbConnection = new DMLFunctions();	
+	
+			$result = $dbConnection->executeQuery($query);
+			
+			$count = mysql_fetch_row($result);
+			
+			if ($length < 0) {
+				$length *= -1;
+			}
+			
+			$totalLeaveLength += $count[0]*$length;
+		}
 		
-		//echo "\n".$query."\n";
-				
-		$dbConnection = new DMLFunctions();	
-
-		$result = $dbConnection -> executeQuery($query);
-		
-		$count = mysql_fetch_row($result);
-		
-		return $count[0];		
+		return ($totalLeaveLength/$this->lengthFullDay);		
 	}
 	
 	

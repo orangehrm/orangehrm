@@ -52,17 +52,19 @@ class EXTRACTOR_Leave {
 			
 		$objLeave = null;
 		
-		for ($i=0; $i < count($postArr['cmbStatus']); $i++) {			
-			$tmpObj = new Leave();
-			$tmpObj->setLeaveId($postArr['id'][$i]);
-			$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
-			$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
-			
-			if (isset($postArr['txtEmployeeId'][$i])) {
-				$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);				
-			}
+		if (isset($postArr['cmbStatus'])) {
+			for ($i=0; $i < count($postArr['cmbStatus']); $i++) {			
+				$tmpObj = new Leave();
+				$tmpObj->setLeaveId($postArr['id'][$i]);
+				$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
+				$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
 				
-			$objLeave[] = $tmpObj;			
+				if (isset($postArr['txtEmployeeId'][$i])) {
+					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);				
+				}
+					
+				$objLeave[] = $tmpObj;			
+			}
 		}
 		
 		return $objLeave;
@@ -77,12 +79,14 @@ class EXTRACTOR_Leave {
 	public function parseDeleteData($postArr) {
 		$objLeave = null;
 		
-		for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
-			if ($postArr['cmbStatus'][$i] == 0) {
-				$tmpObj = new Leave();
-				$tmpObj->setLeaveId($postArr['id'][$i]);
-				
-				$objLeave[] = $tmpObj;
+		if (isset($postArr['cmbStatus'])) {
+			for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
+				if ($postArr['cmbStatus'][$i] == 0) {
+					$tmpObj = new Leave();
+					$tmpObj->setLeaveId($postArr['id'][$i]);
+					
+					$objLeave[] = $tmpObj;
+				}
 			}
 		}
 		
