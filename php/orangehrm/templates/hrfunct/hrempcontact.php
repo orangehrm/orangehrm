@@ -15,7 +15,7 @@
 			   <td width="50">&nbsp;</td>
 			   <td><?php echo $street1?></td>
 			 <td><input type="text" name="txtStreet1" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtStreet1']))?$this->postArr['txtStreet1']:''?>"></td>
-			 </tr>
+	  </tr>
 			 <tr>
 			 <td><?php echo $state?></td>
 			 <td><div id="lrState" name="lrState">
@@ -29,7 +29,7 @@
 							    			else
 							    				echo "<option value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
 							    	?>
-							    	</select>
+	    	   </select>
 							    	<?php } else { ?>
 							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
 							    	<?php } ?>
@@ -38,7 +38,7 @@
 			  <td width="50">&nbsp;</td>
 			  <td><?php echo $street2?></td>
 			 <td><input type="text" name="txtStreet2" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtStreet2']))?$this->postArr['txtStreet2']:''?>"></td>
-			  </tr>
+	  </tr>
 			 <tr>
 			 <td><?php echo $city?></td>
 			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" <?php echo $locRights['add'] ? '':'disabled'?> ></td>
@@ -65,7 +65,7 @@
 			 <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtOtherEmail" value="<?php echo (isset($this->postArr['txtOtherEmail']))?$this->postArr['txtOtherEmail']:''?>"></td>
 			 </tr>
 			 
-			 </table>
+</table>
 			 
 <?php } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
@@ -86,12 +86,22 @@
 										echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
 					?>
 						  </select></td>
-						  <td width="50">&nbsp;</td>
-			  <td><?php echo $street1?></td>
-			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtStreet1" value="<?php echo (isset($this->postArr['txtStreet1']))?$this->postArr['txtStreet1']:$edit[0][1]?>"></td>
-             </tr>
-			 <tr>
-			 <td><?php echo $state?></td>
+			<td width="20">&nbsp;</td>	
+			<td></td>
+			<td></td>		  
+      </tr>
+		<tr>
+			<td><?php echo $street1?></td>
+			<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtStreet1" value="<?php echo (isset($this->postArr['txtStreet1']))?$this->postArr['txtStreet1']:$edit[0][1]?>"></td>
+			 <td width="20">&nbsp;</td>
+			 <td><?php echo $street2?></td>
+			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtStreet2" value="<?php echo (isset($this->postArr['txtStreet2']))?$this->postArr['txtStreet2']:$edit[0][2]?>"></td>
+		</tr>
+		 <tr>
+			 <td><?php echo $city?></td>
+			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" disabled></td>			 
+			<td width="20">&nbsp;</td>
+			<td><?php echo $state?></td>
 						  <td><div id="lrState" name="lrState">
 					<?php if (isset($edit[0][4]) && ($edit[0][4] == 'US')) { ?>
 							<select name="txtState" id="txtState" disabled>
@@ -103,42 +113,39 @@
 							    			else
 							    				echo "<option value='" . $provlist[$c][1] . "'>" . $provlist[$c][2] . "</option>";
 							    	?>
-							    	</select>
+					    	</select>
 							    	<?php } else { ?>
 							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($edit[0][5]) ? $edit[0][5] : ''?>">
 							    	<?php } ?>
 							    	</div>
 							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo isset($edit[0][5]) ? $edit[0][5] : ''?>"></td>
-						  <td width="50">&nbsp;</td>
-			 <td><?php echo $street2?></td>
-			  <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtStreet2" value="<?php echo (isset($this->postArr['txtStreet2']))?$this->postArr['txtStreet2']:$edit[0][2]?>"></td>
-			 </tr>
-			 <tr>
-			 <td><?php echo $city?></td>
-			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" disabled></td>			 
-			<td width="50">&nbsp;</td>
-			<td><?php echo $zipcode?></td>
+			</tr>
+			<tr>
+			 <td><?php echo $zipcode?></td>
 			 <td><input type="text" name="txtzipCode" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($this->postArr['txtzipCode']))?$this->postArr['txtzipCode']:$edit[0][6]?>"></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $hmtele?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtHmTelep" value="<?php echo (isset($this->postArr['txtHmTelep']))?$this->postArr['txtHmTelep']:$edit[0][7]?>"></td>
-			 <td width="50">&nbsp;</td>
+			 <td width="20">&nbsp;</td>
 			<td><?php echo $mobile?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtMobile" value="<?php echo (isset($this->postArr['txtMobile']))?$this->postArr['txtMobile']:$edit[0][8]?>"></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $worktele?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtWorkTelep" value="<?php echo (isset($this->postArr['txtWorkTelep']))?$this->postArr['txtWorkTelep']:$edit[0][9]?>"></td>
-			 <td width="50">&nbsp;</td>
+			 <td width="20">&nbsp;</td>
+			 <td></td>
+			 <td></td>		
+			</tr>
+			<tr>
 			 <td><?php echo $workemail?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtWorkEmail" value="<?php echo (isset($this->postArr['txtWorkEmail']))?$this->postArr['txtWorkEmail']:$edit[0][10]?>"></td>
-			 </tr>
-			 <tr>
+			  <td width="20">&nbsp;</td>
 			 <td><?php echo $otheremail?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtOtherEmail" value="<?php echo (isset($this->postArr['txtOtherEmail']))?$this->postArr['txtOtherEmail']:$edit[0][11]?>"></td>
 			 </tr>
 			
-			 </table>
+</table>
 			 
 <?php } ?>
