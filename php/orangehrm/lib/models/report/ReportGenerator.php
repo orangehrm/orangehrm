@@ -78,8 +78,8 @@ class ReportGenerator {
  		if(isset($this->criteria['PAYGRD'])){
  			 			
  			$criteriaValue['PAYGRD'] = '\'' . $this->criteria['PAYGRD'] . '\'';
-			$criteriaField['PAYGRD'] = 'a.SAL_GRD_CODE';
-			$criteriaTable['PAYGRD'] = 'HS_HR_EMPLOYEE a';
+			$criteriaField['PAYGRD'] = 'b.SAL_GRD_CODE';
+			$criteriaTable['PAYGRD'] = 'HS_PR_SALARY_GRADE b';
 			$criteriaComOper['PAYGRD'] = "=";
 		}
 		
@@ -202,7 +202,7 @@ class ReportGenerator {
  			$headingName['PAYGRD'] = 'Salary Grade';
  			$parentTableFieldName['PAYGRD']  = 'b.SAL_GRD_CODE';
  			$parentTableName['PAYGRD']	     = 'HS_PR_SALARY_GRADE b';
- 			$existingTableFieldName['PAYGRD']= 'a.SAL_GRD_CODE';
+ 			$existingTableFieldName['PAYGRD']= 'f.SAL_GRD_CODE';
  			$existingTableName['PAYGRD']	 = 'HS_HR_EMPLOYEE a';
  			$parentTableDescription['PAYGRD']  = 'b.SAL_GRD_NAME';
  		}
@@ -328,8 +328,7 @@ class ReportGenerator {
 					else 
 						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';		
 				}
-
-
+			
 			return strtolower($SQL1);
 		}
 		

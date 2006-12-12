@@ -455,7 +455,7 @@ class EmpInfo {
 			}		
 		}
 		
-		return str_pad(((int) $this->singleField)+1, 7, "0", STR_PAD_LEFT);
+		return str_pad(((int) $this->singleField)+1, $this->employeeIdLength, "0", STR_PAD_LEFT);
 		}
 		
 	}
