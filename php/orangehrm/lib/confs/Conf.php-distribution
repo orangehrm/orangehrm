@@ -34,6 +34,7 @@ class Conf {
 	$this->dbuser	= 'root';
 	$this->dbpass	= 'orangehrm';
 	$this->smtphost = '';
+	$this->version	= '2.0.4';
 			
 	}
 	
