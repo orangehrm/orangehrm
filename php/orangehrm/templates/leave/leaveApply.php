@@ -106,11 +106,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		<td>
 			<select name="sltLeaveType" id="sltLeaveType">      		
 	  <?php
-	  	if (is_array($records[1]))
+	  	if (is_array($records[1])) {
 	  	 	foreach ($records[1] as $record) {
 	  ?>
         		<option value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option> 
-      <?php } else {?>
+      <?php  }
+			} else {?>
       			<option value="-1">-- No Leave Types --</option> 
       <?php } ?>
          	</select>

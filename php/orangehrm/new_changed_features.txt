@@ -1,66 +1,93 @@
 New & Changed Features for OrangeHRM ver 2.0.3 (8/12/2006)
 	This is a maintenance release (bug Fixes)
-	the closed bug list is as follows (as maintained at SourceForge bug tracker)
+	
+	Bugs fixed includes;
+	
+	the closed bug list in this release are as follows (as maintained at SourceForge bug tracker)
 
 		BugID	Name
-		1610801	ESS 
-		1611313	verify function 
-		1602012	Need an option to go back from leave summary 
-		1611331	leave summary 
-		1587897	Unable to enter Pay grade 
-		1601952	Apply for leave -> button should be Apply 
-		1601937	Changing entitled leave - don\'t enable changing for deleted 
-		1601919	Deleted leave types appear in employee leave summary 
-		1609918	cannot apply form 
-		1601764	When adding pay grade error encounted. 
-		1601768	Error on web installation guide 
-		1595318	Not possible to specify payments 
-		1605780	leaveApply.php 
-		1606034	nothing is wrong 
-		1603663	Pay grade not visible in Payment tab 
-		1602126	Spelling mistake 
-		1602997	Company Structure Enhancement 
-		1605016	Not Saving 
-		1604697	Error saving Education Info 
-		1605063	Error in database script (dbscript.sql) 
-		1586485	Job Titles - clear button does not work 
-		1587517	Employee Info - Skills - Experience - fractions not allowed 
-		1586043	Installation guide - 'Database Creation' is unclear 
-		1600964	employee id for report to is not populated 
-		1595310	Incorrect English in report to 
-		1595128	no empl.-ID . bug in popup 
-		1601995	New links to support and forum does not appear well in IE 
-		1595886	Attachment - browser gets stuck trying to upload large files 
-		1595872	Cannot upload attachment with IE6 
-		1586028	Installation guide - previous button does not work properly 
-		1586001	Incorrect spelling and grammar in installation guide 
-		1601998	Employee does not see rejected leave 
-		1601943	Selecting employee for leave summary for years should be ava 
-		1588298	In reports if you select address only 'Street 1' is displaye 
-		1601972	Manager view - approve leaves should be changed to approve 
-		1601979	Manager can\'t approve leave 
-		1602018	Enhancement - consider giving the option to manager to mark 
-		1596006	ESS - inconsistency in the way emergency contacts are added 
-		1602000	Employee cannot view cancelled leave 
-		1601974	The default view for the supervisor must be approve leave 
-		1587529	Skills - Language - Incorrect Language 
-		1601965	In ESS there should be a leave summary menu option on the le 
-		1601950	Error in applying for leave 
-		1586053	Adding an Employee - Middle name need not be mandatory 
-		1601955	Applying for leave if half day no option to select morning o 
-		1601913	Define leave type --> name field too short 
-		1601852	Doesnt list leave type 
-		1601954	It possible to apply for leave once 
-		1601010	  Select Past Date    
-		1601707	File inclusion failure in upgrader 
-		1596007	ESS - in dependents by default the text boxes are disabled. 
-		1596014	ESS - Payments - don't let user enter values by pressing edi 
-		1596016	ESS - Don't let user enter report-to details and then deny a 
-		1596002	ESS - Error in clicking back button 
-		1599550	Apply leave from date to date 
-		1600063	Leave Module malfunction 
+		1597951	  apply leave online    
 		1597948	cant create admin user 
-		1597951	apply leave online 
+		1600063	Leave Module malfunction 
+		1599550	Apply leave from date to date 
+		1596002	ESS - Error in clicking back button 
+		1596016	ESS - Don't let user enter report-to details and then deny a 
+		1596014	ESS - Payments - don't let user enter values by pressing edi 
+		1596007	ESS - in dependents by default the text boxes are disabled. 
+		1601707	File inclusion failure in upgrader 
+		1601010	Select Past Date 
+		1601954	It possible to apply for leave once 
+		1601852	Doesnt list leave type 
+		1601913	Define leave type --> name field too short 
+		1601955	Applying for leave if half day no option to select morning o 
+		1586053	Adding an Employee - Middle name need not be mandatory 
+		1601950	Error in applying for leave 
+		1601965	In ESS there should be a leave summary menu option on the le 
+		1587529	Skills - Language - Incorrect Language 
+		1601974	The default view for the supervisor must be approve leave 
+		1602000	Employee cannot view cancelled leave 
+		1596006	ESS - inconsistency in the way emergency contacts are added 
+		1602018	Enhancement - consider giving the option to manager to mark 
+		1601979	Manager can\'t approve leave 
+		1601972	Manager view - approve leaves should be changed to approve 
+		1588298	In reports if you select address only 'Street 1' is displaye 
+		1601943	Selecting employee for leave summary for years should be ava 
+		1601998	Employee does not see rejected leave 
+		1586001	Incorrect spelling and grammar in installation guide 
+		1586028	Installation guide - previous button does not work properly 
+		1595872	Cannot upload attachment with IE6 
+		1595886	Attachment - browser gets stuck trying to upload large files 
+		1601995	New links to support and forum does not appear well in IE 
+		1595128	no empl.-ID . bug in popup 
+		1595310	  Incorrect English in report to    
+		1600964	employee id for report to is not populated 
+		1586043	Installation guide - 'Database Creation' is unclear 
+		1587517	Employee Info - Skills - Experience - fractions not allowed 
+		1586485	Job Titles - clear button does not work 
+		1605063	Error in database script (dbscript.sql) 
+		1604697	Error saving Education Info 
+		1602997	Company Structure Enhancement 
+		1602126	Spelling mistake 
+		1603663	Pay grade not visible in Payment tab 
+		1595318	Not possible to specify payments 
+		1601768	Error on web installation guide 
+		1601764	When adding pay grade error encounted. 
+		1609918	cannot apply form 
+		1601919	Deleted leave types appear in employee leave summary 
+		1601937	Changing entitled leave - don\'t enable changing for deleted 
+		1601952	Apply for leave -> button should be Apply 
+		1587897	Unable to enter Pay grade 
+		1611331	leave summary 
+		1602012	Need an option to go back from leave summary 
+		1612445	Usability - Remove word module from tabs 
+		1612452	Apply for date - \'From date\' should be \'Date\' 
+		1602181	Leave Type not visible by ESS user 
+		1612444	Usability - Reports tab should appear after leave tab 
+		1613016	City should come before state 
+		1613072	Saving leave when there are no status combos 
+		1611837	Half day leave taken to be deducted as half day. 
+		1586134	Usability - Employee Info - Emergency Contacts - No need of 
+		1600379	Leave - Problem when selecting date 
+		1609980	Back button is not working 
+		1609102	apply leave from Date to Date 
+		1587554	Membership types - improve wording of select box 
+		1587491	Education - search by name does not make sense 
+		1601662	we cannot able to browse the picture second time 
+		1595314	Display columns of a report are taken as selection critera 
+		1588301	In reports salary grade is shown empty 
+		1609011	Education Tab 
+		1605782	Auto notification via email 
+		1586035	It should not matter from where the zip file is extracted 
+		1612712	Usability - consistent colors and fonts must be used through 
+		1595307	  Unused currencies appear in currency list    
+		1601118	Report - Age 
+		1614911	Leave 
+		1611993	failed to add a new employee 
+		1588300	In reports date of birth is not shown properly 
+		1581173	can not input chinese 
+		1609083	cannot submit data 
+		1602996	Education can not save information 
+		1587730	FAQ facts are obsolete 
 
 
 
