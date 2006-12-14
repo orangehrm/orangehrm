@@ -63,7 +63,7 @@ return flag;
 	function addSave() {
 		
 		var txt=document.frmNationalityInformation.txtNationalityInfoDesc;
-		if (!alpha(txt)) {
+		if (txt.value == "") {
 			alert ("Description Error!");
 			txt.focus();
 			return false;
@@ -207,7 +207,7 @@ function edit()
 	function addUpdate() {
 		
 		var txt=document.frmNationalityInformation.txtNationalityInfoDesc;
-		if (!alpha(txt)) {
+		if (txt.value == "") {
 			alert ("Description Error!");
 			txt.focus();
 			return false;
