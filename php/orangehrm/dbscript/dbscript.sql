@@ -1041,7 +1041,6 @@ INSERT INTO `hs_hr_currency_type` VALUES (61, 'HRK', 'Croatian Kuna');
 INSERT INTO `hs_hr_currency_type` VALUES (62, 'HTG', 'Haitian Gourde');
 INSERT INTO `hs_hr_currency_type` VALUES (63, 'HUF', 'Hungarian Forint');
 INSERT INTO `hs_hr_currency_type` VALUES (64, 'IDR', 'Indonesian Rupiah');
-INSERT INTO `hs_hr_currency_type` VALUES (65, 'IEP', 'Irish Punt');
 INSERT INTO `hs_hr_currency_type` VALUES (66, 'ILS', 'Israeli New Shekel');
 INSERT INTO `hs_hr_currency_type` VALUES (67, 'INR', 'Indian Rupee');
 INSERT INTO `hs_hr_currency_type` VALUES (68, 'IQD', 'Iraqi Dinar');
