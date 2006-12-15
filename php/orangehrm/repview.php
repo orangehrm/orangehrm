@@ -82,7 +82,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			document.standardView.pageNO.value=1;
 			document.standardView.submit();
 		} else {
-			alert("Select At Least One Record To Delete");
+			alert("Select at least one record to delete");
 		}		
 	}
 	

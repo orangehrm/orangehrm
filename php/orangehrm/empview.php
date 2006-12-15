@@ -148,7 +148,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 		}else{
 
-			alert("Select At Least One Record To Delete");
+			alert("Select at least one record to delete");
 
 		}		
 
