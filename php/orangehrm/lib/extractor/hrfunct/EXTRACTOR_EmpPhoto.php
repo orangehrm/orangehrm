@@ -44,12 +44,12 @@ class EXTRACTOR_EmpPhoto {
 					if(!get_magic_quotes_gpc())
 						$fileName=addslashes($fileName);
 						
-				$this->photo->setEmpPicture($contents);
-				$this->photo->setEmpFilename($fileName);
-				$this->photo->setEmpPicType($fileType);
-				$this->photo->setEmpPicSize($fileSize);
-									
-				return $this->photo;
+					$this->photo->setEmpPicture($contents);
+					$this->photo->setEmpFilename($fileName);
+					$this->photo->setEmpPicType($fileType);
+					$this->photo->setEmpPicSize($fileSize);
+										
+					return $this->photo;
 			} else {
 				return null;
 			}

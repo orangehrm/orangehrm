@@ -75,6 +75,11 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'EDIT') {
 	}
 }
 
+if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {	
+	$object = new EmpPicture();	
+	$object->delEmpPic(array(array($_GET['id'])));	
+}
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -92,6 +97,16 @@ function addPic() {
 
 function updatePic() {
 	document.frmPhoto.STAT.value = 'EDIT';
+	document.frmPhoto.submit();
+}
+
+function deletePic() {
+	
+	if (!confirm('Are you sure you want to delete the photograph?')) {
+		return false;
+	}
+	
+	document.frmPhoto.STAT.value = 'DELETE';
 	document.frmPhoto.submit();
 }
 
@@ -134,6 +149,7 @@ function windowClose() {
                     <td align="center" width="100%">
                     <?php if($edit) { ?>
 					        <img border="0" title="Save" onClick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Delete" onClick="deletePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
                     <?php } else { ?>
 					        <img border="0" title="Save" onClick="addPic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
                     <?php } ?>
