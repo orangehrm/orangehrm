@@ -213,7 +213,8 @@ li {
 
 #help {
 	float:right;
-	color:#FF0000;
+	color:#17A70A;
+	font-weight:bold;
 	clear:both;
 	font-size:12px;
 	margin-top: 2px;
