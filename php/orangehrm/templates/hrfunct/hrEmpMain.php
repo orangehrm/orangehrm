@@ -373,7 +373,7 @@ function editEmpMain() {
 	}
 		
 	document.getElementById("btnClear").disabled = false;
-	Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	Edit.src="../../themes/beyondT/pictures/btn_save_02.jpg";
 	Edit.title="Save";
 	document.frmEmp.EditMode.value='1';
 }
@@ -724,7 +724,7 @@ function resetAdd(panel) {
 					<?php	} ?>
     </td>
     <td>&nbsp;</td>
-    <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
+    <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" src="../../themes/beyondT/icons/reset.gif"></td>
     </tr>
     </table>
     
@@ -815,7 +815,7 @@ function resetAdd(panel) {
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');  return false;">
 <?php			}  ?>
     </td>
-    <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="reLoad();  return false;" ></td>
+    <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>
     </tr>
     </table>
 <br>
