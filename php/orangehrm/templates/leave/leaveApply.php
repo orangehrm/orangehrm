@@ -25,9 +25,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  
  $lan = new Language();
  
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveApply.php")); 
-
+ require_once($lan->getLangPath("full.php")); 
+ 
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
@@ -74,7 +73,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
 </script>
-<h2><?php echo $lang_Title?><hr/></h2>
+<h2><?php echo $lang_Leave_Title_Apply_Leave; ?><hr/></h2>
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Apply">
   <table border="0" cellpadding="0" cellspacing="0">
   <thead>
@@ -90,9 +89,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
   <tbody>
   	<tr>
 		<td class="tableMiddleLeft"></td>
-		<td><?php echo $lang_Date;?></td>
+		<td><?php echo $lang_Leave_Common_Date;?></td>
 		<td width="25px">&nbsp;</td>
-		<td><?php echo $lang_LeaveType; ?></td>
+		<td><?php echo $lang_Leave_Common_LeaveType; ?></td>
 		<td width="25px">&nbsp;</td>
 		<td class="tableMiddleRight"></td>
 	</tr>
@@ -123,7 +122,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		<td class="tableMiddleLeft"></td>
 		<td>&nbsp;<!--<a href="CentralController.php?leavecode=Leave&action=Leave_Apply_Multiple_View">Apply for multiple days</a>--></td>
 		<td width="25px">&nbsp;</td>
-		<td><?php echo $lang_Length; ?></td>
+		<td><?php echo $lang_Leave_Common_Length; ?></td>
 		<td width="25px">&nbsp;</td>
 		<td class="tableMiddleRight"></td>
 	</tr>
@@ -133,9 +132,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		<td width="25px">&nbsp;</td>
 		<td>
 			<select name="sltLeaveLength" id="sltLeaveLength">
-        	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_FullDay;?></option>
-			<option value="<?php echo ($records[0]->lengthHalfDayMorning);?>"><?php echo $lang_HalfDayMorning;?></option>
-			<option value="<?php echo ($records[0]->lengthHalfDayAfternoon);?>"><?php echo $lang_HalfDayAfternoon;?></option>
+        	<option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_Leave_Common_FullDay;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDayMorning);?>"><?php echo $lang_Leave_Common_HalfDayMorning;?></option>
+			<option value="<?php echo ($records[0]->lengthHalfDayAfternoon);?>"><?php echo $lang_Leave_Common_HalfDayAfternoon;?></option>
        </select>
 		</td>
 		<td width="25px">&nbsp;</td>
@@ -145,7 +144,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		<td class="tableMiddleLeft"></td>
 		<td>&nbsp;</td>
 		<td width="25px">&nbsp;</td>
-		<td><?php echo $lang_Comment; ?></td>
+		<td><?php echo $lang_Leave_Common_Comment; ?></td>
 		<td width="25px">&nbsp;</td>
 		<td class="tableMiddleRight"></td>
 	</tr>

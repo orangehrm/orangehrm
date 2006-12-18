@@ -44,12 +44,13 @@
  
  $backLink = "./CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary";
  
- require_once($lan->getLangPath("leave/leaveCommon.php"));
- 
+ require_once($lan->getLangPath("full.php"));
+  
  if ($empInfo[0] === $_SESSION['empID']) {
- 	require_once($lan->getLangPath("leave/leaveSummaryEmployee.php"));
+ 	$lang_Title = $lang_Leave_Leave_Summary_EMP_Title;
  } else {
- 	require_once($lan->getLangPath("leave/leaveSummarySupervisor.php"));
+ 	 $employeeName = $empInfo[2].' '.$empInfo[1];
+ 	$lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear), $lang_Leave_Leave_Summary_SUP_Title);
  }
  
  if (isset($_GET['message'])) {
@@ -82,7 +83,7 @@
 <?php	} ?>
 	
 </script>
-<h2><?php echo $lang_Title.$dispYear; ?><hr/></h2>
+<h2><?php echo $lang_Title; ?><hr/></h2>
 <?php 
 	if (!is_array($records[0])) { 
 ?>
@@ -97,7 +98,7 @@
 	<p class="controls">
 		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';">
-		<a href="javascript:actTakenLeave()">List of Taken Leave</a>
+		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
 	</p>
 <?php
 		}
@@ -116,12 +117,12 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>    	
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
     	<?php if ($auth === 'admin') { ?>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_LeaveEntitled;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveEntitled;?></th>
     	<?php } ?>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_LeaveTaken;?></th>    	
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_LeaveAvailable;?></th>
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveTaken;?></th>    	
+    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveAvailable;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>

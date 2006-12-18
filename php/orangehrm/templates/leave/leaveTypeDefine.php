@@ -23,9 +23,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  **/
  
  $lan = new Language();
- 
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveTypeDefine.php")); 
+
+ require_once($lan->getLangPath("full.php")); 
 
  if (isset($_GET['message'])) {
 ?>
@@ -56,7 +55,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
 </script>
-<h2><?php echo $lang_Title?><hr/></h2>
+<h2><?php echo $lang_Leave_Define_leave_Type_Title; ?><hr/></h2>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Type_Define">
   <table width="600" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -76,7 +75,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	<?php }?>
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c1" width="1" height="1" border="0" id="table_r2_c1" /></td>
-      <td width="182"><?php if($_REQUEST['action'] == "Leave_Type_Edit_View") { echo $lang_newLeaveTypeName; } else { echo $lang_LeaveTypeName;}?></td>
+      <td width="182"><?php if($_REQUEST['action'] == "Leave_Type_Edit_View") { echo $lang_newLeaveTypeName; } else { echo $lang_Leave_Common_LeaveTypeName;}?></td>
       <td width="391"><input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName"></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif."><img src="../../themes/beyondT/pictures/spacer.gif" alt="" name="table_r2_c3" width="1" height="1" border="0" id="table_r2_c3" /></td>
     </tr>

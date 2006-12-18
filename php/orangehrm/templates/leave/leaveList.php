@@ -28,16 +28,24 @@
  $modifier = $modifier[0];
  
  if (isset($modifier) && ($modifier == "Taken")) {
- 	$empInfo = $records[count($records)-1][0]; 	
+ 	$empInfo = $records[count($records)-1][0]; 
+ 	$employeeName = $empInfo[2].' '.$empInfo[1];
+ 	
  	array_pop($records);
  	
  	$records = $records[0];
- }
- 
+ } 
  $lan = new Language(); 
  
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveList.php")); 
+ require_once($lan->getLangPath("full.php")); 
+ 
+if ($modifier === "SUP") {
+ $lang_Title = $lang_Leave_Leave_list_Title1;
+} else if ($modifier === "Taken") {
+ $lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);	
+} else {
+ $lang_Title = $lang_Leave_Leave_list_Title3;	
+}
  
  if ($modifier === "SUP") {
  	$action = "Leave_ChangeStatus";
@@ -74,14 +82,14 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th width="135px" class="tableMiddleMiddle"><?php echo $lang_Date;?></th>
+    	<th width="135px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
     	<?php if ($modifier == "SUP") { ?>
-    	<th width="140px" class="tableMiddleMiddle"><?php echo $lang_EmployeeName;?></th>
+    	<th width="140px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
-    	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Status;?></th>
-    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Length;?></th>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Comments;?></th>
+    	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
+    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
+    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>
@@ -109,9 +117,9 @@
     <?php } ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php 
-   			$statusArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveCancelled => $lang_Cancelled, $record->statusLeavePendingApproval => $lang_PendingApproval, $record->statusLeaveApproved => $lang_Approved, $record->statusLeaveTaken=> $lang_Taken);
-   			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Rejected, $record->statusLeaveApproved => $lang_Approved);
-   			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Cancelled);
+   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken);
+   			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved);
+   			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			    		
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
@@ -145,11 +153,11 @@
     <td class="<?php echo $cssClass; ?>"><?php 
     		$leaveLength = null;
     		switch ($record->getLeaveLength()) { 
-    			case $record->lengthFullDay 		 :	$leaveLength = $lang_FullDay;
+    			case $record->lengthFullDay 		 :	$leaveLength = $lang_Leave_Common_FullDay;
     													break; 
-    			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_HalfDayMorning;
+    			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_Leave_Common_HalfDayMorning;
     													break;
-				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_HalfDayAfternoon;
+				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_Leave_Common_HalfDayAfternoon;
     													break;  	
     		}
     		

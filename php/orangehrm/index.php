@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
-*/
+ */
 
 define('ROOT_PATH', dirname(__FILE__));
 
@@ -96,6 +96,12 @@ if ($authorizeObj->isESS()) {
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 }
+
+require_once ROOT_PATH . '/lib/common/Language.php';
+
+$lan = new Language();
+ 
+require_once($lan->getLangPath("full.php")); 
 
 ?>
 <html>
@@ -274,7 +280,7 @@ function setSize() {
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" >Leave</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" ><?php echo $lang_Menu_Leave; ?></a></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -437,22 +443,22 @@ function setSize() {
                  				$linkSummary = "";
                  			}
                       	?>
-  						<li id="leaveSummary"><a <?php echo $linkSummary; ?> target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');">Leave Summary</a></li>
+  						<li id="leaveSummary"><a <?php echo $linkSummary; ?> target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');"><?php echo $lang_Menu_Leave_LeaveSummary; ?></a></li>
   						<?php 
                  			//}
                  			if ($authorizeObj->isESS()) { 
   						?>
-  						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu">Leaves List</a></li>
-  						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu">Apply</a></li>
+  						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveList; ?></a></li>
+  						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu"><?php echo $lang_Menu_Leave_Apply; ?></a></li>
   						<?php 
                       		}               	
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
-  						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu">Approve Leave</a></li>
+  						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu"><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
 						<?php }  
 							if ($authorizeObj->isAdmin()) {
 						?>
-  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu">Leave Types</a></li>
+  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveTypes; ?></a></li>
 						<?php } ?>
   					</ul>
 			</TD>         
@@ -710,13 +716,13 @@ function setSize() {
                     	if ($authorizeObj->isESS()) {
                     ?>                    	
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu">Personal Leave Summary</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
 					 </TR>
 					<?php
                     	}
                     ?>
 					 <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu">Employee Leave Summary</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_EmployeeLeaveSummary; ?></A></TD>
 					 </TR>					 
                     </TBODY>
                   </TABLE>

@@ -24,8 +24,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  
  $lan = new Language();
  
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveTypeSummary.php")); 
+ require_once($lan->getLangPath("full.php")); 
 
  if (isset($_GET['message'])) {
 ?>
@@ -138,7 +137,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	
 	
 </script>
-<h2><?php echo $lang_Title?><hr/></h2>
+<h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?><hr/></h2>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
 <p class="navigation">
   
@@ -161,8 +160,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <th width="77" align="center" class="tableMiddleMiddle"><div align="center">
         <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
       </div></th>
-      <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveTypeId?></th>
-      <th colspan="4" align="left" class="tableMiddleMiddle"><?php echo $lang_LeaveType;?></th>
+      <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveTypeId?></th>
+      <th colspan="4" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
       <th class="tableMiddleRight"></th>
     </tr>
   </thead>

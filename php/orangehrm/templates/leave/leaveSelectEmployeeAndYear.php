@@ -24,8 +24,7 @@
  
  $lan = new Language();
  
- require_once($lan->getLangPath("leave/leaveCommon.php")); 
- require_once($lan->getLangPath("leave/leaveSelectEmployee.php")); 
+ require_once($lan->getLangPath("full.php")); 
  
  if (isset($modifier)) {
  	switch ($modifier) {
@@ -43,7 +42,7 @@
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<h2><?php echo $lang_Title?><hr/></h2>
+<h2><?php echo $lang_Leave_Select_Employee_Title; ?><hr/></h2>
 <script language="javascript">
 	function validate() {
 		errors = "";
@@ -77,11 +76,11 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th width="70px" class="odd"><?php echo $lang_Year;?></th>
+    	<th width="70px" class="odd"><?php echo $lang_Leave_Common_Year;?></th>
     	
     	<th width="130px" class="odd">
 		    	  <select name="year">
-		    	    <option value="-1"> - Select - </option>
+		    	    <option value="-1"> - <?php echo $lang_Leave_Common_Select;?> - </option>
 		   <?php 		   		
 		   		if (is_array($years)) {
 		   			foreach ($years as $year) {
@@ -93,11 +92,11 @@
   	    		  </select>
    	    </th>
     	
-    	<th width="180px" class="odd"><?php echo $lang_EmployeeName;?></th>
+    	<th width="180px" class="odd"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	
     	<th width="150px" class="odd">
 				<select name="id">
-					<option value="-1"> - Select - </option>
+					<option value="-1"> - <?php echo $lang_Leave_Common_Select;?> - </option>
 					<?php 		   		
 		   				if (is_array($employees)) {
 		   						sort($employees);
