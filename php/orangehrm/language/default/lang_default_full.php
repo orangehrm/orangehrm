@@ -21,6 +21,49 @@
  */
 
 	/**
+	 * Error messages
+	 * 
+	 */
+	
+	$lang_Error_PleaseCorrectTheFollowing = "Please correct the following";
+	$lang_Error_SelectAtLeastOneRecordToDelete = "Select tt least one record to delete";
+	$lang_Error_DoYouWantToDelete = "Do you want to delete?";
+	
+	$lang_Error_PleaseSelectAYear = "Please select a Year";
+	$lang_Error_PleaseSelectAnEmployee = "Please select an Employee";
+	
+	$lang_Error_DoYouWantToContinue = "Do you want to continue?";
+	
+	$lang_Error_ShouldBeNumeric = "Should be Numeric";	
+	$lang_Error_FollowingErrorsWereFound = "Following errors were found";	
+	$lang_Error_AreYouSureYouWantToDelete = "Are you sure you want to delete?";
+	
+	//leave
+	$lang_Error_PleaseSelectAValidFromDate = "Please select a valid From Date";
+	$lang_Error_PleaseSelectALeaveType = "Please select a Leave Type";
+			
+	$lang_Error_LeaveDateCannotBeABlankValue = "Leave date cannot be a blank value!";
+	
+	$lang_Error_NoLeaveTypes = "No Leave Types";
+	$lang_Error_NoRecordsFound = "No records found!";
+	
+	// Company Structure	
+	$lang_Error_CompStruct_UnitCount = "Also #children unit(s) under #parent will be deteted.";
+	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "It could cause the company structure to change";
+		
+	$lang_Error_SubDivisionNameCannotBeEmpty = "Sub-division Name cannot be empty";
+	$lang_Error_PleaseSelectATypeOrDefineACustomType = "Please select a Type or define a custom type";
+	$lang_Error_CompStruct_LocEmpty = "Please select a Location or define a new Location and select";
+ 
+	$lang_Error_LocationNameEmpty = "Location Name empty";
+	$lang_Error_CountryNotSelected = "Country not selected";
+	$lang_Error_StateNotSelected = "State not selected";
+	$lang_Error_CityCannotBeEmpty = "City Cannot be empty";
+	$lang_Error_AddressEmpty = "Address empty";
+	$lang_Error_ZipEmpty = "Zip - Code Cannot be empty";
+	$lang_Error_CompStruct_ZipInvalid = "Zip - Code Contains non-numeric characters Here they are #characterList";
+	
+	/**
 	 * Menu Items
 	 *
 	 */
@@ -78,6 +121,7 @@
 		
 	$lang_bankInformation_code = "Code";
 	$lang_bankInformation_description = "Description";
+	
 	$lang_compstruct_add = "Add";
 	$lang_compstruct_delete = "Delete";
 	$lang_compstruct_clear = "Clear";
@@ -101,11 +145,13 @@
 	$lang_compstruct_Name = "Name";
 	$lang_compstruct_Type = "Type";
 	$lang_compstruct_Division = "Division";
+	$lang_compstruct_Description = "Description";
 	$lang_compstruct_Department = "Department";
 	$lang_compstruct_Team = "Team";
 	$lang_compstruct_Other = "Other";
 	$lang_compstruct_Location = "Location";
 	$lang_compstruct_frmNewLocation = "Define a new location";
+	$lang_compstruct_Address = "Address";
 	$lang_compstruct_country = "Country";
 	$lang_compstruct_state = "State / Province";
 	$lang_compstruct_city = "City";

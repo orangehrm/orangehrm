@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  * 
- * @author: Darija <darija@beyondm.net>
+ * @author: Darija Jevtuchova <darija@beyondm.net>
  */
 	
 	/**
@@ -27,19 +27,41 @@
 	 
 	$lang_Error_PleaseCorrectTheFollowing = "Пожайлуста, исправьте";
 	$lang_Error_SelectAtLeastOneRecordToDelete = "Выберите хотя бы одну запись для удаления";
-	$lang_Error_DoYouWantToDelete = "Удалить?";
-	
-	//leave
-	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
-	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
+	$lang_Error_DoYouWantToDelete = "Удалить?";	
 	
 	$lang_Error_PleaseSelectAYear = "Выберите год";
 	$lang_Error_PleaseSelectAnEmployee = "Выберите служащего";
 	
-	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
+	$lang_Error_DoYouWantToContinue = " Продолжить?";
 	
+	$lang_Error_ShouldBeNumeric = "Разрешены только цифры";	
+	$lang_Error_FollowingErrorsWereFound = "Были обнаружены следущие ошибки";	
+	$lang_Error_AreYouSureYouWantToDelete = "Вы уверены, что xотите стереть";
+	
+	//leave
+	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
+	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
+		
+	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
+		
 	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
 	$lang_Error_NoRecordsFound = "Записи не найдены!";
+	
+	// Company Structure
+	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
+	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "Это может вызвать изменения структуры компании";
+		
+	$lang_Error_SubDivisionNameCannotBeEmpty = "Введите название подразделения";
+	$lang_Error_PleaseSelectATypeOrDefineACustomType = "Пожалуйста, выберите тип из существующих или введите новый тип";
+	$lang_Error_CompStruct_LocEmpty = "Пожалуйста, выберите расположение из существующих или введите новое расположение";
+ 
+	$lang_Error_LocationNameEmpty = "Введите название расположения";
+	$lang_Error_CountryNotSelected = "Выберите страну";
+	$lang_Error_StateNotSelected = "Введите округ";
+	$lang_Error_CityCannotBeEmpty = "Введите город";
+	$lang_Error_AddressEmpty = "Введите адрес";
+	$lang_Error_ZipEmpty = "Введите почтовый индекс";
+	$lang_Error_CompStruct_ZipInvalid = "Символы #characterList в почтовом индексе";
 	
 	/**
 	 * Menu Items
@@ -87,6 +109,7 @@
 	
 	$lang_bankInformation_code = "Код";
 	$lang_bankInformation_description = "Описание";
+	
 	$lang_compstruct_add = "Добавить" ;
 	$lang_compstruct_delete = "Удалить";
 	$lang_compstruct_clear = "Стереть";
@@ -122,6 +145,8 @@
 	$lang_compstruct_Name = "Название";
 	$lang_compstruct_Type = "Вид";
 	$lang_compstruct_Division = "Отдел";
+	$lang_compstruct_Description = "Описание";
+	$lang_compstruct_Address = "Адрес";
 	$lang_compstruct_Department = "Департамент" ;
 	$lang_compstruct_Team = "Команда / бригада";
 	$lang_compstruct_Other = "Другой";
