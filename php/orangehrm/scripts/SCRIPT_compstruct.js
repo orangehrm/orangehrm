@@ -16,43 +16,43 @@
 		var frm = document.frmAddLoc;
 			
 		if (frm.txtLocDescription.value == '') {
-			alert ("Location Name empty!");
+			alert ("<?php echo $lang_Error_LocationNameEmpty; ?>!");
 			frm.txtLocDescription.focus();
 			return;
 		}
 		
 		if (frm.cmbCountry.value == '0') {		
-			alert ("Country not selected!");
+			alert ("<?php echo $lang_Error_CountryNotSelected; ?>!");
 			frm.cmbCountry.focus();
 			return;
 		}
 		
 		if ( frm.cmbProvince.value == '0') {		
-			alert ("State not selected!");
+			alert ("<?php echo $lang_Error_StateNotSelected; ?>!");
 			frm.cmbProvince.focus();
 			return;
 		}
 
 		if ( frm.cmbDistrict.value == '0') {
-			alert ("City Cannot be empty!");
+			alert ("<?php echo $lang_Error_CityCannotBeEmpty; ?>!");
 			frm.cmbDistrict.focus();
 			return;
 		}
 		
 		if ( frm.txtAddress.value == '') {		
-			alert ("Address empty!");
+			alert ("<?php echo $lang_Error_AddressEmpty; ?>!");
 			frm.txtAddress.focus();
 			return;
 		}
 		
 		if ( frm.txtZIP.value == '' ){		
-			alert ("Zip - Code Cannot be empty!");
+			alert ("<?php echo $lang_Error_ZipEmpty; ?>!");
 			frm.txtZIP.focus();
 			return;
 		}
 		
 		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){		
-			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
+			if ( ! confirm ("<?php echo $lang_Error_CompStruct_ZipInvalid; ?>".replace(/#characterList/, nonNumbers(frm.txtZIP))+". <?php echo $lang_Error_DoYouWantToContinue; ?>") ) {
 				frm.txtZIP.focus();
 			return;
 			}		
@@ -60,14 +60,14 @@
 		
 
 		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
-			alert("Should be Numeric!");
+			alert("<?php echo $lang_Error_ShouldBeNumeric; ?>!");
 			frm.txtPhone.focus();
 			return;
 		}
 		
 		 if(frm.txtFax.value != '' && !numeric(frm.txtFax)) {		
 
-			alert("Should be Numeric!");
+			alert("<?php echo $lang_Error_ShouldBeNumeric; ?>!");
 			frm.txtFax.focus();
 			return;
 		}
@@ -76,20 +76,20 @@
 	
 	function validate() {
 		var flag = true;
-		var errs = 'Following errors were found:\n\n';
+		var errs = '<?php echo $lang_Error_FollowingErrorsWereFound; ?>:\n\n';
 				
 		if (document.getElementById("txtTitle").value == '') {
-			errs+="- Sub-division Name cannot be empty.\n";
+			errs+="- <?php echo $lang_Error_SubDivisionNameCannotBeEmpty; ?>.\n";
 			flag = false;
 		};
 		
 		if (document.getElementById("cmbType").value == 'null') {
-			errs+="- Please select a Type or define a custom type.\n";
+			errs+="- <?php echo $lang_Error_PleaseSelectATypeOrDefineACustomType; ?>.\n";
 			flag = false;
 		};
 		
 		if ((document.getElementById("cmbLocation").value == '') || (document.getElementById("cmbLocation").value == 'Other')) {
-			errs+="- Please select a Location or define a new Location and select.\n";
+			errs+="- <?php echo $lang_Error_CompStruct_LocEmpty; ?>.\n";
 			flag = false;
 		};
 		
@@ -110,7 +110,7 @@
 		document.getElementById("cmbType").selectedIndex = 0;
 		document.frmAddNode.rgt.value=rgtz;			
 		document.frmAddNode.sqlState.value='NewRecord';			
-		document.getElementById("parnt").innerHTML="<?php echo $frmSub_divisionHeadingAdd?>"+txt;
+		document.getElementById("parnt").innerHTML="<?php echo $lang_compstruct_frmSub_divisionHeadingAdd; ?> "+txt;
 		document.getElementById("txtParnt").value=parnt;
 		document.getElementById("layerForm").style.visibility="visible";
 	}
@@ -124,7 +124,7 @@
 					
 		document.frmAddNode.sqlState.value='UpdateRecord';
 		document.frmAddNode.rgt.value=id;
-		document.getElementById("parnt").innerHTML="<?php echo $frmSub_divisionHeadingEdit?> "+txt;
+		document.getElementById("parnt").innerHTML="<?php echo $lang_compstruct_frmSub_divisionHeadingEdit; ?> "+txt;
 		
 		for(i=0; i < document.getElementById("cmbType").options.length; i++) {
 			
@@ -178,15 +178,17 @@
 	
 	function deleteChild(lftz, rgtz, txt) {
 		
-		var message='Are you sure you want to delete '+txt;
+		var message='<?php echo $lang_Error_AreYouSureYouWantToDelete; ?> '+txt;
 		var dependants = (((rgtz - lftz + 1)/2)-1);
 		
 		if (dependants > 0) {
+			msgTxt = "<?php echo $lang_Error_CompStruct_UnitCount; ?>".replace(/#children/, dependants);
+			msgTxt = msgTxt.replace(/#parent/, txt);
 			
-			message = message+". Also "+dependants+" unit(s) under "+txt+" will be deteted";
+			message = message+"? "+msgTxt;
 		
 		};
-		message = message+'. It could cause the company structure to change.';
+		message = message+'. <?php echo $lang_Error_ItCouldCauseTheCompanyStructureToChange; ?>.';
 		
 		if (confirm(message)) {
 			

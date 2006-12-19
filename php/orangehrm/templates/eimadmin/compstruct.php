@@ -20,20 +20,16 @@
 */
 		
 	require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
-
 	require_once ROOT_PATH . '/lib/controllers/ViewController.php';
-
 	require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
+	require_once($lan->getLangPath("full.php")); 
 	
+	$types = array(array($lang_compstruct_Division, $lang_compstruct_Division), array($lang_compstruct_Department, $lang_compstruct_Department), array($lang_compstruct_Team, $lang_compstruct_Team), array($lang_compstruct_Other, $lang_compstruct_Other));
 
-	
 
 	$dbConnection = new DMLFunctions();
 
-	$message2 = $dbConnection -> executeQuery("SELECT geninfo_values FROM `hs_hr_geninfo` WHERE code = 001");
-
- 	
+	$message2 = $dbConnection -> executeQuery("SELECT geninfo_values FROM `hs_hr_geninfo` WHERE code = 001");	
 
  	$arrCompInfo = mysql_fetch_array($message2, MYSQL_NUM);
 
@@ -74,8 +70,8 @@
 		$objResponse = $xajaxFiller->cmbFiller($objResponse,$getLoc,0,'frmAddNode','cmbLocation',3);
 
 		$objResponse->addScript("document.getElementById('layerFormLoc').style.visibility='hidden';");
-
-		$objResponse->addScript("document.getElementById('cmbLocation').options[document.getElementById('cmbLocation').options.length] = new Option('Other','Other');");
+		
+		$objResponse->addScript("document.getElementById('cmbLocation').options[document.getElementById('cmbLocation').options.length] = new Option('Other', 'Other');");
 
 		$objResponse->addScript("document.getElementById('cmbLocation').selectedIndex = document.getElementById('cmbLocation').options.length-2;");
 
@@ -100,7 +96,7 @@
 		} else {
 			$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
 		}
-		$objResponse->addScript('document.getElementById("txtState").Focus();');
+		$objResponse->addScript('document.getElementById("txtState").focus();');
 	
 		$objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
 		$objResponse->addAssign('status','innerHTML','');
@@ -137,7 +133,7 @@
 <body style="padding-left:5px;">
 
  	<div id="layerComStruct">
-	<h2><?php echo $heading?></h2>
+	<h2><?php echo $lang_compstruct_heading; ?></h2>
 	<br>
 	<?php if ($_GET['root'] === '') { ?>
 	<div class="err"><?php echo 'Please define Company General Information first!'?></div>
@@ -192,7 +188,7 @@
 			</td>
 			<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 			<td id="ControlButton" valign="bottom">
-				<a href='#layerForm' class="add" onClick="addChild(<?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>', <?php echo $child[0]['id']; ?>, '<?php echo $child[0]['loc_code']?>')"><?php echo $add?></a>
+				<a href='#layerForm' class="add" onClick="addChild(<?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>', <?php echo $child[0]['id']; ?>, '<?php echo $child[0]['loc_code']?>')"><?php echo $lang_compstruct_add; ?></a>
 			</td>
 
 			<td valign="bottom">
@@ -201,7 +197,7 @@
 			| </td>
 			
 			<td id="ControlButton" valign="bottom">
-					<a class="delete" href="#" onClick="deleteChild(<?php echo $child[0]['lft']; ?>, <?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>');"><?php echo $delete?></a>
+					<a class="delete" href="#" onClick="deleteChild(<?php echo $child[0]['lft']; ?>, <?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>');"><?php echo $lang_compstruct_delete; ?></a>
 
 			<?php } ?>
 
@@ -216,7 +212,7 @@
 		} else { 
 		
 		?>
-	<p class='ERR'><?php echo $no_root?></p>
+	<p class='ERR'><?php echo $lang_compstruct_no_root; ?></p>
 
 	<?php } ?>	
 
@@ -235,8 +231,6 @@
     <!-- Add Subdivision  -->
 
 	<div id="layerForm"  class="frame">
-		
-
 		<h3><LABEL id="parnt"></LABEL></h3>
 
 		<form name="frmAddNode" id="frmAddNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
@@ -249,7 +243,7 @@
 		<table>
 			<tr>
 				<td valign="top">
-					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?php echo $name?></LABEL>
+					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></LABEL>
 				</td>
 				<td>
 					<input type="text" value="" id="txtTitle" name="txtTitle" >
@@ -257,11 +251,11 @@
 			</tr>
 			<tr>
 				<td valign="top">
-					<LABEL id="lblType" for="cmbType"><span class="error">*</span> <?php echo $type?></LABEL>
+					<LABEL id="lblType" for="cmbType"><span class="error">*</span> <?php echo $lang_compstruct_Type; ?></LABEL>
 				</td>
 				<td>
   					<select name="cmbType" id="cmbType">
-    					<option value="null"><?php echo $select?></option>
+    					<option value="null"><?php echo $lang_Leave_Common_Select; ?></option>
     					<?php foreach ($types as $typex) { ?>
     						<?php vprintf('<option value="%s">%s</option>', $typex);?>
     					<?php } ?>
@@ -270,24 +264,24 @@
   			</tr>
   			<tr>
 				<td valign="top">
-					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?php echo $location?></LABEL>
+					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?php echo $lang_compstruct_Location?></LABEL>
 				</td>
 				<td>
   					<select name="cmbLocation" id="cmbLocation" onChange="locChange(this);">
-  						<option value=""><?php echo $select?></option>
+  						<option value=""><?php echo $lang_Leave_Common_Select; ?></option>
   						<?php
 						  if ($locations) {
 							foreach ($locations as $location) { ?>
   						<option value="<?php echo $location[0]; ?>"><?php echo $location[1]; ?></option>
   						<?php	}
 						  } ?>
-    					<option value="Other">Other</option>
+    					<option value="Other"><?php echo $lang_compstruct_Other; ?></option>
   					</select>
   				</td>
   			</tr>
   			<tr>
 				<td valign="top">
-					<LABEL id="lblDesc" for="txtDesc"><?php echo $decription?></LABEL>
+					<LABEL id="lblDesc" for="txtDesc"><?php echo $lang_compstruct_Description; ?></LABEL>
 				</td>
 				<td>	  					
   					<textarea name="txtDesc" id="txtDesc"></textarea>  
@@ -296,9 +290,9 @@
 			<tr>
 				<td></td>
 				<td align="right">
-					<input type="Submit" value="<?php echo $save?>" id="Add" name="Add" class="btnAdd">
-					<input type="Reset" value="<?php echo $clear?>" id="Clear" name="Clear">
-					<input type="Reset" value="<?php echo $hide?>" id="Hide" name="Hide" onClick="frmAddHide()">
+					<input type="Submit" value="<?php echo $lang_compstruct_save; ?>" id="Add" name="Add" class="btnAdd">
+					<input type="Reset" value="<?php echo $lang_compstruct_clear; ?>" id="Clear" name="Clear">
+					<input type="Reset" value="<?php echo $lang_compstruct_hide; ?>" id="Hide" name="Hide" onClick="frmAddHide()">
 				</td>
 			</tr>
 		</table>
@@ -309,15 +303,15 @@
 	<!-- Add Location  -->	
 
 	<div id="layerFormLoc"  name="layerFormLoc" class="frame">
-		<h3><?php echo $frmNewLocation?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
+		<h3><?php echo $lang_compstruct_frmNewLocation; ?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
 		<form id="frmAddLoc" name="frmAddLoc" method="post" onSubmit="return false;">
 		<table>
 			<tr>
-				<td><span class="error">*</span> <?php echo $name?></td>
+				<td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 				<td> <input name="txtLocDescription" id="txtLocDescription"></td>
 			<tr>
-  				<td><span class="error">*</span> <?php echo $country?></td>
-				<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 						<option value="0"><?php echo $select?></option>
+  				<td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
+				<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 						<option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 						<?php
 							$cntlist = $this->popArr['countries'];
 								for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
@@ -325,41 +319,41 @@
 						?>
 					</select>
 				</td>
-			</tr>
+			</tr>						
 			<tr>
-				<td><?php echo $state?></td>
-				<td><div id="lrState" name="lrState" ><input type="text" name="txtState" id="txtState"></div>
-					 <input type="hidden" name="cmbProvince" id="cmbProvince">
-				</td>
-			</tr>			
-			<tr>
-				<td><?php echo $city?></td>
-				<td><input type="text" name="cmbDistrict"></td>
-			</tr>
-			<tr>
-				<td><span class="error">*</span> <?php echo $address?></td>
+				<td><span class="error">*</span> <?php echo $lang_compstruct_Address?></td>
 				<td><textarea name="txtAddress"></textarea></td>
 			</tr>
 			<tr>
-				<td><span class="error">*</span> <?php echo $zip_code?></td>
+				<td><?php echo $lang_compstruct_city?></td>
+				<td><input type="text" name="cmbDistrict"></td>
+			</tr>
+			<tr>
+				<td><?php echo $lang_compstruct_state?></td>
+				<td><div id="lrState" name="lrState" ><input type="text" name="txtState" id="txtState"></div>
+					 <input type="hidden" name="cmbProvince" id="cmbProvince">
+				</td>
+			</tr>
+			<tr>
+				<td><span class="error">*</span> <?php echo $lang_compstruct_ZIP_Code?></td>
 				<td><input type="text" name="txtZIP"></td>
 			</tr>
 			<tr>
-				<td><?php echo $phone?></td>
+				<td><?php echo $lang_compstruct_Phone; ?></td>
 				<td><input type="text" name="txtPhone"></td>
 			</tr>
 			<tr>
-				<td><?php echo $fax?></td>
+				<td><?php echo $lang_comphire_fax; ?></td>
 				<td><input type="text" name="txtFax"></td>
 			</tr>
 			<tr valign="top">
-				<td><?php echo $comments?></td>
+				<td><?php echo $lang_Leave_Common_Comments; ?></td>
 				<td><textarea name="txtComments"></textarea></td>
 			</tr>
 			<tr>
 				<td align="right">
-					<input type="button" value="<?php echo $save?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
-					<input type="Reset" value="<?php echo $clear?>" id="Clear" name="Clear" onClick="resetx()">
+					<input type="button" value="<?php echo  $lang_compstruct_save; ?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
+					<input type="Reset" value="<?php echo  $lang_compstruct_clear; ?>" id="Clear" name="Clear" onClick="resetx()">
 				</td>
 			</tr>
 		</table>
