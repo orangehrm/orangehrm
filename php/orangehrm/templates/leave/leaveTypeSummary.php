@@ -83,14 +83,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	
 		if ( $check == 1 ){
 			
-			var res = confirm("Do you want to delete ?");
+			var res = confirm("<?php echo $lang_Error_DoYouWantToDelete; ?>");
 			
 			if(!res) return;
 			
 			document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Delete';
  			document.DefineLeaveType.submit();
 		}else{
-			alert("Select At Least One Record To Delete");
+			alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
 		}		
 	}
 	

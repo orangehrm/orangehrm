@@ -21,6 +21,27 @@
  */
 	
 	/**
+	 * Error messages
+	 * 
+	 */
+	 
+	$lang_Error_PleaseCorrectTheFollowing = "Пожайлуста, исправьте";
+	$lang_Error_SelectAtLeastOneRecordToDelete = "Выберите хотя бы одну запись для удаления";
+	$lang_Error_DoYouWantToDelete = "Удалить?";
+	
+	//leave
+	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
+	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
+	
+	$lang_Error_PleaseSelectAYear = "Выберите год";
+	$lang_Error_PleaseSelectAnEmployee = "Выберите служащего";
+	
+	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
+	
+	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
+	$lang_Error_NoRecordsFound = "Записи не найдены!";
+	
+	/**
 	 * Menu Items
 	 *
 	 */

@@ -88,7 +88,7 @@
 	if (!is_array($records[0])) { 
 ?>
 	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
-	<h5>No records found!</h5>
+	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
 	} else {
 		if ($auth === 'admin') {

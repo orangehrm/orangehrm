@@ -38,7 +38,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function addSave() {
 		
 		if (document.DefineLeaveType.txtLeaveTypeName.value == '') {
-			alert ("Leave Date Cannot be a Blank Value!");
+			alert ("<?php echo $lang_Error_LeaveDateCannotBeABlankValue; ?>");
 			return false;
 		}
 		

@@ -21,6 +21,27 @@
  */
 
 	/**
+	 * Error messages
+	 * 
+	 */
+	
+	$lang_Error_PleaseCorrectTheFollowing = "Please correct the following";
+	$lang_Error_SelectAtLeastOneRecordToDelete = "Select tt least one record to delete";
+	$lang_Error_DoYouWantToDelete = "Do you want to delete?";
+	
+	$lang_Error_PleaseSelectAYear = "Please select a Year";
+	$lang_Error_PleaseSelectAnEmployee = "Please select an Employee";
+	
+	//leave
+	$lang_Error_PleaseSelectAValidFromDate = "Please select a valid From Date";
+	$lang_Error_PleaseSelectALeaveType = "Please select a Leave Type";
+			
+	$lang_Error_LeaveDateCannotBeABlankValue = "Leave date cannot be a blank value!";
+	
+	$lang_Error_NoLeaveTypes = "No Leave Types";
+	$lang_Error_NoRecordsFound = "No records found!";
+	
+	/**
 	 * Menu Items
 	 *
 	 */

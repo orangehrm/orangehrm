@@ -45,17 +45,20 @@
 <h2><?php echo $lang_Leave_Select_Employee_Title; ?><hr/></h2>
 <script language="javascript">
 	function validate() {
-		errors = "";
+		err = false;
+		errors = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
 		
 		if (document.frmSelectEmployee.year.value == -1) {
-			errors += "- Please select a Year\n";
+			errors += "-  <?php echo $lang_Error_PleaseSelectAYear; ?>\n";
+			err = true;
 		}
 		if (document.frmSelectEmployee.id.value == -1) {
-			errors += "- Please select an Employee \n";
+			errors += "-  <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n";
+			err = true;
 		}
 		
-		if (errors != "") {
-			errors = "Please correct the following\n\n"+errors+"\n";
+		if (err) {
+			errors = errors+"\n";
 			alert(errors);
 		} else {
 			document.frmSelectEmployee.submit();

@@ -38,18 +38,18 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	function addSave() {
 		err = false;
-		msg = 'Please correct the following\n\n';
+		msg = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
 		
 		obj = document.frmLeaveApp.txtLeaveDate;
 		if ((obj.value == '') || !validDate(obj.value)) {
 			err = true;
-			msg += ' - Please select a valid From Date\n'
+			msg += " - <?php echo $lang_Error_PleaseSelectAValidFromDate; ?>\n"
 		}		
 		
 		obj = document.frmLeaveApp.sltLeaveType;
 		if (obj.value == -1) {
 			err = true;
-			msg += ' - Please select a Leave Type\n'
+			msg += " -  <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
 		}			
 		
 		if (err) {
@@ -111,7 +111,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
         		<option value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option> 
       <?php  }
 			} else {?>
-      			<option value="-1">-- No Leave Types --</option> 
+      			<option value="-1">-- <?php echo $lang_Error_NoLeaveTypes; ?> --</option> 
       <?php } ?>
          	</select>
 		 </td>
