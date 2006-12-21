@@ -19,6 +19,7 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once($lan->getLangPath("full.php")); 
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
@@ -198,7 +199,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_salarygrades_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -241,11 +242,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
-						    <td><?php echo $code?></td>
+						    <td><?php echo $lang_Commn_code; ?></td>
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
 						  <tr> 
-						    <td nowrap><span class="error">*</span> <?php echo $description?></td>
+						    <td nowrap><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 						    <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' cols="30"></textarea>
 						    </td>
 						  </tr>
@@ -264,7 +265,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 </tr>
               </table>
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -565,7 +566,7 @@ function delCurrency() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_salarygrades_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><div id="status"></div></td>
   </tr>
 </table>
@@ -607,12 +608,12 @@ function delCurrency() {
                   			<tr><td>
 							<table border="0">
                   			<tr> 
-							    <td width="100"><?php echo $code?></td>
+							    <td width="100"><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden" name="txtSalGrdID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 							    <td>&nbsp;</td>
 							  </tr>
 							  <tr> 
-							    <td><span class="error">*</span> <?php echo $description?></td>
+							    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 							  	  <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' disabled cols="30"><?php echo $message[0][1]?></textarea>
 							    </td>
 							  </tr>
@@ -637,15 +638,15 @@ function delCurrency() {
 								<input type="hidden" name="txtSalGrdID" value="<?php echo $this->getArr['id']?>">
 <?php			if (!isset($this->getArr['editID'])) { ?>
 					  <tr>
-					  	<td height="40" valign="bottom"><h3><?php echo $currAss?></h3></td>
+					  	<td height="40" valign="bottom"><h3><?php echo $lang_salarygrades_currAss; ?></h3></td>
 					  </tr>
 					  <tr>
 					  <td>
 					  		<table border="0">
 			                  <tr>
-									<td><span class="error">*</span> <?php echo $currency?></td>
+									<td><span class="error">*</span> <?php echo $lang_hrEmpMain_currency; ?></td>
 									<td><select <?php echo ($locRights['add']) ? '' : 'disabled'?> name="cmbUnAssCurrency">
-											<option value="0">---Select <?php echo $currency?>---</option>
+											<option value="0">---<?php echo "$lang_Leave_Common_Select $lang_hrEmpMain_currency"; ?>---</option>
 			               			<?php $unAssCurrency = $this->popArr['unAssCurrency'];
 			               				for($c=0;$unAssCurrency && count($unAssCurrency)>$c;$c++) 
 				               				echo "<option value='" .$unAssCurrency[$c][0]. "'>" .$unAssCurrency[$c][1]. "</option>";
@@ -655,15 +656,15 @@ function delCurrency() {
 							</tr>
 							
 							<tr>
-								<td><span class="error">*</span> <?php echo $minSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMinSal"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $maxSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMaxSal"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $stepSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_salarygrades_stepSal; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtStepSal"></td>
 							</tr>
 			<tr>
@@ -679,13 +680,13 @@ function delCurrency() {
 				$editAssCurrency = $this->popArr['editAssCurrency'];				
 				?>
 					  <tr>
-					  	<td height="40" valign="bottom"><h3><?php echo $currAss?></h3></td>
+					  	<td height="40" valign="bottom"><h3><?php echo $lang_salarygrades_currAss; ?></h3></td>
 					  </tr>
 					  <tr>
 					  <td>
 					  		<table border="0">
 			                  <tr>
-									<td><span class="error">*</span> <?php echo $currency?></td> <input type="hidden" name="cmbUnAssCurrency" value="<?php echo $editAssCurrency[0][1]?>">
+									<td><span class="error">*</span> <?php echo $lang_hrEmpMain_currency; ?></td> <input type="hidden" name="cmbUnAssCurrency" value="<?php echo $editAssCurrency[0][1]?>">
 									<td><strong>
 			               			<?php $assCurrency = $this->popArr['assCurrency'];
 			               				for($c=0;$assCurrency && count($assCurrency)>$c;$c++) 
@@ -695,15 +696,15 @@ function delCurrency() {
 									</strong></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $minSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
 								<td><input type="text" disabled name="txtMinSal" value="<?php echo $editAssCurrency[0][2]?>"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $maxSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
 								<td><input type="text" disabled name="txtMaxSal" value="<?php echo $editAssCurrency[0][3]?>"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $stepSal?></td>
+								<td><span class="error">*</span> <?php echo $lang_salarygrades_stepSal; ?></td>
 								<td><input type="text" disabled name="txtStepSal" value="<?php echo $editAssCurrency[0][4]?>"></td>
 							</tr>
 			<tr>
@@ -740,10 +741,10 @@ function delCurrency() {
 							<table border="0">
 								<tr>
 			                      	<td></td>
-									 <td><strong><?php echo $currency?></strong></td>
-									 <td><strong><?php echo $minSal?></strong></td>
-									 <td><strong><?php echo $maxSal?></strong></td>
-									 <td><strong><?php echo $stepSal?></strong></td>
+									 <td><strong><?php echo $lang_hrEmpMain_currency; ?></strong></td>
+									 <td><strong><?php echo $lang_hrEmpMain_minpoint; ?></strong></td>
+									 <td><strong><?php echo $lang_hrEmpMain_maxpoint; ?></strong></td>
+									 <td><strong><?php echo $lang_salarygrades_stepSal; ?></strong></td>
 								</tr>
 			               		<?php 
 			               			for($c=0;$assCurrency && count($assCurrency)>$c;$c++) {
@@ -774,6 +775,6 @@ function delCurrency() {
               </table>
 </form>
 </body>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </html>
 <?php } ?>

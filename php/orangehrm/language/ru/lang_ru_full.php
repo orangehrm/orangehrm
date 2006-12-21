@@ -80,6 +80,16 @@
 	$lang_Menu_Leave_LeaveList = "Перечень отпусков";
 	
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
+	
+	/**
+	 * Common
+	 */
+	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
+	$lang_Commn_code = "Код";	
+	$lang_Commn_description = "Описание";
+	$lang_Commn_title = "Название";
+	
+	//leave module
 	$lang_Leave_Common_Date = "Дата";
 	$lang_Leave_Common_LeaveType = "Вид отпуска";
 	$lang_Leave_Common_Status = "Статус";
@@ -106,6 +116,7 @@
 	$lang_Leave_Common_LeaveEntitled = "Дано право на отпуск";
 	$lang_Leave_Common_Year = "Год";
 	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпуск";
+	$lang_Leave_Common_Remove = "Remove";
 	
 	$lang_bankInformation_code = "Код";
 	$lang_bankInformation_description = "Описание";
@@ -346,6 +357,7 @@
 	$lang_jobtitle_editpaygrade = "Редактировать уровень оплаты";
 	$lang_jobtitle_addempstat = "Добавить служебный статус";
 	$lang_jobtitle_editempstat = "Редактировать служебный статус";
+	$lang_jobtitle_empstat = "Employment Status";
 
 	$lang_languageinformation_heading = "Навыки : Языки";
 

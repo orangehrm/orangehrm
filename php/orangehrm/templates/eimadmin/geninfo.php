@@ -18,6 +18,7 @@ Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once($lan->getLangPath("full.php")); 
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
@@ -109,21 +110,21 @@ function edit()
 	function addUpdate() {
 
 		if (document.frmGenInfo.txtCompanyName.value == '') {
-			alert ("<?php echo $err_CompanyName?>");
+			alert ("<?php echo $lang_geninfo_err_CompanyName; ?>");
 			document.frmGenInfo.txtCompanyName.focus();
 			return;
 		} 
 
 		var cntrl = document.frmGenInfo.txtPhone;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('<?php echo $err_Phone?>');
+			alert('<?php echo $lang_geninfo_err_Phone; ?>');
 			cntrl.focus();
 			return;
 		}
 		
 		var cntrl = document.frmGenInfo.txtFax;
 		if(cntrl.value != '' && !numeric(cntrl)) {
-			alert('<?php echo $err_Phone?>');
+			alert('<?php echo $lang_geninfo_err_Phone; ?>');
 			cntrl.focus();
 			return;
 		}
@@ -159,7 +160,7 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_geninfo_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><div id="status"></div></td>
   </tr>
 </table>
@@ -201,24 +202,24 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			  <tr>
-							    <td><span class="error">*</span> <?php echo $compname?></td>
+							    <td><span class="error">*</span> <?php echo $lang_geninfo_compname; ?></td>
 							    <td><input type="text" disabled name="txtCompanyName" value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
 							    
 				   			  </tr>
 				   			  <tr>
-				   			  	<td><?php echo $taxID?></td>
+				   			  	<td><?php echo $lang_geninfo_taxID; ?></td>
 							    <td><input type="text" disabled name='txtTaxID'value="<?php echo isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
-				   			  	<td><?php echo $naics?></td>
+				   			  	<td><?php echo $lang_geninfo_naics; ?></td>
 							    <td><input type="text" disabled name='txtNAICS' value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>"></td>
 							  </tr>
 							  <tr> 
-							    <td><?php echo $phone?></td>
+							    <td><?php echo $lang_compstruct_Phone; ?></td>
 							    <td><input type="text" disabled name='txtPhone' value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
-							  	<td><?php echo $fax?></td>
+							  	<td><?php echo $lang_comphire_fax; ?></td>
 							    <td><input type="text" disabled name="txtFax" value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>		 
 							  </tr>
 							  <tr> 
-							    <td><?php echo $country?></td>
+							    <td><?php echo $lang_compstruct_country; ?></td>
 							    <td><select name='cmbCountry' disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 							    		<option value="0">--- Select ---</option>
 							    <?php		$cntlist = $this->popArr['cntlist'];
@@ -231,13 +232,13 @@ function edit()
 							    </select></td>							    
 							  </tr>
 							  <tr> 
-							    <td><?php echo $street1?></td>
+							    <td><?php echo $lang_compstruct_Address; ?>1</td>
 							    <td><input type="text" disabled name='txtStreet1' value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>"></td>
-							    <td><?php echo $street2?></td>
+							    <td><?php echo $lang_compstruct_Address; ?>2</td>
 							    <td><input type="text" disabled name='txtStreet2' value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
 							  </tr>							                    			 
 							  <tr valign="top"> 
-							  	<td><?php echo $city?></td>
+							  	<td><?php echo $lang_compstruct_city; ?></td>
 							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>					    
 							    <td><?php echo $state?></td>
 							    <td><div id="lrState" name="lrState">
@@ -260,11 +261,11 @@ function edit()
 						    	</td>
 							  </tr>
 							  <tr valign="top">
-							  	<td><?php echo $zip?></td>
+							  	<td><?php echo $lang_compstruct_ZIP_Code; ?></td>
 							    <td><input type="text" disabled name='txtZIP' value="<?php echo isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>"></td>
 							  </tr>
 							  <tr valign="top">
-							    <td><?php echo $comments?></td>
+							    <td><?php echo $lang_Leave_Common_Comments; ?></td>
 							    <td><textarea disabled name='txtComments'><?php echo isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea></td>
 							  </tr>
 							  <tr><td></td><td></td><td></td><td align="right">
@@ -273,7 +274,7 @@ function edit()
 <?php			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;">
 <?php			}  ?>
-					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll(); return false;" />
+					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="clearAll(); return false;" />
 							</td> </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -286,7 +287,7 @@ function edit()
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </form>
 </body>
 </html>

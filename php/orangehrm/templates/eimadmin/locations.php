@@ -20,6 +20,7 @@
 ////xajax header
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once($lan->getLangPath("full.php")); 
 
 function populateStates($value) {
 	
@@ -170,14 +171,15 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_locations_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
     <b><div  id="status"></div></b></td>
   </tr>
 </table>
 <p>
 <p> 
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
+<table width="431" border="0" cellspacing="0" cellpadding="0" >
+<td width="177">
 <form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
   <tr> 
@@ -209,16 +211,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr> 
-					    <td><?php echo $code?></td>
+					    <td><?php echo $lang_Commn_code; ?></td>
 					    <td><strong><?php echo $this->popArr['newID']?></strong></td> 
 					  </tr>
 					  <tr> 
-					    <td><span class="error">*</span> <?php echo $description?></td>
+					    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
-						  <td><span class="error">*</span> <?php echo $country?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
 						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
-						  		<option value="0">--Select Country--</option>
+						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
 								for($c=0;$cntlist && count($cntlist)>$c;$c++) { 
@@ -228,39 +230,41 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  </select></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $state?></td>
-						  <td><div id="lrState" name="lrState">							    
+						  <td><?php echo $lang_compstruct_state; ?></td>
+						  <td><span id="lrState" name="lrState">							    
 							    <input type="text" name="txtState" id="txtState" >
-							  </div>
+							  </span>
 							  <input type="hidden" name="cmbProvince" id="cmbProvince" >
 						   </td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $city?></td>
+						  <td><?php echo $lang_compstruct_city; ?></td>
 						  <td><input type="text" name="cmbDistrict" ></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?php echo $address?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_Address; ?></td>
 						  <td><textarea name="txtAddress"></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?php echo $ZIP?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_ZIP_Code; ?></td>
 						  <td><input type="text" name="txtZIP"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $phone?></td>
+						  <td><?php echo $lang_compstruct_Phone; ?></td>
 						  <td><input type="text" name="txtPhone"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $fax?></td>
+						  <td><?php echo $lang_comphire_fax; ?></td>
 						  <td><input type="text" name="txtFax"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $comments?></td>
+						  <td><?php echo $lang_Leave_Common_Comments; ?></td>
 						  <td><textarea name="txtComments"></textarea></td>
 					  </tr>
 					  
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					  <tr>
+					  	<td></td>
+					  	<td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
         <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
 
                   </table></td>
@@ -277,7 +281,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 </form> 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -417,7 +421,7 @@ function mover() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_locations_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
 	<b><div align="right" id="status"></div></b></td>
   </tr>
@@ -456,19 +460,19 @@ function mover() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
-						    <td><?php echo $code?></td>
+						    <td><?php echo $lang_Commn_code; ?></td>
 						   	<input type="hidden" name="txtLocationCode" value=<?php echo $message[0][0]?>>
 						   	<td><strong><?php echo $message[0][0]?></strong></td>
 						  </tr>
 						  <tr>
-						    <td><span class="error">*</span> <?php echo $description?></td>
+						    <td><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea>
 						    </td>
 						  </tr>
 				  <tr>
-						  <td><span class="error">*</span> <?php echo $country?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
 						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
-						  		<option value="0">--Select Country--</option>
+						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
 								for($c=0;$cntlist && count($cntlist)>$c;$c++)  
@@ -480,12 +484,12 @@ function mover() {
 						  </select></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $state?></td>
+						  <td><?php echo $lang_compstruct_state; ?></td>
 						  <td>
 						  	<div id="lrState" name="lrState">
 							    <?php if (isset($message[0][2]) && ($message[0][2] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>
-							    		<option value="0">--Select State--</option>
+							    		<option value="0">--<?php echo $lang_districtinformation_selstatelist; ?>--</option>
 					<?php
 								$provlist = $this->popArr['provlist'];
 								for($c=0;$provlist && count($provlist)>$c;$c++)  
@@ -503,30 +507,32 @@ function mover() {
 							    	</td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $city?></td>
+						  <td><?php echo $lang_compstruct_city; ?></td>
 						  <td><input type="text" disabled name="cmbDistrict" value="<?php echo $message[0][4]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?php echo $address?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_Address; ?></td>
 						  <td><textarea disabled name="txtAddress"><?php echo $message[0][5]?></textarea></td>
 					  </tr>
 					  <tr>
-						  <td><span class="error">*</span> <?php echo $ZIP?></td>
+						  <td><span class="error">*</span> <?php echo $lang_compstruct_ZIP_Code; ?></td>
 						  <td><input disabled type="text" name="txtZIP" value="<?php echo $message[0][6]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $phone?></td>
+						  <td><?php echo $lang_compstruct_Phone; ?></td>
 						  <td><input disabled type="text" name="txtPhone" value="<?php echo $message[0][7]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $fax?></td>
+						  <td><?php echo $lang_comphire_fax; ?></td>
 						  <td><input disabled type="text" name="txtFax" value="<?php echo $message[0][8]?>"></td>
 					  </tr>
 					  <tr>
-						  <td><?php echo $comments?></td>
+						  <td><?php echo $lang_Leave_Common_Comments; ?></td>
 						  <td><textarea disabled name="txtComments"><?php echo $message[0][9]?></textarea></td>
 					  </tr>
-						  <tr><td></td><td align="right" width="100%">
+					  <tr>
+						  <td></td>
+						  <td align="right">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
@@ -550,7 +556,7 @@ function mover() {
 
 </form> 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } ?>

@@ -80,6 +80,16 @@
 	$lang_Menu_Leave_LeaveList = "Leave List";
 
  	$lang_Leave_Title_Apply_Leave = "Apply Leave";
+	
+	/**
+	 * Common
+	 */
+	$lang_Commn_RequiredFieldMark = "Fields marked with an asterisk #star are required";
+	$lang_Commn_code = "Code";
+	$lang_Commn_description = "Description";
+	$lang_Commn_title = "Title";
+	
+	//leave module
 	$lang_Leave_Common_Date = "Date";
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";
@@ -106,6 +116,7 @@
 	$lang_Leave_Common_LeaveEntitled = "Leave Entitled";
 	$lang_Leave_Common_Year = "Year";
 	$lang_Leave_Common_ListOfTakenLeave = "List of Taken Leave";
+	$lang_Leave_Common_Remove = "Remove";
 		
  	$lang_Leave_Leave_list_Title1 = "Approve Leave";
 	$lang_Leave_Leave_list_Title2 = "Leaves Taken by #employeeName in #dispYear";
@@ -347,6 +358,7 @@
 	$lang_jobtitle_editpaygrade = "Edit Pay Grade";
 	$lang_jobtitle_addempstat = "Add Employment Status";
 	$lang_jobtitle_editempstat = "Edit Employment Status";
+	$lang_jobtitle_empstat = "Employment Status";
 	
  	$lang_languageinformation_heading = "Skills : Language";
 	

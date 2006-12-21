@@ -19,6 +19,7 @@
  
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once($lan->getLangPath("full.php")); 
 
 function assignEmploymentStatus($valArr) {	
 
@@ -624,7 +625,7 @@ function clearAll() {
 
     <td valign='top'></td>
 
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_jobtitle_heading; ?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
 
@@ -664,7 +665,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><?php echo $jobtitid?></td>
+				                  		<td><?php echo $lang_jobtitle_jobtitid; ?></td>
 
 				                  		<td><strong><?php echo $this->popArr['newID']?></strong><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
 
@@ -672,7 +673,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span><?php echo $jobtitname?></td>
+				                  		<td><span class="error">*</span><?php echo $lang_jobtitle_jobtitname;?></td>
 
 				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
 
@@ -680,7 +681,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span><?php echo $jobtitdesc?></td>
+				                  		<td><span class="error">*</span><?php echo $lang_jobtitle_jobtitdesc;?></td>
 
 				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
 
@@ -688,7 +689,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><?php echo $jobtitcomments?></td>
+				                  		<td><?php echo $lang_jobtitle_jobtitcomments; ?></td>
 
 				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
 
@@ -696,11 +697,11 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span> <?php echo $pgrade?></td>
+				                  		<td><span class="error">*</span> <?php echo $lang_hrEmpMain_paygrade; ?></td>
 
 				                  		<td><select name="cmbPayGrade" id="cmbPayGrade">
 
-				               				<option value='0'>---Select---</option>
+				               				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 
 				               			<?php $paygrade = $this->popArr['paygrade'];
 
@@ -714,9 +715,9 @@ function clearAll() {
 
 				                  		</select></td>
 
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $addpaygrade?>" />
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" />
 
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $editpaygrade?>"  /></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  /></td>
 
 				                  </tr>
 
@@ -767,7 +768,7 @@ function clearAll() {
 
     <td valign='top'></td>
 
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_jobtitle_heading; ?></h2></td>
 
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
 
@@ -781,7 +782,7 @@ function clearAll() {
 
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
 
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="500" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
 
@@ -807,7 +808,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><?php echo $jobtitid?></td>
+				                  		<td><?php echo $lang_jobtitle_jobtitid; ?></td>
 
 				                  		<td><strong><?php echo $editArr[0][0]?></strong></td>
 
@@ -815,7 +816,7 @@ function clearAll() {
 
 				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>">
 
-				                  		<td><span class="error">*</span> <?php echo $jobtitname?></td>
+				                  		<td><span class="error">*</span> <?php echo $lang_jobtitle_jobtitname;?></td>
 
 				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
 
@@ -823,7 +824,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span> <?php echo $jobtitdesc?></td>
+				                  		<td><span class="error">*</span> <?php echo $lang_jobtitle_jobtitdesc;?></td>
 
 				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
 
@@ -831,7 +832,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><?php echo $jobtitcomments?></td>
+				                  		<td><?php echo $lang_jobtitle_jobtitcomments; ?></td>
 
 				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
 
@@ -839,7 +840,7 @@ function clearAll() {
 
 				                  <tr>
 
-				                  		<td><span class="error">*</span><?php echo $pgrade?></td>
+				                  		<td><span class="error">*</span><?php echo $lang_hrEmpMain_paygrade; ?></td>
 
 				                  		<td><table border="0">
 
@@ -847,7 +848,7 @@ function clearAll() {
 
 				                  		<select disabled name="cmbPayGrade" id="cmbPayGrade">
 
-				               				<option value='0'>---Select---</option>
+				               				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 
 				               			<?php $paygrade = $this->popArr['paygrade'];
 
@@ -865,9 +866,9 @@ function clearAll() {
 
 				                  		</select></td>
 
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $addpaygrade?>" disabled="disabled"/>
+				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" disabled="disabled"/>
 
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $editpaygrade?>"  disabled="disabled" /></td>
+				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  disabled="disabled" /></td>
 
 				                  		</tr></table></td>
 
@@ -876,7 +877,7 @@ function clearAll() {
 				                  <tr>
 
 										<td valign="top">
-										<span class="success">#</span> <?php echo $emstat?><br>
+										<span class="success">#</span> <?php echo $lang_jobtitle_empstat; ?><br>
 										
 										</td>
 
@@ -896,7 +897,7 @@ function clearAll() {
 
 										</select></td>
 
-										<td align="center" width="100"><input type="button" disabled name="butAssEmploymentStatus" onClick="assignEmploymentStatus();" value="< Add" style="width:80%"><br><br><input type="button" disabled name="butUnAssEmploymentStatus" onClick="unAssignEmploymentStatus();" value="Remove >" style="width:80%"></td>
+										<td align="center" width="100"><input type="button" disabled name="butAssEmploymentStatus" onClick="assignEmploymentStatus();" value="< <?php echo $lang_compstruct_add; ?>" style="width:80%"><br><br><input type="button" disabled name="butUnAssEmploymentStatus" onClick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> >" style="width:80%"></td>
 
 										<td><select disabled size="3" name="cmbUnAssEmploymentStatus" style="width:125px;">
 
@@ -922,9 +923,9 @@ function clearAll() {
 
 				                  		<a href="javascript:editEmpStat();"><?php echo $editempstat?></a>-->
 
-									<input type="button" disabled value="<?php echo $addempstat?>" onClick="xajax_showAddEmpStatForm();"><br><br>
+									<input type="button" disabled value="<?php echo $lang_jobtitle_addempstat; ?>" onClick="xajax_showAddEmpStatForm();"><br><br>
 
-									<input type="button" disabled value="<?php echo $editempstat?>" onClick="showEditForm();">
+									<input type="button" disabled value="<?php echo $lang_jobtitle_editempstat; ?>" onClick="showEditForm();">
 
 									</td>
 
@@ -950,7 +951,7 @@ function clearAll() {
 
 	<tr>
 
-		<td><?php echo $emstat?></td>
+		<td><?php echo $lang_jobtitle_empstat; ?></td>
 
 		<td><input type="hidden" name="txtEmpStatID"><input type="text" name="txtEmpStatDesc" disabled></td>
 
@@ -984,7 +985,7 @@ function clearAll() {
 
 								</tr>
 
-					  <tr><td></td><td align="right" width="100%">
+					  <tr><td></td><td align="right">
 
 <?php			if($locRights['edit']) { ?>
 
@@ -1026,10 +1027,10 @@ function clearAll() {
 
 </form>
 <span id="notice">
-Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 <br>
 <span id="notice">
-<span class="success">#</span> = <?php echo $emstatExpl?>
+<span class="success">#</span> = <?php echo $lang_jobtitle_emstatExpl; ?>
 </span>
 </body>
 
