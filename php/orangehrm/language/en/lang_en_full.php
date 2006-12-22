@@ -105,6 +105,11 @@
 	$lang_Menu_Admin_NationalityNRace_Nationality = "Nationality";
 	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "Ethnic Races";
 	
+	$lang_Menu_Admin_Users = "Users";
+	$lang_Menu_Admin_Users_UserGroups = "User Groups";
+	$lang_Menu_Admin_Users_HRAdmin = "HR Admin Users";
+	$lang_Menu_Admin_Users_ESS = "ESS Users";	
+	
 	// Leave Module	
 	$lang_Menu_Leave = "Leave";
 	$lang_Menu_Leave_PersonalLeaveSummary = "Personal Leave Summary";
@@ -511,9 +516,18 @@
 	$lang_view_message33 = "Deletion might affect Employee Information";
 	$lang_view_UserID = "User ID";
 	$lang_view_UserName = "User Name";
-	$lang_view_message34 = "Deletion could make Orange HRM unusable";
+	$lang_view_message34 = "Deletion could make OrangeHRM unusable";
 	$lang_view_UserGroupID = "User Group ID";
 	$lang_view_UserGroupName = "User Group Name";
-	$lang_view_message35 = "Deletion could make Orange HRM unusable";
+	$lang_view_message35 = "Deletion could make OrangeHRM unusable";
 	
+	$lang_view_Users = "Users";
+	$lang_view_UserGroups = "User Groups";
+	$lang_view_HRAdmin = "HR Admin";
+	$lang_view_ESS = "ESS";
+	$lang_view_ID = "ID";
+	
+	$lang_index_WelcomeMes = "Welcome #username";
+	$lang_index_ChangePassword = "Change Password";
+	$lang_index_Logout = "Logout";
 ?>

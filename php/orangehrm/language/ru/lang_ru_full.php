@@ -76,7 +76,7 @@
 	$lang_Menu_Home_Blog = "Блог";
 	 
 	// Admin Module
-	$lang_Menu_Admin = "Admin";
+	$lang_Menu_Admin = "Администратор ";
 	
 	$lang_Menu_Admin_CompanyInfo = "Инфо о компании";
 	$lang_Menu_Admin_CompanyInfo_Gen = "Общая инфо";
@@ -101,10 +101,15 @@
 	$lang_Menu_Admin_Memberships_Memberships = "членство";
 	$lang_Menu_Admin_Memberships_MembershipTypes = "Тип членства";
 	
-	$lang_Menu_Admin_NationalityNRace = "Национальность и раса";
+	$lang_Menu_Admin_NationalityNRace = "Национал. и раса";
 	$lang_Menu_Admin_NationalityNRace_Nationality = "Национальность";
 	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "этнические расы";
 	
+	$lang_Menu_Admin_Users = "Пользователи";
+	$lang_Menu_Admin_Users_UserGroups = "Группы пользователей";
+	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
+	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";	
+		
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
 	$lang_Admin_Common_Course = "Курс";
@@ -521,4 +526,14 @@
 	$lang_view_UserGroupID = "Идентификатор группы пользователей";
 	$lang_view_UserGroupName = "Название группы пользователей";
 	$lang_view_message35 = "Удаление может сделать OrangeHRM недействительным";
+	
+	$lang_view_Users = "Пользователи";
+	$lang_view_UserGroups = "Группы пользователей";
+	$lang_view_HRAdmin = "Администратор персонала";
+	$lang_view_ESS = "Самообслуживание";
+	$lang_view_ID = "Идентификатор";
+	
+	$lang_index_WelcomeMes = "Добро пожаловать, #username";
+	$lang_index_ChangePassword = "Извенить пароль";
+	$lang_index_Logout = "Отсоедениться";
 ?>

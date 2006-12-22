@@ -234,7 +234,7 @@ function setSize() {
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" >Admin</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin; ?></a></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -376,10 +376,10 @@ function setSize() {
             <input type="hidden" name="search_form" value="false">
             <td class="subTabBar" colspan="2"><table width="100%" cellspacing="0" cellpadding="0" border="0" height="20">
                 <tr>
-                  <td class="welcome" width="100%">Welcome <?php echo (isset($_SESSION['fname'])) ? $_SESSION['fname'] : '' ?></td>
-                  <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?php echo $_SESSION['user']?>" target="rightMenu"><strong>Change Password</strong></a></td>
+                  <td class="welcome" width="100%"><?php echo preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes); ?></td>
+                  <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?php echo $_SESSION['user']?>" target="rightMenu"><strong><?php echo $lang_index_ChangePassword; ?></strong></a></td>
                   <td class="search" style="padding: 0px" align="right" width="11"><img src="themes/beyondT/pictures/nSearchSeparator.gif" width="12" height="20" border="0" alt="Search"></td>
-                  <td class="search" style="padding: 0px" align="right" nowrap="nowrap">&nbsp;&nbsp;<a href="./index.php?ACT=logout"><strong>Logout</strong></a></td>
+                  <td class="search" style="padding: 0px" align="right" nowrap="nowrap">&nbsp;&nbsp;<a href="./index.php?ACT=logout"><strong><?php echo $lang_index_Logout; ?></strong></a></td>
                   <td class="search" nowrap>&nbsp;&nbsp; </td>
                 </tr>
             </table></td>
@@ -410,7 +410,7 @@ function setSize() {
   						<li id="skills"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu4');" onMouseOut="ypSlideOutMenu.hideMenu('menu4');"><?php echo $lang_Menu_Admin_Skills; ?></a></li>
   						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');"><?php echo $lang_Menu_Admin_Memberships; ?></a></li> 
   						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li> 
-						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');">Users</a></li>
+						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 </ul></TD>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
@@ -689,13 +689,13 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=Yes">HR Admin Users</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=Yes"><?php echo $lang_Menu_Admin_Users_HRAdmin; ?></A></TD>
 					 </TR>
 					 <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=No">ESS Users</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USR&menu_no=1&submenutop=BR&menu_no_top=eim&isAdmin=No"><?php echo $lang_Menu_Admin_Users_ESS; ?></A></TD>
 					 </TR>
 					 <tr>
-						<TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim">User Groups</A></TD>
+						<TD onMouseOver="ypSlideOutMenu.showMenu('menu12')" onMouseOut="ypSlideOutMenu.hideMenu('menu12')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="index.php?uniqcode=USG&menu_no=1&submenutop=BR&menu_no_top=eim"><?php echo $lang_Menu_Admin_Users_UserGroups; ?></A></TD>
 						</TR>
                     </TBODY>
                   </TABLE>

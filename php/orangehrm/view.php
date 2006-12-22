@@ -333,7 +333,7 @@ else
 	
 		
 	if ($message == '') { ?>
-		<span class="error">No records to display!</span>
+		<span class="error"><?php echo $dispMessage; ?></span>
 <?php  } ?> 
 		</td>
 		<td width="25"></td>
