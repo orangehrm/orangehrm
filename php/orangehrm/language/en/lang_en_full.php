@@ -68,6 +68,43 @@
 	 *
 	 */
 	 
+	// Home
+	$lang_Menu_Home = "Home";
+	
+	$lang_Menu_Home_Support = "Support";
+	$lang_Menu_Home_Forum = "Forum";
+	$lang_Menu_Home_Blog = "Blog";
+	
+	// Admin Module
+	$lang_Menu_Admin = "Admin";
+	
+	$lang_Menu_Admin_CompanyInfo = "Company Info";
+	$lang_Menu_Admin_CompanyInfo_Gen = "General";
+	$lang_Menu_Admin_CompanyInfo_CompStruct = "Company Structure";
+	$lang_Menu_Admin_CompanyInfo_Locations = "Locations";
+	
+	$lang_Menu_Admin_Job = "Job";
+	$lang_Menu_Admin_Job_JobTitles = "Job Titles";
+	$lang_Menu_Admin_Job_PayGrades = "Pay Grades";
+	$lang_Menu_Admin_Job_EmpStatus = "Employment Status";
+	$lang_Menu_Admin_Job_EEO = "EEO Job Categories";	
+	
+	$lang_Menu_Admin_Quali = "Qualification";
+	$lang_Menu_Admin_Quali_Education = "Education";
+	$lang_Menu_Admin_Quali_Licenses = "Licenses";
+	
+	$lang_Menu_Admin_Skills = "Skills";
+	$lang_Menu_Admin_Skills_Skills = "Skills";
+	$lang_Menu_Admin_Skills_Languages = "Languages";
+	
+	$lang_Menu_Admin_Memberships = "Memberships";
+	$lang_Menu_Admin_Memberships_Memberships = "Memberships";
+	$lang_Menu_Admin_Memberships_MembershipTypes = "Membership Types";
+	
+	$lang_Menu_Admin_NationalityNRace = "Nationality & Race";
+	$lang_Menu_Admin_NationalityNRace_Nationality = "Nationality";
+	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "Ethnic Races";
+	
 	// Leave Module	
 	$lang_Menu_Leave = "Leave";
 	$lang_Menu_Leave_PersonalLeaveSummary = "Personal Leave Summary";
@@ -88,8 +125,13 @@
 	$lang_Commn_code = "Code";
 	$lang_Commn_description = "Description";
 	$lang_Commn_title = "Title";
+	$lang_Commn_name = "Name";
 	
-	//leave module
+	// admin module
+	$lang_Admin_Common_Institute = "Institute";
+	$lang_Admin_Common_Course = "Course";
+	
+	// leave module
 	$lang_Leave_Common_Date = "Date";
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";

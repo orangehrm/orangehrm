@@ -1,188 +1,121 @@
 <?php
 
-$Previous = 'Previous';
-$Next     = 'Next';
-$dispMessage = "No Records to Display !";
-$SearchBy = 'Search By:';
-$description = 'Search For:';
-$search = 'Search';
-$ADD_SUCCESS = 'Successfully Added';
-$UPDATE_SUCCESS = 'Successfully Updated';
-$DELETE_SUCCESS = 'Successfully Deleted';
+require_once ROOT_PATH . '/lib/common/Language.php';
 
-$ADD_FAILURE = 'Failed to Add';
-$UPDATE_FAILURE = 'Failed to Update';
-$DELETE_FAILURE = 'Failed to Delete';
+$lan = new Language();
+ 
+require_once($lan->getLangPath("full.php")); 
+
+$Previous = $lang_empview_previous;
+$Next     = $lang_empview_next;
+$dispMessage = "$lang_empview_norecorddisplay !";
+$SearchBy = $lang_empview_searchby;
+$description = $lang_empview_description;
+$search = $lang_empview_serach;
+$ADD_SUCCESS = $lang_empview_ADD_SUCCESS;
+$UPDATE_SUCCESS = $lang_empview_UPDATE_SUCCESS;
+$DELETE_SUCCESS = $lang_empview_DELETE_SUCCESS;
+
+$ADD_FAILURE = $lang_empview_ADD_FAILURE;
+$UPDATE_FAILURE = $lang_empview_UPDATE_FAILURE;
+$DELETE_FAILURE = $lang_empview_DELETE_FAILURE;
 
 switch ($_GET['uniqcode']) {
 
 		case 'EST' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Employment Status ID','Employment Status Name');
-			$headingInfo = array('Employment Status ID','Employment Status Name',1,'Job : Employment Status','Deletion may affect Job Titles');	
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array($lang_view_EmploymentStatusID,$lang_view_EmploymentStatusName);
+			$headingInfo = array($lang_view_EmploymentStatusID,$lang_view_EmploymentStatusName,1,$lang_empview_heading,$lang_view_message);	
 			break;
 
 		case 'JOB' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name');
-			$headings= array('Job Title ID','Job Title Name');
-			$headingInfo = array('Job Title ID','Job Title Name',1,'Job : Job Title','Deletion may affect Pay Grade of Employees in PIM');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name);
+			$headings= array($lang_jobtitle_jobtitid,$lang_jobtitle_jobtitname);
+			$headingInfo = array($lang_jobtitle_jobtitid,$lang_jobtitle_jobtitname,1,$lang_jobtitle_heading,$lang_view_message1);
 			break;
 			
 		case 'SKI' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Skill ID','Skill Name');
-			$headingInfo = array('Skill ID','Skill Name',1,'Skills : Skills','Deletion might affect Employee Information');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array($lang_view_SkillID,$lang_view_SkillName);
+			$headingInfo = array($lang_view_SkillID,$lang_view_SkillName,1,"$lang_Menu_Admin_Skills : $lang_Menu_Admin_Skills",$lang_view_message3);
 			break;		
 				
 		case 'LOC' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name', 'City');
-			$headings= array('Location ID','Location Name', 'City');
-			$headingInfo = array ('Location ID','Location Name',1,'Company Info : Locations','Deletion might affect Company Hierarchy. If the Location has associations deletion may fail');
-			break;
-			
-		case 'CUR' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Currency Type ID','Currency Name');
-			$headingInfo = array ('Currency Type ID','Currency Name',1,'Currency Types','Deletion might affect Salary Currency Detail');
-			break;
-
-		case 'CHI' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Company Hierarchy ID','Company Hierarchy Name');
-			$headingInfo = array ('Company Hierarchy ID','Company Hierarchy Name',1,'Company Hierarchy','Deletion might affect Employee Information');
-			break;
-
-		case 'QLF' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Qualification Type ID','Qualification Name');
-			$headingInfo = array ('Qualification Type ID','Qualification Name',1,'Qualification Type','Deletion might affect Qualifications, Designation Qualification, Employee Qualification');
-			break;
-
-		case 'EXC' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Extra Curricular Activity Category ID','Extra Curricular Activity Category Name');
-			$headingInfo = array ('Extra Curricular Activity Category ID','Extra Curricular Activity Category Name',1,'Extra Curricular Activity Category','Deletion might affect Ex. Curr. Activities, Employee Ex. Curr. Activities');
-			break;
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name, $lang_view_CityName);
+			$headings= array("$lang_compstruct_Location ID",$lang_view_LocationName, $lang_view_CityName);
+			$headingInfo = array ("$lang_compstruct_Location ID",$lang_view_LocationName,1,"$lang_Menu_Admin_CompanyInfo : $lang_Menu_Admin_CompanyInfo_Locations",$lang_view_message4);
+			break;		
 
 		case 'MEM' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Membership Type ID','Membership Type Name');					
-			$headingInfo = array ('Membership Type ID','Membership Type Name',1,'Memberships : Membership Type','Deletion might affect Employee Memberships, Memberships');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array("$lang_view_MembershipType ID",$lang_view_MembershipName);					
+			$headingInfo = array ("$lang_view_MembershipType ID",$lang_view_MembershipName,1,"$lang_Menu_Admin_Memberships : $lang_Menu_Admin_Memberships_MembershipTypes",$lang_view_message13);
 			break;
 
 	
 		case 'NAT' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Nationality ID','Nationality Name');
-			$headingInfo = array ('Nationality ID','Nationality Name',1,'Nationality & Race : Nationality','Deletion might affect Employee Information');
-			break;
-
-		case 'COU' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Country ID','Country Name');
-			$headingInfo = array ('Country ID','Country Name',1,'Country','Deletion might affect Employee Information');
-			break;
-
-		case 'DEF' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Hierarchy Definition ID','Hierarchy Definition Name');
-			$headingInfo = array ('Hierarchy Definition ID','Hierarchy Definition Name',1,'Hierarchy Definition','Deletion might affect Company Hierachy!');
-			break;
-
-		case 'PRO' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('State/Province ID','State/Province Name');
-			$headingInfo = array ('State/Province ID','State/Province Name',1, 'State/Province','Deletion might affect Employee Information');
-			break;
-
-		case 'DIS' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('City ID','City Name');
-			$headingInfo = array ('City ID','City Name',1,'City','Deletion might affect Employee Information');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array("$lang_hremp_nationality ID",$lang_view_NationalityName);
+			$headingInfo = array ("$lang_hremp_nationality ID",$lang_view_NationalityName,1,$lang_nationalityinformation_heading,$lang_view_message3);
 			break;
 		
 		case 'LAN' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Language ID','Language Name');
-			$headingInfo = array ('Language ID','Language Name',1,'Skills : Languages','Deletion might affect Employee Language');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array("$lang_empview_Language ID",$lang_view_LanguagName);
+			$headingInfo = array ("$lang_empview_Language ID",$lang_view_LanguagName,1,"$lang_Menu_Admin_Skills : $lang_Menu_Admin_Skills_Languages",$lang_view_message21);
 			break;
 
 		case 'MME' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name', 'Type' );
-			$headings= array('Membership ID','Membership Name', 'Membership Type');			
-			$headingInfo = array ('Membership ID','Membership Name',1,'Memberships : Membership','Deletion might affect Employee Membership');
-			break;
-
-		case 'EXA' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Extra Curricular Activities ID','Extra Curricular Activities Name');
-			$headingInfo = array ('Extra Curricular Activities ID','Extra Curricular Activities Name',1,'Extra Curricular Activities','Deletion might affect Employee Ex. Curr. Activities');
-			break;
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name, 'Type' );
+			$headings= array("$lang_view_Membership ID",$lang_view_MembershipName, $lang_view_MembershipType);			
+			$headingInfo = array ("$lang_view_Membership ID",$lang_view_MembershipName,1,"$lang_Menu_Admin_Memberships : $lang_Menu_Admin_Memberships",$lang_view_message22);
+			break;	
 
 		case 'SGR' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Pay Grade ID','Pay Grade Name');
-			$headingInfo = array ('Pay Grade ID','Pay Grade Name',1,'Job : Pay Grades','Deletion might affect Employee Information, Job Titles');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array("$lang_hrEmpMain_paygrade ID",$lang_view_PayGradeName);
+			$headingInfo = array ("$lang_hrEmpMain_paygrade ID",$lang_view_PayGradeName,1,"$lang_Menu_Admin_Job : $lang_Menu_Admin_Job_PayGrades",$lang_view_message24);
 			break;
 		
 		case 'EDU' :
-			$srchlist = array( '-Select-' , 'ID' , 'Course', 'Institute');
-			$headings= array('Education ID','Course', 'Institute');
-			$headingInfo = array ('Education ID','Education',1,'Qualification : Education','Deletion might affect Education');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Admin_Common_Course, $lang_Admin_Common_Institute);
+			$headings= array("$lang_hrEmpMain_education ID",$lang_Admin_Common_Course, $lang_Admin_Common_Institute);
+			$headingInfo = array ("$lang_hrEmpMain_education ID",$lang_hrEmpMain_education,1,"$lang_Menu_Admin_Quali : $lang_Menu_Admin_Quali_Education",$lang_view_message25);
 			break; 
 
-		case 'ETY' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('Employee TypeID','Employee Type Name');
-			$headingInfo = array ('Employee TypeID','Employee Type Name',1,'Employee Types','Deletion might affect Employee Information');
-			break;
-
 		case 'EEC' :
-			$srchlist = array( '-Select-' , 'ID' , 'Name' );
-			$headings= array('EEO Job Category ID','EEO Job Category Name');
-			$headingInfo = array ('EEO Job Category ID','EEO Job Category Name',1,'Job : EEO Job Category','Deletion might affect Employee Information');
+			$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+			$headings= array($lang_view_EEOJobCategoryid,$lang_view_EEOJobCategoryName);
+			$headingInfo = array ($lang_view_EEOJobCategoryid,$lang_view_EEOJobCategoryName,1,$lang_eeojobcat_heading,$lang_view_message3);
 			break;
 						
 	case 'LAN' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
-		$headings= array('Language ID','Language Name');
-		$headingInfo = array ('Language ID','Language Name',1,'Languages','Deletion might affect Employee Language');
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+		$headings= array("$lang_empview_Language ID",$lang_view_LanguagName);
+		$headingInfo = array ("$lang_empview_Language ID",$lang_view_LanguagName,1,'Languages',$lang_view_message21);
 		break;
 		
 	case 'ETH' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
-		$headings= array('Ethnic Race ID','Ethnic Race Name');
-		$headingInfo = array ('Ethnic Race ID','Ethnic Race Name',1,'Nationality & Race :Ethnic Races','Deletion might affect Employee');
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
+		$headings= array("$lang_view_EthnicRace ID",$lang_view_EthnicRaceName);
+		$headingInfo = array ("$lang_view_EthnicRace ID",$lang_view_EthnicRaceName,1,$lang_ethnicrace_heading,$lang_view_message29);
 		break;
-		
-	case 'DIS' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
-		$headings= array('City ID','City Name');
-		$headingInfo = array ('City ID','City Name',1,'City','Deletion might affect Employee Information');
-		break;
-		
-	case 'SGR' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
-		$headings= array('Salary Grade ID','Salary Grade Name');
-		$headingInfo = array ('Salary Grade ID','Salary Grade Name',1,'Job : Salary Grades','Deletion might affect Employee Information, Corporate Titles');
-		break;
-		
-		
+			
 	case 'QLF' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
 		$headings= array('Qualification Type ID','Qualification Name');
 		$headingInfo = array ('Qualification Type ID','Qualification Name',1,'Qualification Type','Deletion might affect Qualifications, Designation Qualification, Employee Qualification');
 		break;
 		
 	
 	case 'LIC' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
 		$headings= array('License ID','License Description');
-		$headingInfo = array ('License ID','License Description',1,'Qualification : License','Deletion might affect Employee Information');
+		$headingInfo = array ('License ID','License Description',1,'Qualification : License',$lang_view_message3);
 		break;
 		
 	case 'USR' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
 		$headings= array('User ID','User Name');
 		
 		$esp = (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes'))? 'HR Admin' : 'ESS';
@@ -191,7 +124,7 @@ switch ($_GET['uniqcode']) {
 		break;
 		
 	case 'USG' :
-		$srchlist = array( '-Select-' , 'ID' , 'Name' );
+		$srchlist = array( "-$lang_Leave_Common_Select-" , 'ID' , $lang_Commn_name );
 		$headings= array('User Group ID','User Group Name');
 		$headingInfo = array ('User Group ID','User Group Name',1, 'Users: User Groups','Deletion could make Orange HRM unusable');
 		break;

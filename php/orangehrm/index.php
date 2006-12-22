@@ -206,7 +206,7 @@ function setSize() {
             <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                 <tr height="20">
                   <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1" >Home</a></td>
+                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1" ><?php echo $lang_Menu_Home; ?></a></td>
                   <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
                   <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                 </tr>
@@ -218,7 +218,7 @@ function setSize() {
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1">Home </a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1"><?php echo $lang_Menu_Home; ?></a></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -404,12 +404,12 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
                       
                       <ul id="menu">
-  						<li id="compinfo"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu1');" onMouseOut="ypSlideOutMenu.hideMenu('menu1');">company info</a></li>
-  						<li id="job"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu2');" onMouseOut="ypSlideOutMenu.hideMenu('menu2');">job</a></li>
-  						<li id="qualification"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu3');" onMouseOut="ypSlideOutMenu.hideMenu('menu3');">qualification</a></li>
-  						<li id="skills"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu4');" onMouseOut="ypSlideOutMenu.hideMenu('menu4');">skills</a></li>
-  						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');">memberships</a></li> 
-  						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');">nationality & race</a></li> 
+  						<li id="compinfo"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu1');" onMouseOut="ypSlideOutMenu.hideMenu('menu1');"><?php echo $lang_Menu_Admin_CompanyInfo; ?></a></li>
+  						<li id="job"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu2');" onMouseOut="ypSlideOutMenu.hideMenu('menu2');"><?php echo $lang_Menu_Admin_Job; ?></a></li>
+  						<li id="qualification"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu3');" onMouseOut="ypSlideOutMenu.hideMenu('menu3');"><?php echo $lang_Menu_Admin_Quali; ?></a></li>
+  						<li id="skills"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu4');" onMouseOut="ypSlideOutMenu.hideMenu('menu4');"><?php echo $lang_Menu_Admin_Skills; ?></a></li>
+  						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');"><?php echo $lang_Menu_Admin_Memberships; ?></a></li> 
+  						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li> 
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');">Users</a></li>
 </ul></TD>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
@@ -467,9 +467,9 @@ function setSize() {
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 		                <TD valign="top" width=158>
 		                    <ul id="menu">
-		  						<li id="viewemprep"><a href="http://www.orangehrm.com/home/index.php?option=com_content&task=section&id=13&Itemid=73" target="_blank">Support</a></li>
-		  						<li id="viewemprep"><a href="http://www.orangehrm.com/forum/" target="_blank">Forums</a></li>
-		  						<li id="viewemprep"><a href="http://orangehrm.blogspot.com/" target="_blank">Blog</a></li>
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/home/index.php?option=com_content&task=section&id=13&Itemid=73" target="_blank"><?php echo $lang_Menu_Home_Support; ?></a></li>
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/forum/" target="_blank"><?php echo $lang_Menu_Home_Forum; ?></a></li>
+		  						<li id="viewemprep"><a href="http://orangehrm.blogspot.com/" target="_blank"><?php echo $lang_Menu_Home_Blog; ?></a></li>
 		  				    </ul>
 		  				</td>
 
@@ -489,13 +489,13 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>					  
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=GEN&menu_no=1&submenutop=EIMModule&menu_no_top=eim">General</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=GEN&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_Gen; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CST&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Company Structure</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=CST&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_CompStruct; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=LOC&menu_no=1&submenutop=EIMModule&menu_no_top=eim">Locations</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=LOC&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_Locations; ?></A></TD>
                       </TR>									
                     </TBODY>
                   </TABLE>
@@ -508,16 +508,16 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Job Titles</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_JobTitles; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Pay Grades</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_PayGrades; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=EST&menu_no=2&submenutop=EIMModule&menu_no_top=eim">Employment Status</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=EST&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_EmpStatus; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EEC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">EEO Job Categories</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EEC&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_EEO; ?></A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>
@@ -530,10 +530,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                     <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EDU&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Education</A> </TD>
+                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EDU&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Quali_Education; ?></A> </TD>
                     </TR>                    
                     <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LIC&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Licenses</A></TD>
+                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LIC&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Quali_Licenses; ?></A></TD>
                     </TR>
                     </TBODY>
                     
@@ -547,10 +547,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu4')" onMouseOut="ypSlideOutMenu.hideMenu('menu4')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SKI&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Skills</A></TD>
+                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu4')" onMouseOut="ypSlideOutMenu.hideMenu('menu4')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SKI&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Skills_Skills; ?></A></TD>
                     </TR>
                     <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu4')" onMouseOut="ypSlideOutMenu.hideMenu('menu4')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LAN&menu_no=3&submenutop=EIMModule&menu_no_top=eim">Languages</A></TD>
+                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu4')" onMouseOut="ypSlideOutMenu.hideMenu('menu4')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LAN&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Skills_Languages; ?></A></TD>
                     </TR>
                     </TBODY>
                   </TABLE>
@@ -563,10 +563,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MEM&menu_no=4&submenutop=EIMModule&menu_no_top=eim">Membership Types</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MEM&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_MembershipTypes; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MME&menu_no=4&submenutop=EIMModule&menu_no_top=eim">Memberships</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MME&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_Memberships; ?></A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>
@@ -641,10 +641,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu9')" onMouseOut="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NAT&submenutop=EIMModule&menu_no_top=eim">Nationalities</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu9')" onMouseOut="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NAT&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_NationalityNRace_Nationality; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu9')" onMouseOut="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ETH&menu_no=9&submenutop=EIMModule&menu_no_top=eim">Ethnic Races</A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu9')" onMouseOut="ypSlideOutMenu.hideMenu('menu9')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ETH&menu_no=9&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_NationalityNRace_EthnicRaces; ?></A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>

@@ -155,7 +155,7 @@ function goBack() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2>Users : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -415,7 +415,7 @@ function edit() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2>Users : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>

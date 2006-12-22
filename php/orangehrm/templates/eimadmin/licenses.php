@@ -18,6 +18,7 @@ Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once($lan->getLangPath("full.php")); 
 
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
@@ -84,7 +85,7 @@ function goBack() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_licenses_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -124,11 +125,11 @@ function goBack() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
                   			  <tr> 
-							    <td><?php echo $code?></td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
 							  </tr>
 							  <tr> 
-							    <td nowrap valign="top"><span class="error">*</span> <?php echo $description?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 							    <td> <textarea name='txtLicensesDesc' rows="3" tabindex='3' cols="30"></textarea></td>
 							  </tr>
 							  
@@ -148,7 +149,7 @@ function goBack() {
               </table>
 </form>
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -267,7 +268,7 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo $lang_licenses_heading; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='../../index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 </table>
@@ -305,11 +306,11 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 							  <tr> 
-							    <td><?php echo $code?></td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden" name="txtLicensesId" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
 							  </tr>
 							  <tr> 
-							    <td nowrap valign="top"><span class="error">*</span> <?php echo $description?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 							  	<td> <textarea name='txtLicensesDesc' disabled rows="3" tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
 							  </tr>
 							  
@@ -335,7 +336,7 @@ function edit()
               </table>
 </form>
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } ?>

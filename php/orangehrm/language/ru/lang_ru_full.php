@@ -68,6 +68,47 @@
 	 *
 	 */
 	 
+	// Home
+	$lang_Menu_Home = "Главная";
+	
+	$lang_Menu_Home_Support = "Поддержка";
+	$lang_Menu_Home_Forum = "Форум";
+	$lang_Menu_Home_Blog = "Блог";
+	 
+	// Admin Module
+	$lang_Menu_Admin = "Admin";
+	
+	$lang_Menu_Admin_CompanyInfo = "Инфо о компании";
+	$lang_Menu_Admin_CompanyInfo_Gen = "Общая инфо";
+	$lang_Menu_Admin_CompanyInfo_CompStruct = "Структура компании";
+	$lang_Menu_Admin_CompanyInfo_Locations = "Местоположение";
+	
+	$lang_Menu_Admin_Job = "Работа";
+	$lang_Menu_Admin_Job_JobTitles = "Название должности";
+	$lang_Menu_Admin_Job_PayGrades = "Уровень оплаты";
+	$lang_Menu_Admin_Job_EmpStatus = "Рабочий статус";
+	$lang_Menu_Admin_Job_EEO = "ЕЕО Категория";		
+	
+	$lang_Menu_Admin_Quali = "Квалификации";
+	$lang_Menu_Admin_Quali_Education = "Образование";
+	$lang_Menu_Admin_Quali_Licenses = "Лицензии";
+	
+	$lang_Menu_Admin_Skills = "Навыки";
+	$lang_Menu_Admin_Skills_Skills = "Навыки";
+	$lang_Menu_Admin_Skills_Languages = "Языки";
+	
+	$lang_Menu_Admin_Memberships = "членство";
+	$lang_Menu_Admin_Memberships_Memberships = "членство";
+	$lang_Menu_Admin_Memberships_MembershipTypes = "Тип членства";
+	
+	$lang_Menu_Admin_NationalityNRace = "Национальность и раса";
+	$lang_Menu_Admin_NationalityNRace_Nationality = "Национальность";
+	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "этнические расы";
+	
+	// admin module
+	$lang_Admin_Common_Institute = "Институт";
+	$lang_Admin_Common_Course = "Курс";
+	
 	// Leave Module	
 	$lang_Menu_Leave = "Отпуск";
 	$lang_Menu_Leave_PersonalLeaveSummary = "Сводка личных отпусков";
@@ -88,6 +129,7 @@
 	$lang_Commn_code = "Код";	
 	$lang_Commn_description = "Описание";
 	$lang_Commn_title = "Название";
+	$lang_Commn_name = "Название";
 	
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
@@ -357,7 +399,8 @@
 	$lang_jobtitle_editpaygrade = "Редактировать уровень оплаты";
 	$lang_jobtitle_addempstat = "Добавить служебный статус";
 	$lang_jobtitle_editempstat = "Редактировать служебный статус";
-	$lang_jobtitle_empstat = "Employment Status";
+	$lang_jobtitle_empstat = "Степень занятости
+Занятость";
 
 	$lang_languageinformation_heading = "Навыки : Языки";
 

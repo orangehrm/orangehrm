@@ -18,7 +18,7 @@ Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-
+require_once($lan->getLangPath("full.php")); 
 	
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
@@ -70,7 +70,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo "$lang_Menu_Admin_Quali : $lang_Menu_Admin_Quali_Education";?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -119,15 +119,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   
 							  <tr> 
-						    <td><?php echo $Code?></td>
+						    <td><?php echo $lang_Commn_code; ?></td>
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
 							  <tr>
-							    <td nowrap valign="top"><span class="error">*</span> <?php echo $University?> </td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Admin_Common_Institute; ?> </td>
 							    <td> <input type="text" name="txtUni"></td>
 							  </tr>
 							  <tr>
-							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Admin_Common_Course; ?></td>
 							     <td> <input type="text" name="txtDeg"></td>
 							  </tr>
 		
@@ -147,7 +147,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
               </table>
  
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -272,7 +272,7 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2><?php echo $heading?></h2></td>
+    <td width='100%'><h2><?php echo "$lang_Menu_Admin_Quali : $lang_Menu_Admin_Quali_Education"; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -319,15 +319,15 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr> 
-							    <td><?php echo $Code?></td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden" name="txtEducationID" value=<?php echo $this->getArr['id']?>><strong><?php echo $this->getArr['id']?></strong></td>
 						  </tr>													
 						  <tr>
-							    <td nowrap valign="top"><span class="error">*</span> <?php echo $University ?></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Admin_Common_Institute;  ?></td>
 							    <td> <input type="text" name="txtUni" disabled value="<?php echo $message[0][1]?>"></td>
 					      </tr>
 					       <tr>
-							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
+							     <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Admin_Common_Course; ?></td>
 							     <td> <input type="text" name="txtDeg" disabled value="<?php echo $message[0][2]?>"></td>
 						   </tr>
 						
@@ -353,7 +353,7 @@ function edit()
               </table>
 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } ?>
