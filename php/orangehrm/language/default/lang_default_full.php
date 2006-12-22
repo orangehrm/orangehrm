@@ -36,7 +36,7 @@
 	
 	$lang_Error_ShouldBeNumeric = "Should be Numeric";	
 	$lang_Error_FollowingErrorsWereFound = "Following errors were found";	
-	$lang_Error_AreYouSureYouWantToDelete = "Are you sure you want to delete?";
+	$lang_Error_AreYouSureYouWantToDelete = "Are you sure you want to delete";
 	
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate = "Please select a valid From Date";
@@ -48,7 +48,7 @@
 	$lang_Error_NoRecordsFound = "No records found!";
 	
 	// Company Structure	
-	$lang_Error_CompStruct_UnitCount = "Also #children unit(s) under #parent will be deteted.";
+	$lang_Error_CompStruct_UnitCount = "Also #children unit(s) under #parent will be deteted";
 	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "It could cause the company structure to change";
 		
 	$lang_Error_SubDivisionNameCannotBeEmpty = "Sub-division Name cannot be empty";
@@ -68,6 +68,48 @@
 	 *
 	 */
 	 
+	// Home
+	$lang_Menu_Home = "Home";
+	
+	$lang_Menu_Home_Support = "Support";
+	$lang_Menu_Home_Forum = "Forum";
+	$lang_Menu_Home_Blog = "Blog";
+	
+	// Admin Module
+	$lang_Menu_Admin = "Admin";
+	
+	$lang_Menu_Admin_CompanyInfo = "Company Info";
+	$lang_Menu_Admin_CompanyInfo_Gen = "General";
+	$lang_Menu_Admin_CompanyInfo_CompStruct = "Company Structure";
+	$lang_Menu_Admin_CompanyInfo_Locations = "Locations";
+	
+	$lang_Menu_Admin_Job = "Job";
+	$lang_Menu_Admin_Job_JobTitles = "Job Titles";
+	$lang_Menu_Admin_Job_PayGrades = "Pay Grades";
+	$lang_Menu_Admin_Job_EmpStatus = "Employment Status";
+	$lang_Menu_Admin_Job_EEO = "EEO Job Categories";	
+	
+	$lang_Menu_Admin_Quali = "Qualification";
+	$lang_Menu_Admin_Quali_Education = "Education";
+	$lang_Menu_Admin_Quali_Licenses = "Licenses";
+	
+	$lang_Menu_Admin_Skills = "Skills";
+	$lang_Menu_Admin_Skills_Skills = "Skills";
+	$lang_Menu_Admin_Skills_Languages = "Languages";
+	
+	$lang_Menu_Admin_Memberships = "Memberships";
+	$lang_Menu_Admin_Memberships_Memberships = "Memberships";
+	$lang_Menu_Admin_Memberships_MembershipTypes = "Membership Types";
+	
+	$lang_Menu_Admin_NationalityNRace = "Nationality & Race";
+	$lang_Menu_Admin_NationalityNRace_Nationality = "Nationality";
+	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "Ethnic Races";
+	
+	$lang_Menu_Admin_Users = "Users";
+	$lang_Menu_Admin_Users_UserGroups = "User Groups";
+	$lang_Menu_Admin_Users_HRAdmin = "HR Admin Users";
+	$lang_Menu_Admin_Users_ESS = "ESS Users";	
+	
 	// Leave Module	
 	$lang_Menu_Leave = "Leave";
 	$lang_Menu_Leave_PersonalLeaveSummary = "Personal Leave Summary";
@@ -80,6 +122,21 @@
 	$lang_Menu_Leave_LeaveList = "Leave List";
 
  	$lang_Leave_Title_Apply_Leave = "Apply Leave";
+	
+	/**
+	 * Common
+	 */
+	$lang_Commn_RequiredFieldMark = "Fields marked with an asterisk #star are required";
+	$lang_Commn_code = "Code";
+	$lang_Commn_description = "Description";
+	$lang_Commn_title = "Title";
+	$lang_Commn_name = "Name";
+	
+	// admin module
+	$lang_Admin_Common_Institute = "Institute";
+	$lang_Admin_Common_Course = "Course";
+	
+	// leave module
 	$lang_Leave_Common_Date = "Date";
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";
@@ -106,6 +163,7 @@
 	$lang_Leave_Common_LeaveEntitled = "Leave Entitled";
 	$lang_Leave_Common_Year = "Year";
 	$lang_Leave_Common_ListOfTakenLeave = "List of Taken Leave";
+	$lang_Leave_Common_Remove = "Remove";
 		
  	$lang_Leave_Leave_list_Title1 = "Approve Leave";
 	$lang_Leave_Leave_list_Title2 = "Leaves Taken by #employeeName in #dispYear";
@@ -347,6 +405,7 @@
 	$lang_jobtitle_editpaygrade = "Edit Pay Grade";
 	$lang_jobtitle_addempstat = "Add Employment Status";
 	$lang_jobtitle_editempstat = "Edit Employment Status";
+	$lang_jobtitle_empstat = "Employment Status";
 	
  	$lang_languageinformation_heading = "Skills : Language";
 	
@@ -457,9 +516,18 @@
 	$lang_view_message33 = "Deletion might affect Employee Information";
 	$lang_view_UserID = "User ID";
 	$lang_view_UserName = "User Name";
-	$lang_view_message34 = "Deletion could make Orange HRM unusable";
+	$lang_view_message34 = "Deletion could make OrangeHRM unusable";
 	$lang_view_UserGroupID = "User Group ID";
 	$lang_view_UserGroupName = "User Group Name";
-	$lang_view_message35 = "Deletion could make Orange HRM unusable";
+	$lang_view_message35 = "Deletion could make OrangeHRM unusable";
 	
+	$lang_view_Users = "Users";
+	$lang_view_UserGroups = "User Groups";
+	$lang_view_HRAdmin = "HR Admin";
+	$lang_view_ESS = "ESS";
+	$lang_view_ID = "ID";
+	
+	$lang_index_WelcomeMes = "Welcome #username";
+	$lang_index_ChangePassword = "Change Password";
+	$lang_index_Logout = "Logout";
 ?>

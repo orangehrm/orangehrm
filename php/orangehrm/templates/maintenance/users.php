@@ -18,6 +18,9 @@ Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+$lan = new Language();
+ 
+require_once($lan->getLangPath("full.php")); 
 	
 	$sysConst = new sysConf(); 
 	$locRights=$_SESSION['localRights'];
