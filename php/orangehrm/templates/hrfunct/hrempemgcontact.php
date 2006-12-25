@@ -66,14 +66,14 @@ function editEContact() {
 ?>
             <input type="hidden" name="txtECSeqNo" value="<?php echo $this->popArr['newECID']?>">
 			 <tr>
-			 <td><?php echo $name?>&nbsp;&nbsp;</td>
+			 <td><font color=#ff0000>*</font><?php echo $name?>&nbsp;&nbsp;</td>
 			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 <td width="50">&nbsp;</td>
-			<td><?php echo $relationship?>&nbsp;&nbsp;</td>
+			<td><font color=#ff0000>*</font><?php echo $relationship?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 </tr>
 			 <tr>
-			 <td><?php echo $hmtele?>&nbsp;&nbsp;</td>
+			 <td><font color=#ff0000>*</font><?php echo $hmtele?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $mobile?>&nbsp;&nbsp;</td>
@@ -136,14 +136,14 @@ function editEContact() {
           <tr>
               <input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>">
 			  
-			 <td><?php echo $name?></td>
+			 <td><font color=#ff0000>*</font><?php echo $name?></td>
 			 <td><input type="text" name="txtEConName" value="<?php echo $edit[0][2]?>"></td>
 			 <td width="50">&nbsp;</td>
-			<td><?php echo $relationship?></td>
+			<td><font color=#ff0000>*</font><?php echo $relationship?></td>
 			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"></td>
 			 </tr>
 			 <tr>
-			 <td><?php echo $hmtele?></td>
+			 <td><font color=#ff0000>*</font><?php echo $hmtele?></td>
 			 <td><input type="text"  name="txtEConHmTel" value="<?php echo $edit[0][4]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $mobile?></td>
