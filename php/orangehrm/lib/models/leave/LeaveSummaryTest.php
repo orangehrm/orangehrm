@@ -113,7 +113,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	
         $res = $this->leaveSummary->fetchLeaveSummary("012", date('Y', time()+3600*24));
 
-        $this->assertEquals($res, true, "No records returned");               
+        $this->assertNotNull($res, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
         
         $expected[] = array("Medical", 0, 10);
@@ -131,7 +131,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	
         $res = $this->leaveSummary->fetchLeaveSummary("011", date('Y', time()+3600*24));
 
-        $this->assertEquals($res, true, "No records returned");               
+        $this->assertNotNull($res, "No records returned");               
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
         
         $expected[1] = array("Medical", 2, 8);
@@ -149,7 +149,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	
         $res = $this->leaveSummary->fetchLeaveSummary("013", date('Y', time()+3600*24));
 
-        $this->assertEquals($res, true, "No records returned");               
+        $this->assertNotNull($res, "No records returned");               
         $this->assertEquals(count($res), 3, "Returned invalid numner of records");
                 
         $expected[0] = array("Medical", 0, 0); 

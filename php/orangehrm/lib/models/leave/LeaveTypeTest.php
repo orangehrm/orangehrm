@@ -109,7 +109,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         $expected[0] = array('Anual', 'LTY011');
       
         
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
         
         
                     
@@ -130,7 +130,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
 
         
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
    		
    }
      
@@ -150,13 +150,13 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
 
         
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
    }
    
    public function testFetchLeave() {
         $res = $this->classLeaveType->fetchLeaveTypes();
         
-        $this->assertEquals($res, true, "No record found ");            
+        $this->assertNotNull($res, "No record found ");            
     }
     
     

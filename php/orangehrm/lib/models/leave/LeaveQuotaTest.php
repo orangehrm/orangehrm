@@ -97,18 +97,17 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         
         for ($i=0; $i < count($expected); $i++) {
         	
-        	//$this->classLeaveQuota->setEmployeeId();
     		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
     		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
     		
     		$res = $this->classLeaveQuota->addLeaveQuota("020"); 
     		
-    		$this->assertEquals($res, true, "Addition failed - $i ");
+    		$this->assertNotNull($res, "Addition failed - $i ");
         } 
 
     	$res = $this->classLeaveQuota->fetchLeaveQuota("020"); 
                
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");  
         
@@ -134,7 +133,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     		
     		$res = $this->classLeaveQuota->editLeaveQuota(); 
     		
-    		$this->assertEquals($res, true, "Didn't add non exsistant record - $i ");
+    		$this->assertNotNull($res, "Didn't add non exsistant record - $i ");
         }
     }
     public function testEditLeaveQuota1() {
@@ -150,12 +149,12 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     		
     		$res = $this->classLeaveQuota->editLeaveQuota(); 
     		
-    		$this->assertEquals($res, true, "Addition failed - $i ");
+    		$this->assertNotNull($res, "Addition failed - $i ");
         } 
 
     	$res = $this->classLeaveQuota->fetchLeaveQuota("011"); 
                
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");  
         
@@ -182,14 +181,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     public function testFetchLeaveQuota() {
         $res = $this->classLeaveQuota->fetchLeaveQuota("015");
         
-        $this->assertEquals($res, null, "Retured non exsistant record ");            
+        $this->assertNull($res, "Retured non exsistant record ");            
     }
     
     public function testFetchLeaveQuotaAccuracy() {
     	
         $res = $this->classLeaveQuota->fetchLeaveQuota("012"); 
                
-        $this->assertEquals($res, true, "No record found ");
+        $this->assertNotNull($res, "No record found ");
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
                 
