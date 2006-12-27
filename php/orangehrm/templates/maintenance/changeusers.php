@@ -54,6 +54,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <?php $objAjax->printJavascript(); ?>
 <script>
 
+function goBack() {
+	javascript:history.back()
+}
 
 function alpha(txt)
 {
