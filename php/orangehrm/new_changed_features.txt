@@ -1,3 +1,14 @@
+New & Changed Features for OrangeHRM ver 2.0.5 (25/12/2006)
+
+	Bugs fixed include:
+		BugID    Name
+                1619876  Usability - Change "Leaves list" to "Leave list"
+		1588273  Edit ESS Users - Clear button does not work
+		1586354  Employee Information - Not possible to remove a picture
+		1586132  Usability - Employee Info - Emergency Contacts
+		1619838  Back button on Change password page doesn't work
+
+
 New & Changed Features for OrangeHRM ver 2.0.3 (8/12/2006)
 	This is a maintenance release (bug Fixes)
 	
