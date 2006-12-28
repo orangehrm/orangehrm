@@ -202,7 +202,7 @@ class LeaveController {
 	
 	public function addLeave() {
 		$tmpObj = $this->getObjLeave();
-		$res = $tmpObj->applyLeave();
+		$res = $tmpObj->applyLeaveRequest();
 		
 		if ($res) {
 			$message="";

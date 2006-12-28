@@ -20,21 +20,28 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/models/leave/Leave.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveRequests.php';
 
 class EXTRACTOR_Leave {
 	
 	private $parent_Leave;
 	
 	function __construct() {
-		$this->parent_Leave = new Leave();
+		$this->parent_Leave = new LeaveRequests();
 	}
 
 	public function parseAddData($postArr) {	
 		
 		$this->parent_Leave->setEmployeeId($_SESSION['empID']);
 		$this->parent_Leave->setLeaveTypeId($postArr['sltLeaveType']);
-		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
+		$this->parent_Leave->setLeaveFromDate($postArr['txtLeaveFromDate']);
+		
+		if (isset($postArr['txtLeaveToDate']) && !empty($postArr['txtLeaveToDate'])) {
+			$this->parent_Leave->setLeaveToDate($postArr['txtLeaveToDate']);
+		} else {
+			$this->parent_Leave->setLeaveToDate($postArr['txtLeaveFromDate']);
+		}
+		
 		$this->parent_Leave->setLeaveLength($postArr['sltLeaveLength']);
 		$this->parent_Leave->setLeaveComments($postArr['txtComments']);
 		

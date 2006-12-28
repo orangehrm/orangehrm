@@ -72,9 +72,12 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
 		
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (10, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 1')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (11, '011', 'LTY010', 'Medical', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 2')");
-		mysql_query("INSERT INTO `hs_hr_leave` VALUES (12, '013', 'LTY012', 'Annual', '".date('Y-m-d', time())."', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 2')");
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (10, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");			
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY012', 'Medical', '".date('Y-m-d', time()+3600*24)."', '013')");	
+		
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 1', 10)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 2', 10)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (12, '013', 'LTY012', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 3', 11)");
     	
     
     }
@@ -86,11 +89,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	
-    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
-    	
+    	    	
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '013'", $this->connection);
@@ -100,6 +99,11 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '011'", $this->connection);
     	
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
+    	mysql_query("TRUNCATE TABLE `hs_hr_leave_requests`", $this->connection);		
+		
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
     	
     	$this->connection = null;
     	

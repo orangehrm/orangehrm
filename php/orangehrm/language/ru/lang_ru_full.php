@@ -138,6 +138,8 @@
 	
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
+	$lang_Leave_Common_FromDate = "From Дата";
+	$lang_Leave_Common_ToDate = "To Дата";
 	$lang_Leave_Common_LeaveType = "Вид отпуска";
 	$lang_Leave_Common_Status = "Статус";
 	$lang_Leave_Common_Length = "Целый день / пол дня";

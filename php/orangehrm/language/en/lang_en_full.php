@@ -138,6 +138,10 @@
 	
 	// leave module
 	$lang_Leave_Common_Date = "Date";
+	
+	$lang_Leave_Common_FromDate = "From Date";
+	$lang_Leave_Common_ToDate = "To Date";
+	
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";
 	$lang_Leave_Common_Length = "Full Day/Half Day";

@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
@@ -18,11 +17,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
- *
- *
- *
- *
- *
  */
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
@@ -30,6 +24,12 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
+/**
+ * Leave Class
+ * 
+ * This class handles taking/request/approve of leave, and list leaves
+ * 
+ */
 class Leave {
 	
 	/*
@@ -57,6 +57,7 @@ class Leave {
 	 **/
 
 	private $leaveId;
+	private $leaveRequestId;
 	private $employeeId;
 	private $leaveTypeId;	
 	private $leaveTypeName;
@@ -83,13 +84,20 @@ class Leave {
 	 *	attribute
 	 *
 	 **/
-
 	public function setLeaveId($leaveId) {
 		$this->leaveId = $leaveId;
 	}
 	
 	public function getLeaveId() {
 		return $this->leaveId;
+	}
+	
+	public function setLeaveRequestId($leaveId) {
+		$this->leaveRequestId = $leaveId;
+	}
+	
+	public function getLeaveRequestId() {
+		return $this->leaveRequestId;
 	}
 	
 	public function setEmployeeId($employeeId) {
@@ -168,23 +176,22 @@ class Leave {
 	 * Retrieves leave taken for supervisors and
 	 * HRAdmin
 	 *
-	 * @param unknown_type $year
-	 * @return unknown
+	 * @param String $year, String $employeeId
+	 * @return Leave[][] $leaveArr A 2D array of the leaves
 	 */
-	function retrieveTakenLeave($year, $employeeId) {
+	public function retrieveTakenLeave($year, $employeeId) {
 		
 		$this->setEmployeeId($employeeId);
 		
 		$sqlBuilder = new SQLQBuilder();		
 
 		$arrFields[0] = 'a.`leave_date`';	
-		$arrFields[1] = 'a.`leave_type_name`';
-		$arrFields[2] = 'a.`leave_status`';
-		$arrFields[3] = 'a.`leave_length`';
-		$arrFields[4] = 'a.`leave_comments`';
-		$arrFields[5] = 'a.`leave_id`';		
-		$arrFields[6] = 'd.`emp_firstname`';
-		$arrFields[7] = 'a.`employee_id`';
+		$arrFields[1] = 'a.`leave_status`';
+		$arrFields[2] = 'a.`leave_length`';
+		$arrFields[3] = 'a.`leave_comments`';
+		$arrFields[4] = 'a.`leave_id`';		
+		$arrFields[5] = 'd.`emp_firstname`';
+		$arrFields[6] = 'a.`employee_id`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";				
 		$arrTables[1] = "`hs_hr_employee` d";		
@@ -206,38 +213,26 @@ class Leave {
 		
 		return $leaveArr; 
 	}
-
-	/*
-	 *	Retrieves Leave Details of all leave that have been applied for but
-	 *	not yet taken of the employee.
-	 *
-	 *	Returns
-	 *	-------
-	 *
-	 *	A 2D array of the leaves
-	 *
-	 **/
 	
-	public function retriveLeaveEmployee($employeeId) {
+	public function retrieveLeave($requestId) {
+		
+		$this->setLeaveRequestId($requestId);
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
 		$arrFields[0] = '`leave_date`';
-		$arrFields[1] = '`leave_type_name`';
-		$arrFields[2] = '`leave_status`';
-		$arrFields[3] = '`leave_length`';
-		$arrFields[4] = '`leave_comments`';
-		$arrFields[5] = '`leave_id`';		
+		$arrFields[1] = '`leave_status`';
+		$arrFields[2] = '`leave_length`';
+		$arrFields[3] = '`leave_comments`';
+		$arrFields[4] = '`leave_id`';		
 		
 		$arrTable = "`hs_hr_leave`";
 
-		$selectConditions[1] = "`employee_id` = '".$employeeId."'";		
+		$selectConditions[1] = "`leave_request_id` = '".$requestId."'";		
 		$selectConditions[2] = "`leave_date` > '".date('Y')."-01-01'";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
-		
-		//echo "\n".$query."\n";
-				
+						
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
@@ -247,29 +242,55 @@ class Leave {
 		return $leaveArr; 
 	}
 
-	/*
+	/**
 	 *	Retrieves Leave Details of all leave that have been applied for but
-	 *	not yet taken by all supervisors subordinates.
+	 *	not yet taken of the employee.
 	 *
-	 *	Returns
-	 *	-------
+	 * @return Leave[][] $leaveArr A 2D array of the leaves
+	 */	
+	public function retriveLeaveEmployee($employeeId) {
+		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$arrFields[0] = '`leave_date`';
+		$arrFields[1] = '`leave_status`';
+		$arrFields[2] = '`leave_length`';
+		$arrFields[3] = '`leave_comments`';
+		$arrFields[4] = '`leave_id`';		
+		
+		$arrTable = "`hs_hr_leave`";
+
+		$selectConditions[1] = "`employee_id` = '".$employeeId."'";		
+		$selectConditions[2] = "`leave_date` > '".date('Y')."-01-01'";
+				
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
+						
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		$leaveArr = $this->_buildObjArr($result);
+		
+		return $leaveArr; 
+	}
+
+	/**
+	 * Retrieves Leave Details of all leave that have been applied for but
+	 * not yet taken by all supervisors subordinates.
 	 *
-	 *	A 2D array of the leaves
-	 *
-	 **/
-	
+	 * @return Leave[][] $leaveArr A 2D array of the leaves
+	 */	
 	public function retriveLeaveSupervisor($supervisorId) {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
-		$arrFields[0] = 'a.`leave_date`';
-		$arrFields[1] = 'a.`leave_type_name`';
-		$arrFields[2] = 'a.`leave_status`';
-		$arrFields[3] = 'a.`leave_length`';
-		$arrFields[4] = 'a.`leave_comments`';
-		$arrFields[5] = 'a.`leave_id`';		
-		$arrFields[6] = 'd.`emp_firstname`';
-		$arrFields[7] = 'a.`employee_id`';
+		$arrFields[0] = 'a.`leave_date`';		
+		$arrFields[1] = 'a.`leave_status`';
+		$arrFields[2] = 'a.`leave_length`';
+		$arrFields[3] = 'a.`leave_comments`';
+		$arrFields[4] = 'a.`leave_id`';		
+		$arrFields[5] = 'd.`emp_firstname`';
+		$arrFields[6] = 'a.`employee_id`';
 		
 		$arrTables[0] = "`hs_hr_leave` a";		
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
@@ -297,15 +318,12 @@ class Leave {
 	
 	
 	/**
-	 *	Add Leave record to for a employee.
+	 * Add Leave record to for a employee.
 	 *
-	 * 	@access public	 
-	 *
-	 **/
-	
-
-	public function applyLeave ()
-	{
+	 * @access public
+	 * @return void
+	 */	
+	public function applyLeave() {
 		$this->_addLeave();
 	}
 
@@ -373,28 +391,24 @@ class Leave {
 	
 	
 	/**
-	 *
-	 * function _addLeave, access is private, will not be documented
-	 *
-	 * @access private
-	 *
-	 **/
-	
-	private function _addLeave() {		
+	 * Adds Leave
+	 * 
+	 * @access protected
+	 */
+	protected function _addLeave() {		
 
 		$this->_getNewLeaveId();
 		$this->_getLeaveTypeName();
 		$this->setDateApplied(date('Y-m-d'));
 				
 		$arrRecordsList[0] = $this->getLeaveId();
-		$arrRecordsList[1] = "'". $this->getEmployeeId() . "'";
-		$arrRecordsList[2] = "'".$this->getLeaveTypeId()."'";
-		$arrRecordsList[3] = "'".$this->getLeaveTypeName()."'";
-		$arrRecordsList[4] = "'". $this->getDateApplied()."'";
-		$arrRecordsList[5] = "'". $this->getLeaveDate()."'";
-		$arrRecordsList[6] = "'". $this->getLeaveLength()."'";
-		$arrRecordsList[7] = $this->statusLeavePendingApproval;
-		$arrRecordsList[8] = "'".$this->getLeaveComments()."'";		
+		$arrRecordsList[1] = "'". $this->getLeaveDate()."'";
+		$arrRecordsList[2] = "'". $this->getLeaveLength()."'";
+		$arrRecordsList[3] = $this->statusLeavePendingApproval;		
+		$arrRecordsList[4] = "'".$this->getLeaveComments()."'";	
+		$arrRecordsList[5] = "'". $this->getLeaveRequestId(). "'";
+		$arrRecordsList[6] = "'".$this->getLeaveTypeId()."'";
+		$arrRecordsList[7] = "'". $this->getEmployeeId() . "'";			
 					
 		$arrTable = "`hs_hr_leave`";
 		
@@ -487,7 +501,7 @@ class Leave {
 	 * @access private
 	 *
 	 */
-	private function _getLeaveTypeName() {
+	protected function _getLeaveTypeName() {
 		
 		$sqlBuilder = new SQLQBuilder();
 		$leave_Type  = new LeaveType();
@@ -514,24 +528,23 @@ class Leave {
 	 * @access private
 	 *
 	 */		
-	private function _buildObjArr($result, $supervisor=false) {
+	protected function _buildObjArr($result, $supervisor=false) {
 		
 		$objArr = null;
 		
-		while ($row = mysql_fetch_row($result)) {
+		while ($row = mysql_fetch_assoc($result)) {
 			
 			$tmpLeaveArr = new Leave();
-						
-			$tmpLeaveArr->setLeaveDate($row[0]);
-			$tmpLeaveArr->setLeaveTypeName($row[1]);
-			$tmpLeaveArr->setLeaveStatus($row[2]);
-			$tmpLeaveArr->setLeaveLength($row[3]);
-			$tmpLeaveArr->setLeaveComments($row[4]);
-			$tmpLeaveArr->setLeaveId($row[5]);
+									
+			$tmpLeaveArr->setLeaveDate($row['leave_date']);			
+			$tmpLeaveArr->setLeaveStatus($row['leave_status']);
+			$tmpLeaveArr->setLeaveLength($row['leave_length']);
+			$tmpLeaveArr->setLeaveComments($row['leave_comments']);
+			$tmpLeaveArr->setLeaveId($row['leave_id']);
 			
 			if ($supervisor) {
-				$tmpLeaveArr->setEmployeeName($row[6]);
-				$tmpLeaveArr->setEmployeeId($row[7]);
+				$tmpLeaveArr->setEmployeeName($row['emp_firstname']);
+				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 			
 			$objArr[] = $tmpLeaveArr;
