@@ -11,6 +11,7 @@
   <property name="reports.dir" value="reports"/>
   <property name="test.reports.dir" value="${reports.dir}/tests"/>
   <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
+  <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
 
   <target name="prepare">
     <echo msg="Preparing build..." />
@@ -19,6 +20,7 @@
     <mkdir dir="${reports.dir}" />
     <mkdir dir="${test.reports.dir}" />
     <mkdir dir="${test.coverage.dir}" />
+    <mkdir dir="${apidocs.dir}" />
   </target>
 
   <target name="build" depends="prepare">
@@ -94,6 +96,11 @@
       <coverage-report outfile="${test.coverage.dir}/coverage.xml">
           <report todir="${test.coverage.dir}" styledir="report-styles"/>
       </coverage-report>
+  </target>
+
+  <target name="phpdoc" depends="prepare">
+      <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}" 
+          sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>      
   </target>
 
 </project>
