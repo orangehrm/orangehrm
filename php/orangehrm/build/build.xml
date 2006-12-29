@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+
+<project name="OrangeHRM" basedir="." default="dist">
+
+  <property name="version" value="2.0.4"/>
+
+  <property name="project.dir" value=".." />
+  <property name="package.name" value="orangehrm2"/>
+  <property name="dist.dir" value="dist"/>
+  <property name="package.dir" value="${dist.dir}/${package.name}"/>
+  <property name="reports.dir" value="reports"/>
+  <property name="test.reports.dir" value="${reports.dir}/tests"/>
+  <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
+
+  <target name="prepare">
+    <echo msg="Preparing build..." />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${package.dir}" />
+    <mkdir dir="${reports.dir}" />
+    <mkdir dir="${test.reports.dir}" />
+    <mkdir dir="${test.coverage.dir}" />
+  </target>
+
+  <target name="build" depends="prepare">
+    <echo>Copying files...</echo>
+    <copy todir="${package.dir}">
+        <fileset dir="${project.dir}">
+            <include name="**"/>
+            <exclude name="build/**"/>
+            <exclude name="devDocs/**"/>
+            <exclude name="**/testConf.php"/>
+            <exclude name="lib/confs/Conf.php"/>
+            <exclude name="installer/log.txt"/>
+            <exclude name="lib/logs/logDB.txt"/>
+        </fileset>
+    </copy>
+  </target>
+ 
+  <target name="dist" depends="build">
+    <echo message="Creating archive..." />
+    <zip destfile="${dist.dir}/OrangeHRM-ver-${version}.zip">
+        <fileset dir="${dist.dir}">
+            <include name="${package.name}/**"/>
+        </fileset>
+    </zip>
+  </target>
+ 
+  <target name="clean">
+    <echo msg="Cleaning up..."/>
+    <delete dir="${dist.dir}"/>
+    <delete dir="${reports.dir}" />
+  </target>  
+
+  <target name="test" depends="prepare">
+      <phpunit2 haltonfailure="true" haltonerror="true" printsummary="true">
+          <batchtest>
+              <fileset dir="${project.dir}/lib">
+                  <include name="**/*Test.php"/>
+              </fileset>
+          </batchtest>
+      </phpunit2>      
+  </target>
+
+  <target name="test.report" depends="prepare">
+      <phpunit2>
+          <formatter todir="${test.reports.dir}" type="xml" outfile="testreport.xml"/>
+          <batchtest>
+              <fileset dir="${project.dir}/lib">
+                  <include name="**/*Test.php"/>
+              </fileset>
+          </batchtest>
+      </phpunit2>      
+      <phpunit2report infile="${test.reports.dir}/testreport.xml" 
+          format="frames" todir="${test.reports.dir}" styledir="report-styles"/>      
+  </target>
+
+  <!-- The coverage target will not work if the php XDebug extension is not installed -->
+  <target name="coverage" depends="prepare">
+      <coverage-setup database="${test.coverage.dir}/coverage.db">
+          <fileset dir="${project.dir}/lib">
+              <include name="**/*.php"/>
+              <exclude name="**/*Test.php"/>
+          </fileset>
+      </coverage-setup>      
+
+      <phpunit2 codecoverage="true">
+          <batchtest>
+              <fileset dir="${project.dir}/lib">
+                  <include name="**/*Test.php"/>
+              </fileset>
+          </batchtest>
+      </phpunit2>      
+
+      <coverage-report outfile="${test.coverage.dir}/coverage.xml">
+          <report todir="${test.coverage.dir}" styledir="report-styles"/>
+      </coverage-report>
+  </target>
+
+</project>
