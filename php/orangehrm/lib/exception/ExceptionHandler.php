@@ -100,7 +100,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 
 set_error_handler('notifyUser');
 
-require_once ROOT_PATH . '/lib/logs/LogWriter.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 class ExceptionHandler {
 	
@@ -148,7 +148,7 @@ class ExceptionHandler {
 		
 		$today = date("F j, Y, g:i a");
 		$noConnection = rand (10000,100000) . ' ' . $today . ' ' . "NO database Connection found\n";
-		$log_writer = new LogWriter();
+		$log_writer = new LogFileWriter();
 		$log_writer->writeLogDB($noConnection);				
 		trigger_error("NO database Connection found", E_USER_ERROR);
 	}	
@@ -157,7 +157,7 @@ class ExceptionHandler {
 		
 		$today = date("F j, Y, g:i a");
 		$noDBFound = rand (10000,100000) . ' ' . $today . ' ' . "NO database found\n";
-		$log_writer = new LogWriter();
+		$log_writer = new LogFileWriter();
 		$log_writer->writeLogDB($noDBFound);
 		trigger_error("NO database found", E_USER_ERROR);		
 	}	
@@ -166,7 +166,7 @@ class ExceptionHandler {
 		
 		$today = date("F j, Y, g:i a");
 		$noQuery = rand (10000,100000) . ' ' . $today . ' ' . "MySQL Query Error\n";
-		$log_writer = new LogWriter();
+		$log_writer = new LogFileWriter();
 		$log_writer->writeLogDB($noQuery);
 		trigger_error("MySQL Query Error: No query found", E_USER_ERROR);			
 		
@@ -176,7 +176,7 @@ class ExceptionHandler {
 		
 		$today = date("F j, Y, g:i a");
 		$invalidSQL = rand (10000,100000) . ' ' . $today . ' ' . "MySQL Query Error\n";
-		$log_writer = new LogWriter();
+		$log_writer = new LogFileWriter();
 		$log_writer->writeLogDB($invalidSQL);		
 		trigger_error("MySQL Query Error : $sql", E_USER_ERROR);		
 		
@@ -186,7 +186,7 @@ class ExceptionHandler {
 		
 		$today = date("F j, Y, g:i a");
 		$invalidSQL = rand (10000,100000) . ' ' . $today . ' ' . $string . "\n";
-		$log_writer = new LogWriter();
+		$log_writer = new LogFileWriter();
 		$log_writer->writeLogDB($invalidSQL);			
 		
 	}	

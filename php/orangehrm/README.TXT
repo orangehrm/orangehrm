@@ -45,7 +45,7 @@ the directory structure, for further details please refer to the changelog.txt
 |				-- maintenance (Data Extractors for Maintenance Module)
 |				-- report (Data Extractors for Report Module)
 |				
-|	-- logs (Log & LogWriter)
+|	-- logs (Log & LogFileWriter)
 |	-- Models (Models)
 |			|
 |			-- eimadmin (Admin Module Objects)

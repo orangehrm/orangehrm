@@ -17,7 +17,7 @@
 // Boston, MA  02110-1301, USA
 */
 
-class LogWriter {
+class LogFileWriter {
 
 	function writeLogDB($exceptionString) {
 	

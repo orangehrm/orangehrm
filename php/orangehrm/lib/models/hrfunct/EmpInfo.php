@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
-require_once ROOT_PATH . '/lib/logs/LogWriter.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 class EmpInfo {
 
@@ -776,7 +776,7 @@ class EmpInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;	
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
-	//$logw = new LogWriter();
+	//$logw = new LogFileWriter();
 	//$logw->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -1273,7 +1273,7 @@ class EmpInfo {
 	
 		$sqlQString = $sql_builder->addUpdateRecord1();
 	//echo $sqlQString;
-	//$log = new LogWriter();
+	//$log = new LogFileWriter();
 	//$log->writeLogDB($sqlQString);
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

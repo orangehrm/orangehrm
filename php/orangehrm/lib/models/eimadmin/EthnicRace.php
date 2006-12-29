@@ -21,7 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
-require_once ROOT_PATH . '/lib/logs/LogWriter.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 class EthnicRace {
 

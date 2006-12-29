@@ -21,7 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
-require_once ROOT_PATH . '/lib/logs/LogWriter.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 class EmpEmergencyCon {
 
@@ -193,7 +193,7 @@ class EmpEmergencyCon {
 			
 	
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-	/*$logw = new LogWriter();
+	/*$logw = new LogFileWriter();
 	$logw->writeLogDB($sqlQString);*/
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
