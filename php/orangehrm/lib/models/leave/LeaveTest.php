@@ -71,7 +71,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (12, '013', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 8, 3, 'Leave 4', 12)");
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (13, '013', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 8, 3, 'Leave 5', 12)");
     	
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (15, '014', 'LTY010', '".date('Y-m-d', time()-3600*24*2)."', 8, 2, 'Leave 6', 13)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (15, '014', 'LTY010', '".date('Y-m-d', time())."', 8, 2, 'Leave 6', 13)");
 	
     }
 
@@ -92,7 +92,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection); 
     	mysql_query("TRUNCATE TABLE `hs_hr_leave_requests`", $this->connection);   
     	
-    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);   	
+    	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
     }
     
     public function testRetrieveTakenLeaveAccuracy1() {
@@ -281,7 +281,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$res = $this->classLeave->retriveLeaveEmployee("014");        
         $this->assertNotNull($res, "Exsistent record not found ");   
         
-        $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 2, 8, 'Leave 6');                
+        $expected[0] = array(date('Y-m-d', time()), 'Medical', 2, 8, 'Leave 6');                
 
         $this->assertNotNull($res, "No record found ");
 
@@ -296,9 +296,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$this->assertNotNull($res, "Unexpected behavior ");
     	
         $res = $this->classLeave->retriveLeaveEmployee("014");        
-        $this->assertNotNull($res, "Exsistent record not found ");    
+        $this->assertNotNull($res, "Exsistent record not found2 ");    
         
-         $expected[0] = array(date('Y-m-d', time()-3600*24*2), 'Medical', 3, 8, 'Leave 6');                
+         $expected[0] = array(date('Y-m-d', time()), 'Medical', 3, 8, 'Leave 6');                
 
         $this->assertNotNull($res, "No record found ");
 

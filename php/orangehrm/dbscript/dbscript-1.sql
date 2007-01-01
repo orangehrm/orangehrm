@@ -535,6 +535,21 @@ create table `hs_hr_employee_leave_quota` (
   primary key  (`leave_type_id`,`employee_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_holidays` (
+  `holiday_id` int(11) not null,
+  `description` text default null,
+  `date` date default '0000-00-00',
+  `recurring` tinyint(1) default '0',
+  `length` int(2) default null,
+  unique key `holiday_id` (`holiday_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_week_ends` (
+  `day` int(2) not null,
+  `length` int(2) not null,
+  unique key `day` (`day`)
+) engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;

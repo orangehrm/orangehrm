@@ -261,7 +261,7 @@ class Leave {
 		$arrTable = "`hs_hr_leave`";
 
 		$selectConditions[1] = "`employee_id` = '".$employeeId."'";		
-		$selectConditions[2] = "`leave_date` > '".date('Y')."-01-01'";
+		$selectConditions[2] = "`leave_date` >= '".date('Y')."-01-01'";
 				
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
 						
