@@ -33,7 +33,19 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
  */
 class Holidays {
 	
-	const recurring = 1;
+	/*
+	 * Class Constants
+	 *
+	 **/
+	const HOLIDAYS_RECURRING = 1;
+	const HOLIDAYS_NOT_RECURRING = 0;
+	
+	const HOLIDAYS_TABLE = 'hs_hr_holidays';
+	const HOLIDAYS_TABLE_HOLIDAY_ID = 'holiday_id';
+	const HOLIDAYS_TABLE_DESCRIPTION = 'description';
+	const HOLIDAYS_TABLE_DATE = 'date';
+	const HOLIDAYS_TABLE_RECURRING = 'recurring';
+	const HOLIDAYS_TABLE_LENGTH = 'length';
 	
 	/*
 	 * Class atributes
@@ -107,6 +119,7 @@ class Holidays {
 	/**
 	 * Checks whether the date is a holiday. (It doesn't check whether it's a holiday)
 	 *
+	 * @access public
 	 * @param String $date 'Y-d-m'
 	 * @return mixed
 	 */
@@ -124,22 +137,32 @@ class Holidays {
 		return null;
 	}
 	
+	/**
+	 * Checks whether the date in the object is a holiday.
+	 * 
+	 * If $recurring is set check whether the date is a recurring holiday
+	 * else a specific holiday.
+	 *
+	 * @access private
+	 * @param boolean $recurring
+	 * @return mixed $length;
+	 */
 	private function _isHoliday($recurring=false) {
 		
 		$date = $this->getDate();		
 		
 		$sqlBuilder = new SQLQBuilder();
 				
-		$selectTable = "`hs_hr_holidays`";
-		$selectFields[0] = '`length`';
+		$selectTable = "`".self::HOLIDAYS_TABLE."`";
+		$selectFields[0] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
 		
 		if ($recurring) {
 			list($year, $month, $day) = explode('-', $date);
-			$selectConditions[0] = "`recurring` = ".Holidays::recurring;
-			$selectConditions[1] = "`date` LIKE '%-$month-$day'";
-			$selectConditions[2] = "`date` <= '$date'";
+			$selectConditions[0] = "`".self::HOLIDAYS_TABLE_RECURRING."` = ".self::HOLIDAYS_RECURRING;
+			$selectConditions[1] = "`".self::HOLIDAYS_TABLE_DATE."` LIKE '%-$month-$day'";
+			$selectConditions[2] = "`".self::HOLIDAYS_TABLE_DATE."` <= '$date'";
 		} else {
-			$selectConditions[0] = "`date` = '$date'";
+			$selectConditions[0] = "`".self::HOLIDAYS_TABLE_DATE."` = '$date'";
 		}
 		
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
@@ -148,11 +171,90 @@ class Holidays {
 
 		$result = $dbConnection -> executeQuery($query);
 		
+		$length = null;
+		
 		if ($result && ($row = mysql_fetch_row($result))) {
-			return $row[0];
+			$length = $row[0];
+		}
+				
+		return $length;
+	}
+	
+	/**
+	 * List the holidays for a year
+	 *
+	 * @access public
+	 * @param String $year
+	 * @return Holidays[] $objArr
+	 */
+	public function listHolidays($year=null) {
+		if (!isset($year)) {
+			$year = date("Y");
+		}
+		$selectTable = "`".self::HOLIDAYS_TABLE."`";
+		
+		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
+		$arrFieldList[1] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
+		$arrFieldList[2] = "DATE_FORMAT(`".self::HOLIDAYS_TABLE_DATE."`, '$year-%m-%d') a";
+		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
+		$arrFieldList[4] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
+		
+		$arrSelectConditions[0] = "(`".self::HOLIDAYS_TABLE_DATE."` LIKE '$year-%' OR `".self::HOLIDAYS_TABLE_RECURRING."` = ".self::HOLIDAYS_RECURRING.")";
+				
+		$sqlBuilder = new SQLQBuilder();
+				
+		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, 'a', 'ASC');
+		
+		//echo $query;
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		return $this->_buildObjArr($result);
+	}
+	
+	/**
+	 * Builds an array of Holidays.
+	 *
+	 * @access private
+	 * @param resource $result
+	 * @return Holidays $objArr
+	 */
+	private function _buildObjArr($result) {
+		$objArr = null;
+		
+		if ($result) {
+			while ($row = mysql_fetch_assoc($result)) {
+				$tmpObjHolidays = new Holidays();
+				
+				if (isset($row[self::HOLIDAYS_TABLE_HOLIDAY_ID])) {
+					$tmpObjHolidays->setHolidayId($row[self::HOLIDAYS_TABLE_HOLIDAY_ID]);
+				}
+				
+				if (isset($row[self::HOLIDAYS_TABLE_DESCRIPTION ])) {
+					$tmpObjHolidays->setDescription($row[self::HOLIDAYS_TABLE_DESCRIPTION]);
+				}
+				
+				if (isset($row[self::HOLIDAYS_TABLE_DATE])) {
+					$tmpObjHolidays->setDate($row[self::HOLIDAYS_TABLE_DATE]);
+				} else if (isset($row['a'])) {
+					$tmpObjHolidays->setDate($row['a']);
+				}
+				
+				if (isset($row[self::HOLIDAYS_TABLE_RECURRING ])) {
+					$tmpObjHolidays->setRecurring($row[self::HOLIDAYS_TABLE_RECURRING ]);
+				}
+				
+				if (isset($row[self::HOLIDAYS_TABLE_LENGTH])) {
+					$tmpObjHolidays->setLength($row[self::HOLIDAYS_TABLE_LENGTH]);
+				}
+				
+				$objArr[] = $tmpObjHolidays;
+			}
 		}
 		
-		return null;
+		return $objArr;
 	}
 		
 	/**
@@ -161,7 +263,6 @@ class Holidays {
 	 * The object needs to be filled, except for the id.
 	 * 
 	 * @access public
-	 *
 	 */
 	public function add() {
 		$this->_getNewHolidayId();
@@ -172,7 +273,7 @@ class Holidays {
 		$arrRecordsList[3] = $this->getRecurring();		
 		$arrRecordsList[4] = $this->getLength();			
 					
-		$arrTable = "`hs_hr_holidays`";
+		$arrTable = self::HOLIDAYS_TABLE;
 		
 		$sqlBuilder = new SQLQBuilder();
 				
@@ -191,23 +292,22 @@ class Holidays {
 	 * The object needs to be filled.
 	 * 
 	 * @access public
-	 *
 	 */
 	public function edit() {		
 		
-		$arrFieldList[0] = '`description`';
-		$arrFieldList[1] = '`date`';
-		$arrFieldList[2] = '`recurring`';
-		$arrFieldList[3] = '`length`';		
+		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
+		$arrFieldList[1] = "`".self::HOLIDAYS_TABLE_DATE."`";
+		$arrFieldList[2] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
+		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";		
 		
 		$arrRecordsList[0] = "'". $this->getDescription()."'";
 		$arrRecordsList[1] = "'". $this->getDate()."'";
 		$arrRecordsList[2] = $this->getRecurring();		
 		$arrRecordsList[3] = $this->getLength();
 
-		$updateConditions[0] = '`holiday_id` = '.$this->getHolidayId();
+		$updateConditions[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID.'` = '.$this->getHolidayId();
 					
-		$arrTable = "`hs_hr_holidays`";
+		$arrTable = "`".self::HOLIDAYS_TABLE."`";
 		
 		$sqlBuilder = new SQLQBuilder();
 				
@@ -226,15 +326,14 @@ class Holidays {
 	 * The object needs to be filled.
 	 * 
 	 * @access public
-	 *
 	 */
 	public function delete() {
 		$sql_builder = new SQLQBuilder();
 		
-		$arrFieldList[0] = 'HOLIDAY_ID';
+		$arrFieldList[0] = self::HOLIDAYS_TABLE_HOLIDAY_ID;
 		$arrValueList[0] = array($this->getHolidayId());
 		
-		$sql_builder->table_name = "HS_HR_HOLIDAYS";
+		$sql_builder->table_name = self::HOLIDAYS_TABLE;
 		$sql_builder->arr_delete = $arrFieldList;
 		
 		$sql_builder->flg_delete = 'true';		
@@ -248,14 +347,19 @@ class Holidays {
 		$result = $dbConnection -> executeQuery($query);		
 	}
 	
+	/**
+	 * Generates new holiday id
+	 *
+	 * @access private
+	 */
 	private function _getNewHolidayId() {
 		$sql_builder = new SQLQBuilder();
 		
-		$selectTable = "`hs_hr_holidays`";		
-		$selectFields[0] = '`holiday_id`';
+		$selectTable = "`".self::HOLIDAYS_TABLE."`";		
+		$selectFields[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
 		$selectOrder = "DESC";
 		$selectLimit = 1;
-		$sortingField = '`holiday_id`';
+		$sortingField = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
 		
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
 
