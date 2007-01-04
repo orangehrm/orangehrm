@@ -544,7 +544,7 @@ create table `hs_hr_holidays` (
   unique key `holiday_id` (`holiday_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_week_ends` (
+create table `hs_hr_weekends` (
   `day` int(2) not null,
   `length` int(2) not null,
   unique key `day` (`day`)
