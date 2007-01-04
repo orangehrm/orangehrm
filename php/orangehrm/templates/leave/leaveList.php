@@ -61,7 +61,7 @@ if ($modifier === "SUP") {
 <?php 
 	if (!is_array($records)) { 
 ?>
-	<h5><?php $lang_Error_NoRecordsFound; ?></h5>
+	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
 	} else {
 ?>

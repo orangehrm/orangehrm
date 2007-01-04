@@ -142,6 +142,7 @@ require_once($lan->getLangPath("full.php"));
 		//new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 110, 146, 120)
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
+		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 110, 146, 120)
 		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)		
 
 function swapImgRestore() { 
@@ -459,6 +460,7 @@ function setSize() {
 							if ($authorizeObj->isAdmin()) {
 						?>
   						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveTypes; ?></a></li>
+						<li id="defineLeaveType"><a target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu14');" onMouseOut="ypSlideOutMenu.hideMenu('menu14');"><?php echo $lang_Menu_Leave_DefineDaysOff; ?></a></li>
 						<?php } ?>
   					</ul>
 			</TD>         
@@ -723,7 +725,7 @@ function setSize() {
                     ?>
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_EmployeeLeaveSummary; ?></A></TD>
-					 </TR>					 
+					 </TR>					 			 
                     </TBODY>
                   </TABLE>
                   <?php 
@@ -731,7 +733,29 @@ function setSize() {
                  ?>
                 </DIV>
               </DIV>
-              <!-- End SubMenu12 -->
+              <!-- End SubMenu13 -->
+			    <!-- Begin SubMenu14 -->
+              <DIV id=menu14Container>
+                <DIV id=menu14Content>
+                 <?php    
+				 	if ($authorizeObj->isAdmin()) {              	
+                 ?>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>                                      	
+                      <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_Weekends; ?></A></TD>
+					 </TR>					
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_SpecificHolidays; ?></A></TD>
+					 </TR>					 			 
+                    </TBODY>
+                  </TABLE>
+                  <?php 
+                 	}
+                 ?>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu14 -->
               <!--------------------- End Menu --------------------->
             </td>
             <td width="779" valign="top"><table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>

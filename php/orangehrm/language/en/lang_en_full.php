@@ -17,7 +17,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  * 
- * @author: S.H.Mohanjith <moha@mohanjith.net>
  */
 
 	/**
@@ -26,7 +25,7 @@
 	 */
 	
 	$lang_Error_PleaseCorrectTheFollowing = "Please correct the following";
-	$lang_Error_SelectAtLeastOneRecordToDelete = "Select tt least one record to delete";
+	$lang_Error_SelectAtLeastOneRecordToDelete = "Select at least one record to delete";
 	$lang_Error_DoYouWantToDelete = "Do you want to delete?";
 	
 	$lang_Error_PleaseSelectAYear = "Please select a Year";
@@ -43,9 +42,12 @@
 	$lang_Error_PleaseSelectALeaveType = "Please select a Leave Type";
 			
 	$lang_Error_LeaveDateCannotBeABlankValue = "Leave date cannot be a blank value!";
+	$lang_Error_NameOfHolidayCannotBeBlank = "Name of holiday cannot be blank";
 	
 	$lang_Error_NoLeaveTypes = "No Leave Types";
 	$lang_Error_NoRecordsFound = "No records found!";
+	
+	$lang_Error_InvalidDate = "Invalid date";
 	
 	// Company Structure	
 	$lang_Error_CompStruct_UnitCount = "Also #children unit(s) under #parent will be deteted";
@@ -120,6 +122,9 @@
 	$lang_Menu_Leave_LeaveTypes = "Leave Types";
 	$lang_Menu_Leave_Apply = "Apply";
 	$lang_Menu_Leave_LeaveList = "Leave List";
+	$lang_Menu_Leave_DefineDaysOff = "Define Days Off";
+	$lang_Menu_Leave_DefineDaysOff_Weekends = "Weekends";
+	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Specific Holidays";
 
  	$lang_Leave_Title_Apply_Leave = "Apply Leave";
 	
@@ -156,6 +161,7 @@
 	$lang_Leave_Common_FullDay = "Full Day";
 	$lang_Leave_Common_HalfDayMorning = "Half Day / Morning";
 	$lang_Leave_Common_HalfDayAfternoon = "Half Day / Afternoon";
+	$lang_Leave_Common_HalfDay = "Half Day";
 	$lang_Leave_Common_LeaveTaken = "Leave Taken";
 	$lang_Leave_Common_LeaveAvailable = "Leave Available";
 	$lang_Leave_Common_LeaveTypeName = "Leave Type Name";
@@ -168,6 +174,9 @@
 	$lang_Leave_Common_Year = "Year";
 	$lang_Leave_Common_ListOfTakenLeave = "List of Taken Leave";
 	$lang_Leave_Common_Remove = "Remove";
+	
+	$lang_Leave_Common_NameOfHoliday = "Name of Holiday";
+	$lang_Leave_Common_Recurring = "Recurring";
 		
  	$lang_Leave_Leave_list_Title1 = "Approve Leave";
 	$lang_Leave_Leave_list_Title2 = "Leaves Taken by #employeeName in #dispYear";
@@ -180,6 +189,7 @@
 	$lang_Leave_Leave_Summary_SUP_Title = "Leave Summary for #employeeName for #dispYear";
 	$lang_Leave_Define_leave_Type_Title = "Define Leave Type ";
 	$lang_Leave_Leave_Type_Summary_Title = "Leave Types";
+	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 		
 	$lang_bankInformation_code = "Code";
 	$lang_bankInformation_description = "Description";

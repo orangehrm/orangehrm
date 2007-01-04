@@ -43,9 +43,12 @@
 	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
 		
 	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
+	$lang_Error_NameOfHolidayCannotBeBlank = "Name of holiday cannot be blank";
 		
 	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
 	$lang_Error_NoRecordsFound = "Записи не найдены!";
+	
+	$lang_Error_InvalidDate = "Invalid date";
 	
 	// Company Structure
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
@@ -124,6 +127,9 @@
 	$lang_Menu_Leave_LeaveTypes = "Виды отпуска";
 	$lang_Menu_Leave_Apply = "Обращение";
 	$lang_Menu_Leave_LeaveList = "Перечень отпусков";
+	$lang_Menu_Leave_DefineDaysOff = "Define Days Off";
+	$lang_Menu_Leave_DefineDaysOff_Weekends = "Weekends";
+	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Specific Holidays";
 	
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
 	
@@ -154,6 +160,7 @@
 	$lang_Leave_Common_FullDay = "Целый день";
 	$lang_Leave_Common_HalfDayMorning = "Пол дня / Утро";
 	$lang_Leave_Common_HalfDayAfternoon = "Пол дня / После полудня";
+	$lang_Leave_Common_HalfDay = "Пол дня";
 	$lang_Leave_Common_LeaveTaken = "Отпуск использован";
 	$lang_Leave_Common_LeaveAvailable = "Предостовляемый отпуск";
 	$lang_Leave_Common_LeaveTypeName = "Название вида отпуска";
@@ -166,6 +173,9 @@
 	$lang_Leave_Common_Year = "Год";
 	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпуск";
 	$lang_Leave_Common_Remove = "Remove";
+	
+	$lang_Leave_Common_NameOfHoliday = "Name of Holiday";
+	$lang_Leave_Common_Recurring = "Recurring";
 	
 	$lang_bankInformation_code = "Код";
 	$lang_bankInformation_description = "Описание";
@@ -187,6 +197,7 @@
 	$lang_Leave_Leave_Summary_SUP_Title = "Сводка отпусков #employeeName за #dispYear";
 	$lang_Leave_Define_leave_Type_Title = "Определить вид отпуска";
 	$lang_Leave_Leave_Type_Summary_Title = "Виды отпуска";
+	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 
 	$lang_comphire_heading = "Иерархия компаний: Информация о компании";
 	$lang_comphire_relationalhierarchy = "Относительная иерархия" ;
