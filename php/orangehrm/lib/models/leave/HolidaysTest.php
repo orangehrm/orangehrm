@@ -127,6 +127,34 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     		$this->assertEquals($res[$i]->getLength(), $expected[$i][4], 'Invalid Length');
     	}    	
     }
+    
+    public function testGetHoliday1() { 
+    	$holiday = $this->classHoliday; 
+    	
+    	$res = $holiday->getHoliday('97');
+    	
+    	$this->assertNull($res, 'Non exsistent record found');     	    	
+    }
+    
+    public function testGetHoliday2() { 
+    	$holiday = $this->classHoliday; 
+    	
+    	$expected[0] = array(10, date('Y').'-07-04', 'Independence', Holidays::HOLIDAYS_RECURRING, 8);
+    	
+    	$res = $holiday->getHoliday($expected[0][0]);
+    	
+    	$this->assertNotNull($res, 'Exsisting records not found');     	
+    	
+    	$this->assertEquals(count($res), count($expected), 'Invalid Nuber of records found');
+
+    	for ($i=0; $i<count($expected); $i++) {
+    		$this->assertEquals($res[$i]->getHolidayId(), $expected[$i][0], 'Invalid Hoiday Id');
+    		$this->assertEquals($res[$i]->getDate(), $expected[$i][1], 'Invalid Date');
+    		$this->assertEquals($res[$i]->getDescription(), $expected[$i][2], 'Invalid Description');
+    		$this->assertEquals($res[$i]->getRecurring(), $expected[$i][3], 'Invalid Recurring Status');
+    		$this->assertEquals($res[$i]->getLength(), $expected[$i][4], 'Invalid Length');
+    	}    	
+    }
 
     public function testAdd() {    	
         $holiday = $this->classHoliday;

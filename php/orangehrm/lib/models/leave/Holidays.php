@@ -165,7 +165,11 @@ class Holidays {
 			$selectConditions[0] = "`".self::HOLIDAYS_TABLE_DATE."` = '$date'";
 		}
 		
-		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+		$selectOrderBy = "`".self::HOLIDAYS_TABLE_LENGTH."`";
+		
+		$selectOrder = 'DESC';
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder);
 				
 		$dbConnection = new DMLFunctions();	
 
@@ -206,6 +210,28 @@ class Holidays {
 		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, 'a', 'ASC');
 		
 		//echo $query;
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);
+		
+		return $this->_buildObjArr($result);
+	}
+	
+	public function getHoliday($holidayId) {
+		$selectTable = "`".self::HOLIDAYS_TABLE."`";
+		
+		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
+		$arrFieldList[1] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
+		$arrFieldList[2] = "`".self::HOLIDAYS_TABLE_DATE."`";
+		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
+		$arrFieldList[4] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
+		
+		$arrSelectConditions[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."` = $holidayId"; 
+				
+		$sqlBuilder = new SQLQBuilder();
+				
+		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, null, null, 1);
 		
 		$dbConnection = new DMLFunctions();	
 

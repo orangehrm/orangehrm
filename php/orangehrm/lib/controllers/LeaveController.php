@@ -26,6 +26,8 @@ require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveSummary.php';
+require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
+require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
@@ -93,7 +95,7 @@ class LeaveController {
 							 $this->_displayLeaveSummary("display", $year);							 
 							 break;
 		}
-	}
+	}	
 	
 	public function editLeaves($modifier="summary", $year=null) {
 		switch ($modifier) {			
@@ -471,6 +473,84 @@ class LeaveController {
 			trigger_error("Unauthorized access1", E_USER_NOTICE);
 		}
 	}
-
+	
+	
+	/**
+	 * Holidays and week end list viewing
+	 *
+	 * @param String $modifier
+	 */
+	public function viewHoliday($modifier="specific") {
+		$this->_authenticateViewHoliday();
+		switch ($modifier) {
+			case "specific" : $this->_displaySpecificHoliday($modifier);
+							 break;
+			case "weekend" : $this->_displayWeekend();
+							 break;
+		}
+	}
+	
+	private function _displaySpecificHoliday($modifier) {		
+		if (!isset($year)) {
+			$year = date('Y');
+		}		
+		
+		$modifier = array($modifier, $year);
+				
+		$tmpObj = new Holidays();
+		
+		$tmpObjX = $tmpObj->listHolidays();
+					
+		$path = "/templates/leave/specificHolidayList.php";
+		
+		$template = new TemplateMerger($tmpObjX, $path);
+		
+		$template->display($modifier);
+		
+	}
+	
+	private function _displayWeekend() {
+		
+	}
+	
+	private function _authenticateViewHoliday() {		
+		$res = $this->getAuthorize()->isAdmin();
+		
+		if ($res) {			
+			return $res;
+		}
+		
+		trigger_error("Unauthorized access", E_USER_NOTICE);
+	}
+	
+	public function holidaysDelete() {
+		$this->getObjLeave()->delete();
+		
+		return "";
+	}
+	
+	public function displayDefineHolidays($modifier="specific", $edit=false) {
+		$this->_authenticateViewHoliday();
+		
+		$record = null;
+		if ($edit) {
+			$holidayObj = new Holidays();
+			
+			$record = $holidayObj->getHoliday($this->getId());
+		}
+		
+		switch ($modifier) {
+			case "specific"	:	$path = "/templates/leave/specificHolidaysEdit.php";
+								break;
+			case "weekend"	:	$path = "/templates/leave/weekendHolidaysEdit.php";
+								break;
+		}
+		
+		$template = new TemplateMerger($record, $path);
+		
+		$modifier = $edit;
+		
+		$template->display($modifier);
+	}
 }
 ?>

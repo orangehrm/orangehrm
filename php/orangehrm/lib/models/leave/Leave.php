@@ -36,6 +36,10 @@ class Leave {
 	 *	Leave Status Constants
 	 *
 	 **/
+	const LEAVE_LENGTH_FULL_DAY = 8;
+	const LEAVE_LENGTH_HALF_DAY_MORNING = -4;
+	const LEAVE_LENGTH_HALF_DAY_AFTERNOON = 4;
+	const LEAVE_LENGTH_HALF_DAY = 4;
 
 	public $statusLeaveRejected = -1;
 	public $statusLeaveCancelled = 0;
