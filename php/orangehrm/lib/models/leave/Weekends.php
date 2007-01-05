@@ -36,9 +36,13 @@ class Weekends {
 	 * Class Constants
 	 *
 	 **/	
-	const WEEKENDS_TABLE = 'hs_hr_hs_hr_weekends';
+	const WEEKENDS_TABLE = 'hs_hr_weekends';
 	const WEEKENDS_TABLE_DAY = 'day';
 	const WEEKENDS_TABLE_LENGTH = 'length';
+	
+	const WEEKENDS_LENGTH_FULL_DAY = 0;
+	const WEEKENDS_LENGTH_HALF_DAY = 4;
+	const WEEKENDS_LENGTH_WEEKEND = 8;
 	
 	/*
 	 * Class atributes
@@ -99,9 +103,7 @@ class Weekends {
 		$sqlBuilder = new SQLQBuilder();
 				
 		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, null, $arrFieldList[0], 'ASC');
-		
-		//echo $query;
-		
+			
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
@@ -116,10 +118,9 @@ class Weekends {
 	 *
 	 * @access pubic
 	 */
-	public function editDay() {
+	public function editDay() {		
 		
-		$arrFieldList[0] = "`".self::WEEKENDS_TABLE_DAY ."`";
-		$arrFieldList[1] = "`".self::WEEKENDS_TABLE_LENGTH."`";				
+		$arrFieldList[0] = "`".self::WEEKENDS_TABLE_LENGTH."`";				
 		
 		$arrRecordsList[0] = $this->getLength();
 
@@ -146,21 +147,25 @@ class Weekends {
 	 * @return Weekend[] $objArr
 	 */
 	private function _buildObjArr($result) {
-		$objArr = null;
+		$objArr = null;	
 		
 		if ($result) {
 			while ($row = mysql_fetch_assoc($result)) {
 				$tmpObjWeekends = new Weekends();
 				
-				if (isset($row[self::HOLIDAYS_TABLE_DAY])) {
-					$tmpObjWeekends->setDay($row[self::HOLIDAYS_TABLE_DAY]);
+				if (isset($row[self::WEEKENDS_TABLE_DAY])) {
+					$tmpObjWeekends->setDay($row[self::WEEKENDS_TABLE_DAY]);
 				}
 				
-				if (isset($row[self::HOLIDAYS_TABLE_LENGTH])) {
-					$tmpObjWeekends->setLength($row[self::HOLIDAYS_TABLE_LENGTH]);
+				if (isset($row[self::WEEKENDS_TABLE_LENGTH])) {
+					$tmpObjWeekends->setLength($row[self::WEEKENDS_TABLE_LENGTH]);
 				}
+				
+				$objArr[] = $tmpObjWeekends;
 			}
 		}
+		
+		return $objArr;
 	}
 	
 	
