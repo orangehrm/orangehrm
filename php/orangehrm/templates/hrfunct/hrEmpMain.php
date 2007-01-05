@@ -499,7 +499,7 @@ function resetAdd(panel) {
 
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<style type="text/css">@import url("./hrEmpMain.css"); </style>
+<style type="text/css">@import url("../../themes/beyondT/css/hrEmpMain.css"); </style>
 <style type="text/css">
 <!--
 .mnuPIM {
@@ -724,7 +724,7 @@ function resetAdd(panel) {
 					<?php	} ?>
     </td>
     <td>&nbsp;</td>
-    <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" src="../../themes/beyondT/icons/reset.gif"></td>
+    <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" src="../../themes/beyondT/icons/reset.gif"></td>
     </tr>
     </table>
     
@@ -815,7 +815,7 @@ function resetAdd(panel) {
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');  return false;">
 <?php			}  ?>
     </td>
-    <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>
+    <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>
     </tr>
     </table>
 <br>
