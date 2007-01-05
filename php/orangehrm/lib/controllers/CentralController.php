@@ -72,6 +72,7 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveType.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveQuota.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
 
 //leave modules extractorss go here
 
@@ -1009,11 +1010,12 @@ switch ($moduletype) {
 	case 'leave'	:	switch ($_GET['leavecode']) {
 							case 'Leave':	if (isset($_GET['action'])) {
 								
-												$leaveController 	= new LeaveController();	
-												$leaveExtractor 	= new EXTRACTOR_Leave();
-												$LeaveTypeExtractor = new EXTRACTOR_LeaveType();
-												$leaveQuotaExtractor= new EXTRACTOR_LeaveQuota();
-												$holidaysExtractor = new EXTRACTOR_Holidays();																				
+												$leaveController 	 = new LeaveController();	
+												$leaveExtractor 	 = new EXTRACTOR_Leave();
+												$LeaveTypeExtractor  = new EXTRACTOR_LeaveType();
+												$leaveQuotaExtractor = new EXTRACTOR_LeaveQuota();
+												$holidaysExtractor   = new EXTRACTOR_Holidays();
+												$weekendsExtractor   = new EXTRACTOR_Weekends();																				
 																								
 												switch ($_GET['action']) {
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
@@ -1120,22 +1122,50 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect($mes);
 																						break;
+																						
 													case 'Holiday_Specific_List'	:	$leaveController->viewHoliday();
 																						break;
+																						
 													case 'Holiday_Specific_Delete'	:	$objs = $holidaysExtractor->parseDeleteData($_POST);
-																						if (isset($objs)) 
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getHolidayId());
-																							$mes = $leaveController->holidaysDelete();																							
+																						if (isset($objs) && is_array($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);
+																								$leaveController->setId($obj->getHolidayId());
+																								$mes = $leaveController->holidaysDelete();																							
+																							}
 																						}
 																						$leaveController->redirect($mes);
 																						break;
-													case "Holiday_Specific_View_Add" :	$leaveController->displayDefineHolidays("specific");
+																						
+													case "Holiday_Weekend_List"		:	$leaveController->displayDefineHolidays("weekend");
 																						break;
-													case "Holiday_Specific_View_Edit" :	$leaveController->setId($_REQUEST['id']);
-																						$leaveController->displayDefineHolidays("specific", true);
-																						break;									
+													case "Holiday_Weekend_Edit"		:	$objs = $weekendsExtractor->parseEditData($_POST);																						
+																						if (isset($objs) && is_array($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);																								
+																								$mes = $leaveController->editHoliday("weekend");																							
+																							}
+																						}
+																						$leaveController->redirect("");
+																						break;
+																						
+													case "Holiday_Specific_Add"		:	$obj = $holidaysExtractor->parseAddData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->addHoliday();																							
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
+																						break;	
+																							
+													case "Holiday_Specific_Edit"	:	$obj = $holidaysExtractor->parseEditData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->editHoliday();																							
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
+																						break;
+																																													
+													case "Holiday_Specific_View_Add"	:	$leaveController->displayDefineHolidays("specific");
+																							break;
+													case "Holiday_Specific_View_Edit"	:	$leaveController->setId($_REQUEST['id']);
+																							$leaveController->displayDefineHolidays("specific", true);
+																							break;									
 																						
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}

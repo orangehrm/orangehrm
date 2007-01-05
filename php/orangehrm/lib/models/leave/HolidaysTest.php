@@ -131,7 +131,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     public function testGetHoliday1() { 
     	$holiday = $this->classHoliday; 
     	
-    	$res = $holiday->getHoliday('97');
+    	$res = $holiday->fetchHoliday('97');
     	
     	$this->assertNull($res, 'Non exsistent record found');     	    	
     }
@@ -141,7 +141,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     	
     	$expected[0] = array(10, date('Y').'-07-04', 'Independence', Holidays::HOLIDAYS_RECURRING, 8);
     	
-    	$res = $holiday->getHoliday($expected[0][0]);
+    	$res = $holiday->fetchHoliday($expected[0][0]);
     	
     	$this->assertNotNull($res, 'Exsisting records not found');     	
     	

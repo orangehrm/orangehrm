@@ -142,6 +142,17 @@
 	$lang_Commn_title = "Название";
 	$lang_Commn_name = "Название";
 	
+	//days	
+	$lang_Common_Monday = "Monday";
+	$lang_Common_Tuesday = "Tuesday";
+	$lang_Common_Wednesday = "Wednesday";
+	$lang_Common_Thursday = "Thursday";
+	$lang_Common_Friday = "Friday";
+	$lang_Common_Saturday = "Saturday";
+	$lang_Common_Sunday = "Sunday";
+	
+	$lang_Leave_Common_Weekend = "Weekend";
+	
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
 	$lang_Leave_Common_FromDate = "From Дата";
@@ -198,6 +209,7 @@
 	$lang_Leave_Define_leave_Type_Title = "Определить вид отпуска";
 	$lang_Leave_Leave_Type_Summary_Title = "Виды отпуска";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
+	$lang_Leave_Leave_Holiday_Weeked_Title = "Define Days Off : Weekend";
 
 	$lang_comphire_heading = "Иерархия компаний: Информация о компании";
 	$lang_comphire_relationalhierarchy = "Относительная иерархия" ;

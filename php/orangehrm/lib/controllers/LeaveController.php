@@ -490,6 +490,28 @@ class LeaveController {
 		}
 	}
 	
+	public function addHoliday() {
+		$this->_authenticateViewHoliday();
+		
+		$this->getObjLeave()->add();	
+	}
+	
+	/**
+	 * Wrpper to edit holidays
+	 *
+	 * @param unknown_type $modifier
+	 */
+	public function editHoliday($modifier="specific") {
+		$this->_authenticateViewHoliday();
+		
+		switch ($modifier) {
+			case "specific" : $this->getObjLeave()->edit();
+							  break;
+			case "weekend" 	: $this->getObjLeave()->editDay();
+							  break;
+		}			
+	}	
+	
 	private function _displaySpecificHoliday($modifier) {		
 		if (!isset($year)) {
 			$year = date('Y');
@@ -501,7 +523,7 @@ class LeaveController {
 		
 		$tmpObjX = $tmpObj->listHolidays();
 					
-		$path = "/templates/leave/specificHolidayList.php";
+		$path = "/templates/leave/specificHolidaysList.php";
 		
 		$template = new TemplateMerger($tmpObjX, $path);
 		
@@ -536,13 +558,15 @@ class LeaveController {
 		if ($edit) {
 			$holidayObj = new Holidays();
 			
-			$record = $holidayObj->getHoliday($this->getId());
+			$record = $holidayObj->fetchHoliday($this->getId());
 		}
 		
 		switch ($modifier) {
-			case "specific"	:	$path = "/templates/leave/specificHolidaysEdit.php";
+			case "specific"	:	$path = "/templates/leave/specificHolidaysDefine.php";
 								break;
-			case "weekend"	:	$path = "/templates/leave/weekendHolidaysEdit.php";
+			case "weekend"	:	$path = "/templates/leave/weekendHolidaysDefine.php";
+								$weekendsObj = new Weekends();
+								$record = $weekendsObj->fetchWeek();
 								break;
 		}
 		
@@ -552,5 +576,6 @@ class LeaveController {
 		
 		$template->display($modifier);
 	}
+	
 }
 ?>

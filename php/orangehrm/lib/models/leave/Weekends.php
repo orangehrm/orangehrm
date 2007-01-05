@@ -44,6 +44,14 @@ class Weekends {
 	const WEEKENDS_LENGTH_HALF_DAY = 4;
 	const WEEKENDS_LENGTH_WEEKEND = 8;
 	
+	const WEEKENDS_MONDAY = 1;
+	const WEEKENDS_TUESDAY = 2;
+	const WEEKENDS_WEDNESDAY = 3;
+	const WEEKENDS_THURSDAY = 4;
+	const WEEKENDS_FRIDAY = 5;
+	const WEEKENDS_SATURDAY = 6;
+	const WEEKENDS_SUNDAY = 7;
+	
 	/*
 	 * Class atributes
 	 *
@@ -137,10 +145,43 @@ class Weekends {
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
+		
+		if (mysql_affected_rows() == 0) {			
+			return $this->_addDay();
+		}
+		
+		return $result;
 	}
 	
 	/**
-	 * Enter description here...
+	 * Adds a day incase the day is not there. 
+	 * 
+	 * Unlikely to happen, but added as an auto heal feature.
+	 * Needs a filled object.
+	 * 
+	 * @access private
+	 */
+	private function _addDay() {		
+		
+		$arrRecordsList[0] = $this->getDay();
+		$arrRecordsList[1] = $this->getLength();
+							
+		$insertTable = "`".self::WEEKENDS_TABLE."`";
+		
+		$sqlBuilder = new SQLQBuilder();
+				
+		$query = $sqlBuilder->simpleInsert($insertTable, $arrRecordsList)." ON DUPLICATE KEY UPDATE ".self::WEEKENDS_TABLE_LENGTH." = ".$this->getLength();
+		
+		//echo  $query;
+		
+		$dbConnection = new DMLFunctions();	
+
+		$result = $dbConnection -> executeQuery($query);	
+		
+	}
+	
+	/**
+	 * Builds an array of Weekend objects
 	 *
 	 * @access private
 	 * @param resource $result

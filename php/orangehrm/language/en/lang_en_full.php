@@ -137,6 +137,17 @@
 	$lang_Commn_title = "Title";
 	$lang_Commn_name = "Name";
 	
+	//days	
+	$lang_Common_Monday = "Monday";
+	$lang_Common_Tuesday = "Tuesday";
+	$lang_Common_Wednesday = "Wednesday";
+	$lang_Common_Thursday = "Thursday";
+	$lang_Common_Friday = "Friday";
+	$lang_Common_Saturday = "Saturday";
+	$lang_Common_Sunday = "Sunday";
+	
+	$lang_Leave_Common_Weekend = "Weekend";
+	
 	// admin module
 	$lang_Admin_Common_Institute = "Institute";
 	$lang_Admin_Common_Course = "Course";
@@ -190,6 +201,7 @@
 	$lang_Leave_Define_leave_Type_Title = "Define Leave Type ";
 	$lang_Leave_Leave_Type_Summary_Title = "Leave Types";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
+	$lang_Leave_Leave_Holiday_Weeked_Title = "Define Days Off : Weekend";
 		
 	$lang_bankInformation_code = "Code";
 	$lang_bankInformation_description = "Description";

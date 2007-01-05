@@ -218,7 +218,7 @@ class Holidays {
 		return $this->_buildObjArr($result);
 	}
 	
-	public function getHoliday($holidayId) {
+	public function fetchHoliday($holidayId) {
 		$selectTable = "`".self::HOLIDAYS_TABLE."`";
 		
 		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
