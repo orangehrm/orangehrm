@@ -1,5 +1,4 @@
 <?php
-
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
@@ -161,6 +160,7 @@
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";
 	$lang_Leave_Common_Length = "Full Day/Half Day";
+	$lang_Leave_Common_Range = "Range";
 	$lang_Leave_Common_Comments = "Comments";
 	$lang_Leave_Common_Comment = "Comment";
 	$lang_Leave_Common_Approved = "Approved";
