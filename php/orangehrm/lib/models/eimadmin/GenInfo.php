@@ -54,11 +54,19 @@ class GenInfo {
 		$compStruct_newTitle = explode("|",$arrRecordsList[2]);
 		$compStruct_newTitle = substr($compStruct_newTitle[0], 1);
 		
-		$sqlQString1 = sprintf("UPDATE `hs_hr_compstructtree` SET `title` = '%s' WHERE `lft`=1 LIMIT 1", $compStruct_newTitle);
+		$sqlQString1 = sprintf("UPDATE `hs_hr_compstructtree` SET `title` = '%s' WHERE `lft`=1 LIMIT 1", mysql_real_escape_string($compStruct_newTitle));
 					
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		$message3 = $dbConnection -> executeQuery($sqlQString1);
+		//$message3 = $dbConnection -> executeQuery($sqlQString1);
+		
+		$compStructObj = new CompStruct();
+		
+		$compStructObj->setaddStr($compStruct_newTitle);
+		$compStructObj->setid(1);
+		$compStructObj->setlocation('null');
+		
+		$compStructObj->updateCompStruct();
 		
 		return $message2;
 	}

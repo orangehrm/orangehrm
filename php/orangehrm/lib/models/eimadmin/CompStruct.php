@@ -40,6 +40,7 @@
  *
  */
 
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 
 class CompStruct {
@@ -157,9 +158,22 @@ class CompStruct {
 
 	function updateCompStruct() {	
 
+		$updateTable = '`hs_hr_compstructtree`';
+		
+		$updateFields[] = '`title`';
+		$updateFields[] = '`Description`';
+		$updateFields[] = '`loc_code`';
+		
+		$updateValues[] = "'".$this->addStr."'";
+		$updateValues[] = "'".$this->strDesc."'";
+		$updateValues[] = $this->location;
 
-		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code='%s' WHERE ID=%d", mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $this->location, $this->id);
-
+		$updateConditions[] = '`ID` = '.$this->id;
+		
+		$sqlQueryBuilder = new SQLQBuilder();
+		
+		$sqlString1 = $sqlQueryBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+		
 		$dbConnection = new DMLFunctions();	
 		
 		$message2 = $dbConnection -> executeQuery($sqlString1);
@@ -176,6 +190,8 @@ class CompStruct {
 
 		$sqlString = sprintf("SELECT `lft`, `rgt` FROM `hs_hr_compstructtree` WHERE `title`='%s'", mysql_real_escape_string($root)); 
 
+		//echo $sqlString;
+		
 		$dbConnection = new DMLFunctions();		
 
 		$message2 = $dbConnection->executeQuery($sqlString);
