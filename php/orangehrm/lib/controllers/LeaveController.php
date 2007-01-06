@@ -75,25 +75,42 @@ class LeaveController {
 		$tmpLeaveObj = new Leave();
 		
 		$tmpLeaveObj->takeLeave();
-	}
+	}	
 	
 	//public function
 
-	public function viewLeaves($modifier="employee", $year=null) {
-					
-		switch ($modifier) {
-			case "employee": $this->setObjLeave(new Leave());
-							 $this->_viewLeavesEmployee();
-							 break;
-			case "suprevisor": $this->setObjLeave(new Leave());
-							 $this->_viewLeavesSupervisor();
-							 break;
-			case "taken"	: $this->setObjLeave(new Leave());
-							 $this->_viewLeavesTaken($year);
-							 break;
-			case "summary" : $this->setObjLeave(new LeaveSummary());
-							 $this->_displayLeaveSummary("display", $year);							 
-							 break;
+	public function viewLeaves($modifier="employee", $year=null, $details=false) {
+			
+		if ($details) {	
+			switch ($modifier) {
+				case "employee": $this->setObjLeave(new Leave());
+								 $this->_viewLeavesEmployee($details);
+								 break;
+				case "suprevisor": $this->setObjLeave(new Leave());
+								 $this->_viewLeavesSupervisor($details);
+								 break;
+				case "taken"	: $this->setObjLeave(new Leave());
+								 $this->_viewLeavesTaken($year, $details);
+								 break;
+				case "summary" : $this->setObjLeave(new LeaveSummary());
+								 $this->_displayLeaveSummary("display", $year);							 
+								 break;
+			}
+		} else {
+			switch ($modifier) {
+				case "employee": $this->setObjLeave(new LeaveRequests());
+								 $this->_viewLeavesEmployee($details);
+								 break;
+				case "suprevisor": 	$this->setObjLeave(new LeaveRequests());
+								 	$this->_viewLeavesSupervisor($details);
+								 	break;
+				case "taken"	: $this->setObjLeave(new LeaveRequests());
+								 $this->_viewLeavesTaken($year, $details);
+								 break;
+				case "summary" : $this->setObjLeave(new LeaveSummary());
+								 $this->_displayLeaveSummary("display", $year);							 
+								 break;
+			}
 		}
 	}	
 	
@@ -137,11 +154,16 @@ class LeaveController {
 		return $tmpObj->changeLeaveStatus($this->getId());		
 	}
 	
-	private function _viewLeavesEmployee() {
+	private function _viewLeavesEmployee($details) {
 		$tmpObj = $this->getObjLeave();
-		$tmpObj = $tmpObj->retriveLeaveEmployee($this->getId());
 		
-		$path = "/templates/leave/leaveList.php";
+		if (!$details) {
+			$tmpObj = $tmpObj->retriveLeaveRequestsEmployee($this->getId());		
+			$path = "/templates/leave/leaveRequestList.php";
+		} else {
+			$tmpObj = $tmpObj->retriveLeaveEmployee($this->getId());		
+			$path = "/templates/leave/leaveList.php";
+		}
 		
 		$template = new TemplateMerger($tmpObj, $path);
 		
@@ -155,7 +177,7 @@ class LeaveController {
 	 */
 	private function _viewLeavesSupervisor() {
 		$tmpObj = $this->getObjLeave();
-		$tmpObj = $tmpObj->retriveLeaveSupervisor($this->getId());
+		$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());
 		
 		$path = "/templates/leave/leaveList.php";
 		

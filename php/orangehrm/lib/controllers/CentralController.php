@@ -1026,6 +1026,10 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
 																						
+													case 'Leave_Fetch_Details'		:	$leaveController->setId($_REQUEST['id']);
+																						$leaveController->viewLeaves($_REQUEST['type'], null, true);
+																						break;
+																						
 													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
 																								 break;
 																																										

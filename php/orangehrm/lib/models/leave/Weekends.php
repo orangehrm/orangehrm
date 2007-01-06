@@ -92,7 +92,7 @@ class Weekends {
 	 */
 	public function __destruct() {
 		//nothing to do
-	}
+	}	
 	
 	/**
 	 * Fetch the whole week

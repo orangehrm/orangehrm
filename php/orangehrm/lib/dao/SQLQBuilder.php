@@ -1042,9 +1042,6 @@ function getCurrencyAssigned($salgrd) {
 	
 	function simpleInsert($insertTable, $insertValues, $insertFields=false) {		
 
-		//print_r($insertValues);
-		
-		//$query = "INSERT INTO $insertTable VALUES ( ".$this->_buildList($insertValues, ",").")";
 		$this->flg_insert = true;
 		
 		$this->table_name = $insertTable;
