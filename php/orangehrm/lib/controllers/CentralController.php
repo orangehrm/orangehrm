@@ -70,6 +70,7 @@ require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpRepUserGroups.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Leave.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveType.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveQuota.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveRequests.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
@@ -1010,12 +1011,13 @@ switch ($moduletype) {
 	case 'leave'	:	switch ($_GET['leavecode']) {
 							case 'Leave':	if (isset($_GET['action'])) {
 								
-												$leaveController 	 = new LeaveController();	
-												$leaveExtractor 	 = new EXTRACTOR_Leave();
-												$LeaveTypeExtractor  = new EXTRACTOR_LeaveType();
-												$leaveQuotaExtractor = new EXTRACTOR_LeaveQuota();
-												$holidaysExtractor   = new EXTRACTOR_Holidays();
-												$weekendsExtractor   = new EXTRACTOR_Weekends();																				
+												$leaveController 	 	 = new LeaveController();	
+												$leaveExtractor 	 	 = new EXTRACTOR_Leave();
+												$leaveRequestsExtractor  = new EXTRACTOR_LeaveRequests();
+												$LeaveTypeExtractor  	 = new EXTRACTOR_LeaveType();
+												$leaveQuotaExtractor 	 = new EXTRACTOR_LeaveQuota();
+												$holidaysExtractor   	 = new EXTRACTOR_Holidays();
+												$weekendsExtractor   	 = new EXTRACTOR_Weekends();																				
 																								
 												switch ($_GET['action']) {
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
@@ -1026,8 +1028,12 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
 																						
-													case 'Leave_Fetch_Details'		:	$leaveController->setId($_REQUEST['id']);
-																						$leaveController->viewLeaves($_REQUEST['type'], null, true);
+													case 'Leave_FetchDetailsEmployee':	$leaveController->setId($_REQUEST['id']);
+																						$leaveController->viewLeaves("employee", null, true);
+																						break;
+																						
+													case 'Leave_FetchDetailsSupervisor':$leaveController->setId($_REQUEST['id']);
+																						$leaveController->viewLeaveDetails("suprevisor");																							
 																						break;
 																						
 													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
@@ -1079,7 +1085,7 @@ switch ($moduletype) {
 																						$leaveController->redirect($mes);
 																						break;
 																						
-													case 'Leave_Apply'				: 	$obj = $leaveExtractor->parseAddData($_POST);
+													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
 																						$leaveController->redirect("");
@@ -1123,6 +1129,17 @@ switch ($moduletype) {
 																							$leaveController->setId($obj->getLeaveTypeId());
 																							$mes = $leaveController->LeaveTypeDelete();
 																							
+																						}
+																						$leaveController->redirect($mes);
+																						break;
+																						
+													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);																						
+																						$mes = "Empty record";
+																						if (isset($objs)) 
+																						foreach ($objs as $obj) {
+																							$leaveController->setObjLeave($obj);																							
+																							$leaveController->setId($obj->getLeaveRequestId());
+																							$mes = $leaveController->changeStatus();
 																						}
 																						$leaveController->redirect($mes);
 																						break;
