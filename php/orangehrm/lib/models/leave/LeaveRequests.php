@@ -309,6 +309,42 @@ class LeaveRequests extends Leave {
 		
 	}
 	
+	/**
+	 *
+	 * function _changeLeaveStatus, access is private, will not be documented
+	 *
+	 * @access private
+	 */	
+	protected function _changeLeaveStatus() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$table = "`hs_hr_leave`";
+
+		$changeFields[0] = "`leave_status`";
+		$changeFields[1] = "`leave_comments`";
+
+		$changeValues[0] = $this->getLeaveStatus();
+		$changeValues[1] = "'".$this->getLeaveComments()."'";
+		
+		//print_r($changeValues);		
+		$updateConditions[0] = "`leave_request_id` = ".$this->getLeaveRequestId();
+
+		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
+
+		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false; 
+	}
+	
 	private function _getNewLeaveRequestId() {
 		$sql_builder = new SQLQBuilder();
 		

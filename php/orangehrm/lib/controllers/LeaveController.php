@@ -75,7 +75,7 @@ class LeaveController {
 		$tmpLeaveObj = new Leave();
 		
 		$tmpLeaveObj->takeLeave();
-	}	
+	}
 	
 	//public function
 
@@ -161,7 +161,7 @@ class LeaveController {
 			$tmpObj = $tmpObj->retriveLeaveRequestsEmployee($this->getId());		
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
-			$tmpObj = $tmpObj->retriveLeaveEmployee($this->getId());		
+			$tmpObj = $tmpObj->retrieveLeave($this->getId());		
 			$path = "/templates/leave/leaveList.php";
 		}
 		
@@ -175,11 +175,16 @@ class LeaveController {
 	 * 
 	 * @return void
 	 */
-	private function _viewLeavesSupervisor() {
+	private function _viewLeavesSupervisor($details) {
 		$tmpObj = $this->getObjLeave();
-		$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());
 		
-		$path = "/templates/leave/leaveList.php";
+		if (!$details) {
+			$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());			
+			$path = "/templates/leave/leaveRequestList.php";
+		} else {
+			$tmpObj = $tmpObj->retriveLeaveSupervisor($this->getId());			
+			$path = "/templates/leave/leaveList.php";
+		}
 		
 		$template = new TemplateMerger($tmpObj, $path);
 		
@@ -206,7 +211,7 @@ class LeaveController {
 				$message = "?message=".$message;
 			}
 			
-			if (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
+			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && !is_array($_REQUEST['id'])) {
 				$id = "&id=".$_REQUEST['id'];
 			} else {
 				$id="";

@@ -41,6 +41,12 @@ class Leave {
 	const LEAVE_LENGTH_HALF_DAY_AFTERNOON = 4;
 	const LEAVE_LENGTH_HALF_DAY = 4;
 
+	const LEAVE_STATUS_LEAVE_REJECTED = -1;
+	const LEAVE_STATUS_LEAVE_CANCELLED = 0;
+	const LEAVE_STATUS_LEAVE_PENDING_APPROVAL = 1;
+	const LEAVE_STATUS_LEAVE_APPROVED = 2;
+	const LEAVE_STATUS_LEAVE_TAKEN = 3;
+	
 	public $statusLeaveRejected = -1;
 	public $statusLeaveCancelled = 0;
 	public $statusLeavePendingApproval = 1;
@@ -331,14 +337,18 @@ class Leave {
 		$this->_addLeave();
 	}
 
-	public function cancelLeave($id) {
-		$this->setLeaveId($id);
-		$this->setLeaveStatus($this->statusLeaveCancelled);
+	public function cancelLeave($id = null) {
+		if (isset($id)) {
+			$this->setLeaveId($id);
+		}
+		$this->setLeaveStatus($this->statusLeaveCancelled);		
 		return $this->_changeLeaveStatus();
 	}
 	
-	public function changeLeaveStatus($id) {
-		$this->setLeaveId($id);		
+	public function changeLeaveStatus($id = null) {
+		if (isset($id)) {
+			$this->setLeaveId($id);		
+		}
 		return $this->_changeLeaveStatus();
 	}
 	
@@ -464,10 +474,8 @@ class Leave {
 	 * function _changeLeaveStatus, access is private, will not be documented
 	 *
 	 * @access private
-	 *
-	 **/
-	
-	private function _changeLeaveStatus() {
+	 */	
+	protected function _changeLeaveStatus() {
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -479,8 +487,7 @@ class Leave {
 		$changeValues[0] = $this->getLeaveStatus();
 		$changeValues[1] = "'".$this->getLeaveComments()."'";
 		
-		//print_r($changeValues);
-
+		//print_r($changeValues);		
 		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
