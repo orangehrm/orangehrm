@@ -48,9 +48,9 @@ if ($modifier === "SUP") {
 }
  
  if ($modifier === "SUP") {
- 	$action = "Leave_ChangeStatus";
+ 	$action = "Leave_Request_ChangeStatus";
  } else {
- 	$action = "Leave_CancelLeave";
+ 	$action = "Leave_Request_CancelLeave";
  }
  
  if (isset($_GET['message'])) {
@@ -66,6 +66,9 @@ if ($modifier === "SUP") {
 	} else {
 ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
+<p class="navigation">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="history.back(); return false;">
+</p>
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
@@ -119,7 +122,7 @@ if ($modifier === "SUP") {
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo  $dateStr; ?></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=Leave_FetchDetailsEmployee&id=<?php echo $record->getLeaveRequestId(); ?>"><?php echo  $dateStr; ?></a></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>
@@ -188,8 +191,11 @@ if ($modifier === "SUP") {
 	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) { ?>
 		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />		
-		<?php } else { ?>
+		<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved)) { ?>
 		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<?php } else { 
+			echo $record->getLeaveComments(); ?>
+		<input type="hidden" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />			
 		<?php } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
