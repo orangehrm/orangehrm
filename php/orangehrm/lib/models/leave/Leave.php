@@ -588,7 +588,11 @@ class Leave {
 			$tmpLeaveArr->setLeaveDate($row['leave_date']);			
 			$tmpLeaveArr->setLeaveStatus($row['leave_status']);
 			
-			$leaveLength = $this->_leaveLength($row['leave_length'], $this->_timeOffLength($row['leave_date']));				
+			if ($row['leave_status'] == self::LEAVE_STATUS_LEAVE_TAKEN) {
+				$leaveLength = $row['leave_length'];
+			} else {
+				$leaveLength = $this->_leaveLength($row['leave_length'], $this->_timeOffLength($row['leave_date']));				
+			}
 				
 			$tmpLeaveArr->setLeaveLength($leaveLength);
 			$tmpLeaveArr->setLeaveComments($row['leave_comments']);
@@ -662,32 +666,72 @@ class Leave {
 	 * 
 	 * @access public
 	 */
-	 public function takeLeave(){
+	 public function takeLeave() {	 	
+	 	
 		$sqlBuilder = new SQLQBuilder();
 		
-		$updateTable = "`hs_hr_leave`";
+		$selectFields[0] = '`leave_date`';
+		$selectFields[1] = '`leave_status`';
+		$selectFields[2] = '`leave_length`';
+		$selectFields[3] = '`leave_comments`';
+		$selectFields[4] = '`leave_id`';	
 		
-		$changeFields[] = '`leave_status`';
+		$selectTable = '`hs_hr_leave`';
 		
-		$changeValues[] = 3;
+		$selectConditions[] = "`leave_status` = ".$this->statusLeaveApproved;
+		$selectConditions[] = "`leave_date` <= NOW()";
 		
-		$updateConditions[] = "`leave_status` = ".$this->statusLeaveApproved;
-		$updateConditions[] = "`leave_date` <= NOW()";
-		
-		$query = $sqlBuilder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions);
-		
-		//echo $query."\n";
-		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);		
+			
 		$dbConnection = new DMLFunctions();	
 
-		$dbConnection -> executeQuery($query);
+		$result = $dbConnection -> executeQuery($query);		
 		
-		if (mysql_affected_rows() > 0) {
-			return true;
+		if (isset($result) && !empty($result)) {
+			if (mysql_num_rows($result) > 0) {
+				
+				$leaveObjs = $this->_buildObjArr($result);
+			
+				foreach ($leaveObjs as $leaveObj) {
+					$leaveObj->setLeaveStatus(self::LEAVE_STATUS_LEAVE_TAKEN);
+					$leaveObj->changeLeaveToTaken();
+				}
+				
+				return true;
+			}
 		}
 		
 		return false;
-	 }	 
+	 }
+
+	 public function changeLeaveToTaken() {
+	 	$sqlBuilder = new SQLQBuilder();
+
+		$table = "`hs_hr_leave`";
+
+		$changeFields[0] = "`leave_status`";		
+		$changeFields[1] = "`leave_length`";
+
+		$changeValues[0] = $this->getLeaveStatus();
+		$changeValues[1] = "'".$this->getLeaveLength()."'";
+		
+		//print_r($changeValues);		
+		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
+
+		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
+
+		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false; 
+	 }
 	
 }
 

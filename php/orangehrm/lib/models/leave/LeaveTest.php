@@ -298,7 +298,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $res = $this->classLeave->retriveLeaveEmployee("014");        
         $this->assertNotNull($res, "Exsistent record not found2 ");    
         
-         $expected[0] = array(date('Y-m-d', time()), 'Medical', 3, 8, 'Leave 6');                
+        $expected[0] = array(date('Y-m-d', time()), 'Medical', 3, 8, 'Leave 6');                
 
         $this->assertNotNull($res, "No record found ");
 
