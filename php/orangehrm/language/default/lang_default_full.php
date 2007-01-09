@@ -1,5 +1,4 @@
 <?php
-
 /*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
  * all the essential functionalities required for any enterprise. 
@@ -17,7 +16,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  * 
- * @author: S.H.Mohanjith <moha@mohanjith.net>
  */
 
 	/**
@@ -26,7 +24,7 @@
 	 */
 	
 	$lang_Error_PleaseCorrectTheFollowing = "Please correct the following";
-	$lang_Error_SelectAtLeastOneRecordToDelete = "Select tt least one record to delete";
+	$lang_Error_SelectAtLeastOneRecordToDelete = "Select at least one record to delete";
 	$lang_Error_DoYouWantToDelete = "Do you want to delete?";
 	
 	$lang_Error_PleaseSelectAYear = "Please select a Year";
@@ -43,9 +41,12 @@
 	$lang_Error_PleaseSelectALeaveType = "Please select a Leave Type";
 			
 	$lang_Error_LeaveDateCannotBeABlankValue = "Leave date cannot be a blank value!";
+	$lang_Error_NameOfHolidayCannotBeBlank = "Name of holiday cannot be blank";
 	
 	$lang_Error_NoLeaveTypes = "No Leave Types";
 	$lang_Error_NoRecordsFound = "No records found!";
+	
+	$lang_Error_InvalidDate = "Invalid date";
 	
 	// Company Structure	
 	$lang_Error_CompStruct_UnitCount = "Also #children unit(s) under #parent will be deteted";
@@ -120,6 +121,9 @@
 	$lang_Menu_Leave_LeaveTypes = "Leave Types";
 	$lang_Menu_Leave_Apply = "Apply";
 	$lang_Menu_Leave_LeaveList = "Leave List";
+	$lang_Menu_Leave_DefineDaysOff = "Define Days Off";
+	$lang_Menu_Leave_DefineDaysOff_Weekends = "Weekends";
+	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Specific Holidays";
 
  	$lang_Leave_Title_Apply_Leave = "Apply Leave";
 	
@@ -132,15 +136,31 @@
 	$lang_Commn_title = "Title";
 	$lang_Commn_name = "Name";
 	
+	//days	
+	$lang_Common_Monday = "Monday";
+	$lang_Common_Tuesday = "Tuesday";
+	$lang_Common_Wednesday = "Wednesday";
+	$lang_Common_Thursday = "Thursday";
+	$lang_Common_Friday = "Friday";
+	$lang_Common_Saturday = "Saturday";
+	$lang_Common_Sunday = "Sunday";
+	
+	$lang_Leave_Common_Weekend = "Weekend";
+	
 	// admin module
 	$lang_Admin_Common_Institute = "Institute";
 	$lang_Admin_Common_Course = "Course";
 	
 	// leave module
 	$lang_Leave_Common_Date = "Date";
+	
+	$lang_Leave_Common_FromDate = "From Date";
+	$lang_Leave_Common_ToDate = "To Date";
+	
 	$lang_Leave_Common_LeaveType = "Leave Type";
 	$lang_Leave_Common_Status = "Status";
 	$lang_Leave_Common_Length = "Full Day/Half Day";
+	$lang_Leave_Common_Range = "Range";
 	$lang_Leave_Common_Comments = "Comments";
 	$lang_Leave_Common_Comment = "Comment";
 	$lang_Leave_Common_Approved = "Approved";
@@ -152,6 +172,7 @@
 	$lang_Leave_Common_FullDay = "Full Day";
 	$lang_Leave_Common_HalfDayMorning = "Half Day / Morning";
 	$lang_Leave_Common_HalfDayAfternoon = "Half Day / Afternoon";
+	$lang_Leave_Common_HalfDay = "Half Day";
 	$lang_Leave_Common_LeaveTaken = "Leave Taken";
 	$lang_Leave_Common_LeaveAvailable = "Leave Available";
 	$lang_Leave_Common_LeaveTypeName = "Leave Type Name";
@@ -159,13 +180,17 @@
 	$lang_Leave_Common_Select = "Select";
 	$lang_Leave_Common_oldLeaveTypeName = "Existing Leave Type Name";
 	$lang_Leave_Common_newLeaveTypeName = "New Leave Type Name";
-	$lang_Leave_Common_EmployeeName = "Empoloyee Name";
+	$lang_Leave_Common_EmployeeName = "Employee Name";
 	$lang_Leave_Common_LeaveEntitled = "Leave Entitled";
 	$lang_Leave_Common_Year = "Year";
 	$lang_Leave_Common_ListOfTakenLeave = "List of Taken Leave";
 	$lang_Leave_Common_Remove = "Remove";
+	
+	$lang_Leave_Common_NameOfHoliday = "Name of Holiday";
+	$lang_Leave_Common_Recurring = "Recurring";
 		
  	$lang_Leave_Leave_list_Title1 = "Approve Leave";
+	$lang_Leave_Leave_Requestlist_Title1 = "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 = "Leaves Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 = "Leave List";
 	$lang_Leave_Select_Employee_Title = "Select Employee";
@@ -176,6 +201,8 @@
 	$lang_Leave_Leave_Summary_SUP_Title = "Leave Summary for #employeeName for #dispYear";
 	$lang_Leave_Define_leave_Type_Title = "Define Leave Type ";
 	$lang_Leave_Leave_Type_Summary_Title = "Leave Types";
+	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
+	$lang_Leave_Leave_Holiday_Weeked_Title = "Define Days Off : Weekend";
 		
 	$lang_bankInformation_code = "Code";
 	$lang_bankInformation_description = "Description";
