@@ -495,18 +495,31 @@ create table `hs_hr_emprep_usergroup` (
   primary key  (`userg_id`,`rep_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_leave` (
-  `leave_id` int(11) not null,
-  `employee_id` int(7) not null,
-  `leave_type_id` varchar(6) not null,
-  `leave_type_name` varchar(20) not null,
-  `date_applied` date default null,
-  `leave_date` date default null,
-  `leave_length` smallint(6) default null,
-  `leave_status` smallint(6) default null,
-  `leave_comments` varchar(80) default null,
-  primary key  (`leave_id`,`employee_id`,`leave_type_id`)
-) engine=innodb default charset=utf8;
+CREATE TABLE `hs_hr_leave_requests` (
+  `leave_request_id` int(11) NOT NULL,
+  `leave_type_id` varchar(6) NOT NULL,
+  `leave_type_name` char(20) default NULL,
+  `date_applied` date NOT NULL,
+  `employee_id` int(7) NOT NULL,
+  PRIMARY KEY  (`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `leave_type_id` (`leave_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hs_hr_leave` (
+  `leave_id` int(11) NOT NULL,
+  `leave_date` date default NULL,
+  `leave_length` smallint(6) default NULL,
+  `leave_status` smallint(6) default NULL,
+  `leave_comments` varchar(80) default NULL,
+  `leave_request_id` int(11) NOT NULL,
+  `leave_type_id` varchar(6) NOT NULL,
+  `employee_id` int(7) NOT NULL,
+  PRIMARY KEY  (`leave_id`,`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `leave_request_id` (`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `leave_type_id` (`leave_type_id`),
+  KEY `employee_id` (`employee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_leavetype` (
   `leave_type_id` varchar(6) not null,
@@ -522,6 +535,20 @@ create table `hs_hr_employee_leave_quota` (
   primary key  (`leave_type_id`,`employee_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_holidays` (
+  `holiday_id` int(11) not null,
+  `description` text default null,
+  `date` date default '0000-00-00',
+  `recurring` tinyint(1) default '0',
+  `length` int(2) default null,
+  unique key `holiday_id` (`holiday_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_weekends` (
+  `day` int(2) not null,
+  `length` int(2) not null,
+  unique key `day` (`day`)
+) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
@@ -630,7 +657,6 @@ alter table hs_hr_emp_education
 alter table hs_hr_emp_work_experience
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
-
 
 alter table hs_hr_emp_passport
        add constraint foreign key (emp_number)
@@ -760,14 +786,20 @@ alter table hs_hr_employee_leave_quota
        add constraint foreign key (employee_id) 
        						references hs_hr_employee (emp_number) on delete cascade;
        						
-alter table hs_hr_leave
+alter table hs_hr_leave_requests
        add constraint foreign key (employee_id) 
        						references hs_hr_employee (emp_number) on delete cascade;
 							
-alter table hs_hr_leave
+alter table hs_hr_leave_requests
        add constraint foreign key (leave_type_id) 
        						references hs_hr_leavetype (leave_type_id) on delete cascade;
-
+							
+alter table hs_hr_leave 
+		add foreign key (leave_request_id,leave_type_id,employee_id)
+							references hs_hr_leave_requests 	
+									(leave_request_id,leave_type_id,employee_id) on delete cascade;
+									
+									
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);
 INSERT INTO `hs_hr_country` VALUES ('DZ', 'ALGERIA', 'Algeria', 'DZA', 12);
@@ -1283,3 +1315,11 @@ INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
+
+INSERT INTO `hs_hr_weekends` VALUES (1, 0);
+INSERT INTO `hs_hr_weekends` VALUES (2, 0);
+INSERT INTO `hs_hr_weekends` VALUES (3, 0);
+INSERT INTO `hs_hr_weekends` VALUES (4, 0);
+INSERT INTO `hs_hr_weekends` VALUES (5, 0);
+INSERT INTO `hs_hr_weekends` VALUES (6, 8);
+INSERT INTO `hs_hr_weekends` VALUES (7, 8);

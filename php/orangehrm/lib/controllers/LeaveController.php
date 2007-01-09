@@ -81,7 +81,7 @@ class LeaveController {
 
 	public function viewLeaves($modifier="employee", $year=null, $details=false) {
 			
-		if ($details) {	
+		if ($details) {			
 			switch ($modifier) {
 				case "employee": $this->setObjLeave(new Leave());
 								 $this->_viewLeavesEmployee($details);
@@ -90,7 +90,7 @@ class LeaveController {
 								 $this->_viewLeavesSupervisor($details);
 								 break;
 				case "taken"	: $this->setObjLeave(new Leave());
-								 $this->_viewLeavesTaken($year, $details);
+								  $this->_viewLeavesTaken($year, $details);
 								 break;
 				case "summary" : $this->setObjLeave(new LeaveSummary());
 								 $this->_displayLeaveSummary("display", $year);							 
@@ -154,14 +154,26 @@ class LeaveController {
 		return $tmpObj->changeLeaveStatus($this->getId());		
 	}
 	
-	private function _viewLeavesEmployee($details) {
+	/**
+	 * Checks whether the id is untampered
+	 *
+	 */
+	private function _authenticateViewLeaveDetails() {
+		
+		if ($_REQUEST['digest'] != md5($this->getId().SALT)) {
+			trigger_error("Unauthorized access", E_USER_NOTICE);
+		}
+	}
+	
+	private function _viewLeavesEmployee($details) {		
 		$tmpObj = $this->getObjLeave();
 		
 		if (!$details) {
 			$tmpObj = $tmpObj->retriveLeaveRequestsEmployee($this->getId());		
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
-			$tmpObj = $tmpObj->retrieveLeave($this->getId());		
+			$this->_authenticateViewLeaveDetails();
+			$tmpObj = $tmpObj->retrieveLeave($this->getId());					
 			$path = "/templates/leave/leaveList.php";
 		}
 		
@@ -175,13 +187,14 @@ class LeaveController {
 	 * 
 	 * @return void
 	 */
-	private function _viewLeavesSupervisor($details) {
+	private function _viewLeavesSupervisor($details) {		
 		$tmpObj = $this->getObjLeave();
 		
 		if (!$details) {
 			$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());			
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
+			$this->_authenticateViewLeaveDetails();
 			$tmpObj = $tmpObj->retrieveLeave($this->getId());			
 			$path = "/templates/leave/leaveList.php";
 		}

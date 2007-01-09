@@ -81,6 +81,12 @@ class LeaveRequests extends Leave {
 		$this->weekends = $weekendObj->fetchWeek();		
 	}
 	
+	/**
+	 *	Retrieves Leave Request Details of all leave that have been applied for but
+	 *	not yet taken of the employee.
+	 *
+	 * @return LeaveRequests[][] $leaveArr A 2D array of the leaves
+	 */	
 	public function retriveLeaveRequestsEmployee($employeeId) {
 		
 		$this->setEmployeeId($employeeId);
@@ -107,6 +113,12 @@ class LeaveRequests extends Leave {
 		return $leaveArr; 
 	}
 	
+	/**
+	 * Retrieves Leave Request Details of all leave that have been applied for but
+	 * not yet taken by all supervisor's subordinates.
+	 *
+	 * @return LeaveRequests[][] $leaveArr A 2D array of the leaves
+	 */
 	public function retriveLeaveRequestsSupervisor($supervisorId) {
 		
 		$sqlBuilder = new SQLQBuilder();		
@@ -168,15 +180,19 @@ class LeaveRequests extends Leave {
 					$comments = $tmpLeaveArr[0]->getLeaveComments();
 					$commentsDiffer = false;
 								
-					for ($i=1; $i<$totalLeaves; $i++) {
-						if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
-							$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;						
+					for ($i=1; $i<$totalLeaves; $i++) {									
+						
+						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {		
+							$noOfDays += $tmpLeaveArr[$i]->getLeaveLength();	
+						
+							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
+								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;						
+							}
 						}
+						
 						if ($comments != $tmpLeaveArr[$i]->getLeaveComments()) {
 							$commentsDiffer = true;						
-						}			
-								
-						$noOfDays += $tmpLeaveArr[$i]->getLeaveLength();									
+						}							
 					}
 					
 					$tmpLeaveRequestArr->setLeaveComments($comments);
@@ -195,10 +211,10 @@ class LeaveRequests extends Leave {
 				if ($supervisor) {
 					$tmpLeaveRequestArr->setEmployeeName($row[2]);
 					$tmpLeaveRequestArr->setEmployeeId($row[3]);
-					if ($tmpLeaveRequestArr->getLeaveStatus() != $this->statusLeaveTaken) {				
+					if ($tmpLeaveRequestArr->getLeaveStatus() != self::LEAVE_STATUS_LEAVE_TAKEN) {				
 						$objArr[] = $tmpLeaveRequestArr;
 					}
-				} else {			
+				} else {						
 					$objArr[] = $tmpLeaveRequestArr;
 				}
 			}
@@ -221,25 +237,13 @@ class LeaveRequests extends Leave {
 	 *
 	 */
 	private function _applyLeaves() {
-		$from = $this->_parseDateToStamp($this->getLeaveFromDate());
-		$to = $this->_parseDateToStamp($this->getLeaveToDate());
+		$from = strtotime($this->getLeaveFromDate());
+		$to = strtotime($this->getLeaveToDate());
 				
 		for ($timeStamp=$from; $timeStamp<=$to; $timeStamp=$this->_incDate($timeStamp)) {
 			$this->setLeaveDate(date('Y-m-d', $timeStamp));			
 			$this->_addLeave();
 		}
-	}
-	
-	/**
-	 * Parses Date of format Y-m-d into a Unix Timestamp
-	 *
-	 * @param String $date
-	 * @return int
-	 */
-	private function _parseDateToStamp($date) {
-		list($year, $month, $day) = explode('-', $date);
-		
-		return mktime ( 0, 0, 0, $month, $day, $year);
 	}
 	
 	/**
@@ -273,12 +277,8 @@ class LeaveRequests extends Leave {
 		$arrTable = "`hs_hr_leave_requests`";
 		
 		$sqlBuilder = new SQLQBuilder();
-		
-		//print_r($arrRecordsList);	
-		
+				
 		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList);
-		
-		//echo  $query;
 		
 		$dbConnection = new DMLFunctions();	
 

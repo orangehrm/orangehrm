@@ -124,6 +124,34 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	}
     }
     
+    public function testRetriveLeaveRequestsSupervisor1() {
+    	$leaveObj = $this->classLeaveRequest;
+    	
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor('051');
+    	
+    	$this->assertNull($res, 'Non exsistent record found');    	
+    }
+    
+    public function testRetriveLeaveRequestsSupervisor2() {
+    	$leaveObj = $this->classLeaveRequest;
+    	$employeeId = '012';
+    	
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($employeeId);
+    	
+    	$this->assertNotNull($res, 'Record not found');  
+    	
+    	$this->assertSame(2, count($res), 'Wrong number of records found'); 
+    	
+    	$expected[0] = array('10', 'Medical', date('Y-m-d', time()+3600*24), null);
+    	$expected[1] = array('11', 'Hospital', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*2));
+    	
+    	for ($i=0; $i<count($res); $i++) {
+    		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');    	
+    		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');    	
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');    			$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    	}
+    }
+    
     public function testApplyLeave1() {
     	$employeeId = '012';
     	

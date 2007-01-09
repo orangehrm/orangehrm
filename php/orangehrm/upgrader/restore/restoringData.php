@@ -109,7 +109,7 @@ class Conf {
 	\$this->dbuser	= '$dbOHRMUser';
 	\$this->dbpass	= '$dbOHRMPassword';
 	\$this->smtphost = 'mail.beyondm.net';
-	\$this->version	= '2.0.5';
+	\$this->version	= '2.1_alpha_2';
 	\$this->upgrade	= true;
 	}
 }

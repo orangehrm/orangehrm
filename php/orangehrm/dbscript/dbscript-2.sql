@@ -512,3 +512,11 @@ INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1,
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
+
+INSERT INTO `hs_hr_weekends` VALUES (1, 0);
+INSERT INTO `hs_hr_weekends` VALUES (2, 0);
+INSERT INTO `hs_hr_weekends` VALUES (3, 0);
+INSERT INTO `hs_hr_weekends` VALUES (4, 0);
+INSERT INTO `hs_hr_weekends` VALUES (5, 0);
+INSERT INTO `hs_hr_weekends` VALUES (6, 8);
+INSERT INTO `hs_hr_weekends` VALUES (7, 8);

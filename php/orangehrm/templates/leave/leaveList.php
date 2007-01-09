@@ -168,7 +168,7 @@ if ($modifier === "SUP") {
     													break;
 				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_Leave_Common_HalfDayAfternoon;
     													break;  
-				default: 	$leaveLength = '-N.A-';
+				default: 	$leaveLength = '----';
     		}
     		
     		echo $leaveLength;			

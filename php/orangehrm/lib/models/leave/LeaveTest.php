@@ -143,7 +143,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	
     	$res = $this->classLeave->applyLeave();    	
     	
-    	$res = $this->classLeave->retriveLeaveEmployee("012");
+    	$res = $this->classLeave->retrieveLeaveEmployee("012");
     	
     	$this->assertNotNull($res, "No record found");
     	
@@ -161,7 +161,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         $this->classLeave->setLeaveComments("Leave 2");
         $res = $this->classLeave->applyLeave();      
         
-        $res = $this->classLeave->retriveLeaveEmployee("012");  
+        $res = $this->classLeave->retrieveLeaveEmployee("012");  
         $expected[1] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 2, 'Leave 2'); 
         
         for ($i=0; $i < count($expected); $i++) {
@@ -172,47 +172,9 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         }	
     }
     
-    public function testRetriveLeaveEmployee1() {
-    	
-        $res = $this->classLeave->retriveLeaveEmployee("101");        
-        
-        $this->assertEquals($res, null, "Retured non exsistant record ");
-    }
-
-    public function testRetriveLeaveSupervisor1() {
-    	
-        $res = $this->classLeave->retriveLeaveSupervisor("041");        
-        
-        $this->assertEquals($res, null, "Retured non exsistant record ");
-    }
-    
-    public function testRetriveLeaveSupervisorAccuracy() {
-
-    	$empId = "012";
-    	
-        $res = $this->classLeave->retriveLeaveSupervisor($empId);
-        
-        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1', 'Subasinghe', "011");
-        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2', 'Subasinghe', "011");
-        
-        $this->assertNotNull($res, "No record found");
-        
-        $this->assertEquals(count($res), 2, "Number of records found is not accurate");
-
-        for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");        	
-        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getEmployeeName(), $expected[$i][5], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getEmployeeId(), $expected[$i][6], "Didn't return expected result ");
-        }
-       
-    }
-    
     public function testRetriveLeaveEmployeeAccuracy() {
 
-        $res = $this->classLeave->retriveLeaveEmployee("011");
+        $res = $this->classLeave->retrieveLeaveEmployee("011");
         
         $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1');
         $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');
@@ -242,7 +204,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
                 
         $this->assertEquals($res, $expected, "Cancelled already cancelled leave ");
                 
-        $res = $this->classLeave->retriveLeaveEmployee("011");        
+        $res = $this->classLeave->retrieveLeaveEmployee("011");        
         $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 0, 1, ''); 
         $expected[1] = array(date('Y-m-d', time()+3600*24*1), 'Medical', 0, 1, '');                 
 
@@ -278,7 +240,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     
     public function testTakeLeaveAccuracy() {
 
-    	$res = $this->classLeave->retriveLeaveEmployee("014");        
+    	$res = $this->classLeave->retrieveLeaveEmployee("014");        
         $this->assertNotNull($res, "Exsistent record not found ");   
         
         $expected[0] = array(date('Y-m-d', time()), 'Medical', 2, 8, 'Leave 6');                
@@ -295,7 +257,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$res = $this->classLeave->takeLeave();
     	$this->assertNotNull($res, "Unexpected behavior ");
     	
-        $res = $this->classLeave->retriveLeaveEmployee("014");        
+        $res = $this->classLeave->retrieveLeaveEmployee("014");        
         $this->assertNotNull($res, "Exsistent record not found2 ");    
         
         $expected[0] = array(date('Y-m-d', time()), 'Medical', 3, 8, 'Leave 6');                

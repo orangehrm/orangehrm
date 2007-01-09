@@ -124,7 +124,7 @@ if ($modifier === "SUP") {
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>"><?php echo  $dateStr; ?></a></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo  $dateStr; ?></a></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>
@@ -175,6 +175,7 @@ if ($modifier === "SUP") {
     													break;  
 				case LeaveRequests::LEAVEREQUESTS_LEAVELENGTH_RANGE : $leaveLength = $lang_Leave_Common_Range;
     																  break;
+				default: $leaveLength = '----';
     		}
     		
     		echo $leaveLength;			

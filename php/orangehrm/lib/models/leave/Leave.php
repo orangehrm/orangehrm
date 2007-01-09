@@ -213,7 +213,7 @@ class Leave {
 
 		$selectConditions[1] = "a.`employee_id` = '".$employeeId."'";
 		$selectConditions[2] = "a.`leave_status` = ".$this->statusLeaveTaken;		
-		$selectConditions[3] = "a.`leave_date` > '".$year."-01-01'";
+		$selectConditions[3] = "a.`leave_date` >= '".$year."-01-01'";
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
@@ -247,7 +247,7 @@ class Leave {
 		$arrTables[2] = "`hs_hr_employee` c";
 
 		$selectConditions[1] = "a.`leave_request_id` = '".$requestId."'";		
-		$selectConditions[2] = "a.`leave_date` > '".date('Y')."-01-01'";
+		$selectConditions[2] = "a.`leave_date` >= '".date('Y')."-01-01'";
 		
 		$joinConditions[1] = "a.`leave_request_id` = b.`leave_request_id`";
 		$joinConditions[2] = "a.`employee_id` = c.`emp_number`";
@@ -269,7 +269,7 @@ class Leave {
 	 *
 	 * @return Leave[][] $leaveArr A 2D array of the leaves
 	 */	
-	public function retriveLeaveEmployee($employeeId) {
+	public function retrieveLeaveEmployee($employeeId) {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
@@ -293,50 +293,7 @@ class Leave {
 		$leaveArr = $this->_buildObjArr($result);
 		
 		return $leaveArr; 
-	}
-
-	/**
-	 * Retrieves Leave Details of all leave that have been applied for but
-	 * not yet taken by all supervisors subordinates.
-	 *
-	 * @return Leave[][] $leaveArr A 2D array of the leaves
-	 */	
-	public function retriveLeaveSupervisor($supervisorId) {
-		
-		$sqlBuilder = new SQLQBuilder();		
-		
-		$arrFields[0] = 'a.`leave_date`';		
-		$arrFields[1] = 'a.`leave_status`';
-		$arrFields[2] = 'a.`leave_length`';
-		$arrFields[3] = 'a.`leave_comments`';
-		$arrFields[4] = 'a.`leave_id`';		
-		$arrFields[5] = 'd.`emp_firstname`';
-		$arrFields[6] = 'a.`employee_id`';
-		
-		$arrTables[0] = "`hs_hr_leave` a";		
-		$arrTables[1] = "`hs_hr_emp_reportto` c";
-		$arrTables[2] = "`hs_hr_employee` d";		
-		
-		$joinConditions[1] = "a.`employee_id` = c.`erep_sub_emp_number`";
-		$joinConditions[2] = "a.`employee_id` = d.`emp_number`";
-		
-		$selectConditionsTmp = "(a.`leave_status` IN (".$this->statusLeaveApproved.", ".$this->statusLeaveRejected.") AND a.`leave_date` > NOW())";
-		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
-		$selectConditions[2] = "a.`leave_status` != ".$this->statusLeaveTaken." OR ".$selectConditionsTmp;
-		
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
-		
-		//echo $query."\n";
-				
-		$dbConnection = new DMLFunctions();	
-
-		$result = $dbConnection -> executeQuery($query);
-				
-		$leaveArr = $this->_buildObjArr($result, true);
-		
-		return $leaveArr; 
-	}
-	
+	}	
 	
 	/**
 	 * Add Leave record to for a employee.
@@ -447,8 +404,7 @@ class Leave {
 		
 		$dbConnection = new DMLFunctions();	
 
-		$result = $dbConnection -> executeQuery($query);
-		
+		$result = $dbConnection -> executeQuery($query);		
 	}
 	
 	/**
@@ -542,7 +498,13 @@ class Leave {
 
 		$this->setLeaveTypeName($row[0]);
 	}
-		
+	
+	/**
+	 * Calculates the time off for a particular date
+	 *
+	 * @param String $date
+	 * @return integer $timeOff
+	 */
 	protected function _timeOffLength($date) {
 		$timeOff = 0;
 		if (isset($this->weekends[date('N', strtotime($date))-1])) {
@@ -562,26 +524,33 @@ class Leave {
 		return $timeOff;
 	}
 	
+	/**
+	 * Calculates required length of leave.
+	 *
+	 * @param integer $length - leave lenth
+	 * @param integer $timeOff - time off for that day
+	 * @return integer $reqiredLength - length of leave required.
+	 */
 	protected function _leaveLength($length, $timeOff) {
 		if ($timeOff > $length) {
 			return 0;
-		}
+		}		
+		$requiredLength = $length-$timeOff;
 		
-		return $length-$timeOff;		
+		return $requiredLength;	
 	}
 
 	/**
 	 *
 	 * function _buildObjArr, access is private, will not be documented
 	 *
-	 * @access private
-	 *
+	 * @access protected
 	 */		
 	protected function _buildObjArr($result, $supervisor=false) {
 		
 		$objArr = null;
 		
-		while ($row = mysql_fetch_assoc($result)) {
+		while ($row = mysql_fetch_assoc($result)) {			
 			
 			$tmpLeaveArr = new Leave();
 									
@@ -608,7 +577,7 @@ class Leave {
 			}
 					
 			$objArr[] = $tmpLeaveArr;					
-		}
+		}		
 		
 		return $objArr;
 	}
@@ -703,7 +672,14 @@ class Leave {
 		
 		return false;
 	 }
-
+	 
+	 /**
+	  * This is the workhorse function for takeLeave() function.
+	  * This needs to be publicly accessible, still this is expected
+	  * to be called from takeLeave()
+	  *
+	  * @return boolean
+	  */
 	 public function changeLeaveToTaken() {
 	 	$sqlBuilder = new SQLQBuilder();
 
@@ -713,9 +689,8 @@ class Leave {
 		$changeFields[1] = "`leave_length`";
 
 		$changeValues[0] = $this->getLeaveStatus();
-		$changeValues[1] = "'".$this->getLeaveLength()."'";
+		$changeValues[1] = "'".$this->getLeaveLength()."'";		
 		
-		//print_r($changeValues);		
 		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);

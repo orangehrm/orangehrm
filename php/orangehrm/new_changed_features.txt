@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.1_alpha_1 (09/01/2007)
+
+	In OrangeHRM-ver-2.1 ESS Users have the ability to apply for leave
+	for multiple days.
+	
+	Further Holidays could be defined in OrangeHRM. These will be used
+	when calculating leave.
+
 New & Changed Features for OrangeHRM ver 2.0.5 (25/12/2006)
 
 	Bugs fixed include:

@@ -32,7 +32,7 @@ alter table hs_hr_membership
 
 alter table hs_hr_employee
        add constraint foreign key (work_station)
-                             references hs_hr_compstructtree(id) on delete set NULL;
+                             references hs_hr_compstructtree(id) on delete set null;
 
 alter table hs_hr_employee
        add constraint foreign key (ethnic_race_code)
@@ -105,7 +105,6 @@ alter table hs_hr_emp_education
 alter table hs_hr_emp_work_experience
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
-
 
 alter table hs_hr_emp_passport
        add constraint foreign key (emp_number)
@@ -235,10 +234,15 @@ alter table hs_hr_employee_leave_quota
        add constraint foreign key (employee_id) 
        						references hs_hr_employee (emp_number) on delete cascade;
        						
-alter table hs_hr_leave
+alter table hs_hr_leave_requests
        add constraint foreign key (employee_id) 
        						references hs_hr_employee (emp_number) on delete cascade;
 							
-alter table hs_hr_leave
+alter table hs_hr_leave_requests
        add constraint foreign key (leave_type_id) 
        						references hs_hr_leavetype (leave_type_id) on delete cascade;
+							
+alter table hs_hr_leave 
+		add foreign key (leave_request_id,leave_type_id,employee_id)
+							references hs_hr_leave_requests 	
+									(leave_request_id,leave_type_id,employee_id) on delete cascade;

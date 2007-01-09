@@ -495,18 +495,31 @@ create table `hs_hr_emprep_usergroup` (
   primary key  (`userg_id`,`rep_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_leave` (
-  `leave_id` int(11) not null,
-  `employee_id` int(7) not null,
-  `leave_type_id` varchar(6) not null,
-  `leave_type_name` varchar(20) not null,
-  `date_applied` date default null,
-  `leave_date` date default null,
-  `leave_length` smallint(6) default null,
-  `leave_status` smallint(6) default null,
-  `leave_comments` varchar(80) default null,
-  primary key  (`leave_id`,`employee_id`,`leave_type_id`)
-) engine=innodb default charset=utf8;
+CREATE TABLE `hs_hr_leave_requests` (
+  `leave_request_id` int(11) NOT NULL,
+  `leave_type_id` varchar(6) NOT NULL,
+  `leave_type_name` char(20) default NULL,
+  `date_applied` date NOT NULL,
+  `employee_id` int(7) NOT NULL,
+  PRIMARY KEY  (`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `leave_type_id` (`leave_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `hs_hr_leave` (
+  `leave_id` int(11) NOT NULL,
+  `leave_date` date default NULL,
+  `leave_length` smallint(6) default NULL,
+  `leave_status` smallint(6) default NULL,
+  `leave_comments` varchar(80) default NULL,
+  `leave_request_id` int(11) NOT NULL,
+  `leave_type_id` varchar(6) NOT NULL,
+  `employee_id` int(7) NOT NULL,
+  PRIMARY KEY  (`leave_id`,`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `leave_request_id` (`leave_request_id`,`leave_type_id`,`employee_id`),
+  KEY `leave_type_id` (`leave_type_id`),
+  KEY `employee_id` (`employee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_leavetype` (
   `leave_type_id` varchar(6) not null,
@@ -520,4 +533,19 @@ create table `hs_hr_employee_leave_quota` (
   `employee_id` int(7) not null,
   `no_of_days_allotted` smallint(6) default null,
   primary key  (`leave_type_id`,`employee_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_holidays` (
+  `holiday_id` int(11) not null,
+  `description` text default null,
+  `date` date default '0000-00-00',
+  `recurring` tinyint(1) default '0',
+  `length` int(2) default null,
+  unique key `holiday_id` (`holiday_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_weekends` (
+  `day` int(2) not null,
+  `length` int(2) not null,
+  unique key `day` (`day`)
 ) engine=innodb default charset=utf8;
