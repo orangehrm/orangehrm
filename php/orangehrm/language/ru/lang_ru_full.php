@@ -47,7 +47,7 @@
 	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
 	$lang_Error_NoRecordsFound = "Записи не найдены!";
 	
-	$lang_Error_InvalidDate = "Invalid date";
+	$lang_Error_InvalidDate = "Недействительная дата";
 	
 	// Company Structure
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
@@ -126,9 +126,9 @@
 	$lang_Menu_Leave_LeaveTypes = "Виды отпуска";
 	$lang_Menu_Leave_Apply = "Обращение";
 	$lang_Menu_Leave_LeaveList = "Перечень отпусков";
-	$lang_Menu_Leave_DefineDaysOff = "Define Days Off";
-	$lang_Menu_Leave_DefineDaysOff_Weekends = "Weekends";
-	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Specific Holidays";
+	$lang_Menu_Leave_DefineDaysOff = "Определите нерабочие дни";
+	$lang_Menu_Leave_DefineDaysOff_Weekends = "Выxодные";
+	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Праздники";
 	
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
 	
@@ -142,15 +142,15 @@
 	$lang_Commn_name = "Название";
 	
 	//days	
-	$lang_Common_Monday = "Monday";
-	$lang_Common_Tuesday = "Tuesday";
-	$lang_Common_Wednesday = "Wednesday";
-	$lang_Common_Thursday = "Thursday";
-	$lang_Common_Friday = "Friday";
-	$lang_Common_Saturday = "Saturday";
-	$lang_Common_Sunday = "Sunday";
+	$lang_Common_Monday = "Понедельник";
+	$lang_Common_Tuesday = "Вторник";
+	$lang_Common_Wednesday = "Среда";
+	$lang_Common_Thursday = "Четверг";
+	$lang_Common_Friday = "Пятница";
+	$lang_Common_Saturday = "Суббота";
+	$lang_Common_Sunday = "Воскресенье";
 	
-	$lang_Leave_Common_Weekend = "Weekend";
+	$lang_Leave_Common_Weekend = "Выxодной";
 	
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
@@ -185,8 +185,8 @@
 	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпуск";
 	$lang_Leave_Common_Remove = "Remove";
 	
-	$lang_Leave_Common_NameOfHoliday = "Name of Holiday";
-	$lang_Leave_Common_Recurring = "Recurring";
+	$lang_Leave_Common_NameOfHoliday = "Название праздника";
+	$lang_Leave_Common_Recurring = "Повторяющийся";
 	
 	$lang_bankInformation_code = "Код";
 	$lang_bankInformation_description = "Описание";
@@ -198,7 +198,7 @@
 	$lang_compstruct_save = "Сохранить";
 
 	$lang_Leave_Leave_list_Title1 = "Подтвердить отпуск";
-	$lang_Leave_Leave_Requestlist_Title1 = "Approve Leave Request for #employeeName";
+	$lang_Leave_Leave_Requestlist_Title1 = "Поддвердить просьбу отпуска от #employeeName";
 	$lang_Leave_Leave_list_Title2 = "Отпуск использованный #employeeName в #dispYear";
 	$lang_Leave_Leave_list_Title3 = "Перечень отпусков";
 	$lang_Leave_Select_Employee_Title = "Выберите служащего";
@@ -209,8 +209,8 @@
 	$lang_Leave_Leave_Summary_SUP_Title = "Сводка отпусков #employeeName за #dispYear";
 	$lang_Leave_Define_leave_Type_Title = "Определить вид отпуска";
 	$lang_Leave_Leave_Type_Summary_Title = "Виды отпуска";
-	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
-	$lang_Leave_Leave_Holiday_Weeked_Title = "Define Days Off : Weekend";
+	$lang_Leave_Leave_Holiday_Specific_Title = "Определите нерабочие дни: Праздники";
+	$lang_Leave_Leave_Holiday_Weeked_Title = "Определите нерабочие дни: Выxодные";
 
 	$lang_comphire_heading = "Иерархия компаний: Информация о компании";
 	$lang_comphire_relationalhierarchy = "Относительная иерархия" ;
