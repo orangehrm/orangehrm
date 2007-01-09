@@ -1033,7 +1033,7 @@ switch ($moduletype) {
 																						break;
 																						
 													case 'Leave_FetchDetailsSupervisor':$leaveController->setId($_REQUEST['id']);
-																						$leaveController->viewLeaveDetails("suprevisor");																							
+																						$leaveController->viewLeaves("suprevisor", null, true);																							
 																						break;
 																						
 													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
@@ -1078,12 +1078,23 @@ switch ($moduletype) {
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
+																							$leaveController->setId($obj->getLeaveId());																							
+																							$mes=$leaveController->changeStatus("change");
+																						}
+																						$leaveController->redirect($mes);
+																						break;
+																						
+													case "Leave_Request_ChangeStatus": 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
+																						$mes = "Empty record";
+																						if (isset($objs)) 
+																						foreach ($objs as $obj) {
+																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
 																							echo $leaveController->getObjLeave()->getLeaveStatus();
 																							$mes=$leaveController->changeStatus("change");
 																						}
 																						$leaveController->redirect($mes);
-																						break;
+																						break;																
 																						
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
@@ -1109,7 +1120,7 @@ switch ($moduletype) {
 													case 'Leave_List_Taken'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveController->setId($id);
-																						$leaveController->viewLeaves("taken", $year);
+																						$leaveController->viewLeaves("taken", $year, true);
 																						break;
 																						
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);

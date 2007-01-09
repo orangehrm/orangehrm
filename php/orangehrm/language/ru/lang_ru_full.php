@@ -198,6 +198,7 @@
 	$lang_compstruct_save = "Сохранить";
 
 	$lang_Leave_Leave_list_Title1 = "Подтвердить отпуск";
+	$lang_Leave_Leave_Requestlist_Title1 = "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 = "Отпуск использованный #employeeName в #dispYear";
 	$lang_Leave_Leave_list_Title3 = "Перечень отпусков";
 	$lang_Leave_Select_Employee_Title = "Выберите служащего";

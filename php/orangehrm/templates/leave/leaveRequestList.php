@@ -49,8 +49,10 @@ if ($modifier === "SUP") {
  
  if ($modifier === "SUP") {
  	$action = "Leave_Request_ChangeStatus";
+ 	$detailAction = "Leave_FetchDetailsSupervisor";
  } else {
  	$action = "Leave_Request_CancelLeave";
+ 	$detailAction = "Leave_FetchDetailsEmployee";
  }
  
  if (isset($_GET['message'])) {
@@ -86,15 +88,15 @@ if ($modifier === "SUP") {
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>	
-    	<th width="175px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
     	<?php if ($modifier == "SUP") { ?>
     	<th width="140px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
     	<th width="50px" class="tableMiddleMiddle">No of Days</th>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
     	<th width="100px" class="tableMiddleMiddle">Leave Period</th>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
 		<th class="tableMiddleRight"></th>	
 	</tr>
   </thead>
@@ -122,7 +124,7 @@ if ($modifier === "SUP") {
 ?> 
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=Leave_FetchDetailsEmployee&id=<?php echo $record->getLeaveRequestId(); ?>"><?php echo  $dateStr; ?></a></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>"><?php echo  $dateStr; ?></a></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>

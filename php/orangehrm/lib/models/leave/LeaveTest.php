@@ -250,7 +250,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[0]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[0]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[0]->getLeaveStatus(), $expected[$i][2], "Didn't return expected status ");
         	$this->assertEquals($res[0]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
         	$this->assertEquals($res[0]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
         }

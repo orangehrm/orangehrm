@@ -78,6 +78,8 @@ class Leave {
 	private $leaveComments;
 	private $employeeName;
 	
+	protected $weekends;
+	
 
 	/*
 	 *
@@ -86,7 +88,8 @@ class Leave {
 	 **/
 	
 	public function __construct() {
-		// nothing to do		
+		$weekendObj = new Weekends();		
+		$this->weekends = $weekendObj->fetchWeek();		
 	}
 	
 	/*
@@ -230,24 +233,32 @@ class Leave {
 		
 		$sqlBuilder = new SQLQBuilder();		
 		
-		$arrFields[0] = '`leave_date`';
-		$arrFields[1] = '`leave_status`';
-		$arrFields[2] = '`leave_length`';
-		$arrFields[3] = '`leave_comments`';
-		$arrFields[4] = '`leave_id`';		
+		$arrFields[0] = 'a.`leave_date` as leave_date';
+		$arrFields[1] = 'a.`leave_status` as leave_status';
+		$arrFields[2] = 'a.`leave_length` as leave_length';
+		$arrFields[3] = 'a.`leave_comments` as leave_comments';
+		$arrFields[4] = 'a.`leave_id` as leave_id';	
+		$arrFields[5] = 'b.`leave_type_name` as leave_type_name';		
+		$arrFields[6] = 'c.`emp_firstname` as emp_firstname';
+		$arrFields[7] = 'a.`employee_id` as employee_id';
 		
-		$arrTable = "`hs_hr_leave`";
+		$arrTables[0] = "`hs_hr_leave` a";
+		$arrTables[1] = "`hs_hr_leave_requests` b";
+		$arrTables[2] = "`hs_hr_employee` c";
 
-		$selectConditions[1] = "`leave_request_id` = '".$requestId."'";		
-		$selectConditions[2] = "`leave_date` > '".date('Y')."-01-01'";
+		$selectConditions[1] = "a.`leave_request_id` = '".$requestId."'";		
+		$selectConditions[2] = "a.`leave_date` > '".date('Y')."-01-01'";
+		
+		$joinConditions[1] = "a.`leave_request_id` = b.`leave_request_id`";
+		$joinConditions[2] = "a.`employee_id` = c.`emp_number`";
 				
-		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 						
 		$dbConnection = new DMLFunctions();	
 
 		$result = $dbConnection -> executeQuery($query);
 		
-		$leaveArr = $this->_buildObjArr($result);
+		$leaveArr = $this->_buildObjArr($result, true);
 		
 		return $leaveArr; 
 	}
@@ -531,6 +542,33 @@ class Leave {
 
 		$this->setLeaveTypeName($row[0]);
 	}
+		
+	protected function _timeOffLength($date) {
+		$timeOff = 0;
+		if (isset($this->weekends[date('N', strtotime($date))-1])) {
+			$timeOff = $this->weekends[date('N', strtotime($date))-1]->getLength();
+		}
+		
+		if ($timeOff != Weekends::WEEKENDS_LENGTH_WEEKEND) {
+			$holidaysObj = new Holidays();
+			
+			$length = $holidaysObj->isHoliday($date);
+			
+			if ($length > $timeOff) {
+				return $length;
+			}
+		}
+		
+		return $timeOff;
+	}
+	
+	protected function _leaveLength($length, $timeOff) {
+		if ($timeOff > $length) {
+			return 0;
+		}
+		
+		return $length-$timeOff;		
+	}
 
 	/**
 	 *
@@ -549,16 +587,23 @@ class Leave {
 									
 			$tmpLeaveArr->setLeaveDate($row['leave_date']);			
 			$tmpLeaveArr->setLeaveStatus($row['leave_status']);
-			$tmpLeaveArr->setLeaveLength($row['leave_length']);
+			
+			$leaveLength = $this->_leaveLength($row['leave_length'], $this->_timeOffLength($row['leave_date']));				
+				
+			$tmpLeaveArr->setLeaveLength($leaveLength);
 			$tmpLeaveArr->setLeaveComments($row['leave_comments']);
 			$tmpLeaveArr->setLeaveId($row['leave_id']);
+			
+			if (isset($row['leave_type_name'])) {
+				$tmpLeaveArr->setLeaveTypeName($row['leave_type_name']);
+			}
 			
 			if ($supervisor) {
 				$tmpLeaveArr->setEmployeeName($row['emp_firstname']);
 				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
-			
-			$objArr[] = $tmpLeaveArr;
+					
+			$objArr[] = $tmpLeaveArr;					
 		}
 		
 		return $objArr;

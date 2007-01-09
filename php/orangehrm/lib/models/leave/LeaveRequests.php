@@ -40,7 +40,7 @@ class LeaveRequests extends Leave {
 	
 	private $leaveFromDate;
 	private $leaveToDate;
-	private $weekends;
+	
 	private $noDays;
 	private $commentsDiffer;
 	
@@ -138,33 +138,6 @@ class LeaveRequests extends Leave {
 		return $leaveArr; 
 	}
 	
-	private function _timeOffLength($date) {
-		$timeOff = 0;
-		if (isset($this->weekends[date('N', strtotime($date))-1])) {
-			$timeOff = $this->weekends[date('N', strtotime($date))-1]->getLength();
-		}
-		
-		if ($timeOff != Weekends::WEEKENDS_LENGTH_WEEKEND) {
-			$holidaysObj = new Holidays();
-			
-			$length = $holidaysObj->isHoliday($date);
-			
-			if ($length > $timeOff) {
-				return $length;
-			}
-		}
-		
-		return $timeOff;
-	}
-	
-	private function _leaveLength($length, $timeOff) {
-		if ($timeOff > $length) {
-			return 0;
-		}
-		
-		return $length-$timeOff;		
-	}
-	
 	protected function _buildObjArr($result, $supervisor=false) {		
 		
 		$objArr = null;
@@ -180,50 +153,54 @@ class LeaveRequests extends Leave {
 			
 			$tmpLeaveArr = $tmpLeave->retrieveLeave($row[1]);
 			
-			$totalLeaves = count($tmpLeaveArr);
+			if (isset($tmpLeaveArr) && !empty($tmpLeaveArr)) {
 			
-			$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
-			
-			$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLength(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
-			
-			if ($totalLeaves > 1) {
-				$tmpLeaveRequestArr->setLeaveToDate($tmpLeaveArr[$totalLeaves-1]->getLeaveDate());				
+				$totalLeaves = count($tmpLeaveArr);
 				
-				$status = $tmpLeaveArr[0]->getLeaveStatus();
-				$comments = $tmpLeaveArr[0]->getLeaveComments();
-				$commentsDiffer = false;
-							
-				for ($i=1; $i<$totalLeaves; $i++) {
-					if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
-						$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;						
+				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
+				
+				$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLength(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
+				
+				if ($totalLeaves > 1) {
+					$tmpLeaveRequestArr->setLeaveToDate($tmpLeaveArr[$totalLeaves-1]->getLeaveDate());				
+					
+					$status = $tmpLeaveArr[0]->getLeaveStatus();
+					$comments = $tmpLeaveArr[0]->getLeaveComments();
+					$commentsDiffer = false;
+								
+					for ($i=1; $i<$totalLeaves; $i++) {
+						if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
+							$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;						
+						}
+						if ($comments != $tmpLeaveArr[$i]->getLeaveComments()) {
+							$commentsDiffer = true;						
+						}			
+								
+						$noOfDays += $tmpLeaveArr[$i]->getLeaveLength();									
 					}
-					if ($comments != $tmpLeaveArr[$i]->getLeaveComments()) {
-						$commentsDiffer = true;						
-					}
-					$noOfDays += $this->_leaveLength($tmpLeaveArr[$i]->getLeaveLength(), $this->_timeOffLength($tmpLeaveArr[$i]->getLeaveDate()));					
+					
+					$tmpLeaveRequestArr->setLeaveComments($comments);
+					$tmpLeaveRequestArr->setCommentsDiffer($commentsDiffer);
+					
+					$tmpLeaveRequestArr->setLeaveStatus($status);
+					$tmpLeaveRequestArr->setLeaveLength(self::LEAVEREQUESTS_LEAVELENGTH_RANGE);				
+				} else {
+					$tmpLeaveRequestArr->setLeaveLength($tmpLeaveArr[0]->getLeaveLength());
+					$tmpLeaveRequestArr->setLeaveStatus($tmpLeaveArr[0]->getLeaveStatus());			
+					$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
 				}
+						
+				$tmpLeaveRequestArr->setNoDays($noOfDays/self::LEAVE_LENGTH_FULL_DAY);
 				
-				$tmpLeaveRequestArr->setLeaveComments($comments);
-				$tmpLeaveRequestArr->setCommentsDiffer($commentsDiffer);
-				
-				$tmpLeaveRequestArr->setLeaveStatus($status);
-				$tmpLeaveRequestArr->setLeaveLength(self::LEAVEREQUESTS_LEAVELENGTH_RANGE);				
-			} else {
-				$tmpLeaveRequestArr->setLeaveLength($tmpLeaveArr[0]->getLeaveLength());
-				$tmpLeaveRequestArr->setLeaveStatus($tmpLeaveArr[0]->getLeaveStatus());			
-				$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
-			}
-			
-			$tmpLeaveRequestArr->setNoDays($noOfDays/self::LEAVE_LENGTH_FULL_DAY);
-			
-			if ($supervisor) {
-				$tmpLeaveRequestArr->setEmployeeName($row[2]);
-				$tmpLeaveRequestArr->setEmployeeId($row[3]);
-				if ($tmpLeaveRequestArr->getLeaveStatus() != $this->statusLeaveTaken) {				
+				if ($supervisor) {
+					$tmpLeaveRequestArr->setEmployeeName($row[2]);
+					$tmpLeaveRequestArr->setEmployeeId($row[3]);
+					if ($tmpLeaveRequestArr->getLeaveStatus() != $this->statusLeaveTaken) {				
+						$objArr[] = $tmpLeaveRequestArr;
+					}
+				} else {			
 					$objArr[] = $tmpLeaveRequestArr;
 				}
-			} else {			
-				$objArr[] = $tmpLeaveRequestArr;
 			}
 		}
 		

@@ -182,7 +182,7 @@ class LeaveController {
 			$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());			
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
-			$tmpObj = $tmpObj->retriveLeaveSupervisor($this->getId());			
+			$tmpObj = $tmpObj->retrieveLeave($this->getId());			
 			$path = "/templates/leave/leaveList.php";
 		}
 		

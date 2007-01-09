@@ -91,6 +91,7 @@ class EXTRACTOR_Leave {
 				if ($postArr['cmbStatus'][$i] == 0) {
 					$tmpObj = new Leave();
 					$tmpObj->setLeaveId($postArr['id'][$i]);
+					$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
 					
 					$objLeave[] = $tmpObj;
 				}

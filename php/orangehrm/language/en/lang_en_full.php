@@ -180,7 +180,7 @@
 	$lang_Leave_Common_Select = "Select";
 	$lang_Leave_Common_oldLeaveTypeName = "Existing Leave Type Name";
 	$lang_Leave_Common_newLeaveTypeName = "New Leave Type Name";
-	$lang_Leave_Common_EmployeeName = "Empoloyee Name";
+	$lang_Leave_Common_EmployeeName = "Employee Name";
 	$lang_Leave_Common_LeaveEntitled = "Leave Entitled";
 	$lang_Leave_Common_Year = "Year";
 	$lang_Leave_Common_ListOfTakenLeave = "List of Taken Leave";
@@ -190,6 +190,7 @@
 	$lang_Leave_Common_Recurring = "Recurring";
 		
  	$lang_Leave_Leave_list_Title1 = "Approve Leave";
+	$lang_Leave_Leave_Requestlist_Title1 = "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 = "Leaves Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 = "Leave List";
 	$lang_Leave_Select_Employee_Title = "Select Employee";
