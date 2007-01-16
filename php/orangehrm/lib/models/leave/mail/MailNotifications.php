@@ -83,6 +83,7 @@ class MailNotifications {
 	private $subordinateMail;
 	
 	private $mailer;
+	private $mailType;
 	
 	private $employeeIdLength;
 	
@@ -121,13 +122,15 @@ class MailNotifications {
 		
 		$this->mailer = new htmlMimeMail5();
 		
-		$this->mailer->setSMTPParams($confObj->smtphost);
+		$this->mailer->setSMTPParams($confObj->smtphost, null, null, null, $confObj->smtpuser, $confObj->smtppass);
 		
 		$this->mailer->setFrom("OrangeHRM <{$confObj->mailaddress}>");
 		
 		$sysConfObj = new sysConf();
 		
 		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
+		
+		$this->mailType = $confObj->mailtype;
 	}
 	
 	public function __destruct() {
@@ -176,7 +179,7 @@ class MailNotifications {
 			}
 		}
 		
-		if (!@$mailer->send($this->to, "smtp")) {
+		if (!is_array($this->to) || !@$mailer->send($this->to, $this->mailType)) {
 			$logMessage .= " - FAILED";
 		} else {
 			$logMessage .= " - SUCCEEDED";

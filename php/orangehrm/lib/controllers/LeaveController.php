@@ -183,19 +183,23 @@ class LeaveController {
 		$template->display();		
 	}
 	
-	public function sendCancelledLeaveNotification($obj, $request=false) {
-		$mailNotificaton = new MailNotifications();
-		
-		if ($request) {
-			$mailNotificaton->setLeaveRequestObj($obj);
-		} else {
-			$mailNotificaton->setLeaveObjs($obj);
-		}
-		
-		$mailNotificaton->setAction(MailNotifications::MAILNOTIFICATIONS_ACTION_CANCEL);
-		$mailNotificaton->send();
+	/**
+	 * Cancelled leave notification
+	 *
+	 * @param mixed $obj
+	 * @param boolean $request
+	 */
+	public function sendCancelledLeaveNotification($obj, $request=false) {				
+		$this->_sendChangedLeaveNotification($obj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_CANCEL);	
 	}
 	
+	/**
+	 * Workhorse function for sendChangedLeaveNotification and sendCancelledLeaveNotification
+	 *
+	 * @param mixed $obj
+	 * @param boolean $request
+	 * @param String $action
+	 */
 	private function _sendChangedLeaveNotification($obj, $request=false, $action) {
 		$mailNotificaton = new MailNotifications();
 		
@@ -205,12 +209,17 @@ class LeaveController {
 			$mailNotificaton->setLeaveObjs($obj);
 		}
 		
-		error_log($action."\r\n", 3, ROOT_PATH."/lib/logs/notification_mails.log");
-		
 		$mailNotificaton->setAction($action);
 		$mailNotificaton->send();
 	}
 	
+	/**
+	 * Sending mail notification when leave status change
+	 *
+	 * @param mixed $objs
+	 * @param boolean $request
+	 * @return boolean
+	 */
 	public function sendChangedLeaveNotification($objs, $request=false) {
 		if (!isset($objs)) {			
 			return false;
@@ -243,7 +252,9 @@ class LeaveController {
 		}
 		
 		$this->_sendChangedLeaveNotification($approveObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_APPROVE);
-		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);			
+		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);	
+
+		return true;	
 	}
 	
 	/**

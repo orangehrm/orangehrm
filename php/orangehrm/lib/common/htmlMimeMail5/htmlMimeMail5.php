@@ -714,7 +714,7 @@ class htmlMimeMail5
     */
     public function send($recipients, $type = 'mail')
     {
-        if (!defined('CRLF')) {
+    	if (!defined('CRLF')) {
             $this->setCRLF( ($type == 'mail' OR $type == 'sendmail') ? "\n" : "\r\n");
         }
 
