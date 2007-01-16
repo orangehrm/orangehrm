@@ -130,9 +130,27 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
         }   	
     }
+    
+    public function testRetriveLeaveEmployeeAccuracy() {		
+        $res = $this->classLeave->retrieveLeaveEmployee("011");
+                
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1');
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');
+        
+        $this->assertNotNull($res, "No record found ");
+        
+        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
+        
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");        	
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        }      
+    }
 
-    public function testApplyLeave()
-    {
+    public function testApplyLeave() {
+    	
     	$this->classLeave->setLeaveRequestId("010");
     	$this->classLeave->setEmployeeId("012");
     	$this->classLeave->setLeaveTypeId("LTY010");    	 	
@@ -170,27 +188,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Checking added / applied leave ");
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Checking added / applied leave ");
         }	
-    }
-    
-    public function testRetriveLeaveEmployeeAccuracy() {
-
-        $res = $this->classLeave->retrieveLeaveEmployee("011");
-        
-        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 1, 'Leave 1');
-        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 'Leave 2');
-        
-        $this->assertNotNull($res, "No record found ");
-        
-        $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
-
-        for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");        	
-        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveLength(), $expected[$i][3], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
-        }
-       
-    }
+    }    
     
     public function testCancelLeaveAccuracy() {
     	        

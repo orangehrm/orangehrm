@@ -23,6 +23,8 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
+require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
+require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 
 /**
  * Leave Class
@@ -241,6 +243,7 @@ class Leave {
 		$arrFields[5] = 'b.`leave_type_name` as leave_type_name';		
 		$arrFields[6] = 'c.`emp_firstname` as emp_firstname';
 		$arrFields[7] = 'a.`employee_id` as employee_id';
+		$arrFields[8] = 'a.`leave_request_id` as leave_request_id';
 		
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leave_requests` b";
@@ -571,7 +574,11 @@ class Leave {
 				$tmpLeaveArr->setLeaveTypeName($row['leave_type_name']);
 			}
 			
-			if ($supervisor) {
+			if (isset($row['leave_request_id'])) {
+				$tmpLeaveArr->setLeaveRequestId($row['leave_request_id']);
+			}
+			
+			if ($supervisor || isset($row['employee_id'])) {
 				$tmpLeaveArr->setEmployeeName($row['emp_firstname']);
 				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}

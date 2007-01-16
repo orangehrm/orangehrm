@@ -28,6 +28,7 @@ require_once ROOT_PATH . '/lib/models/leave/LeaveQuota.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveSummary.php';
 require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
+require_once ROOT_PATH . '/lib/models/leave/mail/MailNotifications.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
@@ -138,9 +139,9 @@ class LeaveController {
 		}
 		
 		if ($res) {
-			$message="";
+			$message=true;
 		} else {
-			$message="";
+			$message=false;
 		}
 		
 		return $message;
@@ -180,6 +181,69 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObj, $path);
 		
 		$template->display();		
+	}
+	
+	public function sendCancelledLeaveNotification($obj, $request=false) {
+		$mailNotificaton = new MailNotifications();
+		
+		if ($request) {
+			$mailNotificaton->setLeaveRequestObj($obj);
+		} else {
+			$mailNotificaton->setLeaveObjs($obj);
+		}
+		
+		$mailNotificaton->setAction(MailNotifications::MAILNOTIFICATIONS_ACTION_CANCEL);
+		$mailNotificaton->send();
+	}
+	
+	private function _sendChangedLeaveNotification($obj, $request=false, $action) {
+		$mailNotificaton = new MailNotifications();
+		
+		if ($request) {
+			$mailNotificaton->setLeaveRequestObj($obj);
+		} else {
+			$mailNotificaton->setLeaveObjs($obj);
+		}
+		
+		error_log($action."\r\n", 3, ROOT_PATH."/lib/logs/notification_mails.log");
+		
+		$mailNotificaton->setAction($action);
+		$mailNotificaton->send();
+	}
+	
+	public function sendChangedLeaveNotification($objs, $request=false) {
+		if (!isset($objs)) {			
+			return false;
+		}	
+		
+		$approveObj = null;
+		$rejectedObj = null;
+		
+		if ($request) {
+			switch ($objs->getLeaveStatus()) {
+				case Leave::LEAVE_STATUS_LEAVE_APPROVED : $approveObj = $objs;
+														  break;
+				case Leave::LEAVE_STATUS_LEAVE_REJECTED : $rejectedObj = $objs;
+														  break;
+			}
+		} else {	
+			if (!is_array($objs)) {
+				return false;
+			}
+			foreach ($objs as $obj) {
+				if ($obj && is_a($obj, 'Leave')) {
+					switch ($obj->getLeaveStatus()) {
+						case Leave::LEAVE_STATUS_LEAVE_APPROVED : $approveObj[] = $obj;
+																  break;
+						case Leave::LEAVE_STATUS_LEAVE_REJECTED : $rejectedObj[] = $obj;
+																  break;
+					}
+				}
+			}			
+		}
+		
+		$this->_sendChangedLeaveNotification($approveObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_APPROVE);
+		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);			
 	}
 	
 	/**
@@ -245,6 +309,13 @@ class LeaveController {
 	public function addLeave() {
 		$tmpObj = $this->getObjLeave();
 		$res = $tmpObj->applyLeaveRequest();
+		
+		$mailNotificaton = new MailNotifications();
+		
+		$mailNotificaton->setLeaveRequestObj($tmpObj);
+		
+		$mailNotificaton->setAction(MailNotifications::MAILNOTIFICATIONS_ACTION_APPLY);
+		$mailNotificaton->send();
 		
 		if ($res) {
 			$message="";

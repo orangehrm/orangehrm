@@ -112,9 +112,11 @@ class Weekends {
 				
 		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, null, $arrFieldList[0], 'ASC');
 			
-		$dbConnection = new DMLFunctions();	
+		$dbConnection = new DMLFunctions();			
 
 		$result = $dbConnection -> executeQuery($query);
+		
+		//echo mysql_num_rows($result)."\n";
 		
 		return $this->_buildObjArr($result);
 	}

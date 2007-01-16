@@ -46,14 +46,17 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
     	
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (1, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.")");   	
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (2, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.")");
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (3, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.")");
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (4, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.")");
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (5, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.")");
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (6, ".Weekends::WEEKENDS_LENGTH_HALF_DAY.")");
-    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (7, ".Weekends::WEEKENDS_LENGTH_WEEKEND.")");
     	
+    	mysql_select_db($conf->dbname);
+    	 
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (1, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");   	
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (2, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (3, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (4, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (5, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (6, ".Weekends::WEEKENDS_LENGTH_HALF_DAY.");");
+    	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (7, ".Weekends::WEEKENDS_LENGTH_WEEKEND.");");
+    	    	
     }
 
     /**
@@ -69,7 +72,7 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
     /**
      * @todo Implement testFetchWeek().
      */
-    public function testFetchWeek() {
+    public function testFetchWeek() {    	
     	$expected[0] = array(1, 0);
     	$expected[1] = array(2, 0);
     	$expected[2] = array(3, 0);
@@ -79,12 +82,12 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
     	$expected[6] = array(7, 8);
     	
         $res = $this->classWeekend->fetchWeek();
-        
+                
         $this->assertNotNull($res, 'Unexpected behavior');
         $this->assertEquals(count($res), 7, 'Invalid number of records found');
         
         for ($i=0; $i<count($res); $i++) {
-        	$this->assertEquals($res[$i]->getDay(), $expected[$i][0], 'Invalid day');
+        	$this->assertEquals($res[$i]->getDay(), $expected[$i][0], 'Invalid day');        	
         	$this->assertEquals($res[$i]->getLength(), $expected[$i][1], 'Invalid length');
         }
     }

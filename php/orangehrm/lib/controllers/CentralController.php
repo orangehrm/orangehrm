@@ -1067,23 +1067,30 @@ switch ($moduletype) {
 																						
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
-																						if (isset($objs)) 
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getLeaveId());
-																							$mes = $leaveController->changeStatus();
+																						if (isset($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);
+																								$leaveController->setId($obj->getLeaveId());
+																								$mes = $leaveController->changeStatus();
+																							}
 																						}
-																						$leaveController->redirect($mes);
+																						$leaveController->sendCancelledLeaveNotification($objs);
+																						$leaveController->redirect("");
 																						break;
 													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
+																						$objx=false;
 																						if (isset($objs)) 
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());																							
 																							$mes=$leaveController->changeStatus("change");
-																						}
-																						$leaveController->redirect($mes);
+																							if ($mes) {
+																								$objx[] = $obj;													
+																							}
+																						}																						
+																						$leaveController->sendChangedLeaveNotification($objx);
+																						$leaveController->redirect("");
 																						break;
 																						
 													case "Leave_Request_ChangeStatus": 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
@@ -1092,10 +1099,15 @@ switch ($moduletype) {
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
-																							echo $leaveController->getObjLeave()->getLeaveStatus();
-																							$mes=$leaveController->changeStatus("change");
+																							//echo $leaveController->getObjLeave()->getLeaveStatus();
+																							$mes=$leaveController->changeStatus("change");		
+																							if ($mes) {
+																								$leaveController->sendChangedLeaveNotification($obj, true);			
+																							}																		
 																						}
-																						$leaveController->redirect($mes);
+																						
+																						print_r($objs);
+																						$leaveController->redirect("");
 																						break;																
 																						
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
@@ -1148,13 +1160,15 @@ switch ($moduletype) {
 																						
 													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);																						
 																						$mes = "Empty record";
-																						if (isset($objs)) 
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);																							
-																							$leaveController->setId($obj->getLeaveRequestId());
-																							$mes = $leaveController->changeStatus();
+																						if (isset($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);																							
+																								$leaveController->setId($obj->getLeaveRequestId());
+																								$mes = $leaveController->changeStatus();
+																								$leaveController->sendCancelledLeaveNotification($obj, true);
+																							}
 																						}
-																						$leaveController->redirect($mes);
+																						$leaveController->redirect("");
 																						break;
 																						
 													case 'Holiday_Specific_List'	:	$leaveController->viewHoliday();

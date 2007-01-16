@@ -66,9 +66,14 @@ class EXTRACTOR_Leave {
 				$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
 				$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
 				
+				$tmpObj->setLeaveDate($postArr['txtLeaveDate'][$i]);
+				
 				if (isset($postArr['txtEmployeeId'][$i])) {
-					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);				
+					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);	
+					$tmpObj->setEmployeeName($postArr['txtEmployeeName'][$i]);			
 				}
+				$tmpObj->setLeaveTypeName($postArr['txtLeaveTypeName'][$i]);
+				$tmpObj->setLeaveRequestId($postArr['txtLeaveRequestId'][$i]);
 					
 				$objLeave[] = $tmpObj;			
 			}
@@ -92,6 +97,13 @@ class EXTRACTOR_Leave {
 					$tmpObj = new Leave();
 					$tmpObj->setLeaveId($postArr['id'][$i]);
 					$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
+					$tmpObj->setLeaveDate($postArr['txtLeaveDate'][$i]);
+					$tmpObj->setLeaveTypeName($postArr['txtLeaveTypeName'][$i]);
+					
+					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
+					
+					$tmpObj->setEmployeeName($postArr['txtEmployeeName'][$i]);
+					$tmpObj->setLeaveRequestId($postArr['txtLeaveRequestId'][$i]);
 					
 					$objLeave[] = $tmpObj;
 				}
