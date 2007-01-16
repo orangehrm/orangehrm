@@ -109,7 +109,8 @@ if ($modifier === "SUP") {
   <tbody>
 <?php
 	$j = 0;
-	if (is_array($records))
+	if (is_array($records)) {
+
 		foreach ($records as $record) {
 			if(!($j%2)) { 
 				$cssClass = 'odd';
@@ -122,6 +123,10 @@ if ($modifier === "SUP") {
 			 $tmpDate = split('-', $tmpDate);
 			 $tmpTimeStamp = mktime(0, 0, 0, $tmpDate[1], $tmpDate[2], $tmpDate[0]);
 ?> 
+  	<input type="hidden" name="txtLeaveRequestId[]" id="txtLeaveRequestId[]" value="<?php echo $record->getLeaveRequestId(); ?>" />
+	<input type="hidden" name="txtEmployeeName[]" id="txtEmployeeName[]" value="<?php echo $record->getEmployeeName(); ?>" />
+	<input type="hidden" name="txtLeaveDate[]" id="txtLeaveDate[]" value="<?php echo $record->getLeaveDate();; ?>" />
+	<input type="hidden" name="txtLeaveTypeName[]" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName(); ?>" />
   <tr>
   	<td class="tableMiddleLeft"></td>
     <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d, Y', $tmpTimeStamp); ?></td>
@@ -189,6 +194,7 @@ if ($modifier === "SUP") {
 
 <?php 	
 		}
+	}
 ?>	
   </tbody>
   <tfoot>
