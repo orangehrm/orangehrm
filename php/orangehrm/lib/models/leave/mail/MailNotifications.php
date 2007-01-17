@@ -21,7 +21,7 @@
  */
 
 require_once ROOT_PATH . '/lib/common/htmlMimeMail5/htmlMimeMail5.php';
-require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
@@ -118,19 +118,21 @@ class MailNotifications {
 	 *
 	 */
 	public function __construct() {
-		$confObj = new Conf();
+		$confObj = new EmailConfiguration();
 		
 		$this->mailer = new htmlMimeMail5();
 		
-		$this->mailer->setSMTPParams($confObj->smtphost, null, null, null, $confObj->smtpuser, $confObj->smtppass);
+		$this->mailer->setSMTPParams($confObj->getSmtpHost(), null, null, null, $confObj->getSmtpUser(), $confObj->getSmtpPass());
+				
+		$this->mailer->setSendmailPath($confObj->getSendmailPath());
 		
-		$this->mailer->setFrom("OrangeHRM <{$confObj->mailaddress}>");
+		$this->mailer->setFrom("OrangeHRM <{$confObj->getMailAddress()}>");
 		
 		$sysConfObj = new sysConf();
 		
 		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
 		
-		$this->mailType = $confObj->mailtype;
+		$this->mailType = $confObj->getMailType();
 	}
 	
 	public function __destruct() {
@@ -179,8 +181,9 @@ class MailNotifications {
 			}
 		}
 		
-		if (!is_array($this->to) || !@$mailer->send($this->to, $this->mailType)) {
-			$logMessage .= " - FAILED";
+		if ((!is_array($this->to)) || (!@$mailer->send($this->to, $this->mailType))) {			
+			$logMessage .= " - FAILED \r\nReason(s):";
+			$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
 		} else {
 			$logMessage .= " - SUCCEEDED";
 		}

@@ -40,6 +40,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/JobTitEmpStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -180,6 +181,9 @@ class ViewController {
 
 			case 'CST' :
 			case 'GEN' :
+						$this->reDirect($getArr);
+						break;
+			case 'EMX' :
 						$this->reDirect($getArr);
 						break;						
 			default:
@@ -1635,6 +1639,11 @@ class ViewController {
 				case 'USG'  :		$usergroups = new UserGroups();
 									$usergroups = $object;
 									$res = $usergroups -> updateUserGroups();
+									break;
+									
+				case 'EMX'  :		$emailConfig = new EmailConfiguration();
+									$emailConfig = $object;
+									$res = $emailConfig->reWriteConf();
 									break;	
 			}
 									
@@ -2091,6 +2100,10 @@ class ViewController {
 								$form_creator ->popArr['editArr'] = $memtype ->filterMembershipType($getArr['id']); 
 							}
 							
+							break;
+			case 'EMX' :	$form_creator ->formPath = '/templates/eimadmin/emailConfiguration.php'; 
+							$emailConfigObj = new EmailConfiguration();							
+							$form_creator ->popArr['editArr'] = $emailConfigObj;				
 							break;
 							
 			case 'NAT' :	$form_creator ->formPath = '/templates/eimadmin/nationalityinformation.php'; 

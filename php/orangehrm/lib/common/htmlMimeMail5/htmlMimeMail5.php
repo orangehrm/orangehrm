@@ -775,7 +775,7 @@ class htmlMimeMail5
                 return $r;
                 break;
 
-            case 'smtp':
+            case 'smtp':               	        	
                 require_once(dirname(__FILE__) . '/smtp.php');
                 require_once(dirname(__FILE__) . '/RFC822.php');
                 $smtp = &smtp::connect($this->smtp_params);
@@ -824,9 +824,9 @@ class htmlMimeMail5
 
                 // Send it
                 if (!$smtp->send($send_params)) {
-                    $this->errors = $smtp->getErrors();
+                    $this->errors = $smtp->getErrors();                                        
                     return false;
-                }
+                }                                
                 return true;
                 break;
         }

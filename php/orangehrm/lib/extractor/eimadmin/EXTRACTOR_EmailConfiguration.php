@@ -17,34 +17,36 @@
 // Boston, MA  02110-1301, USA
 */
 
-class Conf {
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
-	var $smtphost;
-	var $smtpuser;
-	var $smtppass;
-	var $dbhost;
-	var $dbport;
-	var $dbname;
-	var $dbuser;
-	var $version;
-	var $mailaddress;
-	var $mailtype;
-
-	function Conf() {
-		
-		$this->dbhost	= 'localhost';
-		$this->dbport 	= '3306';
-		$this->dbname	= 'hr_mysql';
-		$this->dbuser	= 'root';
-		$this->dbpass	= 'orangehrm';
-		$this->smtphost = '';
-		$this->smtpuser = '';
-		$this->smtppass = '';
-		
-		$this->mailtype = 'mail';
-		$this->mailaddress = 'orangehrm@localhost.localdomain';
-		$this->version = '2.0.4';		
-	}
-}
+class EXTRACTOR_EmailConfiguration {
 	
+	private $emailConfiguration;
+	
+	public function __construct() {
+
+		$this->emailConfiguration = new EmailConfiguration();
+	}
+
+	public function parseAddData() {	
+			
+	}
+			
+	public function parseEditData($postArr) {
+			
+			$this->emailConfiguration->setSmtpHost($postArr["txtSmtpHost"]);
+			$this->emailConfiguration->setSmtpUser($postArr["txtSmtpUser"]);
+			$this->emailConfiguration->setSmtpPass($postArr["txtSmtpPass"]);
+			$this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
+			
+			$this->emailConfiguration->setMailType($postArr["txtMailType"]);
+			$this->emailConfiguration->setMailAddress($postArr["txtMailAddress"]);
+			
+			return $this->emailConfiguration;
+	}
+	
+	public function parseDeleteData() {
+	}
+	
+}
 ?>

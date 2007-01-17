@@ -39,6 +39,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_SalCurDet.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EEOJobCat.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Licenses.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EthnicRace.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailConfiguration.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -545,6 +546,10 @@ switch ($moduletype) {
 						case 'UGR'	:	
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_Rights();
+										}
+						case 'EMX'	:	
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_EmailConfiguration();
 										}
 						
 					}

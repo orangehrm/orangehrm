@@ -65,6 +65,8 @@
 	$lang_Error_ZipEmpty = "Введите почтовый индекс";
 	$lang_Error_CompStruct_ZipInvalid = "Символы #characterList в почтовом индексе";
 	
+	$lang_Error_InvalidEmail = "Invlid E-mail address";
+	
 	/**
 	 * Menu Items
 	 *
@@ -111,6 +113,8 @@
 	$lang_Menu_Admin_Users_UserGroups = "Группы пользователей";
 	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
 	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";	
+	
+	$lang_Menu_Admin_EmailConfig = "Mail Configuration";
 		
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
@@ -562,4 +566,14 @@
 	$lang_index_WelcomeMes = "Добро пожаловать, #username";
 	$lang_index_ChangePassword = "Извенить пароль";
 	$lang_index_Logout = "Отсоедениться";
+	
+	$lang_MailFrom = "Mail Sent As";
+	$lang_MailSendingMethod = "Sending Method";
+	$lang_MailTypes_Mail = "Internal PHP function";
+	$lang_MailTypes_Sendmailer = "Send Mail";
+	$lang_MailTypes_Smtp = "SMTP";
+	$lang_SendmailPath = "Path to Sendmail";
+	$lang_SmtpHost = "SMTP Host";
+	$lang_SmtpUser = "SMTP User";
+	$lang_SmtpPassword = "SMTP Password";
 ?>

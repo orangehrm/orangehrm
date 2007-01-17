@@ -64,6 +64,8 @@
 	$lang_Error_ZipEmpty = "Zip - Code Cannot be empty";
 	$lang_Error_CompStruct_ZipInvalid = "Zip - Code Contains non-numeric characters Here they are #characterList";
 	
+	$lang_Error_InvalidEmail = "Invlid E-mail address";
+	
 	/**
 	 * Menu Items
 	 *
@@ -110,6 +112,8 @@
 	$lang_Menu_Admin_Users_UserGroups = "User Groups";
 	$lang_Menu_Admin_Users_HRAdmin = "HR Admin Users";
 	$lang_Menu_Admin_Users_ESS = "ESS Users";	
+	
+	$lang_Menu_Admin_EmailConfig = "Mail Configuration";
 	
 	// Leave Module	
 	$lang_Menu_Leave = "Leave";
@@ -557,4 +561,14 @@
 	$lang_index_WelcomeMes = "Welcome #username";
 	$lang_index_ChangePassword = "Change Password";
 	$lang_index_Logout = "Logout";
+	
+	$lang_MailFrom = "Mail Sent As";
+	$lang_MailSendingMethod = "Sending Method";
+	$lang_MailTypes_Mail = "Internal PHP function";
+	$lang_MailTypes_Sendmailer = "Send Mail";
+	$lang_MailTypes_Smtp = "SMTP";
+	$lang_SendmailPath = "Path to Sendmail";
+	$lang_SmtpHost = "SMTP Host";
+	$lang_SmtpUser = "SMTP User";
+	$lang_SmtpPassword = "SMTP Password";	
 ?>
