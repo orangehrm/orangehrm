@@ -1,11 +1,10 @@
-
 <?php
-	$this->smtpHost = 'mail.hsenid.lk';
-	$this->smtpUser = 'beyondm1';
-	$this->smtpPass = 'beyondm';
+	$this->smtpHost = 'localhost';
+	$this->smtpUser = '';
+	$this->smtpPass = '';
 			
 	$this->sendmailPath = '/usr/lib/sendmail';
 			
-	$this->mailType = 'smtp';
-	$this->mailAddress = 'orangehrm@beyondm.net';
+	$this->mailType = 'mail';
+	$this->mailAddress = 'orangehrm@localhost.localdomain';
 ?>

@@ -1,0 +1,12 @@
+<?php
+    // only if mailType is smtp
+	$this->smtpHost = 'localhost';
+	$this->smtpUser = '';
+	$this->smtpPass = '';
+	
+	// only if mailType is sendmail
+	$this->sendmailPath = '/usr/lib/sendmail';
+			
+	$this->mailType = 'mail';
+	$this->mailAddress = 'orangehrm@localhost.localdomain';
+?>

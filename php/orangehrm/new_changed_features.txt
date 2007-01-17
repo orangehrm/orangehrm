@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.1_alpha_1 (17/01/2007)
+
+	Provided that e-mail addresses are defined for employees.
+	
+	- When an ESS user applies for leave or cancels leave his/her supervisor
+	will receive a notification mail.
+	- When the supervisor approves/rejects leave, the employee applied for leave
+	will be notified 
+
 New & Changed Features for OrangeHRM ver 2.1_alpha_1 (09/01/2007)
 
 	In OrangeHRM-ver-2.1 ESS Users have the ability to apply for leave

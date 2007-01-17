@@ -18,17 +18,12 @@
 */
 
 class Conf {
-
-	var $smtphost;
-	var $smtpuser;
-	var $smtppass;
+	
 	var $dbhost;
 	var $dbport;
 	var $dbname;
 	var $dbuser;
-	var $version;
-	var $mailaddress;
-	var $mailtype;
+	var $version;	
 
 	function Conf() {
 		
@@ -36,14 +31,9 @@ class Conf {
 		$this->dbport 	= '3306';
 		$this->dbname	= 'hr_mysql';
 		$this->dbuser	= 'root';
-		$this->dbpass	= 'orangehrm';
-		$this->smtphost = '';
-		$this->smtpuser = '';
-		$this->smtppass = '';
+		$this->dbpass	= 'orangehrm';		
 		
-		$this->mailtype = 'mail';
-		$this->mailaddress = 'orangehrm@localhost.localdomain';
-		$this->version = '2.0.4';		
+		$this->version = '2.1alpha2';		
 	}
 }
 	
