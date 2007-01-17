@@ -160,7 +160,7 @@ function goBack() {
                     
   <tr> 
      <td>Found in Release</td>
-    <td><strong>v2.1_alpha_1</strong><input type="hidden" readonly name="artifact_group_id" value="678995"></td>
+    <td><strong>v2.1_alpha_2</strong><input type="hidden" readonly name="artifact_group_id" value="681430"></td>
   </tr>
   <tr> 
     <td>Category</td>

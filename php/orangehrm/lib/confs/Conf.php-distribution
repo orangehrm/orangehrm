@@ -24,6 +24,7 @@ class Conf {
 	var $dbname;
 	var $dbuser;
 	var $version;	
+	var $smtphost;
 
 	function Conf() {
 		
@@ -31,9 +32,11 @@ class Conf {
 		$this->dbport 	= '3306';
 		$this->dbname	= 'hr_mysql';
 		$this->dbuser	= 'root';
-		$this->dbpass	= 'orangehrm';		
+		$this->dbpass	= 'orangehrm';
+
+		$this->smtphost = 'localhost';	
 		
-		$this->version = '2.1alpha2';		
+		$this->version = '2.1_alpha_2';		
 	}
 }
 	

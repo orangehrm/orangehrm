@@ -2,7 +2,7 @@
 
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.1_alpha_a"/>
+  <property name="version" value="2.1_alpha_2"/>
 
   <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm2"/>
@@ -34,6 +34,7 @@
             <exclude name="lib/confs/Conf.php"/>
             <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
+            <exclude name="lib/logs/notification_mails.log"/>
         </fileset>
     </copy>
   </target>
