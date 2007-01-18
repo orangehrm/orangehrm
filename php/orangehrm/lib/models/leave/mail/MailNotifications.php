@@ -183,7 +183,9 @@ class MailNotifications {
 		
 		if ((!is_array($this->to)) || (!@$mailer->send($this->to, $this->mailType))) {			
 			$logMessage .= " - FAILED \r\nReason(s):";
-			$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
+			if (isset($mailer->errors)) {
+				$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
+			}
 		} else {
 			$logMessage .= " - SUCCEEDED";
 		}

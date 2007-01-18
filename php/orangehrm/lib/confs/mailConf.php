@@ -1,10 +1,11 @@
+
 <?php
 	$this->smtpHost = 'localhost';
 	$this->smtpUser = '';
 	$this->smtpPass = '';
 			
-	$this->sendmailPath = '/usr/lib/sendmail';
+	$this->sendmailPath = '';
 			
-	$this->mailType = 'mail';
+	$this->mailType = 'smtp';
 	$this->mailAddress = 'orangehrm@localhost.localdomain';
 ?>

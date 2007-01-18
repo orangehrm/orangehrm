@@ -643,7 +643,7 @@ class Bugs {
 		
 		ini_set('SMTP',$sysConf->smtphost);
 		
-		//mail($to, $subject, $body, $headers);
+		//@mail($to, $subject, $body, $headers);
 		
 	return true;	
 	}

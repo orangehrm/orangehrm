@@ -130,8 +130,7 @@ function mover() {
 		<td><?php echo $lang_MailSendingMethod; ?></td>
 		<td width="25px">&nbsp;</td>
 		<td><select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();">
-				<option value="0">-- Select --</option>
-				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_MAIL; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_MAIL)? 'selected': ''?> ><?php echo $lang_MailTypes_Mail; ?></option>
+				<option value="0">-- Select --</option>				
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected': ''?> ><?php echo $lang_MailTypes_Sendmailer; ?></option>
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected': ''?> ><?php echo $lang_MailTypes_Smtp; ?></option>
 		  </select></td>
@@ -188,7 +187,7 @@ function mover() {
         <td width="25px">
 			<?php
 			   if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" onClick="edit(); return false;">
 <?php			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;">
 <?php			}  ?></td>
