@@ -736,13 +736,13 @@ class htmlMimeMail5
                 }
 
                 $to = $this->encodeHeader(implode(', ', $recipients), $this->build_params['head_charset']);
-
+				
                 if (!empty($this->return_path)) {
-                    $result = mail($to, $subject, $this->output, implode(CRLF, $headers), '-f' . $this->return_path);
+                    $result = @mail($to, $subject, $this->output, implode(CRLF, $headers), '-f' . $this->return_path);
                 } else {
-                    $result = mail($to, $subject, $this->output, implode(CRLF, $headers));
+                    $result = @mail($to, $subject, $this->output, implode(CRLF, $headers));
                 }
-
+                
                 // Reset the subject in case mail is resent
                 if ($subject !== '') {
                     $this->headers['Subject'] = $subject;
