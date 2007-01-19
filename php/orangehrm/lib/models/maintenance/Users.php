@@ -413,6 +413,7 @@ class Users {
 		$arrFieldList[8] = 'a.status';		
 		$arrFieldList[9] = 'a.userg_id';
 		$arrFieldList[10] = 'b.EMP_FIRSTNAME';
+		$arrFieldList[11] = 'b.EMPLOYEE_ID';
 
 						
 		$this->sql_builder->table_name = $this->tableName.' a LEFT JOIN HS_HR_EMPLOYEE b ON (a.EMP_NUMBER = b.EMP_NUMBER)';
