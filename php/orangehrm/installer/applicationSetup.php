@@ -181,7 +181,6 @@ class Conf {
 		\$this->dbname	= '$dbName';
 		\$this->dbuser	= '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->smtphost = 'mail.beyondm.net';
 		\$this->version = '2.1_alpha_2';		
 	}
 }
