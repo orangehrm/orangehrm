@@ -78,6 +78,7 @@ class EXTRACTOR_EmpInfo {
 	function parseAddData($postArr) {	
 			
 		$this->parent_empinfo -> setEmpId($this->parent_empinfo->getLastRecord());
+		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
 		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
 		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
 		$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
@@ -121,10 +122,13 @@ class EXTRACTOR_EmpInfo {
 	if ($postArr['main']=='1') {
 		
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
+		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
+		
 		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
 		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
 		$this->parent_empinfo -> setEmpNickName(trim($postArr['txtEmpNickName']));
 		$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
+		
 		
 		$objectArr['EmpMain'] = $this->parent_empinfo;
 	}
@@ -135,11 +139,11 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
 		$this->parent_empinfo -> setEmpSSNNo(trim($postArr['txtNICNo']));
 		$this->parent_empinfo -> setEmpDOB(trim($postArr['DOB']));
-		$this->parent_empinfo -> setEmpOthID(trim($postArr['txtOtherID']));
 		$this->parent_empinfo -> setEmpGender(trim($postArr['optGender']));
 		$this->parent_empinfo -> setEmpDriLicNo(($postArr['txtLicenNo']));
 		$this->parent_empinfo -> setEmpNation(($postArr['cmbNation']));
 		$this->parent_empinfo -> setEmpDriLicExpDat(($postArr['txtLicExpDate']));
+		$this->parent_empinfo -> setEmpOthID(trim($postArr['txtOtherID']));
 		$this->parent_empinfo -> setEmpMarital(($postArr['cmbMarital']));
 		$this->parent_empinfo -> setEmpMilitary(trim($postArr['txtMilitarySer']));
 		$this->parent_empinfo -> setEmpsmoker(isset($postArr['chkSmokeFlag'])?'1':'0');

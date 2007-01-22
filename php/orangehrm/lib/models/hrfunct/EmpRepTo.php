@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 class EmpRepTo {
 
@@ -208,10 +209,11 @@ class EmpRepTo {
 	function filterEmpRepTo($getID) {
 		
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[1] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[2] = 'EREP_REPORTING_MODE';
+		$tableName = 'HS_HR_EMP_REPORTTO a, HS_HR_EMPLOYEE b';
+		$arrFieldList[0] = 'LPAD(a.`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(a.`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[2] = 'a.EREP_REPORTING_MODE';
+		$arrFieldList[3] = 'b.EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -253,10 +255,10 @@ class EmpRepTo {
 	function getEmpSup($getID) {
 		
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[1] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[2] = 'EREP_REPORTING_MODE';
+		$tableName = 'HS_HR_EMP_REPORTTO a';
+		$arrFieldList[0] = 'LPAD(a.`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(a.`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[2] = 'a.EREP_REPORTING_MODE';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -272,10 +274,26 @@ class EmpRepTo {
 		
 		$i=0;
 		
+		$empInfoObj = new EmpInfo();
+		
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 		 	
 			for($c=0;count($arrFieldList)>$c;$c++)
 			   $arrayDispList[$i][$c] = $line[$c];
+			   
+			$supervisorId = $empInfoObj->fetchEmployeeId($line[0]);
+		 	if ($supervisorId) {
+		 		$arrayDispList[$i][count($arrFieldList)] = $supervisorId;
+		 	} else {
+		 		$arrayDispList[$i][count($arrFieldList)] = $line[0];
+		 	} 
+		 	
+		 	$subordinateId = $empInfoObj->fetchEmployeeId($line[1]);
+		 	if ($subordinateId) {
+		 		$arrayDispList[$i][(count($arrFieldList)+1)] = $subordinateId;
+		 	} else {
+		 		$arrayDispList[$i][(count($arrFieldList)+1)] = $line[1];
+		 	}	    	
 	    	
 	    	$i++;
 	    	
@@ -297,10 +315,10 @@ class EmpRepTo {
 	function getEmpSub($getID) {
 		
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMP_REPORTTO';
-		$arrFieldList[0] = 'LPAD(`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[1] = 'LPAD(`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
-		$arrFieldList[2] = 'EREP_REPORTING_MODE';
+		$tableName = 'HS_HR_EMP_REPORTTO a';
+		$arrFieldList[0] = 'LPAD(a.`EREP_SUP_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[1] = 'LPAD(a.`EREP_SUB_EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+		$arrFieldList[2] = 'a.EREP_REPORTING_MODE';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -316,10 +334,26 @@ class EmpRepTo {
 		
 		$i=0;
 		
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		$empInfoObj = new EmpInfo();
+		
+		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {		 	
 		 	
 			for($c=0;count($arrFieldList)>$c;$c++)
 			   $arrayDispList[$i][$c] = $line[$c];
+			   
+			$supervisorId = $empInfoObj->fetchEmployeeId($line[0]);
+		 	if ($supervisorId) {
+		 		$arrayDispList[$i][count($arrFieldList)] = $supervisorId;
+		 	} else {
+		 		$arrayDispList[$i][count($arrFieldList)] = $line[0];
+		 	}
+		 	
+		 	$subordinateId = $empInfoObj->fetchEmployeeId($line[1]);
+		 	if ($subordinateId) {
+		 		$arrayDispList[$i][(count($arrFieldList)+1)] = $subordinateId;
+		 	} else {
+		 		$arrayDispList[$i][(count($arrFieldList)+1)] = $line[1];
+		 	}
 	    	
 	    	$i++;
 	    	
@@ -344,6 +378,7 @@ class EmpRepTo {
 		
 		$arrFields[0] = 'LPAD(b.`emp_number`, '.$this->employeeIdLength.', 0)';
 		$arrFields[1] = "CONCAT(b.`emp_firstname`, ' ', b.`emp_lastname`)";	
+		$arrFields[2] = "b.`employee_id`";	
 		
 		$arrTables[0] = '`hs_hr_emp_reportto` a';
 		$arrTables[1] = '`hs_hr_employee` b';
@@ -354,7 +389,7 @@ class EmpRepTo {
 		
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 		
-		//echo $query."\n";
+		echo $query."\n";
 				
 		$dbConnection = new DMLFunctions();	
 
@@ -363,7 +398,7 @@ class EmpRepTo {
 		$i=0;
 		
 		while ($line = mysql_fetch_array($result, MYSQL_NUM)) {
-		 	
+		 			 	
 			for($c=0;count($arrFields)>$c;$c++)
 			   $arrayDispList[$i][$c] = $line[$c];
 	    	

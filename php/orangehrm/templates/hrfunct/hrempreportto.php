@@ -155,7 +155,10 @@ function viewSup(sup,rep) {
 	document.frmEmp.submit();
 }
 </script>
-<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php 	
+	$empInfoObj = new EmpInfo();
+	
+	if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
         <input type="hidden" name="reporttoSTAT" value="">		
 <?php	if(isset($this->getArr['editIDSup'])) {	?>
      <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>">
@@ -171,7 +174,7 @@ function viewSup(sup,rep) {
 						<td valign="top"><?php echo $employeeid?></td>
 <?php						$empsupid =$this->getArr['editIDSup']; ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"><strong>
-						<?php echo $this->getArr['editIDSup']?>
+						<?php echo $empInfoObj->fetchEmployeeId($this->getArr['editIDSup']);?>
 						</strong></td>
 					  </tr>
 					  <tr> 
@@ -212,7 +215,7 @@ function viewSup(sup,rep) {
 						<td valign="top"><?php echo $employeeid?></td>
 						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"><strong>
-						<?php echo $empsubid?>
+						<?php echo  $empInfoObj->fetchEmployeeId($empsubid); ?>
 						</strong></td>
 					  </tr>
 					  
@@ -258,7 +261,7 @@ function viewSup(sup,rep) {
 ?>					  
 					  </select></td>
 					</tr>
-					<tr><td><?php echo $employeeid?><td align="left" valign="top"><input type="text" disabled name="txtRepEmpID" value="" readonly>&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
+					<tr><td><?php echo $employeeid?><td align="left" valign="top"><input type="text" disabled name="cmbRepEmpID" value="" readonly><input type="hidden" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
 						</td></tr>
 					  <tr> 
 						<td valign="top"><?php echo $reportingmethod?></td>
@@ -324,7 +327,7 @@ $empname = $this ->popArr['empname'];
              echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				  
-				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][1]?></a></td><?php
+				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				   for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				     echo '<td>' . $empname[$a][1] .'</td>';
@@ -381,7 +384,7 @@ $empname = $this -> popArr['empname'];
             echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
 			
 				   $subid=$rset[$c][1];
-				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][1]?></a></td><?php
+				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				    for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])  
 				      echo '<td>' . $empname[$a][1] .'</td>';

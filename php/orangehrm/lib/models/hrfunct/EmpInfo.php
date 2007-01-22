@@ -28,6 +28,7 @@ class EmpInfo {
 
 	var $tableName = 'HS_HR_EMPLOYEE';
 	var $empId;
+	var $employeeId;
 	var $empLastName;
 	var $empFirstName;
 	var $empNickName;
@@ -84,6 +85,10 @@ class EmpInfo {
 	function setEmpId($empId) {
 	
 	$this->empId=$empId;
+	}
+	
+	function setEmployeeId($employeeId) {
+	$this->employeeId=$employeeId;
 	}
 		
 	function setEmpLastName($empLastName) {
@@ -222,6 +227,10 @@ class EmpInfo {
 	function getEmpId() {
 	return $this->empId;
 	
+	}
+	
+	function getEmployeeId() {
+	return $this->employeeId;
 	}
 	
 	function getEmpLastName() {
@@ -368,6 +377,7 @@ class EmpInfo {
 		$arrFieldList[1] = "EMP_FIRSTNAME";		
 		$arrFieldList[2] = "EMP_LASTNAME";
 		$arrFieldList[3] = "EMP_MIDDLE_NAME";
+		$arrFieldList[4] = "EMPLOYEE_ID";
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -387,6 +397,7 @@ class EmpInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1].' '.$line[3].' '.$line[2];
+	    	$arrayDispList[$i][2] = $line[4];
 	    	$i++;
 	    	
 	     }
@@ -507,6 +518,7 @@ class EmpInfo {
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
 		$arrFieldList[3] = 'EMP_MIDDLE_NAME';
 		$arrFieldList[4] = 'EMP_NICK_NAME';
+		$arrFieldList[5] = 'EMPLOYEE_ID';
 		
 		$sql_builder = new SQLQBuilder();
 		
@@ -529,6 +541,7 @@ class EmpInfo {
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$arrayDispList[$i][3] = $line[3];
 	    	$arrayDispList[$i][4] = $line[4];
+	    	$arrayDispList[$i][5] = $line[5];
 	    	
 	    	$i++;
 	    	
@@ -555,6 +568,7 @@ class EmpInfo {
 		$arrRecordsList[2] = "'". $this->getEmpFirstName() . "'";
 		$arrRecordsList[3] = "'". $this->getEmpNickName() . "'";
 		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
+		$arrRecordsList[5] = "'". $this->getEmployeeId() . "'";
 		
 		//personal
 /*		$arrRecordsList[5] = "'". $this->getEmpsmoker() . "'";
@@ -596,6 +610,7 @@ class EmpInfo {
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
 		$arrFieldList[3] = 'EMP_NICK_NAME';
 		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
+		$arrFieldList[5] = 'EMPLOYEE_ID';
 		
 		//personal
 /*		$arrFieldList[5]  = 'EMP_SMOKER';
@@ -658,6 +673,7 @@ class EmpInfo {
 		$arrRecordsList[2] = "'". $this->getEmpFirstName() . "'";
 		$arrRecordsList[3] = "'". $this->getEmpNickName() . "'";
 		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
+		$arrRecordsList[5] = "'". $this->getEmployeeId() . "'";
 		
 		$tableName = 'HS_HR_EMPLOYEE';
 		
@@ -666,6 +682,7 @@ class EmpInfo {
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
 		$arrFieldList[3] = 'EMP_NICK_NAME';
 		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
+		$arrFieldList[5] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2031,6 +2048,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2052,6 +2070,7 @@ class EmpInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }
@@ -2073,6 +2092,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2232,6 +2252,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2251,6 +2272,7 @@ class EmpInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }
@@ -2272,6 +2294,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2295,6 +2318,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = "CONCAT(EMP_FIRSTNAME, ' ', EMP_MIDDLE_NAME, ' ', EMP_LASTNAME)";
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2314,6 +2338,7 @@ class EmpInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }
@@ -2335,6 +2360,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[21] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2421,6 +2447,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMPLOYEE_ID';
 
 		$sql_builder = new SQLQBuilder();
 		
@@ -2440,6 +2467,7 @@ class EmpInfo {
 		 	
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 	    	
 	     }
@@ -2520,10 +2548,32 @@ class EmpInfo {
 		
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
 		 	
-	    	return $line[0];
+	    return $line[0];
 	}
-
 	
+	public function fetchEmployeeId ($emp_number) {
+		$tableName = '`HS_HR_EMPLOYEE`';
+		$arrFieldList[0] = '`EMPLOYEE_ID`';
+		
+		$sql_builder = new SQLQBuilder();
+		
+		$selectConditions[0] = " `EMP_NUMBER` = '$emp_number'";
+		
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectConditions);
+		
+		//echo $sqlQString;
+		
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString);	
+		
+		if ($message2) {
+			$line = mysql_fetch_array($message2, MYSQL_NUM);	
+			
+			return $line[0];
+		}
+		
+		return false;
+	}
 	
 }
 

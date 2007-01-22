@@ -676,8 +676,10 @@ function resetAdd(panel) {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 			  
-				<td><?php echo $code?></td>
-				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>><strong><?php echo $this->popArr['newID']?></strong></td>
+				<td><?php echo $code;?></td>
+				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>>
+					<input type="text" name="txtEmployeeId" value="<?php echo $this->popArr['newID']?>">
+					</td>
 			  </tr>
 			  <tr> 
 				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>
@@ -745,7 +747,9 @@ function resetAdd(panel) {
                   <td><table onClick="setUpdate(0)" onKeyPress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 				<td><?php echo $code?></td>
-				<td><strong><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>"><?php echo $this->getArr['id']?></strong></td>
+				<td><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>">
+					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>">	
+				</td>
 			  </tr>
 			  <tr> 
 				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>

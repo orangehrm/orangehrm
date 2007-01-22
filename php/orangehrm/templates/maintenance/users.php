@@ -479,7 +479,7 @@ function edit() {
 							   	</select></td>
 							  <td></td>
 							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?php echo ($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
-							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?php echo $message[0][2]?><?php echo (isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?php echo $message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
+							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?php echo (isset($message[0][11]) && ($message[0][11] != "")) ?$message[0][11] : $message[0][2] ?><?php echo (isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?php echo $message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<?php if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>							   

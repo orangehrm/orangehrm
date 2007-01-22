@@ -112,15 +112,17 @@ else
 <?php   if(isset($_GET['USR'])) { ?>
 
         opener.document.frmUsers.cmbUserEmpID.value = cntrl.title;
-		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
+		opener.document.frmUsers.txtUserEmpID.value = cntrl.innerHTML;
         window.close();
 
 <?php   } elseif(isset($_GET['REPORT'])) { ?>
         opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.title;
+        opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.innerHTML;
         window.close();
 		
 <?php   } elseif(isset($_GET['reqcode'])) { ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
+        opener.document.frmEmp.cmbRepEmpID.value = cntrl.innerHTML;
         window.close();
         
 <?php  } else { ?>
@@ -308,10 +310,10 @@ else
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>                  
          <?php		if(!($j%2)) { ?>				  
-				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo $emplist[$j][0]?></a></td>
+				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		} else { ?>				  
-				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo $emplist[$j][0]?></a></td>
+				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		}	?>
 		  		  

@@ -5,16 +5,16 @@ create table `hs_hr_geninfo` (
 	primary key (`code`)
 ) engine=innodb default charset=utf8;
 		
-create table hs_hr_compstructtree (
-  title tinytext not null,
-  description text not null,
-  loc_code varchar(6) default NULL,
-  lft tinyint(4) not null default '0',
-  rgt tinyint(4) not null default '0',
-  id int(6) not null auto_increment,
-  parnt int(6) not null default '0',
-  primary key  (id),
-  key loc_code (loc_code)
+create table `hs_hr_compstructtree` (
+  `title` tinytext not null,
+  `description` text not null,
+  `loc_code` varchar(6) default NULL,
+  `lft` tinyint(4) not null default '0',
+  `rgt` tinyint(4) not null default '0',
+  `id` int(6) not null auto_increment,
+  `parnt` int(6) not null default '0',
+  primary key  (`id`),
+  key loc_code (`loc_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_job_title` (
@@ -259,6 +259,7 @@ create table `hs_hr_emp_work_experience` (
 
 create table `hs_hr_employee` (
   `emp_number` int(7) not null default 0,
+  `employee_id` varchar(50) default null,
   `emp_lastname` varchar(100) default '',
   `emp_firstname` varchar(100) default '',
   `emp_middle_name` varchar(100) default '',
@@ -292,7 +293,8 @@ create table `hs_hr_employee` (
   `sal_grd_code` varchar(6) default null,
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
-  primary key  (`emp_number`)
+  primary key  (`emp_number`),
+  unique key `employee_id` (`employee_id`)
 ) engine=innodb default charset=utf8;
 
 

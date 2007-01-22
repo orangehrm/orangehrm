@@ -269,10 +269,10 @@ class RepViewController {
 							$salgrd = new SalaryGrades();							
 							$empstat = new EmploymentStatus();
 
-							$form_creator ->popArr['grdlist'] = $salgrd ->getSalGrdCodes();
-							$form_creator-> popArr['edulist'] = $edu ->getAllEducation();
-							$form_creator-> popArr['deslist'] = $jobtit ->getJobTit();
-							$form_creator-> popArr['arrEmpType'] = $empstat ->getEmpStat();
+							$form_creator->popArr['grdlist'] = $salgrd ->getSalGrdCodes();
+							$form_creator->popArr['edulist'] = $edu ->getAllEducation();
+							$form_creator->popArr['deslist'] = $jobtit ->getJobTit();
+							$form_creator->popArr['arrEmpType'] = $empstat ->getEmpStat();
 							
 							
 							if($getArr['capturemode'] == 'addmode') {
