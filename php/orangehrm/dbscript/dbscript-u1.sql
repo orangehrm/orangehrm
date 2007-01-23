@@ -419,7 +419,7 @@ create table `hs_hr_users` (
   `user_password` varchar(32) default null,
   `first_name` varchar(45) default null,
   `last_name` varchar(45) default null,
-  `emp_number` int(7) default 0,
+  `emp_number` int(7) default null,
   `user_hash` varchar(32) default null,
   `is_admin` char(3) default null,
   `receive_notification` char(1) default null,

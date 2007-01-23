@@ -39,11 +39,18 @@ function alterOldData() {
 
 	$res = mysql_query($sqlQString);
 	
+	$err = mysql_errno();
+	error_log (date("r")." Alter Old Data failed  with $err\n",3, "log.txt");
+	
 	if ($res) {
 		return true;
 	}
 	
-	return mysql_errno();
+	if (empty($err)) {
+		return true;	
+	}	
+	
+	return $err;
 }
 
 
@@ -236,8 +243,9 @@ if (isset($_SESSION['RESTORING'])) {
 					}
 					break;
 		case 3 	:	fillData(2);
-					alterOldData();
-					$_SESSION['RESTORING'] = 4;
+					if (alterOldData()) {
+						$_SESSION['RESTORING'] = 4;
+					}
 					break;
 		case 4 	:	writeConfFile();
 					$_SESSION['RESTORING'] = 5;
