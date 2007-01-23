@@ -25,6 +25,8 @@ class FormCreator
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 
 			$lan = new Language();
+			require_once($lan->getLangPath("full.php")); 
+			
 			if(!isset($this->getArr['mtcode']))
 				require_once($lan->getLangPath(basename($this->formPath)));
 			//print_r($lan->getLangPath(basename($this->formPath)));
