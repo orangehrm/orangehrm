@@ -50,6 +50,7 @@
 	$lang_Error_InvalidDate = "Недействительная дата";
 	
 	// Company Structure
+	$lang_Error_Company_General_Undefined = "Please define Company General Information first!";
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
 	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "Это может вызвать изменения структуры компании";
 		
@@ -65,7 +66,16 @@
 	$lang_Error_ZipEmpty = "Введите почтовый индекс";
 	$lang_Error_CompStruct_ZipInvalid = "Символы #characterList в почтовом индексе";
 	
-	$lang_Error_InvalidEmail = "Invlid E-mail address";
+	$lang_Error_InvalidEmail = "Invalid E-mail address";
+
+	//PIM
+	$lang_Error_LastNameNumbers						= "Last Name contains numbers. Do you want to continue?";
+	$lang_Error_FirstNameNumbers					= "First Name contains numbers. Do you want to continue?";
+	$lang_Error_MiddleNameNumbers					= "Middle Name contains numbers. Do you want to continue?";
+	$lang_Error_MiddleNameEmpty						= "Middle Name Empty. Do you want to continue?";
+	$lang_Error_LastNameEmpty						= "Last Name Empty!";
+	$lang_Error_FirstNameEmpty						= "First Name Empty!";
+	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
 	
 	/**
 	 * Menu Items
@@ -139,6 +149,10 @@
 	/**
 	 * Common
 	 */
+	 
+	$lang_Common_ConfirmDelete			= " Do you want to delete ?";
+	$lang_Common_SelectDelete			= "Select at least one record to delete";
+	$lang_Common_SelectField			= "Select the field to search!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
 	$lang_Commn_code = "Код";	
 	$lang_Commn_description = "Описание";
@@ -321,6 +335,9 @@
 
 	$lang_hierarchydef_heading = "Информация иерархии : Информация о компании";
 
+	$lang_hremp_EmpFirstName 				= "First Name";
+	$lang_hremp_EmpLastName 				= "Last Name";
+	$lang_hremp_EmpMiddleName 				= "Middle Name";
 	$lang_hremp_nickname = "Псевдоним";
 	$lang_hremp_photo = "Фото";
 	$lang_hremp_ssnno = "SSN ";
@@ -328,6 +345,7 @@
 	$lang_hremp_sinno = "Номер соц. страхования";
 	$lang_hremp_dateofbirth = "Дата рождения";
 	$lang_hremp_otherid = "Другой идентификатор";
+	$lang_hremp_selmarital	= "--Select--";
 	$lang_hremp_maritalstatus = "Семейное положение";
 	$lang_hremp_selectnatio = "Выберите национальность";
 	$lang_hremp_smoker = "Курящий(-ая)";
