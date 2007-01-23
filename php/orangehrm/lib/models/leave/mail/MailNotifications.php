@@ -122,7 +122,7 @@ class MailNotifications {
 		
 		$this->mailer = new htmlMimeMail5();
 		
-		$this->mailer->setSMTPParams($confObj->getSmtpHost(), null, null, null, $confObj->getSmtpUser(), $confObj->getSmtpPass());
+		$this->mailer->setSMTPParams($confObj->getSmtpHost(), $confObj->getSmtpPort(), null, true, $confObj->getSmtpUser(), $confObj->getSmtpPass());
 				
 		$this->mailer->setSendmailPath($confObj->getSendmailPath());
 		

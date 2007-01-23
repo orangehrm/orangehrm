@@ -157,9 +157,9 @@ function mover() {
         <td width="25px">&nbsp;</td>
         <td><input type="text" name="txtSmtpHost" id="txtSmtpHost" value="<?php echo $editArr->getSmtpHost();?>" /></td>
         <td width="25px">&nbsp;</td>
-		<td>&nbsp;</td>
+		<td><?php echo $lang_SmtpPort; ?></td>
 		<td width="25px">&nbsp;</td>
-		<td>&nbsp;</td>
+		<td><input type="text" name="txtSmtpPort" id="txtSmtpPort" value="<?php echo $editArr->getSmtpPort();?>" size="4"/></td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>

@@ -37,6 +37,7 @@ class EXTRACTOR_EmailConfiguration {
 			$this->emailConfiguration->setSmtpHost($postArr["txtSmtpHost"]);
 			$this->emailConfiguration->setSmtpUser($postArr["txtSmtpUser"]);
 			$this->emailConfiguration->setSmtpPass($postArr["txtSmtpPass"]);
+			$this->emailConfiguration->setSmtpPort($postArr["txtSmtpPort"]);
 			$this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
 			
 			$this->emailConfiguration->setMailType($postArr["txtMailType"]);

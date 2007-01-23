@@ -100,7 +100,7 @@ class Leave {
 	 *
 	 **/
 	public function setLeaveId($leaveId) {
-		$this->leaveId = $leaveId;
+		$this->leaveId = $leaveId;		
 	}
 	
 	public function getLeaveId() {

@@ -569,6 +569,7 @@
 	$lang_MailTypes_Smtp = "SMTP";
 	$lang_SendmailPath = "Path to Sendmail";
 	$lang_SmtpHost = "SMTP Host";
+	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";	
 ?>

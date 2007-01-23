@@ -31,7 +31,8 @@ class EmailConfiguration {
 	
 	private $smtpHost;
 	private $smtpUser;
-	private $smtpPass;	
+	private $smtpPass;
+	private $smtpPort;	
 	private $mailAddress;
 	private $mailType;
 	private $sendmailPath;
@@ -54,10 +55,18 @@ class EmailConfiguration {
 	
 	public function getSmtpPass() {
 		return $this->smtpPass;
-	}
+	}	
 	
 	public function setSmtpPass($smtpPass) {
 		$this->smtpPass = $smtpPass;
+	}	
+	
+	public function getSmtpPort() {
+		return $this->smtpPort;
+	}	
+	
+	public function setSmtpPort($smtpPort) {
+		$this->smtpPort = $smtpPort;
 	}
 	
 	public function getMailAddress() {
@@ -97,6 +106,7 @@ class EmailConfiguration {
 	$this->smtpHost = \''.$this->getSmtpHost().'\';
 	$this->smtpUser = \''.$this->getSmtpUser().'\';
 	$this->smtpPass = \''.$this->getSmtpPass().'\';
+	$this->smtpPort = \''.$this->getSmtpPort().'\';
 			
 	$this->sendmailPath = \''.$this->getSendmailPath().'\';
 			
