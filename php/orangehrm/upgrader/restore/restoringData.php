@@ -33,6 +33,19 @@ function connectDB() {
 	return $connect;
 }
 
+function alterOldData() {
+	connectDB();
+	$sqlQString = "UPDATE `hs_hr_employee` SET `employee_id` = `emp_number` WHERE `employee_id` IS NULL";
+
+	$res = mysql_query($sqlQString);
+	
+	if ($res) {
+		return true;
+	}
+	
+	return mysql_errno();
+}
+
 
 function fillData($phase=1, $source='/dbscript/dbscript-u') {
 	$source .= $phase.'.sql';
@@ -223,6 +236,7 @@ if (isset($_SESSION['RESTORING'])) {
 					}
 					break;
 		case 3 	:	fillData(2);
+					alterOldData();
 					$_SESSION['RESTORING'] = 4;
 					break;
 		case 4 	:	writeConfFile();

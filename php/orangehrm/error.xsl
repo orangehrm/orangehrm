@@ -79,7 +79,7 @@
 		<cite>
 		<h5>Please note</h5>
 		The error was logged in the OrangeHRM log located in <span class="code"><xsl:value-of select="root"/>/lib/logs/logDB.txt</span></cite>
-		<p>If you are unabled to resolve the problem please feel free to contact us on <a href="mailto:support@orangehrm.com">support@orangehrm.com</a></p>
+		<p>If you are unabled to resolve the problem please post the problem in <a href="http://www.orangehrm.com/forum/">OrangeHRM Forum</a></p>
 	</div>
 </body>
 </html>

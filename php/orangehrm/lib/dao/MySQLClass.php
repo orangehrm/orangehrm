@@ -128,6 +128,10 @@ class MySQLClass {
 			 	return $this->result;
 			 }
 			 
+			 if (mysql_errno() == 1062) {
+			 	 return false;
+			 }
+			 
 	 		 $exception_handler = new ExceptionHandler();
 	  	 	 $exception_handler->dbexInvalidSQL($sql);
 	 		 return false;

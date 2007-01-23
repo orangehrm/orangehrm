@@ -2018,7 +2018,11 @@ class EmpViewController {
 				
 									if(isset($object['EmpMain'])) {
 										$empinfo = $object['EmpMain'];
-										$empinfo -> updateEmpMain();
+										$res = $empinfo -> updateEmpMain();
+										$message = "";
+										if (!$res) {
+											$message = "UPDATE_FAILURE";
+										}
 										$id = $empinfo -> getEmpId();
 									}
 									
@@ -2057,7 +2061,11 @@ class EmpViewController {
 				
 									if(isset($object['EmpMain'])) {
 										$empinfo = $object['EmpMain'];
-										$empinfo -> updateEmpMain();
+										$res = $empinfo -> updateEmpMain();
+										$message = "";
+										if (!$res) {
+											$message = "UPDATE_FAILURE";
+										}
 									}
 									
 									if(isset($object['EmpPers'])) {
@@ -2074,13 +2082,19 @@ class EmpViewController {
 									
 			}
 			
+		if (!empty($message)) {
+			$message="&message=$message";
+		} else {
+			$message="";
+		}
+		
 		if($index=='ESS') {	
-			$empid=$_SESSION['empID'];
-			header("Location: ./CentralController.php?reqcode=ESS&id=$empid&capturemode=updatemode");	
+			$empid=$_SESSION['empID'];			
+			header("Location: ./CentralController.php?reqcode=ESS&id=$empid&capturemode=updatemode$message");	
 		} else {
 			$reqcode = $index;
 			$pane = $_POST['pane'];
-			header("Location: ./CentralController.php?reqcode=$reqcode&id=$id&capturemode=updatemode&pane=$pane");
+			header("Location: ./CentralController.php?reqcode=$reqcode&id=$id&capturemode=updatemode&pane=$pane$message");
 		}
 	}
 	

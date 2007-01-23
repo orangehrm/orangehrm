@@ -662,6 +662,26 @@ function resetAdd(panel) {
 <input type="hidden" name="attSTAT" value="">
 <input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>">
 
+<?php	 			
+	if (isset($this->getArr['message'])) {
+		
+		$expString  = $this->getArr['message'];
+		$expString = explode ("_",$expString);
+		$length = count($expString);		
+			
+		$col_def=$expString[$length-1];
+			
+		$expString=$this->getArr['message'];
+?>
+	<p align="right"><font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+<?php
+			echo eval('return $lang_empview_'.$expString.';');
+?>
+	</font></p>
+<?php
+	}		
+?>
+		
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
 <table width="550" align="center" border="0" cellpadding="0" cellspacing="0">
