@@ -451,6 +451,24 @@ function displayLayer(panelNo) {
           		}
           	}
 	
+	      // styles of sub menu items
+              var IconStyles = new Array("personalLink", "jobLink", "dependantsLink", "contactLink", "emergency_contactLink", "attachmentsLink", "cash_benefitsLink", "non_cash_benefitsLink", "educationLink", "immigrationLink", "languagesLink", "licenseLink", "membershipLink", "paymentLink", "report-toLink", "skillsLink", "work_experienceLink");
+		
+
+	      // highlight the current selected item
+              for (i=0; i<IconStyles.length; i++){
+                  var Style = IconStyles[i];
+		  obj=MM_findObj(Style);
+		  if (obj && obj.style ){
+		      if (i == panelNo - 1){
+		          obj.style.fontWeight="bold";
+		      } else {
+			  obj.style.fontWeight="normal";
+		      }
+		  }
+
+	      }
+
 	switch(panelNo) {
           	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //personal
           	case 2 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //job
@@ -515,7 +533,7 @@ function resetAdd(panel) {
 .mnuPIM td{
 	display: table-cell;
 	position: relative;
-	padding: 2px 6px;
+	padding: 4px 4px;
 	background-position: center top;
 	background-repeat: no-repeat;
 }
@@ -535,7 +553,7 @@ function resetAdd(panel) {
 
 .mnuPIM td{	
 	height: 50px;
-	width: 52px;
+	width: 54px;
 	vertical-align: top;
 	text-align:center;	
 }
@@ -849,7 +867,7 @@ function resetAdd(panel) {
 	<table border="0">
 		<tr>
 			<td>
-			<table border="0" align="center" cellpadding="0" cellspacing="0">
+			<table border="0" align="center" cellpadding="1" cellspacing="1">
 				<tr class="mnuPIM">
 					<td id="personalLink"><a href="javascript:displayLayer(1)">Personal</a></td>
 					<td id="contactLink"><a href="javascript:displayLayer(4)">Contact</a></td>
