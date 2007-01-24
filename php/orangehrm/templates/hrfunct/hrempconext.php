@@ -125,9 +125,32 @@ function viewConExt(pSeq) {
 
   <tr>
 
-    <td width='100%'><h4>Assigned Contracts</h4></td>
+<?php 
+
+    $rset = $this->popArr['rsetConExt'];
+
+    // check if there are any defined memberships
+    if( $rset && count($rset) > 0 ){
+        $assignedContracts = true;
+    } else {
+        $assignedContracts = false;
+    }
+?>
+
+    <td width='100%'><h3>Assigned Contracts</h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
+
+<?php if( !$assignedContracts ){ ?>
+  <tr>
+    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+<?php 
+     } else {
+?>
+
   <tr>
   <td>
 <?php	if($locRights['delete']) { ?>
@@ -147,7 +170,6 @@ function viewConExt(pSeq) {
 						 <td><strong>Contract End Date</strong></td>
 					</tr>
 <?php
-$rset = $this->popArr['rsetConExt'];
 
 
     for($c=0; $rset && $c < count($rset); $c++)
@@ -163,5 +185,6 @@ $rset = $this->popArr['rsetConExt'];
         }
 
 ?>
+<?php } //if( $assignedContracts ) ?>
 </table>
 <?php } ?>
