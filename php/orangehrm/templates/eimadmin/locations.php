@@ -155,8 +155,15 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function clearAll() {
 			document.frmLocation.txtLocDescription.value = '';
 			document.frmLocation.cmbCountry.options[0].selected = true;
-			document.frmLocation.cmbProvince.options.length = 1;
-			document.frmLocation.cmbDistrict,options.length = 1;
+
+            // check if cmbProvince is a select or a text input
+		    stateObj = document.getElementById("txtState");
+            if( stateObj.options ){
+                stateObj.options[0].selected = true;
+            } else {
+                stateObj.value = '';
+            }
+			document.frmLocation.cmbDistrict.value = '';
 			document.frmLocation.txtAddress.value = '';
 			document.frmLocation.txtZIP.value = '';
 			document.frmLocation.txtPhone.value = '';
@@ -354,7 +361,7 @@ function mover() {
 			return;
 		}
 
-		if ( frm.cmbDistrict.value == '0' ){		
+		if ( frm.cmbDistrict.value == '' ){		
 			alert ("City Cannot be empty!");
 			frm.cmbDistrict.focus();
 			return;
@@ -399,20 +406,6 @@ function mover() {
 		document.frmLocation.submit();		
 	}			
 
-	function clearAll() {
-		if(document.Edit.title!='Save') 
-			return;
-
-			document.frmLocation.txtLocDescription.value = '';
-			document.frmLocation.cmbCountry.options[0].selected = true;
-			document.frmLocation.cmbProvince.options.length = 1;
-			document.frmLocation.cmbDistrict.options.length = 1;
-			document.frmLocation.txtAddress.value = '';
-			document.frmLocation.txtZIP.value = '';
-			document.frmLocation.txtPhone.value = '';
-			document.frmLocation.txtFax.value = '';
-			document.frmLocation.txtComments.value = '';
-	}
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
