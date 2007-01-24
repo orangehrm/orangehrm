@@ -105,11 +105,20 @@ a:hover {
 	color: #444444;
 	font-weight: normal;
 	}
-	
-input,select {
+
+/* Select padding-left set to 0 to match input boxes, since select boxes seem to have padding anyway */
+select {
 	border: 1px solid #888888;
 	font-size: 11px;
 	background-color: #ffffff;
+	padding-left: 0px;
+	}	
+input {
+	border: 1px solid #888888;
+	font-size: 11px;
+	background-color: #ffffff;
+	padding-left: 4px;
+	padding-right: 4px;
 	}
 	
 textarea {
@@ -117,6 +126,8 @@ textarea {
 	border: 1px solid #888888;
 	font-size: 12px;
 	background-color: #ffffff;
+	padding-left: 4px;
+	padding-right: 4px;
 	}
 .checkbox,.radio {
 	border:0px;

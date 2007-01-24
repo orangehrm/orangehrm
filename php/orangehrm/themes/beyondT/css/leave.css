@@ -103,9 +103,17 @@ h5 {
 	font-size:14px;
 }
 
-input, select, textarea {
+select {
 	font-size: 11px;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left: 0px;
+}
+
+input, textarea {
+	font-size: 11px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left: 4px;
+	padding-right: 4px;
 }
 
 hr {
