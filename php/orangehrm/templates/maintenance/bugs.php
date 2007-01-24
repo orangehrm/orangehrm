@@ -82,21 +82,21 @@ function goBack() {
 		
 		
 		if(document.frmBugs.category_id.value=='100') {
-			alert("Field should be selected");
+			alert("Please select a bug category");
 			document.frmBugs.cmbSource.focus();
 			return;
 		}
 		
 		
 		if(document.frmBugs.cmbModule.value=='0') {
-			alert("Field should be selected");
+			alert("Please select a module");
 			document.frmBugs.cmbModulse.focus();
 			return;
 		}
 
 
 		if (document.frmBugs.summary.value == '') {
-			alert ("Please specify a Bug Name");
+			alert ("Please specify the bug summary");
 			return false;
 		}
 		
@@ -163,7 +163,7 @@ function goBack() {
     <td><strong>v2.1_alpha_2</strong><input type="hidden" readonly name="artifact_group_id" value="681430"></td>
   </tr>
   <tr> 
-    <td>Category</td>
+  <td><span class="error">*</span> Category</td>
     
     <td><select name="category_id">
 		<OPTION VALUE="100">None</OPTION>
@@ -175,7 +175,7 @@ function goBack() {
     </select></td>
   </tr>
   <tr> 
-    <td>Module</td>
+    <td><span class="error">*</span> Module</td>
     <td><select name="cmbModule">
         		<option value="0">--Select Module--</option>
     <?php  $module = $this->popArr['module'];
@@ -184,20 +184,20 @@ function goBack() {
     ?></td>
   </tr>
   <tr> 
-    <td>Priority</td>
+    <td>&nbsp;Priority</td>
     <td><select name="priority">
 <option value="1">1 - Lowest</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5" selected="selected">5 - Medium</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9 - Highest</option></select>
 </td>
   </tr>
   <tr> 
-    <td>Summary</td>
+    <td><span class="error">*</span> Summary</td>
     <td><input type="text" name="summary"></td> 
     <td>Your Email</td>
     <td><input type="text" name="txtEmail" value="<?php echo isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"></td> 
    
   </tr>
    <tr> 
-    <td>Description</td>
+    <td>&nbsp;Description</td>
     <td><textarea name='txtDescription' rows="3" cols="30"></textarea></td>
    </tr>
   					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
