@@ -257,6 +257,19 @@ if(isset($this->popArr['editWrkExpArr'])) {
           </tr>
         </table>
 		<?php } ?>
+
+<?php 
+
+    $rset = $this->popArr['rsetWrkExp'];
+
+    // check if there are any defined work experiences
+    if( $rset && count($rset) > 0 ){
+        $assignedExperiences = true;
+    } else {
+        $assignedExperiences = false;
+    }
+?>
+
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -268,6 +281,17 @@ if(isset($this->popArr['editWrkExpArr'])) {
     <td width='100%'><h3><?php echo $assignworkex?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
+<?php if( !$assignedExperiences ){ ?>
+  <tr>
+    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+
+<?php 
+     } else {
+?>
+
   <tr>
    <td>
 <?php	if($locRights['add']) { ?>
@@ -296,8 +320,6 @@ if(isset($this->popArr['editWrkExpArr'])) {
 					</tr>
 <?php
 
-$rset = $this->popArr['rsetWrkExp'];
-
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
@@ -312,6 +334,7 @@ $rset = $this->popArr['rsetWrkExp'];
         echo '</tr>';
         }
 ?>
+<?php } //if( $assignedExperiences ) ?>
 </table>
       
 <?php } ?>
