@@ -201,6 +201,18 @@ if(isset($this->getArr['LIC'])) {
                   </table>
 <?php } ?>
 
+<?php 
+
+    $rset = $this->popArr['rsetLicense'];
+
+    // check if there are any defined memberships
+    if( $rset && count($rset) > 0 ){
+        $assignedLicenses = true;
+    } else {
+        $assignedLicenses = false;
+    }
+?>
+
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -212,6 +224,19 @@ if(isset($this->getArr['LIC'])) {
     <td width='100%'><h3><?php echo $assignlicen?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
+
+<?php if( !$assignedLicenses ){ ?>
+  <tr>
+    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+
+<?php 
+     } else {
+?>
+
+
   <tr>
   <td>
  <?php	if($locRights['add']) { ?>
@@ -237,7 +262,6 @@ if(isset($this->getArr['LIC'])) {
 						 
 					</tr>
 <?php
-$rset = $this->popArr['rsetLicense'];
 $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
@@ -258,6 +282,7 @@ $allLicenlist = $this -> popArr['allLicenlist'];
         }
 
 ?>
+<?php } //if( $assignedLicenses ) ?>
 </table>
 
 <?php } ?>
