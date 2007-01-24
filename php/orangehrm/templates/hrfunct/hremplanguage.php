@@ -222,6 +222,18 @@ if(isset($this->getArr['lanSEQ'])) {
                   </table>
 <?php } ?>
 
+<?php 
+
+    $rset = $this->popArr['rsetLang'];
+
+    // check if there are any defined memberships
+    if( $rset && count($rset) > 0 ){
+        $assignedLanguages = true;
+    } else {
+        $assignedLanguages = false;
+    }
+?>
+
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -233,6 +245,18 @@ if(isset($this->getArr['lanSEQ'])) {
     <td width='100%'><h3><?php echo $assignlanguage?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
+
+<?php if( !$assignedLanguages ){ ?>
+  <tr>
+    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+
+<?php 
+     } else {
+?>
+
   <tr>
   <td>
 <?php	if($locRights['add']) { ?>
@@ -257,7 +281,6 @@ if(isset($this->getArr['lanSEQ'])) {
 						 <td><strong><?php echo $ratinggarde?></strong></td>
 					</tr>
 <?php
-$rset = $this->popArr['rsetLang'];
 
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
@@ -281,6 +304,7 @@ $rset = $this->popArr['rsetLang'];
         }
 
 ?>
+<?php } //if( $assignedLanguages ) ?>
 </table>
 
 <?php } ?>
