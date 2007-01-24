@@ -2552,12 +2552,12 @@ class EmpInfo {
 	}
 	
 	public function fetchEmployeeId ($emp_number) {
-		$tableName = '`HS_HR_EMPLOYEE`';
-		$arrFieldList[0] = '`EMPLOYEE_ID`';
+		$tableName = '`hs_hr_employee`';
+		$arrFieldList[0] = '`employee_id`';
 		
 		$sql_builder = new SQLQBuilder();
 		
-		$selectConditions[0] = " `EMP_NUMBER` = '$emp_number'";
+		$selectConditions[0] = " `emp_number` = '$emp_number'";
 		
 		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectConditions);
 		
