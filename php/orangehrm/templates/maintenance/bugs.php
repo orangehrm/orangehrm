@@ -28,6 +28,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <head>
 <title>Bugs-Add</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
+
 <script>			
 function alpha(txt)
 {
@@ -99,6 +101,16 @@ function goBack() {
 			alert ("Please specify the bug summary");
 			return false;
 		}
+
+		// validate email if supplied
+		var email = document.frmBugs.txtEmail.value;
+		if (email != '') {
+			if( !checkEmail(email) ){
+			    alert ("The email entered is not valid");
+			    return false;
+			}
+		}
+		
 		
 		document.frmBugs.sqlState.value = "NewRecord";
 		document.frmBugs.submit();		

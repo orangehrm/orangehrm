@@ -379,7 +379,6 @@ function editEmpMain() {
 }
 	
 function updateEmpMain() {
-	//alert('hi');
 	var cnt = document.frmEmp.txtEmpLastName;
 	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
 		cnt.focus();
@@ -410,6 +409,30 @@ function updateEmpMain() {
 		return;
 	}
 	
+    // contact details validation
+    if( document.frmEmp.contactFlag.value == '1' ){    
+
+        // check work email 
+        var workEmail = document.frmEmp.txtWorkEmail.value;
+        if (workEmail != '') {
+            if( !checkEmail(workEmail) ){
+                alert ("The work email is not valid");
+                return false;
+            }
+        }
+
+        // txtOtherEmail
+        var otherEmail = document.frmEmp.txtOtherEmail.value;
+        if (otherEmail != '') {
+            if( !checkEmail(otherEmail) ){
+                alert ("The other email is not valid");
+                return false;
+            }
+        }
+    }
+
+
+
 	document.getElementById("cmbProvince").value=document.getElementById("txtState").value;
 	document.frmEmp.sqlState.value = "UpdateRecord";
 	document.frmEmp.submit();		
@@ -447,7 +470,9 @@ function displayLayer(panelNo) {
           	if((panelNo != 1 && document.frmEmp.personalFlag.value == '1') || (panelNo != 2 && document.frmEmp.jobFlag.value == '1') || (panelNo != 4 && document.frmEmp.contactFlag.value == '1')) {
 
           		if(confirm("Please save the changes before you move onto another pane!")) {
-          			updateEmpMain();
+          			if( !updateEmpMain() ){
+                        return;
+                    }
           		}
           	}
 	
@@ -456,18 +481,17 @@ function displayLayer(panelNo) {
 		
 
 	      // highlight the current selected item
-              for (i=0; i<IconStyles.length; i++){
-                  var Style = IconStyles[i];
-		  obj=MM_findObj(Style);
-		  if (obj && obj.style ){
-		      if (i == panelNo - 1){
-		          obj.style.fontWeight="bold";
-		      } else {
-			  obj.style.fontWeight="normal";
-		      }
-		  }
-
-	      }
+          for (i=0; i<IconStyles.length; i++){
+              var Style = IconStyles[i];
+              obj=MM_findObj(Style);
+              if (obj && obj.style ){
+                  if (i == panelNo - 1){
+                      obj.style.fontWeight="bold";
+                  } else {
+                      obj.style.fontWeight="normal";
+                  }
+              }
+          }
 
 	switch(panelNo) {
           	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide'); break; //personal
