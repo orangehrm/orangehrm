@@ -109,9 +109,9 @@ function addEXTMembership() {
 
 function editEXTMembership() {
 	
-    var txt = document.frmEmp.txtMemSubAmount;
-	if (!numeric(txt)) {
-		alert ("Description Error!");
+	var txt = document.frmEmp.txtMemSubAmount;
+	if ((txt.value != '') && !decimalCurr(txt)) {
+		alert ("Subscription amount should be numeric!");
 		txt.focus();
 		return false;
 	}
@@ -307,6 +307,18 @@ if(isset($this->popArr['editMembershipArr'])) {
                   </table>
 <?php } ?>
 
+<?php 
+
+    $mship= $this->popArr['mshipAll'];
+    $rset = $this->popArr['rsetMembership'];
+
+    // check if there are any defined memberships
+    if( $rset && count($rset) > 0 ){
+        $assignedMemberships = true;
+    } else {
+        $assignedMemberships = false;
+    }
+?>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
@@ -317,8 +329,21 @@ if(isset($this->popArr['editMembershipArr'])) {
     <td width='100%'><h3><?php echo $assignmemship?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
+
+<?php if( !$assignedMemberships ){ ?>
+  <tr>
+    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+
+
+<?php 
+     } else {
+?>
+
   <tr>
   <td>
+
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
 					<?php 	} else { ?>
@@ -344,8 +369,6 @@ if(isset($this->popArr['editMembershipArr'])) {
 					</tr>
 <?php
 
-$mship= $this->popArr['mshipAll'];
-$rset = $this->popArr['rsetMembership'];
 
 
     for($c=0;$rset && $c < count($rset); $c++)
@@ -370,6 +393,7 @@ $rset = $this->popArr['rsetMembership'];
         echo '</tr>';
         }
 ?>
+<?php } //if( $assignedMemberships ) ?>
 </table>
 
 <?php } ?>
