@@ -64,7 +64,7 @@ return flag;
 		
 		var txt=document.frmNationalityInformation.txtNationalityInfoDesc;
 		if (txt.value == "") {
-			alert ("Description Error!");
+			alert ("Please enter a nationality name!");
 			txt.focus();
 			return false;
 		}
@@ -208,7 +208,7 @@ function edit()
 		
 		var txt=document.frmNationalityInformation.txtNationalityInfoDesc;
 		if (txt.value == "") {
-			alert ("Description Error!");
+			alert ("Please enter a nationality name!");
 			txt.focus();
 			return false;
 		}
