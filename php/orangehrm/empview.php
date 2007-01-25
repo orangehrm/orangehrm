@@ -487,34 +487,22 @@ parent.scrollTo(0, 0);
 
               </table>
 
-			  <table border="0" width="100%">
+              <table border="0" cellpadding="0" cellspacing="0">
 
-			  <tr>
+              <!-- Start paging links -->
+   			  <tr>
 
+              <!-- no results message -->
 <?php 		if ((isset($emplist)) && ($emplist =='')) {
 
-        		
-
-        		 $dispMessage = $norecorddisplay;
-
-        		 echo "<td>";
-
-        		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
-
-        		 echo $dispMessage;
-
-        		 echo '</font>';
-
-        		 echo "</td>";
-
+    ?>
+        		<td colspan="4">
+                    <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $norecorddisplay ?></font>
+                </td>
+<?php
         	}	
-
 ?>        	
-
-			  <td height="40" valign="bottom" align="right">
-
-			  
-
+			  <td colspan="2" height="40" valign="bottom" align="right">
 <?php
 
 $temp = $this->popArr['temp'];     
@@ -527,17 +515,11 @@ else
 
 	$recCount=0;
 
-	
-
 	$noPages=(int)($recCount/$sysConst->itemsPerPage);
-
-
 
 	if($recCount%$sysConst->itemsPerPage)
 
 	   $noPages++;
-
-
 
 	if ($noPages > 1) {   
 
@@ -548,8 +530,6 @@ else
 		else
 
     		echo "<a href='#' onClick='prevPage()'>$previous</a>";
-
-    	
 
     	echo "  ";
 
@@ -581,23 +561,12 @@ else
 
     		echo "<a href='#' onClick='nextPage()'>$next</a>";
 
-    		
-
 	}
-
 			
-
 ?> 
-
-		</td>
-
-		<td width="25"></td>
-
-		</tr>
-
-		</table>
-
-              <table border="0" cellpadding="0" cellspacing="0">
+                </td>
+               </tr>
+              <!-- End paging links -->
 
                 <tr>
 
