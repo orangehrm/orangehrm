@@ -100,6 +100,16 @@
       </coverage-report>
   </target>
 
+  <!-- Copies the en language files to the default directory -->
+  <target name="default.lang">
+      <copy todir="${project.dir}/language/default" overwrite="true">
+          <mapper type="regexp" from="^(.*)_en_(.*)$" to="\1_default_\2"/>
+          <fileset dir="${project.dir}/language/en/">
+              <include name="*.php"/> 
+          </fileset>
+      </copy>
+  </target>
+  
   <target name="phpdoc" depends="prepare">
       <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}" 
           sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>      
