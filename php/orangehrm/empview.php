@@ -665,11 +665,14 @@ else
 
 <?php 					} ?>                  
 
-				  <td width="250"><a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" class="listViewTdLinkS1"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
+				  <td width="250"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></td>
 
 
 
-		  		  <td width="400" ><?php echo $descField?></td>
+		  		  <td width="400" >
+                     <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" 
+                         class="listViewTdLinkS1"><?php echo $descField?></a>
+                  </td>
 
 <?php			} else { ?>
 
@@ -683,11 +686,13 @@ else
 
 <?php } ?>                  
 
-				  <td bgcolor="#EEEEEE" width="250"><a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" class="listViewTdLinkS1"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0] ?></a></td>
+				  <td bgcolor="#EEEEEE" width="250"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0] ?></td>
 
 
 
-		  		  <td bgcolor="#EEEEEE" width="400" ><?php echo $descField?></td>
+		  		  <td bgcolor="#EEEEEE" width="400" >
+                      <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>" 
+                          class="listViewTdLinkS1"><?php echo $descField?></a></td>
 
 <?php			}	?>
 
