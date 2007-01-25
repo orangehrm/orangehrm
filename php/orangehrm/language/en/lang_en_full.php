@@ -555,7 +555,7 @@
 	$lang_view_message28 					= "Deletion might affect Employee Language";
 	$lang_view_EthnicRace 					= "Ethnic Race";
 	$lang_view_EthnicRaceName 				= "Ethnic Race Name";
-	$lang_view_message29 					= "Deletion might affect Employee";
+	$lang_view_message29 					= "Deletion might affect employee records";
 	$lang_view_message30 					= "Deletion might affect Employee Information";
 	$lang_view_message31 					= "Deletion might affect Employee Information, Corporate Titles";
 	$lang_view_message32 					= "Deletion might affect Qualifications, Designation Qualification, Employee Qualification";
