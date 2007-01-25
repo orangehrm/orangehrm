@@ -1,4 +1,32 @@
-New & Changed Features for OrangeHRM ver 2.1_alpha_1 (17/01/2007)
+New & Changed Features for OrangeHRM ver 2.1_alpha_3 (24/01/2007)
+	
+
+	1. User defined employee ID's added.
+		See http://www.orangehrm.com/app/wiki/index.php/Orange_Future#User_defines_employee_id
+
+	2. Usability related bug fixes
+
+	BugID	Name
+
+	1619883   Usability - Add consistant borders to edit fields
+	1619870   Usability - Cannot identify which section is being edited in Employee Information
+	1619863   Usability - Mark compulsary fields in bug tracker page
+	1619877   Usability - Comment field in "Apply leave" should be multiline
+	1619868   Usability - Validation of email fields etc.
+	1587567   Usability - Company info - locations - clear does not clear all fields
+	1587548   Usability - Membership - Don't show an empty table when there are no memberships defined
+	1587448   Usability - Work Experience - Don't show empty tables
+	1587543   Usability - License - Don't show empty table when there are no assigned licenses.
+	1587524   Usability - Employee Information - Languages - Don't show empty tables
+	1586478   Usability - Job - Don't show empty contracts table
+	1586098   Usability - Adding a nationality - need a proper error message
+	1586128   Usability - Employee Info - Contact - State1 should be 1 line
+	1586087   Usability - Employee Information - link should be on emp name
+	1586056   Usability - Emp Info - paging options to be left aligned
+
+
+
+New & Changed Features for OrangeHRM ver 2.1_alpha_2 (17/01/2007)
 
 	Provided that e-mail addresses are defined for employees.
 	

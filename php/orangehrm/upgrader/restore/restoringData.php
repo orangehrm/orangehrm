@@ -128,7 +128,7 @@ class Conf {
 	\$this->dbname	= '$dbName';
 	\$this->dbuser	= '$dbOHRMUser';
 	\$this->dbpass	= '$dbOHRMPassword';
-	\$this->version	= '2.1_alpha_2';
+	\$this->version	= '2.1_alpha_3';
 	\$this->upgrade	= true;
 	}
 }
