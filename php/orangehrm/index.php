@@ -1,15 +1,15 @@
 <?php
 /*
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
@@ -25,7 +25,7 @@ if(!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 }
 
 session_start();
-if(!isset($_SESSION['fname'])) { 
+if(!isset($_SESSION['fname'])) {
 
 	header("Location: ./login.php");
 	exit();
@@ -44,16 +44,16 @@ $_SESSION['path'] = ROOT_PATH;
 
 if($_SESSION['isAdmin']=='Yes') {
 	$rights = new Rights();
-	
+
 	//	$arrRights=array('add'=> true , 'edit'=> true, 'delete'=> true, 'view'=> true);
-	
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))   
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))
 		$arrRights=$rights->getRights($_SESSION['userGroup'],Admin);
-	
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr")) 
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr"))
 		$arrRights=$rights->getRights($_SESSION['userGroup'],PIM);
-	
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt")) 
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt"))
 		$arrRights=$rights->getRights($_SESSION['userGroup'],MT);
 
 
@@ -61,7 +61,7 @@ if($_SESSION['isAdmin']=='Yes') {
 	$ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 
 	$arrRights['repDef'] = $ugDet[0][2] == '1' ? true : false;
-		
+
 		$_SESSION['localRights']=$arrRights;
 }
 
@@ -100,8 +100,8 @@ if ($authorizeObj->isESS()) {
 require_once ROOT_PATH . '/lib/common/Language.php';
 
 $lan = new Language();
- 
-require_once($lan->getLangPath("full.php")); 
+
+require_once($lan->getLangPath("full.php"));
 
 ?>
 <html>
@@ -118,17 +118,17 @@ require_once($lan->getLangPath("full.php"));
 //window.onresize = setSize();
 
 		var yPosition = 108;
-		
+
 		var agt=navigator.userAgent.toLowerCase();
-		
+
 		var xPosition = 150;
-		
+
 		if (agt.indexOf("konqueror") != -1) var xPosition = 144;
-		
+
 		if (agt.indexOf("windows") != -1) var xPosition = 144;
-		
+
 		if (agt.indexOf("msie") != -1) var xPosition = 150;
-		
+
 
 		new ypSlideOutMenu("menu1", "right", xPosition, yPosition, 150, 230)
 		new ypSlideOutMenu("menu2", "right", xPosition, yPosition + 22, 146, 360)
@@ -143,24 +143,24 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 110, 146, 120)
-		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)		
+		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)
 
-function swapImgRestore() { 
+function swapImgRestore() {
   var i,x,a=document.sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
 }
-function preloadImages() { 
+function preloadImages() {
   var d=document; if(d.images){ if(!d.p) d.p=new Array();
     var i,j=d.p.length,a=preloadImages.arguments; for(i=0; i<a.length; i++)
     if (a[i].indexOf("#")!=0){ d.p[j]=new Image; d.p[j++].src=a[i];}}
 }
-function findObj(n, d) { 
+function findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
     d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
   if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
   for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=findObj(n,d.layers[i].document);
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
-function swapImage() { 
+function swapImage() {
   var i,j=0,x,a=swapImage.arguments; document.sr=new Array; for(i=0;i<(a.length-2);i+=3)
    if ((x=findObj(a[i]))!=null){document.sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
 }
@@ -172,9 +172,9 @@ function showHideLayers() {
 }
 
 function setSize() {
-	var iframeElement = document.getElementById('rightMenu'); 
-	iframeElement.style.height = (window.innerHeight - 20) + 'px'; //100px or 100% 
-	iframeElement.style.width = '100%'; //100px or 100% 
+	var iframeElement = document.getElementById('rightMenu');
+	iframeElement.style.height = (window.innerHeight - 20) + 'px'; //100px or 100%
+	iframeElement.style.width = '100%'; //100px or 100%
 }
 </SCRIPT>
 </head>
@@ -195,9 +195,9 @@ function setSize() {
         <?php
 	if (!isset($_GET['menu_no_top'])) {
 		$_GET['menu_no_top'] = "home";
-	} 
+	}
 
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {
 	?>
         <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
           <tr height="20">
@@ -225,10 +225,10 @@ function setSize() {
                       </tr>
                   </table></td>
                   <?php } ?>
-                  <?php 
+                  <?php
                   if($_SESSION['isAdmin']=='Yes') {
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  
-									
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {
+
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -250,8 +250,8 @@ function setSize() {
                       </tr>
                   </table></td>
                   <?php } ?>
-                  <?php 
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  
+                  <?php
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -272,9 +272,9 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } 
+                  <?php }
                   }
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -295,9 +295,9 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } 
+                  <?php }
                   if($_SESSION['isAdmin']=='Yes') {
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -320,8 +320,8 @@ function setSize() {
                   </table></td>
                   <?php } ?>
                   <?php
-                  } else { 
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  
+                  } else {
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -342,10 +342,10 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } 
+                  <?php }
                   }
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  
-									
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {
+
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -385,9 +385,9 @@ function setSize() {
                 </tr>
             </table></td>
           </tr>
-        </table>        
+        </table>
       </table>
-      
+
 <?php if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']!="hr" && $_GET['menu_no_top']!="ess" )) {  ?>
 
 	<table border="0" align="top" cellpadding="0" cellspacing="0">
@@ -403,14 +403,14 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
                         <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
-                      
+
                       <ul id="menu">
   						<li id="compinfo"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu1');" onMouseOut="ypSlideOutMenu.hideMenu('menu1');"><?php echo $lang_Menu_Admin_CompanyInfo; ?></a></li>
   						<li id="job"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu2');" onMouseOut="ypSlideOutMenu.hideMenu('menu2');"><?php echo $lang_Menu_Admin_Job; ?></a></li>
   						<li id="qualification"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu3');" onMouseOut="ypSlideOutMenu.hideMenu('menu3');"><?php echo $lang_Menu_Admin_Quali; ?></a></li>
   						<li id="skills"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu4');" onMouseOut="ypSlideOutMenu.hideMenu('menu4');"><?php echo $lang_Menu_Admin_Skills; ?></a></li>
-  						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');"><?php echo $lang_Menu_Admin_Memberships; ?></a></li> 
-  						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li> 
+  						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');"><?php echo $lang_Menu_Admin_Memberships; ?></a></li>
+  						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 						<li id="users"><a href="index.php?uniqcode=EMX&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin_EmailConfig; ?></a></li>
 </ul></TD>
@@ -418,12 +418,12 @@ function setSize() {
                     <TD width=158>
                     <ul id="menu">
   						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep">View Reports</A></li>
-                    	
+
 <?php               if($arrRights['repDef']) {?>
 						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Reports</A></li>
 <?php					}
 					} else ?>
-					</ul>						
+					</ul>
                       </TD>
 <?php			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave" )) { ?>
              <TD width=158>
@@ -432,39 +432,39 @@ function setSize() {
                         <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
                         <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
                         <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
-                      
+
                       <ul id="menu">
-                      	<?php 
+                      	<?php
                       		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
-                 	
-                 			//if ($authorizeObj->firstRole($allowedRoles)) { 
-                 				
+
+                 			//if ($authorizeObj->firstRole($allowedRoles)) {
+
                  			if ($authorizeObj->isESS()) {
-                 				$linkSummary = 'href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary"';              
+                 				$linkSummary = 'href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'].'"';
                  			} else {
                  				$linkSummary = "";
                  			}
                       	?>
   						<li id="leaveSummary"><a <?php echo $linkSummary; ?> target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');"><?php echo $lang_Menu_Leave_LeaveSummary; ?></a></li>
-  						<?php 
+  						<?php
                  			//}
-                 			if ($authorizeObj->isESS()) { 
+                 			if ($authorizeObj->isESS()) {
   						?>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveList; ?></a></li>
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu"><?php echo $lang_Menu_Leave_Apply; ?></a></li>
-  						<?php 
-                      		}               	
+  						<?php
+                      		}
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu"><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
-						<?php }  
+						<?php }
 							if ($authorizeObj->isAdmin()) {
 						?>
   						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveTypes; ?></a></li>
 						<li id="defineLeaveType"><a target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu14');" onMouseOut="ypSlideOutMenu.hideMenu('menu14');"><?php echo $lang_Menu_Leave_DefineDaysOff; ?></a></li>
 						<?php } ?>
   					</ul>
-			</TD>         
+			</TD>
 <?php			}
 
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
@@ -480,7 +480,7 @@ function setSize() {
 				 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
 				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
                     </p></TD>
-<?php			}  ?>                   
+<?php			}  ?>
                 </TR>
                 </TBODY>
               </TABLE>
@@ -491,7 +491,7 @@ function setSize() {
                 <DIV id=menu1Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
-                      <TR>					  
+                      <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=GEN&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_Gen; ?></A></TD>
                       </TR>
                       <TR>
@@ -499,7 +499,7 @@ function setSize() {
                       </TR>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=LOC&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_Locations; ?></A></TD>
-                      </TR>									
+                      </TR>
                     </TBODY>
                   </TABLE>
                 </DIV>
@@ -534,12 +534,12 @@ function setSize() {
                     <TBODY>
                     <TR>
                       <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EDU&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Quali_Education; ?></A> </TD>
-                    </TR>                    
+                    </TR>
                     <TR>
                       <TD onMouseOver="ypSlideOutMenu.showMenu('menu3')" onMouseOut="ypSlideOutMenu.hideMenu('menu3')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=LIC&menu_no=3&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Quali_Licenses; ?></A></TD>
                     </TR>
                     </TBODY>
-                    
+
                   </TABLE>
                 </DIV>
               </DIV>
@@ -576,7 +576,7 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu5 -->
-              <!-- Begin SubMenu6 
+              <!-- Begin SubMenu6
               <DIV id=menu6Container>
                 <DIV id=menu6Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -596,7 +596,7 @@ function setSize() {
                       <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NBS&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Non - Cash Benefits Assigned to Salary &nbsp;Grade</A> </TD>
                     </TR>
                     </TBODY>
-                    
+
                   </TABLE>
                 </DIV>
               </DIV>
@@ -622,7 +622,7 @@ function setSize() {
                 </DIV>
               </DIV>
                 End SubMenu7 -->
-              <!-- Begin SubMenu8 
+              <!-- Begin SubMenu8
               <DIV id=menu8Container>
                 <DIV id=menu8Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -654,7 +654,7 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu9 -->
-              <!-- Begin SubMenu10 
+              <!-- Begin SubMenu10
               <DIV id=menu10Container>
                 <DIV id=menu10Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
@@ -668,7 +668,7 @@ function setSize() {
                       <TD onMouseOver="ypSlideOutMenu.showMenu('menu10')" onMouseOut="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
                     </TR>
                     </TBODY>
-                    
+
                   </TABLE>
                 </DIV>
               </DIV>
@@ -708,16 +708,16 @@ function setSize() {
                <!-- Begin SubMenu13 -->
               <DIV id=menu13Container>
                 <DIV id=menu13Content>
-                 <?php 
+                 <?php
                  	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
-                 	
+
                  	if ($authorizeObj->firstRole($allowedRoles)) {
                  ?>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                     <?php
                     	if ($authorizeObj->isESS()) {
-                    ?>                    	
+                    ?>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id=<?php echo $_SESSION['empID']; ?>" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
 					 </TR>
@@ -726,10 +726,10 @@ function setSize() {
                     ?>
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_EmployeeLeaveSummary; ?></A></TD>
-					 </TR>					 			 
+					 </TR>
                     </TBODY>
                   </TABLE>
-                  <?php 
+                  <?php
                  	}
                  ?>
                 </DIV>
@@ -738,20 +738,20 @@ function setSize() {
 			    <!-- Begin SubMenu14 -->
               <DIV id=menu14Container>
                 <DIV id=menu14Content>
-                 <?php    
-				 	if ($authorizeObj->isAdmin()) {              	
+                 <?php
+				 	if ($authorizeObj->isAdmin()) {
                  ?>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>                                      	
+                    <TBODY>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_Weekends; ?></A></TD>
-					 </TR>					
+					 </TR>
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_SpecificHolidays; ?></A></TD>
-					 </TR>					 			 
+					 </TR>
                     </TBODY>
                   </TABLE>
-                  <?php 
+                  <?php
                  	}
                  ?>
                 </DIV>
@@ -776,11 +776,11 @@ function setSize() {
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=ESS&id=<?php echo $_SESSION['empID']?>&capturemode=updatemode" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?php echo $_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>        
+              <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?php echo $_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="850" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  ?>
               <iframe src="<?php echo $leaveHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="1000" frameborder="0"> </iframe>
 <?php 		} ?>
-            
+
             </td>
           </tr>
 </table>
