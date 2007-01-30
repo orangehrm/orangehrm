@@ -65,7 +65,9 @@ class LeaveType {
 	public function setLeaveTypeId ($leaveTypeId) {
 		$this->leaveTypeId = $leaveTypeId;
 	}
-	
+	/**
+	 * @param void
+	 */
 	public function getLeaveTypeName () {
 		return $this->leaveTypeName;
 	}

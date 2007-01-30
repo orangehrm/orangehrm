@@ -54,7 +54,7 @@ class EXTRACTOR_LeaveQuota {
 		
 		for ($i=0; $i < count($postArr['txtLeaveTypeId']); $i++) {			
 			$tmpObj = new LeaveQuota();
-			$tmpObj->setEmployeeId($postArr['id']);
+			$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
 			$tmpObj->setLeaveTypeId($postArr['txtLeaveTypeId'][$i]);
 			$tmpObj->setNoOfDaysAllotted($postArr['txtLeaveEntitled'][$i]);
 			$objLeave[] = $tmpObj;			

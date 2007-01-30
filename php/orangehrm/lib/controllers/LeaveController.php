@@ -40,6 +40,7 @@ class LeaveController {
 	
 	private $indexCode;
 	private $id;
+	private $leaveTypeId;
 	private $objLeave;
 	private $authorize;
 	
@@ -49,6 +50,14 @@ class LeaveController {
 	
 	public function getId() {
 		return $this->id;
+	}
+	
+	public function setLeaveTypeId($leaveTypeId) {
+		$this->leaveTypeId = $leaveTypeId;
+	}
+	
+	public function getLeaveTypeId() {
+		return $this->leaveTypeId;
 	}
 	
 	public function setObjLeave($obj) {
@@ -94,7 +103,7 @@ class LeaveController {
 								  $this->_viewLeavesTaken($year, $details);
 								 break;
 				case "summary" : $this->setObjLeave(new LeaveSummary());
-								 $this->_displayLeaveSummary("display", $year);							 
+								 $this->_displayLeaveSummary("display", $year, $details);							 
 								 break;
 			}
 		} else {
@@ -115,10 +124,10 @@ class LeaveController {
 		}
 	}	
 	
-	public function editLeaves($modifier="summary", $year=null) {
+	public function editLeaves($modifier="summary", $year=null, $esp=null) {
 		switch ($modifier) {			
 			case "summary" : $this->setObjLeave(new LeaveSummary());
-							 $this->_displayLeaveSummary("edit", $year);
+							 $this->_displayLeaveSummary("edit", $year, $esp);
 							 break;
 		}
 	}
@@ -356,7 +365,7 @@ class LeaveController {
 	 * Displays the Leave Summary
 	 *
 	 */
-	private function _displayLeaveSummary($modifier='display', $year = null) {		
+	private function _displayLeaveSummary($modifier='display', $year = null, $esp=null) {		
 		if (!isset($year)) {
 			$year = date('Y');
 		}		
@@ -368,7 +377,7 @@ class LeaveController {
 		$empInfoObj = new EmpInfo();
 		
 		$tmpObj = $this->getObjLeave();
-		$tmpObjX[] = $tmpObj->fetchLeaveSummary($this->getId(), $year);
+		$tmpObjX[] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp);
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
 			
 		$path = "/templates/leave/leaveSummary.php";
@@ -556,6 +565,8 @@ class LeaveController {
 		if ($this->getAuthorize()->isAdmin()) {
 			$empObj = new EmpInfo();
 			$tmpOb[] = $empObj->getListofEmployee();
+			$leaveTypeObj = new LeaveType();
+			$tmpOb[] = $leaveTypeObj->fetchLeaveTypes();
 		} else {
 			$repObj = new EmpRepTo();
 			$tmpOb[] = $repObj->getEmpSubDetails($_SESSION['empID']);

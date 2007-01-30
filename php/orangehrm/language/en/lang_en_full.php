@@ -202,6 +202,7 @@
 	$lang_Leave_Common_Year 				= "Year";
 	$lang_Leave_Common_ListOfTakenLeave 	= "List of Taken Leave";
 	$lang_Leave_Common_Remove 				= "Remove";
+	$lang_Leave_Common_AllEmployees			= "All Employees";
 	
 	$lang_Leave_Common_NameOfHoliday 		= "Name of Holiday";
 	$lang_Leave_Common_Recurring 			= "Recurring";

@@ -26,7 +26,7 @@ class EXTRACTOR_Holidays {
 	
 	private $parent_Holidays;
 	
-	function __construct() {
+	public function __construct() {
 		$this->parent_Holidays = new Holidays();
 	}
 

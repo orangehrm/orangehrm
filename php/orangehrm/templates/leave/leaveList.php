@@ -28,6 +28,7 @@
  $modifier = $modifier[0];
  
  if (isset($modifier) && ($modifier == "Taken")) {
+ 	
  	$empInfo = $records[count($records)-1][0]; 
  	$employeeName = $empInfo[2].' '.$empInfo[1];
  	

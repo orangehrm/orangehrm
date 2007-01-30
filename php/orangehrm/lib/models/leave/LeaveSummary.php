@@ -34,6 +34,8 @@ require_once "LeaveQuota.php";
  */
 class LeaveSummary extends LeaveQuota {
 	
+	const LEAVESUMMARY_CRITERIA_ALL = '0';
+	
 	/**
 	 *	Class atributes
 	 *
@@ -92,15 +94,168 @@ class LeaveSummary extends LeaveQuota {
 	 * @author S.H.Mohanjith
 	 * 
 	 */
-	public function fetchLeaveSummary($employeeId, $year) {
+	public function fetchLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL) {
 		
 		$this->setYear($year);
 		
 		$this->setEmployeeId($employeeId);
 		
-		$leaveTypeArr = $this->fetchLeaveQuota($employeeId);	
+		$this->setLeaveTypeId($leaveTypeId);	
+		
+		$leaveTypeArr = $this->fetchLeaveQuota($employeeId);			
 		
 		return $leaveTypeArr;				
+	}
+	
+	/**
+	 * Leave summary of all employees
+	 */
+	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee") {
+		
+		$this->setYear($year);		
+		$this->setEmployeeId($employeeId);		
+		$this->setLeaveTypeId($leaveTypeId);
+		
+		$selectFields[0] = '`employee_id`';
+		$selectFields[1] = '`leave_type_id`';
+		$selectFields[2] = '`no_of_days_allotted`';
+				
+		$selectTable = "`hs_hr_employee_leave_quota`";	
+		
+		$selectConditions = null;
+				
+		$employeeId = $this->getEmployeeId();
+		if (!empty($employeeId) && ($this->getEmployeeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "`employee_id` = {$this->getEmployeeId()}";
+		}
+		$leaveTypeId = $this->getLeaveTypeId();
+		if (!empty($leaveTypeId) && ($this->getLeaveTypeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "`leave_type_id` = '{$this->getLeaveTypeId()}'";
+		}
+				
+		$selectOrderBy = "`employee_id`";	
+		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy);
+		
+		//echo $query;
+		
+		$resultArr = $this->_fetchEmployeesAndLeaveTypes($searchBy);
+		$resultArr1 = $this->_fetchSumOfLeavesAll();
+		
+		$dbConnection = new DMLFunctions();
+		
+		$result = $dbConnection->executeQuery($query);
+		
+		while ($row = mysql_fetch_assoc($result)) {			
+			if ($searchBy == "leaveType") {
+				$tmp = $resultArr[$row['leave_type_id']][$row['employee_id']];
+			} else {
+				$tmp = $resultArr[$row['employee_id']][$row['leave_type_id']];
+			} 
+			$tmp['no_of_days_allotted'] = $row['no_of_days_allotted'];
+			if (!isset($resultArr1[$row['employee_id']][$row['leave_type_id']]['leave_length'])) {
+				$resultArr1[$row['employee_id']][$row['leave_type_id']]['leave_length'] = 0;
+			}
+			$tmp['leave_taken'] = round($resultArr1[$row['employee_id']][$row['leave_type_id']]['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY);
+			$tmp['leave_available'] = $tmp['no_of_days_allotted']-$tmp['leave_taken'];
+			
+			//echo $searchBy;
+			
+			if ($searchBy == "leaveType") {				
+				$resultArr[$row['leave_type_id']][$row['employee_id']] = $tmp;	
+			} else {
+				$resultArr[$row['employee_id']][$row['leave_type_id']] = $tmp;	
+			}		
+		}
+		
+		return $resultArr;				
+	}
+	
+	private function _fetchSumOfLeavesAll() {
+		$year = $this->getYear();
+		
+		$selectFields[0] = '`employee_id`';
+		$selectFields[1] = '`leave_type_id`';
+		$selectFields[2] = 'SUM(ABS(`leave_length`)) as leave_length';				
+		
+		$selectTable = "`hs_hr_leave`";	
+		
+		$employeeId = $this->getEmployeeId();
+		if (!empty($employeeId) && ($this->getEmployeeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "`employee_id` = {$this->getEmployeeId()}";
+		}
+		$leaveTypeId = $this->getLeaveTypeId();
+		if (!empty($leaveTypeId) && ($this->getLeaveTypeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "`leave_type_id` = '{$this->getLeaveTypeId()}'";
+		}
+		
+		$selectConditions[] = "`leave_status` = ".Leave::LEAVE_STATUS_LEAVE_TAKEN;
+		$selectConditions[] = "`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31') GROUP BY `employee_id`, `leave_type_id`";
+		
+		$selectOrderBy = "`employee_id`";	
+		
+		$sqlBuilder = new SQLQBuilder();		
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy);
+		
+		$dbConnection = new DMLFunctions();
+		
+		$result = $dbConnection->executeQuery($query);
+		
+		$resultArr = null;
+				
+		while ($row = mysql_fetch_assoc($result)) {
+			$resultArr[$row['employee_id']][$row['leave_type_id']]['leave_length'] = $row['leave_length'];
+		}	
+		
+		return $resultArr;
+	}
+	
+	private function _fetchEmployeesAndLeaveTypes($searchBy="employee") {
+		$selectFields[0] = "c.`emp_number` as emp_number";
+		$selectFields[1] = "CONCAT(c.`emp_firstname`, ' ', c.`emp_lastname`) as employee_name";
+		$selectFields[2] = "d.`leave_type_id` as leave_type_id";
+		$selectFields[3] = "d.`leave_type_name` as leave_type_name";
+		$selectFields[4] = "d.`available_flag` as available_flag";
+		
+		$selectTable = "`hs_hr_employee` c, `hs_hr_leavetype` d ";
+		
+		$selectConditions = null;
+		
+		$employeeId = $this->getEmployeeId();
+		if (!empty($employeeId) && ($this->getEmployeeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "c.`emp_number` = {$this->getEmployeeId()}";
+		}
+		$leaveTypeId = $this->getLeaveTypeId();
+		if (!empty($leaveTypeId) && ($this->getLeaveTypeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {		
+			$selectConditions[] = "d.`leave_type_id` = '{$this->getLeaveTypeId()}'";
+		}
+		
+		$sqlBuilder = new SQLQBuilder();
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+		
+		$dbConnection = new DMLFunctions(); 
+
+		$result = $dbConnection->executeQuery($query);
+		
+		$resultArr = null;
+				
+		while ($row = mysql_fetch_assoc($result)) {
+			$row['no_of_days_allotted'] = 0;
+			$row['leave_taken'] = 0;
+			$row['leave_available'] = 0;
+			
+			if ($searchBy == "leaveType") {				
+				$resultArr[$row['leave_type_id']][$row['emp_number']] = $row;
+			} else {				
+				$resultArr[$row['emp_number']][$row['leave_type_id']] = $row;
+			}
+		}	
+		
+		return $resultArr;
 	}
 	
 	/**

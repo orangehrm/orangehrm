@@ -1049,14 +1049,22 @@ switch ($moduletype) {
 													case 'Leave_Summary'			: 	//echo $_REQUEST['id'];
 																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
-																						$leaveController->setId($id);																						
-																						$leaveController->viewLeaves("summary", $year);
+																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
+																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
+																						
+																						$leaveController->setId($id);	
+																						$leaveController->setLeaveTypeId($leaveTypeId);																					
+																						$leaveController->viewLeaves("summary", $year, $searchBy);
 																						break;
 																						
 													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
-																						$leaveController->setId($id);																																												
-																						$leaveController->editLeaves("summary", $year);
+																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
+																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
+																						
+																						$leaveController->setId($id);
+																						$leaveController->setLeaveTypeId($leaveTypeId);																																												
+																						$leaveController->editLeaves("summary", $year, $searchBy);
 																						break;
 																						
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
@@ -1067,7 +1075,13 @@ switch ($moduletype) {
 																								$mes = $leaveController->saveLeaveQuota();
 																							}
 																						}
-																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes));
+																						
+																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
+																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
+																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
+																						
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy"));
 																						break;							
 																						
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);

@@ -183,6 +183,7 @@ class LeaveRequests extends Leave {
 					for ($i=1; $i<$totalLeaves; $i++) {									
 						
 						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {		
+							//echo $tmpLeaveArr[$i]->getLeaveLength()."<br>";
 							$noOfDays += $tmpLeaveArr[$i]->getLeaveLength();	
 						
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {

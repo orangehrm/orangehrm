@@ -37,6 +37,9 @@
  
  $years = $records[0];
  $employees = $records[1];
+ if (isset($records[2])) {
+ 	$leaveTypes = $records[2];
+ }
  
 	if (isset($_GET['message'])) {
 ?>
@@ -65,7 +68,8 @@
 		}
 	}
 </script>
-<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="validate(); return false;">
+<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>&searchBy=leaveType" onsubmit="validate(); return false;">
+<input type="hidden" name="searchBy" value="leaveType"/>  
 <table border="0" cellpadding="0" cellspacing="0">
   <tbody>
   	<tr>
@@ -99,13 +103,38 @@
     	
     	<th width="150px" class="odd">
 				<select name="id">
-					<option value="-1"> - <?php echo $lang_Leave_Common_Select;?> - </option>
+					<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
 					<?php 		   		
 		   				if (is_array($employees)) {
 		   						sort($employees);
 		   					foreach ($employees as $employee) {
 		  ?>
 		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>		
+		  <?php 			}
+		   				} 
+		 ?>	
+  	    		</select>
+		</th>
+    	<th width="100px" class="odd"><input type="image" name="btnView" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
+		<th class="tableMiddleRight"></th>	
+	</tr>
+	<tr>
+		<th class="tableMiddleLeft"></th>	
+    	<th width="70px" class="odd"></th>
+    	
+    	<th width="130px" class="odd">
+   	    </th>
+    	
+    	<th width="180px" class="odd"><?php echo $lang_Leave_Common_LeaveType;?></th>
+    	
+    	<th width="150px" class="odd">
+				<select name="leaveTypeId">
+					<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+					<?php 		   		
+		   				if (isset($leaveTypes) && is_array($leaveTypes)) {		   						
+		   					foreach ($leaveTypes as $leaveType) {
+		  ?>
+		 		  	<option value="<?php echo $leaveType->getLeaveTypeId(); ?>"><?php echo $leaveType->getLeaveTypeName(); ?></option>		
 		  <?php 			}
 		   				} 
 		 ?>	

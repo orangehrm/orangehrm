@@ -1008,7 +1008,9 @@ function getCurrencyAssigned($salgrd) {
 	return $sqlQString;
 	}
 	
-	
+	/**
+	 * Select from multiple tables
+	 */
 	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null) {
 		
 		if (!isset($joinTypes)) {
