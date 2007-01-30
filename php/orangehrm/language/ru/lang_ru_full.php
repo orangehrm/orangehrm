@@ -1,63 +1,63 @@
 <?php
 /*
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- * 
+ *
  * @author: Darija Jevtuchova <darija@beyondm.net>
  */
-	
+
 	/**
 	 * Error messages
-	 * 
+	 *
 	 */
-	 
+
 	$lang_Error_PleaseCorrectTheFollowing = "Пожайлуста, исправьте";
 	$lang_Error_SelectAtLeastOneRecordToDelete = "Выберите хотя бы одну запись для удаления";
-	$lang_Error_DoYouWantToDelete = "Удалить?";	
-	
+	$lang_Error_DoYouWantToDelete = "Удалить?";
+
 	$lang_Error_PleaseSelectAYear = "Выберите год";
 	$lang_Error_PleaseSelectAnEmployee = "Выберите служащего";
-	
+
 	$lang_Error_DoYouWantToContinue = " Продолжить?";
-	
-	$lang_Error_ShouldBeNumeric = "Разрешены только цифры";	
-	$lang_Error_FollowingErrorsWereFound = "Были обнаружены следущие ошибки";	
+
+	$lang_Error_ShouldBeNumeric = "Разрешены только цифры";
+	$lang_Error_FollowingErrorsWereFound = "Были обнаружены следущие ошибки";
 	$lang_Error_AreYouSureYouWantToDelete = "Вы уверены, что xотите стереть";
-	
+
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
 	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
-		
+
 	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
 	$lang_Error_NameOfHolidayCannotBeBlank = "Name of holiday cannot be blank";
-		
+
 	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
 	$lang_Error_NoRecordsFound = "Записи не найдены!";
-	
+
 	$lang_Error_InvalidDate = "Недействительная дата";
-	
+
 	// Company Structure
 	$lang_Error_Company_General_Undefined = "Please define Company General Information first!";
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
 	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "Это может вызвать изменения структуры компании";
-		
+
 	$lang_Error_SubDivisionNameCannotBeEmpty = "Введите название подразделения";
 	$lang_Error_PleaseSelectATypeOrDefineACustomType = "Пожалуйста, выберите тип из существующих или введите новый тип";
 	$lang_Error_CompStruct_LocEmpty = "Пожалуйста, выберите расположение из существующих или введите новое расположение";
- 
+
 	$lang_Error_LocationNameEmpty = "Введите название расположения";
 	$lang_Error_CountryNotSelected = "Выберите страну";
 	$lang_Error_StateNotSelected = "Введите округ";
@@ -65,7 +65,7 @@
 	$lang_Error_AddressEmpty = "Введите адрес";
 	$lang_Error_ZipEmpty = "Введите почтовый индекс";
 	$lang_Error_CompStruct_ZipInvalid = "Символы #characterList в почтовом индексе";
-	
+
 	$lang_Error_InvalidEmail = "Invalid E-mail address";
 
 	//PIM
@@ -76,61 +76,61 @@
 	$lang_Error_LastNameEmpty						= "Last Name Empty!";
 	$lang_Error_FirstNameEmpty						= "First Name Empty!";
 	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
-	
+
 	/**
 	 * Menu Items
 	 *
 	 */
-	 
+
 	// Home
 	$lang_Menu_Home = "Главная";
-	
+
 	$lang_Menu_Home_Support = "Поддержка";
 	$lang_Menu_Home_Forum = "Форум";
 	$lang_Menu_Home_Blog = "Блог";
-	 
+
 	// Admin Module
 	$lang_Menu_Admin = "Администратор ";
-	
+
 	$lang_Menu_Admin_CompanyInfo = "Инфо о компании";
 	$lang_Menu_Admin_CompanyInfo_Gen = "Общая инфо";
 	$lang_Menu_Admin_CompanyInfo_CompStruct = "Структура компании";
 	$lang_Menu_Admin_CompanyInfo_Locations = "Местоположение";
-	
+
 	$lang_Menu_Admin_Job = "Работа";
 	$lang_Menu_Admin_Job_JobTitles = "Название должности";
 	$lang_Menu_Admin_Job_PayGrades = "Уровень оплаты";
 	$lang_Menu_Admin_Job_EmpStatus = "Рабочий статус";
-	$lang_Menu_Admin_Job_EEO = "ЕЕО Категория";		
-	
+	$lang_Menu_Admin_Job_EEO = "ЕЕО Категория";
+
 	$lang_Menu_Admin_Quali = "Квалификации";
 	$lang_Menu_Admin_Quali_Education = "Образование";
 	$lang_Menu_Admin_Quali_Licenses = "Лицензии";
-	
+
 	$lang_Menu_Admin_Skills = "Навыки";
 	$lang_Menu_Admin_Skills_Skills = "Навыки";
 	$lang_Menu_Admin_Skills_Languages = "Языки";
-	
+
 	$lang_Menu_Admin_Memberships = "членство";
 	$lang_Menu_Admin_Memberships_Memberships = "членство";
 	$lang_Menu_Admin_Memberships_MembershipTypes = "Тип членства";
-	
+
 	$lang_Menu_Admin_NationalityNRace = "Национал. и раса";
 	$lang_Menu_Admin_NationalityNRace_Nationality = "Национальность";
 	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "этнические расы";
-	
+
 	$lang_Menu_Admin_Users = "Пользователи";
 	$lang_Menu_Admin_Users_UserGroups = "Группы пользователей";
 	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
-	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";	
-	
+	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";
+
 	$lang_Menu_Admin_EmailConfig = "Mail Configuration";
-		
+
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
 	$lang_Admin_Common_Course = "Курс";
-	
-	// Leave Module	
+
+	// Leave Module
 	$lang_Menu_Leave = "Отпуск";
 	$lang_Menu_Leave_PersonalLeaveSummary = "Сводка личных отпусков";
 	$lang_Menu_Leave_EmployeeLeaveSummary = "Сводка отпусков служащего";
@@ -143,23 +143,23 @@
 	$lang_Menu_Leave_DefineDaysOff = "Определите нерабочие дни";
 	$lang_Menu_Leave_DefineDaysOff_Weekends = "Выxодные";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Праздники";
-	
+
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
-	
+
 	/**
 	 * Common
 	 */
-	 
+
 	$lang_Common_ConfirmDelete			= " Do you want to delete ?";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
-	$lang_Commn_code = "Код";	
+	$lang_Commn_code = "Код";
 	$lang_Commn_description = "Описание";
 	$lang_Commn_title = "Название";
 	$lang_Commn_name = "Название";
-	
-	//days	
+
+	//days
 	$lang_Common_Monday = "Понедельник";
 	$lang_Common_Tuesday = "Вторник";
 	$lang_Common_Wednesday = "Среда";
@@ -167,9 +167,9 @@
 	$lang_Common_Friday = "Пятница";
 	$lang_Common_Saturday = "Суббота";
 	$lang_Common_Sunday = "Воскресенье";
-	
+
 	$lang_Leave_Common_Weekend = "Выxодной";
-	
+
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
 	$lang_Leave_Common_FromDate = "From Дата";
@@ -202,13 +202,15 @@
 	$lang_Leave_Common_Year = "Год";
 	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпуск";
 	$lang_Leave_Common_Remove = "Remove";
-	
+	$lang_Leave_Common_AllEmployees	= "All Employees";
+	$lang_Leave_Common_All = "Все";
+
 	$lang_Leave_Common_NameOfHoliday = "Название праздника";
 	$lang_Leave_Common_Recurring = "Повторяющийся";
-	
+
 	$lang_bankInformation_code = "Код";
 	$lang_bankInformation_description = "Описание";
-	
+
 	$lang_compstruct_add = "Добавить" ;
 	$lang_compstruct_delete = "Удалить";
 	$lang_compstruct_clear = "Стереть";
@@ -463,7 +465,7 @@
 
 	$lang_membershipinfo_heading = "Членство : членство";
 	$lang_membershipinfo_membershiptype = "Тип членства";
-	
+
 	$lang_membershipinfor_selectmember = "Выберите членство";
 
 	$lang_membershiptypes_heading = "Членство : Тип членства";
@@ -507,7 +509,7 @@
 	$lang_view_CompanyHierarchy = "Иерархия компании";
 	$lang_view_CompanyHierarchyName = "Название иерархии компании";
 	$lang_view_message6 = "Удаление может повлиять на Информацию служащего";
-	
+
 	$lang_view_QualificationType = "Тип квалификации";
 	$lang_view_QualificationName = "Название квалификации";
 	$lang_view_message9 = "Удаление может повлиять на Квалификации, Должностные квалификации и Квалификации служащего";
@@ -549,7 +551,7 @@
 	$lang_view_message23 = "Удаление может повлиять на Дополнительную деятельность служащего";
 	$lang_view_PayGradeName = "Наименование уровня оплаты";
 	$lang_view_message24 = "Удаление может повлиять на Информацию служащего, Наименования должностей";
-	
+
 	$lang_view_message25 = "Удаление может повлиять на Образование";
 	$lang_view_EmployeeTypeID = "Идентификатор типа служащего";
 	$lang_view_EmployeeTypeName = "Название типа служащего";
@@ -574,17 +576,17 @@
 	$lang_view_UserGroupID = "Идентификатор группы пользователей";
 	$lang_view_UserGroupName = "Название группы пользователей";
 	$lang_view_message35 = "Удаление может сделать OrangeHRM недействительным";
-	
+
 	$lang_view_Users = "Пользователи";
 	$lang_view_UserGroups = "Группы пользователей";
 	$lang_view_HRAdmin = "Администратор персонала";
 	$lang_view_ESS = "Самообслуживание";
 	$lang_view_ID = "Идентификатор";
-	
+
 	$lang_index_WelcomeMes = "Добро пожаловать, #username";
 	$lang_index_ChangePassword = "Извенить пароль";
 	$lang_index_Logout = "Отсоедениться";
-	
+
 	$lang_MailFrom = "Mail Sent As";
 	$lang_MailSendingMethod = "Sending Method";
 	$lang_MailTypes_Mail = "Internal PHP function";
