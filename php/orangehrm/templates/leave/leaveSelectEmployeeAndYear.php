@@ -46,7 +46,7 @@
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
 <h2><?php echo $lang_Leave_Select_Employee_Title; ?><hr/></h2>
-<script language="javascript">
+<script type="text/javascript">
 	function validate() {
 		err = false;
 		errors = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
