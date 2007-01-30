@@ -91,7 +91,7 @@ if ($authorizeObj->isESS()) {
 	if ($authorizeObj->isSupervisor()) {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
 	} else {
-		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary';
+		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
 	}
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
@@ -719,7 +719,7 @@ function setSize() {
                     	if ($authorizeObj->isESS()) {
                     ?>                    	
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id=<?php echo $_SESSION['empID']; ?>" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
 					 </TR>
 					<?php
                     	}
