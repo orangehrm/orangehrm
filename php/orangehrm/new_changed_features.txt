@@ -2,7 +2,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_4 {Future}
 
 	1. Leave Summary of all employees can be viewed by HR-Admins in one screen.
 	   All functionality in previous release is preserved.
-
+	2. More columns in employee list
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_3 (24/01/2007)
 
@@ -232,7 +232,7 @@ Employee Information and can also be updated (replaced) with latest
 photographs in edit mode.
 
 * Report To
-This feature allows to define the ‘report to’ hierarchy of all employees
+This feature allows to define the ï¿½report toï¿½ hierarchy of all employees
 (supervisors/subordinates)
 and reporting type (direct/indirect); On selecting an employee, all the
 supervisors/subordinates
@@ -311,10 +311,10 @@ with the same code displayed earlier.
 Maintenance
 User
 * Users will not be able to delete the user account they have used to login
-* Users are divided into HR Admin users and Ordinary users. If the ‘Is
-HR Admin’
+* Users are divided into HR Admin users and Ordinary users. If the ï¿½Is
+HR Adminï¿½
 flag is selected, then all the modules (Admin, PIM, Reports, Maintenance,
-Bug Tracker will be available to them). However if the ‘Is HR Admin’
+Bug Tracker will be available to them). However if the ï¿½Is HR Adminï¿½
 flag is
 not selected the user will only be given access to ESS module.
 
