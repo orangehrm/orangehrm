@@ -319,6 +319,9 @@
 	$lang_empview_EmployeeInformation = "Информация о служащем";
 	$lang_empview_Memberships = "Членство";
 	$lang_empview_Report = "Отчёт";
+	$lang_empview_SubDivision = "Sub-Division";
+	$lang_empview_JobTitle = "Job Title";
+	$lang_empview_Supervisor = "Supervisor";
 
 	$lang_ethnicrace_heading = "Национальность и раса : этнические расы";
 

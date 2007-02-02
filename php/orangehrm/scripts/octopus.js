@@ -39,10 +39,6 @@ function initOctopus() {
     }
 }
 
-if (document.getElementById && document.createElement) { 
-    addEvent(window, 'load', initOctopus); 
-}
-
 -->
 </script>
 

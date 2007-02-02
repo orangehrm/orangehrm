@@ -5,7 +5,7 @@
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
 
-<script>			
+<script>
 
     function goBack() {
         location.href = "./CentralController.php?mtcode=<?php echo $this->getArr['mtcode']?>&VIEW=MAIN";
@@ -40,8 +40,8 @@
         }
 
         document.frmBugs.sqlState.value = "NewRecord";
-        document.frmBugs.submit();		
-    }	
+        document.frmBugs.submit();
+    }
 
 </script>
 
@@ -51,10 +51,10 @@
     <style type="text/css">
     <!--
 
-    label,select,input,textarea { 
+    label,select,input,textarea {
         display: block;  /* block float the labels to left column, set a width */
-        width: 150px; 
-        float: left; 
+        width: 150px;
+        float: left;
         margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
     }
 
@@ -76,8 +76,8 @@
     }
 
     input,textarea {
-        padding-left: 4px; 
-        padding-right: 4px; 
+        padding-left: 4px;
+        padding-right: 4px;
     }
 
     textarea {
@@ -92,7 +92,7 @@
     br {
         clear: left;
     }
-    
+
     .version_label {
         display: block;
         float: left;
@@ -127,10 +127,10 @@
                 $expString  = $this->getArr['message'];
                 $expString = explode ("%",$expString);
                 $length = sizeof($expString);
-                for ($x=0; $x < $length; $x++) {		
-                    echo " " . $expString[$x];		
+                for ($x=0; $x < $length; $x++) {
+                    echo " " . $expString[$x];
                 }
-            }		
+            }
             ?>
 
         </font>
@@ -192,6 +192,13 @@
 
             </div>
         </div>
+        <script type="text/javascript">
+        <!--
+        	if (document.getElementById && document.createElement) {
+   	 			initOctopus();
+			}
+        -->
+        </script>
     </form>
 
 </body>
