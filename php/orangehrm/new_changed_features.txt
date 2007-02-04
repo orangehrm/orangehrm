@@ -1,8 +1,9 @@
-New & Changed Features for OrangeHRM ver 2.1_alpha_4 {Future}
+New & Changed Features for OrangeHRM ver 2.1_alpha_4 (04/02/2007)
 
 	1. Leave Summary of all employees can be viewed by HR-Admins in one screen.
 	   All functionality in previous release is preserved.
-	2. More columns in employee list
+	2. Enhanced PIM employee list. New columns title, sub-division and supervisor have
+           been added.
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_3 (24/01/2007)
 

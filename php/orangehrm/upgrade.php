@@ -2,7 +2,7 @@
 
 function needToUpgrade() {
 	
-	$currentVersion = '2.1_alpha_3';
+	$currentVersion = '2.1_alpha_4';
 	
 	if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['RESTORING'])) {
 		
