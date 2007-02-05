@@ -371,14 +371,14 @@ class EmpInfo {
 
 /////////////
 
-	function getListofEmployee($pageNO=0,$schStr='',$mode=0) {
+	function getListofEmployee($pageNO=0,$schStr='',$mode=-1) {
 
 		//$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = "LPAD(a.`emp_number`, ".$this->employeeIdLength.", 0)";
+		$arrFieldList[0] = "a.`employee_id`";
 		$arrFieldList[1] = "a.`emp_firstname`";
 		$arrFieldList[2] = "a.`emp_lastname`";
 		$arrFieldList[3] = "a.`emp_middle_name`";
-		$arrFieldList[4] = "a.`employee_id`";
+		$arrFieldList[4] = "LPAD(a.`emp_number`, ".$this->employeeIdLength.", 0)";
 		$arrFieldList[5] = "a.`work_station`";
 		$arrFieldList[6] = "c.`jobtit_name`";
 
@@ -391,7 +391,7 @@ class EmpInfo {
 
 		$selectConditions = null;
 
-		if ($mode != 0) {
+		if (($mode != -1) && !empty($schStr)) {
 			$selectConditions[] = "{$arrFieldList[$mode]} = '$schStr'";
 		}
 

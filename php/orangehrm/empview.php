@@ -335,11 +335,11 @@ else
 					<tr valign="top">
 <?php		if(!($j%2)) { ?>
 <?php 			if($_GET['reqcode']=='EMP') { ?>
-                  <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][0]?>"></td>
+                  <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>"></td>
                   <?php } else { ?>
                   <td width="50"></td>
 <?php 					} ?>
-				  <td width="250"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></td>
+				  <td width="250"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
 		  		  <td width="400" >
                      <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
                          class="listViewTdLinkS1"><?php echo $descField?></a>
@@ -358,11 +358,11 @@ else
                   </td>
 <?php			} else { ?>
 <?php 			if($_GET['reqcode']=='EMP') { ?>
-                  <td bgcolor="#EEEEEE" width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][0]?>"></td>
+                  <td bgcolor="#EEEEEE" width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>"></td>
                   <?php } else { ?>
                   <td bgcolor="#EEEEEE" width="50"></td>
 <?php } ?>
-				  <td bgcolor="#EEEEEE" width="250"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0] ?></td>
+				  <td bgcolor="#EEEEEE" width="250"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2] ?></td>
 		  		  <td bgcolor="#EEEEEE" width="400" >
                       <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
                           class="listViewTdLinkS1"><?php echo $descField?></a></td>

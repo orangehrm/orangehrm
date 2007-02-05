@@ -107,8 +107,11 @@
 
     	<th width="150px" class="odd">
 				<select name="id">
+					<?php if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == "Yes")) {?>
 					<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
-					<?php
+					<?php } else  { ?>
+					<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
+					<?php }
 		   				if (is_array($employees)) {
 		   						sort($employees);
 		   					foreach ($employees as $employee) {

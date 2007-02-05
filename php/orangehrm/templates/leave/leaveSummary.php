@@ -119,7 +119,7 @@
   <thead>
   	<tr>
 		<th class="tableTopLeft"></th>
-		<?php if ($empInfo[0] != $_SESSION['empID']) { ?>
+		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
     	<th class="tableTopMiddle"></th>
     	<?php } ?>
     	<th class="tableTopMiddle"></th>
@@ -132,7 +132,7 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>
-		<?php if ($empInfo[0] != $_SESSION['empID']) { ?>
+		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
 		<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
 		<?php } ?>
     	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
@@ -160,7 +160,7 @@
 ?>
   <tr>
   	<td class="tableMiddleLeft"></td>
-  	<?php if ($empInfo[0] != $_SESSION['empID']) { ?>
+   	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
   	<td class="<?php echo $cssClass; ?>"><?php echo $record['employee_name'] ?></td>
   	<?php } ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record['leave_type_name'] ?></td>
@@ -190,7 +190,7 @@
   <tfoot>
   	<tr>
 		<td class="tableBottomLeft"></td>
-		<?php if ($empInfo[0] != $_SESSION['empID']) { ?>
+		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
 		<td class="tableBottomMiddle"></td>
 		<?php } ?>
 		<td class="tableBottomMiddle"></td>
