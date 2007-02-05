@@ -388,7 +388,7 @@ class EmpRepTo {
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
-		echo $query."\n";
+		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 
@@ -424,7 +424,7 @@ class EmpRepTo {
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, 'a.`erep_reporting_mode`', null);
 
-		echo $query."\n";
+		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 
