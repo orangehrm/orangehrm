@@ -1,11 +1,17 @@
-New & Changed Features for OrangeHRM ver 2.1_alpha_4 (04/02/2007)
+New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) {Future}
+
+	1. Enhanced PIM employee list. Columns are sortable
+
+
+New & Changed Features for OrangeHRM ver 2.1_alpha_4 (Ruslan) (04/02/2007)
 
 	1. Leave Summary of all employees can be viewed by HR-Admins in one screen.
 	   All functionality in previous release is preserved.
 	2. Enhanced PIM employee list. New columns title, sub-division and supervisor have
-           been added.
+       been added.
 
-New & Changed Features for OrangeHRM ver 2.1_alpha_3 (24/01/2007)
+
+New & Changed Features for OrangeHRM ver 2.1_alpha_3 (Dima) (24/01/2007)
 
 
 	1. User defined employee ID's added.
@@ -33,7 +39,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_3 (24/01/2007)
 
 
 
-New & Changed Features for OrangeHRM ver 2.1_alpha_2 (17/01/2007)
+New & Changed Features for OrangeHRM ver 2.1_alpha_2 (Gleb) (17/01/2007)
 
 	Provided that e-mail addresses are defined for employees.
 
@@ -42,7 +48,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_2 (17/01/2007)
 	- When the supervisor approves/rejects leave, the employee applied for leave
 	will be notified
 
-New & Changed Features for OrangeHRM ver 2.1_alpha_1 (09/01/2007)
+New & Changed Features for OrangeHRM ver 2.1_alpha_1 (Vlad)(09/01/2007)
 
 	In OrangeHRM-ver-2.1 ESS Users have the ability to apply for leave
 	for multiple days.
