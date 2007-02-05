@@ -29,6 +29,34 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
     $currentPage = $this->popArr['currentPage'];
 	$emplist= $this->popArr['emplist'];
+
+	if (!isset($this->getArr['sortField']) || ($this->getArr['sortField'] == '')) {
+		$this->getArr['sortField']=4;
+		$this->getArr['sortOrder4']='ASC';
+	}
+
+	function getNextSortOrder($curSortOrder) {
+		switch ($curSortOrder) {
+			case 'null' :
+				return 'ASC';
+				break;
+			case 'ASC' :
+				return 'DESC';
+				break;
+			case 'DESC'	:
+				return 'ASC';
+				break;
+		}
+
+	}
+
+	function SortOrderInWords($SortOrder) {
+		if ($SortOrder == 'ASC') {
+			return 'Ascending';
+		} else {
+			return 'Descending';
+		}
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -138,7 +166,7 @@ parent.scrollTo(0, 0);
 </script>
 <body style="padding-left:20px;" onFocus="document.getElementById('content').focus()">
 <p id="content">
-<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $this->getArr['sortField']; ?>&sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>"">
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
 	<td valign='top'>
@@ -291,7 +319,13 @@ else
 			echo "<font color='Gray'>$next</font>";
 		else
     		echo "<a href='#' onClick='nextPage()'>$next</a>";
-	}
+		}
+
+		for ($j=0; $j<9;$j++) {
+			if (!isset($this->getArr['sortOrder'.$j])) {
+				$this->getArr['sortOrder'.$j] = 'null';
+			}
+		}
 
 ?>
                 </td>
@@ -308,10 +342,14 @@ else
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   		<tr>
                   		  <td width="50">&nbsp;&nbsp;&nbsp;</td>
-						  <td scope="col" width="250" class="listViewThS1"><?php echo $employeeid; ?></td>
-						  <td scope="col" width="400" class="listViewThS1"><?php echo $employeename; ?></td>
-						  <td scope="col" width="70" class="listViewThS1"><?php echo $lang_empview_JobTitle; ?></td>
-						  <td scope="col" width="250" class="listViewThS1"><?php echo $lang_empview_SubDivision; ?></td>
+                  		  <?php $j=0; ?>
+						  <td scope="col" width="250" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+						  <?php $j=7; ?>
+						  <td scope="col" width="400" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+						  <?php $j=6; ?>
+						  <td scope="col" width="80" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_JobTitle; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+						  <?php $j=8; ?>
+						  <td scope="col" width="250" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_SubDivision; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <td scope="col" width="150" class="listViewThS1"><?php echo $lang_empview_Supervisor; ?></td>
 						 </tr>
         <?php
@@ -333,20 +371,26 @@ else
 
 		?>
 					<tr valign="top">
-<?php		if(!($j%2)) { ?>
-<?php 			if($_GET['reqcode']=='EMP') { ?>
-                  <td width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>"></td>
-                  <?php } else { ?>
-                  <td width="50"></td>
-<?php 					} ?>
-				  <td width="250"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
-		  		  <td width="400" >
+		<?php
+			if(!($j%2)) {
+				$cssClass = 'odd';
+			} else {
+			 	$cssClass = 'even';
+			}
+			if($_GET['reqcode']=='EMP') {
+		?>
+            	  <td width="50" class="<?php echo $cssClass?>"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>"></td>
+        <?php } else { ?>
+                  <td width="50" class="<?php echo $cssClass?>"></td>
+		<?php } ?>
+				  <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
+		  		  <td width="400" class="<?php echo $cssClass?>" >
                      <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
                          class="listViewTdLinkS1"><?php echo $descField?></a>
                   </td>
-                  <td width="70"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
-                  <td width="250"><?php echo $subDivision; ?></td>
-                  <td width="250"><?php
+                  <td width="70" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
+                  <td width="250" class="<?php echo $cssClass?>"><?php echo $subDivision; ?></td>
+                  <td width="250" class="<?php echo $cssClass?>"><?php
 										if (isset($emplist[$j][5]) && is_array($emplist[$j][5])) {
 											foreach ($emplist[$j][5] as $supervisorArr) {
 												echo $supervisorArr[1]."<br/>";
@@ -356,29 +400,6 @@ else
 										}
                   					?>
                   </td>
-<?php			} else { ?>
-<?php 			if($_GET['reqcode']=='EMP') { ?>
-                  <td bgcolor="#EEEEEE" width="50"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>"></td>
-                  <?php } else { ?>
-                  <td bgcolor="#EEEEEE" width="50"></td>
-<?php } ?>
-				  <td bgcolor="#EEEEEE" width="250"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2] ?></td>
-		  		  <td bgcolor="#EEEEEE" width="400" >
-                      <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
-                          class="listViewTdLinkS1"><?php echo $descField?></a></td>
-                  <td bgcolor="#EEEEEE" width="70"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
-                  <td bgcolor="#EEEEEE" width="250"><?php echo $subDivision; ?></td>
-                  <td bgcolor="#EEEEEE" width="250"><?php
-										if (isset($emplist[$j][5]) && is_array($emplist[$j][5])) {
-											foreach ($emplist[$j][5] as $supervisorArr) {
-												echo $supervisorArr[1]."<br/>";
-											}
-										} else {
-											echo "-";
-										}
-                  					?></td>
-<?php			}	?>
-
 			</tr>
          <?php }
         	  }

@@ -371,7 +371,7 @@ class EmpInfo {
 
 /////////////
 
-	function getListofEmployee($pageNO=0,$schStr='',$mode=-1) {
+	function getListofEmployee($pageNO=0,$schStr='',$mode=-1, $sortField=4, $sortOrder='ASC') {
 
 		//$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = "a.`employee_id`";
@@ -381,13 +381,17 @@ class EmpInfo {
 		$arrFieldList[4] = "LPAD(a.`emp_number`, ".$this->employeeIdLength.", 0)";
 		$arrFieldList[5] = "a.`work_station`";
 		$arrFieldList[6] = "c.`jobtit_name`";
+		$arrFieldList[7] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_middle_name`, ' ', a.`emp_lastname`)";
+		$arrFieldList[8] = "d.`title`";
 
 		$sql_builder = new SQLQBuilder();
 
 		$arrTables[0] = "`hs_hr_employee` a";
 		$arrTables[1] = "`hs_hr_job_title` c";
+		$arrTables[2] = "`hs_hr_compstructtree` d";
 
 		$joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
+		$joinConditions[2] = "a.`work_station` = d.`id`";
 
 		$selectConditions = null;
 
@@ -401,7 +405,11 @@ class EmpInfo {
 
 		//$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
 
-		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions);
+		$sysConst = new sysConf();
+		$pageNO--;
+		$pageNO *= $sysConst->itemsPerPage;
+
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, "{$pageNO}, {$sysConst->itemsPerPage}");
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
