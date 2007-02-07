@@ -50,7 +50,7 @@ class CompStruct {
 	 * of the Company Structure.
 	 * The data structure used is Tree structure.
 	 *
-	 * Idea form SitePoint <http://www.sitepoint.com>
+	 * Idea form SitePoint <http://www.sitepoint.com/article/hierarchical-data-database/2>
 	 *
 	 * Algorithm : Modified Preorder Tree Traversal
 	 *
