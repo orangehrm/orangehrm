@@ -19,4 +19,67 @@
  * @copyright 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  */
 
+class ReportXml {
+
+	private $tables=null;
+	private $join=null;
+	private $fields=null;
+
+	private $simpleXmlObj;
+
+	public function __construct($xml) {
+		$this->simpleXmlObj = new SimpleXMLElement($xml);
+	}
+
+	public function parseXml() {
+		$this->_extractTables();
+	}
+
+	private function _extractTables() {
+		$tableElements = $this->simpleXmlObj->xpath("//table");
+		foreach ($tableElements as $tableElement) {
+			if (isset($tableElement['id'])) {
+				$this->tables[$tableElement['id']] = $tableElement['name'];
+			} else {
+				$this->tables[] = $tableElement['name'];
+			}
+			$this->_extractFields($tableElement);
+		}
+	}
+
+	private function _extractFields($tableElement) {
+		$fieldElements = $tableElement->xpath("//field");
+		foreach ($fieldElements as $fieldElement) {
+			if (isset($fieldElement['id'])) {
+				$this->fields[$fieldElement['id']] = $fieldElement['name'];
+			} else {
+				$this->fields[] = $fieldElement['name'];
+			}
+		}
+	}
+
+	private function _extractJoin($tableElement) {
+		$tableElements = $this->simpleXmlObj->xpath("//table");
+		foreach ($tableElements as $tableElement) {
+			if (isset($tableElement) && isset($tableElement)) {
+				$pairElements = $tableElement->xpath("joins/pair");
+				$joinArr = null;
+				foreach ($pairElements as $pairElement) {
+					$qStr = "{$this->fields[$pairElement['field1']]} {$pairElement['compare']} {$this->fields[$pairElement['field2']]}";
+					if (isset($pairElement['id'])) {
+						$joinArr[$pairElement['id']] = $qStr;
+					} else {
+						$joinArr[] =  $qStr;
+					}
+				}
+				if (isset($tableElement['id'])) {
+					$this->join[$tableElement['id']] = $joinArr;
+				} else {
+					$this->join[] = $joinArr;
+				}
+			}
+		}
+	}
+}
+
 ?>
