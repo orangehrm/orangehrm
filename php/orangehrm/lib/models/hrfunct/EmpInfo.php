@@ -406,8 +406,11 @@ class EmpInfo {
 		//$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
 
 		$sysConst = new sysConf();
-		$pageNO--;
-		$pageNO *= $sysConst->itemsPerPage;
+
+		if ($pageNO > 0) {
+			$pageNO--;
+			$pageNO *= $sysConst->itemsPerPage;
+		}
 
 		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, "{$pageNO}, {$sysConst->itemsPerPage}");
 
