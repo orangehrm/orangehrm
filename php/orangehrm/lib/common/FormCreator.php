@@ -8,16 +8,16 @@ class FormCreator
 	var $postArr;
 	var $popArr;
 	var $formPath;
-	
+
 	function FormCreator($getArr,$postArr = null) {
-		
+
 		$this->getArr = $getArr;
 		if($postArr != null)
 			$this->postArr = $postArr;
-			
+
 		$this->popArr = array();
 	}
-	
+
 	function display() {
 		$str = ROOT_PATH . $this->formPath;
 
@@ -25,14 +25,14 @@ class FormCreator
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 
 			$lan = new Language();
-			require_once($lan->getLangPath("full.php")); 
-			
+			require_once($lan->getLangPath("full.php"));
+
 			if(!isset($this->getArr['mtcode']))
 				require_once($lan->getLangPath(basename($this->formPath)));
 			//print_r($lan->getLangPath(basename($this->formPath)));
-		
-		require_once ROOT_PATH . $this->formPath;		
-		
+
+		require_once ROOT_PATH . $this->formPath;
+
 	}
 }
 ?>

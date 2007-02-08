@@ -299,7 +299,7 @@
 	$lang_empview_EmpFirstName 				= "Emp. First Name";
 	$lang_empview_EmpLastName 				= "Emp. Last Name";
 	$lang_empview_EmpMiddleName 			= "Emp. Middle Name";
-	$lang_empview_serach					= "Search";
+	$lang_empview_search					= "Search";
 	$lang_empview_searchby 					= "Search By:";
 	$lang_empview_description 				= "Search For:";
 	$lang_empview_norecorddisplay 			= "No Records to Display";
@@ -321,6 +321,7 @@
 	$lang_empview_EmployeeInformation 		= "Employee Information";
 	$lang_empview_Memberships 				= "Memberships";
 	$lang_empview_Report 					= "Report";
+	$lang_empview_ReportTo					= "Report To";
 	$lang_empview_SubDivision				= "Sub-Division";
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
@@ -370,10 +371,10 @@
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
 	$lang_hremp_relationship 				= "Relationship";
-	
+
 	$lang_hremp_street1						= "Street 1";
 	$lang_hremp_street2 					= "Street 2";
-	
+
 	$lang_hremp_hmtele 						= "Home Telephone";
 	$lang_hremp_mobile 						= "Mobile";
 	$lang_hremp_worktele 					= "Work Telephone";
