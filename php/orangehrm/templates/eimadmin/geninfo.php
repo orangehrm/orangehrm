@@ -240,7 +240,7 @@ function edit()
 							  <tr valign="top"> 
 							  	<td><?php echo $lang_compstruct_city; ?></td>
 							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>					    
-							    <td><?php echo $state?></td>
+							    <td><?php echo $lang_compstruct_state?></td>
 							    <td><div id="lrState" name="lrState">
 							    <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>

@@ -11,7 +11,7 @@ function delEContact() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Error_SelectAtLeastOneRecordToDelete?>')
 		return;
 	}
 	
@@ -22,19 +22,19 @@ function delEContact() {
 function addEContact() {
 	
 	if(document.frmEmp.txtEConName.value == '') {
-		alert('Field Empty');
+		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConName.focus();
 		return;
 	}
 
 	if(document.frmEmp.txtEConRel.value == '') {
-		alert('Field Empty');
+		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConRel.focus();
 		return;
 	}
 
 	if(document.frmEmp.txtEConHmTel.value == '') {
-		alert('Field Empty');
+		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConHmTel.focus();
 		return;
 	}

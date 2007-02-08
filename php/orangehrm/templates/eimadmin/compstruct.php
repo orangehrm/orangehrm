@@ -137,7 +137,7 @@
 	<h2><?php echo $lang_compstruct_heading; ?></h2>
 	<br>
 	<?php if ($_GET['root'] === '') { ?>
-	<div class="err"><?php echo 'Please define Company General Information first!'?></div>
+	<div class="err"><?php echo $lang_Error_Company_General_Undefined; ?></div>
 	<?php } else { ?>
 	<table id="tblCompStruct" border="0" cellspacing="0" cellpadding="0" style="BORDER-COLLAPSE: collapse" bordercolor="#111111">	
 

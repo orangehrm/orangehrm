@@ -72,9 +72,9 @@ function showAddEmpStatForm() {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = false;");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
-	
+	//$parent::
 	$objResponse->addAssign('layerEmpStat','style','visibility:hidden;');
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='addFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='$lang_compstruct_save' onClick='addFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');	
 
 return $objResponse->getXML();
@@ -93,7 +93,7 @@ function showEditEmpStatForm($estatCode) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
 
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='editFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='$lang_compstruct_save' onClick='editFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');	
 
 return $objResponse->getXML();

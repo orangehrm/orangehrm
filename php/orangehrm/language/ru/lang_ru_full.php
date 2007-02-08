@@ -151,6 +151,7 @@
 	 */
 
 	$lang_Common_ConfirmDelete			= " Do you want to delete ?";
+	$lang_Common_FieldEmpty				= "Field Empty";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
@@ -368,6 +369,10 @@
 	$lang_hremp_dependents = "Иждивенцы";
 	$lang_hremp_children = "Дети";
 	$lang_hremp_relationship = "Степень родства";
+	
+	$lang_hremp_street1			= "Street 1";
+	$lang_hremp_street2 		= "Street 2";
+	
 	$lang_hremp_hmtele = "Домашний телефон";
 	$lang_hremp_mobile = "Мобильный";
 	$lang_hremp_worktele = "Рабочий телефон";

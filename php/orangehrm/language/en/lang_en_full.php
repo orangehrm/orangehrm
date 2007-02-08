@@ -145,6 +145,7 @@
 	 * Common
 	 */
 	$lang_Common_ConfirmDelete				= " Do you want to delete ?";
+	$lang_Common_FieldEmpty				= "Field Empty";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";
 	$lang_Commn_RequiredFieldMark 			= "Fields marked with an asterisk #star are required";
@@ -369,6 +370,10 @@
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
 	$lang_hremp_relationship 				= "Relationship";
+	
+	$lang_hremp_street1						= "Street 1";
+	$lang_hremp_street2 					= "Street 2";
+	
 	$lang_hremp_hmtele 						= "Home Telephone";
 	$lang_hremp_mobile 						= "Mobile";
 	$lang_hremp_worktele 					= "Work Telephone";

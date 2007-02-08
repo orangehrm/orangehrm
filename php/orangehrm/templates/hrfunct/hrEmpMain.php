@@ -215,30 +215,30 @@ return flag;
 function addEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_LastNameNumbers?>')) {		
 		cnt.focus();
 		return;
 	}  if (cnt.value == '') {
-		alert('Last Name Empty!');
+		alert('<?php echo $lang_Error_LastNameEmpty?>');
 		cnt.focus();
 		return;
 	}
 
 	var cnt = document.frmEmp.txtEmpFirstName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('First Name contains numbers. Do you want to continue?')) {		
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_FirstNameNumbers?>')) {		
 		cnt.focus();
 		return;
 	} else if (cnt.value == '') {
-		alert('First Name Empty!');
+		alert('<?php echo $lang_Error_FirstNameEmpty?>');
 		cnt.focus();
 		return;
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_MiddleNameNumbers?>')) {		
 		cnt.focus();
 		return;
-	} else if ((cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
+	} else if ((cnt.value == '') && !confirm('<?php echo $lang_Error_MiddleNameEmpty?>')) {
 		cnt.focus();
 		return;
 	}
@@ -380,31 +380,31 @@ function editEmpMain() {
 	
 function updateEmpMain() {
 	var cnt = document.frmEmp.txtEmpLastName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('Last Name contains numbers. Do you want to continue?')) {		
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_LastNameNumbers?>')) {		
 		cnt.focus();
 		return;
 	}  if (cnt.value == '') {
-		alert('Last Name Empty!');
+		alert('<?php echo $lang_Error_LastNameEmpty?>');
 		cnt.focus();
 		return;
 	}
 
 	var cnt = document.frmEmp.txtEmpFirstName;
-	if(!(cnt.value == '') && !alpha(cnt) && !confirm('First Name contains numbers. Do you want to continue?')) {		
+	if(!(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_FirstNameNumbers?>')) {		
 		cnt.focus();
 		return;
 	} else if (cnt.value == '') {
-		alert('First Name Empty!');
+		alert('<?php echo $lang_Error_FirstNameEmpty?>');
 		cnt.focus();
 		return;
 	}
 	
 	var cnt = document.frmEmp.txtEmpMiddleName;
 	
-	if((document.frmEmp.main.value == 1) && !(cnt.value == '') && !alpha(cnt) && !confirm('Middle Name contains numbers. Do you want to continue?')) {		
+	if((document.frmEmp.main.value == 1) && !(cnt.value == '') && !alpha(cnt) && !confirm('<?php echo $lang_Error_MiddleNameNumbers?>')) {		
 		cnt.focus();
 		return;
-	} else if ((document.frmEmp.main.value == 1) && (cnt.value == '') && !confirm('Middle Name Empty. Do you want to continue?')) {
+	} else if ((document.frmEmp.main.value == 1) && (cnt.value == '') && !confirm('<?php echo $lang_Error_MiddleNameEmpty?>')) {
 		cnt.focus();
 		return;
 	}
@@ -469,7 +469,7 @@ function displayLayer(panelNo) {
 	
           	if((panelNo != 1 && document.frmEmp.personalFlag.value == '1') || (panelNo != 2 && document.frmEmp.jobFlag.value == '1') || (panelNo != 4 && document.frmEmp.contactFlag.value == '1')) {
 
-          		if(confirm("Please save the changes before you move onto another pane!")) {
+          		if(confirm("<?php echo $lang_Error_ChangePane?>")) {
           			if( !updateEmpMain() ){
                         return;
                     }
@@ -738,27 +738,27 @@ function resetAdd(panel) {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
 			  
-				<td><?php echo $code;?></td>
+				<td><?php echo $lang_Commn_code; ?></td>
 				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>>
 					<input type="text" name="txtEmployeeId" value="<?php echo $this->popArr['newID']?>">
 					</td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>
+				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpLastName?></td>
 				<td> <input type="text" name="txtEmpLastName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
 				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?php echo $firstname?></td>
+				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpFirstName?></td>
 				<td> <input type="text" name="txtEmpFirstName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
 			  </tr>
 			  <tr> 
-				<td><?php echo $middlename?></td>
+				<td><?php echo $lang_hremp_EmpMiddleName?></td>
 				<td> <input type="text" name="txtEmpMiddleName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
 				<td>&nbsp;</td>
-			  <td><?php echo $nickname?></td>
+			  <td><?php echo $lang_hremp_nickname?></td>
 				<td> <input type="text" name="txtEmpNickName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"></td>
 			  </tr>
 			 <tr>
-				<td><?php echo $photo?></td>
+				<td><?php echo $lang_hremp_photo?></td>
 				<td><input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
 			  </tr>
                   </table></td>
@@ -772,7 +772,7 @@ function resetAdd(panel) {
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
-             	<p align="center">Fields marked with an asterisk <font color=#ff0000>*</font> are required.</p>
+             	<p align="center"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</p>
               
     <table border="0" align="center" >
                 <tr>
@@ -808,23 +808,23 @@ function resetAdd(panel) {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table onClick="setUpdate(0)" onKeyPress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 			  <tr> 
-				<td><?php echo $code?></td>
+				<td><?php echo $lang_Commn_code?></td>
 				<td><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>">
 					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>">	
 				</td>
 			  </tr>
 			  <tr> 
-				<td><font color=#ff0000>*</font> <?php echo $lastname?></td>
+				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpLastName?></td>
 				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpLastName" value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$edit[0][1]?>"></td>
 				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?php echo $firstname?></td>
+				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpFirstName?></td>
 				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
 			  </tr>
 			  <tr> 
-				<td><?php echo $middlename?></td>
+				<td><?php echo $lang_hremp_EmpMiddleName?></td>
 				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
 				<td>&nbsp;</td>
-			  <td><?php echo $nickname?></td>
+			  <td><?php echo $lang_hremp_nickname?></td>
 				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"></td>
 			  </tr><tr><td><br>&nbsp;</td></tr>
 			    </table></td>
@@ -944,7 +944,7 @@ function resetAdd(panel) {
       
       <table border="0" align="center" >
     <tr>
-    <td>Fields marked with an asterisk <font color=#ff0000>*</font> are required.</td> 
+    <td><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</td> 
     </tr>
     </table>	
     </div>

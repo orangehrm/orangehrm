@@ -113,7 +113,7 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 	
 		if ( $check == 1 ){
 			
-			var res = confirm("<?php echo $headingInfo[4]?>. Do you want to delete ?");
+			var res = confirm("<?php echo $headingInfo[4].$lang_Common_ConfirmDelete?>");
 			
 			if(!res) return;
 			
@@ -121,14 +121,14 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 			document.standardView.pageNO.value=1;
 			document.standardView.submit();
 		}else{
-			alert("Select at least one record to delete");
+			alert("<?php echo $lang_Common_SelectDelete; ?>");
 		}		
 	}
 	
 	function returnSearch() {	
 		
 		if (document.standardView.loc_code.value == -1) {	
-			alert("Select the field to search!");
+			alert("<?php echo $lang_Common_SelectField; ?>");
 			document.standardView.loc_code.Focus();
 			return;
 		};	
