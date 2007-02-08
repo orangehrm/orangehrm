@@ -1,6 +1,13 @@
 <?php
 $srchlist[0] = array( -1 , 0 , 1, 2, 3);
-$srchlist[1] = array( '-Select-', $lang_empview_EmpID, $lang_empview_EmpFirstName, $lang_empview_EmpLastName, $lang_empview_EmpMiddleName);
+$srchlist[1] = array( '-Select-',
+					  $lang_empview_EmpID,
+					  $lang_empview_EmpFirstName,
+					  $lang_empview_EmpLastName,
+					  $lang_empview_EmpMiddleName,
+					  $lang_empview_JobTitle,
+					  $lang_empview_SubDivision,
+					  $lang_empview_Supervisor);
 
 
 $serach    			= $lang_empview_search;

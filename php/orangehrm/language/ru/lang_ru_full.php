@@ -298,7 +298,7 @@
 	$lang_empview_EmpFirstName = "Имя Служ.";
 	$lang_empview_EmpLastName = "Фамилия Служ.";
 	$lang_empview_EmpMiddleName = "Отчество служ.";
-	$lang_empview_serach = "Поиск";
+	$lang_empview_search = "Поиск";
 	$lang_empview_searchby = "Поиск по:";
 	$lang_empview_description = "Искать:";
 	$lang_empview_norecorddisplay = "Записей нет";
@@ -369,10 +369,10 @@
 	$lang_hremp_dependents = "Иждивенцы";
 	$lang_hremp_children = "Дети";
 	$lang_hremp_relationship = "Степень родства";
-	
+
 	$lang_hremp_street1			= "Street 1";
 	$lang_hremp_street2 		= "Street 2";
-	
+
 	$lang_hremp_hmtele = "Домашний телефон";
 	$lang_hremp_mobile = "Мобильный";
 	$lang_hremp_worktele = "Рабочий телефон";

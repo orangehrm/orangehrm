@@ -245,7 +245,7 @@ parent.scrollTo(0, 0);
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr nowrap="nowrap">
-                      <td width="200" class="dataLabel" nowrap="nowrap"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
+                      <td width="250" class="dataLabel" nowrap="nowrap"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code" id="loc_code">
 <?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
