@@ -393,6 +393,7 @@
 	$lang_hremp_filename 					= "File Name";
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
+	$lang_hremp_name 						= "Name";
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";
