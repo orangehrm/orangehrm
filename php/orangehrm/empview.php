@@ -385,7 +385,7 @@ else
 		<?php } ?>
 				  <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
 		  		  <td width="400" class="<?php echo $cssClass?>" >
-                     <a href="./CentralController.php?id=<?php echo $emplist[$j][0]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
+                     <a href="./CentralController.php?id=<?php echo $emplist[$j][2]?>&capturemode=updatemode&reqcode=<?php echo $this->getArr['reqcode']?>"
                          class="listViewTdLinkS1"><?php echo $descField?></a>
                   </td>
                   <td width="70" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>

@@ -26,7 +26,10 @@
 			<field name="JOB_TITLE" type="string" id="ejobtitle_id">
 				<criteria>
 					<value>JOB001</value>
-					<value join="OR" >JOB002</value>
+					<value>JOB002</value>
+				</criteria>
+				<criteria>
+					<value>JOB002</value>
 				</criteria>
 			</field>
 			<field name="JOB_TITLE_NAME" type="string">
@@ -38,9 +41,8 @@
 		<fieldset name="dob">
 			<field name="DOB" type="date">
 				<criteria>
-					<range start="50" end="60" />
-					<compare type="&lt;" value="18" />
-					<operation type="intToDate" />
+					<range start="50" end="60" operation="intToDate"/>
+					<compare type="&lt;" value="18" operation="intToDate"/>
 				</criteria>
 				<display />
 			</field>
@@ -54,12 +56,11 @@
 			</field>
 		</fieldset>
 		<fieldset name="subdivision">
-			<field name="WORKSTATION" type="integer">
+			<field name="WORKSTATION" type="integer" operation="hierarchyString">
 				<criteria>
 					<children under="2" table="hs_hr_compstructtree" field="ID"/>
 				</criteria>
 				<display />
-				<operation type="hierarchyString" />
 			</field>
 		</fieldset>
 		<field name="emp_number" id="emp_number" />
