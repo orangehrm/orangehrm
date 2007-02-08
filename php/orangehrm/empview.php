@@ -102,7 +102,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 			document.standardView.pageNO.value=1;
 			document.standardView.submit();
 		}else{
-			alert("Select at least one record to delete");
+			alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
 		}
 	}
 
@@ -115,7 +115,7 @@ $srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
 
 	function returnSearch() {
 		if (document.standardView.loc_code.value == -1) {
-			alert("Select the field to search!");
+			alert("<?php echo $lang_Common_SelectField; ?>");
 			document.standardView.loc_code.Focus();
 			return;
 		};

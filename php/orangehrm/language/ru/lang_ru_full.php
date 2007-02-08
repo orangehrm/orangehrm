@@ -150,10 +150,10 @@
 	 * Common
 	 */
 
-	$lang_Common_ConfirmDelete			= " Do you want to delete ?";
-	$lang_Common_FieldEmpty				= "Field Empty";
-	$lang_Common_SelectDelete			= "Select at least one record to delete";
-	$lang_Common_SelectField			= "Select the field to search!";
+	$lang_Common_ConfirmDelete = " Do you want to delete ?";
+	$lang_Common_FieldEmpty = "Field Empty";
+	$lang_Common_SelectDelete = "Select at least one record to delete";
+	$lang_Common_SelectField = "Select the field to search!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
 	$lang_Commn_code = "Код";
 	$lang_Commn_description = "Описание";
@@ -341,9 +341,9 @@
 
 	$lang_hierarchydef_heading = "Информация иерархии : Информация о компании";
 
-	$lang_hremp_EmpFirstName 				= "First Name";
-	$lang_hremp_EmpLastName 				= "Last Name";
-	$lang_hremp_EmpMiddleName 				= "Middle Name";
+	$lang_hremp_EmpFirstName = "First Name";
+	$lang_hremp_EmpLastName = "Last Name";
+	$lang_hremp_EmpMiddleName = "Middle Name";
 	$lang_hremp_nickname = "Псевдоним";
 	$lang_hremp_photo = "Фото";
 	$lang_hremp_ssnno = "SSN ";

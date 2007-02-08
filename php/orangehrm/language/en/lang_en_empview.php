@@ -1,6 +1,6 @@
 <?php
 $srchlist[0] = array( -1 , 0 , 1, 2, 3);
-$srchlist[1] = array( '-Select-',
+$srchlist[1] = array( "-$lang_Leave_Common_Select-",
 					  $lang_empview_EmpID,
 					  $lang_empview_EmpFirstName,
 					  $lang_empview_EmpLastName,
