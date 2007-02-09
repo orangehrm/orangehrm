@@ -77,6 +77,8 @@
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
 
+	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
+
 	/**
 	 * Menu Items
 	 *
@@ -399,6 +401,7 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
 	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
@@ -407,6 +410,11 @@
 	$lang_hremp_ContractExtensionEndDate	= "Contract Extension End Date";
 	$lang_hremp_EmployeeContracts 			= "Employee Contracts";
 	$lang_hremp_AssignedContracts			= "Assigned Contracts";
+
+	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
+
+	$lang_hremp_FieldShouldBeSelected		= "Field should be selected";
+	$lang_hremp_SelectCurrency				= "Select Currency";
 
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
 	$lang_hremp_ContractStartDate			= "Contract Start Date";

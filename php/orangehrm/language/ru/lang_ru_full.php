@@ -50,6 +50,8 @@
 
 	$lang_Error_InvalidDate = "Недействительная дата";
 
+	$lang_hremp_FieldShouldBeNumeric = "Field should be numeric";
+
 	// Company Structure
 	$lang_Error_Company_General_Undefined = "Please define Company General Information first!";
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
@@ -406,9 +408,15 @@
 	$lang_hremp_EmployeeContracts = "Employee Contracts";
 	$lang_hremp_AssignedContracts = "Assigned Contracts";
 
+	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
+
+	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
+
 	$lang_hremp_ContractExtensionId	= "Contract Extension ID";
 	$lang_hremp_ContractStartDate = "Contract Start Date";
 	$lang_hremp_ContractEndDate	= "Contract End Date";
+
+	$lang_hremp_SelectCurrency = "Select Currency";
 
 	$lang_hremplan_employeelanguageflu = "Языковые навыки служащего";
 	$lang_hremplan_fluency = "Сфера компетентности";

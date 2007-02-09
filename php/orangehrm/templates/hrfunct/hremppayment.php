@@ -2,17 +2,17 @@
 
 function decimalCurr(txt) {
 	regExp = /^[0-9]+(\.[0-9]+)*$/;
-	
+
 	return regExp.test(txt.value);
 }
-	
+
 function editPayment() {
-	
+
 	if(document.EditPayment.title=='Save') {
 		editEXTPayment();
 		return;
 	}
-	
+
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
@@ -21,39 +21,39 @@ function editPayment() {
 }
 
 function moutPayment() {
-	if(document.EditPayment.title=='Save') 
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.EditPayment.title=='Save')
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function moverPayment() {
-	if(document.EditPayment.title=='Save') 
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.EditPayment.title=='Save')
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
 function addEXTPayment() {
-	
+
 	if(document.frmEmp.cmbCurrCode.value=='0') {
-			alert("Field should be selected!");
+			alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>!");
 			document.frmEmp.cmbCurrCode.focus();
 			return;
 	}
-	
+
 	var cnt=document.frmEmp.txtBasSal;
 	if(!decimalCurr(cnt)) {
-		alert("Field should be Numeric");
+		alert("<?php echo $lang_hremp_FieldShouldBeNumeric; ?>");
 		cnt.focus();
 		return;
 	}
 
 	var min = eval(document.frmEmp.txtMinCurrency.value);
 	var max = eval(document.frmEmp.txtMaxCurrency.value);
-	
+
 	if(min > cnt.value || max < cnt.value) {
-		alert("Salary should be within Min and Max");
+		alert("<?php echo $lang_hremp_SalaryShouldBeWithinMinAndMa; ?>");
 		cnt.focus();
 		return;
 	}
@@ -63,29 +63,29 @@ qCombo(14);
 }
 
 function editEXTPayment() {
-	
+
 	var cnt=document.frmEmp.txtBasSal;
 	if(!decimalCurr(cnt)) {
-		alert("Field should be Numeric");
+		alert("<?php echo $lang_hremp_FieldShouldBeNumeric; ?>");
 		cnt.focus();
 		return;
 	}
-	
+
 	var min = eval(document.frmEmp.txtMinCurrency.value);
 	var max = eval(document.frmEmp.txtMaxCurrency.value);
-	
+
 	if(min > cnt.value || max < cnt.value) {
-		alert("Salary should be within Min and Max");
+		alert("<?php echo $lang_hremp_SalaryShouldBeWithinMinAndMa; ?>");
 		cnt.focus();
 		return;
 	}
-	
+
   document.frmEmp.paymentSTAT.value="EDIT";
   qCombo(14);
 }
 
 function delEXTPayment() {
-	
+
 	var check = false;
 	with (document.frmEmp) {
 		for (var i=0; i < elements.length; i++) {
@@ -96,7 +96,7 @@ function delEXTPayment() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>')
 		return;
 	}
 
@@ -106,7 +106,7 @@ function delEXTPayment() {
 }
 
 function viewPayment(pay,curr) {
-	
+
 	document.frmEmp.action = document.frmEmp.action + "&PAY=" + pay + "&CUR=" + curr;
 	document.frmEmp.pane.value = 14;
 	document.frmEmp.submit();
@@ -119,7 +119,7 @@ function viewPayment(pay,curr) {
         <input type="hidden" name="txtSalGrdId" value="<?php echo $this->popArr['salGrd']?>">
    	<?php
 			$salGrd = $this->popArr['salGrd'];
-			
+
 			if($salGrd === null) {
 				echo "<p align='center'><strong>Please Select a Job Title for this Employee <a href='javascript:displayLayer(2)'>here</a></strong></p>";
 			}
@@ -131,7 +131,7 @@ function viewPayment(pay,curr) {
 ?>
  	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $paygrade?></td>
+                      <td><?php echo $lang_hremp_paygrade?></td>
     				  <td><strong>
     				 <?php $salgradelist = $this->popArr['salgradelist'];
     				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
@@ -140,8 +140,8 @@ function viewPayment(pay,curr) {
     				 ?>
     				  </strong></td>
 					</tr>
-					  <tr> 
-						<td valign="top"><?php echo $currency?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hremp_currency?></td>
 						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][2]?>">
 						<strong>
 <?php
@@ -149,11 +149,11 @@ function viewPayment(pay,curr) {
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2])
 						       echo $currlist[$c][0];
-?>						
+?>
 						</strong></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $minpoint?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hremp_minpoint?></td>
 						<td align="left" valign="top"><strong>
 <?php
 						for($c=0;count($currlist)>$c;$c++)
@@ -164,8 +164,8 @@ function viewPayment(pay,curr) {
 ?>
 						</strong></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $maxpoint?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hremp_maxpoint?></td>
 						<td align="left" valign="top"><strong>
 <?php
 						for($c=0;count($currlist)>$c;$c++)
@@ -176,14 +176,14 @@ function viewPayment(pay,curr) {
 ?>
 						</strong></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $bassalary?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hremp_bassalary?></td>
 						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?php echo $edit[0][3]?>">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"></td>
-						<td align="left" valign="top"> 
+						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
 		<?php			} else { ?>
@@ -195,7 +195,7 @@ function viewPayment(pay,curr) {
 <?php } else { ?>
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $paygrade?></td>
+                      <td><?php echo $lang_hrEmpMain_paygrade; ?></td>
     				  <td><strong>
     				 <?php $salgradelist = $this->popArr['salgradelist'];
     				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
@@ -204,37 +204,37 @@ function viewPayment(pay,curr) {
     				 ?>
     				  </strong></td>
 					</tr>
-					  <tr> 
-						<td valign="top"><?php echo $currency?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_currency; ?></td>
 						<td align="left" valign="top"><select <?php echo ($locRights['add'] && $salGrd !== null)? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?php echo $this->popArr['salGrd']?>')" name='cmbCurrCode'>
-                       						<option value="0">--Select Currency--</option>
+                       						<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
 <?php
 						$curlist= $this->popArr['currlist'];
 						for($c=0;$curlist && count($curlist)>$c;$c++)
 								   echo "<option value=" . $curlist[$c][2] . ">" . $curlist[$c][0] . "</option>";
-?>							   
+?>
 							</select></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $minpoint?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_minpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency'>
 							<div id='divMinCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $maxpoint?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_maxpoint?></td>
 						<td align="left" valign="top"><strong>
 							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency'>
 							<div id='divMaxCurrency'>-N/A-</div>
 						</strong></td>
 					  </tr>
-					  <tr> 
-						<td valign="top"><?php echo $bassalary?></td>
+					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
 						<td align="left" valign="top"><input type="text" <?php echo ($locRights['add'] && $salGrd !== null) ? '':'disabled'?> name="txtBasSal">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?php	if($locRights['add']) { ?>
@@ -255,7 +255,7 @@ function viewPayment(pay,curr) {
 
   <tr>
 
-    <td width='100%'><h3><?php echo $assignedsalary?></h3></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignedsalary?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -272,8 +272,8 @@ function viewPayment(pay,curr) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?php echo $currency?></strong></td>
-						 <td><strong><?php echo $bassalary?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
 					</tr>
 <?php
 			$rset = $this->popArr['rsetPayment'];
