@@ -23,13 +23,13 @@ function delChildren() {
 function addChildren() {
 
 	if(document.frmEmp.txtChiName.value == '') {
-		alert('Field Empty');
+		alert('<?php echo $lang_Common_FieldEmpty; ?>');
 		document.frmEmp.txtChiName.focus();
 		return;
 	}
 
 	if(document.frmEmp.DOB.value == '') {
-		alert('Field Empty');
+		alert('<?php echo $lang_Common_FieldEmpty; ?>');
 		document.frmEmp.DOB.focus();
 		return;
 	}

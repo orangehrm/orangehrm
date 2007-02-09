@@ -394,6 +394,7 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";
