@@ -1,111 +1,111 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 ?>
 
 <script language="JavaScript">
 
 function editWrkExp() {
-	
+
 	if(document.EditWrkExp.title=='Save') {
 		editEXTWrkExp();
 		return;
 	}
-	
+
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-		
+
 	document.EditWrkExp.src="../../themes/beyondT/pictures/btn_save.jpg";
 	document.EditWrkExp.title="Save";
 }
 
 function moutWrkExp() {
-	if(document.EditWrkExp.title=='Save') 
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.EditWrkExp.title=='Save')
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function moverWrkExp() {
-	if(document.EditWrkExp.title=='Save') 
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.EditWrkExp.title=='Save')
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
 function createDate(str) {
 		var yy=eval(str.substr(0,4));
 		var mm=eval(str.substr(5,2)) - 1;
 		var dd=eval(str.substr(8,2));
-		
+
 		var tempDate = new Date(yy,mm,dd);
-		
+
 		return tempDate;
 }
 
 function addEXTWrkExp() {
-	
+
  	var txt = document.frmEmp.txtEmpExpEmployer;
 	if (txt.value == '') {
-		alert ("Field Empty!");
+		alert("<?php echo $lang_Common_FieldEmpty; ?>!");
 		txt.focus();
 		return false;
 	}
 
     var txt = document.frmEmp.txtEmpExpJobTitle;
 	if (txt.value == '') {
-		alert ("Field Empty!");
+		alert("<?php echo $lang_Common_FieldEmpty; ?>!");
 		txt.focus();
 		return false;
 	}
 
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
-	
+
 	if(fromDate >= toDate){
-		alert("From Date should be before To date");
+		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 		return;
 	}
-	
+
   document.frmEmp.wrkexpSTAT.value="ADD";
   qCombo(17);
 }
 
 function calcYearMonth() {
-	
+
 	if(document.frmEmp.txtEmpExpFromDat.value == '') {
 		alert("Enter From Date first");
 		return;
 	}
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDat.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDat.value);
-	
+
 	var diffMs = toDate.getTime() - fromDate.getTime();
 
 	var oneMonth = 1000*60*60*24*30;
 	var oneYear = oneMonth * 12;
-	
+
 	var eYears = diffMs / oneYear;
 	var eMonth = diffMs % oneYear;
-	
+
 	eMonth = eMonth / oneMonth;
-	
+
 	var str = eMonth.toString();
 	document.frmEmp.txtEmpExpMonths.value = str.substr(0,str.indexOf('.'));
 	str = eYears.toString();
@@ -113,7 +113,7 @@ function calcYearMonth() {
 }
 
 function editEXTWrkExp() {
-	
+
  	var txt = document.frmEmp.txtEmpExpEmployer;
 	if (txt.value == '') {
 		alert ("Field Empty!");
@@ -130,7 +130,7 @@ function editEXTWrkExp() {
 
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
-	
+
 	if(fromDate >= toDate){
 		alert("From Date should be before To date");
 		return;
@@ -141,7 +141,7 @@ function editEXTWrkExp() {
 }
 
 function delEXTWrkExp() {
-	
+
 	var check = false;
 	with (document.frmEmp) {
 		for (var i=0; i < elements.length; i++) {
@@ -163,7 +163,7 @@ function delEXTWrkExp() {
 }
 
 function viewWrkExp(wrkexp) {
-	
+
 	document.frmEmp.action = document.frmEmp.action + "&WRKEXP=" + wrkexp;
 	document.frmEmp.pane.value = 17;
 	document.frmEmp.submit();
@@ -188,7 +188,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 					  <td nowrap><?php echo $startdate?></td>
 					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?php echo $edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
-					  <tr> 
+					  <tr>
 						<td><?php echo $jobtitle?></td>
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
@@ -258,7 +258,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
         </table>
 		<?php } ?>
 
-<?php 
+<?php
 
     $rset = $this->popArr['rsetWrkExp'];
 
@@ -288,7 +288,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
   </tr>
 
 
-<?php 
+<?php
      } else {
 ?>
 
@@ -336,5 +336,5 @@ if(isset($this->popArr['editWrkExpArr'])) {
 ?>
 <?php } //if( $assignedExperiences ) ?>
 </table>
-      
+
 <?php } ?>

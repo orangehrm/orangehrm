@@ -27,6 +27,7 @@
 	$lang_Error_PleaseCorrectTheFollowing = "Пожайлуста, исправьте";
 	$lang_Error_SelectAtLeastOneRecordToDelete = "Выберите хотя бы одну запись для удаления";
 	$lang_Error_DoYouWantToDelete = "Удалить?";
+	$lang_Error_EnterDate = "Enter Date?";
 
 	$lang_Error_PleaseSelectAYear = "Выберите год";
 	$lang_Error_PleaseSelectAnEmployee = "Выберите служащего";
@@ -159,6 +160,7 @@
 	$lang_Commn_description = "Описание";
 	$lang_Commn_title = "Название";
 	$lang_Commn_name = "Название";
+	$lang_Commn_PleaseWait = "Please wait";
 
 	//days
 	$lang_Common_Monday = "Понедельник";
@@ -365,13 +367,16 @@
 	$lang_hremp_eeocategory = "ЕЕО категори ";
 	$lang_hremp_seleeocat = "Выберите EEO катег.";
 	$lang_hremp_joindate = "Дата начала работы";
+	$lang_hremp_SelectJobTitle = "Select Job Title";
+	$lang_hremp_EmpStatus = "Employment Status";
+	$lang_hremp_Workstation = "Workstation";
 
 	$lang_hremp_dependents = "Иждивенцы";
 	$lang_hremp_children = "Дети";
 	$lang_hremp_relationship = "Степень родства";
 
-	$lang_hremp_street1			= "Street 1";
-	$lang_hremp_street2 		= "Street 2";
+	$lang_hremp_street1	= "Street 1";
+	$lang_hremp_street2 = "Street 2";
 
 	$lang_hremp_hmtele = "Домашний телефон";
 	$lang_hremp_mobile = "Мобильный";
@@ -393,6 +398,17 @@
 	$lang_hremp_type = "Тип";
 	$lang_hremp_name = "Name";
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
+	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
+	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
+
+	$lang_hremp_ContractExtensionStartDate = "Contract Extension Start Date";
+	$lang_hremp_ContractExtensionEndDate = "Contract Extension End Date";
+	$lang_hremp_EmployeeContracts = "Employee Contracts";
+	$lang_hremp_AssignedContracts = "Assigned Contracts";
+
+	$lang_hremp_ContractExtensionId	= "Contract Extension ID";
+	$lang_hremp_ContractStartDate = "Contract Start Date";
+	$lang_hremp_ContractEndDate	= "Contract End Date";
 
 	$lang_hremplan_employeelanguageflu = "Языковые навыки служащего";
 	$lang_hremplan_fluency = "Сфера компетентности";

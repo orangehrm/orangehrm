@@ -1,7 +1,7 @@
 <script language="JavaScript">
 
 function delConExt() {
-	
+
       var check = false;
 		with (document.frmEmp) {
 			for (var i=0; i < elements.length; i++) {
@@ -12,7 +12,7 @@ function delConExt() {
         }
 
         if(!check) {
-              alert("Select atleast one check box");
+              alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
               return;
         }
 
@@ -22,12 +22,12 @@ function delConExt() {
 
 
 function addConExt() {
-	
+
 	if(document.frmEmp.txtEmpConExtStartDat.value == '' || document.frmEmp.txtEmpConExtEndDat.value == '') {
-		alert("Enter Date");
+		alert("<?php echo $lang_Error_EnterDate; ?>");
 		return;
 	}
-	
+
 	startDate = createDate(document.frmEmp.txtEmpConExtStartDat.value);
 	endDate = createDate(document.frmEmp.txtEmpConExtEndDat.value);
 
@@ -35,18 +35,18 @@ function addConExt() {
 		alert("Starting Day should be before ending Date");
 		return;
 	}
-	
+
   document.frmEmp.conextSTAT.value="ADD";
   qCombo(2);
 }
 
 function editConExt() {
-	
+
 	startDate = createDate(document.frmEmp.txtEmpConExtStartDat.value);
 	endDate = createDate(document.frmEmp.txtEmpConExtEndDat.value);
-	
+
 	if(startDate >= endDate) {
-		alert("Starting Day should be before ending Date");
+		alert("<?php echo $lang_hremp_StaringDateShouldBeBeforeEnd; ?>");
 		return;
 	}
 
@@ -65,25 +65,25 @@ function viewConExt(pSeq) {
 
 	<input type="hidden" name="conextSTAT" value="">
 
-    <p><h3>Employee Contracts</h3></p>
+    <p><h3><?php echo $lang_hremp_EmployeeContracts; ?></h3></p>
 <?php if(isset($this -> popArr['editConExtArr'])) {
-	
-        $edit = $this -> popArr['editConExtArr']; 
+
+        $edit = $this -> popArr['editConExtArr'];
 ?>
       <input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>">
 
       <table height="80" border="0" cellpadding="0" cellspacing="0">
       <tr>
-          <td width="200">Contract Extension Start Date</td>
+          <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?></td>
     	  <td><input type="text" readonly name="txtEmpConExtStartDat" value=<?php echo $edit[0][2]?>>&nbsp;<input class="button" type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
 	  </tr>
-	  <tr> 
-		<td valign="top">Contract Extension End Date</td>
+	  <tr>
+		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top"> <input type="text" readonly name="txtEmpConExtEndDat" value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" class="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
 	  </tr>
-	  <tr> 
+	  <tr>
 		<td valign="top"></td>
-		<td align="left" valign="top"> 
+		<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 					        <img border="0" title="Save" onClick="editConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 		<?php			} else { ?>
@@ -91,20 +91,20 @@ function viewConExt(pSeq) {
 		<?php			}  ?>
 		</td>
 	  </tr>
-	</table>	  
+	</table>
 <?php } else { ?>
          <input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>">
 
       <table height="80" border="0" cellpadding="0" cellspacing="0">
          <tr>
-          <td width="200">Contract Extension Start Date</td>
+          <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?></td>
 		  <td><input type="text" readonly value="0000-00-00" name="txtEmpConExtStartDat">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtStartDat);return false;"></td>
 		</tr>
-  	  <tr> 
-		<td valign="top">Contract Extension End Date</td>
+  	  <tr>
+		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top"> <input type="text" readonly value="0000-00-00" name="txtEmpConExtEndDat">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value=".." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpConExtEndDat);return false;"></td>
 	  </tr>
-	  <tr> 
+	  <tr>
 		<td valign="top"></td>
 		<td align="left" valign="top">
 			<?php	if($locRights['add']) { ?>
@@ -125,7 +125,7 @@ function viewConExt(pSeq) {
 
   <tr>
 
-<?php 
+<?php
 
     $rset = $this->popArr['rsetConExt'];
 
@@ -137,7 +137,7 @@ function viewConExt(pSeq) {
     }
 ?>
 
-    <td width='100%'><h3>Assigned Contracts</h3></td>
+    <td width='100%'><h3><?php echo $lang_hremp_AssignedContracts; ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
@@ -147,7 +147,7 @@ function viewConExt(pSeq) {
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
-<?php 
+<?php
      } else {
 ?>
 
@@ -165,9 +165,9 @@ function viewConExt(pSeq) {
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong>Contract Extension ID</strong></td>
-						 <td><strong>Contract Start Date</strong></td>
-						 <td><strong>Contract End Date</strong></td>
+						 <td><strong><?php echo $lang_hremp_ContractExtensionId; ?></strong></td>
+						 <td><strong><?php echo $lang_hremp_ContractStartDate; ?></strong></td>
+						 <td><strong><?php echo $lang_hremp_ContractEndDate; ?></strong></td>
 					</tr>
 <?php
 
