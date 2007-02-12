@@ -432,6 +432,8 @@
 	$lang_hremplicenses_licentype 			= "License Type";
 	$lang_hremplicenses_assignlicen 		= "Assigned Licenses";
 
+	$lang_hremplicenses_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+
  	$lang_hrEmpMain_ratinggarde 			= "Competency";
 	$lang_hrEmpMain_assignlanguage 			= "Assigned Languages";
 	$lang_hrEmpMain_Writing 				= "Writing";

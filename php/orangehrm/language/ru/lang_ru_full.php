@@ -428,6 +428,8 @@
 	$lang_hremplicenses_licentype = "Тип лицензии";
 	$lang_hremplicenses_assignlicen = "Полученные лицензии";
 
+	$lang_hremplicenses_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+
 	$lang_hrEmpMain_ratinggarde = "Компетентность";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";
 	$lang_hrEmpMain_Writing = "Письменно";
