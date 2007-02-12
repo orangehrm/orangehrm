@@ -44,7 +44,7 @@ function addEXTPayment() {
 
 	var cnt=document.frmEmp.txtBasSal;
 	if(!decimalCurr(cnt)) {
-		alert("<?php echo $lang_hremp_FieldShouldBeNumeric; ?>");
+		alert("<?php echo $lang_Error_FieldShouldBeNumeric; ?>");
 		cnt.focus();
 		return;
 	}
@@ -66,7 +66,7 @@ function editEXTPayment() {
 
 	var cnt=document.frmEmp.txtBasSal;
 	if(!decimalCurr(cnt)) {
-		alert("<?php echo $lang_hremp_FieldShouldBeNumeric; ?>");
+		alert("<?php echo $lang_Error_FieldShouldBeNumeric; ?>");
 		cnt.focus();
 		return;
 	}

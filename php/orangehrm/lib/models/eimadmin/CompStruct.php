@@ -311,12 +311,12 @@ class CompStruct {
 	}
 
 	private function _buildHierarchString($id) {
-		$str = "";
+		$str = $this->hierachyArr[$id]['title'];
 		while (isset($this->hierachyArr[$id]['parnt']) && ($this->hierachyArr[$id]['parnt'] != 0)) {
 			$id = $this->hierachyArr[$id]['parnt'];
 			$str = $this->hierachyArr[$id]['title']." - ".$str;
 		}
-		return substr($str, 0, -3);
+		return $str;
 	}
 
 }

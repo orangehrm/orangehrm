@@ -1,15 +1,15 @@
 <?php
 /*
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-// all the essential functionalities required for any enterprise. 
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
 // Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 
 // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 // the GNU General Public License as published by the Free Software Foundation; either
 // version 2 of the License, or (at your option) any later version.
 
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License along with this program;
@@ -30,62 +30,62 @@ class MySQLClass {
 	var $result;
 
 
-/* Class Constructor for MySQLClass*/	
+/* Class Constructor for MySQLClass*/
 	function MySQLClass($conf) {
 		$this->myHost 		= $conf ->dbhost; //reference for the Host
-		$this->myHostPort	= $conf ->dbport; 
+		$this->myHostPort	= $conf ->dbport;
 		$this->userName 	= $conf ->dbuser; //reference for the Username
 		$this->userPassword = $conf ->dbpass; //reference for the Password
 		$this->db_name 		= $conf ->dbname; //reference for the DatabaseName
-		
+		$this->dbConnect();
 	}
 
-/* 	DBConnection Function 
+/* 	DBConnection Function
 	uses mysql_connect function to connect the Database
 	gets myhost, username, userpassword
 	Returns true if Connected to the Database
-	
+
 */
 	function dbConnect() {
 		//$this -> conn = mysql_connect($this->myHost, $this->userName, $this->userPassword);
-	  	
+
 	  	if (!@$this -> conn = mysql_connect($this->myHost .':'.$this->myHostPort, $this->userName, $this->userPassword)) {
-	  		
+
 	  		$exception_handler = new ExceptionHandler();
 	  	 	$exception_handler->dbexNoConnection();
 	  	   	exit;
-    	
+
 	  	} else {
-	  		
+
 	  	 if ($this -> conn) {
-	  	 	mysql_query("SET NAMES 'utf8'");	  	 	
+	  	 	mysql_query("SET NAMES 'utf8'");
 	  	 	if (mysql_select_db ($this->db_name)) {
-	  	 		
+
 		 	    return true;
 		 	} else {
-		 		
+
 			 	$exception_handler = new ExceptionHandler();
 		  	 	$exception_handler->dbexNoDatabase();
 		  	 	exit;
-			 		
+
 		 	}
-			
+
 		 } else {
-		   	
+
 		   return false;
-		 }		
-	    }	  	
-	  		
-	  	
-	  	
-	  	
+		 }
+	    }
+
+
+
+
 	  	 if ($this -> conn) {
-	  	 		  	 	
+
 	  	 	mysql_select_db ($this->db_name);
 	 	    return true;
-			
+
 		 } else {
-		   	
+
 		   	$exception_handler = new ExceptionHandler();
 	  	 	$exception_handler->dbexNoDatabase();
 	  	 	//exit;
@@ -93,60 +93,60 @@ class MySQLClass {
 		}
 	}
 
-/* 	dbDisconnect Function 
-	uses mysql_close function to disconnect 
+/* 	dbDisconnect Function
+	uses mysql_close function to disconnect
 	from the Database
-	
-*/	
-	
+
+*/
+
 	function dbDisconnect($result = NULL)
 	{
 		if ($this-> conn != null)
 		{
-			if($result) 
+			if($result)
 			{
 				$this-> conn -> freeMem($result);
 			}
-			
+
 			return $this->conn->dbClose();
 		}
 	}
 
-/* 	
-	SQLQUERY Function 
+/*
+	SQLQUERY Function
 	Input Parameter is the Query String
 	Uses mysql_query(), mysql_error() functions
 	returns the result set $this->result
-	
+
 */
 
-	function sqlQuery($sql)	{		
+	function sqlQuery($sql)	{
 		if( (isset($this -> conn)) && ($sql != '') ){
 			 $this->result = mysql_query($sql);
-			 
+
 			 if ($this->result) {
 			 	return $this->result;
 			 }
-			 
+
 			 if (mysql_errno() == 1062) {
 			 	 return false;
 			 }
-			 
+
 	 		 $exception_handler = new ExceptionHandler();
 	  	 	 $exception_handler->dbexInvalidSQL($sql);
 	 		 return false;
-	
-	 	} else {	
-	 		 	
+
+	 	} else {
+
 	 		$exception_handler = new ExceptionHandler();
 	  	 	$exception_handler->dbexNoQueryFound($sql);
 	 		return false;
-	 		
+
 		}
-	
+
 	}
 
-	
+
 	function getArray($result) {
 		return mysql_fetch_array($result);
 	}

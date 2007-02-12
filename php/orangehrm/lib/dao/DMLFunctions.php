@@ -2,9 +2,9 @@
 
 /*
 
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
 
-// all the essential functionalities required for any enterprise. 
+// all the essential functionalities required for any enterprise.
 
 // Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 
@@ -18,9 +18,9 @@
 
 
 
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 // See the GNU General Public License for more details.
 
@@ -47,7 +47,7 @@ class DMLFunctions {
 /*
 	Constructor for the DMLFunctions Class
 	which takes the configuration variables
-	from the conf.php Class and return the 
+	from the conf.php Class and return the
 	reference of conf object
 */
 
@@ -55,7 +55,7 @@ class DMLFunctions {
 
 		$this-> conf = new Conf();
 
-		$this-> dbObject = new MySQLClass($this-> conf);
+		$this-> dbObject = new MySQLClass($this->conf);
 
 	}
 
@@ -65,7 +65,7 @@ class DMLFunctions {
 
 	Function ExecuteQuery will take in a SQL Query
 
-	String as the Input Parameter and execute the 
+	String as the Input Parameter and execute the
 
 	SQLQuery Function
 
@@ -75,13 +75,13 @@ class DMLFunctions {
 
 
 
-	function executeQuery($SQL){	
+	function executeQuery($SQL){
 
-		
 
-		if ( $this -> dbObject -> dbConnect()) {			
 
-			
+		if ( $this -> dbObject -> dbConnect()) {
+
+
 
 			$result = $this -> dbObject -> sqlQuery($SQL);
 
@@ -89,17 +89,17 @@ class DMLFunctions {
 
 			return $result;
 
-			
 
-		}	
+
+		}
 
 		return false; //error
 
 	}
 
-	
 
-	
+
+
 
 }
 

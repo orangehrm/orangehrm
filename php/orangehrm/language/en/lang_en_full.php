@@ -79,6 +79,9 @@
 
 	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
 
+
+	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
+
 	/**
 	 * Menu Items
 	 *
@@ -413,7 +416,6 @@
 
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
 
-	$lang_hremp_FieldShouldBeSelected		= "Field should be selected";
 	$lang_hremp_SelectCurrency				= "Select Currency";
 
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";

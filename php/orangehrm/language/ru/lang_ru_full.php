@@ -80,6 +80,8 @@
 	$lang_Error_FirstNameEmpty						= "First Name Empty!";
 	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
 
+	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
+
 	/**
 	 * Menu Items
 	 *
@@ -409,8 +411,6 @@
 	$lang_hremp_AssignedContracts = "Assigned Contracts";
 
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
-
-	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
 
 	$lang_hremp_ContractExtensionId	= "Contract Extension ID";
 	$lang_hremp_ContractStartDate = "Contract Start Date";

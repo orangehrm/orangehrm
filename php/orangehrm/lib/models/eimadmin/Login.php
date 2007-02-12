@@ -34,6 +34,9 @@ class Login {
 		}
 
 function filterUser($userName) {
+			$sql_builder = new SQLQBuilder();
+			$dbConnection = new DMLFunctions();
+
 			$this->username=mysql_real_escape_string($userName);
 			$tableName = 'HS_HR_USERS a LEFT JOIN HS_HR_EMPLOYEE b ON (a.EMP_NUMBER = b.EMP_NUMBER)';
 			$arrFieldList[0] = 'a.USER_NAME';
@@ -45,9 +48,6 @@ function filterUser($userName) {
 			$arrFieldList[6] = 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 			$arrFieldList[7] = 'a.IS_ADMIN';
 
-
-			$sql_builder = new SQLQBuilder();
-
 			$sql_builder->table_name = $tableName;
 			$sql_builder->flg_select = 'true';
 			$sql_builder->arr_select = $arrFieldList;
@@ -55,9 +55,7 @@ function filterUser($userName) {
 			$sqlQString = $sql_builder->selectOneRecordFiltered($this->username);
 
 			//echo $sqlQString;
-			$dbConnection = new DMLFunctions();
 			$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
 
 			if ( ($message2) && (mysql_num_rows($message2)!=0) ) {
 				$i=0;
