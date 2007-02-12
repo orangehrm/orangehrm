@@ -121,7 +121,7 @@ function viewPayment(pay,curr) {
 			$salGrd = $this->popArr['salGrd'];
 
 			if($salGrd === null) {
-				$pleaseSelectJobTitle = preg_replace('/\{(.*)\}/', "<a href='javascript:displayLayer(2)'>$1</a>", $lang_hremplicenses_PleaseSelectJobTitle);
+				$pleaseSelectJobTitle = preg_replace('/\{(.*)\}/', "<a href='javascript:displayLayer(2)'>$1</a>", $lang_hremp_PleaseSelectJobTitle);
 				echo "<p align='center'><strong>$pleaseSelectJobTitle</strong></p>";
 			}
  	?>

@@ -116,14 +116,14 @@ function editEXTWrkExp() {
 
  	var txt = document.frmEmp.txtEmpExpEmployer;
 	if (txt.value == '') {
-		alert ("Field Empty!");
+		alert ("<?php echo $lang_Common_FieldEmpty; ?>!");
 		txt.focus();
 		return false;
 	}
 
     var txt = document.frmEmp.txtEmpExpJobTitle;
 	if (txt.value == '') {
-		alert ("Field Empty!");
+		alert ("<?php echo $lang_Common_FieldEmpty; ?>!");
 		txt.focus();
 		return false;
 	}
@@ -132,7 +132,7 @@ function editEXTWrkExp() {
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
 
 	if(fromDate >= toDate){
-		alert("From Date should be before To date");
+		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 		return;
 	}
 
@@ -152,7 +152,7 @@ function delEXTWrkExp() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>')
 		return;
 	}
 
@@ -182,24 +182,24 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
-                      <td><?php echo $employer?></td>
+                      <td><?php echo $lang_hrEmpMain_employer?></td>
     				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
-					  <td nowrap><?php echo $startdate?></td>
+					  <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
 					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?php echo $edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
 					</tr>
 					  <tr>
-						<td><?php echo $jobtitle?></td>
+						<td><?php echo $lang_empview_JobTitle?></td>
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
-						<td nowrap><?php echo $enddate?></td>
+						<td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
 						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?> >&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
 					  </tr>
 					  <tr valign="top">
-						<td><?php echo $briefdes?></td>
+						<td><?php echo $lang_Leave_Common_Comments; ?></td>
 						<td> <textarea disabled name="txtEmpExpComments"><?php echo $edit[0][6]?></textarea></td>
     				  	<td width="50">&nbsp;</td>
-						<td width="50"><?php echo $internal?></td>
+						<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
 						<td width="50"><input type="checkbox" name="chkEmpExpInternal" disabled value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
 						<td width="50">&nbsp;</td>
 					 </tr>
@@ -220,29 +220,29 @@ if(isset($this->popArr['editWrkExpArr'])) {
 		<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>">
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
-            <td><?php echo $employer?></td>
+            <td><?php echo $lang_hrEmpMain_employer?></td>
             <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
-            <td nowrap><?php echo $startdate?></td>
+            <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
             <td nowrap><input type="text" name="txtEmpExpFromDate" readonly value="0000-00-00">
               &nbsp;
               <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
-            <td><?php echo $jobtitle?></td>
+            <td><?php echo $lang_empview_JobTitle?></td>
             <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
-            <td nowrap><?php echo $enddate?></td>
+            <td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
             <td nowrap><input type="text" name="txtEmpExpToDate" readonly value="0000-00-00">
               &nbsp;
               <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">
-            <td><?php echo $briefdes?></td>
+            <td><?php echo $lang_Leave_Common_Comments; ?></td>
             <td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
             <td width="50">&nbsp;</td>
-			<td width="50"><?php echo $internal?></td>
+			<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
 			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?php echo $locRights['add'] ? '':'disabled'?> value="1"/></td>
 			<td width="50">&nbsp;</td>
           </tr>
@@ -278,7 +278,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
   <tr>
 
-    <td width='100%'><h3><?php echo $assignworkex?></h3></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignworkex?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 <?php if( !$assignedExperiences ){ ?>
@@ -312,10 +312,10 @@ if(isset($this->popArr['editWrkExpArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       	<td></td>
-						 <td width="125"><strong><?php echo $workexid?></strong></td>
-						 <td width="135"><strong><?php echo $employer?></strong></td>
-						 <td width="65"><strong><?php echo $startdate?></strong></td>
-						 <td width="65"><strong><?php echo $enddate?></strong></td>
+						 <td width="125"><strong><?php echo $lang_hrEmpMain_workexid?></strong></td>
+						 <td width="135"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
+						 <td width="65"><strong><?php echo $lang_hrEmpMain_startdate; ?></strong></td>
+						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
 						 <td><strong><?php echo $internal?></strong></td>
 					</tr>
 <?php

@@ -427,15 +427,15 @@
 	$lang_hremplan_ratinggarde = "Беглость";
 	$lang_hremplan_assignlanguage = "Владение языками";
 
+	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+
+	$lang_hremp_ie_CurrentSupervisors = "i.e. Current Employee's Supervisors";
+	$lang_hremp_ie_CurrentSubordinates = "i.e. Current Employee's Subordinates";
+
 	$lang_hremplicenses_employeelicen = "Лицензии служащего";
 	$lang_hremplicenses_assignlicenses = "Полученные лицензии";
 	$lang_hremplicenses_licentype = "Тип лицензии";
 	$lang_hremplicenses_assignlicen = "Полученные лицензии";
-
-	$lang_hremplicenses_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
-
-	$lang_hremplicenses_ie_CurrentSupervisors = "i.e. Current Employee's Supervisors";
-	$lang_hremplicenses_ie_CurrentSubordinates = "i.e. Current Employee's Subordinates";
 
 	$lang_hrEmpMain_ratinggarde = "Компетентность";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";

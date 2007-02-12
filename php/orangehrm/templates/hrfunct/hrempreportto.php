@@ -296,7 +296,7 @@ function viewSup(sup,rep) {
 
   <tr>
 
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3><?php echo $lang_hremplicenses_ie_CurrentSupervisors; ?></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3><?php echo $lang_hremp_ie_CurrentSupervisors; ?></td>
      <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
@@ -351,7 +351,7 @@ $empname = $this ->popArr['empname'];
 
   <tr>
 
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3><?php echo $lang_hremplicenses_ie_CurrentSubordinates; ?></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3><?php echo $lang_hremp_ie_CurrentSubordinates; ?></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
   <tr>
