@@ -72,15 +72,19 @@
 	$lang_Error_InvalidEmail = "Invalid E-mail address";
 
 	//PIM
-	$lang_Error_LastNameNumbers						= "Last Name contains numbers. Do you want to continue?";
-	$lang_Error_FirstNameNumbers					= "First Name contains numbers. Do you want to continue?";
-	$lang_Error_MiddleNameNumbers					= "Middle Name contains numbers. Do you want to continue?";
-	$lang_Error_MiddleNameEmpty						= "Middle Name Empty. Do you want to continue?";
-	$lang_Error_LastNameEmpty						= "Last Name Empty!";
-	$lang_Error_FirstNameEmpty						= "First Name Empty!";
-	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
+	$lang_Error_LastNameNumbers				= "Last Name contains numbers. Do you want to continue?";
+	$lang_Error_FirstNameNumbers			= "First Name contains numbers. Do you want to continue?";
+	$lang_Error_MiddleNameNumbers			= "Middle Name contains numbers. Do you want to continue?";
+	$lang_Error_MiddleNameEmpty				= "Middle Name Empty. Do you want to continue?";
+	$lang_Error_LastNameEmpty				= "Last Name Empty!";
+	$lang_Error_FirstNameEmpty				= "First Name Empty!";
+	$lang_Error_ChangePane					= "Please save the changes before you move onto another pane!";
 
 	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
+
+	$lang_Error_FieldShouldBeNumeric		= "Field should be numeric";
+
+	$lang_Error_SelectAtLeastOneCheckBox 	= "Select atleast one check box";
 
 	/**
 	 * Menu Items
@@ -429,6 +433,9 @@
 	$lang_hremplicenses_assignlicen = "Полученные лицензии";
 
 	$lang_hremplicenses_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+
+	$lang_hremplicenses_ie_CurrentSupervisors = "i.e. Current Employee's Supervisors";
+	$lang_hremplicenses_ie_CurrentSubordinates = "i.e. Current Employee's Subordinates";
 
 	$lang_hrEmpMain_ratinggarde = "Компетентность";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";
