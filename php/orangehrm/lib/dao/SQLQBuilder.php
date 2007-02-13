@@ -67,6 +67,9 @@ class SQLQBuilder {
 	Constructor for the SQLQBuilder
 */
 	function SQLQBuilder() {
+		$confObj = new Conf();
+
+		new MySQLClass($confObj);
 	}
 
 	function quoteCorrect($arr) {

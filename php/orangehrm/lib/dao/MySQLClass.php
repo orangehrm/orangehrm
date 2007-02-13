@@ -37,6 +37,7 @@ class MySQLClass {
 		$this->userName 	= $conf ->dbuser; //reference for the Username
 		$this->userPassword = $conf ->dbpass; //reference for the Password
 		$this->db_name 		= $conf ->dbname; //reference for the DatabaseName
+
 		$this->dbConnect();
 	}
 
