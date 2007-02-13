@@ -40,6 +40,8 @@
  *   
  */
 
+ob_start();
+
 define('CONF_PATH', "/var/www/hosted/configurations");
 define('URL_PREFIX_TO_INSTANCE_NAME',"http://");
 define('URL_POSTFIX_TO_INSTANCE_NAME',".orangehrm.com");
