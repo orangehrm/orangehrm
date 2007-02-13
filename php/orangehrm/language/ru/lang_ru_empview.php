@@ -9,7 +9,7 @@ $srchlist[1] = array( "-$lang_Leave_Common_Select-",
 					  $lang_empview_SubDivision,
 					  $lang_empview_Supervisor);
 
-$serach    			= $lang_empview_search;
+$search    			= $lang_empview_search;
 $searchby 			= $lang_empview_searchby;
 $description		= $lang_empview_description;
 $norecorddisplay 	= $lang_empview_norecorddisplay;

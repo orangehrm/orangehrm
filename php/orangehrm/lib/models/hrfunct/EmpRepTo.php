@@ -444,6 +444,47 @@ class EmpRepTo {
 
 	    return $arrayDispList;
 	}
+
+    /** 
+     * Get list of subordinates for supervisors with a name that matches the search term.
+     * The supervisors first, middle and lastnames are searched and the subordinates of
+     * matching supervisors are returned.
+     *
+     * @param searchTerm The search term to match with the supervisor names
+     * @return Array of matching employee ID's
+     */
+    public function getSubordinatesOfSupervisorWithName($searchTerm) {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'DISTINCT r.`erep_sub_emp_number`';
+
+		$arrTables[0] = '`hs_hr_emp_reportto` r';
+		$arrTables[1] = '`hs_hr_employee` e';
+
+		$joinConditions[1] = "r.`erep_sup_emp_number` = e.`emp_number`";
+
+        $filteredSearchTerm = mysql_real_escape_string($searchTerm);
+		$selectConditions[1] = "e.`emp_firstname`   LIKE '" . $filteredSearchTerm . "%' OR " 
+                             . "e.`emp_lastname`    LIKE '" . $filteredSearchTerm . "%' OR "
+                             . "e.`emp_middle_name` LIKE '" . $filteredSearchTerm . "%'";
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, null, null);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+	
+        $subordinateIds = null;
+        $rowNum = 0;
+
+		while ($line = mysql_fetch_array($result, MYSQL_NUM)) {
+
+            $subordinateIds[$rowNum] = $line[0];
+            $rowNum++;
+	    }
+
+	    return $subordinateIds;
+    }
 }
 
 ?>

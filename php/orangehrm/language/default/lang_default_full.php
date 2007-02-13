@@ -26,6 +26,7 @@
 	$lang_Error_PleaseCorrectTheFollowing 			= "Please correct the following";
 	$lang_Error_SelectAtLeastOneRecordToDelete 		= "Select at least one record to delete";
 	$lang_Error_DoYouWantToDelete 					= "Do you want to delete?";
+	$lang_Error_EnterDate							= "Enter Date?";
 
 	$lang_Error_PleaseSelectAYear 					= "Please select a Year";
 	$lang_Error_PleaseSelectAnEmployee 				= "Please select an Employee";
@@ -75,6 +76,11 @@
 	$lang_Error_CompStruct_ZipInvalid 					= "Zip - Code Contains non-numeric characters Here they are #characterList";
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
+
+	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
+
+	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
+	$lang_Error_SelectAtLeastOneCheckBox 				= "Select atleast one check box";
 
 	/**
 	 * Menu Items
@@ -145,6 +151,7 @@
 	 * Common
 	 */
 	$lang_Common_ConfirmDelete				= " Do you want to delete ?";
+	$lang_Common_FieldEmpty				= "Field Empty";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";
 	$lang_Commn_RequiredFieldMark 			= "Fields marked with an asterisk #star are required";
@@ -152,6 +159,7 @@
 	$lang_Commn_description 				= "Description";
 	$lang_Commn_title 						= "Title";
 	$lang_Commn_name 						= "Name";
+	$lang_Commn_PleaseWait					= "Please wait";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -298,7 +306,7 @@
 	$lang_empview_EmpFirstName 				= "Emp. First Name";
 	$lang_empview_EmpLastName 				= "Emp. Last Name";
 	$lang_empview_EmpMiddleName 			= "Emp. Middle Name";
-	$lang_empview_serach					= "Search";
+	$lang_empview_search					= "Search";
 	$lang_empview_searchby 					= "Search By:";
 	$lang_empview_description 				= "Search For:";
 	$lang_empview_norecorddisplay 			= "No Records to Display";
@@ -320,6 +328,7 @@
 	$lang_empview_EmployeeInformation 		= "Employee Information";
 	$lang_empview_Memberships 				= "Memberships";
 	$lang_empview_Report 					= "Report";
+	$lang_empview_ReportTo					= "Report To";
 	$lang_empview_SubDivision				= "Sub-Division";
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
@@ -365,10 +374,17 @@
 	$lang_hremp_eeocategory 				= "EEO Category";
 	$lang_hremp_seleeocat 					= "Select EEO Cat";
 	$lang_hremp_joindate 					= "Joined Date";
+	$lang_hremp_SelectJobTitle				= "Select Job Title";
+	$lang_hremp_EmpStatus					= "Employment Status";
+	$lang_hremp_Workstation					= "Workstation";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
 	$lang_hremp_relationship 				= "Relationship";
+
+	$lang_hremp_street1						= "Street 1";
+	$lang_hremp_street2 					= "Street 2";
+
 	$lang_hremp_hmtele 						= "Home Telephone";
 	$lang_hremp_mobile 						= "Mobile";
 	$lang_hremp_worktele 					= "Work Telephone";
@@ -387,11 +403,35 @@
 	$lang_hremp_filename 					= "File Name";
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
+	$lang_hremp_name 						= "Name";
+
+	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
+	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
+	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
+
+	$lang_hremp_ContractExtensionStartDate	= "Contract Extension Start Date";
+	$lang_hremp_ContractExtensionEndDate	= "Contract Extension End Date";
+	$lang_hremp_EmployeeContracts 			= "Employee Contracts";
+	$lang_hremp_AssignedContracts			= "Assigned Contracts";
+
+	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
+
+	$lang_hremp_SelectCurrency				= "Select Currency";
+
+	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
+	$lang_hremp_ContractStartDate			= "Contract Start Date";
+	$lang_hremp_ContractEndDate				= "Contract End Date";
+    $lang_hremp_FieldShouldBeNumeric        = "Field should be numeric";    
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";
 	$lang_hremplan_ratinggarde 				= "Fluency";
 	$lang_hremplan_assignlanguage 			= "Assigned Languages";
+
+	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+
+	$lang_hremp_ie_CurrentSupervisors 		= "i.e. Current Employee's Supervisors";
+	$lang_hremp_ie_CurrentSubordinates 		= "i.e. Current Employee's Subordinates";
 
  	$lang_hremplicenses_employeelicen 		= "Employee Licenses";
 	$lang_hremplicenses_assignlicenses 		= "Assigned Licenses";
@@ -427,8 +467,8 @@
  	$lang_hrEmpMain_heading 				= "Employee Report";
 	$lang_hrEmpMain_supervisorsubordinator 	= "Supervisor / Subordinate";
 	$lang_hrEmpMain_reportingmethod 		= "Reporting Method";
-	$lang_hrEmpMain_subordinateinfomation 	= "Subordinate Infomation";
-	$lang_hrEmpMain_supervisorinfomation 	= "Supervisor Infomation";
+	$lang_hrEmpMain_subordinateinfomation 	= "Subordinate Information";
+	$lang_hrEmpMain_supervisorinfomation 	= "Supervisor Information";
 	$lang_hrEmpMain_selecttype 				= "Select Method";
 	$lang_hrEmpMain_Direct 					= "Direct";
 	$lang_hrEmpMain_Indirect 				= "Indirect";

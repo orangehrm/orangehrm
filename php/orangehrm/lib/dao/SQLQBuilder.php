@@ -1044,6 +1044,40 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 	}
 
+	/**
+	 * Return a count of matching rows from one or multiple tables.
+     *
+     * @param arrTables array of tables to search in
+     * @param joinConditions join conditions for the tables. Can be null
+     * @param selectConditions conditions for the where clause. Can be null
+     * @param joinTypes join types to use. Can be null.
+     *
+     * @return SQL query string that will return a count with the given conditions.
+	 */
+	public function countFromMultipleTables($arrTables, $joinConditions, $selectConditions, $joinTypes = null) {
+
+        if (!isset($joinTypes) && count($arrTables) > 1) {
+			$joinTypes = array_fill(1, count($arrTables)-1, "LEFT");
+		}
+
+		$query = "SELECT COUNT(*) FROM ";
+
+		$joins = $arrTables[0] . " ";
+
+		for ($i=1; $i < count($arrTables); $i++) {
+			$joins = "( ".$joins." ".$joinTypes[$i]." JOIN ".$arrTables[$i]." ON ( ".$joinConditions[$i]." ) ) ";
+		}
+
+		$query .= $joins;
+
+		if (isset($selectConditions)) {
+			$query .= $this->_buildWhere($selectConditions);
+		}
+
+		return $query;
+	}
+
+
 	function simpleInsert($insertTable, $insertValues, $insertFields=false) {
 
 		$this->flg_insert = true;

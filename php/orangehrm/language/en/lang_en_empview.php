@@ -1,5 +1,5 @@
 <?php
-$srchlist[0] = array( -1 , 0 , 1, 2, 3);
+$srchlist[0] = array( -1 , 0 , 1, 2, 3, 6, 7, 8);
 $srchlist[1] = array( "-$lang_Leave_Common_Select-",
 					  $lang_empview_EmpID,
 					  $lang_empview_EmpFirstName,
@@ -10,7 +10,7 @@ $srchlist[1] = array( "-$lang_Leave_Common_Select-",
 					  $lang_empview_Supervisor);
 
 
-$serach    			= $lang_empview_search;
+$search    			= $lang_empview_search;
 $searchby 			= $lang_empview_searchby;
 $description		= $lang_empview_description;
 $norecorddisplay 	= $lang_empview_norecorddisplay;

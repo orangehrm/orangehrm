@@ -373,6 +373,7 @@ class EmpInfo {
 
 	function getListofEmployee($pageNO=0,$schStr='',$mode=-1, $sortField=4, $sortOrder='ASC') {
 
+
 		//$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = "a.`employee_id`";
 		$arrFieldList[1] = "a.`emp_firstname`";
@@ -396,7 +397,40 @@ class EmpInfo {
 		$selectConditions = null;
 
 		if (($mode != -1) && !empty($schStr)) {
-			$selectConditions[] = "{$arrFieldList[$mode]} = '$schStr'";
+
+            if ($mode == 7) {
+
+                // Special handling for search by subdivision. 
+                // Get list of workstations with matches in the title or matches higher in the hierachy
+                $subdivisionIds = $this->_getMatchingSubdivisionIds($schStr);
+
+                // Create select condition for employees with workstation set to any of the
+                // subdivisions
+                if (isset($subdivisionIds) && !empty($subdivisionIds)) {
+                    $selectConditions[] = "a.`work_station` IN (" . $subdivisionIds . ") ";
+                } else {
+
+                    // No subdivisions matches found.
+                    return '';
+                }
+            } else if ($mode == 8) {
+
+                // Special handling for search by supervisor.
+                $empNumbers = $this->_getEmpIdsWithMatchingSupervisor($schStr);
+
+                if (isset($empNumbers) && !empty($empNumbers)) {
+                    $selectConditions[] = "a.`emp_number` IN (" . $empNumbers . ") ";
+                } else {
+
+                    // No subordinates found with with supervisor matching search string.
+                    return '';
+                }
+
+            } else {
+                $filteredSearch = mysql_real_escape_string($schStr);
+
+                $selectConditions[] = "{$arrFieldList[$mode]} LIKE '" . $filteredSearch . "%'";
+            }
 		}
 
 		/*$sql_builder->table_name = $tableName;
@@ -448,27 +482,68 @@ class EmpInfo {
 
 	function countEmployee($schStr='',$mode=0) {
 
-		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
-		$arrFieldList[1] = "EMP_FIRSTNAME";
-		$arrFieldList[2] = "EMP_LASTNAME";
-		$arrFieldList[3] = "EMP_MIDDLE_NAME";
+		$arrFieldList[0] = "a.`emp_number`";
+		$arrFieldList[1] = "a.`emp_firstname`";
+		$arrFieldList[2] = "a.`emp_lastname`";
+		$arrFieldList[3] = "a.`emp_middle_name`";
+
+		$arrTables[0] = "`hs_hr_employee` a";
+
+		$joinConditions = null;
+		$selectConditions = null;
+
+        if (($mode != -1) && !empty($schStr)) {
+
+            $filteredSearch = mysql_real_escape_string($schStr);
+
+            if( $mode == 6 ){
+
+                // Need to join extra tables if searching by job title
+                $arrTables[1] = "`hs_hr_job_title` c";
+                $joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
+                $selectConditions[] = "c.`jobtit_name` LIKE '" . $filteredSearch . "%'";
+            } else if( $mode == 7 ){
+
+                // search by subdivision
+                // Get list of workstations with matches in the title or matches higher in the hierachy
+                $subdivisionIds = $this->_getMatchingSubdivisionIds($schStr);
+
+                // Create select condition for employees with workstation set to any of the subdivisions
+                if (isset($subdivisionIds) && !empty($subdivisionIds)) {
+                    $selectConditions[] = "a.`work_station` IN (" . $subdivisionIds . ") ";
+                } else {
+                    // no matches. Return 0
+                    return 0;
+                }
+
+            } else if ($mode == 8) {
+
+                // search by supervisor
+                $empNumbers = $this->_getEmpIdsWithMatchingSupervisor($schStr);
+
+                if (isset($empNumbers) && !empty($empNumbers)) {
+                    $selectConditions[] = "a.`emp_number` IN (" . $empNumbers . ") ";
+                } else {
+
+                    // No subordinates found with with supervisor matching search string.
+                    return 0;
+                }
+ 
+            } else {
+                $selectConditions[] = "{$arrFieldList[$mode]} LIKE '" . $filteredSearch . "%'";
+            }
+
+        }
 
 		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->countResultset($schStr,$mode);
-
-		//echo $sqlQString;
+		$sqlQString = $sql_builder->countFromMultipleTables($arrTables, $joinConditions, $selectConditions);
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$result = $dbConnection -> executeQuery($sqlQString); 
 
-		$line = mysql_fetch_array($message2, MYSQL_NUM);
+		$resultSet = mysql_fetch_array($result, MYSQL_NUM);
+        $count = $resultSet[0];
 
-	    	return $line[0];
+        return $count;
 	}
 
 	function getLastRecord() {
@@ -2607,6 +2682,63 @@ class EmpInfo {
 		return false;
 	}
 
+    /**
+     * Searches for supervisors with name matching the search string and
+     * returns a comma separated list of employee numbers of their 
+     * subordinates.
+     *
+     * @param searchStr The search string to match supervisor name with
+     * @return comma separated list of employee numbers or null if no match.
+     */
+    private function _getEmpIdsWithMatchingSupervisor($searchStr) {
+
+        $employeeNumbers = null;
+
+        $empRepTo = new EmpRepTo();
+        $empNumberArray = $empRepTo->getSubordinatesOfSupervisorWithName($searchStr);
+
+        if (isset($empNumberArray) && count($empNumberArray) > 0) {
+            $employeeNumbers = implode(',', $empNumberArray);
+        }
+
+        return $employeeNumbers; 
+    }
+
+    /**
+     * Searches for subdivisions in the company structure that have a title that
+     * match the given search string and returns all subdivions under those
+     * matches as a comma separated string of subdivision ids.
+     *
+     * @param searchStr The string to match against subdivision IDs
+     * @return comma separated string of subdivision ids or null if no match.
+     */
+    private function _getMatchingSubdivisionIds($searchStr){
+
+        $subdivisionIds = null;
+
+        // Get list of workstations with matches in the title or matches higher in the hierachy
+        $compStructObj = new CompStruct();
+        $sublist = $compStructObj->getSubdivisionsUnderMatchInHierachy($searchStr);
+
+        // Create select condition for employees with workstation set to any of the
+        // subdivisions
+        if (isset($sublist) && count($sublist) > 0) {
+
+            $rowNum = 0;
+            foreach ($sublist as $subdivision ){
+                $subdivIdList[$rowNum] = $subdivision['id'];
+                $rowNum++;
+            }
+
+            $subdivisionIds = implode(',', $subdivIdList);
+        } 
+
+        return $subdivisionIds;
+    }
+
+
 }
+
+
 
 ?>

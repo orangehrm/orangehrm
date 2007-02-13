@@ -209,7 +209,7 @@ parent.scrollTo(0, 0);
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3><?php echo $serach?></h3></td>
+    <td width="22%" nowrap><h3><?php echo $search?></h3></td>
     <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''>
 <?php
 		if (isset($this->getArr['message'])) {

@@ -421,6 +421,7 @@
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
 	$lang_hremp_ContractStartDate			= "Contract Start Date";
 	$lang_hremp_ContractEndDate				= "Contract End Date";
+    $lang_hremp_FieldShouldBeNumeric        = "Field should be numeric";    
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";

@@ -319,4 +319,104 @@ class CompStruct {
 		return $str;
 	}
 
+    /**
+     * Returns all subdivisions with a title that matches the given search string.
+     *
+     * @param searchStr Search string that is checked for matching a subdivision title
+     *                  If empty, will return all sub divisions.
+     * @return array of matching subdivisons. 
+     */
+     public function getSubdivisionsWithMatchingTitle($searchStr) {
+
+         if (isset($searchStr) && !empty($searchStr)) {
+             $searchStrFiltered = mysql_real_escape_string($searchStr);
+             $selectConditions[0] = " `title` LIKE '" . $searchStrFiltered . "%' ";
+         } else {
+             $selectConditions = null;
+         }
+
+         return $this->_getMatchingSubdivisions($selectConditions);
+     }
+
+   /**
+     * Searches for subdivisions that have a title that match the given search string
+     * and return the whole hierachy under the matches as a list of subdivisions.
+     *
+     * @param searchStr the subdivision title to search for
+     * @return Array of subdivisions with a match in their hierachy.
+     *         or null if no matches found.
+     */
+    public function getSubdivisionsUnderMatchInHierachy($searchStr) {
+
+        $subsInHierachy = null;
+
+         if (isset($searchStr) && !empty($searchStr)) {
+
+             // Get all matching subdivisions with matching title.
+             $sublist = $this->getSubdivisionsWithMatchingTitle($searchStr);
+
+             // Get all children of the matching subdivisions.
+             $selectConditions = null;
+
+             if (isset($sublist) && count($sublist) > 0) {
+
+                 $select = "";
+                 foreach($sublist as $subdivision ){
+
+                     if (!empty($select)) {
+                        $select = $select . " OR ";
+                     }
+                     $select = "( lft BETWEEN " . $subdivision['lft'] . " AND " . $subdivision['rgt'] . ") ";
+                 }
+
+                 $selectConditions[0] = $select;
+                 $subsInHierachy = $this->_getMatchingSubdivisions($selectConditions);
+             } else {
+
+                 // No matching subdivisions in hierachy. Return null.
+                 return null;
+             }
+         }
+
+         return $subsInHierachy;
+    }
+
+     /**
+     * Searches for subdivisions that match the given conditions
+     *
+     * @param selectConditions the select conditions to search for
+     * @return Array of subdivisions that match the select conditions,
+     *         or null if no matches found.
+     */
+     private function _getMatchingSubdivisions($selectConditions) {
+
+         $tableName = '`hs_hr_compstructtree`';
+         $arrFieldList[0] = '`title`';
+         $arrFieldList[1] = '`description`';
+         $arrFieldList[2] = '`loc_code`';
+         $arrFieldList[3] = '`lft`';
+         $arrFieldList[4] = '`rgt`';
+         $arrFieldList[5] = '`id`';
+         $arrFieldList[6] = '`parnt`';
+
+         $sql_builder = new SQLQBuilder();
+         $sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectConditions);
+
+         $dbConnection = new DMLFunctions();
+         $result = $dbConnection -> executeQuery($sqlQString);
+
+         $subdivisionArray = null;
+
+         if ($result) {
+
+             $rowNum = 0;
+             while ($row = mysql_fetch_assoc($result)) {
+                 $subdivisionArray[$rowNum] = $row;
+                 $rowNum++;
+             }
+         }
+         return $subdivisionArray;
+    }
+
+ 
 }
