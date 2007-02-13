@@ -2,7 +2,7 @@
 
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.1_alpha_4"/>
+  <property name="version" value="2.1_alpha_5"/>
 
   <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm2"/>
@@ -38,7 +38,7 @@
         </fileset>
     </copy>
   </target>
- 
+
   <target name="dist" depends="build">
     <echo message="Creating archive..." />
     <zip destfile="${dist.dir}/OrangeHRM-ver-${version}.zip">
@@ -47,12 +47,12 @@
         </fileset>
     </zip>
   </target>
- 
+
   <target name="clean">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
-  </target>  
+  </target>
 
   <target name="test" depends="prepare">
       <phpunit2 haltonfailure="false" haltonerror="true" printsummary="true">
@@ -62,7 +62,7 @@
                   <include name="**/*Test.php"/>
               </fileset>
           </batchtest>
-      </phpunit2>      
+      </phpunit2>
   </target>
 
   <target name="test.report" depends="prepare">
@@ -73,9 +73,9 @@
                   <include name="**/*Test.php"/>
               </fileset>
           </batchtest>
-      </phpunit2>      
-      <phpunit2report infile="${test.reports.dir}/testreport.xml" 
-          format="frames" todir="${test.reports.dir}" styledir="report-styles"/>      
+      </phpunit2>
+      <phpunit2report infile="${test.reports.dir}/testreport.xml"
+          format="frames" todir="${test.reports.dir}" styledir="report-styles"/>
   </target>
 
   <!-- The coverage target will not work if the php XDebug extension is not installed -->
@@ -85,7 +85,7 @@
               <include name="**/*.php"/>
               <exclude name="**/*Test.php"/>
           </fileset>
-      </coverage-setup>      
+      </coverage-setup>
 
       <phpunit2 codecoverage="true">
           <batchtest>
@@ -93,7 +93,7 @@
                   <include name="**/*Test.php"/>
               </fileset>
           </batchtest>
-      </phpunit2>      
+      </phpunit2>
 
       <coverage-report outfile="${test.coverage.dir}/coverage.xml">
           <report todir="${test.coverage.dir}" styledir="report-styles"/>
@@ -105,14 +105,14 @@
       <copy todir="${project.dir}/language/default" overwrite="true">
           <mapper type="regexp" from="^(.*)_en_(.*)$" to="\1_default_\2"/>
           <fileset dir="${project.dir}/language/en/">
-              <include name="*.php"/> 
+              <include name="*.php"/>
           </fileset>
       </copy>
   </target>
-  
+
   <target name="phpdoc" depends="prepare">
-      <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}" 
-          sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>      
+      <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
+          sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>
   </target>
 
 </project>

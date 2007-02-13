@@ -1,28 +1,28 @@
 <?php
 /**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
- * 
+ *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
- * 
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- * 
+ *
  */
 
 define('ROOT_PATH', dirname(__FILE__));
 
 session_start();
 
-$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);			
+$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 $_SESSION['WPATH']= $wpath[0];
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
@@ -31,28 +31,28 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 	$login = new Login();
-	
+
 	$rset=$login->filterUser(trim($_POST['txtUserName']));
-	
+
 	if (md5($_POST['txtPassword']) == $rset[0][1]) {
-		if($rset[0][5]=='Enabled') {			
+		if($rset[0][5]=='Enabled') {
 			$_SESSION['user']=$rset[0][3];
 			$_SESSION['userGroup']=$rset[0][4];
 			$_SESSION['isAdmin']=$rset[0][7];
 			$_SESSION['empID']=$rset[0][6];
-			
+
 			$_SESSION['fname']=$rset[0][2];
-			
-			$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);			
+
+			$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 			$_SESSION['WPATH']= $wpath[0];
-			
+
 			setcookie('Loggedin', 'True', 0, '/');
-			
+
 			header("Location: ./index.php");
 		} else $InvalidLogin=2;
 	} else {
 		$InvalidLogin=1;
-	} 
+	}
 }
 
 ?>
@@ -62,19 +62,19 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 <link href="favicon.ico" rel="icon" type="image/gif"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
-	
+
 	function submitForm() {
-		
+
 		if(document.loginForm.txtUserName.value == "") {
 				alert("User Name not Given!");
 				return false;
 		   }
-		   
+
 		if(document.loginForm.txtPassword.value == "") {
 				alert("Password not Given!");
 				return false;
 		   }
-		   
+
 		document.loginForm.actionID.value = "chkAuthentication";
 		document.loginForm.submit();
 	}
@@ -169,15 +169,15 @@ body {
 <?php
 			if(isset($InvalidLogin)) {
 			   switch ($InvalidLogin) {
-			   	
+
 			   		case 1 : 	echo "<td align='center'><strong><font color='Red'>Invalid Login</font></strong></td>";
 			   					break;
 			   		case 2 : 	echo "<td align='center'><strong><font color='Red'>User Disabled</font></strong></td>";
-			   					break;					
+			   					break;
 			   }
 			} else
 		        echo "<td>&nbsp; </td>";
-?>           
+?>
             </tr>
           </table></td>
           </form>
@@ -226,7 +226,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.1_alpha_4 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.1_alpha_5 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
 </tr>
 </table>
 

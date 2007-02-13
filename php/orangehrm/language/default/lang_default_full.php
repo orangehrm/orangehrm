@@ -421,12 +421,18 @@
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
 	$lang_hremp_ContractStartDate			= "Contract Start Date";
 	$lang_hremp_ContractEndDate				= "Contract End Date";
-    $lang_hremp_FieldShouldBeNumeric        = "Field should be numeric";    
+    $lang_hremp_FieldShouldBeNumeric        = "Field should be numeric";
+
+    $lang_hremp_Language					= "Language";
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";
 	$lang_hremplan_ratinggarde 				= "Fluency";
 	$lang_hremplan_assignlanguage 			= "Assigned Languages";
+
+	$lang_hremplan_SelectLanguage			= "Select Language";
+	$lang_hremplan_SelectFluency			= "Select Fluency";
+	$lang_hremplan_SelectRating 			= "Select Rating";
 
 	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
 
@@ -437,6 +443,11 @@
 	$lang_hremplicenses_assignlicenses 		= "Assigned Licenses";
 	$lang_hremplicenses_licentype 			= "License Type";
 	$lang_hremplicenses_assignlicen 		= "Assigned Licenses";
+
+	$lang_hremplicenses_NoLicenseSelected	= "No license selected";
+	$lang_hremplicenses_SelectLicenseType	= "Select License Type";
+
+	$lang_hremp_SelectAtLEastOneAttachment = "Select at least one Attachment to Delete";
 
  	$lang_hrEmpMain_ratinggarde 			= "Competency";
 	$lang_hrEmpMain_assignlanguage 			= "Assigned Languages";
@@ -487,6 +498,12 @@
 	$lang_hrEmpMain_gpa 					= "GPA/Score";
 	$lang_hrEmpMain_assigneducation 		= "Assigned Education";
 	$lang_hrEmpMain_assignattach 			= "Assigned Attachments";
+
+	$lang_hrEmpMain_SelectEducation			= "Select Education";
+	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Years of Experience Cannot be Blank";
+	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
+	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
+	$lang_hrEmpMain_Skill = "Skill";
 
  	$lang_jobtitle_heading 					= "Job : Job Title";
 	$lang_jobtitle_jobtitid 				= "Job Title ID";

@@ -1,12 +1,19 @@
-New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) {Future}
+New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) (13/02/2007)
 
 	1. Enhanced PIM employee list. Columns are sortable
+	2. PIM is partly translated into Russian
 
 	Bugs fixed include:
 
 	BugId     Name
 
 	1654026   MySQL Error in Employee Leave Summary
+	1656548   Unable to login
+	1656000   Security Vulnerabilities
+	1655111   PIM Undefined String offset error
+	1654156   Invalid email validation for Email
+	1654026   MySQL Error in Employee Leave Summary
+	1652248   Employee List is not paged
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_4 (Ruslan) (04/02/2007)
