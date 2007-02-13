@@ -93,7 +93,7 @@ function delEXTEducation() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Common_SelectDelete; ?>')
 		return;
 	}
 
@@ -121,7 +121,7 @@ if(isset($this->popArr['editEducationArr'])) {
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?php echo $education?></td>
+                      <td width="200"><?php echo $lang_hrEmpMain_education?></td>
     				  <td><input type="hidden" name="cmbEduCode" value="<?php echo $edit[0][1]?>">
 						<?php	$allEduCodes = $this->popArr['allEduCodes'];
 							for($c=0; $allEduCodes && count($allEduCodes)>$c; $c++)
@@ -132,26 +132,26 @@ if(isset($this->popArr['editEducationArr'])) {
 
 					</tr>
                     <tr>
-                      <td><?php echo $major?></td>
+                      <td><?php echo $lang_hrEmpMain_major?></td>
     				  <td><input type="text" name="txtEmpEduMajor" disabled value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
-					<td><?php echo $year?></td>
+					<td><?php echo $lang_Leave_Common_Year?></td>
 						<td> <input type="text" disabled name="txtEmpEduYear" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
-					<td><?php echo $gpa?></td>
+					<td><?php echo $lang_hrEmpMain_gpa?></td>
 						<td> <input type="text" disabled name="txtEmpEduGPA" value="<?php echo $edit[0][4]?>"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					<tr>
-					<td><?php echo $startdate?></td>
+					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td> <input type="text" name="txtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
 					</tr>
 					  <tr>
-						<td><?php echo $enddate?></td>
+						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td> <input type="text" name="txtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
 					 </tr>
 
@@ -171,9 +171,9 @@ if(isset($this->popArr['editEducationArr'])) {
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200"><?php echo $education?></td>
+                      <td width="200"><?php echo $lang_hrEmpMain_education?></td>
     				  <td><select name="cmbEduCode" <?php echo $locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">--Select Education--</option>
+    				  		<option selected value="0">--<?php echo $lang_hrEmpMain_SelectEducation; ?>--</option>
 						<?php	$unAssEduCodes = $this->popArr['unAssEduCodes'];
 							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++)
 								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .$unAssEduCodes[$c][1]. ", ".$unAssEduCodes[$c][2]. "</option>";
@@ -181,26 +181,26 @@ if(isset($this->popArr['editEducationArr'])) {
 					  </select></td>
 					</tr>
                     <tr>
-                      <td><?php echo $major?></td>
+                      <td><?php echo $lang_hrEmpMain_major?></td>
     				  <td><input type="text" name="txtEmpEduMajor" <?php echo $locRights['add'] ? '':'disabled'?>></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
-					<td><?php echo $year?></td>
+					<td><?php echo $lang_Leave_Common_Year?></td>
 					   <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear" /></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
-					<td><?php echo $gpa?></td>
+					<td><?php echo $lang_hrEmpMain_gpa?></td>
 						<td> <input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduGPA"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					<tr>
-					<td><?php echo $startdate?></td>
+					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td> <input type="text" name="txtEmpEduStartDate" readonly value="0000-00-00">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
 					</tr>
 					  <tr>
-						<td><?php echo $enddate?></td>
+						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td> <input type="text" name="txtEmpEduEndDate" readonly value="0000-00-00">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
 					 </tr>
 
@@ -218,7 +218,7 @@ if(isset($this->popArr['editEducationArr'])) {
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
-    <td width='100%'><h3><?php echo $assigneducation?></h3></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_assigneducation?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -235,9 +235,9 @@ if(isset($this->popArr['editEducationArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?php echo $education?></strong></td>
-						 <td><strong><?php echo $year?></strong></td>
-						 <td><strong><?php echo $gpa?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_education?></strong></td>
+						 <td><strong><?php echo $lang_Leave_Common_Year?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_gpa?></strong></td>
 
 					</tr>
 <?php

@@ -487,6 +487,8 @@
 	$lang_hrEmpMain_assigneducation = "Приобретённое образование";
 	$lang_hrEmpMain_assignattach = "Приложения";
 
+	$lang_hrEmpMain_SelectEducation = "Select Education";
+
 	$lang_jobtitle_heading = "Работа : Название должности";
 	$lang_jobtitle_jobtitid = "Идентификатор должности";
 	$lang_jobtitle_jobtitname = "Название должности";
