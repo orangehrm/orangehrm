@@ -430,6 +430,10 @@
 	$lang_hremplan_ratinggarde 				= "Fluency";
 	$lang_hremplan_assignlanguage 			= "Assigned Languages";
 
+	$lang_hremplan_SelectLanguage			= "Select Language";
+	$lang_hremplan_SelectFluency			= "Select Fluency";
+	$lang_hremplan_SelectRating 			= "Select Rating";
+
 	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
 
 	$lang_hremp_ie_CurrentSupervisors 		= "i.e. Current Employee's Supervisors";

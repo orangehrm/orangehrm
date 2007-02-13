@@ -172,7 +172,7 @@ if(isset($this->getArr['lanSEQ'])) {
                     <tr>
                       <td width="200"><?php echo $lang_hremp_Language?></td>
     				  <td><select name="cmbLanCode" <?php echo $locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">--Select Language--</option>
+    				  		<option selected value="0">--<?php echo $lang_hremplan_SelectLanguage; ?>--</option>
 <?php
 						$lanlist= $this->popArr['lanlist'];
 						for($c=0;$lanlist && count($lanlist)>$c;$c++)
@@ -186,7 +186,7 @@ if(isset($this->getArr['lanSEQ'])) {
                     <tr>
                       <td width="200"><?php echo $lang_hremplan_fluency?></td>
     				  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbLanType">
-    				  		<option value="0">---Select Fluency---</option>
+    				  		<option value="0">---<?php echo $lang_hremplan_SelectFluency; ?>---</option>
 <?php
 						$index=array_values($lantype);
 						$value=array_keys($lantype);
@@ -198,7 +198,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_ratinggarde?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbRatGrd'>
-    				  		<option value="0">----Select Rating----</option>
+    				  		<option value="0">----<?php echo $lang_hremplan_SelectRating; ?>----</option>
 <?php
 				        $code=array_values($grdcodes);
 						$name=array_keys($grdcodes);
