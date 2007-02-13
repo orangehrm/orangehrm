@@ -62,12 +62,12 @@ function addEXTLicense() {
 	var toDate = createDate(document.frmEmp.txtEmpreDat.value);
 
 	if(document.frmEmp.cmbLicCode.value == '0') {
-		alert("No license selected");
+		alert("<?php echo $lang_hremplicenses_NoLicenseSelected; ?>");
 		return;
 	}
 
 	if(toDate <= fromDate){
-		alert("From Date should be before To date");
+		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 		return;
 	}
 
@@ -102,7 +102,7 @@ function delEXTLicense() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>')
 		return;
 	}
 
@@ -133,7 +133,7 @@ if(isset($this->getArr['LIC'])) {
 
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 				 <tr>
-                      <td width="200"><?php echo $licentype?></td>
+                      <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
     				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"><strong>
 <?php						$allLicenlist = $this->popArr['allLicenlist'];
 						for($c=0;count($allLicenlist)>$c;$c++)
@@ -145,10 +145,10 @@ if(isset($this->getArr['LIC'])) {
 					  </strong></td>
 					</tr>
 					<tr>
-                      	<td><?php echo $startdate?></td>
+                      	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td> <input type="text" readonly name="txtEmpLicDat"  <?php echo isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				<tr>
-						<td><?php echo $enddate?></td>
+						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td><input type="text" readonly name="txtEmpreDat" <?php echo isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					 <tr>
@@ -167,9 +167,9 @@ if(isset($this->getArr['LIC'])) {
 
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
-                      <td width="200"><?php echo $licentype?></td>
+                      <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
     				  <td><select name="cmbLicCode" <?php echo $locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">--Select License Type--</option>
+    				  		<option selected value="0">--<?php echo $lang_hremplicenses_SelectLicenseType; ?>--</option>
 <?php						$unassLicenlist= $this->popArr['unassLicenlist'];
 
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)
@@ -181,11 +181,11 @@ if(isset($this->getArr['LIC'])) {
 					  </select></td>
 					</tr>
                     <tr>
-                    <td><?php echo $startdate?></td>
+                    <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td> <input type="text" name="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				  </tr>
     				  <tr>
-                       <td><?php echo $enddate?></td>
+                       <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td> <input type="text" name="txtEmpreDat"  readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 
@@ -221,7 +221,7 @@ if(isset($this->getArr['LIC'])) {
 
   <tr>
 
-    <td width='100%'><h3><?php echo $assignlicen?></h3></td>
+    <td width='100%'><h3><?php echo $lang_hremplicenses_assignlicen?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 
@@ -256,9 +256,9 @@ if(isset($this->getArr['LIC'])) {
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	 <td ></td>
-						 <td ><strong><?php echo $licentype?></strong></td>
-						 <td ><strong><?php echo $startdate?></strong></td>
-						 <td ><strong><?php echo $enddate?></strong></td>
+						 <td ><strong><?php echo $lang_hremplicenses_licentype?></strong></td>
+						 <td ><strong><?php echo $lang_hrEmpMain_startdate?></strong></td>
+						 <td ><strong><?php echo $lang_hrEmpMain_enddate?></strong></td>
 
 					</tr>
 <?php

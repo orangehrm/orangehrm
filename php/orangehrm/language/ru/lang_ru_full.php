@@ -443,6 +443,9 @@
 	$lang_hremplicenses_licentype = "Тип лицензии";
 	$lang_hremplicenses_assignlicen = "Полученные лицензии";
 
+	$lang_hremplicenses_NoLicenseSelected = "No license selected";
+	$lang_hremplicenses_SelectLicenseType = "Select License Type";
+
 	$lang_hrEmpMain_ratinggarde = "Компетентность";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";
 	$lang_hrEmpMain_Writing = "Письменно";
