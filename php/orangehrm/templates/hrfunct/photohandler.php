@@ -1,25 +1,25 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 session_start();
 
-if(!isset($_SESSION['fname'])) { 
+if(!isset($_SESSION['fname'])) {
 
 	header("Location: ../../login.htm");
 	exit();
@@ -33,20 +33,20 @@ $photo = new EmpPicture();
 $edit = $photo->filterEmpPic($_GET['id']);
 
 if(isset($_GET['action']) && $_GET['action'] == 'VIEW') {
-	
+
 	if($edit) {
 		header("Content-length: " .$edit[0][4]);
 		header("Content-type: " .$edit[0][3]);
 		echo $edit[0][1];
 		exit();
-		
+
 	} else {
-		
+
 		$tmpName = ROOT_PATH . '/themes/beyondT/pictures/untitled.PNG';
 		$fp = fopen($tmpName,'r');
 		$contents = fread($fp,filesize($tmpName));
 		fclose($fp);
-		
+
 		header("Content-type: image/png");
 		echo $contents;
 		exit();
@@ -58,7 +58,7 @@ $object = new EmpPicture();
 if(isset($_POST['STAT']) && $_POST['STAT'] == 'ADD') {
 	$extractor = new EXTRACTOR_EmpPhoto();
 	$object = $extractor->parseData();
-	
+
 	if($object != null) {
 		$object->setEmpId($_GET['id']);
 		$object->addEmpPic();
@@ -68,16 +68,16 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'ADD') {
 if(isset($_POST['STAT']) && $_POST['STAT'] == 'EDIT') {
 	$extractor = new EXTRACTOR_EmpPhoto();
 	$object = $extractor->parseData();
-	
+
 	if($object != null) {
 		$object->setEmpId($_GET['id']);
 		$object->updateEmpPic();
 	}
 }
 
-if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {	
-	$object = new EmpPicture();	
-	$object->delEmpPic(array(array($_GET['id'])));	
+if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {
+	$object = new EmpPicture();
+	$object->delEmpPic(array(array($_GET['id'])));
 }
 
 ?>
@@ -101,11 +101,11 @@ function updatePic() {
 }
 
 function deletePic() {
-	
+
 	if (!confirm('Are you sure you want to delete the photograph?')) {
 		return false;
 	}
-	
+
 	document.frmPhoto.STAT.value = 'DELETE';
 	document.frmPhoto.submit();
 }
@@ -117,13 +117,13 @@ function windowClose() {
 </script>
 </head>
 <body onload="<?php echo isset($_POST['STAT']) ? 'windowClose()' : ''?>">
-<p> 
+<p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
   <td width='100%'><h2>Select a Photo</h2></td>
   <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 </table></p>
-</p> 
+</p>
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td></td><td>

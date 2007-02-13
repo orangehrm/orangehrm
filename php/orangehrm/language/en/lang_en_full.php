@@ -447,6 +447,8 @@
 	$lang_hremplicenses_NoLicenseSelected	= "No license selected";
 	$lang_hremplicenses_SelectLicenseType	= "Select License Type";
 
+	$lang_hremp_SelectAtLEastOneAttachment = "Select at least one Attachment to Delete";
+
  	$lang_hrEmpMain_ratinggarde 			= "Competency";
 	$lang_hrEmpMain_assignlanguage 			= "Assigned Languages";
 	$lang_hrEmpMain_Writing 				= "Writing";

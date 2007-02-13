@@ -3,10 +3,10 @@
 function dwPopup() {
         var popup=window.open('../../templates/hrfunct/download.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : ''?>&ATTACH=<?php echo isset($this->getArr['ATTACH']) ? $this->getArr['ATTACH'] : ''?>','Downloads');
         if(!popup.opener) popup.opener=self;
-}	
+}
 
 function delAttach() {
-	
+
 	var check = false;
 	with (document.frmEmp) {
 		for (var i=0; i < elements.length; i++) {
@@ -17,10 +17,10 @@ function delAttach() {
 	}
 
 	if(!check){
-		alert('Select at least one Attachment to Delete')
+		alert('<?php echo $lang_hremp_SelectAtLEastOneAttachment; ?>')
 		return;
 	}
-		
+
 	document.frmEmp.attSTAT.value="DEL";
 	qCombo(6);
 }
@@ -42,17 +42,17 @@ function editAttach() {
 }
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-	
+
 	<table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
-		
+
 <?php		if(!isset($this->getArr['ATTACH'])) { ?>
           <tr>
-				<td valign="top"><?php echo $path?></td>
+				<td valign="top"><?php echo $lang_hremp_path?></td>
 				<td><input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
 					<input type="file" name="ufile"> [1M Max]</td>
               </tr>
               <tr>
-              	<td><?php echo $description?></td>
+              	<td><?php echo $lang_Commn_description?></td>
               	<td><textarea name="txtAttDesc"></textarea></td>
               </tr>
 			  <tr>
@@ -83,14 +83,14 @@ function editAttach() {
 				</td>
 				<td>&nbsp;</td>
 				</tr>
-				<tr><td>&nbsp;</td></tr>				
+				<tr><td>&nbsp;</td></tr>
 			<table border="0" width="450" align="center" class="tabForm">
-			
+
 			    <tr>
                       	<td></td>
-						 <td><strong><?php echo $filename?></strong></td>
-						 <td><strong><?php echo $size?></strong></td>
-						 <td><strong><?php echo $type?></strong></td>
+						 <td><strong><?php echo $lang_hremp_filename?></strong></td>
+						 <td><strong><?php echo $lang_hremp_size?></strong></td>
+						 <td><strong><?php echo $lang_hremp_type?></strong></td>
 					</tr>
 <?php
 	$rset = $this->popArr['empAttAss'] ;
@@ -100,12 +100,12 @@ function editAttach() {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
             ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
-            echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
+            echo '<td>' . $rset[$c][4] .'byte(s)</td>';
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
         }
 ?>
-              
+
 <?php		} elseif(isset($this->getArr['ATTACH'])) {
 		$edit = $this->popArr['editAttForm'];
 ?>
@@ -128,7 +128,7 @@ function editAttach() {
 				</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap"><h3><?php echo $assignattach?></h3></td>
+					<td nowrap="nowrap"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -145,15 +145,15 @@ function editAttach() {
 <?php 	} ?>
 				</td>
 				<td></td>
-			</tr>	
+			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<table border="0" width="450" align="center" class="tabForm">
-			
+
 			    <tr>
                       	<td></td>
-						 <td><strong><?php echo $filename?></strong></td>
-						 <td><strong><?php echo $size?></strong></td>
-						 <td><strong><?php echo $type?></strong></td>
+						 <td><strong><?php echo $lang_hremp_filename?></strong></td>
+						 <td><strong><?php echo $lang_hremp_size?></strong></td>
+						 <td><strong><?php echo $lang_hremp_type?></strong></td>
 					</tr>
 <?php
 	$rset = $this->popArr['empAttAss'] ;
@@ -163,7 +163,7 @@ function editAttach() {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
             ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
-            echo '<td>' . $rset[$c][4] .'byte(s)</td>';     
+            echo '<td>' . $rset[$c][4] .'byte(s)</td>';
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
         }
@@ -171,6 +171,6 @@ function editAttach() {
 
 
 <?php } ?>
-              
+
           </table>
 	<?php } ?>
