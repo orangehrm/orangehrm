@@ -488,6 +488,10 @@
 	$lang_hrEmpMain_assignattach = "Приложения";
 
 	$lang_hrEmpMain_SelectEducation = "Select Education";
+	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Years of Experience Cannot be Blank";
+	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
+	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
+	$lang_hrEmpMain_Skill = "Skill";
 
 	$lang_jobtitle_heading = "Работа : Название должности";
 	$lang_jobtitle_jobtitid = "Идентификатор должности";
