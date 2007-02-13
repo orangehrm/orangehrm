@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This is Configuration-File Loader. In case of the hosted solution
  * this should be used to automaitcally select the appropriate configuration
  * file.
@@ -31,7 +31,7 @@
  * R3)
  * Installation of OrangeHRM would mean simply creating the database with 
  * with appropriate database users, and modifying a standard OrangeHRM Conf.php
- * with all those details and keepin the file in appropriate director as discussed 
+ * with all those details and keepin the file in appropriate directory as discussed 
  * in (R1).
  * 
  * R4)

@@ -7,8 +7,9 @@
     function checkEmail(emailStr) {
 
         // checks if the e-mail address is valid
-        var emailPat = /^(\".*\"|[A-Za-z]\w*)@(\[\d{1,3}(\.\d{1,3}){3}]|[A-Za-z]\w*(\.[A-Za-z]\w*)+)$/;
-        var matchArray = emailStr.match(emailPat);
+        //var emailPat = /^(\".*\"|[A-Za-z]\w*|\.)@(\[\d{1,3}(\.\d{1,3}){3}]|[A-Za-z]\w*(\.[A-Za-z]\w*)+)$/;
+		var emailPat = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/
+        /*var matchArray = emailStr.match(emailPat);
         if (matchArray == null) {
             return false;
         }
@@ -21,8 +22,11 @@
                     return false;
                 }
             }
+        }*/        
+        if (emailPat.test(emailStr)) {
+        	return true;
         }
-	return true;
+	return false;
     }
 
     //checks that there aren't any numbers
