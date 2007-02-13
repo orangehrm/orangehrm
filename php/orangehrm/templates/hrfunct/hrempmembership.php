@@ -1,21 +1,21 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 ?>
 
 <script language="JavaScript">
@@ -24,7 +24,7 @@ function editMembership() {
 		editEXTMembership();
 		return;
 	}
-	
+
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
@@ -33,26 +33,26 @@ function editMembership() {
 }
 
 function moutMembership() {
-	if(document.EditMembership.title=='Save') 
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.EditMembership.title=='Save')
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function moverMembership() {
-	if(document.EditMembership.title=='Save') 
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.EditMembership.title=='Save')
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
 function createDate(str) {
 		var yy=eval(str.substr(0,4));
 		var mm=eval(str.substr(5,2)) - 1;
 		var dd=eval(str.substr(8,2));
-		
+
 		var tempDate = new Date(yy,mm,dd);
-		
+
 		return tempDate;
 }
 
@@ -61,7 +61,7 @@ function goBack() {
 	}
 
 function addEXTMembership() {
-	
+
 	if(document.frmEmp.cmbMemCode.value=='0') {
 		alert('Field should be selected');
 		document.frmEmp.cmbMemCode.focus();
@@ -87,28 +87,28 @@ function addEXTMembership() {
 		return false;
 	} else if (txt.value == '') {
 		confirmx = confirm('Membership subscription amount is empty. Do you want to continue ?');
-		
+
 		if (!confirmx) {
 			txt.focus();
 			return confirmx;
-		}	
-		
+		}
+
 	}
-	
+
 	var commDate = createDate(document.frmEmp.txtMemCommDat.value);
 	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
-	
+
 	if(commDate >= renDate) {
 		alert("Commence Date should be before renewal date");
 		return;
 	}
-	
+
   document.frmEmp.membershipSTAT.value="ADD";
     qCombo(13);
 }
 
 function editEXTMembership() {
-	
+
 	var txt = document.frmEmp.txtMemSubAmount;
 	if ((txt.value != '') && !decimalCurr(txt)) {
 		alert ("Subscription amount should be numeric!");
@@ -118,7 +118,7 @@ function editEXTMembership() {
 
 	var commDate = createDate(document.frmEmp.txtMemCommDat.value);
 	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
-	
+
 	if(commDate >= renDate) {
 		alert("Commence Date should be before renewal date");
 		return;
@@ -129,7 +129,7 @@ function editEXTMembership() {
 }
 
 function delEXTMembership() {
-	
+
 	var check = false;
 	with (document.frmEmp) {
 		for (var i=0; i < elements.length; i++) {
@@ -151,7 +151,7 @@ function delEXTMembership() {
 }
 
 function viewMembership(mem,mtp) {
-	
+
 	document.frmEmp.action=document.frmEmp.action + "&MEM=" + mem + "&MTP=" + mtp;
 	document.frmEmp.pane.value=13;
 	document.frmEmp.submit();
@@ -164,25 +164,25 @@ function viewMembership(mem,mtp) {
 
 <?php
 if(isset($this->popArr['editMembershipArr'])) {
-	
+
     $edit = $this->popArr['editMembershipArr'];
 ?>
-        
+
 <br>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $membershiptype?></td>
     				  <td><strong>
 					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>">
-<?php					    
+<?php
 						$typlist = $this->popArr['typlist'];
 						for($c=0;count($typlist)>$c;$c++)
 							if($typlist[$c][0]==$edit[0][2])
 							   echo $typlist[$c][1];
-?>					  
+?>
 					  </strong></td>
 					</tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $membership?></td>
 						<td align="left" valign="top"><strong>
 						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>">
@@ -191,10 +191,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 						for($c=0;count($mship)>$c;$c++)
 						    if($mship[$c][1]==$edit[0][1])
 						       echo $mship[$c][2];
-?>						
+?>
 						</strong></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subownership?></td>
 						<td align="left" valign="top"><select disabled name="cmbMemSubOwn">
 <?php
@@ -206,25 +206,25 @@ if(isset($this->popArr['editMembershipArr'])) {
 ?>
 						</select></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subamount?></td>
 						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" value="<?php echo $edit[0][4]?>">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subcomdate?></td>
 						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?php echo $edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subredate?></td>
 						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?php echo $edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
 
-					  <tr> 
+					  <tr>
 						<td valign="top"></td>
-						<td align="left" valign="top"> 
+						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onClick="editMembership();">
 		<?php			} else { ?>
@@ -245,56 +245,56 @@ if(isset($this->popArr['editMembershipArr'])) {
 
 <?php					  	$typlist= $this->popArr['typlist'];
 							for($c=0;$typlist && count($typlist)>$c;$c++)
-							if(isset($this->popArr['cmbMemTypeCode']) && $this->popArr['cmbMemTypeCode']==$typlist[$c][0]) 
-							
+							if(isset($this->popArr['cmbMemTypeCode']) && $this->popArr['cmbMemTypeCode']==$typlist[$c][0])
+
 							   echo "<option selected value=" . $typlist[$c][0] . ">" . $typlist[$c][1] . "</option>";
 							else
 							   echo "<option value=" . $typlist[$c][0] . ">" . $typlist[$c][1] . "</option>";
 
-?>					  
+?>
 					  </select></td>
 					</tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $membership?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbMemCode'>
 						   		<option value=0><?php echo $selmemship?></option>
 <?php
 					if(isset($this->popArr['cmbMemTypeCode'])) {
-						
+
 						$mship=$this->popArr['mship'];
 						for($c=0;$mship && count($mship)>$c;$c++)
 						    echo "<option value=" . $mship[$c][0] . ">" . $mship[$c][1] . "</option>";
 						}
-?>						
+?>
 						</select></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subownership?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemSubOwn">
 						   		<option value=0><?php echo $selownership?></option>
 <?php
 						for($c=0;count($subown)>$c;$c++)
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
-							
+
 ?>
 						</select></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subamount?></td>
 						<td align="left" valign="top"><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMemSubAmount" >
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subcomdate?></td>
 						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"><?php echo $subredate?></td>
 						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?php	if($locRights['add']) { ?>
@@ -307,7 +307,7 @@ if(isset($this->popArr['editMembershipArr'])) {
                   </table>
 <?php } ?>
 
-<?php 
+<?php
 
     $mship= $this->popArr['mshipAll'];
     $rset = $this->popArr['rsetMembership'];
@@ -337,7 +337,7 @@ if(isset($this->popArr['editMembershipArr'])) {
   </tr>
 
 
-<?php 
+<?php
      } else {
 ?>
 
@@ -378,9 +378,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 			for($a=0;count($mship)>$a;$a++)
 			    if($mship[$a][1]==$rset[$c][1])
 				   $fname=$mship[$a][2];
-				   
+
             ?><td><a href="javascript:viewMembership('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
-			
+
             for($a=0;count($typlist)>$a;$a++)
 			    if($typlist[$a][0]==$rset[$c][2])
 				   $fname=$typlist[$a][1];
