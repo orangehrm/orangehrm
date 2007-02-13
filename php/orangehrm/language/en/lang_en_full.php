@@ -423,6 +423,8 @@
 	$lang_hremp_ContractEndDate				= "Contract End Date";
     $lang_hremp_FieldShouldBeNumeric        = "Field should be numeric";
 
+    $lang_hremp_Language					= "Language";
+
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
 	$lang_hremplan_fluency 					= "Area Of Competence";
 	$lang_hremplan_ratinggarde 				= "Fluency";

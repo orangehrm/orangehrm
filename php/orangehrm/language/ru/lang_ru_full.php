@@ -422,6 +422,8 @@
 
 	$lang_hremp_SelectCurrency = "Select Currency";
 
+	$lang_hremp_Language = "Language";
+
 	$lang_hremplan_employeelanguageflu = "Языковые навыки служащего";
 	$lang_hremplan_fluency = "Сфера компетентности";
 	$lang_hremplan_ratinggarde = "Беглость";
