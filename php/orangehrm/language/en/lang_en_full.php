@@ -407,6 +407,12 @@
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
 
+	$lang_hremp_browse						= "Browse";
+
+	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Are you sure you want to delete the photograph";
+
+	$lang_hremp_SelectAPhoto				= "Select a Photo";
+
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
 	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
@@ -661,5 +667,22 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+
+	// PIM tab labels
+	$lang_pim_tabs_Personal = "Personal";
+	$lang_pim_tabs_Contact = "Contact";
+	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
+	$lang_pim_tabs_Dependents = "Dependents";
+	$lang_pim_tabs_Immigration = "Immigration";
+	$lang_pim_tabs_Job = "Job";
+	$lang_pim_tabs_Payments = "Payments";
+	$lang_pim_tabs_ReportTo = "Report-to";
+	$lang_pim_tabs_WorkExperience = "Work experience";
+	$lang_pim_tabs_Education = "Education";
+	$lang_pim_tabs_Skills = "Skills";
+	$lang_pim_tabs_Languages = "Languages";
+	$lang_pim_tabs_License = "License";
+	$lang_pim_tabs_Membership = "Membership";
+	$lang_pim_tabs_Attachments = "Attachments";
 
 ?>

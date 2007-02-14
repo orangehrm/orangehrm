@@ -1,26 +1,26 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 
 
 session_start();
-if(!isset($_SESSION['fname'])) { 
+if(!isset($_SESSION['fname'])) {
 
 	header("Location: ./relogin.htm");
 	exit();
@@ -30,6 +30,11 @@ define('ROOT_PATH', $_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/common/Language.php';
+
+$lan = new Language();
+
+require_once($lan->getLangPath("full.php"));
 
 $srchlist[0] = array( -1 , 0 , 1 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
@@ -46,9 +51,9 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 				return 'ASC';
 				break;
 		}
-		
+
 	}
-	
+
 	function SortOrderInWords($SortOrder) {
 		if ($SortOrder == 'ASC') {
 			return 'Ascending';
@@ -56,16 +61,16 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 			return 'Descending';
 		}
 	}
-	
+
 	if (!isset($_GET['sortField']) || ($_GET['sortField'] == '')) {
 		$_GET['sortField']=0;
 		$_GET['sortOrder0']='ASC';
 	}
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$empviewcontroller = new EmpViewController();
-	
-	
+
+
 
 $currentPage = (isset($_POST['pageNO'])) ? (int)$_POST['pageNO'] : 1;
 
@@ -73,10 +78,10 @@ if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
     {
     $choice=$_POST['loc_code'];
     $strName=trim($_POST['loc_name']);
-    
+
     $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage,$strName,$choice, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
     }
-else 
+else
     $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage, '', -1, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
 
 ?>
@@ -89,7 +94,7 @@ else
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<script>		
+<script>
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
 		document.standardView.pageNO.value=i+1;
@@ -108,7 +113,7 @@ else
 	}
 
 	function empSel(cntrl) {
-		
+
 <?php   if(isset($_GET['USR'])) { ?>
 
         opener.document.frmUsers.cmbUserEmpID.value = cntrl.title;
@@ -119,27 +124,27 @@ else
         opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.title;
         opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.innerHTML;
         window.close();
-		
+
 <?php   } elseif(isset($_GET['reqcode'])) { ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.title;
         opener.document.frmEmp.cmbRepEmpID.value = cntrl.innerHTML;
         window.close();
-        
+
 <?php  } else { ?>
 		opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?php echo $_GET['reqcode']?>";
         opener.document.standardView.submit();
 		window.close();
 <?php } ?>
 	}
-	
+
 	function Search() {
-		if (document.standardView.loc_code.value == -1) {	
+		if (document.standardView.loc_code.value == -1) {
 			alert("Select the field to search!");
 			document.standardView.loc_code.Focus();
 			return;
 		};
 		document.standardView.captureState.value = 'SearchMode';
-				
+
 <?php   if(isset($_GET['USR'])) { ?>
 		document.standardView.action="./emppop.php?reqcode=<?php echo $_GET['reqcode']?>&USR=USR"
 <?php   } else { ?>
@@ -147,17 +152,17 @@ else
 <?php   } ?>
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
-	}	
-	
+	}
+
 </script>
 <body style="padding-left:4; padding-right:4;">
-<p> 
+<p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 <form name="standardView" method="post">
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3> 
+    <td width="22%" nowrap><h3>
         <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>">
         <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
         <input type="hidden" name="empID" value="">
@@ -169,9 +174,9 @@ else
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3>Search</h3></td>
-    <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''> 
-     <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"> 
+    <td width="22%" nowrap><h3><?php echo $lang_empview_search; ?></h3></td>
+    <td width='78%' align="right"><img height='1' width='1' src='../../pictures/blank.gif' alt=''>
+     <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
       &nbsp;&nbsp;&nbsp;&nbsp; </font> </td>
   </tr>
 </table>
@@ -188,17 +193,17 @@ else
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="" width="100%">
                     <tr>
-                      <td width="200" class="dataLabel"><slot>Search By:</slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel"><slot><?php echo $lang_empview_searchby; ?></slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code">
 <?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
 								   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-?>								   
+?>
                         </select>
                       </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot>Search For:</slot>&nbsp;&nbsp;<slot>
+                      <td width="200" class="dataLabel" noWrap><slot><?php echo $lang_empview_description; ?></slot>&nbsp;&nbsp;<slot>
                         <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>">
                      </slot></td>
 
@@ -210,8 +215,8 @@ else
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="Search" onClick="Search();"/>
-                          <input title="Clear [Alt+K]" accessKey="K" onClick="clear_form();" class="button" type="button" name="clear" value=" Clear "/></td>
+                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="<?php echo $lang_empview_search; ?>" onClick="Search();"/>
+                          <input title="Clear [Alt+K]" accessKey="K" onClick="clear_form();" class="button" type="button" name="clear" value="<?php echo $lang_compstruct_clear; ?>"/></td>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -228,48 +233,48 @@ else
 			  <table border="0" width="100%">
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
-			  
+
 <?php
-if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) 				
+if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
     $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
-else 
+else
     $temp = $empviewcontroller -> countUnAssigned($_GET['reqcode']);
-    
-if($temp)    
+
+if($temp)
     $recCount=$temp;
-else 
+else
 	$recCount=0;
-	
+
 	$noPages=(int)($recCount/$sysConst->itemsPerPage);
 
 	if($recCount%$sysConst->itemsPerPage)
 	   $noPages++;
 
-	if ($noPages > 1) {   
-		
+	if ($noPages > 1) {
+
 		if($currentPage==1)
-			echo "<font color='Gray'>Previous</font>";
+			echo "<font color='Gray'>$lang_empview_previous</font>";
 		else
     		echo "<a href='#' onClick='prevPage()'>Previous</a>";
-    	
+
     	echo "  ";
-    	
+
 		for( $c = 1 ; $noPages >= $c ; $c++) {
-	    	
+
 	    	if($c == $currentPage)
 				echo "<font color='Gray'>" .$c. "</font>";
 			else
 	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-	    	
+
 	    	echo "  ";
 		}
-		
+
 		if($currentPage == $noPages || $noPages==0)
 			echo "<font color='Gray'>Next</font>";
 		else
-    		echo "<a href='#' onClick='nextPage()'>Next</a>";
-	}		
-?> 
+    		echo "<a href='#' onClick='nextPage()'>$lang_empview_next</a>";
+	}
+?>
 		</td>
 		<td width="25"></td>
 		</tr>
@@ -280,7 +285,7 @@ else
                   <td ><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
                   <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
-                  <td background="../../themes/beyondT/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>			  
+                  <td background="../../themes/beyondT/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr  valign="top" height="25">
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt=""></td>
@@ -290,53 +295,53 @@ else
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Id</a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
-						  <?php 
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
+						  <?php
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order">Employee Name</a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>                  		
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
         <?php
 			if ((isset($emplist)) && ($emplist !='')) {
-	 
+
 			 for ($j=0; $j<count($emplist);$j++) {
-			
+
 		?>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>                  
-         <?php		if(!($j%2)) { ?>				  
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+         <?php		if(!($j%2)) { ?>
 				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
-		<?php		} else { ?>				  
+		<?php		} else { ?>
 				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][0]?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		}	?>
-		  		  
+
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                 
+
                 </tr>
 
-         <?php } 
+         <?php }
         	  } else if ((isset($message)) && ($message =='')) { ?>
-			  
+
 			   <tr>
 			   	<td></td>
 				<td>
-		<?php        		
+		<?php
         		 $dispMessage = "No Records to Display !";
         		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
         		 echo $dispMessage;
         		 echo '</font>';
         	}
-         
-         ?> 
+
+         ?>
 		 		</td>
-			</tr>		
+			</tr>
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

@@ -21,13 +21,18 @@ session_start();
 
 if(!isset($_SESSION['fname'])) {
 
-	header("Location: ../../login.htm");
+	header("Location: ../../login.php");
 	exit();
 }
 
 define("ROOT_PATH",$_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPhoto.php';
+require_once ROOT_PATH . '/lib/common/Language.php';
+
+$lan = new Language();
+
+require_once($lan->getLangPath("full.php"));
 
 $photo = new EmpPicture();
 $edit = $photo->filterEmpPic($_GET['id']);
@@ -102,7 +107,7 @@ function updatePic() {
 
 function deletePic() {
 
-	if (!confirm('Are you sure you want to delete the photograph?')) {
+	if (!confirm('<?php echo $lang_hremp_AreYouSureYouWantToDeleteThePhotograph; ?>?')) {
 		return false;
 	}
 
@@ -120,7 +125,7 @@ function windowClose() {
 <p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
-  <td width='100%'><h2>Select a Photo</h2></td>
+  <td width='100%'><h2><?php echo $lang_hremp_SelectAPhoto; ?></h2></td>
   <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 </table></p>
 </p>
