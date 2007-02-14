@@ -333,6 +333,8 @@
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
 
+
+
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
 
  	$lang_extracurractcat_heading 			= "Extra Curricular Activities Category : Qualifications Information";
@@ -503,7 +505,15 @@
 	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Years of Experience Cannot be Blank";
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
-	$lang_hrEmpMain_Skill = "Skill";
+	$lang_hrEmpMain_Skill 					= "Skill";
+
+	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Subscription amount should be numeric";
+	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Membership subscription amount is empty. Do you want to continue";
+
+	$lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate = "Commence Date should be before renewal date";
+
+	$lang_hrEmpMain_membershiptype = "Membership Type";
+	$lang_hrEmpMain_membership = "Membership";
 
  	$lang_jobtitle_heading 					= "Job : Job Title";
 	$lang_jobtitle_jobtitid 				= "Job Title ID";

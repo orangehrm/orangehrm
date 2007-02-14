@@ -504,6 +504,14 @@
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
 	$lang_hrEmpMain_Skill = "Skill";
 
+	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Subscription amount should be numeric";
+	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Membership subscription amount is empty. Do you want to continue";
+
+	$lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate = "Commence Date should be before renewal date";
+
+	$lang_hrEmpMain_membershiptype = "Membership Type";
+	$lang_hrEmpMain_membership = "Membership";
+
 	$lang_jobtitle_heading = "Работа : Название должности";
 	$lang_jobtitle_jobtitid = "Идентификатор должности";
 	$lang_jobtitle_jobtitname = "Название должности";

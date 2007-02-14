@@ -63,30 +63,30 @@ function goBack() {
 function addEXTMembership() {
 
 	if(document.frmEmp.cmbMemCode.value=='0') {
-		alert('Field should be selected');
+		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
 		document.frmEmp.cmbMemCode.focus();
 		return;
 	}
 
 	if(document.frmEmp.cmbMemTypeCode.value=='0') {
-		alert('Field should be selected');
+		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
 		document.frmEmp.cmbMemTypeCode.focus();
 		return;
 	}
 
 	if(document.frmEmp.cmbMemSubOwn.value=='0') {
-		alert('Field should be selected');
+		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
 		document.frmEmp.cmbMemSubOwn.focus();
 		return;
 	}
 
 	var txt = document.frmEmp.txtMemSubAmount;
 	if ((txt.value != '') && !decimalCurr(txt)) {
-		alert ("Subscription amount should be numeric!");
+		alert ("<?php echo $lang_hrEmpMain_SubscriptionAmountShouldBeNumeric; ?>!");
 		txt.focus();
 		return false;
 	} else if (txt.value == '') {
-		confirmx = confirm('Membership subscription amount is empty. Do you want to continue ?');
+		confirmx = confirm('<?php echo $lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue; ?>?');
 
 		if (!confirmx) {
 			txt.focus();
@@ -99,7 +99,7 @@ function addEXTMembership() {
 	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
 
 	if(commDate >= renDate) {
-		alert("Commence Date should be before renewal date");
+		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
 		return;
 	}
 
@@ -111,7 +111,7 @@ function editEXTMembership() {
 
 	var txt = document.frmEmp.txtMemSubAmount;
 	if ((txt.value != '') && !decimalCurr(txt)) {
-		alert ("Subscription amount should be numeric!");
+		alert ("<?php echo $lang_hrEmpMain_SubscriptionAmountShouldBeNumeric; ?>!");
 		txt.focus();
 		return false;
 	}
@@ -120,7 +120,7 @@ function editEXTMembership() {
 	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
 
 	if(commDate >= renDate) {
-		alert("Commence Date should be before renewal date");
+		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
 		return;
 	}
 
@@ -140,12 +140,10 @@ function delEXTMembership() {
 	}
 
 	if(!check) {
-		alert('Select at least one record to Delete')
+		alert('<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>')
 		return;
 	}
 
-
-    //alert(cntrl.value);
     document.frmEmp.membershipSTAT.value="DEL";
     qCombo(13);
 }
@@ -171,7 +169,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 <br>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $membershiptype?></td>
+                      <td><?php echo $lang_hrEmpMain_membershiptype; ?></td>
     				  <td><strong>
 					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>">
 <?php
@@ -183,7 +181,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </strong></td>
 					</tr>
 					  <tr>
-						<td valign="top"><?php echo $membership?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_membership; ?></td>
 						<td align="left" valign="top"><strong>
 						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>">
 <?php
@@ -195,7 +193,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</strong></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subownership?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subownership; ?></td>
 						<td align="left" valign="top"><select disabled name="cmbMemSubOwn">
 <?php
 						for($c=0;count($subown)>$c;$c++)
@@ -207,17 +205,17 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subamount?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
 						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" value="<?php echo $edit[0][4]?>">
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subcomdate?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?php echo $edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subredate?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?php echo $edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
@@ -238,10 +236,10 @@ if(isset($this->popArr['editMembershipArr'])) {
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $membershiptype?></td>
+                      <td><?php echo $lang_hrEmpMain_membershiptype?></td>
     				  <td>
 					  <select onChange="xajax_getUnAssMemberships(this.value);" <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemTypeCode">
-					  <option value=0><?php echo $selmemtype?></option>
+					  <option value=0>-- <?php echo $lang_hrEmpMain_selmemtype?> --</option>
 
 <?php					  	$typlist= $this->popArr['typlist'];
 							for($c=0;$typlist && count($typlist)>$c;$c++)
@@ -255,9 +253,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </select></td>
 					</tr>
 					  <tr>
-						<td valign="top"><?php echo $membership?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_membership?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbMemCode'>
-						   		<option value=0><?php echo $selmemship?></option>
+						   		<option value=0>-- <?php echo $lang_hrEmpMain_selmemship?> --</option>
 <?php
 					if(isset($this->popArr['cmbMemTypeCode'])) {
 
@@ -269,9 +267,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subownership?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subownership?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemSubOwn">
-						   		<option value=0><?php echo $selownership?></option>
+						   		<option value=0>-- <?php echo $lang_hrEmpMain_selownership?> --</option>
 <?php
 						for($c=0;count($subown)>$c;$c++)
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
@@ -280,17 +278,17 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</select></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subamount?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
 						<td align="left" valign="top"><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtMemSubAmount" >
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subcomdate?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $subredate?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" value="0000-00-00">&nbsp;<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
 						</td>
 					  </tr>
@@ -326,7 +324,7 @@ if(isset($this->popArr['editMembershipArr'])) {
   </tr>
 
   <tr>
-    <td width='100%'><h3><?php echo $assignmemship?></h3></td>
+    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignmemship?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
@@ -361,11 +359,11 @@ if(isset($this->popArr['editMembershipArr'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
-						 <td><strong><?php echo $membership?></strong></td>
-						 <td><strong><?php echo $membershiptype?></strong></td>
-						 <td><strong><?php echo $subownership?></strong></td>
-						 <td><strong><?php echo $subcomdate?></strong></td>
-						 <td><strong><?php echo $subredate?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_membership?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_membershiptype?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_subownership?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_subcomdate?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_subredate?></strong></td>
 					</tr>
 <?php
 
