@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) {Future}
+
+	1. PIM is completely translated into Russian
+
+
 New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) (13/02/2007)
 
 	1. Enhanced PIM employee list. Columns are sortable
