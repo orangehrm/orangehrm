@@ -1,27 +1,27 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-	
-	$sysConst = new sysConf(); 
+
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
-	
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -76,30 +76,30 @@ return flag;
 
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
 function goBack() {
 		location.href = "./CentralController.php?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN";
 	}
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmRepDef;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
@@ -119,7 +119,7 @@ function chkboxCheck() {
 
         if(check==0)
 			return false;
-			
+
       check = 0;
 		with (document.frmRepDef) {
 			for (var i=0; i < elements.length; i++) {
@@ -131,42 +131,42 @@ function chkboxCheck() {
 
         if(check==0)
         	return false;
-        	
+
 	return true;
 }
-	
+
 function addSave() {
-		
+
 	if (document.frmRepDef.txtRepName.value == '') {
 		alert ("Description Error!");
 		document.frmRepDef.txtRepName.focus();
 		return;
 	}
-	
-	if(!chkboxCheck()) {
+
+	if(!chkboxvCheck()) {
 		alert('Select at least one criteria and one fields')
 		return;
 	}
-	
+
 	document.frmRepDef.sqlState.value = "NewRecord";
-	document.frmRepDef.submit();		
+	document.frmRepDef.submit();
 }
 
 function addUpdate() {
-		
+
 	if (document.frmRepDef.txtRepName.value == '') {
 		alert ("Description Error!");
 		document.frmRepDef.txtRepName.focus();
 		return;
 	}
-		
+
 	if(!chkboxCheck()) {
 		alert('Select at least one criteria and one fields')
 		return;
 	}
-	
+
 	document.frmRepDef.sqlState.value = "UpdateRecord";
-	document.frmRepDef.submit();		
+	document.frmRepDef.submit();
 }
 
 
@@ -189,7 +189,7 @@ function addUpdate() {
   <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
   </tr>
 </table>
-<?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>	
+<?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
@@ -217,7 +217,7 @@ function addUpdate() {
  					  <td>Report Name</td>
 						<td ><input type="text"  name="txtRepName"></td>
 					</tr>
-					  
+
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -246,39 +246,39 @@ function addUpdate() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  
+
                     <tr>
                       <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='EMPNo'></td>
                       <td valign="top">EMP No</td>
    					</tr>
-					
+
 					<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='AgeGroup'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='AgeGroup'></td>
 					  <td valign="top">Age Group</td>
 					</tr>
-					
+
   					<!--<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='PayGrade'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='PayGrade'></td>
 				      <td>Pay Grade</td>
   					</tr>-->
-  					
+
 					<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='QualType'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='QualType'></td>
 					    <td>Qualification Type</td>
     				</tr>
-    				
+
 					<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='EmpType'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='EmpType'></td>
 					  <td valign="top">Employee Status</td>
   					</tr>
-  					
+
 					<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='SerPeriod'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='SerPeriod'></td>
 					  <td valign="top">Service Period</td>
 					</tr>
-					
+
 					<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='JobTitle'></td> 
+					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' value='JobTitle'></td>
 					 <td>Job Title</td>
  					</tr>
                   </table></td>
@@ -349,7 +349,7 @@ function addUpdate() {
                       	 <td><input type='checkbox' class='checkbox' name='chkfield[]' value='PayGrade'></td>
 						 <td>Pay Grade</td>
 					</tr>-->
-					
+
               	</table>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -369,15 +369,15 @@ function addUpdate() {
         <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
               </table>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	 
+
 	$message = $this->popArr['editArr'];
 ?>
-<p>		
+<p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmRepDef" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>">
 <input type="hidden" name="sqlState" value="">
- 
+
  <table width='100%' cellpadding='0' cellspacing='0' border='0'>
    <tr>
     <td width='100%'>
@@ -435,38 +435,38 @@ function addUpdate() {
                       <td><input disabled type='checkbox' <?php echo in_array('EMPNo',$criteriaArr) ? 'checked' : ''?>  class='checkbox' name='chkcriteria[]' value='EMPNo'></td>
                       <td valign="top">EMP No</td>
    					</tr>
-					
+
 					<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('AgeGroup',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='AgeGroup'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('AgeGroup',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='AgeGroup'></td>
 					  <td valign="top">Age Group</td>
 					</tr>
-					
+
   					<!--<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('PayGrade',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='PayGrade'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('PayGrade',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='PayGrade'></td>
 				      <td>Pay Grade</td>
   					</tr>-->
-  					
+
 					<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('QualType',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='QualType'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('QualType',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='QualType'></td>
 					    <td>Qualification Type</td>
     				</tr>
-    				
+
 					<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('EmpType',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='EmpType'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('EmpType',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='EmpType'></td>
 					  <td valign="top">Employee Status</td>
   					</tr>
-  					
+
 					<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('SerPeriod',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='SerPeriod'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('SerPeriod',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='SerPeriod'></td>
 					  <td valign="top">Service Period</td>
 					</tr>
-					
+
 					<tr>
-					  <td><input disabled type='checkbox' <?php echo in_array('JobTitle',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='JobTitle'></td> 
+					  <td><input disabled type='checkbox' <?php echo in_array('JobTitle',$criteriaArr) ? 'checked' : ''?> class='checkbox' name='chkcriteria[]' value='JobTitle'></td>
 					 <td>Job Title</td>
  					</tr>
 
-					
+
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -497,7 +497,7 @@ function addUpdate() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  
+
                   <?php $fieldArr= $this->popArr['fieldList'];?>
                     <tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('EmpNo',$fieldArr) ? 'checked': ''?> class='checkbox' name='chkfield[]' value='EmpNo'></td>
@@ -539,20 +539,20 @@ function addUpdate() {
                       	 <td><input disabled type='checkbox' <?php echo in_array('PayGrade',$fieldArr) ? 'checked': ''?>  class='checkbox' name='chkfield[]' value='PayGrade'></td>
 						 <td>Pay Grade</td>
 					</tr>-->
-					
-			  <tr> 
+
+			  <tr>
 						<td valign="top"></td>
-						<td align="left" valign="top"> 
-  
+						<td align="left" valign="top">
+
 						</td>
 			  </tr>
 					  <tr><td></td><td align="right" width="100%">
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 				</td>
-		       </tr>			
+		       </tr>
               	</table></td>
-                 
-                                  
+
+
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
@@ -568,7 +568,7 @@ function addUpdate() {
               </td>
               </tr>
               </table>
-<?php	}  ?> 
+<?php	}  ?>
 </form>
 </body>
 </html>

@@ -685,4 +685,42 @@
 	$lang_pim_tabs_Membership = "Membership";
 	$lang_pim_tabs_Attachments = "Attachments";
 
+	// Report module
+	$lang_rep_SelectionCriteria = "Selection Criteria";
+	$lang_rep_EmpNo = "Emp No";
+	$lang_rep_AgeGroup = "Age Group";
+	$lang_rep_PayGrade = "Pay Grade";
+	$lang_rep_Education = "Education";
+	$lang_rep_EmploymentStatus = "Employment Status";
+	$lang_rep_ServicePeriod = "Service Period";
+	$lang_rep_JobTitle = "Job Title";
+
+	$lang_rep_LastName = "Last Name";
+	$lang_rep_Address = "Address";
+	$lang_rep_TelNo = "Tel No";
+	$lang_rep_DateOfBirth = "Date Of Birth";
+	$lang_rep_JoinDate = "Join Date";
+	$lang_rep_Qualification = "Qualification";
+	$lang_rep_EmployeeStates = "Employee States";
+	$lang_rep_JoinedDate = "Joined Date";
+
+	$lang_rep_SelectPayGrade = "Select Salary Grade";
+	$lang_rep_SelectEducation = "Select Education Type";
+	$lang_rep_SelectEmploymentType = "Select Employment Type";
+	$lang_rep_SelectComparison = "Select Comparison";
+	$lang_rep_SelectJobTitle = "Select Job Title";
+
+	$lang_rep_Field = "Field";
+	$lang_rep_AssignUserGroups = "Assign User Groups";
+
+	$lang_rep_SelectAtLeastOneCriteriaAndOneField = "Select at least one criteria and one field";
+	$lang_rep_SelectTheComparison = "Select The Comparison";
+
+	$lang_rep_AgeShouldBeNumeric = "Age Should Be Numeric";
+	$lang_rep_InvalidAgeRange = "2nd Selected Age Lager Than The 1st Selected Age";
+
+	$lang_rep_FieldNotSelected = "Field Not Selected";
+
+	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
+
 ?>
