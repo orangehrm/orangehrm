@@ -155,6 +155,11 @@
 
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
 
+	// Report
+	$lang_Menu_Reports = "Отчёты";
+	$lang_Menu_Reports_ViewReports = "Создать отчёт";
+	$lang_Menu_Reports_DefineReports = "Просмотреть отчёты";
+
 	/**
 	 * Common
 	 */

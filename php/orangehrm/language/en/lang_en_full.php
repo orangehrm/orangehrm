@@ -147,6 +147,11 @@
 
  	$lang_Leave_Title_Apply_Leave 						= "Apply Leave";
 
+	// Report
+	$lang_Menu_Reports = "Reports";
+	$lang_Menu_Reports_ViewReports = "View Reports";
+	$lang_Menu_Reports_DefineReports = "Define Reports";
+
 	/**
 	 * Common
 	 */

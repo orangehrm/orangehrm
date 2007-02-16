@@ -304,7 +304,7 @@ function setSize() {
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep">Reports</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
                         <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -313,7 +313,7 @@ function setSize() {
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep">Reports</a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -417,10 +417,10 @@ function setSize() {
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
                     <ul id="menu">
-  						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep">View Reports</A></li>
+  						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep"><?php echo $lang_Menu_Reports_ViewReports; ?></A></li>
 
 <?php               if($arrRights['repDef']) {?>
-						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep">Define Reports</A></li>
+						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep"><?php echo $lang_Menu_Reports_DefineReports; ?></A></li>
 <?php					}
 					} else ?>
 					</ul>
