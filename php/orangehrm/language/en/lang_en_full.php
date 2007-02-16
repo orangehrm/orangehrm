@@ -728,4 +728,15 @@
 
 	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
 
+	$lang_rep_Report = "Report";
+	$lang_rep_EmployeeNo = "Employee No";
+	$lang_rep_EmployeeLastName = "Employee Last Name";
+	$lang_rep_Address = "Address";
+	$lang_rep_Telephone = "Telephone";
+	$lang_rep_DateOfBirth = "Date of Birth";
+	$lang_rep_SalaryGrade = "Salary Grade";
+	$lang_rep_EmployeeStatus = "Employee Status";
+	$lang_rep_JoinedDate = "Joined Date";
+	$lang_rep_JobTitle = "Job Title";
+
 ?>
