@@ -1,15 +1,15 @@
 <?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+all the essential functionalities required for any enterprise.
 Copyright (C) 2006 hSenid Software, http://www.hsenid.com
 
 OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 the GNU General Public License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program;
@@ -20,7 +20,7 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
 ?>
@@ -49,7 +49,7 @@ function parseUSG()
 
         if(check==0)
             {
-              alert("Select atleast one User Group check box to assign");
+              alert("<?php echo $lang_rep_SelectAtLeaseOneUserGroupToAssign; ?>");
               return;
             }
 
@@ -64,26 +64,26 @@ function parseUSG()
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		saveKPI();
 		return;
 	}
-	
+
 	var frm=document.frmUSG;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -91,7 +91,7 @@ function edit()
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
 	document.Edit.title="Save";
 }
-	
+
 function delUSG()
 {
       var check = 0;
@@ -105,7 +105,7 @@ function delUSG()
 
         if(check==0)
             {
-              alert("Select atleast one assigned User Group check box");
+              alert("<?php echo $lang_rep_SelectAtLeaseOneUserGroupToAssign; ?>");
               return;
             }
 
@@ -125,19 +125,19 @@ function delUSG()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Report Definition: Assign User Groups</h2></td>
+    <td width='100%'><h2><?php echo "$lang_rep_ReportDefinition : $lang_rep_AssignUserGroups"; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmRepUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>">
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="USG" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
   </tr><td width="177">
 </table>
@@ -154,17 +154,17 @@ $repDet = $this->popArr['repDet'];
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  
+
 <?php						for($c=0;$repDet && count($repDet)>$c;$c++)
 							if($repDet[$c][0]==$this->getArr['id'])
 								break;
-?>                  
-						  <tr> 
-						    <td>Report Code</td>
+?>
+						  <tr>
+						    <td><?php echo $lang_repview_ReportID; ?></td>
 						  	  <td> <strong><?php echo $repDet[$c][0]?></strong></td>
 						  </tr>
-						  <tr> 
-						    <td>Report Name</td>
+						  <tr>
+						    <td><?php echo $lang_repview_ReportName; ?></td>
 						  	  <td> <strong><?php echo $repDet[$c][1]?></strong></td>
 						  </tr>
                   </table></td>
@@ -179,7 +179,7 @@ $repDet = $this->popArr['repDet'];
                 </tr>
               </table>
 
-<?php 
+<?php
 $rset = $this->popArr['repUsgAss'];
 $usglist = $this->popArr['usgAll'];
 ?>
@@ -191,8 +191,8 @@ $usglist = $this->popArr['usgAll'];
   </tr>
 
   <tr>
-    
-    <td width='100%'><h3>Assigned User Groups</h3></td>
+
+    <td width='100%'><h3><?php echo $lang_rep_AssignedUserGroups; ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr><td>
@@ -215,10 +215,10 @@ $usglist = $this->popArr['usgAll'];
 <?php						if($rset) {	?>
 						<tr>
 						         <td></td>
-						         <td><strong>User Groups</strong></td>
+						         <td><strong><?php echo $lang_rep_UserGroups; ?></strong></td>
 						</tr>
 						<?php
-						
+
 						    for($c=0;$c < count($rset); $c++)
 						        {
 						        echo '<tr>';
@@ -230,7 +230,7 @@ $usglist = $this->popArr['usgAll'];
 						      }
 						     } else {
 						        echo '<tr>';
-						            echo '<td> No User Groups Assigned</td>';
+						            echo "<td>$lang_rep_NoUserGroupsAssigned</td>";
 						        echo '</tr>';
 						    }
 						?>
@@ -266,7 +266,7 @@ $usglist = $this->popArr['usgAll'];
   <tr>
   <td><img onClick="parseUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg"></td>
   </tr>
-</table>				
+</table>
 			   <input type="hidden" name="dummy">
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -278,14 +278,14 @@ $usglist = $this->popArr['usgAll'];
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                
+
 								<tr>
 								         <td></td>
 								         <td><strong>User Group</strong></td>
 								</tr>
 								<?php
 								$rset=$this->popArr['usgUnAss'];
-								
+
 								    for($c=0;$rset && $c < count($rset); $c++)
 								        {
 								        echo '<tr>';

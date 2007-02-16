@@ -721,6 +721,7 @@
 
 	$lang_rep_Field = "Field";
 	$lang_rep_AssignUserGroups = "Assign User Groups";
+	$lang_rep_AssignedUserGroups = "Assigned User Groups";
 
 	$lang_rep_SelectAtLeastOneCriteriaAndOneField = "Select at least one criteria and one field";
 	$lang_rep_SelectTheComparison = "Select The Comparison";
@@ -742,4 +743,9 @@
 	$lang_rep_EmployeeStatus = "Employee Status";
 	$lang_rep_JoinedDate = "Joined Date";
 	$lang_rep_JobTitle = "Job Title";
+
+	$lang_rep_ReportDefinition = "Report Definition";
+	$lang_rep_AssignUserGroups = "Assign User Groups";
+	$lang_rep_UserGroups = "User Groups";
+	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
 ?>
