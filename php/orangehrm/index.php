@@ -142,7 +142,7 @@ require_once($lan->getLangPath("full.php"));
 		//new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 110, 146, 120)
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
-		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 110, 146, 120)
+		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
 		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)
 
 function swapImgRestore() {
@@ -447,7 +447,12 @@ function setSize() {
                       	?>
   						<li id="leaveSummary"><a <?php echo $linkSummary; ?> target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu13');" onMouseOut="ypSlideOutMenu.hideMenu('menu13');"><?php echo $lang_Menu_Leave_LeaveSummary; ?></a></li>
   						<?php
-                 			//}
+  							if ($authorizeObj->isAdmin()) {
+						?>
+  						<li id="defineLeaveType"><a target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu14');" onMouseOut="ypSlideOutMenu.hideMenu('menu14');"><?php echo $lang_Menu_Leave_DefineDaysOff; ?></a></li>
+  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveTypes; ?></a></li>
+  						<?php
+  							}
                  			if ($authorizeObj->isESS()) {
   						?>
   						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveList; ?></a></li>
@@ -457,11 +462,6 @@ function setSize() {
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu"><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
-						<?php }
-							if ($authorizeObj->isAdmin()) {
-						?>
-  						<li id="defineLeaveType"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveTypes; ?></a></li>
-						<li id="defineLeaveType"><a target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu14');" onMouseOut="ypSlideOutMenu.hideMenu('menu14');"><?php echo $lang_Menu_Leave_DefineDaysOff; ?></a></li>
 						<?php } ?>
   					</ul>
 			</TD>

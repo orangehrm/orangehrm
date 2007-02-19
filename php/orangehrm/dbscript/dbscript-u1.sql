@@ -1,10 +1,10 @@
-create table `hs_hr_geninfo` (			
+create table `hs_hr_geninfo` (
 	`code` varchar(8) not null default '',
 	`geninfo_keys` varchar(200) default null,
 	`geninfo_values` varchar(200) default null,
 	primary key (`code`)
 ) engine=innodb default charset=utf8;
-		
+
 create table `hs_hr_compstructtree` (
   `title` tinytext not null,
   `description` text not null,
@@ -26,7 +26,7 @@ create table `hs_hr_job_title` (
 	primary key(`jobtit_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_empstat` (		
+create table `hs_hr_empstat` (
 	`estat_code` varchar(6) not null default '',
 	`estat_name` varchar(50) default null,
   primary key  (`estat_code`)
@@ -42,7 +42,7 @@ create table `hs_hr_jobtit_empstat` (
 	`jobtit_code` varchar(6) not null default '',
 	`estat_code` varchar(6) not null default '',
   primary key  (`jobtit_code`,`estat_code`)
-) engine=innodb default charset=utf8;		
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_country` (
   `cou_code` char(2) not null default '',
@@ -380,7 +380,7 @@ create table `hs_hr_education` (
 	primary key (`edu_code`)
 ) engine=innodb default charset=utf8;
 
-		
+
 create table `hs_hr_ethnic_race` (
   `ethnic_race_code` varchar(6) not null default '',
   `ethnic_race_desc` varchar(50) default null,
@@ -550,4 +550,12 @@ create table `hs_hr_weekends` (
   `day` int(2) not null,
   `length` int(2) not null,
   unique key `day` (`day`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_mailnotifications` (
+	`employee_id` int(7) not null,
+	`notification_type_id` int not null ,
+	`status` int(2) not null,
+	UNIQUE KEY `employee_id` (`employee_id`),
+	UNIQUE KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
