@@ -27,7 +27,7 @@
 	$lang_Error_PleaseCorrectTheFollowing = "Пожайлуста, исправьте";
 	$lang_Error_SelectAtLeastOneRecordToDelete = "Выберите хотя бы одну запись для удаления";
 	$lang_Error_DoYouWantToDelete = "Удалить?";
-	$lang_Error_EnterDate = "Enter Date?";
+	$lang_Error_EnterDate = "Введите дату";
 
 	$lang_Error_PleaseSelectAYear = "Выберите год";
 	$lang_Error_PleaseSelectAnEmployee = "Выберите служащего";
@@ -36,24 +36,24 @@
 
 	$lang_Error_ShouldBeNumeric = "Разрешены только цифры";
 	$lang_Error_FollowingErrorsWereFound = "Были обнаружены следущие ошибки";
-	$lang_Error_AreYouSureYouWantToDelete = "Вы уверены, что xотите стереть";
+	$lang_Error_AreYouSureYouWantToDelete = "Вы уверены, что xотите стереть?";
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
 	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
 
 	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
-	$lang_Error_NameOfHolidayCannotBeBlank = "Name of holiday cannot be blank";
+	$lang_Error_NameOfHolidayCannotBeBlank = "Введите название праздника";
 
 	$lang_Error_NoLeaveTypes = "Нет типов отпуска";
 	$lang_Error_NoRecordsFound = "Записи не найдены!";
 
 	$lang_Error_InvalidDate = "Недействительная дата";
 
-	$lang_hremp_FieldShouldBeNumeric = "Field should be numeric";
+	$lang_hremp_FieldShouldBeNumeric = "Разрешены только цифры";
 
 	// Company Structure
-	$lang_Error_Company_General_Undefined = "Please define Company General Information first!";
+	$lang_Error_Company_General_Undefined = "Пожалуйста, введите основную информацию о компании";
 	$lang_Error_CompStruct_UnitCount = "#children подразделения #parent будут стёрты.";
 	$lang_Error_ItCouldCauseTheCompanyStructureToChange = "Это может вызвать изменения структуры компании";
 
@@ -72,19 +72,19 @@
 	$lang_Error_InvalidEmail = "Invalid E-mail address";
 
 	//PIM
-	$lang_Error_LastNameNumbers				= "Last Name contains numbers. Do you want to continue?";
-	$lang_Error_FirstNameNumbers			= "First Name contains numbers. Do you want to continue?";
-	$lang_Error_MiddleNameNumbers			= "Middle Name contains numbers. Do you want to continue?";
-	$lang_Error_MiddleNameEmpty				= "Middle Name Empty. Do you want to continue?";
-	$lang_Error_LastNameEmpty				= "Last Name Empty!";
-	$lang_Error_FirstNameEmpty				= "First Name Empty!";
-	$lang_Error_ChangePane					= "Please save the changes before you move onto another pane!";
+	$lang_Error_LastNameNumbers				= "Фамилия содержит цифровую информацию. Продолжить?";
+	$lang_Error_FirstNameNumbers			= "Имя содержит цифровую информацию. Продолжить?";
+	$lang_Error_MiddleNameNumbers			= "Отчество содержит цифровую информацию. Продолжить?";
+	$lang_Error_MiddleNameEmpty				= "Отчествоне не введено. Продолжить?";
+	$lang_Error_LastNameEmpty				= "Фамилия не введена!";
+	$lang_Error_FirstNameEmpty				= "Имя не введено!";
+	$lang_Error_ChangePane					= "Пожайлуста, соxраните информацию перед тем как выбрать следующую панель!";
 
-	$lang_Error_FieldShouldBeSelected		= "Field should be selected";
+	$lang_Error_FieldShouldBeSelected		= "Выберите значение";
 
-	$lang_Error_FieldShouldBeNumeric		= "Field should be numeric";
+	$lang_Error_FieldShouldBeNumeric		= "Разрешены только цифры";
 
-	$lang_Error_SelectAtLeastOneCheckBox 	= "Select atleast one check box";
+	$lang_Error_SelectAtLeastOneCheckBox 	= "Обозначьте xотя бы одну галочку";
 
 	/**
 	 * Menu Items
@@ -120,8 +120,8 @@
 	$lang_Menu_Admin_Skills_Skills = "Навыки";
 	$lang_Menu_Admin_Skills_Languages = "Языки";
 
-	$lang_Menu_Admin_Memberships = "членство";
-	$lang_Menu_Admin_Memberships_Memberships = "членство";
+	$lang_Menu_Admin_Memberships = "Членство";
+	$lang_Menu_Admin_Memberships_Memberships = "Членство";
 	$lang_Menu_Admin_Memberships_MembershipTypes = "Тип членства";
 
 	$lang_Menu_Admin_NationalityNRace = "Национал. и раса";
@@ -133,7 +133,7 @@
 	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
 	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";
 
-	$lang_Menu_Admin_EmailConfig = "Mail Configuration";
+	$lang_Menu_Admin_EmailConfig = "Конфигурация почты";
 
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
@@ -164,16 +164,16 @@
 	 * Common
 	 */
 
-	$lang_Common_ConfirmDelete = " Do you want to delete ?";
-	$lang_Common_FieldEmpty = "Field Empty";
-	$lang_Common_SelectDelete = "Select at least one record to delete";
-	$lang_Common_SelectField = "Select the field to search!";
+	$lang_Common_ConfirmDelete = "Вы уверены, что xотите стереть?";
+	$lang_Common_FieldEmpty = "Значение поля не введено";
+	$lang_Common_SelectDelete = "Выберите xотя бы одну запись, которую вы xотите стереть";
+	$lang_Common_SelectField = "SВыберите критерий поиска!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
 	$lang_Commn_code = "Код";
 	$lang_Commn_description = "Описание";
 	$lang_Commn_title = "Название";
 	$lang_Commn_name = "Название";
-	$lang_Commn_PleaseWait = "Please wait";
+	$lang_Commn_PleaseWait = "Подождите, пожайлуста";
 
 	//days
 	$lang_Common_Monday = "Понедельник";
@@ -193,7 +193,7 @@
 	$lang_Leave_Common_LeaveType = "Вид отпуска";
 	$lang_Leave_Common_Status = "Статус";
 	$lang_Leave_Common_Length = "Целый день / пол дня";
-	$lang_Leave_Common_Range = "Range";
+	$lang_Leave_Common_Range = "Интервал";
 	$lang_Leave_Common_Comments = "Коментарии";
 	$lang_Leave_Common_Comment = "Комментарий";
 	$lang_Leave_Common_Approved = "Подтвержденный";
@@ -216,9 +216,9 @@
 	$lang_Leave_Common_EmployeeName = "Имя служащего";
 	$lang_Leave_Common_LeaveEntitled = "Дано право на отпуск";
 	$lang_Leave_Common_Year = "Год";
-	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпуск";
-	$lang_Leave_Common_Remove = "Remove";
-	$lang_Leave_Common_AllEmployees	= "All Employees";
+	$lang_Leave_Common_ListOfTakenLeave = "Перечень использованных отпусков";
+	$lang_Leave_Common_Remove = "Удалить";
+	$lang_Leave_Common_AllEmployees	= "Все служащие";
 	$lang_Leave_Common_All = "Все";
 
 	$lang_Leave_Common_NameOfHoliday = "Название праздника";
@@ -335,9 +335,9 @@
 	$lang_empview_EmployeeInformation = "Информация о служащем";
 	$lang_empview_Memberships = "Членство";
 	$lang_empview_Report = "Отчёт";
-	$lang_empview_SubDivision = "Sub-Division";
-	$lang_empview_JobTitle = "Job Title";
-	$lang_empview_Supervisor = "Supervisor";
+	$lang_empview_SubDivision = "Подразделение";
+	$lang_empview_JobTitle = "Должность";
+	$lang_empview_Supervisor = "Руководитель";
 
 	$lang_ethnicrace_heading = "Национальность и раса : этнические расы";
 
@@ -356,9 +356,9 @@
 
 	$lang_hierarchydef_heading = "Информация иерархии : Информация о компании";
 
-	$lang_hremp_EmpFirstName = "First Name";
-	$lang_hremp_EmpLastName = "Last Name";
-	$lang_hremp_EmpMiddleName = "Middle Name";
+	$lang_hremp_EmpFirstName = "Имя";
+	$lang_hremp_EmpLastName = "Фамилия";
+	$lang_hremp_EmpMiddleName = "Отчество";
 	$lang_hremp_nickname = "Псевдоним";
 	$lang_hremp_photo = "Фото";
 	$lang_hremp_ssnno = "SSN ";
@@ -366,7 +366,7 @@
 	$lang_hremp_sinno = "Номер соц. страхования";
 	$lang_hremp_dateofbirth = "Дата рождения";
 	$lang_hremp_otherid = "Другой идентификатор";
-	$lang_hremp_selmarital	= "--Select--";
+	$lang_hremp_selmarital	= "--Выберите--";
 	$lang_hremp_maritalstatus = "Семейное положение";
 	$lang_hremp_selectnatio = "Выберите национальность";
 	$lang_hremp_smoker = "Курящий(-ая)";
@@ -380,16 +380,16 @@
 	$lang_hremp_eeocategory = "ЕЕО категори ";
 	$lang_hremp_seleeocat = "Выберите EEO катег.";
 	$lang_hremp_joindate = "Дата начала работы";
-	$lang_hremp_SelectJobTitle = "Select Job Title";
-	$lang_hremp_EmpStatus = "Employment Status";
-	$lang_hremp_Workstation = "Workstation";
+	$lang_hremp_SelectJobTitle = "Выберите должность";
+	$lang_hremp_EmpStatus = "Служебный статус";
+	$lang_hremp_Workstation = "Рабочее место";
 
 	$lang_hremp_dependents = "Иждивенцы";
 	$lang_hremp_children = "Дети";
 	$lang_hremp_relationship = "Степень родства";
 
-	$lang_hremp_street1	= "Street 1";
-	$lang_hremp_street2 = "Street 2";
+	$lang_hremp_street1	= "Адрес 1";
+	$lang_hremp_street2 = "Адрес 2";
 
 	$lang_hremp_hmtele = "Домашний телефон";
 	$lang_hremp_mobile = "Мобильный";
@@ -409,56 +409,56 @@
 	$lang_hremp_filename = "Название файла";
 	$lang_hremp_size = "Размер";
 	$lang_hremp_type = "Тип";
-	$lang_hremp_name = "Name";
+	$lang_hremp_name = "Название";
 
 	$lang_hremp_browse = "Выбрать";
 
-	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Are you sure you want to delete the photograph";
+	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Вы уверены, что xотите стереть фотографию?";
 
-	$lang_hremp_SelectAPhoto = "Select a Photo";
+	$lang_hremp_SelectAPhoto = "Выберите фотографию";
 
-	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
-	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
-	$lang_hremp_StaringDateShouldBeBeforeEnd= "Starting Day should be before ending Date";
+	$lang_hremp_IssedDateShouldBeBeforeExp	= "Дата выдачи должна быть раньше чем окончание срока действия";
+	$lang_hremp_FromDateShouldBeBeforeToDate= "Дата От должна быть раньче чем дата До";
+	$lang_hremp_StaringDateShouldBeBeforeEnd= "Дата начала должна быть перед датой конца";
 
-	$lang_hremp_ContractExtensionStartDate = "Contract Extension Start Date";
-	$lang_hremp_ContractExtensionEndDate = "Contract Extension End Date";
-	$lang_hremp_EmployeeContracts = "Employee Contracts";
-	$lang_hremp_AssignedContracts = "Assigned Contracts";
+	$lang_hremp_ContractExtensionStartDate = "Дата начала продления контракта";
+	$lang_hremp_ContractExtensionEndDate = "Дата конца продления контракта";
+	$lang_hremp_EmployeeContracts = "Контракты служащего";
+	$lang_hremp_AssignedContracts = "Присвоенные контракты";
 
-	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
+	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Зарплата должна быть между минимальным и максимальным значением";
 
-	$lang_hremp_ContractExtensionId	= "Contract Extension ID";
-	$lang_hremp_ContractStartDate = "Contract Start Date";
-	$lang_hremp_ContractEndDate	= "Contract End Date";
+	$lang_hremp_ContractExtensionId	= "Иденитфикатор продления контракта";
+	$lang_hremp_ContractStartDate = "Начало контракта";
+	$lang_hremp_ContractEndDate	= "Конец контракта";
 
-	$lang_hremp_SelectCurrency = "Select Currency";
+	$lang_hremp_SelectCurrency = "Выберите валюту";
 
-	$lang_hremp_Language = "Language";
+	$lang_hremp_Language = "Язык";
 
 	$lang_hremplan_employeelanguageflu = "Языковые навыки служащего";
 	$lang_hremplan_fluency = "Сфера компетентности";
 	$lang_hremplan_ratinggarde = "Беглость";
 	$lang_hremplan_assignlanguage = "Владение языками";
 
-	$lang_hremplan_SelectLanguage			= "Select Language";
-	$lang_hremplan_SelectFluency			= "Select Fluency";
-	$lang_hremplan_SelectRating 			= "Select Rating";
+	$lang_hremplan_SelectLanguage			= "Выберите язык";
+	$lang_hremplan_SelectFluency			= "Выберите уровень знания";
+	$lang_hremplan_SelectRating 			= "Выберите рейтинг";
 
-	$lang_hremp_PleaseSelectJobTitle= "Please Select a Job Title for this Employee {here}";
+	$lang_hremp_PleaseSelectJobTitle= "Пожайлуста, выберите должность этого служащего {здесь}";
 
-	$lang_hremp_ie_CurrentSupervisors = "i.e. Current Employee's Supervisors";
-	$lang_hremp_ie_CurrentSubordinates = "i.e. Current Employee's Subordinates";
+	$lang_hremp_ie_CurrentSupervisors = "Например, руководители данного служащего";
+	$lang_hremp_ie_CurrentSubordinates = "Например, подчинённые данного служащего";
 
 	$lang_hremplicenses_employeelicen = "Лицензии служащего";
 	$lang_hremplicenses_assignlicenses = "Полученные лицензии";
 	$lang_hremplicenses_licentype = "Тип лицензии";
 	$lang_hremplicenses_assignlicen = "Полученные лицензии";
 
-	$lang_hremplicenses_NoLicenseSelected = "No license selected";
-	$lang_hremplicenses_SelectLicenseType = "Select License Type";
+	$lang_hremplicenses_NoLicenseSelected = "Лицензия не выбрана";
+	$lang_hremplicenses_SelectLicenseType = "Выберите тип лицензии";
 
-	$lang_hremp_SelectAtLEastOneAttachment = "Select at least one Attachment to Delete";
+	$lang_hremp_SelectAtLEastOneAttachment = "SВыберите хотя бы одно приложение, которое вы xотите удалить";
 
 	$lang_hrEmpMain_ratinggarde = "Компетентность";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";
@@ -510,19 +510,19 @@
 	$lang_hrEmpMain_assigneducation = "Приобретённое образование";
 	$lang_hrEmpMain_assignattach = "Приложения";
 
-	$lang_hrEmpMain_SelectEducation = "Select Education";
-	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Years of Experience Cannot be Blank";
-	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
-	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
-	$lang_hrEmpMain_Skill = "Skill";
+	$lang_hrEmpMain_SelectEducation = "Выберите образование";
+	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Введите число лет опыта";
+	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Неправильный формат ввода лет опыта";
+	$lang_hrEmpMain_YearsOfExperiencBetween = "Значение лет опыта должно быть в интервале #range";
+	$lang_hrEmpMain_Skill = "Навык";
 
-	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Subscription amount should be numeric";
-	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Membership subscription amount is empty. Do you want to continue";
+	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Плата за подписку должна иметь цифровое значение";
+	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Членский взнос не введён. Продолжить?";
 
-	$lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate = "Commence Date should be before renewal date";
+	$lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate = "Дата начала должна быть раньше чем дата обновления";
 
-	$lang_hrEmpMain_membershiptype = "Membership Type";
-	$lang_hrEmpMain_membership = "Membership";
+	$lang_hrEmpMain_membershiptype = "Тип членства";
+	$lang_hrEmpMain_membership = "Членство";
 
 	$lang_jobtitle_heading = "Работа : Название должности";
 	$lang_jobtitle_jobtitid = "Идентификатор должности";
@@ -667,85 +667,85 @@
 	$lang_index_ChangePassword = "Извенить пароль";
 	$lang_index_Logout = "Отсоедениться";
 
-	$lang_MailFrom = "Mail Sent As";
-	$lang_MailSendingMethod = "Sending Method";
-	$lang_MailTypes_Mail = "Internal PHP function";
-	$lang_MailTypes_Sendmailer = "Send Mail";
+	$lang_MailFrom = "Письмо отправлено как";
+	$lang_MailSendingMethod = "Метод отправления";
+	$lang_MailTypes_Mail = "Внутренняя функция PHP";
+	$lang_MailTypes_Sendmailer = "Отправленные письма";
 	$lang_MailTypes_Smtp = "SMTP";
-	$lang_SendmailPath = "Path to Sendmail";
+	$lang_SendmailPath = "Отправленные письма. Путь";
 	$lang_SmtpHost = "SMTP Host";
-	$lang_SmtpUser = "SMTP User";
-	$lang_SmtpPassword = "SMTP Password";
+	$lang_SmtpUser = "SMTP пользователь";
+	$lang_SmtpPassword = "SMTP пароль";
 
 	// PIM tab labels
-	$lang_pim_tabs_Personal = "Personal";
-	$lang_pim_tabs_Contact = "Contact";
-	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
-	$lang_pim_tabs_Dependents = "Dependents";
-	$lang_pim_tabs_Immigration = "Immigration";
-	$lang_pim_tabs_Job = "Job";
-	$lang_pim_tabs_Payments = "Payments";
-	$lang_pim_tabs_ReportTo = "Report-to";
-	$lang_pim_tabs_WorkExperience = "Work experience";
-	$lang_pim_tabs_Education = "Education";
-	$lang_pim_tabs_Skills = "Skills";
-	$lang_pim_tabs_Languages = "Languages";
-	$lang_pim_tabs_License = "License";
-	$lang_pim_tabs_Membership = "Membership";
-	$lang_pim_tabs_Attachments = "Attachments";
+	$lang_pim_tabs_Personal = "Персональный";
+	$lang_pim_tabs_Contact = "Контакт";
+	$lang_pim_tabs_EmergencyContacts = "Контакт(ы) в случае необходимости";
+	$lang_pim_tabs_Dependents = "Иждивенцы";
+	$lang_pim_tabs_Immigration = "Иммиграция";
+	$lang_pim_tabs_Job = "Работа";
+	$lang_pim_tabs_Payments = "Оплата";
+	$lang_pim_tabs_ReportTo = "Отчётность";
+	$lang_pim_tabs_WorkExperience = "Рабочий опыт";
+	$lang_pim_tabs_Education = "Образование";
+	$lang_pim_tabs_Skills = "Навыки";
+	$lang_pim_tabs_Languages = "Языки";
+	$lang_pim_tabs_License = "Лицензии";
+	$lang_pim_tabs_Membership = "Членство";
+	$lang_pim_tabs_Attachments = "Приложения";
 
 	// Report module
-	$lang_rep_SelectionCriteria = "Selection Criteria";
-	$lang_rep_EmpNo = "Emp No";
-	$lang_rep_AgeGroup = "Age Group";
-	$lang_rep_PayGrade = "Pay Grade";
-	$lang_rep_Education = "Education";
-	$lang_rep_EmploymentStatus = "Employment Status";
-	$lang_rep_ServicePeriod = "Service Period";
-	$lang_rep_JobTitle = "Job Title";
+	$lang_rep_SelectionCriteria = "Критерий выбора";
+	$lang_rep_EmpNo = "Номер служащего";
+	$lang_rep_AgeGroup = "Возростная группа";
+	$lang_rep_PayGrade = "Уровень оплаты";
+	$lang_rep_Education = "Образование";
+	$lang_rep_EmploymentStatus = "Служебный статус";
+	$lang_rep_ServicePeriod = "Период службы";
+	$lang_rep_JobTitle = "Должность";
 
-	$lang_rep_LastName = "Last Name";
-	$lang_rep_Address = "Address";
-	$lang_rep_TelNo = "Tel No";
-	$lang_rep_DateOfBirth = "Date Of Birth";
-	$lang_rep_JoinDate = "Join Date";
-	$lang_rep_Qualification = "Qualification";
-	$lang_rep_EmployeeStates = "Employee States";
-	$lang_rep_JoinedDate = "Joined Date";
+	$lang_rep_LastName = "Фамилия";
+	$lang_rep_Address = "Адрес";
+	$lang_rep_TelNo = "Тел No";
+	$lang_rep_DateOfBirth = "Дата рождения";
+	$lang_rep_JoinDate = "Дата вступления";
+	$lang_rep_Qualification = "Квалификации";
+	$lang_rep_EmployeeStates = "Состояние служащего";
+	$lang_rep_JoinedDate = "Дата вступления";
 
-	$lang_rep_SelectPayGrade = "Select Salary Grade";
-	$lang_rep_SelectEducation = "Select Education Type";
-	$lang_rep_SelectEmploymentType = "Select Employment Type";
-	$lang_rep_SelectComparison = "Select Comparison";
-	$lang_rep_SelectJobTitle = "Select Job Title";
+	$lang_rep_SelectPayGrade = "Выберите уровень оплаты";
+	$lang_rep_SelectEducation = "Выберите тип образования";
+	$lang_rep_SelectEmploymentType = "Выберите тип службы";
+	$lang_rep_SelectComparison = "Выберите сравнение";
+	$lang_rep_SelectJobTitle = "Выберите должность";
 
-	$lang_rep_Field = "Field";
-	$lang_rep_AssignUserGroups = "Assign User Groups";
-	$lang_rep_AssignedUserGroups = "Assigned User Groups";
+	$lang_rep_Field = "Поле";
+	$lang_rep_AssignUserGroups = "Присвоить группу пользователей";
+	$lang_rep_AssignedUserGroups = "Присвоенные группы пользователей";
 
-	$lang_rep_SelectAtLeastOneCriteriaAndOneField = "Select at least one criteria and one field";
-	$lang_rep_SelectTheComparison = "Select The Comparison";
+	$lang_rep_SelectAtLeastOneCriteriaAndOneField = "Выберите xотя бы один критерий и одно поле";
+	$lang_rep_SelectTheComparison = "Выберите сравнение";
 
-	$lang_rep_AgeShouldBeNumeric = "Age Should Be Numeric";
-	$lang_rep_InvalidAgeRange = "2nd Selected Age Lager Than The 1st Selected Age";
+	$lang_rep_AgeShouldBeNumeric = "Возраст должен иметь цифровое значение";
+	$lang_rep_InvalidAgeRange = "Второй выбранный возраст больше чем первый выбранный возраст";
 
-	$lang_rep_FieldNotSelected = "Field Not Selected";
+	$lang_rep_FieldNotSelected = "Поле не выбранно";
 
-	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
+	$lang_rep_DateShouldBeNumeric = "Дата введена неправильно";
 
-	$lang_rep_Report = "Report";
-	$lang_rep_EmployeeNo = "Employee No";
-	$lang_rep_EmployeeLastName = "Employee Last Name";
-	$lang_rep_Address = "Address";
-	$lang_rep_Telephone = "Telephone";
-	$lang_rep_DateOfBirth = "Date of Birth";
-	$lang_rep_SalaryGrade = "Salary Grade";
-	$lang_rep_EmployeeStatus = "Employee Status";
-	$lang_rep_JoinedDate = "Joined Date";
-	$lang_rep_JobTitle = "Job Title";
+	$lang_rep_Report = "Отчёт";
+	$lang_rep_EmployeeNo = "Номер служащего";
+	$lang_rep_EmployeeLastName = "Фамилия служащего";
+	$lang_rep_Address = "Адрес";
+	$lang_rep_Telephone = "Телефон";
+	$lang_rep_DateOfBirth = "Дата рождения";
+	$lang_rep_SalaryGrade = "Уровень оплаты";
+	$lang_rep_EmployeeStatus = "Служебный статус";
+	$lang_rep_JoinedDate = "Дата начала работы";
+	$lang_rep_JobTitle = "Должность";
 
-	$lang_rep_ReportDefinition = "Report Definition";
-	$lang_rep_AssignUserGroups = "Assign User Groups";
-	$lang_rep_UserGroups = "User Groups";
-	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
+	$lang_rep_ReportDefinition = "Создание отчёта";
+	$lang_rep_AssignUserGroups = "Присвоить группы пользователей";
+	$lang_rep_UserGroups = "Группы пользователей";
+	$lang_rep_NoUserGroupsAssigned = "Группы пользователей не присвоенны";
 ?>
