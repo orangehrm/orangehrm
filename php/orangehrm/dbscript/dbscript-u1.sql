@@ -556,6 +556,6 @@ create table `hs_hr_mailnotifications` (
 	`employee_id` int(7) not null,
 	`notification_type_id` int not null ,
 	`status` int(2) not null,
-	UNIQUE KEY `employee_id` (`employee_id`),
-	UNIQUE KEY `notification_type_id` (`notification_type_id`)
+	KEY `employee_id` (`employee_id`),
+	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;

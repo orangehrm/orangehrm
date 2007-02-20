@@ -56,7 +56,7 @@ $editArr = $this->popArr['editArr'];
 </style>
 </head>
 <body>
-<h2>Subscribe to mail notifications <hr/></h2>
+<h2><?php echo $subscribeToMailNotifications; ?> <hr/></h2>
 <div class="roundbox">
   <table border="0">
     <tbody>
