@@ -57,9 +57,6 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		mysql_query("TRUNCATE TABLE `hs_hr_mailnotifications`", $this->connection);
     }
 
-    /**
-     * @todo Implement testFetchNotifcationStatus().
-     */
     public function testFetchNotifcationStatus() {
 		$res = $this->classNotifications->fetchNotifcationStatus();
 
@@ -68,8 +65,21 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNotNull($res, 'Unexpected behavior');
 		$this->assertTrue(is_array($res), 'Invalid result type');
-		echo count($expected);
-		$this->assertEquals(count($res), count($expected), 'Invallid Number of records');
+
+		$this->assertEquals(2, count($res), 'Invallid Number of records');
+
+		for ($i=0; $i<count($expected); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getEmployeeId(), 'Invallid employee id');
+			$this->assertEquals($expected[$i][1], $res[$i]->getNotifcationTypeId(), 'Invallid notification');
+			$this->assertEquals($expected[$i][2], $res[$i]->getNotificationStatus(), 'Invallid notification status');
+		}
+    }
+
+    public function testFetchNotifcationStatus1() {
+		$obj = new EmailNotificationConfiguration(52);
+		$res = $obj->fetchNotifcationStatus();
+
+		$this->assertNull($res, 'Unexpected behavior');
     }
 
     /**
