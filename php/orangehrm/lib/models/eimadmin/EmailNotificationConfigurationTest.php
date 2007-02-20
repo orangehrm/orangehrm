@@ -77,6 +77,7 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 
     public function testFetchNotifcationStatus1() {
 		$obj = new EmailNotificationConfiguration(52);
+
 		$res = $obj->fetchNotifcationStatus();
 
 		$this->assertNull($res, 'Unexpected behavior');
