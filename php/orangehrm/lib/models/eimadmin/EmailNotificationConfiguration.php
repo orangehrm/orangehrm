@@ -89,21 +89,24 @@ class EmailNotificationConfiguration {
 	public function updateNotificationStatus() {
 		$sqlQBuilder = new SQLQBuilder();
 
-		$arrFields[0] = '`notification_type_id`';
-		$arrFields[1] = '`status`';
+		$arrFields[0] = '`status`';
 
-		$changeValues[0] = "'{$this->getNotifcationTypeId()}'";
-		$changeValues[1] = $this->getNotificationStatus();
+		$changeValues[0] = $this->getNotificationStatus();
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$updateConditions[1] = "`employee_id` = '".$this->employeeId."'";
+		$updateConditions[1] = "`employee_id` = '{$this->getEmployeeId()}'";
+		$updateConditions[2] = "`notification_type_id` = '{$this->getNotifcationTypeId()}'";
 
 		$query = $sqlQBuilder->simpleUpdate($arrTable, $arrFields, $changeValues, $updateConditions);
 
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
+
+		if (mysql_affected_rows() == 0) {
+			return $this->addNotificationStatus();
+		}
 
 		return $result;
 	}
@@ -115,17 +118,19 @@ class EmailNotificationConfiguration {
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
 
-		$insertValues[0] = "'$this->getEmployeeId()'";
+		$insertValues[0] = "'{$this->getEmployeeId()}'";
 		$insertValues[1] = "'{$this->getNotifcationTypeId()}'";
 		$insertValues[2] = $this->getNotificationStatus();
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$query = $sqlBuilder->simpleInsert($arrTable, $insertValues);
+		$query = $sqlQBuilder->simpleInsert($arrTable, $insertValues);
 
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
+
+		return $result;
 	}
 
 	private function _buildObjArr($result) {

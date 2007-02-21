@@ -7,6 +7,8 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
+require_once "testConf.php";
+
 require_once 'EmailNotificationConfiguration.php';
 
 /**
@@ -83,25 +85,59 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		$this->assertNull($res, 'Unexpected behavior');
     }
 
-    /**
-     * @todo Implement testUpdateNotificationStatus().
-     */
-   /* public function testUpdateNotificationStatus() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }*/
+    public function testUpdateNotificationStatus() {
 
-    /**
-     * @todo Implement testAddNotificationStatus().
-     */
-  /*  public function testAddNotificationStatus() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }*/
+		$this->classNotifications->setEmployeeId(11);
+ 		$this->classNotifications->setNotifcationTypeId(0);
+		$this->classNotifications->setNotificationStatus(1);
+
+ 		$res = $this->classNotifications->updateNotificationStatus();
+
+ 		$this->assertTrue($res, 'Update failed');
+
+ 		$res = $this->classNotifications->fetchNotifcationStatus();
+
+		$expected[0] = array(11, 0, 1);
+
+		$this->assertNotNull($res, 'Unexpected behavior');
+		$this->assertTrue(is_array($res), 'Invalid result type');
+
+		$this->assertEquals(1, count($res), 'Invallid Number of records');
+
+		for ($i=0; $i<count($expected); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getEmployeeId(), 'Invallid employee id');
+			$this->assertEquals($expected[$i][1], $res[$i]->getNotifcationTypeId(), 'Invallid notification');
+			$this->assertEquals($expected[$i][2], $res[$i]->getNotificationStatus(), 'Invallid notification status');
+		}
+    }
+
+ 	public function testUpdateNotificationStatus1() {
+
+		$this->classNotifications->setEmployeeId(10);
+ 		$this->classNotifications->setNotifcationTypeId(0);
+		$this->classNotifications->setNotificationStatus(0);
+
+ 		$res = $this->classNotifications->updateNotificationStatus();
+
+ 		$this->assertTrue($res, 'Update failed');
+
+		$res = $this->classNotifications->fetchNotifcationStatus();
+
+		$expected[0] = array(10, 0, 0);
+		$expected[1] = array(10, 2, 0);
+
+		$this->assertNotNull($res, 'Unexpected behavior');
+		$this->assertTrue(is_array($res), 'Invalid result type');
+
+		$this->assertEquals(2, count($res), 'Invallid Number of records');
+
+		for ($i=0; $i<count($expected); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getEmployeeId(), 'Invallid employee id');
+			$this->assertEquals($expected[$i][1], $res[$i]->getNotifcationTypeId(), 'Invallid notification');
+			$this->assertEquals($expected[$i][2], $res[$i]->getNotificationStatus(), 'Invallid notification status');
+		}
+    }
+
 }
 
 // Call EmailNotificationConfigurationTest::main() if this source file is executed directly.
