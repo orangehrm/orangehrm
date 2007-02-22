@@ -18,8 +18,9 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
-require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . 'lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . 'lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . 'lib/models/maintenance/Users.php';
 
 /**
  * Handle mail notification settings
@@ -31,16 +32,17 @@ class EmailNotificationConfiguration {
 	const EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_PENDING_APPROVAL = 1;
 	const EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_APPROVED = 2;
 
-	private $employeeId = null;
+	private $userId = null;
 	private $notifcationTypeId;
 	private $notificationStatus;
+	private $email;
 
-	public function setEmployeeId($employeeId) {
-		$this->employeeId = $employeeId;
+	public function setuserId($userId) {
+		$this->userId = $userId;
 	}
 
-	public function getEmployeeId() {
-		return $this->employeeId;
+	public function getUserId() {
+		return $this->userId;
 	}
 
 	public function setNotifcationTypeId($notifcationTypeId) {
@@ -59,8 +61,16 @@ class EmailNotificationConfiguration {
 		return $this->notificationStatus;
 	}
 
-	public function __construct($employeeId) {
-		$this->setEmployeeId($employeeId);
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+
+	public function getEmail() {
+		return $this->email;
+	}
+
+	public function __construct($userId) {
+		$this->setUserId($userId);
 	}
 
 	/**
@@ -69,13 +79,13 @@ class EmailNotificationConfiguration {
 	public function fetchNotifcationStatus() {
 		$sqlQBuilder = new SQLQBuilder();
 
-		$arrFields[0] = '`employee_id`';
+		$arrFields[0] = '`user_id`';
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$selectConditions[1] = "`employee_id` = '".$this->employeeId."'";
+		$selectConditions[1] = "`user_id` = '{$this->getUserId()}'";
 
 		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
 
@@ -87,6 +97,11 @@ class EmailNotificationConfiguration {
 	}
 
 	public function updateNotificationStatus() {
+
+		if (!$this->_notificationConfigurationExsist()) {
+			return $this->_addNotificationStatus();
+		}
+
 		$sqlQBuilder = new SQLQBuilder();
 
 		$arrFields[0] = '`status`';
@@ -95,30 +110,40 @@ class EmailNotificationConfiguration {
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$updateConditions[1] = "`employee_id` = '{$this->getEmployeeId()}'";
+		$updateConditions[1] = "`user_id` = '{$this->getUserId()}'";
 		$updateConditions[2] = "`notification_type_id` = '{$this->getNotifcationTypeId()}'";
 
 		$query = $sqlQBuilder->simpleUpdate($arrTable, $arrFields, $changeValues, $updateConditions);
 
 		$dbConnection = new DMLFunctions();
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
-		if (mysql_affected_rows() == 0) {
-			return $this->addNotificationStatus();
-		}
+		$userObj = new Users();
+
+		$userObj->updateUserEmail($this->getUserId(), $this->getEmail());
 
 		return $result;
 	}
 
-	public function addNotificationStatus() {
+	private function _notificationConfigurationExsist() {
+		$result = $this->fetchNotifcationStatus();
+
+		if (isset($result) && $result) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function _addNotificationStatus() {
 		$sqlQBuilder = new SQLQBuilder();
 
-		$arrFields[1] = '`employee_id`';
+		$arrFields[1] = '`user_id`';
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
 
-		$insertValues[0] = "'{$this->getEmployeeId()}'";
+		$insertValues[0] = "'{$this->getUserId()}'";
 		$insertValues[1] = "'{$this->getNotifcationTypeId()}'";
 		$insertValues[2] = $this->getNotificationStatus();
 
@@ -128,23 +153,29 @@ class EmailNotificationConfiguration {
 
 		$dbConnection = new DMLFunctions();
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
 		return $result;
 	}
 
 	private function _buildObjArr($result) {
-		if (!$result) {
+		if (!isset($result)) {
 			return false;
 		}
 
 		$objArr = null;
 
+		$userObj = new Users();
+
 		while ($row = mysql_fetch_assoc($result)) {
-			$tmpEmailNotificationConf = new EmailNotificationConfiguration($row['employee_id']);
+			$tmpEmailNotificationConf = new EmailNotificationConfiguration($row['user_id']);
 
 			$tmpEmailNotificationConf->setNotifcationTypeId($row['notification_type_id']);
 			$tmpEmailNotificationConf->setNotificationStatus($row['status']);
+
+			$email = $userObj->fetchUserEmail($row['user_id']);
+
+			$tmpEmailNotificationConf->setEmail($email);
 
 			$objArr[] = $tmpEmailNotificationConf;
 		}

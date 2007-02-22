@@ -79,9 +79,9 @@ class SQLQBuilder {
 
 					//$temp = substr($value,1,strlen($value)-2);
 					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));
-					$temp = mysql_real_escape_string($temp); //str_replace("'","\'",$temp);
+					$temp = mysql_real_escape_string(trim($temp)); //str_replace("'","\'",$temp);
 
-					$tempArr[] = "'" . $temp . "'";
+					$tempArr[] = "'$temp'";
 
 				} else {
 					$tempArr[] = $value;
@@ -100,15 +100,18 @@ class SQLQBuilder {
 
 	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
 
-			$arrayFieldList = $this->arr_select;
-			$countArrSize = count($arrayFieldList);
-			$SQL1 = 'SELECT ';
-			for ($i=0;$i<count($arrayFieldList); $i++)
-				if ($i == ($countArrSize - 1))   //String Manipulation
-					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' ';
-				else
+		$arrComp = $this->quoteCorrect($arrComp);
+		$arrFlt = $this->quoteCorrect($arrFlt);
 
-					$SQL1 = $SQL1 . $arrayFieldList[$i] . ', ';
+		$arrayFieldList = $this->arr_select;
+		$countArrSize = count($arrayFieldList);
+		$SQL1 = 'SELECT ';
+		for ($i=0;$i<count($arrayFieldList); $i++)
+			if ($i == ($countArrSize - 1))   //String Manipulation
+				$SQL1 = $SQL1 . $arrayFieldList[$i] . ' ';
+			else
+
+				$SQL1 = $SQL1 . $arrayFieldList[$i] . ', ';
 
 		$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $this->field . ' NOT IN (SELECT ';
 
@@ -223,7 +226,7 @@ class SQLQBuilder {
                 $SQL1 = $SQL1 . ' AND ';
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -252,7 +255,7 @@ class SQLQBuilder {
                 $SQL1 = $SQL1 . ' AND ';
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . $arrayFieldList[0] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . $arrayFieldList[1] . ' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -390,6 +393,7 @@ class SQLQBuilder {
 
 	function selectOneRecordOnly($n=0,$str='') {
 
+		$str = $this->quoteCorrect($str);
 
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 
@@ -436,7 +440,7 @@ class SQLQBuilder {
 				}
 			}
 
-				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $field . '=' . "'" . $filID . "'";  //Tail of the SQL statement
+				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $field . '=' . "'" . mysql_real_escape_string($filID). "'";  //Tail of the SQL statement
 				//echo $SQL1;
 				//exit;
 
@@ -477,12 +481,12 @@ class SQLQBuilder {
 
 			if($num==0)
 				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '=' . "'" . $filID . "'";  //Tail of the SQL statement
-            else
-                {
-                  $SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '=' . "'" . $filID[0] . "'";
-                  for($c = 1 ; $c <= $num ; $c++)
-                    $SQL1 = $SQL1 . ' AND '. $arrayFieldList[$c] . "=" . "'" . $filID[$c] . "'";
-                }
+            else {
+            	$filID = $this->quoteCorrect($filID);
+            	$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '=' . $filID[0];
+                for($c = 1 ; $c <= $num ; $c++)
+               		$SQL1 = $SQL1 . ' AND '. $arrayFieldList[$c] . "=" . $filID[$c];
+           }
 				//echo $SQL1;
 				//exit;
 
@@ -518,7 +522,7 @@ function filterNotEqualRecordSet($filID) {
 				}
 			}
 
-				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '<>' . "'" . $filID . "'";  //Tail of the SQL statement
+				$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '<>' . "'" . mysql_real_escape_string($filID). "'";  //Tail of the SQL statement
 
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
@@ -636,11 +640,11 @@ function filterNotEqualRecordSet($filID) {
 
     				if ($i == ($countArrSize - 1))  { //String Manipulation
 
-    					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' = \'' . $arrID[$i][$j] . '\' ';
+    					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' = \'' . mysql_real_escape_string($arrID[$i][$j]). '\' ';
 
     				} else {
 
-    					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' = \'' . $arrID[$i][$j] .'\'  AND ';
+    					$SQL1 = $SQL1 . $arrayFieldList[$i] . ' = \'' . mysql_real_escape_string($arrID[$i][$j]) .'\'  AND ';
 
     				}
 	   		      }
@@ -688,7 +692,7 @@ function filterNotEqualRecordSet($filID) {
 
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -798,7 +802,7 @@ function filterNotEqualRecordSet($filID) {
 
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . 'a.'. $arrayFieldList[0] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . 'a.'. $arrayFieldList[1] .' LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -822,7 +826,7 @@ function filterNotEqualRecordSet($filID) {
 
                     switch($mode) {
 
-                              case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -857,7 +861,7 @@ function filterNotEqualRecordSet($filID) {
 
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim($str) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . 'a.EMP_NUMBER LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . 'a.EMP_FULLNAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -920,7 +924,7 @@ function listReports($userGroup, $page, $str = '' ,$mode = -1) {
 
                     switch($mode) {
 
-                        case 0 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim($str) .'%\'';
+                        case 0 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
                         case 1:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim(mysql_real_escape_string($str)) .'%\'';
                                         break;
@@ -954,7 +958,7 @@ function listReports($userGroup, $page, $str = '' ,$mode = -1) {
 
                     switch($mode)
                             {
-                              case 1 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim($schStr) .'%\'';
+                              case 1 : $SQL1 = $SQL1 . 'a.REP_CODE LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
                                         break;
                               case 2:  $SQL1 = $SQL1 . 'a.REP_NAME LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
                                         break;

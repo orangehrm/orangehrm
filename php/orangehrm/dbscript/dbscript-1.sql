@@ -553,11 +553,10 @@ create table `hs_hr_weekends` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_mailnotifications` (
-	`employee_id` int(7) not null,
+	`user_id` varchar(36) not null,
 	`notification_type_id` int not null ,
 	`status` int(2) not null,
-	`email` varchar(100) null,
-	KEY `employee_id` (`employee_id`),
+	KEY `user_id` (`user_id`),
 	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
 
@@ -809,3 +808,7 @@ alter table hs_hr_leave
 		add foreign key (leave_request_id,leave_type_id,employee_id)
 							references hs_hr_leave_requests
 									(leave_request_id,leave_type_id,employee_id) on delete cascade;
+
+alter table hs_hr_mailnotifications
+       add constraint foreign key (user_id)
+       						references hs_hr_users (id) on delete cascade;
