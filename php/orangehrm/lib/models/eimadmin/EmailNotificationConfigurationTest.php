@@ -46,7 +46,7 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
 
     	mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR010', 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
-		mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR011', 'vvxcv', '827ccb0eea8a706c4c34a16891f84e7b', NULL, NULL, 2, NULL, 'No', NULL, NULL, '2007-01-22 00:00:00', '0000-00-00 00:00:00', NULL, 'USR001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL)");
+		mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR011', 'demo1', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
 
     	mysql_query("INSERT INTO `hs_hr_mailnotifications` (`user_id`, `notification_type_id`, `status`) VALUES ('USR010', 0, 1)");
     	mysql_query("INSERT INTO `hs_hr_mailnotifications` (`user_id`, `notification_type_id`, `status`) VALUES ('USR010', 2, 0)");
@@ -59,8 +59,8 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR011'", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR012'", $this->connection);
+		mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR010'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR011'", $this->connection);
 
 		mysql_query("TRUNCATE TABLE `hs_hr_mailnotifications`", $this->connection);
     }
@@ -117,7 +117,7 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		}
     }
 
-/*
+
  	public function testUpdateNotificationStatus1() {
 
 		$this->classNotifications->setUserId('USR010');
@@ -136,14 +136,14 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotNull($res, 'Unexpected behavior');
 		$this->assertTrue(is_array($res), 'Invalid result type');
 
-		//$this->assertEquals(2, count($res), 'Invallid Number of records');
+		$this->assertEquals(2, count($res), 'Invallid Number of records');
 
 		for ($i=0; $i<count($res); $i++) {
 			$this->assertEquals($expected[$i][0], $res[$i]->getUserId(), 'Invallid employee id');
 			$this->assertEquals($expected[$i][1], $res[$i]->getNotifcationTypeId(), 'Invallid notification');
 			$this->assertEquals($expected[$i][2], $res[$i]->getNotificationStatus(), 'Invallid notification status');
 		}
-    }*/
+    }
 
 }
 

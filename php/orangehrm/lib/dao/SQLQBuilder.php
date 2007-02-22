@@ -1085,7 +1085,7 @@ function getCurrencyAssigned($salgrd) {
 	}
 
 
-	function simpleInsert($insertTable, $insertValues, $insertFields=false) {
+	function simpleInsert($insertTable, $insertValues, $insertFields=false, $onDuplicateUpdate=null) {
 
 		$this->flg_insert = true;
 
@@ -1097,6 +1097,10 @@ function getCurrencyAssigned($salgrd) {
 			$query = $this->addNewRecordFeature2('true');
 		} else {
 			$query = $this->addNewRecordFeature1('true');
+		}
+
+		if (isset($onDuplicateUpdate) && isset($insertFields)) {
+			$query .= "ON DUPLICATE KEY UPDATE {$this->_buildFormattedList($insertFields, $this->quoteCorrect($insertValues), " = ", "", ",")}";
 		}
 
 		return $query;

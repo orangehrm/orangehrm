@@ -98,6 +98,10 @@ class EmailNotificationConfiguration {
 
 	public function updateNotificationStatus() {
 
+		$userObj = new Users();
+
+		$userObj->updateUserEmail($this->getUserId(), $this->getEmail());
+
 		if (!$this->_notificationConfigurationExsist()) {
 			return $this->_addNotificationStatus();
 		}
@@ -119,10 +123,6 @@ class EmailNotificationConfiguration {
 
 		$result = $dbConnection->executeQuery($query);
 
-		$userObj = new Users();
-
-		$userObj->updateUserEmail($this->getUserId(), $this->getEmail());
-
 		return $result;
 	}
 
@@ -139,7 +139,7 @@ class EmailNotificationConfiguration {
 	private function _addNotificationStatus() {
 		$sqlQBuilder = new SQLQBuilder();
 
-		$arrFields[1] = '`user_id`';
+		$arrFields[0] = '`user_id`';
 		$arrFields[1] = '`notification_type_id`';
 		$arrFields[2] = '`status`';
 
@@ -149,7 +149,7 @@ class EmailNotificationConfiguration {
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$query = $sqlQBuilder->simpleInsert($arrTable, $insertValues);
+		$query = $sqlQBuilder->simpleInsert($arrTable, $insertValues, $arrFields, true);
 
 		$dbConnection = new DMLFunctions();
 
