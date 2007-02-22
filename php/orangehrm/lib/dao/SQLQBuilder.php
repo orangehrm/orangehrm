@@ -99,9 +99,9 @@ class SQLQBuilder {
 */
 
 	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
-
+/*
 		$arrComp = $this->quoteCorrect($arrComp);
-		$arrFlt = $this->quoteCorrect($arrFlt);
+		$arrFlt = $this->quoteCorrect($arrFlt);*/
 
 		$arrayFieldList = $this->arr_select;
 		$countArrSize = count($arrayFieldList);
@@ -124,18 +124,18 @@ class SQLQBuilder {
 			$SQL1 = $SQL1 . ' WHERE ';
 			for($c=0;count($arrComp)>$c;$c++)
     				if ($c == (count($arrComp) - 1))   //String Manipulation
-    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = \'' . $arrComp[$c][1] . '\' ';
+    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = ' . mysql_real_escape_string($arrComp[$c][1]) . ' ';
     				 else
-    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = \'' . $arrComp[$c][1] .'\'  AND ';
+    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = ' . mysql_real_escape_string($arrComp[$c][1]) . '  AND ';
 			}
 
 		if(is_array($arrFlt)) {
 			$SQL1 = $SQL1 . ') AND ';
 			for($c=0;count($arrFlt)>$c;$c++)
     				if ($c == (count($arrFlt) - 1))   //String Manipulation
-    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = \'' . $arrFlt[$c][1] . '\' ';
+    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . mysql_real_escape_string($arrFlt[$c][1]) . ' ';
     				 else
-    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = \'' . $arrFlt[$c][1] .'\'  AND ';
+    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . mysql_real_escape_string($arrFlt[$c][1]) . '  AND ';
 
 			$SQL1 = $SQL1 . ' ORDER BY '. $arrayFieldList[0];
 		} else
@@ -401,9 +401,9 @@ class SQLQBuilder {
 			$SQL1 = 'SELECT MAX(' . $arrayFieldList[0] . ') FROM ' . strtolower($this->table_name); //Tail of the SQL statement
 
 			if($n>0) {
-				$SQL1 = $SQL1 . ' WHERE ' . $arrayFieldList[1] . '=' . "'" . $str[0] . "'";
+				$SQL1 = $SQL1 . ' WHERE ' . $arrayFieldList[1] . '=' . $str[0];
                   for($c = 1 ; $c < $n ; $c++)
-                    $SQL1 = $SQL1 . ' AND '. $arrayFieldList[($c+1)] . '=' . "'" . $str[$c] . "'";
+                    $SQL1 = $SQL1 . ' AND '. $arrayFieldList[($c+1)] . '=' . $str[$c];
                 }
 
 
