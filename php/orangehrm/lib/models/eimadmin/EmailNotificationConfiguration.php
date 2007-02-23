@@ -69,9 +69,25 @@ class EmailNotificationConfiguration {
 		return $this->email;
 	}
 
-	public function __construct($userId) {
-		$this->setUserId($userId);
+	public function __construct($userId=null) {
+		if (isset($userId)) {
+			$this->setUserId($userId);
+		}
 	}
+
+	public function fetchMailNotifications($notificationTypeId=null) {
+		$notificationObjs = $this->fetchNotifcationStatus($notificationTypeId);
+		$emails = null;
+
+		if (is_array($notificationObjs)) {
+			foreach ($notificationObjs as $notificationObj) {
+				$emails[] = $notificationObj->getEmail();
+			}
+		}
+
+		return $emails;
+	}
+
 
 	/**
 	 * Fetch all notification status
@@ -85,7 +101,10 @@ class EmailNotificationConfiguration {
 
 		$arrTable = "`hs_hr_mailnotifications`";
 
-		$selectConditions[1] = "`user_id` = '{$this->getUserId()}'";
+		$userId = $this->getUserId();
+		if (isset($userId)) {
+			$selectConditions[1] = "`user_id` = '{$this->getUserId()}'";
+		}
 
 		if (isset($notificationTypeId)) {
 			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
