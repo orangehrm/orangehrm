@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
@@ -129,7 +129,9 @@
 	$lang_Menu_Admin_Users_HRAdmin 					= "HR Admin Users";
 	$lang_Menu_Admin_Users_ESS 						= "ESS Users";
 
-	$lang_Menu_Admin_EmailConfig 					= "Mail Configuration";
+	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
+	$lang_Menu_Admin_EmailConfiguration = "Configuration";
+	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -147,6 +149,11 @@
 
  	$lang_Leave_Title_Apply_Leave 						= "Apply Leave";
 
+	// Report
+	$lang_Menu_Reports = "Reports";
+	$lang_Menu_Reports_ViewReports = "View Reports";
+	$lang_Menu_Reports_DefineReports = "Define Reports";
+
 	/**
 	 * Common
 	 */
@@ -160,6 +167,8 @@
 	$lang_Commn_title 						= "Title";
 	$lang_Commn_name 						= "Name";
 	$lang_Commn_PleaseWait					= "Please wait";
+
+	$lang_Commn_Email						= "E-mail";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -333,6 +342,8 @@
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
 
+
+
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
 
  	$lang_extracurractcat_heading 			= "Extra Curricular Activities Category : Qualifications Information";
@@ -404,6 +415,12 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+
+	$lang_hremp_browse						= "Browse";
+
+	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Are you sure you want to delete the photograph";
+
+	$lang_hremp_SelectAPhoto				= "Select a Photo";
 
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
@@ -503,7 +520,15 @@
 	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Years of Experience Cannot be Blank";
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
-	$lang_hrEmpMain_Skill = "Skill";
+	$lang_hrEmpMain_Skill 					= "Skill";
+
+	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Subscription amount should be numeric";
+	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Membership subscription amount is empty. Do you want to continue";
+
+	$lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate = "Commence Date should be before renewal date";
+
+	$lang_hrEmpMain_membershiptype = "Membership Type";
+	$lang_hrEmpMain_membership = "Membership";
 
  	$lang_jobtitle_heading 					= "Job : Job Title";
 	$lang_jobtitle_jobtitid 				= "Job Title ID";
@@ -651,5 +676,86 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+
+	// PIM tab labels
+	$lang_pim_tabs_Personal = "Personal";
+	$lang_pim_tabs_Contact = "Contact";
+	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
+	$lang_pim_tabs_Dependents = "Dependents";
+	$lang_pim_tabs_Immigration = "Immigration";
+	$lang_pim_tabs_Job = "Job";
+	$lang_pim_tabs_Payments = "Payments";
+	$lang_pim_tabs_ReportTo = "Report-to";
+	$lang_pim_tabs_WorkExperience = "Work experience";
+	$lang_pim_tabs_Education = "Education";
+	$lang_pim_tabs_Skills = "Skills";
+	$lang_pim_tabs_Languages = "Languages";
+	$lang_pim_tabs_License = "License";
+	$lang_pim_tabs_Membership = "Membership";
+	$lang_pim_tabs_Attachments = "Attachments";
+
+	// Report module
+	$lang_rep_SelectionCriteria = "Selection Criteria";
+	$lang_rep_EmpNo = "Emp No";
+	$lang_rep_AgeGroup = "Age Group";
+	$lang_rep_PayGrade = "Pay Grade";
+	$lang_rep_Education = "Education";
+	$lang_rep_EmploymentStatus = "Employment Status";
+	$lang_rep_ServicePeriod = "Service Period";
+	$lang_rep_JobTitle = "Job Title";
+
+	$lang_rep_LastName = "Last Name";
+	$lang_rep_Address = "Address";
+	$lang_rep_TelNo = "Tel No";
+	$lang_rep_DateOfBirth = "Date Of Birth";
+	$lang_rep_JoinDate = "Join Date";
+	$lang_rep_Qualification = "Qualification";
+	$lang_rep_EmployeeStates = "Employee States";
+	$lang_rep_JoinedDate = "Joined Date";
+
+	$lang_rep_SelectPayGrade = "Select Salary Grade";
+	$lang_rep_SelectEducation = "Select Education Type";
+	$lang_rep_SelectEmploymentType = "Select Employment Type";
+	$lang_rep_SelectComparison = "Select Comparison";
+	$lang_rep_SelectJobTitle = "Select Job Title";
+
+	$lang_rep_Field = "Field";
+	$lang_rep_AssignUserGroups = "Assign User Groups";
+	$lang_rep_AssignedUserGroups = "Assigned User Groups";
+
+	$lang_rep_SelectAtLeastOneCriteriaAndOneField = "Select at least one criteria and one field";
+	$lang_rep_SelectTheComparison = "Select The Comparison";
+
+	$lang_rep_AgeShouldBeNumeric = "Age Should Be Numeric";
+	$lang_rep_InvalidAgeRange = "2nd Selected Age Lager Than The 1st Selected Age";
+
+	$lang_rep_FieldNotSelected = "Field Not Selected";
+
+	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
+
+	$lang_rep_Report = "Report";
+	$lang_rep_EmployeeNo = "Employee No";
+	$lang_rep_EmployeeLastName = "Employee Last Name";
+	$lang_rep_Address = "Address";
+	$lang_rep_Telephone = "Telephone";
+	$lang_rep_DateOfBirth = "Date of Birth";
+	$lang_rep_SalaryGrade = "Salary Grade";
+	$lang_rep_EmployeeStatus = "Employee Status";
+	$lang_rep_JoinedDate = "Joined Date";
+	$lang_rep_JobTitle = "Job Title";
+
+	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Select at least one User Group check box to assign";
+
+	$lang_rep_ReportDefinition = "Report Definition";
+	$lang_rep_AssignUserGroups = "Assign User Groups";
+	$lang_rep_UserGroups = "User Groups";
+	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
+
+	// Email Notification Subscription
+	$lang_Admin_SubscribeToMailNotifications = "Subscribe to E-mail Notifications";
+	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
+	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
+	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
+	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
 
 ?>
