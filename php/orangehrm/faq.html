@@ -240,12 +240,17 @@ For Linux Installation these steps should be followed;
 			<h4>Note</h4>
 			<p>
 				if you are using PHP5 the LoadModule lines should be altered as
-				<div class="code">LoadModule php5_module “c:/php/php5apache.dll”</div>
+				<div class="code">LoadModule php5_module "c:/php/php5apache.dll"</div>
 				<div align="center">OR</div>
-				<div class="code">LoadModule php5_module  “c:/php/php5apache2.dll”</div>
+				<div class="code">LoadModule php5_module "c:/php/php5apache2.dll"</div>
+				<div align="center">OR</div>
+				<div class="code">LoadModule php5_module "c:/php/php5apache2_2.dll"</div>
 
 				<br />
-				for Apache 1.3 OR Apache 2 Web servers respectively
+				for Apache 1.3 / Apache 2 / Apache 2.2 Web servers respectively.
+				
+				Also add line;
+				<div class="code">PHPIniDir "C:/php"</div>
 			</p>
 		</div>
 
