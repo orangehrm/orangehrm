@@ -97,7 +97,7 @@ if (isset($editArr) && is_array($editArr)) {
 </style>
 </head>
 <body>
-<h2><?php echo $lang_Menu_Admin_SubscribeToMailNotifications; ?><hr/></h2>
+<h2><?php echo $lang_Admin_SubscribeToMailNotifications; ?><hr/></h2>
 <form name="mailSubscription" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=ENS&capturemode=updatemode&id=1" method="post" onsubmit="validate(); return false;" >
 <input type="hidden" name="sqlState" id="sqlState" />
 <div class="roundbox">

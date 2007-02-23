@@ -129,8 +129,9 @@
 	$lang_Menu_Admin_Users_HRAdmin 					= "HR Admin Users";
 	$lang_Menu_Admin_Users_ESS 						= "ESS Users";
 
-	$lang_Menu_Admin_EmailConfig 					= "Mail Configuration";
-	$lang_Menu_Admin_SubscribeToMailNotifications	= "Subscribe to E-mail Notifications";
+	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
+	$lang_Menu_Admin_EmailConfiguration = "Configuration";
+	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -751,6 +752,7 @@
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
 
 	// Email Notification Subscription
+	$lang_Admin_SubscribeToMailNotifications = "Subscribe to E-mail Notifications";
 	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
 	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
 	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";

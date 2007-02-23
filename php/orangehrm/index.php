@@ -141,6 +141,7 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu9", "right", xPosition, yPosition + 110, 146, 80)
 		//new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 110, 146, 120)
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
+		new ypSlideOutMenu("menu15", "right", xPosition, yPosition + 154, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
 		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)
@@ -412,7 +413,7 @@ function setSize() {
   						<li id="memberships"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu5');" onMouseOut="ypSlideOutMenu.hideMenu('menu5');"><?php echo $lang_Menu_Admin_Memberships; ?></a></li>
   						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
-						<li id="users"><a href="index.php?uniqcode=EMX&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin_EmailConfig; ?></a></li>
+						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
 </ul></TD>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
@@ -735,7 +736,7 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu13 -->
-			    <!-- Begin SubMenu14 -->
+              <!-- Begin SubMenu14 -->
               <DIV id=menu14Container>
                 <DIV id=menu14Content>
                  <?php
@@ -757,6 +758,28 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu14 -->
+              <!-- Begin SubMenu15 -->
+              <DIV id=menu15Container>
+                <DIV id=menu15Content>
+                 <?php
+				 	if ($authorizeObj->isAdmin()) {
+                 ?>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>
+                      <tr>
+                        <td onMouseOver="ypSlideOutMenu.showMenu('menu15')" onMouseOut="ypSlideOutMenu.hideMenu('menu15')" vAlign=center align=left width=142 height=17><a class=rollmenu  href="index.php?uniqcode=EMX&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin_EmailConfiguration; ?></a></td>
+					 </tr>
+					 <tr>
+                        <td onMouseOver="ypSlideOutMenu.showMenu('menu15')" onMouseOut="ypSlideOutMenu.hideMenu('menu15')" vAlign=center align=left width=142 height=17><a class=rollmenu href="index.php?uniqcode=ENS&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin_EmailSubscribe; ?></a></td>
+					 </tr>
+                    </TBODY>
+                  </TABLE>
+                  <?php
+                 	}
+                 ?>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu15 -->
               <!--------------------- End Menu --------------------->
             </td>
             <td width="779" valign="top"><table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
