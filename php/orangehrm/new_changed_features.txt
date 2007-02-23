@@ -1,13 +1,21 @@
-New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) {Future}
+New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 
 	1. PIM is completely translated into Russian
-	2. Mail notifications to HR Admins are configurable
+	2. Mail notifications to HR Admins(configurable)
 
 	Bugs fixed include:
 
 	BugId     Name
 
 	1649424	  menu problem
+	1666769   System Check Error with absent MySQL ext
+	1666689   Missing pull down menu
+	1665950   \'x\'; DROP TABLE hs_hr_compstructtree; --\';
+	1665836   Company Genaral is not Vulnerable to SQL Injection
+	1662150   E-mail validation
+	1660564   Employee ID 000
+	1659714   Error Page Seen
+	1659438   Job title - Error in adding employment status to job title
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) (13/02/2007)
 
