@@ -73,7 +73,7 @@ class SQLQBuilder {
 	}
 
 	function quoteCorrect($arr) {
-
+		if (is_array($arr)) {
 			foreach ($arr as $value) {
 				if ($value != 'null') {
 
@@ -87,8 +87,15 @@ class SQLQBuilder {
 					$tempArr[] = $value;
 				}
 			}
+			return $tempArr;
+		}
 
-		return $tempArr;
+		$value=$arr;
+
+		$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));
+		$temp = mysql_real_escape_string(trim($temp)); //str_replace("'","\'",$temp);
+
+		return $temp;
 	}
 
 /*	Function passresultSetMessage Will

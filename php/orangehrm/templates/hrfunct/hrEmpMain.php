@@ -810,7 +810,7 @@ function resetAdd(panel) {
 			  <tr>
 				<td><?php echo $lang_Commn_code?></td>
 				<td><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>">
-					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>">
+					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>">
 				</td>
 			  </tr>
 			  <tr>
