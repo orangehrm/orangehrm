@@ -23,13 +23,15 @@ class FormCreator
 
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
+		require_once ROOT_PATH . '/language/default/lang_default_full.php';
 
-			$lan = new Language();
-			require_once($lan->getLangPath("full.php"));
+		$lan = new Language();
+		require_once($lan->getLangPath("full.php"));
+		$fileName = pathinfo($this->formPath, PATHINFO_BASENAME);
 
-			if(!isset($this->getArr['mtcode']))
-				require_once($lan->getLangPath(basename($this->formPath)));
-			//print_r($lan->getLangPath(basename($this->formPath)));
+		if (preg_match('/view\.php$/', $fileName) == 1) {
+			require_once($lan->getLangPath($fileName));
+		}
 
 		require_once ROOT_PATH . $this->formPath;
 

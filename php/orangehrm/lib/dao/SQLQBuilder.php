@@ -124,9 +124,9 @@ class SQLQBuilder {
 			$SQL1 = $SQL1 . ' WHERE ';
 			for($c=0;count($arrComp)>$c;$c++)
     				if ($c == (count($arrComp) - 1))   //String Manipulation
-    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = ' . mysql_real_escape_string($arrComp[$c][1]) . ' ';
+    					$SQL1 = $SQL1 . $arrComp[$c][0] . " = '" . mysql_real_escape_string($arrComp[$c][1]) . '\' ';
     				 else
-    					$SQL1 = $SQL1 . $arrComp[$c][0] . ' = ' . mysql_real_escape_string($arrComp[$c][1]) . '  AND ';
+    					$SQL1 = $SQL1 . $arrComp[$c][0] . " = '" . mysql_real_escape_string($arrComp[$c][1]) . '\'  AND ';
 			}
 
 		if(is_array($arrFlt)) {

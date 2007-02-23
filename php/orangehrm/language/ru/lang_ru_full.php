@@ -134,6 +134,7 @@
 	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";
 
 	$lang_Menu_Admin_EmailConfig = "Конфигурация почты";
+	$lang_Menu_Admin_SubscribeToMailNotifications	= "Subscribe to E-mail Notifications";
 
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
@@ -748,4 +749,11 @@
 	$lang_rep_AssignUserGroups = "Присвоить группы пользователей";
 	$lang_rep_UserGroups = "Группы пользователей";
 	$lang_rep_NoUserGroupsAssigned = "Группы пользователей не присвоенны";
+
+	// Email Notification Subscription
+	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
+	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
+	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
+	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
+
 ?>

@@ -22,6 +22,23 @@ require_once($lan->getLangPath("full.php"));
 $locRights=$_SESSION['localRights'];
 
 $editArr = $this->popArr['editArr'];
+
+$allNotifications = array(	EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_PENDING_APPROVAL => $lang_Admin_ENS_LeaveApplications,
+							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_APPROVED => $lang_Admin_ENS_LeaveApprovals,
+							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_CANCELLED => $lang_Admin_ENS_LeaveCancellations,
+							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_REJECTED => $lang_Admin_ENS_LeaveRejections);
+
+$statusArr = null;
+
+$notificationEmail = "";
+if (isset($editArr) && is_array($editArr)) {
+	$notificationObj = current($editArr);
+	$notificationEmail = $notificationObj->getEmail();
+
+	foreach ($editArr as $notificationObj) {
+		$notificationObjs[$notificationObj->getNotifcationTypeId()] = $notificationObj;
+	}
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -31,6 +48,28 @@ $editArr = $this->popArr['editArr'];
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
+<script language="JavaScript" type="text/javascript">
+  function validate() {
+		error = false;
+		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
+		obj = $('txtMailAddress');
+
+		if (!mailRegExp.test(obj.value)) {
+			error = true;
+			alert('<?php echo $lang_Error_InvalidEmail; ?>')
+		}
+
+		if (!error) {
+			$('sqlState').value = 'UpdateRecord';
+			$('mailSubscription').submit();
+		}
+	}
+
+	function $(id) {
+		return document.getElementById(id);
+	}
+</script>
+
 <style type="text/css">
 @import url("../../themes/beyondT/css/style.css");
 
@@ -47,6 +86,8 @@ $editArr = $this->popArr['editArr'];
 .roundbox {
 	margin-top: 50px;
 	margin-left: 0px;
+	padding: 0 10px;
+
 }
 
 .roundbox_content {
@@ -56,16 +97,53 @@ $editArr = $this->popArr['editArr'];
 </style>
 </head>
 <body>
-<h2><?php echo $subscribeToMailNotifications; ?> <hr/></h2>
+<h2><?php echo $lang_Menu_Admin_SubscribeToMailNotifications; ?><hr/></h2>
+<form name="mailSubscription" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=ENS&capturemode=updatemode&id=1" method="post" onsubmit="validate(); return false;" >
+<input type="hidden" name="sqlState" id="sqlState" />
 <div class="roundbox">
   <table border="0">
     <tbody>
-      <tr>
-        <td><input type="checkbox" checked="checked" name="notification['approve']" value="1" /></td>
-		<td>Leave Approval</td>
+    <tr>
+        <td><label><?php echo $lang_Commn_Email; ?>
+  				<input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $notificationEmail; ?>"/>
+  			</label>
+  		</td>
       </tr>
+      <?php
+      	$i=0;
+      	foreach ($allNotifications as $notificationType=>$notificationName) {
+      		$checked = "checked='checked'";
+      		if (isset($notificationObjs[$notificationType])) {
+      			$notificationStatus = $notificationObjs[$notificationType]->getNotificationStatus();
+
+      			if ($notificationStatus == 0) {
+      				$checked = "";
+      			}
+      		}
+      ?>
+      <tr>
+        <td><label>
+			<input type="hidden" name="notificationMessageId[<?php echo $i; ?>]" value="<?php echo $notificationType; ?>" />
+			<input type="hidden" name="notificationMessageStatus[<?php echo $i; ?>]" value="0" />
+			<input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]" value="1" />
+				<?php echo $notificationName; ?></label></td>
+      </tr>
+      <?php
+      	$i++;
+      	}
+      ?>
     </tbody>
   </table>
 </div>
+<input type="image" name="btnAct" src="../../themes/beyondT/pictures/btn_save.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
+style="border:none;"/>
+</form>
+<script type="text/javascript">
+<!--
+	if (document.getElementById && document.createElement) {
+		initOctopus();
+	}
+-->
+</script>
 </body>
 </html>

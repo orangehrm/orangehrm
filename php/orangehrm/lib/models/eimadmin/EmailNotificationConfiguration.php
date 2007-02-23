@@ -18,9 +18,9 @@
  *
  */
 
-require_once ROOT_PATH . 'lib/dao/DMLFunctions.php';
-require_once ROOT_PATH . 'lib/dao/SQLQBuilder.php';
-require_once ROOT_PATH . 'lib/models/maintenance/Users.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 
 /**
  * Handle mail notification settings
@@ -37,7 +37,7 @@ class EmailNotificationConfiguration {
 	private $notificationStatus;
 	private $email;
 
-	public function setuserId($userId) {
+	public function setUserId($userId) {
 		$this->userId = $userId;
 	}
 
@@ -76,7 +76,7 @@ class EmailNotificationConfiguration {
 	/**
 	 * Fetch all notification status
 	 */
-	public function fetchNotifcationStatus() {
+	public function fetchNotifcationStatus($notificationTypeId=null) {
 		$sqlQBuilder = new SQLQBuilder();
 
 		$arrFields[0] = '`user_id`';
@@ -86,6 +86,10 @@ class EmailNotificationConfiguration {
 		$arrTable = "`hs_hr_mailnotifications`";
 
 		$selectConditions[1] = "`user_id` = '{$this->getUserId()}'";
+
+		if (isset($notificationTypeId)) {
+			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
+		}
 
 		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
 
@@ -127,9 +131,9 @@ class EmailNotificationConfiguration {
 	}
 
 	private function _notificationConfigurationExsist() {
-		$result = $this->fetchNotifcationStatus();
+		$result = $this->fetchNotifcationStatus($this->getNotifcationTypeId());
 
-		if (isset($result) && $result) {
+		if (isset($result) && isset($result[0])) {
 			return true;
 		}
 

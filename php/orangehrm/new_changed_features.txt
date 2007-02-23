@@ -1,6 +1,7 @@
 New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) {Future}
 
 	1. PIM is completely translated into Russian
+	2. Mail notifications to HR Admins are configurable
 
 	Bugs fixed include:
 

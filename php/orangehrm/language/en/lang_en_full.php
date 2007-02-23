@@ -130,6 +130,7 @@
 	$lang_Menu_Admin_Users_ESS 						= "ESS Users";
 
 	$lang_Menu_Admin_EmailConfig 					= "Mail Configuration";
+	$lang_Menu_Admin_SubscribeToMailNotifications	= "Subscribe to E-mail Notifications";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -165,6 +166,8 @@
 	$lang_Commn_title 						= "Title";
 	$lang_Commn_name 						= "Name";
 	$lang_Commn_PleaseWait					= "Please wait";
+
+	$lang_Commn_Email						= "E-mail";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -746,5 +749,11 @@
 	$lang_rep_AssignUserGroups = "Assign User Groups";
 	$lang_rep_UserGroups = "User Groups";
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
+
+	// Email Notification Subscription
+	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
+	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
+	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
+	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
 
 ?>

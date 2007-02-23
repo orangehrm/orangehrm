@@ -41,6 +41,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/JobTitEmpStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -184,6 +185,9 @@ class ViewController {
 						$this->reDirect($getArr);
 						break;
 			case 'EMX' :
+						$this->reDirect($getArr);
+						break;
+			case 'ENS' :
 						$this->reDirect($getArr);
 						break;
 			default:
@@ -1645,6 +1649,16 @@ class ViewController {
 									$emailConfig = $object;
 									$res = $emailConfig->reWriteConf();
 									break;
+				case 'ENS'  :		$emailNotifacationConfigs = new EmailNotificationConfiguration($_SESSION['user']);
+									$emailNotifacationConfigs = $object;
+									$res = true;
+									foreach ($emailNotifacationConfigs as $emailNotifacationConfig) {
+										$resp = $emailNotifacationConfig->updateNotificationStatus();
+										if (!$resp) {
+											$res = $resp;
+										}
+									}
+									break;
 			}
 
 			// Checking whether the $message Value returned is 1 or 0
@@ -2105,7 +2119,10 @@ class ViewController {
 							$emailConfigObj = new EmailConfiguration();
 							$form_creator ->popArr['editArr'] = $emailConfigObj;
 							break;
-
+			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
+							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
+							$form_creator ->popArr['editArr'] =$emailNotificationConfObj->fetchNotifcationStatus();
+							break;
 			case 'NAT' :	$form_creator ->formPath = '/templates/eimadmin/nationalityinformation.php';
 							$natinfo = new NationalityInfo();
 
@@ -2702,6 +2719,7 @@ class ViewController {
 							$form_creator->popArr['modlistAss'] = $urights->getAssRights($getArr['id']);
 
 							break;
+
 				}
 
 		$form_creator->display();

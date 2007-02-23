@@ -1,10 +1,10 @@
 <?php
-	
+
 ob_start();
 
 session_start();
 
-if(!isset($_SESSION['fname'])) { 
+if(!isset($_SESSION['fname'])) {
 
 	header("Location: ../../login.php");
 	exit();
@@ -40,6 +40,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EEOJobCat.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Licenses.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EthnicRace.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailConfiguration.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailNotificationConfiguration.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -104,8 +105,8 @@ define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
 define('LEAVE', 'MOD004');
-	
-switch ($moduletype) {   
+
+switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
 	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
@@ -114,13 +115,13 @@ switch ($moduletype) {
 if(!is_array($locRights) && $locRights == false)
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 
-if($_SESSION['isAdmin'] != 'Yes')	
+if($_SESSION['isAdmin'] != 'Yes')
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> true);
-	
+
 if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id']) && ($_GET['id'] !== $_SESSION['empID']))) {
 	trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
 }
-	
+
 $ugroup = new UserGroups();
 $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 
@@ -129,9 +130,9 @@ $locRights['repDef'] = ($ugDet !== null && $ugDet[0][2] == '1') ? true : false;
 $_SESSION['localRights'] = $locRights;
 
 switch ($moduletype) {
-	
+
 	case 'admin' 	:  // beg. admin module
-	
+
 					$view_controller = new ViewController();
 
 
@@ -139,185 +140,185 @@ switch ($moduletype) {
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['uniqcode']),$arrList);
 						}
-											
-						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {				
+
+						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
 							$view_controller ->viewList($_GET,$_POST);
 							break;
-						} 				
+						}
 
-						
+
 					// choosing which extractor
 					switch ($_GET['uniqcode']) {
-						
-						case 'GEN'	:	
+
+						case 'GEN'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_GenInfo();
 										}
-										
+
 										break;
-										
-						case 'EST'	:	
+
+						case 'EST'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmployStat();
 										}
-										
+
 										break;
-						
-						case 'JOB'	:	
+
+						case 'JOB'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_JobTitle();
 										}
-										
+
 										break;
-						
-						case 'BNK'	:	
+
+						case 'BNK'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_BankInfo();
 										}
-										
+
 										break;
-						
-						case 'TAX'	:	
+
+						case 'TAX'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_TaxInfo();
 										}
-										
+
 										break;
 
-						case 'CCB'	:	
+						case 'CCB'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CashBen();
 										}
-										
+
 										break;
 
-						case 'COS'	:	
+						case 'COS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CostCenter();
 										}
-										
+
 										break;
 
-						case 'COU'	:	
+						case 'COU'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CountryInfo();
 										}
-										
+
 										break;
 
-						case 'CUR'	:	
+						case 'CUR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CurrencyTypes();
 										}
-										
+
 										break;
 
-						case 'DWT'	:	
+						case 'DWT'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_DwellingType();
 										}
-										
+
 										break;
-										
-						case 'ELE'	:	
+
+						case 'ELE'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ElectorateInfo();
 										}
 
 										break;
 
-						case 'EMC'	:	
+						case 'EMC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmployeeCat();
 										}
 
 										break;
 
-						case 'EMG'	:	
+						case 'EMG'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmployeeGroup();
 										}
 
 										break;
 
-						case 'ETY'	:	
+						case 'ETY'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmployeeTypes();
 										}
 
 										break;
 
-						case 'EXC'	:	
+						case 'EXC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ExtraCurrActCat();
 										}
 
 										break;
 
-						case 'DEF'	:	
+						case 'DEF'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_HierarchyDefInfo();
 										}
 
 										break;
 
-						case 'JDC'	:	
+						case 'JDC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_JDCategory();
 										}
 
 										break;
 
-						case 'LOC'	:	
+						case 'LOC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Location();
 										}
 
 										break;
-										
-						case 'MEM'	:	
+
+						case 'MEM'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_MembershipType();
 										}
 
 										break;
-										
-						case 'NAT'	:	
+
+						case 'NAT'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_NationalityInfo();
 										}
 
 										break;
-										
-						case 'NCB'	:	
+
+						case 'NCB'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_NonCashBen();
 										}
 
 										break;
-										
-						case 'QLF'	:	
+
+						case 'QLF'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_QualificationType();
 										}
 
 										break;
-										
-						case 'RTM'	:	
+
+						case 'RTM'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_RatingTypes();
 										}
 
 										break;
-										
-						case 'RTE'  :	
+
+						case 'RTE'  :
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_RouteInfo();
 										}
 
 										break;
-										
-						case 'SGR'	:	
+
+						case 'SGR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_SalaryGrades();
 										}
@@ -327,237 +328,244 @@ switch ($moduletype) {
 										}
 
 										break;
-										
-						case 'SKI'	:	
+
+						case 'SKI'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Skills();
 										}
 
 										break;
-										
-						case 'EXA'	:	
+
+						case 'EXA'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ExtraCurActInfo();
 										}
 
 										break;
-										
-						case 'MME'	:	
+
+						case 'MME'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_MembershipInfo();
 										}
 
 										break;
-										
-						case 'JDK'	:	
+
+						case 'JDK'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_JDKra();
 										}
 
 										break;
-										
-						case 'LAN'	:	
+
+						case 'LAN'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_LanguageInfo();
 										}
 
 										break;
-										
-						case 'RLG'	:	
+
+						case 'RLG'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ReligionInfo();
 										}
 
 										break;
-										
-						case 'SAT'	:	
+
+						case 'SAT'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_SatutoryInfo();
 										}
 
 										break;
-										
-						case 'UNI'	:	
+
+						case 'UNI'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_UniformType();
 										}
 
 										break;
-																
-						case 'EXA'	:	
+
+						case 'EXA'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ExtraCurActInfo();
 										}
 
 										break;
-										
-						case 'EDU'	:	
+
+						case 'EDU'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_education();
 										}
 
 										break;
 
-						case 'JDT'	:	
+						case 'JDT'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_JDType();
 										}
 
 										break;
-										
-						case 'SBJ'	:	
+
+						case 'SBJ'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_SubjectInfo();
 										}
 
 										break;
-										
-						case 'SSK'	:	
+
+						case 'SSK'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_SubSkillInfo();
 										}
 
-										break;					
-										
-						case 'BCH'	:	
+										break;
+
+						case 'BCH'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Branches();
 										}
 
 										break;
 
-						case 'CHI'	:	
+						case 'CHI'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CompHier();
 										}
 
 										break;
 
-						case 'CTT'	:	
+						case 'CTT'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CorpTit();
 										}
 
 										break;
 
-						case 'DSG'	:	
+						case 'DSG'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Designations();
 										}
 
 										break;
 
-						case 'PRO'	:	
+						case 'PRO'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ProvinceInfo();
 										}
 
 										break;
-										
-						case 'ETH'	:	
+
+						case 'ETH'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EthnicRace();
 										}
 
-										break;				
+										break;
 
-						case 'DIS'	:	
+						case 'DIS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_DistrictInfo();
 										}
 
 										break;
-										
-						case 'EEC'	:	
+
+						case 'EEC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EEOJobCat();
 										}
 
 			 							break;
-			 							
-			 			case 'LIC'	:	
+
+			 			case 'LIC'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Licenses();
 										}
 
 			 							break;
-			 			case 'CST'	:	
+			 			case 'CST'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CompStruct();
 										}
 
 			 							break;
 
-						case 'BBS'	:	
+						case 'BBS'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_CashBenSal();
 										}
 
 										break;
-										
-						case 'NBS'	:	
+
+						case 'NBS'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_NonCashBenSal();
 										}
 
 										break;
-										
-						case 'DDI'	:	
+
+						case 'DDI'	:
 										if(isset($_POST['KRA'])) {
 											$extractor = new EXTRACTOR_DesDescription();
 										}
 
 										break;
-										
-						case 'DQA'	:	
+
+						case 'DQA'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_DesQualification();
 										}
 
 										break;
-										
-						case 'DQS'	:	
+
+						case 'DQS'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_DesQualSubject();
 										}
 
 										break;
-										
-						case 'RTG'	:	
+
+						case 'RTG'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_RatingGrade();
 										}
 
 			 							break;
-										
-						case 'USR'	:	
+
+						case 'USR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Users();
 										}
 										break;
-										
-						case 'USG'	:	
+
+						case 'USG'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_UserGroups();
 										}
 
 			 							break;
-						
-						case 'UGR'	:	
+
+						case 'UGR'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_Rights();
 										}
-						case 'EMX'	:	
+										break;
+						case 'EMX'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmailConfiguration();
 										}
-						
+										break;
+						case 'ENS'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_EmailNotificationConfiguration();
+										}
+										break;
+
 					}
 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='delete' && $locRights['delete']) {
 											$parsedObject = $extractor->parseDeleteData($_POST);
-											$view_controller->deleteData($_GET['uniqcode'],$parsedObject);												
-										} 
+											$view_controller->deleteData($_GET['uniqcode'],$parsedObject);
+										}
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['uniqcode'],$parsedObject);
@@ -567,7 +575,7 @@ switch ($moduletype) {
 												$view_controller->updateData($_GET['uniqcode'],$_GET['id'],$parsedObject);
 												break;
 										}
-										
+
 										if(isset($_POST['KRA']) && $_POST['KRA']=='SEL' && $locRights['add']) {
 												$objectArr = $extractor->parseAddData($_POST);
 												$view_controller->addDesDisData($objectArr);
@@ -577,16 +585,16 @@ switch ($moduletype) {
 										} elseif(isset($_POST['KRA']) && $_POST['KRA'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delDesDisData($_POST,$_GET);
 										}
-										
-																				
+
+
 										if(isset($_POST['STAT']) && (($_POST['STAT'] == 'ADD' && $locRights['add']) || ($_POST['STAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractor->parseData($_POST);
 												$view_controller->assignData($_GET['uniqcode'],$parsedObject,$_POST['STAT']);
 										} elseif(isset($_POST['STAT']) && $_POST['STAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delAssignData($_GET['uniqcode'],$_POST,$_GET);
 										}
-										
-						
+
+
 						if(isset($_POST['STAT']) && $_POST['STAT'] == 'OWN') {
 							$parsedObject = $extractor->parseData($_POST);
 							$view_controller -> reDirect($_GET,$parsedObject);
@@ -603,24 +611,24 @@ switch ($moduletype) {
 							$view_controller -> reDirect($_GET);
 							break;
 						}
-						
+
 
 						// end of admin module
 						break;
-					
+
 	case 'hr'		:
 					$view_controller = new EmpViewController();
-					
+
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['reqcode']),$arrList);
 						}
-				   	
+
 						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
 							$view_controller ->viewList($_GET,$_POST);
 							break;
-						} 
-						
+						}
+
 					// choosing which extractor
 					if(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpEmergencyCon();
@@ -633,7 +641,7 @@ switch ($moduletype) {
 					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpLanguage();
 					}
-					
+
 					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpLicenses();
 					}
@@ -645,23 +653,23 @@ switch ($moduletype) {
 					if(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpBasSalary();
 					}
-					
+
 					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpEducation();
 					}
-					
+
 					if(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpWorkExp();
 					}
-					
+
 					if(isset($_POST['skillSTAT']) && $_POST['skillSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpSkill();
 					}
-					
+
 					if(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpRepTo();
 					}
-					
+
 					if(isset($_POST['brchSTAT']) && $_POST['brchSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpBank();
 					}
@@ -677,24 +685,24 @@ switch ($moduletype) {
 					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpChildren();
 					}
-			
+
 					if(isset($_POST['conextSTAT']) && $_POST['conextSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpConExt();
 					}
-					
-					switch ($_GET['reqcode']) {					
+
+					switch ($_GET['reqcode']) {
 						case 'ESS'	:	if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmpInfo();
 											$extractor->ESS();
-										}									
+										}
 										break;
-						case 'EMP'	:	
+						case 'EMP'	:
 										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_EmpInfo();											
-										}									
+											$extractor = new EXTRACTOR_EmpInfo();
+										}
 										break;
 					}
-										
+
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_POST,$_GET['reqcode'],$parsedObject);
@@ -713,7 +721,7 @@ switch ($moduletype) {
 												$view_controller->updateData($_GET['reqcode'],$_GET['id'],$parsedObject);
 												break;
 										}
-										
+
 										if(isset($_POST['STAT']) && ((($_POST['STAT'] == 'ADD' || $_POST['STAT'] == 'ADDOTH') && $locRights['add']) || ($_POST['STAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractor->parseData($_POST);
 												$view_controller->assignData($_GET['reqcode'],$parsedObject,$_POST['STAT']);
@@ -727,42 +735,42 @@ switch ($moduletype) {
 										} elseif(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD' && $locRights['add']) || ($_POST['educationSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['educationSTAT']);
 										} elseif(isset($_POST['educationSTAT']) && $_POST['educationSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['wrkexpSTAT']) && (($_POST['wrkexpSTAT'] == 'ADD' && $locRights['add']) || ($_POST['wrkexpSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['wrkexpSTAT']);
 										} elseif(isset($_POST['wrkexpSTAT']) && $_POST['wrkexpSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['skillSTAT']) && (($_POST['skillSTAT'] == 'ADD' && $locRights['add']) || ($_POST['skillSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['skillSTAT']);
 										} elseif(isset($_POST['skillSTAT']) && $_POST['skillSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['reporttoSTAT']) && (($_POST['reporttoSTAT'] == 'ADD' && $locRights['add']) || ($_POST['reporttoSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['reporttoSTAT']);
 										} elseif(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']) || ($_GET['reqcode'] === "ESS") && (($_POST['econtactSTAT'] == 'ADD') || ($_POST['econtactSTAT'] == 'EDIT')))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['econtactSTAT']);
 										} elseif(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT'] == 'DEL' && ($locRights['delete'] || (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")))) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['passportSTAT']) && (($_POST['passportSTAT'] == 'ADD' && $locRights['add']) || ($_POST['passportSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['passportSTAT']);
@@ -783,42 +791,42 @@ switch ($moduletype) {
 										} elseif(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['membershipSTAT']) && (($_POST['membershipSTAT'] == 'ADD' && $locRights['add']) || ($_POST['membershipSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['membershipSTAT']);
 										} elseif(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
 										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['childrenSTAT']) && (($_POST['childrenSTAT'] == 'ADD' && $locRights['add']) || ($_POST['childrenSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['childrenSTAT']);
 										} elseif(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['conextSTAT']) && (($_POST['conextSTAT'] == 'ADD' && $locRights['add']) || ($_POST['conextSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['conextSTAT']);
 										} elseif(isset($_POST['conextSTAT']) && $_POST['conextSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['brchSTAT']) && (($_POST['brchSTAT'] == 'ADD' && $locRights['add']) || ($_POST['brchSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['brchSTAT']);
 										} elseif(isset($_POST['brchSTAT']) && $_POST['brchSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
-										
+
 										if(isset($_POST['attSTAT']) && (($_POST['attSTAT'] == 'ADD' && $locRights['add']) || ($_POST['attSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['attSTAT']);
@@ -830,7 +838,7 @@ switch ($moduletype) {
 						if((isset($_POST['STAT'])) && ($_POST['STAT'] == 'OWN')) {
 							$extObject = $extractor->reloadData($_POST);
 							$view_controller -> reDirect($_GET,$_POST,$extObject);
-							break;				
+							break;
 						} elseif(isset($_POST['sqlState']) && $_GET['capturemode'] == 'addmode') {
 							$extObject = $extractor->reloadData($_POST);
 							$view_controller -> reDirect($_GET,$_POST,$extObject);
@@ -843,93 +851,93 @@ switch ($moduletype) {
 							$view_controller -> reDirect($_GET,$_POST);
 							break;
 						}
-						//end of pim module	
-					
-							
+						//end of pim module
+
+
 	case 'mt'		:  //beg of mt module
-	
+
 						$view_controller = new MTViewController();
-						
+
 							if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['mtcode']),$arrList);
 							}
-						
+
 							if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && ($locRights['view'] || $_GET['mtcode']=='BUG')) {
 								$view_controller ->viewList($_GET,$_POST);
 								break;
-							} 				
-												
+							}
+
 						// choosing which extractor
 						switch ($_GET['mtcode']) {
-						
-							case 'BUG'	:	
+
+							case 'BUG'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_Bugs();
 											}
-										
+
 											break;
-											
-							case 'DVR'	:	
+
+							case 'DVR'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_DbVersions();
 											}
-										
+
 											break;
-											
-							case 'MOD'	:	
+
+							case 'MOD'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_Modules();
 											}
-										
+
 											break;
-											
-							case 'USG'	:	
+
+							case 'USG'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_UserGroups();
 											}
-										
+
 											break;
-											
-							 case 'VER'	:	
+
+							 case 'VER'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_Versions();
 											}
-										
-											break;				
-						
-						
-						case 'FVR'	:	
+
+											break;
+
+
+						case 'FVR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_FileVersions();
 										}
 
-										break;	
-										
-						case 'USR'	:	
+										break;
+
+						case 'USR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Users();
 										}
 
 										break;
-										
-						case 'CPW'	:	
+
+						case 'CPW'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ChangeUsers();
 										}
 
-										break;	
-										
-						case 'UGR'	:	
+										break;
+
+						case 'UGR'	:
 										if(isset($_POST['STAT'])) {
 											$extractor = new EXTRACTOR_Rights();
 										}
 
-										break;	
+										break;
 						}
-						
-										
-					
+
+
+
 										if(isset($_POST['STAT']) && (($_POST['STAT'] == 'ADD' && $locRights['add']) || ($_POST['STAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractor->parseData($_POST);
 												$view_controller->assignData($_GET['mtcode'],$parsedObject,$_POST['STAT']);
@@ -949,47 +957,47 @@ switch ($moduletype) {
 												//echo $locRights['edit'];
 												$view_controller -> reDirect($_GET);
 												break;
-											
+
 										}
-										
+
 					//ending of mt module
 						break;
-						
+
 	case 'rep' 	:  // beg. Reports module
 						$view_controller = new RepViewController();
-						
+
 							if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['repDef']) {
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['repcode']),$arrList);
 							}
-						
+
 							if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN') {
 								$view_controller ->viewList($_GET,$_POST);
 								break;
-							} 				
-												
+							}
+
 						// choosing which extractor
 						switch ($_GET['repcode']) {
-											
-							case 'EMPDEF'	:	
+
+							case 'EMPDEF'	:
 											if(isset($_POST['sqlState'])) {
 
 											$extractor = new EXTRACTOR_EmpReport();
 											}
 											break;
-											
-							case 'RUG'	:	
+
+							case 'RUG'	:
 											if(isset($_POST['USG'])) {
 												$extractor = new EXTRACTOR_EmpRepUserGroups;
 											}
-											break;	
+											break;
 						}
-					
+
 									/*	if(isset($_POST['STAT']) && $_POST['STAT']=='REP') {
 												$parsedObject = $extractor->parseData($_POST);
 												$view_controller->assignData($_GET['repcode'],$parsedObject);
 												break;
-										}*/ 
+										}*/
 
 										if(isset($_POST['USG']) && $_POST['USG']=='SEL' && $locRights['repDef']) {
 												$objectArr = $extractor->parseAddData($_POST);
@@ -997,7 +1005,7 @@ switch ($moduletype) {
 										} elseif(isset($_POST['USG']) && $_POST['USG'] == 'DEL' && $locRights['repDef']) {
 												$view_controller->delUserGroups($_POST,$_GET);
 										}
-										
+
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['repDef']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['repcode'],$parsedObject);
@@ -1014,59 +1022,59 @@ switch ($moduletype) {
 												$view_controller -> reDirect($_GET,$_POST);
 												break;
 										}
-	
+
 	case 'leave'	:	switch ($_GET['leavecode']) {
 							case 'Leave':	if (isset($_GET['action'])) {
-								
-												$leaveController 	 	 = new LeaveController();	
+
+												$leaveController 	 	 = new LeaveController();
 												$leaveExtractor 	 	 = new EXTRACTOR_Leave();
 												$leaveRequestsExtractor  = new EXTRACTOR_LeaveRequests();
 												$LeaveTypeExtractor  	 = new EXTRACTOR_LeaveType();
 												$leaveQuotaExtractor 	 = new EXTRACTOR_LeaveQuota();
 												$holidaysExtractor   	 = new EXTRACTOR_Holidays();
-												$weekendsExtractor   	 = new EXTRACTOR_Weekends();																				
-																								
+												$weekendsExtractor   	 = new EXTRACTOR_Weekends();
+
 												switch ($_GET['action']) {
-													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);																						
+													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves();
 																						break;
-																						
-													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);																						
+
+													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
-																						
+
 													case 'Leave_FetchDetailsEmployee':	$leaveController->setId($_REQUEST['id']);
 																						$leaveController->viewLeaves("employee", null, true);
 																						break;
-																						
+
 													case 'Leave_FetchDetailsSupervisor':$leaveController->setId($_REQUEST['id']);
-																						$leaveController->viewLeaves("suprevisor", null, true);																							
+																						$leaveController->viewLeaves("suprevisor", null, true);
 																						break;
-																						
+
 													case 'Leave_Select_Employee_Leave_Summary' : $leaveController->viewSelectEmployee("summary");
 																								 break;
-																																										
+
 													case 'Leave_Summary'			: 	//echo $_REQUEST['id'];
 																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
-																						
-																						$leaveController->setId($id);	
-																						$leaveController->setLeaveTypeId($leaveTypeId);																					
+
+																						$leaveController->setId($id);
+																						$leaveController->setLeaveTypeId($leaveTypeId);
 																						$leaveController->viewLeaves("summary", $year, $searchBy);
 																						break;
-																						
+
 													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
-																						
+
 																						$leaveController->setId($id);
-																						$leaveController->setLeaveTypeId($leaveTypeId);																																												
+																						$leaveController->setLeaveTypeId($leaveTypeId);
 																						$leaveController->editLeaves("summary", $year, $searchBy);
 																						break;
-																						
+
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
@@ -1075,15 +1083,15 @@ switch ($moduletype) {
 																								$mes = $leaveController->saveLeaveQuota();
 																							}
 																						}
-																						
+
 																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
-																						
+
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy"));
-																						break;							
-																						
+																						break;
+
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
@@ -1099,65 +1107,65 @@ switch ($moduletype) {
 													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						$objx=false;
-																						if (isset($objs)) 
+																						if (isset($objs))
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getLeaveId());																							
+																							$leaveController->setId($obj->getLeaveId());
 																							$mes=$leaveController->changeStatus("change");
 																							if ($mes) {
-																								$objx[] = $obj;													
+																								$objx[] = $obj;
 																							}
-																						}																						
+																						}
 																						$leaveController->sendChangedLeaveNotification($objx);
 																						$leaveController->redirect("");
 																						break;
-																						
+
 													case "Leave_Request_ChangeStatus": 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
-																						if (isset($objs)) 
+																						if (isset($objs))
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
 																							//echo $leaveController->getObjLeave()->getLeaveStatus();
-																							$mes=$leaveController->changeStatus("change");		
+																							$mes=$leaveController->changeStatus("change");
 																							if ($mes) {
-																								$leaveController->sendChangedLeaveNotification($obj, true);			
-																							}																		
+																								$leaveController->sendChangedLeaveNotification($obj, true);
+																							}
 																						}
-																						
+
 																						print_r($objs);
 																						$leaveController->redirect("");
-																						break;																
-																						
+																						break;
+
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
 																						$leaveController->redirect("");
 																						break;
-																						
+
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
 																						break;
-																						
+
 											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();
 																						break;
-													
+
 													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
 																						$leaveController->setObjLeave($obj);
 																						$mes = $leaveController->addLeaveType();
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Type_Summary&message='.$mes));
 																						break;
-																						
+
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
 																						break;
-																						
+
 													case 'Leave_List_Taken'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveController->setId($id);
 																						$leaveController->viewLeaves("taken", $year, true);
 																						break;
-																						
+
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);
-																						if (isset($objs)) 
+																						if (isset($objs))
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveTypeId());
@@ -1165,23 +1173,23 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect($mes);
 																						break;
-																						
+
 													case 'Leave_Type_Delete'		: 	$objs = $LeaveTypeExtractor->parseDeleteData($_POST);
-																						if (isset($objs)) 
+																						if (isset($objs))
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveTypeId());
 																							$mes = $leaveController->LeaveTypeDelete();
-																							
+
 																						}
 																						$leaveController->redirect($mes);
 																						break;
-																						
-													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);																						
+
+													case 'Leave_Request_CancelLeave':	$objs = $leaveRequestsExtractor->parseDeleteData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {
 																							foreach ($objs as $obj) {
-																								$leaveController->setObjLeave($obj);																							
+																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getLeaveRequestId());
 																								$mes = $leaveController->changeStatus();
 																								$leaveController->sendCancelledLeaveNotification($obj, true);
@@ -1189,59 +1197,59 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect("");
 																						break;
-																						
+
 													case 'Holiday_Specific_List'	:	$leaveController->viewHoliday();
 																						break;
-																						
+
 													case 'Holiday_Specific_Delete'	:	$objs = $holidaysExtractor->parseDeleteData($_POST);
 																						if (isset($objs) && is_array($objs)) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getHolidayId());
-																								$mes = $leaveController->holidaysDelete();																							
+																								$mes = $leaveController->holidaysDelete();
 																							}
 																						}
 																						$leaveController->redirect($mes);
 																						break;
-																						
+
 													case "Holiday_Weekend_List"		:	$leaveController->displayDefineHolidays("weekend");
 																						break;
-													case "Holiday_Weekend_Edit"		:	$objs = $weekendsExtractor->parseEditData($_POST);																						
+													case "Holiday_Weekend_Edit"		:	$objs = $weekendsExtractor->parseEditData($_POST);
 																						if (isset($objs) && is_array($objs)) {
 																							foreach ($objs as $obj) {
-																								$leaveController->setObjLeave($obj);																								
-																								$mes = $leaveController->editHoliday("weekend");																							
+																								$leaveController->setObjLeave($obj);
+																								$mes = $leaveController->editHoliday("weekend");
 																							}
 																						}
 																						$leaveController->redirect("");
 																						break;
-																						
+
 													case "Holiday_Specific_Add"		:	$obj = $holidaysExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addHoliday();																							
-																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
-																						break;	
-																							
-													case "Holiday_Specific_Edit"	:	$obj = $holidaysExtractor->parseEditData($_POST);
-																						$leaveController->setObjLeave($obj);
-																						$leaveController->editHoliday();																							
+																						$leaveController->addHoliday();
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
 																						break;
-																																													
+
+													case "Holiday_Specific_Edit"	:	$obj = $holidaysExtractor->parseEditData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->editHoliday();
+																						$leaveController->redirect(null, array('?leavecode=Leave&action=Holiday_Specific_List'));
+																						break;
+
 													case "Holiday_Specific_View_Add"	:	$leaveController->displayDefineHolidays("specific");
 																							break;
 													case "Holiday_Specific_View_Edit"	:	$leaveController->setId($_REQUEST['id']);
 																							$leaveController->displayDefineHolidays("specific", true);
-																							break;									
-																						
+																							break;
+
 													default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
-										
+
 											break;
-	
+
 							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
 											break;
 	}
