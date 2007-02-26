@@ -664,7 +664,7 @@ function resetAdd(panel) {
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2 align="center"><?php echo $employeeinformation?></h2></td>
+    <td width='100%'><h2 align="center"><?php echo $lang_empview_EmployeeInformation; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
     <b><div align="right" id="status"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
   </tr>

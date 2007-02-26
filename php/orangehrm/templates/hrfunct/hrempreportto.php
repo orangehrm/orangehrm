@@ -254,9 +254,11 @@ function viewSup(sup,rep) {
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
     				  <td>
 					  <select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbRepType">
-					  <option value="0"><?php echo $selectreporttype?></option>
+					  <option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 
-<?php							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
+<?php
+							$arrRepType = array ($lang_hrEmpMain_arrRepType_Supervisor, $lang_hrEmpMain_arrRepType_Subordinate);
+							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
 							echo "<option value=" . $arrRepType[1] . ">" . $arrRepType[1] . "</option>";
 ?>
 					  </select></td>
@@ -266,8 +268,9 @@ function viewSup(sup,rep) {
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbRepMethod'>
-						   		<option value="0"><?php echo $selecttype?></option>
+						   		<option value="0"><?php echo $lang_hrEmpMain_SelectMethod; ?></option>
 <?php
+									$arrRepMethod = array ($lang_hrEmpMain_arrRepMethod_Direct => 1, $lang_hrEmpMain_arrRepMethod_Indirect => 2);
 									$keys = array_keys($arrRepMethod);
 									$values = array_values($arrRepMethod);
 									for($c=0;count($arrRepMethod)>$c;$c++)

@@ -316,7 +316,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 						 <td width="135"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_startdate; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
-						 <td><strong><?php echo $internal?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_internal; ?></strong></td>
 					</tr>
 <?php
 

@@ -374,6 +374,7 @@
 	$lang_hremp_maritalstatus 				= "Marital Status";
 	$lang_hremp_selmarital					= "--Select--";
 	$lang_hremp_selectnatio 				= "Select Nationality";
+	$lang_hremp_selethnicrace 				= "Select Ethnic Race";
 	$lang_hremp_smoker 						= "Smoker";
 	$lang_hremp_gender 						= "Gender";
 	$lang_hremp_dlicenno 					= "Driver's License Number";
@@ -521,6 +522,17 @@
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
 	$lang_hrEmpMain_Skill 					= "Skill";
+
+	$lang_hrEmpMain_subown_Company = 'Company';
+	$lang_hrEmpMain_subown_Individual = 'Individual';
+
+	$lang_hrEmpMain_arrRepType_Supervisor = 'Supervisor';
+	$lang_hrEmpMain_arrRepType_Subordinate = 'Subordinate';
+
+	$lang_hrEmpMain_arrRepMethod_Direct = 'Direct';
+	$lang_hrEmpMain_arrRepMethod_Indirect = 'Indirect';
+
+	$lang_hrEmpMain_SelectMethod = 'Select Method';
 
 	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Subscription amount should be numeric";
 	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Membership subscription amount is empty. Do you want to continue";

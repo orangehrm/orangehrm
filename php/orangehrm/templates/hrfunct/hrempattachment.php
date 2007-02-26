@@ -65,7 +65,7 @@ function editAttach() {
 				</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap"><h3><?php echo $assignattach?></h3></td>
+					<td nowrap="nowrap"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></td>
 					<td></td>
 				</tr>
 				<tr>

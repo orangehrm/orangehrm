@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
+
+	BugId     Name
+
+	1668779   undefined variable $employeeinformation
+
 New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 
 	1. PIM is completely translated into Russian
