@@ -10,6 +10,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
 	1668795   Failed to Delete: skills
 	1668878   lang_Menu_Admin_EmailConfig
 	1668906   Membership: Undefined variable: selectmember
+	1668870   XML Parsing Error:
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 

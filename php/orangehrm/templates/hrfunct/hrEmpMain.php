@@ -759,7 +759,10 @@ function resetAdd(panel) {
 			  </tr>
 			 <tr>
 				<td><?php echo $lang_hremp_photo?></td>
-				<td><input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>"></td>
+				<td>
+					<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+					<input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>" />
+				</td>
 			  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
