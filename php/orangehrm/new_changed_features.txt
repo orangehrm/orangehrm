@@ -8,6 +8,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
 	1668800   Nationality & Race: failed to delete
 	1668796   Label: Failed to Delete
 	1668795   Failed to Delete: skills
+	1668878   lang_Menu_Admin_EmailConfig
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 

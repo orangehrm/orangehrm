@@ -292,6 +292,7 @@ class SQLQBuilder {
 
 			if($quoteCorrect) {
 				$arrayFieldList = $this->quoteCorrect($arrayFieldList);
+				echo 1;
 			}
 
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
@@ -591,8 +592,9 @@ function filterNotEqualRecordSet($filID) {
 			$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
 
-			if($quoteCorrect)
+			if ($quoteCorrect) {
 				$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
+			}
 
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 
@@ -600,7 +602,7 @@ function filterNotEqualRecordSet($filID) {
 
 				if ($i == ($countArrSize - 1))  { //String Manipulation
 
-					$SQL1 = $SQL1 . $arrayFieldList[$i] . '=' . $arrayRecordSet[$i];
+					$SQL1 = $SQL1 . $arrayFieldList[$i] . '= ' . $arrayRecordSet[$i];
 
 				} else {
 

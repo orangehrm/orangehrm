@@ -764,6 +764,7 @@
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
 
 	// Email Notification Subscription
+	$lang_Admin_EMX_MailConfiguration = "Mail Configuration";
 	$lang_Admin_SubscribeToMailNotifications = "Subscribe to E-mail Notifications";
 	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
 	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";

@@ -1,15 +1,15 @@
 <?php
 /**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
@@ -20,7 +20,7 @@
  *
  */
 
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
 $locRights=$_SESSION['localRights'];
 
@@ -49,11 +49,11 @@ $editArr = $this->popArr['editArr'];
 	function changeMailType() {
  		value = $('txtMailType').value;
  		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2'];
- 		
+
  		for (i=0; i<panels.length; i++) {
  			$(panels[i]).className = 'hide';
  		}
- 		
+
  		switch (value) {
  			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
  																					 break;
@@ -62,47 +62,47 @@ $editArr = $this->popArr['editArr'];
  																					 break;
  		}
 	}
-	
+
 	function validate() {
 		error = false;
 		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
 		obj = $('txtMailAddress');
-		
+
 		if (!mailRegExp.test(obj.value)) {
 			error = true;
 			alert('<?php echo $lang_Error_InvalidEmail; ?>')
 		}
-		
+
 		if (!error) {
 			$('sqlState').value = 'UpdateRecord';
 			$('frmEmailConfig').submit();
 		}
 	}
-	
+
 	function $(id) {
 		return document.getElementById(id);
 	}
-	
+
 	function mout() {
 	var Edit = $("btnEdit");
-	
-	if(Edit.title=='Save') 
-		Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+
+	if(Edit.title=='Save')
+		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
 	var Edit = $("btnEdit");
-	
-	if(Edit.title=='Save') 
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+
+	if(Edit.title=='Save')
+		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 </script>
 <body>
-<h2><?php echo $lang_Menu_Admin_EmailConfig; ?><hr/></h2>
+<h2><?php echo $lang_Admin_EMX_MailConfiguration; ?><hr/></h2>
 <form id="frmEmailConfig" name="frmEmailConfig" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=EMX&id=1" onsubmit="validate(); return false;">
 <input type="hidden" name="sqlState" id="sqlState" />
   <table border="0" cellpadding="0" cellspacing="0">
@@ -130,7 +130,7 @@ function mover() {
 		<td><?php echo $lang_MailSendingMethod; ?></td>
 		<td width="25px">&nbsp;</td>
 		<td><select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();">
-				<option value="0">-- Select --</option>				
+				<option value="0">-- Select --</option>
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected': ''?> ><?php echo $lang_MailTypes_Sendmailer; ?></option>
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected': ''?> ><?php echo $lang_MailTypes_Smtp; ?></option>
 		  </select></td>
@@ -149,7 +149,7 @@ function mover() {
 		<td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
-      </tr>	  
+      </tr>
 	  <!-- SMTP -->
 	  <tr id="smtpDetails1">
         <td class="tableMiddleLeft"></td>
@@ -174,7 +174,7 @@ function mover() {
 		<td><input type="password" name="txtSmtpPass" id="txtSmtpPass" value="<?php echo $editArr->getSmtpPass();?>"/></td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
-      </tr>      
+      </tr>
 	  <tr>
         <td class="tableMiddleLeft"></td>
         <td>&nbsp;</td>
@@ -182,7 +182,7 @@ function mover() {
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
 		<td>&nbsp;</td>
-		<td width="25px">&nbsp;</td>		
+		<td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">
 			<?php
