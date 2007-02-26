@@ -1,6 +1,6 @@
 <?php
 /*
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
@@ -8,20 +8,20 @@
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
+
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
-function assignEmploymentStatus($valArr) {	
+function assignEmploymentStatus($valArr) {
 
 	$view_controller = new ViewController();
 	$ext_jobtitempstat = new EXTRACTOR_JobTitEmpStat();
@@ -29,7 +29,7 @@ function assignEmploymentStatus($valArr) {
 	$view_controller->addData('JEM',$filledObj);
 
 	$assList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','assigned');
-	$unAssList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','unAssigned');	
+	$unAssList = $view_controller->xajaxObjCall($valArr['txtJobTitleID'],'JOB','unAssigned');
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
@@ -45,14 +45,14 @@ return $objResponse->getXML();
 function unAssignEmploymentStatus($jobtit,$empstat) {
 
 	$delArr[0][0] = $jobtit;
-	$delArr[1][0] = $empstat;	
+	$delArr[1][0] = $empstat;
 
 	$view_controller = new ViewController();
-	$view_controller ->delParser('JEM',$delArr);	
+	$view_controller ->delParser('JEM',$delArr);
 
 	$view_controller = new ViewController();
 	$assList = $view_controller->xajaxObjCall($jobtit,'JOB','assigned');
-	$unAssList = $view_controller->xajaxObjCall($jobtit,'JOB','unAssigned');	
+	$unAssList = $view_controller->xajaxObjCall($jobtit,'JOB','unAssigned');
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
@@ -66,24 +66,24 @@ return $objResponse->getXML();
 
 
 
-function showAddEmpStatForm() {	    
+function showAddEmpStatForm() {
 
     $objResponse = new xajaxResponse();
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = false;");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 	//$parent::
 	$objResponse->addAssign('layerEmpStat','style','visibility:hidden;');
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='$lang_compstruct_save' onClick='addFormData();'>");
-	$objResponse->addAssign('status','innerHTML','');	
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='addFormData();'>");
+	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
 }
 
-function showEditEmpStatForm($estatCode) {	
+function showEditEmpStatForm($estatCode) {
 
 	$view_controller = new ViewController();
-	$editArr = $view_controller->xajaxObjCall($estatCode,'JOB','editEmpStat');	
+	$editArr = $view_controller->xajaxObjCall($estatCode,'JOB','editEmpStat');
 
 	$objResponse = new xajaxResponse();
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = false;");
@@ -91,10 +91,10 @@ function showEditEmpStatForm($estatCode) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '" .$editArr[0][1]."';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='$lang_compstruct_save' onClick='editFormData();'>");
-	$objResponse->addAssign('status','innerHTML','');	
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='editFormData();'>");
+	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
 }
@@ -104,23 +104,23 @@ return $objResponse->getXML();
 function addExt($arrElements) {
 
 	$view_controller = new ViewController();
-	$ext_empstat = new EXTRACTOR_EmployStat();	
+	$ext_empstat = new EXTRACTOR_EmployStat();
 
 	$objEmpStat = $ext_empstat->parseAddData($arrElements);
-	$view_controller -> addData('EST',$objEmpStat,true);	
+	$view_controller -> addData('EST',$objEmpStat,true);
 
 	$view_controller = new ViewController();
-	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');	
+	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssEmpStat,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = true;");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");
 
 	$objResponse->addAssign('buttonLayer','innerHTML','');
-	$objResponse->addAssign('status','innerHTML','');	
+	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
 }
@@ -128,13 +128,13 @@ return $objResponse->getXML();
 function editExt($arrElements) {
 
 	$view_controller = new ViewController();
-	$ext_empstat = new EXTRACTOR_EmployStat();	
+	$ext_empstat = new EXTRACTOR_EmployStat();
 
 	$objEmpStat = $ext_empstat -> parseEditData($arrElements);
-	$view_controller->updateData('EST',$arrElements['txtEmpStatID'],$objEmpStat,true);	
+	$view_controller->updateData('EST',$arrElements['txtEmpStatID'],$objEmpStat,true);
 
 	$view_controller = new ViewController();
-	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');	
+	$unAssEmpStat = $view_controller->xajaxObjCall($arrElements['txtJobTitleID'],'JOB','unAssigned');
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
@@ -142,10 +142,10 @@ function editExt($arrElements) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatID.value = '';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = true;");
-	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");	
+	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='hidden';");
 
 	$objResponse->addAssign('buttonLayer','innerHTML','');
-	$objResponse->addAssign('status','innerHTML','');	
+	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
 }
@@ -160,34 +160,34 @@ return $objResponse->getXML();
 	$objAjax->processRequests();
 
 	$sysConst = new sysConf();
-	
-	$locRights=$_SESSION['localRights'];	
+
+	$locRights=$_SESSION['localRights'];
 	$cookie = $_COOKIE;
-		
-  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
-	
-	$editArr = $this->popArr['editArr']; 
-	
-	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != $editArr[0][0]))) {		
+
+  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') {
+
+	$editArr = $this->popArr['editArr'];
+
+	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != $editArr[0][0]))) {
 		unset($cookie);
-	}	
-	
+	}
+
   }
-  
-  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { 
-		
-	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != ''))) {		
+
+  if (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') {
+
+	if (!isset($_COOKIE['txtJobTitleID']) || (isset($_COOKIE['txtJobTitleID']) && ($_COOKIE['txtJobTitleID'] != ''))) {
 		unset($cookie);
-	}	
-	
+	}
+
   }
-  
+
   setcookie('txtJobTitleName', 'null', time()-3600, '/');
   setcookie('txtJobTitleDesc', 'null', time()-3600, '/');
   setcookie('txtJobTitleComments', 'null', time()-3600, '/');
   setcookie('cmbPayGrade', 'null', time()-3600, '/');
   setcookie('txtJobTitleID', 'null', time()-3600, '/');
-    
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -204,7 +204,7 @@ return $objResponse->getXML();
 
 	function addSave() {
 
-		
+
 
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
 
@@ -216,7 +216,7 @@ return $objResponse->getXML();
 
 			}
 
-			
+
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
 
@@ -228,7 +228,7 @@ return $objResponse->getXML();
 
 			}
 
-			
+
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 
@@ -240,11 +240,11 @@ return $objResponse->getXML();
 
 			}
 
-		
+
 
 		document.frmJobTitle.sqlState.value = "NewRecord";
 
-		document.frmJobTitle.submit();		
+		document.frmJobTitle.submit();
 
 	}
 
@@ -262,13 +262,13 @@ function goBack() {
 
 function mout() {
 
-	if(document.Edit.title=='Save') 
+	if(document.Edit.title=='Save')
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 
 	else
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 
 }
 
@@ -276,17 +276,17 @@ function mout() {
 
 function mover() {
 
-	if(document.Edit.title=='Save') 
+	if(document.Edit.title=='Save')
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 
 	else
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 
 }
 
-	
+
 
 function edit() {
 
@@ -298,7 +298,7 @@ function edit() {
 
 	}
 
-	
+
 
 	var frm=document.frmJobTitle;
 
@@ -330,7 +330,7 @@ function edit() {
 
 			}
 
-			
+
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
 
@@ -342,7 +342,7 @@ function edit() {
 
 			}
 
-			
+
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 
@@ -354,11 +354,11 @@ function edit() {
 
 			}
 
-		
+
 
 		document.frmJobTitle.sqlState.value = "UpdateRecord";
 
-		document.frmJobTitle.submit();		
+		document.frmJobTitle.submit();
 
 	}
 
@@ -378,7 +378,7 @@ function assignEmploymentStatus() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
+	document.getElementById('status').innerHTML = 'Please Wait....';
 
 
 
@@ -390,7 +390,7 @@ function assignEmploymentStatus() {
 
 function unAssignEmploymentStatus() {
 
-	
+
 
 	if(document.frmJobTitle.cmbAssEmploymentStatus.selectedIndex == -1) {
 
@@ -400,11 +400,11 @@ function unAssignEmploymentStatus() {
 
 	}
 
-	
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
 
-	
+	document.getElementById('status').innerHTML = 'Please Wait....';
+
+
 
 	xajax_unAssignEmploymentStatus(document.frmJobTitle.txtJobTitleID.value, document.frmJobTitle.cmbAssEmploymentStatus.value);
 
@@ -414,7 +414,7 @@ function unAssignEmploymentStatus() {
 
 function numeric(txt) {
 
-	
+
 
 var flag=true;
 
@@ -458,18 +458,18 @@ return flag;
 
 function editPayGrade() {
 
-	paygrade = document.frmJobTitle.cmbPayGrade.value;	
+	paygrade = document.frmJobTitle.cmbPayGrade.value;
 
 	if(paygrade == '0') {
 		alert('Please Select!');
 		document.frmJobTitle.cmbPayGrade.focus();
 		return;
 	}
-	
+
 	document.gotoPayGrade.action = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
 
-	document.gotoPayGrade.submit();	
- 
+	document.gotoPayGrade.submit();
+
 
 }
 
@@ -478,7 +478,7 @@ function editPayGrade() {
 function showEditForm() {
 
 	empstat = document.frmJobTitle.cmbUnAssEmploymentStatus.value;
-	
+
 
 	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
 
@@ -490,7 +490,7 @@ function showEditForm() {
 
 	}
 
-	
+
 
 	xajax_showEditEmpStatForm(document.frmJobTitle.cmbUnAssEmploymentStatus.value);
 
@@ -500,7 +500,7 @@ function showEditForm() {
 
 function addFormData() {
 
-	
+
 
 	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 
@@ -514,17 +514,17 @@ function addFormData() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
+	document.getElementById('status').innerHTML = 'Please Wait....';
 
 	xajax_addExt(xajax.getFormValues('frmJobTitle'));
 
 }
 
-	
+
 
 function editFormData() {
 
-	
+
 
 	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 
@@ -538,31 +538,31 @@ function editFormData() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
+	document.getElementById('status').innerHTML = 'Please Wait....';
 
 	xajax_editExt(xajax.getFormValues('frmJobTitle'));
 
 }
 
 function preserveData() {
-	
+
 	if (!(document.getElementById('txtJobTitleName').disabled)) {
 		id="txtJobTitleID";
 		writeCookie(id,document.getElementById('txtJobTitleID').value);
-	
+
 		id="txtJobTitleName";
 		writeCookie(id,document.getElementById('txtJobTitleName').value);
-	
+
 		id="txtJobTitleDesc";
 		writeCookie(id,document.getElementById('txtJobTitleDesc').value);
-	
+
 		id="txtJobTitleComments";
 		writeCookie(id,document.getElementById('txtJobTitleComments').value);
-	
+
 		id="cmbPayGrade";
-		writeCookie(id,document.getElementById('cmbPayGrade').value);	
+		writeCookie(id,document.getElementById('cmbPayGrade').value);
 	}
-	
+
 }
 
 function writeCookie(name, value, expire) {
@@ -570,7 +570,7 @@ function writeCookie(name, value, expire) {
 	if (!expire) {
 		expire = 3600000;
 	}
-	
+
 	var date = new Date();
 	date.setTime(date.getTime()+expire);
 	var expires = date.toGMTString();
@@ -587,8 +587,8 @@ function promptUseCookieValues() {
 
 function addSalaryGrade() {
 	document.gotoPayGrade.action =  '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
-	
-	document.gotoPayGrade.submit();	
+
+	document.gotoPayGrade.submit();
 }
 
 function editSalaryGrade() {
@@ -641,7 +641,7 @@ function clearAll() {
 
 		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-		<input type="hidden" name="sqlState">		
+		<input type="hidden" name="sqlState">
 
            <table border="0" cellpadding="0" cellspacing="0">
 
@@ -708,10 +708,10 @@ function clearAll() {
 				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) {?>
 
 				               					<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>"><?php echo $paygrade[$c][1]?></option>
-											
+
 										<?php	} ?>
 
-				               				
+
 
 				                  		</select></td>
 
@@ -757,9 +757,9 @@ function clearAll() {
 
 
 
-<?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
+<?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') {
 
-	
+
 ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
@@ -795,7 +795,7 @@ function clearAll() {
                 	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
 						<input type="hidden" name="sqlState">
-						
+
 						<br>
 
 						<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
@@ -852,7 +852,7 @@ function clearAll() {
 
 				               			<?php $paygrade = $this->popArr['paygrade'];
 
-				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) 
+				               				for($c=0;$paygrade && count($paygrade)>$c;$c++)
 
 				               					if ((isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) || ((!isset($cookie['cmbPayGrade'])) && ($paygrade[$c][0] == $editArr[0][4])))
 
@@ -862,7 +862,7 @@ function clearAll() {
 
 					               					echo "<option value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
 
-				               			?>	
+				               			?>
 
 				                  		</select></td>
 
@@ -878,7 +878,7 @@ function clearAll() {
 
 										<td valign="top">
 										<span class="success">#</span> <?php echo $lang_jobtitle_empstat; ?><br>
-										
+
 										</td>
 
 										<td><table border="0">
@@ -889,7 +889,7 @@ function clearAll() {
 
 				               			<?php $assEmploymentStat = $this->popArr['assEmploymentStat'];
 
-				               				for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++) 
+				               				for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++)
 
 					               				echo "<option value='" .$assEmploymentStat[$c][0]. "'>" .$assEmploymentStat[$c][1]. "</option>";
 
@@ -903,7 +903,7 @@ function clearAll() {
 
 				               			<?php $unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
 
-				               				for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++) 
+				               				for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++)
 
 					               				echo "<option value='" .$unAssEmploymentStat[$c][0]. "'>" .$unAssEmploymentStat[$c][1]. "</option>";
 
@@ -919,9 +919,9 @@ function clearAll() {
 
 								<tr>
 
-									<td><!--<a href="../../lib/controllers/CentralController.php?uniqcode=EST&capturemode=addmode"><?php echo $addempstat?></a><br>
+									<td><!--<a href="../../lib/controllers/CentralController.php?uniqcode=EST&capturemode=addmode"><?php echo $lang_jobtitle_addempstat?></a><br>
 
-				                  		<a href="javascript:editEmpStat();"><?php echo $editempstat?></a>-->
+				                  		<a href="javascript:editEmpStat();"><?php echo $lang_jobtitle_editempstat?></a>-->
 
 									<input type="button" disabled value="<?php echo $lang_jobtitle_addempstat; ?>" onClick="xajax_showAddEmpStatForm();"><br><br>
 
@@ -1001,7 +1001,7 @@ function clearAll() {
 
 </td>
 
-					  </tr>				  
+					  </tr>
 
                   </table></td>
 

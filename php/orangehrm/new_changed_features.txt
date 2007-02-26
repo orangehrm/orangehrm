@@ -3,6 +3,11 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
 	BugId     Name
 
 	1668779   undefined variable $employeeinformation
+	1668784   Undefined variable: addempstat
+	1668794   Failed to Delete
+	1668800   Nationality & Race: failed to delete
+	1668796   Label: Failed to Delete
+	1668795   Failed to Delete: skills
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 

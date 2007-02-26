@@ -328,10 +328,10 @@ class ViewController {
 
         }
 
-		if ($res == false) {
-			$_GET['message']='DELETE_FAILURE';
-		} else {
+		if ($res) {
 			$_GET['message']='DELETE_SUCCESS';
+		} else {
+			$_GET['message']='DELETE_FAILURE';
 		}
     }
 
