@@ -1,15 +1,15 @@
 <?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+all the essential functionalities required for any enterprise.
 Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 
 OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 the GNU General Public License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program;
@@ -19,14 +19,14 @@ Boston, MA  02110-1301, USA
 
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
-	
+
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
-	
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -34,18 +34,18 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>		
+<script>
 	function goBack() {
 		location.href ="./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
-	
+
 	function addSave() {
-		
+
 		if (document.frmMembershipInformation.txtMembershipInfoDesc.value == '') {
 			alert ("Description Cannot be a Blank Value!");
 			return false;
 		}
-		
+
 		if(document.frmMembershipInformation.selMembershipType.value=="0") {
 			alert("Field should be selected");
 			document.frmMembershipInformation.selMembershipType.focus();
@@ -53,14 +53,14 @@ require_once($lan->getLangPath("full.php"));
 		}
 
 		document.frmMembershipInformation.sqlState.value = "NewRecord";
-		document.frmMembershipInformation.submit();		
+		document.frmMembershipInformation.submit();
 	}
-	
+
 	function clearAll() {
 		document.frmMembershipInformation.txtMembershipInfoDesc.value = '';
 		document.frmMembershipInformation.selMembershipType.options[0].selected=true;
 	}
-				
+
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -74,15 +74,15 @@ require_once($lan->getLangPath("full.php"));
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmMembershipInformation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
   </tr><td width="177">
 </table>
@@ -96,19 +96,19 @@ require_once($lan->getLangPath("full.php"));
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 						    <td><?php echo $lang_Commn_code; ?></td>
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
-						  <tr> 
+						  <tr>
 						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
 						    <td> <textarea name='txtMembershipInfoDesc' rows="3" tabindex='3' cols="30"></textarea></td>
 						  </tr>
-						  <tr> 
+						  <tr>
 						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_membershipinfo_membershiptype; ?></td>
-						    <td> <select name="selMembershipType"> 
-						    			<option value="0"><?php echo $selectmember?></option>
-						    <?php  $getResultSet=$this->popArr['getResultSet'] ; 
+						    <td> <select name="selMembershipType">
+						    			<option value="0"><?php echo $lang_membershipinfor_selectmember?></option>
+						    <?php  $getResultSet=$this->popArr['getResultSet'] ;
 						    	for ($j=0;$getResultSet && $j<count($getResultSet);$j++) {
 						    	  echo '<option value=' . $getResultSet[$j][0] . '>' . $getResultSet[$j][1] . '</option>';
 						    	}
@@ -143,7 +143,7 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>			
+<script>
 function alpha(txt)
 {
 var flag=true;
@@ -194,26 +194,26 @@ return flag;
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmMembershipInformation;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -223,22 +223,22 @@ function edit()
 }
 
 	function addUpdate() {
-		
+
 		if (document.frmMembershipInformation.txtMembershipInfoDesc.value == '') {
 			alert ("Description Cannot be a Blank Value!");
 			return false;
 		}
-		
+
 		document.frmMembershipInformation.sqlState.value = "UpdateRecord";
-		document.frmMembershipInformation.submit();		
+		document.frmMembershipInformation.submit();
 	}
-	
+
 	function clearAll() {
-		if(document.Edit.title!='Save') 
+		if(document.Edit.title!='Save')
 			return;
 
 		document.frmMembershipInformation.txtMembershipInfoDesc.value = '';
-	}			
+	}
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -252,28 +252,28 @@ function edit()
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmMembershipInformation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
-      	
+
       	if ((isset($message)) && ($message != '')) {
-      		
+
       		if ($message == 1) {
-      		
+
       			$message = "Successfully Added ! ";
       			echo $message;
-      				
+
       		}
-      		      		
+
       	}
-      
+
 	 ?>
       </font> </td>
   </tr><td width="177">
@@ -288,11 +288,11 @@ function edit()
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-							  <tr> 
+							  <tr>
 							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><input type="hidden"  name="txtMembershipInfoId" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
 							  	<td align="left" valign="top"> <textarea name='txtMembershipInfoDesc' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
 							  </tr>
@@ -300,15 +300,15 @@ function edit()
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_membershipinfo_membershiptype; ?></td>
 							  	<td align="left" valign="top"><select disabled name="selMembershipType">
 										<option value="0"><?php echo $selectmember?></option>
-									    <?php $getResultSet=$this->popArr['getResultSet'] ; 
-									    	for ($j=0;$j<count($getResultSet);$j++) 
+									    <?php $getResultSet=$this->popArr['getResultSet'] ;
+									    	for ($j=0;$j<count($getResultSet);$j++)
 									    		if($getResultSet[$j][0]==$message[0][2])
 											    	  echo '<option selected value=' . $getResultSet[$j][0] . '>' . $getResultSet[$j][1] . '</option>';
 											    else
 											    	  echo '<option value=' . $getResultSet[$j][0] . '>' . $getResultSet[$j][1] . '</option>';
 										?>
 							  </select></td>
-							  </tr>  
+							  </tr>
 					  <tr><td></td><td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
@@ -317,7 +317,7 @@ function edit()
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>
-					  </tr>				  
+					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
