@@ -292,7 +292,6 @@ class SQLQBuilder {
 
 			if($quoteCorrect) {
 				$arrayFieldList = $this->quoteCorrect($arrayFieldList);
-				echo 1;
 			}
 
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' VALUES (';
