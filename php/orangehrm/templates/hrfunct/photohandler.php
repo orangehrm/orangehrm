@@ -17,10 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-ini_set('magic_quotes_gpc', "0");
-ini_set('magic_quotes_runtime', "0");
-ini_set('magic_quotes_sybase', "0");
-
 session_start();
 
 if(!isset($_SESSION['fname'])) {
