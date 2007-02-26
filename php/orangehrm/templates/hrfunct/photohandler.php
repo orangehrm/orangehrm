@@ -148,7 +148,10 @@ function windowClose() {
                     <td align="center" width="100%"><img width="100" height="120" src="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']?>&action=VIEW"></td>
                     </tr>
                     <tr>
-                    <td align="center" width="100%"><input type="file" name="photofile" accept="image/gif,image/jpeg,image/png"></td>
+                    <td align="center" width="100%">
+                    	<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                    	<input type="file" name="photofile" accept="image/gif,image/jpeg,image/png">
+                    </td>
 					</tr>
                     <tr>
                     <td align="center" width="100%">

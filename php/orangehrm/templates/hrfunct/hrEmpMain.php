@@ -760,7 +760,7 @@ function resetAdd(panel) {
 			 <tr>
 				<td><?php echo $lang_hremp_photo?></td>
 				<td>
-					<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+					<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
 					<input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>" />
 				</td>
 			  </tr>
