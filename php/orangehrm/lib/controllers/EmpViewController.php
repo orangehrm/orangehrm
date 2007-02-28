@@ -1184,11 +1184,7 @@ class EmpViewController {
 			case 'LAN' :	$form_creator ->formPath = '/templates/hrfunct/hremplan.php';
 							$empinf = new EmpInfo();
 							$emplan = new EmpLanguage();
-							$laninfo = new LanguageInfo();
-
-
-							$form_creator->popArr['lantype'] = array ( 'Writing'=> 1 , 'Speaking'=>2 , 'Reading'=>3 );
-							$form_creator->popArr['grdcodes'] = array( 'Poor'=> 1 ,'Basic'=>2 , 'Good'=>3 ,'Mother Tongue'=>4);
+							$laninfo = new LanguageInfo();							
 
 							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
 							$form_creator ->popArr['lanlist'] = $lanlist = $laninfo ->getLang();
