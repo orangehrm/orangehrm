@@ -2,7 +2,7 @@
 
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.1_alpha_7"/>
+  <property name="version" value="2.1_alpha_8"/>
 
   <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm2"/>
@@ -46,6 +46,11 @@
             <include name="${package.name}/**"/>
         </fileset>
     </zip>
+    <tar destfile="${dist.dir}/OrangeHRM-ver-${version}.tar.gz" compression="gzip">
+    	<fileset dir="${dist.dir}">
+            <include name="${package.name}/**"/>
+        </fileset>
+    </tar>
   </target>
 
   <target name="clean">
