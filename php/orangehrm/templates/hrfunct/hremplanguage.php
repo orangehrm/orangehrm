@@ -17,8 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-	$lantype  = $this->popArr['lantype'];
-	$grdcodes = $this->popArr['grdcodes'];
+	$lantype  = array ($lang_hrEmpMain_Writing=> 1 , $lang_hrEmpMain_Speaking=>2 , $lang_hrEmpMain_Reading=>3 );
+	$grdcodes = array($lang_hrEmpMain_Poor=> 1 ,$lang_hrEmpMain_Basic=>2 , $lang_hrEmpMain_Good=>3 ,$lang_hrEmpMain_MotherTongue=>4);
+
 ?>
 <script language="JavaScript">
 function editLang()
