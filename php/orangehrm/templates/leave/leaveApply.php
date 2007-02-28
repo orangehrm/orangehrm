@@ -109,9 +109,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       if (isset($employees) && is_array($employees)) {
 		 echo $lang_Leave_Title_Assign_Leave;
 		 $modifier = "Leave_Admin_Apply";
+		 $btnApply = "assign.gif";
+		 $btnApplyMO = "assign_o.gif";
       } else {
       	 echo $lang_Leave_Title_Apply_Leave;
       	 $modifier = "Leave_Apply";
+      	 $btnApply = "apply.gif";
+		 $btnApplyMO = "apply_o.gif";
       }
      ?>
   <hr/>
@@ -221,7 +225,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       </tr>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/icons/apply.gif';" onmouseover="this.src='../../themes/beyondT/icons/apply_o.gif';" src="../../themes/beyondT/icons/apply.gif" /></td>
+        <td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/icons/<?php echo $btnApply; ?>';" onmouseover="this.src='../../themes/beyondT/icons/<?php echo $btnApplyMO; ?>';" src="../../themes/beyondT/icons/<?php echo $btnApply; ?>" /></td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
