@@ -139,7 +139,7 @@
         <div class="roundbox">
 
             <label for="dummy1">Found in Release</label><div class="version_label">v2.1_alpha_6</div></br>
-            <input type="hidden" readonly name="artifact_group_id" value="693991">
+            <input type="hidden" readonly name="artifact_group_id" value="694615">
 
             <label for="category_id">Category</label>
             <select id="category_id" name="category_id" tabindex="1">
