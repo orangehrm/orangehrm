@@ -1198,11 +1198,13 @@ switch ($moduletype) {
 																						break;
 
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);
-																						if (isset($objs))
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getLeaveTypeId());
-																							$mes = $leaveController->editLeaveType();
+																						$mes="";
+																						if (isset($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);
+																								$leaveController->setId($obj->getLeaveTypeId());
+																								$mes = $leaveController->editLeaveType();
+																							}
 																						}
 																						$leaveController->redirect($mes);
 																						break;
