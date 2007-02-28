@@ -172,6 +172,9 @@
 
 	$lang_Commn_Email						= "E-mail";
 
+	$lang_Common_Edit = "Edit";
+	$lang_Common_New = "New";
+
 	//days
 	$lang_Common_Monday 					= "Monday";
 	$lang_Common_Tuesday 					= "Tuesday";

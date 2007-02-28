@@ -7,6 +7,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
 	1669706   Unable to create user
 	1669702   Unable to configure mail settings in leave module
 	1670684   PIM->Languages the drop down not translated
+	1670803   Undefined variable: headingInfo
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)

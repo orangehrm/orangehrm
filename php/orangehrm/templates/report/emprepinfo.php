@@ -27,6 +27,8 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 	$arrEmpType= $this-> popArr['arrEmpType'];
 
 	$empInfoObj = new EmpInfo();
+
+$headingInfo = array ("$lang_emprepinfo_heading : $lang_Common_New", "$lang_emprepinfo_heading : $lang_Common_Edit");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
