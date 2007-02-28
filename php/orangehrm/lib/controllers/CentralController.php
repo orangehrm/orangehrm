@@ -1163,6 +1163,22 @@ switch ($moduletype) {
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
 																						break;
 
+													case 'Leave_Apply_Admin_view'	: 	$leaveController->displayLeaveInfo(true);
+																						break;
+
+													case 'Leave_Admin_Apply'		: 	$obj = $leaveRequestsExtractor->parseAddData($_POST, true);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->addLeave();
+
+																						$mes=$leaveController->adminApproveLeave();
+
+																						if ($mes) {
+																							//$leaveController->sendChangedLeaveNotification($obj, true);
+																						}
+
+																						$leaveController->redirect("");
+																						break;
+
 											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();
 																						break;
 

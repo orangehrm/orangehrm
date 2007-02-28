@@ -1,15 +1,15 @@
 <?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+all the essential functionalities required for any enterprise.
 Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 
 OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 the GNU General Public License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program;
@@ -22,11 +22,17 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  *	Including the language pack
  *
  **/
- 
+
  $lan = new Language();
- 
- require_once($lan->getLangPath("full.php")); 
- 
+
+ require_once($lan->getLangPath("full.php"));
+
+ $employees = null;
+
+ if (isset($records[0])) {
+ 	$employees = $records[0];
+ }
+
  if (isset($_GET['message'])) {
 ?>
 
@@ -37,13 +43,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function addSave() {
 		err = false;
 		msg = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
-		
+
 		obj = document.frmLeaveApp.txtLeaveFromDate;
 		if ((obj.value == '') || !validDate(obj.value)) {
 			err = true;
 			msg += " - <?php echo $lang_Error_PleaseSelectAValidFromDate; ?>\n"
 		}
-		
+
 		obj = document.frmLeaveApp.txtLeaveToDate;
 		if (obj.value == '') {
 			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
@@ -52,56 +58,65 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			err = true;
 			msg += " - <?php echo $lang_Error_PleaseSelectAValidFromDate; ?>\n"
 		}
-		
+
 		obj = document.frmLeaveApp.sltLeaveType;
 		if (obj.value == -1) {
 			err = true;
 			msg += " -  <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
-		}			
-		
+		}
+
 		if (err) {
 			alert(msg);
 		} else {
 			document.frmLeaveApp.submit();
-		}	
+		}
 	}
-	
+
 	function validDate(txt) {
 		dateExpression = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
-		
+
 		if (!dateExpression.test(txt)) {
 			return false;
 		}
-			
+
 		return true;
-	}	
-	
+	}
+
 	function $(id) {
 		return document.getElementById(id);
 	}
-	
-	function fillAuto(from, to) {		
+
+	function fillAuto(from, to) {
 		v1 = $(from).value.trim();
 		v2 = $(to).value.trim();
-		
+
 		if (v2 == "") {
 			$(to).value = v1;
 		}
 	}
-	
+
 	String.prototype.trim = function () {
 		regExp = /^\s+|\s+$/g;
 		str = this;
 		str = str.replace(regExp, "");
-			
+
 		return str;
 	}
-	
+
 </script>
-<h2><?php echo $lang_Leave_Title_Apply_Leave; ?>
+<h2>
+	<?php
+      if (isset($employees) && is_array($employees)) {
+		 echo $lang_Leave_Title_Assign_Leave;
+		 $modifier = "Leave_Admin_Apply";
+      } else {
+      	 echo $lang_Leave_Title_Apply_Leave;
+      	 $modifier = "Leave_Apply";
+      }
+     ?>
   <hr/>
 </h2>
-<form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Apply">
+<form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $modifier; ?>">
   <table border="0" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
@@ -114,6 +129,28 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       </tr>
     </thead>
     <tbody>
+    <?php
+      if (isset($employees) && is_array($employees)) {
+    ?>
+      <tr>
+        <td class="tableMiddleLeft"></td>
+        <td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
+        <td width="25px">&nbsp;</td>
+        <td>
+        <select name="cmbEmployeeId">
+        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
+			<?php
+		   		sort($employees);
+		   		foreach ($employees as $employee) {
+		  	?>
+		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
+		  <?php } ?>
+  	    </select>
+        </td>
+        <td width="25px">&nbsp;</td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+      <?php } ?>
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_LeaveType; ?></td>
@@ -164,9 +201,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <tr valign="top">
         <td class="tableMiddleLeft"></td>
         <td><select name="sltLeaveLength" id="sltLeaveLength">
-            <option value="<?php echo ($records[0]->lengthFullDay);?>"><?php echo $lang_Leave_Common_FullDay;?></option>
-            <option value="<?php echo ($records[0]->lengthHalfDayMorning);?>"><?php echo $lang_Leave_Common_HalfDayMorning;?></option>
-            <option value="<?php echo ($records[0]->lengthHalfDayAfternoon);?>"><?php echo $lang_Leave_Common_HalfDayAfternoon;?></option>
+            <option value="<?php echo (Leave::LEAVE_LENGTH_FULL_DAY);?>"><?php echo $lang_Leave_Common_FullDay;?></option>
+            <option value="<?php echo (Leave::LEAVE_LENGTH_HALF_DAY_MORNING);?>"><?php echo $lang_Leave_Common_HalfDayMorning;?></option>
+            <option value="<?php echo (Leave::LEAVE_LENGTH_HALF_DAY_AFTERNOON);?>"><?php echo $lang_Leave_Common_HalfDayAfternoon;?></option>
           </select>
         </td>
         <td width="25px">&nbsp;</td>

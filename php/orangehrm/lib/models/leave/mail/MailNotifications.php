@@ -178,7 +178,9 @@ class MailNotifications {
 		$mailNotificationObj = new EmailNotificationConfiguration();
 		$notificationAddresses = $mailNotificationObj->fetchMailNotifications($this->notificationTypeId);
 
-		$mailer->setCc(implode(', ', $notificationAddresses));
+		if (is_array($notificationAddresses)) {
+			$mailer->setCc(implode(', ', $notificationAddresses));
+		}
 
 		$logMessage = date('r')." Sending {$this->subject} to";
 

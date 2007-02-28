@@ -462,6 +462,7 @@ function setSize() {
                       		}
                  			if ($authorizeObj->isSupervisor()) {
                  		?>
+                 		<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view" target="rightMenu"><?php echo $lang_Menu_Leave_Assign; ?></a></li>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu"><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
 						<?php } ?>
   					</ul>

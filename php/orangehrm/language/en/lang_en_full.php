@@ -142,12 +142,14 @@
 	$lang_Menu_Leave_ApproveLeave 						= "Approve Leave";
 	$lang_Menu_Leave_LeaveTypes 						= "Leave Types";
 	$lang_Menu_Leave_Apply 								= "Apply";
+	$lang_Menu_Leave_Assign								= "Assign";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specific Holidays";
 
  	$lang_Leave_Title_Apply_Leave 						= "Apply Leave";
+ 	$lang_Leave_Title_Assign_Leave 						= "Assign Leave";
 
 	// Report
 	$lang_Menu_Reports = "Reports";
