@@ -1,15 +1,15 @@
 <?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+all the essential functionalities required for any enterprise.
 Copyright (C) 2006 hSenid Software, http://www.hsenid.com
 
 OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 the GNU General Public License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program;
@@ -18,9 +18,9 @@ Boston, MA  02110-1301, USA
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
 
@@ -67,16 +67,16 @@ function goBack() {
 			txt.focus();
 			return;
 			}
-				
+
 		document.frmlicenses.sqlState.value = "NewRecord";
-		document.frmlicenses.submit();		
+		document.frmlicenses.submit();
 	}
-	
+
 	function clearAll() {
 		document.frmlicenses.txtLicensesDesc.value = '';
-		
+
 	}
-				
+
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -90,24 +90,24 @@ function goBack() {
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmlicenses" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
        <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -123,16 +123,16 @@ function goBack() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  
-                  			  <tr> 
+
+                  			  <tr>
 							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 							    <td> <textarea name='txtLicensesDesc' rows="3" tabindex='3' cols="30"></textarea></td>
 							  </tr>
-							  
+
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
         <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
 
@@ -153,7 +153,7 @@ function goBack() {
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	 
+
 	$message = $this->popArr['editArr'];
 ?>
 
@@ -163,7 +163,7 @@ function goBack() {
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<script>			
+<script>
 function alpha(txt)
 {
 var flag=true;
@@ -214,26 +214,26 @@ return flag;
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmlicenses;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -243,23 +243,31 @@ function edit()
 }
 
 	function addUpdate() {
-		var txt=document.frmlicenses.txtLicensesDesc;
-		if (!alpha(txt)) {
-			alert ("Description Error!");
+
+	////Author - Zanfer
+	/// Purpose-  To modify the Descrption in the UI to accept all Characters
+
+	if(document.frmlicenses.txtLicensesDesc.value=="") {
+			alert("License cannot be blank value");
+			document.frmlicenses.txtLicensesDesc.focus();
 			return;
-		} 
-						
+		}
+
+
+	////
+
+
 		document.frmlicenses.sqlState.value = "UpdateRecord";
-		document.frmlicenses.submit();		
+		document.frmlicenses.submit();
 	}
-	
+
 	function clearAll() {
-		if(document.Edit.title!='Save') 
+		if(document.Edit.title!='Save')
 			return;
 
 		document.frmlicenses.txtLicensesDesc.value = '';
-		
-	}			
+
+	}
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -273,24 +281,24 @@ function edit()
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmlicenses" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['uniqcode']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -305,15 +313,15 @@ function edit()
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-							  <tr> 
+							  <tr>
 							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden" name="txtLicensesId" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 							  	<td> <textarea name='txtLicensesDesc' disabled rows="3" tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
 							  </tr>
-							  
+
 					  <tr><td></td><td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
@@ -322,7 +330,7 @@ function edit()
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>
-					  </tr>				  
+					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
