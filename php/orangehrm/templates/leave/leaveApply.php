@@ -65,6 +65,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			msg += " -  <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
 		}
 
+		obj = document.frmLeaveApp.cmbEmployeeId;
+		if (obj.value == -1) {
+			err = true;
+			msg += " - <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n"
+		}
+
 		if (err) {
 			alert(msg);
 		} else {
@@ -147,7 +153,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		   		sort($employees);
 		   		foreach ($employees as $employee) {
 		  	?>
-		 		  	<option value="<?php echo $employee[4] ?>"><?php echo $employee[1] ?></option>
+		 		  	<option value="<?php echo $employee[2] ?>"><?php echo $employee[1] ?></option>
 		  <?php } ?>
   	    </select>
         </td>

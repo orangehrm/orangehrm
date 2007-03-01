@@ -358,16 +358,18 @@ class MailNotifications {
 
 		$leaveCount = 0;
 
-		foreach ($leaveObjs as $leaveObj) {
-			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
+		if (is_array($leaveObjs)) {
+			foreach ($leaveObjs as $leaveObj) {
+				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
 
-				$leaveCount++;
+					$leaveCount++;
 
-				$date = $leaveObj->getLeaveDate();
-				$type = $leaveObj->getLeaveTypeName();
-				$comments = $leaveObj->getLeaveComments();
+					$date = $leaveObj->getLeaveDate();
+					$type = $leaveObj->getLeaveTypeName();
+					$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+				}
 			}
 		}
 

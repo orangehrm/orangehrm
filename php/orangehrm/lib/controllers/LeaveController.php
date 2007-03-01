@@ -366,8 +366,8 @@ class LeaveController {
 			}
 
 			$this->setId($_SESSION['empID']);
-			$tmpObj = new LeaveQuota();
-			$tmpObjs[1] = $tmpObj->fetchLeaveQuota(0);
+			$tmpObj = new LeaveType();
+			$tmpObjs[1] = $tmpObj->fetchLeaveTypes();
 		} else {
 
 			$this->setId($_SESSION['empID']);
