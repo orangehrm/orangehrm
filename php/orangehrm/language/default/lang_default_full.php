@@ -33,6 +33,8 @@
 
 	$lang_Error_DoYouWantToContinue 				= "Do you want to continue?";
 
+	$lang_Error_PleaseSelectAnEmployee				= "Please select an employee";
+
 	$lang_Error_ShouldBeNumeric 					= "Should be Numeric";
 	$lang_Error_FollowingErrorsWereFound 			= "Following errors were found";
 	$lang_Error_AreYouSureYouWantToDelete 			= "Are you sure you want to delete";
