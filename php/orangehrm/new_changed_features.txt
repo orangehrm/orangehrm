@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Peter) (02/03/2007)
+
+	BugId     Name
+
+	1671396   User without subordinates also has "Assign" leave option
+
+
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
 
 	1. HR Admin / Supervisor assign leave to employee

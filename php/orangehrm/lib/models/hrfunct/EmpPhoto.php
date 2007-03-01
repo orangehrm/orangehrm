@@ -126,7 +126,7 @@ class EmpPicture {
 		$sql_builder->arr_insert = $arrFieldList;
 
 
-		$sqlQString = $sql_builder->addNewRecordFeature1(false);
+		$sqlQString = $sql_builder->addNewRecordFeature1();
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -156,7 +156,7 @@ class EmpPicture {
 		$sql_builder->arr_update = $arrFieldList;
 		$sql_builder->arr_updateRecList = $arrRecordsList;
 
-		$sqlQString = $sql_builder->addUpdateRecord1(0, false);
+		$sqlQString = $sql_builder->addUpdateRecord1(0);
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
