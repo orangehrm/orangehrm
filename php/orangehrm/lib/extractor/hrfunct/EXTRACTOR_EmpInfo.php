@@ -121,7 +121,7 @@ class EXTRACTOR_EmpInfo {
 	if ($postArr['main']=='1') {
 
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
-		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
+		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeID']));
 
 		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
 		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));
