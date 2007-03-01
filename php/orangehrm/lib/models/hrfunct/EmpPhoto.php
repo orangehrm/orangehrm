@@ -125,7 +125,6 @@ class EmpPicture {
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;
 
-
 		$sqlQString = $sql_builder->addNewRecordFeature1();
 
 		$dbConnection = new DMLFunctions();

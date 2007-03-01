@@ -216,7 +216,7 @@ create table `hs_hr_emp_skill` (
 
 create table `hs_hr_emp_picture` (
   `emp_number` int(7) not null default 0,
-  `epic_picture` blob,
+  `epic_picture` mediumblob,
   `epic_filename` varchar(100) default null,
   `epic_type` varchar(50) default null,
   `epic_file_size` varchar(20) default null,
