@@ -1124,13 +1124,14 @@ switch ($moduletype) {
 													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						$objx=false;
-																						if (isset($objs))
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getLeaveId());
-																							$mes=$leaveController->changeStatus("change");
-																							if ($mes) {
-																								$objx[] = $obj;
+																						if (isset($objs)) {
+																							foreach ($objs as $obj) {
+																								$leaveController->setObjLeave($obj);
+																								$leaveController->setId($obj->getLeaveId());
+																								$mes=$leaveController->changeStatus("change");
+																								if ($mes) {
+																									$objx[] = $obj;
+																								}
 																							}
 																						}
 																						$leaveController->sendChangedLeaveNotification($objx);
