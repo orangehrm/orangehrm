@@ -50,7 +50,15 @@ function viewEContact(ecSeq) {
 }
 
 function editEContact() {
-	document.frmEmp.econtactSTAT.value="EDIT";
+
+///////
+	/*document.frmEmp.econtactSTAT.value="EDIT";
+	var frm=document.frmEmp;
+	for (var i=0; i < frm.elements.length; i++)
+		frm.elements[i].disabled = false;*/
+
+
+/////
 	qCombo(5);
 }
 
