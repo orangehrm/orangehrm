@@ -127,6 +127,8 @@ class EmpPicture {
 
 		$sqlQString = $sql_builder->addNewRecordFeature1();
 
+		error_log($sqlQString,3,"log.txt");
+
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
