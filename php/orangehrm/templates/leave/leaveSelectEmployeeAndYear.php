@@ -116,7 +116,7 @@
 		   						sort($employees);
 		   					foreach ($employees as $employee) {
 		  ?>
-		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
+		 		  	<option value="<?php echo $employee[4] ?>"><?php echo $employee[1] ?></option>
 		  <?php 			}
 		   				}
 		 ?>

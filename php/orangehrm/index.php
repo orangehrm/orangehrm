@@ -460,7 +460,7 @@ function setSize() {
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu"><?php echo $lang_Menu_Leave_Apply; ?></a></li>
   						<?php
                       		}
-                      		if ($authorizeObj->isAdmin() || $authorizeObj->isESS()) {
+                      		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
                       	?>
                       	<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view" target="rightMenu"><?php echo $lang_Menu_Leave_Assign; ?></a></li>
                  		<?php
