@@ -77,10 +77,15 @@ function addEXTWrkExp() {
 
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
+	var currentDate = document.frmEmp.txtEmpExpToDate.value;
+	///////////////To Handle the date field validation 
+	if (!(currentDate == "0000-00-00")){
 
 	if(fromDate >= toDate){
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
+		 
 		return;
+	}
 	}
 
   document.frmEmp.wrkexpSTAT.value="ADD";
@@ -130,11 +135,21 @@ function editEXTWrkExp() {
 
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
+	var currentDate = document.frmEmp.txtEmpExpToDate.value;
+
+
+///////////To validate the date fields
+
+if (!(currentDate == "0000-00-00")){
 
 	if(fromDate >= toDate){
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
+		 
 		return;
 	}
+	}
+/////////////////////
+	 
 
   document.frmEmp.wrkexpSTAT.value="EDIT";
   qCombo(17);
