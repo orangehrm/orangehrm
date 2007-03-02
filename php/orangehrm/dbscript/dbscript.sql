@@ -762,7 +762,7 @@ alter table hs_hr_users
 
 alter table hs_hr_users
        add constraint foreign key (emp_number)
-       						references hs_hr_employee (emp_number) on delete restrict;
+       						references hs_hr_employee (emp_number) on delete set null;
 
 alter table hs_hr_versions
        add constraint foreign key (modified_by)

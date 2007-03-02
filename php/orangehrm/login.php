@@ -35,20 +35,24 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	$rset=$login->filterUser(trim($_POST['txtUserName']));
 
 	if (md5($_POST['txtPassword']) == $rset[0][1]) {
-		if($rset[0][5]=='Enabled') {
-			$_SESSION['user']=$rset[0][3];
-			$_SESSION['userGroup']=$rset[0][4];
-			$_SESSION['isAdmin']=$rset[0][7];
-			$_SESSION['empID']=$rset[0][6];
+		if ($rset[0][5]=='Enabled') {
+			if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
+				$_SESSION['user']=$rset[0][3];
+				$_SESSION['userGroup']=$rset[0][4];
+				$_SESSION['isAdmin']=$rset[0][7];
+				$_SESSION['empID']=$rset[0][6];
 
-			$_SESSION['fname']=$rset[0][2];
+				$_SESSION['fname']=$rset[0][2];
 
-			$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
-			$_SESSION['WPATH']= $wpath[0];
+				$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
+				$_SESSION['WPATH']= $wpath[0];
 
-			setcookie('Loggedin', 'True', 0, '/');
+				setcookie('Loggedin', 'True', 0, '/');
 
-			header("Location: ./index.php");
+				header("Location: ./index.php");
+			} else {
+				$InvalidLogin=3;
+			}
 		} else $InvalidLogin=2;
 	} else {
 		$InvalidLogin=1;
@@ -170,14 +174,25 @@ body {
 			if(isset($InvalidLogin)) {
 			   switch ($InvalidLogin) {
 
-			   		case 1 : 	echo "<td align='center'><strong><font color='Red'>Invalid Login</font></strong></td>";
+			   		case 1 : 	$InvalidLoginMes = "Invalid Login";
 			   					break;
-			   		case 2 : 	echo "<td align='center'><strong><font color='Red'>User Disabled</font></strong></td>";
+			   		case 2 : 	$InvalidLoginMes = "User Disabled";
+			   					break;
+			   		case 3 : 	$InvalidLoginMes = "No Employee assigned to the ESS user account.";
 			   					break;
 			   }
-			} else
-		        echo "<td>&nbsp; </td>";
+			} else {
+		       $InvalidLoginMes = "&nbsp;";
+			}
+
+			$longMessage = "";
+
+			if (strlen($InvalidLoginMes) > 14){
+				$longMessage = $InvalidLoginMes;
+				$InvalidLoginMes = "<a title='{$longMessage}' >".substr($InvalidLoginMes, 0, 11)."...</a>";
+			}
 ?>
+			<td align='center'><strong ><font color='Red'><?php echo $InvalidLoginMes; ?></font></strong></td>
             </tr>
           </table></td>
           </form>

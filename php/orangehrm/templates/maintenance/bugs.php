@@ -30,6 +30,11 @@
             return false;
         }
 
+        if (document.frmBugs.txtDescription.value == '') {
+            alert ("Please specify the bug description");
+            return false;
+        }
+
         // validate email if supplied
         var email = document.frmBugs.txtEmail.value;
         if (email != '') {

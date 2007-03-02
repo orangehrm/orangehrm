@@ -157,6 +157,7 @@ function chkboxCriteriaEnable() {
 					 	case 'EMPNO'      : document.frmEmpRepTo.empPop.disabled = !elements[i].checked;
 				 							if(!elements[i].checked){
 					 						document.frmEmpRepTo.txtRepEmpID.value='';
+					 						document.frmEmpRepTo.cmbRepEmpID.value='';
 				 							} break;
 					 	case 'AgeGroup'   :
 											document.frmEmpRepTo.cmbAgeCode.disabled= !elements[i].checked;

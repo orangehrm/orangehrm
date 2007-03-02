@@ -400,7 +400,7 @@ class EmpInfo {
 
             if ($mode == 7) {
 
-                // Special handling for search by subdivision. 
+                // Special handling for search by subdivision.
                 // Get list of workstations with matches in the title or matches higher in the hierachy
                 $subdivisionIds = $this->_getMatchingSubdivisionIds($schStr);
 
@@ -528,7 +528,7 @@ class EmpInfo {
                     // No subordinates found with with supervisor matching search string.
                     return 0;
                 }
- 
+
             } else {
                 $selectConditions[] = "{$arrFieldList[$mode]} LIKE '" . $filteredSearch . "%'";
             }
@@ -538,7 +538,7 @@ class EmpInfo {
 		$sql_builder = new SQLQBuilder();
 		$sqlQString = $sql_builder->countFromMultipleTables($arrTables, $joinConditions, $selectConditions);
 		$dbConnection = new DMLFunctions();
-		$result = $dbConnection -> executeQuery($sqlQString); 
+		$result = $dbConnection -> executeQuery($sqlQString);
 
 		$resultSet = mysql_fetch_array($result, MYSQL_NUM);
         $count = $resultSet[0];
@@ -603,17 +603,10 @@ class EmpInfo {
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
-		$sqlQString1 = sprintf("SELECT * FROM `hs_hr_users` WHERE `emp_number` = '%s'",
-		implode("' OR `emp_number` = '", $arrList[0]));
 
-		$message1 = $dbConnection -> executeQuery($sqlQString1);
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		if (mysql_num_rows($message1) == 0) {
-			$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-			return true;
-		}
-
-		return;
+		return $message2;
 	}
 
 	function filterEmpMain($getID) {
@@ -2684,7 +2677,7 @@ class EmpInfo {
 
     /**
      * Searches for supervisors with name matching the search string and
-     * returns a comma separated list of employee numbers of their 
+     * returns a comma separated list of employee numbers of their
      * subordinates.
      *
      * @param searchStr The search string to match supervisor name with
@@ -2701,7 +2694,7 @@ class EmpInfo {
             $employeeNumbers = implode(',', $empNumberArray);
         }
 
-        return $employeeNumbers; 
+        return $employeeNumbers;
     }
 
     /**
@@ -2731,7 +2724,7 @@ class EmpInfo {
             }
 
             $subdivisionIds = implode(',', $subdivIdList);
-        } 
+        }
 
         return $subdivisionIds;
     }
