@@ -1,21 +1,21 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-all the essential functionalities required for any enterprise.
-Copyright (C) 2006 hSenid Software, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
@@ -41,18 +41,13 @@ var i,code;
 if(txt.value=="")
    return false;
 
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
+regExp = /[0-9]+/g;
+
+if (regExp.test(txt.value)) {
+	return false;
+}
+
+return true;
 }
 
 function goBack() {
@@ -62,11 +57,15 @@ function goBack() {
 
 	function addSave() {
 		var txt=document.frmlicenses.txtLicensesDesc;
-		if (!alpha(txt)) {
-			alert ("Description Error!");
+		/**
+		 * Author - Zanfer
+		 * Purpose-  To modify the Descrption in the UI to accept all Characters
+		 */
+		if(txt.value=="") {
+			alert("License cannot be blank value");
 			txt.focus();
 			return;
-			}
+		}
 
 		document.frmlicenses.sqlState.value = "NewRecord";
 		document.frmlicenses.submit();
@@ -172,19 +171,15 @@ var i,code;
 if(txt.value=="")
    return false;
 
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
+regExp = /[0-9]+/g;
+
+if (regExp.test(txt.value)) {
+	return false;
 }
+
+return true;
+}
+
 
 function numeric(txt)
 {
@@ -243,19 +238,15 @@ function edit()
 }
 
 	function addUpdate() {
-
-	////Author - Zanfer
-	/// Purpose-  To modify the Descrption in the UI to accept all Characters
-
-	if(document.frmlicenses.txtLicensesDesc.value=="") {
+		/**
+		 * Author - Zanfer
+		 * Purpose-  To modify the Descrption in the UI to accept all Characters
+		 */
+		if(document.frmlicenses.txtLicensesDesc.value=="") {
 			alert("License cannot be blank value");
 			document.frmlicenses.txtLicensesDesc.focus();
 			return;
 		}
-
-
-	////
-
 
 		document.frmlicenses.sqlState.value = "UpdateRecord";
 		document.frmlicenses.submit();
