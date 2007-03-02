@@ -116,7 +116,7 @@ if(isset($this->getArr['lanSEQ'])) {
 ?>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0">
                     <tr>
-                      <td width="200"><?php echo $lang_hrEmpMain_language?></td>
+                      <td width="200"><?php echo $lang_hremp_Language?></td>
     				  <td><input type="hidden" name="cmbLanCode" value="<?php echo $edit[0][1]?>"><strong>
 <?php						$lanlist = $this->popArr['lanlist'];
 						for($c=0;count($lanlist)>$c;$c++)
@@ -128,7 +128,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  </strong></td>
 					</tr>
 					  <tr>
-						<td valign="top"><?php echo $lang_hrEmpMain_fluency?></td>
+						<td valign="top"><?php echo $lang_hremplan_fluency?></td>
 						<td align="left" valign="top"><input type="hidden" name="cmbLanType" value="<?php echo $this->getArr['lanFLU']?>"><strong>
 <?php
 						$index=array_values($lantype);
