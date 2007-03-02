@@ -19,28 +19,35 @@ function delEContact() {
 	qCombo(5);
 }
 
-function addEContact() {
+function validateEContact() {
 
 	if(document.frmEmp.txtEConName.value == '') {
 		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConName.focus();
-		return;
+		return false;
 	}
 
 	if(document.frmEmp.txtEConRel.value == '') {
 		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConRel.focus();
-		return;
+		return false;
 	}
 
 	if(document.frmEmp.txtEConHmTel.value == '') {
 		alert('<?php echo $lang_Common_FieldEmpty?>');
 		document.frmEmp.txtEConHmTel.focus();
-		return;
+		return false;
 	}
 
-	document.frmEmp.econtactSTAT.value="ADD";
-	qCombo(5);
+	return true;
+}
+
+function addEContact() {
+
+	if(validateEContact()) {
+		document.frmEmp.econtactSTAT.value="ADD";
+		qCombo(5);
+	}
 }
 
 function viewEContact(ecSeq) {
@@ -51,15 +58,10 @@ function viewEContact(ecSeq) {
 
 function editEContact() {
 
-///////
-	/*document.frmEmp.econtactSTAT.value="EDIT";
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;*/
-
-
-/////
-	qCombo(5);
+	if(validateEContact()) {
+		document.frmEmp.econtactSTAT.value="EDIT";
+		qCombo(5);
+	}
 }
 
 </script>
