@@ -17,6 +17,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 	1664199   Undefined index: chkLocID: Liceneses
 	1664193   Undefined index: chkLocID
 	1663342   City Cannot be empty
+	1672351   could not apply leave
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)

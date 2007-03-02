@@ -62,13 +62,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		obj = document.frmLeaveApp.sltLeaveType;
 		if (obj.value == -1) {
 			err = true;
-			msg += " -  <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
+			msg += " - <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
 		}
 
-		obj = document.frmLeaveApp.cmbEmployeeId;
-		if (obj.value == -1) {
-			err = true;
-			msg += " - <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n"
+		if (document.frmLeaveApp.cmbEmployeeId) {
+			obj = document.frmLeaveApp.cmbEmployeeId;
+			if (obj.value == -1) {
+				err = true;
+				msg += " - <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n"
+			}
 		}
 
 		if (err) {
