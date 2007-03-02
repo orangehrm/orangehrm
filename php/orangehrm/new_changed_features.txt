@@ -8,6 +8,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Peter) (02/03/2007)
 	1636575   Leave First Time
 	1667353   Report-to emp id link problem
 	1672197   Cannot save report - Field must be selected
+	1672277   Cannot Edit Children
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)

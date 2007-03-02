@@ -113,13 +113,13 @@ function editChildren() {
 
 
               <input type="hidden" name="txtCSeqNo" value="<?php echo $edit[0][1]?>">
-			 <th><h3><?php echo $children?><h3></th>
+			 <th><h3><?php echo  $lang_hremp_children?><h3></th>
               <tr>
-                <td><?php echo $name?></td>
+                <td><?php echo $lang_hremp_name?></td>
                 <td><input type="text" name="txtChiName" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
                </tr>
               <tr>
-                <td><?php echo $dateofbirth?></td>
+                <td><?php echo $lang_hremp_dateofbirth?></td>
                 <td><input type="text" name="ChiDOB" readonly value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.ChiDOB);return false;"></td>
                </tr>
 
