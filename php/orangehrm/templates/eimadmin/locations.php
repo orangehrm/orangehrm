@@ -1,15 +1,15 @@
 <?php
 /*
-* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-* all the essential functionalities required for any enterprise. 
+* OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+* all the essential functionalities required for any enterprise.
 * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 *
 * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 * the GNU General Public License as published by the Free Software Foundation; either
 * version 2 of the License, or (at your option) any later version.
 *
-* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+* OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+* without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License along with this program;
@@ -20,42 +20,42 @@
 ////xajax header
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
 function populateStates($value) {
-	
+
 	$view_controller = new ViewController();
 	$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	if ($provlist) {
 		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
-		
+
 	} else {
 		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
 	}
 	$objResponse->addScript('document.getElementById("txtState").Focus();');
-	
+
 	$objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
 	$objResponse->addAssign('status','innerHTML','');
-	
-	
-	
+
+
+
 return $objResponse->getXML();
 }
 
 function populateDistrict($value) {
-	
+
 	$view_controller = new ViewController();
 	$dislist = $view_controller->xajaxObjCall($value,'LOC','district');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$response = $xajaxFiller->cmbFiller($objResponse,$dislist,1,'frmLocation','cmbDistrict');
 	$response->addAssign('status','innerHTML','');
-	
+
 return $response->getXML();
 }
 
@@ -65,11 +65,11 @@ $objAjax->registerFunction('populateDistrict');
 $objAjax->processRequests();
 
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
-	
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -81,28 +81,28 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 
-<script>			
+<script>
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
-	
+
 	function addSave() {
 
 		var frm = document.frmLocation;
-			
+
 		if (frm.txtLocDescription.value == '') {
 			alert ("Location Description empty!");
 			frm.txtLocDescription.focus();
 			return;
 		}
-		
-		if (frm.cmbCountry.value == '0') {		
+
+		if (frm.cmbCountry.value == '0') {
 			alert ("Country not selected!");
 			frm.cmbCountry.focus();
 			return;
 		}
-		
-		if ( frm.cmbProvince.value == '0') {		
+
+		if ( frm.cmbProvince.value == '0') {
 			alert ("State not selected!");
 			frm.cmbProvince.focus();
 			return;
@@ -113,45 +113,45 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			frm.cmbDistrict.focus();
 			return;
 		}
-		
-		if ( frm.txtAddress.value == '') {		
+
+		if ( frm.txtAddress.value == '') {
 			alert ("Address empty!");
 			frm.txtAddress.focus();
 			return;
 		}
-		
-		if ( frm.txtZIP.value == '' ){		
+
+		if ( frm.txtZIP.value == '' ){
 			alert ("Zip - Code Cannot be empty!");
 			frm.txtZIP.focus();
 			return;
 		}
-		
-		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){		
+
+		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
 			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
 				frm.txtZIP.focus();
 			return;
-			}		
-		}		
-		
+			}
+		}
+
 
 		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
 			alert("Should be Numeric!");
 			frm.txtPhone.focus();
 			return;
 		}
-		
-		 if(frm.txtFax.value != '' && !numeric(frm.txtFax)) {		
+
+		 if(frm.txtFax.value != '' && !numeric(frm.txtFax)) {
 
 			alert("Should be Numeric!");
 			frm.txtFax.focus();
 			return;
 		}
-		
+
 		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
 		document.frmLocation.sqlState.value = "NewRecord";
-		document.frmLocation.submit();		
+		document.frmLocation.submit();
 	}
-	
+
 	function clearAll() {
 			document.frmLocation.txtLocDescription.value = '';
 			document.frmLocation.cmbCountry.options[0].selected = true;
@@ -184,25 +184,25 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" >
 <td width="177">
 <form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr>
@@ -217,11 +217,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr> 
+					  <tr>
 					    <td><?php echo $lang_Commn_code; ?></td>
-					    <td><strong><?php echo $this->popArr['newID']?></strong></td> 
+					    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 					    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
@@ -230,7 +230,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
-								for($c=0;$cntlist && count($cntlist)>$c;$c++) { 
+								for($c=0;$cntlist && count($cntlist)>$c;$c++) {
 									echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
 								}
 					?>
@@ -238,7 +238,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					  </tr>
 					  <tr>
 						  <td><?php echo $lang_compstruct_state; ?></td>
-						  <td><span id="lrState" name="lrState">							    
+						  <td><span id="lrState" name="lrState">
 							    <input type="text" name="txtState" id="txtState" >
 							  </span>
 							  <input type="hidden" name="cmbProvince" id="cmbProvince" >
@@ -268,7 +268,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 						  <td><?php echo $lang_Leave_Common_Comments; ?></td>
 						  <td><textarea name="txtComments"></textarea></td>
 					  </tr>
-					  
+
 					  <tr>
 					  	<td></td>
 					  	<td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -286,7 +286,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 </tr>
               </table>
 
-</form> 
+</form>
 </form>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
@@ -312,7 +312,7 @@ function edit()
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmLocation;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -326,85 +326,85 @@ function edit()
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
 	function addUpdate() {
 
 		var frm = document.frmLocation;
-			
+
 		if (frm.txtLocDescription.value == '') {
 			alert ("Location Description empty!");
 			frm.txtLocDescription.focus();
 			return;
 		}
-		
-		if (frm.cmbCountry.value == '0') {		
+
+		if (frm.cmbCountry.value == '0') {
 			alert ("Country not selected!");
 			frm.cmbCountry.focus();
 			return;
 		}
-		
-		if ( frm.cmbProvince.value == '0') {		
+
+		if ( frm.cmbProvince.value == '0') {
 			alert ("State not selected!");
 			frm.cmbProvince.focus();
 			return;
 		}
 
-		if ( frm.cmbDistrict.value == '' ){		
+		/*if ( frm.cmbDistrict.value == '' ){
 			alert ("City Cannot be empty!");
 			frm.cmbDistrict.focus();
 			return;
-		}
-		
-		if ( frm.txtAddress.value == '') {		
+		}*/
+
+		if ( frm.txtAddress.value == '') {
 			alert ("Address empty!");
 			frm.txtAddress.focus();
 			return;
 		}
 
-		if ( frm.txtZIP.value == '' ){		
+		if ( frm.txtZIP.value == '' ){
 			alert ("Zip - Code Cannot be empty!");
 			frm.txtZIP.focus();
 			return;
 		}
-		
-		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){		
+
+		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
 			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
 				frm.txtZIP.focus();
 			return;
-			}		
-		}	
-		
-		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {		
+			}
+		}
+
+		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
 
 			alert("Should be Numeric!");
 			frm.txtPhone.focus();
 			return;
 		}
 
-		if (frm.txtFax.value != '' && !numeric(frm.txtFax)) {		
+		if (frm.txtFax.value != '' && !numeric(frm.txtFax)) {
 
 			alert("Should be Numeric!");
 			frm.txtFax.focus();
 			return;
 		}
-		
+
 		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
-		
+
 		document.frmLocation.sqlState.value = "UpdateRecord";
-		document.frmLocation.submit();		
-	}			
+		document.frmLocation.submit();
+	}
 
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
@@ -420,24 +420,24 @@ function mover() {
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  =$this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr>
@@ -452,7 +452,7 @@ function mover() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 						    <td><?php echo $lang_Commn_code; ?></td>
 						   	<input type="hidden" name="txtLocationCode" value=<?php echo $message[0][0]?>>
 						   	<td><strong><?php echo $message[0][0]?></strong></td>
@@ -468,7 +468,7 @@ function mover() {
 						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
-								for($c=0;$cntlist && count($cntlist)>$c;$c++)  
+								for($c=0;$cntlist && count($cntlist)>$c;$c++)
 									if ($message[0][2] == $cntlist[$c][0])
 										echo "<option selected value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
 									else
@@ -485,7 +485,7 @@ function mover() {
 							    		<option value="0">--<?php echo $lang_districtinformation_selstatelist; ?>--</option>
 					<?php
 								$provlist = $this->popArr['provlist'];
-								for($c=0;$provlist && count($provlist)>$c;$c++)  
+								for($c=0;$provlist && count($provlist)>$c;$c++)
 									if($message[0][3]==$provlist[$c][1])
 										echo "<option selected value='" .$provlist[$c][1] . "'>" . $provlist[$c][2] . '</option>';
 									else
@@ -532,9 +532,9 @@ function mover() {
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
-					  
+
 </td>
-					  </tr>				  
+					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -547,7 +547,7 @@ function mover() {
                 </tr>
               </table>
 
-</form> 
+</form>
 </form>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
