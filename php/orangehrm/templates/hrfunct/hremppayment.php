@@ -132,7 +132,7 @@ function viewPayment(pay,curr) {
 ?>
  	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td><?php echo $lang_hremp_paygrade?></td>
+                      <td><?php echo $lang_hrEmpMain_paygrade?></td>
     				  <td><strong>
     				 <?php $salgradelist = $this->popArr['salgradelist'];
     				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
@@ -142,7 +142,7 @@ function viewPayment(pay,curr) {
     				  </strong></td>
 					</tr>
 					  <tr>
-						<td valign="top"><?php echo $lang_hremp_currency?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_currency?></td>
 						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][2]?>">
 						<strong>
 <?php
@@ -154,7 +154,7 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $lang_hremp_minpoint?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_minpoint?></td>
 						<td align="left" valign="top"><strong>
 <?php
 						for($c=0;count($currlist)>$c;$c++)
@@ -166,7 +166,7 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $lang_hremp_maxpoint?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_maxpoint?></td>
 						<td align="left" valign="top"><strong>
 <?php
 						for($c=0;count($currlist)>$c;$c++)
@@ -178,7 +178,7 @@ function viewPayment(pay,curr) {
 						</strong></td>
 					  </tr>
 					  <tr>
-						<td valign="top"><?php echo $lang_hremp_bassalary?></td>
+						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
 						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?php echo $edit[0][3]?>">
 						</td>
 					  </tr>
