@@ -25,7 +25,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 	1664180   Could not Edit Employment Status
 	1664526   Some Zip code fields will not accept letters
 	1619800   HR Admin must be able to reset a user's password
-
+	1662901   Morning
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
 

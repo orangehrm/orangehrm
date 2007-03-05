@@ -554,13 +554,18 @@ class Leave {
 	 * @return integer $reqiredLength - length of leave required.
 	 */
 	protected function _leaveLength($length, $timeOff) {
+		$factor = 1;
+		if ($length < 0) {
+			$factor = -1;
+		}
+
 		$length = abs($length);
 		if ($timeOff > $length) {
 			return 0;
 		}
 		$requiredLength = $length-$timeOff;
 
-		return $requiredLength;
+		return $requiredLength*$factor;
 	}
 
 	/**
