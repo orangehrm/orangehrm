@@ -622,7 +622,7 @@
 	$lang_view_ExtraCategoryName 			= "Extra Curricular Activity Category Name";
 	$lang_view_message12 					= "Deletion might affect Ex. Curr. Activities, Employee Ex. Curr. Activities";
 	$lang_view_MembershipTypeName 			= "Membership Type Name";
-	$lang_view_message13 					= "Deletion might affect Employee Memberships, Memberships";
+	$lang_view_message13 					= "Deletion might affect employee memberships, memberships";
 	$lang_view_EmployeeCategoryName 		= "Employee Category Name";
 	$lang_view_message14 					= "Deletion might affect employee information";
 	$lang_view_EmployeeGroupName 			= "Employee Group Name";
@@ -640,14 +640,14 @@
 	$lang_view_CityName 					= "City Name";
 	$lang_view_message20 					= "Deletion might affect employee information";
 	$lang_view_LanguagName 					= "Language Name";
-	$lang_view_message21 					= "Deletion might affect Employee Language";
+	$lang_view_message21 					= "Deletion might affect employee language";
 	$lang_view_Membership 					= "Membership";
 	$lang_view_MembershipType 				= "Membership Type";
 	$lang_view_MembershipName 				= "Membership Name";
-	$lang_view_message22 					= "Deletion might affect Employee Membership";
+	$lang_view_message22 					= "Deletion might affect employee membership";
 	$lang_view_ExtraActivities 				= "Extra Curricular Activities";
 	$lang_view_ExtraActivitiesName 			= "Extra Curricular Activities Name";
-	$lang_view_message23 					= "Deletion might affect Employee Ex. Curr. Activities";
+	$lang_view_message23 					= "Deletion might affect employee ex. curr. activities";
 	$lang_view_PayGradeName 				= "Pay Grade Name";
 	$lang_view_message24 					= "Deletion might affect employee information, Job Titles";
 	$lang_view_message25 					= "Deletion might affect Education";
@@ -658,7 +658,7 @@
 	$lang_view_EEOJobCategoryid 			= "EEO Job Category Id";
 	$lang_view_EEOJobCategoryName 			= "EEO Job Category Name";
 	$lang_view_message27 					= "Deletion might affect employee information";
-	$lang_view_message28 					= "Deletion might affect Employee Language";
+	$lang_view_message28 					= "Deletion might affect employee language";
 	$lang_view_EthnicRace 					= "Ethnic Race";
 	$lang_view_EthnicRaceName 				= "Ethnic Race Name";
 	$lang_view_message29 					= "Deletion might affect employee records";
