@@ -725,13 +725,13 @@ function setSize() {
                     	if ($authorizeObj->isESS()) {
                     ?>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id=<?php echo $_SESSION['empID']; ?>" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" onClick="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id=<?php echo $_SESSION['empID']; ?>" target="rightMenu"><?php echo $lang_Menu_Leave_PersonalLeaveSummary; ?></A></TD>
 					 </TR>
 					<?php
                     	}
                     ?>
 					 <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_EmployeeLeaveSummary; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu13')" onMouseOut="ypSlideOutMenu.hideMenu('menu13')" onClick="ypSlideOutMenu.hideMenu('menu13')" vAlign=center align=left width=142 height=17><A class=rollmenu href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary" target="rightMenu"><?php echo $lang_Menu_Leave_EmployeeLeaveSummary; ?></A></TD>
 					 </TR>
                     </TBODY>
                   </TABLE>
@@ -750,10 +750,10 @@ function setSize() {
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
                     <TBODY>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_Weekends; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" onClick="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Weekend_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_Weekends; ?></A></TD>
 					 </TR>
 					 <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_SpecificHolidays; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu14')" onMouseOut="ypSlideOutMenu.hideMenu('menu14')" onClick="ypSlideOutMenu.hideMenu('menu14')" vAlign=center align=left width=142 height=17><A class=rollmenu  href="lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List" target="rightMenu"><?php echo $lang_Menu_Leave_DefineDaysOff_SpecificHolidays; ?></A></TD>
 					 </TR>
                     </TBODY>
                   </TABLE>
