@@ -26,6 +26,7 @@ require_once($lan->getLangPath("full.php"));
 	$locRights=$_SESSION['localRights'];
 
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+	$_GET['isAdmin'] = isset($_GET['isAdmin'])?$_GET['isAdmin']:'No';
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -101,7 +102,7 @@ function popEmpList() {
 }
 
 function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?php echo $_GET['isAdmin']?>";
+		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&isAdmin=<?php echo isset($_GET['isAdmin'])?$_GET['isAdmin']:'No'; ?>";
 	}
 
 	function addSave() {
@@ -175,8 +176,9 @@ function goBack() {
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
+			$expString = explode ("_",$expString);
 			$length = sizeof($expString);
+
 			for ($x=0; $x < $length; $x++) {
 				echo " " . $expString[$x];
 			}

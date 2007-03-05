@@ -1356,10 +1356,12 @@ class ViewController {
 
 			} else {
 
+				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
+
 				$showMsg = "ADD_FAILURE";
 
 				$uniqcode = $index;
-				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&uniqcode=$uniqcode");
+				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&uniqcode={$uniqcode}{$esp}");
 			}
 		}
 
