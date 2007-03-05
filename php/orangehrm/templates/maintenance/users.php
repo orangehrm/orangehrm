@@ -1,30 +1,30 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 $lan = new Language();
- 
-require_once($lan->getLangPath("full.php")); 
-	
-	$sysConst = new sysConf(); 
+
+require_once($lan->getLangPath("full.php"));
+
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
-		
+
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
 ?>
 
@@ -34,7 +34,7 @@ require_once($lan->getLangPath("full.php"));
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
-<script>		
+<script>
 
 function echeck(str) {
 
@@ -64,7 +64,7 @@ function echeck(str) {
 		 if (str.indexOf('.',(lat+2))==-1){
 		    return false;
 		 }
-		
+
 		 if (str.indexOf(" ")!=-1){
 		    return false;
 		 }
@@ -96,8 +96,8 @@ return flag;
 
 function popEmpList() {
 	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
-    if(!popup.opener) popup.opener=self;	
-	popup.focus();	
+    if(!popup.opener) popup.opener=self;
+	popup.focus();
 }
 
 function goBack() {
@@ -111,26 +111,26 @@ function goBack() {
 			frm.txtUserName.focus();
 			return false;
 		}
-		
+
 		if(frm.txtUserPassword.value.length < 4) {
 			alert("Password should be atleast four characters long!");
 			frm.txtUserPassword.focus();
 			return;
 		}
-		
+
 		if(frm.txtUserPassword.value != frm.txtUserConfirmPassword.value) {
 			alert("Password Mismatch!");
 			frm.txtUserPassword.focus();
 			return;
 		}
-		
+
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
-			
-		
+
+
 		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
@@ -138,9 +138,9 @@ function goBack() {
 		}
 
 		document.frmUsers.sqlState.value = "NewRecord";
-		document.frmUsers.submit();		
-	}			
-	
+		document.frmUsers.submit();
+	}
+
 	function toggleAdmin(obj) {
 		if (obj.checked) {
 			document.getElementById("lyrUserGroupID").style.visibility = 'visible';
@@ -163,24 +163,24 @@ function goBack() {
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmUsers" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&isAdmin=<?php echo $_GET['isAdmin']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
 
     </font> </td>
@@ -197,14 +197,14 @@ function goBack() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="450"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 							    <td>Code</td>
 							    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 								<td></td>
 								<td></td>
 								<td></td>
 						  </tr>
-						  <tr> 
+						  <tr>
 							    <td nowrap="nowrap"><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName"></td>
 								<td></td>
@@ -216,8 +216,8 @@ function goBack() {
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
 							  <td nowrap="nowrap"><span class="error">*</span> Confirm Password</td>
-							  <td><input type="password" name="txtUserConfirmPassword"></td> 
-						  </tr>						 
+							  <td><input type="password" name="txtUserConfirmPassword"></td>
+						  </tr>
 						  <tr valign="top">
 							  <td>Status</td>
 						   	  <td><select name="cmbUserStatus">
@@ -229,21 +229,21 @@ function goBack() {
 							  <td nowrap="nowrap"><input type="text" readonly name="txtUserEmpID"><input type="hidden" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
 						   </tr>
 						   <?php if ($_GET['isAdmin'] == 'Yes') { ?>
-						   <tr>							   							   
+						   <tr>
 							   <td><span class="error">*</span> User Group</div></td>
 							   <td><select name="cmbUserGroupID" id ="cmbUserGroupID">
 							  		<option value="0">--Select UserGroup--</option>
-<?php									$uglist=$this->popArr['uglist'] ; 
+<?php									$uglist=$this->popArr['uglist'] ;
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
-?>							  
+?>
 							  </select></td>
 							   <td>&nbsp;</td>
 							   <td>&nbsp;</td>
-							   <td><input type="hidden" name="chkUserIsAdmin" value="true"></td>							   
+							   <td><input type="hidden" name="chkUserIsAdmin" value="true"></td>
 						   </tr>
-						  <?php } else { ?>						  
-						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
+						  <?php } else { ?>
+						   <input type="hidden" name="cmbUserGroupID" value="0" >
 						   <?php } ?>
 					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
 					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
@@ -275,7 +275,7 @@ function goBack() {
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
-<script>			
+<script>
 function echeck(str) {
 
 		var lat=str.indexOf('@');
@@ -304,7 +304,7 @@ function echeck(str) {
 		 if (str.indexOf('.',(lat+2))==-1){
 		    return false;
 		 }
-		
+
 		 if (str.indexOf(" ")!=-1){
 		    return false;
 		 }
@@ -340,23 +340,23 @@ return flag;
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function popEmpList() {
 	var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
-    if(!popup.opener) popup.opener=self;		
-	popup.focus();	
+    if(!popup.opener) popup.opener=self;
+	popup.focus();
 }
 
 function edit() {
@@ -364,7 +364,7 @@ function edit() {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmUsers;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -374,30 +374,44 @@ function edit() {
 }
 
 	function addUpdate() {
-		
+
 		var frm=document.frmUsers;
 		if (frm.txtUserName.value.length < 5 ) {
 			alert ("UserName should be atleast five characters long!");
 			frm.txtUserName.focus();
 			return false;
 		}
-				
+
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("Employee ID should be defined");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
-				
+
 		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
 			alert("Field should be selected!");
 			frm.cmbUserGroupID.focus();
 			return;
 		}
 
-		
+		<?php if ($_GET['isAdmin'] == 'No') { ?>
+		if (frm.txtUserPassword.value != '') {
+			if (frm.txtUserPassword.value.length < 4) {
+				alert("Password should be at least 4 characters long.");
+				frm.txtUserPassword.focus();
+				return;
+			}
+
+			if(frm.txtUserPassword.value != frm.txtUserConfirmPassword.value) {
+				alert("Passwords Are Not Matching.Retype Your New Password");
+				frm.txtUserPassword.focus();
+				return;
+			}
+		}
+		<?php } ?>
 		document.frmUsers.sqlState.value = "UpdateRecord";
-		document.frmUsers.submit();		
-	}			
+		document.frmUsers.submit();
+	}
 
 	function toggleAdmin(obj) {
 		if (obj.checked) {
@@ -423,25 +437,25 @@ function edit() {
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmUsers" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&isAdmin=<?php echo $_GET['isAdmin']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p>
 		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
     </font> </td>
   </tr><td width="177">
@@ -457,20 +471,20 @@ function edit() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 							    <td>Code</td>
 							    <td> <input type="hidden"  name="txtUserID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 								<td></td>
 								<td></td>
 								<td></td>
 						  </tr>
-						  <tr> 
+						  <tr>
 							    <td valign="top" nowrap><span class="error">*</span> User Name</td>
 							    <td><input type="text" name="txtUserName" disabled value="<?php echo $message[0][1]?>"></td>
 								<td></td>
 								<td valign="top" nowrap></td>
 							  	<td></td>
-						  </tr>						  
+						  </tr>
 						  <tr valign="top">
 						  	  <td>Status</td>
 							  <td><select name="cmbUserStatus" disabled>
@@ -482,17 +496,17 @@ function edit() {
 							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?php echo (isset($message[0][11]) && ($message[0][11] != "")) ?$message[0][11] : $message[0][2] ?><?php echo (isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?php echo $message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<?php if ($_GET['isAdmin'] == 'Yes') { ?>
-						   <tr>							   
+						   <tr>
 							   <td valign="top" nowrap><span class="error">*</span> User Group</td>
 							   <td><select name="cmbUserGroupID" disabled>
 							  		<option value="0">--Select UserGroup--</option>
-<?php									$uglist=$this->popArr['uglist'] ; 
+<?php									$uglist=$this->popArr['uglist'] ;
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										if($message[0][9]==$uglist[$c][0])
 											echo "<option selected value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
 										else
 											echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
-?>							  
+?>
 							  </select></td>
 							  <td>&nbsp;</td>
 							   <td><?php if ($message[0][3]=='Yes') { ?>
@@ -500,8 +514,15 @@ function edit() {
 								   <?php } ?></td>
 							   <td></td>
 						   </tr>
-						   <?php } else { ?>						  
-						   <input type="hidden" name="cmbUserGroupID" value="0" >				   
+						   <?php } else { ?>
+						   <input type="hidden" name="cmbUserGroupID" value="0" >
+						   <tr>
+							  <td nowrap="nowrap">New Password</td>
+							  <td><input type="password" name="txtUserPassword"></td>
+							  <td></td>
+							  <td nowrap="nowrap">Confirm New Password</td>
+							  <td><input type="password" name="txtUserConfirmPassword"></td>
+						  </tr>
 						   <?php } ?>
 					  <tr><td></td><td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>

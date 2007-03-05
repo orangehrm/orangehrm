@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
@@ -117,13 +117,13 @@ function mover() {
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
-function chkboxCheck() {	
-	
+function chkboxCheck() {
+
 	if(document.Edit.title=='Save') {
 		xajax_chkPassword(document.frmchange.txtOldPassword.value);
 	    return;
 	}
-	
+
     if(document.Edit.title!='Save') {
     	edit();
      	return;
@@ -132,10 +132,10 @@ function chkboxCheck() {
 
 function edit() {
 	var frm=document.frmchange;
-	
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	
+
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
 	document.Edit.title="Save";
 }

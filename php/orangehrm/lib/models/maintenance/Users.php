@@ -328,6 +328,13 @@ class Users {
 		$arrRecordsList[6] = 'status';
 		$arrRecordsList[7] = 'userg_id';
 
+		$password = $this->getUserPassword();
+
+		if (isset($password) && $password) {
+			$arrFieldList[8] = $password;
+			$arrRecordsList[8] = 'user_password';
+		}
+
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_update = 'true';
 		$this->sql_builder->arr_update = $arrRecordsList;

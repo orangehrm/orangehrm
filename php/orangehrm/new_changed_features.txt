@@ -22,6 +22,9 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 	1672351   could not apply leave
 	1662228   Ñ
 	1653917   "Enter" in licese name
+	1664180   Could not Edit Employment Status
+	1664526   Some Zip code fields will not accept letters
+	1619800   HR Admin must be able to reset a user's password
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
