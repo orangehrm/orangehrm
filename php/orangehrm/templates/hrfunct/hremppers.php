@@ -75,7 +75,8 @@
 	?>
 
           <tr>
-					<td><font color=#ff0000>*</font><?php echo $lang_hremp_ssnno?></td>
+					
+    <td><?php echo $lang_hremp_ssnno?></td>
 					<td><input type="text" name="txtNICNo" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>">
 					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
 					<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>" />
