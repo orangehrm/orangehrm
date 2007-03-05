@@ -34,6 +34,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 	1619845   Adding ESS/Admin user with duplicate user name throws mysql error
 	1601108   Job Title details errors
 	1603483   User is not deleted
+	1595304   Deleting a nationality warning need to be consistent with other warnings
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
