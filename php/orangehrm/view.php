@@ -87,6 +87,11 @@ $srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
 		document.standardView.submit();
 	}
 
+	function sortAndSearch(action) {
+		document.standardView.action = action;
+		document.standardView.submit();
+	}
+
 	function returnAdd() {
 <?php
 		$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
@@ -364,7 +369,7 @@ else
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
 				?>
-				<td scope="col" width="250" class="listViewThS1"><a href="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $headings[$j]?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+				<td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $headings[$j]?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 				<?php } ?>
       		<td class="listViewThS1"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
       		<td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
