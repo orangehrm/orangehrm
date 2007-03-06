@@ -299,7 +299,7 @@ function edit()
 							  <tr>
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_membershipinfo_membershiptype; ?></td>
 							  	<td align="left" valign="top"><select disabled name="selMembershipType">
-										<option value="0"><?php echo $selectmember?></option>
+										<option value="0"><?php echo $lang_membershipinfor_selectmember?></option>
 									    <?php $getResultSet=$this->popArr['getResultSet'] ;
 									    	for ($j=0;$j<count($getResultSet);$j++)
 									    		if($getResultSet[$j][0]==$message[0][2])

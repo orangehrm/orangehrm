@@ -77,11 +77,7 @@ class SQLQBuilder {
 			foreach ($arr as $value) {
 				if ($value != 'null') {
 
-					//$temp = substr($value,1,strlen($value)-2);
-					$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));
-					$temp = mysql_real_escape_string(trim($temp)); //str_replace("'","\'",$temp);
-
-					$tempArr[] = "'$temp'";
+					$tempArr[] = $this->quoteCorrectString($value);;
 
 				} else {
 					$tempArr[] = $value;
@@ -92,8 +88,25 @@ class SQLQBuilder {
 
 		$value=$arr;
 
+		$temp = $this->quoteCorrectString($value, false);
+
+		return $temp;
+	}
+
+	function quoteCorrectString($value, $quote=true, $smart=false) {
+		if ($smart) {
+			if (preg_match("/^'/", $value) == 1) {
+				$quote = true;
+			} else {
+				$quote = false;
+			}
+		}
 		$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));
-		$temp = mysql_real_escape_string(trim($temp)); //str_replace("'","\'",$temp);
+		$temp = mysql_real_escape_string(trim($temp));
+
+		if ($quote) {
+			$temp = "'$temp'";
+		}
 
 		return $temp;
 	}
@@ -138,19 +151,20 @@ class SQLQBuilder {
 
 		if(is_array($arrFlt)) {
 			$SQL1 = $SQL1 . ') AND ';
-			for($c=0;count($arrFlt)>$c;$c++)
-    				if ($c == (count($arrFlt) - 1))   //String Manipulation
-    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . mysql_real_escape_string($arrFlt[$c][1]) . ' ';
-    				 else
-    					$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . mysql_real_escape_string($arrFlt[$c][1]) . '  AND ';
-
+			for($c=0;count($arrFlt)>$c;$c++) {
+    			if ($c == (count($arrFlt) - 1))  { //String Manipulation
+    				$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . $this->quoteCorrectString($arrFlt[$c][1], false, true) . ' ';
+    			} else {
+    				$SQL1 = $SQL1 . $arrFlt[$c][0] . ' = ' . $this->quoteCorrectString($arrFlt[$c][1], false, true) . '  AND ';
+    			}
+			}
 			$SQL1 = $SQL1 . ' ORDER BY '. $arrayFieldList[0];
-		} else
+		} else {
 			$SQL1 = $SQL1 . ') ORDER BY '. $arrayFieldList[$sortField];
+		}
 
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 

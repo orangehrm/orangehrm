@@ -403,18 +403,16 @@ class MembershipInfo {
 		$arr1[0][0]='EMP_NUMBER';
 		$arr1[0][1]=$eno;
 		$arr2[0][0]='MEMBTYPE_CODE';
-		$arr2[0][1]=$typ;
+		$arr2[0][1]="'$typ'";
 
 		$sqlQString = $sql_builder->selectFilter($arr1,$arr2);
 
 		$dbConnection = new DMLFunctions();
-       		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
+       	$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		$i=0;
 
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		 while ($line = mysql_fetch_row($message2)) {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
@@ -423,10 +421,11 @@ class MembershipInfo {
 	     }
 
 	     if (isset($arrayDispList)) {
-
+			error_log(print_r($arrayDispList, true), 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	       	return $arrayDispList;
 
 	     } else {
+	     	error_log($sqlQString, 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	     	//Handle Exceptions
 	     	//Create Logs
 	     }
