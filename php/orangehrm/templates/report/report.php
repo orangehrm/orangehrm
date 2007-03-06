@@ -1,21 +1,21 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-all the essential functionalities required for any enterprise.
-Copyright (C) 2006 hSenid Software, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 $lan = new Language();
 
@@ -29,7 +29,8 @@ $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
 									'Salary Grade'=>$lang_rep_SalaryGrade,
 									'Employee Status'=>$lang_rep_EmployeeStatus,
 									'Joined Date'=>$lang_rep_JoinedDate,
-									'Job Title'=>$lang_rep_JobTitle);
+									'Job Title'=>$lang_rep_JobTitle,
+									'Qualifications'=>$lang_rep_Qualification);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

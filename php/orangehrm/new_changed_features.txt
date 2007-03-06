@@ -1,3 +1,6 @@
+New & Changed Features for OrangeHRM ver 2.1_beta_1 (Ivan) (09/03/2007)
+
+
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 
 	Bugs fixed include:
