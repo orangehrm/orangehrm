@@ -474,7 +474,7 @@ class MailNotifications {
 
 		$empRepToObj1 = new EmpRepTo();
 
-		$supInfo = $empRepToObj1->getEmpSub(str_pad($employeeId, $this->employeeIdLength, "0", STR_PAD_LEFT));
+		$supInfo = $empRepToObj1->getEmpSup(str_pad($employeeId, $this->employeeIdLength, "0", STR_PAD_LEFT));
 
 		$supAddr = null;
 
