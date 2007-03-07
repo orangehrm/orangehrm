@@ -661,10 +661,14 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input type='checkbox' checked  class='checkbox' name='checkfield[]' value='EMPFIRSTNAME'></td>
+						 <td><?php echo $lang_rep_FirstName; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
 						 <td><?php echo $lang_rep_LastName; ?></td>
 					</tr>
-
 
 					<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
@@ -682,6 +686,16 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='REPORTTO'></td>
+						 <td><?php echo $lang_rep_ReportTo; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='REPORTINGMETHOD'></td>
+						 <td><?php echo $lang_rep_ReportingMethod; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
 						 <td><?php echo $lang_rep_JobTitle; ?></td>
 					</tr>
@@ -692,8 +706,18 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
+						 <td><?php echo $lang_rep_SubDivision; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='QUL'></td>
 						 <td><?php echo $lang_rep_Qualification; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input type='checkbox' checked  class='checkbox' name='checkfield[]' value='YEAROFPASSING'></td>
+						 <td><?php echo $lang_rep_YearOfPassing; ?></td>
 					</tr>
 
 					<tr>
@@ -706,6 +730,15 @@ function disableSerPeriodField() {
 						 <td><?php echo $lang_rep_PayGrade; ?></td>
 					</tr>
 
+					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='SKILLS'></td>
+						 <td><?php echo $lang_rep_Skills; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='CONTRACT'></td>
+						 <td><?php echo $lang_rep_Contract; ?></td>
+					</tr>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -1010,13 +1043,15 @@ function disableSerPeriodField() {
 						 <td><?php echo $lang_rep_EmpNo; ?></td>
 					</tr>
 
-
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPFIRSTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPFIRSTNAME'></td>
+						 <td><?php echo $lang_rep_FirstName; ?></td>
+					</tr>
 
 					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('EMPLASTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
 						 <td><?php echo $lang_rep_LastName; ?></td>
 					</tr>
-
 
 					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('ADDRESS1',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
@@ -1036,6 +1071,16 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('REPORTTO',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='REPORTTO'></td>
+						 <td><?php echo $lang_rep_ReportTo; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('REPORTINGMETHOD',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='REPORTINGMETHOD'></td>
+						 <td><?php echo $lang_rep_ReportingMethod; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('JOBTITLE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
 						 <td><?php echo $lang_rep_JobTitle; ?></td>
 					</tr>
@@ -1051,8 +1096,18 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('YEAROFPASSING',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='YEAROFPASSING'></td>
+						 <td><?php echo $lang_rep_YearOfPassing; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('EMPSTATUS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
 						 <td><?php echo $lang_rep_EmployeeStates; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('SUBDIVISION',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
+						 <td><?php echo $lang_rep_SubDivision; ?></td>
 					</tr>
 
 					<tr>
@@ -1060,7 +1115,15 @@ function disableSerPeriodField() {
 						 <td><?php echo $lang_rep_PayGrade; ?></td>
 					</tr>
 
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('SKILLS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='SKILLS'></td>
+						 <td><?php echo $lang_rep_Skills; ?></td>
+					</tr>
 
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('CONTRACT',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='CONTRACT'></td>
+						 <td><?php echo $lang_rep_Contract; ?></td>
+					</tr>
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

@@ -22,15 +22,22 @@ $lan = new Language();
 require_once($lan->getLangPath("full.php"));
 
 $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
+									'Employee First Name'=>$lang_rep_EmployeeFirstName,
 									'Employee Last Name'=>$lang_rep_EmployeeLastName,
 									'Address'=>$lang_rep_Address,
 									'Telephone'=>$lang_rep_Telephone,
+									'Report to'=>$lang_rep_ReportTo,
+									'Reporting method'=>$lang_rep_ReportingMethod,
 									'Date of Birth'=>$lang_rep_DateOfBirth,
 									'Salary Grade'=>$lang_rep_SalaryGrade,
 									'Employee Status'=>$lang_rep_EmployeeStatus,
 									'Joined Date'=>$lang_rep_JoinedDate,
 									'Job Title'=>$lang_rep_JobTitle,
-									'Qualifications'=>$lang_rep_Qualification);
+									'Qualifications'=>$lang_rep_Qualification,
+									'Year of passing'=>$lang_rep_YearOfPassing,
+									'Sub division'=>$lang_rep_SubDivision,
+									'Skills'=>$lang_rep_Skills,
+									'Contract'=>$lang_rep_Contract);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

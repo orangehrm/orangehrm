@@ -197,6 +197,26 @@ class ReportGenerator {
  			$parentTableDescription['MOBILE']  = 'a.EMP_MOBILE';
  		}
 
+ 		if(isset($this->field['REPORTTO'])==1){
+
+ 			$headingName['REPORTTO'] = 'Report to';
+ 			$parentTableFieldName['REPORTTO']  = 'j.EMP_NUMBER';
+ 			$parentTableName['REPORTTO'] = 'HS_HR_EMPLOYEE j';
+ 			$existingTableFieldName['REPORTTO']= 'g.EREP_SUP_EMP_NUMBER';
+ 			$existingTableName['REPORTTO']	 = 'HS_HR_EMP_REPORTTO g';
+ 			$parentTableDescription['REPORTTO']= "CONCAT(j.EMP_FIRSTNAME, ' ', j.EMP_LASTNAME)";
+ 		}
+
+ 		if(isset($this->field['REPORTINGMETHOD'])==1){
+
+ 			$headingName['REPORTINGMETHOD'] = 'Reporting method';
+ 			$parentTableFieldName['REPORTINGMETHOD']  = 'g.EREP_SUB_EMP_NUMBER';
+ 			$parentTableName['REPORTINGMETHOD']	     = 'HS_HR_EMP_REPORTTO g';
+ 			$existingTableFieldName['REPORTINGMETHOD']= 'a.EMP_NUMBER';
+ 			$existingTableName['REPORTINGMETHOD']	 = 'HS_HR_EMPLOYEE a';
+ 			$parentTableDescription['REPORTINGMETHOD']= 'g.EREP_REPORTING_MODE';
+ 		}
+
  		if(isset($this->field['AGE'])==1) {
 
  			$headingName['AGE'] = 'Date of Birth';
@@ -237,6 +257,16 @@ class ReportGenerator {
  			$parentTableDescription['SERPIR']  	= "IF(STRCMP(DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), '0-00-00'), DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), 'N/A')";
  		}
 
+ 		if(isset($this->field['SUBDIVISION'])==1){
+
+ 			$headingName['SUBDIVISION'] = 'Sub division';
+ 			$parentTableFieldName['SUBDIVISION']  	= 'a.WORK_STATION';
+ 			$parentTableName['SUBDIVISION']	    	= 'HS_HR_EMPLOYEE a';
+ 			$existingTableFieldName['SUBDIVISION']	= 'a.WORK_STATION';
+ 			$existingTableName['SUBDIVISION']		= 'HS_HR_EMPLOYEE a';
+ 			$parentTableDescription['SUBDIVISION']  = 'a.WORK_STATION';
+ 		}
+
  		if(isset($this->field['QUL'])==1){
 
  			$headingName['QUL'] 			= 'Qualifications';
@@ -247,6 +277,16 @@ class ReportGenerator {
  			$parentTableDescription['QUL']  = 'CONCAT(e.EDU_DEG, \', \', e.EDU_UNI)';
  		}
 
+ 		if(isset($this->field['YEAROFPASSING'])==1){
+
+ 			$headingName['YEAROFPASSING'] 			= 'Year of passing';
+ 			$parentTableFieldName['YEAROFPASSING']  	= 'c.EDU_CODE';
+ 			$parentTableName['YEAROFPASSING']	    	= 'HS_HR_EMP_EDUCATION c';
+ 			$existingTableFieldName['YEAROFPASSING']	= 'c.EDU_CODE';
+ 			$existingTableName['YEAROFPASSING']		= 'HS_HR_EMP_EDUCATION c';
+ 			$parentTableDescription['YEAROFPASSING']  = "YEAR(c.EDU_END_DATE)";
+ 		}
+
  		if(isset($this->field['JOBTITLE'])==1){
 
  			$headingName['JOBTITLE'] 				= 'Job Title';
@@ -255,6 +295,26 @@ class ReportGenerator {
  			$existingTableFieldName['JOBTITLE']	= 'a.JOB_TITLE_CODE';
  			$existingTableName['JOBTITLE']		= 'HS_HR_EMPLOYEE a';
  			$parentTableDescription['JOBTITLE']  	= 'f.JOBTIT_NAME';
+ 		}
+
+ 		if(isset($this->field['SKILLS'])==1){
+
+ 			$headingName['SKILLS'] 				= 'Skills';
+ 			$parentTableFieldName['SKILLS']  	= 'i.SKILL_CODE';
+ 			$parentTableName['SKILLS']	    	= 'HS_HR_SKILL i';
+ 			$existingTableFieldName['SKILLS']	= 'h.SKILL_CODE';
+ 			$existingTableName['SKILLS']		= 'HS_HR_EMP_SKILL h';
+ 			$parentTableDescription['SKILLS']  	= 'i.SKILL_NAME';
+ 		}
+
+ 		if(isset($this->field['CONTRACT'])==1){
+
+ 			$headingName['CONTRACT'] 				= 'Contract';
+ 			$parentTableFieldName['CONTRACT']  	= 'k.EMP_NUMBER';
+ 			$parentTableName['CONTRACT']	    	= 'HS_HR_EMP_CONTRACT_EXTEND k';
+ 			$existingTableFieldName['CONTRACT']	= 'a.EMP_NUMBER';
+ 			$existingTableName['CONTRACT']		= 'HS_HR_EMPLOYEE a';
+ 			$parentTableDescription['CONTRACT']  	= "CONCAT(k.ECON_EXTEND_START_DATE, ' - ', k.ECON_EXTEND_END_DATE)";
  		}
 
  		$this->headName = array_values($headingName);
@@ -315,6 +375,47 @@ class ReportGenerator {
 
 		}
 
+		if(isset($this->field['SKILLS'])==1){
+
+			$jfield = 'SKILLS';
+			$joinQ = '('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+			$joinQ = $joinQ.' ON h.emp_number = a.emp_number )';
+
+
+		}
+
+		if(isset($this->field['REPORTTO'])==1){
+
+			$jfield = 'REPORTTO';
+			$joinQ = '('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+			$joinQ = $joinQ.' ON g.erep_sub_emp_number = a.emp_number )';
+
+		}
+
+		if ((isset($this->field['REPORTTO'])!=1) && (isset($this->field['REPORTINGMETHOD'])==1)) {
+
+			$jfield = 'REPORTINGMETHOD';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+
+		}
+
+		if(isset($this->field['CONTRACT'])==1){
+
+			$jfield = 'CONTRACT';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+
+		}
+
 		$SQL1 = $SQL1 .$joinQ;
 
 		$SQL1 = $SQL1 . ' WHERE ' ;
@@ -339,6 +440,7 @@ class ReportGenerator {
 						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';
 				}
 
+			//echo strtolower($SQL1);
 			return strtolower($SQL1);
 		}
 
