@@ -232,7 +232,7 @@ class ReportGenerator {
  			$headingName['PAYGRD'] = 'Salary Grade';
  			$parentTableFieldName['PAYGRD']  = 'b.SAL_GRD_CODE';
  			$parentTableName['PAYGRD']	     = 'HS_PR_SALARY_GRADE b';
- 			$existingTableFieldName['PAYGRD']= 'f.SAL_GRD_CODE';
+ 			$existingTableFieldName['PAYGRD']= 'a.SAL_GRD_CODE';
  			$existingTableName['PAYGRD']	 = 'HS_HR_EMPLOYEE a';
  			$parentTableDescription['PAYGRD']  = 'b.SAL_GRD_NAME';
  		}
@@ -353,8 +353,15 @@ class ReportGenerator {
 					 ' ON '.$existingTableFieldName[$jfield].' = '.
 					 $parentTableFieldName[$jfield].')';
 			$joinQ = $joinQ.' ON c.emp_number = a.emp_number )';
+		}
 
 
+		if ((isset($this->field['QUL'])!=1) && (isset($this->field['YEAROFPASSING'])==1)){
+
+			$jfield = 'YEAROFPASSING';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
 		}
 
 		if(isset($this->field['JOBTITLE'])==1){
