@@ -22,23 +22,6 @@
  *
  */
 
-/*
- *
- * --------------------------------------------------------------------------
- * 								REQUEST !
- * --------------------------------------------------------------------------
- *
- * Please try to comment on what ever you make a change on.
- * Clearly state out what you want it to do.
- *
- * I beg you. Please !
- *
- * Mohanjith
- *
- * --------------------------------------------------------------------------
- *
- */
-
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 
@@ -324,7 +307,7 @@ class CompStruct {
      *
      * @param searchStr Search string that is checked for matching a subdivision title
      *                  If empty, will return all sub divisions.
-     * @return array of matching subdivisons. 
+     * @return array of matching subdivisons.
      */
      public function getSubdivisionsWithMatchingTitle($searchStr) {
 
@@ -418,5 +401,5 @@ class CompStruct {
          return $subdivisionArray;
     }
 
- 
+
 }
