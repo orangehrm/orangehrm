@@ -108,9 +108,12 @@ class EmailNotificationConfiguration {
 
 		if (isset($notificationTypeId)) {
 			$selectConditions[2] = "`notification_type_id` = '{$notificationTypeId}'";
+			$selectConditions[3] = "`status` != 0";
 		}
 
 		$query = $sqlQBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[0], 'ASC');
+
+		error_log($query."\r\n", 3, ROOT_PATH.'/lib/logs/logDB.txt');
 
 		$dbConnection = new DMLFunctions();
 
