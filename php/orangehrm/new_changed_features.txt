@@ -5,6 +5,9 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	BugId     Name
 
 	1674602   Undefined index Qualifications
+	1674707   Memberships are not retrieved
+	1675454   When user cancels leave supervisor gets a notification with
+	1675453   When user applies for leave supervisor gets a notification:
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)

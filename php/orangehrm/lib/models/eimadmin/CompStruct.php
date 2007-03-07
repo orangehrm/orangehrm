@@ -27,8 +27,7 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 
 class CompStruct {
 
-	/*
-	 *
+	/**
 	 * This class will be handling the data storage, retrival and basic displaying
 	 * of the Company Structure.
 	 * The data structure used is Tree structure.

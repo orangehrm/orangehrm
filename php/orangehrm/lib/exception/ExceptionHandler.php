@@ -54,7 +54,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 
 	$errstr = strip_tags($errstr);
 
-	$message .= "	<message>$errstr</message>\n";
+	$message .= "	<message><![CDATA[$errstr]]></message>\n";
 
 	$message .= "	<root>".ROOT_PATH."</root>\n";
 	$message .= "	<Wroot>".$_SESSION['WPATH']."</Wroot>\n";
