@@ -724,6 +724,7 @@
 	$lang_rep_JobTitle = "Job Title";
 
 	$lang_rep_LastName = "Last Name";
+	$lang_rep_FirstName = "First Name";
 	$lang_rep_Address = "Address";
 	$lang_rep_TelNo = "Tel No";
 	$lang_rep_DateOfBirth = "Date Of Birth";
@@ -754,13 +755,18 @@
 
 	$lang_rep_Report = "Report";
 	$lang_rep_EmployeeNo = "Employee No";
+	$lang_rep_EmployeeFirstName = "Employee First Name";
 	$lang_rep_EmployeeLastName = "Employee Last Name";
+	$lang_rep_ReportTo = "Report to";
+	$lang_rep_ReportingMethod = "Reporting Method";
 	$lang_rep_Address = "Address";
 	$lang_rep_Telephone = "Telephone";
 	$lang_rep_DateOfBirth = "Date of Birth";
+	$lang_rep_Skills = "Skills";
 	$lang_rep_SalaryGrade = "Salary Grade";
 	$lang_rep_EmployeeStatus = "Employee Status";
 	$lang_rep_JoinedDate = "Joined Date";
+	$lang_rep_SubDivision = "Sub Division";
 	$lang_rep_JobTitle = "Job Title";
 
 	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Select at least one User Group check box to assign";

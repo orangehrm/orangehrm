@@ -1,3 +1,0 @@
-<?php
-$select   = '-- Select --- ';
-?>
