@@ -317,6 +317,16 @@ class ReportGenerator {
  			$parentTableDescription['CONTRACT']  	= "CONCAT(k.ECON_EXTEND_START_DATE, ' - ', k.ECON_EXTEND_END_DATE)";
  		}
 
+ 		if(isset($this->field['WORKEXPERIENCE'])==1){
+
+ 			$headingName['WORKEXPERIENCE'] 				= 'Work experience';
+ 			$parentTableFieldName['WORKEXPERIENCE']  	= 'l.EMP_NUMBER';
+ 			$parentTableName['WORKEXPERIENCE']	    	= 'HS_HR_EMP_WORK_EXPERIENCE l';
+ 			$existingTableFieldName['WORKEXPERIENCE']	= 'a.EMP_NUMBER';
+ 			$existingTableName['WORKEXPERIENCE']		= 'HS_HR_EMPLOYEE a';
+ 			$parentTableDescription['WORKEXPERIENCE']  	= "CONCAT(l.EEXP_EMPLOYER, ' - ', l.EEXP_JOBTIT, ' - ', (YEAR(l.EEXP_FROM_DATE)-YEAR(l.EEXP_TO_DATE)), ' yrs')";
+ 		}
+
  		$this->headName = array_values($headingName);
  			//////////////////////////////////
 
@@ -417,6 +427,15 @@ class ReportGenerator {
 		if(isset($this->field['CONTRACT'])==1){
 
 			$jfield = 'CONTRACT';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+
+		}
+
+		if(isset($this->field['WORKEXPERIENCE'])==1){
+
+			$jfield = 'WORKEXPERIENCE';
 			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
 					 ' ON '.$existingTableFieldName[$jfield].' = '.
 					 $parentTableFieldName[$jfield].')';

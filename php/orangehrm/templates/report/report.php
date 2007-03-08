@@ -37,7 +37,8 @@ $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
 									'Year of passing'=>$lang_rep_YearOfPassing,
 									'Sub division'=>$lang_rep_SubDivision,
 									'Skills'=>$lang_rep_Skills,
-									'Contract'=>$lang_rep_Contract);
+									'Contract'=>$lang_rep_Contract,
+									'Work experience'=>$lang_rep_WorkExperience);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

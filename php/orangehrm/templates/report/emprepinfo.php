@@ -740,6 +740,11 @@ function disableSerPeriodField() {
 						 <td><?php echo $lang_rep_Contract; ?></td>
 					</tr>
 
+					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='WORKEXPERIENCE'></td>
+						 <td><?php echo $lang_rep_WorkExperience; ?></td>
+					</tr>
+
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -1121,8 +1126,13 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('CONTRACT',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='CONTRACT'></td>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('CONTRACT',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='CONTRACT'></td>
 						 <td><?php echo $lang_rep_Contract; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('WORKEXPERIENCE',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='WORKEXPERIENCE'></td>
+						 <td><?php echo $lang_rep_WorkExperience; ?></td>
 					</tr>
 
                   </table></td>
