@@ -742,7 +742,7 @@ function resetAdd(panel) {
 
 				<td><?php echo $lang_Commn_code; ?></td>
 				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>>
-					<input type="text" name="txtEmployeeId" value="<?php echo $this->popArr['newID']?>">
+					<input name="txtEmployeeId" type="text" value="<?php echo $this->popArr['newID']?>" maxlength="50">
 					</td>
 			  </tr>
 			  <tr>
@@ -816,7 +816,7 @@ function resetAdd(panel) {
 			  <tr>
 				<td><?php echo $lang_Commn_code?></td>
 				<td><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>">
-					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>">
+					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>" maxlength="50">
 				</td>
 			  </tr>
 			  <tr>
@@ -899,24 +899,69 @@ function resetAdd(panel) {
 			<td>
 			<table border="0" align="center" cellpadding="1" cellspacing="1">
 				<tr class="mnuPIM">
-					<td id="personalLink"><a href="javascript:displayLayer(1)"><?php echo $lang_pim_tabs_Personal; ?></a></td>
-					<td id="contactLink"><a href="javascript:displayLayer(4)"><?php echo $lang_pim_tabs_Contact; ?></a></td>
-					<td id="emergency_contactLink"><a href="javascript:displayLayer(5)"><?php echo $lang_pim_tabs_EmergencyContacts; ?></a></td>
-					<td id="dependantsLink"><a href="javascript:displayLayer(3)"><?php echo $lang_pim_tabs_Dependents; ?></a></td>
-					<td id="immigrationLink"><a href="javascript:displayLayer(10)"><?php echo $lang_pim_tabs_Immigration; ?></a></td>
+					
+          <td id="personalLink"><a href="javascript:displayLayer(1)"> 
+            <?php echo $lang_pim_tabs_Personal; ?>
+            </a></td>
+					
+          <td id="contactLink"><a href="javascript:displayLayer(4)"> 
+            <?php echo $lang_pim_tabs_Contact; ?>
+            </a></td>
+					
+          <td id="emergency_contactLink"><a href="javascript:displayLayer(5)"> 
+            <?php echo $lang_pim_tabs_EmergencyContacts; ?>
+            </a></td>
+					
+          <td id="dependantsLink"><a href="javascript:displayLayer(3)"> 
+            <?php echo $lang_pim_tabs_Dependents; ?>
+            </a></td>
+					
+          <td id="immigrationLink"><a href="javascript:displayLayer(10)"> 
+            <?php echo $lang_pim_tabs_Immigration; ?>
+            </a></td>
 
-					<td id="jobLink"><a href="javascript:displayLayer(2)"><?php echo $lang_pim_tabs_Job; ?></a></td>
-					<td id="paymentLink"><a href="javascript:displayLayer(14)"><?php echo $lang_pim_tabs_Payments; ?></a></td>
-					<td id="report-toLink"><a href="javascript:displayLayer(15)"><?php echo $lang_pim_tabs_ReportTo; ?></a></td>
+					
+          <td id="jobLink"><a href="javascript:displayLayer(2)"> 
+            <?php echo $lang_pim_tabs_Job; ?>
+            </a></td>
+					
+          <td id="paymentLink"><a href="javascript:displayLayer(14)"> 
+            <?php echo $lang_pim_tabs_Payments; ?>
+            </a></td>
+					
+          <td id="report-toLink"><a href="javascript:displayLayer(15)"> 
+            <?php echo $lang_pim_tabs_ReportTo; ?>
+            </a></td>
 
-					<td id="work_experienceLink"><a href="javascript:displayLayer(17)"><?php echo $lang_pim_tabs_WorkExperience; ?></a></td>
-					<td id="educationLink"><a href="javascript:displayLayer(9)"><?php echo $lang_pim_tabs_Education; ?></a></td>
-					<td id="skillsLink"><a href="javascript:displayLayer(16)"><?php echo $lang_pim_tabs_Skills; ?></a></td>
-					<td id="languagesLink"><a href="javascript:displayLayer(11)"><?php echo $lang_pim_tabs_Languages; ?></a></td>
-					<td id="licenseLink"><a href="javascript:displayLayer(12)"><?php echo $lang_pim_tabs_License; ?></a></td>
+					
+          <td id="work_experienceLink"><a href="javascript:displayLayer(17)"> 
+            <?php echo $lang_pim_tabs_WorkExperience; ?>
+            </a></td>
+					
+          <td id="educationLink"><a href="javascript:displayLayer(9)"> 
+            <?php echo $lang_pim_tabs_Education; ?>
+            </a></td>
+					
+          <td id="skillsLink"><a href="javascript:displayLayer(16)"> 
+            <?php echo $lang_pim_tabs_Skills; ?>
+            </a></td>
+					
+          <td id="languagesLink"><a href="javascript:displayLayer(11)"> 
+            <?php echo $lang_pim_tabs_Languages; ?>
+            </a></td>
+					
+          <td id="licenseLink"><a href="javascript:displayLayer(12)"> 
+            <?php echo $lang_pim_tabs_License; ?>
+            </a></td>
 
-					<td id="membershipLink"><a href="javascript:displayLayer(13)"><?php echo $lang_pim_tabs_Membership; ?></a></td>
-					<td id="attachmentsLink"><a href="javascript:displayLayer(6)"><?php echo $lang_pim_tabs_Attachments; ?></a></td>
+					
+          <td id="membershipLink"><a href="javascript:displayLayer(13)"> 
+            <?php echo $lang_pim_tabs_Membership; ?>
+            </a></td>
+					
+          <td id="attachmentsLink"><a href="javascript:displayLayer(6)"> 
+            <?php echo $lang_pim_tabs_Attachments; ?>
+            </a></td>
 					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
 					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->
 				</tr>
