@@ -260,8 +260,8 @@ class ReportGenerator {
  		if(isset($this->field['SUBDIVISION'])==1){
 
  			$headingName['SUBDIVISION'] = 'Sub division';
- 			$parentTableFieldName['SUBDIVISION']  	= 'a.WORK_STATION';
- 			$parentTableName['SUBDIVISION']	    	= 'HS_HR_EMPLOYEE a';
+ 			$parentTableFieldName['SUBDIVISION']  	= 'l.ID';
+ 			$parentTableName['SUBDIVISION']	    	= 'HS_HR_COMPSTRUCTTREE l';
  			$existingTableFieldName['SUBDIVISION']	= 'a.WORK_STATION';
  			$existingTableName['SUBDIVISION']		= 'HS_HR_EMPLOYEE a';
  			$parentTableDescription['SUBDIVISION']  = 'a.WORK_STATION';

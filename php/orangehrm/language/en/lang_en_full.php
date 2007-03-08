@@ -768,9 +768,9 @@
 	$lang_rep_JoinedDate = "Joined Date";
 	$lang_rep_SubDivision = "Sub Division";
 	$lang_rep_JobTitle = "Job Title";
-	$lang_rep_YearOfPassing = "Year of passing";
+	$lang_rep_YearOfPassing = "Year of Passing";
 	$lang_rep_Contract = "Contract";
-	$lang_rep_WorkExperience = "Work experience";
+	$lang_rep_WorkExperience = "Work Experience";
 
 	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Select at least one User Group check box to assign";
 

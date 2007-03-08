@@ -75,6 +75,7 @@ function goBack() {
                     <tr>
 <?php
 				$reportingMethod = false;
+				$subDivision = false;
 				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
 				for($i=0;$i<count($this->headName); $i++){
 					if (isset($lang_Template_rep_headName) && ($lang_Template_rep_headName[$this->headName[$i]])) {
@@ -87,6 +88,11 @@ function goBack() {
 					if ($this->headName[$i] == 'Reporting method') {
 						$reportingMethod = $i;
 					}
+					if ($this->headName[$i] == 'Sub division') {
+						$subDivision = $i;
+						$compStructObj = new CompStruct();
+						$compStructObj->buildAllWorkStations();
+					}
 }?>
 
 					</tr>
@@ -96,8 +102,14 @@ function goBack() {
 					<tr>
 <?php					for($j=0;$j<$columns; $j++) { ?>
 						<td>
-					<?php 	if ($reportingMethod && ($reportingMethod == $j) && isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
-								echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j]];
+					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
+								if ($subDivision && ($subDivision == $j)) {
+									echo $compStructObj->fetchHierarchString($repDetails[$i][$j]);
+								} else if ($reportingMethod && ($reportingMethod == $j)) {
+									echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j]];
+								} else {
+									echo $repDetails[$i][$j];
+								}
 							} else {
 								echo $repDetails[$i][$j];
 							} ?>

@@ -1096,6 +1096,11 @@ function disableSerPeriodField() {
 					</tr>
 
 					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('SUBDIVISION',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
+						 <td><?php echo $lang_rep_SubDivision; ?></td>
+					</tr>
+
+					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('QUL',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='QUL'></td>
 						 <td><?php echo $lang_rep_Qualification; ?></td>
 					</tr>
@@ -1108,11 +1113,6 @@ function disableSerPeriodField() {
 					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('EMPSTATUS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
 						 <td><?php echo $lang_rep_EmployeeStates; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('SUBDIVISION',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
-						 <td><?php echo $lang_rep_SubDivision; ?></td>
 					</tr>
 
 					<tr>
