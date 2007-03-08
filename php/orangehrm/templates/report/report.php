@@ -74,6 +74,8 @@ function goBack() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
 <?php
+				$reportingMethod = false;
+				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
 				for($i=0;$i<count($this->headName); $i++){
 					if (isset($lang_Template_rep_headName) && ($lang_Template_rep_headName[$this->headName[$i]])) {
 						$colHead = $lang_Template_rep_headName[$this->headName[$i]];
@@ -81,6 +83,10 @@ function goBack() {
 						$colHead = $this->headName[$i];
 					}
 					echo "<td valign='top'>" . '<strong>' . $colHead . '</strong>' . '</td>';
+
+					if ($this->headName[$i] == 'Reporting method') {
+						$reportingMethod = $i;
+					}
 }?>
 
 					</tr>
@@ -88,8 +94,15 @@ function goBack() {
 <?php
 				for($i=0;$i<$rows; $i++){ ?>
 					<tr>
-<?php					for($j=0;$j<$columns; $j++)
-					echo '<td>' .$repDetails[$i][$j] . '</td>';
+<?php					for($j=0;$j<$columns; $j++) { ?>
+						<td>
+					<?php 	if ($reportingMethod && ($reportingMethod == $j) && isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
+								echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j]];
+							} else {
+								echo $repDetails[$i][$j];
+							} ?>
+						</td>
+				<?php	}
 ?>
 					</tr>
 <?php } ?>
