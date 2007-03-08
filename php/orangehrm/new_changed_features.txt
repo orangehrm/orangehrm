@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	1675454   When user cancels leave supervisor gets a notification with
 	1675453   When user applies for leave supervisor gets a notification:
 	1675476   meaningful error message is displayed
+	1587536   Usability - Languages - user either competence or competency
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 

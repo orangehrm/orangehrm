@@ -451,7 +451,7 @@
     $lang_hremp_Language					= "Language";
 
  	$lang_hremplan_employeelanguageflu 		= "Employee Language Fluency";
-	$lang_hremplan_fluency 					= "Area Of Competence";
+	$lang_hremplan_fluency 					= "Fluency";
 	$lang_hremplan_ratinggarde 				= "Fluency";
 	$lang_hremplan_assignlanguage 			= "Assigned Languages";
 
