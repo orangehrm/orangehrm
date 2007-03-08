@@ -1184,7 +1184,7 @@ class EmpViewController {
 			case 'LAN' :	$form_creator ->formPath = '/templates/hrfunct/hremplan.php';
 							$empinf = new EmpInfo();
 							$emplan = new EmpLanguage();
-							$laninfo = new LanguageInfo();							
+							$laninfo = new LanguageInfo();
 
 							$form_creator ->popArr['empDet'] = $empinf ->filterEmpMain($getArr['id']);
 							$form_creator ->popArr['lanlist'] = $lanlist = $laninfo ->getLang();
@@ -2006,10 +2006,10 @@ class EmpViewController {
 				$reqcode = $index;
 				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
 			} else {
-				$showMsg = "Addition%Unsuccessful!";
+				$showMsg = "Addition Unsuccessful!";
 
 				$reqcode = $index;
-				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&reqcode=$reqcode");
+				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&reqcode=$reqcode"); //if Adding Data to DB not succeed set msg with showMsg
 			}
 	}
 

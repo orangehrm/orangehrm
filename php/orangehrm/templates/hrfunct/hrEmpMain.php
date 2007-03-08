@@ -537,6 +537,8 @@ function resetAdd(panel) {
 	document.frmEmp.pane.value = panel;
 	document.frmEmp.submit();
 }
+
+
 </script>
 
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
@@ -785,6 +787,7 @@ function resetAdd(panel) {
     <td>
 					<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
 					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+
 					<?php 	} else { ?>
 					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
 
@@ -1343,6 +1346,12 @@ function resetAdd(panel) {
 	<script language="JavaScript" type="text/javascript">
   		displayLayer(<?php echo $this->postArr['pane']; ?>);
 	</script>
+
+<?php if (isset($_GET['msg'])) {
+
+	 		echo ($_GET['msg']);///if the Add emp data unsuccesfful then retrive the msg and print it on the screen (msg is handled in EmpViewController.php)z..
+
+ } ?>
 
 
 </html>

@@ -8,7 +8,7 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	1674707   Memberships are not retrieved
 	1675454   When user cancels leave supervisor gets a notification with
 	1675453   When user applies for leave supervisor gets a notification:
-
+	1675476   meaningful error message is displayed
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 
@@ -49,6 +49,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 	1595304   Deleting a nationality warning need to be consistent with other warnings
 	1595300   Deleting enthic race - warning message could be improved.
 	1603592   Job Details missing after entry
+
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
