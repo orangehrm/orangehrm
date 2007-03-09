@@ -824,16 +824,27 @@ function setSize() {
 </tr>
 </table>
 <script language="javascript">
+function windowDimensions() {
+	if (document.compatMode && document.compatMode != "BackCompat") {
+   		x = document.documentElement.clientWidth;
+	} else {
+   		x = document.body.clientWidth;
+   	}
+   	y = document.body.clientHeight;
+
+   	return [x,y];
+}
 function exploitSpace() {
-	document.getElementById("rightMenu").height = document.body.clientHeight-130;
+	dimensions = windowDimensions();
+
+	document.getElementById("rightMenu").height = dimensions[1]-130;
 	if (document.getElementById("rightMenuHolder")) {
-		document.getElementById("rightMenuHolder").width = document.body.clientWidth-200;
+		document.getElementById("rightMenuHolder").width = dimensions[0]-200;
 	}
 }
+
 exploitSpace();
-if (window.onresize) {
-	window.onresize = exploitSpace();
-}
+window.onresize = exploitSpace;
 </script>
 </body>
 </html>

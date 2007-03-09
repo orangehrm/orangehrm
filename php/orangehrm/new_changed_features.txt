@@ -11,9 +11,14 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	1675476   meaningful error message is displayed
 	1587536   Usability - Languages - user either competence or competency
 	1674693   Data too long
+	1661282   Memberships for the specified membership type
 	1664915   Required fields not marked
-	1676966   Mermbership
-	1676964   Employee list for Leave Assignment
+	1676959   View Reports : scroll bar not working
+	1622772   You cannot get reports based on Skills
+	1511099   KAZUTO MIZUHARA
+	1554684   PIM - Workstation
+	1612883   Instalation guide doesn\'t have the Screens. Installation guide doesn\'t have the Screen shots.
+	1653917   "Enter" in licese name
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 
