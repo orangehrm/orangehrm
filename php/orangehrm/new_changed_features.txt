@@ -12,6 +12,7 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	1587536   Usability - Languages - user either competence or competency
 	1674693   Data too long
 	1664915   Required fields not marked
+	1676966   Mermbership
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 

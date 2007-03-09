@@ -16,8 +16,9 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-?>
 
+ $subown = array($lang_hrEmpMain_subown_Company,	$lang_hrEmpMain_subown_Individual);
+?>
 <script language="JavaScript">
 function editMembership() {
 	if(document.EditMembership.title=='Save') {
@@ -271,7 +272,6 @@ if(isset($this->popArr['editMembershipArr'])) {
 						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbMemSubOwn">
 						   		<option value=0>-- <?php echo $lang_hrEmpMain_selownership?> --</option>
 <?php
-						$subown = array($lang_hrEmpMain_subown_Company,	$lang_hrEmpMain_subown_Individual);
 						for($c=0;count($subown)>$c;$c++)
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
 
