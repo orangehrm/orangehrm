@@ -787,10 +787,11 @@ function setSize() {
               <!-- End SubMenu15 -->
               <!--------------------- End Menu --------------------->
             </td>
-            <td width="779" valign="top"><table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
+            <td width="779" valign="top" id="rightMenuHolder">
+            <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
               <tr>
                 <td>
-            <td width="78%" valign="top">
+            <td valign="top">
 <?php		if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 			  <iframe src="home.html" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
@@ -824,6 +825,7 @@ function setSize() {
 </table>
 <script language="javascript">
 document.getElementById("rightMenu").height = document.body.clientHeight-130;
+document.getElementById("rightMenuHolder").width = document.body.clientWidth-200;
 </script>
 </body>
 </html>
