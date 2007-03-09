@@ -824,8 +824,16 @@ function setSize() {
 </tr>
 </table>
 <script language="javascript">
-document.getElementById("rightMenu").height = document.body.clientHeight-130;
-document.getElementById("rightMenuHolder").width = document.body.clientWidth-200;
+function exploitSpace() {
+	document.getElementById("rightMenu").height = document.body.clientHeight-130;
+	if (document.getElementById("rightMenuHolder")) {
+		document.getElementById("rightMenuHolder").width = document.body.clientWidth-200;
+	}
+}
+exploitSpace();
+if (window.onresize) {
+	window.onresize = exploitSpace();
+}
 </script>
 </body>
 </html>
