@@ -1,58 +1,58 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
 function populateStates($value) {
-	
+
 	$view_controller = new ViewController();
 	$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	if ($provlist) {
 		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'frmGenInfo.lrState','txtState');
-		
+
 	} else {
 		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
 	}
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 return $objResponse->getXML();
 }
 
 
 function populateDistricts($value) {
-	
+
 	$view_controller = new ViewController();
 	$dislist = $view_controller->xajaxObjCall($value,'LOC','district');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$response = $xajaxFiller->cmbFiller($objResponse,$dislist,1,'frmGenInfo','cmbCity');
 	$response->addAssign('status','innerHTML','');
-	
+
 return $response->getXML();
 }
 
@@ -73,33 +73,33 @@ $objAjax->processRequests();
 
 function mout() {
 	var Edit = document.getElementById("btnEdit");
-	
-	if(Edit.title=='Save') 
-		Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+
+	if(Edit.title=='Save')
+		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
 	var Edit = document.getElementById("btnEdit");
-	
-	if(Edit.title=='Save') 
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+
+	if(Edit.title=='Save')
+		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	var Edit = document.getElementById("btnEdit");
-	
+
 	if(Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmGenInfo;
-	for (var i=0; i < frm.elements.length; i++) {		
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
 	}
 	document.getElementById("btnClear").disabled = false;
@@ -113,7 +113,7 @@ function edit()
 			alert ("<?php echo $lang_geninfo_err_CompanyName; ?>");
 			document.frmGenInfo.txtCompanyName.focus();
 			return;
-		} 
+		}
 
 		var cntrl = document.frmGenInfo.txtPhone;
 		if(cntrl.value != '' && !numeric(cntrl)) {
@@ -121,35 +121,35 @@ function edit()
 			cntrl.focus();
 			return;
 		}
-		
+
 		var cntrl = document.frmGenInfo.txtFax;
 		if(cntrl.value != '' && !numeric(cntrl)) {
 			alert('<?php echo $lang_geninfo_err_Phone; ?>');
 			cntrl.focus();
 			return;
 		}
-		
+
 		document.getElementById("cmbState").value=document.getElementById("txtState").value;
 		document.frmGenInfo.STAT.value = "EDIT";
-		document.frmGenInfo.submit();		
+		document.frmGenInfo.submit();
 	}
-	
+
 	function clearAll() {
-		
+
 		window.location.reload();
 	}
-	
+
 	function validate() {
-		
+
 	return 'return false;';
 	}
-	
+
 	function MM_preloadImages() { //v3.0
   		var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
     	var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
     		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-	}	
-		
+	}
+
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -165,25 +165,25 @@ function edit()
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <?php $editArr = $this->popArr['editArr']; ?>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
-    <td height="27" valign='top'> <p> 
+  <tr>
+    <td height="27" valign='top'> <p>
        <input type="hidden" name="STAT" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -204,7 +204,7 @@ function edit()
                   			  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_geninfo_compname; ?></td>
 							    <td><input type="text" disabled name="txtCompanyName" value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
-							    
+
 				   			  </tr>
 				   			  <tr>
 				   			  	<td><?php echo $lang_geninfo_taxID; ?></td>
@@ -212,41 +212,41 @@ function edit()
 				   			  	<td><?php echo $lang_geninfo_naics; ?></td>
 							    <td><input type="text" disabled name='txtNAICS' value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>"></td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td><?php echo $lang_compstruct_Phone; ?></td>
 							    <td><input type="text" disabled name='txtPhone' value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
 							  	<td><?php echo $lang_comphire_fax; ?></td>
-							    <td><input type="text" disabled name="txtFax" value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>		 
+							    <td><input type="text" disabled name="txtFax" value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td><?php echo $lang_compstruct_country; ?></td>
 							    <td><select name='cmbCountry' disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 							    		<option value="0">--- Select ---</option>
 							    <?php		$cntlist = $this->popArr['cntlist'];
-							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
+							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++)
 							    			if(isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == $cntlist[$c][0]))
 							    				echo "<option selected value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 							    			else
 							    				echo "<option value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 							    ?>
-							    </select></td>							    
+							    </select></td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td><?php echo $lang_compstruct_Address; ?>1</td>
 							    <td><input type="text" disabled name='txtStreet1' value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>"></td>
 							    <td><?php echo $lang_compstruct_Address; ?>2</td>
 							    <td><input type="text" disabled name='txtStreet2' value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
-							  </tr>							                    			 
-							  <tr valign="top"> 
+							  </tr>
+							  <tr valign="top">
 							  	<td><?php echo $lang_compstruct_city; ?></td>
-							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>					    
+							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>
 							    <td><?php echo $lang_compstruct_state?></td>
 							    <td><div id="lrState" name="lrState">
 							    <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>
 							    		<option value="0">--- Select ---</option>
 							     	<?php	$statlist = $this->popArr['provlist'];
-							    		for($c=0; $statlist && count($statlist)>$c ;$c++) 
+							    		for($c=0; $statlist && count($statlist)>$c ;$c++)
 							    			if($editArr['STATE'] == $statlist[$c][1])
 							    				echo "<option selected value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
 							    			else
