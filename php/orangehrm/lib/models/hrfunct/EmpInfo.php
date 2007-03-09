@@ -441,12 +441,18 @@ class EmpInfo {
 
 		$sysConst = new sysConf();
 
+		$limit = null;
+
 		if ($pageNO > 0) {
 			$pageNO--;
 			$pageNO *= $sysConst->itemsPerPage;
+
+			$limit = "{$pageNO}, {$sysConst->itemsPerPage}";
 		}
 
-		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, "{$pageNO}, {$sysConst->itemsPerPage}");
+
+
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, $limit);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
