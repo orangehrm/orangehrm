@@ -1,5 +1,4 @@
 <script language="JavaScript">
-
 function decimalCurr(txt) {
 	regExp = /^[0-9]+(\.[0-9]+)*$/;
 
@@ -111,7 +110,6 @@ function viewPayment(pay,curr) {
 	document.frmEmp.pane.value = 14;
 	document.frmEmp.submit();
 }
-
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
@@ -125,7 +123,6 @@ function viewPayment(pay,curr) {
 				echo "<p align='center'><strong>$pleaseSelectJobTitle</strong></p>";
 			}
  	?>
-
 <?php
 	if(isset($this ->popArr['editPaymentArr'])) {
 	 $edit = $this -> popArr['editPaymentArr'];
