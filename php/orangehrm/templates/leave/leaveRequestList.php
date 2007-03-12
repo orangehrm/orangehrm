@@ -158,7 +158,7 @@ if ($modifier === "SUP") {
   					?>
   				</select>
     	<?php
-    		} else {
+    		} else if ($record->getLeaveStatus() != null) {
     			echo $statusArr[$record->getLeaveStatus()];
     		}
 
