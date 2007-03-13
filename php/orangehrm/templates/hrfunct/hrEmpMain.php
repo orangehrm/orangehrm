@@ -283,15 +283,21 @@ function editEmpMain() {
 	var frm=document.frmEmp;
 
 	for (var i=0; i < frm.elements.length; i++) {
+		if (frm.elements[i].type == "hidden")
+			frm.elements[i].disabled=false;
+
 		<?php if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) { ?>
 
 		frm.elements[i].disabled=false;
 
-		<?php } else if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
+		<?php } ?>
+	}
+		<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
 		enableArr = new Array(	'txtEmpFirstName',
 								'txtEmpMiddleName',
 								'txtEmpLastName',
 								'txtEmpNickName',
+								"txtOtherID",
 								'cmbCountry',
 								'txtEConName',
 								"btnBrowser",
@@ -300,6 +306,7 @@ function editEmpMain() {
 								"cmbNation",
 								"cmbMarital",
 								"cmbEthnicRace",
+								"optGender",
 								"btnLicExpDate",
 								"txtLicExpDate",
 								"btnDOB",
@@ -318,59 +325,25 @@ function editEmpMain() {
 								"txtEConHmTel",
 								"txtEConMobile",
 								"txtEConWorkTel",
-								"txtEConName");
+								"txtEConName",
+								"cmbLicCode",
+								"txtEmpreDat",
+								"txtEmpLicDat",
+								"btnEmpreDat",
+								"btnEmpLicDat");
 
 		for (j=0; j<enableArr.length; j++) {
-			frm[enableArr[j]].disabled = false;
+			if (frm[enableArr[j]]) {
+				if (frm[enableArr[j]].length) {
+					for (i=0; i<frm[enableArr[j]].length; i++) {
+						frm[enableArr[j]][i].disabled = false;
+					}
+				}
+				frm[enableArr[j]].disabled = false;
+			}
 		}
-		/*
-		if (frm.elements[i].name == 'txtEmpLastName')
-			lockEmpCont=false;
-		if (frm.elements[i].name == 'cmbCountry')
-			lockEmpCont=false;
-		if (frm.elements[i].name == 'txtEConName')
-			lockEmpCont=false;
-		if (frm.elements[i].name == 'dependentSTAT')
-			lockEmpCont=true;
-
-		frm.elements[i].disabled=lockEmpCont;
-
-		if (frm.elements[i].name == 'txtEmpNickName')
-			lockEmpCont=true;
-		if (frm.elements[i].name == 'txtOtherEmail')
-			lockEmpCont=true;		*/
-
-		if (frm.elements[i].type == "hidden")
-			frm.elements[i].disabled=false;
-
-
-		/*
-		if (frm.elements[i].name == "btnBrowser")
-			frm.elements[i].disabled=false;
-
-		if (frm.elements[i].name == "chkSmokeFlag")
-			frm.elements[i].disabled=false;
-
-		if (frm.elements[i].name == "txtMilitarySer")
-			frm.elements[i].disabled=false;
-
-		if (frm.elements[i].name == "cmbNation")
-			frm.elements[i].disabled=false;
-
-		if (frm.elements[i].name == "cmbMarital")
-			frm.elements[i].disabled=false;
-
-		if (frm.elements[i].name == "cmbEthnicRace")
-			frm.elements[i].disabled=false;
-
-		if ((frm.elements[i].name == "btnLicExpDate") || (frm.elements[i].name == "txtLicExpDate"))
-			frm.elements[i].disabled=false;
-
-		if ((frm.elements[i].name == "btnDOB") || (frm.elements[i].name == "DOB"))
-			frm.elements[i].disabled=false;*/
 
 		<?php } ?>
-	}
 
 	document.getElementById("btnClear").disabled = false;
 	Edit.src="../../themes/beyondT/pictures/btn_save_02.jpg";
@@ -899,67 +872,67 @@ function resetAdd(panel) {
 			<td>
 			<table border="0" align="center" cellpadding="1" cellspacing="1">
 				<tr class="mnuPIM">
-					
-          <td id="personalLink"><a href="javascript:displayLayer(1)"> 
+
+          <td id="personalLink"><a href="javascript:displayLayer(1)">
             <?php echo $lang_pim_tabs_Personal; ?>
             </a></td>
-					
-          <td id="contactLink"><a href="javascript:displayLayer(4)"> 
+
+          <td id="contactLink"><a href="javascript:displayLayer(4)">
             <?php echo $lang_pim_tabs_Contact; ?>
             </a></td>
-					
-          <td id="emergency_contactLink"><a href="javascript:displayLayer(5)"> 
+
+          <td id="emergency_contactLink"><a href="javascript:displayLayer(5)">
             <?php echo $lang_pim_tabs_EmergencyContacts; ?>
             </a></td>
-					
-          <td id="dependantsLink"><a href="javascript:displayLayer(3)"> 
+
+          <td id="dependantsLink"><a href="javascript:displayLayer(3)">
             <?php echo $lang_pim_tabs_Dependents; ?>
             </a></td>
-					
-          <td id="immigrationLink"><a href="javascript:displayLayer(10)"> 
+
+          <td id="immigrationLink"><a href="javascript:displayLayer(10)">
             <?php echo $lang_pim_tabs_Immigration; ?>
             </a></td>
 
-					
-          <td id="jobLink"><a href="javascript:displayLayer(2)"> 
+
+          <td id="jobLink"><a href="javascript:displayLayer(2)">
             <?php echo $lang_pim_tabs_Job; ?>
             </a></td>
-					
-          <td id="paymentLink"><a href="javascript:displayLayer(14)"> 
+
+          <td id="paymentLink"><a href="javascript:displayLayer(14)">
             <?php echo $lang_pim_tabs_Payments; ?>
             </a></td>
-					
-          <td id="report-toLink"><a href="javascript:displayLayer(15)"> 
+
+          <td id="report-toLink"><a href="javascript:displayLayer(15)">
             <?php echo $lang_pim_tabs_ReportTo; ?>
             </a></td>
 
-					
-          <td id="work_experienceLink"><a href="javascript:displayLayer(17)"> 
+
+          <td id="work_experienceLink"><a href="javascript:displayLayer(17)">
             <?php echo $lang_pim_tabs_WorkExperience; ?>
             </a></td>
-					
-          <td id="educationLink"><a href="javascript:displayLayer(9)"> 
+
+          <td id="educationLink"><a href="javascript:displayLayer(9)">
             <?php echo $lang_pim_tabs_Education; ?>
             </a></td>
-					
-          <td id="skillsLink"><a href="javascript:displayLayer(16)"> 
+
+          <td id="skillsLink"><a href="javascript:displayLayer(16)">
             <?php echo $lang_pim_tabs_Skills; ?>
             </a></td>
-					
-          <td id="languagesLink"><a href="javascript:displayLayer(11)"> 
+
+          <td id="languagesLink"><a href="javascript:displayLayer(11)">
             <?php echo $lang_pim_tabs_Languages; ?>
             </a></td>
-					
-          <td id="licenseLink"><a href="javascript:displayLayer(12)"> 
+
+          <td id="licenseLink"><a href="javascript:displayLayer(12)">
             <?php echo $lang_pim_tabs_License; ?>
             </a></td>
 
-					
-          <td id="membershipLink"><a href="javascript:displayLayer(13)"> 
+
+          <td id="membershipLink"><a href="javascript:displayLayer(13)">
             <?php echo $lang_pim_tabs_Membership; ?>
             </a></td>
-					
-          <td id="attachmentsLink"><a href="javascript:displayLayer(6)"> 
+
+          <td id="attachmentsLink"><a href="javascript:displayLayer(6)">
             <?php echo $lang_pim_tabs_Attachments; ?>
             </a></td>
 					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>

@@ -75,7 +75,7 @@
 	?>
 
           <tr>
-					
+
     <td><?php echo $lang_hremp_ssnno?></td>
 					<td><input type="text" name="txtNICNo" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>">
 					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
@@ -116,9 +116,6 @@
 				<tr>
 				<td><?php echo $lang_hremp_otherid?></td>
 				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtOtherID" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>">
-					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtOtherID" value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>" />
-					<?php } ?>
 				</td>
 				<td>&nbsp;</td>
 				<td><?php echo $lang_hremp_maritalstatus?></td>
@@ -159,9 +156,6 @@
 
 				</td>
 <?php } ?>
-				<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-				<input type="hidden" name="optGender" value="<?php echo (isset($edit[0][5])?$edit[0][5]:'1')?>" />
-				<?php } ?>
 				</tr>
 				<tr>
 				<td><?php echo $lang_hremp_dlicenno?></td>
