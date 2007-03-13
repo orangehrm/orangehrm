@@ -379,7 +379,7 @@ class Users {
 	}
 
 	function getLastRecord(){
-		$arrFieldList[0] = 'id';
+		$arrFieldList[0] = "CAST(REPLACE(`id`, 'USR', '') AS UNSIGNED)";
 
 		$this->sql_builder->table_name = $this->tableName;
 		$this->sql_builder->flg_select = 'true';
