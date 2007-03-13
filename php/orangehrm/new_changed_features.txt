@@ -3,6 +3,7 @@ New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
 	Bugs fixed include:
 
 	1674324   More fields should be editable for ESS user
+	1674335   ESS: License and Memberships should be editable
 
 
 New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
