@@ -12,6 +12,11 @@ New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
     1586541   Payments - don't show the empty salary table
     1586049   Usability - No need to show empty table when No records to display
     1678900   Only 999 users can be made
+    1661282   Memberships for the specified membership type
+    1619862   PIM - Image upload
+    1586085   Usability - Emp Info - Search by 'Description' is misleading
+    1586127   Employee Information - Contact - State should be state/province
+    1595871   Uploading images failure to upload and display an image should be reported
 
 
 New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)

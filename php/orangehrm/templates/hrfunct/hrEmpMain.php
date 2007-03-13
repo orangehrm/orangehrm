@@ -495,7 +495,7 @@ function setUpdate(opt) {
 
 
 function popPhotoHandler() {
-	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=250,width=250');
+	var popup=window.open('../../templates/hrfunct/photohandler.php?id=<?php echo isset($this->getArr['id']) ? $this->getArr['id'] : ''?>','Photo','height=275,width=250');
 	if(!popup.opener) popup.opener=self;
 	popup.focus()
 }

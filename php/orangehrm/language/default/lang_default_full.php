@@ -60,6 +60,8 @@
 	$lang_Error_FirstNameEmpty						= "First Name Empty!";
 	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
 
+	$lang_Error_UploadFailed						= "Upload failed!";
+
 	// Company Structure
 	$lang_Error_Company_General_Undefined 				= "Please define Company General Information first!";
 	$lang_Error_CompStruct_UnitCount 					= "Also #children unit(s) under #parent will be deteted";

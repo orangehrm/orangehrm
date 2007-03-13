@@ -59,6 +59,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'VIEW') {
 }
 
 $object = new EmpPicture();
+$message = null;
 
 if(isset($_POST['STAT']) && $_POST['STAT'] == 'ADD') {
 	$extractor = new EXTRACTOR_EmpPhoto();
@@ -67,6 +68,8 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'ADD') {
 	if($object != null) {
 		$object->setEmpId($_GET['id']);
 		$object->addEmpPic();
+	} else {
+		$message = "FAILURE";
 	}
 }
 
@@ -77,6 +80,8 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'EDIT') {
 	if($object != null) {
 		$object->setEmpId($_GET['id']);
 		$object->updateEmpPic();
+	} else {
+		$message = "FAILURE";
 	}
 }
 
@@ -119,9 +124,16 @@ function windowClose() {
 	opener.document.frmEmp.submit();
 	window.close();
 }
+
+<?php if (isset($message) && ($message == "FAILURE")) { ?>
+	alert('<?php echo $lang_Error_UploadFailed; ?>');
+<?php } else if (isset($_POST['STAT'])) { ?>
+	windowClose();
+<?php } ?>
+
 </script>
 </head>
-<body onload="<?php echo isset($_POST['STAT']) ? 'windowClose()' : ''?>">
+<body>
 <p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
@@ -151,6 +163,7 @@ function windowClose() {
                     <td align="center" width="100%">
                     	<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
                     	<input type="file" name="photofile" accept="image/gif,image/jpeg,image/png">
+                    	[1M Max] [Dimensions 100x120]
                     </td>
 					</tr>
                     <tr>
