@@ -30,6 +30,8 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPhoto.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
 
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
+
 $lan = new Language();
 
 require_once($lan->getLangPath("full.php"));
