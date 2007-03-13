@@ -129,9 +129,7 @@ function viewLicense(lic) {
 if(isset($this->getArr['LIC'])) {
 
     $edit = $this->popArr['editLicenseArr'];
-?>
-
-			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+?>			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 				 <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
     				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"><strong>
@@ -146,20 +144,15 @@ if(isset($this->getArr['LIC'])) {
 					</tr>
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td> <input type="text" readonly name="txtEmpLicDat"  <?php echo isset($this->popArr['txtEmpLicDat']) ? '':'disabled'?>  value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+						<td> <input type="text" readonly name="txtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?>>&nbsp;<input disabled type="button" name="btnEmpLicDat" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td><input type="text" readonly name="txtEmpreDat" <?php echo isset($this->popArr['txtEmpreDat']) ? '':'disabled'?> value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+						<td><input type="text" readonly name="txtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?>>&nbsp;<input disabled type="button" name="btnEmpreDat" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-
-			<?php		if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editLicense();">
-			<?php		} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
-			<?php		} 		 ?>
 						</td>
 					  </tr>
                   </table>
@@ -168,7 +161,7 @@ if(isset($this->getArr['LIC'])) {
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
-    				  <td><select name="cmbLicCode" <?php echo $locRights['add'] ? '':'disabled'?>>
+    				  <td><select name="cmbLicCode">
     				  		<option selected value="0">--<?php echo $lang_hremplicenses_SelectLicenseType; ?>--</option>
 <?php						$unassLicenlist= $this->popArr['unassLicenlist'];
 
@@ -182,21 +175,17 @@ if(isset($this->getArr['LIC'])) {
 					</tr>
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td> <input type="text" name="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
+						<td> <input type="text" name="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>">&nbsp;<input type="button" name="btnEmpLicDat" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpLicDat);return false;"></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td> <input type="text" name="txtEmpreDat"  readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
+						<td> <input type="text" name="txtEmpreDat"  readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>">&nbsp;<input type="button" name="btnEmpreDat" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpreDat);return false;"></td>
 					</tr>
 
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php	} ?>
 					  </tr>
                   </table>
 <?php } ?>
@@ -239,16 +228,8 @@ if(isset($this->getArr['LIC'])) {
 
   <tr>
   <td>
- <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
-<?php } ?>
-<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>

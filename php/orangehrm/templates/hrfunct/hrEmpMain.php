@@ -325,12 +325,7 @@ function editEmpMain() {
 								"txtEConHmTel",
 								"txtEConMobile",
 								"txtEConWorkTel",
-								"txtEConName",
-								"cmbLicCode",
-								"txtEmpreDat",
-								"txtEmpLicDat",
-								"btnEmpreDat",
-								"btnEmpLicDat");
+								"txtEConName");
 
 		for (j=0; j<enableArr.length; j++) {
 			if (frm[enableArr[j]]) {

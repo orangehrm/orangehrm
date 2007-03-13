@@ -659,11 +659,11 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpLanguage();
 					}
 
-					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpLicenses();
 					}
 
-					if(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpMembership();
 					}
 
@@ -802,17 +802,17 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['licenseSTAT']) && (($_POST['licenseSTAT'] == 'ADD' && $locRights['add']) || ($_POST['licenseSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['licenseSTAT']) && (($_POST['licenseSTAT'] == 'ADD') || ($_POST['licenseSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['licenseSTAT']);
-										} elseif(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['licenseSTAT']) && $_POST['licenseSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['membershipSTAT']) && (($_POST['membershipSTAT'] == 'ADD' && $locRights['add']) || ($_POST['membershipSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['membershipSTAT']) && (($_POST['membershipSTAT'] == 'ADD') || ($_POST['membershipSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['membershipSTAT']);
-										} elseif(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['membershipSTAT']) && $_POST['membershipSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
