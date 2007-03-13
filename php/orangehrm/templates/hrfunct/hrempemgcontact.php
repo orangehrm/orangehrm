@@ -199,8 +199,8 @@ $rset = $this->popArr['empECAss'];
 					</tr>
 <?php
 	$rset = $this->popArr['empECAss'];
-//$exception_handler = new ExceptionHandler();
-	  	 	//$exception_handler->logW(count($rset).'hhh');
+$exception_handler = new ExceptionHandler();
+	  	 	$exception_handler->logW(count($rset).'hhh');
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';

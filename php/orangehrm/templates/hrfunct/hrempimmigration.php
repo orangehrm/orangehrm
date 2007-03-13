@@ -200,9 +200,10 @@ if ($rset != Null){?>
 
           <tr>
               <input type="hidden" name="txtPPSeqNo" value="<?php echo $edit[0][1]?>">
-			  <td><?php echo $lang_hremp_passport; ?> <input type="radio" checked <?php echo $locRights['edit'] ? '':'disabled'?> name="PPType" value="1"></td><td><?php echo $visa?><input type="radio" <?php echo $locRights['edit'] ? '':'disabled'?> name="PPType" <?php echo ($edit[0][6]=='2')?'checked':''?> value="2"></td>
+			  <td><?php echo $lang_hremp_passport; ?> <input type="radio" checked <?php echo $locRights['edit'] ? '':'disabled'?> name="PPType" value="1"></td>
+			  <td><?php echo $lang_hremp_visa?><input type="radio" <?php echo $locRights['edit'] ? '':'disabled'?> name="PPType" <?php echo ($edit[0][6]=='2')?'checked':''?> value="2"></td>
 			  <td width="50">&nbsp;</td>
-		  	 <td><?php echo $lang_hremp_citizenshipl; ?></td>
+		  	 <td><?php echo $lang_hremp_citizenship; ?></td>
                 <td><select <?php echo $locRights['edit'] ? '':'disabled'?> name="cmbPPCountry">
                 <option value="0">-- <?php echo $lang_districtinformation_selectcounlist ?> --</option>
 <?php				$list = $this->popArr['ppcntlist'];
@@ -219,7 +220,7 @@ if ($rset != Null){?>
                 <td><input type="text" name="txtPPNo" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_issueddate; ?></td>
-                <td><input type="text" name="txtPPIssDat" readonly value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
+                <td><input type="text" name="txtPPIssDat" readonly value=<?php echo $edit[0][3]?>>&nbsp;<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtPPIssDat);return false;"></td>
               </tr>
               <tr>
                 <td><?php echo $lang_hremp_i9status; ?></td>
@@ -230,7 +231,7 @@ if ($rset != Null){?>
               </tr>
               <tr>
                <td><?php echo $lang_hremp_i9reviewdate; ?></td>
-                <td><input type="text" name="txtI9ReviewDat" readonly value=<?php echo $edit[0][8]?>>&nbsp;<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtI9ReviewDat);return false;"></td>
+                <td><input type="text" name="txtI9ReviewDat" readonly value=<?php echo $edit[0][8]?> size="12">&nbsp;<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtI9ReviewDat);return false;"></td>
 				<td width="50">&nbsp;</td>
 				<td><?php echo $lang_Leave_Common_Comments; ?></td>
 				<td><textarea <?php echo $locRights['edit'] ? '':'disabled'?> name="txtComments"><?php echo $edit[0][5]?></textarea></td>
