@@ -207,34 +207,29 @@ if(isset($this->getArr['LIC'])) {
     <td valign='top'>&nbsp; </td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
-
+ <?php
+if ($rset != Null){ ?>
   <tr>
 
     <td width='100%'><h3><?php echo $lang_hremplicenses_assignlicen?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
-
+<?php } ?>
 <?php if( !$assignedLicenses ){ ?>
-  <tr>
-    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+ <!-- <tr>
+    <td width='100%'><h5><?php /*echo $lang_empview_norecorddisplay */ ?> </h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
+  </tr> -->
 
 
 <?php
      } else {
 ?>
-
-
-  <tr>
-  <td>
-		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-  </td>
-  </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+if ($rset != Null){ ?>
                     <tr>
                       	 <td ></td>
 						 <td ><strong><?php echo $lang_hremplicenses_licentype?></strong></td>
@@ -242,7 +237,10 @@ if(isset($this->getArr['LIC'])) {
 						 <td ><strong><?php echo $lang_hrEmpMain_enddate?></strong></td>
 
 					</tr>
-<?php
+		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+
+<?php }
 $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)

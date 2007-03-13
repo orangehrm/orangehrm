@@ -6,6 +6,11 @@ New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
 	1674335   ESS: License and Memberships should be editable
 	1674330   ESS: Education should be editable
 	1674332   ESS: Language should be editable
+	1586342   Usability - Dependents - Don't show empty tables
+    1586130   Employee Info - Emergency Contact - Don't show empty table
+    1586362   Usability - Immigration - Don't show empty table
+    1586541   Payments - don't show the empty salary table
+    1586049   Usability - No need to show empty table when No records to display
 
 
 New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
@@ -29,6 +34,7 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 	1554684   PIM - Workstation
 	1612883   Instalation guide doesn\'t have the Screens. Installation guide doesn\'t have the Screen shots.
 	1653917   "Enter" in licese name
+
 
 
 New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)

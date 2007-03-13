@@ -299,32 +299,47 @@ function viewSup(sup,rep) {
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
-  <tr>
+<?php
+$rset = $this->popArr['suprset'];
+$empname = $this ->popArr['empname'];
+if ($rset != Null&& $empname != Null){ //To Handle Hide and Viewe Supervisor Label ?>
+<tr>
 
     <td width='100%'><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3><?php echo $lang_hremp_ie_CurrentSupervisors; ?></td>
      <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
+ <?php } //Finished Handling label?>
   <tr>
   <td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
+
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-      <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+
+<?php
+
+// checking for a records if exsist view the the table and delete btn else no
+
+
+?><table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+
+<?php
+if ($rset != Null&& $empname != Null){ ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php
-$rset = $this->popArr['suprset'];
-$empname = $this ->popArr['empname'];
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+
+
+<?php }// finished Checking
 
     for($c=0;$rset && $c < count($rset); $c++) {
 
@@ -354,34 +369,46 @@ $empname = $this ->popArr['empname'];
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
-  <tr>
 
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3><?php echo $lang_hremp_ie_CurrentSubordinates; ?></td>
+<?php
+$rset = $this -> popArr['subrset'];
+$empname = $this -> popArr['empname'];
+if ($rset != Null && $empname != Null){ //To Handle Subordinate Label?>
+	<tr>
+ 	<td width='100%'><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3><?php echo $lang_hremp_ie_CurrentSubordinates; ?></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
+<?php } //Finished Handle?>
+
   <tr>
   <td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+
+<?php
+
+
+
+// checking for a records if exsist view the the table and delete btn else no
+?>
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+if ($rset != Null && $empname != Null){ ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
 
-$rset = $this -> popArr['subrset'];
-$empname = $this -> popArr['empname'];
-
+<?php }// finished checking
 
     for($c=0;$rset && $c < count($rset); $c++) {
 

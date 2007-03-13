@@ -210,19 +210,27 @@ if(isset($this->popArr['editEducationArr'])) {
 <?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+<?php
+$rset = $this->popArr['rsetEducation'] ;
+$allEduCodes = $this->popArr['allEduCodes'];
+if ($rset != Null) { ?>
   <tr>
     <td width='100%'><h3><?php echo $lang_hrEmpMain_assigneducation?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
+<?php } ?>
   <tr>
   <td>
-  		<img border="0" title="Add" onClick="resetAdd(9);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+// Handling Table view hide or show depending on the records
+if ($rset != Null){?>
+
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_education?></strong></td>
@@ -230,9 +238,10 @@ if(isset($this->popArr['editEducationArr'])) {
 						 <td><strong><?php echo $lang_hrEmpMain_gpa?></strong></td>
 
 					</tr>
-<?php
-$rset = $this->popArr['rsetEducation'] ;
-$allEduCodes = $this->popArr['allEduCodes'];
+        <img border="0" title="Add" onClick="resetAdd(9);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php }
+
 
     for($c=0; $rset && $c < count($rset); $c++)
         {

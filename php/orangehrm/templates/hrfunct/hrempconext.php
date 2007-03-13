@@ -136,16 +136,17 @@ function viewConExt(pSeq) {
         $assignedContracts = false;
     }
 ?>
-
+<?php
+if ($rset != Null){ ?>
     <td width='100%'><h3><?php echo $lang_hremp_AssignedContracts; ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
-
+<?php } ?>
 <?php if( !$assignedContracts ){ ?>
-  <tr>
-    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+  <!-- <tr>
+    <td width='100%'><h5><?php /*echo $lang_empview_norecorddisplay */?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
+  </tr> -->
 
 <?php
      } else {
@@ -153,23 +154,27 @@ function viewConExt(pSeq) {
 
   <tr>
   <td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
+
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+if ($rset != Null){ ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hremp_ContractExtensionId; ?></strong></td>
 						 <td><strong><?php echo $lang_hremp_ContractStartDate; ?></strong></td>
 						 <td><strong><?php echo $lang_hremp_ContractEndDate; ?></strong></td>
 					</tr>
-<?php
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+
+<?php }
 
 
     for($c=0; $rset && $c < count($rset); $c++)

@@ -64,15 +64,18 @@ function editAttach() {
 <?php	} ?>
 				</td>
 				</tr>
+<?php
+		$rset = $this->popArr['empAttAss'] ;
+		if ($rset != Null){ ?>
 				<tr>
 					<td nowrap="nowrap"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></td>
 					<td></td>
 				</tr>
-				<tr>
+			<tr>
 				<td>
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
+<?php 	} else { ?>
 		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?php	} ?>
 <?php	if($locRights['delete']) { ?>
@@ -85,15 +88,14 @@ function editAttach() {
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 			<table border="0" width="450" align="center" class="tabForm">
-
 			    <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hremp_filename?></strong></td>
 						 <td><strong><?php echo $lang_hremp_size?></strong></td>
 						 <td><strong><?php echo $lang_hremp_type?></strong></td>
 					</tr>
-<?php
-	$rset = $this->popArr['empAttAss'] ;
+<?php }
+
 
     for($c=0;$rset && $c < count($rset); $c++)
         {

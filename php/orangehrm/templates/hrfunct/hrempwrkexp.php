@@ -78,12 +78,12 @@ function addEXTWrkExp() {
 	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
 	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
 	var currentDate = document.frmEmp.txtEmpExpToDate.value;
-	///////////////To Handle the date field validation 
+	///////////////To Handle the date field validation
 	if (!(currentDate == "0000-00-00")){
 
 	if(fromDate >= toDate){
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
-		 
+
 		return;
 	}
 	}
@@ -144,12 +144,12 @@ if (!(currentDate == "0000-00-00")){
 
 	if(fromDate >= toDate){
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
-		 
+
 		return;
 	}
 	}
 /////////////////////
-	 
+
 
   document.frmEmp.wrkexpSTAT.value="EDIT";
   qCombo(17);
@@ -290,50 +290,48 @@ if(isset($this->popArr['editWrkExpArr'])) {
     <td valign='top'>&nbsp; </td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
-
+ <?php
+if ($rset != Null ) {?>
   <tr>
-
     <td width='100%'><h3><?php echo $lang_hrEmpMain_assignworkex?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
+
+ <?php } ?>
 <?php if( !$assignedExperiences ){ ?>
-  <tr>
-    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+  <!-- <tr>
+    <td width='100%'><h5> <?php /*echo $lang_empview_norecorddisplay */?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-
-
+  </tr> -->
 <?php
      } else {
 ?>
-
-  <tr>
-   <td>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="resetAdd(17);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
-<?php } ?>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-  </td>
-  </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
-
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+<?php
+//Handling the table hid eor view
+if ($rset != Null ) {?>
+                  <tr>
                       	<td></td>
 						 <td width="125"><strong><?php echo $lang_hrEmpMain_workexid?></strong></td>
 						 <td width="135"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_startdate; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_internal; ?></strong></td>
-					</tr>
-<?php
+				</tr>
+<?php	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="resetAdd(17);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+					<?php 	} else { ?>
+		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
+<?php } ?>
+
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+<?php }
 
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';

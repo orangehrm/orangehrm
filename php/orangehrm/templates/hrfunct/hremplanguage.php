@@ -234,38 +234,37 @@ if(isset($this->getArr['lanSEQ'])) {
   </tr>
 
   <tr>
-
+<?php
+if ($rset != Null) { ?>
     <td width='100%'><h3><?php echo $lang_hremplan_assignlanguage; ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
-
+<?php } ?>
 <?php if( !$assignedLanguages ){ ?>
-  <tr>
-    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+  <!-- <tr>
+    <td width='100%'><h5><?php /* echo $lang_empview_norecorddisplay */ ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
+  </tr> -->
 
 
 <?php
      } else {
 ?>
-
-  <tr>
-  <td>
-		<img border="0" title="Add" onClick="resetAdd(11);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-  </td>
-  </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+if($rset != Null) { ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hremp_Language?></strong></td>
 						 <td><strong><?php echo $lang_hremplan_fluency?></strong></td>
 						 <td><strong><?php echo $lang_hremplan_ratinggarde?></strong></td>
 					</tr>
-<?php
+		<img border="0" title="Add" onClick="resetAdd(11);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+
+<?php }
 
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';

@@ -251,31 +251,39 @@ function viewPayment(pay,curr) {
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 
-  <tr>
 
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignedsalary?></h3></td>
+<?php
+$rset = $this->popArr['rsetPayment'];
+$currlist=$this->popArr['currAlllist'];
+
+if ($rset !=Null && $currlist != Null ) {//Handlig Assigned to Label ?>
+
+  <tr>
+	<td width='100%'><h3><?php echo $lang_hrEmpMain_assignedsalary?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
-  <tr>
-  <td>
+
+<?php } // Finished Handling ?>
+
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php //Handling the table View
+if ($rset !=Null && $currlist != Null ){?>
+                    <tr>
+                      	 <td></td>
+						 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
+					</tr>
+
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} else { ?>
         <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
-					</tr>
-<?php
-			$rset = $this->popArr['rsetPayment'];
-			$currlist=$this->popArr['currAlllist'];
+
+<?php } //
 
     for($c=0; $rset && $c < count($rset); $c++)
         {

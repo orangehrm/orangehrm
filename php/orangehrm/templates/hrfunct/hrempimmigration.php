@@ -145,14 +145,18 @@ function editPassport() {
 				</tr>
 				<tr>
 				<td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
 				</td>
 				</tr>
 <div id="tablePassport">
+				 <?php
+
+$rset = $this->popArr['empPPAss'];
+////checking for a records if exsist view the the table and delete btn else no
+
+	$rset = $this->popArr['empPPAss'];
+if ($rset != Null){?>
+
+
 				<table width="550" align="center" border="0" class="tabForm">
 				 <tr>
                       	<td width="50">&nbsp;</td>
@@ -163,8 +167,13 @@ function editPassport() {
 						 <td><strong><?php echo $lang_hremp_dateofexp; ?></strong></td>
 					</tr>
 
-					<?php
-	$rset = $this->popArr['empPPAss'];
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+
+<?php }
 
     for($c=0;$rset && $c < count($rset); $c++)
         {

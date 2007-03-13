@@ -68,14 +68,23 @@ function editDependent() {
 				</tr>
 				<tr>
 				<td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
+
 				</td>
 				</tr>
 <!--<div id="tablePassport">	-->
+
+
+
+
+
+<?php
+//checking for the records if exsists show the dependents table and the delete btn else hide
+
+
+$rset = $this->popArr['empDepAss'];
+
+if ($rset != Null){?>
+
 				<table width="275" align="center" border="0" class="tabForm">
 				 <tr>
                       	<td width="50">&nbsp;</td>
@@ -83,8 +92,14 @@ function editDependent() {
 						 <td><strong><?php echo $lang_hremp_relationship; ?></strong></td>
 				</tr>
 
-					<?php
-	$rset = $this->popArr['empDepAss'];
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+
+<?php }////finish the checking
+
 
     for($c=0;$rset && $c < count($rset); $c++)
         {

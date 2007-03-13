@@ -79,23 +79,35 @@ function editChildren() {
 				</tr>
 				<tr>
 				<td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delChildren();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
 				</td>
 				</tr>
 <!--<div id="tablePassport">	-->
-				<table width="275" align="center" border="0" class="tabForm">
+
+
+
+
+<?php
+//checking for the records if exsists show the children table and the delete btn else hide
+
+	$rset = $this->popArr['empChiAss'];
+
+	if ($rset !=Null){?>
+
+		<table width="275" align="center" border="0" class="tabForm">
 				 <tr>
                       	<td width="50">&nbsp;</td>
 						 <td><strong><?php echo $lang_hremp_name; ?></strong></td>
 						 <td><strong><?php echo $lang_hremp_dateofbirth; ?></strong></td>
 				</tr>
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delChildren();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	}//finish checking ?>
 
-					<?php
-	$rset = $this->popArr['empChiAss'];
+
+
+	<?php }
 
     for($c=0;$rset && $c < count($rset); $c++)
         {

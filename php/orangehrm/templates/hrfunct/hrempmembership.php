@@ -315,33 +315,28 @@ if(isset($this->popArr['editMembershipArr'])) {
     <td valign='top'>&nbsp; </td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
-
+<?php
+	if ($rset != Null){ ?>
   <tr>
     <td width='100%'><h3><?php echo $lang_hrEmpMain_assignmemship?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
-
+<?php } ?>
 <?php if( !$assignedMemberships ){ ?>
-  <tr>
-    <td width='100%'><h5><?php echo $lang_empview_norecorddisplay ?></h3></td>
+  <!-- <tr>
+    <td width='100%'><h5><?php /*echo $lang_empview_norecorddisplay */ ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
+  </tr> -->
 
 
 <?php
      } else {
 ?>
-
-  <tr>
-  <td>
-
-		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-  </td>
-  </tr>
 <tr><td>&nbsp;</td></tr>
 </table>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+	if ($rset != Null){ ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_membership?></strong></td>
@@ -350,7 +345,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 						 <td><strong><?php echo $lang_hrEmpMain_subcomdate?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_subredate?></strong></td>
 					</tr>
-<?php
+		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php }
 
 
 

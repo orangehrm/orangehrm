@@ -210,12 +210,27 @@ if(isset($this->popArr['editSkillArr'])) {
 <?php } ?>
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+  <?php
+ $rset = $this->popArr['rsetSkill'] ;
+$allSkilllist = $this->popArr['allSkilllist'];
+if ($rset != Null){ ?>
   <tr>
     <td width='100%'><h3><?php echo $lang_hrEmpMain_assignskills?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
-  <tr>
-  <td>
+ <?php } ?>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+<?php
+if ($rset != NUll){ ?>
+       				<tr>
+                      	<td></td>
+						 <td><strong><?php echo $lang_hrEmpMain_Skill?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_yearofex?></strong></td>
+
+					</tr>
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(16);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
 					<?php 	} else { ?>
@@ -226,20 +241,9 @@ if(isset($this->popArr['editSkillArr'])) {
 <?php 	} else { ?>
         <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_hrEmpMain_Skill?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_yearofex?></strong></td>
 
-					</tr>
-<?php
-$rset = $this->popArr['rsetSkill'] ;
-$allSkilllist = $this->popArr['allSkilllist'];
+
+<?php }
 
     for($c=0; $rset && $c < count($rset); $c++)
         {

@@ -104,26 +104,33 @@ function editEContact() {
 				<tr>
 				<td>
 <?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
-        <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} else { ?>
         <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
-				</td>
-				</tr>
-
+			</td>
+		</tr>
+<?php
+$rset = $this->popArr['empECAss'];
+				if ($rset != null){ //checking for a records if exsist view the the table and delete btn else no ?>
 				<table width="550" align="center" border="0" class="tabForm">
 				 <tr>
                       	<td width="50">&nbsp;</td>
-						 <td><strong><?php echo $lang_hremp_name; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_relationship; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_hmtele; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_mobile; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_worktele; ?></strong></td>
-					</tr>
+						<td><strong><?php echo $lang_hremp_name; ?></strong></td>
+						<td><strong><?php echo $lang_hremp_relationship; ?></strong></td>
+						<td><strong><?php echo $lang_hremp_hmtele; ?></strong></td>
+						<td><strong><?php echo $lang_hremp_mobile; ?></strong></td>
+						<td><strong><?php echo $lang_hremp_worktele; ?></strong></td>
 
-					<?php
-	$rset = $this->popArr['empECAss'];
+<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { //checking for the privilege?>
+<img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} else { ?>
+        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} //view the delete btn?>
 
+			</td>
+		</tr>
+				</tr>
+<?php }
 	for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
@@ -138,7 +145,7 @@ function editEContact() {
         echo '</tr>';
         }?>
 
-	<?php } elseif(isset($this->getArr['ECSEQ'])) {
+	<?php } else if(isset($this->getArr['ECSEQ'])) {
 		$edit = $this->popArr['editECForm'];
 
 ?>
@@ -163,8 +170,6 @@ function editEContact() {
 			 <td><?php echo $lang_hremp_worktele; ?></td>
 			 <td><input type="text" name="txtEConWorkTel" value="<?php echo $edit[0][6]?>"></td>
 			 </tr>
-
-
 				  <td>
 					<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")){ ?>
 					        <img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -212,5 +217,4 @@ function editEContact() {
 
  } ?>
 		</table>
-
-<?php } ?>
+<?php  } ?>
