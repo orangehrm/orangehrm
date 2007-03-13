@@ -671,7 +671,7 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpBasSalary();
 					}
 
-					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['educationSTAT']) && $_POST['educationSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpEducation();
 					}
 
@@ -753,10 +753,10 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD' && $locRights['add']) || ($_POST['educationSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD') || ($_POST['educationSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['educationSTAT']);
-										} elseif(isset($_POST['educationSTAT']) && $_POST['educationSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['educationSTAT']) && $_POST['educationSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 

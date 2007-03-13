@@ -158,11 +158,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
-		<?php			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
-		<?php			}  ?>
 						</td>
 					  </tr>
 </table>
@@ -172,7 +168,7 @@ if(isset($this->popArr['editEducationArr'])) {
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hrEmpMain_education?></td>
-    				  <td><select name="cmbEduCode" <?php echo $locRights['add'] ? '':'disabled'?>>
+    				  <td><select name="cmbEduCode">
     				  		<option selected value="0">--<?php echo $lang_hrEmpMain_SelectEducation; ?>--</option>
 						<?php	$unAssEduCodes = $this->popArr['unAssEduCodes'];
 							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++)
@@ -182,36 +178,33 @@ if(isset($this->popArr['editEducationArr'])) {
 					</tr>
                     <tr>
                       <td><?php echo $lang_hrEmpMain_major?></td>
-    				  <td><input type="text" name="txtEmpEduMajor" <?php echo $locRights['add'] ? '':'disabled'?>></td>
+    				  <td><input type="text" name="txtEmpEduMajor"></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
 					<td><?php echo $lang_Leave_Common_Year?></td>
-					   <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduYear" /></td>
+					   <td><input type="text" name="txtEmpEduYear" /></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 					<td><?php echo $lang_hrEmpMain_gpa?></td>
-						<td> <input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpEduGPA"></td>
+						<td> <input type="text" name="txtEmpEduGPA"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td> <input type="text" name="txtEmpEduStartDate" readonly value="0000-00-00">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
+						<td> <input type="text" name="txtEmpEduStartDate" readonly value="0000-00-00">&nbsp;<input type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td> <input type="text" name="txtEmpEduEndDate" readonly value="0000-00-00">&nbsp;<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
+						<td> <input type="text" name="txtEmpEduEndDate" readonly value="0000-00-00">&nbsp;<input type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
 					 </tr>
 
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					<?php	if($locRights['add']) { ?>
 					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php 	} else { ?>
-					        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php	} ?>								</td>
+					    </td>
 					  </tr>
                   </table>
 <?php } ?>
@@ -223,11 +216,7 @@ if(isset($this->popArr['editEducationArr'])) {
   </tr>
   <tr>
   <td>
-<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>
