@@ -655,7 +655,7 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpPassPort();
 					}
 
-					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpLanguage();
 					}
 
@@ -795,10 +795,10 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['langSTAT']) && (($_POST['langSTAT'] == 'ADD' && $locRights['add']) || ($_POST['langSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['langSTAT']) && (($_POST['langSTAT'] == 'ADD') || ($_POST['langSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['langSTAT']);
-										} elseif(isset($_POST['langSTAT']) && $_POST['langSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['langSTAT']) && $_POST['langSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 

@@ -158,11 +158,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLang();" onmouseover="moverLang();" name="EditLang" onClick="editLang();">
-		<?php			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
-		<?php			}  ?>
 						</td>
 					  </tr>
                   </table>
@@ -172,7 +168,7 @@ if(isset($this->getArr['lanSEQ'])) {
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hremp_Language?></td>
-    				  <td><select name="cmbLanCode" <?php echo $locRights['add'] ? '':'disabled'?>>
+    				  <td><select name="cmbLanCode">
     				  		<option selected value="0">--<?php echo $lang_hremplan_SelectLanguage; ?>--</option>
 <?php
 						$lanlist= $this->popArr['lanlist'];
@@ -186,7 +182,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					</tr>
                     <tr>
                       <td width="200"><?php echo $lang_hremplan_fluency?></td>
-    				  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbLanType">
+    				  <td><select name="cmbLanType">
     				  		<option value="0">---<?php echo $lang_hremplan_SelectFluency; ?>---</option>
 <?php
 						$index=array_values($lantype);
@@ -198,7 +194,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_ratinggarde?></td>
-						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbRatGrd'>
+						<td align="left" valign="top"><select name='cmbRatGrd'>
     				  		<option value="0">----<?php echo $lang_hremplan_SelectRating; ?>----</option>
 <?php
 				        $code=array_values($grdcodes);
@@ -213,11 +209,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					<?php	if($locRights['add']) { ?>
 					        <img border="0" title="Save" onClick="addEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php 	} else { ?>
-					        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php	} ?>
 								</td>
 					  </tr>
                   </table>
@@ -260,16 +252,8 @@ if(isset($this->getArr['lanSEQ'])) {
 
   <tr>
   <td>
-<?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(11);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
-<?php } ?>
-<?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>

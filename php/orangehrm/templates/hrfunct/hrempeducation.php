@@ -216,6 +216,7 @@ if(isset($this->popArr['editEducationArr'])) {
   </tr>
   <tr>
   <td>
+  		<img border="0" title="Add" onClick="resetAdd(9);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
         <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
   </td>
   </tr>
