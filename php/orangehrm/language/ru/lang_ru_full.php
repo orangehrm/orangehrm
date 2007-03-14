@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
@@ -80,6 +80,8 @@
 	$lang_Error_FirstNameEmpty				= "Имя не введено!";
 	$lang_Error_ChangePane					= "Пожайлуста, соxраните информацию перед тем как выбрать следующую панель!";
 
+	$lang_Error_UploadFailed = "Загрузка не удалась!";
+
 	$lang_Error_FieldShouldBeSelected		= "Выберите значение";
 
 	$lang_Error_FieldShouldBeNumeric		= "Разрешены только цифры";
@@ -150,12 +152,14 @@
 	$lang_Menu_Leave_ApproveLeave = "Подтвердить отпуск";
 	$lang_Menu_Leave_LeaveTypes = "Виды отпуска";
 	$lang_Menu_Leave_Apply = "Обращение";
+	$lang_Menu_Leave_Assign	= "Назначить";
 	$lang_Menu_Leave_LeaveList = "Перечень отпусков";
 	$lang_Menu_Leave_DefineDaysOff = "Определите нерабочие дни";
 	$lang_Menu_Leave_DefineDaysOff_Weekends = "Выxодные";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Праздники";
 
 	$lang_Leave_Title_Apply_Leave = "Обратиться за отпуском";
+	$lang_Leave_Title_Assign_Leave = "Назначить отпуск";
 
 	// Report
 	$lang_Menu_Reports = "Отчёты";
@@ -176,6 +180,10 @@
 	$lang_Commn_title = "Название";
 	$lang_Commn_name = "Название";
 	$lang_Commn_PleaseWait = "Подождите, пожайлуста";
+
+	$lang_Commn_Email = "Эл. почта";
+	$lang_Common_Edit = "Редактировать";
+	$lang_Common_New = "Новый";
 
 	//days
 	$lang_Common_Monday = "Понедельник";
@@ -371,6 +379,7 @@
 	$lang_hremp_selmarital	= "--Выберите--";
 	$lang_hremp_maritalstatus = "Семейное положение";
 	$lang_hremp_selectnatio = "Выберите национальность";
+	$lang_hremp_selethnicrace = "Выберите этническую рассу";
 	$lang_hremp_smoker = "Курящий(-ая)";
 	$lang_hremp_gender = "Пол";
 	$lang_hremp_dlicenno = "Номер водительских прав";
@@ -517,6 +526,14 @@
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Неправильный формат ввода лет опыта";
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Значение лет опыта должно быть в интервале #range";
 	$lang_hrEmpMain_Skill = "Навык";
+
+	$lang_hrEmpMain_subown_Company = "Компания";
+	$lang_hrEmpMain_subown_Individual = "Частное лицо";
+	$lang_hrEmpMain_arrRepType_Supervisor = "Руководитель";
+	$lang_hrEmpMain_arrRepType_Subordinate = "Подчинённый";
+	$lang_hrEmpMain_arrRepMethod_Direct = "Прямой";
+	$lang_hrEmpMain_arrRepMethod_Indirect = "Косвенный";
+	$lang_hrEmpMain_SelectMethod = "Выберите метод";
 
 	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Плата за подписку должна иметь цифровое значение";
 	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Членский взнос не введён. Продолжить?";
@@ -675,7 +692,8 @@
 	$lang_MailTypes_Sendmailer = "Отправленные письма";
 	$lang_MailTypes_Smtp = "SMTP";
 	$lang_SendmailPath = "Отправленные письма. Путь";
-	$lang_SmtpHost = "SMTP Host";
+	$lang_SmtpHost = "SMTP ГВМ";
+	$lang_SmtpPort = "SMTP порт";
 	$lang_SmtpUser = "SMTP пользователь";
 	$lang_SmtpPassword = "SMTP пароль";
 
@@ -706,7 +724,13 @@
 	$lang_rep_ServicePeriod = "Период службы";
 	$lang_rep_JobTitle = "Должность";
 
+	$lang_rep_YearOfPassing = "Год сдачи";
+	$lang_rep_Contract = "Контракт";
+	$lang_rep_WorkExperience = "Рабочий опыт";
+	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Для присвоения, выберите xотя бы одну группу пользователей";
+
 	$lang_rep_LastName = "Фамилия";
+	$lang_rep_FirstName = "Имя";
 	$lang_rep_Address = "Адрес";
 	$lang_rep_TelNo = "Тел No";
 	$lang_rep_DateOfBirth = "Дата рождения";
@@ -737,13 +761,20 @@
 
 	$lang_rep_Report = "Отчёт";
 	$lang_rep_EmployeeNo = "Номер служащего";
+	$lang_rep_EmployeeFirstName = "Имя служащего";
 	$lang_rep_EmployeeLastName = "Фамилия служащего";
+
+	$lang_rep_ReportTo = "Отчётность перед";
+	$lang_rep_ReportingMethod = "Вид отчётности";
+
 	$lang_rep_Address = "Адрес";
 	$lang_rep_Telephone = "Телефон";
 	$lang_rep_DateOfBirth = "Дата рождения";
+	$lang_rep_Skills = "Навыки";
 	$lang_rep_SalaryGrade = "Уровень оплаты";
 	$lang_rep_EmployeeStatus = "Служебный статус";
 	$lang_rep_JoinedDate = "Дата начала работы";
+	$lang_rep_SubDivision = "Подразделение";
 	$lang_rep_JobTitle = "Должность";
 
 	$lang_rep_ReportDefinition = "Создание отчёта";
@@ -752,10 +783,11 @@
 	$lang_rep_NoUserGroupsAssigned = "Группы пользователей не присвоенны";
 
 	// Email Notification Subscription
-	$lang_Admin_SubscribeToMailNotifications = "Subscribe to E-mail Notifications";
-	$lang_Admin_ENS_LeaveApplications = "Leave Applications";
-	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
-	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
-	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
+	$lang_Admin_EMX_MailConfiguration = "Конфигурация почты";
+	$lang_Admin_SubscribeToMailNotifications = "Подписаться на извещения по эл. почте";
+	$lang_Admin_ENS_LeaveApplications = "Требуемые отпуска";
+	$lang_Admin_ENS_LeaveApprovals = "Подтверждённые отпуска";
+	$lang_Admin_ENS_LeaveCancellations = "Отменённые отпуска";
+	$lang_Admin_ENS_LeaveRejections = "Отказанные отпуска";
 
 ?>
