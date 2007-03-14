@@ -53,13 +53,13 @@ Instead of installing above mentioned pre-requisities seperately, it is possible
 For Linux Installation these steps should be followed;
   <ol>
   		<li>Retrieve the PHP source of OrangeHRM onto the directory that is configured as 
-     		Apache Server htdocs directory; <div class="code">ex: /var/html/orangehrm/</div>
+     		Apache Server htdocs directory; <div class="code">ex: /var/www/html/orangehrm/</div>
 		</li>  
 	 	<li>change the owner &amp; group of the source directory (and all files and sub-directories 
      within it) to apache(on most Apache distributions has set the user/user-group of apache webserver to apache/apache, if your apache web servers httpd.conf has other user/user-group please use that user instead ex: nobody). Run the following command in bash.
      		<div class="code">ex: /var/html/orangehrm/</div>
 			<div class="bash">
-				chown apache /var/html/orangehrm/
+				chown apache /var/www/html/orangehrm/
 			</div>
 			</li>
   		<li>now you need to create the database. To do this get MySQL prompt (you should be logged in as a user having rights create databases and users). Create the database using command; (please note down the database name), and change into the database using 'USE'.
@@ -112,7 +112,7 @@ For Linux Installation these steps should be followed;
 	For Windows Installation these steps should be followed;
   <ol>
 	  <li>Extract the PHP source of OrangeHRM onto the directory that is configured as 
-     Apache Server htdocs directory; <div class="code">ex: c:\apache\Apache\htdocs\orangehrm\</div>
+     Apache Server htdocs directory; <div class="code">ex: C:\apache\Apache2\htdocs\orangehrm\</div>
 	  </li>	 	
 	  <li>Now you need to create the database. To do this get MySQL prompt (you should be logged in as a user having rights create databases and users). Create the database, and change into the database using 'USE'; (please note down the database name)
 		  <div class="bash">
@@ -121,7 +121,7 @@ For Linux Installation these steps should be followed;
    		  then you need to create the tables using the script dbscript.sql residing in 
     /orangehrm/dbscript directory. Then type in command</li>
 		  <div class="bash">
-			  SOURCE c:\apache\Apache\htdocs\orangehrm\dbscript\dbscript.sql		  </div>
+			  SOURCE  C:\apache\Apache2\htdocs\orangehrm\dbscript\dbscript.sql		  </div>
 	  </li>
 
 	  <li>In the MySQL server create a user account with all priviledges, please note down the username and password since it will be required to configure the application to give it access to the 
@@ -222,7 +222,7 @@ For Linux Installation these steps should be followed;
   			</li>
 
 			<li>Then open the file in the apache installation directory 
-  				<div class="code">C:\Program Files\Apache Group\Apache2\conf\httpd.conf"</div>
+  				<div class="code"> C:\apache\Apache2\conf\httpd.conf"</div>
   			</li>
 
   		<li>Then goto the area where the LoadModule tags are defined.
@@ -342,7 +342,7 @@ For Linux Installation these steps should be followed;
 
 </div>
 </div>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> FAQ ver 0.1 &copy; hSenid Software 2005 - 2007 All rights reserved.</div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> FAQ ver 0.2 &copy; hSenid Software 2005 - 2007 All rights reserved.</div>
 </div>
 </body>
 </html>
