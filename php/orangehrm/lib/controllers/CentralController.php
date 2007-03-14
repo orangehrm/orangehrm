@@ -851,6 +851,12 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
+										//handling failed Attachment upload
+										if(isset($_POST['attSTAT']) && $_POST['attSTAT'] == 'ADD' && $locRights['add'] && $parsedObject === null) {
+											$_GET['ATT_UPLOAD'] = 'FAILED';
+										}
+
+
 						$_POST['EditMode'] =0;
 						if((isset($_POST['STAT'])) && ($_POST['STAT'] == 'OWN')) {
 							$extObject = $extractor->reloadData($_POST);

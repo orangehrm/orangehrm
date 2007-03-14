@@ -40,6 +40,11 @@ function editAttach() {
 	document.frmEmp.attSTAT.value="EDIT";
 	qCombo(6);
 }
+
+<?php
+	if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
+		echo "alert('File Upload Failed');";
+?>
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
@@ -49,7 +54,7 @@ function editAttach() {
           <tr>
 				<td valign="top"><?php echo $lang_hremp_path?></td>
 				<td><input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-					<input type="file" name="ufile"> [1M Max]</td>
+					<input type="file" name="ufile"> <br>[1M Max, any larger attachments will be ignored]</td>
               </tr>
               <tr>
               	<td><?php echo $lang_Commn_description?></td>
