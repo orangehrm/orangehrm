@@ -129,7 +129,7 @@
 	$lang_Menu_Admin_NationalityNRace_EthnicRaces 	= "Ethnic Races";
 
 	$lang_Menu_Admin_Users 							= "Users";
-	$lang_Menu_Admin_Users_UserGroups 				= "User Groups";
+	$lang_Menu_Admin_Users_UserGroups 				= "Admin User Groups";
 	$lang_Menu_Admin_Users_HRAdmin 					= "HR Admin Users";
 	$lang_Menu_Admin_Users_ESS 						= "ESS Users";
 
@@ -680,7 +680,7 @@
 	$lang_view_message35 					= "Deletion could make OrangeHRM unusable";
 
 	$lang_view_Users 				= "Users";
-	$lang_view_UserGroups 			= "User Groups";
+	$lang_view_UserGroups 			= "Admin User Groups";
 	$lang_view_HRAdmin 				= "HR Admin";
 	$lang_view_ESS 					= "ESS";
 	$lang_view_ID 					= "ID";
@@ -790,5 +790,28 @@
 	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
 	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
 	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
+
+	//Users
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast five characters long";
+	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be atleast four characters long";
+	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
+	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
+	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
+	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
+
+	$lang_Admin_Users_UserName = "User Name";
+	$lang_Admin_Users_Password = "Password";
+
+	$lang_Admin_Users_ConfirmPassword = "Confirm Password";
+
+	$lang_Admin_Users_Status = "Status";
+	$lang_Admin_Users_Enabled = "Enabled";
+	$lang_Admin_Users_Disabled = "Disabled";
+
+	$lang_Admin_Users_UserGroup = "Admin User Group";
+	$lang_Admin_Users_SelectUserGroup = "Select User Group";
+
+	$lang_Admin_Users_NewPassword = "New Password";
+	$lang_Admin_Users_ConfirmNewPassword = "Confirm New Password";
 
 ?>

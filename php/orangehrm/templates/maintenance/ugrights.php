@@ -1,25 +1,25 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
 ?>
@@ -59,13 +59,13 @@ function editEXT()
 		alert("View should be selected");
 		return
 	}
-	
+
   document.frmURights.STAT.value="EDIT";
   document.frmURights.submit();
 }
 
 	function goBack() {
-		
+
 		location.href = "./CentralController.php?capturemode=updatemode&uniqcode=USG&id=<?php echo $this->getArr['id']?>";
 	}
 
@@ -79,26 +79,26 @@ function delEXT() {
 }
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		editEXT();
 		return;
 	}
-	
+
 	var frm=document.frmURights;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -150,7 +150,7 @@ $ugDet = $this ->popArr['ugDet'];
                       <td width="200">User Group ID</td>
     				  <td><strong><?php echo $ugDet[0][0]?></strong><input type="hidden" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"></td>
 					</tr>
-					  <tr> 
+					  <tr>
 						<td valign="top">User Group</td>
 						<td align="left" valign="top"><strong><?php echo $ugDet[0][1]?></strong></td>
 					  </tr>
@@ -196,7 +196,7 @@ $ugDet = $this ->popArr['ugDet'];
               </table>
 
 <?php } elseif(isset($this->popArr['editArr'])) {
-	
+
     $edit = $this->popArr['editArr'];
 ?>
 
@@ -211,7 +211,7 @@ $ugDet = $this ->popArr['ugDet'];
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr> 
+					  <tr>
 						<td valign="top">Modules</td>
 						<td align="left" valign="top"><input type="hidden" name="cmbModuleID" value="<?php echo $edit[0][1]?>"><strong>
 <?php
@@ -219,10 +219,10 @@ $ugDet = $this ->popArr['ugDet'];
 						for($c=0;count($modlist)>$c;$c++)
 						    if($modlist[$c][0]==$edit[0][1])
 						       echo  $modlist[$c][1] ;
-?>						
+?>
 						</strong></td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top">Add</td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][2]==1 ? 'checked' : ''?> name="chkAdd" value="1">
 						</td>
@@ -230,7 +230,7 @@ $ugDet = $this ->popArr['ugDet'];
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][3]==1 ? 'checked' : ''?> name="chkEdit" value="1">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top">Delete</td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][4]==1 ? 'checked' : ''?> name="chkDelete" value="1">
 						</td>
@@ -238,7 +238,7 @@ $ugDet = $this ->popArr['ugDet'];
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][5]==1 ? 'checked' : ''?> name="chkView" value="1">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?php			if($locRights['edit']) { ?>
@@ -248,7 +248,7 @@ $ugDet = $this ->popArr['ugDet'];
 <?php			}  ?>
 						</td>
 					  </tr>
-    
+
 
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -275,7 +275,7 @@ $ugDet = $this ->popArr['ugDet'];
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr> 
+					  <tr>
 						<td valign="top">Module</td>
 						<td align="left" valign="top">
 						<select name="cmbModuleID" <?php echo $locRights['add'] ? '':'disabled'?>>
@@ -284,11 +284,11 @@ $ugDet = $this ->popArr['ugDet'];
 						$modlist = $this->popArr['modlistUnAss'];
 						for($c=0;$modlist && count($modlist)>$c;$c++)
 						       echo "<option value='". $modlist[$c][0] . "'>". $modlist[$c][1] . "</option>";
-?>						
+?>
 						</select>
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top">Add</td>
 						<td align="left" valign="top"><input type="checkbox" name="chkAdd" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
@@ -296,7 +296,7 @@ $ugDet = $this ->popArr['ugDet'];
 						<td align="left" valign="top"><input type="checkbox" name="chkEdit" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
 					  </tr>
-					  <tr> 
+					  <tr>
 						<td valign="top">Delete</td>
 						<td align="left" valign="top"><input type="checkbox" name="chkDelete" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
@@ -310,7 +310,7 @@ $ugDet = $this ->popArr['ugDet'];
 						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php					} else { ?>
 						<td align="left" valign="top"><img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php					}		?>						
+<?php					}		?>
 						</td>
 					  </tr>
                   </table></td>
@@ -343,8 +343,8 @@ $ugDet = $this ->popArr['ugDet'];
 						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg">
 <?php					} else { ?>
 						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_clear.jpg">
-<?php					}		?>						
-  
+<?php					}		?>
+
   </td>
   </tr>
 <tr><td>&nbsp;</td></tr>

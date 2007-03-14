@@ -108,32 +108,32 @@ function goBack() {
 	function addSave() {
 		var frm=document.frmUsers;
 		if (frm.txtUserName.value.length < 5 ) {
-			alert ("UserName should be atleast five characters long!");
+			alert ("<?php echo $lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong; ?>!");
 			frm.txtUserName.focus();
 			return false;
 		}
 
 		if(frm.txtUserPassword.value.length < 4) {
-			alert("Password should be atleast four characters long!");
+			alert("<?php echo $lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong; ?>!");
 			frm.txtUserPassword.focus();
 			return;
 		}
 
 		if(frm.txtUserPassword.value != frm.txtUserConfirmPassword.value) {
-			alert("Password Mismatch!");
+			alert("<?php echo $lang_Admin_Users_ErrorsPasswordMismatch; ?>!");
 			frm.txtUserPassword.focus();
 			return;
 		}
 
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
-			alert("Employee ID should be defined");
+			alert("<?php echo $lang_Admin_Users_Errors_EmployeeIdShouldBeDefined; ?>");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
 
 
 		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
-			alert("Field should be selected!");
+			alert("<?php echo $lang_Admin_Users_Errors_FieldShouldBeSelected; ?>!");
 			frm.cmbUserGroupID.focus();
 			return;
 		}
@@ -159,7 +159,7 @@ function goBack() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Users : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2><?php echo $lang_view_Users; ?> : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? $lang_view_HRAdmin : $lang_view_ESS; ?> <?php echo $lang_view_Users; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -200,31 +200,31 @@ function goBack() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="450"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-							    <td>Code</td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 								<td></td>
 								<td></td>
 								<td></td>
 						  </tr>
 						  <tr>
-							    <td nowrap="nowrap"><span class="error">*</span> User Name</td>
+							    <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_UserName; ?></td>
 							    <td><input type="text" name="txtUserName"></td>
 								<td></td>
 								<td nowrap="nowrap"></td>
 							  	<td></td>
 						  </tr>
 						  <tr>
-							  <td nowrap="nowrap"><span class="error">*</span> Password</td>
+							  <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_Password; ?></td>
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
-							  <td nowrap="nowrap"><span class="error">*</span> Confirm Password</td>
+							  <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_ConfirmPassword; ?></td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td>
 						  </tr>
 						  <tr valign="top">
-							  <td>Status</td>
+							  <td><?php echo $lang_Admin_Users_Status; ?></td>
 						   	  <td><select name="cmbUserStatus">
-						   			<option>Enabled</option>
-						   			<option>Disabled</option>
+						   			<option value="Enabled"><?php echo $lang_Admin_Users_Enabled; ?></option>
+						   			<option value="Disabled"><?php echo $lang_Admin_Users_Disabled; ?></option>
 						   		  </select></td>
 							  <td></td>
 							  <td><span id="lyrEmpID" class="error"><?php echo ($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee</td>
@@ -232,9 +232,9 @@ function goBack() {
 						   </tr>
 						   <?php if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>
-							   <td><span class="error">*</span> User Group</div></td>
+							   <td><span class="error">*</span> <?php echo $lang_Admin_Users_UserGroup; ?></div></td>
 							   <td><select name="cmbUserGroupID" id ="cmbUserGroupID">
-							  		<option value="0">--Select UserGroup--</option>
+							  		<option value="0">--<?php echo $lang_Admin_Users_SelectUserGroup; ?>--</option>
 <?php									$uglist=$this->popArr['uglist'] ;
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										echo "<option value='" . $uglist[$c][0] ."'>" .$uglist[$c][1]. "</option>";
@@ -264,7 +264,7 @@ function goBack() {
 
 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -379,19 +379,19 @@ function edit() {
 
 		var frm=document.frmUsers;
 		if (frm.txtUserName.value.length < 5 ) {
-			alert ("UserName should be atleast five characters long!");
+			alert ("<?php echo $lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong; ?>!");
 			frm.txtUserName.focus();
 			return false;
 		}
 
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
-			alert("Employee ID should be defined");
+			alert("<?php echo $lang_Admin_Users_Errors_EmployeeIdShouldBeDefined; ?>");
 			frm.cmbUserEmpID.focus();
 			return;
 		}
 
 		if(frm.chkUserIsAdmin && frm.cmbUserGroupID.value == '0') {
-			alert("Field should be selected!");
+			alert("<?php echo $lang_Admin_Users_Errors_FieldShouldBeSelected; ?>!");
 			frm.cmbUserGroupID.focus();
 			return;
 		}
@@ -399,13 +399,13 @@ function edit() {
 		<?php if ($_GET['isAdmin'] == 'No') { ?>
 		if (frm.txtUserPassword.value != '') {
 			if (frm.txtUserPassword.value.length < 4) {
-				alert("Password should be at least 4 characters long.");
+				alert("<?php echo $lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong; ?>.");
 				frm.txtUserPassword.focus();
 				return;
 			}
 
 			if(frm.txtUserPassword.value != frm.txtUserConfirmPassword.value) {
-				alert("Passwords Are Not Matching.Retype Your New Password");
+				alert("<?php echo $lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword; ?>");
 				frm.txtUserPassword.focus();
 				return;
 			}
@@ -434,7 +434,7 @@ function edit() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Users : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? 'HR Admin' : 'ESS'?> Users</h2></td>
+    <td width='100%'><h2><?php echo $lang_view_Users; ?> : <?php echo (isset($_GET['isAdmin']) && ($_GET['isAdmin'] == 'Yes')) ? $lang_view_HRAdmin : $lang_view_ESS; ?> <?php echo $lang_view_Users; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -474,24 +474,24 @@ function edit() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-							    <td>Code</td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden"  name="txtUserID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 								<td></td>
 								<td></td>
 								<td></td>
 						  </tr>
 						  <tr>
-							    <td valign="top" nowrap><span class="error">*</span> User Name</td>
+							    <td valign="top" nowrap><span class="error">*</span> <?php echo $lang_Admin_Users_UserName; ?></td>
 							    <td><input type="text" name="txtUserName" disabled value="<?php echo $message[0][1]?>"></td>
 								<td></td>
 								<td valign="top" nowrap></td>
 							  	<td></td>
 						  </tr>
 						  <tr valign="top">
-						  	  <td>Status</td>
+						  	  <td><?php echo $lang_Admin_Users_Status; ?></td>
 							  <td><select name="cmbUserStatus" disabled>
-							   			<option>Enabled</option>
-							   			<option <?php echo $message[0][8]=='Disabled' ? 'selected' : ''?>>Disabled</option>
+							   			<option value="Enabled"><?php echo $lang_Admin_Users_Enabled; ?></option>
+							   			<option <?php echo $message[0][8]=='Disabled' ? 'selected' : ''?> value="Disabled"><?php echo $lang_Admin_Users_Disabled; ?></option>
 							   	</select></td>
 							  <td></td>
 							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?php echo ($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
@@ -499,9 +499,9 @@ function edit() {
 						   </tr>
 						<?php if ($_GET['isAdmin'] == 'Yes') { ?>
 						   <tr>
-							   <td valign="top" nowrap><span class="error">*</span> User Group</td>
+							   <td valign="top" nowrap><span class="error">*</span> <?php echo $lang_Admin_Users_UserGroup; ?></td>
 							   <td><select name="cmbUserGroupID" disabled>
-							  		<option value="0">--Select UserGroup--</option>
+							  		<option value="0">--<?php echo $lang_Admin_Users_SelectUserGroup; ?>--</option>
 <?php									$uglist=$this->popArr['uglist'] ;
 									for($c=0;$uglist && count($uglist)>$c;$c++)
 										if($message[0][9]==$uglist[$c][0])
@@ -519,10 +519,10 @@ function edit() {
 						   <?php } else { ?>
 						   <input type="hidden" name="cmbUserGroupID" value="0" >
 						   <tr>
-							  <td nowrap="nowrap">New Password</td>
+							  <td nowrap="nowrap"><?php echo $lang_Admin_Users_NewPassword; ?></td>
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
-							  <td nowrap="nowrap">Confirm New Password</td>
+							  <td nowrap="nowrap"><?php echo $lang_Admin_Users_ConfirmNewPassword; ?></td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td>
 						  </tr>
 						   <?php } ?>
@@ -548,7 +548,7 @@ function edit() {
 
 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } ?>
