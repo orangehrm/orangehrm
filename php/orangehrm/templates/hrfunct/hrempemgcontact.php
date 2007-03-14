@@ -96,16 +96,13 @@ function editEContact() {
 				  <td>
 <?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
         <img border="0" title="Save" onClick="addEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				  </td>
 				</tr>
 				<tr>
 				<td>
 <?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 			</td>
 		</tr>
@@ -123,8 +120,6 @@ $rset = $this->popArr['empECAss'];
 
 <?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { //checking for the privilege?>
 <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} //view the delete btn?>
 
 			</td>
@@ -173,8 +168,6 @@ $rset = $this->popArr['empECAss'];
 				  <td>
 					<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")){ ?>
 					        <img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php 	} else { ?>
-					        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?php	} ?>
 				  </td>
 				</tr>
@@ -182,8 +175,6 @@ $rset = $this->popArr['empECAss'];
 				<td>
 <?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
         <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 				</td>
 				</tr>

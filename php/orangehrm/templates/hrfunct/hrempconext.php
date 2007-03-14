@@ -86,8 +86,6 @@ function viewConExt(pSeq) {
 		<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 					        <img border="0" title="Save" onClick="editConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-		<?php			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_save.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 		<?php			}  ?>
 		</td>
 	  </tr>
@@ -109,8 +107,6 @@ function viewConExt(pSeq) {
 		<td align="left" valign="top">
 			<?php	if($locRights['add']) { ?>
 			        <img border="0" title="Save" onClick="addConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-			<?php 	} else { ?>
-			        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 			<?php	} ?>
 		</td>
 	  </tr>
@@ -170,8 +166,6 @@ if ($rset != Null){ ?>
 					</tr>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
 <?php }

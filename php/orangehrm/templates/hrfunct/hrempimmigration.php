@@ -138,8 +138,6 @@ function editPassport() {
 				  <td>
 <?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				  </td>
 				</tr>
@@ -169,8 +167,6 @@ if ($rset != Null){?>
 
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
 <?php }
@@ -240,8 +236,6 @@ if ($rset != Null){?>
 				  <td>
 					<?php	if($locRights['edit']) { ?>
 					        <img border="0" title="Save" onClick="editPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php 	} else { ?>
-					        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?php	} ?>
 				  </td>
 				</tr>
@@ -249,8 +243,6 @@ if ($rset != Null){?>
 				<td>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 				</td>
 				</tr>

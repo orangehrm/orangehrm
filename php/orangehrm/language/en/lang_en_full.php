@@ -425,6 +425,8 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+	$lang_hremp_largefileignore				= "1M Max, any larger attachments will be ignored";
+	$lang_lang_uploadfailed					= "Upload Failed";
 
 	$lang_hremp_browse						= "Browse";
 

@@ -43,7 +43,7 @@ function editAttach() {
 
 <?php
 	if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
-		echo "alert('File Upload Failed');";
+		echo "alert('" .$lang_lang_uploadfailed."');";
 ?>
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
@@ -54,7 +54,7 @@ function editAttach() {
           <tr>
 				<td valign="top"><?php echo $lang_hremp_path?></td>
 				<td><input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-					<input type="file" name="ufile"> <br>[1M Max, any larger attachments will be ignored]</td>
+					<input type="file" name="ufile"> <br>[<?php echo $lang_hremp_largefileignore?>]</td>
               </tr>
               <tr>
               	<td><?php echo $lang_Commn_description?></td>
@@ -64,8 +64,6 @@ function editAttach() {
 				<td>
 <?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				</td>
 				</tr>
@@ -80,13 +78,9 @@ function editAttach() {
 				<td>
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?php	} ?>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 				</td>
 				<td>&nbsp;</td>
@@ -129,8 +123,6 @@ function editAttach() {
 				<td>
 <?php	if($locRights['edit']) { ?>
         <img border="0" title="Save" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				</td>
 				</tr>
@@ -142,13 +134,9 @@ function editAttach() {
 				<td>
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?php	} ?>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 				</td>
 				<td></td>

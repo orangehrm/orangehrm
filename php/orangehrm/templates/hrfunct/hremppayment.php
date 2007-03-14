@@ -184,8 +184,6 @@ function viewPayment(pay,curr) {
 						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
-		<?php			} else { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 		<?php			}  ?>
 						</td>
 					  </tr>
@@ -237,8 +235,6 @@ function viewPayment(pay,curr) {
 						<td align="left" valign="top">
 					<?php	if($locRights['add']) { ?>
 					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					<?php 	} else { ?>
-		   				        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?php	} ?>
 						</td>
 					  </tr>
@@ -279,8 +275,6 @@ if ($rset !=Null && $currlist != Null ){?>
 
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
 <?php } //

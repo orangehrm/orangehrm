@@ -421,6 +421,9 @@
 	$lang_hremp_size = "Размер";
 	$lang_hremp_type = "Тип";
 	$lang_hremp_name = "Название";
+	$lang_hremp_largefileignore	= "Максимум 1MB. Более крупные приложения не будут загруженны";
+	$lang_lang_uploadfailed	= "Загрузка файла не удалась";
+
 
 	$lang_hremp_browse = "Выбрать";
 

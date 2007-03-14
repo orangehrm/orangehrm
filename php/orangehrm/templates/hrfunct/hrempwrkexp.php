@@ -223,8 +223,6 @@ if(isset($this->popArr['editWrkExpArr'])) {
 						<td align="left" valign="top">
 		<?php		if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editWrkExp();">
-		<?php		} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 		<?php		} 	 ?>
 						</td>
 	    </tr>
@@ -265,8 +263,6 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td valign="top"></td>
             <td align="left" valign="top"><?php	if($locRights['add']) { ?>
                 <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
-                <?php 	} else { ?>
-                <img onclick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg" />
                 <?php	} ?>
             </td>
           </tr>
@@ -322,14 +318,10 @@ if ($rset != Null ) {?>
 				</tr>
 <?php	if($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="resetAdd(17);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-					<?php 	} else { ?>
-		<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg"
 <?php } ?>
 
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 <?php }
 

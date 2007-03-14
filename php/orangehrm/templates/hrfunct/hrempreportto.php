@@ -199,8 +199,6 @@ function viewSup(sup,rep) {
 						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
-			<?php			} else { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 			<?php			}  ?>
 						</td>
 					  </tr>
@@ -242,8 +240,6 @@ function viewSup(sup,rep) {
 						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
 				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
-		<?php			} else { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
 		<?php			}  ?>
 						</td>
 					  </tr>
@@ -284,8 +280,6 @@ function viewSup(sup,rep) {
 						<td align="left" valign="top">
 <?php	if($locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 						</td>
 					  </tr>
@@ -334,8 +328,6 @@ if ($rset != Null&& $empname != Null){ ?>
 					</tr>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
 
@@ -404,8 +396,6 @@ if ($rset != Null && $empname != Null){ ?>
 					</tr>
 <?php	if($locRights['delete']) { ?>
         <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
 <?php }// finished checking
