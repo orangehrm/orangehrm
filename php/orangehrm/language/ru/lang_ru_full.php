@@ -69,7 +69,7 @@
 	$lang_Error_ZipEmpty = "Введите почтовый индекс";
 	$lang_Error_CompStruct_ZipInvalid = "Символы #characterList в почтовом индексе";
 
-	$lang_Error_InvalidEmail = "Invalid E-mail address";
+	$lang_Error_InvalidEmail  = "Недействительный адрес эл. почты";
 
 	//PIM
 	$lang_Error_LastNameNumbers				= "Фамилия содержит цифровую информацию. Продолжить?";
@@ -135,9 +135,9 @@
 	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
 	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";
 
-	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
-	$lang_Menu_Admin_EmailConfiguration = "Configuration";
-	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
+	$lang_Menu_Admin_EmailNotifications  = "Извещения по эл. почте";
+	$lang_Menu_Admin_EmailConfiguration  = "Конфигурация";
+	$lang_Menu_Admin_EmailSubscribe  = "Подписаться";
 
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
