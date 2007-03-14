@@ -992,7 +992,7 @@ function resetAdd(panel) {
     </div>
     <div id="dependents" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '3') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
     <table border="0" align="center">
-     <tr><td>
+     <tr><td valign="top">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
@@ -1014,7 +1014,7 @@ function resetAdd(panel) {
         </tr>
       </table>
       </td>
-     <td>
+     <td valign="top">
 	  <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>

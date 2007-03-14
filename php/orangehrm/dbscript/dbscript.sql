@@ -1,4 +1,4 @@
-create table `hs_hr_geninfo` (
+﻿create table `hs_hr_geninfo` (
 	`code` varchar(8) not null default '',
 	`geninfo_keys` varchar(200) default null,
 	`geninfo_values` varchar(200) default null,
@@ -1320,7 +1320,7 @@ INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
 INSERT INTO `hs_hr_db_version` VALUES ('DVR001','mysql4.1','initial DB','2005-10-10 00:00:00','2005-12-20 00:00:00',null,null);
 INSERT INTO `hs_hr_file_version` VALUES ('FVR001',NULL,'Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,'file_ver_01');
 INSERT INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:00:00','2006-03-15 00:00:00',null,null,0,'DVR001','FVR001','version 1.0');
-INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),('MOD003','Maintenance','Koshika','koshika@beyondm.net','VER001','Application Maintenance'),('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting');
+INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.net','VER001','HR Admin'),('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES ('USG001', 'MOD001', '1', '1', '1', '1'), ('USG001', 'MOD002', '1', '1', '1', '1'),('USG001', 'MOD003', '1', '1', '1', '1'), ('USG001', 'MOD004', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);

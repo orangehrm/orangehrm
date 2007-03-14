@@ -1,7 +1,10 @@
 New & Changed Features for OrangeHRM ver 2.1 (Neva) (14/03/2007)
 
 	Bugs fixed include:
-	1657475   Uploaded image is distorted when displaying
+
+	1657475  Uploaded image is distorted when displaying
+	1586350  Usability - Dependents the boxes should be better aligned
+	1654845  Maintanance module in the list
 
 New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
 
