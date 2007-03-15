@@ -35,14 +35,14 @@ function addEXT()
 {
 
 if(document.frmURights.cmbModuleID.value=='0') {
-	alert("Field should be selected");
+	alert("<?php echo $lang_Admin_Users_Errors_FieldShouldBeSelected; ?>");
 	document.frmURights.cmbModuleID.focus();
 	return;
 }
 
 	var frm=document.frmURights;
 	if((!frm.chkView.checked) && (frm.chkAdd.checked || frm.chkEdit.checked || frm.chkDelete.checked)) {
-		alert("View should be selected");
+		alert("<?php echo $lang_Admin_Users_Errors_ViewShouldBeSelected; ?>");
 		return
 	}
 
@@ -56,7 +56,7 @@ function editEXT()
 
 	var frm=document.frmURights;
 	if((!frm.chkView.checked) && (frm.chkAdd.checked || frm.chkEdit.checked || frm.chkDelete.checked)) {
-		alert("View should be selected");
+		alert("<?php echo $lang_Admin_Users_Errors_ViewShouldBeSelected; ?>");
 		return
 	}
 
@@ -71,7 +71,7 @@ function editEXT()
 
 function delEXT() {
 
-	if(confirm("Do you want to clear Rights!"))
+	if(confirm("<?php echo $lang_Admin_Users_Errors_DoYouWantToClearRights; ?>!"))
 
     //alert(cntrl.value);
     document.frmURights.STAT.value="DEL";
@@ -117,7 +117,7 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2>Rights Assigned to User Groups</h2></td>
+    <td width='100%'><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
 </table>
@@ -147,11 +147,11 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                      <td width="200">User Group ID</td>
+                      <td width="200"><?php echo $lang_Admin_Users_UserGroupId; ?></td>
     				  <td><strong><?php echo $ugDet[0][0]?></strong><input type="hidden" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"></td>
 					</tr>
 					  <tr>
-						<td valign="top">User Group</td>
+						<td valign="top"><?php echo $lang_Admin_Users_UserGroup; ?></td>
 						<td align="left" valign="top"><strong><?php echo $ugDet[0][1]?></strong></td>
 					  </tr>
                   </table></td>
@@ -181,7 +181,7 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
     	              <tr>
-    	              	<td height="35"><strong>Your login account belongs to the same User Group, you are not allowed change rights to this group</strong></td>
+    	              	<td height="35"><strong><?php echo $lang_Admin_Users_Errors_SameGroup; ?></strong></td>
 					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -212,7 +212,7 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
-						<td valign="top">Modules</td>
+						<td valign="top"><?php echo $lang_Admin_Users_Modules; ?></td>
 						<td align="left" valign="top"><input type="hidden" name="cmbModuleID" value="<?php echo $edit[0][1]?>"><strong>
 <?php
 						$modlist = $this->popArr['modlist'];
@@ -223,18 +223,18 @@ $ugDet = $this ->popArr['ugDet'];
 						</strong></td>
 					  </tr>
 					  <tr>
-						<td valign="top">Add</td>
+						<td valign="top"><?php echo $lang_Admin_Users_add; ?></td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][2]==1 ? 'checked' : ''?> name="chkAdd" value="1">
 						</td>
-						<td valign="top">Edit</td>
+						<td valign="top"><?php echo $lang_Admin_Users_edit; ?></td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][3]==1 ? 'checked' : ''?> name="chkEdit" value="1">
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top">Delete</td>
+						<td valign="top"><?php echo $lang_Admin_Users_delete; ?></td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][4]==1 ? 'checked' : ''?> name="chkDelete" value="1">
 						</td>
-						<td valign="top">View</td>
+						<td valign="top"><?php echo $lang_Admin_Users_view; ?></td>
 						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][5]==1 ? 'checked' : ''?> name="chkView" value="1">
 						</td>
 					  </tr>
@@ -276,7 +276,7 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
-						<td valign="top">Module</td>
+						<td valign="top"><?php echo $lang_Admin_Users_Modules; ?></td>
 						<td align="left" valign="top">
 						<select name="cmbModuleID" <?php echo $locRights['add'] ? '':'disabled'?>>
 									<option value="0">--Select Module--</option>
@@ -289,18 +289,18 @@ $ugDet = $this ->popArr['ugDet'];
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top">Add</td>
+						<td valign="top"><?php echo $lang_Admin_Users_add; ?></td>
 						<td align="left" valign="top"><input type="checkbox" name="chkAdd" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
-						<td valign="top">Edit</td>
+						<td valign="top"><?php echo $lang_Admin_Users_edit; ?></td>
 						<td align="left" valign="top"><input type="checkbox" name="chkEdit" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
 					  </tr>
 					  <tr>
-						<td valign="top">Delete</td>
+						<td valign="top"><?php echo $lang_Admin_Users_delete; ?></td>
 						<td align="left" valign="top"><input type="checkbox" name="chkDelete" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
-						<td valign="top">View</td>
+						<td valign="top"><?php echo $lang_Admin_Users_view; ?></td>
 						<td align="left" valign="top"><input type="checkbox" name="chkView" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
 						</td>
 					  </tr>
@@ -334,7 +334,7 @@ $ugDet = $this ->popArr['ugDet'];
 
   <tr>
 
-    <td width='100%'><h3>Assigned Rights</h3></td>
+    <td width='100%'><h3><?php echo $lang_Admin_Users_AssignedRights; ?></h3></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr>
@@ -360,11 +360,11 @@ $ugDet = $this ->popArr['ugDet'];
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-						 <td><strong>Module</strong></td>
-						 <td><strong>Add</strong></td>
-						 <td><strong>Edit</strong></td>
-						 <td><strong>Delete</strong></td>
-						 <td><strong>View</strong></td>
+						 <td><strong><?php echo $lang_Admin_Users_Module; ?></strong></td>
+						 <td><strong><?php echo $lang_Admin_Users_add; ?></strong></td>
+						 <td><strong><?php echo $lang_Admin_Users_edit; ?></strong></td>
+						 <td><strong><?php echo $lang_Admin_Users_delete; ?></strong></td>
+						 <td><strong><?php echo $lang_Admin_Users_view; ?></strong></td>
 					</tr>
 <?php
 $rset = $this->popArr['modlistAss'];

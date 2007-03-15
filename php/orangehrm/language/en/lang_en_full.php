@@ -797,7 +797,18 @@
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
+	$lang_Admin_Users_Errors_ViewShouldBeSelected = "View should be selected";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
+
+	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Do you want to clear Rights";
+	$lang_Admin_Users_Errors_SameGroup = "Your login account belongs to the same User Group, you are not allowed change rights to this group";
+	$lang_Admin_Users_Errors_NameCannotBeBlank = "Name cannot be blank";
+
+	$lang_Admin_Users_Modules = "Modules";
+	$lang_Admin_Users_Module = "Module";
+	$lang_Admin_Users_RightsAssignedToUserGroups = "Rights Assigned to User Groups";
+	$lang_Admin_Users_UserGroup = "User Group";
+	$lang_Admin_Users_UserGroupId = "User Group ID";
 
 	$lang_Admin_Users_UserName = "User Name";
 	$lang_Admin_Users_Password = "Password";
@@ -813,5 +824,13 @@
 
 	$lang_Admin_Users_NewPassword = "New Password";
 	$lang_Admin_Users_ConfirmNewPassword = "Confirm New Password";
+
+	$lang_Admin_Users_add = "Add";
+	$lang_Admin_Users_delete = "Delete";
+	$lang_Admin_Users_view = "View";
+	$lang_Admin_Users_edit = "Edit";
+
+	$lang_Admin_Users_AssignedRights = "Assigned Rights";
+	$lang_Admin_Users_DefineReports = "Define Reports";
 
 ?>

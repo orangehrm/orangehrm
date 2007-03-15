@@ -41,7 +41,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function addSave() {
 
 		if (document.frmUserGroup.txtUserGroupName.value == '') {
-			alert ("Name Cannot be a Blank Value!");
+			alert ("<?php echo $lang_Admin_Users_Errors_NameCannotBeBlank; ?>!");
 			return false;
 		}
 
@@ -90,15 +90,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-       							<td>Code</td>
+       							<td><?php $lang_Commn_code; ?></td>
 							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
 							  </tr>
 						  <tr>
-						    <td valign="top" nowrap><span class="error">*</span>Name</td>
+						    <td valign="top" nowrap><span class="error">*</span><?php $lang_Commn_name; ?></td>
 						    <td> <input type="text" name='txtUserGroupName' tabindex='3'></td>
 						  </tr>
 						  <tr>
-						    <td>Define Reports</td>
+						    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
 						    <td> <input type="checkbox" name='chkRepDef' value="1"></td>
 						  </tr>
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
@@ -119,7 +119,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 
 </form>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
 <?php } else if ((isset($this ->getArr['capturemode'])) && ($this ->getArr['capturemode'] == 'updatemode')) {
@@ -172,7 +172,7 @@ function edit()
 	function addUpdate() {
 
 		if (document.frmUserGroup.txtUserGroupName.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+			alert ("<?php echo $lang_Admin_Users_Errors_NameCannotBeBlank; ?>!");
 			return false;
 		}
 
@@ -195,7 +195,7 @@ function edit()
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'></td>
-    <td width='100%'><h2>User Groups</h2></td>
+    <td width='100%'><h2><?php echo $lang_Admin_Users_UserGroup; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -205,7 +205,7 @@ function edit()
 <form name="frmUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['uniqcode']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 
   <tr>
-    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+    <td height="27" valign='top'><p><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
@@ -215,7 +215,7 @@ function edit()
 
       		if ($message == 1) {
 
-      			$message = "Successfully Added ! ";
+      			$message = "$lang_empview_ADD_SUCCESS!";
       			echo $message;
       		}
       	}
@@ -234,15 +234,15 @@ function edit()
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 							  <tr>
-    <td>Code</td>
+    <td><?php echo $lang_Commn_code; ?></td>
      <td> <input type="hidden" name="txtUserGroupID" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
   </tr>
 							  <tr>
-							    <td valign="top" nowrap><span class="error">*</span> <strong>Name</td>
+							    <td valign="top" nowrap><span class="error">*</span> <strong><?php echo $lang_Commn_name; ?></td>
 							  	  <td> <input type="text" name='txtUserGroupName' tabindex='3' disabled value="<?php echo $message[0][1]?>"></td>
 							  </tr>
 						  <tr>
-						    <td>Define Reports</td>
+						    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
 						    <td> <input type="checkbox" disabled <?php echo $message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
 						  </tr>
 					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR">Assign User Rights</a></td>
@@ -271,6 +271,6 @@ function edit()
 
 </form>
 </body>
-<span id="notice">Fields marked with an asterisk <span class="error">*</span> are required.</span>
+<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </html>
 <?php } ?>
