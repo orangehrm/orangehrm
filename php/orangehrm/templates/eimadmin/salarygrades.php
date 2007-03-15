@@ -1,15 +1,15 @@
 <?php
 /*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
+OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+all the essential functionalities required for any enterprise.
 Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
 
 OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 the GNU General Public License as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.
 
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program;
@@ -19,36 +19,37 @@ Boston, MA  02110-1301, USA
 
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
+require_once($lan->getLangPath("full.php"));
 
-	$sysConst = new sysConf(); 
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
-		
+	$common_func = new CommonFunctions();
+
 function showAddCurrencyForm() {
-	    
+
     $objResponse = new xajaxResponse();
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.disabled = false;");
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.focus();");
 
 	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='addFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 	return $objResponse->getXML();
 }
 
 function showEditCurrencyForm($currCode) {
-	
+
 	$view_controller = new ViewController();
 	$editArr = $view_controller->xajaxObjCall($currCode,'SCD','currencyEdit');
-	
+
 	$objResponse = new xajaxResponse();
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.disabled = false;");
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeID.value = '" .$editArr[0][0]."';");
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.value = '" .$editArr[0][1]."';");
-	
+
 	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='editFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 	return $objResponse->getXML();
 }
 
@@ -56,13 +57,13 @@ function addExt($arrElements) {
 
 	$view_controller = new ViewController();
 	$ext_currtype = new EXTRACTOR_CurrencyTypes();
-	
+
 	$objCurrType = $ext_currtype->parseAddData($arrElements);
 	$view_controller -> addData('CUR',$objCurrType,true);
-	
+
 	$view_controller = new ViewController();
 	$currlist = $view_controller->xajaxObjCall($arrElements['txtSalGrdID'],'SCD','unAssCurrency');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$currlist,0,'frmSalCurDet','cmbUnAssCurrency');
@@ -70,7 +71,7 @@ function addExt($arrElements) {
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.disabled = true;");
 	$objResponse->addAssign('buttonLayer','innerHTML','');
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 return $objResponse->getXML();
 }
 
@@ -78,13 +79,13 @@ function editExt($arrElements) {
 
 	$view_controller = new ViewController();
 	$ext_currtype = new EXTRACTOR_CurrencyTypes();
-	
+
 	$objCurrType = $ext_currtype -> parseEditData($arrElements);
 	$view_controller->updateData('CUR',$arrElements['txtCurrencyTypeID'],$objCurrType,true);
-	
+
 	$view_controller = new ViewController();
 	$currlist = $view_controller->xajaxObjCall($arrElements['txtSalGrdID'],'SCD','unAssCurrency');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$currlist,0,'frmSalCurDet','cmbUnAssCurrency');
@@ -93,25 +94,25 @@ function editExt($arrElements) {
 	$objResponse->addScript("document.frmSalCurDet.txtCurrencyTypeDesc.disabled = true;");
 	$objResponse->addAssign('buttonLayer','innerHTML','');
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 return $objResponse->getXML();
 }
 
 function delExt($salgrd,$currCode) {
-	
+
 	$arrList[0][0] = $currCode;
-	
+
 	$view_controller = new ViewController();
-	$view_controller ->delParser('CUR',$arrList);	
+	$view_controller ->delParser('CUR',$arrList);
 
 	$view_controller = new ViewController();
 	$currlist = $view_controller->xajaxObjCall($salgrd,'SCD','unAssCurrency');
-	
+
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$currlist,0,'frmSalCurDet','cmbUnAssCurrency');
 	$objResponse->addAssign('status','innerHTML','');
-	
+
 return $objResponse->getXML();
 }
 
@@ -124,70 +125,70 @@ $objAjax->registerFunction('delExt');
 $objAjax->processRequests();
 
 	$_SERVER['HTTP_REFERER'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['REQUEST_URI'];
-	
+
 	$idens = split('uniqcode=', isset($_POST['referer']) ? $_POST['referer'] : $_SERVER['HTTP_REFERER']);
-	
-	$idens = split('&', $idens[1]);	
-	
+
+	$idens = split('&', $idens[1]);
+
 	if ($idens[0] == 'JOB') {
 		$backtype=1;
 	} else {
 		$backtype=0;
 	};
-				
-if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { 
 
-	
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+
+
 	if ($backtype == 1) {
-	
+
 		$refcapturemode = split('capturemode=', isset($postArr['referer']) ? $postArr['referer'] : $_SERVER['HTTP_REFERER']);
 		$refcapturemode = split('&', $refcapturemode[1]);
-		
+
 		if ($refcapturemode[0] == 'updatemode') {
-		
+
 			$refcapturemode = $refcapturemode[0];
-			
+
 			$refid = split('id=', isset($postArr['referer']) ? $postArr['referer'] : $_SERVER['HTTP_REFERER']);
-						
-			$refid = split('&', $refid[1]);			
-			
-			$refid = $refid[0];						
+
+			$refid = split('&', $refid[1]);
+
+			$refid = $refid[0];
 		} else {
-		
+
 			$refcapturemode = 'addmode';
 			$refid = '';
-			
+
 		}
 	}
-		
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>			
-	function goBack() {	
-		
+<script>
+	function goBack() {
+
 	<?php	if ($backtype == 1) { ?>
 		history.back();
-	<?php } else { ?>			
+	<?php } else { ?>
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	<?php } ?>
-	
+
 	}
 
 	function addSave() {
-		
+
 		if (document.frmSalGrd.txtSalGrdDesc.value == '') {
 			alert ("Description Cannot be a Blank Value!");
 			return false;
 		}
-		
+
 		document.frmSalGrd.sqlState.value = "NewRecord";
 		document.frmSalGrd.submit();
 	}
-	
+
 	function clearAll() {
 		document.frmSalGrd.txtSalGrdDesc.value = '';
 	}
@@ -204,11 +205,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
 		<input type="hidden" name="refcapturemode" value="<?php echo isset($refcapturemode)? $refcapturemode : ''?>">
@@ -216,16 +217,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		<input type="hidden" name="backtype" value="<?php echo isset($backtype) ? $backtype : 0?>">
 		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']?>">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -241,11 +242,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 						    <td><?php echo $lang_Commn_code; ?></td>
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
-						  <tr> 
+						  <tr>
 						    <td nowrap><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 						    <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' cols="30"></textarea>
 						    </td>
@@ -270,16 +271,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 </html>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	 $backtype = isset($_GET['backtype']) ? $_GET['backtype'] : $backtype;
-	
+
 	 if (isset($_GET['backtype']) && ($_GET['backtype'] == 1)) {
 	 	if (isset($_GET['refcapturemode']) && ($_GET['refcapturemode'] == 'addmode')) {
-		
+
 			$referer = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?uniqcode=JOB&capturemode=".$_GET['refcapturemode'];
-			
+
 		} else if (isset($_GET['refcapturemode']) && ($_GET['refcapturemode'] == 'updatemode')) {
-		
+
 			$referer = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?id=".$_GET['refid']."&uniqcode=JOB&capturemode=".$_GET['refcapturemode'];
-			
+
 		} else {
 	 		$referer = isset($_POST['referer']) ? $_POST['referer'] : $_SERVER['HTTP_REFERER'];
 	 	}
@@ -299,10 +300,10 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function numeric(txt) {
 		var flag=true;
 		var i,code;
-		
+
 		if(txt.value=="")
 		   return false;
-		
+
 		for(i=0;txt.value.length>i;i++)
 			{
 			code=txt.value.charCodeAt(i);
@@ -316,42 +317,42 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			}
 		return flag;
 	}
-	
+
 	function decimal(txt) {
 		regExp = /^[0-9]+(\.[0-9]+)*$/;
-		
+
 		return regExp.test(txt.value);
 	}
-	
-	function goBack() {			
+
+	function goBack() {
 	<?php	if ($backtype == 1) { ?>
 		location.href = "<?php echo $referer?>";
-	<?php } else { ?>			
+	<?php } else { ?>
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	<?php } ?>
-	
+
 	}
-	
+
 	function mout() {
-		if(document.Edit.title=='Save') 
-			document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+		if(document.Edit.title=='Save')
+			document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 		else
-			document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+			document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 	}
-	
+
 	function mover() {
-		if(document.Edit.title=='Save') 
-			document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+		if(document.Edit.title=='Save')
+			document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 		else
-			document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+			document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 	}
-		
+
 	function edit() {
 		if(document.Edit.title=='Save') {
 			addUpdate();
 			return;
 		}
-		
+
 		var frm=document.frmSalGrd;
 
 		for (var i=0; i < frm.elements.length; i++)
@@ -361,49 +362,49 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	}
 
 	function addUpdate() {
-		
+
 		if (document.frmSalGrd.txtSalGrdDesc.value == '') {
 			alert ("Description Cannot be a Blank Value!");
 			return false;
 		}
-		
+
 		document.frmSalGrd.sqlState.value = "UpdateRecord";
 		document.frmSalGrd.submit();
 	}
-	
+
 	function addEXT() {
-		
+
 		if(document.frmSalCurDet.cmbUnAssCurrency.value=='0') {
 			alert("Currency field should be selected");
 			document.frmSalCurDet.cmbUnAssCurrency.focus();
 			return;
 		}
-		
+
 		var cnt=document.frmSalCurDet.txtMinSal;
-		
+
 		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
-		} else 
+		} else
 			var min=eval(cnt.value);
-		
+
 		var cnt=document.frmSalCurDet.txtMaxSal;
-		
+
 		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
 		} else
 			var max=eval(cnt.value);
-		
+
 		if(min>max) {
 			alert("Minmum Salary > Maximum Salary !");
 			return;
 		}
-		
+
 		var cnt=document.frmSalCurDet.txtStepSal;
-		
+
 		if(!decimal(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
@@ -415,44 +416,44 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	}
 
 	function editEXT() {
-		
+
 		var cnt=document.frmSalCurDet.txtMinSal;
-		
+
 		if(!numeric(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
 		}
 		var min=eval(cnt.value);
-		
+
 		var cnt=document.frmSalCurDet.txtMaxSal;
-		
+
 		if(!numeric(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
 		}
 		var max=eval(cnt.value);
-		
+
 		if(min>max) {
 			alert("Minmum Salary < Maximum Salary !");
 			return;
 		}
-		
+
 		var cnt=document.frmSalCurDet.txtStepSal;
-		
+
 		if(!numeric(cnt)) {
 			alert("Field should be Numeric");
 			cnt.focus();
 			return;
 		}
-		
+
 		  document.frmSalCurDet.STAT.value="EDIT";
 		  document.frmSalCurDet.submit();
 	}
 
 	function delEXT() {
-		
+
 	      var check = 0;
 			with (document.frmSalCurDet) {
 				for (var i=0; i < elements.length; i++) {
@@ -461,38 +462,38 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					}
 				}
 	        }
-	
+
 	        if(check==0) {
 	          alert("Select atleast one check box");
 	          return;
 	        }
-	
+
 		document.frmSalCurDet.STAT.value="DEL";
 	    document.frmSalCurDet.submit();
 	}
 
 	function moutAss() {
-		
-		if(document.EditAss.title=='Save') 
-			document.EditAss.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+
+		if(document.EditAss.title=='Save')
+			document.EditAss.src='../../themes/beyondT/pictures/btn_save.jpg';
 		else
-			document.EditAss.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+			document.EditAss.src='../../themes/beyondT/pictures/btn_edit.jpg';
 	}
-	
+
 	function moverAss() {
-		if(document.EditAss.title=='Save') 
-			document.EditAss.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+		if(document.EditAss.title=='Save')
+			document.EditAss.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 		else
-			document.EditAss.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+			document.EditAss.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 	}
-		
+
 	function editAss() {
-		
+
 		if(document.EditAss.title=='Save') {
 			editEXT();
 			return;
 		}
-		
+
 		var frm=document.frmSalCurDet;
 
 		for (var i=0; i < frm.elements.length; i++)
@@ -500,61 +501,61 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		document.EditAss.src="../../themes/beyondT/pictures/btn_save.jpg";
 		document.EditAss.title="Save";
 	}
-	
+
 	function editCurrency(currID) {
-		
+
 		location.href = document.frmSalCurDet.action + "&editID=" + currID;
 	}
-	
+
 	function clearAll() {
-		if(document.Edit.title!='Save') 
+		if(document.Edit.title!='Save')
 			return;
-			
+
 		document.frmSalGrd.txtSalGrdDesc.value = '';
 	}
 
 function addFormData() {
-	
+
 	if(document.frmSalCurDet.txtCurrencyTypeDesc.value == '') {
 		alert("Empty Field!");
 		document.frmSalCurDet.txtCurrencyTypeDesc.focus();
 		return;
 	}
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
+	document.getElementById('status').innerHTML = 'Please Wait....';
 	xajax_addExt(xajax.getFormValues('frmSalCurDet'));
 }
-	
+
 function showEditForm() {
-	
+
 	if(document.frmSalCurDet.cmbUnAssCurrency.value == '0') {
 		alert("No Selection!");
 		return;
 	} else {
-		document.getElementById('status').innerHTML = 'Please Wait....'; 
+		document.getElementById('status').innerHTML = 'Please Wait....';
 		xajax_showEditCurrencyForm(document.frmSalCurDet.cmbUnAssCurrency.value);
 	}
 }
 
 function editFormData() {
-	
+
 	if(document.frmSalCurDet.txtCurrencyTypeDesc.value == '') {
 		alert("Empty Field!");
 		document.frmSalCurDet.txtCurrencyTypeDesc.focus();
 		return;
 	}
 
-	document.getElementById('status').innerHTML = 'Please Wait....'; 
+	document.getElementById('status').innerHTML = 'Please Wait....';
 	xajax_editExt(xajax.getFormValues('frmSalCurDet'));
 }
 
 function delCurrency() {
-	
+
 	if(document.frmSalCurDet.cmbUnAssCurrency.value == '0') {
 		alert("No Selection!");
 		return;
 	} else {
-		document.getElementById('status').innerHTML = 'Please Wait....'; 
+		document.getElementById('status').innerHTML = 'Please Wait....';
 		xajax_delExt(document.frmSalCurDet.txtSalGrdID.value, document.frmSalCurDet.cmbUnAssCurrency.value);
 	}
 }
@@ -571,26 +572,26 @@ function delCurrency() {
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmSalGrd" id="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
-	
-  <tr> 
+
+  <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
 		<input type="hidden" name="backtype" value="<?php echo $backtype?>">
 		<input type="hidden" name="referer" value="<?php echo $referer?>">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
 			$expString = explode ("%",$expString);
 			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {		
-				echo " " . $expString[$x];		
+			for ($x=0; $x < $length; $x++) {
+				echo " " . $expString[$x];
 			}
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -607,12 +608,12 @@ function delCurrency() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			<tr><td>
 							<table border="0">
-                  			<tr> 
+                  			<tr>
 							    <td width="100"><?php echo $lang_Commn_code; ?></td>
 							    <td> <input type="hidden" name="txtSalGrdID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 							    <td>&nbsp;</td>
 							  </tr>
-							  <tr> 
+							  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 							  	  <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' disabled cols="30"><?php echo $message[0][1]?></textarea>
 							    </td>
@@ -627,11 +628,11 @@ function delCurrency() {
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 						</td>
 						</form>
-						</tr>				  
+						</tr>
 					  </table>
 					  </td>
 					  </tr>
-					  
+
 				<form name="frmSalCurDet" id="frmSalCurDet" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 					  			<input type="hidden" name="STAT">
 								<input type="hidden" name="referer" value="<?php echo $referer?>">
@@ -648,13 +649,13 @@ function delCurrency() {
 									<td><select <?php echo ($locRights['add']) ? '' : 'disabled'?> name="cmbUnAssCurrency">
 											<option value="0">---<?php echo "$lang_Leave_Common_Select $lang_hrEmpMain_currency"; ?>---</option>
 			               			<?php $unAssCurrency = $this->popArr['unAssCurrency'];
-			               				for($c=0;$unAssCurrency && count($unAssCurrency)>$c;$c++) 
+			               				for($c=0;$unAssCurrency && count($unAssCurrency)>$c;$c++)
 				               				echo "<option value='" .$unAssCurrency[$c][0]. "'>" .$unAssCurrency[$c][1]. "</option>";
 									?>
 									</select>
  									</td>
 							</tr>
-							
+
 							<tr>
 								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMinSal"></td>
@@ -675,9 +676,9 @@ function delCurrency() {
 						<td align="left" valign="top"><img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php					}
 
-			} elseif(isset($this->getArr['editID'])) { 
-				
-				$editAssCurrency = $this->popArr['editAssCurrency'];				
+			} elseif(isset($this->getArr['editID'])) {
+
+				$editAssCurrency = $this->popArr['editAssCurrency'];
 				?>
 					  <tr>
 					  	<td height="40" valign="bottom"><h3><?php echo $lang_salarygrades_currAss; ?></h3></td>
@@ -689,7 +690,7 @@ function delCurrency() {
 									<td><span class="error">*</span> <?php echo $lang_hrEmpMain_currency; ?></td> <input type="hidden" name="cmbUnAssCurrency" value="<?php echo $editAssCurrency[0][1]?>">
 									<td><strong>
 			               			<?php $assCurrency = $this->popArr['assCurrency'];
-			               				for($c=0;$assCurrency && count($assCurrency)>$c;$c++) 
+			               				for($c=0;$assCurrency && count($assCurrency)>$c;$c++)
 			               					if($assCurrency[$c][0] == $editAssCurrency[0][1])
 				               					echo $assCurrency[$c][1];
 									?>
@@ -697,15 +698,15 @@ function delCurrency() {
 							</tr>
 							<tr>
 								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
-								<td><input type="text" disabled name="txtMinSal" value="<?php echo $editAssCurrency[0][2]?>"></td>
+								<td><input type="text" disabled name="txtMinSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][2]);?>"></td>
 							</tr>
 							<tr>
 								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
-								<td><input type="text" disabled name="txtMaxSal" value="<?php echo $editAssCurrency[0][3]?>"></td>
+								<td><input type="text" disabled name="txtMaxSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][3]);?>"></td>
 							</tr>
 							<tr>
 								<td><span class="error">*</span> <?php echo $lang_salarygrades_stepSal; ?></td>
-								<td><input type="text" disabled name="txtStepSal" value="<?php echo $editAssCurrency[0][4]?>"></td>
+								<td><input type="text" disabled name="txtStepSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][4]);?>"></td>
 							</tr>
 			<tr>
 		  <td></td><td align="right">
@@ -713,27 +714,27 @@ function delCurrency() {
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="moutAss();" onMouseOver="moverAss();" name="EditAss" onClick="editAss();">
 <?php			} else { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
-<?php			}  
+<?php			}
 
 		}?>
 					</td>
-					  </tr>	
-					  	
+					  </tr>
+
 					  </table>
 					  </td>
-					  </tr>	
+					  </tr>
 					<?php
-					  $assCurrency = $this->popArr['assCurrency'];	  
-					  
+					  $assCurrency = $this->popArr['assCurrency'];
+
 					  if ($assCurrency) {
 					   ?>
 					  <tr>
-					  	<td>					  
+					  	<td>
 <?php					if($locRights['delete']) { ?>
 						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php					} else { ?>
 						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php					}		?>						
+<?php					}		?>
 					  </td>
 					  </tr>
 					  <tr>
@@ -746,16 +747,16 @@ function delCurrency() {
 									 <td><strong><?php echo $lang_hrEmpMain_maxpoint; ?></strong></td>
 									 <td><strong><?php echo $lang_salarygrades_stepSal; ?></strong></td>
 								</tr>
-			               		<?php 
+			               		<?php
 			               			for($c=0;$assCurrency && count($assCurrency)>$c;$c++) {
 			               				echo '<tr>';
 			               				echo "<td><input type='checkbox' name='chkdel[]' value='".$assCurrency[$c][0]."'></td>";
 				            			echo "<td><a href=javascript:editCurrency('".$assCurrency[$c][0]."')>" .$assCurrency[$c][1] . "</a></td>";
-				            			echo "<td>" .$assCurrency[$c][2]. "</td>";
-				            			echo "<td>" .$assCurrency[$c][3]. "</td>";
-				            			echo "<td>" .$assCurrency[$c][4]. "</td>";
+				            			echo "<td>" .$common_func->formatSciNO($assCurrency[$c][2]). "</td>";
+				            			echo "<td>" .$common_func->formatSciNO($assCurrency[$c][3]). "</td>";
+				            			echo "<td>" .$common_func->formatSciNO($assCurrency[$c][4]). "</td>";
 			               				echo '</tr>';
-			               			} 					  
+			               			}
 								?>
 							</table>
 								</td>
@@ -765,7 +766,7 @@ function delCurrency() {
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
-                
+
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
                   <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

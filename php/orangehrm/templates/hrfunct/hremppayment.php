@@ -1,3 +1,7 @@
+<?php
+	$common_func = new CommonFunctions();
+?>
+
 <script language="JavaScript">
 function decimalCurr(txt) {
 	regExp = /^[0-9]+(\.[0-9]+)*$/;
@@ -157,7 +161,7 @@ function viewPayment(pay,curr) {
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
 						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'>";
-						    	echo $currlist[$c][3] ;
+						    	echo $common_func->formatSciNo($currlist[$c][3]);
 						    }
 ?>
 						</strong></td>
@@ -169,14 +173,14 @@ function viewPayment(pay,curr) {
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
 						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'>";
-						    	echo $currlist[$c][5];
+						    	echo $common_func->formatSciNo($currlist[$c][5]);
 						    }
 ?>
 						</strong></td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?php echo $edit[0][3]?>">
+						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" value="<?php echo $common_func->formatSciNo($edit[0][3]);?>">
 						</td>
 					  </tr>
 					  <tr>
@@ -287,7 +291,7 @@ if ($rset !=Null && $currlist != Null ){?>
 			    if($currlist[$a][0]==$rset[$c][2])
 				   $fname=$currlist[$a][1];
             ?><td><a href="javascript:viewPayment('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
-            echo '<td>' . $rset[$c][3] .'</td>';
+            echo '<td>' . $common_func->formatSciNo($rset[$c][3]) .'</td>';
         echo '</tr>';
         }
 

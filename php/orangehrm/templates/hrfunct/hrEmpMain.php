@@ -91,6 +91,7 @@ return $response->getXML();
 function getMinMaxCurrency($value, $salGrd) {
 
 	$emp_view_controller = new EmpViewController();
+	$common_func = new CommonFunctions();
 
 	$temp[0] = $salGrd;
 	$temp[1] = $_GET['id'];
@@ -111,9 +112,9 @@ function getMinMaxCurrency($value, $salGrd) {
 
 	} else {
 		$response->addAssign('txtMinCurrency','value',$currlist[$c][3]);
-		$response->addAssign('divMinCurrency','innerHTML',$currlist[$c][3]);
-		$response->addAssign('txtMaxCurrency','value',$currlist[$c][5]);
-		$response->addAssign('divMaxCurrency','innerHTML',$currlist[$c][5]);
+		$response->addAssign('divMinCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][3]));
+		$response->addAssign('txtMaxCurrency','value', $currlist[$c][5]);
+		$response->addAssign('divMaxCurrency','innerHTML', $common_func->formatSciNO($currlist[$c][5]));
 	}
 return $response->getXML();
 }

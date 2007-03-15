@@ -101,7 +101,7 @@ create table `hs_hr_emp_basicsalary` (
   `emp_number` int(7) not null default 0,
   `sal_grd_code` varchar(6) not null default '',
   `currency_id` varchar(6) not null default '',
-  `ebsal_basic_salary` float default null,
+  `ebsal_basic_salary` double default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
@@ -470,9 +470,9 @@ create table `hs_hr_versions` (
 create table `hs_pr_salary_currency_detail` (
   `sal_grd_code` varchar(6) not null default '',
   `currency_id` varchar(6) not null default '',
-  `salcurr_dtl_minsalary` float default null,
-  `salcurr_dtl_stepsalary` float default null,
-  `salcurr_dtl_maxsalary` float default null,
+  `salcurr_dtl_minsalary` double default null,
+  `salcurr_dtl_stepsalary` double default null,
+  `salcurr_dtl_maxsalary` double default null,
   primary key  (`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 

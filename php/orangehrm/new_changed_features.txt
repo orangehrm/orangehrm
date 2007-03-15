@@ -4,6 +4,7 @@ New & Changed Features for OrangeHRM ver 2.1 (Neva) (14/03/2007)
 
 	BugId     Name
 
+	1633739  Big number formatting
 	1665885  [Usability] Attachement Size
 	1596013  Usability - ESS - Don't show buttons that ESS user does not
 	1657475  Uploaded image is distorted when displaying

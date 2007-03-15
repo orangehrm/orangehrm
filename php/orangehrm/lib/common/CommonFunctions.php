@@ -24,6 +24,13 @@ function CommonFunctions() {
 }
 
 
+function formatSciNO($sciNO) {
+
+	return $sciNO;
+	//return sprintf("%1.0f",$sciNO);
+}
+
+
 /** function to Partition the Strings;
 $String  = The string that should be passed to explode
 $explodedString = the String that is exploded -- This is will return an Array
