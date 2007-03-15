@@ -148,31 +148,31 @@ function addUpdate() {
 	}
 
 	if(document.frmchange.txtOldPassword.value=='') {
-		alert("Enter Your Old Password");
+		alert("<?php echo $lang_Admin_Change_Password_Errors_EnterYourOldPassword; ?>");
 		document.frmchange.txtOldPassword.focus();
 		return;
 	}
 
 	if(document.frmchange.txtNewPassword.value=='') {
-		alert("Enter Your New Password");
+		alert("<?php echo $lang_Admin_Change_Password_Errors_EnterYourNewPassword; ?>");
 		document.frmchange.txtNewPassword.focus();
 		return;
 	}
 
 	if(document.frmchange.txtConfirmPassword.value=='') {
-		alert("Retype Your New Password");
+		alert("<?php echo $lang_Admin_Change_Password_Errors_RetypeYourNewPassword; ?>");
 		document.frmchange.txtConfirmPassword.focus();
 		return;
 	}
 
 	if(document.frmchange.txtNewPassword.value != document.frmchange.txtConfirmPassword.value) {
-		alert("Passwords Are Not Matching.Retype Your New Password");
+		alert("<?php echo $lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword; ?>");
 		document.frmchange.txtConfirmPassword.focus();
 		return;
 	}
 
 	if(document.frmchange.txtOldPassword.value == document.frmchange.txtNewPassword.value) {
-		alert("Your Old & New Passwords Are Equal");
+		alert("<?php echo $lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual; ?>");
 		document.frmchange.txtNewPassword.focus();
 		return;
 	}
@@ -180,11 +180,10 @@ function addUpdate() {
 	var frm=document.frmchange;
 
 	if(document.frmchange.txtNewPassword.value.length < 4) {
-		alert("Password should be at least four char. long!");
+		alert("<?php echo $lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong; ?>!");
 		document.frmchange.txtNewPassword.focus();
 		return;
 	}
-
 
 	document.frmchange.sqlState.value = "UpdateRecord";
 	document.frmchange.submit();
@@ -206,13 +205,7 @@ function prepCPW() {
 
 	}
 }
-
-
-
-
 </script>
-
-
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 </head>
@@ -220,7 +213,7 @@ function prepCPW() {
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
     <td valign='top'> </td>
-    <td width='100%'><h2>Change Password</h2></td>
+    <td width='100%'><h2><?php echo $lang_index_ChangePassword; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
@@ -269,24 +262,24 @@ function prepCPW() {
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-							    <td>Code</td>
+							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><input type="hidden"  name="txtUserID" value="<?php echo $message[0][0]?>"><strong><?php echo $message[0][0]?></strong> </td>
 						  </tr>
 						  <tr>
-							    <td nowrap="nowrap">User Name</td>
+							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_UserName; ?></td>
 							    <td nowrap="nowrap"><b><?php echo $message[0][1]?></b><input type="hidden" name="txtUserName" value="<?php echo $message[0][1]?>"></td>
 						  </tr>
 						  <tr>
-							    <td nowrap="nowrap">Old Password</td>
+							    <td nowrap="nowrap"><?php echo $lang_Admin_Change_Password_OldPassword; ?></td>
 							    <td><input type="password" disabled name="txtOldPassword" id="txtOldPassword" ></td>
 						  </tr>
 
 						  <tr>
-							    <td nowrap="nowrap">New Password</td>
+							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_NewPassword; ?></td>
 							    <td><input type="password" disabled name="txtNewPassword" id="txtNewPassword"  ></td>
 						  </tr>
 						  <tr>
-							    <td nowrap="nowrap">Confirm Password</td>
+							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_ConfirmNewPassword; ?></td>
 							    <td><input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" ></td>
 						  </tr>
 

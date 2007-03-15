@@ -1,15 +1,17 @@
-New & Changed Features for OrangeHRM ver 2.1 (Neva) (14/03/2007)
+New & Changed Features for OrangeHRM ver 2.1 (Neva) (16/03/2007)
 
 	Bugs fixed include:
 
 	BugId     Name
 
-	1633739  Big number formatting
-	1665885  [Usability] Attachement Size
-	1596013  Usability - ESS - Don't show buttons that ESS user does not
-	1657475  Uploaded image is distorted when displaying
-	1586350  Usability - Dependents the boxes should be better aligned
-	1654845  Maintanance module in the list
+	1665885   [Usability] Attachement Size
+	1596013   Usability - ESS - Don't show buttons that ESS user does not
+	1657475   Uploaded image is distorted when displaying
+	1586350   Usability - Dependents the boxes should be better aligned
+	1654845   Maintanance module in the list
+	1588284   User group functionality is incomplete
+	1633739   Big number formatting
+
 
 New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
 

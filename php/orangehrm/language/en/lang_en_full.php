@@ -833,4 +833,12 @@
 	$lang_Admin_Users_AssignedRights = "Assigned Rights";
 	$lang_Admin_Users_DefineReports = "Define Reports";
 
+	$lang_Admin_Change_Password_OldPassword = "Old Password";
+
+	$lang_Admin_Change_Password_Errors_EnterYourOldPassword = "Enter Your Old Password";
+	$lang_Admin_Change_Password_Errors_EnterYourNewPassword = "Enter Your New Password";
+	$lang_Admin_Change_Password_Errors_RetypeYourNewPassword = "Retype Your New Password";
+	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
+	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
+
 ?>
