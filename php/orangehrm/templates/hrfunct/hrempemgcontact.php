@@ -99,13 +99,6 @@ function editEContact() {
 <?php	} ?>
 				  </td>
 				</tr>
-				<tr>
-				<td>
-<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
-        <img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-			</td>
-		</tr>
 <?php
 $rset = $this->popArr['empECAss'];
 				if ($rset != null){ //checking for a records if exsist view the the table and delete btn else no ?>
