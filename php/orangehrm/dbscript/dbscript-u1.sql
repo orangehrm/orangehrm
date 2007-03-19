@@ -470,9 +470,9 @@ create table `hs_hr_versions` (
 create table `hs_pr_salary_currency_detail` (
   `sal_grd_code` varchar(6) not null default '',
   `currency_id` varchar(6) not null default '',
-  `salcurr_dtl_minsalary`  default null,
-  `salcurr_dtl_stepsalary`  default null,
-  `salcurr_dtl_maxsalary`  default null,
+  `salcurr_dtl_minsalary` double default null,
+  `salcurr_dtl_stepsalary` double default null,
+  `salcurr_dtl_maxsalary` double default null,
   primary key  (`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
