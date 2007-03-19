@@ -560,6 +560,78 @@ create table `hs_hr_mailnotifications` (
 	KEY `notification_type_id` (`notification_type_id`)
 ) engine=innodb default charset=utf8;
 
+
+create table `hs_hr_customer` (
+  `customer_id` int(11) not null,
+  `name` varchar(100) default null,
+  `description` varchar(250) default null,
+  `deleted` tinyint(1) default null,
+  primary key  (`customer_id`)
+) engine=innodb default charset=utf8;
+
+
+create table `hs_hr_employee_timesheet_period` (
+  `timesheet_period_id` int(11) not null,
+  `employee_id` int(11) not null,
+  primary key  (`timesheet_period_id`,`employee_id`),
+  key `employee_id` (`employee_id`)
+) engine=innodb default charset=utf8;
+
+
+create table `hs_hr_project` (
+  `project_id` int(11) not null,
+  `customer_id` int(11) not null,
+  `name` varchar(100) default null,
+  `description` varchar(250) default null,
+  `deleted` tinyint(1) default null,
+  primary key  (`project_id`,`customer_id`),
+  key `customer_id` (`customer_id`)
+) engine=innodb default charset=utf8;
+
+
+create table `hs_hr_timesheet` (
+  `timesheet_id` int(11) not null,
+  `employee_id` int(11) not null,
+  `timesheet_period_id` int(11) not null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  `status` int(11) default null,
+  primary key  (`timesheet_id`,`employee_id`,`timesheet_period_id`),
+  key `employee_id` (`employee_id`),
+  key `timesheet_period_id` (`timesheet_period_id`)
+) engine=innodb default charset=utf8;
+
+
+create table `hs_hr_timesheet_submission_period` (
+  `timesheet_period_id` int(11) not null,
+  `name` varchar(100) default null,
+  `frequency` int(11) not null,
+  `period` int(11) default '1',
+  `start_day` datetime default null,
+  `end_day` datetime default null,
+  `description` varchar(250) default null,
+  primary key  (`timesheet_period_id`)
+) engine=innodb default charset=utf8;
+
+
+create table `hs_hr_time_event` (
+  `time_event_id` int(11) not null,
+  `project_id` int(11) not null,
+  `employee_id` int(11) not null,
+  `timesheet_id` int(11) not null,
+  `start_time` datetime default null,
+  `end_time` datetime default null,
+  `reported_date` datetime default null,
+  `duration` int(11) default null,
+  `description` varchar(250) default null,
+  primary key  (`time_event_id`,`project_id`,`employee_id`,`timesheet_id`),
+  key `project_id` (`project_id`),
+  key `employee_id` (`employee_id`),
+  key `timesheet_id` (`timesheet_id`)
+) engine=innodb default charset=utf8;
+
+
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -812,3 +884,24 @@ alter table hs_hr_leave
 alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
        						references hs_hr_users (id) on delete cascade;
+
+alter table `hs_hr_project`
+  add constraint foreign key (`customer_id`)
+  							references `hs_hr_customer`
+  									(`customer_id`) on delete restrict;
+
+alter table `hs_hr_employee_timesheet_period`
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
+  add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
+
+alter table `hs_hr_project`
+  add constraint foreign key (`customer_id`) references `hs_hr_customer` (`customer_id`);
+
+alter table `hs_hr_timesheet`
+  add constraint foreign key (`timesheet_period_id`) references `hs_hr_employee_timesheet_period` (`timesheet_period_id`) on delete cascade,
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_time_event`
+  add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
+  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
