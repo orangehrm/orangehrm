@@ -101,7 +101,7 @@ create table `hs_hr_emp_basicsalary` (
   `emp_number` int(7) not null default 0,
   `sal_grd_code` varchar(6) not null default '',
   `currency_id` varchar(6) not null default '',
-  `ebsal_basic_salary`  default null,
+  `ebsal_basic_salary` double default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
