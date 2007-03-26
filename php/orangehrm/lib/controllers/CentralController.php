@@ -857,7 +857,7 @@ switch ($moduletype) {
 										}
 
 
-						$_POST['EditMode'] =0;
+						$_POST['EditMode'] = 0;
 						if((isset($_POST['STAT'])) && ($_POST['STAT'] == 'OWN')) {
 							$extObject = $extractor->reloadData($_POST);
 							$view_controller -> reDirect($_GET,$_POST,$extObject);

@@ -439,6 +439,7 @@ function displayLayer(panelNo) {
           	if((panelNo != 1 && document.frmEmp.personalFlag.value == '1') || (panelNo != 2 && document.frmEmp.jobFlag.value == '1') || (panelNo != 4 && document.frmEmp.contactFlag.value == '1')) {
 
           		if(confirm("<?php echo $lang_Error_ChangePane?>")) {
+          			editEmpMain();
           			if( !updateEmpMain() ){
                         return;
                     }

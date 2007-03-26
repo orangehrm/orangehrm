@@ -1514,7 +1514,6 @@ class EmpViewController {
 							$empeducation = new EmpEducation();
 							$education = new Education();
 
-
 								$form_creator ->popArr['nation'] = $nationinfo ->getNationCodes();
 								$form_creator->popArr['loc'] = $location->getLocCodes();
 								$form_creator->popArr['cntlist'] = $countryinfo->getCountryCodes();
@@ -1543,6 +1542,7 @@ class EmpViewController {
 									$form_creator->popArr['ethRace'] = $ethnicrace->getEthnicRaceCodes($object->cmbEthnicRace);
 								}
 
+
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editMainArr'] = $empinfo ->filterEmpMain($getArr['id']);
 								$form_creator ->popArr['editPersArr'] = $empinfo->filterEmpPers($getArr['id']);
@@ -1550,6 +1550,10 @@ class EmpViewController {
 
 								$view_controller = new ViewController();
 								$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($empJobInfo[0][2],'JOB','assigned');
+
+								if(isset($postArr['cmbJobTitle'])){
+									$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($postArr['cmbJobTitle'],'JOB','assigned');
+								}
 
 								$form_creator->popArr['editPermResArr'] = $edit = $editPermRes = $empinfo->filterEmpContact($getArr['id']);
 								$form_creator->popArr['provlist'] = $porinfo ->getProvinceCodes($edit[0][4]);
