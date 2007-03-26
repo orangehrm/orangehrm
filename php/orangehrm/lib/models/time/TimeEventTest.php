@@ -53,16 +53,12 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
     	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
     				"VALUES (10, 'Permanent', 'Weekly', 1, '".date('l')."', '".date('l', time()*3600*24*7)."', 'Testing')");
-    	mysql_query("INSERT INTO `hs_hr_employee_timesheet_period` (`timesheet_period_id`, `employee_id`) ".
-    				"VALUES (10, 10)");
     	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
     				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()*3600*24)."', 0)");
 
-		$query = "INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')";
-    	mysql_query($query);
+		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
 
-    	//echo $query;
     }
 
     /**
@@ -74,7 +70,6 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
     	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` = 10", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_employee_timesheet_period` WHERE `timesheet_period_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);

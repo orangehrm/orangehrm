@@ -83,7 +83,7 @@ class DMLFunctions {
 
 
 
-			$result = $this -> dbObject -> sqlQuery($SQL);
+			$result = $this->dbObject->sqlQuery($SQL);
 
 			//$dbObejct -> dbDisconnect();
 

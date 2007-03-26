@@ -26,6 +26,9 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
  */
 class TimeEvent {
 
+	/**
+	 * Class constants
+	 */
 	const TIME_EVENT_DB_TABLE_TIME_EVENT = "hs_hr_time_event";
 
 	const TIME_EVENT_DB_FIELD_TIME_EVENT_ID = "time_event_id";
@@ -156,16 +159,16 @@ class TimeEvent {
 		$selectFields[8] = "a.`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
 
 		if ($this->getTimeEventId() != null) {
-			$selectConditions[] = "a.`time_event_id` = {$this->getTimeEventId()}";
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
 		}
 		if ($this->getProjectId() != null) {
-			$selectConditions[] = "a.`project_id` = {$this->getProjectId()}";
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
 		}
 		if ($this->getEmployeeId() != null) {
-			$selectConditions[] = "a.`employee_id` = {$this->getEmployeeId()}";
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
 		}
 		if ($this->getTimesheetId() != null) {
-			$selectConditions[] = "a.`timesheet_id` = {$this->getTimesheetId()}";
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 		}
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
@@ -184,7 +187,7 @@ class TimeEvent {
 	 *
 	 * @access protected
 	 */
-	protected function _buildObjArr($result) {
+	private function _buildObjArr($result) {
 		$objArr = null;
 
 		while ($row = mysql_fetch_assoc($result)) {
