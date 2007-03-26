@@ -1291,6 +1291,15 @@ switch ($moduletype) {
 											}
 
 											break;
+		case 'time'	:	switch ($_GET['timecode']) {
+							case 'Time'	:	if (isset($_GET['action'])) {
+
+											} else {
+												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
+											}
+							default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
+						}
+						break;
 
 							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
 											break;
