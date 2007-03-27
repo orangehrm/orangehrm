@@ -606,8 +606,8 @@ create table `hs_hr_timesheet_submission_period` (
   `name` varchar(100) default null,
   `frequency` int(11) not null,
   `period` int(11) default '1',
-  `start_day` datetime default null,
-  `end_day` datetime default null,
+  `start_day` int(11) default null,
+  `end_day` int(11) default null,
   `description` varchar(250) default null,
   primary key  (`timesheet_period_id`)
 ) engine=innodb default charset=utf8;
