@@ -18,41 +18,40 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
+require_once ROOT_PATH . '/lib/models/time/Timesheet.php';
+require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
 
-class EXTRACTOR_Weekends {
+class EXTRACTOR_Timesheet {
 
-	private $parent_Holidays;
+	private $parent_Timesheet;
 
-	function __construct() {
-		//$this->parent_Weekends = new Weekends();
+	public function __construct() {
+		//nothing to do
 	}
 
-	/**
-	 * Parse edit data in the UI form
-	 *
-	 * @param mixed $postArr
-	 * @return Leave[]
-	 */
-	public function parseEditData($postArr) {
-		$objArr = null;
-		if (isset($_POST['txtDay']) && is_array($_POST['txtDay'])) {
-			for ($i=0; $i<count($_POST['txtDay']); $i++) {
-				$tmpWeekend = new Weekends();
+	public function parseViewData($postArr) {
 
-				if (isset($_POST['txtDay'][$i])) {
-					$tmpWeekend->setDay($_POST['txtDay'][$i]);
-				}
-				if (isset($_POST['sltLeaveLength'][$i])) {
-					$tmpWeekend->setLength($_POST['sltLeaveLength'][$i]);
-				}
+		$this->parent_Timesheet = new Timesheet();
 
-				$objArr[] = $tmpWeekend;
-			}
+		if (isset($postArr['startDate'])) {
+			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['startDate'])));
+		} else {
+
 		}
 
-		return $objArr;
-	}
+		if (isset($postArr['endDate'])) {
+			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['endDate'])));
+		} else {
 
+		}
+
+		if (isset($postArr['employeeId'])) {
+			$this->parent_Timesheet->setEmployeeId($postArr['employeeId']);
+		} else if (isset($_SESSION['empID'])){
+			$this->parent_Timesheet->setEmployeeId($_SESSION['empID']);
+		}
+
+		return $this->parent_Timesheet;
+	}
 }
 ?>

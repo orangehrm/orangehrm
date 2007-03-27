@@ -295,11 +295,11 @@ class Timesheet {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions);
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
 
 		$dbConnection = new DMLFunctions();
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
 		$objArr = $this->_buildObjArr($result);
 

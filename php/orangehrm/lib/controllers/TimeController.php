@@ -20,7 +20,69 @@
 
 require_once ROOT_PATH . '/lib/models/time/Timesheet.php';
 require_once ROOT_PATH . '/lib/models/time/TimeEvent.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Project.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
+
+class TimeController {
+
+	private $objTime;
+	private $id;
+
+	public function setObjTime($objTime) {
+		$this->objTime=$objTime;
+	}
+
+	public function getObjTime() {
+		return $this->objTime;
+	}
+
+	public function setId($id) {
+		$this->id=$id;
+	}
+
+	public function getId() {
+		return $this->id;
+	}
+
+	public function __construct() {
+
+	}
+
+	public function __distruct() {
+
+	}
+
+	public function viewTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if ($timesheets == null) {
+			$timesheetObj->addTimesheet();
+
+			$timesheets = $timesheetObj->fetchTimesheets();
+		}
+
+		$timesheet = $timesheets[0];
+
+		$timeEventObj = new TimeEvent();
+
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+		$timeEvents = $timeEventObj->fetchTimeEvents();
+
+		$durationArr = null;
+
+		for ($i=0; $i<count($timeEvents); $i++) {
+			$projectId=$timeEvents[$i]->getProjectId();
+			if (!isset($durationArr[$projectId])) {
+				$durationArr[$projectId]=0;
+			}
+			$durationArr[$projectId]+=$timeEvents[$i]->getDuration();
+		}
+	}
+}
 ?>

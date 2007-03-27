@@ -1,7 +1,5 @@
 <?php
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com

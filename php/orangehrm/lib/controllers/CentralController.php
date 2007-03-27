@@ -1293,7 +1293,11 @@ switch ($moduletype) {
 											break;
 		case 'time'	:	switch ($_GET['timecode']) {
 							case 'Time'	:	if (isset($_GET['action'])) {
+												$timeController = new TimeController();
 
+												switch ($_GET['action']) {
+													case 'View_Timesheet' :	$timeController->viewTimesheet();
+												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
