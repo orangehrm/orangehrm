@@ -56,6 +56,9 @@ class TimeEvent {
 
 	private $selectFields;
 
+	/**
+	 * Class atribute getters and setters
+	 */
 	public function setTimeEventId($timeEventId) {
 		$this->timeEventId=$timeEventId;
 	}
@@ -185,7 +188,8 @@ class TimeEvent {
 	/**
 	 * Build the object with fetched records
 	 *
-	 * @access protected
+	 * @access private
+	 * @return TimeEvent[] array of time events
 	 */
 	private function _buildObjArr($result) {
 		$objArr = null;

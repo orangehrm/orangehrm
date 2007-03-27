@@ -96,10 +96,10 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNotNull($res, "Returned nothing");
 
-		 $this->assertEquals(count($res), 1, "Didn't return the expected number of records");
+		$this->assertEquals(count($res), 1, "Didn't return the expected number of records");
 
-		 for ($i=0; $i<count($res); $i++) {
-		 	$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
 		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
 		 	$this->assertEquals($expected[$i][2], $res[$i]->getEmployeeId(), "Invalid employee id");
 		 	$this->assertEquals($expected[$i][3], $res[$i]->getTimesheetId(), "Invalid timesheet id");
@@ -108,7 +108,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		 	$this->assertEquals($expected[$i][6], $res[$i]->getReportedDate(), "Invalid reported date");
 		 	$this->assertEquals($expected[$i][7], $res[$i]->getDuration(), "Invalid duration");
 		 	$this->assertEquals($expected[$i][8], $res[$i]->getDescription(), "Invalid description");
-		 }
+		}
     }
 }
 

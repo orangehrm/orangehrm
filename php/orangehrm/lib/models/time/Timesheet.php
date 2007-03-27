@@ -21,7 +21,9 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
-
+/**
+ *
+ */
 class Timesheet {
 
 	/**
@@ -51,6 +53,9 @@ class Timesheet {
 	private $endDate;
 	private $status;
 
+	/**
+	 * Class atribute setters and getters
+	 */
 	public function setTimesheetId($timesheetId) {
 		$this->timesheetId=$timesheetId;
 	}
@@ -237,6 +242,9 @@ class Timesheet {
 		return $timeSheet[0]->_changeTimesheetStatus();
 	}
 
+	/**
+	 * Change the status of the filled timesheet
+	 */
 	private function _changeTimesheetStatus() {
 		$sql_builder = new SQLQBuilder();
 
@@ -263,6 +271,10 @@ class Timesheet {
 
 	/**
 	 * Fetch timesheets
+	 *
+	 * If any atributes are set records will searched against them
+	 *
+	 * @return Timesheet[] array of timesheets
 	 */
 	public function fetchTimesheets() {
 		$sql_builder = new SQLQBuilder();
@@ -306,6 +318,12 @@ class Timesheet {
 		return $objArr;
 	}
 
+	/**
+	 * Build the object with fetched records
+	 *
+	 * @access private
+	 * @return Timesheet[] array of timesheets
+	 */
 	private function _buildObjArr($result) {
 		$objArr = null;
 

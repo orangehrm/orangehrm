@@ -1424,3 +1424,5 @@ INSERT INTO `hs_hr_weekends` VALUES (4, 0);
 INSERT INTO `hs_hr_weekends` VALUES (5, 0);
 INSERT INTO `hs_hr_weekends` VALUES (6, 8);
 INSERT INTO `hs_hr_weekends` VALUES (7, 8);
+
+INSERT INTO `hs_hr_timesheet_submission_period` VALUES (1, 'Weekly', 7, 1, 1, 7, 'Weekly');
