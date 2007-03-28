@@ -38,6 +38,7 @@ require_once ROOT_PATH . '/lib/controllers/MTViewController.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/controllers/RepViewController.php';
 require_once ROOT_PATH . '/lib/controllers/LeaveController.php';
+require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitle.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitEmpStat.php';
@@ -109,6 +110,8 @@ if(isset($_GET['uniqcode'])) {
 	$moduletype = 'rep';
 } elseif (isset($_GET['leavecode'])) {
 	$moduletype = 'leave';
+} elseif (isset($_GET['timecode'])) {
+	$moduletype = 'timeMod';
 }
 
 //authentication
@@ -122,12 +125,15 @@ $locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> f
 define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
-define('LEAVE', 'MOD004');
+define('REP', 'MOD004');
+define('LEAVE', 'MOD005');
+define('TIMEMOD', 'MOD006');
 
 switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
 	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
+	case 'timeMod'		:	$locRights = $rights->getRights($_SESSION['userGroup'],TIMEMOD); break;
 }
 
 if(!is_array($locRights) && $locRights == false)
@@ -1304,25 +1310,30 @@ switch ($moduletype) {
 											}
 
 											break;
-		case 'time'	:	switch ($_GET['timecode']) {
+
+							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
+											break;
+						}
+						break;
+
+	case 'timeMod'	:	switch ($_GET['timecode']) {
 							case 'Time'	:	if (isset($_GET['action'])) {
 												$timeController = new TimeController();
 
 												switch ($_GET['action']) {
 													case 'View_Timesheet' :	$timeController->viewTimesheet();
+																			break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
-							default: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
+											break;
+							default		: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 						}
 						break;
 
-							default:		trigger_error("Invalid Command ".$_GET['leavecode'], E_USER_NOTICE);
-											break;
-	}
-						break;
-
 }
+
+
 
 ob_end_flush();

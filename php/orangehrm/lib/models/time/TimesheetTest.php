@@ -305,6 +305,36 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
  		}
     }
 
+    public function testAddTimesheet2() {
+		$timesheetObj = $this->classTimesheet;
+
+		$timesheetObj->setEmployeeId(10);
+		$timesheetObj->setTimesheetPeriodId(10);
+		/*$timesheetObj->setStartDate(date('Y-m-d', time()+3600*24*7*4));
+		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*7*5));*/
+
+		$timesheetObj->addTimesheet();
+
+		$res = $timesheetObj->fetchTimesheets();
+
+		$this->assertNotNull($res, "Returned non existing record");
+
+		$day=date("w")+1;
+
+		$expected[0]= array(14, 10, 10, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
+
+		$this->assertEquals(count($res), count($expected), "Returned invalid number of records");
+
+ 		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimesheetId(), "Invalid Timesheet id");
+			$this->assertEquals($expected[$i][1], $res[$i]->getEmployeeId(), "Invalid Employee id");
+			$this->assertEquals($expected[$i][2], $res[$i]->getTimesheetPeriodId(), "Invalid Timesheet period id");
+			$this->assertEquals($expected[$i][3], $res[$i]->getStartDate(), "Invalid Start date");
+			$this->assertEquals($expected[$i][4], $res[$i]->getEndDate(), "Invalid End date");
+			$this->assertEquals($expected[$i][5], $res[$i]->getStatus(), "Invalid Status");
+ 		}
+    }
+
 }
 
 // Call TimesheetTest::main() if this source file is executed directly.

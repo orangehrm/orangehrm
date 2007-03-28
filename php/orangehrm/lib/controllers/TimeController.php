@@ -21,7 +21,7 @@
 require_once ROOT_PATH . '/lib/models/time/Timesheet.php';
 require_once ROOT_PATH . '/lib/models/time/TimeEvent.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/Project.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
@@ -83,6 +83,12 @@ class TimeController {
 			}
 			$durationArr[$projectId]+=$timeEvents[$i]->getDuration();
 		}
+
+		$path="/templates/time/timesheetView.php";
+
+		$template = new TemplateMerger($durationArr, $path);
+		$template->display();
 	}
+
 }
 ?>

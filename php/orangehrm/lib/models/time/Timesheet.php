@@ -21,6 +21,8 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
+require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
+
 /**
  *
  */
@@ -135,6 +137,22 @@ class Timesheet {
 		$this->setTimesheetId($row[0]+1);
 	}
 
+	private function _getNewDates() {
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+
+		$timesheetSubmissionPeriods = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+		if ($this->getStartDate() == null) {
+			$day=date('w')+1;
+
+			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
+			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
+
+			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
+			$this->setEndDate(date('Y-m-d', time()+($diff*3600*24)));
+		}
+	}
+
 	/**
 	 * Add a new timesheet
 	 *
@@ -142,6 +160,8 @@ class Timesheet {
 	 */
 	public function addTimesheet() {
 		$this->_getNewTimesheetId();
+		$this->_getNewDates();
+
 		$this->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);
 
 		$sql_builder = new SQLQBuilder();
