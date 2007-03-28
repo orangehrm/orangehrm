@@ -43,6 +43,7 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`");
 
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1001','zanfer1','forrw',0 )");
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1002','zanfer2','forrw',0 )");
@@ -133,18 +134,15 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 
 
 
-      $this->assertEquals(count($res),'9','count incorrect');
+      $this->assertEquals(count($res), 7,'count incorrect');
 
-      $expected[0] = array('10','OrangeHRM','Implement OrangeHRM','0');
-      $expected[1] = array('1001', 'zanfer1', 'forrw', '0');
-      $expected[2] = array('1002', 'zanfer2', 'forrw', '0');
-      $expected[3] = array('1003', 'zanfer3', 'forrw', '0');
-      $expected[4] = array('1004', 'zanfer4', 'forrw', '0');
-      $expected[5] = array('1005', 'zanfer5', 'forrw', '0');
-      $expected[6] = array('1006', 'zanfer6', 'forrw', '0');
-      $expected[7] = array('1007', 'zanfer7', 'forrw', '0');
-      $expected[8] = array('1008', 'Dodle', 'jhgjhg', '0');
-
+      $expected[0] = array('1001', 'zanfer1', 'forrw', '0');
+      $expected[1] = array('1002', 'zanfer2', 'forrw', '0');
+      $expected[2] = array('1003', 'zanfer3', 'forrw', '0');
+      $expected[3] = array('1004', 'zanfer4', 'forrw', '0');
+      $expected[4] = array('1005', 'zanfer5', 'forrw', '0');
+      $expected[5] = array('1006', 'zanfer6', 'forrw', '0');
+      $expected[6] = array('1007', 'zanfer7', 'forrw', '0');
 
       $i= 0;
 
@@ -169,18 +167,15 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
       $res = $this->classCustomer->fetchCustomers();
       $this->assertNotNull($res, "record Not found");
 
-      $this->assertEquals(count($res),'9','count incorrect');
+      $this->assertEquals(count($res), 7,'count incorrect');
 
-      $expected[0] = array('10','OrangeHRM','Implement OrangeHRM','0');
-      $expected[1] = array('1001', 'zanfer1', 'forrw', '0');
-      $expected[2] = array('1002', 'zanfer2', 'forrw', '0');
-      $expected[3] = array('1003', 'zanfer3', 'forrw', '0');
-      $expected[4] = array('1004', 'zanfer4', 'forrw', '0');
-      $expected[5] = array('1005', 'zanfer5', 'forrw', '0');
-      $expected[6] = array('1006', 'zanfer6', 'forrw', '0');
-      $expected[7] = array('1007', 'zanfer7', 'forrw', '0');
-      $expected[8] = array('1008', 'Dodle', 'jhgjhg', '0');
-
+      $expected[0] = array('1001', 'zanfer1', 'forrw', '0');
+      $expected[1] = array('1002', 'zanfer2', 'forrw', '0');
+      $expected[2] = array('1003', 'zanfer3', 'forrw', '0');
+      $expected[3] = array('1004', 'zanfer4', 'forrw', '0');
+      $expected[4] = array('1005', 'zanfer5', 'forrw', '0');
+      $expected[5] = array('1006', 'zanfer6', 'forrw', '0');
+      $expected[6] = array('1007', 'zanfer7', 'forrw', '0');
 
       $i= 0;
 
@@ -216,29 +211,9 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
         $res = $this->classCustomer->getLastRecord();
         $this->assertNotNull($res, "No record found");
 
-        $this->assertEquals($res,'1009','Id 1008 Not Found');
+        $this->assertEquals($res,'1008','Invalid last id');
 
 
-    }
-
-    /**
-     * @todo Implement testCountcustomerID().
-     */
-    public function testCountcustomerID() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
-
-    /**
-     * @todo Implement testCustomerObjArr().
-     */
-    public function testCustomerObjArr() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
     }
 }
 
