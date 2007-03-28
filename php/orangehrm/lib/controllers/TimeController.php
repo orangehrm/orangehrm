@@ -88,6 +88,8 @@ class TimeController {
 
 		$template = new TemplateMerger($durationArr, $path);
 		$template->display();
+
+		echo 'hi';
 	}
 
 }
