@@ -444,6 +444,13 @@ class ViewController {
 
 			return $message;
 
+		case 'CUS' :
+
+			$this-> customer = new Customer();
+			$message = $this->customer->getListofCustomers($pageNO,$schStr,$mode,$sortField , $sortOrder ) ;
+
+			return $message;
+
 		case 'USR' :
 
 			$this-> user = new Users();
@@ -1301,6 +1308,12 @@ class ViewController {
 									$usergroups = $object;
 									$id = $usergroups ->getUserGroupID();
 									$res = $usergroups -> addUserGroups();
+									break;
+
+				case 'CUS'  :		$customer = new Customer();
+									$customer = $object;
+									$id= $customer->getCustomerId();
+									$res= $customer->addCustomer();
 									break;
 			}
 
@@ -2719,11 +2732,20 @@ class ViewController {
 							}
 
 							$form_creator->popArr['modlistAss'] = $urights->getAssRights($getArr['id']);
-
 							break;
 
-				}
+			case 'CUS' :	$form_creator->formPath = '/templates/eimadmin/customer.php';
 
+							$customer = new Customer();
+
+							if($getArr['capturemode'] == 'addmode') {
+								$form_creator ->popArr['newID'] = $customer->getLastRecord();
+								//print "last :".$customer->getLastRecord()."";
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
+							}
+							break;
+				}
 		$form_creator->display();
 
 	}

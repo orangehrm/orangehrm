@@ -126,10 +126,39 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testGetListofCustomers().
      */
     public function testGetListofCustomers() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+
+      $res = $this->classCustomer->getListofCustomers($pageNO=0,$schStr='',$mode=-1, $sortField=0, $sortOrder='ASC');
+      $this->assertNotNull($res, "record Not found");
+
+
+
+      $this->assertEquals(count($res),'9','count incorrect');
+
+      $expected[0] = array('10','OrangeHRM','Implement OrangeHRM','0');
+      $expected[1] = array('1001', 'zanfer1', 'forrw', '0');
+      $expected[2] = array('1002', 'zanfer2', 'forrw', '0');
+      $expected[3] = array('1003', 'zanfer3', 'forrw', '0');
+      $expected[4] = array('1004', 'zanfer4', 'forrw', '0');
+      $expected[5] = array('1005', 'zanfer5', 'forrw', '0');
+      $expected[6] = array('1006', 'zanfer6', 'forrw', '0');
+      $expected[7] = array('1007', 'zanfer7', 'forrw', '0');
+      $expected[8] = array('1008', 'Dodle', 'jhgjhg', '0');
+
+
+      $i= 0;
+
+		for ($i=0; $i<count($res); $i++) {
+
+		$this->assertSame($expected[$i][0], $res[$i][0], 'Wrong Cus Request Id');
+		$this->assertSame($expected[$i][1], $res[$i][1], 'Wrong Cus Name ');
+		$this->assertSame($expected[$i][2], $res[$i][2], 'Wrong Cus Name ');
+
+
+      }
+
+
+
     }
 
     /**
@@ -139,6 +168,29 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 
       $res = $this->classCustomer->fetchCustomers();
       $this->assertNotNull($res, "record Not found");
+
+      $this->assertEquals(count($res),'9','count incorrect');
+
+      $expected[0] = array('10','OrangeHRM','Implement OrangeHRM','0');
+      $expected[1] = array('1001', 'zanfer1', 'forrw', '0');
+      $expected[2] = array('1002', 'zanfer2', 'forrw', '0');
+      $expected[3] = array('1003', 'zanfer3', 'forrw', '0');
+      $expected[4] = array('1004', 'zanfer4', 'forrw', '0');
+      $expected[5] = array('1005', 'zanfer5', 'forrw', '0');
+      $expected[6] = array('1006', 'zanfer6', 'forrw', '0');
+      $expected[7] = array('1007', 'zanfer7', 'forrw', '0');
+      $expected[8] = array('1008', 'Dodle', 'jhgjhg', '0');
+
+
+      $i= 0;
+
+		for ($i=0; $i<count($res); $i++) {
+
+		$this->assertSame($expected[$i][0], $res[$i]->getCustomerId(), 'Wrong Cus Request Id');
+		$this->assertSame($expected[$i][1], $res[$i]->getCustomerName(), 'Wrong Cus Name ');
+		$this->assertSame($expected[$i][2], $res[$i]->getCustomerDescription(), 'Wrong Cus Name ');
+
+      }
 
     }
 
@@ -160,10 +212,13 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testGetLastRecord().
      */
     public function testGetLastRecord() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+        $res = $this->classCustomer->getLastRecord();
+        $this->assertNotNull($res, "No record found");
+
+        $this->assertEquals($res,'1009','Id 1008 Not Found');
+
+
     }
 
     /**

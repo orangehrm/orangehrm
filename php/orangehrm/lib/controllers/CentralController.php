@@ -58,6 +58,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Licenses.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EthnicRace.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailNotificationConfiguration.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Customer.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -571,6 +572,12 @@ switch ($moduletype) {
 											$extractor = new EXTRACTOR_EmailConfiguration();
 										}
 										break;
+						case 'CUS'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Customer();
+										}
+
+										break;
 						case 'ENS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmailNotificationConfiguration();
@@ -950,6 +957,10 @@ switch ($moduletype) {
 										}
 
 										break;
+						case 'CUS'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Customer();
+										}
 
 						case 'UGR'	:
 										if(isset($_POST['STAT'])) {
@@ -1110,6 +1121,8 @@ switch ($moduletype) {
 																						$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
+
+
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
 
 																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy"));

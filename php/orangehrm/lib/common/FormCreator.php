@@ -33,8 +33,7 @@ class FormCreator
 			require_once($lan->getLangPath($fileName));
 		}
 
-		require_once ROOT_PATH . $this->formPath;
-
+		require_once(ROOT_PATH.$this->formPath);
 	}
 }
 ?>

@@ -1,14 +1,29 @@
 <?php
-/*
- * Created on Mar 21, 2007
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
  */
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
+/**
+ *
+ */
 class Customer{
 
 
@@ -35,16 +50,16 @@ class Customer{
 	private $customerName;
 	private $customerDescrption;
 
+	private  $singleField;
+	private $maxidLength = '4';
 
 	/**
 	 *	Setter method followed by getter method for each
 	 *	attribute
-	 *
 	 */
 	public function setCustomerId($customerId) {
 			$this->customerId = $customerId;
 	}
-
 
 	public function getCustomerId () {
 		return $this->customerId;
@@ -66,10 +81,9 @@ class Customer{
 		return $this->customerDescrption;
 	}
 
-
-
-
-
+	/**
+	 *
+	 */
 	public function addCustomer() {
 
 		$this->getCustomerId();
@@ -89,17 +103,16 @@ class Customer{
 
 
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-	//$logw = new LogFileWriter();
-	//$logw->writeLogDB($sqlQString.'hhh');
+
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-		// echo $message2;
-
 	}
 
-
+	/**
+	 *
+	 */
 	public	function updateCustomer() {
 
 		$arrRecord[0] = "'". $this->getCustomerId() . "'";
@@ -120,6 +133,9 @@ class Customer{
 
 	}
 
+	/**
+	 *
+	 */
 	public function deleteCustomer() {
 
 		$arrRecordsList[0] = "'". $this->getCustomerId() . "'";
@@ -156,12 +172,16 @@ class Customer{
 
 	}
 
+	/**
+	 *
+	 */
 	public function getListofCustomers($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
 
 		$customerArr = $this->fetchCustomers($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 		$arrDispArr = null;
 		for($i=0; count($customerArr) > $i; $i++) {
+
 			$arrDispArr[$i][0] = $customerArr[$i]->getCustomerId();
 			$arrDispArr[$i][1] = $customerArr[$i]->getCustomerName();
 			$arrDispArr[$i][2] = $customerArr[$i]->getCustomerDescription();
@@ -171,7 +191,9 @@ class Customer{
 		return $arrDispArr;
 	}
 
-
+	/**
+	 *
+	 */
 	public function fetchCustomers($pageNO=0,$schStr='',$mode=-1, $sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
@@ -207,6 +229,9 @@ class Customer{
 		return $this->customerObjArr($message2) ;
 	}
 
+	/**
+	 *
+	 */
 	public function fetchCustomer($cusId) {
 
 		$selectTable = "`".self::TABLE_NAME."`";
@@ -227,18 +252,18 @@ class Customer{
 		return $tempArr[0];
 	}
 
-
-	public 	function getLastRecord() {
-
-
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+	/**
+	 *
+	 */
+	function getLastRecord() {
 
 		$sql_builder = new SQLQBuilder();
 		$tableName = self::TABLE_NAME;
-		$sql_builder->table_name = $tableName ;
+		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
+
+		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
-
 
 		$sqlQString = $sql_builder->selectOneRecordOnly();
 
@@ -257,11 +282,14 @@ class Customer{
 			}
 		}
 
-		return $common_func->explodeString($this->singleField,"");//Function will generate cus ids
+		return str_pad(((int) $this->singleField)+1, $this->maxidLength, "0", STR_PAD_LEFT);
 		}
+
 	}
 
-
+	/**
+	 *
+	 */
 	public function countcustomerID($schStr,$mode) {
 
 		$tableName = self::TABLE_NAME;
@@ -286,7 +314,9 @@ class Customer{
 	}
 
 
-
+	/**
+	 *
+	 */
 	public function customerObjArr($result) {
 
 		$objArr = null;

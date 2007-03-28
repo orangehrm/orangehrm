@@ -38,7 +38,11 @@ $explodedString = the String that is exploded -- This is will return an Array
 
 function explodeString($string, $explodeVal, $length=3) {
 
-	$explodedString  = explode($explodeVal,$string);
+	if (!empty($explodeVal)) {
+		$explodedString=explode($explodeVal,$string);
+	} else {
+		$explodedString=$string;
+	}
 
 	if (isset($explodedString[1])) {
 		$str = (int)$explodedString[1] + 1;
