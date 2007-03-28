@@ -71,8 +71,6 @@ class TemplateMerger {
 
 	public function display($modifier=null) {
 
-		echo 1;
-
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 		require_once ROOT_PATH . '/language/default/lang_default_full.php';

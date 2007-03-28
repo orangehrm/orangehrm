@@ -21,13 +21,4 @@
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-/*
- *	Including the language pack
- *
- */
-
-$lan = new Language();
-
-require_once($lan->getLangPath("full.php"));
-
 ?>

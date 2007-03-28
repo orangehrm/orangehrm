@@ -85,7 +85,6 @@ class TimeController {
 		}
 
 		$path="/templates/time/timesheetView.php";
-		echo 'hi';
 
 		$template = new TemplateMerger($durationArr, $path);
 		$template->display();

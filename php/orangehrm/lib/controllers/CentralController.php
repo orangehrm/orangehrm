@@ -98,6 +98,8 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveRequests.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
 
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
+
 //leave modules extractorss go here
 
 if(isset($_GET['uniqcode'])) {
@@ -1319,9 +1321,12 @@ switch ($moduletype) {
 	case 'timeMod'	:	switch ($_GET['timecode']) {
 							case 'Time'	:	if (isset($_GET['action'])) {
 												$timeController = new TimeController();
+												$timesheetExtractor = new EXTRACTOR_Timesheet();
 
 												switch ($_GET['action']) {
-													case 'View_Timesheet' :	$timeController->viewTimesheet();
+													case 'View_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
+																			$timeController->setObjTime($obj);
+																			$timeController->viewTimesheet();
 																			break;
 												}
 											} else {

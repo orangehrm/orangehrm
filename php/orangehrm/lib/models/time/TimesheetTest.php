@@ -321,7 +321,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$day=date("w")+1;
 
-		$expected[0]= array(14, 10, 10, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
+		$expected[0]= array(14, 10, 1, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
 
 		$this->assertEquals(count($res), count($expected), "Returned invalid number of records");
 

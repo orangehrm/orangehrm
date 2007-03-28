@@ -150,6 +150,8 @@ class Timesheet {
 
 			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 			$this->setEndDate(date('Y-m-d', time()+($diff*3600*24)));
+
+			$this->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 		}
 	}
 
