@@ -17,10 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-/*
- *	Including the language pack
- *
- **/
  if (isset($modifier[1])) {
  	$dispYear = $modifier[1];
  }
@@ -35,9 +31,6 @@
 
  	$records = $records[0];
  }
- $lan = new Language();
-
- require_once($lan->getLangPath("full.php"));
 
 if ($modifier === "SUP") {
  $lang_Title = $lang_Leave_Leave_list_Title1;

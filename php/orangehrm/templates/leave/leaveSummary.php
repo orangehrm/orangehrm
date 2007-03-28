@@ -17,10 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-/*
- *	Including the language pack
- *
- **/
  $empInfo = null;
  if (isset($records[count($records)-1][0])) {
  	$empInfo = $records[count($records)-1][0];
@@ -32,8 +28,6 @@
  $dispYear = $modifier[2];
 
  $modifier = $modifier[0];
-
- $lan = new Language();
 
  if ($modifier === 'edit') {
  	$btnImage = '../../themes/beyondT/pictures/btn_save.jpg';

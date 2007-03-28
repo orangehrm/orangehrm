@@ -17,15 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-/*
- *	Including the language pack
- *
- **/
-
- $lan = new Language();
-
- require_once($lan->getLangPath("full.php"));
-
  if (isset($modifier)) {
  	switch ($modifier) {
  		case "summary" : $action = "?leavecode=Leave&action=Leave_Summary";

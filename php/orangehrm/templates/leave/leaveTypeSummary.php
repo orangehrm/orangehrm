@@ -1,46 +1,38 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-/*
- *	Including the language pack
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
  *
- **/
- 
- $lan = new Language();
- 
- require_once($lan->getLangPath("full.php")); 
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<script>			
-	
+<script>
+
 	function actionAdd() {
-				
+
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_View_Define';
  		document.DefineLeaveType.submit();
 	}
-	
+
 	function actionEdit() {
-		
-	  with (document.DefineLeaveType) {		
+
+	  with (document.DefineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'text') {
 					elements[i].disabled = "";
@@ -51,26 +43,26 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.getElementById("btnEdit").onmouseover = switchToSave2;
 		document.getElementById("btnEdit").onmouseout = switchToSave;
 		document.getElementById("btnEdit").onclick = editRecord;
-		
+
 		document.getElementById("btnAdd").disabled = 'true';
 		document.getElementById("btnDel").disabled = 'true';
-	}			
-	
+	}
+
 	function switchToSave() {
 		document.getElementById("btnEdit").src='../../themes/beyondT/pictures/btn_save.jpg';
 	}
-	
+
 	function switchToSave2() {
 		document.getElementById("btnEdit").src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	}
-	
+
 	function actionEditData()
 	{
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
-	
-	
+
+
 	function actionDelete() {
 		$check = 0;
 		with (document.DefineLeaveType) {
@@ -80,35 +72,35 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				}
 			}
 		}
-	
+
 		if ( $check == 1 ){
-			
+
 			var res = confirm("<?php echo $lang_Error_DoYouWantToDelete; ?>");
-			
+
 			if(!res) return;
-			
+
 			document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Delete';
  			document.DefineLeaveType.submit();
 		}else{
 			alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
-		}		
+		}
 	}
-	
-	
+
+
 	function doHandleAll() {
-		with (document.DefineLeaveType) {		
+		with (document.DefineLeaveType) {
 			if(elements['allCheck'].checked == false){
 				doUnCheckAll();
 			}
 			else if(elements['allCheck'].checked == true){
 				doCheckAll();
 			}
-		}	
+		}
 	}
-	
-	
+
+
 	function doCheckAll() {
-		with (document.DefineLeaveType) {		
+		with (document.DefineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
 					elements[i].checked = true;
@@ -119,7 +111,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 
 	function doUnCheckAll() {
-		with (document.DefineLeaveType) {		
+		with (document.DefineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
 					elements[i].checked = false;
@@ -127,27 +119,27 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			}
 		}
 	}
-	
-	
+
+
 	function editRecord() {
-	
+
  		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
-	
-	
+
+
 </script>
 <h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?><hr/></h2>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
 <p class="navigation">
-  
+
 	  <input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
-	  
+
 	<input type="image" src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" name="btnEdit" id="btnEdit"/>
-	
+
       <input type="image" onclick="actionDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" name="btnDel" id="btnDel"/>
 </p>
- 
+
   <table width="516" border="0" cellpadding="0" cellspacing="0">
   <thead>
     <tr>
@@ -170,7 +162,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	$j = 0;
 	if (is_array($records))
 		foreach ($records as $record) {
-			if(!($j%2)) { 
+			if(!($j%2)) {
 				$cssClass = 'odd';
 			 } else {
 			 	$cssClass = 'even';
@@ -186,7 +178,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
         <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
       <td class="tableMiddleRight"></td>
     </tr>
-    <?php 	
+    <?php
 		}
 ?>
   </tbody>

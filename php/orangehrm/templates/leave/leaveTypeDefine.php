@@ -1,56 +1,49 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-/*
- *	Including the language pack
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
- **/
- 
- $lan = new Language();
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
- require_once($lan->getLangPath("full.php")); 
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
  if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
-<script>			
+<script>
 	//function goBack() {
 	//	location.href = "./CentralController.php?uniqcode=&VIEW=MAIN";
 	//}
 
 	function addSave() {
-		
+
 		if (document.DefineLeaveType.txtLeaveTypeName.value == '') {
 			alert ("<?php echo $lang_Error_LeaveDateCannotBeABlankValue; ?>");
 			return false;
 		}
-		
+
 		<?php if ($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
 		//alert("test");
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
 		<?php } else {?>
 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Define';
 		<?php }?>
-		document.DefineLeaveType.submit();		
-	}			
-	
+		document.DefineLeaveType.submit();
+	}
+
 	//function clearAll() {
 	//	document.frmLeaveApp.txtSkillDesc.value = '';
 	//}
@@ -67,7 +60,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     <tr>
       <td height="24" background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td><?php echo $lang_oldLeaveTypeName; ?></td>
-      <td><?php //print_r($records); 
+      <td><?php //print_r($records);
 	foreach ($records as $record) {
 	  echo $record->getLeaveTypeName(); }?></td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
@@ -90,8 +83,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td colspan="2">&nbsp;</td>
       <td background="../../themes/beyondT/pictures/table_r2_c3.gif.">&nbsp;</td>
     </tr>
-    
-    
+
+
     <tr>
       <td background="../../themes/beyondT/pictures/table_r2_c1.gif">&nbsp;</td>
       <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" /></td>
