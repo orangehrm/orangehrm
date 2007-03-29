@@ -841,4 +841,21 @@
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
 
+	//timesheet
+
+	$lang_Time_Timesheet_TimesheetForTitle = "Timeshet for #periodName starting #startDate";
+	$lang_Time_Timesheet_Status = "Status: #status";
+
+	$lang_Time_Timesheet_Status_NotSubmitted = "Not submitted";
+	$lang_Time_Timesheet_Status_Submitted = "Submitted";
+	$lang_Time_Timesheet_Status_Approved = "Approved";
+	$lang_Time_Timesheet_Status_Rejected = "Rejected";
+
+	$lang_Time_Timesheet_Customer = "Customer";
+	$lang_Time_Timesheet_ProjectActivity = "Project / Activity";
+
+	$lang_Time_Timesheet_Total = "Total";
+
+	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
+	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
 ?>

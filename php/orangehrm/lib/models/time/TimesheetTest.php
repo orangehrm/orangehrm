@@ -140,7 +140,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
      public function testSubmitTimesheet() {
     	$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->submitTimesheet(11);
+		$timesheetObj->setTimesheetId(11);
+
+    	$res = $timesheetObj->submitTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -148,7 +150,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     public function testSubmitTimesheet2() {
     	$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->submitTimesheet(10);
+    	$timesheetObj->setTimesheetId(10);
+
+    	$res = $timesheetObj->submitTimesheet();
 
     	$this->assertTrue($res);
 
@@ -175,7 +179,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 	public function testCancelTimesheet() {
     	$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->cancelTimesheet(10);
+		$timesheetObj->setTimesheetId(10);
+
+    	$res = $timesheetObj->cancelTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -183,7 +189,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 	public function testCancelTimesheet1() {
 		$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->cancelTimesheet(11);
+		$timesheetObj->setTimesheetId(11);
+
+    	$res = $timesheetObj->cancelTimesheet();
 
     	$this->assertTrue($res);
 
@@ -210,7 +218,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 	public function testApproveTimesheet() {
     	$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->approveTimesheet(10);
+		$timesheetObj->setTimesheetId(10);
+
+    	$res = $timesheetObj->approveTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -218,7 +228,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
  	public function testApproveTimesheet1() {
 		$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->approveTimesheet(11);
+		$timesheetObj->setTimesheetId(11);
+
+    	$res = $timesheetObj->approveTimesheet();
 
     	$this->assertTrue($res);
 
@@ -245,7 +257,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 	public function testRejectTimesheet() {
     	$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->rejectTimesheet(10);
+		$timesheetObj->setTimesheetId(10);
+
+    	$res = $timesheetObj->rejectTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -253,7 +267,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 	public function testRejectTimesheet2() {
 		$timesheetObj = $this->classTimesheet;
 
-    	$res = $timesheetObj->rejectTimesheet(11);
+		$timesheetObj->setTimesheetId(11);
+
+    	$res = $timesheetObj->rejectTimesheet();
 
     	$this->assertTrue($res);
 
@@ -319,7 +335,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNotNull($res, "Returned non existing record");
 
-		$day=date("w")+1;
+		$day=date("w");
 
 		$expected[0]= array(14, 10, 1, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
 

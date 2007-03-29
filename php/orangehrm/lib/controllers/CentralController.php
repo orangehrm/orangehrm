@@ -1328,6 +1328,11 @@ switch ($moduletype) {
 																			$timeController->setObjTime($obj);
 																			$timeController->viewTimesheet();
 																			break;
+													case 'Submit_Timesheet':$obj = $timesheetExtractor->parseChangeStatusData($_POST);
+																			$timeController->setObjTime($obj);
+																			$timeController->submitTimesheet();
+																			$timeController->viewTimesheet();
+																			break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);

@@ -53,7 +53,7 @@ class TimesheetSubmissionPeriodTest extends PHPUnit_Framework_TestCase {
 
 		$res = $this->classTimesheetSubmissionPeriod->fetchTimesheetSubmissionPeriods();
 
-		$expected[0] = array(1, 'Weekly', 7, 1, 1, 7, 'Weekly');
+		$expected[0] = array(1, 'week', 7, 1, 1, 7, 'Weekly');
 
 		$this->assertNotNull($res, "Returned nothing");
 

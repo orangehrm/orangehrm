@@ -143,7 +143,7 @@ class Timesheet {
 		$timesheetSubmissionPeriods = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
 		if ($this->getStartDate() == null) {
-			$day=date('w')+1;
+			$day=date('w');
 
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
 			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
@@ -199,8 +199,7 @@ class Timesheet {
 	/**
 	 * Submit timesheet
 	 */
-	public function submitTimesheet($id) {
-		$this->setTimesheetId($id);
+	public function submitTimesheet() {
 
 		$timeSheet = $this->fetchTimesheets();
 
@@ -216,8 +215,7 @@ class Timesheet {
 	/**
 	 * Approve timesheet
 	 */
-	public function approveTimesheet($id) {
-		$this->setTimesheetId($id);
+	public function approveTimesheet() {
 
 		$timeSheet = $this->fetchTimesheets();
 
@@ -233,8 +231,7 @@ class Timesheet {
 	/**
 	 * Cancel timesheet
 	 */
-	public function cancelTimesheet($id) {
-		$this->setTimesheetId($id);
+	public function cancelTimesheet() {
 
 		$timeSheet = $this->fetchTimesheets();
 
@@ -250,8 +247,7 @@ class Timesheet {
 	/**
 	 * Reject timesheet
 	 */
-	public function rejectTimesheet($id) {
-		$this->setTimesheetId($id);
+	public function rejectTimesheet() {
 
 		$timeSheet = $this->fetchTimesheets();
 

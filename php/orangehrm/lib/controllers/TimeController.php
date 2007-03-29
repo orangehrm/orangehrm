@@ -55,7 +55,21 @@ class TimeController {
 
 	}
 
+	public function submitTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$res=$timesheetObj->submitTimesheet();
+		if ($res) {
+			$_GET['message'] = 'SUBMIT_SUCCESS';
+		} else {
+			$_GET['message'] = 'SUBMIT_FAILURE';
+		}
+
+		return $res;
+	}
+
 	public function viewTimesheet() {
+
 		$timesheetObj = $this->objTime;
 
 		$timesheets = $timesheetObj->fetchTimesheets();
@@ -70,23 +84,39 @@ class TimeController {
 
 		$timeEventObj = new TimeEvent();
 
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
+		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
 		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
 
 		$timeEvents = $timeEventObj->fetchTimeEvents();
 
 		$durationArr = null;
+		$dailySum = null;
 
 		for ($i=0; $i<count($timeEvents); $i++) {
 			$projectId=$timeEvents[$i]->getProjectId();
-			if (!isset($durationArr[$projectId])) {
-				$durationArr[$projectId]=0;
+			$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
+			if (!isset($durationArr[$projectId][$expenseDate])) {
+				$durationArr[$projectId][$expenseDate]=0;
 			}
-			$durationArr[$projectId]+=$timeEvents[$i]->getDuration();
+			if (!isset($dailySum[$expenseDate])) {
+				$dailySum[$expenseDate]=0;
+			}
+			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
+			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
 		}
 
 		$path="/templates/time/timesheetView.php";
 
-		$template = new TemplateMerger($durationArr, $path);
+		$dataArr[0]=$durationArr;
+		$dataArr[1]=$timesheet;
+		$dataArr[2]=$timesheet;
+		$dataArr[3]=$timesheetSubmissionPeriod[0];
+		$dataArr[4]=$dailySum;
+
+		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}
 
