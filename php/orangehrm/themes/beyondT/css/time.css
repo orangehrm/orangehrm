@@ -27,6 +27,10 @@
 	vertical-align: top;
 }
 
+td {
+	vertical-align: top;
+}
+
 .tableMiddleRight {
 	background:url(../pictures/table_r2_c3.gif) repeat-y top left;
 	width:13px;

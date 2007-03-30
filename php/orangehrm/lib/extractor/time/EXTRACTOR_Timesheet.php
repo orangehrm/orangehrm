@@ -33,19 +33,23 @@ class EXTRACTOR_Timesheet {
 
 		$this->parent_Timesheet = new Timesheet();
 
-		if (isset($postArr['startDate'])) {
-			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['startDate'])));
-		} else {
-
+		if (isset($postArr['txtStartDate'])) {
+			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['txtStartDate'])));
 		}
 
-		if (isset($postArr['endDate'])) {
-			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['endDate'])));
-		} else {
-
+		if (isset($postArr['txtEndDate'])) {
+			$this->parent_Timesheet->setEndDate(date('Y-m-d', strtotime($postArr['txtEndDate'])));
 		}
 
-		if (isset($postArr['employeeId'])) {
+		if (isset($postArr['txtTimesheetPeriodId'])) {
+			$this->parent_Timesheet->setTimesheetPeriodId($postArr['txtTimesheetPeriodId']);
+		}
+
+		/*if (isset($postArr['txtTimesheetId'])) {
+			$this->parent_Timesheet->setTimesheetId($postArr['txtTimesheetId']);
+		}*/
+
+		if (isset($postArr['txtEmployeeId'])) {
 			$this->parent_Timesheet->setEmployeeId($postArr['employeeId']);
 		} else if (isset($_SESSION['empID'])){
 			$this->parent_Timesheet->setEmployeeId($_SESSION['empID']);

@@ -39,6 +39,7 @@ class Timesheet {
 	const TIMESHEET_DB_FIELD_START_DATE = "start_date";
 	const TIMESHEET_DB_FIELD_END_DATE = "end_date";
 	const TIMESHEET_DB_FIELD_STATUS = "status";
+	const TIMESHEET_DB_FIELD_COMMENT = "comment";
 
 	const TIMESHEET_STATUS_NOT_SUBMITTED=0;
 	const TIMESHEET_STATUS_SUBMITTED=10;
@@ -54,6 +55,7 @@ class Timesheet {
 	private $startDate;
 	private $endDate;
 	private $status;
+	private $comment;
 
 	/**
 	 * Class atribute setters and getters
@@ -104,6 +106,14 @@ class Timesheet {
 
 	public function getStatus() {
 		return $this->status;
+	}
+
+	public function setComment($comment) {
+		$this->comment=$comment;
+	}
+
+	public function getComment() {
+		return $this->comment;
 	}
 
 	public function __construct() {
@@ -224,6 +234,7 @@ class Timesheet {
 		}
 
 		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_APPROVED);
+		$timeSheet[0]->setComment($this->getComment());
 
 		return $timeSheet[0]->_changeTimesheetStatus();
 	}
@@ -240,6 +251,7 @@ class Timesheet {
 		}
 
 		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);
+		$timeSheet[0]->setComment($this->getComment());
 
 		return $timeSheet[0]->_changeTimesheetStatus();
 	}
@@ -256,6 +268,7 @@ class Timesheet {
 		}
 
 		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_REJECTED);
+		$timeSheet[0]->setComment($this->getComment());
 
 		return $timeSheet[0]->_changeTimesheetStatus();
 	}
@@ -270,12 +283,17 @@ class Timesheet {
 
 		$updateFields[0] = "`".self::TIMESHEET_DB_FIELD_STATUS."`";
 
-		$updateValues[1] = $this->getStatus();
+		$updateValues[0] = $this->getStatus();
+
+		if ($this->getComment() != null) {
+			$updateFields[] = "`".self::TIMESHEET_DB_FIELD_COMMENT."`";
+			$updateValues[] = $this->getComment();
+		}
 
 		$updateConditions[] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 
 		$query = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
-
+echo $query."\n";
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
@@ -305,6 +323,7 @@ class Timesheet {
 		$selectFields[3] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."`";
 		$selectFields[4] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."`";
 		$selectFields[5] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."`";
+		$selectFields[6] = "a.`".self::TIMESHEET_DB_FIELD_COMMENT."`";
 
 		if ($this->getTimesheetId() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
@@ -354,6 +373,7 @@ class Timesheet {
 			$tmpTimeArr->setStartDate(date('Y-m-d', strtotime($row[self::TIMESHEET_DB_FIELD_START_DATE])));
 			$tmpTimeArr->setEndDate(date('Y-m-d', strtotime($row[self::TIMESHEET_DB_FIELD_END_DATE])));
 			$tmpTimeArr->setStatus($row[self::TIMESHEET_DB_FIELD_STATUS]);
+			$tmpTimeArr->setComment($row[self::TIMESHEET_DB_FIELD_COMMENT]);
 
 			$objArr[] = $tmpTimeArr;
 		}

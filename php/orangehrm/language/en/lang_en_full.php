@@ -136,6 +136,7 @@
 	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
 	$lang_Menu_Admin_EmailConfiguration = "Configuration";
 	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
+	$lang_Menu_Admin_Customer = "Customer";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -872,5 +873,6 @@
 	$lang_Time_Timesheet_ReportedDate = "Reported date";
 	$lang_Time_Timesheet_Duration = "Duration";
 	$lang_Time_Timesheet_Decription = "Description";
+	$lang_Time_Timesheet_NoCustomers = "No customers";
 
 ?>

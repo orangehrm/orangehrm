@@ -229,6 +229,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(11);
+		$timesheetObj->setComment('Testing...');
 
     	$res = $timesheetObj->approveTimesheet();
 
@@ -240,7 +241,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNotNull($res, "Returned non existing record");
 
-		$expected[0]= array(11, 10, 10, date('Y-m-d', time()+3600*24*7), date('Y-m-d', time()+3600*24*7*2), 20);
+		$expected[0]= array(11, 10, 10, date('Y-m-d', time()+3600*24*7), date('Y-m-d', time()+3600*24*7*2), 20, 'Testing...');
 
 		$this->assertEquals(count($res), count($expected), "Returned invalid number of records");
 
@@ -251,6 +252,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($expected[$i][3], $res[$i]->getStartDate(), "Invalid Start date");
 			$this->assertEquals($expected[$i][4], $res[$i]->getEndDate(), "Invalid End date");
 			$this->assertEquals($expected[$i][5], $res[$i]->getStatus(), "Invalid Status");
+			$this->assertEquals($expected[$i][6], $res[$i]->getComment(), "Invalid Comment");
  		}
 	}
 

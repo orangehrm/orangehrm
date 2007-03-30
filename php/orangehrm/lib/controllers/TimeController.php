@@ -65,7 +65,48 @@ class TimeController {
 			$_GET['message'] = 'SUBMIT_FAILURE';
 		}
 
+		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet");
+
 		return $res;
+	}
+
+	public function viewEditTimesheet() {
+
+		$timesheetObj = $this->objTime;
+
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if ($timesheets == null) {
+			$timesheetObj->addTimesheet();
+
+			$timesheets = $timesheetObj->fetchTimesheets();
+		}
+
+		$timesheet = $timesheets[0];
+
+		$timeEventObj = new TimeEvent();
+
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
+		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+		$timeEvents = $timeEventObj->fetchTimeEvents();
+
+		$path="/templates/time/timesheetEdit.php";
+
+		$customerObj = new Customer();
+
+		$customers = $customerObj->fetchCustomers();
+
+		$dataArr[0]=$timesheet;
+		$dataArr[1]=$timesheetSubmissionPeriod[0];
+		$dataArr[2]=$timeEvents;
+		$dataArr[3]=$customers;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
 	}
 
 	public function viewTimesheet() {
@@ -112,13 +153,41 @@ class TimeController {
 
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;
-		$dataArr[2]=$timesheet;
-		$dataArr[3]=$timesheetSubmissionPeriod[0];
-		$dataArr[4]=$dailySum;
+		$dataArr[2]=$timesheetSubmissionPeriod[0];
+		$dataArr[3]=$dailySum;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}
 
+	public function redirect($message=null, $url = null) {
+		if (isset($message)) {
+
+			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
+
+			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {
+				$message = "&message=".$message;
+				$url = preg_split('/(&||\?)message=[A-Za-z0-9]*/', $_SERVER['HTTP_REFERER']);
+			} else {
+				$message = "?message=".$message;
+			}
+
+			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && !is_array($_REQUEST['id'])) {
+				$id = "&id=".$_REQUEST['id'];
+			} else {
+				$id="";
+			}
+		} else {
+			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0)) {
+				$id = "&id=".$_REQUEST['id'];
+			} else if (preg_match('/&/', $_SERVER['HTTP_REFERER']) == 0){
+				$id = "?id=".$_REQUEST['id'];
+			} else {
+				$id="";
+			}
+		}
+
+		header("Location: ".$url[0].$message.$id);
+	}
 }
 ?>

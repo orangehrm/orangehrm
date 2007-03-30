@@ -241,7 +241,7 @@ print $schStr;
 			$page = ($pageNO-1)*$sysConfObj->itemsPerPage;
 			$limit = $sysConfObj->itemsPerPage;
 			$limitStr = "$page,$limit";
-			echo $limitStr;
+			//echo $limitStr;
 		}
 		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', $limitStr);
 

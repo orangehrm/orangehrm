@@ -93,8 +93,14 @@ if ($authorizeObj->isESS()) {
 	} else {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
 	}
+	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
+
+	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
+	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
+
+	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
 }
 
 require_once ROOT_PATH . '/lib/common/Language.php';
@@ -144,6 +150,7 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu15", "right", xPosition, yPosition + 154, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
+		new ypSlideOutMenu("menu16", "right", xPosition, yPosition, 146, 120)
 		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)
 
 function swapImgRestore() {
@@ -297,6 +304,28 @@ function setSize() {
                       </tr>
                   </table></td>
                   <?php }
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time")) {
+					?>
+                  <td style="background-image : url();" ></td>
+                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=time" ><?php echo $lang_Menu_Time; ?></a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php } else { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                      <tr height="20">
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=time"><?php echo $lang_Menu_Time; ?></a></td>
+                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php }
                   if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {
 					?>
@@ -399,12 +428,6 @@ function setSize() {
                   <TR vAlign=top>
 <?php if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
                     <TD width=158>
-                        <!--<A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
-
                       <ul id="menu">
   						<li id="compinfo"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu1');" onMouseOut="ypSlideOutMenu.hideMenu('menu1');"><?php echo $lang_Menu_Admin_CompanyInfo; ?></a></li>
   						<li id="job"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu2');" onMouseOut="ypSlideOutMenu.hideMenu('menu2');"><?php echo $lang_Menu_Admin_Job; ?></a></li>
@@ -414,6 +437,7 @@ function setSize() {
   						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
+						<li id="customers"><a href="index.php?uniqcode=CUS&menu_no=2&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
 </ul></TD>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
@@ -428,12 +452,6 @@ function setSize() {
                       </TD>
 <?php			 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave" )) { ?>
              <TD width=158>
-                        <!--<A onmouseover="swapImage('Button5','','themes/beyondT/pictures/buttons05_on.gif',1);ypSlideOutMenu.showMenu('menu5');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu5');"> <IMG height=22 src="themes/beyondT/pictures/buttons05.gif" width=150 border=0 name=Button5></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button6','','themes/beyondT/pictures/buttons06_on.gif',1);ypSlideOutMenu.showMenu('menu6');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu6');"> <IMG height=22 src="themes/beyondT/pictures/buttons06.gif" width=150 border=0 name=Button6></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button7','','themes/beyondT/pictures/buttons07_on.gif',1);ypSlideOutMenu.showMenu('menu7');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu7');"> <IMG height=22 src="themes/beyondT/pictures/buttons07.gif" width=150 border=0 name=Button7></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button8','','themes/beyondT/pictures/buttons08_on.gif',1);ypSlideOutMenu.showMenu('menu8');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu8');"> <IMG height=22 src="themes/beyondT/pictures/buttons08.gif" width=150 border=0 name=Button8></A><BR>-->
-                        <!--<A onmouseover="swapImage('Button11','','themes/beyondT/pictures/buttons11_on.gif',1);ypSlideOutMenu.showMenu('menu11');" onmouseout="swapImgRestore();ypSlideOutMenu.hideMenu('menu11');"> <IMG height=22 src="themes/beyondT/pictures/buttons11.gif" width=150 border=0 name=Button11></A><BR>-->
-
                       <ul id="menu">
                       	<?php
                       		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
@@ -473,6 +491,14 @@ function setSize() {
 			</TD>
 <?php			}
 
+				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time" )) { ?>
+           	<TD width=158>
+	            <ul id="menu">
+	            	<li id="timesheets"><a href="<?php echo $timesheetPage; ?>" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu16');" onMouseOut="ypSlideOutMenu.hideMenu('menu16');"><?php echo $lang_Menu_Time_Timesheets; ?></a></li>
+  				</ul>
+			</TD>
+
+<?php			}
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 		                <TD valign="top" width=158>
 		                    <ul id="menu">
@@ -573,7 +599,9 @@ function setSize() {
                     <TBODY>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MEM&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_MembershipTypes; ?></A></TD>
-                      </TR>
+                      </TR>#menu #leaveSummary a {
+	background: url(../icons/leaveSummary.gif)  no-repeat left top;
+}
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MME&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_Memberships; ?></A></TD>
                       </TR>
@@ -785,6 +813,40 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu15 -->
+               <!-- Begin SubMenu16 -->
+              <DIV id=menu16Container>
+                <DIV id=menu16Content>
+                 <?php
+                 	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
+
+                 	if ($authorizeObj->firstRole($allowedRoles)) {
+                 ?>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>
+                    <?php
+                    	if ($authorizeObj->isESS()) {
+                    ?>
+                      <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_PersonalTimesheet; ?></A>
+                        </TD>
+					 </TR>
+					<?php
+                    	}
+                    ?>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_EmployeeTimesheets; ?></A>
+                        </TD>
+					 </TR>
+                    </TBODY>
+                  </TABLE>
+                  <?php
+                 	}
+                 ?>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu16 -->
               <!--------------------- End Menu --------------------->
             </td>
             <td width="779" valign="top" id="rightMenuHolder">
@@ -808,6 +870,8 @@ function setSize() {
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'ESS'?>&id=<?php echo $_SESSION['empID']?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {  ?>
               <iframe src="<?php echo $leaveHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+<?php 		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time")) {  ?>
+              <iframe src="<?php echo $timeHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php 		} ?>
 
             </td>

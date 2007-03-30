@@ -4,40 +4,40 @@
 	left: -6px;
 	position: relative;
 	top: 0px;
-    padding-top: 2px;	
-    padding-left: 0px;	
+    padding-top: 2px;
+    padding-left: 0px;
 }
 
 #menu a {
 	text-decoration: none;
 	color: #444444;
 	width: 125px;
-	font-family: Arial, Helvetica, sans-serif;	
+	font-family: Arial, Helvetica, sans-serif;
 	text-transform: capitalize;
 	height: 22px;
 	font-size: 11px;
 	margin-top: -2px;
 	display: block;
 	padding-left: 30px;
-	cursor:pointer;   
+	cursor:pointer;
     vertical-align:middle;
     overflow: hidden;
 }
 
 #menu a:hover {
-	color: #000000;   
+	color: #000000;
 }
 
 #menu li a:focus, #menu li a:active {
-	outline: none;  
+	outline: none;
 }
 
-#menu li{	
+#menu li{
 	display: block;
 	list-style-position: outside;
 	list-style-type: none;
-	vertical-align: middle;			
-	margin-top:0;	
+	vertical-align: middle;
+	margin-top:0;
 }
 
 #menu li {
@@ -45,12 +45,12 @@
 	background-repeat: no-repeat;
 	background-position: 21px;
 }
-#menu li:hover{		
+#menu li:hover{
 	background: url(../pictures/buttonplain_o.gif) no-repeat;
 	background-position: 21px;
 }
 
-#menu #compinfo a {	
+#menu #compinfo a {
     background: url(../pictures/compinfo.gif) no-repeat left top;
 }
 
@@ -58,132 +58,143 @@
 	background: url(../pictures/compinfo_o.gif)  no-repeat left top;
 }
 
-#menu #job a{	
+#menu #job a{
 	background: url(../pictures/job.gif)  no-repeat left top;
 }
 
-#menu #job a:hover {	
+#menu #job a:hover {
 	background: url(../pictures/job_o.gif)  no-repeat left top;
 }
 
-#menu #skills a{	
+#menu #skills a{
 	background: url(../pictures/skills.gif)  no-repeat left top;
 }
 
-#menu #skills a:hover {	
+#menu #skills a:hover {
 	background: url(../pictures/skills_o.gif)  no-repeat left top;
 }
 
-#menu #qualification a{	
+#menu #qualification a{
 	background: url(../pictures/qualification.gif)  no-repeat left top;
 }
 
-#menu #qualification a:hover {	
+#menu #qualification a:hover {
 	background: url(../pictures/qualification_o.gif)  no-repeat left top;
 }
 
-#menu #benefits a{	
+#menu #benefits a{
 	background: url(../pictures/benefits.gif)  no-repeat left top;
 }
 
-#menu #benefits a:hover {	
+#menu #benefits a:hover {
 	background: url(../pictures/benefits_o.gif)  no-repeat left top;
 }
 
-#menu #memberships a{	
+#menu #memberships a{
 	background: url(../pictures/memberships.gif)  no-repeat left top;
 }
 
-#menu #memberships a:hover {	
+#menu #memberships a:hover {
 	background: url(../pictures/memberships_o.gif)  no-repeat left top;
 }
 
-#menu #natandrace a{	
+#menu #natandrace a{
 	background: url(../pictures/natandrace.gif)  no-repeat left top;
 }
 
-#menu #natandrace a:hover {	
+#menu #natandrace a:hover {
 	background: url(../pictures/natandrace_o.gif)  no-repeat left top;
 }
 
-#menu #geoinfo a{	
+#menu #geoinfo a{
 	background: url(../pictures/geoinfo.gif)  no-repeat left top;
 }
 
-#menu #geoinfo a:hover {	
+#menu #geoinfo a:hover {
 	background: url(../pictures/geoinfo_o.gif)  no-repeat left top;
 }
 
-#menu #users a{	
+#menu #users a{
 	background: url(../pictures/users.gif)  no-repeat left top;
 }
 
-#menu #users a:hover {	
+#menu #users a:hover {
 	background: url(../pictures/users_o.gif)  no-repeat left top;
 }
 
-#menu #viewemprep a {	
+#menu #customers a{
+	background: url(../pictures/users.gif)  no-repeat left top;
+}
+
+#menu #customers a:hover {
+	background: url(../pictures/users_o.gif)  no-repeat left top;
+}
+
+#menu #viewemprep a {
 	background: url(../pictures/viewemprep.gif)  no-repeat left top;
 }
 
-#menu #viewemprep a:hover {	
+#menu #viewemprep a:hover {
 	background: url(../pictures/viewemprep_o.gif)  no-repeat left top;
 }
 
-#menu #defemprep a {	
+#menu #defemprep a {
 	background: url(../pictures/defemprep.gif)  no-repeat left top;
 }
 
-#menu #defemprep a:hover {	
+#menu #defemprep a:hover {
 	background: url(../pictures/defemprep_o.gif)  no-repeat left top;
 }
 
-#menu #defemprep_d a {	
+#menu #defemprep_d a {
 	background: url(../pictures/defemprep_d.gif)  no-repeat left top;
 }
 
 /* Leave Module */
 
-#menu #applyLeave a:hover {	
+#menu #applyLeave a:hover {
 	background: url(../icons/applyLeave_o.gif)  no-repeat left top;
 }
 
-#menu #applyLeave a {	
+#menu #applyLeave a {
 	background: url(../icons/applyLeave.gif)  no-repeat left top;
 }
 
-#menu #approveLeave a:hover {	
+#menu #approveLeave a:hover {
 	background: url(../icons/approveLeave_o.gif)  no-repeat left top;
 }
 
-#menu #approveLeave a {	
+#menu #approveLeave a {
 	background: url(../icons/approveLeave.gif)  no-repeat left top;
 }
 
-#menu #defineLeaveType a:hover {	
+#menu #defineLeaveType a:hover {
 	background: url(../icons/defineLeaveType_o.gif)  no-repeat left top;
 }
 
-#menu #defineLeaveType a {	
+#menu #defineLeaveType a {
 	background: url(../icons/defineLeaveType.gif)  no-repeat left top;
 }
 
-#menu #leaveList a:hover {	
+#menu #leaveList a:hover {
 	background: url(../icons/leaveList_o.gif)  no-repeat left top;
 }
 
-#menu #leaveList a {	
+#menu #leaveList a {
 	background: url(../icons/leaveList.gif)  no-repeat left top;
 }
 
-#menu #leaveSummary a:hover {	
+#menu #leaveSummary a:hover {
 	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
 }
 
-#menu #leaveSummary a {	
+#menu #leaveSummary a {
 	background: url(../icons/leaveSummary.gif)  no-repeat left top;
 }
 
+#menu #timesheets a {
+	background: url(../icons/leaveSummary.gif)  no-repeat left top;
+}
 
 #menum1 {
 	visibility:hidden;

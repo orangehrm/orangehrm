@@ -17,11 +17,32 @@
  * Boston, MA  02110-1301, USA
  *
  */
+?>
 
-$timeExpenses=$records[0];
-$timesheet=$records[1];
-$timesheetSubmissionPeriod=$records[2];
-$dailySum=$records[3];
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+$timesheet=$records[0];
+$timesheetSubmissionPeriod=$records[1];
+$timeExpenses=$records[2];
+$customers=$records[3];
 
 $status=$timesheet->getStatus();
 
@@ -39,59 +60,30 @@ switch ($status) {
 $startDate = strtotime($timesheet->getStartDate());
 $endDate = strtotime($timesheet->getEndDate());
 
-$duration = 7;
 ?>
+<style type="text/css" >
+textarea, input, select {
+	margin: 5px;
+}
+</style>
 <script type="text/javascript">
 <!--
-var prev = new Array();
-var next = new Array();
-
-next.startDate = '<?php echo date('Y-m-d', $startDate+(3600*24*$duration)); ?>';
-next.endDate = '<?php echo date('Y-m-d', $endDate+(3600*24*$duration)); ?>';
-
-prev.startDate = '<?php echo date('Y-m-d', $startDate-(3600*24*$duration)); ?>';
-prev.endDate = '<?php echo date('Y-m-d', $endDate-(3600*24*$duration)); ?>';
-
-function $(id) {
-	return document.getElementById(id);
-}
-
-function actionNav(data) {
-	$('txtStartDate').value=data.startDate;
-	$('txtEndDate').value=data.endDate;
-
-	$("frmTimesheet").action+= "View_Timesheet";
-	$("frmTimesheet").submit();
-}
-
-
 function actionSubmit() {
-	$("frmTimesheet").action+= "Submit_Timesheet";
-	$("frmTimesheet").submit();
+	document.getElementById("frmTimesheet").action+= "Submit_Timesheet";
+
+	document.getElementById("frmTimesheet").submit();
 }
 
-function actionEdit() {
-	$("frmTimesheet").action+= "View_Edit_Timesheet";
-	$("frmTimesheet").submit();
+function addRow() {
+
 }
 -->
 </script>
-<h2>
-	<input src="../../themes/beyondT/icons/resultset_previous.png"
-			onclick="actionNav(prev); return false;"
-			name="btnPrev" id="btnPrev" type="image"/>
-		<?php echo preg_replace(array('/#periodName/', '/#startDate/'),
+<h2><?php echo preg_replace(array('/#periodName/', '/#startDate/'),
 							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate()),
-							$lang_Time_Timesheet_TimesheetForViewTitle); ?>
-	<input src="../../themes/beyondT/icons/resultset_next.png"
-			onclick="actionNav(next); return false;"
-			name="btnNext" id="btnNext" type="image"/>
-	<hr/>
+							$lang_Time_Timesheet_TimesheetForEditTitle); ?>
+  <hr/>
 </h2>
-
-<h3><?php echo preg_replace(array('/#status/'),
-							array($statusStr),
-							$lang_Time_Timesheet_Status); ?></h3>
 
 <?php if (isset($_GET['message'])) {
 
@@ -113,18 +105,22 @@ function actionEdit() {
 			<th class="tableTopLeft"></th>
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
-	    <?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    	<th class="tableTopMiddle"></th>
-	    <?php } ?>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
 			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
-		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    	<th width="70px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
-	    <?php } ?>
+			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
+			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
+			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
+			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?></th>
+			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
 			<th class="tableMiddleRight"></th>
 		</tr>
 	</thead>
@@ -136,62 +132,61 @@ function actionEdit() {
 				<td class="tableMiddleLeft"></td>
 				<td ><?php echo $project; ?></td>
 				<td ><?php echo $project; ?></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    		<td ><?php echo $timeExpense[$i]; ?></td>
-	    	<?php } ?>
 				<td class="tableMiddleRight"></td>
 			</tr>
-		<?php } ?>
-			<tr>
-				<th class="tableMiddleLeft"></th>
-				<th ><?php echo $lang_Time_Timesheet_Total; ?></th>
-				<th ></th>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-		    	<th ><?php echo $dailySum[$i]; ?></th>
-		    <?php } ?>
-				<th class="tableMiddleRight"></th>
-			</tr>
-		<?php } else { ?>
+		<?php }
+		} ?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><?php echo $lang_Error_NoRecordsFound; ?></td>
-				<td ></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    		<td ></td>
-	    	<?php } ?>
+				<td ><select id="cmbCustomer">
+				<?php if (is_array($customers)) { ?>
+						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+				<?php	foreach ($customers as $customer) { ?>
+						<option value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
+				<?php 	}
+					} else { ?>
+						<option value="0">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
+				<?php } ?>
+					</select>
+				</td>
+				<td ><select id="cmbProject">
+						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+					</select>
+				</td>
+				<td><input type="text" id="txtStartTime" /></td>
+				<td><input type="text" id="txtEndTime" /></td>
+				<td><input type="text" id="txtReportedDate" /></td>
+				<td><input type="text" id="txtDuration" /></td>
+				<td><textarea type="text" id="txtDescription" ></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
-		<?php }?>
 	</tbody>
 	<tfoot>
 	  	<tr>
 			<td class="tableBottomLeft"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
-		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 			<td class="tableBottomMiddle"></td>
-		<?php } ?>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomRight"></td>
 		</tr>
   	</tfoot>
 </table>
 <p id="controls">
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
-
-<input type="hidden" id="txtTimesheetId" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
-<input type="hidden" id="txtTimesheetPeriodId" name="txtTimesheetPeriodId" value="<?php echo $timesheet->getTimesheetPeriodId(); ?>" />
-<input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
-<input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
-
+<input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
 <input src="../../themes/beyondT/pictures/btn_edit.jpg"
 		onclick="actionEdit(); return false;"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
-		name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
+		name="btnEdit" id="btnEdit" height="20" type="image" width="65">
 <input src="../../themes/beyondT/pictures/btn_submit.gif"
 		onclick="actionSubmit(); return false;"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
-		name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
+		name="btnEdit" id="btnEdit" height="20" type="image" width="65">
 </form>
 </p>

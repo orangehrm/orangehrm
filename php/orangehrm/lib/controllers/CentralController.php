@@ -1333,15 +1333,18 @@ switch ($moduletype) {
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
 
 												switch ($_GET['action']) {
-													case 'View_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
-																			$timeController->setObjTime($obj);
-																			$timeController->viewTimesheet();
-																			break;
-													case 'Submit_Timesheet':$obj = $timesheetExtractor->parseChangeStatusData($_POST);
-																			$timeController->setObjTime($obj);
-																			$timeController->submitTimesheet();
-																			$timeController->viewTimesheet();
-																			break;
+													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewTimesheet();
+																					break;
+													case 'View_Edit_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewEditTimesheet();
+																					break;
+													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->submitTimesheet();
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
