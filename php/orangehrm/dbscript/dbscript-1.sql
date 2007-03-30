@@ -596,6 +596,7 @@ create table `hs_hr_timesheet` (
   `start_date` datetime default null,
   `end_date` datetime default null,
   `status` int(11) default null,
+  `comment` varchar(250) default null,
   primary key  (`timesheet_id`,`employee_id`,`timesheet_period_id`),
   key `employee_id` (`employee_id`),
   key `timesheet_period_id` (`timesheet_period_id`)

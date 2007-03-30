@@ -160,6 +160,12 @@
 	$lang_Menu_Reports_ViewReports = "View Reports";
 	$lang_Menu_Reports_DefineReports = "Define Reports";
 
+	// Time module
+	$lang_Menu_Time = "Time";
+	$lang_Menu_Time_Timesheets = "Timesheets";
+	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
+	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
+
 	/**
 	 * Common
 	 */
@@ -843,7 +849,9 @@
 
 	//timesheet
 
-	$lang_Time_Timesheet_TimesheetForTitle = "Timeshet for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetForViewTitle = "Timeshet for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
+
 	$lang_Time_Timesheet_Status = "Status: #status";
 
 	$lang_Time_Timesheet_Status_NotSubmitted = "Not submitted";
@@ -858,4 +866,11 @@
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
+
+	$lang_Time_Timesheet_StartTime = "Start time";
+	$lang_Time_Timesheet_EndTime = "End time";
+	$lang_Time_Timesheet_ReportedDate = "Reported date";
+	$lang_Time_Timesheet_Duration = "Duration";
+	$lang_Time_Timesheet_Decription = "Description";
+
 ?>
