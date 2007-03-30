@@ -1,9 +1,12 @@
 <?php
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
+$btnAction="addSave()";
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	$formAction="{$formAction}&id={$this->getArr['uniqcode']}&capturemode=updatemode";
+	$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
+	$btnAction="addUpdate()";
 }
 ?>
+
 <html>
 <head>
 <title>Customer</title>
@@ -143,8 +146,17 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     </head>
 
     <body>
-    <h2>Customer</h2>
-  <form name="frmCustomor" method="post" action="<?php echo $formAction; ?>">
+	<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
+		<tr>
+  		<td width='100%'>
+  			<h2>Customer</h2>
+  		</td>
+  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
+	</table>
+
+  <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+
+  <form name="frmCustomor" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
 
         <font color="red" face="Verdana, Arial, Helvetica, sans-serif">
@@ -185,10 +197,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             <textarea name='txtcus_description' id="description" rows="3" cols="30" tabindex="3"><?php echo $message->getCustomerDescription(); ?></textarea><br>
 			<br/>
 		<?php } ?>
-            <div align="center" >
-            <img onClick="addUpdate();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+            <div align="center">
+            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 
-            <img onClick="document.frmCustomor.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg">
+			<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+
 
             </div>
         </div>

@@ -557,6 +557,14 @@ switch ($moduletype) {
 
 			 							break;
 
+			 			case 'CUS'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Customer();
+										}
+
+										break;
+
+
 						case 'USR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Users();
@@ -580,12 +588,7 @@ switch ($moduletype) {
 											$extractor = new EXTRACTOR_EmailConfiguration();
 										}
 										break;
-						case 'CUS'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_Customer();
-										}
 
-										break;
 						case 'ENS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmailNotificationConfiguration();
@@ -952,6 +955,15 @@ switch ($moduletype) {
 
 										break;
 
+
+						case 'CUS'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Customer();
+										}
+
+										break;
+
+
 						case 'USR'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Users();
@@ -965,10 +977,7 @@ switch ($moduletype) {
 										}
 
 										break;
-						case 'CUS'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_Customer();
-										}
+
 
 						case 'UGR'	:
 										if(isset($_POST['STAT'])) {

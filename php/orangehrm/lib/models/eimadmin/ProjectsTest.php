@@ -44,6 +44,28 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
+
+    		$this->classProjects = new Projects();
+
+    	$conf = new Conf();
+    	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+        mysql_select_db($conf->dbname);
+
+
+        mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+
+
+
+        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1001','zanfer1','forrw',0 )");
+        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1002','zanfer2','forrw',0 )");
+        mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1003','zanfer3','forrw',0 )");
+
+        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1001','1001','p1','w',0 )");
+        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1002','1002','p2','w',0 )");
+        mysql_query("INSERT INTO `hs_hr_project` VALUES ('1003','1003','p3','w',0 )");
+
+
+
     }
 
     /**
@@ -52,7 +74,19 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
      *
      * @access protected
      */
-    protected function tearDown() {
+   protected function tearDown() {
+
+
+
+      /*  mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = '1001'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = '1002'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = '1003'", $this->connection);*/
+
+
+
+	    mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+
     }
 
 
@@ -60,10 +94,22 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testAddProject().
      */
     public function testAddProject() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+    	$this->classProjects->setProjectId("1004");
+    	$this->classProjects->setCustomerId("1003");
+    	$this->classProjects->setProjectName("Dodle");
+    	$this->classProjects->setProjectDescription("jhgjhg");
+
+
+    	$res  = $this->classProjects->AddProject();
+    	$res  = $this->classProjects->fetchProject("1004");
+	    $this->assertNotNull($res, "No record found");
+
+	   $this->assertEquals($res->getCustomerId(),'1008','Id Not Found');
+	   $this->assertEquals($res->getCustomerName(),'Dodle','Name Not Found');
+	   $this->assertEquals($res->getCustomerDescription(),'jhgjhg','Description Not Found');
+
+
     }
 
     /**
@@ -100,15 +146,34 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testFetchProjects().
      */
     public function testFetchProjects() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+      $res = $this->classProjects->fetchProjects();
+      $this->assertNotNull($res, "record Not found");
+
+      echo count($res);
+
+      $this->assertEquals(count($res), 3,'count incorrect');
+
+      $expected[0] = array('1001', '1001', 'p1', 'w','0');
+      $expected[1] = array('1002', '1002', 'p2', 'w','0');
+      $expected[2] = array('1003', '1003', 'p3', 'w','0');
+
+      $i= 0;
+
+		for ($i=0; $i<count($res); $i++) {
+
+		$this->assertSame($expected[$i][0], $res[$i]->getProjectId(), 'Wrong Project Request Id');
+		$this->assertSame($expected[$i][1], $res[$i]->getCustomerId(), 'Wrong Cus Id ');
+		$this->assertSame($expected[$i][2], $res[$i]->getProjectName(), 'Wrong Project Name ');
+		$this->assertSame($expected[$i][3], $res[$i]->getProjectDescription(),'Wrong Project Description ');
+
+      }
     }
-}
+  }
 
 // Call ProjectsTest::main() if this source file is executed directly.
 if (PHPUnit_MAIN_METHOD == "ProjectsTest::main") {
     ProjectsTest::main();
 }
+
 ?>

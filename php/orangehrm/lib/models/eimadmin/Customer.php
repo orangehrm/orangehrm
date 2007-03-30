@@ -20,38 +20,47 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-/**
- *
- */
+
 class Customer{
 
 
-	//Customer status constants ..
+/**
+ * Customer status constants ..
+ */
 
 	const CUSTOMER_DELETED = 1;
 	const CUSTOMER_NOT_DELETED = 0;
 
-	//Table Name
+	/**
+	 * Table Name
+	 */
 
 	const TABLE_NAME = 'hs_hr_customer';
 
 	//Table field names
 
-	const CUSTOMER_DB_FIELDS_ID = 'CUSTOMER_ID';
-	const CUSTOMER_DB_FIELDS_NAME = 'NAME';
-	const CUSTOMER_DB_FIELDS_DESCRIPTION = 'DESCRIPTION';
-	const CUSTOMER_DB_FIELDS_DELETED = 'DELETED';
+	const CUSTOMER_DB_FIELDS_ID = 'customer_id';
+	const CUSTOMER_DB_FIELDS_NAME = 'name';
+	const CUSTOMER_DB_FIELDS_DESCRIPTION = 'description';
+	const CUSTOMER_DB_FIELDS_DELETED = 'deleted';
 
 
-	//  Class Attributes
+	/**
+	 * Class Attributes
+	 */
 
 	private $customerId ;
 	private $customerName;
 	private $customerDescrption;
 
+	/**
+	 * Automatic id genaration
+	 */
+
 	private  $singleField;
-	private $maxidLength = '4';
+	private  $maxidLength = '4';
 
 	/**
 	 *	Setter method followed by getter method for each
@@ -128,17 +137,32 @@ class Customer{
 		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
 		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-		$this->updateRecord($tableName,$arrFieldList,$arrRecord);
-
-
+		return $this->updateRecord($tableName,$arrFieldList,$arrRecord);
 	}
 
 	/**
 	 *
+	 *
+	 *
 	 */
+
+ public function deletewrapperCustomer ($arrList) {
+
+
+	$i=0;
+	$array_count = count($arrList,COUNT_RECURSIVE)- 1;
+	  for ($i=0; $i <  $array_count;$i++){
+
+	 		 $this->setCustomerId( $arrList[0][$i]);
+	 	return	 $this->deleteCustomer();
+
+	 	 }
+
+	 }
 	public function deleteCustomer() {
 
-		$arrRecordsList[0] = "'". $this->getCustomerId() . "'";
+
+		$arrRecordsList[0] = "'". $this->getCustomerId() ."'";
 		$arrRecordsList[1] = "'". self::CUSTOMER_DELETED ."'";
 
 
@@ -147,8 +171,7 @@ class Customer{
 		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
 		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_DELETED ;
 
-		$this->updateRecord($tableName,$arrFieldList,$arrRecordsList);
-
+		return $this->updateRecord($tableName,$arrFieldList,$arrRecordsList);
 	}
 
 
@@ -176,7 +199,7 @@ class Customer{
 	 *
 	 */
 	public function getListofCustomers($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
-
+print $schStr;
 		$customerArr = $this->fetchCustomers($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 		$arrDispArr = null;
@@ -194,33 +217,34 @@ class Customer{
 	/**
 	 *
 	 */
-	public function fetchCustomers($pageNO=0,$schStr='',$mode=-1, $sortField=0, $sortOrder='ASC') {
+	public function fetchCustomers($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
 		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
 		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
 		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
-		$tableName = self::TABLE_NAME;
+		$tableName = "`".self::TABLE_NAME."`";
 
 		$sql_builder = new SQLQBuilder();
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-		if (!is_array($schStr)) {
-			$schStr[]=$schStr;
-		}
-		if ($mode > -1) {
-			$mode[]=$mode;
-			$schStr[]=self::CUSTOMER_NOT_DELETED;
-			$mode[]=3;
-		} else {
 
-			$schStr=self::CUSTOMER_NOT_DELETED;
-			$mode=3;
+		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
+
+		if ($schField != -1) {
+			$arrSelectConditions[1] = "`".$arrFieldList[$schField]."` LIKE '%".$schStr."%'";
 		}
 
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
+		$limitStr = null;
+
+		if ($pageNO > 0) {
+			$sysConfObj = new sysConf();
+			$page = ($pageNO-1)*$sysConfObj->itemsPerPage;
+			$limit = $sysConfObj->itemsPerPage;
+			$limitStr = "$page,$limit";
+			echo $limitStr;
+		}
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', $limitStr);
+
 
 
 		$dbConnection = new DMLFunctions();
@@ -290,11 +314,15 @@ class Customer{
 	/**
 	 *
 	 */
-	public function countcustomerID($schStr,$mode) {
+	public function countcustomerID($schStr,$schField) {
 
 		$tableName = self::TABLE_NAME;
 		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
 		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
+		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DELETED;
+
+		$schField   = 2;
+		$schStr		= 0;
 
 		$sql_builder = new SQLQBuilder();
 
@@ -302,7 +330,7 @@ class Customer{
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$sqlQString = $sql_builder->countResultset($schStr,$mode);
+		$sqlQString = $sql_builder->countResultset($schStr,$schField);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();

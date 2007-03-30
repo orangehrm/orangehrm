@@ -841,4 +841,13 @@
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
 
+
+	//Customer
+
+	$lang_view_CustomerGroupID 					= "Customer Group ID";
+	$lang_view_CustomerGroupName 				= "Customer Group Name";
+
+
+
+
 ?>

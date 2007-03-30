@@ -314,6 +314,12 @@ class ViewController {
 			$res = $this-> Licenses -> delLicenses($arrList);
 			break;
 
+		case 'CUS':
+
+			$this-> customers = new Customer();
+			$res = $this->customers->deletewrapperCustomer($arrList);
+			break;
+
 		case 'USR':
 
 			$this-> users = new Users();
@@ -1042,6 +1048,13 @@ class ViewController {
 
 			return $message;
 
+		case 'CUS' :
+
+			$this-> custormers = new Customer();
+			$message = $this-> custormers -> countcustomerID($schStr,$mode);
+
+			return $message;
+
 		case 'USR' :
 
 			$this-> users = new Users();
@@ -1299,6 +1312,13 @@ class ViewController {
 									$licenses = $object;
 									$res = $licenses -> addLicenses();
 									break;
+
+				case 'CUS'  :		$customer = new Customer();
+									$customer = $object;
+									$id= $customer->getCustomerId();
+									$res= $customer->addCustomer();
+									break;
+
 				case 'USR'  :		$users = new Users();
 									$users = $object;
 									$res = $users -> addUsers();
@@ -1310,11 +1330,7 @@ class ViewController {
 									$res = $usergroups -> addUserGroups();
 									break;
 
-				case 'CUS'  :		$customer = new Customer();
-									$customer = $object;
-									$id= $customer->getCustomerId();
-									$res= $customer->addCustomer();
-									break;
+
 			}
 
 			// Checking whether the $message Value returned is 1 or 0
@@ -1648,6 +1664,11 @@ class ViewController {
 				case 'LIC'  :		$licenses = new Licenses();
 									$licenses = $object;
 									$res = $licenses -> updateLicenses();
+									break;
+
+				case 'CUS'  :		$customers = new Customer();
+									$customers = $object;
+									$res = $customers->updateCustomer();
 									break;
 
 				case 'USR'  :		$users = new Users();
@@ -2687,6 +2708,17 @@ class ViewController {
 
 							break;
 
+			case 'CUS' :	$form_creator->formPath = '/templates/eimadmin/customer.php';
+							$customer = new Customer();
+
+							if($getArr['capturemode'] == 'addmode') {
+								$form_creator ->popArr['newID'] = $customer->getLastRecord();
+								//print "last :".$customer->getLastRecord()."";
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
+							}
+							break;
+
 			case 'USR' :	$form_creator ->formPath = '/templates/maintenance/users.php';
 							$user= new Users();
 
@@ -2734,17 +2766,7 @@ class ViewController {
 							$form_creator->popArr['modlistAss'] = $urights->getAssRights($getArr['id']);
 							break;
 
-			case 'CUS' :	$form_creator->formPath = '/templates/eimadmin/customer.php';
 
-							$customer = new Customer();
-
-							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $customer->getLastRecord();
-								//print "last :".$customer->getLastRecord()."";
-							} elseif($getArr['capturemode'] == 'updatemode') {
-								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
-							}
-							break;
 				}
 		$form_creator->display();
 
