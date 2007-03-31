@@ -116,6 +116,8 @@ class Customer{
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
+		//echo $sqlQString;
+
 		return $message2;
 	}
 

@@ -82,6 +82,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection);
 
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection);
+
+    	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` IN (10)", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (10)", $this->connection);
     }
 
     public function testfetchTimesheets() {

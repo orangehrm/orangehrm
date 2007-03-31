@@ -140,6 +140,63 @@ class TimeEvent {
 	}
 
 	/**
+	 * Compute the new Time event id
+	 */
+	private function _getNewTimeEventId() {
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = self::TIME_EVENT_DB_TABLE_TIME_EVENT;
+		$selectFields[0] = self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID;
+		$selectOrder = "DESC";
+		$selectLimit = 1;
+		$sortingField = self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID;
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		$row = mysql_fetch_row($result);
+
+		$this->setTimeEventId($row[0]+1);
+	}
+
+	public function addTimeEvent() {
+		$this->_getNewTimeEventId();
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$updateTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
+
+		$updateFields[0] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+		$updateFields[1] = "`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
+		$updateFields[2] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+		$updateFields[3] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+
+		$updateValues[0] = $this->getTimeEventId();
+		$updateValues[1] = $this->getProjectId();
+		$updateValues[2] = $this->getEmployeeId();
+		$updateValues[3] = $this->getTimesheetId();
+
+		if ($this->getStartTime() != null) {
+			$updateFields[4] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+		}
+		if ($this->getEndTime() != null) {
+			$updateFields[5] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+		}
+		if ($this->getReportedDate() != null) {
+			$updateFields[6] = "`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+		}
+		if ($this->getDuration() != null) {
+			$updateFields[7] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+		}
+		if ($this->getDescription() != null) {
+			$updateFields[8] = "`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+		}
+	}
+
+	/**
 	 * Fetch time event records and build objects
 	 *
 	 * If any atributes are set records will searched against them

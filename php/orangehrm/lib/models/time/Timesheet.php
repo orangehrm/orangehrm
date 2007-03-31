@@ -293,7 +293,7 @@ class Timesheet {
 		$updateConditions[] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 
 		$query = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
-echo $query."\n";
+
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);

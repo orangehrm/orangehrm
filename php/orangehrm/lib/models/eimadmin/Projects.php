@@ -6,8 +6,6 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
-
-
 /**
  * Project Class
  *
@@ -16,10 +14,11 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
  *
  */
 
-
 class Projects {
 
-	//class constatnts
+	/**
+	 * class constants
+	 */
 	const PROJECT_NOT_DELETED = 0;
 	const PROJECT_DELETED = 1;
 
@@ -30,7 +29,6 @@ class Projects {
 	const PROJECT_DB_FIELD_DESCRIPTION = 'description';
 	const PROJECT_DB_FIELD_DELETED = 'deleted';
 
-
 	/**
 	 * class attributes
 	 *
@@ -39,22 +37,20 @@ class Projects {
 	private $customerID;
 	private $projectName;
 	private $projectDescription;
-
+	private $deleted;
 
 	/**
 	 * Automatic id genaration
+	 *
 	 */
-
 	private  $singleField;
 	private $maxidLength = '4';
 
 	/**
 	 *  Table Name
+	 *
 	 */
-
 	const TABLE_NAME = 'hs_hr_project';
-
-
 
  	/**
 	 *	Setter method followed by getter method for each
@@ -68,20 +64,17 @@ class Projects {
 		return $this->projectID;
 	}
 
-
 	public function setCustomerId($customerid) {
 			$this->customerID = $customerid;
-	}
-
-	public function setProjectName($projectname){
-		$this->projectName  = 	$projectname ;
 	}
 
 	public function getCustomerId () {
 		return $this->customerID;
 	}
 
-
+	public function setProjectName($projectname){
+		$this->projectName  = 	$projectname ;
+	}
 
 	public function getProjectName(){
 		return $this->projectName;
@@ -95,14 +88,19 @@ class Projects {
 		return $this->projectDescription;
 	}
 
+	public function setDeleted ($deleted) {
+		$this->deleted=$deleted;
+	}
 
+	public function getDeleted() {
+		return $this->deleted;
+	}
 
 	/**
 	 * Add data to the project
 	 *
 	 */
-
-public function AddProject () {
+	public function addProject () {
 
 		$this->getProjectId ();
 
@@ -129,8 +127,50 @@ public function AddProject () {
 		return $message2;
 	}
 
-	public function fetchProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC'){
+	public function fetchProject() {
+		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
+		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
+		$arrFieldList[2] = "`".self::PROJECT_DB_FIELD_NAME."`";
+		$arrFieldList[3] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
+		$arrFieldList[4] = "`".self::PROJECT_DB_FIELD_DELETED."`";
 
+		$tableName = "`".self::TABLE_NAME."`";
+
+		$sql_builder = new SQLQBuilder();
+
+		if ($this->getProjectId() != null) {
+			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`= '".$this->getProjectId()."'";
+		}
+
+		if ($this->getCustomerId() != null) {
+			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`= '".$this->getCustomerId()."'";
+		}
+
+		if ($this->getProjectName() != null) {
+			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_NAME."`= '".$this->getProjectName()."'";
+		}
+
+		if ($this->getProjectDescription() != null) {
+			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`= '".$this->getProjectDescription()."'";
+		}
+
+		if ($this->getDeleted() != null) {
+			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".$this->getDeleted()."";
+		}
+
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', 1);
+
+		//echo $sqlQString;
+
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
+
+		$objArr = $this->projectObjArr($message2);
+
+		return $objArr[0];
+	}
+
+	public function fetchProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
@@ -159,20 +199,15 @@ public function AddProject () {
 		}
 		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', $limitStr);
 
-		echo $sqlQString;
-
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		 return   $this->projectObjArr($message2) ;
-
+		return   $this->projectObjArr($message2);
 	}
 
-	 public function projectObjArr($result) {
+	public function projectObjArr($result) {
 
 		$objArr = null;
-
-		echo mysql_num_rows($result);
 
 		while ($row = mysql_fetch_assoc($result)) {
 
@@ -182,6 +217,7 @@ public function AddProject () {
 			$tmpcusArr->setCustomerId($row[self::PROJECT_DB_FIELD_CUSTOMER_ID]);
 			$tmpcusArr->setProjectName($row[self::PROJECT_DB_FIELD_NAME]);
 			$tmpcusArr->setProjectDescription($row[self::PROJECT_DB_FIELD_DESCRIPTION]);
+			$tmpcusArr->setDeleted($row[self::PROJECT_DB_FIELD_DELETED]);
 
 			$objArr[] = $tmpcusArr;
 		}
