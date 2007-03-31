@@ -1,4 +1,22 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $btnAction="addSave()";
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -6,14 +24,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 	$btnAction="addUpdate()";
 }
 ?>
-
 <html>
 <head>
 <title>Customer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
-
 <script>
 
     function goBack() {
@@ -22,56 +38,53 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
     function addSave() {
 
-        if(document.frmCustomor.txtcusid.value=='') {
+        if(document.frmCustomer.txtId.value=='') {
             alert("Please specify the custormer Id");
-            document.frmCustomor.txtcusid.focus();
+            document.frmCustomer.txtId.focus();
             return;
         }
 
-        if (document.frmCustomor.txtname.value == '') {
+        if (document.frmCustomer.txtName.value == '') {
             alert ("Please specify the name");
             return false;
         }
 
 
-        if (document.frmCustomor.txtcus_description.value == '') {
+        if (document.frmCustomer.txtDescription.value == '') {
             alert ("Please specify the Description");
             return false;
         }
 
-        document.frmCustomor.sqlState.value = "NewRecord";
-        document.frmCustomor.submit();
+        document.frmCustomer.sqlState.value = "NewRecord";
+        document.frmCustomer.submit();
     }
 
   function addUpdate() {
 
-		if(document.frmCustomor.txtcusid.value=='') {
+		if(document.frmCustomer.txtId.value=='') {
             alert("Please specify the custormer Id");
-            document.frmCustomor.txtcusid.focus();
+            document.frmCustomer.txtId.focus();
             return;
         }
 
-	 	if (document.frmCustomor.txtname.value == '') {
+	 	if (document.frmCustomer.txtName.value == '') {
             alert ("Please specify the name");
             return false;
         }
-        if (document.frmCustomor.txtcus_description.value == '') {
+        if (document.frmCustomer.txtDescription.value == '') {
             alert ("Please specify the Description");
             return false;
         }
 
-
-		document.frmCustomor.sqlState.value  = "UpdateRecord";
-		document.frmCustomor.submit();
+		document.frmCustomer.sqlState.value  = "UpdateRecord";
+		document.frmCustomer.submit();
 	}
 
 	function clearAll() {
-		if(document.Edit.title!='Save')
-			return;
-			document.frmCustomor.txtcusid.value=='';
-			document.frmCustomor.txtname.value == '';
-			document.frmCustomor.txtcus_description.value == ''
-			}
+		document.frmCustomer.txtId.value='';
+		document.frmCustomer.txtName.value='';
+		document.frmCustomer.txtDescription.value=''
+	}
 
 </script>
 
@@ -141,26 +154,23 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         padding:15px;
     }
     -->
-    </style>
-
-    </head>
-
-    <body>
-	<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-		<tr>
-  		<td width='100%'>
-  			<h2>Customer</h2>
-  		</td>
-  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
-	</table>
-
-  <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
-
-  <form name="frmCustomor" method="post" action="<?php echo $formAction;?>">
-        <input type="hidden" name="sqlState" value="">
-
-        <font color="red" face="Verdana, Arial, Helvetica, sans-serif">
-            <?php
+</style>
+</head>
+<body>
+	<p>
+		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
+			<tr>
+		  		<td width='100%'>
+		  			<h2>Customer</h2>
+		  		</td>
+	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
+		</table>
+	</p>
+  	<div id="navigation">
+  		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+	</div>
+	<font color="red" face="Verdana, Arial, Helvetica, sans-serif">
+    <?php
             if (isset($this->getArr['message'])) {
                 $expString  = $this->getArr['message'];
                 $expString = explode ("%",$expString);
@@ -169,37 +179,37 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     echo " " . $expString[$x];
                 }
             }
-             ?>
-          </font>
+   ?>
+   </font>
+  <form name="frmCustomer" method="post" action="<?php echo $formAction;?>">
+        <input type="hidden" name="sqlState" value="">
         <div class="roundbox">
       <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-            <label for="customercode">Code</label>
-            <input type="text" id="id" name="txtcusid" value= <?php echo $this->popArr['newID']; ?> tabindex="1"/>
+            <label for="txtId">Code</label>
+            <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtname">Name</label>
-            <input type="text" id="name" name="txtname" tabindex="2"/>
+			<label for="txtName">Name</label>
+            <input type="text" id="name" name="txtName" tabindex="2"/>
 			<br/>
             <label for="txtDescription">Description</label>
-            <textarea name='txtcus_description' id="description" rows="3" cols="30" tabindex="3"></textarea>
+            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"></textarea>
             <br>
        <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 
-		$message = $this->popArr['editArr'];
-
-	?>
-		<label for="customercode">Code</label>
-            <input type="text" id="id" name="txtcusid" value= <?php echo $message->getCustomerId(); ?> tabindex="1"/>
+			$message = $this->popArr['editArr'];
+		?>
+			<label for="txtId">Code</label>
+			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getCustomerId(); ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtname">Name</label>
-            <input type="text" id="name" name="txtname" value= <?php echo $message->getCustomerName(); ?> tabindex="2"/>
+			<label for="txtName">Name</label>
+            <input type="text" id="txtName" name="txtName" value= <?php echo $message->getCustomerName(); ?> tabindex="2"/>
 			<br/>
             <label for="txtDescription">Description</label>
-            <textarea name='txtcus_description' id="description" rows="3" cols="30" tabindex="3"><?php echo $message->getCustomerDescription(); ?></textarea><br>
+            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getCustomerDescription(); ?></textarea><br>
 			<br/>
 		<?php } ?>
             <div align="center">
             <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-
 			<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 
 
@@ -214,5 +224,4 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         </script>
     </form>
 </body>
-
 </html>

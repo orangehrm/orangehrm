@@ -692,6 +692,10 @@
 	$lang_view_ESS 					= "ESS";
 	$lang_view_ID 					= "ID";
 
+	//Customer
+	$lang_view_CustomerId = "Customer Id";
+	$lang_view_CustomerName = "Customer Name";
+
 	$lang_index_WelcomeMes 			= "Welcome #username";
 	$lang_index_ChangePassword 		= "Change Password";
 	$lang_index_Logout 				= "Logout";

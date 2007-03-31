@@ -136,6 +136,7 @@
 	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
 	$lang_Menu_Admin_EmailConfiguration = "Configuration";
 	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
+	$lang_Menu_Admin_Customer = "Customer";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -159,6 +160,12 @@
 	$lang_Menu_Reports = "Reports";
 	$lang_Menu_Reports_ViewReports = "View Reports";
 	$lang_Menu_Reports_DefineReports = "Define Reports";
+
+	// Time module
+	$lang_Menu_Time = "Time";
+	$lang_Menu_Time_Timesheets = "Timesheets";
+	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
+	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
 	/**
 	 * Common
@@ -685,6 +692,10 @@
 	$lang_view_ESS 					= "ESS";
 	$lang_view_ID 					= "ID";
 
+	//Customer
+	$lang_view_CustomerId = "Customer Id";
+	$lang_view_CustomerName = "Customer Name";
+
 	$lang_index_WelcomeMes 			= "Welcome #username";
 	$lang_index_ChangePassword 		= "Change Password";
 	$lang_index_Logout 				= "Logout";
@@ -841,13 +852,31 @@
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
 
+	//timesheet
 
-	//Customer
+	$lang_Time_Timesheet_TimesheetForViewTitle = "Timeshet for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
 
-	$lang_view_CustomerGroupID 					= "Customer Group ID";
-	$lang_view_CustomerGroupName 				= "Customer Group Name";
+	$lang_Time_Timesheet_Status = "Status: #status";
 
+	$lang_Time_Timesheet_Status_NotSubmitted = "Not submitted";
+	$lang_Time_Timesheet_Status_Submitted = "Submitted";
+	$lang_Time_Timesheet_Status_Approved = "Approved";
+	$lang_Time_Timesheet_Status_Rejected = "Rejected";
 
+	$lang_Time_Timesheet_Customer = "Customer";
+	$lang_Time_Timesheet_ProjectActivity = "Project / Activity";
 
+	$lang_Time_Timesheet_Total = "Total";
+
+	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
+	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
+
+	$lang_Time_Timesheet_StartTime = "Start time";
+	$lang_Time_Timesheet_EndTime = "End time";
+	$lang_Time_Timesheet_ReportedDate = "Reported date";
+	$lang_Time_Timesheet_Duration = "Duration";
+	$lang_Time_Timesheet_Decription = "Description";
+	$lang_Time_Timesheet_NoCustomers = "No customers";
 
 ?>

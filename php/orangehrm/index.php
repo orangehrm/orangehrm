@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
@@ -185,6 +185,15 @@ function setSize() {
 	iframeElement.style.width = '100%'; //100px or 100%
 }
 </SCRIPT>
+<style type="text/css">
+#rightMenu {
+	z-index: 0;
+}
+#menu {
+	z-index: 1;
+}
+</style>
+
 </head>
 <body  onload="preloadImages('themes/beyondT/pictures/buttons01_on.gif','themes/beyondT/pictures/buttons02_on.gif','themes/beyondT/pictures/buttons03_on.gif','themes/beyondT/pictures/buttons04_on.gif','themes/beyondT/pictures/buttons05_on.gif',
      'themes/beyondT/pictures/buttons06_on.gif','themes/beyondT/pictures/buttons07_on.gif','themes/beyondT/pictures/buttons08_on.gif','themes/beyondT/pictures/buttons09_on.gif','themes/beyondT/pictures/buttons10_on.gif','themes/beyondT/pictures/buttons11_on.gif')">
@@ -437,7 +446,7 @@ function setSize() {
   						<li id="natandrace"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu9');" onMouseOut="ypSlideOutMenu.hideMenu('menu9');"><?php echo $lang_Menu_Admin_NationalityNRace; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
-						<li id="customers"><a href="index.php?uniqcode=CUS&menu_no=2&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
+						<li id="customers"><a href="index.php?uniqcode=CUS&menu_no=2&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin_Customer; ?></a></li>
 </ul></TD>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
@@ -599,9 +608,7 @@ function setSize() {
                     <TBODY>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MEM&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_MembershipTypes; ?></A></TD>
-                      </TR>#menu #leaveSummary a {
-	background: url(../icons/leaveSummary.gif)  no-repeat left top;
-}
+                      </TR>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu5')" onMouseOut="ypSlideOutMenu.hideMenu('menu5')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=MME&menu_no=4&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Memberships_Memberships; ?></A></TD>
                       </TR>
