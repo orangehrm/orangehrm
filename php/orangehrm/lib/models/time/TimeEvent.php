@@ -162,38 +162,127 @@ class TimeEvent {
 		$this->setTimeEventId($row[0]+1);
 	}
 
+	/**
+	 * Add new time event
+	 *
+	 * Time event id will be over written
+	 */
 	public function addTimeEvent() {
 		$this->_getNewTimeEventId();
 
 		$sqlBuilder = new SQLQBuilder();
 
-		$updateTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
+		$insertTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
 
-		$updateFields[0] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
-		$updateFields[1] = "`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
-		$updateFields[2] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
-		$updateFields[3] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+		$insertFields[0] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+		$insertFields[1] = "`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
+		$insertFields[2] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+		$insertFields[3] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
 
-		$updateValues[0] = $this->getTimeEventId();
-		$updateValues[1] = $this->getProjectId();
-		$updateValues[2] = $this->getEmployeeId();
-		$updateValues[3] = $this->getTimesheetId();
+		$insertValues[0] = $this->getTimeEventId();
+		$insertValues[1] = $this->getProjectId();
+		$insertValues[2] = $this->getEmployeeId();
+		$insertValues[3] = $this->getTimesheetId();
 
 		if ($this->getStartTime() != null) {
-			$updateFields[4] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+			$insertValues[] = "'".$this->getStartTime()."'";
 		}
+
 		if ($this->getEndTime() != null) {
-			$updateFields[5] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+			$insertValues[] = "'".$this->getEndTime()."'";
 		}
+
 		if ($this->getReportedDate() != null) {
-			$updateFields[6] = "`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+			$insertValues[] = "'".$this->getReportedDate()."'";
 		}
+
 		if ($this->getDuration() != null) {
-			$updateFields[7] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+			$insertValues[] = $this->getDuration();
 		}
+
 		if ($this->getDescription() != null) {
-			$updateFields[8] = "`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+			$insertValues[] = "'".$this->getDescription()."'";
 		}
+
+		$query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+
+		if ($result && (mysql_affected_rows() > 0)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Editing time event
+	 *
+	 * All except time event id is editable
+	 */
+	public function editTimeEvent() {
+		$sqlBuilder = new SQLQBuilder();
+
+		$updateTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
+
+		if ($this->getProjectId() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
+			$updateValues[] = $this->getProjectId();
+		}
+
+		if ($this->getEmployeeId() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+			$updateValues[] = $this->getEmployeeId();
+		}
+
+		if ($this->getTimesheetId() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+			$updateValues[] = $this->getTimesheetId();
+		}
+
+		if ($this->getStartTime() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+			$updateValues[] = "'".$this->getStartTime()."'";
+		}
+
+		if ($this->getEndTime() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+			$updateValues[] = "'".$this->getEndTime()."'";
+		}
+
+		if ($this->getReportedDate() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+			$updateValues[] = "'".$this->getReportedDate()."'";
+		}
+
+		if ($this->getDuration() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+			$updateValues[] = $this->getDuration();
+		}
+
+		if ($this->getDescription() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+			$updateValues[] = "'".$this->getDescription()."'";
+		}
+
+		$updateConditions[] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
+
+		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+
+		if ($result && (mysql_affected_rows() > 0)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -234,7 +323,6 @@ class TimeEvent {
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
 
 		$dbConnection = new DMLFunctions();
-
 		$result = $dbConnection -> executeQuery($query);
 
 		$eventArr = $this->_buildObjArr($result);

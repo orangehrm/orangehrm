@@ -58,6 +58,8 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
+    	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (11, 10, 10, 10, '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d H:i:00', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
 
     }
 
@@ -68,7 +70,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` = 10", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11)", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
@@ -93,10 +95,88 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$res = $eventObj->fetchTimeEvents();
 
 		$expected[0] = array(10, 10, 10, 10, date('Y-m-d H:i:00'), date('Y-m-d H:i:00', time()+3600), date('Y-m-d'), 60, 'Testing');
+		$expected[1] = array(11, 10, 10, 10, date('Y-m-d H:i:00', time()+3600), date('Y-m-d H:i:00', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
 
 		$this->assertNotNull($res, "Returned nothing");
 
-		$this->assertEquals(count($res), 1, "Didn't return the expected number of records");
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
+		 	$this->assertEquals($expected[$i][2], $res[$i]->getEmployeeId(), "Invalid employee id");
+		 	$this->assertEquals($expected[$i][3], $res[$i]->getTimesheetId(), "Invalid timesheet id");
+		 	$this->assertEquals($expected[$i][4], $res[$i]->getStartTime(), "Invalid start time");
+		 	$this->assertEquals($expected[$i][5], $res[$i]->getEndTime(), "Invalid end time");
+		 	$this->assertEquals($expected[$i][6], $res[$i]->getReportedDate(), "Invalid reported date");
+		 	$this->assertEquals($expected[$i][7], $res[$i]->getDuration(), "Invalid duration");
+		 	$this->assertEquals($expected[$i][8], $res[$i]->getDescription(), "Invalid description");
+		}
+    }
+
+    public function testAddTimeEvent() {
+		$eventObj = $this->classTimeEvent;
+
+		$expected[0] = array(12, 10, 10, 10, date('Y-m-d H:i:00', time()+3600), date('Y-m-d H:i:00', time()+3600*1.5), date('Y-m-d'), 90, "Testing2");
+
+		$eventObj->setProjectId($expected[0][1]);
+		$eventObj->setEmployeeId($expected[0][2]);
+		$eventObj->setTimesheetId($expected[0][3]);
+		$eventObj->setStartTime($expected[0][4]);
+		$eventObj->setEndTime($expected[0][5]);
+		$eventObj->setReportedDate($expected[0][6]);
+		$eventObj->setDuration($expected[0][7]);
+		$eventObj->setDescription($expected[0][8]);
+
+		$res = $eventObj->addTimeEvent();
+
+		$this->assertTrue($res, "Adding failed");
+
+		$expected[0][0] = $eventObj->getTimeEventId();
+
+		$res = $eventObj->fetchTimeEvents();
+
+		$this->assertNotNull($res, "Returned nothing");
+
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
+		 	$this->assertEquals($expected[$i][2], $res[$i]->getEmployeeId(), "Invalid employee id");
+		 	$this->assertEquals($expected[$i][3], $res[$i]->getTimesheetId(), "Invalid timesheet id");
+		 	$this->assertEquals($expected[$i][4], $res[$i]->getStartTime(), "Invalid start time");
+		 	$this->assertEquals($expected[$i][5], $res[$i]->getEndTime(), "Invalid end time");
+		 	$this->assertEquals($expected[$i][6], $res[$i]->getReportedDate(), "Invalid reported date");
+		 	$this->assertEquals($expected[$i][7], $res[$i]->getDuration(), "Invalid duration");
+		 	$this->assertEquals($expected[$i][8], $res[$i]->getDescription(), "Invalid description");
+		}
+    }
+
+    public function testEditTimeEvent() {
+		$eventObj = $this->classTimeEvent;
+
+		$expected[0] = array(11, 10, 10, 10, date('Y-m-d H:i:00', time()-3600), date('Y-m-d H:i:00', time()-3600*0.5), date('Y-m-d'), 30, "Testing12");
+
+		$eventObj->setTimeEventId($expected[0][0]);
+		$eventObj->setProjectId($expected[0][1]);
+		$eventObj->setEmployeeId($expected[0][2]);
+		$eventObj->setTimesheetId($expected[0][3]);
+		$eventObj->setStartTime($expected[0][4]);
+		$eventObj->setEndTime($expected[0][5]);
+		$eventObj->setReportedDate($expected[0][6]);
+		$eventObj->setDuration($expected[0][7]);
+		$eventObj->setDescription($expected[0][8]);
+
+		$res = $eventObj->editTimeEvent();
+
+		$this->assertTrue($res, "Editing failed");
+
+		$res = $eventObj->fetchTimeEvents();
+
+		$this->assertNotNull($res, "Returned nothing");
+
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
 
 		for ($i=0; $i<count($res); $i++) {
 			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");

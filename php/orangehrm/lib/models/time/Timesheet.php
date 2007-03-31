@@ -147,6 +147,11 @@ class Timesheet {
 		$this->setTimesheetId($row[0]+1);
 	}
 
+	/**
+	 * Generates the current timesheet start date and end date
+	 *
+	 * This will be called if start date of a time sheet is not set
+	 */
 	private function _getNewDates() {
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
 
