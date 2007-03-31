@@ -189,9 +189,6 @@ function setSize() {
 #rightMenu {
 	z-index: 0;
 }
-#menu {
-	z-index: 1;
-}
 </style>
 
 </head>
