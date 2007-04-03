@@ -112,10 +112,11 @@ class Projects {
 		return $this->deleted;
 	}
 
+
 	/**
 	 * Compute the new Project id
 	 */
-	private function _getNewProjectId() {
+	public function getNewProjectId() {
 		$sql_builder = new SQLQBuilder();
 
 		$selectTable = self::PROJECT_DB_TABLE;
@@ -142,7 +143,7 @@ class Projects {
 	 */
 	public function addProject() {
 
-		$this->_getNewProjectId();
+		$this->getNewProjectId();
 
 		$arrRecord[0] = "'".$this->getProjectId()."'";
 		$arrRecord[1] = "'".$this->getCustomerId()."'";
@@ -232,6 +233,42 @@ class Projects {
 
 		return $objArr[0];
 	}
+
+	/**
+	 * To get the number of projects
+	 */
+
+
+	public function countprojectID($schStr,$schField) {
+
+		$tableName = self::PROJECT_DB_TABLE;
+		$arrFieldList[0] = self::PROJECT_DB_FIELD_PROJECT_ID;
+		$arrFieldList[1] = self::PROJECT_DB_FIELD_CUSTOMER_ID;
+		$arrFieldList[2] = self::PROJECT_DB_FIELD_NAME;
+		$arrFieldList[3] = self::PROJECT_DB_FIELD_DESCRIPTION;
+		$arrFieldList[4] = self::PROJECT_DB_FIELD_DELETED;
+
+		$schField   = 2;
+		$schStr		= 0;
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->countResultset($schStr,$schField);
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		$line = mysql_fetch_array($message2, MYSQL_NUM);
+
+	    return $line[0];
+	}
+
+
 
 	public function fetchProjects() {
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";

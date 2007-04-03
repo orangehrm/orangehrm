@@ -60,6 +60,8 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EthnicRace.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailNotificationConfiguration.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Customer.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Projects.php';
+
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -563,7 +565,12 @@ switch ($moduletype) {
 										}
 
 										break;
+					    case 'PRJ'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Projects();
+										}
 
+										break;
 
 						case 'USR'	:
 										if(isset($_POST['sqlState'])) {
@@ -940,7 +947,7 @@ switch ($moduletype) {
 
 											break;
 
-							 case 'VER'	:
+							case 'VER'	:
 											if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_Versions();
 											}
@@ -959,6 +966,13 @@ switch ($moduletype) {
 						case 'CUS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Customer();
+										}
+
+										break;
+
+						case 'PRJ'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_Projects();
 										}
 
 										break;

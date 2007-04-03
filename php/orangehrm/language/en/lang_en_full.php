@@ -167,6 +167,8 @@
 	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
+
+
 	/**
 	 * Common
 	 */
@@ -180,7 +182,7 @@
 	$lang_Commn_title 						= "Title";
 	$lang_Commn_name 						= "Name";
 	$lang_Commn_PleaseWait					= "Please wait";
-
+	$lang_Common_Select 				= "Select";
 	$lang_Commn_Email						= "E-mail";
 
 	$lang_Common_Edit = "Edit";

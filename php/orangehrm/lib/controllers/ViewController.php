@@ -195,13 +195,16 @@ class ViewController {
 						$form_creator ->formPath ='/view.php';
 
 						if ((isset($getArr['uniqcode'])) && ($getArr['uniqcode'] != '')) {
+
 							$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['uniqcode']));
+
 						}
 
 						$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;
 
 						if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
 					    {
+
 							$choice=$postArr['loc_code'];
 						    $strName=trim($postArr['loc_name']);
 						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld], $esp);
@@ -215,6 +218,7 @@ class ViewController {
 							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
 
 						$form_creator->display();
+
 						break;
 		}
 	}
@@ -318,6 +322,12 @@ class ViewController {
 
 			$this-> customers = new Customer();
 			$res = $this->customers->deletewrapperCustomer($arrList);
+			break;
+
+		case 'PRJ':
+
+			$this-> Projects = new Projects();
+			$res = $this->Projects->deleteProject($arrList) ;
 			break;
 
 		case 'USR':
@@ -454,6 +464,14 @@ class ViewController {
 
 			$this-> customer = new Customer();
 			$message = $this->customer->getListofCustomers($pageNO,$schStr,$mode,$sortField , $sortOrder ) ;
+
+			return $message;
+
+
+		case 'PRJ' :
+
+			$this-> projects = new Projects();
+			$message = $this->projects->getListofProjects($pageNO,$schStr,$mode,$sortField , $sortOrder ) ;
 
 			return $message;
 
@@ -1051,7 +1069,15 @@ class ViewController {
 		case 'CUS' :
 
 			$this-> custormers = new Customer();
-			$message = $this-> custormers -> countcustomerID($schStr,$mode);
+			$message = $this-> custormers -> countprojectID($schStr,$mode);
+
+			return $message;
+
+
+		case 'PRJ' :
+
+			$this-> projects = new Projects();
+			$message = $this-> projects -> countprojectID($schStr,$mode);
 
 			return $message;
 
@@ -1313,11 +1339,20 @@ class ViewController {
 									$res = $licenses -> addLicenses();
 									break;
 
+
 				case 'CUS'  :		$customer = new Customer();
 									$customer = $object;
 									$id= $customer->getCustomerId();
 									$res= $customer->addCustomer();
+									print "hi";
 									break;
+
+				case 'PRJ'  :		$project = new Projects();
+									$project = $object;
+									$id= $project->getProjectId();
+									$res= $project->addProject();
+									break;
+
 
 				case 'USR'  :		$users = new Users();
 									$users = $object;
@@ -1669,6 +1704,11 @@ class ViewController {
 				case 'CUS'  :		$customers = new Customer();
 									$customers = $object;
 									$res = $customers->updateCustomer();
+									break;
+
+				case 'PRJ'  :		$projects = new Projects();
+									$projects = $object;
+									$res = $projects->updateProject();
 									break;
 
 				case 'USR'  :		$users = new Users();
@@ -2713,9 +2753,24 @@ class ViewController {
 
 							if($getArr['capturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $customer->getLastRecord();
-								//print "last :".$customer->getLastRecord()."";
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
+							}
+							break;
+
+
+			case 'PRJ' : 	$form_creator->formPath = '/templates/eimadmin/project.php';
+							$project = new Projects();
+							$customer = new Customer ();
+
+							$form_creator->popArr['customers'] = $customer->fetchCustomers();
+
+							if($getArr['capturemode'] == 'addmode') {
+								$project->getNewProjectId();
+								$form_creator ->popArr['newID'] = $project->getProjectId();
+								//print "last :".$customer->getLastRecord()."";
+							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = $project->fetchProject($getArr['id']) ;
 							}
 							break;
 
