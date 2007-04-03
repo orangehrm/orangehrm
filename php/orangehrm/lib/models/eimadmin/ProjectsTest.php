@@ -86,6 +86,7 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
 	   	$this->assertEquals($res->getCustomerId(),'1001','Invalid customer id');
 	   	$this->assertEquals($res->getProjectName(),'p1','Invalid description');
 	   	$this->assertEquals($res->getProjectDescription(),'w','Invalid description');
+	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_NOT_DELETED,'Invalid description');
     }
 
     public function testAddProject() {
@@ -105,6 +106,7 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
 	   	$this->assertEquals($res->getCustomerId(),'1003','Invalid customer id');
 	   	$this->assertEquals($res->getProjectName(),'Dodle','Invalid description');
 	   	$this->assertEquals($res->getProjectDescription(),'jhgjhg','Invalid description');
+	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_NOT_DELETED,'Invalid description');
     }
 
 	public function testFetchProjects() {
@@ -114,19 +116,19 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
 
       	$this->assertEquals(count($res), 3,'count incorrect');
 
-      	$expected[0] = array('1001', '1001', 'p1', 'w','0');
-      	$expected[1] = array('1002', '1002', 'p2', 'w','0');
-      	$expected[2] = array('1003', '1003', 'p3', 'w','0');
+      	$expected[0] = array('1001', '1001', 'p1', 'w', Projects::PROJECT_NOT_DELETED);
+      	$expected[1] = array('1002', '1002', 'p2', 'w', Projects::PROJECT_NOT_DELETED);
+      	$expected[2] = array('1003', '1003', 'p3', 'w', Projects::PROJECT_NOT_DELETED);
 
       	$i= 0;
 
 		for ($i=0; $i<count($res); $i++) {
 
-			$this->assertSame($expected[$i][0], $res[$i]->getProjectId(), 'Wrong Project Request Id');
-			$this->assertSame($expected[$i][1], $res[$i]->getCustomerId(), 'Wrong Cus Id ');
-			$this->assertSame($expected[$i][2], $res[$i]->getProjectName(), 'Wrong Project Name ');
-			$this->assertSame($expected[$i][3], $res[$i]->getProjectDescription(),'Wrong Project Description ');
-
+			$this->assertEquals($expected[$i][0], $res[$i]->getProjectId(), 'Wrong Project Request Id');
+			$this->assertEquals($expected[$i][1], $res[$i]->getCustomerId(), 'Wrong Cus Id ');
+			$this->assertEquals($expected[$i][2], $res[$i]->getProjectName(), 'Wrong Project Name ');
+			$this->assertEquals($expected[$i][3], $res[$i]->getProjectDescription(),'Wrong Project Description ');
+			$this->assertEquals($expected[$i][4], $res[$i]->getDeleted(),'Invalid description');
       	}
 	}
 
@@ -148,6 +150,7 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
 	   	$this->assertEquals($res->getCustomerId(),'1002','Invalid customer id');
 	   	$this->assertEquals($res->getProjectName(),'p1','Invalid description');
 	   	$this->assertEquals($res->getProjectDescription(),'w','Invalid description');
+	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_NOT_DELETED,'Invalid description');
 	}
 
 	public function testUpdateProject2() {
@@ -170,10 +173,24 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
 	   	$this->assertEquals($res->getCustomerId(),'1002','Invalid customer id');
 	   	$this->assertEquals($res->getProjectName(),'px','Invalid description');
 	   	$this->assertEquals($res->getProjectDescription(),'ogg','Invalid description');
+	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_NOT_DELETED,'Invalid description');
 	}
 
 	public function testDeleteProject() {
+		$this->classProjects->setProjectId("1001");
 
+		$res = $this->classProjects->deleteProject();
+
+		$this->assertTrue($res, "Adding failed");
+
+    	$res = $this->classProjects->fetchProject();
+    	$this->assertNotNull($res, "No record found");
+
+    	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');
+	   	$this->assertEquals($res->getCustomerId(),'1001','Invalid customer id');
+	   	$this->assertEquals($res->getProjectName(),'p1','Invalid description');
+	   	$this->assertEquals($res->getProjectDescription(),'w','Invalid description');
+	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_DELETED,'Invalid description');
 	}
 
 }

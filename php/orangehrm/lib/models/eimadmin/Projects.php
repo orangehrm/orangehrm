@@ -194,6 +194,8 @@ class Projects {
 		$updateConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
 
 		if (is_array($updateFields)) {
+			$updateValues = $sql_builder->quoteCorrect($updateValues);
+
 			$sqlQString = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
 
 			$dbConnection = new DMLFunctions();

@@ -200,6 +200,8 @@ class Timesheet {
 		$insertValues[4] = "'".$this->getEndDate()."'";
 		$insertValues[5] = $this->getStatus();
 
+		$insertValues = $sql_builder->quoteCorrect($insertValues);
+
 		$query = $sql_builder->simpleInsert($insertTable, $insertValues, $insertFields);
 
 		$dbConnection = new DMLFunctions();
@@ -297,6 +299,8 @@ class Timesheet {
 		}
 
 		$updateConditions[] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
+
+		$updateValues = $sql_builder->quoteCorrect($updateValues);
 
 		$query = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
 
