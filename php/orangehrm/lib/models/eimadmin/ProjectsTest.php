@@ -29,7 +29,6 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
     public $classLeaveType = null;
     public $connection = null;
 
-
     public static function main() {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
@@ -50,7 +49,6 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
-
 
         mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
 
@@ -97,8 +95,9 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
     	$this->classProjects->setProjectName("Dodle");
     	$this->classProjects->setProjectDescription("jhgjhg");
 
-
     	$res  = $this->classProjects->addProject();
+    	$this->assertTrue($res, "Adding failed");
+
     	$res  = $this->classProjects->fetchProject();
 	    $this->assertNotNull($res, "No record found");
 
@@ -131,27 +130,53 @@ class ProjectsTest extends PHPUnit_Framework_TestCase {
       	}
 	}
 
-    /**
-     * @todo Implement testEditProject().
-     */
-    public function testEditProject() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
+	public function testUpdateProject() {
+		$this->classProjects->setProjectId("1001");
 
-    /**
-     * @todo Implement testDeleteProject().
-     */
-    public function testDeleteProject() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
+    	$res = $this->classProjects->fetchProject();
 
-  }
+    	$res->setCustomerId('1002');
+
+    	$res = $res->updateProject();
+
+    	$this->assertTrue($res, "Adding failed");
+
+    	$res = $this->classProjects->fetchProject();
+    	$this->assertNotNull($res, "No record found");
+
+    	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');
+	   	$this->assertEquals($res->getCustomerId(),'1002','Invalid customer id');
+	   	$this->assertEquals($res->getProjectName(),'p1','Invalid description');
+	   	$this->assertEquals($res->getProjectDescription(),'w','Invalid description');
+	}
+
+	public function testUpdateProject2() {
+		$this->classProjects->setProjectId("1001");
+
+    	$res = $this->classProjects->fetchProject();
+
+		$res->setCustomerId('1002');
+    	$res->setProjectName('px');
+    	$res->setProjectDescription('ogg');
+
+    	$res = $res->updateProject();
+
+    	$this->assertTrue($res, "Adding failed");
+
+    	$res = $this->classProjects->fetchProject();
+    	$this->assertNotNull($res, "No record found");
+
+    	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');
+	   	$this->assertEquals($res->getCustomerId(),'1002','Invalid customer id');
+	   	$this->assertEquals($res->getProjectName(),'px','Invalid description');
+	   	$this->assertEquals($res->getProjectDescription(),'ogg','Invalid description');
+	}
+
+	public function testDeleteProject() {
+
+	}
+
+}
 
 // Call ProjectsTest::main() if this source file is executed directly.
 if (PHPUnit_MAIN_METHOD == "ProjectsTest::main") {

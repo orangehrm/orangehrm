@@ -141,7 +141,7 @@ class Timesheet {
 
 		$dbConnection = new DMLFunctions();
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
 		$row = mysql_fetch_row($result);
 
