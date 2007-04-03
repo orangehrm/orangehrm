@@ -21,22 +21,18 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+
 
 class Customer{
-
-
-/**
- * Customer status constants ..
- */
-
+	/**
+ 	 * Customer status constants ..
+ 	 */
 	const CUSTOMER_DELETED = 1;
 	const CUSTOMER_NOT_DELETED = 0;
 
 	/**
 	 * Table Name
 	 */
-
 	const TABLE_NAME = 'hs_hr_customer';
 
 	//Table field names
@@ -46,11 +42,9 @@ class Customer{
 	const CUSTOMER_DB_FIELDS_DESCRIPTION = 'description';
 	const CUSTOMER_DB_FIELDS_DELETED = 'deleted';
 
-
 	/**
 	 * Class Attributes
 	 */
-
 	private $customerId ;
 	private $customerName;
 	private $customerDescrption;
@@ -58,7 +52,6 @@ class Customer{
 	/**
 	 * Automatic id genaration
 	 */
-
 	private  $singleField;
 	private  $maxidLength = '4';
 
@@ -148,25 +141,23 @@ class Customer{
 	 *
 	 */
 
- public function deletewrapperCustomer ($arrList) {
+ 	public function deletewrapperCustomer ($arrList) {
 
 
-	$i=0;
-	$array_count = count($arrList,COUNT_RECURSIVE)- 1;
-	  for ($i=0; $i <  $array_count;$i++){
+		$i=0;
+		$array_count = count($arrList,COUNT_RECURSIVE)- 1;
+	  	for ($i=0; $i <  $array_count;$i++){
 
-	 		 $this->setCustomerId( $arrList[0][$i]);
-	 	return	 $this->deleteCustomer();
-
+	 		$this->setCustomerId( $arrList[0][$i]);
+	 		return	 $this->deleteCustomer();
 	 	 }
 
-	 }
-	public function deleteCustomer() {
+	}
 
+	public function deleteCustomer() {
 
 		$arrRecordsList[0] = "'". $this->getCustomerId() ."'";
 		$arrRecordsList[1] = "'". self::CUSTOMER_DELETED ."'";
-
 
 		$tableName = self::TABLE_NAME;
 
@@ -201,7 +192,7 @@ class Customer{
 	 *
 	 */
 	public function getListofCustomers($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
-print $schStr;
+
 		$customerArr = $this->fetchCustomers($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 		$arrDispArr = null;
@@ -281,7 +272,7 @@ print $schStr;
 	/**
 	 *
 	 */
-	function getLastRecord() {
+	public function getLastRecord() {
 
 		$sql_builder = new SQLQBuilder();
 		$tableName = self::TABLE_NAME;
@@ -368,8 +359,4 @@ print $schStr;
 	}
 
 }
-
-
-
-
 ?>
