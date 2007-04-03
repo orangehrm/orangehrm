@@ -230,8 +230,10 @@ class Projects {
 	 */
 	public function fetchProject() {
 		$objArr = $this->fetchProjects();
-
-		return $objArr[0];
+		if (isset($objArr)) {
+			return $objArr[0];
+		}
+		return null;
 	}
 
 	/**

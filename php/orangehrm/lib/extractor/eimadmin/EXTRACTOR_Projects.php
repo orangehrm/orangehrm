@@ -22,12 +22,12 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 
 class EXTRACTOR_Projects {
 
-	function EXTRACTOR_Projects() {
+	public function EXTRACTOR_Projects() {
 
 		$this->new_project = new Projects();
 	}
 
-	function parseAddData($postArr) {
+	public function parseAddData($postArr) {
 
 			$this->new_project ->setProjectId($this->new_project ->getNewProjectId());
 			$this->new_project ->setCustomerId (trim($postArr['cmbCustomerId']));
@@ -37,7 +37,7 @@ class EXTRACTOR_Projects {
 			return $this->new_project;
 	}
 
-	function parseEditData($postArr) {
+	public function parseEditData($postArr) {
 
 			$this->new_project ->setCustomerId (trim($postArr['cmbCustomerId']));
 			$this->new_project ->setProjectName(trim($postArr['txtName']));

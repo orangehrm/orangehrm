@@ -26,4 +26,5 @@
 
 <link href="../../themes/beyondT/css/time.css" rel="stylesheet" type="text/css" />
 </head>
+<script src="../../scripts/time.js"></script>
 <body>

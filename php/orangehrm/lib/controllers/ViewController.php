@@ -43,6 +43,9 @@ require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
 
+require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
@@ -212,11 +215,12 @@ class ViewController {
 
 							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld],  $esp);
 					    }
-				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
-							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
-						else
-							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
 
+				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) {
+							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
+						} else {
+							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
+						}
 						$form_creator->display();
 
 						break;
@@ -1069,7 +1073,7 @@ class ViewController {
 		case 'CUS' :
 
 			$this-> custormers = new Customer();
-			$message = $this-> custormers -> countprojectID($schStr,$mode);
+			$message = $this->custormers->countcustomerID($schStr,$mode);
 
 			return $message;
 

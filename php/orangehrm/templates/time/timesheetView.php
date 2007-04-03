@@ -18,6 +18,9 @@
  *
  */
 
+require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+
 $timeExpenses=$records[0];
 $timesheet=$records[1];
 $timesheetSubmissionPeriod=$records[2];
@@ -131,12 +134,25 @@ function actionEdit() {
 	<tbody>
 		<?php
 		if (isset($timeExpenses) && is_array($timeExpenses)) {
-			foreach ($timeExpenses as $project=>$timeExpense) { ?>
+
+			$customerObj = new Customer();
+			$projectObj = new Projects();
+			foreach ($timeExpenses as $project=>$timeExpense) {
+
+				$projectObj->setProjectId($project);
+				$projectDet = $projectObj->fetchProject();
+
+				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId());
+			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><?php echo $project; ?></td>
-				<td ><?php echo $project; ?></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+				<td ><?php echo $customer->getCustomerName(); ?></td>
+				<td ><?php echo $projectDet->getProjectName(); ?></td>
+			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
+					if (!isset($timeExpense[$i])) {
+						$timeExpense[$i]=0;
+					}
+			?>
 	    		<td ><?php echo $timeExpense[$i]; ?></td>
 	    	<?php } ?>
 				<td class="tableMiddleRight"></td>
@@ -146,7 +162,11 @@ function actionEdit() {
 				<th class="tableMiddleLeft"></th>
 				<th ><?php echo $lang_Time_Timesheet_Total; ?></th>
 				<th ></th>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
+					if (!isset($dailySum[$i])) {
+						$dailySum[$i]=0;
+					}
+			?>
 		    	<th ><?php echo $dailySum[$i]; ?></th>
 		    <?php } ?>
 				<th class="tableMiddleRight"></th>

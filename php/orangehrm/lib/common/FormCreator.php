@@ -36,6 +36,7 @@ class FormCreator
 	}
 
 	function display() {
+
 		$str = ROOT_PATH . $this->formPath;
 
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';

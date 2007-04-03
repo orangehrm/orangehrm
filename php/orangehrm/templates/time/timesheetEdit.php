@@ -40,6 +40,7 @@ switch ($status) {
 $startDate = strtotime($timesheet->getStartDate());
 $endDate = strtotime($timesheet->getEndDate());
 
+$row=0;
 ?>
 <style type="text/css" >
 textarea, input, select {
@@ -48,14 +49,32 @@ textarea, input, select {
 </style>
 <script type="text/javascript">
 <!--
-function actionSubmit() {
-	document.getElementById("frmTimesheet").action+= "Submit_Timesheet";
+currFocus = null;
 
-	document.getElementById("frmTimesheet").submit();
+function $(id) {
+	return document.getElementById(id);
 }
 
-function addRow() {
+function actionSubmit() {
+	$("frmTimesheet").action+= "Submit_Timesheet";
 
+	$("frmTimesheet").submit();
+}
+
+function looseFocus(row) {
+	currFocus = null;
+}
+
+function setCurrFocus(label, row) {
+	currFocus = $(label+"["+row+"]");
+}
+
+function actionInsertTime() {
+	if (currFocus) {
+		if (currFocus.value == "") {
+    		currFocus.value = formatDate(new Date(), "yyyy-MM-dd HH:mm");
+  		}
+	}
 }
 -->
 </script>
@@ -79,6 +98,7 @@ function addRow() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
+<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -107,18 +127,65 @@ function addRow() {
 	<tbody>
 		<?php
 		if (isset($timeExpenses) && is_array($timeExpenses)) {
-			foreach ($timeExpenses as $project=>$timeExpense) { ?>
+
+			$customerObj = new Customer();
+			$projectObj = new Projects();
+			foreach ($timeExpenses as $timeExpense) {
+				$projectId = $timeExpense->getProjectId();
+
+				$projectObj->setProjectId($projectId);
+				$projectDet = $projectObj->fetchProject();
+
+				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><?php echo $project; ?></td>
-				<td ><?php echo $project; ?></td>
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]">
+				<?php if (is_array($customers)) { ?>
+						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+				<?php	foreach ($customers as $customer) {
+							$selected="";
+							if ($customerDet->getCustomerId() == $customer->getCustomerId()) {
+								$selected="selected";
+							}
+				?>
+						<option <?php echo $selected; ?> value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
+				<?php 	}
+					} else { ?>
+						<option value="0">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
+				<?php } ?>
+					</select>
+				</td>
+				<td ><select id="cmbProject[<?php echo $row; ?>]">
+				<?php if (is_array($projects)) { ?>
+						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+				<?php	foreach ($projects as $project) {
+							$selected="";
+							if ($projectDet->getProjectId() == $project->getProjectId()) {
+								$selected="selected";
+							}
+				?>
+						<option <?php echo $selected; ?> value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
+				<?php 	}
+					} else { ?>
+						<option value="0">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
+				<?php } ?>
+					</select>
+				</td>
+				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getStartTime(); ?>" /></td>
+				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getEndTime(); ?>" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo $timeExpense->getReportedDate(); ?>" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" value="<?php echo $timeExpense->getDuration(); ?>" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" ><?php echo $timeExpense->getDescription(); ?></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
-		<?php }
-		} ?>
+		<?php
+				$row++;
+			}
+		}?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbCustomer">
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]" >
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($customers as $customer) { ?>
@@ -129,7 +196,7 @@ function addRow() {
 				<?php } ?>
 					</select>
 				</td>
-				<td ><select id="cmbProject">
+				<td ><select id="cmbProject[<?php echo $row; ?>]">
 				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) { ?>
@@ -140,11 +207,11 @@ function addRow() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime" /></td>
-				<td><input type="text" id="txtEndTime" /></td>
-				<td><input type="text" id="txtReportedDate" /></td>
-				<td><input type="text" id="txtDuration" /></td>
-				<td><textarea type="text" id="txtDescription" ></textarea></td>
+				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo date('Y-m-d'); ?>" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" ></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 	</tbody>
@@ -163,17 +230,15 @@ function addRow() {
   	</tfoot>
 </table>
 <p id="controls">
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
-<input src="../../themes/beyondT/pictures/btn_edit.jpg"
-		onclick="actionEdit(); return false;"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
-		name="btnEdit" id="btnEdit" height="20" type="image" width="65">
-<input src="../../themes/beyondT/pictures/btn_submit.gif"
-		onclick="actionSubmit(); return false;"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
-		name="btnEdit" id="btnEdit" height="20" type="image" width="65">
+
+<input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update"/>
+<input type="reset" name="btnReset" id="btnReset" height="20" width="65" value="Reset"/>
+<input type="button" name="btnInsert" id="btnInsert" height="20" width="65" value="Insert Time" onclick="actionInsertTime();"/>
 </form>
 </p>
+<script type="text/javascript">
+	currFocus = $("cmbCustomer[<?php echo $row; ?>]");
+	currFocus.focus();
+</script>
