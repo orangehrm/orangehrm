@@ -132,6 +132,29 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
       	}
 	}
 
+	public function testGetListOfProjects() {
+
+      	$res = $this->classProject->fetchProjects();
+      	$this->assertNotNull($res, "record Not found");
+
+      	$this->assertEquals(count($res), 3,'count incorrect');
+
+      	$expected[0] = array('1001', '1001', 'p1', 'w', Projects::PROJECT_NOT_DELETED);
+      	$expected[1] = array('1002', '1002', 'p2', 'w', Projects::PROJECT_NOT_DELETED);
+      	$expected[2] = array('1003', '1003', 'p3', 'w', Projects::PROJECT_NOT_DELETED);
+
+      	$i= 0;
+
+		for ($i=0; $i<count($res); $i++) {
+
+			$this->assertEquals($expected[$i][0], $res[$i]->getProjectId(), 'Wrong Project Request Id');
+			$this->assertEquals($expected[$i][1], $res[$i]->getCustomerId(), 'Wrong Cus Id ');
+			$this->assertEquals($expected[$i][2], $res[$i]->getProjectName(), 'Wrong Project Name ');
+			$this->assertEquals($expected[$i][3], $res[$i]->getProjectDescription(),'Wrong Project Description ');
+			$this->assertEquals($expected[$i][4], $res[$i]->getDeleted(),'Invalid description');
+      	}
+	}
+
 	public function testUpdateProject() {
 		$this->classProject->setProjectId("1001");
 
