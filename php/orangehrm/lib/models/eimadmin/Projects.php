@@ -127,6 +127,52 @@ class Projects {
 		return $message2;
 	}
 
+		/**
+	 * To update the records reuse this function
+	 */
+	private function updateRecord($tableName,$arrFieldList,$arrRecordsList){
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_update = 'true';
+		$sql_builder->arr_update = $arrFieldList;
+		$sql_builder->arr_updateRecList = $arrRecordsList;
+
+		$sqlQString = $sql_builder->addUpdateRecord1(0);
+
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		return $message2;
+
+	}
+
+	/**
+	 *
+	 */
+	public	function updateProject() {
+
+		$arrRecord[0] = "'". $this->getProjectId () . "'";
+		$arrRecord[1] = "'". $this->getCustomerId () . "'";
+		$arrRecord[2] = "'". $this->getProjectName() . "'";
+		$arrRecord[3] = "'". $this->getProjectDescription() . "'";
+		$arrRecord[4] = self::PROJECT_NOT_DELETED;
+
+
+		$tableName = self::TABLE_NAME;
+
+
+		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
+		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
+		$arrFieldList[2] = "`".self::PROJECT_DB_FIELD_NAME."`";
+		$arrFieldList[3] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
+		$arrFieldList[4] = "`".self::PROJECT_DB_FIELD_DELETED."`";
+
+		return $this->updateRecord($tableName,$arrFieldList,$arrRecord);
+	}
+
+
 	public function fetchProject() {
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
