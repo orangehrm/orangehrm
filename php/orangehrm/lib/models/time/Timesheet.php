@@ -20,6 +20,7 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
 require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
 
@@ -329,6 +330,8 @@ class Timesheet {
 		$selectFields[4] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."`";
 		$selectFields[5] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."`";
 		$selectFields[6] = "a.`".self::TIMESHEET_DB_FIELD_COMMENT."`";
+
+        $selectConditions = null;
 
 		if ($this->getTimesheetId() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
