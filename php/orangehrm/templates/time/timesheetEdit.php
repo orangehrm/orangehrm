@@ -17,32 +17,12 @@
  * Boston, MA  02110-1301, USA
  *
  */
-?>
-
-<?php
-/**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
- * all the essential functionalities required for any enterprise.
- * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
- *
- * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
- * the GNU General Public License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program;
- * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
- *
- */
 
 $timesheet=$records[0];
 $timesheetSubmissionPeriod=$records[1];
 $timeExpenses=$records[2];
 $customers=$records[3];
+$projects=$records[4];
 
 $status=$timesheet->getStatus();
 
@@ -150,7 +130,14 @@ function addRow() {
 					</select>
 				</td>
 				<td ><select id="cmbProject">
+				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+				<?php	foreach ($projects as $project) { ?>
+						<option value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
+				<?php 	}
+					} else { ?>
+						<option value="0">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
+				<?php } ?>
 					</select>
 				</td>
 				<td><input type="text" id="txtStartTime" /></td>

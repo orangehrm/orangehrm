@@ -1,5 +1,22 @@
-
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
@@ -13,7 +30,6 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
  * the projects, which would have customers assigned to it.
  *
  */
-
 class Projects {
 
 	/**
@@ -212,6 +228,12 @@ class Projects {
 	 * Fetch project information, only one
 	 */
 	public function fetchProject() {
+		$objArr = $this->fetchProjects();
+
+		return $objArr[0];
+	}
+
+	public function fetchProjects() {
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
 		$arrFieldList[2] = "`".self::PROJECT_DB_FIELD_NAME."`";
@@ -221,6 +243,8 @@ class Projects {
 		$tableName = "`".self::TABLE_NAME."`";
 
 		$sql_builder = new SQLQBuilder();
+
+		$arrSelectConditions=null;
 
 		if ($this->getProjectId() != null) {
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`= '".$this->getProjectId()."'";
@@ -242,22 +266,20 @@ class Projects {
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".$this->getDeleted()."";
 		}
 
-		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', 1);
-
-		//echo $sqlQString;
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC');
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
 		$objArr = $this->_projectObjArr($message2);
 
-		return $objArr[0];
+		return $objArr;
 	}
 
 	/**
 	 * Fetch all projects with paging
 	 */
-	public function fetchProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
+	public function getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";

@@ -878,5 +878,6 @@
 	$lang_Time_Timesheet_Duration = "Duration";
 	$lang_Time_Timesheet_Decription = "Description";
 	$lang_Time_Timesheet_NoCustomers = "No customers";
+	$lang_Time_Timesheet_NoProjects = "No projects";
 
 ?>

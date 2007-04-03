@@ -100,10 +100,15 @@ class TimeController {
 
 		$customers = $customerObj->fetchCustomers();
 
+		$projectObj = new Projects();
+
+		$projects = $projectObj->fetchProjects();
+
 		$dataArr[0]=$timesheet;
 		$dataArr[1]=$timesheetSubmissionPeriod[0];
 		$dataArr[2]=$timeEvents;
 		$dataArr[3]=$customers;
+		$dataArr[4]=$projects;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
