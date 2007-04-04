@@ -116,7 +116,7 @@ function validate() {
 
 			obj = $("txtDuration["+i+"]");
 			if (validateInterval(i) && !((obj.value == '') || (obj.value == 0)) && (obj.value != duration(i))) {
-				errors[0] = "Not allowed to specify duration and interval unless they match";
+				errors[0] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval; ?>";
 				err[i]=true;
 				errFlag=true;
 				alert(duration(i));
@@ -124,26 +124,26 @@ function validate() {
 
 			if ((obj.value == '') || (obj.value == 0)) {
 				if (!validateInterval(i)) {
-					errors[2] = "Invalid time or zero or negative interval specified";
+					errors[2] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified; ?>";
 					err[i]=true;
 					errFlag=true;
 				}
 			}
 
 			if ($("cmbCustomer["+i+"]").value == 0) {
-				errors[3] = "Customer not specified";
+				errors[3] = "<?php echo $lang_Time_Errors_CustomerNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
 			}
 
 			if ($("cmbProject["+i+"]").value == 0) {
-				errors[4] = "Project not specified";
+				errors[4] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
 			}
 
 			if ($("txtReportedDate["+i+"]").value == "") {
-				errors[5] = "Reported date not specified";
+				errors[5] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
 			}

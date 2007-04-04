@@ -136,7 +136,8 @@
 	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
 	$lang_Menu_Admin_EmailConfiguration = "Configuration";
 	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
-	$lang_Menu_Admin_Customer = "Customer";
+	$lang_Menu_Admin_Customers = "Customers";
+	$lang_Menu_Admin_Projects = "Projects";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -167,6 +168,8 @@
 	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
+
+
 	/**
 	 * Common
 	 */
@@ -180,7 +183,7 @@
 	$lang_Commn_title 						= "Title";
 	$lang_Commn_name 						= "Name";
 	$lang_Commn_PleaseWait					= "Please wait";
-
+	$lang_Common_Select 				= "Select";
 	$lang_Commn_Email						= "E-mail";
 
 	$lang_Common_Edit = "Edit";
@@ -710,6 +713,9 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+	//Projects
+	$lang_view_ProjectId = "Project Id";
+	$lang_view_ProjectName = "Project Name";
 
 	// PIM tab labels
 	$lang_pim_tabs_Personal = "Personal";
@@ -871,6 +877,15 @@
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
+	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully Updated";
+	$lang_Time_Errors_UPDATE_FAILURE = "Failed to Update";
+
+	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
+	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
+	$lang_Time_Errors_ProjectNotSpecified = "Project not specified";
+	$lang_Time_Errors_CustomerNotSpecified = "Customer not specified";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Invalid time or zero or negative interval specified";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Not allowed to specify duration and interval unless they match";
 
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
@@ -878,5 +893,6 @@
 	$lang_Time_Timesheet_Duration = "Duration";
 	$lang_Time_Timesheet_Decription = "Description";
 	$lang_Time_Timesheet_NoCustomers = "No customers";
+	$lang_Time_Timesheet_NoProjects = "No projects";
 
 ?>

@@ -882,7 +882,10 @@
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
 	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
-	$lang_Time_Errors_ = "";
+	$lang_Time_Errors_ProjectNotSpecified = "Project not specified";
+	$lang_Time_Errors_CustomerNotSpecified = "Customer not specified";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Invalid time or zero or negative interval specified";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Not allowed to specify duration and interval unless they match";
 
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
