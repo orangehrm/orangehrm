@@ -71,6 +71,29 @@ class TimeController {
 		return $res;
 	}
 
+	public function fetchCustomersProjects($customerId=0) {
+		$projectObj = new Projects();
+
+		if ($customerId != 0) {
+			$projectObj->setCustomerId($customerId);
+		}
+
+		$projects = $projectObj->fetchProjects();
+
+		$projectArr = null;
+
+		if (isset($projects)) {
+			foreach ($projects as $project) {
+				$tmpArr[0] = $project->getProjectId();
+				$tmpArr[1] = $project->getProjectName();
+
+				$projectArr[] = $tmpArr;
+			}
+		}
+
+		return $projectArr;
+	}
+
 	public function viewEditTimesheet() {
 
 		$timesheetObj = $this->objTime;
@@ -98,10 +121,9 @@ class TimeController {
 		$path="/templates/time/timesheetEdit.php";
 
 		$customerObj = new Customer();
+		$projectObj = new Projects();
 
 		$customers = $customerObj->fetchCustomers();
-
-		$projectObj = new Projects();
 
 		$projects = $projectObj->fetchProjects();
 

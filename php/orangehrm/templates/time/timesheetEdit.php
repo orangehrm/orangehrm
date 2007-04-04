@@ -18,6 +18,33 @@
  *
  */
 
+require_once ROOT_PATH . '/lib/controllers/TimeController.php';
+
+function populateProjects($cutomerId, $row) {
+	ob_clean();
+
+	$timeController = new TimeController();
+	$projects = $timeController->fetchCustomersProjects($cutomerId);
+
+	$objResponse = new xajaxResponse();
+	$xajaxFiller = new xajaxElementFiller();
+	$element="cmbProject[$row]";
+
+	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projects,0,'frmTimesheet',$element);
+
+	$objResponse->addScript('document.getElementById("'.$element.'").focus();');
+
+	$objResponse->addAssign('status','innerHTML','');
+
+	error_log("{$objResponse->getXML()}\n", 3, ROOT_PATH.'/lib/logs/logDB.txt');
+
+	return $objResponse->getXML();
+}
+
+$objAjax = new xajax();
+$objAjax->registerFunction('populateProjects');
+$objAjax->processRequests();
+
 $timesheet=$records[0];
 $timesheetSubmissionPeriod=$records[1];
 $timeExpenses=$records[2];
@@ -61,7 +88,7 @@ function actionSubmit() {
 	$("frmTimesheet").submit();
 }
 
-function looseFocus(row) {
+function looseCurrFocus(row) {
 	currFocus = null;
 }
 
@@ -75,15 +102,17 @@ function actionInsertTime() {
     		currFocus.value = formatDate(new Date(), "yyyy-MM-dd HH:mm");
   		}
 	}
+	currFocus.focus();
 }
 -->
 </script>
+<?php $objAjax->printJavascript(); ?>
 <h2><?php echo preg_replace(array('/#periodName/', '/#startDate/'),
 							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate()),
 							$lang_Time_Timesheet_TimesheetForEditTitle); ?>
   <hr/>
 </h2>
-
+<div id="status"></div>
 <?php if (isset($_GET['message'])) {
 
 		$expString  = $_GET['message'];
@@ -98,7 +127,7 @@ function actionInsertTime() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=<?php echo $_GET['action']; ?>">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -140,7 +169,7 @@ function actionInsertTime() {
 			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]">
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($customers as $customer) {
@@ -156,7 +185,7 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) {
@@ -172,11 +201,11 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getStartTime(); ?>" /></td>
-				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getEndTime(); ?>" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo $timeExpense->getReportedDate(); ?>" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" value="<?php echo $timeExpense->getDuration(); ?>" /></td>
-				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" ><?php echo $timeExpense->getDescription(); ?></textarea></td>
+				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" value="<?php echo $timeExpense->getDuration(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php
@@ -185,7 +214,7 @@ function actionInsertTime() {
 		}?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]" >
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]" onfocus="looseCurrFocus();" onchange="xajax_populateProjects(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($customers as $customer) { ?>
@@ -196,7 +225,7 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) { ?>
@@ -209,9 +238,9 @@ function actionInsertTime() {
 				</td>
 				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo date('Y-m-d'); ?>" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" /></td>
-				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" ></textarea></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo date('Y-m-d'); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" onfocus="looseCurrFocus();" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" onfocus="looseCurrFocus();" ></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 	</tbody>
