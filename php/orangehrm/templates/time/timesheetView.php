@@ -152,7 +152,7 @@ function actionEdit() {
 						$timeExpense[$i]=0;
 					}
 			?>
-	    		<td ><?php echo $timeExpense[$i]; ?></td>
+	    		<td ><?php echo round($timeExpense[$i]/36)/100; ?></td>
 	    	<?php } ?>
 				<td class="tableMiddleRight"></td>
 			</tr>
@@ -166,7 +166,7 @@ function actionEdit() {
 						$dailySum[$i]=0;
 					}
 			?>
-		    	<th ><?php echo $dailySum[$i]; ?></th>
+		    	<th ><?php echo round($dailySum[$i]/36)/100; ?></th>
 		    <?php } ?>
 				<th class="tableMiddleRight"></th>
 			</tr>

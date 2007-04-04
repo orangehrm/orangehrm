@@ -45,7 +45,7 @@ class EXTRACTOR_TimeEvent {
 				$tmpObj->setReportedDate($postArr['txtReportedDate'][$i]);
 
 				if (!empty($postArr['txtDuration'][$i])) {
-					$tmpObj->setDuration($postArr['txtDuration'][$i]);
+					$tmpObj->setDuration($postArr['txtDuration'][$i]*3600);
 				} else {
 					$startTime=strtotime($postArr['txtStartTime'][$i]);
 					$endTime=strtotime($postArr['txtEndTime'][$i]);

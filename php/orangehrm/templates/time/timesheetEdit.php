@@ -115,10 +115,11 @@ function validate() {
 			err[i]=false;
 
 			obj = $("txtDuration["+i+"]");
-			if (validateInterval(i) && !((obj.value == '') || (obj.value == 0))) {
-				errors[0] = "Not allowed to specify duration and interval";
+			if (validateInterval(i) && !((obj.value == '') || (obj.value == 0)) && (obj.value != duration(i))) {
+				errors[0] = "Not allowed to specify duration and interval unless they match";
 				err[i]=true;
 				errFlag=true;
+				alert(duration(i));
 			}
 
 			if ((obj.value == '') || (obj.value == 0)) {
@@ -156,7 +157,7 @@ function validate() {
 	}
 
 	if (errFlag) {
-		errStr="Encountered the following problems\n";
+		errStr="<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
 		for (i in errors) {
 			errStr+=" - "+errors[i]+"\n";
 		}
@@ -211,6 +212,23 @@ function validateInterval(row) {
 	}
 }
 
+function duration(row) {
+	startTime = strToTime($("txtStartTime["+row+"]").value);
+	endTime = strToTime($("txtEndTime["+row+"]").value);
+
+	if (!startTime) return 0;
+
+	if (startTime && !endTime) {
+		return 0;
+	}
+
+	if (endTime > startTime) {
+		return (Math.round((endTime - startTime)/36000)/100);
+	}
+
+	return 0;
+}
+
 function actionUpdate() {
 	if (!validate()) return false;
 
@@ -240,7 +258,7 @@ function actionUpdate() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php echo $timesheet->getTimesheetId(); ?>&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -316,7 +334,7 @@ function actionUpdate() {
 				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo $timeExpense->getDuration(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo round($timeExpense->getDuration()/36)/100; ?>" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea>
 					<input type="hidden" id="txtTimeEventId[<?php echo $row; ?>]" name="txtTimeEventId[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" />
 				</td>

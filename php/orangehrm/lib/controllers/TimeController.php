@@ -66,7 +66,7 @@ class TimeController {
 			$_GET['message'] = 'SUBMIT_FAILURE';
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet");
+		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timesheetObj->getTimesheetId()}");
 
 		return $res;
 	}
@@ -98,6 +98,8 @@ class TimeController {
 		$timeEvents = $this->getObjTime();
 
 		if ($timeEvents == null) {
+			$_GET['message'] = 'UPDATE_FAILURE';
+			$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$_GET['id']}");
 			return false;
 		}
 
@@ -109,13 +111,16 @@ class TimeController {
 			}
 
 			if ($res) {
-				$_GET['message'] = 'SUBMIT_SUCCESS';
+				$_GET['message'] = 'UPDATE_SUCCESS';
 			} else {
-				$_GET['message'] = 'SUBMIT_FAILURE';
+				$_GET['message'] = 'UPDATE_FAILURE';
+				break;
 			}
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet");
+		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timeEvent->getTimesheetId()}");
+
+		return $res;
 	}
 
 	public function viewEditTimesheet() {
@@ -190,13 +195,18 @@ class TimeController {
 
 		for ($i=0; $i<count($timeEvents); $i++) {
 			$projectId=$timeEvents[$i]->getProjectId();
-			$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
+			if ($timeEvents[$i]->getStartTime() != null) {
+				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
+			} else {
+				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getReportedDate())));
+			}
 			if (!isset($durationArr[$projectId][$expenseDate])) {
 				$durationArr[$projectId][$expenseDate]=0;
 			}
 			if (!isset($dailySum[$expenseDate])) {
 				$dailySum[$expenseDate]=0;
 			}
+
 			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
 			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
 		}
@@ -213,8 +223,11 @@ class TimeController {
 	}
 
 	public function redirect($message=null, $url = null) {
-		if (isset($message)) {
 
+		if (isset($url)) {
+			$url=array($url."&message=");
+			$id="";
+		} else if (isset($message)) {
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
 
 			if (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0) {

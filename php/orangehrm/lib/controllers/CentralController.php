@@ -1350,10 +1350,16 @@ switch ($moduletype) {
 
 												switch ($_GET['action']) {
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
+																					if (isset($_GET['id']) && !empty($_GET['id'])) {
+																						$obj->setTimesheetId($_GET['id']);
+																					}
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheet();
 																					break;
 													case 'View_Edit_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
+																					if (isset($_GET['id']) && !empty($_GET['id'])) {
+																						$obj->setTimesheetId($_GET['id']);
+																					}
 																					$timeController->setObjTime($obj);
 																					$timeController->viewEditTimesheet();
 																					break;

@@ -346,8 +346,13 @@ class TimeEvent {
 			$tmpEventArr->setProjectId($row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]);
 			$tmpEventArr->setEmployeeId($row[self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID]);
 			$tmpEventArr->setTimesheetId($row[self::TIME_EVENT_DB_FIELD_TIMESHEET_ID]);
-			$tmpEventArr->setStartTime(date('Y-m-d H:i', strtotime($row[self::TIME_EVENT_DB_FIELD_START_TIME])));
-			$tmpEventArr->setEndTime(date('Y-m-d H:i', strtotime($row[self::TIME_EVENT_DB_FIELD_END_TIME])));
+
+			if (!empty($row[self::TIME_EVENT_DB_FIELD_START_TIME])) {
+				$tmpEventArr->setStartTime(date('Y-m-d H:i', strtotime($row[self::TIME_EVENT_DB_FIELD_START_TIME])));
+			}
+			if (!empty($row[self::TIME_EVENT_DB_FIELD_END_TIME])) {
+				$tmpEventArr->setEndTime(date('Y-m-d H:i', strtotime($row[self::TIME_EVENT_DB_FIELD_END_TIME])));
+			}
 			$tmpEventArr->setReportedDate(date('Y-m-d', strtotime($row[self::TIME_EVENT_DB_FIELD_REPORTED_DATE])));
 			$tmpEventArr->setDuration($row[self::TIME_EVENT_DB_FIELD_DURATION]);
 			$tmpEventArr->setDescription($row[self::TIME_EVENT_DB_FIELD_DESCRIPTION]);

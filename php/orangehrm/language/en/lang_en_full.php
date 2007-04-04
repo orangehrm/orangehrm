@@ -877,6 +877,12 @@
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
+	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully Updated";
+	$lang_Time_Errors_UPDATE_FAILURE = "Failed to Update";
+
+	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
+	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
+	$lang_Time_Errors_ = "";
 
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
