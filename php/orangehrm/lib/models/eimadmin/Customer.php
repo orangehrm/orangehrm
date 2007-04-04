@@ -149,8 +149,13 @@ class Customer{
 	  	for ($i=0; $i <  $array_count;$i++){
 
 	 		$this->setCustomerId( $arrList[0][$i]);
-	 		return	 $this->deleteCustomer();
-	 	 }
+	 		$res=$this->deleteCustomer();
+	 		if (!$res) {
+	 			return $res;
+	 		}
+	 	}
+
+		return $res;
 
 	}
 

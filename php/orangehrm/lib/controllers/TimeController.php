@@ -94,6 +94,30 @@ class TimeController {
 		return $projectArr;
 	}
 
+	public function editTimesheet() {
+		$timeEvents = $this->getObjTime();
+
+		if ($timeEvents == null) {
+			return false;
+		}
+
+		foreach ($timeEvents as $timeEvent) {
+			if ($timeEvent->getTimeEventId() == null) {
+				$res=$timeEvent->addTimeEvent();
+			} else {
+				$res=$timeEvent->editTimeEvent();
+			}
+
+			if ($res) {
+				$_GET['message'] = 'SUBMIT_SUCCESS';
+			} else {
+				$_GET['message'] = 'SUBMIT_FAILURE';
+			}
+		}
+
+		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet");
+	}
+
 	public function viewEditTimesheet() {
 
 		$timesheetObj = $this->objTime;

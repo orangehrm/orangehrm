@@ -142,3 +142,9 @@ hr {
 .success {
 	color: #005500;
 }
+
+#status {
+	position:absolute;
+	top:0;
+	right:0;
+}

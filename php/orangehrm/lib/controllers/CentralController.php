@@ -101,6 +101,7 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
 
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 
 //leave modules extractorss go here
 
@@ -1345,6 +1346,7 @@ switch ($moduletype) {
 							case 'Time'	:	if (isset($_GET['action'])) {
 												$timeController = new TimeController();
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
+												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 
 												switch ($_GET['action']) {
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
@@ -1354,6 +1356,10 @@ switch ($moduletype) {
 													case 'View_Edit_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->viewEditTimesheet();
+																					break;
+													case 'Edit_Timesheet'		:	$objs = $timeEventExtractor->parseEditData($_POST);
+																					$timeController->setObjTime($objs);
+																					$timeController->editTimesheet();
 																					break;
 													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);

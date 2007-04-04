@@ -182,9 +182,14 @@ class Projects {
 	  	for ($i=0; $i <  $array_count;$i++){
 
 	 		$this->setProjectId( $arrList[0][$i]);
-	 		return	 $this->deleteProject();
-	 	 }
+	 		$res=$this->deleteProject();
 
+	 		if (!$res) {
+	 			return $res;
+	 		}
+	 	}
+
+		return $res;
 	}
 
 	/**

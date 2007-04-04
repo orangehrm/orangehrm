@@ -139,8 +139,7 @@ function actionEdit() {
 			$projectObj = new Projects();
 			foreach ($timeExpenses as $project=>$timeExpense) {
 
-				$projectObj->setProjectId($project);
-				$projectDet = $projectObj->fetchProject();
+				$projectDet = $projectObj->fetchProject($project);
 
 				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId());
 			?>

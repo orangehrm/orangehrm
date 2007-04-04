@@ -77,6 +77,7 @@ textarea, input, select {
 <script type="text/javascript">
 <!--
 currFocus = null;
+totRows = 0;
 
 function $(id) {
 	return document.getElementById(id);
@@ -104,6 +105,118 @@ function actionInsertTime() {
 	}
 	currFocus.focus();
 }
+
+function validate() {
+	errors = new Array();
+	err = new Array();
+	errFlag = false;
+	for (i=0; i<=totRows; i++) {
+		if (!allEmpty(i)) {
+			err[i]=false;
+
+			obj = $("txtDuration["+i+"]");
+			if (validateInterval(i) && !((obj.value == '') || (obj.value == 0))) {
+				errors[0] = "Not allowed to specify duration and interval";
+				err[i]=true;
+				errFlag=true;
+			}
+
+			if ((obj.value == '') || (obj.value == 0)) {
+				if (!validateInterval(i)) {
+					errors[2] = "Invalid time or zero or negative interval specified";
+					err[i]=true;
+					errFlag=true;
+				}
+			}
+
+			if ($("cmbCustomer["+i+"]").value == 0) {
+				errors[3] = "Customer not specified";
+				err[i]=true;
+				errFlag=true;
+			}
+
+			if ($("cmbProject["+i+"]").value == 0) {
+				errors[4] = "Project not specified";
+				err[i]=true;
+				errFlag=true;
+			}
+
+			if ($("txtReportedDate["+i+"]").value == "") {
+				errors[5] = "Reported date not specified";
+				err[i]=true;
+				errFlag=true;
+			}
+
+			if (err[i]) {
+				$("row["+i+"]").style.background = "#FFAAAA";
+			} else {
+				$("row["+i+"]").style.background = "#FFFFFF";
+			}
+		}
+	}
+
+	if (errFlag) {
+		errStr="Encountered the following problems\n";
+		for (i in errors) {
+			errStr+=" - "+errors[i]+"\n";
+		}
+		alert(errStr);
+
+		return false;
+	}
+
+	return true;
+}
+
+function allEmpty(row) {
+	unUsed=true;
+
+	if (!(($("txtDuration["+row+"]").value == "") || ($("txtDuration["+row+"]").value == 0))) {
+		unUsed=false;
+	}
+
+	if ($("cmbCustomer["+row+"]").value != 0) {
+		unUsed=false;
+	}
+
+	if ($("cmbProject["+row+"]").value != 0) {
+		unUsed=false;
+	}
+
+	if ($("txtDescription["+row+"]").value != "") {
+		unUsed=false;
+	}
+
+	if (validateInterval(row)) {
+		unUsed=false;
+	}
+
+	return unUsed;
+}
+
+function validateInterval(row) {
+	startTime = strToTime($("txtStartTime["+row+"]").value);
+	endTime = strToTime($("txtEndTime["+row+"]").value);
+
+	if (!startTime) return false;
+
+	if (startTime && !endTime) {
+		return true;
+	}
+
+	if (endTime > startTime) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function actionUpdate() {
+	if (!validate()) return false;
+
+	$('frmTimesheet').action+='Edit_Timesheet';
+	$('frmTimesheet').submit();
+}
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
@@ -127,7 +240,7 @@ function actionInsertTime() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=<?php echo $_GET['action']; ?>">
+<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -162,14 +275,13 @@ function actionInsertTime() {
 			foreach ($timeExpenses as $timeExpense) {
 				$projectId = $timeExpense->getProjectId();
 
-				$projectObj->setProjectId($projectId);
-				$projectDet = $projectObj->fetchProject();
+				$projectDet = $projectObj->fetchProject($projectId);
 
 				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
 			?>
-			<tr>
+			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($customers as $customer) {
@@ -185,7 +297,7 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) {
@@ -201,20 +313,22 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" value="<?php echo $timeExpense->getDuration(); ?>" onfocus="looseCurrFocus();" /></td>
-				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea></td>
+				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo $timeExpense->getDuration(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea>
+					<input type="hidden" id="txtTimeEventId[<?php echo $row; ?>]" name="txtTimeEventId[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" />
+				</td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php
 				$row++;
 			}
 		}?>
-			<tr>
+			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]" onfocus="looseCurrFocus();" onchange="xajax_populateProjects(this.value, <?php echo $row; ?>);" >
+				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($customers as $customer) { ?>
@@ -225,7 +339,7 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" onfocus="looseCurrFocus();">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) { ?>
@@ -236,11 +350,11 @@ function actionInsertTime() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" value="<?php echo date('Y-m-d'); ?>" onfocus="looseCurrFocus();" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" onfocus="looseCurrFocus();" /></td>
-				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" onfocus="looseCurrFocus();" ></textarea></td>
+				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo date('Y-m-d'); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" onfocus="looseCurrFocus();" /></td>
+				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ></textarea></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 	</tbody>
@@ -261,13 +375,15 @@ function actionInsertTime() {
 <p id="controls">
 
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
+<input type="hidden" name="employeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 
-<input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update"/>
+<input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update" onclick="actionUpdate();"/>
 <input type="reset" name="btnReset" id="btnReset" height="20" width="65" value="Reset"/>
 <input type="button" name="btnInsert" id="btnInsert" height="20" width="65" value="Insert Time" onclick="actionInsertTime();"/>
 </form>
 </p>
 <script type="text/javascript">
+	totRows = <?php echo $row; ?>;
 	currFocus = $("cmbCustomer[<?php echo $row; ?>]");
 	currFocus.focus();
 </script>

@@ -59,3 +59,15 @@ function formatDateLiteral(date, format, offset) {
     while (++end < format.length && dateFormatChars.indexOf(format.charAt(end)) == -1);
     return format.substr(offset, end - offset) + formatDate2(date, format, end);
 }
+
+function strToTime(str) {
+	format = /^\s*([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})\s*$/;
+
+	if (!format.test(str)) return false;
+
+	timeArr = format.exec(str);
+
+	date = new Date(timeArr[1], timeArr[2], timeArr[3], timeArr[4], timeArr[5]);
+
+	return date.getTime();
+}

@@ -57,9 +57,9 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()*3600*24)."', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
+    				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i')."', '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (11, 10, 10, 10, '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d H:i:00', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
+    				"VALUES (11, 10, 10, 10, '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d H:i', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
 
     }
 
@@ -95,8 +95,8 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	$res = $eventObj->fetchTimeEvents();
 
-		$expected[0] = array(10, 10, 10, 10, date('Y-m-d H:i:00'), date('Y-m-d H:i:00', time()+3600), date('Y-m-d'), 60, 'Testing');
-		$expected[1] = array(11, 10, 10, 10, date('Y-m-d H:i:00', time()+3600), date('Y-m-d H:i:00', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
+		$expected[0] = array(10, 10, 10, 10, date('Y-m-d H:i'), date('Y-m-d H:i', time()+3600), date('Y-m-d'), 60, 'Testing');
+		$expected[1] = array(11, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
 
 		$this->assertNotNull($res, "Returned nothing");
 
@@ -118,7 +118,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     public function testAddTimeEvent() {
 		$eventObj = $this->classTimeEvent;
 
-		$expected[0] = array(12, 10, 10, 10, date('Y-m-d H:i:00', time()+3600), date('Y-m-d H:i:00', time()+3600*1.5), date('Y-m-d'), 90, "Testing2");
+		$expected[0] = array(12, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*1.5), date('Y-m-d'), 90, "Testing2");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setEmployeeId($expected[0][2]);
@@ -157,7 +157,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     public function testEditTimeEvent() {
 		$eventObj = $this->classTimeEvent;
 
-		$expected[0] = array(11, 10, 10, 10, date('Y-m-d H:i:00', time()-3600), date('Y-m-d H:i:00', time()-3600*0.5), date('Y-m-d'), 30, "Testing12");
+		$expected[0] = array(11, 10, 10, 10, date('Y-m-d H:i', time()-3600), date('Y-m-d H:i', time()-3600*0.5), date('Y-m-d'), 30, "Testing12");
 
 		$eventObj->setTimeEventId($expected[0][0]);
 		$eventObj->setProjectId($expected[0][1]);
