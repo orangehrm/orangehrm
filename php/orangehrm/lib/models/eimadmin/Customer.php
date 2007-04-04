@@ -196,7 +196,6 @@ class Customer{
 		$customerArr = $this->fetchCustomers($pageNO,$schStr,$mode, $sortField, $sortOrder);
 
 		$arrDispArr = null;
-
 		for($i=0; count($customerArr) > $i; $i++) {
 
 			$arrDispArr[$i][0] = $customerArr[$i]->getCustomerId();
@@ -263,11 +262,10 @@ class Customer{
 
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, null, null, 1);
-
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
 
-		$tempArr =  $this->customerObjArr($result);
+		$tempArr =  $this->customerObjArr($result) ;
 		return $tempArr[0];
 	}
 
@@ -361,4 +359,6 @@ class Customer{
 	}
 
 }
+
+
 ?>

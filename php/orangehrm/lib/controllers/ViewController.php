@@ -331,7 +331,7 @@ class ViewController {
 		case 'PRJ':
 
 			$this-> Projects = new Projects();
-			$res = $this->Projects->deleteProject($arrList) ;
+			$res = $this->Projects->deletewrapperProjects($arrList) ;
 			break;
 
 		case 'USR':
@@ -475,7 +475,7 @@ class ViewController {
 		case 'PRJ' :
 
 			$this-> projects = new Projects();
-			$message = $this->projects->getListofProjects($pageNO,$schStr,$mode,$sortField , $sortOrder ) ;
+			$message = $this->projects->getListOfProjectsStr($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') ;
 
 			return $message;
 
@@ -2766,14 +2766,13 @@ class ViewController {
 			case 'PRJ' : 	$form_creator->formPath = '/templates/eimadmin/project.php';
 							$project = new Projects();
 							$customer = new Customer ();
-
-							$form_creator->popArr['customers'] = $customer->fetchCustomers();
+							$form_creator->popArr['cusid'] = $customer->fetchCustomers();
 
 							if($getArr['capturemode'] == 'addmode') {
 								$project->getNewProjectId();
 								$form_creator ->popArr['newID'] = $project->getProjectId();
-								//print "last :".$customer->getLastRecord()."";
-							} elseif($getArr['capturemode'] == 'updatemode') {
+
+ 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $project->fetchProject($getArr['id']) ;
 							}
 							break;

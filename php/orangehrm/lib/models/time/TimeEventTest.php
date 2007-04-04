@@ -73,6 +73,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11)", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection);
+
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);
     }

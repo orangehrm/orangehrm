@@ -712,6 +712,9 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+	//Projects
+	$lang_view_ProjectId = "Project Id";
+	$lang_view_ProjectName = "Project Name";
 
 	// PIM tab labels
 	$lang_pim_tabs_Personal = "Personal";

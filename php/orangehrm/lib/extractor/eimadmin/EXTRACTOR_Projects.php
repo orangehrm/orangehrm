@@ -39,6 +39,7 @@ class EXTRACTOR_Projects {
 
 	public function parseEditData($postArr) {
 
+			$this->new_project ->setProjectId(trim($postArr['txtId']));
 			$this->new_project ->setCustomerId (trim($postArr['cmbCustomerId']));
 			$this->new_project ->setProjectName(trim($postArr['txtName']));
 			$this->new_project ->setProjectDescription(trim($postArr['txtDescription']));

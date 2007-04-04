@@ -76,9 +76,8 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testFetchProject() {
-    	$this->classProject->setProjectId("1001");
 
-    	$res  = $this->classProject->fetchProject();
+    	$res  = $this->classProject->fetchProject("1001");
 
     	$this->assertNotNull($res, "No record found");
 
@@ -99,7 +98,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
     	$res  = $this->classProject->addProject();
     	$this->assertTrue($res, "Adding failed");
 
-    	$res  = $this->classProject->fetchProject();
+    	$res  = $this->classProject->fetchProject("1004");
 	    $this->assertNotNull($res, "No record found");
 
 	   	$this->assertEquals($res->getProjectId(),'1004','Invalid project id');
@@ -156,9 +155,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testUpdateProject() {
-		$this->classProject->setProjectId("1001");
-
-    	$res = $this->classProject->fetchProject();
+    	$res = $this->classProject->fetchProject("1001");
 
     	$res->setCustomerId('1002');
 
@@ -166,7 +163,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertTrue($res, "Adding failed");
 
-    	$res = $this->classProject->fetchProject();
+    	$res = $this->classProject->fetchProject("1001");
     	$this->assertNotNull($res, "No record found");
 
     	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');
@@ -177,9 +174,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testUpdateProject2() {
-		$this->classProject->setProjectId("1001");
-
-    	$res = $this->classProject->fetchProject();
+    	$res = $this->classProject->fetchProject("1001");
 
 		$res->setCustomerId('1002');
     	$res->setProjectName('px');
@@ -189,7 +184,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertTrue($res, "Adding failed");
 
-    	$res = $this->classProject->fetchProject();
+    	$res = $this->classProject->fetchProject("1001");
     	$this->assertNotNull($res, "No record found");
 
     	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');
@@ -206,7 +201,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($res, "Adding failed");
 
-    	$res = $this->classProject->fetchProject();
+    	$res = $this->classProject->fetchProject("1001");
     	$this->assertNotNull($res, "No record found");
 
     	$this->assertEquals($res->getProjectId(),'1001','Invalid project id');

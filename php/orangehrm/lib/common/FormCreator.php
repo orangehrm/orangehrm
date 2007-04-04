@@ -33,6 +33,7 @@ class FormCreator
 			$this->postArr = $postArr;
 
 		$this->popArr = array();
+
 	}
 
 	function display() {

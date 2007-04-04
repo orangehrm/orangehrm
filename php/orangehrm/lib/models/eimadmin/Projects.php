@@ -171,6 +171,23 @@ class Projects {
 	}
 
 	/**
+	 * Wraaper for delete
+	 */
+
+ 	public function deletewrapperProjects ($arrList) {
+
+
+		$i=0;
+		$array_count = count($arrList,COUNT_RECURSIVE)- 1;
+	  	for ($i=0; $i <  $array_count;$i++){
+
+	 		$this->setProjectId( $arrList[0][$i]);
+	 		return	 $this->deleteProject();
+	 	 }
+
+	}
+
+	/**
 	 * Mark project deleted
 	 */
 	public function deleteProject() {
@@ -228,7 +245,8 @@ class Projects {
 	/**
 	 * Fetch project information, only one
 	 */
-	public function fetchProject() {
+	public function fetchProject($projectId) {
+		$this->setProjectId($projectId);
 		$objArr = $this->fetchProjects();
 		if (isset($objArr)) {
 			return $objArr[0];
@@ -318,7 +336,25 @@ class Projects {
 	/**
 	 * Fetch all projects with paging
 	 */
-	public function getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
+
+	 	public function getListOfProjectsStr($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+
+		$projectArr = $this->getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC');
+
+		$arrDispArr = null;
+		for($i=0; count($projectArr) > $i; $i++) {
+
+			$arrDispArr[$i][0] = $projectArr[$i]->getProjectId();
+			$arrDispArr[$i][1] = $projectArr[$i]->getCustomerId();
+			$arrDispArr[$i][2] = $projectArr[$i]->getProjectName();
+			$arrDispArr[$i][3] = $projectArr[$i]->getProjectDescription();
+
+
+		}
+
+		return $arrDispArr;
+	}
+	 public function getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
