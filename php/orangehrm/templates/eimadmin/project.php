@@ -210,7 +210,7 @@ function goBack() {
             <br/>
             <label for="cmbCustomerId">CustomerId</label>
             <select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : ''?> name="cmbCustomerId">
-					<option value="0"><?php echo $message->getCustomerId()  ?></option>
+					<option value= "<?php echo $message->getCustomerId()?>" > <?php echo $message->getCustomerId()  ?></option>
 <?php
 					$arrcusid = $this->popArr['cusid'];
 			for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {?>
