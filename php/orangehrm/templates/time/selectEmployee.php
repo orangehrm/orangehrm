@@ -18,8 +18,62 @@
  *
  */
 ?>
-<form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
-<label>
-<input type="text" name="txtEmployeeId" />
-</label>
+<script type="text/javascript">
+<!--
+function returnEmpDetail(){
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
+        if(!popup.opener) popup.opener=self;
+		popup.focus();
+}
+
+function view() {
+	frmObj = document.getElementById("frmTimesheet");
+
+	frmObj.action+='View_Timesheet';
+	frmObj.submit();
+}
+-->
+</script>
+<form name="frmEmp" id="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+<table border="0" cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th class="tableTopLeft"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+			<th class="tableTopRight"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="tableMiddleLeft"></td>
+			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
+			<td>&nbsp;</td>
+			<td ><input type="text" name="cmbRepEmpID" />
+				<input type="hidden" name="txtRepEmpID" />
+				<input type="button" value="..." onclick="returnEmpDetail();" />
+			</td>
+			<td>&nbsp;</td>
+			<td><input type="image" name="btnView" onclick="view();" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
+			<td>&nbsp;</td>
+			<td class="tableMiddleRight"></tdh>
+		</tr>
+	</tbody>
+
+	<tfoot>
+	  	<tr>
+			<td class="tableBottomLeft"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomRight"></td>
+		</tr>
+  	</tfoot>
 </form>

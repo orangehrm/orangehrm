@@ -50,6 +50,7 @@ $timesheetSubmissionPeriod=$records[1];
 $timeExpenses=$records[2];
 $customers=$records[3];
 $projects=$records[4];
+$employee=$records[5];
 
 $status=$timesheet->getStatus();
 
@@ -238,9 +239,9 @@ function actionUpdate() {
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
-<h2><?php echo preg_replace(array('/#periodName/', '/#startDate/'),
-							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate()),
-							$lang_Time_Timesheet_TimesheetForEditTitle); ?>
+<h2><?php echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
+							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
+							$lang_Time_Timesheet_TimesheetNameForEditTitle); ?>
   <hr/>
 </h2>
 <div id="status"></div>
@@ -393,7 +394,7 @@ function actionUpdate() {
 <p id="controls">
 
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
-<input type="hidden" name="employeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
+<input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 
 <input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update" onclick="actionUpdate();"/>
 <input type="reset" name="btnReset" id="btnReset" height="20" width="65" value="Reset"/>

@@ -841,7 +841,7 @@ function setSize() {
                     ?>
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
-                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_EmployeeTimesheets; ?></A>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee" target="rightMenu"><?php echo $lang_Menu_Time_EmployeeTimesheets; ?></A>
                         </TD>
 					 </TR>
                     </TBODY>
@@ -889,7 +889,7 @@ function setSize() {
 <?php } ?>
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.1 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.2_alpha_1 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
 </tr>
 </table>
 <script language="javascript">

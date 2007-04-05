@@ -25,6 +25,7 @@ $timeExpenses=$records[0];
 $timesheet=$records[1];
 $timesheetSubmissionPeriod=$records[2];
 $dailySum=$records[3];
+$employee=$records[4];
 
 $status=$timesheet->getStatus();
 
@@ -83,9 +84,9 @@ function actionEdit() {
 	<input src="../../themes/beyondT/icons/resultset_previous.png"
 			onclick="actionNav(prev); return false;"
 			name="btnPrev" id="btnPrev" type="image"/>
-		<?php echo preg_replace(array('/#periodName/', '/#startDate/'),
-							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate()),
-							$lang_Time_Timesheet_TimesheetForViewTitle); ?>
+		<?php echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
+							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
+							$lang_Time_Timesheet_TimesheetNameForViewTitle); ?>
 	<input src="../../themes/beyondT/icons/resultset_next.png"
 			onclick="actionNav(next); return false;"
 			name="btnNext" id="btnNext" type="image"/>
@@ -198,6 +199,8 @@ function actionEdit() {
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 
 <input type="hidden" id="txtTimesheetId" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
+<input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
+
 <input type="hidden" id="txtTimesheetPeriodId" name="txtTimesheetPeriodId" value="<?php echo $timesheet->getTimesheetPeriodId(); ?>" />
 <input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />

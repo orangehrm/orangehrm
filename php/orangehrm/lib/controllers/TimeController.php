@@ -27,6 +27,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+
 class TimeController {
 
 	private $objTime;
@@ -94,6 +96,13 @@ class TimeController {
 		return $projectArr;
 	}
 
+	public function viewSelectEmployee() {
+		$path="/templates/time/selectEmployee.php";
+
+		$template = new TemplateMerger(null, $path);
+		$template->display();
+	}
+
 	public function editTimesheet() {
 		$timeEvents = $this->getObjTime();
 
@@ -127,6 +136,10 @@ class TimeController {
 
 		$timesheetObj = $this->objTime;
 
+		if ($timesheetObj->getTimesheetId() != null) {
+			$timesheetObj->setEmployeeId(null);
+		}
+
 		$timesheets = $timesheetObj->fetchTimesheets();
 
 		if ($timesheets == null) {
@@ -156,11 +169,16 @@ class TimeController {
 
 		$projects = $projectObj->fetchProjects();
 
+		$employeeObj = new EmpInfo();
+
+		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+
 		$dataArr[0]=$timesheet;
 		$dataArr[1]=$timesheetSubmissionPeriod[0];
 		$dataArr[2]=$timeEvents;
 		$dataArr[3]=$customers;
 		$dataArr[4]=$projects;
+		$dataArr[5]=$employee[0];
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -170,9 +188,13 @@ class TimeController {
 
 		$timesheetObj = $this->objTime;
 
+		if ($timesheetObj->getTimesheetId() != null) {
+			$timesheetObj->setEmployeeId(null);
+		}
+
 		$timesheets = $timesheetObj->fetchTimesheets();
 
-		if ($timesheets == null) {
+		if (!is_object($timesheets[0])) {
 			$timesheetObj->addTimesheet();
 
 			$timesheets = $timesheetObj->fetchTimesheets();
@@ -211,12 +233,17 @@ class TimeController {
 			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
 		}
 
+		$employeeObj = new EmpInfo();
+
+		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+
 		$path="/templates/time/timesheetView.php";
 
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;
 		$dataArr[2]=$timesheetSubmissionPeriod[0];
 		$dataArr[3]=$dailySum;
+		$dataArr[4]=$employee[0];
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

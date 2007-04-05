@@ -1350,7 +1350,7 @@ switch ($moduletype) {
 
 												switch ($_GET['action']) {
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
-																					if (isset($_GET['id']) && !empty($_GET['id'])) {
+																					if (isset($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
 																					}
 																					$timeController->setObjTime($obj);
@@ -1370,6 +1370,9 @@ switch ($moduletype) {
 													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->submitTimesheet();
+																					break;
+													case 'View_Select_Employee'	:
+																					$timeController->viewSelectEmployee();
 																					break;
 												}
 											} else {

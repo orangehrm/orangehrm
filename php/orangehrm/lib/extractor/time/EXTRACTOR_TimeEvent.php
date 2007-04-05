@@ -61,7 +61,7 @@ class EXTRACTOR_TimeEvent {
 				if (isset($postArr['txtTimeEventId'][$i])) {
 					$tmpObj->setTimeEventId($postArr['txtTimeEventId'][$i]);
 				}
-				$tmpObj->setEmployeeId($postArr['employeeId']);
+				$tmpObj->setEmployeeId($postArr['txtEmployeeId']);
 				$tmpObj->setTimesheetId($postArr['txtTimesheetId']);
 
 				if (!empty($postArr['cmbProject'][$i])) {
