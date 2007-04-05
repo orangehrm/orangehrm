@@ -173,12 +173,18 @@ class TimeController {
 
 		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
 
+		$self=false;
+		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
+			$self=true;
+		}
+
 		$dataArr[0]=$timesheet;
 		$dataArr[1]=$timesheetSubmissionPeriod[0];
 		$dataArr[2]=$timeEvents;
 		$dataArr[3]=$customers;
 		$dataArr[4]=$projects;
 		$dataArr[5]=$employee[0];
+		$dataArr[6]=$self;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -233,6 +239,11 @@ class TimeController {
 			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
 		}
 
+		$self=false;
+		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
+			$self=true;
+		}
+
 		$employeeObj = new EmpInfo();
 
 		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
@@ -244,6 +255,7 @@ class TimeController {
 		$dataArr[2]=$timesheetSubmissionPeriod[0];
 		$dataArr[3]=$dailySum;
 		$dataArr[4]=$employee[0];
+		$dataArr[5]=$self;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

@@ -34,6 +34,9 @@ function view() {
 }
 -->
 </script>
+<h2><?php echo $lang_Time_Select_Employee_Title; ?>
+	<hr>
+</h2>
 <form name="frmEmp" id="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>

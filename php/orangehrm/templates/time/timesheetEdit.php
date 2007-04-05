@@ -51,6 +51,7 @@ $timeExpenses=$records[2];
 $customers=$records[3];
 $projects=$records[4];
 $employee=$records[5];
+$self=$records[6];
 
 $status=$timesheet->getStatus();
 
@@ -239,9 +240,13 @@ function actionUpdate() {
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
-<h2><?php echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
+<h2><?php 	$headingStr = $lang_Time_Timesheet_TimesheetNameForEditTitle;
+			if ($self) {
+				$headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
+			}
+			echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
-							$lang_Time_Timesheet_TimesheetNameForEditTitle); ?>
+							$headingStr); ?>
   <hr/>
 </h2>
 <div id="status"></div>

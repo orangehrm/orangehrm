@@ -26,6 +26,7 @@ $timesheet=$records[1];
 $timesheetSubmissionPeriod=$records[2];
 $dailySum=$records[3];
 $employee=$records[4];
+$self=$records[5];
 
 $status=$timesheet->getStatus();
 
@@ -84,9 +85,13 @@ function actionEdit() {
 	<input src="../../themes/beyondT/icons/resultset_previous.png"
 			onclick="actionNav(prev); return false;"
 			name="btnPrev" id="btnPrev" type="image"/>
-		<?php echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
+		<?php 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
+				if ($self) {
+					$headingStr = $lang_Time_Timesheet_TimesheetForViewTitle;
+				}
+				echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
-							$lang_Time_Timesheet_TimesheetNameForViewTitle); ?>
+							$headingStr); ?>
 	<input src="../../themes/beyondT/icons/resultset_next.png"
 			onclick="actionNav(next); return false;"
 			name="btnNext" id="btnNext" type="image"/>
