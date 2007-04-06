@@ -94,13 +94,12 @@ if ($authorizeObj->isESS()) {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
 	}
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
-
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
-	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
+	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 
-	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
+	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
 require_once ROOT_PATH . '/lib/common/Language.php';

@@ -880,8 +880,10 @@
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
-	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully Updated";
-	$lang_Time_Errors_UPDATE_FAILURE = "Failed to Update";
+	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully updated";
+	$lang_Time_Errors_UPDATE_FAILURE = "Failed to update";
+	$lang_Time_Errors_CANCEL_SUCCESS = "Successfully cancelled";
+	$lang_Time_Errors_CANCEL_FAILURE = "Failed to cancel";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
 

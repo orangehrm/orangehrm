@@ -119,9 +119,9 @@ class TimeController {
 
 		$res=$timesheetObj->cancelTimesheet();
 		if ($res) {
-			$_GET['message'] = 'SUBMIT_SUCCESS';
+			$_GET['message'] = 'CANCEL_SUCCESS';
 		} else {
-			$_GET['message'] = 'SUBMIT_FAILURE';
+			$_GET['message'] = 'CANCEL_FAILURE';
 		}
 
 		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
@@ -274,11 +274,11 @@ class TimeController {
 		$timesheets = $timesheetObj->fetchTimesheets();
 
 		if (!is_object($timesheets[0])) {
-			if ($_SESSION['empID'] == $timesheetObj->getEmployeeId()) {
+			if (($_SESSION['empID'] == $timesheetObj->getEmployeeId()) && (($timesheetObj->getEmployeeId() != null) && !empty($_SESSION['empID']))) {
 				$timesheetObj->addTimesheet();
 				$timesheets = $timesheetObj->fetchTimesheets();
 			} else {
-				$this->redirect('NO_TIMESHEET_FAILURE');
+				$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Select_Employee');
 			}
 		}
 

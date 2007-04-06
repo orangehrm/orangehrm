@@ -248,22 +248,24 @@ function actionEdit() {
 <input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
 
+<?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 <input src="../../themes/beyondT/pictures/btn_edit.jpg"
 		onclick="actionEdit(); return false;"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
 		name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
-<?php if (($self) && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED)) { ?>
+	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) { ?>
 <input src="../../themes/beyondT/pictures/btn_submit.gif"
 		onclick="actionSubmit(); return false;"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
 		name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
-<?php } ?>
-<?php if (($self) && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
+	<?php } ?>
+	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
 <input type="button" value="Cancel"
 		onclick="actionCancel(); return false;"
 		name="btnSubmit" id="btnSubmit" height="20" width="65"/>
+	<?php } ?>
 <?php } ?>
 </form>
 </p>
