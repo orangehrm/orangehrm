@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.2_alpha_1 (05/04/2007)
+
+	1. Employee, Supervisor and HR-Admin can view timesheets and add time events
+
+
 New & Changed Features for OrangeHRM ver 2.1 (Neva) (16/03/2007)
 
 	Bugs fixed include:

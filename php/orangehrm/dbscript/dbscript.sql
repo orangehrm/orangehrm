@@ -1,4 +1,4 @@
-﻿create table `hs_hr_geninfo` (
+create table `hs_hr_geninfo` (
 	`code` varchar(8) not null default '',
 	`geninfo_keys` varchar(200) default null,
 	`geninfo_values` varchar(200) default null,

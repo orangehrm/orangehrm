@@ -860,8 +860,11 @@
 
 	//timesheet
 
-	$lang_Time_Timesheet_TimesheetForViewTitle = "Timeshet for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
+
+	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Timesheet of #name for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Edit timesheet of #name for #periodName starting #startDate";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -894,5 +897,7 @@
 	$lang_Time_Timesheet_Decription = "Description";
 	$lang_Time_Timesheet_NoCustomers = "No customers";
 	$lang_Time_Timesheet_NoProjects = "No projects";
+
+	$lang_Time_Select_Employee_Title = "Select Employee";
 
 ?>
