@@ -121,7 +121,6 @@ function validate() {
 				errors[0] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval; ?>";
 				err[i]=true;
 				errFlag=true;
-				alert(duration(i));
 			}
 
 			if ((obj.value == '') || (obj.value == 0)) {

@@ -27,6 +27,13 @@ $timesheetSubmissionPeriod=$records[2];
 $dailySum=$records[3];
 $employee=$records[4];
 $self=$records[5];
+$next=$records[6];
+$prev=$records[7];
+
+if ($self) {
+	$next=true;
+	$prev=true;
+}
 
 $status=$timesheet->getStatus();
 
@@ -61,17 +68,39 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-function actionNav(data) {
-	$('txtStartDate').value=data.startDate;
-	$('txtEndDate').value=data.endDate;
 
+function actionNav(nav) {
+<?php if ($self) { ?>
+	switch (nav) {
+		case 1  : $("txtStartDate").value = prev.startDate;
+				  $("txtEndDate").value = prev.endDate;
+				  break;
+		case -1 : $("txtStartDate").value = next.startDate;
+				  $("txtEndDate").value = next.endDate;
+				  break;
+	}
 	$("frmTimesheet").action+= "View_Timesheet";
+	$("txtTimesheetId").disabled= true;
+<?php } else { ?>
+	switch (nav) {
+		case 1  : $("frmTimesheet").action+= "Fetch_Prev_Timesheet";
+				  break;
+		case -1 : $("frmTimesheet").action+= "Fetch_Next_Timesheet";
+				  break;
+	}
+<?php } ?>
+
 	$("frmTimesheet").submit();
 }
 
 
 function actionSubmit() {
 	$("frmTimesheet").action+= "Submit_Timesheet";
+	$("frmTimesheet").submit();
+}
+
+function actionCancel() {
+	$("frmTimesheet").action+= "Cancel_Timesheet";
 	$("frmTimesheet").submit();
 }
 
@@ -82,25 +111,34 @@ function actionEdit() {
 -->
 </script>
 <h2>
+	<?php if ($prev) { ?>
 	<input src="../../themes/beyondT/icons/resultset_previous.png"
-			onclick="actionNav(prev); return false;"
+			onclick="actionNav(1); return false;"
 			name="btnPrev" id="btnPrev" type="image"/>
-		<?php 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
+		<?php
+			}
+				$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 				if ($self) {
 					$headingStr = $lang_Time_Timesheet_TimesheetForViewTitle;
 				}
 				echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
-							$headingStr); ?>
+							$headingStr);
+		if ($next) {
+	?>
 	<input src="../../themes/beyondT/icons/resultset_next.png"
-			onclick="actionNav(next); return false;"
+			onclick="actionNav(-1); return false;"
 			name="btnNext" id="btnNext" type="image"/>
+	<?php } ?>
 	<hr/>
 </h2>
 
 <h3><?php echo preg_replace(array('/#status/'),
 							array($statusStr),
-							$lang_Time_Timesheet_Status); ?></h3>
+							$lang_Time_Timesheet_Status);
+		if ($timesheet->getComment() != null) {
+			echo " - $imesheet->getComment()";
+		}?></h3>
 
 <?php if (isset($_GET['message'])) {
 
@@ -215,10 +253,17 @@ function actionEdit() {
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
 		name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
+<?php if (($self) && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED)) { ?>
 <input src="../../themes/beyondT/pictures/btn_submit.gif"
 		onclick="actionSubmit(); return false;"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
 		name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
+<?php } ?>
+<?php if (($self) && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
+<input type="button" value="Cancel"
+		onclick="actionCancel(); return false;"
+		name="btnSubmit" id="btnSubmit" height="20" width="65"/>
+<?php } ?>
 </form>
 </p>

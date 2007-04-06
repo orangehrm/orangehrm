@@ -45,6 +45,10 @@ class EXTRACTOR_Timesheet {
 			$this->parent_Timesheet->setTimesheetPeriodId($postArr['txtTimesheetPeriodId']);
 		}
 
+		if (isset($postArr['txtTimesheetId'])) {
+			$this->parent_Timesheet->setTimesheetId($postArr['txtTimesheetId']);
+		}
+
 		if (isset($postArr['txtEmployeeId'])) {
 			$this->parent_Timesheet->setEmployeeId($postArr['txtEmployeeId']);
 		} else if (isset($postArr['txtRepEmpID'])) {

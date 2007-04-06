@@ -1371,8 +1371,19 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->submitTimesheet();
 																					break;
-													case 'View_Select_Employee'	:
-																					$timeController->viewSelectEmployee();
+													case 'Cancel_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->cancelTimesheet();
+																					break;
+													case 'View_Select_Employee'	:	$timeController->viewSelectEmployee();
+																					break;
+													case 'Fetch_Next_Timesheet'	:	$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->nextEmployeeTimesheet();
+																					break;
+													case 'Fetch_Prev_Timesheet'	:	$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->previousEmployeeTimesheet();
 																					break;
 												}
 											} else {

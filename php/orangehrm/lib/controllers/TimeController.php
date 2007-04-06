@@ -28,11 +28,13 @@ require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
 class TimeController {
 
 	private $objTime;
 	private $id;
+	private $authorizeObj;
 
 	public function setObjTime($objTime) {
 		$this->objTime=$objTime;
@@ -51,11 +53,50 @@ class TimeController {
 	}
 
 	public function __construct() {
-
+		$this->authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 	}
 
 	public function __distruct() {
 
+	}
+
+	public function nextEmployeeTimesheet($redirect=true) {
+		$timesheetObj = $this->objTime;
+
+		$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+
+		$timesheetId = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_NEXT);
+
+		if (!$redirect) {
+			return $timesheetId;
+		}
+
+		if (!$timesheetId) {
+			$timesheetId=$timesheetObj->getTimesheetId();
+		}
+
+		$this->_redirectToTimesheet($timesheetId, null);
+	}
+
+	public function previousEmployeeTimesheet($redirect=true) {
+		$timesheetObj = $this->objTime;
+
+		$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+		$timesheetId = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_PREV);
+
+		if (!$redirect) {
+			return $timesheetId;
+		}
+
+		if (!$timesheetId) {
+			$timesheetId=$timesheetObj->getTimesheetId();
+		}
+
+		$this->_redirectToTimesheet($timesheetId, null);
+	}
+
+	private function _redirectToTimesheet($timesheetId, $message) {
+		$this->redirect($message, "?timecode=Time&action=View_Timesheet&id={$timesheetId}");
 	}
 
 	public function submitTimesheet() {
@@ -68,7 +109,22 @@ class TimeController {
 			$_GET['message'] = 'SUBMIT_FAILURE';
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timesheetObj->getTimesheetId()}");
+		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+
+		return $res;
+	}
+
+	public function cancelTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$res=$timesheetObj->cancelTimesheet();
+		if ($res) {
+			$_GET['message'] = 'SUBMIT_SUCCESS';
+		} else {
+			$_GET['message'] = 'SUBMIT_FAILURE';
+		}
+
+		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
 
 		return $res;
 	}
@@ -97,9 +153,23 @@ class TimeController {
 	}
 
 	public function viewSelectEmployee() {
-		$path="/templates/time/selectEmployee.php";
+		$path = "/templates/time/selectEmployee.php";
 
-		$template = new TemplateMerger(null, $path);
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+
+		$role = $this->authorizeObj->firstRole($roles);
+		$employees = null;
+
+		if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
+			$empRepObj = new EmpRepTo();
+
+			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
+		}
+
+		$dataArr[0] = $role;
+		$dataArr[1] = $employees;
+
+		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
 	}
 
@@ -143,9 +213,10 @@ class TimeController {
 		$timesheets = $timesheetObj->fetchTimesheets();
 
 		if ($timesheets == null) {
-			$timesheetObj->addTimesheet();
-
-			$timesheets = $timesheetObj->fetchTimesheets();
+			if ($_SESSION['empID'] == $timesheetObj->getTimesheetId()) {
+				$timesheetObj->addTimesheet();
+				$timesheets = $timesheetObj->fetchTimesheets();
+			}
 		}
 
 		$timesheet = $timesheets[0];
@@ -196,14 +267,19 @@ class TimeController {
 
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
+		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
+			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
 		}
 
 		$timesheets = $timesheetObj->fetchTimesheets();
 
 		if (!is_object($timesheets[0])) {
-			$timesheetObj->addTimesheet();
-
-			$timesheets = $timesheetObj->fetchTimesheets();
+			if ($_SESSION['empID'] == $timesheetObj->getEmployeeId()) {
+				$timesheetObj->addTimesheet();
+				$timesheets = $timesheetObj->fetchTimesheets();
+			} else {
+				$this->redirect('NO_TIMESHEET_FAILURE');
+			}
 		}
 
 		$timesheet = $timesheets[0];
@@ -250,12 +326,21 @@ class TimeController {
 
 		$path="/templates/time/timesheetView.php";
 
+		$this->objTime->setEmployeeId($timesheet->getEmployeeId());
+		$this->objTime->setStartDate($timesheet->getStartDate());
+		$this->objTime->setEndDate($timesheet->getEndDate());
+
+		$next=$this->nextEmployeeTimesheet(false);
+		$prev=$this->previousEmployeeTimesheet(false);
+
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;
 		$dataArr[2]=$timesheetSubmissionPeriod[0];
 		$dataArr[3]=$dailySum;
 		$dataArr[4]=$employee[0];
 		$dataArr[5]=$self;
+		$dataArr[6]=$next;
+		$dataArr[7]=$prev;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -264,7 +349,11 @@ class TimeController {
 	public function redirect($message=null, $url = null) {
 
 		if (isset($url)) {
-			$url=array($url."&message=");
+			$mes = "";
+			if (isset($message)) {
+				$mes = "&message=";
+			}
+			$url=array($url.$mes);
 			$id="";
 		} else if (isset($message)) {
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);

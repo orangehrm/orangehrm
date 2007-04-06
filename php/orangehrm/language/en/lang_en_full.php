@@ -883,6 +883,8 @@
 	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully Updated";
 	$lang_Time_Errors_UPDATE_FAILURE = "Failed to Update";
 
+	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
+
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
 	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
 	$lang_Time_Errors_ProjectNotSpecified = "Project not specified";

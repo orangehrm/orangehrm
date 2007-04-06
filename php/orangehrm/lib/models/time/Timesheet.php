@@ -42,6 +42,9 @@ class Timesheet {
 	const TIMESHEET_DB_FIELD_STATUS = "status";
 	const TIMESHEET_DB_FIELD_COMMENT = "comment";
 
+	const TIMESHEET_DIRECTION_NEXT = 1;
+	const TIMESHEET_DIRECTION_PREV = -1;
+
 	const TIMESHEET_STATUS_NOT_SUBMITTED=0;
 	const TIMESHEET_STATUS_SUBMITTED=10;
 	const TIMESHEET_STATUS_APPROVED=20;
@@ -310,6 +313,41 @@ class Timesheet {
 
 		if ($result) {
 			return true;
+		}
+
+		return false;
+	}
+
+	public function fetchTimesheetId($direction) {
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
+
+		$selectFields[0] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`";
+
+		$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
+
+		switch ($direction) {
+			case self::TIMESHEET_DIRECTION_NEXT :
+													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` > '{$this->getEndDate()}'";
+													break;
+			case self::TIMESHEET_DIRECTION_PREV :
+													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` < '{$this->getStartDate()}'";
+													break;
+		}
+
+		$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC', 1);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		if ($result) {
+			if ($row = mysql_fetch_assoc($result)) {
+				return $row[self::TIMESHEET_DB_FIELD_TIMESHEET_ID];
+			}
 		}
 
 		return false;
