@@ -331,8 +331,6 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$timesheetObj->setEmployeeId(10);
 		$timesheetObj->setTimesheetPeriodId(10);
-		/*$timesheetObj->setStartDate(date('Y-m-d', time()+3600*24*7*4));
-		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*7*5));*/
 
 		$timesheetObj->addTimesheet();
 
@@ -354,6 +352,48 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($expected[$i][4], $res[$i]->getEndDate(), "Invalid End date");
 			$this->assertEquals($expected[$i][5], $res[$i]->getStatus(), "Invalid Status");
  		}
+    }
+
+    public function testFetchTimesheetId() {
+		$timesheetObj = $this->classTimesheet;
+
+		$timesheetObj->setEmployeeId(10);
+		$timesheetObj->setStartDate(date('Y-m-d'));
+		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*6));
+
+		$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+
+		$res = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_PREV);
+
+		$this->assertFalse($res, 'Invalid id returned');
+    }
+
+    public function testFetchTimesheetId1() {
+		$timesheetObj = $this->classTimesheet;
+
+		$timesheetObj->setEmployeeId(10);
+		$timesheetObj->setStartDate(date('Y-m-d'));
+		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*6));
+
+		$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+
+		$res = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_NEXT);
+
+		$this->assertEquals(11, $res, 'Invalid id returned');
+    }
+
+    public function testFetchTimesheetId2() {
+		$timesheetObj = $this->classTimesheet;
+
+		$timesheetObj->setEmployeeId(10);
+		$timesheetObj->setStartDate(date('Y-m-d', time()+3600*24*7*1+3600*24*6));
+		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*7*3));
+
+		$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+
+		$res = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_PREV);
+
+		$this->assertEquals(11, $res, 'Invalid id returned');
     }
 
 }

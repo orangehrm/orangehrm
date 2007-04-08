@@ -318,6 +318,14 @@ class Timesheet {
 		return false;
 	}
 
+	/**
+	 * Fetch the next/previous Timesheet Id
+	 *
+	 * This will fetch the next or previous timesheet id of the current
+	 * timesheet (start date and end date of the current timesheet)
+	 *
+	 * @param int direction
+	 */
 	public function fetchTimesheetId($direction) {
 		$sql_builder = new SQLQBuilder();
 
