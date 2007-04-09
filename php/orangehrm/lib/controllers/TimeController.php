@@ -160,6 +160,10 @@ class TimeController {
 		$role = $this->authorizeObj->firstRole($roles);
 		$employees = null;
 
+		if (!$role) {
+			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
+
 		if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
 			$empRepObj = new EmpRepTo();
 
@@ -268,6 +272,9 @@ class TimeController {
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
 		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
+			if (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+			}
 			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
 		}
 

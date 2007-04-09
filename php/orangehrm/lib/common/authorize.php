@@ -176,11 +176,24 @@ class authorize {
 		$objReportTo = new EmpRepTo();
 
 		$subordinates = $objReportTo->getEmpSub($id);
-
-		if (isset($subordinates[0]) && is_array($subordinates[0]) && array_search($subordinateId, $subordinates[0])) {
+		if (isset($subordinates[0]) && is_array($subordinates[0]) && $this->searchArray($subordinates[0], $subordinateId, 1)) {
 			return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 * Test whether element at pos of the array is equal to match
+	 *
+	 * @param Array array
+	 * @param String match
+	 * @param int pos
+	 */
+	private function searchArray($array, $match, $pos) {
+		if ($array[$pos] == $match) {
+				return true;
+		}
 		return false;
 	}
 

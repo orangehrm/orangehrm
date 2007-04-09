@@ -327,7 +327,7 @@ class EmpRepTo {
 
 		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
 
-		//echo $sqlQString;
+		//echo $sqlQString."\n";
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -445,7 +445,7 @@ class EmpRepTo {
 	    return $arrayDispList;
 	}
 
-    /** 
+    /**
      * Get list of subordinates for supervisors with a name that matches the search term.
      * The supervisors first, middle and lastnames are searched and the subordinates of
      * matching supervisors are returned.
@@ -465,7 +465,7 @@ class EmpRepTo {
 		$joinConditions[1] = "r.`erep_sup_emp_number` = e.`emp_number`";
 
         $filteredSearchTerm = mysql_real_escape_string($searchTerm);
-		$selectConditions[1] = "e.`emp_firstname`   LIKE '" . $filteredSearchTerm . "%' OR " 
+		$selectConditions[1] = "e.`emp_firstname`   LIKE '" . $filteredSearchTerm . "%' OR "
                              . "e.`emp_lastname`    LIKE '" . $filteredSearchTerm . "%' OR "
                              . "e.`emp_middle_name` LIKE '" . $filteredSearchTerm . "%'";
 
@@ -473,7 +473,7 @@ class EmpRepTo {
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
-	
+
         $subordinateIds = null;
         $rowNum = 0;
 
