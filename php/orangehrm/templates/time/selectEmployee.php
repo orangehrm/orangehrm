@@ -19,6 +19,8 @@
  */
 $role = $records[0];
 $employees = $records[1];
+$pendingTimesheets = $records[2];
+$pending = $records[3];
 
 ?>
 <script type="text/javascript">
@@ -38,6 +40,13 @@ function view() {
 	frmObj = document.getElementById("frmTimesheet");
 
 	frmObj.action+='View_Timesheet';
+	frmObj.submit();
+}
+
+function viewTimesheet(id) {
+	frmObj = document.getElementById("frmTimesheet");
+
+	frmObj.action+='View_Timesheet&id='+id;
 	frmObj.submit();
 }
 -->
@@ -90,7 +99,7 @@ function view() {
 					<?php if (is_array($employees)) {
 		   					foreach ($employees as $employee) {
 		  			?>
-		 		  	<option value="<?php echo $employee[2] ?>"><?php echo $employee[1] ?></option>
+		 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1]; ?></option>
 		  			<?php 	}
 		   				} ?>
 				</select>
@@ -99,10 +108,9 @@ function view() {
 			<td>&nbsp;</td>
 			<td><input type="image" name="btnView" onclick="view(); return false;" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
 			<td>&nbsp;</td>
-			<td class="tableMiddleRight"></tdh>
+			<td class="tableMiddleRight"></td>
 		</tr>
 	</tbody>
-
 	<tfoot>
 	  	<tr>
 			<td class="tableBottomLeft"></td>
@@ -115,4 +123,67 @@ function view() {
 			<td class="tableBottomRight"></td>
 		</tr>
   	</tfoot>
+</table>
+<?php
+	if ($pending) {
+?>
+<h3><?php echo $lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval; ?></h3>
+<table border="0" cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th class="tableTopLeft"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
+			<th class="tableTopRight"></th>
+		</tr>
+		<tr>
+			<th class="tableMiddleLeft"></th>
+			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName; ?></th>
+			<th class="tableMiddleMiddle"></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Select_Employee_TimesheetPeriod; ?></th>
+			<th class="tableMiddleMiddle"></th>
+			<th class="tableMiddleMiddle"></th>
+			<th class="tableMiddleRight"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (is_array($employees)) {
+		   		foreach ($employees as $employee) {
+		   			if (is_array($pendingTimesheets[$employee[0]])) {
+		   				foreach ($pendingTimesheets[$employee[0]] as $timesheet) {
+		?>
+		<tr>
+			<td class="tableMiddleLeft"></td>
+			<td><?php echo $employee[1];?></td>
+			<td>&nbsp;</td>
+			<td><?php echo preg_replace(array('/#date/'), array($timesheet->getStartDate()), $lang_Time_Select_Employee_WeekStartingDate); ?></td>
+			<td><input type="image" name="btnView" onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
+			<td>&nbsp;</td>
+			<td class="tableMiddleRight"></td>
+		</tr>
+		<?php
+		   				}
+		   			}
+		   		}
+			}
+		?>
+	</tbody>
+	<tfoot>
+	  	<tr>
+			<td class="tableBottomLeft"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomRight"></td>
+		</tr>
+  	</tfoot>
+</table>
+<?php
+}
+?>
 </form>

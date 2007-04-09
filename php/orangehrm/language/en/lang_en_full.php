@@ -905,4 +905,8 @@
 
 	$lang_Time_Select_Employee_Title = "Select Employee";
 
+	$lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval = "Submitted timesheets pending supervisor approval";
+	$lang_Time_Select_Employee_WeekStartingDate = "Week starting #date";
+
+	$lang_Time_Select_Employee_TimesheetPeriod = "Timesheet period";
 ?>

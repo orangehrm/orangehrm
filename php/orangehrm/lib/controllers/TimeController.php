@@ -158,20 +158,34 @@ class TimeController {
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 
 		$role = $this->authorizeObj->firstRole($roles);
-		$employees = null;
 
 		if (!$role) {
 			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
 		}
 
+		$employees = null;
+		$pendingTimesheets = null;
+		$pending=false;
 		if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
 			$empRepObj = new EmpRepTo();
 
 			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
+			$timesheetObj = new Timesheet();
+			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+			for ($i=0; $i<count($employees); $i++) {
+				$timesheetObj->setEmployeeId($employees[$i][0]);
+				$newTimesheets=$timesheetObj->fetchTimesheets();
+				$pendingTimesheets[$employees[$i][0]]=$newTimesheets;
+				if (isset($newTimesheets) && $newTimesheets) {
+					$pending=true;
+				}
+			}
 		}
 
 		$dataArr[0] = $role;
 		$dataArr[1] = $employees;
+		$dataArr[2] = $pendingTimesheets;
+		$dataArr[3] = $pending;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
