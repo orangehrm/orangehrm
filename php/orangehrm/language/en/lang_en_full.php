@@ -884,6 +884,10 @@
 	$lang_Time_Errors_UPDATE_FAILURE = "Failed to update";
 	$lang_Time_Errors_CANCEL_SUCCESS = "Successfully cancelled";
 	$lang_Time_Errors_CANCEL_FAILURE = "Failed to cancel";
+	$lang_Time_Errors_APPROVE_SUCCESS = "Successfully approved";
+	$lang_Time_Errors_APPROVE_FAILURE = "Failed to approve";
+	$lang_Time_Errors_REJECT_SUCCESS = "Successfully rejected";
+	$lang_Time_Errors_REJECT_FAILURE = "Failed to reject";
 	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";

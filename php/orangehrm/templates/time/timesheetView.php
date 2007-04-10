@@ -29,6 +29,7 @@ $employee=$records[4];
 $self=$records[5];
 $next=$records[6];
 $prev=$records[7];
+$role=$records[8];
 
 if ($self) {
 	$next=true;
@@ -108,6 +109,16 @@ function actionEdit() {
 	$("frmTimesheet").action+= "View_Edit_Timesheet";
 	$("frmTimesheet").submit();
 }
+
+function actionReject() {
+	$("frmTimesheet").action+= "Reject_Timesheet";
+	$("frmTimesheet").submit();
+}
+
+function actionApprove() {
+	$("frmTimesheet").action+= "Approve_Timesheet";
+	$("frmTimesheet").submit();
+}
 -->
 </script>
 <h2>
@@ -137,7 +148,7 @@ function actionEdit() {
 							array($statusStr),
 							$lang_Time_Timesheet_Status);
 		if ($timesheet->getComment() != null) {
-			echo " - $imesheet->getComment()";
+			echo " - {$timesheet->getComment()}";
 		}?></h3>
 
 <?php if (isset($_GET['message'])) {
@@ -249,22 +260,36 @@ function actionEdit() {
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
 
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-<input src="../../themes/beyondT/pictures/btn_edit.jpg"
-		onclick="actionEdit(); return false;"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
-		name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
+<div>
+	<input src="../../themes/beyondT/pictures/btn_edit.jpg"
+			onclick="actionEdit(); return false;"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
+			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
 	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) { ?>
-<input src="../../themes/beyondT/pictures/btn_submit.gif"
-		onclick="actionSubmit(); return false;"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
-		name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
+	<input src="../../themes/beyondT/pictures/btn_submit.gif"
+			onclick="actionSubmit(); return false;"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
+			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
-	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
-<input type="button" value="Cancel"
-		onclick="actionCancel(); return false;"
-		name="btnSubmit" id="btnSubmit" height="20" width="65"/>
+	<?php if ($self && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
+	<input type="button" value="Cancel"
+			onclick="actionCancel(); return false;"
+			name="btnCancel" id="btnCancel" height="20" width="65"/>
+	<?php } ?>
+</div>
+	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
+<div>
+	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" size="75"/></label>
+	<br/>
+	<input type="button" value="Approve"
+			onclick="actionApprove(); return false;"
+			name="btnApprove" id="btnApprove" height="20" width="65"/>
+	<input type="button" value="Reject"
+			onclick="actionReject(); return false;"
+			name="btnReject" id="btnReject" height="20" width="65"/>
+</div>
 	<?php } ?>
 <?php } ?>
 </form>

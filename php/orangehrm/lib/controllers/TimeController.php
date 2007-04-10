@@ -129,6 +129,36 @@ class TimeController {
 		return $res;
 	}
 
+	public function approveTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$res=$timesheetObj->approveTimesheet();
+		if ($res) {
+			$_GET['message'] = 'APPROVE_SUCCESS';
+		} else {
+			$_GET['message'] = 'APPROVE_FAILURE';
+		}
+
+		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+
+		return $res;
+	}
+
+	public function rejectTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$res=$timesheetObj->rejectTimesheet();
+		if ($res) {
+			$_GET['message'] = 'REJECT_SUCCESS';
+		} else {
+			$_GET['message'] = 'REJECT_FAILURE';
+		}
+
+		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+
+		return $res;
+	}
+
 	public function fetchCustomersProjects($customerId=0) {
 		$projectObj = new Projects();
 
@@ -354,6 +384,9 @@ class TimeController {
 		$next=$this->nextEmployeeTimesheet(false);
 		$prev=$this->previousEmployeeTimesheet(false);
 
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+		$role = $this->authorizeObj->firstRole($roles);
+
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;
 		$dataArr[2]=$timesheetSubmissionPeriod[0];
@@ -362,6 +395,7 @@ class TimeController {
 		$dataArr[5]=$self;
 		$dataArr[6]=$next;
 		$dataArr[7]=$prev;
+		$dataArr[8]=$role;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

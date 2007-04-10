@@ -65,6 +65,10 @@ class EXTRACTOR_Timesheet {
 
 		$this->parent_Timesheet->setTimesheetId($postArr['txtTimesheetId']);
 
+		if (isset($postArr['txtComment'])) {
+			$this->parent_Timesheet->setComment($postArr['txtComment']);
+		}
+
 		return $this->parent_Timesheet;
 	}
 }
