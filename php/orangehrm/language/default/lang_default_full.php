@@ -880,8 +880,17 @@
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";
-	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully Updated";
-	$lang_Time_Errors_UPDATE_FAILURE = "Failed to Update";
+	$lang_Time_Errors_UPDATE_SUCCESS = "Successfully updated";
+	$lang_Time_Errors_UPDATE_FAILURE = "Failed to update";
+	$lang_Time_Errors_CANCEL_SUCCESS = "Successfully cancelled";
+	$lang_Time_Errors_CANCEL_FAILURE = "Failed to cancel";
+	$lang_Time_Errors_APPROVE_SUCCESS = "Successfully approved";
+	$lang_Time_Errors_APPROVE_FAILURE = "Failed to approve";
+	$lang_Time_Errors_REJECT_SUCCESS = "Successfully rejected";
+	$lang_Time_Errors_REJECT_FAILURE = "Failed to reject";
+	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
+
+	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
 	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
@@ -900,4 +909,8 @@
 
 	$lang_Time_Select_Employee_Title = "Select Employee";
 
+	$lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval = "Submitted timesheets pending supervisor approval";
+	$lang_Time_Select_Employee_WeekStartingDate = "Week starting #date";
+
+	$lang_Time_Select_Employee_TimesheetPeriod = "Timesheet period";
 ?>
