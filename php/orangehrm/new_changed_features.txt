@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.2_alpha_2 (10/04/2007)
+
+	1. Supervisor and HR-Admin can reject, approve and cancel timesheets
+	2. Employees can submit and cancel timesheets
+
+
 New & Changed Features for OrangeHRM ver 2.2_alpha_1 (05/04/2007)
 
 	1. Employee, Supervisor and HR-Admin can view timesheets and add time events
