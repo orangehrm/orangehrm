@@ -257,7 +257,7 @@ class Timesheet {
 
 		$timeSheet = $this->fetchTimesheets();
 
-		if ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) {
+		if (($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) && ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_REJECTED)) {
 			return false;
 		}
 

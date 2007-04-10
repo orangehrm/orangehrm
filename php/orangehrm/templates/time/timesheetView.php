@@ -283,12 +283,18 @@ function actionApprove() {
 <div>
 	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" size="75"/></label>
 	<br/>
-	<input type="button" value="Approve"
+	<input src="../../themes/beyondT/icons/approve.jpg"
+			onmouseover="this.src='../../themes/beyondT/icons/approve_o.jpg';"
+			onmouseout="this.src='../../themes/beyondT/icons/approve.jpg';"
 			onclick="actionApprove(); return false;"
-			name="btnApprove" id="btnApprove" height="20" width="65"/>
-	<input type="button" value="Reject"
+			name="btnApprove" id="btnApprove"
+			height="20" width="65" type="image"/>
+	<input src="../../themes/beyondT/icons/reject.jpg"
+			onmouseover="this.src='../../themes/beyondT/icons/reject_o.jpg';"
+			onmouseout="this.src='../../themes/beyondT/icons/reject.jpg';"
 			onclick="actionReject(); return false;"
-			name="btnReject" id="btnReject" height="20" width="65"/>
+			name="btnReject" id="btnReject"
+			height="20" width="65" type="image"/>
 </div>
 	<?php } ?>
 <?php } ?>

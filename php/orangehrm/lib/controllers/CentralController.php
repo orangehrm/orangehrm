@@ -1374,11 +1374,12 @@ switch ($moduletype) {
 													case 'Cancel_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->cancelTimesheet();
+																					break;
 													case 'Approve_Timesheet'	:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->approveTimesheet();
 																					break;
-													case 'Reject_Timesheet'	:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
+													case 'Reject_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->rejectTimesheet();
 																					break;

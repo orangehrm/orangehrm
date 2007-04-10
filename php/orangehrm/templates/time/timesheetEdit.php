@@ -236,6 +236,10 @@ function actionUpdate() {
 	$('frmTimesheet').action+='Edit_Timesheet';
 	$('frmTimesheet').submit();
 }
+
+function actionReset() {
+	$('frmTimesheet').reset();
+}
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
@@ -401,7 +405,12 @@ function actionUpdate() {
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 
 <input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update" onclick="actionUpdate();"/>
-<input type="reset" name="btnReset" id="btnReset" height="20" width="65" value="Reset"/>
+<input src="../../themes/beyondT/icons/reset.gif"
+		onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
+		onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
+		onclick="actionReset(); return false;"
+		name="btnReset" id="btnReset"
+		height="20" width="65" type="image"/>
 <input type="button" name="btnInsert" id="btnInsert" height="20" width="65" value="Insert Time" onclick="actionInsertTime();"/>
 </form>
 </p>
