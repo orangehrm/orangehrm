@@ -913,4 +913,6 @@
 	$lang_Time_Select_Employee_WeekStartingDate = "Week starting #date";
 
 	$lang_Time_Select_Employee_TimesheetPeriod = "Timesheet period";
+
+	$lang_Time_Errors_PleaseAddAComment = "Please add a comment";
 ?>

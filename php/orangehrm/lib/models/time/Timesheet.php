@@ -61,6 +61,8 @@ class Timesheet {
 	private $status;
 	private $comment;
 
+	private $statuses;
+
 	/**
 	 * Class atribute setters and getters
 	 */
@@ -118,6 +120,19 @@ class Timesheet {
 
 	public function getComment() {
 		return $this->comment;
+	}
+
+	/**
+	 * Special atribute setters
+	 *
+	 * For searching for multiple statuses
+	 */
+	public function setStatuses($statuses) {
+		$this->statuses=$statuses;
+	}
+
+	public function getStatuses() {
+		return $this->statuses;
 	}
 
 	public function __construct() {
@@ -224,7 +239,9 @@ class Timesheet {
 
 		$timeSheet = $this->fetchTimesheets();
 
-		if (!$timeSheet[0] || ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_NOT_SUBMITTED)) {
+		if (!$timeSheet[0] ||
+			!(($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_NOT_SUBMITTED) ||
+			($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_REJECTED))) {
 			return false;
 		}
 
@@ -344,7 +361,11 @@ class Timesheet {
 													break;
 		}
 
-		$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
+		if ($this->getStatuses() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN(".implode(", ", $this->getStatuses()).")";
+		} else {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
+		}
 
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC', 1);
 
@@ -398,7 +419,9 @@ class Timesheet {
 		if ($this->getEndDate() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."` = '{$this->getEndDate()}'";
 		}
-		if ($this->getStatus() != null) {
+		if ($this->getStatuses() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN('".implode("', '", $this->getStatuses())."')";
+		} else if ($this->getStatus() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 

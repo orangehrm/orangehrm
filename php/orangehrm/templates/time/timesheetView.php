@@ -111,11 +111,21 @@ function actionEdit() {
 }
 
 function actionReject() {
+	if ($('txtComment').value == '') {
+		alert('<?php echo $lang_Time_Errors_PleaseAddAComment; ?>');
+		$('txtComment').focus();
+		return false;
+	}
 	$("frmTimesheet").action+= "Reject_Timesheet";
 	$("frmTimesheet").submit();
 }
 
 function actionApprove() {
+	if ($('txtComment').value == '') {
+		alert('<?php echo $lang_Time_Errors_PleaseAddAComment; ?>');
+		$('txtComment').focus();
+		return false;
+	}
 	$("frmTimesheet").action+= "Approve_Timesheet";
 	$("frmTimesheet").submit();
 }
@@ -147,7 +157,8 @@ function actionApprove() {
 <h3><?php echo preg_replace(array('/#status/'),
 							array($statusStr),
 							$lang_Time_Timesheet_Status);
-		if ($timesheet->getComment() != null) {
+		if (($timesheet->getComment() != null) &&
+		   (($status == Timesheet::TIMESHEET_STATUS_APPROVED) || ($status == Timesheet::TIMESHEET_STATUS_REJECTED))) {
 			echo " - {$timesheet->getComment()}";
 		}?></h3>
 
@@ -266,14 +277,14 @@ function actionApprove() {
 			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
 			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
 			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
-	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) { ?>
+	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
 	<input src="../../themes/beyondT/pictures/btn_submit.gif"
 			onclick="actionSubmit(); return false;"
 			onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
 			onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
-	<?php if ($self && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
+	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
 	<input type="button" value="Cancel"
 			onclick="actionCancel(); return false;"
 			name="btnCancel" id="btnCancel" height="20" width="65"/>
@@ -281,7 +292,7 @@ function actionApprove() {
 </div>
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
 <div>
-	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" size="75"/></label>
+	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" /></label>
 	<br/>
 	<input src="../../themes/beyondT/icons/approve.jpg"
 			onmouseover="this.src='../../themes/beyondT/icons/approve_o.jpg';"
