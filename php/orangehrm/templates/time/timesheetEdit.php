@@ -278,13 +278,13 @@ function actionReset() {
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
+			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
+			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
 			<th class="tableMiddleRight"></th>
 		</tr>
 	</thead>
