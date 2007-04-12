@@ -404,14 +404,24 @@ function actionReset() {
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 
-<input type="button" name="btnUpdate" id="btnUpdate" height="20" width="65" value="Update" onclick="actionUpdate();"/>
+<input src="../../themes/beyondT/icons/update.png"
+		onmouseover="this.src='../../themes/beyondT/icons/update_o.png';"
+		onmouseout="this.src='../../themes/beyondT/icons/update.png';"
+		onclick="actionUpdate(); return false;"
+		name="btnUpdate" id="btnUpdate"
+		height="20" width="65"  type="image" />
 <input src="../../themes/beyondT/icons/reset.gif"
 		onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
 		onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
 		onclick="actionReset(); return false;"
 		name="btnReset" id="btnReset"
 		height="20" width="65" type="image"/>
-<input type="button" name="btnInsert" id="btnInsert" height="20" width="65" value="Insert Time" onclick="actionInsertTime();"/>
+<input src="../../themes/beyondT/icons/insertTime.png"
+		onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
+		onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+		onclick="actionInsertTime(); return false;"
+		name="btnInsert" id="btnInsert"
+		height="20" width="90" type="image" />
 </form>
 </p>
 <script type="text/javascript">

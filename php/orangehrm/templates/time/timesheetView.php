@@ -285,9 +285,11 @@ function actionApprove() {
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
 	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
-	<input type="button" value="Cancel"
+	<input src="../../themes/beyondT/icons/cancel.png"
 			onclick="actionCancel(); return false;"
-			name="btnCancel" id="btnCancel" height="20" width="65"/>
+			onmouseover="this.src='../../themes/beyondT/icons/cancel_o.png';"
+			onmouseout="this.src='../../themes/beyondT/icons/cancel.png';"
+			name="btnCancel" id="btnCancel" height="20" type="image" width="65"/>
 	<?php } ?>
 </div>
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
