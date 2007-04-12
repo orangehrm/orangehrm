@@ -71,11 +71,6 @@ $endDate = strtotime($timesheet->getEndDate());
 
 $row=0;
 ?>
-<style type="text/css" >
-textarea, input, select {
-	margin: 5px;
-}
-</style>
 <script type="text/javascript">
 <!--
 currFocus = null;

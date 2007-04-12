@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.2_beta_1 (12/04/2007)
+
+	1. Image buttons for time module
+
+
 New & Changed Features for OrangeHRM ver 2.2_alpha_2 (10/04/2007)
 
 	1. Supervisor and HR-Admin can reject, approve and cancel timesheets
