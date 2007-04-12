@@ -278,10 +278,10 @@ function actionApprove() {
 			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
 			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
 	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
-	<input src="../../themes/beyondT/pictures/btn_submit.gif"
+	<input src="../../themes/beyondT/icons/submit.png"
 			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_submit_02.gif';"
-			onmouseout="this.src='../../themes/beyondT/pictures/btn_submit.gif';"
+			onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
+			onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
 	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
