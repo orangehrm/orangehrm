@@ -122,6 +122,14 @@
 	background: url(../pictures/users_o.gif)  no-repeat left top;
 }
 
+#menu #notifications a{
+	background: url(../pictures/email_notifications.gif)  no-repeat left top;
+}
+
+#menu #notifications a:hover {
+	background: url(../pictures/email_notifications_o.gif)  no-repeat left top;
+}
+
 #menu #customers a{
 	background: url(../pictures/users.gif)  no-repeat left top;
 }
