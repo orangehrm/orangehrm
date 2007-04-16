@@ -242,7 +242,7 @@
 	$lang_Leave_Common_All					= "All";
 
 	$lang_Leave_Common_NameOfHoliday 		= "Name of Holiday";
-	$lang_Leave_Common_Recurring 			= "Recurring";
+	$lang_Leave_Common_Recurring 			= "Repeats annually";
 
  	$lang_Leave_Leave_list_Title1 			= "Approve Leave";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
