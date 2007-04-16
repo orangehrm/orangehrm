@@ -210,7 +210,7 @@ function goBack() {
 			</select>
             <br/>
 			<label for="txtName">Name</label>
-            <input type="text" id="txtName" name="txtName" value= <?php echo $message->getProjectName(); ?> tabindex="2"/>
+            <input type="text" id="txtName" name="txtName" value="<?php echo $message->getProjectName(); ?>" tabindex="2"/>
 			<br/>
             <label for="txtDescription">Description</label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getProjectDescription() ; ?></textarea><br/>
