@@ -193,7 +193,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getCustomerId(); ?>" tabindex="1" readonly/>
             <br/>
 			<label for="txtName">Name</label>
-            <input type="text" id="txtName" name="txtName" value= <?php echo $message->getCustomerName(); ?> tabindex="2"/>
+            <input type="text" id="txtName" name="txtName" value="<?php echo $message->getCustomerName(); ?>" tabindex="2"/>
 			<br/>
             <label for="txtDescription">Description</label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getCustomerDescription(); ?></textarea><br>
