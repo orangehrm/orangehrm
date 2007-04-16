@@ -517,8 +517,8 @@
  	$lang_hrEmpMain_heading 				= "Employee Report";
 	$lang_hrEmpMain_supervisorsubordinator 	= "Supervisor / Subordinate";
 	$lang_hrEmpMain_reportingmethod 		= "Reporting Method";
-	$lang_hrEmpMain_subordinateinfomation 	= "Subordinate Information";
-	$lang_hrEmpMain_supervisorinfomation 	= "Supervisor Information";
+	$lang_hrEmpMain_subordinateinfomation 	= "Subordinates";
+	$lang_hrEmpMain_supervisorinfomation 	= "Supervisors";
 	$lang_hrEmpMain_selecttype 				= "Select Method";
 	$lang_hrEmpMain_Direct 					= "Direct";
 	$lang_hrEmpMain_Indirect 				= "Indirect";
