@@ -50,11 +50,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
 
-        if (document.frmCustomer.txtDescription.value == '') {
-            alert ("Please specify the Description");
-            return false;
-        }
-
         document.frmCustomer.sqlState.value = "NewRecord";
         document.frmCustomer.submit();
     }
@@ -69,10 +64,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
 	 	if (document.frmCustomer.txtName.value == '') {
             alert ("Please specify the name");
-            return false;
-        }
-        if (document.frmCustomer.txtDescription.value == '') {
-            alert ("Please specify the Description");
             return false;
         }
 
