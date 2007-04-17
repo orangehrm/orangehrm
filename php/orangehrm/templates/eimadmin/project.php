@@ -171,48 +171,48 @@ function goBack() {
         <input type="hidden" name="sqlState" value="">
         <div class="roundbox">
       <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-            <label for="txtId">Code</label>
+            <label for="txtId"><?php echo $lang_Commn_code; ?></label>
             <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
             <br/>
-            <label for="customerId">CustomerId</label>
+            <label for="customerId"><?php echo $lang_view_CustomerName; ?></label>
             <?php
             $arrcusid = $this->popArr['cusid'];?>
 			<select   name="cmbCustomerId">
-			<option value="0">-- <?php echo "Select Customer Id"; ?> --</option>
+			<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 			<?php
 	        for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {?>
      		<option <?php echo (isset($cookie['cmbCustomerId']) && ($cookie['cmbCustomerId'] == $arrcusid[$c]->getCustomerId() )) ? 'selected' : '' ?> value="<?php echo $arrcusid[$c]->getCustomerId() ?>"><?php echo $arrcusid[$c]->getCustomerName() ?></option>
    			<?php	} ?>
 	   	   </select>
 			<br/>
-			<label for="txtName">Name</label>
+			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
             <input type="text" id="name" name="txtName" tabindex="2"/>
 			<br/>
-            <label for="txtDescription">Description</label>
+            <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"></textarea>
             <br>
        <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 
 			$message = $this->popArr['editArr'];
 		?>
-			<label for="projectId">Code</label>
+			<label for="projectId"><?php echo $lang_Commn_code; ?></label>
 			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getProjectId(); ?>" tabindex="1" readonly/>
             <br/>
-            <label for="cmbCustomerId">CustomerId</label>
+            <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?></label>
             <select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : ''?> name="cmbCustomerId">
-					<option value= "<?php echo $message->getCustomerId()?>" > <?php echo $message->getCustomerId()  ?></option>
-<?php
-					$arrcusid = $this->popArr['cusid'];
-			for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {?>
-     		<option <?php echo (isset($cookie['cmbCustomerId']) && ($cookie['cmbCustomerId'] == $arrcusid[$c]->getCustomerId() )) ? 'selected' : '' ?> value="<?php echo $arrcusid[$c]->getCustomerId() ?>"><?php echo $arrcusid[$c]->getCustomerName() ?></option>
-   			<?php	} ?>
-						}?>
-			</select>
+					<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
+				<?php
+				$arrcusid = $this->popArr['cusid'];
+				for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {
+				?>
+     				<option <?php echo (($message->getCustomerId() == $arrcusid[$c]->getCustomerId() )) ? 'selected' : '' ?> value="<?php echo $arrcusid[$c]->getCustomerId() ?>"><?php echo $arrcusid[$c]->getCustomerName() ?></option>
+   				<?php	} ?>
+   			</select>
             <br/>
-			<label for="txtName">Name</label>
+			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $message->getProjectName(); ?>" tabindex="2"/>
 			<br/>
-            <label for="txtDescription">Description</label>
+            <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getProjectDescription() ; ?></textarea><br/>
 			<br/> <?php } ?>
             <div align="center">

@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+	1701816   Customer ID or Name confusion in Project create/edit pages
+
+
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 
 	Bugs fixed include:
