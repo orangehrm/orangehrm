@@ -4,6 +4,21 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 
 	BugId     Name
 	1690802   Select Employee - error
+	1653910   Mail Configuration menu item icon
+	1701795   Project name with space not shown properly
+	1701794   Customer name with spaces not shown properly
+	1700805   When creating a project make the description optional
+	1700802   When defining a customer description need not be mandatory
+	1701066   Usability - when defining a specific holiday, it\'s not clea
+	1701083   Usability - Report-to - Improved wordings
+
+	Following bugs were closed
+
+	1693243   Non-Numerick Postal Code
+	1699957   No leave types
+	1694864   cannot choose leave type
+	1690784   --- No Leave Types ---
+	1699577   No Uk pound in currency table
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_1 (12/04/2007)

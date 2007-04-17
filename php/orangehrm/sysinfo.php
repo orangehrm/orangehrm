@@ -99,7 +99,7 @@ function chk_memory($limit=9, $recommended=16) {
 		
 return $msg;
 }
-$ohrmVersion = "2.1_alpha_4";
+$ohrmVersion = "2.2_beta_2";
 
 if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
 	$conf = new Conf();	

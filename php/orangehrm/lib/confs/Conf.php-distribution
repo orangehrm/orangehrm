@@ -36,7 +36,7 @@ class Conf {
 
 		$this->smtphost = 'localhost';	
 		
-		$this->version = '2.1_alpha_4';		
+		$this->version = '2.2_beta_2';		
 	}
 }
 	
