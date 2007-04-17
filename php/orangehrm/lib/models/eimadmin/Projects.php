@@ -22,6 +22,7 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 
 /**
  * Project Class
@@ -341,40 +342,25 @@ class Projects {
 	/**
 	 * Fetch all projects with paging
 	 */
+	public function getListOfProjectsStr($pageNO,$schStr,$schField,$sortField = 0, $sortOrder = 'ASC') {
 
-	 	public function getListOfProjectsStr($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
+		$arrFieldList[0] = "a.`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
+		$arrFieldList[1] = "b.`".Customer::CUSTOMER_DB_FIELDS_NAME."`";
+		$arrFieldList[2] = "a.`".self::PROJECT_DB_FIELD_NAME."`";
+		$arrFieldList[3] = "a.`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
+		$arrFieldList[4] = "a.`".self::PROJECT_DB_FIELD_DELETED."`";
 
-		$projectArr = $this->getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC');
+		$tableNames[0] = "`".Customer::TABLE_NAME."` b ";
+		$tableNames[1] = "`".self::PROJECT_DB_TABLE."` a ";
 
-		$arrDispArr = null;
-		for($i=0; count($projectArr) > $i; $i++) {
-
-			$arrDispArr[$i][0] = $projectArr[$i]->getProjectId();
-			$arrDispArr[$i][1] = $projectArr[$i]->getCustomerId();
-			$arrDispArr[$i][2] = $projectArr[$i]->getProjectName();
-			$arrDispArr[$i][3] = $projectArr[$i]->getProjectDescription();
-
-
-		}
-
-		return $arrDispArr;
-	}
-	 public function getListOfProjects($pageNO=0,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC') {
-
-		$arrFieldList[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
-		$arrFieldList[1] = "`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
-		$arrFieldList[2] = "`".self::PROJECT_DB_FIELD_NAME."`";
-		$arrFieldList[3] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
-		$arrFieldList[4] = "`".self::PROJECT_DB_FIELD_DELETED."`";
-
-		$tableName = "`".self::TABLE_NAME."`";
+		$joinConditions[1] = "b.`".Customer::CUSTOMER_DB_FIELDS_ID."` = a.`".self::PROJECT_DB_FIELD_CUSTOMER_ID."`";
 
 		$sql_builder = new SQLQBuilder();
 
-		$arrSelectConditions[0] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".self::PROJECT_NOT_DELETED."";
+		$arrSelectConditions[0] = "a.`".self::PROJECT_DB_FIELD_DELETED."`= ".self::PROJECT_NOT_DELETED."";
 
 		if ($schField != -1) {
-			$arrSelectConditions[1] = "`".$arrFieldList[$schField]."` LIKE '%".$schStr."%'";
+			$arrSelectConditions[1] = "".$arrFieldList[$schField]." LIKE '%".$schStr."%'";
 		}
 
 		$limitStr = null;
@@ -386,12 +372,19 @@ class Projects {
 			$limitStr = "$page,$limit";
 		}
 
-		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', $limitStr);
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $tableNames, $joinConditions, $arrSelectConditions, null, $arrFieldList[0], 'ASC', $limitStr);
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		return $this->_projectObjArr($message2);
+		$arrDispArr = null;
+		$i=0;
+		while ($row = mysql_fetch_row($message2)) {
+			$arrDispArr[$i] = $row;
+			$i++;
+		}
+
+		return $arrDispArr;
 	}
 
 	/**

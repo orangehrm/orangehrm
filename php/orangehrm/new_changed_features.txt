@@ -4,6 +4,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
 
 	BugId     Name
 	1701816   Customer ID or Name confusion in Project create/edit pages
+	1701798   Project list should show company name not ID
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)

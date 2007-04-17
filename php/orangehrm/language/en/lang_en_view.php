@@ -131,7 +131,7 @@ switch ($_GET['uniqcode']) {
 	case 'PRJ' :
 
 		$srchlist = array( "-$lang_Leave_Common_Select-" , $lang_view_ID , $lang_Commn_name );
-		$headings= array($lang_view_ProjectId,$lang_view_CustomerId,$lang_view_ProjectName);
+		$headings= array($lang_view_ProjectId,$lang_view_CustomerName,$lang_view_ProjectName);
 		$headingInfo = array ($lang_view_ProjectId,$lang_view_ProjectName,1, "$lang_Menu_Admin_Projects",$lang_view_message34);
 		break;
 

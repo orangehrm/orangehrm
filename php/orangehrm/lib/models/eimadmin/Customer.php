@@ -23,7 +23,7 @@ require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 
-class Customer{
+class Customer {
 	/**
  	 * Customer status constants ..
  	 */
