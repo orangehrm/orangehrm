@@ -858,8 +858,10 @@
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
 
-	//timesheet
+	$lang_Admin_Project_CutomerName = "Customer Name";
+	$lang_Admin_Project_SelectCutomer = "Select customer";
 
+	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
 
