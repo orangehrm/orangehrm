@@ -209,7 +209,7 @@
 
 	$lang_Leave_Common_FromDate 			= "From Date";
 	$lang_Leave_Common_ToDate 				= "To Date";
-
+	$lang_Leave_Common_Note 				= "Leave Quota not allocated.Please consult HRAdmin";
 	$lang_Leave_Common_LeaveType 			= "Leave Type";
 	$lang_Leave_Common_Status 				= "Status";
 	$lang_Leave_Common_Length 				= "Full Day/Half Day";

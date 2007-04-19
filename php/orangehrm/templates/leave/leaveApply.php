@@ -171,10 +171,20 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
             <?php } ?>
           </select>
         </td>
-        <td width="25px">&nbsp;</td>
+        <td width="50px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
-      </tr>
-      <tr>
+     </tr>
+     <?php
+	  	if (!(is_array($records[1]))) {  ?>
+	    <tr>
+     	<td class="tableMiddleLeft"></td>
+     	<td width="75px">&nbsp;</td>
+        <td width="25px">&nbsp;</td>
+      	<td><?php echo $lang_Leave_Common_Note;?></td>
+    	<td width="25px">&nbsp;</td>
+    	<td class="tableMiddleRight"></td>
+     </tr> <?php } ?>
+     <tr>
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_FromDate;?></td>
         <td width="25px">&nbsp;</td>

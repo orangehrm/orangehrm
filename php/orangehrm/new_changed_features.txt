@@ -5,6 +5,9 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
 	BugId     Name
 	1701816   Customer ID or Name confusion in Project create/edit pages
 	1701798   Project list should show company name not ID
+	1701829   Usability - Inconsistant behavior when validation ZIP Code
+	1701820   Usability-No leave types when leave entitlement not updated
+	1701370   Error while selecting Country List box and submitting the Employee Information in ESS
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
