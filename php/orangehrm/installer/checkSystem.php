@@ -176,7 +176,8 @@ function sysCheckPassed() {
                if(is_writable(ROOT_PATH . '/lib/confs')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
-                  echo "<b><font color='red'>Not Writeable</font></b>";
+                  echo "<b><font color='red'>Not Writeable</font>";
+                  echo "<b><font color='red'><sup>*</sup></font></b>";
                   $error_found = true;
                }
             ?>
@@ -204,6 +205,18 @@ function sysCheckPassed() {
             <td class="tdComponent">Memory allocated for PHP script</td>
             <td align="right" class="tdValues"><?php echo chk_memory(9, 16)?></td>
           </tr>
+          <?php
+          	if(!(is_writable(ROOT_PATH . '/lib/confs'))){
+
+          		echo "<tr> <td> ";
+          		echo "<font color='red'>* Web server requires write privilege to the following directory</font> ";
+          		print_r(ROOT_PATH .'/lib/confs');
+          		print ' <a href="./guide/#systemChk" id="help" target="_blank">[ For More Information ?]</a>';
+
+          		echo "</td> </tr>";
+          	}
+
+          ?>
 		</table>
 		<br />
         <input class="button" type="button" value="Back" onclick="back();" tabindex="4">

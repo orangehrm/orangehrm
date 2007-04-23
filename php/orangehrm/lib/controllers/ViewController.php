@@ -1348,7 +1348,7 @@ class ViewController {
 									$customer = $object;
 									$id= $customer->getCustomerId();
 									$res= $customer->addCustomer();
-									print "hi";
+
 									break;
 
 				case 'PRJ'  :		$project = new Projects();

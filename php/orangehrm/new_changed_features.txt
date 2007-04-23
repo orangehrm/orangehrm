@@ -8,7 +8,14 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
 	1701829   Usability - Inconsistant behavior when validation ZIP Code
 	1701820   Usability-No leave types when leave entitlement not updated
 	1701370   Error while selecting Country List box and submitting the Employee Information in ESS
+    1703509   Configuration file not writable - Web_Installer
 
+	Following bugs were closed
+
+	1703911   Error with Combo boxes using XML
+	1703041   memberships
+    1705315   Country caused xml errors
+    1700159   cant change password
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 
