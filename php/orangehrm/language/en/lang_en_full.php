@@ -146,9 +146,9 @@
 	$lang_Menu_Leave_LeaveSummary 						= "Leave Summary";
 	$lang_Menu_Leave_LeavesList 						= "Leaves List";
 	$lang_Menu_Leave_ApproveLeave 						= "Approve Leave";
-	$lang_Menu_Leave_LeaveTypes 						= "Leave Types";
+	$lang_Menu_Leave_LeaveTypes 						= "Define Leave Types";
 	$lang_Menu_Leave_Apply 								= "Apply";
-	$lang_Menu_Leave_Assign								= "Assign";
+	$lang_Menu_Leave_Assign								= "Assign Leave";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";

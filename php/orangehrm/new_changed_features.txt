@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
 	1701820   Usability-No leave types when leave entitlement not updated
 	1701370   Error while selecting Country List box and submitting the Employee Information in ESS
     1703509   Configuration file not writable - Web_Installer
+    1701070   Usability - Leave - Admin - assign
 
 	Following bugs were closed
 
