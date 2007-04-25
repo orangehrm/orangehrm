@@ -11,6 +11,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
     1703509   Configuration file not writable - Web_Installer
     1701070   Usability - Leave - Admin - assign
     1681976   usability : pim view screwed with 20483 records
+    1681967   colud not select a employee
+    1681994   Allowed memory size exhausted
 
 	Following bugs were closed
 
