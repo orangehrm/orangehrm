@@ -822,11 +822,11 @@ alter table hs_hr_rights
 
 alter table hs_hr_users
        add constraint foreign key (modified_user_id)
-       						references hs_hr_users (id) on delete cascade;
+       						references hs_hr_users (id) on delete set null;
 
 alter table hs_hr_users
        add constraint foreign key (created_by)
-       						references hs_hr_users (id) on delete cascade;
+       						references hs_hr_users (id) on delete set null;
 
 alter table hs_hr_users
        add constraint foreign key (userg_id)
