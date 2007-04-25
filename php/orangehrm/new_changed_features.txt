@@ -10,6 +10,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
 	1701370   Error while selecting Country List box and submitting the Employee Information in ESS
     1703509   Configuration file not writable - Web_Installer
     1701070   Usability - Leave - Admin - assign
+    1681976   usability : pim view screwed with 20483 records
 
 	Following bugs were closed
 

@@ -301,41 +301,11 @@ if($headingInfo[2]==1) {
 
 <?php
 $temp = $this->popArr['temp'];
-if($temp)
-    $recCount=$temp;
-else
-	$recCount=0;
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 
-	$noPages=(int)($recCount/$sysConst->itemsPerPage);
-
-	if($recCount%$sysConst->itemsPerPage)
-	   $noPages++;
-
-	if ($noPages > 1) {
-
-		if($currentPage==1)
-			echo "<font color='Gray'>$Previous</font>";
-		else
-    		echo "<a href='#' onClick='prevPage()'>$Previous</a>";
-
-    	echo "  ";
-
-		for( $c = 1 ; $noPages >= $c ; $c++) {
-	    	if($c == $currentPage)
-				echo "<font color='Gray'>" .$c. "</font>";
-			else
-	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-
-	    	echo "  ";
-		}
-
-		if ($currentPage == $noPages)
-			echo "<font color='Gray'>$Next</font>";
-		else
-    		echo "<a href='#' onClick='nextPage()'>$Next</a>";
-
-	};
-
+echo $pageStr;
 
 	if ($message == '') { ?>
 		<span class="error"><?php echo $dispMessage; ?></span>

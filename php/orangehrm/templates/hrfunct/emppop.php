@@ -17,8 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
-
 session_start();
 if(!isset($_SESSION['fname'])) {
 
@@ -31,6 +29,8 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
+
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
 
 $lan = new Language();
 
@@ -235,45 +235,18 @@ else
 			  <td height="40" valign="bottom" align="right">
 
 <?php
+
 if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
     $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
 else
     $temp = $empviewcontroller -> countUnAssigned($_GET['reqcode']);
 
-if($temp)
-    $recCount=$temp;
-else
-	$recCount=0;
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 
-	$noPages=(int)($recCount/$sysConst->itemsPerPage);
+echo $pageStr;
 
-	if($recCount%$sysConst->itemsPerPage)
-	   $noPages++;
-
-	if ($noPages > 1) {
-
-		if($currentPage==1)
-			echo "<font color='Gray'>$lang_empview_previous</font>";
-		else
-    		echo "<a href='#' onClick='prevPage()'>Previous</a>";
-
-    	echo "  ";
-
-		for( $c = 1 ; $noPages >= $c ; $c++) {
-
-	    	if($c == $currentPage)
-				echo "<font color='Gray'>" .$c. "</font>";
-			else
-	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-
-	    	echo "  ";
-		}
-
-		if($currentPage == $noPages || $noPages==0)
-			echo "<font color='Gray'>Next</font>";
-		else
-    		echo "<a href='#' onClick='nextPage()'>$lang_empview_next</a>";
-	}
 ?>
 		</td>
 		<td width="25"></td>

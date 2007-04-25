@@ -338,8 +338,12 @@
 	$lang_empview_searchby 					= "Search By:";
 	$lang_empview_description 				= "Search For:";
 	$lang_empview_norecorddisplay 			= "No Records to Display";
-	$lang_empview_previous 					= "Previous";
+
+	$lang_empview_last 						= "Last";
 	$lang_empview_next 						= "Next";
+	$lang_empview_previous 					= "Previous";
+	$lang_empview_first						= "First";
+
 	$lang_empview_employeeid 				= "Employee Id";
 	$lang_empview_employeename 				= "Employee Name";
 	$lang_empview_ADD_SUCCESS 				= "Successfully Added";

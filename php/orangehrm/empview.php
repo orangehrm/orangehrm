@@ -20,9 +20,6 @@
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
-/*$srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( '-Select-' , 'Employee ID' , 'Employee Name' );
-*/
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 	//$headingInfo =$this->popArr['headinginfo'];
@@ -295,35 +292,13 @@ parent.scrollTo(0, 0);
 ?>
 			  <td colspan="2" height="40" valign="bottom" align="right">
 <?php
+
 $temp = $this->popArr['temp'];
-if($temp)
-    $recCount=$temp;
-else
-	$recCount=0;
-	$noPages=(int)($recCount/$sysConst->itemsPerPage);
-	if($recCount%$sysConst->itemsPerPage)
-	   $noPages++;
-	if ($noPages > 1) {
-		if ($currentPage==1)
-			echo "<font color='Gray'>$previous</font>";
-		else
-    		echo "<a href='#' onClick='prevPage()'>$previous</a>";
-    	echo "  ";
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
 
-		for ( $c = 1 ; $noPages >= $c ; $c++) {
-	    	if($c == $currentPage)
-				echo "<font color='Gray'>" .$c. "</font>";
-			else
-	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-
-	    	echo "  ";
-		}
-
-		if ($currentPage == $noPages)
-			echo "<font color='Gray'>$next</font>";
-		else
-    		echo "<a href='#' onClick='nextPage()'>$next</a>";
-		}
+echo $pageStr;
 
 		for ($j=0; $j<9;$j++) {
 			if (!isset($this->getArr['sortOrder'.$j])) {
