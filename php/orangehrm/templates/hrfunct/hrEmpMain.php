@@ -687,14 +687,12 @@ function resetAdd(panel) {
 
 		$expString=$this->getArr['message'];
 ?>
-	<p align="right"><font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php
-			echo eval('return $lang_empview_'.$expString.';');
-?>
-	</font></p>
-<?php
-	}
-?>
+	<p align="right">
+		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif;" style="margin-right:10px">
+			<?php echo eval('return $lang_empview_'.$expString.';'); ?>
+		</font>
+	</p>
+<?php } ?>
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
@@ -1117,7 +1115,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
  			Cash Benefits
-          <?php //require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php"); ?>
+          <?php /*require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php");*/ ?>
 
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1139,7 +1137,7 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
           Non-cash benefits
-          <?php //require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php"); ?>
+          <?php /*require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php");*/ ?>
 
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
@@ -1361,12 +1359,4 @@ function resetAdd(panel) {
 	<script language="JavaScript" type="text/javascript">
   		displayLayer(<?php echo $this->postArr['pane']; ?>);
 	</script>
-
-<?php if (isset($_GET['msg'])) {
-
-	 		echo ($_GET['msg']);///if the Add emp data unsuccesfful then retrive the msg and print it on the screen (msg is handled in EmpViewController.php)z..
-
- } ?>
-
-
 </html>

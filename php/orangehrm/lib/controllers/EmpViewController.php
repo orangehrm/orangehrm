@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpSkill.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLicenses.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
- 
+
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -2011,10 +2011,10 @@ class EmpViewController {
 				$reqcode = $index;
 				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
 			} else {
-				$showMsg = "Addition Unsuccessful!";
+				$showMsg = "ADD_FAILURE";
 
 				$reqcode = $index;
-				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&reqcode=$reqcode"); //if Adding Data to DB not succeed set msg with showMsg
+				header("Location: ./CentralController.php?message=$showMsg&capturemode=addmode&reqcode=$reqcode"); //if Adding Data to DB not succeed set msg with showMsg
 			}
 	}
 

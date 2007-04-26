@@ -200,13 +200,11 @@ function actionApprove() {
 	<tbody>
 		<?php
 		if (isset($timeExpenses) && is_array($timeExpenses)) {
-
 			$customerObj = new Customer();
 			$projectObj = new Projects();
+
 			foreach ($timeExpenses as $project=>$timeExpense) {
-
 				$projectDet = $projectObj->fetchProject($project);
-
 				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId());
 			?>
 			<tr>

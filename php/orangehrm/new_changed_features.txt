@@ -24,6 +24,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 	1703041   memberships
     1705315   Country caused xml errors
     1700159   cant change password
+    1707820   Error in defining location
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 
