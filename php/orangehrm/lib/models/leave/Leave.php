@@ -262,7 +262,7 @@ class Leave {
 		//echo $query."<br>";
 		$dbConnection = new DMLFunctions();
 
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
 		$leaveArr = $this->_buildObjArr($result, true);
 
