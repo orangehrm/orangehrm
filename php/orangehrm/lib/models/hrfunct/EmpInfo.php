@@ -779,7 +779,7 @@ class EmpInfo {
 		$arrRecordsList[2] = "'". $this->getEmpFirstName() . "'";
 		$arrRecordsList[3] = "'". $this->getEmpNickName() . "'";
 		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
-		$arrRecordsList[5] = "'". $this->getEmployeeId() . "'";
+
 
 		$tableName = 'HS_HR_EMPLOYEE';
 
@@ -788,7 +788,11 @@ class EmpInfo {
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
 		$arrFieldList[3] = 'EMP_NICK_NAME';
 		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
-		$arrFieldList[5] = 'EMPLOYEE_ID';
+
+		if ($this->getEmployeeId() != null) {
+			$arrRecordsList[5] = "'". $this->getEmployeeId() . "'";
+			$arrFieldList[5] = 'EMPLOYEE_ID';
+		}
 
 		$sql_builder = new SQLQBuilder();
 

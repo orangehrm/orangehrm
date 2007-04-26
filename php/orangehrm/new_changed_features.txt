@@ -17,6 +17,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
     1681970   Maximum execution time exceeded Leave Assign
     1681972   Maximum execution time exceeded Leave Summary
     1707883   Customer - Admin not translated
+    1705713   ESS edit Middle name
 
 	Following bugs were closed
 
