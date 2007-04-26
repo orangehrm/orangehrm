@@ -120,12 +120,22 @@ else
 		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
         window.close();
 
-<?php   } elseif(isset($_GET['REPORT'])) { ?>
+<?php   } else if(isset($_GET['REPORT'])) { ?>
         opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.name;
         opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.title;
         window.close();
 
-<?php   } elseif(isset($_GET['reqcode'])) { ?>
+<?php   } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'LEAVE')) { ?>
+        opener.document.frmLeaveApp.cmbEmployeeId.value = cntrl.name;
+        opener.document.frmLeaveApp.txtEmployeeId.value = cntrl.title;
+        window.close();
+
+<?php  } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'SUMMARY')) { ?>
+        opener.document.frmSelectEmployee.id.value = cntrl.name;
+        opener.document.frmSelectEmployee.cmbEmpID.value = cntrl.title;
+        window.close();
+
+<?php  } else if(isset($_GET['reqcode'])) { ?>
         opener.document.frmEmp.txtRepEmpID.value = cntrl.name;
         opener.document.frmEmp.cmbRepEmpID.value = cntrl.title;
         window.close();

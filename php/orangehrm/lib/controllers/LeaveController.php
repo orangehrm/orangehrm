@@ -359,15 +359,19 @@ class LeaveController {
 		if ($admin) {
 			if ($authorizeObj->getIsAdmin() == 'Yes') {
 				$empObj = new EmpInfo();
-				$tmpObjs[0] = $empObj->getListofEmployee();
+				$tmpObjs[0] = array(true);
 			} else if ($authorizeObj->isSupervisor()) {
 				$empRepToObj = new EmpRepTo();
 				$tmpObjs[0] = $empRepToObj->getEmpSubDetails($authorizeObj->getEmployeeId());
 			}
 
+			$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+			$role = $authorizeObj->firstRole($roles);
+
 			$this->setId($_SESSION['empID']);
 			$tmpObj = new LeaveType();
 			$tmpObjs[1] = $tmpObj->fetchLeaveTypes();
+			$tmpObjs[2] = $role;
 		} else {
 
 			$this->setId($_SESSION['empID']);
@@ -583,17 +587,24 @@ class LeaveController {
 		$tmpObj = new Leave();
 		$this->setObjLeave($tmpObj);
 
-		$tmpOb[] = $tmpObj->getLeaveYears();
+		$tmpOb[0] = $tmpObj->getLeaveYears();
+
+		$authorizeObj = $this->authorize;
 
 		if ($this->getAuthorize()->isAdmin()) {
 			$empObj = new EmpInfo();
-			$tmpOb[] = $empObj->getListofEmployee();
+			$tmpOb[1] = array(true);
 			$leaveTypeObj = new LeaveType();
-			$tmpOb[] = $leaveTypeObj->fetchLeaveTypes();
+			$tmpOb[2] = $leaveTypeObj->fetchLeaveTypes();
 		} else {
 			$repObj = new EmpRepTo();
-			$tmpOb[] = $repObj->getEmpSubDetails($_SESSION['empID']);
+			$tmpOb[1] = $repObj->getEmpSubDetails($_SESSION['empID']);
 		}
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+		$role = $authorizeObj->firstRole($roles);
+
+		$tmpOb[3] = $role;
 
 		$path = "/templates/leave/leaveSelectEmployeeAndYear.php";
 

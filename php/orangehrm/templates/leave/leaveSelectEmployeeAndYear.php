@@ -32,6 +32,10 @@
  	$leaveTypes = $records[2];
  }
 
+ if (isset($records[3])) {
+ 	$role = $records[3];
+ }
+
 	if (isset($_GET['message'])) {
 ?>
 <var><?php echo $_GET['message']; ?></var>
@@ -62,10 +66,32 @@
 	function view(type) {
 		document.frmSelectEmployee.searchBy.value = type;
 	}
+
+	function changeEmployeeSelection() {
+
+		objCmbId = document.frmSelectEmployee.cmbId;
+		objRow = document.getElementById("idSelectRow");
+		objId = document.frmSelectEmployee.id;
+
+		switch (objCmbId.value) {
+			case '0' : objRow.className = 'hide';
+					 objId.value = 0;
+					 break;
+			case '1' : objRow.className = 'show';
+					 objId.value = -1;
+					 break;
+		}
+	}
+
+	function returnEmpDetail(){
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=SUMMARY','Employees','height=450,width=400');
+        if(!popup.opener) popup.opener=self;
+		popup.focus();
+	}
 </script>
-<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>&searchBy=leaveType" onsubmit="validate(); return false;">
+<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="validate(); return false;">
 <input type="hidden" name="searchBy" value="leaveType"/>
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="2" cellspacing="0">
   <tbody>
   	<tr>
 		<th class="tableTopLeft"></th>
@@ -96,24 +122,42 @@
 
     	<th width="180px" class="odd"><?php echo $lang_Leave_Common_EmployeeName;?></th>
 
-    	<th width="150px" class="odd">
-				<select name="id">
-					<?php if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == "Yes")) {?>
-					<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
-					<?php } else  { ?>
-					<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-					<?php }
-		   				if (is_array($employees)) {
-		   						sort($employees);
-		   					foreach ($employees as $employee) {
+    	<th width="180px" class="odd">
+    	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
+    		<select name="cmbId" onchange="changeEmployeeSelection();">
+				<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
+				<option value="1"><?php echo $lang_Leave_Common_Select;?></option>
+			</select>
+		<?php } else if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
+			<select name="id">
+				<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
+				<?php
+		   			if (is_array($employees)) {
+		   				sort($employees);
+		   				foreach ($employees as $employee) {
 		  ?>
-		 		  	<option value="<?php echo $employee[2] ?>"><?php echo $employee[1] ?></option>
-		  <?php 			}
-		   				}
+		 		<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
+		  <?php 		}
+		   			}
+    		}
 		 ?>
   	    		</select>
 		</th>
     	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('employee');" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
+		<th class="tableMiddleRight"></th>
+	</tr>
+	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
+	<tr class="hide" id="idSelectRow">
+		<th class="tableMiddleLeft"></th>
+    	<th>&nbsp;</th>
+    	<th>&nbsp;</th>
+    	<th>&nbsp;</th>
+		<th>
+			<input type="text" name="cmbEmpID" id="cmbEmpID" disabled />
+			<input type="hidden" name="id" id="id" value="0" />
+			<input type="button" value="..." onclick="returnEmpDetail();" />
+		</th>
+		<th>&nbsp;</th>
 		<th class="tableMiddleRight"></th>
 	</tr>
 	<tr>
@@ -141,6 +185,7 @@
     	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('leaveType');" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
+	<?php } ?>
 	<tr>
 		<th class="tableMiddleLeft"></th>
     	<th width="70px" class="odd"></th>

@@ -25,6 +25,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  	$employees = $records[0];
  }
 
+ if (isset($records[2])) {
+ 	$role = $records[2];
+ }
+
  if (isset($_GET['message'])) {
 ?>
 
@@ -103,6 +107,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		return str;
 	}
 
+	function returnEmpDetail(){
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=LEAVE','Employees','height=450,width=400');
+        if(!popup.opener) popup.opener=self;
+		popup.focus();
+	}
+
 </script>
 <h2>
 	<?php
@@ -133,28 +143,32 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       </tr>
     </thead>
     <tbody>
-    <?php
-      if (isset($employees) && is_array($employees)) {
-    ?>
+    <?php if (isset($role)) { ?>
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
         <td width="25px">&nbsp;</td>
-        <td>
-        <select name="cmbEmployeeId">
-        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
-			<?php
-		   		sort($employees);
-		   		foreach ($employees as $employee) {
-		  	?>
-		 		  	<option value="<?php echo $employee[2] ?>"><?php echo $employee[1] ?></option>
-		  <?php } ?>
-  	    </select>
-        </td>
-        <td width="25px">&nbsp;</td>
+		<td>
+		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
+			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled />
+			<input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" />
+			<input type="button" value="..." onclick="returnEmpDetail();" />
+		<?php } else if (isset($employees) && is_array($employees)) { ?>
+			<select name="cmbEmployeeId">
+	        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
+				<?php
+			   		sort($employees);
+			   		foreach ($employees as $employee) {
+			  	?>
+			 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
+			  <?php } ?>
+	  	    </select>
+		<?php } ?>
+		</td>
+	  	<td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
-      <?php } ?>
+    <?php } ?>
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_LeaveType; ?></td>
