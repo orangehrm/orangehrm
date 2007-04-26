@@ -176,26 +176,26 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         <input type="hidden" name="sqlState" value="">
         <div class="roundbox">
       <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-            <label for="txtId">Code</label>
+            <label for="txtId"><?php echo $lang_Commn_code; ?></label>
             <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtName">Name</label>
+			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
             <input type="text" id="name" name="txtName" tabindex="2"/>
 			<br/>
-            <label for="txtDescription">Description</label>
+            <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"></textarea>
             <br>
        <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 
 			$message = $this->popArr['editArr'];
 		?>
-			<label for="txtId">Code</label>
+			<label for="txtId"><?php echo $lang_Commn_code; ?></label>
 			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getCustomerId(); ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtName">Name</label>
+			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $message->getCustomerName(); ?>" tabindex="2"/>
 			<br/>
-            <label for="txtDescription">Description</label>
+            <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getCustomerDescription(); ?></textarea><br>
 			<br/>
 		<?php } ?>

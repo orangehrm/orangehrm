@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
+New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 
 	Bugs fixed include:
 
@@ -13,6 +13,10 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (18/04/2007)
     1681976   usability : pim view screwed with 20483 records
     1681967   colud not select a employee
     1681994   Allowed memory size exhausted
+    1683496   Access Right Violation in Leave Module
+    1681970   Maximum execution time exceeded Leave Assign
+    1681972   Maximum execution time exceeded Leave Summary
+    1707883   Customer - Admin not translated
 
 	Following bugs were closed
 
