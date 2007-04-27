@@ -20,12 +20,19 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
     1705713   ESS edit Middle name
     1681864   Half day leave
 
+
 	Following bugs were closed
 
 	1703911   Error with Combo boxes using XML
 	1703041   memberships
     1705315   Country caused xml errors
     1700159   cant change password
+    706623    Leave Type Not available
+    1707064   Uploading of image failed
+    1703108   Email configuration - SMTP
+    1702607   error message.
+    1694747   error on ESS
+    1685874   connection failed
     1707820   Error in defining location
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
@@ -41,6 +48,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 	1700802   When defining a customer description need not be mandatory
 	1701066   Usability - when defining a specific holiday, it\'s not clea
 	1701083   Usability - Report-to - Improved wordings
+
 
 	Following bugs were closed
 
