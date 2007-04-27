@@ -8,32 +8,32 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 	1701829   Usability - Inconsistant behavior when validation ZIP Code
 	1701820   Usability-No leave types when leave entitlement not updated
 	1701370   Error while selecting Country List box and submitting the Employee Information in ESS
-    1703509   Configuration file not writable - Web_Installer
-    1701070   Usability - Leave - Admin - assign
-    1681976   usability : pim view screwed with 20483 records
-    1681967   colud not select a employee
-    1681994   Allowed memory size exhausted
-    1683496   Access Right Violation in Leave Module
-    1681970   Maximum execution time exceeded Leave Assign
-    1681972   Maximum execution time exceeded Leave Summary
-    1707883   Customer - Admin not translated
-    1705713   ESS edit Middle name
-    1681864   Half day leave
-
+	1703509   Configuration file not writable - Web_Installer
+	1701070   Usability - Leave - Admin - assign
+	1681976   usability : pim view screwed with 20483 records
+	1681967   colud not select a employee
+	1681994   Allowed memory size exhausted
+	1683496   Access Right Violation in Leave Module
+	1681970   Maximum execution time exceeded Leave Assign
+	1681972   Maximum execution time exceeded Leave Summary
+	1707883   Customer - Admin not translated
+	1705713   ESS edit Middle name
+	1681864   Half day leave
 
 	Following bugs were closed
 
 	1703911   Error with Combo boxes using XML
 	1703041   memberships
-    1705315   Country caused xml errors
-    1700159   cant change password
-    706623    Leave Type Not available
-    1707064   Uploading of image failed
-    1703108   Email configuration - SMTP
-    1702607   error message.
-    1694747   error on ESS
-    1685874   connection failed
-    1707820   Error in defining location
+	1705315   Country caused xml errors
+	1700159   cant change password
+	1706623   Leave Type Not available
+	1707064   Uploading of image failed
+	1703108   Email configuration - SMTP
+	1702607   error message.
+	1694747   error on ESS
+	1685874   connection failed
+	1707820   Error in defining location
+
 
 New & Changed Features for OrangeHRM ver 2.2_beta_2 (14/04/2007)
 
@@ -101,25 +101,23 @@ New & Changed Features for OrangeHRM ver 2.1_beta_2 (Elbrus) (13/03/2007)
 	1674330   ESS: Education should be editable
 	1674332   ESS: Language should be editable
 	1586342   Usability - Dependents - Don't show empty tables
-    1586130   Employee Info - Emergency Contact - Don't show empty table
-    1586362   Usability - Immigration - Don't show empty table
-    1586541   Payments - don't show the empty salary table
-    1586049   Usability - No need to show empty table when No records to display
-    1678900   Only 999 users can be made
-    1661282   Memberships for the specified membership type
-    1619862   PIM - Image upload
-    1586085   Usability - Emp Info - Search by 'Description' is misleading
-    1586127   Employee Information - Contact - State should be state/province
-    1595871   Uploading images failure to upload and display an image should be reported
+	1586130   Employee Info - Emergency Contact - Don't show empty table
+	1586362   Usability - Immigration - Don't show empty table
+	1586541   Payments - don't show the empty salary table
+	1586049   Usability - No need to show empty table when No records to display
+	1678900   Only 999 users can be made
+	1661282   Memberships for the specified membership type
+	1619862   PIM - Image upload
+	1586085   Usability - Emp Info - Search by 'Description' is misleading
+	1586127   Employee Information - Contact - State should be state/province
+	1595871   Uploading images failure to upload and display an image should be reported
 
 
 New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1674602   Undefined index Qualifications
+	BugId     Name	1674602   Undefined index Qualifications
 	1674707   Memberships are not retrieved
 	1675454   When user cancels leave supervisor gets a notification with
 	1675453   When user applies for leave supervisor gets a notification:
@@ -141,9 +139,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1671396   User without subordinates also has "Assign" leave option
+	BugId     Name	1671396   User without subordinates also has "Assign" leave option
 	1671513   Leave approval comments get displaced
 	1650447   Can't Save image on Profile
 	1636575   Leave First Time
@@ -185,9 +181,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1669706   Unable to create user
+	BugId     Name	1669706   Unable to create user
 	1669702   Unable to configure mail settings in leave module
 	1670684   PIM->Languages the drop down not translated
 	1670803   Undefined variable: headingInfo
@@ -197,9 +191,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1668779   undefined variable $employeeinformation
+	BugId     Name	1668779   undefined variable $employeeinformation
 	1668784   Undefined variable: addempstat
 	1668794   Failed to Delete
 	1668800   Nationality & Race: failed to delete
@@ -216,9 +208,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1649424	  menu problem
+	BugId     Name	1649424   menu problem
 	1666769   System Check Error with absent MySQL ext
 	1666689   Missing pull down menu
 	1665950   \'x\'; DROP TABLE hs_hr_compstructtree; --\';
@@ -235,9 +225,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) (13/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name
-
-	1654026   MySQL Error in Employee Leave Summary
+	BugId     Name	1654026   MySQL Error in Employee Leave Summary
 	1656548   Unable to login
 	1656000   Security Vulnerabilities
 	1655111   PIM Undefined String offset error
@@ -262,9 +250,7 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_3 (Dima) (24/01/2007)
 
 	2. Usability related bug fixes
 
-	BugID	Name
-
-	1619883   Usability - Add consistant borders to edit fields
+	BugID	Name	1619883   Usability - Add consistant borders to edit fields
 	1619870   Usability - Cannot identify which section is being edited in Employee Information
 	1619863   Usability - Mark compulsary fields in bug tracker page
 	1619877   Usability - Comment field in "Apply leave" should be multiline
@@ -302,12 +288,13 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_1 (Vlad)(09/01/2007)
 New & Changed Features for OrangeHRM ver 2.0.5 (25/12/2006)
 
 	Bugs fixed include:
-		BugID    Name
-                1619876  Usability - Change "Leaves list" to "Leave list"
-		1588273  Edit ESS Users - Clear button does not work
-		1586354  Employee Information - Not possible to remove a picture
-		1586132  Usability - Employee Info - Emergency Contacts
-		1619838  Back button on Change password page doesn't work
+
+	BugID    Name
+	1619876  Usability - Change "Leaves list" to "Leave list"
+	1588273  Edit ESS Users - Clear button does not work
+	1586354  Employee Information - Not possible to remove a picture
+	1586132  Usability - Employee Info - Emergency Contacts
+	1619838  Back button on Change password page doesn't work
 
 
 New & Changed Features for OrangeHRM ver 2.0.3 (8/12/2006)
@@ -318,7 +305,7 @@ New & Changed Features for OrangeHRM ver 2.0.3 (8/12/2006)
 	the closed bug list in this release are as follows (as maintained at SourceForge bug tracker)
 
 		BugID	Name
-		1597951	  apply leave online
+		1597951	apply leave online
 		1597948	cant create admin user
 		1600063	Leave Module malfunction
 		1599550	Apply leave from date to date
