@@ -113,6 +113,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		popup.focus();
 	}
 
+	function fillToDate() {
+		obj = document.frmLeaveApp.txtLeaveToDate;
+		if (obj.value == '') {
+			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
+		}
+	}
+
 </script>
 <h2>
 	<?php
@@ -194,7 +201,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
      	<td class="tableMiddleLeft"></td>
      	<td width="75px">&nbsp;</td>
         <td width="25px">&nbsp;</td>
-      	<td><?php echo $lang_Leave_Common_Note;?></td>
+      	<td><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated;?></td>
     	<td width="25px">&nbsp;</td>
     	<td class="tableMiddleRight"></td>
      </tr> <?php } ?>
@@ -209,7 +216,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');"/>
-          <input type="button" name="Submit" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveFromDate); return false;"/>
+          <input type="button" name="Submit" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveFromDate); fillToDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
         <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');" />
