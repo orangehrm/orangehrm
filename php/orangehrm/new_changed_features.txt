@@ -1,3 +1,13 @@
+New & Changed Features for OrangeHRM ver 2.2_beta_4 (04/05/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+
+	1707109   not able to change password
+	1708515   Change password, old and new password message has
+
+
 New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 
 	Bugs fixed include:

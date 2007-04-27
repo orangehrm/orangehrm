@@ -146,9 +146,9 @@
 	$lang_Menu_Leave_LeaveSummary 						= "Leave Summary";
 	$lang_Menu_Leave_LeavesList 						= "Leaves List";
 	$lang_Menu_Leave_ApproveLeave 						= "Approve Leave";
-	$lang_Menu_Leave_LeaveTypes 						= "Leave Types";
+	$lang_Menu_Leave_LeaveTypes 						= "Define Leave Types";
 	$lang_Menu_Leave_Apply 								= "Apply";
-	$lang_Menu_Leave_Assign								= "Assign";
+	$lang_Menu_Leave_Assign								= "Assign Leave";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";
@@ -209,7 +209,7 @@
 
 	$lang_Leave_Common_FromDate 			= "From Date";
 	$lang_Leave_Common_ToDate 				= "To Date";
-	$lang_Leave_Common_Note 				= "Leave Quota not allocated.Please consult HRAdmin";
+
 	$lang_Leave_Common_LeaveType 			= "Leave Type";
 	$lang_Leave_Common_Status 				= "Status";
 	$lang_Leave_Common_Length 				= "Full Day/Half Day";
@@ -860,7 +860,7 @@
 	$lang_Admin_Change_Password_Errors_EnterYourNewPassword = "Enter Your New Password";
 	$lang_Admin_Change_Password_Errors_RetypeYourNewPassword = "Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
-	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old &amp; New Passwords Are Equal";
+	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old and New Passwords Are Equal";
 
 	$lang_Admin_Project_CutomerName = "Customer Name";
 	$lang_Admin_Project_SelectCutomer = "Select customer";
