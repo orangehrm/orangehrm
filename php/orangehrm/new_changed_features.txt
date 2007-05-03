@@ -6,6 +6,12 @@ New & Changed Features for OrangeHRM ver 2.2_beta_4 (04/05/2007)
 
 	1707109   not able to change password
 	1708515   Change password, old and new password message has
+	1709845	  Usability - error in adding employee not properly displayed
+
+	Following bugs were closed
+
+	1709852   ESS User should able to change his or her password
+	1709840	  Error in specifying status for job title
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)

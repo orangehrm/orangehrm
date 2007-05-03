@@ -77,7 +77,7 @@
 	$lang_Error_CityCannotBeEmpty 						= "City Cannot be empty";
 	$lang_Error_AddressEmpty 							= "Address empty";
 	$lang_Error_ZipEmpty 								= "Zip - Code Cannot be empty";
-	$lang_Error_CompStruct_ZipInvalid 					= "Zip - Code Contains non-numeric characters Here they are #characterList";
+	$lang_Error_CompStruct_ZipInvalid 					= "Zip - Code Contains non-numeric characters. Here they are #characterList";
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
 
@@ -209,6 +209,8 @@
 
 	$lang_Leave_Common_FromDate 			= "From Date";
 	$lang_Leave_Common_ToDate 				= "To Date";
+
+	$lang_Leave_Common_LeaveQuotaNotAllocated = "Leave Quota not allocated. Please consult HR Admin";
 
 	$lang_Leave_Common_LeaveType 			= "Leave Type";
 	$lang_Leave_Common_Status 				= "Status";
