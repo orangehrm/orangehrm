@@ -40,6 +40,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 	1707883   Customer - Admin not translated
 	1705713   ESS edit Middle name
 	1681864   Half day leave
+	1707128   Deleting HR-Admin Users deleted other Admins
 
 	Following bugs were closed
 
