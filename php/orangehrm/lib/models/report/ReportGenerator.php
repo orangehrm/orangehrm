@@ -134,7 +134,7 @@ class ReportGenerator {
  			$parentTableName['EMPNO']	    = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['EMPNO']= 'a.EMP_NUMBER';
  			$existingTableName['EMPNO']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPNO']= 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
+ 			$parentTableDescription['EMPNO']= 'IFNULL(a.`EMPLOYEE_ID`, LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0))';
  		}
 
  		if(isset($this->field['EMPFIRSTNAME'])==1){
