@@ -24,21 +24,27 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
 <script>
-
- function goBack() {
+ 	function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
 
- function addSave() {
+ 	function addSave() {
 
-        if(document.frmProject.txtId.value=='') {
-            alert("Please specify the Project Id");
+        if(document.frmProject.txtId.value == '') {
+            alert("<?php echo $lang_Admin_Project_Error_PleaseDSpecifyTheProjectId; ?>");
             document.frmProject.txtId.focus();
             return;
         }
 
+        if(document.frmProject.cmbCustomerId.value == 0) {
+            alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
+            document.frmProject.customerId.focus();
+            return;
+        }
+
         if (document.frmProject.txtName.value == '') {
-            alert ("Please specify the name");
+            alert ("<?php echo $lang_Admin_Project_Error_PleaseSpecifyTheName; ?>");
+            document.frmProject.txtName.focus();
             return false;
         }
 
@@ -49,14 +55,21 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
    function addUpdate() {
 
-		if(document.frmProject.txtId.value=='') {
-            alert("Please specify the Project Id");
+		if(document.frmProject.txtId.value == '') {
+            alert("<?php echo $lang_Admin_Project_Error_PleaseDSpecifyTheProjectId; ?>");
             document.frmProject.txtId.focus();
             return;
         }
 
-	 	if (document.frmProject.txtName.value == '') {
-            alert ("Please specify the name");
+        if(document.frmProject.cmbCustomerId.value == 0) {
+            alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
+            document.frmProject.customerId.focus();
+            return;
+        }
+
+        if (document.frmProject.txtName.value == '') {
+            alert ("<?php echo $lang_Admin_Project_Error_PleaseSpecifyTheName; ?>");
+            document.frmProject.txtName.focus();
             return false;
         }
 
@@ -64,12 +77,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 		document.frmProject.submit();
 	}
 
-function clearAll() {
+	function clearAll() {
 		document.frmProject.txtId.value='';
 		document.frmProject.txtName.value='';
 		document.frmProject.txtDescription.value=''
 	}
-function goBack() {
+	function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
 </script>
@@ -174,7 +187,7 @@ function goBack() {
             <label for="txtId"><?php echo $lang_Commn_code; ?></label>
             <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
             <br/>
-            <label for="customerId"><?php echo $lang_view_CustomerName; ?></label>
+            <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
             <?php
             $arrcusid = $this->popArr['cusid'];?>
 			<select   name="cmbCustomerId">
@@ -185,7 +198,7 @@ function goBack() {
    			<?php	} ?>
 	   	   </select>
 			<br/>
-			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
+			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
             <input type="text" id="name" name="txtName" tabindex="2"/>
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
@@ -198,7 +211,7 @@ function goBack() {
 			<label for="projectId"><?php echo $lang_Commn_code; ?></label>
 			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getProjectId(); ?>" tabindex="1" readonly/>
             <br/>
-            <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?></label>
+            <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
             <select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : ''?> name="cmbCustomerId">
 					<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 				<?php
@@ -209,7 +222,7 @@ function goBack() {
    				<?php	} ?>
    			</select>
             <br/>
-			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
+			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $message->getProjectName(); ?>" tabindex="2"/>
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
@@ -231,5 +244,6 @@ function goBack() {
         -->
         </script>
     </form>
+    <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>

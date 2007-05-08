@@ -867,6 +867,13 @@
 	$lang_Admin_Project_CutomerName = "Customer Name";
 	$lang_Admin_Project_SelectCutomer = "Select customer";
 
+	$lang_Admin_Project_Error_PleaseDSpecifyTheProjectId = "Please specify the Project Id";
+	$lang_Admin_Project_Error_PleaseSelectACustomer = "Please select a customer";
+	$lang_Admin_Project_Error_PleaseSpecifyTheName = "Please specify the name";
+
+	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Please specify the custormer Id";
+	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Please specify the name";
+
 	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";

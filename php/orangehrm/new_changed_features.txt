@@ -1,13 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_5 (10/05/2007)
-
-	Bugs fixed include:
-
-	BugId     Name
-
-	1712110   Incorrect Employee Number in Reports
-
-
-New & Changed Features for OrangeHRM ver 2.2_beta_4 (04/05/2007)
+New & Changed Features for OrangeHRM ver 2.2_beta_4 (11/05/2007)
 
 	1. Danish language pack added (still in alpha stage)
 
@@ -19,6 +10,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_4 (04/05/2007)
 	1707109   not able to change password
 	1708515   Change password, old and new password message has
 	1709845	  Usability - error in adding employee not properly displayed
+	1712110   Incorrect Employee Number in Reports
+	1712975   Error in adding Project
 
 	Following bugs were closed
 

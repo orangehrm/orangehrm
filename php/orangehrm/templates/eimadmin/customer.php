@@ -39,13 +39,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     function addSave() {
 
         if(document.frmCustomer.txtId.value=='') {
-            alert("Please specify the custormer Id");
+            alert("<?php echo $lang_Admin_Customer_PleaseSpecifyTheCustormerId; ?>");
             document.frmCustomer.txtId.focus();
             return;
         }
 
         if (document.frmCustomer.txtName.value == '') {
-            alert ("Please specify the name");
+            alert ("<?php echo $lang_Admin_Customer_Error_PleaseSpecifyTheName; ?>");
             return false;
         }
 
@@ -57,13 +57,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
   function addUpdate() {
 
 		if(document.frmCustomer.txtId.value=='') {
-            alert("Please specify the custormer Id");
+            alert("<?php echo $lang_Admin_Customer_PleaseSpecifyTheCustormerId; ?>");
             document.frmCustomer.txtId.focus();
             return;
         }
 
 	 	if (document.frmCustomer.txtName.value == '') {
-            alert ("Please specify the name");
+            alert ("<?php echo $lang_Admin_Customer_Error_PleaseSpecifyTheName; ?>");
             return false;
         }
 
@@ -179,7 +179,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             <label for="txtId"><?php echo $lang_Commn_code; ?></label>
             <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
+			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
             <input type="text" id="name" name="txtName" tabindex="2"/>
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
@@ -192,7 +192,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 			<label for="txtId"><?php echo $lang_Commn_code; ?></label>
 			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getCustomerId(); ?>" tabindex="1" readonly/>
             <br/>
-			<label for="txtName"><?php echo $lang_Commn_name; ?></label>
+			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $message->getCustomerName(); ?>" tabindex="2"/>
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
@@ -214,5 +214,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         -->
         </script>
     </form>
+    <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>
