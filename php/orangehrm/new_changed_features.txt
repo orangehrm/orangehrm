@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_4 (11/05/2007)
+New & Changed Features for OrangeHRM ver 2.2_beta_4 (10/05/2007)
 
 	1. Danish language pack added (still in alpha stage)
 
@@ -13,6 +13,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_4 (11/05/2007)
 	1712110   Incorrect Employee Number in Reports
 	1712975   Error in adding Project
 	1712053   Default Leave?
+	1712929	  On-Demand - Jobtitle - Employment status ADD, REMOVE does not work
+	1712931	  On-Demand - cannot set employement status
 
 	Following bugs were closed
 

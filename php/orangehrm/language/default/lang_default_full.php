@@ -77,7 +77,7 @@
 	$lang_Error_CityCannotBeEmpty 						= "City Cannot be empty";
 	$lang_Error_AddressEmpty 							= "Address empty";
 	$lang_Error_ZipEmpty 								= "Zip - Code Cannot be empty";
-	$lang_Error_CompStruct_ZipInvalid 					= "Zip - Code Contains non-numeric characters. Here they are #characterList";
+	$lang_Error_CompStruct_ZipInvalid 					= "Zip - Code Contains non-numeric characters Here they are #characterList";
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
 
@@ -866,6 +866,13 @@
 
 	$lang_Admin_Project_CutomerName = "Customer Name";
 	$lang_Admin_Project_SelectCutomer = "Select customer";
+
+	$lang_Admin_Project_Error_PleaseDSpecifyTheProjectId = "Please specify the Project Id";
+	$lang_Admin_Project_Error_PleaseSelectACustomer = "Please select a customer";
+	$lang_Admin_Project_Error_PleaseSpecifyTheName = "Please specify the name";
+
+	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Please specify the custormer Id";
+	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Please specify the name";
 
 	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
