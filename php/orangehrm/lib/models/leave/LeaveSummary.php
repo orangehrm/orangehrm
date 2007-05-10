@@ -147,6 +147,7 @@ class LeaveSummary extends LeaveQuota {
 		$result = $dbConnection->executeQuery($query);
 
 		while ($row = mysql_fetch_assoc($result)) {
+
 			if ($searchBy == "leaveType") {
 				$tmp = $resultArr[$row['leave_type_id']][$row['employee_id']];
 			} else {
@@ -168,7 +169,24 @@ class LeaveSummary extends LeaveQuota {
 			}
 		}
 
-		return $resultArr;
+		$objLeaveType = new LeaveType();
+
+		$resultArrX = null;
+
+		foreach ($resultArr as $key1=>$level1Arr) {
+			foreach ($level1Arr as $key2=>$row) {
+
+				$leveTypeObj = new LeaveType();
+
+				$leaveType = $leveTypeObj->retriveLeaveType($row['leave_type_id']);
+
+				if (($leaveType[0]->getLeaveTypeAvailable() == $objLeaveType->availableStatusFlag) || ($row['leave_taken'] > 0)) {
+					$resultArrX[$key1][$key2]=$row;
+				}
+			}
+		}
+
+		return $resultArrX;
 	}
 
 	private function _fetchSumOfLeavesAll() {
