@@ -173,15 +173,17 @@ class LeaveSummary extends LeaveQuota {
 
 		$resultArrX = null;
 
-		foreach ($resultArr as $key1=>$level1Arr) {
-			foreach ($level1Arr as $key2=>$row) {
+		if (is_array($resultArr)) {
+			foreach ($resultArr as $key1=>$level1Arr) {
+				foreach ($level1Arr as $key2=>$row) {
 
-				$leveTypeObj = new LeaveType();
+					$leveTypeObj = new LeaveType();
 
-				$leaveType = $leveTypeObj->retriveLeaveType($row['leave_type_id']);
+					$leaveType = $leveTypeObj->retriveLeaveType($row['leave_type_id']);
 
-				if (($leaveType[0]->getLeaveTypeAvailable() == $objLeaveType->availableStatusFlag) || ($row['leave_taken'] > 0)) {
-					$resultArrX[$key1][$key2]=$row;
+					if (($leaveType[0]->getLeaveTypeAvailable() == $objLeaveType->availableStatusFlag) || ($row['leave_taken'] > 0)) {
+						$resultArrX[$key1][$key2]=$row;
+					}
 				}
 			}
 		}

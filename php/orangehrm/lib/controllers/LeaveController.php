@@ -428,7 +428,14 @@ class LeaveController {
 
 			$subordinates = $objReportTo->getEmpSub($_SESSION['empID']);
 
-			if (!array_search($id, $subordinates[0])) {
+			for ($i=0; $i < count($subordinates); $i++) {
+				if (in_array($id, $subordinates[$i])) {
+					$subordinate = true;
+					break;
+				}
+			}
+
+			if (!$subordinate) {
 				trigger_error("Unauthorized access", E_USER_NOTICE);
 			} else {
 				return "supervisor";
