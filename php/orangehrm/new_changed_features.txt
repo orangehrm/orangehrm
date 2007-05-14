@@ -5,6 +5,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_5 (15/05/2007)
 	BugId     Name
 
 	1717095   Leave Summary Error
+	1713030   Error in generating report
+
 
 New & Changed Features for OrangeHRM ver 2.2_beta_4 (10/05/2007)
 

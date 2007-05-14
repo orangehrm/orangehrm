@@ -81,6 +81,16 @@ class ReportGenerator {
 			$criteriaField['PAYGRD'] = 'b.SAL_GRD_CODE';
 			$criteriaTable['PAYGRD'] = 'HS_PR_SALARY_GRADE b';
 			$criteriaComOper['PAYGRD'] = "=";
+
+			$parentTableFieldName['PAYGRD']  = 'b.SAL_GRD_CODE';
+ 			$parentTableName['PAYGRD']	     = 'HS_PR_SALARY_GRADE b';
+ 			$existingTableFieldName['PAYGRD']= 'f.SAL_GRD_CODE';
+ 			$existingTableName['PAYGRD']	 = 'HS_HR_JOB_TITLE f';
+
+ 			$parentTableFieldName['JOBTITLE']  	= 'f.JOBTIT_CODE';
+ 			$parentTableName['JOBTITLE']	    	= 'HS_HR_JOB_TITLE f';
+ 			$existingTableFieldName['JOBTITLE']	= 'a.JOB_TITLE_CODE';
+ 			$existingTableName['JOBTITLE']		= 'HS_HR_EMPLOYEE a';
 		}
 
     	if (isset($this->criteria['EMPSTATUS'])){
@@ -232,9 +242,11 @@ class ReportGenerator {
  			$headingName['PAYGRD'] = 'Salary Grade';
  			$parentTableFieldName['PAYGRD']  = 'b.SAL_GRD_CODE';
  			$parentTableName['PAYGRD']	     = 'HS_PR_SALARY_GRADE b';
- 			$existingTableFieldName['PAYGRD']= 'a.SAL_GRD_CODE';
- 			$existingTableName['PAYGRD']	 = 'HS_HR_EMPLOYEE a';
+ 			$existingTableFieldName['PAYGRD']= 'f.SAL_GRD_CODE';
+ 			$existingTableName['PAYGRD']	 = 'HS_HR_JOB_TITLE f';
  			$parentTableDescription['PAYGRD']  = 'b.SAL_GRD_NAME';
+
+ 			$this->field['JOBTITLE'] = true;
  		}
 
  		if(isset($this->field['EMPSTATUS'])==1){
@@ -345,6 +357,7 @@ class ReportGenerator {
 		$joinQ = 'hs_hr_employee a';
 		$joinTail = '';
 
+		$tableStr = '';
 
 		if(isset($this->field['EMPSTATUS'])==1){
 
@@ -383,13 +396,21 @@ class ReportGenerator {
 
 		}
 
-		if(isset($this->field['PAYGRD'])==1){
+		if(isset($this->field['PAYGRD'])){
 
 			$jfield = 'PAYGRD';
 			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
 					 ' ON '.$existingTableFieldName[$jfield].' = '.
 					 $parentTableFieldName[$jfield].')';
-
+		} else if (isset($this->criteria['PAYGRD'])) {
+			$jfield = 'JOBTITLE';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+			$jfield = 'PAYGRD';
+			$joinQ = '('.$joinQ. ' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
 		}
 
 		if(isset($this->field['SKILLS'])==1){
@@ -442,7 +463,7 @@ class ReportGenerator {
 
 		}
 
-		$SQL1 = $SQL1 .$joinQ;
+		$SQL1 = $SQL1 .$joinQ.$tableStr;
 
 		$SQL1 = $SQL1 . ' WHERE ' ;
 
@@ -466,7 +487,7 @@ class ReportGenerator {
 						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';
 				}
 
-			//echo strtolower($SQL1);
+			echo strtolower($SQL1);
 			return strtolower($SQL1);
 		}
 
