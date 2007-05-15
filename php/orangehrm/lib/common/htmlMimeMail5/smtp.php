@@ -15,7 +15,7 @@
 * You should have received a copy of the GNU General Public License
 * along with htmlMimeMail5; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-* 
+*
 * � Copyright 2005 Richard Heyes
 */
 
@@ -79,7 +79,7 @@ class smtp
 
     /**
     * Connect function. This will, when called
-    * statically, create a new smtp object, 
+    * statically, create a new smtp object,
     * call the connect function (ie this function)
     * and return it. When not called statically,
     * it will connect to the server and send
@@ -96,7 +96,7 @@ class smtp
             return $obj;
 
         } else {
-            $this->connection = fsockopen($this->host, $this->port, $errno, $errstr, $this->timeout);
+            $this->connection = @fsockopen($this->host, $this->port, $errno, $errstr, $this->timeout);
             if (function_exists('socket_set_timeout')) {
                 @socket_set_timeout($this->connection, 5, 0);
             }
@@ -139,7 +139,7 @@ class smtp
             }
 
             $this->mail($this->from);
-            
+
             if (is_array($this->recipients)) {
                 foreach ($this->recipients as $value) {
                     $this->rcpt($value);
@@ -162,7 +162,7 @@ class smtp
             $this->send_data($body);
             $this->send_data('.');
 
-            $result = (substr(trim($this->get_data()), 0, 3) === '250');           
+            $result = (substr(trim($this->get_data()), 0, 3) === '250');
             //$this->rset();
             return $result;
         } else {
@@ -170,7 +170,7 @@ class smtp
             return FALSE;
         }
     }
-    
+
     /**
     * Function to implement HELO cmd
     */
@@ -187,7 +187,7 @@ class smtp
             return false;
         }
     }
-    
+
     /**
     * Function to implement EHLO cmd
     */
@@ -204,7 +204,7 @@ class smtp
             return false;
         }
     }
-    
+
     /**
     * Function to implement RSET cmd
     */
@@ -240,7 +240,7 @@ class smtp
             return false;
         }
     }
-    
+
     /**
     * Function to implement AUTH cmd
     */
@@ -329,7 +329,7 @@ class smtp
     {
         if(is_resource($this->connection)){
             return fwrite($this->connection, $data.CRLF, strlen($data)+2);
-            
+
         } else {
             return false;
         }
@@ -358,13 +358,13 @@ class smtp
 
     /**
     * Sets a variable
-    */    
+    */
     public function set($var, $value)
     {
         $this->$var = $value;
         return true;
     }
-    
+
     /**
     * Function to return the errors array
     */
@@ -372,7 +372,7 @@ class smtp
     {
         return $this->errors;
     }
-    
+
 
 } // End of class
 ?>
