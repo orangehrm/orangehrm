@@ -1,7 +1,7 @@
 /* CSS Document */
 
 .tableTopLeft {
-	background:url(../pictures/table_r1_c1.gif) no-repeat top left;
+	background:url(../pictures/table_r1_c1.gif) no-repeat top right;
 	width:12px;
 	height:11px;
 }
@@ -17,7 +17,7 @@
 }
 
 .tableMiddleLeft {
-	background:url(../pictures/table_r2_c1.gif) repeat-y top left;
+	background:url(../pictures/table_r2_c1.gif) repeat-y top right;
 	width:12px;
 	height: 4ex;
 }
@@ -37,7 +37,7 @@ td {
 }
 
 .tableBottomLeft {
-	background:url(../pictures/table_r3_c1.gif) no-repeat bottom left;
+	background:url(../pictures/table_r3_c1.gif) no-repeat bottom right;
 	width:12px;
 	height:15px;
 }
@@ -147,4 +147,9 @@ hr {
 	position:absolute;
 	top:0;
 	right:0;
+}
+
+tbody td, tbody th {
+	padding-right: 5px;
+	padding-left: 5px;
 }

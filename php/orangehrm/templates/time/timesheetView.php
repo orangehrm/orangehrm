@@ -189,15 +189,15 @@ function actionApprove() {
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
-			<th width="60px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
+			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
+			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    	<th width="70px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
 	    <?php } ?>
 			<th class="tableMiddleRight"></th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody >
 		<?php
 		if (isset($timeExpenses) && is_array($timeExpenses)) {
 			$customerObj = new Customer();
