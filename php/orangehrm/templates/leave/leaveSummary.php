@@ -174,7 +174,11 @@
     <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record['no_of_days_allotted']; ?>" size="3" <?php echo $readOnly; ?>/></td>
     <?php } ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record['leave_taken']; ?></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record['leave_available']; ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php if ($record['leave_available'] >= 0) {
+    												echo $record['leave_available'];
+    										   } else {
+    										   		echo 0;
+    										   } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
 <?php 	  }

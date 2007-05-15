@@ -201,7 +201,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
      	<td class="tableMiddleLeft"></td>
      	<td width="75px">&nbsp;</td>
         <td width="25px">&nbsp;</td>
-      	<td><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated;?></td>
+      	<td><?php if ($modifier == 'Leave_Apply') {
+      					echo $lang_Leave_Common_LeaveQuotaNotAllocated;
+      			  }?></td>
     	<td width="25px">&nbsp;</td>
     	<td class="tableMiddleRight"></td>
      </tr> <?php } ?>
