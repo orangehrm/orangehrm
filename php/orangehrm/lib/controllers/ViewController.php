@@ -210,14 +210,14 @@ class ViewController {
 
 							$choice=$postArr['loc_code'];
 						    $strName=trim($postArr['loc_name']);
-						    $form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld], $esp);
+						    $form_creator ->popArr['message'] = $this->getInfo(trim($getArr['uniqcode']),$currentPage,$strName,$choice, $getArr['sortField'], $getArr[$sortOrderFld], $esp);
 					    } else  {
 
-							$form_creator ->popArr['message'] = $this ->  getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld],  $esp);
+							$form_creator ->popArr['message'] = $this->getInfo(trim($getArr['uniqcode']),$currentPage, '', -1, $getArr['sortField'], $getArr[$sortOrderFld],  $esp);
 					    }
 
 				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) {
-							$form_creator ->popArr['temp'] = $this ->  countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
+							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
 						} else {
 							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
 						}
@@ -467,7 +467,7 @@ class ViewController {
 		case 'CUS' :
 
 			$this-> customer = new Customer();
-			$message = $this->customer->getListofCustomers($pageNO,$schStr,$mode,$sortField , $sortOrder ) ;
+			$message = $this->customer->getListofCustomers($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
 			return $message;
 
@@ -475,7 +475,7 @@ class ViewController {
 		case 'PRJ' :
 
 			$this-> projects = new Projects();
-			$message = $this->projects->getListOfProjectsStr($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') ;
+			$message = $this->projects->getListOfProjectsStr($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
 			return $message;
 

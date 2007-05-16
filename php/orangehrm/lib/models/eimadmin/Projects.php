@@ -342,7 +342,7 @@ class Projects {
 	/**
 	 * Fetch all projects with paging
 	 */
-	public function getListOfProjectsStr($pageNO,$schStr,$schField,$sortField = 0, $sortOrder = 'ASC') {
+	public function getListOfProjectsStr($pageNO,$schStr,$schField,$sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = "a.`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
 		$arrFieldList[1] = "b.`".Customer::CUSTOMER_DB_FIELDS_NAME."`";
@@ -372,7 +372,7 @@ class Projects {
 			$limitStr = "$page,$limit";
 		}
 
-		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $tableNames, $joinConditions, $arrSelectConditions, null, $arrFieldList[0], 'ASC', $limitStr);
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $tableNames, $joinConditions, $arrSelectConditions, null, $arrFieldList[$sortField], $sortOrder, $limitStr);
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function

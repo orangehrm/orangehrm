@@ -241,7 +241,7 @@ class Customer {
 			$limitStr = "$page,$limit";
 			//echo $limitStr;
 		}
-		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[0], 'ASC', $limitStr);
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[$sortField], $sortOrder, $limitStr);
 
 
 
