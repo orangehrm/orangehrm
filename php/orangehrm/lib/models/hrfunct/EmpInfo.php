@@ -2363,6 +2363,7 @@ class EmpInfo {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
 		$arrFieldList[2] = 'EMPLOYEE_ID';
+		$arrFieldList[3] = 'EMP_FIRSTNAME';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -2383,6 +2384,8 @@ class EmpInfo {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][2] = $line[2];
+	    	$arrayDispList[$i][3] = $line[3];
+
 	    	$i++;
 
 	     }
@@ -2494,6 +2497,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMP_FIRSTNAME';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -2513,6 +2517,7 @@ class EmpInfo {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 
 	     }
@@ -2558,6 +2563,7 @@ class EmpInfo {
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
 		$arrFieldList[2] = 'EMPLOYEE_ID';
+		$arrFieldList[3] = 'EMP_FIRSTNAME';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -2578,8 +2584,9 @@ class EmpInfo {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$arrayDispList[$i][2] = $line[2];
-	    	$i++;
+	    	$arrayDispList[$i][3] = $line[3];
 
+	    	$i++;
 	     }
 
 	     if (isset($arrayDispList)) {
@@ -2599,6 +2606,7 @@ class EmpInfo {
 		$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
+		$arrFieldList[2] = 'EMP_FIRSTNAME';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -2620,6 +2628,8 @@ class EmpInfo {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
+
 	    	$i++;
 
 	     }

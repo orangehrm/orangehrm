@@ -342,7 +342,7 @@ if ($rset != Null&& $empname != Null){ ?>
 				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				   for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])
-				     echo '<td>' . $empname[$a][1] .'</td>';
+				     echo '<td>' . $empname[$a][3].' '.$empname[$a][1].'</td>';
 				   for($a=0;count($arrRepMethod)>$a;$a++)
 						if($rset[$c][2] == $values[$a])
 				   	echo '<td>' . $keys[$a] .'</td>';
@@ -409,7 +409,7 @@ if ($rset != Null && $empname != Null){ ?>
 				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				    for($a=0; $empname && $a < count($empname); $a++)
 				     if($rset[$c][1]==$empname[$a][0])
-				      echo '<td>' . $empname[$a][1] .'</td>';
+				      echo '<td>' . $empname[$a][3].' '.$empname[$a][1].'</td>';
 				   for($a=0;count($arrRepMethod)>$a;$a++)
 						if($rset[$c][2] == $values[$a])
 				     echo '<td>' . $keys[$a] .'</td>';
