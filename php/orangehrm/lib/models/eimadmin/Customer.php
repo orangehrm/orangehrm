@@ -243,8 +243,6 @@ class Customer {
 		}
 		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $arrSelectConditions, $arrFieldList[$sortField], $sortOrder, $limitStr);
 
-
-
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
