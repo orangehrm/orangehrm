@@ -367,8 +367,6 @@
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
 
-
-
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
 
  	$lang_extracurractcat_heading 			= "Extra Curricular Activities Category : Qualifications Information";

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.2_beta_4"/>
+  <property name="version" value="2.2_beta_5"/>
 
   <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm2"/>

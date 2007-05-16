@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_5 (15/05/2007)
+New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)
 
 	Bugs fixed include:
 
