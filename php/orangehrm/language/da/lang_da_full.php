@@ -77,7 +77,7 @@
 	$lang_Error_CityCannotBeEmpty 						= "By kan ikke efterlades blank";
 	$lang_Error_AddressEmpty 							= "Addresse er ikke udfyldt";
 	$lang_Error_ZipEmpty 								= "Postnummer kan ikke efterlades blank";
-	$lang_Error_CompStruct_ZipInvalid 					= "Postkode indeholder ikke-nummeriske tegn. Here they are #characterList";
+	$lang_Error_CompStruct_ZipInvalid 					= "Postkode indeholder ikke-nummeriske tegn, her er de #characterList";
 
 	$lang_Error_InvalidEmail 							= "Ugyldig E-mail addresse";
 
@@ -110,7 +110,7 @@
 	$lang_Menu_Admin_Job_JobTitles 				= "Jobtitelr";
 	$lang_Menu_Admin_Job_PayGrades 				= "Aflønningsniveauer";
 	$lang_Menu_Admin_Job_EmpStatus 				= "Medarbejder Status";
-	$lang_Menu_Admin_Job_EEO 					= "EEO Job kategorier";
+	$lang_Menu_Admin_Job_EEO 					= "Faggrupper";
 
 	$lang_Menu_Admin_Quali 						= "Kvalifikationer";
 	$lang_Menu_Admin_Quali_Education 			= "Uddannelse";
@@ -245,15 +245,15 @@
 	$lang_Leave_Common_Recurring 			= "Repeats annually";
 
  	$lang_Leave_Leave_list_Title1 			= "Godkend fravær";
-	$lang_Leave_Leave_Requestlist_Title1 	= "Godkend fraværsanmodning fra #medarbejdernavn";
-	$lang_Leave_Leave_list_Title2 			= "Fravær taget af #medarbejdernavn i #ValgteÅr";
+	$lang_Leave_Leave_Requestlist_Title1 	= "Godkend fraværsanmodning fra #employeeName";
+	$lang_Leave_Leave_list_Title2 			= "Fravær taget af #employeeName i #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Fraværsliste";
 	$lang_Leave_Select_Employee_Title 		= "Vælg medarbejder";
 	$lang_Leave_Leave_Summary_Title 		= "Fraværsoversigt";
-	$lang_Leave_Leave_Summary_EMP_Title 	= "Fraværsoversigt for #medarbejdernavn i #ValgteÅr";
+	$lang_Leave_Leave_Summary_EMP_Title 	= "Fraværsoversigt for #employeeName i #dispYear";
 	$lang_Leave_Select_Employee_Title 		= "Vælg medarbejder";
-	$lang_Leave_Leave_Summary_EMP_Title 	= "Medarbejderoversigt for #ValgteÅr";
-	$lang_Leave_Leave_Summary_SUP_Title 	= "Medarbejderoversigt for #medarbejdernavn for #ValgteÅr";
+	$lang_Leave_Leave_Summary_EMP_Title 	= "Medarbejderoversigt for #dispYear";
+	$lang_Leave_Leave_Summary_SUP_Title 	= "Medarbejderoversigt for #employeeName for #dispYear";
 	$lang_Leave_Define_leave_Type_Title 	= "Definer fraværstype";
 	$lang_Leave_Leave_Type_Summary_Title 	= "Fraværstyper";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Definer fridage : Specifikke helligdage";
@@ -319,7 +319,7 @@
 	$lang_districtinformation_selectcounlist 		= "Vælg land";
 	$lang_districtinformation_selstatelist 			= "Vælg stat";
 
- 	$lang_eeojobcat_heading 						= "Job : EEO Job Kategori";
+ 	$lang_eeojobcat_heading 						= "Job : Faggruppe";
 	$lang_eeojobcat_description 					= "Titel";
 
  	$lang_electorateinformation_heading 			= "Vælger info : Geografisk info";
@@ -387,9 +387,9 @@
 	$lang_hremp_photo 						= "Foto";
 	$lang_hremp_ssnno 						= "Personnummer :";
 	$lang_hremp_nationality 				= "Nationalitet";
-	$lang_hremp_sinno 						= "SIN No :";
+	$lang_hremp_sinno 						= "Andet ID 1";
 	$lang_hremp_dateofbirth 				= "Fødselsdag";
-	$lang_hremp_otherid 					= "Andet ID";
+	$lang_hremp_otherid 					= "Andet ID 2";
 	$lang_hremp_maritalstatus 				= "Partner status";
 	$lang_hremp_selmarital					= "--Vælg--";
 	$lang_hremp_selectnatio 				= "Vælg nationalitet";
@@ -402,8 +402,8 @@
 	$lang_hremp_ethnicrace 					= "Etnisk race ";
 	$lang_hremp_jobtitle 					= "Jobtitel";
 	$lang_hremp_selempstat 					= "Vælg medarbejderstatus";
-	$lang_hremp_eeocategory 				= "EEO Kategori";
-	$lang_hremp_seleeocat 					= "Vælg EEO kategori";
+	$lang_hremp_eeocategory 				= "Faggruppe";
+	$lang_hremp_seleeocat 					= "Vælg faggruppe";
 	$lang_hremp_joindate 					= "Tiltrædelsesdato";
 	$lang_hremp_SelectJobTitle				= "Vælg Jobtitel";
 	$lang_hremp_EmpStatus					= "Medarbejderstatus";
@@ -427,9 +427,9 @@
 	$lang_hremp_citizenship 				= "Borgerskab";
 	$lang_hremp_passvisano 					= "Pas/Visa nummer";
 	$lang_hremp_issueddate 					= "Udstedelsesdato";
-	$lang_hremp_i9status 					= "I9 status";
+	$lang_hremp_i9status 					= "Status for arbejdstilladelse";
 	$lang_hremp_dateofexp 					= "Udløbsdato";
-	$lang_hremp_i9reviewdate 				= "I9 Review Date";
+	$lang_hremp_i9reviewdate 				= "Fornyelsesdato for arbejdstilladelse";
 	$lang_hremp_path 						= "Sti";
 	$lang_hremp_filename 					= "Filnavn";
 	$lang_hremp_size 						= "Størrelse";
@@ -541,8 +541,8 @@
 	$lang_hrEmpMain_SelectEducation			= "Vælg uddannelse";
 	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "Års erfaring kan ikke efterlades blank";
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Års erfaring  - Forkert input format";
-	$lang_hrEmpMain_YearsOfExperiencBetween = "Års erfaring  skal have en værdi inden for #område";
-	$lang_hrEmpMain_Skill 					= "færdighed";
+	$lang_hrEmpMain_YearsOfExperiencBetween = "Års erfaring  skal have en værdi inden for #range";
+	$lang_hrEmpMain_Skill 					= "Færdighed";
 
 	$lang_hrEmpMain_subown_Company = 'Virksomhed';
 	$lang_hrEmpMain_subown_Individual = 'Individuel';
@@ -668,9 +668,9 @@
 	$lang_view_EmployeeTypeID 				= "Medarbejdertype ID";
 	$lang_view_EmployeeTypeName 			= "Medarbejdertype - Navn";
 	$lang_view_message26 					= "Sletning kan påvirke medarbejderinformation";
-	$lang_view_EEOJobCategory 				= "EEO Job Category";
-	$lang_view_EEOJobCategoryid 			= "EEO Job kategori Id";
-	$lang_view_EEOJobCategoryName 			= "EEO Job kategori navn";
+	$lang_view_EEOJobCategory 				= "Faggruppe";
+	$lang_view_EEOJobCategoryid 			= "Faggruppe Id";
+	$lang_view_EEOJobCategoryName 			= "Faggruppe";
 	$lang_view_message27 					= "Sletning kan påvirke medarbejderinformation";
 	$lang_view_message28 					= "Sletning kan påvirke medarbejdersprog";
 	$lang_view_EthnicRace 					= "Etnisk race";
@@ -692,14 +692,14 @@
 	$lang_view_Users 				= "Brugere";
 	$lang_view_UserGroups 			= "Admin Brugergrupper";
 	$lang_view_HRAdmin 				= "HR Admin";
-	$lang_view_ESS 					= "ESS";
+	$lang_view_ESS 					= "Selvbetjening";
 	$lang_view_ID 					= "ID";
 
 	//Customer
 	$lang_view_CustomerId = "Kunde Id";
 	$lang_view_CustomerName = "Kundenavn";
 
-	$lang_index_WelcomeMes 			= "Welkommen #brugernavn";
+	$lang_index_WelcomeMes 			= "Velkommen #username";
 	$lang_index_ChangePassword 		= "Skift kode";
 	$lang_index_Logout 				= "Log af";
 
@@ -860,11 +860,11 @@
 
 	//timesheet
 
-	$lang_Time_Timesheet_TimesheetForViewTitle = "Tidsskema for #periodeNavn med start #startdato";
-	$lang_Time_Timesheet_TimesheetForEditTitle = "Rediger tidsskema for #periodeNavn med start #startdato";
+	$lang_Time_Timesheet_TimesheetForViewTitle = "Tidsskema for #periodName med start #startDate";
+	$lang_Time_Timesheet_TimesheetForEditTitle = "Rediger tidsskema for #periodName med start #startDate";
 
-	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Tidsskema for #periodeNavn med start #startdato";
-	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Rediger tidsskema for #periodeNavn med start #startdato";
+	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Tidsskema for #name for #periodName med start #startDate";
+	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Rediger tidsskema for #name for #periodName med start #startDate";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -910,10 +910,9 @@
 	$lang_Time_Select_Employee_Title = "Vælg medarbejder";
 
 	$lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval = "Indgivede tidsskemaer afventer overordnedes godkendelse";
-	$lang_Time_Select_Employee_WeekStartingDate = "Ugens start #dato";
+	$lang_Time_Select_Employee_WeekStartingDate = "Ugens start #date";
 
 	$lang_Time_Select_Employee_TimesheetPeriod = "Tidsskemas periode";
 
 	$lang_Time_Errors_PleaseAddAComment = "Tilføj venligst kommentar";
 ?>
-
