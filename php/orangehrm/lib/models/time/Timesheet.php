@@ -389,8 +389,12 @@ class Timesheet {
 	 *
 	 * @return Timesheet[] array of timesheets
 	 */
-	public function fetchTimesheets() {
+	public function fetchTimesheets($current=false) {
 		$sql_builder = new SQLQBuilder();
+
+		if ($current) {
+			$this->_getNewDates();
+		}
 
 		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
 

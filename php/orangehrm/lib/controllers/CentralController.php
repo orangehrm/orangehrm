@@ -1350,13 +1350,16 @@ switch ($moduletype) {
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 
+												$current=false;
+
 												switch ($_GET['action']) {
+													case 'View_Current_Timesheet':	$current=true;
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
 																					if (isset($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
 																					}
 																					$timeController->setObjTime($obj);
-																					$timeController->viewTimesheet();
+																					$timeController->viewTimesheet($current);
 																					break;
 													case 'View_Edit_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
 																					if (isset($_GET['id']) && !empty($_GET['id'])) {

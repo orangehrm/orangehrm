@@ -346,7 +346,7 @@ class TimeController {
 		$template->display();
 	}
 
-	public function viewTimesheet() {
+	public function viewTimesheet($current) {
 
 		$timesheetObj = $this->objTime;
 
@@ -362,7 +362,7 @@ class TimeController {
 			$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		}
 
-		$timesheets = $timesheetObj->fetchTimesheets();
+		$timesheets = $timesheetObj->fetchTimesheets($current);
 
 		if (!is_object($timesheets[0])) {
 			if (($_SESSION['empID'] == $timesheetObj->getEmployeeId()) && (($timesheetObj->getEmployeeId() != null) && !empty($_SESSION['empID']))) {

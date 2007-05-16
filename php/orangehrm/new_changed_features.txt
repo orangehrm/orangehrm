@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.2_beta_6 (18/05/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+
+	1719809   First time sheet shown instead of the current timesheet
+
+
 New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)
 
 	Bugs fixed include:

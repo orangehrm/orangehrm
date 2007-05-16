@@ -93,8 +93,8 @@ if ($authorizeObj->isESS()) {
 	} else {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
 	}
-	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
-	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet';
+	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
+	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
 } else {
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
@@ -832,7 +832,7 @@ function setSize() {
                     ?>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
-                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_PersonalTimesheet; ?></A>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_PersonalTimesheet; ?></A>
                         </TD>
 					 </TR>
 					<?php
