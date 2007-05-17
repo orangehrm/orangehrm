@@ -138,3 +138,8 @@ hr {
 .show {
 	display: table-row;
 }
+
+thead th, tbody td, tbody th {
+	padding-right: 5px;
+	padding-left: 5px;
+}

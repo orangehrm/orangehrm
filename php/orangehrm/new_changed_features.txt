@@ -8,6 +8,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_6 (18/05/2007)
 	1712952   PIM - Report to - Supervisors, Subordinates only last name shown
 	1712987   Prioject list sorting does not work
 	1719994   Cutomer list sorting does not work
+	1713018   Define Days Off - specific holidays - column headings should be separeted
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)

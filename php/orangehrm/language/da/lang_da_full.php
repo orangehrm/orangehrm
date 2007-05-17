@@ -120,9 +120,9 @@
 	$lang_Menu_Admin_Skills_Skills 				= "Færdigheder";
 	$lang_Menu_Admin_Skills_Languages 			= "Sprog";
 
-	$lang_Menu_Admin_Memberships 					= "Medlemsskaber";
-	$lang_Menu_Admin_Memberships_Memberships 		= "Medlemsskaber";
-	$lang_Menu_Admin_Memberships_MembershipTypes 	= "Type af medlemsskaber";
+	$lang_Menu_Admin_Memberships 					= "Medlemskaber";
+	$lang_Menu_Admin_Memberships_Memberships 		= "Medlemskaber";
+	$lang_Menu_Admin_Memberships_MembershipTypes 	= "Type af medlemskaber";
 
 	$lang_Menu_Admin_NationalityNRace 				= "Nationalitet og etnisk race";
 	$lang_Menu_Admin_NationalityNRace_Nationality 	= "Nationalitet";
@@ -177,7 +177,7 @@
 	$lang_Common_FieldEmpty				= "Felt blankt";
 	$lang_Common_SelectDelete			= "Vælg mindst ét felt der skal slettes";
 	$lang_Common_SelectField			= "Vælg det felt der skal søges indenfor!";
-	$lang_Commn_RequiredFieldMark 			= "Felter markeret med #star er obligatoriske";
+	$lang_Commn_RequiredFieldMark 			= "Felter markeret med * er obligatoriske";
 	$lang_Commn_code 						= "Kode";
 	$lang_Commn_description 				= "Beskrivelse";
 	$lang_Commn_title 						= "Titel";
@@ -354,7 +354,7 @@
 	$lang_empview_Skills 					= "Færdigheder";
 	$lang_empview_Licenses 					= "Licenser";
 	$lang_empview_EmployeeInformation 		= "Medarbejder info";
-	$lang_empview_Memberships 				= "Medlemsskaber";
+	$lang_empview_Memberships 				= "Medlemskaber";
 	$lang_empview_Report 					= "Reporter";
 	$lang_empview_ReportTo					= "Reporter til";
 	$lang_empview_SubDivision				= "Underdivision";
@@ -498,7 +498,7 @@
 	$lang_hrEmpMain_Good 					= "God";
 	$lang_hrEmpMain_MotherTongue 			= "Modersmål";
 	$lang_hrEmpMain_Individual 				= "Individuelt";
-	$lang_hrEmpMain_employeemembership 		= "Medarbejderens medlemsskaber";
+	$lang_hrEmpMain_employeemembership 		= "Medarbejderens medlemskaber";
 	$lang_hrEmpMain_subownership 			= "Ejer af abonnement";
 	$lang_hrEmpMain_subamount 				= "Abonnementets størrelse";
 	$lang_hrEmpMain_subcomdate 				= "Abonnementets startdato";
@@ -726,12 +726,12 @@
 	$lang_pim_tabs_Job = "Job";
 	$lang_pim_tabs_Payments = "Betalinger";
 	$lang_pim_tabs_ReportTo = "Reporter-til";
-	$lang_pim_tabs_WorkExperience = "Erhvervserfaring";
+	$lang_pim_tabs_WorkExperience = "Erhvervs- erfaring";
 	$lang_pim_tabs_Education = "Uddannelse";
 	$lang_pim_tabs_Skills = "Færdigheder";
 	$lang_pim_tabs_Languages = "Sprog";
 	$lang_pim_tabs_License = "Licenser";
-	$lang_pim_tabs_Membership = "Medlemsskaber";
+	$lang_pim_tabs_Membership = "Medlem- skaber";
 	$lang_pim_tabs_Attachments = "Vedhæftelser";
 
 	// Report module

@@ -149,7 +149,7 @@ if ($modifier === "SUP") {
 	<tr>
 		<th class="tableMiddleLeft"></th>
 		<th width="30px" class="tableMiddleMiddle"><input type="checkbox" name='allCheck' value='' onclick="doHandleAll();" /></th>
-    	<th class="tableMiddleMiddle"><?php echo $lang_Leave_Common_NameOfHoliday;?></th>
+    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_NameOfHoliday;?></th>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
     	<th width="135px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
 		<th class="tableMiddleRight"></th>
