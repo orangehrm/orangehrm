@@ -368,16 +368,6 @@ class ReportGenerator {
 
 		}
 
-		if(isset($this->field['QUL'])==1){
-
-			$jfield = 'QUL';
-			$joinQ = '('.$joinQ.' LEFT JOIN ';
-			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
-					 ' ON '.$existingTableFieldName[$jfield].' = '.
-					 $parentTableFieldName[$jfield].')';
-			$joinQ = $joinQ.' ON c.emp_number = a.emp_number )';
-		}
-
 
 		if ((isset($this->field['QUL'])!=1) && (isset($this->field['YEAROFPASSING'])==1)){
 
@@ -413,29 +403,6 @@ class ReportGenerator {
 					 $parentTableFieldName[$jfield].')';
 		}
 
-		if(isset($this->field['SKILLS'])==1){
-
-			$jfield = 'SKILLS';
-			$joinQ = '('.$joinQ.' LEFT JOIN ';
-			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
-					 ' ON '.$existingTableFieldName[$jfield].' = '.
-					 $parentTableFieldName[$jfield].')';
-			$joinQ = $joinQ.' ON h.emp_number = a.emp_number )';
-
-
-		}
-
-		if(isset($this->field['REPORTTO'])==1){
-
-			$jfield = 'REPORTTO';
-			$joinQ = '('.$joinQ.' LEFT JOIN ';
-			$joinQ = $joinQ.'('.$existingTableName[$jfield]. ' LEFT JOIN '.$parentTableName[$jfield].
-					 ' ON '.$existingTableFieldName[$jfield].' = '.
-					 $parentTableFieldName[$jfield].')';
-			$joinQ = $joinQ.' ON g.erep_sub_emp_number = a.emp_number )';
-
-		}
-
 		if ((isset($this->field['REPORTTO'])!=1) && (isset($this->field['REPORTINGMETHOD'])==1)) {
 
 			$jfield = 'REPORTINGMETHOD';
@@ -463,6 +430,40 @@ class ReportGenerator {
 
 		}
 
+		if(isset($this->field['REPORTTO'])==1){
+
+			$jfield = 'REPORTTO';
+			$joinQ = '(('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.$existingTableName[$jfield];
+			$joinQ = $joinQ.' ON g.erep_sub_emp_number = a.emp_number)';
+			$joinQ = $joinQ.' LEFT JOIN '.$parentTableName[$jfield];
+			$joinQ = $joinQ.' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+
+		}
+
+		if(isset($this->field['SKILLS'])==1){
+
+			$jfield = 'SKILLS';
+			$joinQ = '(('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.$existingTableName[$jfield];
+			$joinQ = $joinQ.' ON h.emp_number = a.emp_number )';
+			$joinQ = $joinQ.' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+		}
+
+		if(isset($this->field['QUL'])==1){
+
+			$jfield = 'QUL';
+			$joinQ = '(('.$joinQ.' LEFT JOIN ';
+			$joinQ = $joinQ.$existingTableName[$jfield];
+			$joinQ = $joinQ.' ON c.emp_number = a.emp_number )';
+			$joinQ = $joinQ.' LEFT JOIN '.$parentTableName[$jfield].
+					 ' ON '.$existingTableFieldName[$jfield].' = '.
+					 $parentTableFieldName[$jfield].')';
+		}
+
 		$SQL1 = $SQL1 .$joinQ.$tableStr;
 
 		$SQL1 = $SQL1 . ' WHERE ' ;
@@ -487,7 +488,7 @@ class ReportGenerator {
 						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';
 				}
 
-			echo strtolower($SQL1);
+			//echo strtolower($SQL1);
 			return strtolower($SQL1);
 		}
 
