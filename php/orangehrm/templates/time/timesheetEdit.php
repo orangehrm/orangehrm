@@ -95,12 +95,46 @@ function setCurrFocus(label, row) {
 }
 
 function actionInsertTime() {
-	if (currFocus) {
-		if (currFocus.value == "") {
-    		currFocus.value = formatDate(new Date(), "yyyy-MM-dd HH:mm");
-  		}
+	if (!currFocus) {
+		currFocus = $("txtStartTime["+totRows+"]");
 	}
-	currFocus.focus();
+	if (currFocus.value == "") {
+    	currFocus.value = formatDate(new Date(), "yyyy-MM-dd HH:mm");
+  	}
+  	currFocus.focus();
+}
+
+function validateInterval(row) {
+	startTime = strToTime($("txtStartTime["+row+"]").value);
+	endTime = strToTime($("txtEndTime["+row+"]").value);
+
+	if (!startTime) return false;
+
+	if (startTime && !endTime) {
+		return true;
+	}
+
+	if (endTime > startTime) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function validateDuration(row) {
+	obj = $("txtDuration["+row+"]");
+
+	if ((obj.value == '') || (obj.value == 0)) {
+		return false;
+	}
+
+	regExp = /^[0-9]+\.+[0-9]+/;
+
+	if (!regExp.test(obj.value)) {
+		return false;
+	}
+
+	return true;
 }
 
 function validate() {
@@ -112,13 +146,13 @@ function validate() {
 			err[i]=false;
 
 			obj = $("txtDuration["+i+"]");
-			if (validateInterval(i) && !((obj.value == '') || (obj.value == 0)) && (obj.value != duration(i))) {
+			if (validateInterval(i) && validateDuration(i) && (obj.value != duration(i))) {
 				errors[0] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval; ?>";
 				err[i]=true;
 				errFlag=true;
 			}
 
-			if ((obj.value == '') || (obj.value == 0)) {
+			if (!validateDuration(i)) {
 				if (!validateInterval(i)) {
 					errors[2] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified; ?>";
 					err[i]=true;
@@ -189,23 +223,6 @@ function allEmpty(row) {
 	}
 
 	return unUsed;
-}
-
-function validateInterval(row) {
-	startTime = strToTime($("txtStartTime["+row+"]").value);
-	endTime = strToTime($("txtEndTime["+row+"]").value);
-
-	if (!startTime) return false;
-
-	if (startTime && !endTime) {
-		return true;
-	}
-
-	if (endTime > startTime) {
-		return true;
-	} else {
-		return false;
-	}
 }
 
 function duration(row) {
@@ -283,7 +300,7 @@ function actionReset() {
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?></th>
+			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
 			<th class="tableMiddleRight"></th>
 		</tr>
