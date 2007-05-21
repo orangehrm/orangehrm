@@ -11,6 +11,9 @@ New & Changed Features for OrangeHRM ver 2.2_beta_6 (18/05/2007)
 	1713018   Define Days Off - specific holidays - column headings should be separeted
 	1720978   On-Demand - SQL statement shown on Employee Reports
 	1722204   Cannot enter duration
+	1722203   Feature: Default time is in April
+	1718926   Approve Leave only the employee first name is show
+
 
 New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)
 

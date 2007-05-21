@@ -83,7 +83,7 @@ if ($modifier === "SUP") {
 		<th class="tableMiddleLeft"></th>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
     	<?php if ($modifier == "SUP") { ?>
-    	<th width="140px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
+    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
     	<th width="50px" class="tableMiddleMiddle">No of Days</th>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>

@@ -205,8 +205,9 @@ class Leave {
 		$arrFields[3] = 'a.`leave_comments`';
 		$arrFields[4] = 'a.`leave_id`';
 		$arrFields[5] = 'd.`emp_firstname`';
-		$arrFields[6] = 'a.`employee_id`';
-		$arrFields[7] = 'b.`leave_type_name` as leave_type_name';
+		$arrFields[6] = 'd.`emp_lastname`';
+		$arrFields[7] = 'a.`employee_id`';
+		$arrFields[8] = 'b.`leave_type_name` as leave_type_name';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_employee` d";
@@ -245,8 +246,9 @@ class Leave {
 		$arrFields[4] = 'a.`leave_id` as leave_id';
 		$arrFields[5] = 'b.`leave_type_name` as leave_type_name';
 		$arrFields[6] = 'c.`emp_firstname` as emp_firstname';
-		$arrFields[7] = 'a.`employee_id` as employee_id';
-		$arrFields[8] = 'a.`leave_request_id` as leave_request_id';
+		$arrFields[7] = 'c.`emp_lastname` as emp_lastname';
+		$arrFields[8] = 'a.`employee_id` as employee_id';
+		$arrFields[9] = 'a.`leave_request_id` as leave_request_id';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leave_requests` b";
@@ -603,7 +605,8 @@ class Leave {
 			}
 
 			if ($supervisor || isset($row['employee_id'])) {
-				$tmpLeaveArr->setEmployeeName($row['emp_firstname']);
+				$tmpLeaveArr->setEmployeeName("{$row['emp_firstname']} {$row['emp_lastname']}");
+				//echo $tmpLeaveArr->getEmployeeName();
 				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 

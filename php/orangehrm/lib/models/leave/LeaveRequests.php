@@ -127,6 +127,7 @@ class LeaveRequests extends Leave {
 		$arrFields[1] = 'a.`leave_request_id`';
 		$arrFields[2] = 'd.`emp_firstname`';
 		$arrFields[3] = 'a.`employee_id`';
+		$arrFields[4] = 'd.`emp_lastname`';
 
 		$arrTables[0] = "`hs_hr_leave_requests` a";
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
@@ -232,7 +233,7 @@ class LeaveRequests extends Leave {
 				$tmpLeaveRequestArr->setNoDays($noOfDays/self::LEAVE_LENGTH_FULL_DAY);
 
 				if ($supervisor) {
-					$tmpLeaveRequestArr->setEmployeeName($row[2]);
+					$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
 					$tmpLeaveRequestArr->setEmployeeId($row[3]);
 					if ($tmpLeaveRequestArr->getLeaveStatus() != self::LEAVE_STATUS_LEAVE_TAKEN) {
 						$objArr[] = $tmpLeaveRequestArr;

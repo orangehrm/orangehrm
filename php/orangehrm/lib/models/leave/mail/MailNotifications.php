@@ -124,7 +124,7 @@ class MailNotifications {
 		$confObj = new EmailConfiguration();
 
 		$this->mailer = new htmlMimeMail5();
-
+		$auth=true;
 		if ($confObj->getSmtpUser() == '') {
 			$auth=false;
 		}
