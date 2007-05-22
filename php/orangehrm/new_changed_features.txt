@@ -1,4 +1,13 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007){Revision 840}
+New & Changed Features for OrangeHRM ver 2.2_beta_7 (21/05/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+
+	1722950   Feature: Submitted Timesheets Pending Supervisor approval is not displayed.
+
+
+New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007){Revision 841}
 
 	Bugs fixed include:
 

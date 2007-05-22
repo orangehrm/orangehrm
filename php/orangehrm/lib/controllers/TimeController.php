@@ -216,7 +216,7 @@ class TimeController {
 		$employees = null;
 		$pendingTimesheets = null;
 		$pending=false;
-		if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) {
+		if ($this->authorizeObj->isSupervisor()) {
 			$empRepObj = new EmpRepTo();
 
 			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
