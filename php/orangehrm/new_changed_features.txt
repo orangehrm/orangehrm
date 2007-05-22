@@ -5,6 +5,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_7 (21/05/2007)
 	BugId     Name
 
 	1722950   Feature: Submitted Timesheets Pending Supervisor approval is not displayed.
+	1716752   Unnecessary warning to save information
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007){Revision 841}
@@ -69,6 +70,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_3 (27/04/2007)
 	Bugs fixed include:
 
 	BugId     Name
+
 	1701816   Customer ID or Name confusion in Project create/edit pages
 	1701798   Project list should show company name not ID
 	1701829   Usability - Inconsistant behavior when validation ZIP Code

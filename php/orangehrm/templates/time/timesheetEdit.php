@@ -128,7 +128,7 @@ function validateDuration(row) {
 		return false;
 	}
 
-	regExp = /^[0-9]+\.+[0-9]+/;
+	regExp = /^[0-9]+\.*[0-9]*/;
 
 	if (!regExp.test(obj.value)) {
 		return false;

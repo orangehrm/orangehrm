@@ -443,6 +443,10 @@ function displayLayer(panelNo) {
           			if( !updateEmpMain() ){
                         return;
                     }
+          		} else {
+          			document.frmEmp.personalFlag.value=0;
+          			document.frmEmp.jobFlag.value=0;
+          			document.frmEmp.contactFlag.value=0;
           		}
           	}
 
