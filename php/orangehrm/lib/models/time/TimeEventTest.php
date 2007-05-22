@@ -191,6 +191,20 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		 	$this->assertEquals($expected[$i][8], $res[$i]->getDescription(), "Invalid description");
 		}
     }
+
+    public function testDeleteTimeEvent() {
+    	$eventObj = $this->classTimeEvent;
+
+    	$eventObj->setTimeEventId(10);
+
+    	$res = $eventObj->deleteTimeEvent();
+
+    	$this->assertTrue($res, "Deletion failed");
+
+    	$res = $eventObj->fetchTimeEvents();
+
+    	$this->assertNull($res, "Found deleted records");
+    }
 }
 
 // Call TimeEventTest::main() if this source file is executed directly.

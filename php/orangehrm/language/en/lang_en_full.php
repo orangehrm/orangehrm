@@ -901,6 +901,8 @@
 	$lang_Time_Errors_APPROVE_FAILURE = "Failed to approve";
 	$lang_Time_Errors_REJECT_SUCCESS = "Successfully rejected";
 	$lang_Time_Errors_REJECT_FAILURE = "Failed to reject";
+	$lang_Time_Errors_DELETE_SUCCESS = "Successfully deleted";
+	$lang_Time_Errors_DELETE_FAILURE = "Failed to delete";
 	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";

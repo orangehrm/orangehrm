@@ -279,6 +279,42 @@ class TimeController {
 		return $res;
 	}
 
+	public function deleteTimesheet() {
+		$timeEvents = $this->getObjTime();
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if ($timeEvents == null) {
+			$_GET['message'] = 'UPDATE_FAILURE';
+			$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$_GET['id']}");
+			return false;
+		}
+
+		if ($_SESSION['empID'] != $timeEvents[0]->getEmployeeId()) {
+			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timeEvents[0]->getEmployeeId())))) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+			}
+		}
+
+		foreach ($timeEvents as $timeEvent) {
+			if ($timeEvent->getTimeEventId() != null) {
+				$res=$timeEvent->deleteTimeEvent();
+			}
+
+			if ($res) {
+				$_GET['message'] = 'DELETE_SUCCESS';
+			} else {
+				$_GET['message'] = 'DELETE_FAILURE';
+				break;
+			}
+		}
+
+		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timeEvent->getTimesheetId()}");
+
+		return $res;
+	}
+
 	public function viewEditTimesheet() {
 		$timesheetObj = $this->objTime;
 

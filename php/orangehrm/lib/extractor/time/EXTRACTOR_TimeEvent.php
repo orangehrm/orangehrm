@@ -71,5 +71,19 @@ class EXTRACTOR_TimeEvent {
 
 		return $tmpArr;
 	}
+
+	public function parseDeleteData($postArr) {
+		$tmpArr = null;
+
+		for ($i=0; $i<count($postArr['deleteEvent']); $i++) {
+			$tmpObj = new TimeEvent();
+
+			$tmpObj->setTimeEventId($postArr['deleteEvent'][$i]);
+
+			$tmpArr[] = $tmpObj;
+		}
+
+		return $tmpArr;
+	}
 }
 ?>

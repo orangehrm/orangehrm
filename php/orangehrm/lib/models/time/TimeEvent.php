@@ -285,6 +285,28 @@ class TimeEvent {
 		return false;
 	}
 
+	public function deleteTimeEvent() {
+
+		$tableName = self::TIME_EVENT_DB_TABLE_TIME_EVENT;
+		$arrFieldList[0] = self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID;
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_delete = 'true';
+		$sql_builder->arr_delete = $arrFieldList;
+
+		$arrList = array(array($this->getTimeEventId()));
+
+		$sqlQString = $sql_builder->deleteRecord($arrList);
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		return $message2;
+	}
+
 	/**
 	 * Fetch time event records and build objects
 	 *

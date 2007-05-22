@@ -252,6 +252,28 @@ function actionUpdate() {
 function actionReset() {
 	$('frmTimesheet').reset();
 }
+
+function deleteTimeEvents() {
+	$check = 0;
+	with (document.frmTimesheet) {
+		for (var i=0; i < elements.length; i++) {
+			if ((elements[i].type == 'checkbox') && (elements[i].checked == true) && (elements[i].name == 'deleteEvent[]')){
+				$check = 1;
+			}
+		}
+	}
+
+	if ($check == 1){
+		var res = confirm("<?php echo $lang_Common_ConfirmDelete?>");
+
+		if(!res) return;
+
+		$('frmTimesheet').action+='Delete_Timesheet';
+		$('frmTimesheet').submit();
+	}else{
+		alert("<?php echo $lang_Common_SelectDelete; ?>");
+	}
+}
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
@@ -291,10 +313,12 @@ function actionReset() {
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
+	    	<th class="tableTopMiddle"></th>
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
+			<th class="tableMiddleMiddle"></th>
 			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
 			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
@@ -320,6 +344,7 @@ function actionReset() {
 			?>
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
+				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
@@ -367,6 +392,7 @@ function actionReset() {
 		}?>
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
+				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" disabled="disabled" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($customers)) { ?>
 						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
@@ -407,6 +433,7 @@ function actionReset() {
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
+			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomRight"></td>
 		</tr>
   	</tfoot>
@@ -434,6 +461,12 @@ function actionReset() {
 		onclick="actionInsertTime(); return false;"
 		name="btnInsert" id="btnInsert"
 		height="20" width="90" type="image" />
+<input src="../../themes/beyondT/pictures/btn_delete.jpg"
+		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';"
+		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
+		onclick="deleteTimeEvents();"
+		name="btnDelete" id="btnDelete"
+		type="image" />
 </form>
 </p>
 <script type="text/javascript">

@@ -1372,6 +1372,10 @@ switch ($moduletype) {
 																					$timeController->setObjTime($objs);
 																					$timeController->editTimesheet();
 																					break;
+													case 'Delete_Timesheet'		:	$objs = $timeEventExtractor->parseDeleteData($_POST);
+																					$timeController->setObjTime($objs);
+																					$timeController->deleteTimesheet();
+																					break;
 													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->submitTimesheet();
