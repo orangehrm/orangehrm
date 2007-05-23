@@ -11,6 +11,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_6 (23/05/2007)
 	1723962   Disabled fields could not identified
 	1723698   No paging in Project List
 	1723329   could not select a employee asending / decending
+	1723958   Dependents: Date button is not aligned
 
 	Following bugs were closed
 
