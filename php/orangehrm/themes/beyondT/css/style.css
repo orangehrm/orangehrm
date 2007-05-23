@@ -1,6 +1,6 @@
- 
+
 /* Default Styles */
-body { 
+body {
 	margin: 0px 0px 0px 0px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	color: #444444;
@@ -8,10 +8,10 @@ body {
 	background-color: #ffffff;
 	}
 
-.body { 
+.body {
 	font-size: 12px;
 	}
-	
+
 table,td {
 	color: #444444;
 	font-size: 11px;
@@ -21,7 +21,7 @@ p {
 	MARGIN-TOP: 0px;
 	MARGIN-BOTTOM: 10px;
 	}
-	
+
 form {
 	margin: 0px;
 	}
@@ -37,46 +37,46 @@ h1 {
 h2 {
 	color: #666666;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 18px; 
-	font-weight: bold; 
+	font-size: 18px;
+	font-weight: bold;
 	margin-bottom: 0px;
 	margin-top: 0px;
 	}
 
 h3 {
-	color: #7f0000; 
+	color: #7f0000;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px; 
-	font-weight: bold; 
+	font-size: 16px;
+	font-weight: bold;
 	margin-bottom: 4px;
 	}
 
 h4 {
-	color: #333333; 
+	color: #333333;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 14px; 
-	font-weight: bold; 
+	font-size: 14px;
+	font-weight: bold;
 	margin-bottom: 2px;
 	}
 
 h5 {
-	color: #333333; 
+	color: #333333;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 13px; 
-	font-weight: bold; 
+	font-size: 13px;
+	font-weight: bold;
 	margin-bottom: 1px;
 	}
-	
+
 LI {
-	LIST-STYLE-TYPE: square; 
-	margin-left: 6px; 
+	LIST-STYLE-TYPE: square;
+	margin-left: 6px;
 	MARGIN-BOTTOM: 2px;
 	}
-	
+
 UL {
 	MARGIN-TOP: 2px;
 	}
-	
+
 hr {
 	height: 1px;
 }
@@ -97,7 +97,7 @@ a:hover {
 	font-weight: bold;
 	background-image: url(../pictures/btn_bg.gif);
 	}
-	
+
 .buttonOn {
 	border: 1px solid #444444;
 	background-color: #ffffff;
@@ -112,7 +112,7 @@ select {
 	font-size: 11px;
 	background-color: #ffffff;
 	padding-left: 0px;
-	}	
+	}
 input {
 	border: 1px solid #888888;
 	font-size: 11px;
@@ -120,7 +120,7 @@ input {
 	padding-left: 4px;
 	padding-right: 4px;
 	}
-	
+
 textarea {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	border: 1px solid #888888;
@@ -136,7 +136,7 @@ textarea {
 	vertical-align: bottom;
 	}
 
-	
+
 /* Content Specific Styles */
 	/* body text */
 	.contentBox {
@@ -156,12 +156,12 @@ textarea {
 		font-size: 12px;
 /*		text-decoration: underline;*/
 		}
-		
+
 	a.body:hover {
 /*		color: #666666;
 		text-decoration: underline; */
 		}
-	
+
 	/* myArea is for my account, admin, logout, an about links*/
 	.myArea {
 		font-size: 11px;
@@ -169,13 +169,13 @@ textarea {
 		}
 	a.myAreaLink:link, a.myAreaLink:visited {
 		color: #444444;
-		text-decoration: none; 
+		text-decoration: none;
 		}
 	a.myAreaLink:hover {
 		color: #666666;
 		text-decoration: none;
 		}
-		
+
 	/*for the main screen navigation tabs*/
 	.currentTab {
 		color: #333333;
@@ -191,7 +191,7 @@ textarea {
 		color: #666666;
 		text-decoration: none;
 		}
-		
+
 	.otherTab {
 		font-size: 12px;
 		font-weight: bold;
@@ -204,7 +204,7 @@ textarea {
 		color: #3C3C3C;
 		text-decoration: none;
 		}
-		
+
 	.subMenuTDIcon {
 		font-size: 11px;
 		color: #ffffff;
@@ -234,7 +234,7 @@ textarea {
 		text-decoration: none;
 		border-bottom: 0px;
 		}
-		
+
 	/*welcome user and date bar and last view*/
 	.moduleTitle {
 	border-bottom: 1px solid #aaaaaa;
@@ -263,7 +263,7 @@ textarea {
 		background-color: transparent;
 		border: 0px;
 		padding-right: 10px;
-		}	
+		}
 
 	.lastView {
 		color: #666666;
@@ -271,7 +271,7 @@ textarea {
 		padding-left: 10px;
 		border-bottom: 1px solid #cccccc;
 		}
-		
+
 	a.lastViewLink:link, a.lastViewLink:visited {
 		color: #444444;
 /*		text-decoration: underline;*/
@@ -283,7 +283,7 @@ textarea {
 		text-decoration: none;
 		border-bottom: 0px;
 		}
-		
+
 	/*left column styles*/
 	table.leftColumnModuleHead th {
 		font-size: 12px;
@@ -305,8 +305,8 @@ textarea {
 /*		background-image: url(images/listViewBg.png); */
 		padding-left: 5px;
 		padding-right: 5px;
-		border-bottom: 1px solid #cccccc; 
-		
+		border-bottom: 1px solid #cccccc;
+
 	}
 	a.listViewThLinkS1:link, a.listViewThLinkS1:visited {
 		color: #444444;
@@ -314,7 +314,7 @@ textarea {
 		text-decoration: none;
 		}
 	a.listViewThLinkS1:hover {
-	color: #222222; 
+	color: #222222;
 	text-decoration: none;
 		}
 	a.listViewTdLinkS1:link, a.listViewTdLinkS1:visited {
@@ -334,7 +334,7 @@ textarea {
 		padding-bottom: 4px;
 		padding-top: 2px;
 	}
-	
+
 	.oddListRowS1 {
 		font-size: 12px;
 		color: #000000;
@@ -343,12 +343,12 @@ textarea {
 		padding-bottom: 4px;
 		padding-top: 2px;
 	}
-	
+
 	.listViewHRS1 {
 		background-color: #cccccc;
 	}
 	.pageNumbers {
-		color: #444444;		
+		color: #444444;
 	}
 	.listViewPaginationTdS1 {
 		font-size: 10px;
@@ -384,7 +384,7 @@ textarea {
 		}
 
 	/* main tab forms */
-	
+
 	.tabForm {
 	padding: 0px;
 	background-position: bottom;
@@ -394,18 +394,18 @@ textarea {
 	border-bottom: 1px none #CCCCCC;
 	border-left: 1px solid #CCCCCC;
 	}
-	
+
 	h4.dataLabel {
 /*		color: #666666;  */
-		font-size: 14px; 
-		font-weight: bold; 
+		font-size: 14px;
+		font-weight: bold;
 		margin-bottom: 2px;
 	}
-	
+
 	h5.dataLabel {
-		color: #888888; 
-		font-size: 13px; 
-		font-weight: bold; 
+		color: #888888;
+		font-size: 13px;
+		font-weight: bold;
 		margin-bottom: 1px;
 		margin-top: 1px;
 	}
@@ -417,19 +417,19 @@ textarea {
 		font-weight: normal;
 		vertical-align : top;
 	}
-	
-	
+
+
 	/* main tab panel views */
 	.tabDetailView {
 		border: 1px solid #444444;
 		background-color: #cccccc;
 	}
-	
+
 	.tabDetailViewDF {
-	font-size: 12px; 
-		color: #000000; 
+	font-size: 12px;
+		color: #000000;
 		background-color: #fafafa;
-		font-weight: bold; 
+		font-weight: bold;
 		padding-right: 4px;
 		padding-left: 4px;
 		padding-top: 2px;
@@ -458,8 +458,8 @@ textarea {
 		font-size: 8px;
 		font-family: Verdana;
 	}
-	
-/* menu styles */	
+
+/* menu styles */
 .rollmenu
 {
 	padding-right: 2px;
@@ -472,7 +472,7 @@ textarea {
 	padding-top: 2px;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	font-family: "Arial", "Helvetica", "sans-serif";
 	background-color: #FFCC00;
@@ -483,7 +483,7 @@ textarea {
 	background-color: #EDC112;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	text-decoration: none
 }
@@ -498,7 +498,7 @@ textarea {
 	padding-bottom: 2px;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	color: #000000;
 	line-height: normal;
@@ -576,7 +576,7 @@ textarea {
 }
 
 .r3_c1 {
-    background: url('../pictures/table_r3_c1.gif') no-repeat right bottom; 
+    background: url('../pictures/table_r3_c1.gif') no-repeat right bottom;
 }
 
 .r3_c3 {
@@ -616,7 +616,7 @@ textarea {
 }
 
 .tableTopMiddle {
-	background:url(../pictures/table_r1_c2.gif) repeat-x top;	
+	background:url(../pictures/table_r1_c2.gif) repeat-x top;
 }
 
 .tableTopRight {
@@ -654,3 +654,14 @@ textarea {
     padding:15px;
 }
 
+*:not([type=image]):disabled {
+	background: #F6F4F1;
+}
+
+input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
+	background: #FFFFD9;
+}
+
+*[readonly] {
+	color:#B8B6B0
+}

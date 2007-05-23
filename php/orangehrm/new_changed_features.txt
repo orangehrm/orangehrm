@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_7 (21/05/2007)
+New & Changed Features for OrangeHRM ver 2.2_beta_7 (23/05/2007)
 
 	Bugs fixed include:
 
@@ -7,6 +7,13 @@ New & Changed Features for OrangeHRM ver 2.2_beta_7 (21/05/2007)
 	1722950   Feature: Submitted Timesheets Pending Supervisor approval is not displayed.
 	1716752   Unnecessary warning to save information
 	1722980   Feature: It should be possible to delete a timesheet entry
+	1723965   Interface is screwed
+	1723962   Disabled fields could not identified
+	1723698   No paging in Project List
+
+	Following bugs were closed
+
+	1723702   Projects cannot be sorted
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007){Revision 841}

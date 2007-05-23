@@ -143,3 +143,15 @@ thead th, tbody td, tbody th {
 	padding-right: 5px;
 	padding-left: 5px;
 }
+
+*:not([type=image]):disabled {
+	background: #F6F4F1;
+}
+
+input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
+	background: #FFFFD9;
+}
+
+*[readonly] {
+	color:#B8B6B0
+}

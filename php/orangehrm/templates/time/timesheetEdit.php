@@ -464,7 +464,7 @@ function deleteTimeEvents() {
 <input src="../../themes/beyondT/pictures/btn_delete.jpg"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
-		onclick="deleteTimeEvents();"
+		onclick="deleteTimeEvents(); return false;"
 		name="btnDelete" id="btnDelete"
 		type="image" />
 </form>

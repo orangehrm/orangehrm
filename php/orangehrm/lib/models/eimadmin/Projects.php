@@ -269,12 +269,12 @@ class Projects {
 
 		$tableName = self::PROJECT_DB_TABLE;
 		$arrFieldList[0] = self::PROJECT_DB_FIELD_PROJECT_ID;
-		$arrFieldList[1] = self::PROJECT_DB_FIELD_CUSTOMER_ID;
-		$arrFieldList[2] = self::PROJECT_DB_FIELD_NAME;
-		$arrFieldList[3] = self::PROJECT_DB_FIELD_DESCRIPTION;
-		$arrFieldList[4] = self::PROJECT_DB_FIELD_DELETED;
+		$arrFieldList[1] = self::PROJECT_DB_FIELD_DELETED;
+		$arrFieldList[2] = self::PROJECT_DB_FIELD_CUSTOMER_ID;
+		$arrFieldList[3] = self::PROJECT_DB_FIELD_NAME;
+		$arrFieldList[4] = self::PROJECT_DB_FIELD_DESCRIPTION;
 
-		$schField   = 2;
+		$schField   = 1;
 		$schStr		= 0;
 
 		$sql_builder = new SQLQBuilder();
