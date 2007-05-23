@@ -39,6 +39,8 @@ require_once($lan->getLangPath("full.php"));
 $srchlist[0] = array( -1 , 0 , 1 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 
+$reqPath = "";
+
 	function getNextSortOrder($curSortOrder) {
 		switch ($curSortOrder) {
 			case 'null' :
@@ -114,35 +116,44 @@ else
 
 	function empSel(cntrl) {
 
-<?php   if(isset($_GET['USR'])) { ?>
-
-        opener.document.frmUsers.cmbUserEmpID.value = cntrl.name;
-		opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
+<?php
+		$reqPath="?reqcode=".$_GET['reqcode'];
+		if(isset($_GET['USR'])) {
+			$reqPath.="&USR={$_GET['USR']}";
+?>
+        window.opener.document.frmUsers.cmbUserEmpID.value = cntrl.name;
+		window.opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
         window.close();
 
-<?php   } else if(isset($_GET['REPORT'])) { ?>
-        opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.name;
-        opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.title;
+<?php   } else if(isset($_GET['REPORT'])) {
+			$reqPath.="&REPORT={$_GET['REPORT']}";
+?>
+        window.opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.name;
+        window.opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.title;
         window.close();
 
-<?php   } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'LEAVE')) { ?>
-        opener.document.frmLeaveApp.cmbEmployeeId.value = cntrl.name;
-        opener.document.frmLeaveApp.txtEmployeeId.value = cntrl.title;
+<?php   } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'LEAVE')) {
+			$reqPath.="&LEAVE={$_GET['LEAVE']}";
+?>
+        window.opener.document.frmLeaveApp.cmbEmployeeId.value = cntrl.name;
+        window.opener.document.frmLeaveApp.txtEmployeeId.value = cntrl.title;
         window.close();
 
-<?php  } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'SUMMARY')) { ?>
-        opener.document.frmSelectEmployee.id.value = cntrl.name;
-        opener.document.frmSelectEmployee.cmbEmpID.value = cntrl.title;
+<?php  } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'SUMMARY')) {
+			$reqPath.="&LEAVE={$_GET['LEAVE']}";
+?>
+        window.opener.document.frmSelectEmployee.id.value = cntrl.name;
+        window.opener.document.frmSelectEmployee.cmbEmpID.value = cntrl.title;
         window.close();
 
 <?php  } else if(isset($_GET['reqcode'])) { ?>
-        opener.document.frmEmp.txtRepEmpID.value = cntrl.name;
-        opener.document.frmEmp.cmbRepEmpID.value = cntrl.title;
+        window.opener.document.frmEmp.txtRepEmpID.value = cntrl.name;
+        window.opener.document.frmEmp.cmbRepEmpID.value = cntrl.title;
         window.close();
 
 <?php  } else { ?>
-		opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?php echo $_GET['reqcode']?>";
-        opener.document.standardView.submit();
+		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?php echo $_GET['reqcode']?>";
+        window.opener.document.standardView.submit();
 		window.close();
 <?php } ?>
 	}
@@ -163,7 +174,6 @@ else
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
-
 </script>
 <body style="padding-left:4; padding-right:4;">
 <p>
@@ -278,14 +288,14 @@ echo $pageStr;
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
 						  <?php
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $_GET['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
