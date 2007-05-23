@@ -901,6 +901,8 @@
 	$lang_Time_Errors_APPROVE_FAILURE = "Failed to approve";
 	$lang_Time_Errors_REJECT_SUCCESS = "Successfully rejected";
 	$lang_Time_Errors_REJECT_FAILURE = "Failed to reject";
+	$lang_Time_Errors_DELETE_SUCCESS = "Successfully deleted";
+	$lang_Time_Errors_DELETE_FAILURE = "Failed to delete";
 	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
@@ -916,6 +918,7 @@
 	$lang_Time_Timesheet_EndTime = "End time";
 	$lang_Time_Timesheet_ReportedDate = "Reported date";
 	$lang_Time_Timesheet_Duration = "Duration";
+	$lang_Time_Timesheet_DurationUnits = "(hours)";
 	$lang_Time_Timesheet_Decription = "Description";
 	$lang_Time_Timesheet_NoCustomers = "No customers";
 	$lang_Time_Timesheet_NoProjects = "No projects";
