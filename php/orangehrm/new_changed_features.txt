@@ -12,6 +12,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_6 (23/05/2007) {Revision 848}
 	1723698   No paging in Project List
 	1723329   could not select a employee asending / decending
 	1723958   Dependents: Date button is not aligned
+	1700808   Timesheet customer and project activities to too close.
+	1724429   On-Demand - Error in Approving Leave
 
 	Following bugs were closed
 

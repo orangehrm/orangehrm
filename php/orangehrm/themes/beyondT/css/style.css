@@ -610,7 +610,7 @@ textarea {
 }
 
 .tableTopLeft {
-	background:url(../pictures/table_r1_c1.gif) no-repeat top left;
+	background:url(../pictures/table_r1_c1.gif) no-repeat top right;
 	width:12px;
 	height:11px;
 }
