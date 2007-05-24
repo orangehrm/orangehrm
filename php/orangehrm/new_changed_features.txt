@@ -6,31 +6,10 @@ New & Changed Features for OrangeHRM ver 2.2_beta_7 (24/05/2007)
 
 	1723318   Access error for ADMIN USER GROUP
 	1718870   Any user has access to time and leave modules
+	1723323   Ess user can approve/ reject time sheets
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_6 (23/05/2007) {Revision 848}
-
-	Bugs fixed include:
-
-	BugId     Name
-
-	1722950   Feature: Submitted Timesheets Pending Supervisor approval is not displayed.
-	1716752   Unnecessary warning to save information
-	1722980   Feature: It should be possible to delete a timesheet entry
-	1723965   Interface is screwed
-	1723962   Disabled fields could not identified
-	1723698   No paging in Project List
-	1723329   could not select a employee asending / decending
-	1723958   Dependents: Date button is not aligned
-	1700808   Timesheet customer and project activities to too close.
-	1724429   On-Demand - Error in Approving Leave
-
-	Following bugs were closed
-
-	1723702   Projects cannot be sorted
-
-
-New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007) {Revision 841}
 
 	Bugs fixed include:
 
@@ -45,6 +24,20 @@ New & Changed Features for OrangeHRM ver 2.2_beta_6 (21/05/2007) {Revision 841}
 	1722204   Cannot enter duration
 	1722203   Feature: Default time is in April
 	1718926   Approve Leave only the employee first name is show
+	1722950   Feature: Submitted Timesheets Pending Supervisor approval is not displayed.
+	1716752   Unnecessary warning to save information
+	1722980   Feature: It should be possible to delete a timesheet entry
+	1723965   Interface is screwed
+	1723962   Disabled fields could not identified
+	1723698   No paging in Project List
+	1723329   could not select a employee asending / decending
+	1723958   Dependents: Date button is not aligned
+	1700808   Timesheet customer and project activities to too close.
+	1724429   On-Demand - Error in Approving Leave
+
+	Following bugs were closed
+
+	1723702   Projects cannot be sorted
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)

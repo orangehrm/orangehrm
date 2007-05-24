@@ -176,8 +176,11 @@ class authorize {
 		$objReportTo = new EmpRepTo();
 
 		$subordinates = $objReportTo->getEmpSub($id);
-		if (isset($subordinates[0]) && is_array($subordinates[0]) && $this->searchArray($subordinates[0], $subordinateId, 1)) {
-			return true;
+
+		for ($i=0; $i < count($subordinates); $i++) {
+			if (isset($subordinates[$i]) && is_array($subordinates[$i]) && ($subordinateId == $subordinates[$i][1])) {
+				return true;
+			}
 		}
 
 		return false;

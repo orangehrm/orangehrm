@@ -386,15 +386,9 @@ class TimeController {
 
 		$timesheetObj = $this->objTime;
 
-		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
-		$role = $this->authorizeObj->firstRole($roles);
-
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
 		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
-			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
-				$this->redirect('UNAUTHORIZED_FAILURE');
-			}
 			$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		}
 
@@ -410,6 +404,20 @@ class TimeController {
 		}
 
 		$timesheet = $timesheets[0];
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
+
+		if ($this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())) {
+			$roles[] = authorize::AUTHORIZE_ROLE_SUPERVISOR;
+		}
+
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if ($_SESSION['empID'] != $timesheet->getEmployeeId()) {
+			if (!$role) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+			}
+		}
 
 		$timeEventObj = new TimeEvent();
 
