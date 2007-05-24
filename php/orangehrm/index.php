@@ -34,8 +34,17 @@ if(!isset($_SESSION['fname'])) {
 define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
+define('Report', 'MOD004');
+define('Leave', 'MOD005');
+define('TimeM', 'MOD006');
 
 $arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
+$arrAllRights=array(Admin => $arrRights,
+					PIM => $arrRights,
+					MT => $arrRights,
+					Report => $arrRights,
+					Leave => $arrRights,
+					TimeM => $arrRights);
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
@@ -47,14 +56,27 @@ if($_SESSION['isAdmin']=='Yes') {
 
 	//	$arrRights=array('add'=> true , 'edit'=> true, 'delete'=> true, 'view'=> true);
 
+	foreach ($arrAllRights as $moduleCode=>$currRights) {
+		$arrAllRights[$moduleCode]=$rights->getRights($_SESSION['userGroup'], $moduleCode);
+	}
+
 	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))
-		$arrRights=$rights->getRights($_SESSION['userGroup'],Admin);
+		$arrRights=$arrAllRights[Admin];
 
 	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr"))
-		$arrRights=$rights->getRights($_SESSION['userGroup'],PIM);
+		$arrRights=$arrAllRights[PIM];
 
 	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt"))
-		$arrRights=$rights->getRights($_SESSION['userGroup'],MT);
+		$arrRights=$arrAllRights[MT];
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep"))
+		$arrRights=$arrAllRights[Report];
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave"))
+		$arrRights=$arrAllRights[Leave];
+
+	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
+		$arrRights=$arrAllRights[TimeM];
 
 
 	$ugroup = new UserGroups();
@@ -264,7 +286,7 @@ function setSize() {
                   </table></td>
                   <?php } ?>
                   <?php
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrAllRights[PIM]['view']) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -276,7 +298,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else { ?>
+                  <?php } else if ($arrAllRights[PIM]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -287,7 +309,7 @@ function setSize() {
                   </table></td>
                   <?php }
                   }
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave")) {
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave") && (($_SESSION['isAdmin']!='Yes') || $arrAllRights[Leave]['view'])) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -299,7 +321,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else { ?>
+                  <?php } else if (($_SESSION['isAdmin']!='Yes') || $arrAllRights[Leave]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -309,7 +331,7 @@ function setSize() {
                       </tr>
                   </table></td>
                   <?php }
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time")) {
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time") && (($_SESSION['isAdmin']!='Yes') || $arrAllRights[TimeM]['view'])) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -321,7 +343,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else { ?>
+                  <?php } else if (($_SESSION['isAdmin']!='Yes') || $arrAllRights[TimeM]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -332,7 +354,7 @@ function setSize() {
                   </table></td>
                   <?php }
                   if($_SESSION['isAdmin']=='Yes') {
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep") && $arrAllRights[Report]['view']) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -344,7 +366,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else { ?>
+                  <?php } else if ($arrAllRights[Report]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -905,8 +927,11 @@ function windowDimensions() {
 function exploitSpace() {
 	dimensions = windowDimensions();
 
-	if (document.getElementById("rightMenuHolder")) {
+	if (document.getElementById("rightMenu")) {
 		document.getElementById("rightMenu").height = dimensions[1]-130;
+	}
+
+	if (document.getElementById("rightMenuHolder")) {
 		document.getElementById("rightMenuHolder").width = dimensions[0]-200;
 	}
 }
