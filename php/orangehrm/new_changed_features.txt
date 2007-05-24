@@ -5,6 +5,7 @@ New & Changed Features for OrangeHRM ver 2.2_beta_7 (24/05/2007)
 	BugId     Name
 
 	1723318   Access error for ADMIN USER GROUP
+	1718870   Any user has access to time and leave modules
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_6 (23/05/2007) {Revision 848}
