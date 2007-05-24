@@ -905,8 +905,8 @@ function windowDimensions() {
 function exploitSpace() {
 	dimensions = windowDimensions();
 
-	document.getElementById("rightMenu").height = dimensions[1]-130;
 	if (document.getElementById("rightMenuHolder")) {
+		document.getElementById("rightMenu").height = dimensions[1]-130;
 		document.getElementById("rightMenuHolder").width = dimensions[0]-200;
 	}
 }
