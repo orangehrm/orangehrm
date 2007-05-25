@@ -98,6 +98,8 @@
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
 
+	$lang_Menu_Ess								= "Selvbetjening";
+
 	// Admin Module
 	$lang_Menu_Admin 							= "Admin";
 

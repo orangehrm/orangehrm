@@ -198,7 +198,16 @@ function chkboxCriteriaEnable() {
 					 						if(!elements[i].checked){
 					 						document.frmEmpRepTo.cmbDesig.options[0].selected = true;
 					 						} break;
-
+					 	case 'Language': document.frmEmpRepTo.cmbLanguage.disabled= !elements[i].checked;
+					 					 if(!elements[i].checked){
+					 						document.frmEmpRepTo.cmbLanguage.options[0].selected = true;
+					 					 }
+					 					 break;
+					 	case 'Skill'   : document.frmEmpRepTo.cmbSkill.disabled= !elements[i].checked;
+					 					 if(!elements[i].checked){
+					 						document.frmEmpRepTo.cmbSkill.options[0].selected = true;
+					 					 }
+					 					 break;
 					 }
 				}
 			}
@@ -403,10 +412,22 @@ function disableSerPeriodField() {
 											}
 											break;
 
-						case 'JobTitle':
-											if(elements[i].checked && document.frmEmpRepTo.cmbDesig.value=='0') {
+						case 'JobTitle':	if(elements[i].checked && document.frmEmpRepTo.cmbDesig.value=='0') {
 												alert("<?php echo $lang_Common_FieldEmpty; ?>");
 												document.frmEmpRepTo.cmbDesig.focus();
+												return false;
+											}
+											break;
+
+						case 'Language':	if(elements[i].checked && document.frmEmpRepTo.cmbLanguage.value=='0') {
+												alert("<?php echo $lang_Common_FieldEmpty; ?>");
+												document.frmEmpRepTo.cmbLanguage.focus();
+												return false;
+											}
+											break;
+						case 'Skill'   :	if(elements[i].checked && document.frmEmpRepTo.cmbSkill.value=='0') {
+												alert("<?php echo $lang_Common_FieldEmpty; ?>");
+												document.frmEmpRepTo.cmbSkill.focus();
 												return false;
 											}
 											break;
@@ -620,7 +641,37 @@ function disableSerPeriodField() {
 ?>
 					  </select></td>
 					</tr>
+					<tr>
+					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					 <td><?php echo $lang_rep_Language; ?></td>
+					  <td><select  name="cmbLanguage" <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  		<option value="0">--<?php echo $lang_rep_SelectLanguage; ?>--</option>
+							<?php
+							$deslist = $this->popArr['languageList'];
+							for($c=0;$deslist && count($deslist)>$c;$c++)
+								if(isset($this->postArr['cmbLanguage']) && $this->postArr['cmbLanguage']==$deslist[$c][0])
+									echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								else
+									echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+							?>
+					  </select></td>
+					</tr>
 
+					<tr>
+					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='Skill' value="SKILL" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					 <td><?php echo $lang_rep_Skill; ?></td>
+					  <td><select  name="cmbSkill" <?php echo (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					  		<option value="0">--<?php echo $lang_rep_SelectSkill; ?>--</option>
+							<?php
+							$deslist = $this->popArr['skillList'];
+							for($c=0;$deslist && count($deslist)>$c;$c++)
+								if(isset($this->postArr['cmbSkill']) && $this->postArr['cmbSkill']==$deslist[$c][0])
+									echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								else
+									echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+							?>
+					  </select></td>
+					</tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -728,6 +779,11 @@ function disableSerPeriodField() {
 					<tr>
                       	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='PAYGRD'></td>
 						 <td><?php echo $lang_rep_PayGrade; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='LANGUAGES'></td>
+						 <td><?php echo $lang_rep_Languages; ?></td>
 					</tr>
 
 					<tr>
@@ -990,7 +1046,7 @@ function disableSerPeriodField() {
 					 <td><?php echo $lang_rep_JobTitle; ?></td>
 					  <td><select  name="cmbDesig"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 				  		<option value="0">---<?php echo $lang_rep_SelectJobTitle; ?>---</option>
-<?php
+						<?php
 							$deslist = $this->popArr['deslist'];
 							for($c=0;$deslist && count($deslist)>$c;$c++)
 								if(isset($this->postArr['cmbDesig'])) {
@@ -1006,7 +1062,59 @@ function disableSerPeriodField() {
 										else
 											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
 								}
-		?>
+						?>
+					  </select></td>
+					</tr>
+
+					<tr>
+					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('LANGUAGE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+
+					 <td><?php echo $lang_rep_Language; ?></td>
+					  <td><select  name="cmbLanguage"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+				  		<option value="0">---<?php echo $lang_rep_SelectLanguage; ?>---</option>
+						<?php
+							$deslist = $this->popArr['languageList'];
+							for($c=0;$deslist && count($deslist)>$c;$c++)
+								if(isset($this->postArr['cmbLanguage'])) {
+									if($this->postArr['cmbLanguage']==$deslist[$c][0])
+
+											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+										else
+											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								} else {
+									 if(isset($criteriaData['LANGUAGE']) && $criteriaData['LANGUAGE'][0]==$deslist[$c][0])
+
+											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+										else
+											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								}
+						?>
+					  </select></td>
+					</tr>
+
+					<tr>
+					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SKILL',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='Skill' value="SKILL" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+
+					 <td><?php echo $lang_rep_Skill; ?></td>
+					  <td><select  name="cmbSkill"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+				  		<option value="0">---<?php echo $lang_rep_SelectSkill; ?>---</option>
+						<?php
+							$deslist = $this->popArr['skillList'];
+							for($c=0;$deslist && count($deslist)>$c;$c++)
+								if(isset($this->postArr['cmbSkill'])) {
+									if($this->postArr['cmbSkill']==$deslist[$c][0])
+
+											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+										else
+											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								} else {
+									 if(isset($criteriaData['SKILL']) && $criteriaData['SKILL'][0]==$deslist[$c][0])
+
+											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+										else
+											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+								}
+						?>
 					  </select></td>
 					</tr>
 
@@ -1118,6 +1226,11 @@ function disableSerPeriodField() {
 					<tr>
                       	 <td><input disabled type='checkbox' <?php echo in_array('PAYGRD',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='PAYGRD'></td>
 						 <td><?php echo $lang_rep_PayGrade; ?></td>
+					</tr>
+
+					<tr>
+                      	 <td><input disabled type='checkbox' <?php echo in_array('LANGUAGES',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='LANGUAGES'></td>
+						 <td><?php echo $lang_rep_Languages; ?></td>
 					</tr>
 
 					<tr>

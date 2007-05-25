@@ -36,6 +36,7 @@ $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
 									'Qualifications'=>$lang_rep_Qualification,
 									'Year of passing'=>$lang_rep_YearOfPassing,
 									'Sub division'=>$lang_rep_SubDivision,
+									'Languages'=>$lang_rep_Languages,
 									'Skills'=>$lang_rep_Skills,
 									'Contract'=>$lang_rep_Contract,
 									'Work experience'=>$lang_rep_WorkExperience);
@@ -99,7 +100,7 @@ function goBack() {
 
 <?php
 				for($i=0;$i<$rows; $i++){ ?>
-					<tr>
+					<tr valign="top">
 <?php					for($j=0;$j<$columns; $j++) { ?>
 						<td>
 					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
