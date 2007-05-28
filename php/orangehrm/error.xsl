@@ -1,22 +1,24 @@
-<?xml version="1.0" encoding="iso-8859-1"?><!-- DWXMLSource="test.xml" --><!DOCTYPE xsl:stylesheet  [
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xsl:stylesheet  [
 	<!ENTITY nbsp   "&#160;">
 	<!ENTITY copy   "&#169;">
 	<!ENTITY reg    "&#174;">
 	<!ENTITY trade  "&#8482;">
 	<!ENTITY mdash  "&#8212;">
 	<!ENTITY ldquo  "&#8220;">
-	<!ENTITY rdquo  "&#8221;"> 
+	<!ENTITY rdquo  "&#8221;">
 	<!ENTITY pound  "&#163;">
 	<!ENTITY yen    "&#165;">
 	<!ENTITY euro   "&#8364;">
 ]>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-<xsl:output method="html" encoding="iso-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<xsl:output method="html" encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
 <xsl:template match="/report">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="{Wroot}/themes/beyondT/icons/exceptions/{type}.png" rel="icon" type="image/png"/>
 <title>System was brought to a hault</title>
 </head>
 <style type="text/css">
@@ -29,7 +31,7 @@
 		font-family:Arial, Helvetica, sans-serif;
 		padding: 10px;
 		width:80%;
-		min-width: 700px;		
+		min-width: 700px;
 		margin: auto;
 		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/pictures/orange_new_02.gif) no-repeat right top;
 		background-color: #FFFFFF;
@@ -37,44 +39,74 @@
 		min-height:75px;
 		position:relative;
 	}
-	
+
 	#footer {
 		font-size: 10px;
-		color: #999999;	
+		color: #999999;
 		vertical-align: bottom;
 		position:fixed;
 		bottom: 0;
-		left:auto;	
+		left:auto;
 	}
-	
+
 	.code {
-		font-family:"Courier New", Courier, monospace;	
+		font-family:"Courier New", Courier, monospace;
 		color:#555555;
 	}
-	
+
 	a {
 		color: #FF9900;
-		text-decoration: none;	
+		text-decoration: none;
+	}
+
+	.environment ul {
+		list-style-image: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/16-circle-orange.png);
+	}
+
+	.environment h3 {
+		padding-left: 26px;
+		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/24-settings-orange.png) no-repeat left center;
+	}
+
+	.diagnosis h3 {
+		padding-left: 26px;
+		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/24-tool-c.png) no-repeat left center;
+	}
+
+	h2 {
+		padding-left: 26px;
+		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/exceptions/24-<xsl:value-of select="type"/>.png) no-repeat left center;
 	}
 </style>
 <script language="javascript">
-	parent.scrollTo(0, 0);	
+	parent.scrollTo(0, 0);
 </script>
 <body>
 	<div id="body">
-		<h2>		
+		<h2>
 		<xsl:value-of select="heading"/>
 		</h2>
-		
+
 		<p class="diagnosis">
 			<xsl:value-of select="message"/>
 		</p>
-		
+
 		<p class="diagnosis">
-	  <h3>Technical Details</h3>
+	  	<h3>Technical Details</h3>
 			<xsl:for-each select="cause">
 				<xsl:value-of select="message"/>&nbsp;
 			</xsl:for-each>
+		</p>
+		<p class="environment">
+	  		<h3>System Environment</h3>
+	  		<ul>
+			<xsl:for-each select="environment/version">
+				<li id="{@type}" ><xsl:value-of select="@description" /> : <xsl:value-of select="."/></li>
+			</xsl:for-each>
+			<xsl:for-each select="environment/info">
+				<li id="{@type}" ><xsl:value-of select="@description" /> : <xsl:value-of select="."/></li>
+			</xsl:for-each>
+			</ul>
 		</p>
 		<cite>
 		<h5>Please note</h5>

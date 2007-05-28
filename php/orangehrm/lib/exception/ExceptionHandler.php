@@ -17,27 +17,36 @@
 // Boston, MA  02110-1301, USA
 */
 
+require_once ROOT_PATH . '/lib/confs/Conf.php';
+
 function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
 
 	$errMsg = "\n".$errstr.' in '.$errfile.' on line '.$errline."\n";
 	switch ($errlevel) {
 		case E_USER_WARNING : $type = "Warning";
+							  $errType = "warning";
 							  break;
 		case E_USER_NOTICE 	: $type = "Notice";
+							  $errType = "notice";
 							  break;
 		case E_USER_ERROR 	: $type = "Error";
+							  $errType = "error";
 							  break;
 		case E_WARNING 		: $type = "Warning";
 							  $sysErr = true;
+							  $errType = "warning";
 							  break;
 		case E_NOTICE 		: $type = "Notice";
 							  $sysErr = true;
+							  $errType = "notice";
 							  break;
 		case E_ERROR 		: $type = "Error";
 							  $sysErr = true;
+							  $errType = "error";
 							  break;
 		case E_ALL			: $type = "General Error";
 							  $sysErr = true;
+							  $errType = "error";
 	}
 
 	if (isset($type)) {
@@ -51,6 +60,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 	$message .= "<?xml-stylesheet href='".$_SESSION['WPATH']."/error.xsl' type='text/xsl'?>\n";
 	$message .= "<report>\n";
 	$message .= "	<heading>$type</heading>\n";
+	$message .= "	<type>$errType</type>\n";
 
 	$errstr = strip_tags($errstr);
 
@@ -88,10 +98,20 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		error_log( strip_tags($errMsgEsc), 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	}
 
+	$confObj = new Conf();
+
+	$message .= "	<environment>\n";
+	$message .= "		<version type='ohrm' description='OrangeHRM' ><![CDATA[". $confObj->version."]]></version>\n";
+	$message .= "		<version type='php' description='PHP' ><![CDATA[".constant('PHP_VERSION')."]]></version>\n";
+	$message .= "		<version type='mysql' description='MySQL Client' ><![CDATA[".mysql_get_client_info()."]]></version>\n";
+	$message .= "		<info type='memory_limit' description='Memory limit' ><![CDATA[".ini_get('memory_limit')."]]></info>\n";
+	$message .= "		<info type='session.gc_maxlifetime' description='Maximum session lifetime' ><![CDATA[".ini_get('session.gc_maxlifetime')."]]></info>\n";
+	$message .= "	</environment>\n";
+
 	$message .= "	<cmd n='js'><![CDATA[alert('$errMsgEsc');]]></cmd>\n";
 	$message .= "</report>\n";
 
-	header("Content-type: application/xml");
+	header("Content-type: application/xml; charset=UTF-8");
 
 	echo $message;
 
