@@ -98,6 +98,8 @@
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
 
+	$lang_Menu_Ess								= "ESS";
+
 	// Admin Module
 	$lang_Menu_Admin 							= "Admin";
 
@@ -732,6 +734,7 @@
 	$lang_pim_tabs_ReportTo = "Report-to";
 	$lang_pim_tabs_WorkExperience = "Work experience";
 	$lang_pim_tabs_Education = "Education";
+	$lang_rep_Languages = "Languages";
 	$lang_pim_tabs_Skills = "Skills";
 	$lang_pim_tabs_Languages = "Languages";
 	$lang_pim_tabs_License = "License";
@@ -747,6 +750,8 @@
 	$lang_rep_EmploymentStatus = "Employment Status";
 	$lang_rep_ServicePeriod = "Service Period";
 	$lang_rep_JobTitle = "Job Title";
+	$lang_rep_Language = "Language";
+	$lang_rep_Skill = "Skill";
 
 	$lang_rep_LastName = "Last Name";
 	$lang_rep_FirstName = "First Name";
@@ -763,6 +768,8 @@
 	$lang_rep_SelectEmploymentType = "Select Employment Type";
 	$lang_rep_SelectComparison = "Select Comparison";
 	$lang_rep_SelectJobTitle = "Select Job Title";
+	$lang_rep_SelectLanguage = "Select Language";
+	$lang_rep_SelectSkill = "Select Skill";
 
 	$lang_rep_Field = "Field";
 	$lang_rep_AssignUserGroups = "Assign User Groups";
