@@ -7,8 +7,7 @@
     function checkEmail(emailStr) {
 
         // checks if the e-mail address is valid
-        //var emailPat = /^(\".*\"|[A-Za-z]\w*|\.)@(\[\d{1,3}(\.\d{1,3}){3}]|[A-Za-z]\w*(\.[A-Za-z]\w*)+)$/;
-		var emailPat = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/
+		var emailPat = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
         /*var matchArray = emailStr.match(emailPat);
         if (matchArray == null) {
             return false;
@@ -22,7 +21,7 @@
                     return false;
                 }
             }
-        }*/        
+        }*/
         if (emailPat.test(emailStr)) {
         	return true;
         }
@@ -42,14 +41,14 @@
         for(i=0;txt.value.length>i;i++)
         {
 	       code=txt.value.charCodeAt(i);
-    
+
            if (code>=48 && code<=57) {
 	           flag=false;
                break;
            }
 	       else
 	           flag=true;
-	   
+
 	    }
     return flag;
     }
@@ -59,63 +58,63 @@
     function numeric(txt)
     {
         var flag=true;
-    
+
         for(i=0;txt.value.length>i;i++){
-    
+
             code=txt.value.charCodeAt(i);
 
             if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 43))
-                flag=true    
+                flag=true
             else
             {
                 flag=false;
-                break;    
+                break;
             }
-        }    
+        }
     return flag;
     }
 
     function numbers(txt)
 	{
     	var flag=true;
-    
+
     	for (i=0;txt.value.length>i;i++) {
-    
+
         	code=txt.value.charCodeAt(i);
 
         	if ( (code >= 48) && (code <= 57) ) {
-        		
+
             	flag=true;
-            } 
+            }
         	else
         	{
             	flag=false;
-            	break;    
+            	break;
         	}
-    	}    
+    	}
 	return flag;
 	}
-	
+
 	function nonNumbers(txt) {
-    
+
     	var notNum="";
     	var flag=true;
-    
+
     	for (i=0;txt.value.length>i;i++) {
-    
+
         	code=txt.value.charCodeAt(i);
 
         	if ( (code>=48) && (code<=57) )
-            	flag=true   
+            	flag=true
         	else
         	{
             	flag=false;
-            	notNum=notNum+" '"+txt.value.charAt(i)+"'";    
+            	notNum=notNum+" '"+txt.value.charAt(i)+"'";
         	}
-    	}    
-	return notNum;     
+    	}
+	return notNum;
 	}
-	
+
 	function clearAll() {
 		//need to work
 		document.forms[0].reset('');

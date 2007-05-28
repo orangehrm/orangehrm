@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_beta_7 (28/05/2007)
+New & Changed Features for OrangeHRM ver 2.2_RC_1 (28/05/2007)
 
 	1. Danish language pack added (stable)
 	2. Skill and language as selection criteria for reports
