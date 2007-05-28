@@ -121,8 +121,6 @@ if(isset($_GET['uniqcode'])) {
 	$moduletype = 'timeMod';
 }
 
-$definedVariable = $undefinedVariable;
-
 //authentication
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
