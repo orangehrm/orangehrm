@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+ob_start();
+
 define('ROOT_PATH', dirname(__FILE__));
 
 if(!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
@@ -262,7 +264,7 @@ function setSize() {
                   <?php } ?>
                   <?php
                   if($_SESSION['isAdmin']=='Yes') {
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {
+						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrAllRights[Admin]['view']) {
 
 					?>
                   <td style="background-image : url();" ></td>
@@ -275,7 +277,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else { ?>
+                  <?php } else if ($arrAllRights[Admin]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -309,7 +311,7 @@ function setSize() {
                   </table></td>
                   <?php }
                   }
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave") && (($_SESSION['isAdmin']!='Yes') || $arrAllRights[Leave]['view'])) {
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave") && (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view'])) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -321,7 +323,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else if (($_SESSION['isAdmin']!='Yes') || $arrAllRights[Leave]['view']) { ?>
+                  <?php } else if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -331,7 +333,7 @@ function setSize() {
                       </tr>
                   </table></td>
                   <?php }
-                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time") && (($_SESSION['isAdmin']!='Yes') || $arrAllRights[TimeM]['view'])) {
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time") && (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view'])) {
 					?>
                   <td style="background-image : url();" ></td>
                   <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
@@ -343,7 +345,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else if (($_SESSION['isAdmin']!='Yes') || $arrAllRights[TimeM]['view']) { ?>
+                  <?php } else if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -941,3 +943,4 @@ window.onresize = exploitSpace;
 </script>
 </body>
 </html>
+<?php ob_end_flush(); ?>

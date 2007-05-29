@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 2.2_RC_1 (01/06/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+
+	1725685   Multiple records in employee report
+
+
 New & Changed Features for OrangeHRM ver 2.2_RC_1 (28/05/2007) {Revision 859}
 
 	1. Danish language pack added (stable)
