@@ -52,7 +52,24 @@ function goBack() {
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style1.css"); </style>
+<style type="text/css">
+@import url("../../themes/beyondT/css/style1.css");
+ul {
+	margin: 0px;
+	left: -6px;
+	position: relative;
+	top: 0px;
+    padding-top: 2px;
+    padding-left: 0px;
+}
+
+li{
+	list-style-type: none;
+	vertical-align: middle;
+	margin-top:8px;
+}
+
+</style>
 </head>
 <body>
 <table border="0">
@@ -75,10 +92,15 @@ function goBack() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
 <?php
+				$startColumn=0;
+				if (!$empNoField) {
+					$startColumn=1;
+				}
 				$reportingMethod = false;
 				$subDivision = false;
+				$contractDate = false;
 				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
-				for($i=0;$i<count($this->headName); $i++){
+				for($i=$startColumn;$i<count($this->headName); $i++){
 					if (isset($lang_Template_rep_headName) && ($lang_Template_rep_headName[$this->headName[$i]])) {
 						$colHead = $lang_Template_rep_headName[$this->headName[$i]];
 					} else {
@@ -89,6 +111,9 @@ function goBack() {
 					if ($this->headName[$i] == 'Reporting method') {
 						$reportingMethod = $i;
 					}
+					if ($this->headName[$i] == 'Contract') {
+						$contractDate = $i;
+					}
 					if ($this->headName[$i] == 'Sub division') {
 						$subDivision = $i;
 						$compStructObj = new CompStruct();
@@ -98,22 +123,38 @@ function goBack() {
 
 					</tr>
 
-<?php
-				for($i=0;$i<$rows; $i++){ ?>
-					<tr valign="top">
-<?php					for($j=0;$j<$columns; $j++) { ?>
+<?php			$l=0;
+				foreach ($repDetails as $i=>$employee){
+					$className="odd";
+					if (($l%2) == 0) {
+						$className="even";
+					}
+					$l++;
+				?>
+					<tr valign="top" class="<?php echo $className; ?>">
+<?php					for($j=$startColumn;$j<$columns; $j++) { ?>
 						<td>
+							<ul>
 					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
-								if ($subDivision && ($subDivision == $j)) {
-									echo $compStructObj->fetchHierarchString($repDetails[$i][$j]);
-								} else if ($reportingMethod && ($reportingMethod == $j)) {
-									echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j]];
-								} else {
-									echo $repDetails[$i][$j];
+								$last=null;
+								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
+									if (($last != $repDetails[$i][$j][$k]) && ($repDetails[$i][$j][$k] != '')) {
+										echo "<li>";
+										if ($subDivision && ($subDivision == $j)) {
+											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
+										} else if ($reportingMethod && ($reportingMethod == $j)) {
+											echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j][$k]];
+										} else {
+											echo $repDetails[$i][$j][$k];
+										}
+										$last = $repDetails[$i][$j][$k];
+										echo "</li>";
+									}
 								}
 							} else {
 								echo $repDetails[$i][$j];
 							} ?>
+							</ul>
 						</td>
 				<?php	}
 ?>

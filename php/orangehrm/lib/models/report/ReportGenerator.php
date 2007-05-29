@@ -402,7 +402,7 @@ class ReportGenerator {
  			$parentTableName['CONTRACT']	    	= 'HS_HR_EMP_CONTRACT_EXTEND k';
  			$existingTableFieldName['CONTRACT']	= 'a.EMP_NUMBER';
  			$existingTableName['CONTRACT']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['CONTRACT']  	= "CONCAT(k.ECON_EXTEND_START_DATE, ' - ', k.ECON_EXTEND_END_DATE)";
+ 			$parentTableDescription['CONTRACT']  	= "CONCAT(DATE(k.ECON_EXTEND_START_DATE), ' - ', DATE(k.ECON_EXTEND_END_DATE))";
 
  			$groupBy['CONTRACT'] = $parentTableDescription['CONTRACT'];
  		}
@@ -611,9 +611,10 @@ class ReportGenerator {
 			return strtolower($SQL1);
 		}
 
-		function  reportDisplay($repDetails) {
+		function  reportDisplay($repDetails, $empNoField=false) {
+			$employee = next($repDetails);
 
-			$columns = count($repDetails[0]);
+			$columns = count($employee);
 			$rows	 = count($repDetails);
 
 			require_once(ROOT_PATH . '/templates/report/report.php');

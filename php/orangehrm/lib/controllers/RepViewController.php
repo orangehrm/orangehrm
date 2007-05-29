@@ -329,27 +329,34 @@ class RepViewController {
 
 								$field = explode('|',$edit[0][3]);
 
+								$empNoField=false;
 								for($c=0;count($field)>$c;$c++) {
-									$repgen -> field[$field[$c]] = 1;
+									$repgen->field[$field[$c]] = 1;
+									if ($field[$c] == 'EMPNO') {
+										$empNoField=true;
+									}
 								}
 
+								$repgen->field['EMPNO'] = 1;
+
 								$sqlQ = $repgen->reportQueryBuilder();
+								//echo $sqlQ."<br/>";
 
 								$dbConnection = new DMLFunctions();
 								$message2 = $dbConnection -> executeQuery($sqlQ);
 
 								$i=0;
 								while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
-									for($c=0;count($repgen->field)>$c;$c++)
-									   	$arrayDispList[$i][$c] = $line[$c];
+									for ($c=0;count($repgen->field)>$c;$c++) {
+									   	$arrayDispList[$line[0]][$c][base64_encode($line[$c])] = $line[$c];
+									}
 								   	$i++;
-								    }
+								}
 
 								if (!isset($arrayDispList)) {
 									$arrayDispList = null;
 								}
-								$repgen->reportDisplay($arrayDispList);
+								$repgen->reportDisplay($arrayDispList, $empNoField);
 								return;
 
 							break;
