@@ -347,11 +347,12 @@ class RepViewController {
 
 								$i=0;
 								while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-									for ($c=0;count($repgen->field)>$c;$c++) {
-									   	$arrayDispList[$line[0]][$c][base64_encode($line[$c])] = $line[$c];
+									for ($c=0;count($repgen->field)*2>$c;$c+=2) {
+									   	$arrayDispList[$line[0]][$c/2][$line[$c]] = $line[$c+1];
 									}
 								   	$i++;
 								}
+								//print_r($arrayDispList);
 
 								if (!isset($arrayDispList)) {
 									$arrayDispList = null;

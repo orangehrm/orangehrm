@@ -172,7 +172,7 @@ class ReportGenerator {
  			$parentTableName['EMPNO']	    = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['EMPNO']= 'a.EMP_NUMBER';
  			$existingTableName['EMPNO']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPNO']= 'IFNULL(a.`EMPLOYEE_ID`, LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0))';
+ 			$parentTableDescription['EMPNO']= 'a.`EMP_NUMBER`, IFNULL(a.`EMPLOYEE_ID`, LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0))';
 
 			$groupBy['EMPNO'] = $parentTableDescription['EMPNO'];
  		}
@@ -184,7 +184,7 @@ class ReportGenerator {
  			$parentTableName['EMPFIRSTNAME']	     = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['EMPFIRSTNAME']= 'a.EMP_FIRSTNAME';
  			$existingTableName['EMPFIRSTNAME']	 = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPFIRSTNAME']= 'a.EMP_FIRSTNAME';
+ 			$parentTableDescription['EMPFIRSTNAME']= 'a.`EMP_NUMBER`, a.EMP_FIRSTNAME';
 
  			$groupBy['EMPFIRSTNAME'] = $parentTableDescription['EMPFIRSTNAME'];
  		}
@@ -196,7 +196,7 @@ class ReportGenerator {
  			$parentTableName['EMPLASTNAME']	     = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['EMPLASTNAME']= 'a.EMP_LASTNAME';
  			$existingTableName['EMPLASTNAME']	 = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPLASTNAME']= 'a.EMP_LASTNAME';
+ 			$parentTableDescription['EMPLASTNAME']= 'a.`EMP_NUMBER`, a.EMP_LASTNAME';
 
  			$groupBy['EMPLASTNAME'] = $parentTableDescription['EMPLASTNAME'];
  		}
@@ -208,7 +208,7 @@ class ReportGenerator {
  			$parentTableName['ADDRESS1']	     = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['ADDRESS1']  = 'a.EMP_STREET1';
  			$existingTableName['ADDRESS1']	     = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['ADDRESS1']  = "CONCAT(a.EMP_STREET1, ' ', a.EMP_STREET2, ' ', a.CITY_CODE, ' ', a.PROVIN_CODE, ' ', a.COUN_CODE, ' ', a.EMP_ZIPCODE)";
+ 			$parentTableDescription['ADDRESS1']  = "a.`EMP_NUMBER`, CONCAT(a.EMP_STREET1, ' ', a.EMP_STREET2, ' ', a.CITY_CODE, ' ', a.PROVIN_CODE, ' ', a.COUN_CODE, ' ', a.EMP_ZIPCODE)";
 
  			$groupBy['ADDRESS1'] = $parentTableDescription['ADDRESS1'];
  		}
@@ -219,7 +219,7 @@ class ReportGenerator {
  			$parentTableName['ADDRESS2']	     = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['ADDRESS2']  = 'a.EMP_STREET2';
  			$existingTableName['ADDRESS2']	     = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['ADDRESS2']  = 'a.EMP_STREET2';
+ 			$parentTableDescription['ADDRESS2']  = 'a.`EMP_NUMBER`, a.EMP_STREET2';
 
  			$groupBy['ADDRESS2'] = $parentTableDescription['ADDRESS2'];
  		}
@@ -232,7 +232,7 @@ class ReportGenerator {
  			$parentTableName['TELENO']	       = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['TELENO']  = 'a.EMP_HM_TELEPHONE';
  			$existingTableName['TELENO']	   = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['TELENO']  = 'a.EMP_HM_TELEPHONE';
+ 			$parentTableDescription['TELENO']  = 'a.`EMP_NUMBER`, a.EMP_HM_TELEPHONE';
 
  			$groupBy['TELENO'] = $parentTableDescription['TELENO'];
  		}
@@ -244,7 +244,7 @@ class ReportGenerator {
  			$parentTableName['MOBILE']	       = 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['MOBILE']  = 'a.EMP_MOBILE';
  			$existingTableName['MOBILE']	   = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['MOBILE']  = 'a.EMP_MOBILE';
+ 			$parentTableDescription['MOBILE']  = 'a.`EMP_NUMBER`, a.EMP_MOBILE';
 
  			$groupBy['MOBILE'] = $existingTableFieldName['MOBILE'];
  		}
@@ -256,7 +256,7 @@ class ReportGenerator {
  			$parentTableName['REPORTTO'] = 'HS_HR_EMPLOYEE j';
  			$existingTableFieldName['REPORTTO']= 'g.EREP_SUP_EMP_NUMBER';
  			$existingTableName['REPORTTO']	 = 'HS_HR_EMP_REPORTTO g';
- 			$parentTableDescription['REPORTTO']= "CONCAT(j.EMP_FIRSTNAME, ' ', j.EMP_LASTNAME)";
+ 			$parentTableDescription['REPORTTO']= "g.EREP_SUP_EMP_NUMBER, CONCAT(j.EMP_FIRSTNAME, ' ', j.EMP_LASTNAME)";
 
  			$groupBy['REPORTTO'] = $existingTableFieldName['REPORTTO'];
  		}
@@ -268,7 +268,7 @@ class ReportGenerator {
  			$parentTableName['REPORTINGMETHOD']	     = 'HS_HR_EMP_REPORTTO g';
  			$existingTableFieldName['REPORTINGMETHOD']= 'a.EMP_NUMBER';
  			$existingTableName['REPORTINGMETHOD']	 = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['REPORTINGMETHOD']= 'g.EREP_REPORTING_MODE';
+ 			$parentTableDescription['REPORTINGMETHOD']= 'g.EREP_SUP_EMP_NUMBER, g.EREP_REPORTING_MODE';
 
  			$groupBy['REPORTINGMETHOD'] = $existingTableFieldName['REPORTINGMETHOD'];
  		}
@@ -280,7 +280,7 @@ class ReportGenerator {
  			$parentTableName['AGE']	    	= 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['AGE']	= 'a.EMP_BIRTHDAY';
  			$existingTableName['AGE']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['AGE']  = "IF(STRCMP(DATE_FORMAT(a.EMP_BIRTHDAY, CONCAT(YEAR(a.EMP_BIRTHDAY), '-%m-%d')), '0-00-00'), DATE_FORMAT(a.EMP_BIRTHDAY, CONCAT(YEAR(a.EMP_BIRTHDAY), '-%m-%d')), 'N/A')";
+ 			$parentTableDescription['AGE']  = "a.`EMP_NUMBER`, IF(STRCMP(DATE_FORMAT(a.EMP_BIRTHDAY, CONCAT(YEAR(a.EMP_BIRTHDAY), '-%m-%d')), '0-00-00'), DATE_FORMAT(a.EMP_BIRTHDAY, CONCAT(YEAR(a.EMP_BIRTHDAY), '-%m-%d')), 'N/A')";
 
  			$groupBy['AGE'] = $existingTableFieldName['AGE'];
  		}
@@ -292,7 +292,7 @@ class ReportGenerator {
  			$parentTableName['PAYGRD']	     = 'HS_PR_SALARY_GRADE b';
  			$existingTableFieldName['PAYGRD']= 'f.SAL_GRD_CODE';
  			$existingTableName['PAYGRD']	 = 'HS_HR_JOB_TITLE f';
- 			$parentTableDescription['PAYGRD']  = 'b.SAL_GRD_NAME';
+ 			$parentTableDescription['PAYGRD']  = 'a.`EMP_NUMBER`, b.SAL_GRD_NAME';
 
  			$this->field['JOBTITLE'] = true;
 
@@ -306,7 +306,7 @@ class ReportGenerator {
  			$parentTableName['EMPSTATUS']	      = 'HS_HR_EMPSTAT d';
  			$existingTableFieldName['EMPSTATUS']= 'a.EMP_STATUS';
  			$existingTableName['EMPSTATUS']	  = 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['EMPSTATUS']  = 'd.ESTAT_NAME';
+ 			$parentTableDescription['EMPSTATUS']  = 'a.`EMP_NUMBER`, d.ESTAT_NAME';
 
  			$groupBy['EMPSTATUS'] = $existingTableFieldName['EMPSTATUS'];
  		}
@@ -318,7 +318,7 @@ class ReportGenerator {
  			$parentTableName['SERPIR']	    	= 'HS_HR_EMPLOYEE a';
  			$existingTableFieldName['SERPIR']	= 'a.JOINED_DATE';
  			$existingTableName['SERPIR']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['SERPIR']  	= "IF(STRCMP(DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), '0-00-00'), DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), 'N/A')";
+ 			$parentTableDescription['SERPIR']  	= "a.`EMP_NUMBER`, IF(STRCMP(DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), '0-00-00'), DATE_FORMAT(a.JOINED_DATE, CONCAT(YEAR(a.JOINED_DATE), '-%m-%d')), 'N/A')";
 
  			$groupBy['SERPIR'] = $existingTableFieldName['SERPIR'];
  		}
@@ -330,7 +330,7 @@ class ReportGenerator {
  			$parentTableName['SUBDIVISION']	    	= 'HS_HR_COMPSTRUCTTREE l';
  			$existingTableFieldName['SUBDIVISION']	= 'a.WORK_STATION';
  			$existingTableName['SUBDIVISION']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['SUBDIVISION']  = 'a.WORK_STATION';
+ 			$parentTableDescription['SUBDIVISION']  = 'a.`EMP_NUMBER`, a.WORK_STATION';
 
  			$groupBy['SUBDIVISION'] = $existingTableFieldName['SUBDIVISION'];
  		}
@@ -342,7 +342,7 @@ class ReportGenerator {
  			$parentTableName['QUL']	    	= 'HS_HR_EDUCATION e';
  			$existingTableFieldName['QUL']	= 'c.EDU_CODE';
  			$existingTableName['QUL']		= 'HS_HR_EMP_EDUCATION c';
- 			$parentTableDescription['QUL']  = 'CONCAT(e.EDU_DEG, \', \', e.EDU_UNI)';
+ 			$parentTableDescription['QUL']  = 'c.EDU_CODE, CONCAT(e.EDU_DEG, \', \', e.EDU_UNI)';
 
  			$groupBy['QUL'] = $existingTableFieldName['QUL'];
  		}
@@ -354,7 +354,7 @@ class ReportGenerator {
  			$parentTableName['YEAROFPASSING']	    	= 'HS_HR_EMP_EDUCATION c';
  			$existingTableFieldName['YEAROFPASSING']	= 'c.EDU_CODE';
  			$existingTableName['YEAROFPASSING']		= 'HS_HR_EMP_EDUCATION c';
- 			$parentTableDescription['YEAROFPASSING']  = "YEAR(c.EDU_END_DATE)";
+ 			$parentTableDescription['YEAROFPASSING']  = "c.EDU_CODE, YEAR(c.EDU_END_DATE)";
 
  			$groupBy['YEAROFPASSING'] = $existingTableFieldName['YEAROFPASSING'];
  		}
@@ -366,7 +366,7 @@ class ReportGenerator {
  			$parentTableName['JOBTITLE']	    	= 'HS_HR_JOB_TITLE f';
  			$existingTableFieldName['JOBTITLE']	= 'a.JOB_TITLE_CODE';
  			$existingTableName['JOBTITLE']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['JOBTITLE']  	= 'f.JOBTIT_NAME';
+ 			$parentTableDescription['JOBTITLE']  	= 'a.`EMP_NUMBER`, f.JOBTIT_NAME';
 
  			$groupBy['JOBTITLE'] = $existingTableFieldName['JOBTITLE'];
  		}
@@ -378,7 +378,7 @@ class ReportGenerator {
  			$parentTableName['LANGUAGES']	    	= 'HS_HR_LANGUAGE n';
  			$existingTableFieldName['LANGUAGES']	= 'm.LANG_CODE';
  			$existingTableName['LANGUAGES']			= 'HS_HR_EMP_LANGUAGE m';
- 			$parentTableDescription['LANGUAGES']  	= 'n.LANG_NAME';
+ 			$parentTableDescription['LANGUAGES']  	= 'n.LANG_CODE, n.LANG_NAME';
 
  			$groupBy['LANGUAGES'] = "m.lang_code, m.emp_number";
  		}
@@ -390,7 +390,7 @@ class ReportGenerator {
  			$parentTableName['SKILLS']	    	= 'HS_HR_SKILL i';
  			$existingTableFieldName['SKILLS']	= 'h.SKILL_CODE';
  			$existingTableName['SKILLS']		= 'HS_HR_EMP_SKILL h';
- 			$parentTableDescription['SKILLS']  	= 'i.SKILL_NAME';
+ 			$parentTableDescription['SKILLS']  	= 'i.SKILL_CODE, i.SKILL_NAME';
 
  			$groupBy['SKILLS'] = $existingTableFieldName['SKILLS'];
  		}
@@ -402,7 +402,7 @@ class ReportGenerator {
  			$parentTableName['CONTRACT']	    	= 'HS_HR_EMP_CONTRACT_EXTEND k';
  			$existingTableFieldName['CONTRACT']	= 'a.EMP_NUMBER';
  			$existingTableName['CONTRACT']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['CONTRACT']  	= "CONCAT(DATE(k.ECON_EXTEND_START_DATE), ' - ', DATE(k.ECON_EXTEND_END_DATE))";
+ 			$parentTableDescription['CONTRACT']  	= "k.ECON_EXTEND_ID, CONCAT(DATE(k.ECON_EXTEND_START_DATE), ' - ', DATE(k.ECON_EXTEND_END_DATE))";
 
  			$groupBy['CONTRACT'] = $parentTableDescription['CONTRACT'];
  		}
@@ -414,7 +414,7 @@ class ReportGenerator {
  			$parentTableName['WORKEXPERIENCE']	    	= 'HS_HR_EMP_WORK_EXPERIENCE l';
  			$existingTableFieldName['WORKEXPERIENCE']	= 'a.EMP_NUMBER';
  			$existingTableName['WORKEXPERIENCE']		= 'HS_HR_EMPLOYEE a';
- 			$parentTableDescription['WORKEXPERIENCE']  	= "CONCAT(l.EEXP_EMPLOYER, ' - ', l.EEXP_JOBTIT, ' - ', (YEAR(l.EEXP_FROM_DATE)-YEAR(l.EEXP_TO_DATE)), ' yrs')";
+ 			$parentTableDescription['WORKEXPERIENCE']  	= "l.EEXP_SEQNO, CONCAT(l.EEXP_EMPLOYER, ' - ', l.EEXP_JOBTIT, ' - ', (YEAR(l.EEXP_FROM_DATE)-YEAR(l.EEXP_TO_DATE)), ' yrs')";
 
  			$groupBy['WORKEXPERIENCE'] = $existingTableFieldName['WORKEXPERIENCE'];
  		}

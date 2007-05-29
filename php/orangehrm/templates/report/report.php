@@ -134,12 +134,12 @@ li{
 					<tr valign="top" class="<?php echo $className; ?>">
 <?php					for($j=$startColumn;$j<$columns; $j++) { ?>
 						<td>
-							<ul>
 					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
-								$last=null;
-								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
-									if (($last != $repDetails[$i][$j][$k]) && ($repDetails[$i][$j][$k] != '')) {
-										echo "<li>";
+								$last=null; ?>
+								<ul>
+						<?php	foreach ($repDetails[$i][$j] as $k=>$dataItem) {
+									echo "<li>";
+									if (($repDetails[$i][$j][$k] != '')) {
 										if ($subDivision && ($subDivision == $j)) {
 											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
 										} else if ($reportingMethod && ($reportingMethod == $j)) {
@@ -148,13 +148,16 @@ li{
 											echo $repDetails[$i][$j][$k];
 										}
 										$last = $repDetails[$i][$j][$k];
-										echo "</li>";
+									} else {
+										echo '';
 									}
-								}
-							} else {
-								echo $repDetails[$i][$j];
-							} ?>
-							</ul>
+									echo "</li>";
+								} ?>
+								</ul>
+					<?php	} else {
+								echo "&nbsp;";
+							}?>
+
 						</td>
 				<?php	}
 ?>
