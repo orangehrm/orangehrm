@@ -22,6 +22,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
+	if ($_SESSION['userGroup'] == $this->popArr['ugDet'][0][0]) {
+		$locRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
+	}
+
 ?>
 <!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -340,9 +344,9 @@ $ugDet = $this ->popArr['ugDet'];
   <tr>
   <td>
 <?php					if($locRights['delete']) { ?>
-						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg">
+						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php					} else { ?>
-						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_clear.jpg">
+						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php					}		?>
 
   </td>

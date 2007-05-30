@@ -363,7 +363,7 @@ echo $pageStr;
 		 		<?php 	} else { ?>
        		<td class="<?php echo $cssClass?>" width="50"></td>
 		 		<?php 	}  ?>
-		 		<td class="<?php echo $cssClass?>" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
+		 		<td class="<?php echo $cssClass?>" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a></td>
 		 		<?php
 		 				for ($k=1; $k < count($headings); $k++) {
 

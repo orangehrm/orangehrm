@@ -860,6 +860,8 @@
 
 	$lang_Admin_Users_AssignedRights = "Assigned Rights";
 	$lang_Admin_Users_DefineReports = "Define Reports";
+	$lang_Admin_Users_Assign_User_Rights = "Assign User Rights";
+	$lang_Admin_Users_View_User_Rights = "View User Rights";
 
 	$lang_Admin_Change_Password_OldPassword = "Old Password";
 

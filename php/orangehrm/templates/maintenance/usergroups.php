@@ -124,6 +124,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 </html>
 <?php } else if ((isset($this ->getArr['capturemode'])) && ($this ->getArr['capturemode'] == 'updatemode')) {
 	 $message = $this -> popArr['editArr'];
+
+	 $rightsLabel = $lang_Admin_Users_Assign_User_Rights;
+	 if ($_SESSION['userGroup'] == $message[0][0]) {
+	 	$rightsLabel = $lang_Admin_Users_View_User_Rights;
+	 }
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -245,7 +250,7 @@ function edit()
 						    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
 						    <td> <input type="checkbox" disabled <?php echo $message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
 						  </tr>
-					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR">Assign User Rights</a></td>
+					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR"><?php echo $rightsLabel; ?></a></td>
 					  <td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
