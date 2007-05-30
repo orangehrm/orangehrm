@@ -1,5 +1,3 @@
-<script>
-
     // Checks for a valid email address
     //
     // Returns true if a valid email
@@ -7,21 +5,8 @@
     function checkEmail(emailStr) {
 
         // checks if the e-mail address is valid
-		var emailPat = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
-        /*var matchArray = emailStr.match(emailPat);
-        if (matchArray == null) {
-            return false;
-        }
+		var emailPat = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*(\.[a-zA-Z]+))$/;
 
-        // make sure the IP address domain is valid
-        var IPArray = matchArray[2].match(/^\[(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\]$/);
-        if (IPArray != null) {
-            for (var i=1;i<=4;i++) {
-                if (IPArray[i]>255) {
-                    return false;
-                }
-            }
-        }*/
         if (emailPat.test(emailStr)) {
         	return true;
         }
@@ -119,5 +104,3 @@
 		//need to work
 		document.forms[0].reset('');
 	}
-
-</script>

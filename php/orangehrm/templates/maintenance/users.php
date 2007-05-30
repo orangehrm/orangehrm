@@ -34,7 +34,7 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
 
 function echeck(str) {
@@ -276,7 +276,7 @@ function goBack() {
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
 function echeck(str) {
 

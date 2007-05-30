@@ -28,7 +28,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <head>
 <title>Customer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
 <script>
 

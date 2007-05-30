@@ -136,8 +136,10 @@ $objAjax->processRequests();
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php  $objAjax->printJavascript();
-	require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
+<?php
+$objAjax->printJavascript();
+?>
 
 <script language="JavaScript">
 function MM_reloadPage(init) {  //reloads the window if Nav4 resized

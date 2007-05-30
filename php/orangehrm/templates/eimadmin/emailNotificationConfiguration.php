@@ -47,14 +47,15 @@ if (isset($editArr) && is_array($editArr)) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
 <script language="JavaScript" type="text/javascript">
   function validate() {
 		error = false;
-		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
+		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z])$/;
 		obj = $('txtMailAddress');
 
-		if (!mailRegExp.test(obj.value)) {
+		if (!checkEmail(obj.value)) {
 			error = true;
 			alert('<?php echo $lang_Error_InvalidEmail; ?>')
 		}

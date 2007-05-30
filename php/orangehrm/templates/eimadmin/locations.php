@@ -76,9 +76,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
-
-<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
-
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
@@ -299,8 +297,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
-
-<?php require_once ROOT_PATH . '/scripts/archive.js'; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 
 <script>
 

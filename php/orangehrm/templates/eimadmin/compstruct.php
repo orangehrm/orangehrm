@@ -1,15 +1,15 @@
 <?php
 /**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
@@ -19,32 +19,32 @@
  * @ author : Mohanjith <mohanjith@beyondm.net>, <moha@mohanjith.net>
  *
  */
-		
+
 	require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 	require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 	require_once ROOT_PATH . '/lib/confs/sysConf.php';
-	require_once($lan->getLangPath("full.php")); 
-	
+	require_once($lan->getLangPath("full.php"));
+
 	$types = array(array($lang_compstruct_Division, $lang_compstruct_Division), array($lang_compstruct_Department, $lang_compstruct_Department), array($lang_compstruct_Team, $lang_compstruct_Team), array($lang_compstruct_Other, $lang_compstruct_Other));
 
 
 	$dbConnection = new DMLFunctions();
 
-	$message2 = $dbConnection -> executeQuery("SELECT geninfo_values FROM `hs_hr_geninfo` WHERE code = 001");	
+	$message2 = $dbConnection -> executeQuery("SELECT geninfo_values FROM `hs_hr_geninfo` WHERE code = 001");
 
  	$arrCompInfo = mysql_fetch_array($message2, MYSQL_NUM);
 
- 	$txtCompInfo=explode("|", $arrCompInfo[0]); 	
+ 	$txtCompInfo=explode("|", $arrCompInfo[0]);
 
 	if (!isset($_GET['root']) ) {
 
 		$_GET['root']=$txtCompInfo[0];
 
-	};	
+	};
 
 	$locations = $this->popArr['locations'];
-	
-	$treeCompStruct = new CompStruct();	
+
+	$treeCompStruct = new CompStruct();
 
 	$objAjax = new xajax();
 
@@ -53,7 +53,7 @@
 
 	$objAjax->processRequests();
 
-	function addLocation($arrElements) {	
+	function addLocation($arrElements) {
 
 		$view_controller = new ViewController();
 		$ext_locAdd = new EXTRACTOR_Location();
@@ -71,7 +71,7 @@
 		$objResponse = $xajaxFiller->cmbFiller($objResponse,$getLoc,0,'frmAddNode','cmbLocation',3);
 
 		$objResponse->addScript("document.getElementById('layerFormLoc').style.visibility='hidden';");
-		
+
 		$objResponse->addScript("document.getElementById('cmbLocation').options[document.getElementById('cmbLocation').options.length] = new Option('Other', 'Other');");
 
 		$objResponse->addScript("document.getElementById('cmbLocation').selectedIndex = document.getElementById('cmbLocation').options.length-2;");
@@ -82,32 +82,32 @@
 
 	return $objResponse->getXML();
 	}
-	
+
 	function populateStates($value) {
-	
+
 		$view_controller = new ViewController();
 		$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
-	
+
 		$objResponse = new xajaxResponse();
 		$xajaxFiller = new xajaxElementFiller();
 		if ($provlist) {
 			$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
 			$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
-		
+
 		} else {
 			$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
 		}
 		$objResponse->addScript('document.getElementById("txtState").focus();');
-	
+
 		$objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
 		$objResponse->addAssign('status','innerHTML','');
-	
-	
-	
+
+
+
 	return $objResponse->getXML();
 	}
 
-	
+
 
 ?>
 
@@ -120,11 +120,10 @@
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/beyondT/css/compstruct.css" rel="stylesheet" type="text/css">
 </head>
-
-<?php 
-	require(ROOT_PATH.'/scripts/archive.js'); 
-	$objAjax->printJavascript(); 
-?>  
+<script type="text/javascript" src="../../scripts/archive.js"></script>
+<?php
+	$objAjax->printJavascript();
+?>
 
 <script language="JavaScript" type="text/javascript">
 
@@ -139,21 +138,21 @@
 	<?php if ($_GET['root'] === '') { ?>
 	<div class="err"><?php echo $lang_Error_Company_General_Undefined; ?></div>
 	<?php } else { ?>
-	<table id="tblCompStruct" border="0" cellspacing="0" cellpadding="0" style="BORDER-COLLAPSE: collapse" bordercolor="#111111">	
+	<table id="tblCompStruct" border="0" cellspacing="0" cellpadding="0" style="BORDER-COLLAPSE: collapse" bordercolor="#111111">
 
 	<?php
 
 		$treeHierarchy = $treeCompStruct->displayTree($_GET['root']);
 		$depth=(($treeHierarchy[0][0]['rgt']-$treeHierarchy[0][0]['lft']+1)/2);
-		unset($indentor);		
+		unset($indentor);
 
-	if ($treeHierarchy) {			
+	if ($treeHierarchy) {
 
 		foreach ($treeHierarchy as $child) {
 	?>
 		<tr>
 			<td valign="middle">
-			<?php 
+			<?php
 				if ( $child['depth'] > 0 ) {
 
 					if ($child['isLast']) {
@@ -174,7 +173,7 @@
 					//echo str_repeat("|<image src='space.png'>",($child['depth']-1));
 
 					echo "<image src='../../themes/beyondT/icons/arrow.gif'>";
-			?>				
+			?>
 
 			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
 
@@ -184,7 +183,7 @@
 
 					echo $child[0]['title'];
 
-				} 
+				}
 			?>
 			</td>
 			<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
@@ -196,7 +195,7 @@
 			<?php if ( $child['depth'] > 0 ) {?>
 
 			| </td>
-			
+
 			<td id="ControlButton" valign="bottom">
 					<a class="delete" href="#" onClick="deleteChild(<?php echo $child[0]['lft']; ?>, <?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>');"><?php echo $lang_compstruct_delete; ?></a>
 
@@ -208,14 +207,14 @@
 
 		<?php
 
-			}	
+			}
 
-		} else { 
-		
+		} else {
+
 		?>
 	<p class='ERR'><?php echo $lang_compstruct_no_root; ?></p>
 
-	<?php } ?>	
+	<?php } ?>
 
 	</table>
 
@@ -224,10 +223,10 @@
     <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
 		<input type="hidden" value="" id="rgt" name="rgt">
 		<input type="hidden" value="" id="lft" name="lft">
-		<input type="hidden" value="" id="sqlState" name="sqlState">		
+		<input type="hidden" value="" id="sqlState" name="sqlState">
 	</form>
 	<!-- End Delete Subdivision -->
-	
+
 
     <!-- Add Subdivision  -->
 
@@ -284,8 +283,8 @@
 				<td valign="top">
 					<LABEL id="lblDesc" for="txtDesc"><?php echo $lang_compstruct_Description; ?></LABEL>
 				</td>
-				<td>	  					
-  					<textarea name="txtDesc" id="txtDesc"></textarea>  
+				<td>
+  					<textarea name="txtDesc" id="txtDesc"></textarea>
   				</td>
   			</tr>
 			<tr>
@@ -297,11 +296,11 @@
 				</td>
 			</tr>
 		</table>
-	</form>	
+	</form>
 
 	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 
-	<!-- Add Location  -->	
+	<!-- Add Location  -->
 
 	<div id="layerFormLoc"  name="layerFormLoc" class="frame">
 		<h3><?php echo $lang_compstruct_frmNewLocation; ?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
@@ -315,12 +314,12 @@
 				<td><select name="cmbCountry" onChange="swStatus(); xajax_populateStates(this.value);"> 						<option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 						<?php
 							$cntlist = $this->popArr['countries'];
-								for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
+								for($c=0; $cntlist && count($cntlist)>$c ;$c++)
 							    	echo "<option value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 						?>
 					</select>
 				</td>
-			</tr>						
+			</tr>
 			<tr>
 				<td><span class="error">*</span> <?php echo $lang_compstruct_Address?></td>
 				<td><textarea name="txtAddress"></textarea></td>

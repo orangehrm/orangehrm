@@ -68,7 +68,7 @@ $objAjax->processRequests();
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
-<?php include(ROOT_PATH.'/scripts/archive.js'); ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
 
 function mout() {
