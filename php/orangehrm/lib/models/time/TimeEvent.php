@@ -249,11 +249,17 @@ class TimeEvent {
 		if ($this->getStartTime() != null) {
 			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
 			$updateValues[] = "'".$this->getStartTime()."'";
+		} else {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+			$updateValues[] = "null";
 		}
 
 		if ($this->getEndTime() != null) {
 			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
 			$updateValues[] = "'".$this->getEndTime()."'";
+		} else {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+			$updateValues[] = "null";
 		}
 
 		if ($this->getReportedDate() != null) {
