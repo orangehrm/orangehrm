@@ -6,6 +6,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (01/06/2007)
 
 	1725685   Multiple records in employee report
 	1725390   Time -> update will not work
+	1722517   E-mail validation - allow hypens
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_1 (28/05/2007) {Revision 859}

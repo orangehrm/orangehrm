@@ -1773,7 +1773,7 @@ class ViewController {
 				$uniqcode = $index;
 
 				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
-				echo mysql_error();
+				//echo mysql_error();
 
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp");
 			}

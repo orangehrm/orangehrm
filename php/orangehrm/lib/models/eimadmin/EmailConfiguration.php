@@ -100,7 +100,6 @@ class EmailConfiguration {
 	}
 
 	public function reWriteConf() {
-		echo 1;
 		$content = '
 <?php
 	$this->smtpHost = \''.$this->getSmtpHost().'\';

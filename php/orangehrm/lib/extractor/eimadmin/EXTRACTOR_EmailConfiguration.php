@@ -24,9 +24,7 @@ class EXTRACTOR_EmailConfiguration {
 	private $emailConfiguration;
 
 	public function __construct() {
-
 		$this->emailConfiguration = new EmailConfiguration();
-		print_r($this->emailConfiguration);
 	}
 
 	public function parseAddData() {

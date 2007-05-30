@@ -43,6 +43,7 @@ $editArr = $this->popArr['editArr'];
 }
 </style>
 </head>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" >
 	function changeMailType() {
  		value = $('txtMailType').value;
@@ -63,10 +64,9 @@ $editArr = $this->popArr['editArr'];
 
 	function validate() {
 		error = false;
-		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+)$/;
 		obj = $('txtMailAddress');
 
-		if (!mailRegExp.test(obj.value)) {
+		if (!checkEmail(obj.value)) {
 			error = true;
 			alert('<?php echo $lang_Error_InvalidEmail; ?>')
 		}
@@ -185,9 +185,9 @@ function mover() {
         <td width="25px">
 			<?php
 			   if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" onClick="edit(); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" />
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;" />
 <?php			}  ?></td>
         <td class="tableMiddleRight"></td>
       </tr>

@@ -1204,7 +1204,7 @@ switch ($moduletype) {
 																							}
 																						}
 
-																						print_r($objs);
+																						//print_r($objs);
 																						$leaveController->redirect("");
 																						break;
 
