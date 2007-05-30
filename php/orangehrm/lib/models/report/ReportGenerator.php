@@ -612,7 +612,7 @@ class ReportGenerator {
 		}
 
 		function  reportDisplay($repDetails, $empNoField=false) {
-			$employee = next($repDetails);
+			$employee = current($repDetails);
 
 			$columns = count($employee);
 			$rows	 = count($repDetails);
