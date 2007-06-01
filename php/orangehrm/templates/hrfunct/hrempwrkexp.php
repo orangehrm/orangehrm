@@ -311,7 +311,8 @@ if ($rset != Null ) {?>
                   <tr>
                       	<td></td>
 						 <td width="125"><strong><?php echo $lang_hrEmpMain_workexid?></strong></td>
-						 <td width="135"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
+						 <td width="110"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
+						 <td width="100"><strong><?php echo $lang_hremp_jobtitle; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_startdate; ?></strong></td>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_internal; ?></strong></td>
@@ -324,12 +325,12 @@ if ($rset != Null ) {?>
         <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 <?php }
-
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
             ?><td><a href="javascript:viewWrkExp('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][1]?></a></td><?php
             echo '<td>' . $rset[$c][2] .'</td>';
+            echo '<td>' . $rset[$c][3] .'</td>';
             $str = explode(" ",$rset[$c][4]);
             echo '<td>' . $str[0] .'</td>';
             $str = explode(" ",$rset[$c][5]);
