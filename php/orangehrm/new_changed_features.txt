@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_2 (01/06/2007)
+New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 
 	Bugs fixed include:
 
@@ -8,6 +8,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (01/06/2007)
 	1725390   Time -> update will not work
 	1722517   E-mail validation - allow hypens
 	1718868   Cannot change admin group user rights
+	1712251   Defining reports - issue with age group
 
 	Following bugs were closed
 

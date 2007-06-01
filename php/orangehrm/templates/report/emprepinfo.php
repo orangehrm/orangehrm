@@ -248,16 +248,21 @@ function disableAgeField() {
 	if(document.frmEmpRepTo.cmbAgeCode.value == "0") {
 		document.frmEmpRepTo.txtEmpAge1.disabled = true;
 		document.frmEmpRepTo.txtEmpAge2.disabled = true;
+		document.frmEmpRepTo.txtEmpAge1.style.visibility = "hidden";
+		document.frmEmpRepTo.txtEmpAge2.style.visibility = "hidden";
 		return;
 	} else if(document.frmEmpRepTo.cmbAgeCode.value=="range") {
-		document.frmEmpRepTo.txtEmpAge1.disabled = false ;
+		document.frmEmpRepTo.txtEmpAge1.disabled = false;
 		document.frmEmpRepTo.txtEmpAge2.disabled = false;
+		document.frmEmpRepTo.txtEmpAge1.style.visibility = "visible";
+		document.frmEmpRepTo.txtEmpAge2.style.visibility = "visible";
 		return;
 	} else if(document.frmEmpRepTo.cmbAgeCode.value=='<' || document.frmEmpRepTo.cmbAgeCode.value=='>') {
 		document.frmEmpRepTo.txtEmpAge1.disabled = false;
 		document.frmEmpRepTo.txtEmpAge2.disabled = true;
+		document.frmEmpRepTo.txtEmpAge1.style.visibility = "visible";
+		document.frmEmpRepTo.txtEmpAge2.style.visibility = "hidden";
 		document.frmEmpRepTo.txtEmpAge2.value='';
-
 		return;
 	}
 }
@@ -266,14 +271,20 @@ function disableSerPeriodField() {
 	if(document.frmEmpRepTo.cmbSerPerCode.value=="0") {
 		document.frmEmpRepTo.Service1.disabled = true;
 		document.frmEmpRepTo.Service2.disabled = true;
+		document.frmEmpRepTo.Service1.style.visibility = "hidden";
+		document.frmEmpRepTo.Service2.style.visibility = "hidden";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=="range") {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = false;
+		document.frmEmpRepTo.Service1.style.visibility = "visible";
+		document.frmEmpRepTo.Service2.style.visibility = "visible";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = true;
+		document.frmEmpRepTo.Service1.style.visibility = "visible";
+		document.frmEmpRepTo.Service2.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.value='';
 		return;
 	}
@@ -541,8 +552,8 @@ function disableSerPeriodField() {
 ?>
 					  </select>
 				    </td>
-					<td> <input type="text" <?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'disabled'?>  name='txtEmpAge1' value="<?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" ></td>
-					<td> <input type="text" <?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'disabled'?> name='txtEmpAge2' value="<?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" ></td>
+					<td><input type="text" <?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'style="visibility:hidden;" disabled'?>  name='txtEmpAge1' value="<?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" /></td>
+					<td><input type="text" <?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'style="visibility:hidden;"disabled'?> name='txtEmpAge2' value="<?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" /></td>
 
 					</tr>
 
@@ -621,8 +632,8 @@ function disableSerPeriodField() {
 							?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'disabled'?> name="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" ></td>
-                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'disabled'?> name="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" ></td>
+				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" ></td>
+                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" ></td>
 					</tr>
 
 
@@ -938,8 +949,8 @@ function disableSerPeriodField() {
 ?>
 					  </select>
 				    </td>
-					<td> <input type="text" disabled name='txtEmpAge1' value="<?php echo isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" ></td>
-					<td> <input type="text" disabled name='txtEmpAge2' value="<?php echo isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" ></td>
+					<td> <input type="text" <?php echo isset($criteriaData['AGE'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge1' value="<?php echo isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" ></td>
+					<td> <input type="text" <?php echo isset($criteriaData['AGE'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge2' value="<?php echo isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" ></td>
 
 					</tr>
 
@@ -1036,8 +1047,8 @@ function disableSerPeriodField() {
 							?>
 					     </select>
 					  	</td>
-				        <td><input type="text" disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" ></td>
-                        <td><input type="text" disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>" ></td>
+				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" ></td>
+                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>" ></td>
 					</tr>
 
    					<tr>
