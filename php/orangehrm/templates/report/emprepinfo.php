@@ -155,10 +155,14 @@ function chkboxCriteriaEnable() {
 					 switch(elements[i].id) {
 
 					 	case 'EMPNO'      : document.frmEmpRepTo.empPop.disabled = !elements[i].checked;
+					 						document.frmEmpRepTo.cmbId.disabled = !elements[i].checked;
 				 							if(!elements[i].checked){
-					 						document.frmEmpRepTo.txtRepEmpID.value='';
-					 						document.frmEmpRepTo.cmbRepEmpID.value='';
-				 							} break;
+						 						document.frmEmpRepTo.txtRepEmpID.value='';
+						 						document.frmEmpRepTo.cmbRepEmpID.value='';
+						 						document.frmEmpRepTo.cmbId.options[0].selected = true;
+				 							}
+				 							disableEmployeeId();
+				 							break;
 					 	case 'AgeGroup'   :
 											document.frmEmpRepTo.cmbAgeCode.disabled= !elements[i].checked;
 
@@ -267,6 +271,16 @@ function disableAgeField() {
 	}
 }
 
+function disableEmployeeId() {
+	if(document.frmEmpRepTo.cmbId.value == "0") {
+		document.frmEmpRepTo.empPop.style.visibility = "hidden";
+		document.frmEmpRepTo.cmbRepEmpID.style.visibility = "hidden";
+	} else if(document.frmEmpRepTo.cmbId.value == "1") {
+		document.frmEmpRepTo.empPop.style.visibility = "visible";
+		document.frmEmpRepTo.cmbRepEmpID.style.visibility = "visible";
+	}
+}
+
 function disableSerPeriodField() {
 	if(document.frmEmpRepTo.cmbSerPerCode.value=="0") {
 		document.frmEmpRepTo.Service1.disabled = true;
@@ -321,7 +335,7 @@ function disableSerPeriodField() {
 
 					 switch(elements[i].id) {
 					 	case 'EMPNO'      :
-					 						if(elements[i].checked && document.frmEmpRepTo.txtRepEmpID.value=='') {
+					 						if((document.frmEmpRepTo.cmbId.value == 1) && (elements[i].checked && document.frmEmpRepTo.txtRepEmpID.value=='')) {
 												alert("<?php echo $lang_Error_FieldShouldBeSelected; ?>");
 												document.frmEmpRepTo.txtRepEmpID.focus();
 												return false;
@@ -524,17 +538,18 @@ function disableSerPeriodField() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-
                     <tr>
                        <td><input type='checkbox' class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-                      <td valign="top"><?php echo $lang_rep_EmpNo; ?></td>
-                      <td align="left" valign="top"><input type="text"  readonly name="cmbRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ><input type="hidden"  readonly name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ></td>
-                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
+                      <td valign="top"><?php echo $lang_rep_Employee; ?></td>
+                      <td align="left">
+	                      <select name="cmbId" onchange="disableEmployeeId();" disabled>
+						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees; ?></option>
+							<option value="1"><?php echo $lang_Leave_Common_Select; ?></option>
+						  </select>
+					  </td>
+                      <td align="left" valign="top"><input type="text" style="visibility:hidden;" readonly name="cmbRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ><input type="hidden"  readonly name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ></td>
+                      <td align="left"><input class="button" type="button" style="visibility:hidden;" name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
   					</tr>
-
-
-
 					<tr>
 					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
   					 <td valign="top"><?php echo $lang_rep_AgeGroup; ?></td>
@@ -906,7 +921,7 @@ function disableSerPeriodField() {
                   <?php $criteriaData=$this->popArr['editCriteriaData'];?>
                     <tr>
                        <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-                      <td valign="top"><?php echo $lang_rep_EmpNo; ?></td>
+                      <td valign="top"><?php echo $lang_rep_Employee; ?></td>
                       <?php
                       	$empId = isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : false;
 
@@ -919,8 +934,14 @@ function disableSerPeriodField() {
                       		$empId = "";
                       	}
                       ?>
-                      <td align="left" valign="top"><input type="text"  readonly name="cmbRepEmpID" value="<?php echo $empId;?>"   ><input type="hidden"  readonly name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
-                      <td align="left"><input class="button" type="button"  name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
+                      <td align="left">
+	                      <select name="cmbId" onchange="disableEmployeeId();" disabled >
+						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
+							<option value="1"><?php echo $lang_Leave_Common_Select;?></option>
+						  </select>
+					  </td>
+                      <td align="left" valign="top"><input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly name="cmbRepEmpID" value="<?php echo $empId;?>" ><input type="hidden" readonly name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
+                      <td align="left"><input class="button" type="button" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
   					</tr>
 
 

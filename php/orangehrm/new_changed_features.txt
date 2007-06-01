@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1722517   E-mail validation - allow hypens
 	1718868   Cannot change admin group user rights
 	1712251   Defining reports - issue with age group
+	1724986   [CRB] Need a report of all employees
 
 	Following bugs were closed
 

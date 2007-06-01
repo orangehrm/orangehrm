@@ -744,6 +744,7 @@
 	// Report module
 	$lang_rep_SelectionCriteria = "Selection Criteria";
 	$lang_rep_EmpNo = "Emp No";
+	$lang_rep_Employee = "Employee";
 	$lang_rep_AgeGroup = "Age Group";
 	$lang_rep_PayGrade = "Pay Grade";
 	$lang_rep_Education = "Education";

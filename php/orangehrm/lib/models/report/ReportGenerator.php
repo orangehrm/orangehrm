@@ -70,11 +70,15 @@ class ReportGenerator {
 
 		}
 
- 		if(isset($this->criteria['EMPNO'])){
-			$criteriaValue['EMPNO'] = '\'' .$this->criteria['EMPNO'] . '\'';
-			$criteriaField['EMPNO'] = 'a.EMP_NUMBER';
+ 		if(isset($this->criteria['EMPNO'])) {
+ 			if ($this->criteria['EMPNO'] == '') {
+ 				unset($this->criteria['EMPNO']);
+ 			} else {
+				$criteriaValue['EMPNO'] = '\'' .$this->criteria['EMPNO'] . '\'';
+				$criteriaComOper['EMPNO'] = "=";
+ 			}
+ 			$criteriaField['EMPNO'] = 'a.EMP_NUMBER';
 			$criteriaTable['EMPNO'] = 'HS_HR_EMPLOYEE a';
-			$criteriaComOper['EMPNO'] = "=";
  		}
 
  		if(isset($this->criteria['PAYGRD'])){
@@ -581,27 +585,28 @@ class ReportGenerator {
 
 		$SQL1 = $SQL1 .$joinQ.$tableStr;
 
-		$SQL1 = $SQL1 . ' WHERE ' ;
-
-				/*$parent = array_values($parentTableFieldName);
-				$exsist = array_values($existingTableFieldName);
-
-				for ($i=0;$i<count($parent); $i++)
-				 	if($parent[$i] != $exsist[$i])
-				 		$SQL1 = $SQL1 . $parent[$i] . ' = '. $exsist[$i] . ' AND ';*/
-
+			$countCriteriaVal = 0;
+			if (isset($criteriaValue) && is_array($criteriaValue)) {
 				$criteriaValue = array_values($criteriaValue);
-				$criteriaField = array_values($criteriaField);
-				$criteriaComOper = array_values($criteriaComOper);
-
 				$countCriteriaVal = count($criteriaValue);
+			}
+			if (isset($criteriaField) && is_array($criteriaField)) {
+				$criteriaField = array_values($criteriaField);
+			}
+			if (isset($criteriaComOper) && is_array($criteriaComOper)) {
+				$criteriaComOper = array_values($criteriaComOper);
+			}
 
-				for ($i=0;$i < count($criteriaValue); $i++){
-					if ($i == ($countCriteriaVal - 1))
-						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' ';
-					else
-						$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';
-				}
+			if ($countCriteriaVal > 0) {
+				$SQL1 = $SQL1 . ' WHERE ' ;
+			}
+
+			for ($i=0;$i < $countCriteriaVal; $i++){
+				if ($i == ($countCriteriaVal - 1))
+					$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' ';
+				else
+					$SQL1 = $SQL1 . $criteriaField[$i] . ' ' . $criteriaComOper[$i] . ' ' . $criteriaValue[$i] . ' AND ';
+			}
 
 			if (is_array($groupBy)) {
 				$SQL1 .= " GROUP BY ".join($groupBy, ", ");
