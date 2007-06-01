@@ -11,6 +11,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1712251   Defining reports - issue with age group
 	1724986   [CRB] Need a report of all employees
 	1725680   Feature: Work experience should show job title in the list
+	1723600   [CRB] Work experience should be ordered by start date
 
 	Following bugs were closed
 

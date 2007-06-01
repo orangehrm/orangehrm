@@ -480,7 +480,7 @@ class SQLQBuilder {
 
 ///////////////////
 
-	function selectOneRecordFiltered($filID, $num=0) {
+	function selectOneRecordFiltered($filID, $num=0, $orderBy=false, $order='ASC') {
 
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 
@@ -507,6 +507,10 @@ class SQLQBuilder {
             	$SQL1 = $SQL1 . ' FROM ' . strtolower($this->table_name) . ' WHERE ' . $arrayFieldList[0] . '=' . $filID[0];
                 for($c = 1 ; $c <= $num ; $c++)
                		$SQL1 = $SQL1 . ' AND '. $arrayFieldList[$c] . "=" . $filID[$c];
+           }
+
+           if (is_numeric($orderBy)) {
+           		$SQL1 .= " ORDER BY {$arrayFieldList[$orderBy]} {$order}";
            }
 				//echo $SQL1;
 				//exit;

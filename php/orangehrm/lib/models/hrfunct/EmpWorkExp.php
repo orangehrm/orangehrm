@@ -334,7 +334,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID, null, 4, 'DESC');
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();

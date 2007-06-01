@@ -544,7 +544,7 @@ function disableSerPeriodField() {
                       <td align="left">
 	                      <select name="cmbId" onchange="disableEmployeeId();" disabled>
 						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees; ?></option>
-							<option value="1"><?php echo $lang_Leave_Common_Select; ?></option>
+							<option value="1"><?php echo $lang_Leave_Common_Select; ?> --></option>
 						  </select>
 					  </td>
                       <td align="left" valign="top"><input type="text" style="visibility:hidden;" readonly name="cmbRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ><input type="hidden"  readonly name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ></td>
@@ -937,7 +937,7 @@ function disableSerPeriodField() {
                       <td align="left">
 	                      <select name="cmbId" onchange="disableEmployeeId();" disabled >
 						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
-							<option value="1"><?php echo $lang_Leave_Common_Select;?></option>
+							<option value="1" <?php echo ($empId == "")?"":"selected='selected'"; ?> ><?php echo $lang_Leave_Common_Select;?> --></option>
 						  </select>
 					  </td>
                       <td align="left" valign="top"><input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly name="cmbRepEmpID" value="<?php echo $empId;?>" ><input type="hidden" readonly name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
