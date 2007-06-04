@@ -20,7 +20,7 @@ var gMonths=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","
 var gWeekDay=["Su","Mo","Tu","We","Th","Fr","Sa"];	// weekday caption from Sunday to Saturday
 
 var gBegin=[1900,1,1];	// calendar date range begin from [Year,Month,Date]. Using gToday here will make it start from today.
-var gEnd=[2030,12,31];	// calendar date range end at [Year,Month,Date]
+var gEnd=[2100,12,31];	// calendar date range end at [Year,Month,Date]
 var gsOutOfRange="Sorry, you may not go beyond the designated range!";	// out-of-date-range error message. If set to "", no alerts will popup on such error.
 var guOutOfRange=null;	// the background image url for the out-range dates. e.g. "outrange.gif"
 
@@ -73,8 +73,8 @@ var giShowOther=2;	// control the look of days in OTHER months. 1: show date & a
 var gbFocus=true;	// whether to enable the gcToggle highlight whenever mouse pointer focuses over a calendar cell.
 var gcToggle="yellow";	// the highlight color for the focused cell
 
-var gcFGToday="red";	// the font color for today 
-var gcBGToday="white";	// the background color for today 
+var gcFGToday="red";	// the font color for today
+var gcBGToday="white";	// the background color for today
 var guTodayBGImg="";	// url of image as today's background
 var giMarkToday=1+2; // Effects for today - 0: nothing; 1: set background color with gcBGToday; 2: draw a box with gcBGToday; 4: bold the font; 8: set font color with gcFGToday; 16: set background image with guTodayBGImg; - they can be added up to create mixed effects.
 var gsTodayTip="Today";	// tooltip for today
