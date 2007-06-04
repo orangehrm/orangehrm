@@ -139,6 +139,7 @@ define('TIMEMOD', 'MOD006');
 switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
+	case 'rep'		:	$locRights = $rights->getRights($_SESSION['userGroup'],REP); break;
 	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
 	case 'timeMod'		:	$locRights = $rights->getRights($_SESSION['userGroup'],TIMEMOD); break;
 }
@@ -1034,7 +1035,7 @@ switch ($moduletype) {
 	case 'rep' 	:  // beg. Reports module
 						$view_controller = new RepViewController();
 
-							if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['repDef']) {
+							if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['repcode']),$arrList);
 							}
@@ -1067,22 +1068,22 @@ switch ($moduletype) {
 												break;
 										}*/
 
-										if(isset($_POST['USG']) && $_POST['USG']=='SEL' && $locRights['repDef']) {
+										if(isset($_POST['USG']) && $_POST['USG']=='SEL' && $locRights['add']) {
 												$objectArr = $extractor->parseAddData($_POST);
 												$view_controller->addUserGroups($objectArr);
-										} elseif(isset($_POST['USG']) && $_POST['USG'] == 'DEL' && $locRights['repDef']) {
+										} elseif(isset($_POST['USG']) && $_POST['USG'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delUserGroups($_POST,$_GET);
 										}
 
-										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['repDef']) {
+										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_GET['repcode'],$parsedObject);
 												break;
-										} elseif (isset($_POST['sqlState']) && $_POST['sqlState']=='UpdateRecord' && $locRights['repDef']) {
+										} elseif (isset($_POST['sqlState']) && $_POST['sqlState']=='UpdateRecord' && $locRights['edit']) {
 												$parsedObject = $extractor->parseEditData($_POST);
 												$view_controller->updateData($_GET['repcode'],$_GET['id'],$parsedObject);
 												break;
-										} elseif ((isset($_POST['sqlState'])) && ($_POST['sqlState'] == 'OWN' && $locRights['repDef'])) {
+										} elseif ((isset($_POST['sqlState'])) && ($_POST['sqlState'] == 'OWN' && $locRights['view'])) {
 												$extObject = $extractor->reloadData($_POST);
 												$view_controller -> reDirect($_GET,$_POST,$extObject);
 												break;

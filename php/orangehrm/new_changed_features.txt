@@ -12,6 +12,10 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1724986   [CRB] Need a report of all employees
 	1725680   Feature: Work experience should show job title in the list
 	1723600   [CRB] Work experience should be ordered by start date
+	1712114   US holidays are pre-defined in Calendar
+	1717263   License Expiry Date
+	1709843   Job - Employee Contracts need not be mandatory
+	1718873   Option 'Define Reports' when creating an admin group is meaningless
 
 	Following bugs were closed
 
@@ -78,9 +82,6 @@ New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)
 	1718915   Leave assigned to the wrong employee
 	1700807   Timesheet date labels are too close together
 	1716382   E-Mail system
-	1712114   US holidays are pre-defined in Calendar
-	1717263   License Expiry Date
-	1709843   Job - Employee Contracts need not be mandatory
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_4 (10/05/2007)
