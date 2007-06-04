@@ -79,6 +79,8 @@ New & Changed Features for OrangeHRM ver 2.2_beta_5 (16/05/2007)
 	1700807   Timesheet date labels are too close together
 	1716382   E-Mail system
 	1712114   US holidays are pre-defined in Calendar
+	1717263   License Expiry Date
+	1709843   Job - Employee Contracts need not be mandatory
 
 
 New & Changed Features for OrangeHRM ver 2.2_beta_4 (10/05/2007)

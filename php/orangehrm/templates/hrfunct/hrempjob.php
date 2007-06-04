@@ -3,6 +3,31 @@
 		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400,resizable=1');
         if(!popup.opener) popup.opener=self;
 	}
+
+	function toggleEmployeeContracts() {
+		oLayer = document.getElementById("employeeContractLayer");
+		oLink = document.getElementById("toogleContractLayerLink");
+
+		if (oLayer.style.display == 'none') {
+			oLayer.style.display = 'block';
+		} else {
+			oLayer.style.display = 'none';
+		}
+		toggleEmployeeContractsText();
+	}
+
+	function toggleEmployeeContractsText() {
+		oLayer = document.getElementById("employeeContractLayer");
+		oLink = document.getElementById("toogleContractLayerLink");
+
+		if (oLayer.style.display == 'none') {
+			oLink.innerHTML = "<?php echo $lang_hremp_ShowEmployeeContracts; ?>";
+			oLink.className = "show";
+		} else {
+			oLink.innerHTML = "<?php echo $lang_hremp_HideEmployeeContracts; ?>";
+			oLink.className = "hide";
+		}
+	}
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
@@ -130,3 +155,4 @@
 			  </table>
 <?php } ?>
 <hr/>
+<a href="javascript:toggleEmployeeContracts();" id="toogleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a>

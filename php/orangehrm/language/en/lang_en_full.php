@@ -459,6 +459,9 @@
 	$lang_hremp_EmployeeContracts 			= "Employee Contracts";
 	$lang_hremp_AssignedContracts			= "Assigned Contracts";
 
+	$lang_hremp_ShowEmployeeContracts 			= "Show employee contracts";
+	$lang_hremp_HideEmployeeContracts 			= "Hide employee contracts";
+
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
 
 	$lang_hremp_SelectCurrency				= "Select Currency";

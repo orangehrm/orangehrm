@@ -60,7 +60,10 @@ function viewConExt(pSeq) {
 	document.frmEmp.submit();
 }
 </script>
-
+<div id="employeeContractLayer" <?php echo (!isset($this->popArr['rsetConExt']) || ($this->popArr['rsetConExt'] == null))?'style="display:none;"':''; ?> >
+<script type="text/javascript">
+	toggleEmployeeContractsText();
+</script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<input type="hidden" name="conextSTAT" value="">
@@ -187,3 +190,4 @@ if ($rset != Null){ ?>
 <?php } //if( $assignedContracts ) ?>
 </table>
 <?php } ?>
+</div>

@@ -985,7 +985,8 @@ function resetAdd(panel) {
           <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
           <td>
 
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
 
 			</td><td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>
