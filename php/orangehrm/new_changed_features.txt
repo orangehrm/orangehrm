@@ -16,6 +16,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1717263   License Expiry Date
 	1709843   Job - Employee Contracts need not be mandatory
 	1718873   Option 'Define Reports' when creating an admin group is meaningless
+	1730878   [CRB] half day leave is shown as full day in leave summary
 
 	Following bugs were closed
 
