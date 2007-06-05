@@ -131,6 +131,7 @@ if ($modifier === "SUP") {
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveRequestId(); ?>" />
+    			<?php if (($record->getLeaveLength() != null) || ($record->getLeaveLength() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
   					<?php if ($modifier == null) {
@@ -150,6 +151,9 @@ if ($modifier === "SUP") {
   						}
   					?>
   				</select>
+  				<?php } else { ?>
+  					<?php echo $lang_Leave_Holiday; ?> <input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
+  				<?php }?>
     	<?php
     		} else if ($record->getLeaveStatus() != null) {
     			echo $statusArr[$record->getLeaveStatus()];

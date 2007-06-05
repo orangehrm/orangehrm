@@ -263,6 +263,8 @@
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
 
+	$lang_Leave_Holiday = "Holiday";
+
 	$lang_bankInformation_code 				= "Code";
 	$lang_bankInformation_description 		= "Description";
 
