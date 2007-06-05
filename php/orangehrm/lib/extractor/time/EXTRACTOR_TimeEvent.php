@@ -56,7 +56,7 @@ class EXTRACTOR_TimeEvent {
 					}
 				}
 
-				$tmpObj->setDescription($postArr['txtDescription'][$i]);
+				$tmpObj->setDescription(stripslashes($postArr['txtDescription'][$i]));
 
 				if (isset($postArr['txtTimeEventId'][$i])) {
 					$tmpObj->setTimeEventId($postArr['txtTimeEventId'][$i]);

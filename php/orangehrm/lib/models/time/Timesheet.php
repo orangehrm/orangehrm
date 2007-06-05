@@ -315,12 +315,10 @@ class Timesheet {
 
 		if ($this->getComment() != null) {
 			$updateFields[] = "`".self::TIMESHEET_DB_FIELD_COMMENT."`";
-			$updateValues[] = $this->getComment();
+			$updateValues[] = "'".$this->getComment()."'";
 		}
 
 		$updateConditions[] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
-
-		$updateValues = $sql_builder->quoteCorrect($updateValues);
 
 		$query = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
 
