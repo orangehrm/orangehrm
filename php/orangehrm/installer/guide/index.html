@@ -277,12 +277,26 @@ same screen.</p>
 continue.</p>
 
 <div class="notes">
-<h4>Notes</h4>
-<h5>Maximum Session Idle Time before Timeout</h5>
+<h4>OrangeHRM Configuration File Writable</h4>
+<p>The web installer will create a configuration file to keep the setup information.
+ This file is written to the file system at the end of the installation process. Therefore 
+ adequate permission should be set for the webserver to write the file.</p> 
+ 
+ <p>In case the status is shown as &quot;Not Writable&quot; you should set the permissions 
+ such that the user-id set for the webserver could write to the directory 
+ [orangehrm-dir]/lib/confs. This can be done by using the commands</p>
+ 
+ <p class="bash">$ chown -R nobody.nobody [orangehrm-dir]/lib/confs<br>
+ $ chmod -R 755 [orangehrm-dir]/lib/confs</p>
+ 
+ <p>You can replace user/user-group &quot;nobody&quot; with the relevant user/user-group
+ of your webserver.</p>
+ 
+<h4>Maximum Session Idle Time before Timeout</h4>
 <p>Maximum Session Idle Time before Timeout is checked to ensure
 that users don't get logged out with in a short period such as less than
 15 minutes. As a precaution it's not possible to continue installing
-OrangeHRM if the session times out in lessthan 2 minutes.</p>
+OrangeHRM if the session times out in less than 2 minutes.</p>
 <h5>How to Fix</h5>
 <p>You will have to change <span class="code">session.gc_maxlifetime</span>
 in the <span class="code">php.ini</span> file. (Default <span
@@ -293,6 +307,13 @@ the same server overriding <span class="code">session.gc_maxlifetime</span>
 value in the <span class="code">php.ini</span> file at runtime. This
 will be the case if you are running OrangeHRM in a shared host.
 Workaround is available but beyond the scope of this document.</p>
+
+<h4>Memory allocated for PHP script</h4>
+<p>OrangeHRM recommends 16MB memory to be allocated for running PHP scripts.
+If you are warned of having any less allocation than that, you fix the issue by 
+opening your PHP.INI file and setting the memory_limit value</p>
+
+<p class="bash">memory_limit = 16M;</p>
 </div>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img

@@ -3,7 +3,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	Bugs fixed include:
 
 	BugId     Name
-
+   	1703507   Configuration file not writable - Installation Guide
 	1725685   Multiple records in employee report
 	1725390   Time -> update will not work
 	1722517   E-mail validation - allow hypens
