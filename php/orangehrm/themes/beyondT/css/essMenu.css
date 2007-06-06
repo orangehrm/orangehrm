@@ -1,0 +1,109 @@
+.mnuPIM {
+/*Remove all spacings from the list items*/
+	margin: 0;
+	padding: 0;
+	cursor: default;
+	list-style-type: none;
+	display: inline;
+}
+
+
+.mnuPIM td{
+	display: table-cell;
+	position: relative;
+	padding: 4px 4px;
+	background-position: center top;
+	background-repeat: no-repeat;
+
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+
+/*** Menu colors (customizable) ***/
+
+.mnuPIM a{
+	text-decoration: none;
+	display: block;
+	vertical-align: bottom;
+	padding-top: 40px;
+
+	min-width:52px;
+
+	text-align:center;
+}
+
+.mnuPIM td{
+	height: 50px;
+	width: 54px;
+	vertical-align: top;
+	text-align:center;
+}
+
+#jobLink {
+	background-image: url(../icons/job.jpg);
+}
+
+#personalLink {
+	background-image: url(../icons/personal.jpg);
+}
+
+#dependantsLink {
+	background-image: url(../icons/dependants.jpg);
+}
+
+#contactLink {
+	background-image: url(../icons/contact.jpg);
+}
+
+#emergency_contactLink {
+	background-image: url(../icons/emergency_contact.jpg);
+}
+
+#attachmentsLink {
+	background-image: url(../icons/attachments.jpg);
+}
+
+#cash_benefitsLink {
+	background-image: url(../icons/cash_benefits.jpg);
+}
+
+#educationLink {
+	background-image: url(../icons/education.jpg);
+}
+
+#immigrationLink {
+	background-image: url(../icons/immigration.jpg);
+}
+
+#languagesLink {
+	background-image: url(../icons/languages.jpg);
+}
+
+#licenseLink {
+	background-image: url(../icons/license.jpg);
+}
+
+#membershipLink {
+	background-image: url(../icons/membership.jpg);
+}
+
+#non_cash_benefitsLink {
+	background-image: url(../icons/non_cash_benefits.jpg);
+}
+
+#paymentLink {
+	background-image: url(../icons/payment.jpg);
+}
+
+#report-toLink {
+	background-image: url(../icons/report-to.jpg);
+}
+
+#skillsLink {
+	background-image: url(../icons/skills.jpg);
+}
+
+#work_experienceLink {
+	background-image: url(../icons/work_experience.jpg);
+}

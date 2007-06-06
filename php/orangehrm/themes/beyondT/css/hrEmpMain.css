@@ -547,9 +547,9 @@ textarea {
 }
 
 #toogleContractLayerLink.show {
-	background-image: url(../icons/contract_show.png);
+	background-image: url(../icons/contract_show.gif);
 }
 
 #toogleContractLayerLink.hide {
-	background-image: url(../icons/contract_hide.png);
+	background-image: url(../icons/contract_hide.gif);
 }

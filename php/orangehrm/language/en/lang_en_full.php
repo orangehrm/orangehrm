@@ -81,6 +81,8 @@
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
 
+	$lang_Error_InvalidDescription						= "Invalid description";
+
 	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
 
 	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
