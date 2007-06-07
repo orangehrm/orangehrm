@@ -124,7 +124,7 @@ function validateInterval(row) {
 function validateDuration(row) {
 	obj = $("txtDuration["+row+"]");
 
-	if ((obj.value == '') || (obj.value == 0)) {
+	if (!obj || (obj.value == '') || (obj.value == 0)) {
 		return false;
 	}
 
@@ -146,10 +146,15 @@ function validate() {
 			err[i]=false;
 
 			obj = $("txtDuration["+i+"]");
-			if (validateInterval(i) && validateDuration(i) && (obj.value != duration(i))) {
-				errors[0] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval; ?>";
-				err[i]=true;
-				errFlag=true;
+
+			startTime = strToTime($("txtStartTime["+i+"]").value);
+			endTime = strToTime($("txtEndTime["+i+"]").value);
+			if (validateInterval(i) && validateDuration(i) && (obj.value != duration(i)) && endTime) {
+				obj.value = duration(i);
+			} else if (validateDuration(i) && startTime && !endTime) {
+				endTime = new Date();
+				endTime.setTime(startTime+(3600000*obj.value));
+				$("txtEndTime["+i+"]").value = formatDate(endTime, "yyyy-MM-dd HH:mm");
 			}
 
 			if (!validateDuration(i)) {
@@ -347,7 +352,7 @@ function deleteTimeEvents() {
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($customers)) { ?>
-						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($customers as $customer) {
 							$selected="";
 							if ($customerDet->getCustomerId() == $customer->getCustomerId()) {
@@ -363,7 +368,7 @@ function deleteTimeEvents() {
 				</td>
 				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
-						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
 							$selected="";
 							if ($projectDet->getProjectId() == $project->getProjectId()) {
@@ -377,10 +382,10 @@ function deleteTimeEvents() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
-				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo round($timeExpense->getDuration()/36)/100; ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'':'readonly="readonly"'; ?> id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo round($timeExpense->getDuration()/36)/100; ?>" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea>
 					<input type="hidden" id="txtTimeEventId[<?php echo $row; ?>]" name="txtTimeEventId[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" />
 				</td>
@@ -395,7 +400,7 @@ function deleteTimeEvents() {
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" disabled="disabled" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($customers)) { ?>
-						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($customers as $customer) { ?>
 						<option value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
 				<?php 	}
@@ -406,7 +411,7 @@ function deleteTimeEvents() {
 				</td>
 				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
-						<option value="0">- <?php echo $lang_Leave_Common_Select;?> -</option>
+						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) { ?>
 						<option value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
 				<?php 	}

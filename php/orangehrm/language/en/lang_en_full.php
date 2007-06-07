@@ -177,7 +177,7 @@
 	/**
 	 * Common
 	 */
-	$lang_Common_ConfirmDelete				= " Do you want to delete ?";
+	$lang_Common_ConfirmDelete				= "Do you want to delete ?";
 	$lang_Common_FieldEmpty				= "Field Empty";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";

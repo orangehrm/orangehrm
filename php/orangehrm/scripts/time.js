@@ -48,7 +48,7 @@ function formatDateElement(date, format, offset) {
 }
 
 function padValue(count, value) {
-    for (i = value.toString().length; i < count; i++) {
+    for (c = value.toString().length; c < count; c++) {
         value = '0'+value;
     }
     return value;
@@ -67,7 +67,7 @@ function strToTime(str) {
 
 	timeArr = format.exec(str);
 
-	date = new Date(timeArr[1], timeArr[2], timeArr[3], timeArr[4], timeArr[5]);
+	date = new Date(timeArr[1], timeArr[2]-1, timeArr[3], timeArr[4], timeArr[5]);
 
 	return date.getTime();
 }

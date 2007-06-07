@@ -299,6 +299,8 @@ class TimeController {
 
 		foreach ($timeEvents as $timeEvent) {
 			if ($timeEvent->getTimeEventId() != null) {
+				$timeEventObjs = $timeEvent->fetchTimeEvents();
+				$timeEvent = $timeEventObjs[0];
 				$res=$timeEvent->deleteTimeEvent();
 			}
 

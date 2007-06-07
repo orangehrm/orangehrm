@@ -44,9 +44,9 @@ class EXTRACTOR_TimeEvent {
 
 				$tmpObj->setReportedDate($postArr['txtReportedDate'][$i]);
 
-				if (!empty($postArr['txtDuration'][$i])) {
+				if (isset($postArr['txtDuration'][$i]) && !empty($postArr['txtDuration'][$i])) {
 					$tmpObj->setDuration($postArr['txtDuration'][$i]*3600);
-				} else {
+				} else if (isset($postArr['txtStartTime'][$i]) && isset($postArr['txtEndTime'][$i])){
 					$startTime=strtotime($postArr['txtStartTime'][$i]);
 					$endTime=strtotime($postArr['txtEndTime'][$i]);
 					if ($endTime > $startTime) {

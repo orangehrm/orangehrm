@@ -21,6 +21,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1632108   Supervisor Approve Leave List - Holidays
 	1724957   Approve Leave - In comments slash apostrophe shown for apostrophe
 	1674338   Overlapping logos (in Firefox)
+	1723153   Duration - calculation
 
 	Following bugs were closed
 
