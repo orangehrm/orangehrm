@@ -22,6 +22,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (04/06/2007)
 	1724957   Approve Leave - In comments slash apostrophe shown for apostrophe
 	1674338   Overlapping logos (in Firefox)
 	1723153   Duration - calculation
+	1700807   Timesheet date labels are too close together
 
 	Following bugs were closed
 

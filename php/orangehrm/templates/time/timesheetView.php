@@ -176,7 +176,7 @@ function actionApprove() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
 			<th class="tableTopLeft"></th>
@@ -192,7 +192,7 @@ function actionApprove() {
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    	<th width="70px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
+	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
 	    <?php } ?>
 			<th class="tableMiddleRight"></th>
 		</tr>
