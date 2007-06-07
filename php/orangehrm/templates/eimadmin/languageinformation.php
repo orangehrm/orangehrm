@@ -48,6 +48,7 @@ if(txt.value=="")
 regExp = /[0-9]+/g;
 
 if (regExp.test(txt.value)) {
+	regExp.test(txt.value)
 	return false;
 }
 
@@ -83,7 +84,7 @@ return flag;
 	function addSave() {
 		var txt = document.frmLanguageInformation.txtLanguageInfoDesc;
 		if (!alpha(txt)) {
-			alert ("Name Error!");
+			alert ("<?php echo $lang_Error_InvalidDescription; ?>!");
 			txt.focus();
 			return false;
 		}
@@ -183,17 +184,18 @@ return flag;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <script>
-function alpha(txt)
+function alpha(txtTest)
 {
 var flag=true;
 var i,code;
 
-if(txt.value=="")
+if(txtTest=="")
    return false;
 
 regExp = /[0-9]+/g;
 
-if (regExp.test(txt.value)) {
+if (regExp.test(txtTest)) {
+	regExp.test(txtTest)
 	return false;
 }
 
@@ -258,10 +260,11 @@ function edit()
 	function addUpdate() {
 
 		var txt = document.frmLanguageInformation.txtLanguageInfoDesc;
-		if (txt.value == '' || !alpha(txt)) {
-			alert ("Description Error!");
+
+		if (!alpha(txt.innerHTML)) {
+			alert("<?php echo $lang_Error_InvalidDescription; ?>!");
 			txt.focus();
-			return false;
+			return;
 		}
 
 		document.frmLanguageInformation.sqlState.value = "UpdateRecord";
