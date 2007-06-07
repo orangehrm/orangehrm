@@ -325,7 +325,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	}
 
 	function goBack() {
-	<?php	if ($backtype == 1) { ?>
+	<?php if ($backtype == 1) {
+			if (preg_match('/index\.php/', $referer)) {
+				$referer = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+			}
+	?>
 		location.href = "<?php echo $referer?>";
 	<?php } else { ?>
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";

@@ -24,6 +24,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (07/06/2007)
 	1723153   Duration - calculation
 	1700807   Timesheet date labels are too close together
 	1727283   Inserting new Langugage: Validation error
+	1653892   Pay grades - back button
 
 	Following bugs were closed
 
