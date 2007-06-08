@@ -345,8 +345,8 @@ class Projects {
 	public function getListOfProjectsStr($pageNO,$schStr,$schField,$sortField=0, $sortOrder='ASC') {
 
 		$arrFieldList[0] = "a.`".self::PROJECT_DB_FIELD_PROJECT_ID."`";
-		$arrFieldList[1] = "b.`".Customer::CUSTOMER_DB_FIELDS_NAME."`";
-		$arrFieldList[2] = "a.`".self::PROJECT_DB_FIELD_NAME."`";
+		$arrFieldList[1] = "a.`".self::PROJECT_DB_FIELD_NAME."`";
+		$arrFieldList[2] = "b.`".Customer::CUSTOMER_DB_FIELDS_NAME."`";
 		$arrFieldList[3] = "a.`".self::PROJECT_DB_FIELD_DESCRIPTION."`";
 		$arrFieldList[4] = "a.`".self::PROJECT_DB_FIELD_DELETED."`";
 

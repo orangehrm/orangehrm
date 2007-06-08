@@ -365,7 +365,20 @@ echo $pageStr;
 		 		<?php 	}  ?>
 		 		<td class="<?php echo $cssClass?>" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a></td>
 		 		<?php
-		 				for ($k=1; $k < count($headings); $k++) {
+		 			  $k=1;
+		 			  if ($k < count($headings)) {
+		 					$descField=$message[$j][$k];
+
+		  	 				if($sysConst->viewDescLen <= strlen($descField)) {
+
+			 	   				$descField = substr($descField,0,$sysConst->viewDescLen);
+			 	   				$descField .= "....";
+			 				}
+		 			  }
+			 	?>
+		 		<td class="<?php echo $cssClass?>" width="400" ><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $descField?></a></td>
+		 		<?php
+		 				for ($k=2; $k < count($headings); $k++) {
 
 		  	 				$descField=$message[$j][$k];
 
