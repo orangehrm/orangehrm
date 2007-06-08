@@ -433,6 +433,8 @@ class TimeController {
 
 		$durationArr = null;
 		$dailySum = null;
+		$activitySum = null;
+		$totalTime = 0;
 
 		for ($i=0; $i<count($timeEvents); $i++) {
 			$projectId=$timeEvents[$i]->getProjectId();
@@ -447,9 +449,14 @@ class TimeController {
 			if (!isset($dailySum[$expenseDate])) {
 				$dailySum[$expenseDate]=0;
 			}
+			if (!isset($activitySum[$projectId])) {
+				$activitySum[$projectId]=0;
+			}
 
 			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
 			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
+			$activitySum[$projectId]+=$timeEvents[$i]->getDuration();
+			$totalTime+=$timeEvents[$i]->getDuration();
 		}
 
 		$self=false;
@@ -479,6 +486,8 @@ class TimeController {
 		$dataArr[6]=$next;
 		$dataArr[7]=$prev;
 		$dataArr[8]=$role;
+		$dataArr[9]=$activitySum;
+		$dataArr[10]=$totalTime;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

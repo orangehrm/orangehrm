@@ -31,6 +31,9 @@ $next=$records[6];
 $prev=$records[7];
 $role=$records[8];
 
+$activitySum=$records[9];
+$totalTime=$records[10];
+
 if ($self) {
 	$next=true;
 	$prev=true;
@@ -185,6 +188,7 @@ function actionApprove() {
 	    <?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    	<th class="tableTopMiddle"></th>
 	    <?php } ?>
+	    	<th class="tableTopMiddle"></th>
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
@@ -194,6 +198,7 @@ function actionApprove() {
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
 	    <?php } ?>
+	    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Total; ?></th>
 			<th class="tableMiddleRight"></th>
 		</tr>
 	</thead>
@@ -218,6 +223,7 @@ function actionApprove() {
 			?>
 	    		<td ><?php echo round($timeExpense[$i]/36)/100; ?></td>
 	    	<?php } ?>
+	    		<th ><?php echo round($activitySum[$project]/36)/100; ?></th>
 				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php } ?>
@@ -232,6 +238,7 @@ function actionApprove() {
 			?>
 		    	<th ><?php echo round($dailySum[$i]/36)/100; ?></th>
 		    <?php } ?>
+		    	<th ><?php echo round($totalTime/36)/100; ?></th>
 				<th class="tableMiddleRight"></th>
 			</tr>
 		<?php } else { ?>
@@ -242,6 +249,7 @@ function actionApprove() {
 			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    		<td ></td>
 	    	<?php } ?>
+	    		<td ></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php }?>
@@ -254,6 +262,7 @@ function actionApprove() {
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 			<td class="tableBottomMiddle"></td>
 		<?php } ?>
+			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomRight"></td>
 		</tr>
   	</tfoot>
