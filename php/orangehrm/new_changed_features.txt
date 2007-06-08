@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_2 (07/06/2007)
+New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 890}
 
 	Bugs fixed include:
 
