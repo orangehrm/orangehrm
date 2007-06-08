@@ -81,6 +81,8 @@
 
 	$lang_Error_InvalidEmail 							= "Invalid E-mail address";
 
+	$lang_Error_InvalidDescription						= "Invalid description";
+
 	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
 
 	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
@@ -175,7 +177,7 @@
 	/**
 	 * Common
 	 */
-	$lang_Common_ConfirmDelete				= " Do you want to delete ?";
+	$lang_Common_ConfirmDelete				= "Do you want to delete ?";
 	$lang_Common_FieldEmpty				= "Field Empty";
 	$lang_Common_SelectDelete			= "Select at least one record to delete";
 	$lang_Common_SelectField			= "Select the field to search!";
@@ -262,6 +264,8 @@
 	$lang_Leave_Leave_Type_Summary_Title 	= "Leave Types";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
+
+	$lang_Leave_Holiday = "Holiday";
 
 	$lang_bankInformation_code 				= "Code";
 	$lang_bankInformation_description 		= "Description";
@@ -458,6 +462,9 @@
 	$lang_hremp_ContractExtensionEndDate	= "Contract Extension End Date";
 	$lang_hremp_EmployeeContracts 			= "Employee Contracts";
 	$lang_hremp_AssignedContracts			= "Assigned Contracts";
+
+	$lang_hremp_ShowEmployeeContracts 			= "Show employee contracts";
+	$lang_hremp_HideEmployeeContracts 			= "Hide employee contracts";
 
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
 
@@ -744,6 +751,7 @@
 	// Report module
 	$lang_rep_SelectionCriteria = "Selection Criteria";
 	$lang_rep_EmpNo = "Emp No";
+	$lang_rep_Employee = "Employee";
 	$lang_rep_AgeGroup = "Age Group";
 	$lang_rep_PayGrade = "Pay Grade";
 	$lang_rep_Education = "Education";
@@ -860,6 +868,8 @@
 
 	$lang_Admin_Users_AssignedRights = "Assigned Rights";
 	$lang_Admin_Users_DefineReports = "Define Reports";
+	$lang_Admin_Users_Assign_User_Rights = "Assign User Rights";
+	$lang_Admin_Users_View_User_Rights = "View User Rights";
 
 	$lang_Admin_Change_Password_OldPassword = "Old Password";
 
