@@ -617,7 +617,11 @@ class ReportGenerator {
 		}
 
 		function  reportDisplay($repDetails, $empNoField=false) {
-			$employee = current($repDetails);
+			$employee = array();
+
+			if (is_array($repDetails)) {
+				$employee = current($repDetails);
+			}
 
 			$columns = count($employee);
 			$rows	 = count($repDetails);

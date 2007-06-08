@@ -1,14 +1,6 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_3 (11/06/2007)
+New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 893}
 
 	1. Total columns in timesheets. See bug number 1723003
-
-	Bugs fixed include:
-
-	BugId     Name
-	1723003   Feature: Timesheet should have a total column
-
-
-New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 891}
 
 	Bugs fixed include:
 
@@ -36,6 +28,8 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 891}
 	1727283   Inserting new Langugage: Validation error
 	1653892   Pay grades - back button
 	1712992   Usability: It should be possible to edit a project by clicking project name
+	1723003   Feature: Timesheet should have a total column
+	1733288   Could not select a report
 
 	Following bugs were closed
 

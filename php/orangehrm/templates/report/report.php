@@ -124,12 +124,13 @@ li{
 					</tr>
 
 <?php			$l=0;
-				foreach ($repDetails as $i=>$employee){
-					$className="odd";
-					if (($l%2) == 0) {
-						$className="even";
-					}
-					$l++;
+				if (is_array($repDetails )) {
+					foreach ($repDetails as $i=>$employee){
+						$className="odd";
+						if (($l%2) == 0) {
+							$className="even";
+						}
+						$l++;
 				?>
 					<tr valign="top" class="<?php echo $className; ?>">
 <?php					for($j=$startColumn;$j<$columns; $j++) { ?>
@@ -162,7 +163,9 @@ li{
 				<?php	}
 ?>
 					</tr>
-<?php } ?>
+<?php 			}
+			}
+?>
 
 
                    </table></td>
