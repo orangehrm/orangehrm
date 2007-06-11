@@ -81,30 +81,38 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyond
-                  T/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr>
-       							<td><?php $lang_Commn_code; ?></td>
-							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
+                  <td>
+	                  <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+							  <tr>
+	       						<td><?php echo $lang_Commn_code; ?></td>
+								<td><strong><?php echo $this->popArr['newID'] ?></strong></td>
+							</tr>
+							  <tr>
+							    <td valign="top" nowrap><span class="error">*</span><?php echo $lang_Commn_name; ?></td>
+							    <td> <input type="text" name='txtUserGroupName' tabindex='3'></td>
 							  </tr>
+							  <!--
+							  <tr>
+							    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
+							    <td> <input type="checkbox" name='chkRepDef' value="1"></td>
+							  </tr>
+							 -->
 						  <tr>
-						    <td valign="top" nowrap><span class="error">*</span><?php $lang_Commn_name; ?></td>
-						    <td> <input type="text" name='txtUserGroupName' tabindex='3'></td>
-						  </tr>
-						  <tr>
-						    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
-						    <td> <input type="checkbox" name='chkRepDef' value="1"></td>
-						  </tr>
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
+						  	<td></td>
+						  	<td align="right" width="100%">
+						  		<img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+	        					<img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg">
+	        				</td>
+	        			</tr>
 
-                 </table></td>
+	                 </table>
+                 </td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
@@ -243,13 +251,15 @@ function edit()
      <td> <input type="hidden" name="txtUserGroupID" value=<?php echo $message[0][0]?> ><strong><?php echo $message[0][0]?></strong> </td>
   </tr>
 							  <tr>
-							    <td valign="top" nowrap><span class="error">*</span> <strong><?php echo $lang_Commn_name; ?></td>
+							    <td valign="top" nowrap><span class="error">*</span><strong><?php echo $lang_Commn_name; ?></td>
 							  	  <td> <input type="text" name='txtUserGroupName' tabindex='3' disabled value="<?php echo $message[0][1]?>"></td>
 							  </tr>
+						<!--
 						  <tr>
 						    <td><?php echo $lang_Admin_Users_DefineReports; ?></td>
 						    <td> <input type="checkbox" disabled <?php echo $message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
 						  </tr>
+						  -->
 					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR"><?php echo $rightsLabel; ?></a></td>
 					  <td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
