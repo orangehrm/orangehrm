@@ -275,6 +275,8 @@ function disableEmployeeId() {
 	if(document.frmEmpRepTo.cmbId.value == "0") {
 		document.frmEmpRepTo.empPop.style.visibility = "hidden";
 		document.frmEmpRepTo.cmbRepEmpID.style.visibility = "hidden";
+		document.frmEmpRepTo.txtRepEmpID.value='';
+		document.frmEmpRepTo.cmbRepEmpID.value='';
 	} else if(document.frmEmpRepTo.cmbId.value == "1") {
 		document.frmEmpRepTo.empPop.style.visibility = "visible";
 		document.frmEmpRepTo.cmbRepEmpID.style.visibility = "visible";

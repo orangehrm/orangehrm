@@ -76,9 +76,9 @@ class ReportGenerator {
  			} else {
 				$criteriaValue['EMPNO'] = '\'' .$this->criteria['EMPNO'] . '\'';
 				$criteriaComOper['EMPNO'] = "=";
+				$criteriaField['EMPNO'] = 'a.EMP_NUMBER';
+				$criteriaTable['EMPNO'] = 'HS_HR_EMPLOYEE a';
  			}
- 			$criteriaField['EMPNO'] = 'a.EMP_NUMBER';
-			$criteriaTable['EMPNO'] = 'HS_HR_EMPLOYEE a';
  		}
 
  		if(isset($this->criteria['PAYGRD'])){

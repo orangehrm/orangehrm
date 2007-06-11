@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 893}
+New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
 
 	1. Total columns in timesheets. See bug number 1723003
 
@@ -30,6 +30,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 893}
 	1712992   Usability: It should be possible to edit a project by clicking project name
 	1723003   Feature: Timesheet should have a total column
 	1733288   Could not select a report
+	1733393   Could Not set back to all employee: Report
 
 	Following bugs were closed
 
