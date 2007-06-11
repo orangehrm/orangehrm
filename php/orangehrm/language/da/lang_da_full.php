@@ -105,11 +105,11 @@
 
 	$lang_Menu_Admin_CompanyInfo 				= "Virksomhedsinfo";
 	$lang_Menu_Admin_CompanyInfo_Gen 			= "Generel";
-	$lang_Menu_Admin_CompanyInfo_CompStruct 	= "Virksomhedsstruktur";
+	$lang_Menu_Admin_CompanyInfo_CompStruct 	= "Organisationsstruktur";
 	$lang_Menu_Admin_CompanyInfo_Locations 		= "Lokationer";
 
 	$lang_Menu_Admin_Job 						= "Job";
-	$lang_Menu_Admin_Job_JobTitles 				= "Jobtitelr";
+	$lang_Menu_Admin_Job_JobTitles 				= "Jobtitler";
 	$lang_Menu_Admin_Job_PayGrades 				= "Aflønningsniveauer";
 	$lang_Menu_Admin_Job_EmpStatus 				= "Medarbejder Status";
 	$lang_Menu_Admin_Job_EEO 					= "Faggrupper";
@@ -126,7 +126,7 @@
 	$lang_Menu_Admin_Memberships_Memberships 		= "Medlemskaber";
 	$lang_Menu_Admin_Memberships_MembershipTypes 	= "Type af medlemskaber";
 
-	$lang_Menu_Admin_NationalityNRace 				= "Nationalitet og etnisk race";
+	$lang_Menu_Admin_NationalityNRace 				= "Nationalitet og race";
 	$lang_Menu_Admin_NationalityNRace_Nationality 	= "Nationalitet";
 	$lang_Menu_Admin_NationalityNRace_EthnicRaces 	= "Etnisk race";
 
@@ -301,7 +301,7 @@
 	$lang_compstruct_Phone 							= "Telefon";
 	$lang_compstruct_no_root 						= "Rod ikke fundet! Definer venligst Rod";
 
- 	$lang_corptit_heading 							= "Jobtitelr : Job Info";
+ 	$lang_corptit_heading 							= "Jobtitler : Job Info";
 	$lang_corptit_topinhierachy 					= "Top i hierarkiet";
 	$lang_corptit_multipleheads 					= "Flertallig";
 	$lang_corptit_headcount 						= "Optælling";
@@ -612,7 +612,7 @@
 
  	$lang_view_EmploymentStatusID 			= "Medarbejderstatus ID";
 	$lang_view_EmploymentStatusName 		= "Medarbejderstatus navn";
-	$lang_view_message 						= "Sletning kan påvirke Jobtitelr";
+	$lang_view_message 						= "Sletning kan påvirke Jobtitler";
 	$lang_view_message1 					= "Sletning kan påvirke lønniveau for medarbejder i PIM modul";
 	$lang_view_SkillName 					= "Færdighedsnavn";
 	$lang_view_SkillID 						= "Færdighed ID";
@@ -656,7 +656,7 @@
 	$lang_view_CityName 					= "Bynavn";
 	$lang_view_message20 					= "Sletning kan påvirke medarbejderinformation";
 	$lang_view_LanguagName 					= "Sprognavn";
-	$lang_view_message21 					= "Sletning kan påvirke employee language";
+	$lang_view_message21 					= "Sletning kan påvirke medarbejdersprog";
 	$lang_view_Membership 					= "Medlemskab";
 	$lang_view_MembershipType 				= "Medelemskabstype";
 	$lang_view_MembershipName 				= "Medelemskabsnavn";
@@ -665,7 +665,7 @@
 	$lang_view_ExtraActivitiesName 			= "Ekstra aktiviteter - Navn";
 	$lang_view_message23 					= "Sletning kan påvirke medarbejders ekstra aktiviteter";
 	$lang_view_PayGradeName 				= "Lønniveau - Navn";
-	$lang_view_message24 					= "Sletning kan påvirke medarbejder information, Jobtitelr";
+	$lang_view_message24 					= "Sletning kan påvirke medarbejder information, Jobtitler";
 	$lang_view_message25 					= "Sletning kan påvirke uddannelse";
 	$lang_view_EmployeeTypeID 				= "Medarbejdertype ID";
 	$lang_view_EmployeeTypeName 			= "Medarbejdertype - Navn";
@@ -677,7 +677,7 @@
 	$lang_view_message28 					= "Sletning kan påvirke medarbejdersprog";
 	$lang_view_EthnicRace 					= "Etnisk race";
 	$lang_view_EthnicRaceName 				= "Etnisk race - navn";
-	$lang_view_message29 					= "Sletning kan påvirke employee records";
+	$lang_view_message29 					= "Sletning kan påvirke medarbejderinformation";
 	$lang_view_message30 					= "Sletning kan påvirke medarbejderinformation";
 	$lang_view_message31 					= "Sletning kan påvirke medarbejderinformation, Jobtitler";
 	$lang_view_message32 					= "Sletning kan påvirke kvalifikationer, Kvalifikationsbetegnelse, Medarbejderkvalifikationer";
