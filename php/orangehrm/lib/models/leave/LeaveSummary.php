@@ -167,8 +167,13 @@ class LeaveSummary extends LeaveQuota {
 		if (is_array($resultArr1)) {
 			foreach ($resultArr1 as $employeeId=>$leaveSumArr) {
 				foreach ($leaveSumArr as $leaveTypeId=>$leaveSum) {
-					$resultArr[$employeeId][$leaveTypeId]['leave_taken']=round(($leaveSum['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY)*10)/10;
-					$resultArr[$employeeId][$leaveTypeId]['leave_available']=$resultArr[$employeeId][$leaveTypeId]['no_of_days_allotted']-$resultArr[$employeeId][$leaveTypeId]['leave_taken'];
+					if ($searchBy == "leaveType") {
+						$resultArr[$leaveTypeId][$employeeId]['leave_taken']=round(($leaveSum['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY)*10)/10;
+						$resultArr[$leaveTypeId][$employeeId]['leave_available']=$resultArr[$leaveTypeId][$employeeId]['no_of_days_allotted']-$resultArr[$leaveTypeId][$employeeId]['leave_taken'];
+					} else {
+						$resultArr[$employeeId][$leaveTypeId]['leave_taken']=round(($leaveSum['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY)*10)/10;
+						$resultArr[$employeeId][$leaveTypeId]['leave_available']=$resultArr[$employeeId][$leaveTypeId]['no_of_days_allotted']-$resultArr[$employeeId][$leaveTypeId]['leave_taken'];
+					}
 				}
 			}
 		}

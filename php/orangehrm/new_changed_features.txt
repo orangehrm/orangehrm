@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
+
+	Bugs fixed include:
+
+	BugId     Name
+	1734994   Undefined index: no_of_days_allotted
+
+
 New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
 
 	1. Total columns in timesheets. See bug number 1723003
