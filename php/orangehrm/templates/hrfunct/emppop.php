@@ -81,10 +81,10 @@ if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
     $choice=$_POST['loc_code'];
     $strName=trim($_POST['loc_name']);
 
-    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage,$strName,$choice, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
+    $emplist = $empviewcontroller->getUnAssigned($_GET['reqcode'],$currentPage,$strName,$choice, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
     }
 else
-    $emplist = $empviewcontroller -> getUnAssigned($_GET['reqcode'],$currentPage, '', -1, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
+    $emplist = $empviewcontroller->getUnAssigned($_GET['reqcode'],$currentPage, '', -1, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

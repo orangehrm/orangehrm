@@ -6,6 +6,12 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 
 	1734994   Undefined index: no_of_days_allotted
 	1735477   OrangeHRM Russian Language Not Working
+	1718864   User Group Rights - what\'s the meaning of clear button
+	1735746   Undefined variable lang_rep_Languages
+
+	Following bugs were closed
+
+	1716741   Location - Apostrophe not properly saved
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}

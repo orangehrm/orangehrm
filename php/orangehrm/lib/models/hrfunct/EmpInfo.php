@@ -384,15 +384,18 @@ class EmpInfo {
 		$arrFieldList[6] = "c.`jobtit_name`";
 		$arrFieldList[7] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_middle_name`, ' ', a.`emp_lastname`)";
 		$arrFieldList[8] = "d.`title`";
+		$arrFieldList[9] = "e.`estat_name`";
 
 		$sql_builder = new SQLQBuilder();
 
 		$arrTables[0] = "`hs_hr_employee` a";
 		$arrTables[1] = "`hs_hr_job_title` c";
 		$arrTables[2] = "`hs_hr_compstructtree` d";
+		$arrTables[3] = "`hs_hr_empstat` e";
 
 		$joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
 		$joinConditions[2] = "a.`work_station` = d.`id`";
+		$joinConditions[3] = "a.`emp_status` = e.`estat_code`";
 
 		$selectConditions = null;
 
@@ -433,12 +436,6 @@ class EmpInfo {
             }
 		}
 
-		/*$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;*/
-
-		//$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode);
-
 		$sysConst = new sysConf();
 
 		$limit = null;
@@ -449,8 +446,6 @@ class EmpInfo {
 
 			$limit = "{$pageNO}, {$sysConst->itemsPerPage}";
 		}
-
-
 
 		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, $limit);
 
@@ -467,6 +462,7 @@ class EmpInfo {
 	    	$arrayDispList[$i][2] = $line[4];
 	    	$arrayDispList[$i][3] = $line[5];
 	    	$arrayDispList[$i][4] = $line[6];
+	    	$arrayDispList[$i][6] = $line[9];
 
 			$empRepTo = new EmpRepTo();
 	    	$arrayDispList[$i][5] = $empRepTo->getEmpSupDetails($line[0]);
@@ -488,14 +484,31 @@ class EmpInfo {
 
 	function countEmployee($schStr='',$mode=0) {
 
-		$arrFieldList[0] = "a.`emp_number`";
+		/*$arrFieldList[0] = "a.`emp_number`";
+		$arrFieldList[1] = "a.`emp_firstname`";
+		$arrFieldList[2] = "a.`emp_lastname`";
+		$arrFieldList[3] = "a.`emp_middle_name`";*/
+
+		$arrFieldList[0] = "a.`employee_id`";
 		$arrFieldList[1] = "a.`emp_firstname`";
 		$arrFieldList[2] = "a.`emp_lastname`";
 		$arrFieldList[3] = "a.`emp_middle_name`";
+		$arrFieldList[4] = "LPAD(a.`emp_number`, ".$this->employeeIdLength.", 0)";
+		$arrFieldList[5] = "a.`work_station`";
+		$arrFieldList[6] = "c.`jobtit_name`";
+		$arrFieldList[7] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_middle_name`, ' ', a.`emp_lastname`)";
+		$arrFieldList[8] = "d.`title`";
+		$arrFieldList[9] = "e.`estat_name`";
 
 		$arrTables[0] = "`hs_hr_employee` a";
+		$arrTables[1] = "`hs_hr_job_title` c";
+		$arrTables[2] = "`hs_hr_compstructtree` d";
+		$arrTables[3] = "`hs_hr_empstat` e";
 
-		$joinConditions = null;
+		$joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
+		$joinConditions[2] = "a.`work_station` = d.`id`";
+		$joinConditions[3] = "a.`emp_status` = e.`estat_code`";
+
 		$selectConditions = null;
 
         if (($mode != -1) && !empty($schStr)) {

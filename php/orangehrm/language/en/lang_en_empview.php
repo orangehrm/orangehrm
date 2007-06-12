@@ -1,11 +1,12 @@
 <?php
-$srchlist[0] = array( -1 , 0 , 1, 2, 3, 6, 7, 8);
+$srchlist[0] = array( -1 , 0 , 1, 2, 3, 6, 9, 7, 8);
 $srchlist[1] = array( "-$lang_Leave_Common_Select-",
 					  $lang_empview_EmpID,
 					  $lang_empview_EmpFirstName,
 					  $lang_empview_EmpLastName,
 					  $lang_empview_EmpMiddleName,
 					  $lang_empview_JobTitle,
+					  $lang_empview_EmploymentStatus,
 					  $lang_empview_SubDivision,
 					  $lang_empview_Supervisor);
 

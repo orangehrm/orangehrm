@@ -19,6 +19,7 @@
 
 $lan = new Language();
 
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
 require_once($lan->getLangPath("full.php"));
 
 $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
