@@ -3,7 +3,9 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 	Bugs fixed include:
 
 	BugId     Name
+
 	1734994   Undefined index: no_of_days_allotted
+	1735477   OrangeHRM Russian Language Not Working
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
@@ -13,6 +15,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
 	Bugs fixed include:
 
 	BugId     Name
+
    	1703507   Configuration file not writable - Installation Guide
 	1725685   Multiple records in employee report
 	1725390   Time -> update will not work

@@ -90,8 +90,6 @@ class JobTitEmpStat {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-		 echo $message2;
-
 	}
 
 	function updateJobTitEmpStat() {

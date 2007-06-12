@@ -1062,12 +1062,6 @@ switch ($moduletype) {
 											break;
 						}
 
-									/*	if(isset($_POST['STAT']) && $_POST['STAT']=='REP') {
-												$parsedObject = $extractor->parseData($_POST);
-												$view_controller->assignData($_GET['repcode'],$parsedObject);
-												break;
-										}*/
-
 										if(isset($_POST['USG']) && $_POST['USG']=='SEL' && $locRights['add']) {
 												$objectArr = $extractor->parseAddData($_POST);
 												$view_controller->addUserGroups($objectArr);

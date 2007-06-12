@@ -184,11 +184,16 @@ class JobTitle {
 		$sqlQString = $sql_builder->addNewRecordFeature1();
 
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
-		 echo $message2;
+		$jobTitleEmpStat = new JobTitEmpStat();
 
+	    $jobTitleEmpStat->setEmpStatId(EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED);
+	    $jobTitleEmpStat->setJobTitId($this->getJobId());
+
+		$jobTitleEmpStat->addJobTitEmpStat();
+
+		return $message2;
 	}
 
 	function getJobTit() {
@@ -220,9 +225,7 @@ class JobTitle {
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
 	     } else {
 
 	     	//Handle Exceptions

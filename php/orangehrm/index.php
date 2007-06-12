@@ -130,6 +130,7 @@ require_once ROOT_PATH . '/lib/common/Language.php';
 
 $lan = new Language();
 
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
 require_once($lan->getLangPath("full.php"));
 
 ?>

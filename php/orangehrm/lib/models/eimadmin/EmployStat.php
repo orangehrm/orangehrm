@@ -24,6 +24,8 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EmploymentStatus {
 
+	const EMPLOYMENT_STATUS_ID_TERMINATED = "EST000";
+
 	var $tableName = 'HS_HR_EMPSTAT';
 
 	var $empStatId;
