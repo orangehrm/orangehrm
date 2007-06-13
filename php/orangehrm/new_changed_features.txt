@@ -12,7 +12,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 	Following bugs were closed
 
 	1716741   Location - Apostrophe not properly saved
-
+	1736219   Reports Not Working with Spanish Language Pack
 
 New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
 

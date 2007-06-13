@@ -1,21 +1,21 @@
 <?php
 
 function needToUpgrade() {
-	
-	$currentVersion = '2.2_beta_2';
-	
+
+	$currentVersion = '2.2_RC_2';
+
 	if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['RESTORING'])) {
-		
+
 		include_once ROOT_PATH . '/lib/confs/Conf.php';
-		
+
 		$confObj = new Conf();
-		
+
 		$installedVersion = $confObj->version;
-		
+
 		if ((version_compare($installedVersion, $currentVersion) >= 0) && isset($confObj->upgrade) && ($confObj->upgrade)) {
 			quit();
 		}
-		
+
 	}
 }
 
@@ -28,7 +28,7 @@ function quit() {
 	exit ();
 }
 
-function sockComm($postArr) {	
+function sockComm($postArr) {
 
 	$host = 'www.orangehrm.com';
 	$method = 'POST';
@@ -36,13 +36,13 @@ function sockComm($postArr) {
 	$data = "userName=".$postArr['userName']
 			."&userEmail=".$postArr['userEmail']
 			."&userComments=".$postArr['userComments']
-			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');	
-			
+			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
+
 	$fp = @fsockopen($host, 80);
-	
+
 	if(!$fp)
 	    	return false;
-	  
+
 	    fputs($fp, "POST $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
@@ -50,17 +50,17 @@ function sockComm($postArr) {
 	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
 	    fputs($fp, "Connection: close\r\n\r\n");
 	    fputs($fp, $data);
-	    
+
 	    $resp = '';
 	    while (!feof($fp)) {
 	        $resp .= fgets($fp,128);
 	    }
-	        
+
 	    fclose($fp);
-	    
-	    if(strpos($resp, 'SUCCESSFUL') === false) 
+
+	    if(strpos($resp, 'SUCCESSFUL') === false)
 	    	return false;
-	
+
 	return true;
 }
 
@@ -68,23 +68,23 @@ function back($currScreen) {
 
  for ($i=0; $i < 2; $i++) {
  	switch ($currScreen) {
-	
+
 		default :
 		case 0 	: 	unset($_SESSION['WELCOME']); break;
 		case 1 	: 	unset($_SESSION['LICENSE']); break;
 		case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
 		case 4 	: 	unset($_SESSION['LOCCONFOPT']);	break;
-		case 3 	: 	unset($_SESSION['DBCONFOPT']); break;		
+		case 3 	: 	unset($_SESSION['DBCONFOPT']); break;
 		case 5 	: 	unset($_SESSION['LOCCONF']); break;
-		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;		
+		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;
 		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
 		case 8 	: 	unset($_SESSION['RESTORE']); break;
 		case 9 	: 	unset($_SESSION['RESTORING']);
 					if(isset($_SESSION['DATABASE_BACKUP'])) {
 				 		include(ROOT_PATH.'/upgrader/restore/restoreBackup.php');
 					}
-					break;		
-	
+					break;
+
 		case 10 	: 	return false; break;
  	}
 
@@ -96,24 +96,24 @@ return true;
 
 function fetchDbInfo($location) {
 	$path = realpath(ROOT_PATH."/../")."/".$location."/lib/confs/";
-	
+
 	if (@include_once $path."Conf.php") {
-	
+
 		$confObj = new Conf();
-	
-		$dbInfo = array( 'dbHostName' => $confObj->dbhost, 
+
+		$dbInfo = array( 'dbHostName' => $confObj->dbhost,
 					 	 'dbHostPort' => $confObj->dbport,
 					 	 'dbName' => $confObj->dbname,
 					 	 'dbUserName' => $confObj->dbuser,
 					 	 'dbPassword' => $confObj->dbpass
 						);
-					
+
 		$_SESSION['dbInfo'] = $dbInfo;
 		return true;
 	}
-	
+
 	$_SESSION['error'] = 'Conf.php file not found in '.$path;
-	
+
 	return false;
 }
 
@@ -123,49 +123,49 @@ function extractDbInfo() {
 					'dbName' => trim($_POST['dbName']),
 					'dbUserName' => trim($_POST['dbUserName']),
 					'dbPassword' => trim($_POST['dbPassword']));
-										 
+
 	if(!isset($_POST['chkSameUser'])) {
 		$dbInfo['dbOHRMUserName'] = trim($_POST['dbOHRMUserName']);
 		$dbInfo['dbOHRMPassword'] = trim($_POST['dbOHRMPassword']);
 	}
-						
+
 	$_SESSION['dbInfo'] = $dbInfo;
-										 
+
 	if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
 		$mysqlHost = mysql_get_server_info();
-							
+
 		if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
 			$error = 'WRONGDBVER';
-		elseif(mysql_select_db($dbInfo['dbName'])) 
+		elseif(mysql_select_db($dbInfo['dbName']))
 			$error = 'DBEXISTS';
 		elseif(!isset($_POST['chkSameUser'])) {
 			mysql_select_db('mysql');
 			$rset = mysql_query("SELECT USER FROM user WHERE USER = '" .$dbInfo['dbOHRMUserName'] . "'");
-									
+
 			if(mysql_num_rows($rset) > 0)
 				$error = 'DBUSEREXISTS';
-			else $_SESSION['DBCONFIG'] = 'OK';	
-									
-	} else $_SESSION['DBCONFIG'] = 'OK';	
-								
-									
+			else $_SESSION['DBCONFIG'] = 'OK';
+
+	} else $_SESSION['DBCONFIG'] = 'OK';
+
+
 	} else $error = 'WRONGDBINFO';
 
 	if (isset($error)) {
 		$_SESSION['error'] = $error;
 	}
-						
+
 }
 
 function validateMime($mime) {
-	$allowedMimes = array("application/octet-stream", "application/sql", "text/plain", "application/plain");
+	$allowedMimes = array("application/octet-stream", "application/sql", "text/plain", "application/plain", "text/x-sql");
 
 	foreach ($allowedMimes as $allowedMime) {
 		if ($allowedMime == $mime) {
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -176,7 +176,7 @@ if(!isset($_SESSION['SID']))
 	session_start();
 
 clearstatcache();
-	
+
 if (isset($_SESSION['error'])) {
 	unset($_SESSION['error']);
 }
@@ -185,13 +185,13 @@ if(isset($_POST['actionResponse'])) {
 	switch($_POST['actionResponse']) {
 		case 'WELCOMEOK' 	: $_SESSION['WELCOME'] = 'OK'; break;
 		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
-		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;		
+		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;
 		case 'LOCCONFOK' 	: $_SESSION['dbInfo']['locationOhrm'] = $_POST['locationOhrm'];
-							  if (fetchDbInfo( $_SESSION['dbInfo']['locationOhrm'])) {							  	
-							  	$_SESSION['LOCCONF'] = 'OK';							  	
+							  if (fetchDbInfo( $_SESSION['dbInfo']['locationOhrm'])) {
+							  	$_SESSION['LOCCONF'] = 'OK';
 							  }
 							  //echo '1'.$error;
-							  break;		
+							  break;
 		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
 		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
 		case 'DBINFO'		: extractDbInfo();
@@ -199,43 +199,42 @@ if(isset($_POST['actionResponse'])) {
 							  	break;
 							  }
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
-		
+
 		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {
 									$error = "UPLOAD THE BACK UP FILE!";
-								}else if (!validateMime($_FILES['file']['type'])) { 
-	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type']; 
-	 									 								
-								} else  {									
+								}else if (!validateMime($_FILES['file']['type'])) {
+	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type'];
+								} else  {
 									$_SESSION['RESTORING'] = -1;
-								
+
 									$_SESSION['FILEDUMP'] = parseOldData(file_get_contents($_FILES['file']['tmp_name']));
-									$_SESSION['DATABASE_BACKUP']="";										  							
+									$_SESSION['DATABASE_BACKUP']="";
 								}
 							  	break;
 		case 'SYSCHECKOK'	: $_SESSION['SYSCHECK'] = 'OK'; break;
-		
-		case 'CANCEL' 		:	session_destroy();							
+
+		case 'CANCEL' 		:	session_destroy();
 								header("Location: upgrade.php");
 								exit(0);
 								break;
-								
+
 		case 'REGISTER'  :	$_SESSION['CONFDONE'] = 'OK';
 							break;
-							
-								
-		case 'REGINFO' 	:	$reqAccept = sockComm($_POST);							
+
+
+		case 'REGINFO' 	:	$reqAccept = sockComm($_POST);
 							break;
-							
+
 		case 'NOREG' 	:	$reqAccept = sockComm($_POST);
 
 		case 'LOGIN'   	:	session_destroy();
 							setcookie('PHPSESSID', '', time()-3600, '/');
 							header("Location: ./");
-							exit(0);							
+							exit(0);
 							break;
-		
+
 		case 'BACK'		 	:	back($_POST['txtScreen']);
-							break;		
+							break;
 	}
 } else {
 	needToUpgrade();

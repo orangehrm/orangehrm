@@ -436,6 +436,14 @@ class EmpInfo {
             }
 		}
 
+		/**
+		 * Check whether searching for the employement status,
+		 * if not add this to not to show 'Terminated' employees
+		 */
+		if ($mode != 9) {
+			$selectConditions[] = "(a.`emp_status` != 'EST000' OR a.`emp_status` IS NULL)";
+		}
+
 		$sysConst = new sysConf();
 
 		$limit = null;
@@ -2445,6 +2453,7 @@ class EmpInfo {
 		$arrFieldList[0] = 'LPAD(`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 		$arrFieldList[1] = "CONCAT(EMP_FIRSTNAME, ' ', EMP_MIDDLE_NAME, ' ', EMP_LASTNAME)";
 		$arrFieldList[2] = 'EMPLOYEE_ID';
+		$arrFieldList[3] = 'EMP_STATUS';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -2452,7 +2461,9 @@ class EmpInfo {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder);
+		$specialSearch = "{$arrFieldList[3]} != 'EST000' OR {$arrFieldList[3]} IS NULL";
+
+		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder, false, $specialSearch);
 
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();

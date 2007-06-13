@@ -168,7 +168,7 @@ class SQLQBuilder {
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 
-	function passResultSetMessage($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC', $schArr = false) {
+	function passResultSetMessage($page=0, $schStr='',$schField=-1, $sortField = 0, $sortOrder = 'ASC', $schArr=false, $specialSearch=null) {
 
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 
@@ -205,7 +205,12 @@ class SQLQBuilder {
 						$SQL1 = $SQL1 . $arrayFieldList[$schField] . ' LIKE \'%' . trim(mysql_real_escape_string($schStr)) .'%\'';
 					}
 
+					if (isset($specialSearch)) {
+                		$SQL1 = $SQL1." ".$specialSearch;
+                	}
 
+                } else if (isset($specialSearch)) {
+                	$SQL1 = $SQL1 . ' WHERE '.$specialSearch;
                 }
 
 				//echo $SQL1;

@@ -266,3 +266,14 @@ alter table `hs_hr_time_event`
   add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+
+INSERT INTO `hs_hr_empstat`
+  (`estat_code`, `estat_name`)
+  VALUES ('EST000', 'Terminated');
+
+INSERT INTO `hs_hr_jobtit_empstat`
+  (`jobtit_code`, `estat_code`)
+  SELECT `jobtit_code`, 'EST000' FROM `hs_hr_job_title`
+  ON DUPLICATE KEY UPDATE `estat_code`='EST000';
+

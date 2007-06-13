@@ -36,8 +36,6 @@ function populateProjects($cutomerId, $row) {
 
 	$objResponse->addAssign('status','innerHTML','');
 
-	error_log("{$objResponse->getXML()}\n", 3, ROOT_PATH.'/lib/logs/logDB.txt');
-
 	return $objResponse->getXML();
 }
 

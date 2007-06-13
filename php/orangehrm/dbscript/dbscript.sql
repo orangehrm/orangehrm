@@ -1435,3 +1435,7 @@ INSERT INTO `hs_hr_weekends` VALUES (6, 8);
 INSERT INTO `hs_hr_weekends` VALUES (7, 8);
 
 INSERT INTO `hs_hr_timesheet_submission_period` VALUES (1, 'week', 7, 1, 1, 7, 'Weekly');
+
+INSERT INTO `hs_hr_empstat`
+  (`estat_code`, `estat_name`)
+  VALUES ('EST000', 'Terminated');
