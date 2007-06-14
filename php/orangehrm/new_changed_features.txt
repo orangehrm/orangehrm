@@ -695,10 +695,10 @@ with the same code displayed earlier.
 Maintenance
 User
 * Users will not be able to delete the user account they have used to login
-* Users are divided into HR Admin users and Ordinary users. If the �Is
+* Users are divided into HR Admin users and Ordinary users. If the Is
 HR Admin
 flag is selected, then all the modules (Admin, PIM, Reports, Maintenance,
-Bug Tracker will be available to them). However if the �Is HR Admin�
+Bug Tracker will be available to them). However if the Is HR Admin
 flag is
 not selected the user will only be given access to ESS module.
 
