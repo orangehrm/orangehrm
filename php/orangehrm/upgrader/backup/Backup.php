@@ -2,16 +2,16 @@
 
 /*
  *
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
@@ -23,161 +23,71 @@
  */
 
 class Backup {
-	
+
 	/*
 	 *	Class Attributes
 	 *
 	 **/
 	 var $connection;
 	 var $database;
-	 
+
 	 var $constraints;
-	 
-	 
-	 
+
+
+
 	 /*
 	 *
 	 *	Class Constructor
 	 *
 	 **/
-	
+
 	function __construct() {
-		// nothing to do		
+		// nothing to do
 	}
-	
+
 	/*
 	 *	Setter method followed by getter method for each
 	 *	attribute
 	 *
 	 **/
-	
+
 	function setConnection($connection){
-		
+
 		$this->connection = $connection;
 	}
-	
+
 	function getConnection (){
-		
+
 		return $this->connection;
 	}
-	
+
 	function setDatabase($database) {
-		
+
 		$this->database = $database;
 	}
-	
+
 	function getDatabase() {
-		
+
 		return $this->database;
 	}
-	
+
 	function getConstraints() {
 		return $this->constraints;
-	}	
-	
+	}
+
 	function dumpDatabase($structure=false) {
 		$struc="";
-		if($structure) {			
-		 	$struc= $this->_dumpStructure();	
+		if($structure) {
+		 	$struc= $this->_dumpStructure();
 		}
 		$data = $this-> _dumpData();
-		
+
 		return $struc.$data;
 	}
-	
-	
-	function _dumpData() {
-		
-		// Connect to database
-		$db = @mysql_select_db($this->getDatabase());
 
-		if (!empty($db)) {
-
-			// Get all table names from database
-			$c = 0;
-			$result = mysql_list_tables($this->getDatabase());
-			for($x = 0; $x < mysql_num_rows($result); $x++) {
-				$table = mysql_tablename($result, $x);
-				if (!empty($table)) {
-					$arr_tables[$c] = mysql_tablename($result, $x);
-					$c++;
-				}
-			}
-
-			// List tables
-			$dump = '';
-			if (isset($arr_tables) && is_array($arr_tables)) {
-			for ($y = 0; $y < count($arr_tables); $y++){
-
-				// DB Table name
-				$table = $arr_tables[$y];
-
-				// Dump data
-				$data ="";
-				$result     = mysql_query("SELECT * FROM `$table`");
-				$num_rows   = mysql_num_rows($result);
-				$num_fields = mysql_num_fields($result);
-
-				for ($i = 0; $i < $num_rows; $i++) {
-
-					$row = mysql_fetch_object($result);
-					$data .= "INSERT INTO `$table` (";
-
-					// Field names
-					for ($x = 0; $x < $num_fields; $x++) {
-
-						$field_name = mysql_field_name($result, $x);
-						
-						$valueOfFiled = str_replace('\"', '"', mysql_escape_string($row->$field_name));
-						$type = mysql_field_type($result, $x);
-						
-						if (!empty($valueOfFiled) || (($type == 'int') && ($valueOfFiled === 0))) {
-							$data .= "`{$field_name}`, ";							
-						}
-					}
-					
-					$data = substr($data, 0, -2);
-
-					$data .= ") VALUES (";
-
-					// Values
-					for ($x = 0; $x < $num_fields; $x++) {
-						$field_name = mysql_field_name($result, $x);
-						$type = mysql_field_type($result, $x);
-						
-						$valueOfFiled = str_replace('\"', '"', mysql_escape_string($row->$field_name));
-
-						if (!empty($valueOfFiled)) {							
-							$valueOfFiled = "'" .$valueOfFiled. "'";
-							$data .= $valueOfFiled.", ";
-						} else if (($type == 'int') && ($valueOfFiled === 0)) {
-							$valueOfFiled = $valueOfFiled;
-							$data .= $valueOfFiled.", ";
-						}
-
-					}
-					
-					$data = substr($data, 0, -2);
-
-					$data.= ");\r\n";
-				}
-
-				$data.= "\r\n";
-
-				$dump .= $data;
-				
-			}
-			}
-
-			return $dump;
-
-		}
-
-	}
-	
 	function _dumpStructure() {
 		$this->constraints = "";
-		
+
 		// Connect to database
 		$db = @mysql_select_db($this->getDatabase());
         $structure="";
@@ -193,12 +103,12 @@ class Backup {
 					$c++;
 				}
 			}
-			
+
 			// List tables
 			$dump = '';
 			if (isset($arr_tables) && is_array($arr_tables)) {
 			for ($y = 0; $y < count($arr_tables); $y++) {
-				
+
 				// DB Table name
 				$table = $arr_tables[$y];
 				$this->constraints .= $this->_getConstraints($table);
@@ -267,20 +177,20 @@ class Backup {
 
 				$structure .= "\r\n);\r\n\r\n";
 			}
-			
+
 			}
-			
+
 			return $structure;
 		}
-	
+
 	}
-	
+
 	function _getConstraints($table) {
 		$crlf = "\r\n";
-		
+
 		$sql_constraints = "";
 		$result = mysql_query('SHOW CREATE TABLE `'.$table.'`');
-	
+
     	if ($result != FALSE && ($row = mysql_fetch_row($result))) {
         	$create_query = $row[1];
         	unset($row);
@@ -298,7 +208,7 @@ class Backup {
         	if (isset($GLOBALS['if_not_exists'])) {
             	$create_query     = preg_replace('/^CREATE TABLE/', 'CREATE TABLE IF NOT EXISTS', $create_query);
         	}
-        				
+
         	// are there any constraints to cut out?
         	if (preg_match('@CONSTRAINT|FOREIGN[\s]+KEY@', $create_query)) {
 
@@ -335,13 +245,137 @@ class Backup {
             	$sql_constraints .= ';' . $crlf;
             	$create_query = implode($crlf, array_slice($sql_lines, 0, $i)) . $crlf . implode($crlf, array_slice($sql_lines, $j, $sql_count - 1));
             	unset($sql_lines);
-        	}        	
-        
+        	}
+
    		}
-   			
+
     	return $sql_constraints;
-    	
+
 	}
-	
+
+	function _dumpData() {
+
+		// Connect to database
+		$db = @mysql_select_db($this->getDatabase());
+
+		if (!empty($db)) {
+
+			// Get all table names from database
+			$c = 0;
+			$result = mysql_list_tables($this->getDatabase());
+			for($x = 0; $x < mysql_num_rows($result); $x++) {
+				$table = mysql_tablename($result, $x);
+				if (!empty($table)) {
+					$arr_tables[$c] = mysql_tablename($result, $x);
+					$query = "SHOW COLUMNS FROM {$arr_tables[$c]}";
+
+					$res = mysql_query($query);
+
+					$i=0;
+					while ($row = mysql_fetch_object($res)) {
+						$arr_fields[$c][$i] = $row;
+						$i++;
+					}
+					$c++;
+				}
+			}
+
+			// List tables
+			$dump = '';
+			if (isset($arr_tables) && is_array($arr_tables)) {
+			for ($y = 0; $y < count($arr_tables); $y++){
+
+				// DB Table name
+				$table = $arr_tables[$y];
+
+				// Dump data
+				$data ="";
+				$result     = mysql_query("SELECT * FROM `$table`");
+				$num_rows   = mysql_num_rows($result);
+				$num_fields = mysql_num_fields($result);
+
+				for ($i = 0; $i < $num_rows; $i++) {
+
+					$row = mysql_fetch_object($result);
+					$data .= "INSERT INTO `$table` (";
+
+					// Field names
+					for ($x = 0; $x < $num_fields; $x++) {
+
+						$field_name = mysql_field_name($result, $x);
+
+						$valueOfFiled = $row->$field_name;
+						$type = mysql_field_type($result, $x);
+
+						//if (!empty($valueOfFiled) || (($type == 'int') && ($valueOfFiled === 0))) {
+							$data .= "`{$field_name}`, ";
+						//}
+					}
+
+					$data = substr($data, 0, -2);
+
+					$data .= ") VALUES (";
+
+					// Values
+					for ($x = 0; $x < $num_fields; $x++) {
+						$field_name = mysql_field_name($result, $x);
+						$type = mysql_field_type($result, $x);
+
+						$valueOfFiled = $row->$field_name;
+
+						if ($type == 'null') {
+							$valueOfFiled = 'NULL';
+						} else if ($type == 'string') {
+							if (empty($valueOfFiled)) {
+								if ($arr_fields[$y][$x]->Null == 'YES') {
+									$valueOfFiled = 'NULL';
+								} else {
+									$valueOfFiled = "''";
+								}
+							} else {
+								$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
+							}
+						} else if (($type == 'int') || ($type == 'real')) {
+							if (empty($valueOfFiled)) {
+								if ($arr_fields[$y][$x]->Null == 'YES') {
+									$valueOfFiled = 'NULL';
+								} else {
+									$valueOfFiled = '0';
+								}
+							} else {
+								$valueOfFiled = $valueOfFiled;
+							}
+						} else if (empty($valueOfFiled)) {
+							if ($arr_fields[$y][$x]->Null == 'YES') {
+								$valueOfFiled = 'NULL';
+							} else {
+								$valueOfFiled = "''";
+							}
+						} else if ($type == 'blob') {
+							$valueOfFiled = '0x'.bin2hex($valueOfFiled);
+						} else {
+							$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
+						}
+
+						$data .= $valueOfFiled.", ";
+					}
+
+					$data = substr($data, 0, -2);
+
+					$data.= ");\r\n";
+				}
+
+				$data.= "\r\n";
+
+				$dump .= $data;
+
+			}
+			}
+
+			return $dump;
+
+		}
+
+	}
 }
 ?>

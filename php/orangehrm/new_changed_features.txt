@@ -1,5 +1,7 @@
 New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 
+	1. Support employee leaving the company
+
 	Bugs fixed include:
 
 	BugId     Name
@@ -8,6 +10,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 	1735477   OrangeHRM Russian Language Not Working
 	1718864   User Group Rights - what\'s the meaning of clear button
 	1735746   Undefined variable lang_rep_Languages
+	1737107   Problem upgrading RC_1 to RC_2
 
 	Following bugs were closed
 
@@ -613,7 +616,7 @@ Employee Information and can also be updated (replaced) with latest
 photographs in edit mode.
 
 * Report To
-This feature allows to define the �report to� hierarchy of all employees
+This feature allows to define the report to hierarchy of all employees
 (supervisors/subordinates)
 and reporting type (direct/indirect); On selecting an employee, all the
 supervisors/subordinates
@@ -693,7 +696,7 @@ Maintenance
 User
 * Users will not be able to delete the user account they have used to login
 * Users are divided into HR Admin users and Ordinary users. If the �Is
-HR Admin�
+HR Admin
 flag is selected, then all the modules (Admin, PIM, Reports, Maintenance,
 Bug Tracker will be available to them). However if the �Is HR Admin�
 flag is
