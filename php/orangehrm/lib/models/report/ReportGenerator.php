@@ -358,7 +358,7 @@ class ReportGenerator {
  			$parentTableName['YEAROFPASSING']	    	= 'HS_HR_EMP_EDUCATION c';
  			$existingTableFieldName['YEAROFPASSING']	= 'c.EDU_CODE';
  			$existingTableName['YEAROFPASSING']		= 'HS_HR_EMP_EDUCATION c';
- 			$parentTableDescription['YEAROFPASSING']  = "c.EDU_CODE, YEAR(c.EDU_END_DATE)";
+ 			$parentTableDescription['YEAROFPASSING']  = "c.EDU_CODE, IF(STRCMP(YEAR(c.EDU_END_DATE), '0'), YEAR(c.EDU_END_DATE),  '')";
 
  			$groupBy['YEAROFPASSING'] = $existingTableFieldName['YEAROFPASSING'];
  		}
