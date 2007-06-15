@@ -13,7 +13,8 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007)
 	1737107   Problem upgrading RC_1 to RC_2
 	1736824   For qualification, if year of passing is not available it appears as 0
 	1737641   Employee popup doesn't have names of some employees
-	1701076   Leave Summary -> Employee Leave Summary heading is misleadin
+	1701076   Leave Summary -> Employee Leave Summary heading is misleading
+	1707583   Usability - No records found in Red
 
 	Following bugs were closed
 

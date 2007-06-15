@@ -284,8 +284,8 @@ parent.scrollTo(0, 0);
               <!-- no results message -->
 <?php 		if ((isset($emplist)) && ($emplist =='')) {
     ?>
-        		<td colspan="4">
-                    <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $norecorddisplay ?></font>
+        		<td colspan="4" align="right">
+                    <span><?php echo $norecorddisplay ?></span>
                 </td>
 <?php
         	}
@@ -326,7 +326,7 @@ echo $pageStr;
 						  <?php $j=7; ?>
 						  <td scope="col" width="400" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <?php $j=6; ?>
-						  <td scope="col" width="80" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_JobTitle; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+						  <td scope="col" width="90" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_JobTitle; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <?php $j=9; ?>
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_EmploymentStatus; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <?php $j=8; ?>

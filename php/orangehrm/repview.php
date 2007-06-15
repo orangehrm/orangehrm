@@ -278,13 +278,18 @@ else
 		else
     		echo "<a href='#' onClick='nextPage()'>$Next</a>";
 
-	}
+	} else  if ((isset($message)) && ($message =='')) {
+    	$dispMessage = $dispMessage;
+    	echo '<span style="text-align:right;">';
+   		echo $dispMessage;
+    	echo '</span';
+   }
 ?>
 		</td>
 		<td width="25"></td>
 		</tr>
 		</table>
-              <table border="0" cellpadding="0" cellspacing="0">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -346,15 +351,7 @@ else
                 </tr>
 
          <?php }
-        	  } else if ((isset($message)) && ($message =='')) {
-
-        		 $dispMessage = $dispMessage;
-        		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
-        		 echo $dispMessage;
-        		 echo '</font>';
-        	}
-
-         ?>
+        	  } ?>
 
                 <tr>
                   <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>

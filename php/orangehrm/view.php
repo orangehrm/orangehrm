@@ -308,7 +308,7 @@ $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), 
 echo $pageStr;
 
 	if ($message == '') { ?>
-		<span class="error"><?php echo $dispMessage; ?></span>
+		<span ><?php echo $dispMessage; ?></span>
 <?php  } ?>
 		</td>
 		<td width="25"></td>
