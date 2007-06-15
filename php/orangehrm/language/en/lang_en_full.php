@@ -257,7 +257,7 @@
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #employeeName for #dispYear";
-	$lang_Leave_Select_Employee_Title 		= "Select Employee";
+	$lang_Leave_Select_Employee_Title 		= "Select employee or leave type";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #dispYear";
 	$lang_Leave_Leave_Summary_SUP_Title 	= "Leave Summary for #employeeName for #dispYear";
 	$lang_Leave_Define_leave_Type_Title 	= "Define Leave Type ";
