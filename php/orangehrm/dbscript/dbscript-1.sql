@@ -260,9 +260,9 @@ create table `hs_hr_emp_work_experience` (
 create table `hs_hr_employee` (
   `emp_number` int(7) not null default 0,
   `employee_id` varchar(50) default null,
-  `emp_lastname` varchar(100) default '',
-  `emp_firstname` varchar(100) default '',
-  `emp_middle_name` varchar(100) default '',
+  `emp_lastname` varchar(100) default '' not null,
+  `emp_firstname` varchar(100) default '' not null,
+  `emp_middle_name` varchar(100) default '' not null,
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
   `ethnic_race_code` varchar(6) default null,

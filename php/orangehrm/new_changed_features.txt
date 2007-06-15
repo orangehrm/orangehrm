@@ -12,6 +12,7 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (15/06/2007)
 	1735746   Undefined variable lang_rep_Languages
 	1737107   Problem upgrading RC_1 to RC_2
 	1736824   For qualification, if year of passing is not available it appears as 0
+	1737641 ] Employee popup doesn't have names of some employees
 
 	Following bugs were closed
 
