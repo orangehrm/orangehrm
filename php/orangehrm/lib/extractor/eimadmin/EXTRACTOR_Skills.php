@@ -29,6 +29,7 @@ class EXTRACTOR_Skills {
 	function parseAddData($postArr) {	
 			
 			$this->parent_skills -> setSkillId($this->parent_skills ->getLastRecord());
+			$this->parent_skills -> setSkillName(trim($postArr['txtSkillName']));
 			$this->parent_skills -> setSkillDescription(trim($postArr['txtSkillDesc']));
 			
 			return $this->parent_skills;
@@ -37,6 +38,7 @@ class EXTRACTOR_Skills {
 	function parseEditData($postArr) {	
 			
 			$this->parent_skills -> setSkillId(trim($postArr['txtSkillID']));
+			$this->parent_skills -> setSkillName(trim($postArr['txtSkillName']));
 			$this->parent_skills -> setSkillDescription(trim($postArr['txtSkillDesc']));
 			
 			return $this->parent_skills;

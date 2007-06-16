@@ -180,8 +180,15 @@
 			<?php
 
 				} else {
+					// If in the popup window, allow top level (company) to be selected as well. 
+					if (isset($_GET['esp']) && $_GET['esp'] == 1) {
+                                        ?>
+						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
 
-					echo $child[0]['title'];
+                                        <?php
+					} else {
+						echo $child[0]['title'];
+					}
 
 				}
 			?>

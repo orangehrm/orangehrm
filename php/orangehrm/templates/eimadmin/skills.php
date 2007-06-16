@@ -40,8 +40,8 @@ require_once($lan->getLangPath("full.php"));
 
 	function addSave() {
 		
-		if (document.frmSkills.txtSkillDesc.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+		if (document.frmSkills.txtSkillName.value == '') {
+		        alert("<?php echo $lang_Admin_Skill_Errors_NameCannotBeBlank; ?>");
 			return false;
 		}
 		
@@ -50,6 +50,7 @@ require_once($lan->getLangPath("full.php"));
 	}			
 	
 	function clearAll() {
+		document.frmSkills.txtSkillName.value = '';
 		document.frmSkills.txtSkillDesc.value = '';
 	}
 </script>
@@ -102,8 +103,12 @@ require_once($lan->getLangPath("full.php"));
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
 						  <tr> 
-						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
-						    <td> <textarea name='txtSkillDesc' rows="3" tabindex='3' cols="30"></textarea> </td>
+						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
+						    <td> <input type="text" name='txtSkillName' tabindex="3" /> </td>
+						  </tr>
+						  <tr> 
+						    <td nowrap valign="top"> <?php echo $lang_Commn_description; ?></td>
+						    <td> <textarea name='txtSkillDesc' rows="3" cols="30" tabindex="3" ></textarea> </td>
 						  </tr>
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
         <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
@@ -215,8 +220,8 @@ function edit()
 
 	function addUpdate() {
 		
-		if (document.frmSkills.txtSkillDesc.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+		if (document.frmSkills.txtSkillName.value == '') {
+		        alert("<?php echo $lang_Admin_Skill_Errors_NameCannotBeBlank; ?>");
 			return false;
 		}
 		
@@ -228,7 +233,7 @@ function edit()
 		if(document.Edit.title!='Save') 
 			return;
 
-			document.frmSkills.txtSkillDesc.value = '';
+			document.frmSkills.txtSkillName.value = '';
 	}			
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
@@ -280,9 +285,22 @@ function edit()
 							    <td> <input type="hidden"  name="txtSkillID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
 							  </tr>
 							  <tr> 
-							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
-							  	  <td align="left" valign="top"> <textarea name='txtSkillDesc' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
+							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
+<?php
+								 /* Remove newlines from the skill name.
+                                                                  * Earlier, skill name was a textarea and can contain new lines in it
+                                                                  */
+								 $skillName = preg_replace("/[\n\r]/"," ",trim($message[0][1]) ); 
+?>
+							  	  <td align="left" valign="top"> <input type="text" name='txtSkillName' disabled tabindex='3'  value="<?php echo $skillName ?>" ></td>
 							  </tr>
+							  <tr> 
+							    <td nowrap valign="top"> <?php echo $lang_Commn_description; ?></td>
+							  	  <td align="left" valign="top"> 
+							              <textarea name='txtSkillDesc' disabled rows="3" cols="30" tabindex='3' ><?php echo $message[0][2]?></textarea>
+                                                            </td>
+							  </tr>
+
 					  <tr><td></td><td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">

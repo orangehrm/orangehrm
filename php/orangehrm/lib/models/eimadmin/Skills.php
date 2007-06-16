@@ -28,6 +28,7 @@ class Skills {
 
 	var $skillId;
 	var $skillDesc;
+	var $skillName;
 	var $arrayDispList;
 	var $singleField;
 
@@ -47,6 +48,10 @@ class Skills {
 		$this->skillDesc = $skillDesc;
 	}
 
+	function setSkillName($skillName) {
+
+		$this->skillName = $skillName;
+	}
 
 	function getSkillId() {
 
@@ -54,10 +59,15 @@ class Skills {
 
 	}
 
+	function getSkillName() {
+
+		return $this->skillName;
+
+	}
+
 	function getSkillDescription() {
 
 		return $this->skillDesc;
-
 	}
 
 	function getListofSkills($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
@@ -65,6 +75,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -84,6 +95,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 
 	     }
@@ -105,6 +117,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -148,7 +161,8 @@ class Skills {
 
 		$this->getSkillId();
 		$arrFieldList[0] = "'". $this->getSkillId() . "'";
-		$arrFieldList[1] = "'". $this->getSkillDescription() . "'";
+		$arrFieldList[1] = "'". $this->getSkillName() . "'";
+		$arrFieldList[2] = "'". $this->getSkillDescription() . "'";
 
 
 		//$arrFieldList[0] = 'SKILL_CODE';
@@ -175,9 +189,11 @@ class Skills {
 
 		$this->getSkillId();
 		$arrRecordsList[0] = "'". $this->getSkillId() . "'";
-		$arrRecordsList[1] = "'". $this->getSkillDescription() . "'";
+		$arrRecordsList[1] = "'". $this->getSkillName() . "'";
+		$arrRecordsList[2] = "'". $this->getSkillDescription() . "'";
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$tableName = 'HS_HR_SKILL';
 
@@ -205,6 +221,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -224,6 +241,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 
 	     }
@@ -247,6 +265,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
@@ -265,6 +284,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 
 
 	    	$i++;
@@ -325,6 +345,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -343,6 +364,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0]; // Province Code
 	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	$arrayDispList[$i][2] = $line[2];
 
 	    	$i++;
 
@@ -367,6 +389,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
@@ -388,6 +411,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
+	    	$arrayDispList[$i][2] = $line[2];
 	    	$i++;
 
 	     }
@@ -411,6 +435,7 @@ class Skills {
 		$tableName = 'HS_HR_SKILL';
 		$arrFieldList[0] = 'SKILL_CODE';
 		$arrFieldList[1] = 'SKILL_NAME';
+		$arrFieldList[2] = 'SKILL_DESCRIPTION';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -430,6 +455,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0]; // Province Code
 	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
+	    	$arrayDispList[$i][2] = $line[2]; 
 
 	    	$i++;
 

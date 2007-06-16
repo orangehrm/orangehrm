@@ -401,6 +401,7 @@ create table `hs_hr_rights` (
 create table `hs_hr_skill` (
   `skill_code` varchar(6) not null default '',
   `skill_name` varchar(120) default null,
+  `skill_description` text default null,
   primary key  (`skill_code`)
 ) engine=innodb default charset=utf8;
 

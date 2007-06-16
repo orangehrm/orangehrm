@@ -66,7 +66,7 @@
 						    ?>
 					</select></td>
 			   <td width="50">&nbsp;</td>
-			  <td nowrap><?php echo $lang_hremp_Workstation; ?></td>
+			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
 			  <td nowrap><input type="text"  name="txtLocation" value="" readonly />
 			  			 <input type="hidden"  name="cmbLocation" value="" readonly />
 			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo $locRights['add'] ? '':'disabled'?> class="button" />
@@ -141,7 +141,7 @@
 			  </select></td>
 
 			  <td width="50">&nbsp;</td>
-			  <td nowrap><?php echo $lang_hremp_Workstation; ?></td>
+			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
 			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly />
 			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly />
 			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
