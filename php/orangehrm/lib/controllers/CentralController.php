@@ -1205,8 +1205,8 @@ switch ($moduletype) {
 
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addLeave();
-																						$leaveController->redirect("");
+																						$mes = $leaveController->addLeave();
+																						$leaveController->redirect($mes);
 																						break;
 
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
@@ -1225,7 +1225,7 @@ switch ($moduletype) {
 																							//$leaveController->sendChangedLeaveNotification($obj, true);
 																						}
 
-																						$leaveController->redirect("");
+																						$leaveController->redirect($mes);
 																						break;
 
 											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();

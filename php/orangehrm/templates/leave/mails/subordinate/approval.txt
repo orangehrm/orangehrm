@@ -2,8 +2,8 @@ Hi #subordinate,
 
 You are hereby notified that the following leave applied by you are now approved by your supervisor;
 
-Applied Date(s)	Type of Leave	Comments
-#{#date	#type		#comments}
+Applied Date(s)	Type of Leave	Full/Half Day		Comments
+#{#date	#type		#fullhalf	#comments}
 
 Thanks,
 

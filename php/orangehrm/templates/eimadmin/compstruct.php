@@ -264,7 +264,7 @@
   			</tr>
   			<tr>
 				<td valign="top">
-					<LABEL id="lblLocation" for="cmbLocation"><span class="error">*</span> <?php echo $lang_compstruct_Location?></LABEL>
+					<LABEL id="lblLocation" for="cmbLocation"> <?php echo $lang_compstruct_Location?></LABEL>
 				</td>
 				<td>
   					<select name="cmbLocation" id="cmbLocation" onChange="locChange(this);">

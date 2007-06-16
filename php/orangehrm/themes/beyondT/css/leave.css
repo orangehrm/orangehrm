@@ -131,6 +131,14 @@ hr {
 	color: #ff0000;
 }
 
+.failure {
+	color: #ff0000;
+}
+
+.success {
+	color: #005500;
+}
+
 .hide {
 	display:none;
 }

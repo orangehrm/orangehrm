@@ -15,11 +15,17 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007)
 	1737641   Employee popup doesn't have names of some employees
 	1701076   Leave Summary -> Employee Leave Summary heading is misleading
 	1707583   Usability - No records found in Red
+	1728387 - Leave application notification is not complete
+	1728134 - No notice on leave application submission
+	1714113 - Better description for the error msg
+	1709833 - Paygrade - minimum salary, maximum salary, step increase need not be mandatory
+	1709826 - Feature: Add a sub-division - location need not be mandatory
 
 	Following bugs were closed
 
 	1716741   Location - Apostrophe not properly saved
 	1736219   Reports Not Working with Spanish Language Pack
+	1718860 - User Group Right - Nothing happens when user group name is clicked
 
 New & Changed Features for OrangeHRM ver 2.2_RC_2 (08/06/2007) {Revision 896}
 

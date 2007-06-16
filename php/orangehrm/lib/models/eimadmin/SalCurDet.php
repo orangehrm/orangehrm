@@ -112,9 +112,13 @@ class SalCurDet {
 
 		$arrFieldList[0] = "'". $this->getSalGrdId() . "'";
 		$arrFieldList[1] = "'". $this->getCurrId() . "'";
-		$arrFieldList[2] = "'". $this->getMinSal() . "'";
-		$arrFieldList[3] = "'". $this->getStepSal() . "'";
-		$arrFieldList[4] = "'". $this->getMaxSal() . "'";
+		$minSal = $this->getMinSal() == '' ? 'null' : $this->getMinSal();
+		$arrFieldList[2] = $minSal;
+		$maxSal = $this->getMaxSal() == '' ? 'null' : $this->getMaxSal();
+		$arrFieldList[3] = $maxSal;
+		$stepSal = $this->getStepSal() == '' ? 'null' : $this->getStepSal();
+		$arrFieldList[4] = $stepSal;
+
 
 		$tableName = 'HS_PR_SALARY_CURRENCY_DETAIL';
 	
@@ -131,7 +135,7 @@ class SalCurDet {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 		
 		 return $message2;
-		 echo $message2;
+		 //echo $message2;
 				
 	}
 	
@@ -139,12 +143,15 @@ class SalCurDet {
 		
 		$arrRecordsList[0] = "'". $this->getSalGrdId() . "'";
 		$arrRecordsList[1] = "'". $this->getCurrId() . "'";
-		$arrRecordsList[2] = "'". $this->getMinSal() . "'";
-		$arrRecordsList[3] = "'". $this->getMaxSal() . "'";
-		$arrRecordsList[4] = "'". $this->getStepSal() . "'";
+		$minSal = $this->getMinSal() == '' ? 'null' : $this->getMinSal();
+		$arrRecordsList[2] = $minSal;
+		$maxSal = $this->getMaxSal() == '' ? 'null' : $this->getMaxSal();
+		$arrRecordsList[3] = $maxSal;
+		$stepSal = $this->getStepSal() == '' ? 'null' : $this->getStepSal();
+		$arrRecordsList[4] = $stepSal;
 
 		$tableName = 'HS_PR_SALARY_CURRENCY_DETAIL';
-        $arrFieldList[0] = 'SAL_GRD_CODE';
+        	$arrFieldList[0] = 'SAL_GRD_CODE';
 		$arrFieldList[1] = 'CURRENCY_ID';
 		$arrFieldList[2] = 'SALCURR_DTL_MINSALARY';
 		$arrFieldList[3] = 'SALCURR_DTL_MAXSALARY';

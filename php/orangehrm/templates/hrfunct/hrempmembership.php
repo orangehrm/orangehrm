@@ -63,20 +63,20 @@ function goBack() {
 
 function addEXTMembership() {
 
-	if(document.frmEmp.cmbMemCode.value=='0') {
-		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
-		document.frmEmp.cmbMemCode.focus();
-		return;
-	}
-
 	if(document.frmEmp.cmbMemTypeCode.value=='0') {
-		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
+		alert('<?php echo $lang_hrempmemberships_NoMembershipTypeSelected; ?>');
 		document.frmEmp.cmbMemTypeCode.focus();
 		return;
 	}
 
+	if(document.frmEmp.cmbMemCode.value=='0') {
+		alert('<?php echo $lang_hrempmemberships_NoMembershipSelected; ?>');
+		document.frmEmp.cmbMemCode.focus();
+		return;
+	}
+
 	if(document.frmEmp.cmbMemSubOwn.value=='0') {
-		alert('<?php echo $lang_Error_FieldShouldBeSelected; ?>');
+		alert('<?php echo $lang_hrempmemberships_NoSubscriptionOwnerSelected; ?>');
 		document.frmEmp.cmbMemSubOwn.focus();
 		return;
 	}

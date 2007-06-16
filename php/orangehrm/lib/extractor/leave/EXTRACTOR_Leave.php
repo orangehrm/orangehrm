@@ -65,6 +65,7 @@ class EXTRACTOR_Leave {
 				$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
 
 				$tmpObj->setLeaveDate($postArr['txtLeaveDate'][$i]);
+				$tmpObj->setLeaveLength($postArr['sltLeaveLength'][$i]);
 
 				if (isset($postArr['txtEmployeeId'][$i])) {
 					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
@@ -102,6 +103,7 @@ class EXTRACTOR_Leave {
 
 					$tmpObj->setEmployeeName($postArr['txtEmployeeName'][$i]);
 					$tmpObj->setLeaveRequestId($postArr['txtLeaveRequestId'][$i]);
+					$tmpObj->setLeaveLength($postArr['sltLeaveLength'][$i]);
 
 					$objLeave[] = $tmpObj;
 				}

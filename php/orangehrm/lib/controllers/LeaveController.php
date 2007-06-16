@@ -337,11 +337,7 @@ class LeaveController {
 		$mailNotificaton->setAction(MailNotifications::MAILNOTIFICATIONS_ACTION_APPLY);
 		$mailNotificaton->send();
 
-		if ($res) {
-			$message="";
-		} else {
-			$message="FAILURE";
-		}
+		$message = ($res) ? "APPLY_SUCCESS" : "APPLY_FAILURE";
 
 		return $message;
 	}
@@ -350,8 +346,8 @@ class LeaveController {
 		$tmpObj = $this->getObjLeave();
 		$tmpObj->setLeaveStatus(Leave::LEAVE_STATUS_LEAVE_APPROVED);
 		$res = $tmpObj->changeLeaveStatus();
-
-		return $res;
+		$message = ($res) ? "APPROVE_SUCCESS" : "APPROVE_FAILURE";
+		return $message;
 	}
 	public function displayLeaveInfo($admin=false) {
 		$authorizeObj = $this->authorize;

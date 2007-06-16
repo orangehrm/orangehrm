@@ -88,7 +88,7 @@
 			flag = false;
 		};
 		
-		if ((document.getElementById("cmbLocation").value == '') || (document.getElementById("cmbLocation").value == 'Other')) {
+		if (document.getElementById("cmbLocation").value == 'Other') {
 			errs+="- <?php echo $lang_Error_CompStruct_LocEmpty; ?>.\n";
 			flag = false;
 		};

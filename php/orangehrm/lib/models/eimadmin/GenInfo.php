@@ -64,7 +64,7 @@ class GenInfo {
 		
 		$compStructObj->setaddStr($compStruct_newTitle);
 		$compStructObj->setid(1);
-		$compStructObj->setlocation('null');
+		$compStructObj->setlocation('');
 		
 		$compStructObj->updateCompStruct();
 		

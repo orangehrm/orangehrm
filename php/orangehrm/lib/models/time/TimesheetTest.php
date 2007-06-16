@@ -7,6 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
+require_once 'testConf.php';
 require_once 'Timesheet.php';
 
 /**

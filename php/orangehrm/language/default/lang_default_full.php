@@ -160,6 +160,10 @@
 
  	$lang_Leave_Title_Apply_Leave 						= "Apply Leave";
  	$lang_Leave_Title_Assign_Leave 						= "Assign Leave";
+	$lang_Leave_APPLY_SUCCESS 						= "Apply succeeded";
+	$lang_Leave_APPLY_FAILURE 						= "Apply failed";
+	$lang_Leave_APPROVE_SUCCESS 						= "Leave Assigned";
+	$lang_Leave_APPROVE_FAILURE 						= "Leave Assign failed";
 
 	// Report
 	$lang_Menu_Reports = "Reports";
@@ -499,6 +503,10 @@
 	$lang_hremplicenses_NoLicenseSelected	= "No license selected";
 	$lang_hremplicenses_SelectLicenseType	= "Select License Type";
 
+	$lang_hrempmemberships_NoMembershipTypeSelected	        = "No membership type selected";
+	$lang_hrempmemberships_NoMembershipSelected	        = "No membership selected";
+	$lang_hrempmemberships_NoSubscriptionOwnerSelected	= "No subscription owner selected";
+
 	$lang_hremp_SelectAtLEastOneAttachment = "Select at least one Attachment to Delete";
 
  	$lang_hrEmpMain_ratinggarde 			= "Competency";
@@ -616,6 +624,12 @@
 	$lang_salarygrades_heading 				= "Job : Pay Grade";
 	$lang_salarygrades_currAss 				= "Currency Assigned";
 	$lang_salarygrades_stepSal 				= "Step Increase";
+	$lang_salarygrades_selectcurrency 			= "Currency field should be selected";
+	$lang_salarygrades_minSalNumeric 			= "Minimum salary should be numeric";
+	$lang_salarygrades_maxSalNumeric 			= "Maximum salary should be numeric";
+	$lang_salarygrades_stepSalNumeric 			= "Step salary should be numeric";
+        $lang_salarygrades_minGreaterThanMax                    = "Minimum Salary > Maximum Salary !";
+
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
 

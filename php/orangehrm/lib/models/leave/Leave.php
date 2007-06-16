@@ -428,6 +428,7 @@ class Leave {
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
+		return $result;
 	}
 
 	/**

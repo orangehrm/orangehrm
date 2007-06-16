@@ -85,7 +85,10 @@ class CompStruct {
 
 		$sqlString1=sprintf("UPDATE hs_hr_compstructtree SET rgt=rgt+2 WHERE rgt>%d", $this->rgt-1);
 		$sqlString2=sprintf("UPDATE hs_hr_compstructtree SET lft=lft+2 WHERE lft>%d", $this->rgt-1);
-		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code='%s'", $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $this->location);
+
+		$locCode = $this->_getEscapedLocation();
+
+		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code=%s", $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $locCode);
 
 		/*
 		 *
@@ -140,25 +143,34 @@ class CompStruct {
 
 	function updateCompStruct() {
 
-		$updateTable = '`hs_hr_compstructtree`';
+		$locCode = $this->_getEscapedLocation();
 
-		$updateFields[] = '`title`';
-		$updateFields[] = '`Description`';
-		$updateFields[] = '`loc_code`';
-
-		$updateValues[] = "'".$this->addStr."'";
-		$updateValues[] = "'".$this->strDesc."'";
-		$updateValues[] = $this->location;
-
-		$updateConditions[] = '`ID` = '.$this->id;
-
-		$sqlQueryBuilder = new SQLQBuilder();
-
-		$sqlString1 = $sqlQueryBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s WHERE ID = %d", 
+                                  mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, $this->id);
 
 		$dbConnection = new DMLFunctions();
 
 		$message2 = $dbConnection -> executeQuery($sqlString1);
+	}
+
+        /**
+         * Returns the escaped and quoted location code for insertion into sql string.
+         * If location code is empty, returns "NULL"
+         *
+         * @return escaped location code.
+         */
+ 	private function _getEscapedLocation() {
+
+       		/*
+                 * Location code is optional. If not given it is set to NULL. 
+                 */
+                if ($this->location == '') {
+		    $locCode = "NULL";
+                } else {
+		    $locCode = sprintf("'%s'", mysql_real_escape_string($this->location));
+                }
+
+		return $locCode;
 	}
 
 	function displayTree ( $root ) {

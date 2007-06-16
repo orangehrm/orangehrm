@@ -252,8 +252,12 @@ class LeaveRequests extends Leave {
 	 *
 	 */
 	public function applyLeaveRequest() {
-		$this->_addLeaveRequest();
-		$this->_applyLeaves();
+		$res = $this->_addLeaveRequest();
+
+		if ($res) {
+			$res = $this->_applyLeaves();
+		}
+		return $res;
 	}
 
 	/**
@@ -264,10 +268,13 @@ class LeaveRequests extends Leave {
 		$from = strtotime($this->getLeaveFromDate());
 		$to = strtotime($this->getLeaveToDate());
 
+		$res = true;
 		for ($timeStamp=$from; $timeStamp<=$to; $timeStamp=$this->_incDate($timeStamp)) {
 			$this->setLeaveDate(date('Y-m-d', $timeStamp));
-			$this->_addLeave();
+			$res = $res && $this->_addLeave();
 		}
+
+		return $res;
 	}
 
 	/**
@@ -307,6 +314,8 @@ class LeaveRequests extends Leave {
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
+
+		return $result;
 
 	}
 

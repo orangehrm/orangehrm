@@ -379,40 +379,51 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function addEXT() {
 
 		if(document.frmSalCurDet.cmbUnAssCurrency.value=='0') {
-			alert("Currency field should be selected");
+			alert("<?php echo $lang_salarygrades_selectcurrency; ?>");
 			document.frmSalCurDet.cmbUnAssCurrency.focus();
 			return;
 		}
 
 		var cnt=document.frmSalCurDet.txtMinSal;
+		var bMinEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!decimal(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
-		} else
-			var min=eval(cnt.value);
+		if(!bMinEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_minSalNumeric; ?>");
+				cnt.focus();
+				return;
+			} else {
+				var min=eval(cnt.value);
+			}
+		}
 
 		var cnt=document.frmSalCurDet.txtMaxSal;
+		var bMaxEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!decimal(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
-		} else
-			var max=eval(cnt.value);
+		if(!bMaxEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_maxSalNumeric; ?>");
+				cnt.focus();
+				return;
+			} else {
+				var max=eval(cnt.value);
+			}
+		}
 
-		if(min>max) {
-			alert("Minmum Salary > Maximum Salary !");
+		if(!bMaxEmpty && !bMinEmpty && min > max) {
+			alert("<?php echo $lang_salarygrades_minGreaterThanMax; ?>");
 			return;
 		}
 
 		var cnt=document.frmSalCurDet.txtStepSal;
+		var bStepSalEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!decimal(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
+		if(!bStepSalEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_stepSalNumeric; ?>");
+				cnt.focus();
+				return;
+			}
 		}
 
 		document.frmSalCurDet.STAT.value="ADD";
@@ -422,38 +433,49 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function editEXT() {
 
 		var cnt=document.frmSalCurDet.txtMinSal;
+		var bMinEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!numeric(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
+		if(!bMinEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_minSalNumeric; ?>");
+				cnt.focus();
+				return;
+			} else {
+				var min=eval(cnt.value);
+			}
 		}
-		var min=eval(cnt.value);
 
 		var cnt=document.frmSalCurDet.txtMaxSal;
+		var bMaxEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!numeric(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
+		if(!bMaxEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_maxSalNumeric; ?>");
+				cnt.focus();
+				return;
+			} else {
+				var max=eval(cnt.value);
+			}
 		}
-		var max=eval(cnt.value);
 
-		if(min>max) {
-			alert("Minmum Salary < Maximum Salary !");
+		if(!bMaxEmpty && !bMinEmpty && min > max) {
+			alert("<?php echo $lang_salarygrades_minGreaterThanMax; ?>");
 			return;
 		}
 
 		var cnt=document.frmSalCurDet.txtStepSal;
+		var bStepSalEmpty = (cnt.value == '' || cnt.value == null);
 
-		if(!numeric(cnt)) {
-			alert("Field should be Numeric");
-			cnt.focus();
-			return;
+		if(!bStepSalEmpty) {
+			if(!decimal(cnt)) {
+				alert("<?php echo $lang_salarygrades_stepSalNumeric; ?>");
+				cnt.focus();
+				return;
+			}
 		}
 
-		  document.frmSalCurDet.STAT.value="EDIT";
-		  document.frmSalCurDet.submit();
+		document.frmSalCurDet.STAT.value="EDIT";
+	        document.frmSalCurDet.submit();
 	}
 
 	function delEXT() {
@@ -661,15 +683,15 @@ function delCurrency() {
 							</tr>
 
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
+								<td><?php echo $lang_hrEmpMain_minpoint; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMinSal"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
+								<td><?php echo $lang_hrEmpMain_maxpoint; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMaxSal"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_salarygrades_stepSal; ?></td>
+								<td><?php echo $lang_salarygrades_stepSal; ?></td>
 								<td><input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtStepSal"></td>
 							</tr>
 			<tr>
@@ -701,15 +723,15 @@ function delCurrency() {
 									</strong></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_minpoint; ?></td>
+								<td> <?php echo $lang_hrEmpMain_minpoint; ?></td>
 								<td><input type="text" disabled name="txtMinSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][2]);?>"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
+								<td> <?php echo $lang_hrEmpMain_maxpoint; ?></td>
 								<td><input type="text" disabled name="txtMaxSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][3]);?>"></td>
 							</tr>
 							<tr>
-								<td><span class="error">*</span> <?php echo $lang_salarygrades_stepSal; ?></td>
+								<td> <?php echo $lang_salarygrades_stepSal; ?></td>
 								<td><input type="text" disabled name="txtStepSal" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][4]);?>"></td>
 							</tr>
 			<tr>

@@ -29,6 +29,8 @@ require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
+require_once ROOT_PATH . '/lib/common/Language.php';
+
 /**
  * Manages sending of mail notifications
  *
@@ -250,18 +252,25 @@ class MailNotifications {
 		$recordTxt = $txtArr[1];
 		$recordArr = null;
 
-		$leaveCount = 0;
+		$fulldays = 0;
+		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED) {
 
-				$leaveCount++;
+				$leaveLength = $leaveObj->getLeaveLength(); 
+				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
+					$fulldays++;
+				} else {
+					$halfdays++;
+				}
+				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
 			}
 		}
 
@@ -280,6 +289,7 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
+			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = "Leave Notification - Approved $leaveCount day(s)";
 
 			$this->to = $this->subordinateMail;
@@ -305,18 +315,25 @@ class MailNotifications {
 		$recordTxt = $txtArr[1];
 		$recordArr = null;
 
-		$leaveCount = 0;
+		$fulldays = 0;
+		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_REJECTED) {
 
-				$leaveCount++;
+				$leaveLength = $leaveObj->getLeaveLength(); 
+				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
+					$fulldays++;
+				} else {
+					$halfdays++;
+				}
+				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
 			}
 		}
 
@@ -335,6 +352,7 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
+			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = "Leave Notification - Rejected $leaveCount day(s)";
 
 			$this->to = $this->subordinateMail;
@@ -360,19 +378,26 @@ class MailNotifications {
 		$recordTxt = $txtArr[1];
 		$recordArr = null;
 
-		$leaveCount = 0;
+		$fulldays = 0;
+		$halfdays = 0;
 
 		if (is_array($leaveObjs)) {
 			foreach ($leaveObjs as $leaveObj) {
 				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
 
-					$leaveCount++;
+					$leaveLength = $leaveObj->getLeaveLength();					
+					if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
+						$fulldays++;
+					} else {
+						$halfdays++;
+					}
+					$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
 
 					$date = $leaveObj->getLeaveDate();
 					$type = $leaveObj->getLeaveTypeName();
 					$comments = $leaveObj->getLeaveComments();
 
-					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
 				}
 			}
 		}
@@ -392,6 +417,7 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
+			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = "Leave Notification - $employeeName applied for $leaveCount day(s)";
 
 			$this->to = $this->supervisorMail;
@@ -417,18 +443,25 @@ class MailNotifications {
 		$recordTxt = $txtArr[1];
 		$recordArr = null;
 
-		$leaveCount = 0;
+		$fulldays = 0;
+		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 
-				$leaveCount++;
+				$leaveLength = $leaveObj->getLeaveLength(); 
+				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
+					$fulldays++;
+				} else {
+					$halfdays++;
+				}
+				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#comments/'), array($date, $type, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
 			}
 		}
 
@@ -447,6 +480,7 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
+			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = "Leave Notification - $employeeName cancelled leave for $leaveCount day(s)";
 
 			$this->to = $this->supervisorMail;
@@ -509,6 +543,47 @@ class MailNotifications {
 		return null;
 	}
 
+	/**
+	 * Get the leave count as a string considering half days.
+	 *
+	 * @param interger $fulldays - Number of full days
+	 * @param integer $halfdays - Number of half days
+	 * @return String Number of leave days as a string (eg: 2 1/2 or 1/2 ) 
+	 */
+	private function _getLeaveCountStr($fulldays, $halfdays) {
+
+		$fulldays += floor($halfdays / 2);		
+		$halfdayStr = ($halfdays % 2 == 1) ? " 1/2" : "";
+		$fulldayStr = ($fulldays > 0) ? sprintf("%d", $fulldays) : "";
+
+		$leaveStr = sprintf("%s%s", $fulldayStr, $halfdayStr);
+		return $leaveStr;
+	}
+
+	/**
+	 * Get the description string for the leave length
+	 * (Half day / Morning etc. )
+	 *
+	 * @param integer $leaveLength - The leave length constant
+	 *
+	 * @return String Leave length description
+	 */
+	private function _getLeaveLengthDesc($leaveLength) {
+
+		$lan = new Language();
+		require ROOT_PATH . '/language/default/lang_default_full.php';
+		require ($lan->getLangPath("full.php"));
+
+		$desc = "";
+		if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
+			$desc = $lang_Leave_Common_FullDay; 
+		} else if ($leaveLength == Leave::LEAVE_LENGTH_HALF_DAY_MORNING) {
+			$desc = $lang_Leave_Common_HalfDayMorning;
+		} else if ($leaveLength == Leave::LEAVE_LENGTH_HALF_DAY_AFTERNOON) {
+			$desc = $lang_Leave_Common_HalfDayAfternoon;
+		}
+		return $desc;
+	}
 }
 
 ?>
