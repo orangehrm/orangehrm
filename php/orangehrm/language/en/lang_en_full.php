@@ -423,6 +423,7 @@
 	$lang_hremp_SelectJobTitle				= "Select Job Title";
 	$lang_hremp_EmpStatus					= "Employment Status";
 	$lang_hremp_Workstation					= "Workstation";
+	$lang_hremp_Subdivision					= "Sub-division";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
@@ -630,6 +631,7 @@
 	$lang_salarygrades_maxSalNumeric 			= "Maximum salary should be numeric";
 	$lang_salarygrades_stepSalNumeric 			= "Step salary should be numeric";
         $lang_salarygrades_minGreaterThanMax                    = "Minimum Salary > Maximum Salary !";
+
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
 
@@ -832,6 +834,10 @@
 	$lang_rep_AssignUserGroups = "Assign User Groups";
 	$lang_rep_UserGroups = "User Groups";
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
+
+	// Skills
+	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";
+		
 
 	// Email Notification Subscription
 	$lang_Admin_EMX_MailConfiguration = "Mail Configuration";

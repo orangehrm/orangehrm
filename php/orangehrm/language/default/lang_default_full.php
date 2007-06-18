@@ -376,6 +376,7 @@
 	$lang_empview_SubDivision				= "Sub-Division";
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
+	$lang_empview_EmploymentStatus			= "Employment status";
 
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
 
@@ -423,6 +424,8 @@
 	$lang_hremp_EmpStatus					= "Employment Status";
 	$lang_hremp_Workstation					= "Workstation";
 	$lang_hremp_Subdivision					= "Sub-division";
+	$lang_hremp_Location					= "Location";
+	$lang_hremp_SelectLocation				= "Select Location";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
