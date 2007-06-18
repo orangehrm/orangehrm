@@ -1,7 +1,7 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 915}
+New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 917}
 
 	1. Support employee leaving the company
-	2. Spanish language pack added (stable)
+	2. Spanish language pack added (still in beta stage)
 
 	Bugs fixed include:
 

@@ -260,15 +260,15 @@
 	$lang_Leave_Common_Recurring 			= "Se repite anualmente";
 
  	$lang_Leave_Leave_list_Title1 			= "Aprobar permiso";
-	$lang_Leave_Leave_Requestlist_Title1 	= "Aprobar la solicitud de permiso a #nombre de empleado";
-	$lang_Leave_Leave_list_Title2 			= "Permisos tomados por #nombre de empleado en #año";
+	$lang_Leave_Leave_Requestlist_Title1 	= "Aprobar la solicitud de permiso a #employeeName de empleado";
+	$lang_Leave_Leave_list_Title2 			= "Permisos tomados por #employeeName de empleado en #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "lista de permisos";
 	$lang_Leave_Select_Employee_Title 		= "seleccionar empleado";
 	$lang_Leave_Leave_Summary_Title 		= "Sumario de permisos";
-	$lang_Leave_Leave_Summary_EMP_Title 	= "Sumario de permisos de #nombre de empleado en #año";
+	$lang_Leave_Leave_Summary_EMP_Title 	= "Sumario de permisos de #employeeName de empleado en #dispYear";
 	$lang_Leave_Select_Employee_Title 		= "Seleccione empleado";
-	$lang_Leave_Leave_Summary_EMP_Title 	= "Sumario de permisos en #año";
-	$lang_Leave_Leave_Summary_SUP_Title 	= "Sumario de permisos por #nombre de empleado en #año";
+	$lang_Leave_Leave_Summary_EMP_Title 	= "Sumario de permisos en #dispYear";
+	$lang_Leave_Leave_Summary_SUP_Title 	= "Sumario de permisos por #employeeName de empleado en #dispYear";
 	$lang_Leave_Define_leave_Type_Title 	= "definir tipo de permiso";
 	$lang_Leave_Leave_Type_Summary_Title 	= "tipos de permiso";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Definir dias de permiso: dias festivos";
@@ -608,7 +608,7 @@ $lang_hrEmpMain_currency 				= "divisa";
 	$lang_hrEmpMain_SelectEducation			= "seleccione formación";
 	$lang_hrEmpMain_YearsOfExperiencCannotBeBlank = "años de experiencia no puede estar en blanco";
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "años de experiencia - formato erróneo para introducir";
-	$lang_hrEmpMain_YearsOfExperiencBetween = "años de experiencia debe ser un valor entre #rango";
+	$lang_hrEmpMain_YearsOfExperiencBetween = "años de experiencia debe ser un valor entre #range";
 	$lang_hrEmpMain_Skill 					= "capacitación";
 
 	$lang_hrEmpMain_subown_Company = 'compañía';
@@ -777,7 +777,7 @@ $lang_hrEmpMain_currency 				= "divisa";
 	$lang_view_CustomerId = "identificador de cliente";
 	$lang_view_CustomerName = "nombre de cliente";
 
-	$lang_index_WelcomeMes 			= " Bienvenido #nombre de usuario" ;
+	$lang_index_WelcomeMes 			= " Bienvenido #username" ;
 	$lang_index_ChangePassword 		= "cambiar contraseña";
 	$lang_index_Logout 				= "salir";
 
