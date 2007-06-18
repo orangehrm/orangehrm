@@ -20,6 +20,8 @@ New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007)
 	1714113 - Better description for the error msg
 	1709833 - Paygrade - minimum salary, maximum salary, step increase need not be mandatory
 	1709826 - Feature: Add a sub-division - location need not be mandatory
+	1586496 - Employee Info - Job - Should be possible to select company as work station
+	1710339 - Adding a skill - description shown and not name
 
 	Following bugs were closed
 
