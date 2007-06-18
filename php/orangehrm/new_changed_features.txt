@@ -4,6 +4,7 @@ New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 
 	1712255   Usability: Reports selection criteria -> Show emp number
 	1709830   Adding a paygrade - currencies that are no longer used are t
+	1722688   Wrong confirmation message after changing the password
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 917}

@@ -228,26 +228,24 @@ function prepCPW() {
       </p></td>
     <td width="254" align='left' valign='bottom'>
 	<?php
-    if (isset($this->getArr['msg'])) {
-        $expString = $this->getArr['msg'];
-        $expString = explode ("%", $expString);
-        $msgWord = join(' ', $expString);
+		if (isset($this->getArr['msg'])) {
 
-        $length = count($expString);
+			$expString  = $this->getArr['msg'];
+			$expString = explode ("_",$expString);
+			$length = count($expString);
 
-        $col_def = $expString[$length-1];
+			$col_def=$expString[$length-1];
 
-        $col_def = (isset($col_def) && ($col_def === 'Successful!')) ? 'SUCCESS' : 'FAILURE';
-
-        $expString = $this->getArr['msg'];
-
-        ?>
-			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $msgWord?>
+			$expString=$this->getArr['msg'];
+	?>
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?php
+				echo eval('return $lang_mtview_'.$expString.';');
+	?>
 			</font>
 	<?php
-    }
-
-    ?></td>
+		}
+		?></td>
   </tr>
 </table>
 

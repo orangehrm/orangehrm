@@ -261,7 +261,7 @@
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #employeeName for #dispYear";
-	$lang_Leave_Select_Employee_Title 		= "Select Employee";
+	$lang_Leave_Select_Employee_Title 		= "Select employee or leave type";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #dispYear";
 	$lang_Leave_Leave_Summary_SUP_Title 	= "Leave Summary for #employeeName for #dispYear";
 	$lang_Leave_Define_leave_Type_Title 	= "Define Leave Type ";
@@ -424,8 +424,6 @@
 	$lang_hremp_EmpStatus					= "Employment Status";
 	$lang_hremp_Workstation					= "Workstation";
 	$lang_hremp_Subdivision					= "Sub-division";
-	$lang_hremp_Location					= "Location";
-	$lang_hremp_SelectLocation				= "Select Location";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
@@ -839,7 +837,7 @@
 
 	// Skills
 	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";
-		
+
 
 	// Email Notification Subscription
 	$lang_Admin_EMX_MailConfiguration = "Mail Configuration";
@@ -970,4 +968,11 @@
 	$lang_Time_Select_Employee_TimesheetPeriod = "Timesheet period";
 
 	$lang_Time_Errors_PleaseAddAComment = "Please add a comment";
+
+	$lang_mtview_ADD_SUCCESS 				= "Successfully Added";
+	$lang_mtview_UPDATE_SUCCESS 			= "Successfully Updated";
+	$lang_mtview_DELETE_SUCCESS 			= "Successfully Deleted";
+	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
+	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
+	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
 ?>

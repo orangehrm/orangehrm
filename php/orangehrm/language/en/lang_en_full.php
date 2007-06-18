@@ -837,7 +837,7 @@
 
 	// Skills
 	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";
-		
+
 
 	// Email Notification Subscription
 	$lang_Admin_EMX_MailConfiguration = "Mail Configuration";
@@ -968,4 +968,11 @@
 	$lang_Time_Select_Employee_TimesheetPeriod = "Timesheet period";
 
 	$lang_Time_Errors_PleaseAddAComment = "Please add a comment";
+
+	$lang_mtview_ADD_SUCCESS 				= "Successfully Added";
+	$lang_mtview_UPDATE_SUCCESS 			= "Successfully Updated";
+	$lang_mtview_DELETE_SUCCESS 			= "Successfully Deleted";
+	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
+	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
+	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
 ?>
