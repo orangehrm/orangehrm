@@ -129,7 +129,7 @@ else
 			$reqPath.="&REPORT={$_GET['REPORT']}";
 ?>
         window.opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.name;
-        window.opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.title;
+        window.opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.name;
         window.close();
 
 <?php   } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'LEAVE')) {
