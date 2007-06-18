@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 912}
+New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 913}
 
 	1. Support employee leaving the company
 
