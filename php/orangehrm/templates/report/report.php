@@ -109,16 +109,23 @@ li{
 					}
 					echo "<td valign='top'>" . '<strong>' . $colHead . '</strong>' . '</td>';
 
-					if ($this->headName[$i] == 'Reporting method') {
-						$reportingMethod = $i;
-					}
-					if ($this->headName[$i] == 'Contract') {
-						$contractDate = $i;
-					}
-					if ($this->headName[$i] == 'Sub division') {
-						$subDivision = $i;
-						$compStructObj = new CompStruct();
-						$compStructObj->buildAllWorkStations();
+					switch ($this->headName[$i]) {
+						case 'Reporting method' : $reportingMethod = $i;
+												  break;
+						case 'Contract' : $contractDate = $i;
+										  break;
+						case 'Qualifications' : $qualifications = $i;
+												break;
+						case 'Sub division' : $subDivision = $i;
+											  $compStructObj = new CompStruct();
+											  $compStructObj->buildAllWorkStations();
+											  break;
+						case 'Job Title' : $jobTitle = $i;
+										   break;
+						case 'Skills' : $skills = $i;
+										break;
+						case 'Work experience' : $workExperience = $i;
+												 break;
 					}
 }?>
 
@@ -134,13 +141,31 @@ li{
 						$l++;
 				?>
 					<tr valign="top" class="<?php echo $className; ?>">
-<?php					for($j=$startColumn;$j<$columns; $j++) { ?>
+<?php					for($j=$startColumn;$j<$columns; $j++) {
+							$tdWidth='auto';
+							switch ($j) {
+								case $contractDate : $tdWidth='130px';
+													 break;
+								case $subDivision : $tdWidth='130px';
+													break;
+								case $jobTitle : $tdWidth='130px';
+												 break;
+								case $qualifications : $tdWidth='130px';
+													   break;
+								case $skills : $tdWidth='180px';
+											   break;
+								case $workExperience : $tdWidth='180px';
+											   		   break;
+							}
+					?>
 						<td>
 					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
 								$last=null; ?>
-								<ul>
-						<?php	foreach ($repDetails[$i][$j] as $k=>$dataItem) {
-									echo "<li>";
+								<ul style="height: 90%; width:<?php echo $tdWidth; ?>;">
+						<?php
+								$rowHeight=floor(80/count($repDetails[$i][$j]));
+								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
+									echo "<li style='height: $rowHeight%' >";
 									if (($repDetails[$i][$j][$k] != '')) {
 										if ($subDivision && ($subDivision == $j)) {
 											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
