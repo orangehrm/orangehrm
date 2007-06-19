@@ -79,8 +79,8 @@
 	$lang_Error_CityCannotBeEmpty 						= "Cuidad no puede estar vacía";
 	$lang_Error_AddressEmpty 							= "Falta dirección”";
 	$lang_Error_ZipEmpty 								= "Código postal no puede estar vacío";
-	$lang_Error_CompStruct_ZipInvalid 					= "El código postal contiene caracteres no numéricos: Aquí están” #characterList";
-	//Translate only “Here they are” part and #characterList, leave as it is. It’s specific variable. Anywhere if you see # symbol before the word – no need to translate.
+	$lang_Error_CompStruct_ZipInvalid 					= "El código postal contiene caracteres no numéricos: Aquí están #characterList";
+
 	$lang_Error_InvalidEmail 							= "Direccion de correo electrónico erronea";
 
 	$lang_Error_FieldShouldBeNumeric					= "El campo debe ser numérico";
@@ -777,7 +777,7 @@ $lang_hrEmpMain_currency 				= "divisa";
 	$lang_view_CustomerId = "identificador de cliente";
 	$lang_view_CustomerName = "nombre de cliente";
 
-	$lang_index_WelcomeMes 			= " Bienvenido #username" ;
+	$lang_index_WelcomeMes 			= "Bienvenido #username";
 	$lang_index_ChangePassword 		= "cambiar contraseña";
 	$lang_index_Logout 				= "salir";
 
@@ -969,7 +969,6 @@ $lang_hrEmpMain_currency 				= "divisa";
 
 //Do not translate the words with # prefics
 
-
 	$lang_Time_Timesheet_Status = "estatus: #status";// :#estatus
 
 	$lang_Time_Timesheet_Status_NotSubmitted = "no presentado";
@@ -1014,7 +1013,7 @@ $lang_hrEmpMain_currency 				= "divisa";
 	$lang_Time_Select_Employee_Title = "seleccione empleado";
 
 	$lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval = "hojas de servicio presentadas pendientes de probación del superior";
-	$lang_Time_Select_Employee_WeekStartingDate = "comienzo de la semana #date"; //#fecha
+	$lang_Time_Select_Employee_WeekStartingDate = "comienzo de la semana #date";
 
 	$lang_Time_Select_Employee_TimesheetPeriod = "periodo de hoja de servicio";
 
