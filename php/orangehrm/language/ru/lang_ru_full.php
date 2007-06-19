@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
- * @author: Darija Jevtuchova <darija@beyondm.net>
+ * @author: Darija Jevtuchova <darija@orangehrm.com>
  */
 
 	/**
@@ -40,7 +40,7 @@
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate = "Выберите действующую дату начала";
-	$lang_Error_PleaseSelectALeaveType = "Выберите вид отпуска";
+	$lang_Error_PleaseSelectALeaveType = "Выберите тип отпуска";
 
 	$lang_Error_LeaveDateCannotBeABlankValue = "Введите дату отпуска!";
 	$lang_Error_NameOfHolidayCannotBeBlank = "Введите название праздника";
@@ -59,9 +59,9 @@
 
 	$lang_Error_SubDivisionNameCannotBeEmpty = "Введите название подразделения";
 	$lang_Error_PleaseSelectATypeOrDefineACustomType = "Пожалуйста, выберите тип из существующих или введите новый тип";
-	$lang_Error_CompStruct_LocEmpty = "Пожалуйста, выберите расположение из существующих или введите новое расположение";
+	$lang_Error_CompStruct_LocEmpty = "Пожалуйста, выберите местонахождение из существующих или введите новое местонахождение";
 
-	$lang_Error_LocationNameEmpty = "Введите название расположения";
+	$lang_Error_LocationNameEmpty = "Введите название местонахождения";
 	$lang_Error_CountryNotSelected = "Выберите страну";
 	$lang_Error_StateNotSelected = "Введите округ";
 	$lang_Error_CityCannotBeEmpty = "Введите город";
@@ -101,14 +101,14 @@
 	$lang_Menu_Home_Blog = "Блог";
 
 	// Admin Module
-	$lang_Menu_Admin = "Администратор ";
+	$lang_Menu_Admin = "Администратор";
 
-	$lang_Menu_Admin_CompanyInfo = "Инфо о компании";
-	$lang_Menu_Admin_CompanyInfo_Gen = "Общая инфо";
+	$lang_Menu_Admin_CompanyInfo = "О компании";
+	$lang_Menu_Admin_CompanyInfo_Gen = "Общая информация";
 	$lang_Menu_Admin_CompanyInfo_CompStruct = "Структура компании";
-	$lang_Menu_Admin_CompanyInfo_Locations = "Местоположение";
+	$lang_Menu_Admin_CompanyInfo_Locations = "Местонахождение";
 
-	$lang_Menu_Admin_Job = "Работа";
+	$lang_Menu_Admin_Job = "Служба";
 	$lang_Menu_Admin_Job_JobTitles = "Название должности";
 	$lang_Menu_Admin_Job_PayGrades = "Уровень оплаты";
 	$lang_Menu_Admin_Job_EmpStatus = "Рабочий статус";
@@ -119,7 +119,7 @@
 	$lang_Menu_Admin_Quali_Licenses = "Лицензии";
 
 	$lang_Menu_Admin_Skills = "Навыки";
-	$lang_Menu_Admin_Skills_Skills = "Навыки";
+	$lang_Menu_Admin_Skills_Skills = "Служебные навыки";
 	$lang_Menu_Admin_Skills_Languages = "Языки";
 
 	$lang_Menu_Admin_Memberships = "Членство";
@@ -132,16 +132,16 @@
 
 	$lang_Menu_Admin_Users = "Пользователи";
 	$lang_Menu_Admin_Users_UserGroups = "Группы пользователей";
-	$lang_Menu_Admin_Users_HRAdmin = "Администратор персонала Пользователи";
-	$lang_Menu_Admin_Users_ESS = "Самообслуживание Пользователи";
+	$lang_Menu_Admin_Users_HRAdmin = "Менеджер отдела кадров";
+	$lang_Menu_Admin_Users_ESS = "Пользователи самообслуживания";
 
-	$lang_Menu_Admin_EmailNotifications  = "Извещения по эл. почте";
+	$lang_Menu_Admin_EmailNotifications  = "Извещения";
 	$lang_Menu_Admin_EmailConfiguration  = "Конфигурация";
 	$lang_Menu_Admin_EmailSubscribe  = "Подписаться";
 
 	// admin module
 	$lang_Admin_Common_Institute = "Институт";
-	$lang_Admin_Common_Course = "Курс";
+	$lang_Admin_Common_Course = "Специальность";
 
 	// Leave Module
 	$lang_Menu_Leave = "Отпуск";
@@ -150,11 +150,11 @@
 	$lang_Menu_Leave_LeaveSummary = "Сводка отпусков";
 	$lang_Menu_Leave_LeavesList = "Перечень отпусков";
 	$lang_Menu_Leave_ApproveLeave = "Подтвердить отпуск";
-	$lang_Menu_Leave_LeaveTypes = "Виды отпуска";
+	$lang_Menu_Leave_LeaveTypes = "Типы отпуска";
 	$lang_Menu_Leave_Apply = "Обращение";
 	$lang_Menu_Leave_Assign	= "Назначить";
 	$lang_Menu_Leave_LeaveList = "Перечень отпусков";
-	$lang_Menu_Leave_DefineDaysOff = "Определите нерабочие дни";
+	$lang_Menu_Leave_DefineDaysOff = "Нерабочие дни";
 	$lang_Menu_Leave_DefineDaysOff_Weekends = "Выxодные";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays = "Праздники";
 
@@ -164,7 +164,7 @@
 	// Report
 	$lang_Menu_Reports = "Отчёты";
 	$lang_Menu_Reports_ViewReports = "Создать отчёт";
-	$lang_Menu_Reports_DefineReports = "Просмотреть отчёты";
+	$lang_Menu_Reports_DefineReports = "Просмотр отчётов";
 
 	/**
 	 * Common
@@ -173,7 +173,7 @@
 	$lang_Common_ConfirmDelete = "Вы уверены, что xотите стереть?";
 	$lang_Common_FieldEmpty = "Значение поля не введено";
 	$lang_Common_SelectDelete = "Выберите xотя бы одну запись, которую вы xотите стереть";
-	$lang_Common_SelectField = "SВыберите критерий поиска!";
+	$lang_Common_SelectField = "Выберите критерий поиска!";
 	$lang_Commn_RequiredFieldMark = "Обязательно заполнить поля, обозначенные звёздочкой #star";
 	$lang_Commn_code = "Код";
 	$lang_Commn_description = "Описание";
@@ -198,9 +198,9 @@
 
 	//leave module
 	$lang_Leave_Common_Date = "Дата";
-	$lang_Leave_Common_FromDate = "From Дата";
-	$lang_Leave_Common_ToDate = "To Дата";
-	$lang_Leave_Common_LeaveType = "Вид отпуска";
+	$lang_Leave_Common_FromDate = "От";
+	$lang_Leave_Common_ToDate = "До";
+	$lang_Leave_Common_LeaveType = "Тип отпуска";
 	$lang_Leave_Common_Status = "Статус";
 	$lang_Leave_Common_Length = "Целый день / пол дня";
 	$lang_Leave_Common_Range = "Интервал";
@@ -218,11 +218,11 @@
 	$lang_Leave_Common_HalfDay = "Пол дня";
 	$lang_Leave_Common_LeaveTaken = "Отпуск использован";
 	$lang_Leave_Common_LeaveAvailable = "Предостовляемый отпуск";
-	$lang_Leave_Common_LeaveTypeName = "Название вида отпуска";
-	$lang_Leave_Common_LeaveTypeId = "Идентификатор вида отпуска";
+	$lang_Leave_Common_LeaveTypeName = "Название типа отпуска";
+	$lang_Leave_Common_LeaveTypeId = "Код типа отпуска";
 	$lang_Leave_Common_Select = "Выберите";
-	$lang_Leave_Common_oldLeaveTypeName = "Название существущего вида отпуска";
-	$lang_Leave_Common_newLeaveTypeName = "Название нового вида отпуска";
+	$lang_Leave_Common_oldLeaveTypeName = "Название существущего типа отпуска";
+	$lang_Leave_Common_newLeaveTypeName = "Название нового типа отпуска";
 	$lang_Leave_Common_EmployeeName = "Имя служащего";
 	$lang_Leave_Common_LeaveEntitled = "Дано право на отпуск";
 	$lang_Leave_Common_Year = "Год";
@@ -253,10 +253,10 @@
 	$lang_Leave_Select_Employee_Title = "Выберите служащего";
 	$lang_Leave_Leave_Summary_EMP_Title = "Сводка отпусков за #dispYear";
 	$lang_Leave_Leave_Summary_SUP_Title = "Сводка отпусков #employeeName за #dispYear";
-	$lang_Leave_Define_leave_Type_Title = "Определить вид отпуска";
-	$lang_Leave_Leave_Type_Summary_Title = "Виды отпуска";
-	$lang_Leave_Leave_Holiday_Specific_Title = "Определите нерабочие дни: Праздники";
-	$lang_Leave_Leave_Holiday_Weeked_Title = "Определите нерабочие дни: Выxодные";
+	$lang_Leave_Define_leave_Type_Title = "Определить тип отпуска";
+	$lang_Leave_Leave_Type_Summary_Title = "Типы отпуска";
+	$lang_Leave_Leave_Holiday_Specific_Title = "Нерабочие дни: Праздники";
+	$lang_Leave_Leave_Holiday_Weeked_Title = "Нерабочие дни: Выxодные";
 
 	$lang_comphire_heading = "Иерархия компаний: Информация о компании";
 	$lang_comphire_relationalhierarchy = "Относительная иерархия" ;
@@ -280,8 +280,8 @@
 	$lang_compstruct_Department = "Департамент" ;
 	$lang_compstruct_Team = "Команда / бригада";
 	$lang_compstruct_Other = "Другой";
-	$lang_compstruct_Location = "Расположение";
-	$lang_compstruct_frmNewLocation = "Укажите новое расположение";
+	$lang_compstruct_Location = "Местонахождение ";
+	$lang_compstruct_frmNewLocation = "Укажите новое местонахождение";
 	$lang_compstruct_country = "Страна";
 	$lang_compstruct_state = "Округ / область";
 	$lang_compstruct_city = "Город";
@@ -308,7 +308,7 @@
 	$lang_districtinformation_selectcounlist = "Выберите страну";
 	$lang_districtinformation_selstatelist = "Выберите округ";
 
-	$lang_eeojobcat_heading = "Работа : ЕЕО Категория";
+	$lang_eeojobcat_heading = "Служба : ЕЕО Категория";
 	$lang_eeojobcat_description = "Название";
 
 	$lang_electorateinformation_heading = "Информация избирательного округа : Гео Информация";
@@ -318,8 +318,8 @@
 	$lang_emptypes_datelimited = "Дата ограниченна";
 	$lang_emptypes_prefix = "Префикс" ;
 
-	$lang_empview_heading = "Работа : Рабочий статус";
-	$lang_empview_EmpID = "Идентификатор Служ.";
+	$lang_empview_heading = "Служба : Служебный статус";
+	$lang_empview_EmpID = "Код служащего";
 	$lang_empview_EmpFirstName = "Имя Служ.";
 	$lang_empview_EmpLastName = "Фамилия Служ.";
 	$lang_empview_EmpMiddleName = "Отчество служ.";
@@ -329,7 +329,7 @@
 	$lang_empview_norecorddisplay = "Записей нет";
 	$lang_empview_previous = "Предыдущий";
 	$lang_empview_next = "Следующий"	;
-	$lang_empview_employeeid = "Идентификатор служ.";
+	$lang_empview_employeeid = "Код служащего";
 	$lang_empview_employeename = "Имя Служащего"	;
 	$lang_empview_ADD_SUCCESS = "Добавлено";
 	$lang_empview_UPDATE_SUCCESS = "Изменено";
@@ -349,7 +349,7 @@
 	$lang_empview_JobTitle = "Должность";
 	$lang_empview_Supervisor = "Руководитель";
 
-	$lang_ethnicrace_heading = "Национальность и раса : этнические расы";
+	$lang_ethnicrace_heading = "Национальность и раса : Этнические расы";
 
 	$lang_extracurractcat_heading = "Вид дополнителной деятельности : Информация о квалификациях";
 
@@ -357,7 +357,7 @@
 	$lang_extracurractinfo_extracuaccat = "Вид дополнителной деятельности";
 	$lang_extracurractinfo_selectsecucat = "Выберите вид дополн. деят.";
 
-	$lang_geninfo_heading = "Инфомация о компании : Общая инфо";
+	$lang_geninfo_heading = "Инфомация о компании : Общая информация";
 	$lang_geninfo_compname = "Название компании";
 	$lang_geninfo_taxID = "Налоговый идентификатор" ;
 	$lang_geninfo_naics = "NAICS";
@@ -451,13 +451,13 @@
 	$lang_hremp_Language = "Язык";
 
 	$lang_hremplan_employeelanguageflu = "Языковые навыки служащего";
-	$lang_hremplan_fluency = "Сфера компетентности";
-	$lang_hremplan_ratinggarde = "Беглость";
+	$lang_hremplan_fluency = "Критерий";
+	$lang_hremplan_ratinggarde = "Уровень знаний";
 	$lang_hremplan_assignlanguage = "Владение языками";
 
 	$lang_hremplan_SelectLanguage			= "Выберите язык";
-	$lang_hremplan_SelectFluency			= "Выберите уровень знания";
-	$lang_hremplan_SelectRating 			= "Выберите рейтинг";
+	$lang_hremplan_SelectFluency			= "Выберите уровень знаний";
+	$lang_hremplan_SelectRating 			= "Выберите";
 
 	$lang_hremp_PleaseSelectJobTitle= "Пожайлуста, выберите должность этого служащего {здесь}";
 
@@ -472,9 +472,9 @@
 	$lang_hremplicenses_NoLicenseSelected = "Лицензия не выбрана";
 	$lang_hremplicenses_SelectLicenseType = "Выберите тип лицензии";
 
-	$lang_hremp_SelectAtLEastOneAttachment = "SВыберите хотя бы одно приложение, которое вы xотите удалить";
+	$lang_hremp_SelectAtLEastOneAttachment = "Выберите хотя бы одно приложение, которое вы xотите удалить";
 
-	$lang_hrEmpMain_ratinggarde = "Компетентность";
+	$lang_hrEmpMain_ratinggarde = "Уровень знаний";
 	$lang_hrEmpMain_assignlanguage = "Владение языками";
 	$lang_hrEmpMain_Writing = "Письменно";
 	$lang_hrEmpMain_Speaking = "Устно";
@@ -485,7 +485,7 @@
 	$lang_hrEmpMain_MotherTongue = "Родной язык";
 	$lang_hrEmpMain_Individual = "Индивидуальный";
 	$lang_hrEmpMain_employeemembership = "Членство служащего";
-	$lang_hrEmpMain_subownership = "Подписки";
+	$lang_hrEmpMain_subownership = "Принадлежность";
 	$lang_hrEmpMain_subamount = "Количество подписок";
 	$lang_hrEmpMain_subcomdate = "Дата начала действия подписки";
 	$lang_hrEmpMain_subredate = "Дата обновления подписки";
@@ -495,13 +495,13 @@
 	$lang_hrEmpMain_assignmemship = "Членство";
 	$lang_hrEmpMain_paygrade = "Уровень оплаты";
 	$lang_hrEmpMain_currency = "Валюта";
-	$lang_hrEmpMain_minpoint = "Минимальная зарплата";
-	$lang_hrEmpMain_maxpoint = "Максимальная зарплата";
+	$lang_hrEmpMain_minpoint = "Минимальный оклад";
+	$lang_hrEmpMain_maxpoint = "Максимальный оклад";
 	$lang_hrEmpMain_bassalary = "Основная зарплата";
 	$lang_hrEmpMain_assignedsalary = "Оклад";
 
 	$lang_hrEmpMain_heading = "Отчёт служащего";
-	$lang_hrEmpMain_supervisorsubordinator = "Руководитель / контролёр";
+	$lang_hrEmpMain_supervisorsubordinator = "Руководитель / подчинённый";
 	$lang_hrEmpMain_reportingmethod = "Вид отчётности";
 	$lang_hrEmpMain_subordinateinfomation = "Информация о подчинённом";
 	$lang_hrEmpMain_supervisorinfomation = "Информация о руководителе";
@@ -510,14 +510,14 @@
 	$lang_hrEmpMain_Indirect = "Косвенная";
 	$lang_hrEmpMain_employeeskill = "Навыки служащего";
 	$lang_hrEmpMain_yearofex = "Срок опыта (в годаx)";
-	$lang_hrEmpMain_assignskills = "Присвоенные навыки";
+	$lang_hrEmpMain_assignskills = "Установленные навыки";
 	$lang_hrEmpMain_employerworkex = "Рабочий опыт служащего";
 	$lang_hrEmpMain_employer = "Работодатель";
 	$lang_hrEmpMain_enddate = "Дата окончания";
 	$lang_hrEmpMain_startdate = "Дата начала";
 	$lang_hrEmpMain_assignworkex = "Присвоенный опыт работы";
-	$lang_hrEmpMain_workexid = "Идентификатор рабочего опыта";
-	$lang_hrEmpMain_internal = "Внутренний";
+	$lang_hrEmpMain_workexid = "Код рабочего опыта";
+	$lang_hrEmpMain_internal = "В компании";
 	$lang_hrEmpMain_major = "Специализация";
 	$lang_hrEmpMain_education = "Образование";
 	$lang_hrEmpMain_gpa = "GPA / средняя оценка";
@@ -536,7 +536,7 @@
 	$lang_hrEmpMain_arrRepType_Subordinate = "Подчинённый";
 	$lang_hrEmpMain_arrRepMethod_Direct = "Прямой";
 	$lang_hrEmpMain_arrRepMethod_Indirect = "Косвенный";
-	$lang_hrEmpMain_SelectMethod = "Выберите метод";
+	$lang_hrEmpMain_SelectMethod = "Выберите";
 
 	$lang_hrEmpMain_SubscriptionAmountShouldBeNumeric = "Плата за подписку должна иметь цифровое значение";
 	$lang_hrEmpMain_MemebershipSubAmountIsEmptyContinue = "Членский взнос не введён. Продолжить?";
@@ -546,8 +546,8 @@
 	$lang_hrEmpMain_membershiptype = "Тип членства";
 	$lang_hrEmpMain_membership = "Членство";
 
-	$lang_jobtitle_heading = "Работа : Название должности";
-	$lang_jobtitle_jobtitid = "Идентификатор должности";
+	$lang_jobtitle_heading = "Служба : Названия должностей";
+	$lang_jobtitle_jobtitid = "Код должности";
 	$lang_jobtitle_jobtitname = "Название должности";
 	$lang_jobtitle_jobtitdesc = "Описание работы";
 	$lang_jobtitle_jobtitcomments = "Коментарии к должности";
@@ -563,9 +563,9 @@
 
 	$lang_licenses_heading = "Квалификации : Лицензии";
 
-	$lang_locations_heading = "Информация о компании : Местоположение";
+	$lang_locations_heading = "Информация о компании : Местонахождение ";
 
-	$lang_membershipinfo_heading = "Членство : членство";
+	$lang_membershipinfo_heading = "Членство : Членство";
 	$lang_membershipinfo_membershiptype = "Тип членства";
 
 	$lang_membershipinfor_selectmember = "Выберите членство";
@@ -578,7 +578,7 @@
 
 	$lang_qualificationtypes_heading = "Виды квалификации : Информация о квалификацияx";
 
-	$lang_repview_ReportID = "Идентификатор отчёта";
+	$lang_repview_ReportID = "Код отчёта";
 	$lang_repview_ReportName = "Название отчёта";
 	$lang_repview_ViewEmployeeReports = "Просмотреть отчёты по служащему";
 	$lang_repview_message = "Удаление может повлиять на Иерархию компании";
@@ -587,7 +587,7 @@
 
 	$lang_routeinformation_heading = "Информация о маршруте : Информация о маршруте";
 
-	$lang_salarygrades_heading = "Работа : Уровень оплаты";
+	$lang_salarygrades_heading = "Служба : Уровень оплаты";
 	$lang_salarygrades_currAss = "Присвоенная валюта";
 	$lang_salarygrades_stepSal = "Порог повышения";
 
@@ -596,15 +596,15 @@
 
 	$lang_satutoryinfo_heading = "Статутный Тип : Информация о звене" ;
 
-	$lang_view_EmploymentStatusID = "Идентификатор служебного статуса";
+	$lang_view_EmploymentStatusID = "Код служебного статуса";
 	$lang_view_EmploymentStatusName = "Название служебного статуса";
 	$lang_view_message = "Удаление может повлиять на Должности";
 	$lang_view_message1 = "Удаление может повлиять на Уровни оплаты служащих";
-	$lang_view_SkillName = "Название навыка";
-	$lang_view_SkillID = "Идентификатор навыка";
+	$lang_view_SkillName = "Наименование навыка";
+	$lang_view_SkillID = "Код записи навыка";
 	$lang_view_message3 = "Удаление может повлиять на Информацию служащего";
-	$lang_view_LocationName = "Название местоположения";
-	$lang_view_message4 = "Удаление может повлиять на Иерархию компании. Если местоположение связанно асоциациями, то удаление может не удасться";
+	$lang_view_LocationName = "Название местонахождения";
+	$lang_view_message4 = "Удаление может повлиять на Иерархию компании. Если местонахождение связанно асоциациями, то удаление может не удасться";
 	$lang_view_CurrencyName = "Наименование валюты";
 	$lang_view_CurrencyTypes = "Виды валюты";
 	$lang_view_message5 = "Удаление может повлиять на на данные о валюте";
@@ -632,7 +632,7 @@
 	$lang_view_message15 = "Удаление может повлиять на Информацию служащего";
 	$lang_view_NationalityName = "Название национальности";
 	$lang_view_message16 = "Удаление может повлиять на Информацию служащего";
-	$lang_view_CountryID = "Идентификатор страны";
+	$lang_view_CountryID = "Код страны";
 	$lang_view_CountryName = "Страна";
 	$lang_view_message17 = "Удаление может повлиять на Информацию служащего";
 	$lang_view_HierarchyDefinition = "Определение иерархии";
@@ -646,7 +646,7 @@
 	$lang_view_message21 = "Удаление может повлиять на Языки служащего";
 	$lang_view_Membership = "Членство";
 	$lang_view_MembershipType = "Тип членства";
-	$lang_view_MembershipName = "Название членства";
+	$lang_view_MembershipName = "Описание членства";
 	$lang_view_message22 = "Удаление может повлиять на Членство служащего";
 	$lang_view_ExtraActivities = "Дополнительная деятельность";
 	$lang_view_ExtraActivitiesName = "Название дополнительной деятельности";
@@ -655,12 +655,12 @@
 	$lang_view_message24 = "Удаление может повлиять на Информацию служащего, Наименования должностей";
 
 	$lang_view_message25 = "Удаление может повлиять на Образование";
-	$lang_view_EmployeeTypeID = "Идентификатор типа служащего";
+	$lang_view_EmployeeTypeID = "Код типа служащего";
 	$lang_view_EmployeeTypeName = "Название типа служащего";
 	$lang_view_message26 = "Удаление может повлиять на Информацию служащего";
 	$lang_view_EEOJobCategory = "ЕЕО категория работы" ;
-	$lang_view_EEOJobCategoryid = "Идентификатор ЕЕО категории работы";
-	$lang_view_EEOJobCategoryName = "Название ЕЕО категории работы" ;
+	$lang_view_EEOJobCategoryid = "Код служебной категории ЕЕО";
+	$lang_view_EEOJobCategoryName = "Название служебной категории ЕЕО" ;
 	$lang_view_message27 = "Удаление может повлиять на Информацию служащего";
 	$lang_view_message28 = "Удаление может повлиять на Языки служащего";
 	$lang_view_EthnicRace = "Этническая раса" ;
@@ -669,21 +669,21 @@
 	$lang_view_message30 = "Удаление может повлиять на Информацию служащего";
 	$lang_view_message31 = "Удаление может повлиять на Информацию служащего, Наименования должностей";
 	$lang_view_message32 = "Удаление может повлиять на Квалификации, Должностные квалификации и Квалификации служащего";
-	$lang_view_License_ID = "Идентификатор лицензии";
+	$lang_view_License_ID = "Код лицензии";
 	$lang_view_LicenseDescription = "Описание лицензии";
 	$lang_view_message33 = "Удаление может повлиять на Информацию служащего";
-	$lang_view_UserID = "Идентификатор пользователя";
+	$lang_view_UserID = "Код пользователя";
 	$lang_view_UserName = "Имя пользователя";
 	$lang_view_message34 = "Удаление может сделать OrangeHRM недействительным";
-	$lang_view_UserGroupID = "Идентификатор группы пользователей";
+	$lang_view_UserGroupID = "Код группы пользователей";
 	$lang_view_UserGroupName = "Название группы пользователей";
 	$lang_view_message35 = "Удаление может сделать OrangeHRM недействительным";
 
 	$lang_view_Users = "Пользователи";
 	$lang_view_UserGroups = "Группы пользователей";
-	$lang_view_HRAdmin = "Администратор персонала";
+	$lang_view_HRAdmin = "Менеджер отдела кадров";
 	$lang_view_ESS = "Самообслуживание";
-	$lang_view_ID = "Идентификатор";
+	$lang_view_ID = "Код";
 
 	$lang_index_WelcomeMes = "Добро пожаловать, #username";
 	$lang_index_ChangePassword = "Извенить пароль";
@@ -706,10 +706,10 @@
 	$lang_pim_tabs_EmergencyContacts = "Контакт(ы) в случае необходимости";
 	$lang_pim_tabs_Dependents = "Иждивенцы";
 	$lang_pim_tabs_Immigration = "Иммиграция";
-	$lang_pim_tabs_Job = "Работа";
+	$lang_pim_tabs_Job = "Служба";
 	$lang_pim_tabs_Payments = "Оплата";
 	$lang_pim_tabs_ReportTo = "Отчётность";
-	$lang_pim_tabs_WorkExperience = "Рабочий опыт";
+	$lang_pim_tabs_WorkExperience = "Служебный опыт";
 	$lang_pim_tabs_Education = "Образование";
 	$lang_pim_tabs_Skills = "Навыки";
 	$lang_pim_tabs_Languages = "Языки";
@@ -729,7 +729,7 @@
 
 	$lang_rep_YearOfPassing = "Год сдачи";
 	$lang_rep_Contract = "Контракт";
-	$lang_rep_WorkExperience = "Рабочий опыт";
+	$lang_rep_WorkExperience = "Служебный опыт";
 	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Для присвоения, выберите xотя бы одну группу пользователей";
 
 	$lang_rep_LastName = "Фамилия";
@@ -792,5 +792,89 @@
 	$lang_Admin_ENS_LeaveApprovals = "Подтверждённые отпуска";
 	$lang_Admin_ENS_LeaveCancellations = "Отменённые отпуска";
 	$lang_Admin_ENS_LeaveRejections = "Отказанные отпуска";
+
+
+	// Time tracking
+	$lang_Menu_Admin_Customers = "Клиенты";
+	$lang_Menu_Admin_Projects = "Проекты";
+	$lang_Menu_Time = "Время";
+	$lang_Menu_Time_Timesheets = "Табель";
+	$lang_Menu_Time_PersonalTimesheet = "Личный табель";
+	$lang_Menu_Time_EmployeeTimesheets = "Табеля служащего";
+
+
+	//timesheet
+	$lang_Time_Timesheet_TimesheetForViewTitle = "Табель за #periodName от #startDate";
+	$lang_Time_Timesheet_TimesheetForEditTitle = "Редактировать табель за #periodName от #startDate";
+
+	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Табель служащего #name за #periodName от #startDate";
+	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Редактировать табель служащего #name за #periodName от #startDate";
+
+	$lang_Time_Timesheet_Status = "Статус: #status";
+
+	$lang_Time_Timesheet_Status_NotSubmitted = "Не отправлен";
+	$lang_Time_Timesheet_Status_Submitted = "Отправлен";
+	$lang_Time_Timesheet_Status_Approved = "Подтверждён";
+	$lang_Time_Timesheet_Status_Rejected = "Отклонён";
+
+	$lang_Time_Timesheet_Customer = "Клиент";
+	$lang_Time_Timesheet_ProjectActivity = "Проект / Деятельность";
+
+	$lang_Time_Timesheet_Total = "Всего";
+
+	$lang_Time_Errors_SUBMIT_SUCCESS = "Отправка завершена";
+	$lang_Time_Errors_SUBMIT_FAILURE = "Отправка не удалась";
+	$lang_Time_Errors_UPDATE_SUCCESS = "Обновленно";
+	$lang_Time_Errors_UPDATE_FAILURE = "Обновление не удалось";
+	$lang_Time_Errors_CANCEL_SUCCESS = "Отмененно";
+	$lang_Time_Errors_CANCEL_FAILURE = "Отмена не удалась";
+	$lang_Time_Errors_APPROVE_SUCCESS = "Подтвержденно";
+	$lang_Time_Errors_APPROVE_FAILURE = "Подтверждение не удалось";
+	$lang_Time_Errors_REJECT_SUCCESS = "Отклонённо";
+	$lang_Time_Errors_REJECT_FAILURE = "Отклонение не удалось";
+	$lang_Time_Errors_DELETE_SUCCESS = "Удалено";
+	$lang_Time_Errors_DELETE_FAILURE = "Удаление не удалось";
+	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Несанкционированные действия";
+
+	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Табеля не найдены";
+
+	$lang_Time_Errors_EncounteredTheFollowingProblems = "Возникли следующие проблемы";
+	$lang_Time_Errors_ReportedDateNotSpecified = "Дата отчёта не указана";
+	$lang_Time_Errors_ProjectNotSpecified = "Проект не указан";
+	$lang_Time_Errors_CustomerNotSpecified = "Клиент не указан";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Не правильно указан интервал времени";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Продолжительность и указанный интервал времени должны совпадать";
+
+	$lang_Time_Timesheet_StartTime = "Время начала";
+	$lang_Time_Timesheet_EndTime = "Время окончания";
+	$lang_Time_Timesheet_ReportedDate = "Дата отчёта";
+	$lang_Time_Timesheet_Duration = "Продолжительность";
+	$lang_Time_Timesheet_DurationUnits = "(час -а/-ов)";
+	$lang_Time_Timesheet_Decription = "Описание";
+	$lang_Time_Timesheet_NoCustomers = "Нет клиентов";
+	$lang_Time_Timesheet_NoProjects = "Нет проектов";
+
+	$lang_Time_Select_Employee_Title = "Выберите служащего";
+
+	$lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval = "Отправленные табеля ждут подтверждения руководителя";
+	$lang_Time_Select_Employee_WeekStartingDate = "Начало недели с #date";
+
+	$lang_Time_Select_Employee_TimesheetPeriod = "Период табеля";
+
+	$lang_Time_Errors_PleaseAddAComment = "Пожайлуста, добавьте коментарий";
+
+	$lang_mtview_ADD_SUCCESS 				= "Добавлено";
+	$lang_mtview_UPDATE_SUCCESS 			= "Обновленно";
+	$lang_mtview_DELETE_SUCCESS 			= "Удалено";
+	$lang_mtview_ADD_FAILURE 				= "Добавление не удалось";
+	$lang_mtview_UPDATE_FAILURE 			= "Обновление не удалось";
+	$lang_mtview_DELETE_FAILURE 			= "Удаление не удалось";
+
+	// PIM
+	$lang_empview_EmploymentStatus = "Служебный статус";
+	$lang_hremp_Subdivision	= "Подразделение";
+	$lang_hremp_ShowEmployeeContracts = "SПоказать контракты служащего";
+	$lang_hremp_HideEmployeeContracts = "Скрыть контракты служащего";
+	$lang_rep_SelectSkill = "Выберите навык";
 
 ?>
