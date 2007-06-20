@@ -16,7 +16,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
- * @author: Age de Jong
+ * @author: Tobias Peereboom <tobias@peereboom.eu>
+ * @author: Sam Verkoelen <sam@zomerparkfeest.nl>
+ * @author: Age de Jong <age.dejong@qualitycontacts.nl>
+ *
  */
 
 	/**
