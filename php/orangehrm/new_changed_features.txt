@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 	1736827   Increase the field width in reports
 	1712267   Empty fields shown inconsistently in reports
 	1730425   You can make the timesheet disappear
+	1700188   Can\'t modify and still has \"Edit\"
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_3 (18/06/2007) {Revision 917}
