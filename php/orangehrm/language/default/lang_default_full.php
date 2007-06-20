@@ -101,6 +101,7 @@
 	$lang_Menu_Home_Blog 						= "Blog";
 
 	$lang_Menu_Ess								= "ESS";
+	$lang_Menu_Pim 								= "PIM";
 
 	// Admin Module
 	$lang_Menu_Admin 							= "Admin";
@@ -868,6 +869,7 @@
 
 	$lang_Admin_Users_UserName = "User Name";
 	$lang_Admin_Users_Password = "Password";
+	$lang_Admin_Users_Employee = "Employee";
 
 	$lang_Admin_Users_ConfirmPassword = "Confirm Password";
 

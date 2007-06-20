@@ -1,5 +1,7 @@
 New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 
+	1. Dutch language pack added (stable)
+
 	BugId     Name
 
 	1712255   Usability: Reports selection criteria -> Show emp number

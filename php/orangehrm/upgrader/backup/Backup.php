@@ -307,9 +307,9 @@ class Backup {
 						$valueOfFiled = $row->$field_name;
 						$type = mysql_field_type($result, $x);
 
-						//if (!empty($valueOfFiled) || (($type == 'int') && ($valueOfFiled === 0))) {
+						if (!empty($valueOfFiled) || (($type == 'int') && ($valueOfFiled === 0))) {
 							$data .= "`{$field_name}`, ";
-						//}
+						}
 					}
 
 					$data = substr($data, 0, -2);
@@ -357,7 +357,9 @@ class Backup {
 							$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
 						}
 
-						$data .= $valueOfFiled.", ";
+						if (($valueOfFiled != '') || ($valueOfFiled != '') || (($type == 'int') && ($valueOfFiled === 0))) {
+							$data .= $valueOfFiled.", ";
+						}
 					}
 
 					$data = substr($data, 0, -2);
