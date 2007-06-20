@@ -300,7 +300,7 @@ $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), 
 
 echo $pageStr;
 
-		for ($j=0; $j<10;$j++) {
+		for ($j=0; $j<11;$j++) {
 			if (!isset($this->getArr['sortOrder'.$j])) {
 				$this->getArr['sortOrder'.$j] = 'null';
 			}
@@ -331,7 +331,10 @@ echo $pageStr;
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_EmploymentStatus; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <?php $j=8; ?>
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_SubDivision; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
-						  <td scope="col" width="150" class="listViewThS1"><?php echo $lang_empview_Supervisor; ?></td>
+						  <?php $j=10; ?>
+						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_Supervisor; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
+
+
 						 </tr>
         <?php
 			if ((isset($emplist)) && ($emplist !='')) {
@@ -372,16 +375,7 @@ echo $pageStr;
                   <td width="70" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
                   <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][6]))?$emplist[$j][6]:"-"; ?></td>
                   <td width="250" class="<?php echo $cssClass?>"><?php echo $subDivision; ?></td>
-                  <td width="250" class="<?php echo $cssClass?>"><?php
-										if (isset($emplist[$j][5]) && is_array($emplist[$j][5])) {
-											foreach ($emplist[$j][5] as $supervisorArr) {
-												echo $supervisorArr[1]."<br/>";
-											}
-										} else {
-											echo "-";
-										}
-                  					?>
-                  </td>
+                  <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][5]))?$emplist[$j][5]:"-";?></td>
 			</tr>
          <?php }
         	  }

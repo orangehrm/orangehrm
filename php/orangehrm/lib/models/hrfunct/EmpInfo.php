@@ -385,6 +385,9 @@ class EmpInfo {
 		$arrFieldList[7] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_middle_name`, ' ', a.`emp_lastname`)";
 		$arrFieldList[8] = "d.`title`";
 		$arrFieldList[9] = "e.`estat_name`";
+		
+		/* First show direct supervisors then indirect supervisors */
+		$arrFieldList[10] = "GROUP_CONCAT(g.`emp_firstname`, ' ', g.`emp_lastname` ORDER BY erep_reporting_mode ) AS Supervisor";
 
 		$sql_builder = new SQLQBuilder();
 
@@ -392,14 +395,25 @@ class EmpInfo {
 		$arrTables[1] = "`hs_hr_job_title` c";
 		$arrTables[2] = "`hs_hr_compstructtree` d";
 		$arrTables[3] = "`hs_hr_empstat` e";
+		$arrTables[4] = "`hs_hr_emp_reportto` f";
+		$arrTables[5] = "`hs_hr_employee` g";
 
 		$joinConditions[1] = "a.`job_title_code` = c.`jobtit_code`";
 		$joinConditions[2] = "a.`work_station` = d.`id`";
 		$joinConditions[3] = "a.`emp_status` = e.`estat_code`";
+		$joinConditions[4] = "a.`emp_number` = f.`erep_sub_emp_number`";
+		$joinConditions[5] = "f.`erep_sup_emp_number` = g.`emp_number`";
 
 		$selectConditions = null;
+		$filteredSearch = mysql_real_escape_string($schStr);
 
-		if (($mode != -1) && !empty($schStr)) {
+		/*
+		 * Skip setting select conditions if no search string set, no search mode set
+		 * or if searching by supservisor (mode = 8)
+		 * 
+		 * If searching by supervisor, the conditions are set in the outer SELECT statement. 
+		 */
+		if (($mode != -1) && ($mode != 8) && !empty($schStr)) {
 
             if ($mode == 7) {
 
@@ -416,25 +430,12 @@ class EmpInfo {
                     // No subdivisions matches found.
                     return '';
                 }
-            } else if ($mode == 8) {
-
-                // Special handling for search by supervisor.
-                $empNumbers = $this->_getEmpIdsWithMatchingSupervisor($schStr);
-
-                if (isset($empNumbers) && !empty($empNumbers)) {
-                    $selectConditions[] = "a.`emp_number` IN (" . $empNumbers . ") ";
-                } else {
-
-                    // No subordinates found with with supervisor matching search string.
-                    return '';
-                }
-
             } else {
-                $filteredSearch = mysql_real_escape_string($schStr);
 
                 $selectConditions[] = "{$arrFieldList[$mode]} LIKE '" . $filteredSearch . "%'";
             }
 		}
+
 
 		/**
 		 * Check whether searching for the employement status,
@@ -455,9 +456,42 @@ class EmpInfo {
 			$limit = "{$pageNO}, {$sysConst->itemsPerPage}";
 		}
 
-		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $arrFieldList[$sortField], $sortOrder, $limit);
+		/* We need to group to get the concatenated list of supervisor names */
+		$groupBy = "a.`emp_number` ";
 
-		//echo $sqlQString;
+		/* Don't order if searching by supervisor. The order by has
+		 * to be added to the outer SELECT.
+		 */
+		if ($sortField == 10) {
+		
+			$selectOrder = null;
+			$selectOrderBy = null;
+		} else {
+		
+			$selectOrder = $sortOrder;
+			$selectOrderBy = $arrFieldList[$sortField];
+		}
+		
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $selectOrderBy, $selectOrder, null, $groupBy);
+
+		/* Add the outer SELECT */
+		$sqlQString = "SELECT * FROM ( $sqlQString ) AS subsel ";
+		
+		/* If searching by supervisor add the condition now */
+		if ($mode == 8 && !empty($schStr)) {
+			$sqlQString .= " WHERE Supervisor LIKE '${filteredSearch}%' ";
+		}
+
+		/* If sorting by supervisor add the order by condition */
+		if ($sortField == 10) {
+			$sqlQString .= " ORDER BY Supervisor $sortOrder";
+		}
+
+		/* Add the search limit */
+		if (isset($limit)) {
+			$sqlQString .= " LIMIT $limit";
+		}	
+
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -471,9 +505,8 @@ class EmpInfo {
 	    	$arrayDispList[$i][3] = $line[5];
 	    	$arrayDispList[$i][4] = $line[6];
 	    	$arrayDispList[$i][6] = $line[9];
+	    	$arrayDispList[$i][5] = $line[10];
 
-			$empRepTo = new EmpRepTo();
-	    	$arrayDispList[$i][5] = $empRepTo->getEmpSupDetails($line[0]);
 	    	$i++;
 
 	     }
@@ -533,7 +566,7 @@ class EmpInfo {
 
                 // search by subdivision
                 // Get list of workstations with matches in the title or matches higher in the hierachy
-                $subdivisionIds = $this->_getMatchingSubdivisionIds($schStr);
+                $subdivisionIds = $this->_getMatchingSubdivisionIds($filteredSearch);
 
                 // Create select condition for employees with workstation set to any of the subdivisions
                 if (isset($subdivisionIds) && !empty($subdivisionIds)) {
@@ -546,7 +579,7 @@ class EmpInfo {
             } else if ($mode == 8) {
 
                 // search by supervisor
-                $empNumbers = $this->_getEmpIdsWithMatchingSupervisor($schStr);
+                $empNumbers = $this->_getEmpIdsWithMatchingSupervisor($filteredSearch);
 
                 if (isset($empNumbers) && !empty($empNumbers)) {
                     $selectConditions[] = "a.`emp_number` IN (" . $empNumbers . ") ";
