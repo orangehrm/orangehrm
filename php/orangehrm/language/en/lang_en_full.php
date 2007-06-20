@@ -869,6 +869,7 @@
 
 	$lang_Admin_Users_UserName = "User Name";
 	$lang_Admin_Users_Password = "Password";
+	$lang_Admin_Users_Employee = "Employee";
 
 	$lang_Admin_Users_ConfirmPassword = "Confirm Password";
 

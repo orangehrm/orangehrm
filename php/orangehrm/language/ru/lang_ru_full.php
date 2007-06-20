@@ -1,4 +1,4 @@
-﻿<?php
+﻿﻿<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -347,7 +347,7 @@
 	$lang_empview_Payment = "Оплата";
 	$lang_empview_Skills = "Служебные навыки";
 	$lang_empview_Licenses = "Лицензии";
-	$lang_empview_EmployeeInformation = "Информация о служащем";
+	$lang_empview_EmployeeInformation = "Информация о сотрудникаx";
 	$lang_empview_Memberships = "Членство";
 	$lang_empview_Report = "Отчёт";
 	$lang_empview_SubDivision = "Подразделение";

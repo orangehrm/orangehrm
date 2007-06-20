@@ -227,7 +227,7 @@ function goBack() {
 						   			<option value="Disabled"><?php echo $lang_Admin_Users_Disabled; ?></option>
 						   		  </select></td>
 							  <td></td>
-							  <td><span id="lyrEmpID" class="error"><?php echo ($_GET['isAdmin']=='No')? '*' : '' ?></span> Employee</td>
+							  <td><span id="lyrEmpID" class="error"><?php echo ($_GET['isAdmin']=='No')? '*' : '' ?></span> <?php echo $lang_Admin_Users_Employee; ?></td>
 							  <td nowrap="nowrap"><input type="text" readonly name="txtUserEmpID"><input type="hidden" readonly name="cmbUserEmpID">&nbsp;&nbsp;<input type="button" value="..." onClick="popEmpList();"></td>
 						   </tr>
 						   <?php if ($_GET['isAdmin'] == 'Yes') { ?>
@@ -494,7 +494,7 @@ function edit() {
 							   			<option <?php echo $message[0][8]=='Disabled' ? 'selected' : ''?> value="Disabled"><?php echo $lang_Admin_Users_Disabled; ?></option>
 							   	</select></td>
 							  <td></td>
-							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?php echo ($message[0][3]=='No')? '*' : '' ?></span> Employee</td>
+							  <td valign="top" nowrap><span id="lyrEmpID" class="error"><?php echo ($message[0][3]=='No')? '*' : '' ?></span> <?php echo $lang_Admin_Users_Employee; ?></td>
 							  <td nowrap="nowrap"><input type="text" name="txtUserEmpID" readonly disabled value="<?php echo (isset($message[0][11]) && ($message[0][11] != "")) ?$message[0][11] : $message[0][2] ?><?php echo (isset($message[0][10]) && ($message[0][10] != "")) ?" - ".$message[0][10] : "" ?>"><input type="hidden" name="cmbUserEmpID" disabled value="<?php echo $message[0][2]?>">&nbsp;&nbsp;<input type="button" value="..." disabled onClick="popEmpList()"></td>
 						   </tr>
 						<?php if ($_GET['isAdmin'] == 'Yes') { ?>
