@@ -176,7 +176,7 @@ li{
 										}
 										$last = $repDetails[$i][$j][$k];
 									} else {
-										echo '';
+										echo '―';
 									}
 									echo "</li>";
 								} ?>
