@@ -25,6 +25,8 @@ $pending = $records[3];
 ?>
 <script type="text/javascript">
 <!--
+var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=";
+
 function returnEmpDetail(){
 		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;
@@ -39,14 +41,14 @@ function view() {
 	}
 	frmObj = document.getElementById("frmTimesheet");
 
-	frmObj.action+='View_Timesheet';
+	frmObj.action= initialAction+'View_Timesheet';
 	frmObj.submit();
 }
 
 function viewTimesheet(id) {
 	frmObj = document.getElementById("frmTimesheet");
 
-	frmObj.action+='View_Timesheet&id='+id;
+	frmObj.action= initialAction+'View_Timesheet&id='+id;
 	frmObj.submit();
 }
 -->

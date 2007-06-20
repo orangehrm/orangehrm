@@ -74,12 +74,14 @@ $row=0;
 currFocus = null;
 totRows = 0;
 
+var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php echo $timesheet->getTimesheetId(); ?>&action=";
+
 function $(id) {
 	return document.getElementById(id);
 }
 
 function actionSubmit() {
-	$("frmTimesheet").action+= "Submit_Timesheet";
+	$("frmTimesheet").action= initialAction+"Submit_Timesheet";
 
 	$("frmTimesheet").submit();
 }
@@ -248,7 +250,7 @@ function duration(row) {
 function actionUpdate() {
 	if (!validate()) return false;
 
-	$('frmTimesheet').action+='Edit_Timesheet';
+	$('frmTimesheet').action= initialAction+'Edit_Timesheet';
 	$('frmTimesheet').submit();
 }
 
@@ -271,7 +273,7 @@ function deleteTimeEvents() {
 
 		if(!res) return;
 
-		$('frmTimesheet').action+='Delete_Timesheet';
+		$('frmTimesheet').action= initialAction+'Delete_Timesheet';
 		$('frmTimesheet').submit();
 	}else{
 		alert("<?php echo $lang_Common_SelectDelete; ?>");

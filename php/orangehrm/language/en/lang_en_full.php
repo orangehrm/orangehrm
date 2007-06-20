@@ -101,6 +101,7 @@
 	$lang_Menu_Home_Blog 						= "Blog";
 
 	$lang_Menu_Ess								= "ESS";
+	$lang_Menu_Pim 								= "PIM";
 
 	// Admin Module
 	$lang_Menu_Admin 							= "Admin";

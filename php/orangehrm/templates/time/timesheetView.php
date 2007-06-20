@@ -62,6 +62,8 @@ $duration = 7;
 var prev = new Array();
 var next = new Array();
 
+var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=";
+
 next.startDate = '<?php echo date('Y-m-d', $startDate+(3600*24*$duration)); ?>';
 next.endDate = '<?php echo date('Y-m-d', $endDate+(3600*24*$duration)); ?>';
 
@@ -83,13 +85,13 @@ function actionNav(nav) {
 				  $("txtEndDate").value = next.endDate;
 				  break;
 	}
-	$("frmTimesheet").action+= "View_Timesheet";
+	$("frmTimesheet").action= initialAction+"View_Timesheet";
 	$("txtTimesheetId").disabled= true;
 <?php } else { ?>
 	switch (nav) {
-		case 1  : $("frmTimesheet").action+= "Fetch_Prev_Timesheet";
+		case 1  : $("frmTimesheet").action= initialAction+"Fetch_Prev_Timesheet";
 				  break;
-		case -1 : $("frmTimesheet").action+= "Fetch_Next_Timesheet";
+		case -1 : $("frmTimesheet").action= initialAction+"Fetch_Next_Timesheet";
 				  break;
 	}
 <?php } ?>
@@ -99,17 +101,17 @@ function actionNav(nav) {
 
 
 function actionSubmit() {
-	$("frmTimesheet").action+= "Submit_Timesheet";
+	$("frmTimesheet").action= initialAction+"Submit_Timesheet";
 	$("frmTimesheet").submit();
 }
 
 function actionCancel() {
-	$("frmTimesheet").action+= "Cancel_Timesheet";
+	$("frmTimesheet").action= initialAction+"Cancel_Timesheet";
 	$("frmTimesheet").submit();
 }
 
 function actionEdit() {
-	$("frmTimesheet").action+= "View_Edit_Timesheet";
+	$("frmTimesheet").action= initialAction+"View_Edit_Timesheet";
 	$("frmTimesheet").submit();
 }
 
@@ -119,7 +121,7 @@ function actionReject() {
 		$('txtComment').focus();
 		return false;
 	}
-	$("frmTimesheet").action+= "Reject_Timesheet";
+	$("frmTimesheet").action= initialAction+"Reject_Timesheet";
 	$("frmTimesheet").submit();
 }
 
@@ -129,7 +131,7 @@ function actionApprove() {
 		$('txtComment').focus();
 		return false;
 	}
-	$("frmTimesheet").action+= "Approve_Timesheet";
+	$("frmTimesheet").action= initialAction+"Approve_Timesheet";
 	$("frmTimesheet").submit();
 }
 -->

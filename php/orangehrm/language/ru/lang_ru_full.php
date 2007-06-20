@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
- * @author: Darija Jevtuchova <darija@orangehrm.com>
+ * @author: Darija Jevtuchova <darija@beyondm.net>
  */
 
 	/**
@@ -109,9 +109,9 @@
 	$lang_Menu_Admin_CompanyInfo_Locations = "Местонахождение";
 
 	$lang_Menu_Admin_Job = "Служба";
-	$lang_Menu_Admin_Job_JobTitles = "Название должности";
-	$lang_Menu_Admin_Job_PayGrades = "Уровень оплаты";
-	$lang_Menu_Admin_Job_EmpStatus = "Рабочий статус";
+	$lang_Menu_Admin_Job_JobTitles = "Названия должностей";
+	$lang_Menu_Admin_Job_PayGrades = "Уровни оплаты";
+	$lang_Menu_Admin_Job_EmpStatus = "Служебный статус";
 	$lang_Menu_Admin_Job_EEO = "ЕЕО Категория";
 
 	$lang_Menu_Admin_Quali = "Квалификации";
@@ -128,7 +128,7 @@
 
 	$lang_Menu_Admin_NationalityNRace = "Национал. и раса";
 	$lang_Menu_Admin_NationalityNRace_Nationality = "Национальность";
-	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "этнические расы";
+	$lang_Menu_Admin_NationalityNRace_EthnicRaces = "Этнические расы";
 
 	$lang_Menu_Admin_Users = "Пользователи";
 	$lang_Menu_Admin_Users_UserGroups = "Группы пользователей";
@@ -163,8 +163,13 @@
 
 	// Report
 	$lang_Menu_Reports = "Отчёты";
-	$lang_Menu_Reports_ViewReports = "Создать отчёт";
-	$lang_Menu_Reports_DefineReports = "Просмотр отчётов";
+	$lang_Menu_Reports_ViewReports = "Просмотр";
+	$lang_Menu_Reports_DefineReports = "Создание";
+
+	// PIM
+	$lang_Menu_Pim = "Инфо сотрудников";
+	$lang_Menu_Ess = "Самообслуживание";
+
 
 	/**
 	 * Common
@@ -340,7 +345,7 @@
 	$lang_empview_Language = "Язык";
 	$lang_empview_WorkExperience = "Опыт работы";
 	$lang_empview_Payment = "Оплата";
-	$lang_empview_Skills = "Навыки";
+	$lang_empview_Skills = "Служебные навыки";
 	$lang_empview_Licenses = "Лицензии";
 	$lang_empview_EmployeeInformation = "Информация о служащем";
 	$lang_empview_Memberships = "Членство";
@@ -397,7 +402,7 @@
 
 	$lang_hremp_dependents = "Иждивенцы";
 	$lang_hremp_children = "Дети";
-	$lang_hremp_relationship = "Степень родства";
+	$lang_hremp_relationship = "Связь";
 
 	$lang_hremp_street1	= "Адрес 1";
 	$lang_hremp_street2 = "Адрес 2";
@@ -456,7 +461,7 @@
 	$lang_hremplan_assignlanguage = "Владение языками";
 
 	$lang_hremplan_SelectLanguage			= "Выберите язык";
-	$lang_hremplan_SelectFluency			= "Выберите уровень знаний";
+	$lang_hremplan_SelectFluency			= "Выберите критерий";
 	$lang_hremplan_SelectRating 			= "Выберите";
 
 	$lang_hremp_PleaseSelectJobTitle= "Пожайлуста, выберите должность этого служащего {здесь}";
@@ -517,7 +522,7 @@
 	$lang_hrEmpMain_startdate = "Дата начала";
 	$lang_hrEmpMain_assignworkex = "Присвоенный опыт работы";
 	$lang_hrEmpMain_workexid = "Код рабочего опыта";
-	$lang_hrEmpMain_internal = "В компании";
+	$lang_hrEmpMain_internal = "Внутри компании";
 	$lang_hrEmpMain_major = "Специализация";
 	$lang_hrEmpMain_education = "Образование";
 	$lang_hrEmpMain_gpa = "GPA / средняя оценка";
@@ -720,12 +725,15 @@
 	// Report module
 	$lang_rep_SelectionCriteria = "Критерий выбора";
 	$lang_rep_EmpNo = "Номер служащего";
-	$lang_rep_AgeGroup = "Возростная группа";
+	$lang_rep_Employee = "Служащий";
+	$lang_rep_AgeGroup = "Возраст";
 	$lang_rep_PayGrade = "Уровень оплаты";
 	$lang_rep_Education = "Образование";
 	$lang_rep_EmploymentStatus = "Служебный статус";
 	$lang_rep_ServicePeriod = "Период службы";
 	$lang_rep_JobTitle = "Должность";
+	$lang_rep_Language = "Язык";
+
 
 	$lang_rep_YearOfPassing = "Год сдачи";
 	$lang_rep_Contract = "Контракт";
@@ -747,6 +755,7 @@
 	$lang_rep_SelectEmploymentType = "Выберите тип службы";
 	$lang_rep_SelectComparison = "Выберите сравнение";
 	$lang_rep_SelectJobTitle = "Выберите должность";
+	$lang_rep_SelectLanguage = "Выберите язык";
 
 	$lang_rep_Field = "Поле";
 	$lang_rep_AssignUserGroups = "Присвоить группу пользователей";
@@ -870,11 +879,86 @@
 	$lang_mtview_UPDATE_FAILURE 			= "Обновление не удалось";
 	$lang_mtview_DELETE_FAILURE 			= "Удаление не удалось";
 
+
 	// PIM
 	$lang_empview_EmploymentStatus = "Служебный статус";
 	$lang_hremp_Subdivision	= "Подразделение";
-	$lang_hremp_ShowEmployeeContracts = "SПоказать контракты служащего";
+	$lang_hremp_ShowEmployeeContracts = "Показать контракты служащего";
 	$lang_hremp_HideEmployeeContracts = "Скрыть контракты служащего";
 	$lang_rep_SelectSkill = "Выберите навык";
 
+
+	$lang_view_CustomerId = "Код клиента";
+	$lang_view_CustomerName = "Имя клиента";
+
+	//Projects
+	$lang_view_ProjectId = "Код проекта";
+	$lang_view_ProjectName = "Название проекта";
+
+	$lang_Admin_Project_CutomerName = "Имя клиента";
+	$lang_Admin_Project_SelectCutomer = "Выберите клиента";
+
+	$lang_Admin_Project_Error_PleaseDSpecifyTheProjectId = "Пожайлуста, укажите код проекта";
+	$lang_Admin_Project_Error_PleaseSelectACustomer = "Пожайлуста, выберите клиента";
+	$lang_Admin_Project_Error_PleaseSpecifyTheName = "Пожайлуста, укажите название проекта";
+
+	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Пожайлуста, укажите код клиента";
+	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Пожайлуста, укажите имя клиента";
+
+	//Users
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "Имя пользователя должно состоять как минимум из пяти символов";
+	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Пароль должен состоять как минимум из четырёx символов";
+	$lang_Admin_Users_ErrorsPasswordMismatch = "Пароль не соответствует";
+	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Код служащего должен быть определён";
+	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Выберите поле";
+	$lang_Admin_Users_Errors_ViewShouldBeSelected = "Выберите тему";
+	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Пароли не соответсвуют. Набейти новый пароль еще раз";
+
+	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Вы уверенны, что xотите удалить права пользователя?";
+	$lang_Admin_Users_Errors_SameGroup = "Вы не можете изменить права данной группы пользователей, так как вы сами к ней принадлежите.";
+	$lang_Admin_Users_Errors_NameCannotBeBlank = "Введите имя";
+
+	$lang_Admin_Users_Modules = "Модули";
+	$lang_Admin_Users_Module = "Модуль";
+	$lang_Admin_Users_RightsAssignedToUserGroups = "Права, присвоенные группам";
+	$lang_Admin_Users_UserGroup = "Группа пользователей";
+	$lang_Admin_Users_UserGroupId = "Код группы пользователей";
+
+	$lang_Admin_Users_UserName = "Имя пользователя";
+	$lang_Admin_Users_Password = "Пароль";
+
+	$lang_Admin_Users_ConfirmPassword = "Поддтвердите пароль";
+
+	$lang_Admin_Users_Status = "Статус";
+	$lang_Admin_Users_Enabled = "Действительно";
+	$lang_Admin_Users_Disabled = "Недействительно";
+
+	$lang_Admin_Users_UserGroup = "Группа Админ пользователей";
+	$lang_Admin_Users_SelectUserGroup = "Выберите группу";
+
+	$lang_Admin_Users_NewPassword = "Новый пароль";
+	$lang_Admin_Users_ConfirmNewPassword = "Поддтвердите новый пароль";
+
+	$lang_Admin_Users_add = "Добавить";
+	$lang_Admin_Users_delete = "Удалить";
+	$lang_Admin_Users_view = "Просмотреть";
+	$lang_Admin_Users_edit = "Редактировать";
+
+	$lang_Admin_Users_AssignedRights = "Присвоенные права";
+	$lang_Admin_Users_DefineReports = "Обозначить отчёт";
+	$lang_Admin_Users_Assign_User_Rights = "Присвоить права пользователей";
+	$lang_Admin_Users_View_User_Rights = "Просмотреть права пользователей";
+
+	$lang_Admin_Change_Password_OldPassword = "Бывший пароль";
+
+	$lang_Admin_Change_Password_Errors_EnterYourOldPassword = "Введите бывший пароль";
+	$lang_Admin_Change_Password_Errors_EnterYourNewPassword = "Введите новый пароль";
+	$lang_Admin_Change_Password_Errors_RetypeYourNewPassword = "Набейти новый пароль еще раз";
+	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Пароли не соответсвуют. Набейти новый пароль еще раз";
+	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Ваш старый и новый пароли идентичны";
+
+
+	$lang_hremp_Language = "Язык";
+	$lang_rep_Skill = "Навык";
+	$lang_rep_Languages = "Языки";
 ?>
