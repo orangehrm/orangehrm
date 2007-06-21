@@ -95,7 +95,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		$message .= "	</cause>\n";
 
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."Tech Info".'\n'."------------".'\n'.mysql_error()));
-		error_log( strip_tags($errMsgEsc), 3, ROOT_PATH.'/lib/logs/logDB.txt');
+		error_log(date('r').' : '.strip_tags($errMsgEsc), 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	}
 
 	$confObj = new Conf();
