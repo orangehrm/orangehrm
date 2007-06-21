@@ -1,24 +1,42 @@
- 
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
 /* Default Styles */
-body { 
+body {
 	margin: 0px 0px 0px 0px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	color: #444444;
 	font-size: 12px;
 	background-color: #ffffff;
-	scrollbar-arrow-color: #FFFFFF; 
-	scrollbar-3dlight-color: #dddddd; 
-	scrollbar-highlight-color: #aaaaaa; 
-	scrollbar-face-color: #aaaaaa; 
+	scrollbar-arrow-color: #FFFFFF;
+	scrollbar-3dlight-color: #dddddd;
+	scrollbar-highlight-color: #aaaaaa;
+	scrollbar-face-color: #aaaaaa;
 	scrollbar-shadow-color: #aaaaaa;
-	scrollbar-track-color: #cccccc; 
+	scrollbar-track-color: #cccccc;
 	scrollbar-darkshadow-color: #666666;
 	}
 
-.body { 
+.body {
 	font-size: 12px;
 	}
-	
+
 table,td {
 	color: #444444;
 	font-size: 11px;
@@ -28,7 +46,7 @@ p {
 	MARGIN-TOP: 0px;
 	MARGIN-BOTTOM: 10px;
 	}
-	
+
 form {
 	margin: 0px;
 	}
@@ -44,46 +62,46 @@ h1 {
 h2 {
 	color: #666666;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 18px; 
-	font-weight: bold; 
+	font-size: 18px;
+	font-weight: bold;
 	margin-bottom: 0px;
 	margin-top: 0px;
 	}
 
 h3 {
-	color: #7f0000; 
+	color: #7f0000;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px; 
-	font-weight: bold; 
+	font-size: 16px;
+	font-weight: bold;
 	margin-bottom: 4px;
 	}
 
 h4 {
-	color: #333333; 
+	color: #333333;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 14px; 
-	font-weight: bold; 
+	font-size: 14px;
+	font-weight: bold;
 	margin-bottom: 2px;
 	}
 
 h5 {
-	color: #333333; 
+	color: #333333;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 13px; 
-	font-weight: bold; 
+	font-size: 13px;
+	font-weight: bold;
 	margin-bottom: 1px;
 	}
-	
+
 LI {
-	LIST-STYLE-TYPE: square; 
-	margin-left: 6px; 
+	LIST-STYLE-TYPE: square;
+	margin-left: 6px;
 	MARGIN-BOTTOM: 2px;
 	}
-	
+
 UL {
 	MARGIN-TOP: 2px;
 	}
-	
+
 hr {
 	height: 1px;
 }
@@ -107,7 +125,7 @@ a:hover {
 	font-weight: normal;
 /*	background-image: url(../pictures/formButtonBg.png); */
 	}
-	
+
 .buttonOn {
 
 	border: 1px solid #444444;
@@ -117,14 +135,14 @@ a:hover {
 	font-weight: normal;
 /*	background-image: url(../pictures/formButtonBgOn.png); */
 	}
-	
+
 input,select {
 	border: 1px solid #888888;
 	font-size: 9px;
 	background-color: #ffffff;
 	height: 15px;
 	}
-	
+
 /* Content Specific Styles */
 	/* body text */
 	a.body:link, a.body:visited {
@@ -132,18 +150,18 @@ input,select {
 		font-size: 12px;
 /*		text-decoration: underline; */
 		}
-		
+
 	a.body:hover {
 /*		color: #666666;
 		text-decoration: underline; */
 		}
-	
+
 	/* myArea is for my account, admin, logout, an about links*/
 	.myArea {
 		font-size: 11px;
 		font-weight: bold;
 		}
-		
+
 	/*for the main screen navigation tabs*/
 	.currentTab {
 		font-size: 12px;
@@ -160,7 +178,7 @@ input,select {
 		text-decoration: none;
 		font-weight: bold;
 		}
-		
+
 	.otherTab {
 		font-size: 12px;
 		font-weight: bold;
@@ -174,7 +192,7 @@ input,select {
 		color: #3C3C3C;
 		text-decoration: none;
 		}
-	
+
 	/*welcome user and date bar and last view*/
 	.welcome {
 		font-size: 12px;
@@ -198,7 +216,7 @@ input,select {
 		padding-left: 10px;
 		border-bottom: 1px solid #cccccc;
 		}
-		
+
 	a.lastViewLink:link, a.lastViewLink:visited {
 		color: #444444;
 /*		text-decoration: underline; */
@@ -212,7 +230,7 @@ input,select {
 		text-decoration: none;
 		border-bottom: 0px;
 		}
-		
+
 	/*left column styles*/
 	table.leftColumnModuleHead th {
 		font-size: 12px;
@@ -223,29 +241,29 @@ input,select {
 
 	h5.listViewSubHeadS1 {
 /*		color: #666666;  */
-		font-size: 13px; 
-		font-weight: bold; 
+		font-size: 13px;
+		font-weight: bold;
 		margin-top: 1px;
 		margin-bottom: 1px;
 	}
-	
+
 	/* main tab forms */
-	
+
 	h4.dataLabel {
 /*		color: #666666;  */
-		font-size: 14px; 
-		font-weight: bold; 
+		font-size: 14px;
+		font-weight: bold;
 		margin-bottom: 2px;
 	}
-	
+
 	h5.dataLabel {
-		color: #888888; 
-		font-size: 13px; 
-		font-weight: bold; 
+		color: #888888;
+		font-size: 13px;
+		font-weight: bold;
 		margin-bottom: 1px;
 		margin-top: 1px;
 	}
-	
+
 	/* calendar styles */
 	.monthBox {
 	border: 1px solid #222222;
@@ -271,16 +289,16 @@ input,select {
 	background-color: #dddddd;
 	}
 	.monthHeaderH3 {
-	color: #333333; 
+	color: #333333;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px; 
-	font-weight: bold; 
+	font-size: 16px;
+	font-weight: bold;
 	}
 	.monthCalBody {
 
 	background-color: #dddddd;
 	}
-	
+
 	.monthHeaderPrevTd {
 	padding-left: 5px;
 	}
@@ -295,11 +313,11 @@ input,select {
 	text-decoration: none;
 	font-weight: bold;
 	}
-	
+
 	.monthHeaderNextTd {
 	padding-right: 5px;
 	}
-	
+
 	.monthCalBodyTHWeek {
 	font-size: 12px;
 	background-color: #6f6f6f;
@@ -360,24 +378,24 @@ input,select {
 	a.monthCalBodyWeekDayDateLink:hover {
 	color: #444444;
 	font-size: 11px;
-	font-weight: bold;	
+	font-weight: bold;
 	}
-	
+
 	a.monthCalBodyWeekEndDateLink:hover {
 /*	color: #666666; */
 	font-size: 11px;
-	font-weight: bold;	
+	font-weight: bold;
 	}
-	
-	
-	
+
+
+
 	a.monthCalBodyDayItemLink:link, a.monthCalBodyDayItemLink:visited {
 	font-size: 10px;
 	}
 	a.monthCalBodyDayItemLink:hover {
 	font-size: 10px;
 	}
-	
+
 	.monthCalBodyDayItem {
 	background-color: #e5e5e5;
 	border: 1px solid #aaaaaa;
@@ -413,7 +431,7 @@ input,select {
 	padding: 3px;
 	text-align: left;
 	}
-	
+
 	a.weekCalBodyDayLink:link, a.weekCalBodyDayLink:visited {
 	color: #ffffff;
 	}
@@ -465,7 +483,7 @@ input,select {
 	}
 	.chartFootnote {
 		font-size: 10px;
-	
+
 	}
 
 	.copyRight {
@@ -474,12 +492,12 @@ input,select {
 	}
 	a.copyRightLink:hover {
 	}
-	
+
 	.tm {
 		font-size: 8px;
 		font-family: Verdana;
 	}
-	
+
 	.footer {
 padding-top: 10px;
 padding-bottom: 10px;
@@ -488,7 +506,7 @@ padding-bottom: 10px;
 	}
 	a.footerLink:hover {
 	}
-	
+
 	.footerHR {
 /*	color: #666666; */
 	}
@@ -505,7 +523,7 @@ padding-bottom: 10px;
 	padding-top: 2px;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	font-family: "Arial", "Helvetica", "sans-serif";
 	background-color: #FFCC00;
@@ -516,7 +534,7 @@ padding-bottom: 10px;
 	background-color: #EDC112;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	text-decoration: none
 }
@@ -531,7 +549,7 @@ padding-bottom: 10px;
 	padding-bottom: 2px;
 	border-top: #FFCE73 1px solid;
 	border-left: #FFCE73 1px solid;
-	border-right: #D8B114 1px solid;	
+	border-right: #D8B114 1px solid;
 	border-bottom: #D8B114 1px solid;
 	color: #000000;
 	line-height: normal;

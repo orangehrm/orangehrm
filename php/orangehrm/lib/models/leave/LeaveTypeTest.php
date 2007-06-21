@@ -1,4 +1,24 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+
 // Call LeaveTypeTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "LeaveTypeTest::main");
@@ -25,10 +45,10 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
      * @access public
      * @static
      */
-    
+
     public $classLeaveType = null;
     public $connection = null;
-    
+
     public static function main() {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
@@ -43,19 +63,19 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
-    	$this->classLeaveType = new LeaveType(); 
-    	
+    	$this->classLeaveType = new LeaveType();
+
     	$conf = new Conf();
-    	
+
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
-		
+
         mysql_select_db($conf->dbname);
-        
+
         mysql_query("TRUNCATE TABLE `hs_hr_leavetype`");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Medical', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Medicals', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY013', 'Medicalx', 1)");
-			
+
     }
 
     /**
@@ -65,117 +85,117 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	   	
-    	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection); 
+
+    	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY013'", $this->connection);
     	 mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY014'", $this->connection);
     }
-	
+
    public function testAddLeaveType() {
-    	
+
     	$this->classLeaveType->setLeaveTypeName("Anual");
-    	
+
     	$res = $this->classLeaveType->addLeaveType();
-    	
+
     	$res = $this->classLeaveType->retriveLeaveType("LTY014");
-        
+
         $expected = array('LTY014', 'Anual');
-        
+
         $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
 
-       
-        
+
+
         $this->assertEquals(count($res), 1, "Number of records found is not accurate ");
 
    }
-	
+
    public function testRetriveLeaveType() {
-    	
-        $res = $this->classLeaveType->retriveLeaveType("LTY016"); 
-        
+
+        $res = $this->classLeaveType->retriveLeaveType("LTY016");
+
         $this->assertEquals($res, null, "Retured non exsistant record ");
-   } 
-    
-   
-   
+   }
+
+
+
    public function testRetriveLeaveAccuracy() {
 
         $res = $this->classLeaveType->retriveLeaveType("LTY011");
-        
+
         $expected[0] = array('Anual', 'LTY011');
-      
-        
+
+
         $this->assertNotNull($res, "No record found ");
-        
-        
-                    
+
+
+
    }
-   
-   
+
+
    public function testEditLeavetype () {
-   		
+
    		$this->classLeaveType->setLeaveTypeName("New Medicals");
    		$this->classLeaveType->setLeaveTypeId("LTY012");
    		$res = $this->classLeaveType->editLeaveType();
-   		
+
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
-        
+
    		$expected = array('LTY012', 'New Medicals');
-        
+
         $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
 
-        
+
         $this->assertNotNull($res, "No record found ");
-   		
+
    }
-     
-   
+
+
    public function testDeleteLeaveType () {
-     	
+
    		$this ->classLeaveType->setLeaveTypeId("LTY012");
-   		
+
    		$res = $this->classLeaveType->deleteLeaveType("LTY012");
-   		
+
    		$res = $this->classLeaveType->retriveLeaveType("LTY012");
-        
-	
+
+
         $expected = array('LTY012', 'Medicals' , $res[0]->unAvailableStatusFlag);
-        
+
         $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");
 
-        
+
         $this->assertNotNull($res, "No record found ");
    }
-   
+
    public function testFetchLeave() {
         $res = $this->classLeaveType->fetchLeaveTypes();
-        
-        $this->assertNotNull($res, "No record found ");            
+
+        $this->assertNotNull($res, "No record found ");
     }
-    
-    
+
+
     public function testFetchLeaveAccuracy() {
-    	
+
         $res = $this->classLeaveType->fetchLeaveTypes();
-               
+
 
         //$this->assertEquals(count($res), 3, "Number of records found is not accurate ");
-                
+
         $expected[0] = array("LTY011", "Medical");
         $expected[1] = array("LTY012", "Medicals");
-        $expected[2] = array("LTY013", "Medicalx");                  
-        
+        $expected[2] = array("LTY013", "Medicalx");
+
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result 1");
         	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result 2");
 
-        }    
+        }
     }
-   
+
 }
 
 // Call LeaveTypeTest::main() if this source file is executed directly.

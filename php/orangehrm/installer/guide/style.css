@@ -1,3 +1,23 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+
 /* CSS Document */
 
 /* Top Table */
@@ -10,14 +30,14 @@
 
 .middle_Active {
 	background-image : url(/themes/beyondT/pictures/nCurrentTab_middle.gif);
-	height:19px;	
+	height:19px;
 	font-size: 11px;
 	text-transform: capitalize;
 	padding-top: 2px;
 	padding-bottom: 1px;
 	padding-left: 7px;
 	padding-right: 7px;
-	font-weight: bold;	
+	font-weight: bold;
 	color: #000000;
 }
 
@@ -67,16 +87,16 @@
 
 #footer {
 	font-size: 10px;
-	color: #999999;	
+	color: #999999;
 	vertical-align: bottom;
 	position: static;
 	bottom: 0;
-	left:auto;	
+	left:auto;
 }
 
 #footer a {
 	color: #FF9900;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 #welcomeLink,  #welcomeLink a{
@@ -89,7 +109,7 @@
 
 #logo {
 	text-align: right;
-		
+
 }
 
 h1 {
@@ -118,7 +138,7 @@ h5 {
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;	
+	font-family: Arial, Helvetica, sans-serif;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: auto;
@@ -133,7 +153,7 @@ body {
 
 #next {
 	position:relative;
-	right:0px;	
+	right:0px;
 }
 
 
@@ -155,14 +175,14 @@ td {
 
 .tdComponent {
 	padding-right: 50px;
-	padding-left: 5px;		
+	padding-left: 5px;
 	border-bottom:#CCCCCC thin solid;
 }
 
 
 .tdComponent_n{
 	padding-right: 50px;
-	padding-left: 5px;			
+	padding-left: 5px;
 }
 
 
@@ -170,7 +190,7 @@ td {
 	width: 800px;
 	margin-top: 10px;
 	margin-left: 60px;
-	margin-bottom:10px;	
+	margin-bottom:10px;
 	padding-left:20px;
 	padding-right:20px;
 	background:top right no-repeat url(../../themes/beyondT/pictures/orange_new_02.gif);
@@ -182,13 +202,13 @@ td {
 }
 
 .see {
-	margin: 0;	
+	margin: 0;
 	font-style:italic;
 	color:#DD7700;
 }
 
 a {
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 li {
@@ -209,7 +229,7 @@ li {
 }
 
 .notes {
-	background:#CCCCCC;	
+	background:#CCCCCC;
 	padding-left:20px;
 	padding-right:20px;
 	padding-top:12px;
@@ -218,17 +238,17 @@ li {
 }
 
 .code {
-	font-family:"Courier New", Courier, monospace;	
+	font-family:"Courier New", Courier, monospace;
 	color:#555555;
 }
 
 .bash {
-	font-family:"Courier New", Courier, monospace;	
+	font-family:"Courier New", Courier, monospace;
 	padding-left:20px;
 	padding-right:20px;
 	padding-top:12px;
 	padding-bottom:12px;
-	margin:10px;	
+	margin:10px;
 	background:#DDDDDD;
 	color:#555555;
 }
@@ -238,13 +258,13 @@ li {
 	padding-bottom: 10px;
 }
 
-.navigate {	
+.navigate {
 	color:#3399CC;
 	border: thin none;
 	border-top: dotted thin #DD7700;
 }
 
-.back {	
+.back {
 	text-align:left;
 	margin-top:5px;
 	margin-left:10px;
@@ -254,12 +274,12 @@ li {
 	position:absolute;
 	text-align:right;
 	margin-left:750px;
-	margin-top:5px;	
+	margin-top:5px;
 }
 
 .screenshot {
 	border:1px solid #CC3300;
-	width:100%;		
+	width:100%;
 }
 
 .caption {

@@ -1,38 +1,58 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+?>
 <script language="JavaScript">
 
 function disableFields() {
-	
+
 	if(document.frmInstall.chkSameUser.checked) {
 		document.frmInstall.dbOHRMUserName.disabled = true;
-		document.frmInstall.dbOHRMPassword.disabled = true;			
+		document.frmInstall.dbOHRMPassword.disabled = true;
 	} else {
 		document.frmInstall.dbOHRMUserName.disabled = false;
-		document.frmInstall.dbOHRMPassword.disabled = false;	
+		document.frmInstall.dbOHRMPassword.disabled = false;
 	}
-	
+
 }
 
 function submitDBInfo() {
-	
+
 	frm = document.frmInstall;
 	if(frm.dbHostName.value == '') {
 		alert('DB Hostname left Empty!');
 		frm.dbHostName.focus();
 		return;
 	}
-	
+
 	if(frm.dbHostPort.value == '') {
 		alert('DB Host Port left Empty!');
 		frm.dbHostPort.focus();
 		return;
 	}
-	
+
 	if(frm.dbName.value == '') {
 		alert('DB Name left Empty!');
 		frm.dbName.focus();
 		return;
 	}
-	
+
 	if(frm.dbUserName.value == '') {
 		alert('DB User-name left Empty');
 		frm.dbUserName.focus();
@@ -69,7 +89,7 @@ document.frmInstall.submit();
 
         <p>Please enter your database configuration information below. If you are
         unsure of what to fill in, we suggest that you use the default values.</p>
-   
+
  <table cellpadding="0" cellspacing="0" border="0" class="table">
 	<tr>
 		<th colspan="3" align="left">Database Configuration</td>

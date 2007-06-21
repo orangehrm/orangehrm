@@ -1,29 +1,49 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+
 class EmpRepUserGroup {
 
 	var $usgGrpCode;
 	var $repCode;
-	
+
 	function EmpRepUserGroup() {
-		
+
 	}
 
 	function setUserGroupID($usgGrpCode) {
 		$this->usgGrpCode = $usgGrpCode;
 	}
-	
+
 	function setRepCode($repCode) {
 		$this->repCode = $repCode;
 	}
-	
+
 	function getUserGroupID() {
 		return $this->usgGrpCode;
 	}
-	
+
 	function getRepCode() {
 		return $this->repCode;
 	}
-	
+
 	function delRepUserGroup($arrList) {
 
 		$tableName = 'HS_HR_EMPREP_USERGROUP';
@@ -42,7 +62,7 @@ class EmpRepUserGroup {
 		$dbConnection1 = new DMLFunctions();
 		$message2 = $dbConnection1 -> executeQuery($sqlDelString); //Calling the addData() function
         }
-	
+
 
 	function addRepUserGroup() {
 
@@ -50,100 +70,100 @@ class EmpRepUserGroup {
 		$arrFieldList[1] = "'". $this->getRepCode() . "'";
 
 		$tableName = 'HS_HR_EMPREP_USERGROUP';
-	
+
 		$sql_builder = new SQLQBuilder();
-		
+
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;
-			
-	
+
+
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-	
+
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
+
 		 return $message2;
 		 echo $message2;
-				
+
 	}
 
 function getAllUserGroups() {
-		
+
 		$arrFieldList[0] = 'userg_id';
 		$arrFieldList[1] = 'userg_name';
 
 		$sql_builder = new SQLQBuilder();
-		
+
 		$sql_builder->table_name = 'hs_hr_user_group';
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
-		
+
 		$sqlQString =$sql_builder->passResultSetMessage();
-		
+
 		$dbConnection = new DMLFunctions();
 
 		$message2 = $dbConnection -> executeQuery($sqlQString);
-		
+
 		$i=0;
-		
+
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
+
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-	    	
+
 	     }
-	     
+
 	     if (isset($arrayDispList)) {
-	     
+
 			return $arrayDispList;
-			
+
 		} else {
-		
+
 			$arrayDispList = '';
 			return $arrayDispList;
-			
+
 		}
 	}
-	
+
 	function getAssignedUserGroup($getID) {
-		
+
 		$tableName = 'HS_HR_EMPREP_USERGROUP';
 		$arrFieldList[0] = 'REP_CODE';
 		$arrFieldList[1] = 'USERG_ID';
-		
+
 		$sql_builder = new SQLQBuilder();
-		
+
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
+		$sql_builder->arr_select = $arrFieldList;
+
 		$sqlQString = $sql_builder->selectOneRecordFiltered($getID);
-		
-		//echo $sqlQString;		
+
+		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
+
 		$i=0;
-		
+
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
+
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-	    	
+
 	     }
-	     
+
 	     if (isset($arrayDispList)) {
-	     
+
 			return $arrayDispList;
-			
+
 		} else {
-		
+
 			$arrayDispList = '';
 			return $arrayDispList;
-			
+
 		}
 	}
 
@@ -190,43 +210,43 @@ function getAllUserGroups() {
 	}
 
 	function getReportInfo() {
-		
-		$tableName = 'HS_HR_EMPREPORT';			
+
+		$tableName = 'HS_HR_EMPREPORT';
 		$arrFieldList[0] = 'REP_CODE';
 		$arrFieldList[1] = 'REP_NAME';
-		
+
 		$sql_builder = new SQLQBuilder();
-		
+
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;		
-			
+		$sql_builder->arr_select = $arrFieldList;
+
 		$sqlQString = $sql_builder->passResultSetMessage();
-		
-		//echo $sqlQString;		
+
+		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		
+
 		$i=0;
-		
+
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-		 	
+
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-	    	
+
 	     }
-	     
+
 	     if (isset($arrayDispList)) {
-	    
+
 	     	return $arrayDispList;
-	        
-			
+
+
 		} else {
-		
+
 			$arrayDispList = '';
 			return $arrayDispList;
-			
+
 		}
 	}
 

@@ -6,7 +6,7 @@
 
 // all the essential functionalities required for any enterprise.
 
-// Copyright (C) 2006 hSenid Software International Pvt. Ltd, http://www.hsenid.com
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
 
 
 

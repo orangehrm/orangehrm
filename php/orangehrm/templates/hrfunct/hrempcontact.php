@@ -1,3 +1,23 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+?>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 	<table height="250" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -5,7 +25,7 @@
 			 <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
 						  		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist?> --</option>
 <?php		$cntlist = $this->popArr['cntlist'];
-							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++) 
+							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++)
 							    			if($editArr['COUNTRY'] == $cntlist[$c][0])
 							    				echo "<option selected value='" . $cntlist[$c][0] . "'>" . $cntlist[$c][1] . "</option>";
 							    			else
@@ -23,7 +43,7 @@
 							<select name="txtState" id="txtState" disabled>
 							    	<option value="0">--- <?php echo $lang_districtinformation_selstatelist?> ---</option>
 							     	<?php	$statlist = $this->popArr['provlist'];
-							    		for($c=0; $statlist && count($statlist)>$c ;$c++) 
+							    		for($c=0; $statlist && count($statlist)>$c ;$c++)
 							    			if($editArr['STATE'] == $statlist[$c][1])
 							    				echo "<option selected value='" . $statlist[$c][1] . "'>" . $statlist[$c][2] . "</option>";
 							    			else
@@ -64,9 +84,9 @@
 			<td><?php echo $lang_hremp_otheremail?></td>
 			 <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtOtherEmail" value="<?php echo (isset($this->postArr['txtOtherEmail']))?$this->postArr['txtOtherEmail']:''?>"></td>
 			 </tr>
-			 
+
 </table>
-			 
+
 <?php } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
 	<table onclick="setUpdate(4)" onkeypress="setUpdate(4)" height="250" border="0" cellpadding="0" cellspacing="2">
@@ -79,7 +99,7 @@
 						  		<option value="0"><?php echo $lang_districtinformation_selectcounlist?></option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
-								for($c=0;$cntlist && count($cntlist)>$c;$c++)  
+								for($c=0;$cntlist && count($cntlist)>$c;$c++)
 									if($edit[0][4]==$cntlist[$c][0])
 										echo "<option selected value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
 									else
@@ -96,7 +116,7 @@
 		</tr>
 		 <tr>
 			 <td><?php echo $lang_hremp_city?></td>
-			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" disabled></td>			 
+			 <td><input type="text" name="cmbCity" id="cmbCity" value="<?php echo $edit[0][3]?>" disabled></td>
 			<td width="60">&nbsp;</td>
 			<td><?php echo $lang_compstruct_state?></td>
 						  <td><div id="lrState" name="lrState">
@@ -104,7 +124,7 @@
 							<select name="txtState" id="txtState" disabled>
 							    	<option value="0">--- <?php echo $lang_districtinformation_selstatelist?> ---</option>
 							     	<?php	$provlist = $this->popArr['provlist'];
-							    		for($c=0; $provlist && count($provlist)>$c ;$c++) 
+							    		for($c=0; $provlist && count($provlist)>$c ;$c++)
 							    			if($edit[0][5] == $provlist[$c][1])
 							    				echo "<option selected value='" . $provlist[$c][1] . "'>" . $provlist[$c][2] . "</option>";
 							    			else
@@ -133,7 +153,7 @@
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtWorkTelep" value="<?php echo (isset($this->postArr['txtWorkTelep']))?$this->postArr['txtWorkTelep']:$edit[0][9]?>"></td>
 			 <td width="60">&nbsp;</td>
 			 <td></td>
-			 <td></td>		
+			 <td></td>
 			</tr>
 			<tr>
 			 <td><?php echo $lang_hremp_workemail?></td>
@@ -142,7 +162,7 @@
 			 <td><?php echo $lang_hremp_otheremail?></td>
 			 <td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtOtherEmail" value="<?php echo (isset($this->postArr['txtOtherEmail']))?$this->postArr['txtOtherEmail']:$edit[0][11]?>"></td>
 			 </tr>
-			
+
 </table>
-			 
+
 <?php } ?>

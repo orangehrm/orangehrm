@@ -1,4 +1,23 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
 // Call BackupTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "BackupTest::main");
@@ -27,10 +46,10 @@ class BackupTest extends PHPUnit_Framework_TestCase {
      * @access public
      * @static
      */
-    
+
     public $classBackup = null;
     public $connection = null;
-    
+
     public static function main() {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
@@ -45,10 +64,10 @@ class BackupTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
-    	$this->classBackup = new Backup(); 
-    	
+    	$this->classBackup = new Backup();
+
     	$conf = new Conf();
-    	
+
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
 		mysql_query("CREATE DATABASE `BackupTest`");
 		 mysql_select_db("BackupTest");
@@ -60,10 +79,10 @@ class BackupTest extends PHPUnit_Framework_TestCase {
   `phone` varchar(25) NOT NULL default '',   `email` varchar(100) NOT NULL default '',
   `addtioanlcomments` text NOT NULL,   `foundusfrom` varchar(100) NOT NULL default '',
   `date` varchar(12) NOT NULL default '',   PRIMARY KEY  (`request_id`))");
-       
-        
+
+
         mysql_query("INSERT INTO `data_sheet_info` VALUES (1,'nnn','nn','nn','nn','nn','nn','nn','nn','nn','nn','nn','nn',''),(2,'wireless-i banco','ss','ss','ss','50-99','Automotive','ssssssssss','American Samoa','ss','ss@ss.com','ssss','Yahoo!',''),(3,'wireless-i banco','Testing','Testing','Testing','50-99','Aerospace','Testing Testing Testing \r\nTesting ','Afghanistan','Testing','Testing@beyondm.com','Testing Testing Testing ','Email',''),(4,'wireless-i banco','sureshkumar','manhar','s.d','l-49','Computer/Technology-Manufacturer','pavani prestage','India','9849834559','ask_b4u@sify.com','','Other','')");
-		
+
     }
 
     /**
@@ -73,21 +92,21 @@ class BackupTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-     mysql_query("DROP DATABASE `BackupTest`");	   	
-    	 	
+     mysql_query("DROP DATABASE `BackupTest`");
+
     }
 
   	public function testdumpDatabase(){
   		$conn = $this->connection;
   		$this->classBackup->setConnection($conn);
 		$this->classBackup->setDatabase("BackupTest");
-		
+
 		$filecontent=$this->classBackup->dumpDatabase(true);
-		
+
 		$this->assertEquals($filecontent, true, "No record found");
   	}
-	
-  	
+
+
 }
 
 // Call BackupTest::main() if this source file is executed directly.
