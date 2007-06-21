@@ -27,6 +27,8 @@
  $auth = $modifier[1];
  $dispYear = $modifier[2];
 
+
+
  $modifier = $modifier[0];
 
  if ($modifier === 'edit') {
@@ -40,6 +42,23 @@
  }
 
  $backLink = "./CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary";
+
+ /* Add sort parameters to form action url */
+ $sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
+
+ $sortOrder = null;
+ if ($sortBy != null) {
+
+ 	$sortParam = "sortOrder" . $sortBy;
+ 	if (isset($_REQUEST[$sortParam])) {
+ 		$sortOrder =  $_REQUEST[$sortParam];
+ 	}
+ }
+ 
+ if ($sortBy != null && $sortOrder != null) {
+ 	$frmAction .= "&sortField=${sortBy}&sortOrder${sortBy}=${sortOrder}";
+ }
+ 
 
  require_once($lan->getLangPath("full.php"));
 
@@ -58,6 +77,7 @@
 ?>
 <var><?php echo $_GET['message']; ?></var>
 <?php } ?>
+
 <script language="javascript">
 	function actForm() {
 		document.frmSummary.action = '<?php echo $frmAction; ?>';
@@ -72,6 +92,11 @@
 		location.href = '<?php echo $backLink; ?>';
 	<?php } ?>
 	}
+		
+	function sort(sortUrl) {
+		document.frmSummary.action = sortUrl;
+		document.frmSummary.submit();
+	}
 
 <?php	if ($auth === 'admin') { ?>
 
@@ -80,9 +105,63 @@
 		document.frmSummary.submit();
 	}
 
-
 <?php	} ?>
+		
+<?php
+		 
+	function getCurSortOrder($colNum) {
+	
+		$curSortOrder = null;
+		
+		$varName = "sortOrder${colNum}";	
+		if (isset($_REQUEST[$varName])) {
+			$curSortOrder = $_REQUEST[$varName];
+		}
+		return $curSortOrder;
+	}
+	
+	function getNextSortOrder($colNum) {
+	
+		$curSortOrder = getCurSortOrder($colNum);
+		
+		if ($curSortOrder == 'ASC') {
+			$nextSortOrder = "DESC";
+		} else {
+			$nextSortOrder = "ASC";
+		}
+		return $nextSortOrder;
+	}
+		
+		
+	function getNextSortOrderInWords($colNum) {
+	
+		$curSortOrder = getCurSortOrder($colNum);
+	
+		if ($curSortOrder == 'ASC') {
+			return "lang_Common_Sort_DESC";
+		} else {
+			return "lang_Common_Sort_ASC";
+		}
+	}
+	
+	function getSortURL($colNum) {
+		
+		$sortOrder = getNextSortOrder($colNum);
+		$url = "./CentralController.php?leavecode=Leave&action=Leave_Summary&sortField=${colNum}&sortOrder${colNum}=${sortOrder}";
+		return $url;
+	}
+	
+	function getSortIcon($colNum) {
+	
+		$imgName = getCurSortOrder($colNum);
+		if ($imgName == null) {
+			$imgName = 'null';
+		}
+		return "../../themes/beyondT/icons/" . $imgName . ".png";
+	}
 
+?>
+		
 </script>
 <h2><?php echo $lang_Title; ?><hr/></h2>
 <?php
@@ -92,13 +171,17 @@
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
 	} else {
-		if ($auth === 'admin') {
 ?>
 	<form method="post" onsubmit="actForm(); return false;" name="frmSummary" id="frmSummary">
 		<input type="hidden" name="id" value="<?php echo isset($_REQUEST['id'])?$_REQUEST['id']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>"/>
 		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
 		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
 		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
+		
+	<?php
+		if ($auth === 'admin') {
+	?>
+
 	<p class="controls">
 		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';">
@@ -126,15 +209,67 @@
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>
+		
 		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
-		<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
+			
+			<?php $col = 1; ?>
+			<th width="180px" class="tableMiddleMiddle">
+				<?php if ($modifier === 'edit') {
+					      echo $lang_Leave_Common_EmployeeName;
+				      } else { ?>
+				<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
+				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_EmployeeName;?></a>
+				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
+				<?php } ?>
+			</th>
 		<?php } ?>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
+		
+		<?php $col = 2; ?>
+    	<th width="180px" class="tableMiddleMiddle">
+				<?php if ($modifier === 'edit') {
+						  echo $lang_Leave_Common_LeaveType;
+				      } else { ?>
+			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveType;?></a>
+			<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
+				<?php } ?>
+		</th>
+		
     	<?php if ($auth === 'admin') { ?>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveEntitled;?></th>
+		
+			<?php $col = 3; ?>
+			<th width="180px" class="tableMiddleMiddle">
+				<?php if ($modifier === 'edit') {
+						  echo $lang_Leave_Common_LeaveEntitled;
+				      } else { ?>
+				<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
+				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveEntitled;?></a>
+					<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
+				<?php } ?>
+			</th>
     	<?php } ?>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveTaken;?></th>
-    	<th width="180px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveAvailable;?></th>
+    	
+		<?php $col = 4; ?>
+		<th width="180px" class="tableMiddleMiddle">
+				<?php if ($modifier === 'edit') {
+					      echo $lang_Leave_Common_LeaveTaken;
+				      } else { ?>
+			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveTaken;?></a>
+				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
+				<?php } ?>
+		</th>
+		
+		<?php $col = 5; ?>
+		<th width="180px" class="tableMiddleMiddle">
+				<?php if ($modifier === 'edit') {
+						  echo $lang_Leave_Common_LeaveAvailable;
+				      } else { ?>
+			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveAvailable;?></a>
+			<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
+				<?php } ?>
+		</th>
 		<th class="tableMiddleRight"></th>
 	</tr>
   </thead>
@@ -142,9 +277,8 @@
 <?php
 	$leaveTypeObj = new LeaveType();
 	$j = 0;
-	if (is_array($records[0]))
-		foreach ($records[0] as $recordX) {
-		  foreach ($recordX as $record) {
+	if (is_array($records[0])) {
+		  foreach ($records[0] as $record) {
 			if(!($j%2)) {
 				$cssClass = 'odd';
 			 } else {
@@ -173,16 +307,20 @@
 
     <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record['no_of_days_allotted']; ?>" size="3" <?php echo $readOnly; ?>/></td>
     <?php } ?>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record['leave_taken']; ?></td>
-    <td class="<?php echo $cssClass; ?>"><?php if ($record['leave_available'] >= 0) {
-    												echo $record['leave_available'];
+		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_taken'])) {
+													  echo round($record['leave_taken'], 1);
+												   } else {
+												      echo 0;
+												   } ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available']) && $record['leave_available'] >= 0) {
+												    echo round($record['leave_available'], 1);
     										   } else {
     										   		echo 0;
     										   } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
 <?php 	  }
-		}
+	}
 ?>
   </tbody>
   <tfoot>
@@ -201,9 +339,8 @@
 	</tr>
   </tfoot>
 </table>
-<?php if ($auth === 'admin') { ?>
-	</form>
+</form>
+
 <?php
-	 }
 }
 ?>

@@ -1122,10 +1122,21 @@ switch ($moduletype) {
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
-
+																						
+																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
+																						
+																						$sortOrder = null;
+																						if ($sortBy != null) {
+																						
+																							$sortParam = "sortOrder" . $sortBy;
+																							if (isset($_REQUEST[$sortParam])) {
+																								$sortOrder =  $_REQUEST[$sortParam];
+																							}
+																						}
+																						
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
-																						$leaveController->viewLeaves("summary", $year, $searchBy);
+																						$leaveController->viewLeaves("summary", $year, $searchBy, $sortBy, $sortOrder);
 																						break;
 
 													case 'Leave_Edit_Summary'		:	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
@@ -1133,9 +1144,20 @@ switch ($moduletype) {
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
 
+																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
+																						
+																						$sortOrder = null;
+																						if ($sortBy != null) {
+																						
+																							$sortParam = "sortOrder" . $sortBy;
+																							if (isset($_REQUEST[$sortParam])) {
+																								$sortOrder =  $_REQUEST[$sortParam];
+																							}
+																						}
+																						
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
-																						$leaveController->editLeaves("summary", $year, $searchBy);
+																						$leaveController->editLeaves("summary", $year, $searchBy, $sortBy, $sortOrder);
 																						break;
 
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
@@ -1153,8 +1175,24 @@ switch ($moduletype) {
 
 
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
+																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
+																						
+																						$sortOrder = null;
+																						if ($sortBy != null) {
+																						
+																							$sortParam = "sortOrder" . $sortBy;
+																							if (isset($_REQUEST[$sortParam])) {
+																								$sortOrder =  $_REQUEST[$sortParam];
+																							}
+																						}
 
-																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Summary&message='.$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy"));
+																						$url =  '?leavecode=Leave&action=Leave_Summary&message=' .$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy";
+																						
+																						if ($sortBy != null && $sortOrder != null) {
+																							$url .= "&sortField=${sortBy}&sortOrder${sortBy}=${sortOrder}";
+																						}
+
+																						$leaveController->redirect(null, array($url));
 																						break;
 
 													case 'Leave_CancelLeave' 		:  	$objs = $leaveExtractor->parseDeleteData($_POST);

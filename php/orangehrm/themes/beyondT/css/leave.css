@@ -182,3 +182,13 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 *[readonly] {
 	color:#B8B6B0
 }
+
+.sortBy {
+       color: black;
+       text-align: left;
+}
+
+.sortBy:link {
+       color: black;
+}
+

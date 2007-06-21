@@ -197,6 +197,8 @@
 
 	$lang_Common_Edit = "Edit";
 	$lang_Common_New = "New";
+	$lang_Common_Sort_ASC					= "Sort in ascending order";
+	$lang_Common_Sort_DESC					= "Sort in descending order";
 
 	//days
 	$lang_Common_Monday 					= "Monday";

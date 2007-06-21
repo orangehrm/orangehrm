@@ -20,6 +20,8 @@
 
 require_once "Leave.php";
 require_once "LeaveQuota.php";
+require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
+
 //require_once "LeaveType.php";
 
 /**
@@ -108,96 +110,65 @@ class LeaveSummary extends LeaveQuota {
 	/**
 	 * Leave summary of all employees
 	 */
-	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee") {
+	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null) {
 
-		$this->setYear($year);
-		$this->setEmployeeId($employeeId);
-		$this->setLeaveTypeId($leaveTypeId);
+		$selectFields[0] = "a.`emp_number` as emp_number";
+		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
+		$selectFields[2] = "c.`leave_type_name` as leave_type_name";
+		$selectFields[3] = "b.`no_of_days_allotted` as no_of_days_allotted";
+		$selectFields[4] = "SUM(ABS(COALESCE(d.`leave_length`, 0))) / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_taken";	
+		$selectFields[5] = "no_of_days_allotted - SUM(ABS(COALESCE(d.`leave_length`, 0))) /" . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_available";
+		$selectFields[6] = "c.`leave_type_id` as leave_type_id";
+		$selectFields[7] = "c.`available_flag` as available_flag";
+		
+		$arrTables[0] = '`hs_hr_employee` a';
+		$arrTables[1] = '`hs_hr_employee_leave_quota` b';
+		$arrTables[2] = '`hs_hr_leavetype` c';
+		$arrTables[3] = '`hs_hr_leave` d';
 
-		$selectFields[0] = '`employee_id`';
-		$selectFields[1] = '`leave_type_id`';
-		$selectFields[2] = '`no_of_days_allotted`';
-
-		$selectTable = "`hs_hr_employee_leave_quota`";
-
+		$joinConditions[1] = 'a.`emp_number` = b.`employee_id`';
+		$joinConditions[2] = 'b.`leave_type_id` = c.`leave_type_id`';
+		$joinConditions[3] = "d.`employee_id` = a.`emp_number` AND b.`leave_type_id` = d.`leave_type_id` AND d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . " AND d.`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
+		
+		$groupBy = "emp_number, employee_name, leave_type_id, leave_type_name, no_of_days_allotted, available_flag";
+		
 		$selectConditions = null;
-
-		$employeeId = $this->getEmployeeId();
-		if (!empty($employeeId) && ($this->getEmployeeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {
-			$selectConditions[] = "`employee_id` = {$this->getEmployeeId()}";
+		
+		if ( $searchBy == "employee" && !empty($employeeId) && ($employeeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+			$selectConditions[] = "a.`emp_number` = {$employeeId}";
+}
+		if ( $searchBy == "leaveType" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+			$selectConditions[] = "b.`leave_type_id` = '{$leaveTypeId}'";
 		}
-		$leaveTypeId = $this->getLeaveTypeId();
-		if (!empty($leaveTypeId) && ($this->getLeaveTypeId() != self::LEAVESUMMARY_CRITERIA_ALL)) {
-			$selectConditions[] = "`leave_type_id` = '{$this->getLeaveTypeId()}'";
+		
+		if ($sortField == null) {
+			$sortField = 0;
 		}
-
-		$selectOrderBy = "`employee_id`";
-
+		if ($sortOrder == null) {
+			$sortOrder = "ASC";	
+		}
+		
+		/* Get the alias name (the last word) in the field definition */
+		$tmpFieldDefWords = explode(" ", $selectFields[$sortField]);
+		$orderBy = array_pop($tmpFieldDefWords);
+		
 		$sqlBuilder = new SQLQBuilder();
 
-		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy);
-
-		//echo $query;
-
-		$resultArr = $this->_fetchEmployeesAndLeaveTypes($searchBy);
-		$resultArr1 = $this->_fetchSumOfLeavesAll();
-
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection->executeQuery($query);
-
-		while ($row = mysql_fetch_assoc($result)) {
-
-			if ($searchBy == "leaveType") {
-				$tmp = $resultArr[$row['leave_type_id']][$row['employee_id']];
-			} else {
-				$tmp = $resultArr[$row['employee_id']][$row['leave_type_id']];
-			}
-			$tmp['no_of_days_allotted'] = $row['no_of_days_allotted'];
-
-			$tmp['leave_available'] = $tmp['no_of_days_allotted']-$tmp['leave_taken'];
-
-			if ($searchBy == "leaveType") {
-				$resultArr[$row['leave_type_id']][$row['employee_id']] = $tmp;
-			} else {
-				$resultArr[$row['employee_id']][$row['leave_type_id']] = $tmp;
-			}
-		}
-
-		if (is_array($resultArr1)) {
-			foreach ($resultArr1 as $employeeId=>$leaveSumArr) {
-				foreach ($leaveSumArr as $leaveTypeId=>$leaveSum) {
-					if ($searchBy == "leaveType") {
-						$resultArr[$leaveTypeId][$employeeId]['leave_taken']=round(($leaveSum['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY)*10)/10;
-						$resultArr[$leaveTypeId][$employeeId]['leave_available']=$resultArr[$leaveTypeId][$employeeId]['no_of_days_allotted']-$resultArr[$leaveTypeId][$employeeId]['leave_taken'];
-					} else {
-						$resultArr[$employeeId][$leaveTypeId]['leave_taken']=round(($leaveSum['leave_length']/Leave::LEAVE_LENGTH_FULL_DAY)*10)/10;
-						$resultArr[$employeeId][$leaveTypeId]['leave_available']=$resultArr[$employeeId][$leaveTypeId]['no_of_days_allotted']-$resultArr[$employeeId][$leaveTypeId]['leave_taken'];
-					}
-				}
-			}
-		}
+		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, null, $groupBy);
 
 		$objLeaveType = new LeaveType();
+		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag} OR leave_taken > 0";
+		
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
 
-		$resultArrX = null;
-
-		if (is_array($resultArr)) {
-			foreach ($resultArr as $key1=>$level1Arr) {
-				foreach ($level1Arr as $key2=>$row) {
-
-					$leveTypeObj = new LeaveType();
-
-					$leaveType = $leveTypeObj->retriveLeaveType($row['leave_type_id']);
-
-					if (($leaveType[0]->getLeaveTypeAvailable() == $objLeaveType->availableStatusFlag) || ($row['leave_taken'] > 0)) {
-						$resultArrX[$key1][$key2]=$row;
-					}
-				}
-			}
+		$resultArr = null;
+		
+		while ($row = mysql_fetch_assoc($result)) {
+			$resultArr[] = $row;
 		}
 
-		return $resultArrX;
+		return $resultArr;
 	}
 
 	private function _fetchSumOfLeavesAll() {
