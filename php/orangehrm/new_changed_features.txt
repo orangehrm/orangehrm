@@ -14,7 +14,8 @@ New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 	1700188   Can't modify and still has "Edit"
 	1709838   Job - Workstation is confusing
 	1675497   It's possible to sort employees using all the fields
-	1701077 - In leave summary it's desirable to have a sort by option
+	1740634   Report to - incorrect label
+	1701077   In leave summary it's desirable to have a sort by option
 
 	Following bugs were closed
 

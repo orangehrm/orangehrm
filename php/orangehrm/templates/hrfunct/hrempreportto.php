@@ -214,7 +214,7 @@ function viewSup(sup,rep) {
     				 <strong><?php echo $arrRepType[1]?></strong></td>
 					</tr>
 					<tr>
-						<td valign="top"><?php echo $lang_empview_employeeid?></td>
+						<td valign="top"><?php echo $lang_empview_employeeid; ?></td>
 						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
 						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"><strong>
 						<?php echo  $empInfoObj->fetchEmployeeId($empsubid); ?>
@@ -262,7 +262,7 @@ function viewSup(sup,rep) {
 ?>
 					  </select></td>
 					</tr>
-					<tr><td><?php echo $lang_empview_employeeid?><td align="left" valign="top"><input type="text" disabled name="cmbRepEmpID" value="" readonly><input type="hidden" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
+					<tr><td><?php echo $lang_Leave_Common_EmployeeName; ?><td align="left" valign="top"><input type="text" disabled name="cmbRepEmpID" value="" readonly><input type="hidden" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
 						</td></tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
