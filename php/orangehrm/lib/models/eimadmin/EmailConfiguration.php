@@ -20,6 +20,7 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
+require_once ROOT_PATH . '/lib/confs/Conf.php';
 
 class EmailConfiguration {
 
@@ -36,6 +37,8 @@ class EmailConfiguration {
 	private $mailAddress;
 	private $mailType;
 	private $sendmailPath;
+
+	private $configurationFile;
 
 	public function getSmtpHost() {
 		return $this->smtpHost;
@@ -94,9 +97,31 @@ class EmailConfiguration {
 	}
 
 	public function __construct() {
-		if (is_file(ROOT_PATH . self::EMAILCONFIGURATION_FILE_CONFIG)) {
-			include ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG;
+		$confObj = new Conf();
+
+		if (is_file(ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG)) {
+			$this->configurationFile=ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG;
 		}
+
+		if (isset($confObj->emailConfiguration) && is_file($confObj->emailConfiguration)) {
+			include $confObj->emailConfiguration;
+			$this->configurationFile=$confObj->emailConfiguration;
+		} else if (isset($confObj->emailConfiguration) && is_file(ROOT_PATH.$confObj->emailConfiguration)) {
+			include ROOT_PATH.$confObj->emailConfiguration;
+			$this->configurationFile=ROOT_PATH.$confObj->emailConfiguration;
+		}
+
+		if (($this->configurationFile == null) || ($this->configurationFile == ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG)) {
+			include ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG."-distribution";
+
+			if (isset($confObj->emailConfiguration)) {
+				$this->configurationFile=$confObj->emailConfiguration;
+			}
+
+			$this->reWriteConf();
+		}
+
+		include $this->configurationFile;
 	}
 
 	public function reWriteConf() {
@@ -113,7 +138,7 @@ class EmailConfiguration {
 	$this->mailAddress = \''.$this->getMailAddress().'\';
 ?>';
 
-		return file_put_contents(ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG, $content);
+		return file_put_contents($this->configurationFile, $content);
 	}
 
 }

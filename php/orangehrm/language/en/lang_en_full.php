@@ -629,11 +629,11 @@
 	$lang_salarygrades_heading 				= "Job : Pay Grade";
 	$lang_salarygrades_currAss 				= "Currency Assigned";
 	$lang_salarygrades_stepSal 				= "Step Increase";
-	$lang_salarygrades_selectcurrency 			= "Currency field should be selected";
-	$lang_salarygrades_minSalNumeric 			= "Minimum salary should be numeric";
-	$lang_salarygrades_maxSalNumeric 			= "Maximum salary should be numeric";
-	$lang_salarygrades_stepSalNumeric 			= "Step salary should be numeric";
-        $lang_salarygrades_minGreaterThanMax                    = "Minimum Salary > Maximum Salary !";
+	$lang_salarygrades_selectcurrency		= "Currency field should be selected";
+	$lang_salarygrades_minSalNumeric		= "Minimum salary should be numeric";
+	$lang_salarygrades_maxSalNumeric		= "Maximum salary should be numeric";
+	$lang_salarygrades_stepSalNumeric		= "Step salary should be numeric";
+    $lang_salarygrades_minGreaterThanMax	= "Minimum Salary > Maximum Salary !";
 
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";

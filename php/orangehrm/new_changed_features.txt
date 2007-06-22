@@ -18,6 +18,8 @@ New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 	1701077   In leave summary it's desirable to have a sort by option
 	1740940   Expiry of the Session does not reload the full page
 	1740632   Home phone number need not be mandator for emergency contacts
+	1741271   On-demand should capture error msg and save it to a log file
+	1740744   On-Demand uses a single Email configuration
 
 	Following bugs were closed
 

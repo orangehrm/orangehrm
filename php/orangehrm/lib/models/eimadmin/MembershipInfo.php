@@ -421,11 +421,8 @@ class MembershipInfo {
 	     }
 
 	     if (isset($arrayDispList)) {
-			error_log(print_r($arrayDispList, true), 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	       	return $arrayDispList;
-
 	     } else {
-	     	error_log($sqlQString, 3, ROOT_PATH.'/lib/logs/logDB.txt');
 	     	//Handle Exceptions
 	     	//Create Logs
 	     }

@@ -26,6 +26,9 @@ class Conf {
 	var $version;
 	var $smtphost;
 
+	var $emailConfiguration;
+	var $logPath;
+
 	function Conf() {
 
 		$this->dbhost	= 'localhost';
@@ -36,7 +39,10 @@ class Conf {
 
 		$this->smtphost = 'localhost';
 
-		$this->version = '2.2_RC_1';
+		$this->version = '2.2_RC_3';
+
+		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
+		$this->logPath =  realpath(dirname(__FILE__).'/../logs/').'/';
 	}
 }
 

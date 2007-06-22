@@ -66,8 +66,18 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 
 	$message .= "	<message><![CDATA[$errstr]]></message>\n";
 
+	$confObj = new Conf();
+
+	if (isset($confObj->logPath) && !empty($confObj->logPath)) {
+		$logPath = $confObj->logPath;
+	} else {
+		$logPath = ROOT_PATH.'/lib/logs/';
+	}
+
+
 	$message .= "	<root>".ROOT_PATH."</root>\n";
 	$message .= "	<Wroot>".$_SESSION['WPATH']."</Wroot>\n";
+	$message .= "	<logPath><![CDATA[".$logPath."]]></logPath>\n";
 
 	$errfileEsc = str_replace("\\", "/", $errfile);
 
@@ -80,7 +90,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		$message .= "		<message><![CDATA[Line ".$errline."]]></message>\n";
 		$message .= "	</cause>\n";
 
-		error_log( strip_tags($errMsg), 3, ROOT_PATH.'/lib/logs/logDB.txt');
+		error_log(date('r').' : '.strip_tags($errMsg), 3, $logPath.'logDB.txt');
 
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."in ".$errfileEsc.'\n'."on line ".$errline));
 
@@ -95,7 +105,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 		$message .= "	</cause>\n";
 
 		$errMsgEsc = str_replace("'", "\'",strip_tags($type." :".'\n'.$errstr.'\n'."Tech Info".'\n'."------------".'\n'.mysql_error()));
-		error_log(date('r').' : '.strip_tags($errMsgEsc), 3, ROOT_PATH.'/lib/logs/logDB.txt');
+		error_log(date('r').' : '.strip_tags($errMsgEsc), 3, $logPath.'logDB.txt');
 	}
 
 	$confObj = new Conf();

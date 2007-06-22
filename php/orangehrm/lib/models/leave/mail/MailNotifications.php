@@ -213,7 +213,13 @@ class MailNotifications {
 			$logMessage .= " - SUCCEEDED";
 		}
 
-		error_log($logMessage."\r\n", 3, ROOT_PATH."/lib/logs/notification_mails.log");
+		if (isset($confObj->logPath) && !empty($confObj->logPath)) {
+			$logPath = $confObj->logPath;
+		} else {
+			$logPath = ROOT_PATH.'/lib/logs/';
+		}
+
+		error_log($logMessage."\r\n", 3, $logPath."notification_mails.log");
 
 		return true;
 	}
@@ -258,7 +264,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED) {
 
-				$leaveLength = $leaveObj->getLeaveLength(); 
+				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else {
@@ -321,7 +327,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_REJECTED) {
 
-				$leaveLength = $leaveObj->getLeaveLength(); 
+				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else {
@@ -385,7 +391,7 @@ class MailNotifications {
 			foreach ($leaveObjs as $leaveObj) {
 				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
 
-					$leaveLength = $leaveObj->getLeaveLength();					
+					$leaveLength = $leaveObj->getLeaveLength();
 					if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 						$fulldays++;
 					} else {
@@ -449,7 +455,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 
-				$leaveLength = $leaveObj->getLeaveLength(); 
+				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else {
@@ -548,11 +554,11 @@ class MailNotifications {
 	 *
 	 * @param interger $fulldays - Number of full days
 	 * @param integer $halfdays - Number of half days
-	 * @return String Number of leave days as a string (eg: 2 1/2 or 1/2 ) 
+	 * @return String Number of leave days as a string (eg: 2 1/2 or 1/2 )
 	 */
 	private function _getLeaveCountStr($fulldays, $halfdays) {
 
-		$fulldays += floor($halfdays / 2);		
+		$fulldays += floor($halfdays / 2);
 		$halfdayStr = ($halfdays % 2 == 1) ? " 1/2" : "";
 		$fulldayStr = ($fulldays > 0) ? sprintf("%d", $fulldays) : "";
 
@@ -576,7 +582,7 @@ class MailNotifications {
 
 		$desc = "";
 		if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
-			$desc = $lang_Leave_Common_FullDay; 
+			$desc = $lang_Leave_Common_FullDay;
 		} else if ($leaveLength == Leave::LEAVE_LENGTH_HALF_DAY_MORNING) {
 			$desc = $lang_Leave_Common_HalfDayMorning;
 		} else if ($leaveLength == Leave::LEAVE_LENGTH_HALF_DAY_AFTERNOON) {
