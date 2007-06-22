@@ -82,6 +82,10 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 		document.loginForm.actionID.value = "chkAuthentication";
 		document.loginForm.submit();
 	}
+
+	if (window.parent != window) {
+		window.parent.location.reload();
+	}
 </script>
 <link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
