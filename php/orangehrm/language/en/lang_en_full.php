@@ -498,6 +498,8 @@
 	$lang_hremp_ie_CurrentSupervisors 		= "i.e. Current Employee's Supervisors";
 	$lang_hremp_ie_CurrentSubordinates 		= "i.e. Current Employee's Subordinates";
 
+	$lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo = "Please specify at least one phone number";
+
  	$lang_hremplicenses_employeelicen 		= "Employee Licenses";
 	$lang_hremplicenses_assignlicenses 		= "Assigned Licenses";
 	$lang_hremplicenses_licentype 			= "License Type";

@@ -53,8 +53,10 @@ function validateEContact() {
 		return false;
 	}
 
-	if(document.frmEmp.txtEConHmTel.value == '') {
-		alert('<?php echo $lang_Common_FieldEmpty?>');
+	if ((document.frmEmp.txtEConHmTel.value == '') &&
+		(document.frmEmp.txtEConMobile.value == '') &&
+		(document.frmEmp.txtEConWorkTel.value == '')) {
+		alert('<?php echo $lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo; ?>');
 		document.frmEmp.txtEConHmTel.focus();
 		return false;
 	}
@@ -103,7 +105,7 @@ function editEContact() {
 			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 </tr>
 			 <tr>
-			 <td><font color=#ff0000>*</font><?php echo $lang_hremp_hmtele; ?>&nbsp;&nbsp;</td>
+			 <td><?php echo $lang_hremp_hmtele; ?>&nbsp;&nbsp;</td>
 			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?>&nbsp;&nbsp;</td>
@@ -168,7 +170,7 @@ $rset = $this->popArr['empECAss'];
 			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"></td>
 			 </tr>
 			 <tr>
-			 <td><font color=#ff0000>*</font><?php echo $lang_hremp_hmtele; ?></td>
+			 <td><?php echo $lang_hremp_hmtele; ?></td>
 			 <td><input type="text"  name="txtEConHmTel" value="<?php echo $edit[0][4]?>"></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?></td>
