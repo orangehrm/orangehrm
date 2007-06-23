@@ -105,10 +105,39 @@
 
   <!-- The coverage target will not work if the php XDebug extension is not installed -->
   <target name="coverage" depends="prepare">
+
       <coverage-setup database="${test.coverage.dir}/coverage.db">
+          <fileset dir=".">
+              <include name="testConf.php"/>
+          </fileset>
           <fileset dir="${project.dir}/lib">
               <include name="**/*.php"/>
               <exclude name="**/*Test.php"/>
+
+	      <!-- exclude 3rd party classes. -->
+              <exclude name="common/xajax/**"/>
+              <exclude name="common/htmlMimeMail5/**"/>
+
+              <!-- excluded because these classes conflict with phing class names.
+                   we really need to use package names
+              -->
+              <exclude name="models/eimadmin/Location.php"/>
+              <!-- <exclude name="models/eimadmin/Education.php"/> -->
+
+	      <!-- exclude files not containing any classes. -->
+              <exclude name="controllers/CentralController.php"/>
+              <exclude name="controllers/BugViewController.php"/>
+              <exclude name="confs/mailConf.php"/>
+              <exclude name="confs/Conf-auto.php"/>
+
+              <!-- Not sure why these don't work ?. Prob because they depend on excluded classes. -->
+              <exclude name="controllers/ViewController.php"/>
+              <exclude name="extractor/eimadmin/EXTRACTOR_Location.php"/>
+              <exclude name="extractor/eimadmin/EXTRACTOR_Qualifications.php"/>
+
+              <!-- unused file? -->
+              <exclude name="extractor/eimadmin/EXTRACTOR_QualificationType.php"/>
+
           </fileset>
       </coverage-setup>
 
