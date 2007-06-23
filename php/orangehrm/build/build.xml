@@ -122,7 +122,7 @@
                    we really need to use package names
               -->
               <exclude name="models/eimadmin/Location.php"/>
-              <!-- <exclude name="models/eimadmin/Education.php"/> -->
+              <exclude name="models/eimadmin/Education.php"/>
 
 	      <!-- exclude files not containing any classes. -->
               <exclude name="controllers/CentralController.php"/>
