@@ -675,6 +675,32 @@ switch ($moduletype) {
 							break;
 						}
 
+					$authorize = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
+					/* Set permission to the employee information view for non admins */
+					if (isset ($_GET['reqcode']) && ($_GET['reqcode'] === "EMP") && (!$authorize->isAdmin())) {
+
+						/* Supervisors can only access their subordinates */
+						if ($authorize->isSupervisor()) {
+
+							/* Don't allow if trying to view own details or trying to view details of non-subordinate
+							 */
+							if ((isset($_GET['id']) && ($_GET['id'] === $_SESSION['empID'])) || (!$authorize->isTheSupervisor($_GET['id']))) {
+
+								trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
+							}
+
+							/* If we came here, this is a subordinate. Assign all rights */
+							$locRights = array ('add' => true, 'edit' => true, 'delete' => true,'view' => true);
+							$_SESSION['localRights'] = $locRights;
+
+						} else if ($authorize->isESS()) {
+
+							/* Deny access to ESS users. */
+							trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
+						}
+					}
+
 					// choosing which extractor
 					if(isset($_POST['econtactSTAT']) && $_POST['econtactSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpEmergencyCon();
@@ -1122,18 +1148,18 @@ switch ($moduletype) {
 																						$year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
 																						$leaveTypeId = isset($_REQUEST['leaveTypeId']) ? $_REQUEST['leaveTypeId'] : LeaveQuota::LEAVEQUOTA_CRITERIA_ALL;
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
-																						
+
 																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
-																						
+
 																						$sortOrder = null;
 																						if ($sortBy != null) {
-																						
+
 																							$sortParam = "sortOrder" . $sortBy;
 																							if (isset($_REQUEST[$sortParam])) {
 																								$sortOrder =  $_REQUEST[$sortParam];
 																							}
 																						}
-																						
+
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
 																						$leaveController->viewLeaves("summary", $year, $searchBy, $sortBy, $sortOrder);
@@ -1145,16 +1171,16 @@ switch ($moduletype) {
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
 
 																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
-																						
+
 																						$sortOrder = null;
 																						if ($sortBy != null) {
-																						
+
 																							$sortParam = "sortOrder" . $sortBy;
 																							if (isset($_REQUEST[$sortParam])) {
 																								$sortOrder =  $_REQUEST[$sortParam];
 																							}
 																						}
-																						
+
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
 																						$leaveController->editLeaves("summary", $year, $searchBy, $sortBy, $sortOrder);
@@ -1176,10 +1202,10 @@ switch ($moduletype) {
 
 																						$searchBy =  isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee";
 																						$sortBy =  isset($_REQUEST['sortField'])?$_REQUEST['sortField']:null;
-																						
+
 																						$sortOrder = null;
 																						if ($sortBy != null) {
-																						
+
 																							$sortParam = "sortOrder" . $sortBy;
 																							if (isset($_REQUEST[$sortParam])) {
 																								$sortOrder =  $_REQUEST[$sortParam];
@@ -1187,7 +1213,7 @@ switch ($moduletype) {
 																						}
 
 																						$url =  '?leavecode=Leave&action=Leave_Summary&message=' .$mes."&id=$id&year=$year&leaveTypeId=$leaveTypeId&searchBy=$searchBy";
-																						
+
 																						if ($sortBy != null && $sortOrder != null) {
 																							$url .= "&sortField=${sortBy}&sortOrder${sortBy}=${sortOrder}";
 																						}

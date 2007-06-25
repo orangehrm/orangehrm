@@ -174,8 +174,14 @@ class EmpViewController {
 
 		if (($this->indexCode) == 'EMP') {
 
+			/* Filter by supervisor */
+			$supervisorId = null;
+			if ($_SESSION['isSupervisor']) {
+				$supervisorId = $_SESSION['empID'];
+			}
+
 			$this->employee = new EmpInfo();
-			$message = $this->employee->getListofEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder);
+			$message = $this->employee->getListofEmployee($pageNO,$schStr,$mode, $sortField, $sortOrder, $supervisorId);
 			return $message;
 
 		} else if(($this->indexCode) == 'BNK') {

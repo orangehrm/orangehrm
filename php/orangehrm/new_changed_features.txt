@@ -1,6 +1,7 @@
 New & Changed Features for OrangeHRM ver 2.2 (22/06/2007)
 
 	1. Dutch language pack added (stable)
+	2. New PIM view for supervisors (of only their subordinates)
 
 	BugId     Name
 

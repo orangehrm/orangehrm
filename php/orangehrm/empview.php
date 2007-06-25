@@ -22,6 +22,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
+
 	//$headingInfo =$this->popArr['headinginfo'];
 
     $currentPage = $this->popArr['currentPage'];
@@ -248,7 +249,15 @@ parent.scrollTo(0, 0);
                     <tr nowrap="nowrap">
                       <td width="250" class="dataLabel" nowrap="nowrap"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code" id="loc_code">
-<?php                        for($c=0;count($srchlist[0])>$c;$c++)
+<?php
+                             $optionCount = count($srchlist[0]);
+
+                             /* Don't show the last option (search by supervisor) if user is a supervisor */
+                             if ($_SESSION['isSupervisor']) {
+                             	$optionCount--;
+                             }
+
+                             for($c=0;$optionCount>$c;$c++)
 								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
 								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
@@ -331,10 +340,15 @@ echo $pageStr;
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_EmploymentStatus; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
 						  <?php $j=8; ?>
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_SubDivision; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
-						  <?php $j=10; ?>
+						  <?php
+						  /* Show supervisor only for admin users, not for supervisors */
+						  if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
+						      $j=10;
+						  ?>
 						  <td scope="col" width="250" class="listViewThS1"><a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $j; ?>&sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_Supervisor; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle"></td>
-
-
+						  <?php
+						  }
+						  ?>
 						 </tr>
         <?php
 			if ((isset($emplist)) && ($emplist !='')) {
@@ -375,7 +389,14 @@ echo $pageStr;
                   <td width="70" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
                   <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][6]))?$emplist[$j][6]:"-"; ?></td>
                   <td width="250" class="<?php echo $cssClass?>"><?php echo $subDivision; ?></td>
+				  <?php
+				  /* Show supervisor only for admin users, not for supervisors */
+				  if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
+				  ?>
                   <td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][5]))?$emplist[$j][5]:"-";?></td>
+				  <?php
+				  }
+				  ?>
 			</tr>
          <?php }
         	  }

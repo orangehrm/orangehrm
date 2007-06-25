@@ -62,32 +62,42 @@ if($_SESSION['isAdmin']=='Yes') {
 		$arrAllRights[$moduleCode]=$rights->getRights($_SESSION['userGroup'], $moduleCode);
 	}
 
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))
-		$arrRights=$arrAllRights[Admin];
-
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr"))
-		$arrRights=$arrAllRights[PIM];
-
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt"))
-		$arrRights=$arrAllRights[MT];
-
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep"))
-		$arrRights=$arrAllRights[Report];
-
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave"))
-		$arrRights=$arrAllRights[Leave];
-
-	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
-		$arrRights=$arrAllRights[TimeM];
-
-
 	$ugroup = new UserGroups();
 	$ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 
 	$arrRights['repDef'] = $ugDet[0][2] == '1' ? true : false;
+} else {
 
-		$_SESSION['localRights']=$arrRights;
+	/* Assign supervisors edit and view rights to the PIM
+	 * They have PIM rights over their subordinates, but they cannot add/delete
+	 * employees. But they have add/delete rights in the employee details page.
+	 */
+	if ($_SESSION['isSupervisor']) {
+			$arrAllRights[PIM]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
+	}
 }
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))
+	$arrRights=$arrAllRights[Admin];
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr"))
+	$arrRights=$arrAllRights[PIM];
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="mt"))
+	$arrRights=$arrAllRights[MT];
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep"))
+	$arrRights=$arrAllRights[Report];
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave"))
+	$arrRights=$arrAllRights[Leave];
+
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
+	$arrRights=$arrAllRights[TimeM];
+
+
+$_SESSION['localRights']=$arrRights;
+
 
 if (isset($_POST['styleSheet'])) {
 	$styleSheet = $_POST['styleSheet'];
@@ -111,7 +121,8 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
-if ($authorizeObj->isESS()) {
+if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
+
 	if ($authorizeObj->isSupervisor()) {
 		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
 	} else {
@@ -287,7 +298,12 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } ?>
+                  <?php }
+                  }
+                  ?>
+                  <?php
+                  if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) {
+                  ?>
                   <?php
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrAllRights[PIM]['view']) {
 					?>

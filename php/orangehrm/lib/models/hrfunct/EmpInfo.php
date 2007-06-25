@@ -371,8 +371,7 @@ class EmpInfo {
 
 /////////////
 
-	function getListofEmployee($pageNO=0,$schStr='',$mode=-1, $sortField=4, $sortOrder='ASC') {
-
+	function getListofEmployee($pageNO=0,$schStr='',$mode=-1, $sortField=4, $sortOrder='ASC', $supervisorId = null) {
 
 		//$tableName = 'HS_HR_EMPLOYEE';
 		$arrFieldList[0] = "a.`employee_id`";
@@ -385,7 +384,7 @@ class EmpInfo {
 		$arrFieldList[7] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_middle_name`, ' ', a.`emp_lastname`)";
 		$arrFieldList[8] = "d.`title`";
 		$arrFieldList[9] = "e.`estat_name`";
-		
+
 		/* First show direct supervisors then indirect supervisors */
 		$arrFieldList[10] = "GROUP_CONCAT(g.`emp_firstname`, ' ', g.`emp_lastname` ORDER BY erep_reporting_mode ) AS Supervisor";
 
@@ -410,8 +409,8 @@ class EmpInfo {
 		/*
 		 * Skip setting select conditions if no search string set, no search mode set
 		 * or if searching by supservisor (mode = 8)
-		 * 
-		 * If searching by supervisor, the conditions are set in the outer SELECT statement. 
+		 *
+		 * If searching by supervisor, the conditions are set in the outer SELECT statement.
 		 */
 		if (($mode != -1) && ($mode != 8) && !empty($schStr)) {
 
@@ -445,6 +444,11 @@ class EmpInfo {
 			$selectConditions[] = "(a.`emp_status` != 'EST000' OR a.`emp_status` IS NULL)";
 		}
 
+		/* If supervisor ID is set, filter by that supervisor */
+		if (!empty($supervisorId)) {
+			$selectConditions[] = "(f.`erep_sup_emp_number` = '$supervisorId')";
+		}
+
 		$sysConst = new sysConf();
 
 		$limit = null;
@@ -463,20 +467,20 @@ class EmpInfo {
 		 * to be added to the outer SELECT.
 		 */
 		if ($sortField == 10) {
-		
+
 			$selectOrder = null;
 			$selectOrderBy = null;
 		} else {
-		
+
 			$selectOrder = $sortOrder;
 			$selectOrderBy = $arrFieldList[$sortField];
 		}
-		
+
 		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $selectOrderBy, $selectOrder, null, $groupBy);
 
 		/* Add the outer SELECT */
 		$sqlQString = "SELECT * FROM ( $sqlQString ) AS subsel ";
-		
+
 		/* If searching by supervisor add the condition now */
 		if ($mode == 8 && !empty($schStr)) {
 			$sqlQString .= " WHERE Supervisor LIKE '${filteredSearch}%' ";
@@ -490,7 +494,7 @@ class EmpInfo {
 		/* Add the search limit */
 		if (isset($limit)) {
 			$sqlQString .= " LIMIT $limit";
-		}	
+		}
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function

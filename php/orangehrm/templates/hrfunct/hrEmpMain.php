@@ -289,7 +289,10 @@ function editEmpMain() {
 		if (frm.elements[i].type == "hidden")
 			frm.elements[i].disabled=false;
 
-		<?php if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) { ?>
+		<?php
+		      /* If admin or supervisor in EMP page */
+			  if ((isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) ||
+		          (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) { ?>
 
 		frm.elements[i].disabled=false;
 
