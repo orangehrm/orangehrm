@@ -1,6 +1,6 @@
                                 DISCLAIMER
 
-Upgrading to OrangeHRM 2.1 will be at your own risk and OrangeHRM will not be
+Upgrading to OrangeHRM 2.2 will be at your own risk and OrangeHRM will not be
 responsible or liable for errors and other issues caused to your exsisting 
 version of OrangeHRM.
 
