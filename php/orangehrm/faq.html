@@ -80,16 +80,16 @@ to work together.
 	is configured as Apache Server htdocs directory;
 	<div class="code">ex: /var/www/html/orangehrm/</div>
 	</li>
-	<li>change the owner &amp; group of the source directory (and all
-	files and sub-directories within it) to apache(on most Apache
-	distributions has set the user/user-group of apache webserver to
-	apache/apache, if your apache web servers httpd.conf has other
+	<li>Change the owner &amp; group of the source directory (and all
+	files and sub-directories within it) to apache (on most Linux 
+	distributions the user/user-group of apache webserver is set to
+	apache/apache, if your apache web server's httpd.conf has another
 	user/user-group please use that user instead ex: nobody). Run the
 	following command in bash.
 	<div class="code">ex: /var/html/orangehrm/</div>
-	<div class="bash">chown apache /var/www/html/orangehrm/</div>
+	<div class="bash">chown -R apache.apache /var/www/html/orangehrm/</div>
 	</li>
-	<li>now you need to create the database. To do this get MySQL
+	<li>Now you need to create the database. To do this get to the MySQL
 	prompt (you should be logged in as a user having rights create
 	databases and users). Create the database using command; (please note
 	down the database name), and change into the database using 'USE'.
@@ -106,7 +106,7 @@ to work together.
 	be required to configure the application to give it access to the
 	database in step (5). You will also need the database name given in
 	step (3). Use the commands as follows (Note: the second command is
-	required if you your PHP distribution has MySQL client older than 4.1);
+	required if your PHP distribution has a MySQL client older than 4.1);
 	<div class="bash">GRANT ALL PRIVILEGES ON
 	&lt;orangehrm-db-name&gt;.* TO '&lt;username&gt;'@'%' IDENTIFIED BY
 	'&lt;password&gt;' WITH GRANT OPTION;<br />
@@ -149,14 +149,14 @@ to work together.
 	configured as Apache Server htdocs directory;
 	<div class="code">ex: C:\apache\Apache2\htdocs\orangehrm\</div>
 	</li>
-	<li>Now you need to create the database. To do this get MySQL
+	<li>Now you need to create the database. To do this get to the MySQL
 	prompt (you should be logged in as a user having rights create
 	databases and users). Create the database, and change into the database
 	using 'USE'; (please note down the database name)
 	<div class="bash">CREATE DATABASE &lt;orangehrm-db-name&gt;<br />
 	USE &lt;orangehrm-db-name&gt;</div>
 	then you need to create the tables using the script dbscript.sql
-	residing in /orangehrm/dbscript directory. Then type in command</li>
+	residing in /orangehrm/dbscript directory. Type in command</li>
 	<div class="bash">SOURCE
 	C:\apache\Apache2\htdocs\orangehrm\dbscript\dbscript.sql</div>
 	</li>
@@ -166,7 +166,7 @@ to work together.
 	be required to configure the application to give it access to the
 	database in step (5). You will also need the database name given in
 	step (2). Use the commands as follows (Note: the second command is
-	required if you your PHP distribution has MySQL client older than 4.1);
+	required if you your PHP distribution has a MySQL client older than 4.1);
 	<div class="bash">GRANT ALL PRIVILEGES ON
 	&lt;orangehrm-db-name&gt;.* TO '&lt;username&gt;'@'%' IDENTIFIED BY
 	'&lt;password&gt;' WITH GRANT OPTION;<br />

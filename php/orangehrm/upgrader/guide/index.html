@@ -49,7 +49,7 @@
 		<li><a href="#license">License Acceptance</a></li>
 		<li><a href="#disclaimer">Disclaimer</a></li>
 		<li><a href="#options">Options</a></li>
-		<li><a href="#old">OrangeHRM 1.2</a></li>
+		<li><a href="#old">OrangeHRM 1.2/2.0</a></li>
 		<li><a href="#backup">Backup Data</a></li>
 		<li><a href="#DBCreation">Database Creation</a></li>
 		<li><a href="#syscheck">System Check</a></li>
@@ -69,15 +69,15 @@
 <!-- Overview -->
 
 <h2>Who Should Read This Guide</h2>
-<p>This guide is meant for users using the in-built Web Upgrader(a
+<p>This guide is meant for users using the in-built Web Upgrader (a
 step-by-step upgrade/data migration wizard), which is the default and
 recommended method of upgrading OrangeHRM. However technical users who
-wish to manually configure OrangeHRM, can refer the <a class="see"
-	href="../../faq.html">OrangeHRM FAQ</a></p>
+wish to manually configure OrangeHRM can refer the <a class="see"
+	href="../../faq.html">OrangeHRM FAQ</a>.</p>
 <div id="overview" class="section">
 <h2>Overview</h2>
-<p>This Guide describes how to upgrade OrangeHRM 1.2 to OrangeHRM
-2.1. It is intended for experienced administrators and novices alike.
+<p>This guide describes how to upgrade OrangeHRM 1.2 or 2.0 to OrangeHRM
+2.2. It is intended for experienced administrators and novices alike.
 After upgrading, you will be able to use the new functionality while
 preserving your data.</p>
 
@@ -93,7 +93,7 @@ preserving your data.</p>
 <div id="upgrade" class="section">
 <h2>Upgrade</h2>
 <h3 id="copying">Copying files</h3>
-<p>Copy <span class="code">OrangeHRM-ver-2.1</span> into the
+<p>Copy <span class="code">OrangeHRM-ver-2.2</span> into the
 document root of the Apache HTTP Server.</p>
 
 <div class="notes">
@@ -109,7 +109,7 @@ document root of the Apache HTTP Server.</p>
 </div>
 
 <h3 id="extracting">Extracting</h3>
-<p>Extract <span class="code">OrangeHRM-ver-2.1.zip</span> into the
+<p>Extract <span class="code">OrangeHRM-ver-2.2.zip</span> into the
 same folder. (i.e. Extract here)</p>
 
 <h3>Web Installation</h3>
@@ -148,7 +148,7 @@ See <a href="#webupgrade" class="see">Web Upgrade</a>.</p>
 
 <h3 id="welcome">Welcome Screen</h3>
 <p>It will state which version of OrangeHRM will be installed and
-breiefly what it would be doing to install OrangeHRM</p>
+briefly what it would be doing to install OrangeHRM</p>
 <p>Click <b>[Next]</b> button in the Welcome screen to proceed with
 the installation</p>
 
@@ -157,12 +157,12 @@ the installation</p>
 <p>Here you will be provided with a copy of the <a
 	href="http://www.gnu.org/licenses/gpl.html" class="external"
 	target="_blank">GNU GENERAL PUBLIC LICENSE</a> and to continue the
-installation you will have to accept the licene. If you decline simply
+installation you will have to accept the license. If you decline simply
 discontinue the installation and delete all OrangeHRM files you posses.</p>
 
 <p>Click <b>[Accept]</b> button in the License Acceptance screen if
 you accept the terms and conditions of the license. Then you will be
-taken to the next page of the Web Installer.</p>
+taken to the next page of the Web Upgrader.</p>
 
 <h3 id="disclaimer">Disclaimer</h3>
 
@@ -173,8 +173,8 @@ continue the upgrade you will have to accept the disclaimer. If you
 decline simply discontinue the upgrade.</p>
 
 <p>Click <b>[Accept]</b> button in the Disclaimer screen if you
-accept the terms and conditions of the license. Then you will be taken
-to the next page of the Web Installer.</p>
+accept the the disclaimer. Then you will be taken
+to the next page of the Web Upgrader.</p>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
 	src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -192,17 +192,17 @@ backup file with you. Here a new database will be created and the
 database will be filled with data in the backup file.</p>
 <p>Click <b>[Next]</b> button in Options Screen to continue.</p>
 
-<h3 id="old">OrangeHRM 1.2</h3>
+<h3 id="old">OrangeHRM 1.2/2.0</h3>
 <p>Enter the relative location of the previous installation of
-OrangeHRM in the textbox. You can only upgrade from version 1.2 to
+OrangeHRM in the textbox. You can only upgrade from version 1.2 or 2.0 to
 current version.</p>
 <p>Click <b>[Next]</b> button in this Screen to continue.</p>
 
 <div class="notes">
 <h5>Example</h5>
-<p>If you have OrangeHRM 1.2 and OrangeHRM 2.1 stored in the same
-parent directory and OrangeHRM 1.2 is stored in a folder called <span
-	class="code">orangehrm</span> and OrangeHRM 2.1 in a directory called <span
+<p>If you have OrangeHRM 1.2/2.0 and OrangeHRM 2.2 stored in the same
+parent directory and OrangeHRM 1.2/2.0 is stored in a folder called <span
+	class="code">orangehrm</span> and OrangeHRM 2.2 in a directory called <span
 	class="code">orangehrm2</span> you should enter <span class="code">orangehrm</span>.</p>
 </div>
 
@@ -228,7 +228,7 @@ button in Backup Data screen to continue.</p>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
 	border="0" class="top" /></a></div>
 
-<p>Click [Skip] bellow if you are not interested to read about
+<p>Click [Skip] below if you are not interested to read about
 screens you will get if you selected Create new database in the <a
 	href="#options" class="see">Options screen</a>.</p>
 <p><a href="#syscheck" class="skip">[Skip]</a></p>
@@ -273,7 +273,7 @@ the Privileged user.</p>
 installed the correct versions of the pre-requisities and configured
 them to work in harmony.</p>
 
-<p>See bellow for all the color codes in a situation<br />
+<p>See below for all the possible color codes<br />
 <br />
 <div class="screenshot"><img src="../images/system_check_01.gif"
 	alt="System Check" width="797" height="188" /></div>
@@ -288,16 +288,16 @@ continue.</p>
 <h4>Notes</h4>
 <h5>Maximum Session Idle Time before Timeout</h5>
 <p>Maximum Session Idle Time before Timeout is checked to ensure
-that users don't get logged out with in a short period such as less than
+that users don't get logged out within a short period such as less than
 15 minutes. As a precaution it's not possible to continue installing
-OrangeHRM if the session times out in lessthan 2 minutes.</p>
+OrangeHRM if the session times out in less than 2 minutes.</p>
 <h5>How to Fix</h5>
 <p>You will have to change <span class="code">session.gc_maxlifetime</span>
 in the <span class="code">php.ini</span> file. (Default <span
 	class="code">session.gc_maxlifetime = 1440</span>)</p>
 <h5>Important</h5>
 <p>It is still possible that some other php application running in
-the same server overriding <span class="code">session.gc_maxlifetime</span>
+the same server is overriding <span class="code">session.gc_maxlifetime</span>
 value in the <span class="code">php.ini</span> file at runtime. This
 will be the case if you are running OrangeHRM in a shared host.
 Workaround is available but beyond the scope of this document.</p>
@@ -384,16 +384,16 @@ error and start the upgrade again. See <a href="#installing_error"
 <br />
 
 <h3 id="registration">Registration</h3>
-<p>If you want be Up to Date on news about OrangeHRM, please provide
-your E-mail address and a name that the e-mails should be addressed. It
+<p>If you want be up to date on news about OrangeHRM, please provide
+your e-mail address and a name that the e-mails should be addressed to. It
 will be much appreciated if you register here, then we will know how
-many users have successfuly upgraded to OrangeHRM 2.1.</p>
-<p>Even if you have already registered during installation of
-OrangeHRM 1.2 it's alright to register. We will be considering the last
-registration when sending Updates and News.</p>
+many users have successfuly upgraded to OrangeHRM 2.2.</p>
+<p>Even if you have already registered during a previous installation of
+OrangeHRM, it's alright to register. We will be considering the last
+registration when sending updates and news.</p>
 <p>You can also provide your comments.
 <p>
-<p>If you want to receive Updates or Newsletter select the tick box
+<p>If you want to receive updates or newsletter select the tick box
 <b>[Updates/Newsletter].</b> Click <b>[Register]</b> to send the
 information.</p>
 <p>If the registration is successful you can click <b>[Login to
@@ -410,8 +410,8 @@ to skip this step an you will not be registered.</p>
 <br />
 
 <h3>Login into OrangeHRM</h3>
-<p>Now use your username and password used for OrangeHRM 1.2 to
-login into OrangeHRM 2.1.</p>
+<p>Now use your username and password used for OrangeHRM 1.2 or 2.0 to
+login into OrangeHRM 2.2.</p>
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
 	src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
