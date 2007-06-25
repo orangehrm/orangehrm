@@ -22,7 +22,7 @@
 -->
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.2_RC_3"/>
+  <property name="version" value="2.2_RC_4"/>
 
   <property name="project.dir" value=".." />
   <property name="package.name" value="orangehrm2"/>
