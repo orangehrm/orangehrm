@@ -131,7 +131,7 @@
 		<cite>
 		<h5>Please note</h5>
 		The error was logged in the OrangeHRM log located in <span class="code"><xsl:value-of select="logPath"/>logDB.txt</span></cite>
-		<p>If you are unabled to resolve the problem please post the problem in <a href="http://www.orangehrm.com/forum/">OrangeHRM Forum</a></p>
+		<p>If you are unable to resolve the problem please post the problem in <a href="http://www.orangehrm.com/forum/">OrangeHRM Forum</a></p>
 	</div>
 </body>
 </html>

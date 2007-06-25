@@ -2498,11 +2498,10 @@ class EmpInfo {
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
-		$specialSearch = "{$arrFieldList[3]} != 'EST000' OR {$arrFieldList[3]} IS NULL";
+		$specialSearch = "({$arrFieldList[3]} != 'EST000' OR {$arrFieldList[3]} IS NULL)";
 
 		$sqlQString = $sql_builder->passResultSetMessage($pageNO,$schStr,$mode, $sortField, $sortOrder, false, $specialSearch);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 

@@ -206,7 +206,8 @@ class SQLQBuilder {
 					}
 
 					if (isset($specialSearch)) {
-                		$SQL1 = $SQL1." ".$specialSearch;
+                		$SQL1 = $SQL1." AND ";
+                		$SQL1 = $SQL1.$specialSearch;
                 	}
 
                 } else if (isset($specialSearch)) {

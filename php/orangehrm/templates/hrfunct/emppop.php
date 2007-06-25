@@ -36,7 +36,7 @@ $lan = new Language();
 
 require_once($lan->getLangPath("full.php"));
 
-$srchlist[0] = array( -1 , 0 , 1 );
+$srchlist[0] = array( -1 , 2 , 1 );
 $srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
 
 $reqPath = "";
