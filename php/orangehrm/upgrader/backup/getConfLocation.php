@@ -25,7 +25,7 @@ function confLocationSubmit() {
 }
 </script>
 <div id="content">
-	<h2>OrangeHRM 1.2 </h2>
+	<h2>OrangeHRM 1.2/2.0 </h2>
 	<?php if (isset($_SESSION['error'])) { ?>
     <p><font color="Red"><?php echo $_SESSION['error']; ?></font></p>
     <?php } ?>
