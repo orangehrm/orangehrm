@@ -197,8 +197,6 @@
 
 	$lang_Common_Edit = "Edit";
 	$lang_Common_New = "New";
-	$lang_Common_Sort_ASC					= "Sort in ascending order";
-	$lang_Common_Sort_DESC					= "Sort in descending order";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -500,6 +498,8 @@
 	$lang_hremp_ie_CurrentSupervisors 		= "i.e. Current Employee's Supervisors";
 	$lang_hremp_ie_CurrentSubordinates 		= "i.e. Current Employee's Subordinates";
 
+	$lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo = "Please specify at least one phone number";
+
  	$lang_hremplicenses_employeelicen 		= "Employee Licenses";
 	$lang_hremplicenses_assignlicenses 		= "Assigned Licenses";
 	$lang_hremplicenses_licentype 			= "License Type";
@@ -629,11 +629,11 @@
 	$lang_salarygrades_heading 				= "Job : Pay Grade";
 	$lang_salarygrades_currAss 				= "Currency Assigned";
 	$lang_salarygrades_stepSal 				= "Step Increase";
-	$lang_salarygrades_selectcurrency 			= "Currency field should be selected";
-	$lang_salarygrades_minSalNumeric 			= "Minimum salary should be numeric";
-	$lang_salarygrades_maxSalNumeric 			= "Maximum salary should be numeric";
-	$lang_salarygrades_stepSalNumeric 			= "Step salary should be numeric";
-        $lang_salarygrades_minGreaterThanMax                    = "Minimum Salary > Maximum Salary !";
+	$lang_salarygrades_selectcurrency		= "Currency field should be selected";
+	$lang_salarygrades_minSalNumeric		= "Minimum salary should be numeric";
+	$lang_salarygrades_maxSalNumeric		= "Maximum salary should be numeric";
+	$lang_salarygrades_stepSalNumeric		= "Step salary should be numeric";
+    $lang_salarygrades_minGreaterThanMax	= "Minimum Salary > Maximum Salary !";
 
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
