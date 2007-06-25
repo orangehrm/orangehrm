@@ -483,7 +483,7 @@ class EmpInfo {
 
 		/* If searching by supervisor add the condition now */
 		if ($mode == 8 && !empty($schStr)) {
-			$sqlQString .= " WHERE Supervisor LIKE '${filteredSearch}%' ";
+			$sqlQString .= " WHERE Supervisor LIKE '%${filteredSearch}%' ";
 		}
 
 		/* If sorting by supervisor add the order by condition */
