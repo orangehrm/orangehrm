@@ -30,7 +30,7 @@ function welcomeSubmit() {
 
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start.</p>
-        <p><b>N.B.</b><br/>If you have OrangeHRM 1.2 or OrangeHRM 2.0 already running and would like to upgrade to OrangeHRM 2.2, please click <a href="../upgrade.php">here</a>.</p>
+        <p><b>N.B.</b><br/>If you have previous versions of OrangeHRM already running and would like to upgrade to OrangeHRM 2.2, please click <a href="../upgrade.php">here</a>.</p>
         <p>
 		Click <b>[Next]</b> to Start the Wizard.</p>
         <input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
