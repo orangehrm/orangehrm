@@ -150,11 +150,19 @@
 }
 
 #menu #customers a{
-	background: url(../pictures/users.gif)  no-repeat left top;
+	background: url(../icons/customers.gif)  no-repeat left top;
 }
 
 #menu #customers a:hover {
-	background: url(../pictures/users_o.gif)  no-repeat left top;
+	background: url(../icons/customers_o.gif)  no-repeat left top;
+}
+
+#menu #projects a{
+	background: url(../icons/projects.gif)  no-repeat left top;
+}
+
+#menu #projects a:hover {
+	background: url(../icons/projects_o.gif)  no-repeat left top;
 }
 
 #menu #viewemprep a {

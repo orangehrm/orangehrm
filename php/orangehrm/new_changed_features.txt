@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.2 (26/06/2007)
+
+	BugId     Name
+
+	1701837   Customers menu item icon
+	1701839   Projects menu item icon not correct
+
+
 New & Changed Features for OrangeHRM ver 2.2_RC_4 (25/06/2007) {Revision 950}
 
 	1. Dutch language pack added (stable)
