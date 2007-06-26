@@ -180,7 +180,7 @@
 			<?php
 
 				} else {
-					// If in the popup window, allow top level (company) to be selected as well. 
+					// If in the popup window, allow top level (company) to be selected as well.
 					if (isset($_GET['esp']) && $_GET['esp'] == 1) {
                                         ?>
 						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
@@ -297,9 +297,9 @@
 			<tr>
 				<td></td>
 				<td align="right">
-					<input type="Submit" value="<?php echo $lang_compstruct_save; ?>" id="Add" name="Add" class="btnAdd">
-					<input type="Reset" value="<?php echo $lang_compstruct_clear; ?>" id="Clear" name="Clear">
-					<input type="Reset" value="<?php echo $lang_compstruct_hide; ?>" id="Hide" name="Hide" onClick="frmAddHide()">
+					<img onclick="validate();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
+					<img onclick="document.getElementById('frmAddNode').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg" />
+					<img onclick="frmAddHide();" onMouseOut="this.src='../../themes/beyondT/icons/hide.png';" onMouseOver="this.src='../../themes/beyondT/icons/hide_o.png';" src="../../themes/beyondT/icons/hide.png" />
 				</td>
 			</tr>
 		</table>
@@ -359,8 +359,8 @@
 			</tr>
 			<tr>
 				<td align="right">
-					<input type="button" value="<?php echo  $lang_compstruct_save; ?>" id="Add" name="Add" class="btnAdd" onClick="addNewLocation ();">
-					<input type="Reset" value="<?php echo  $lang_compstruct_clear; ?>" id="Clear" name="Clear" onClick="resetx()">
+					<img onclick="addNewLocation();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
+					<img onclick="resetx(); document.getElementById('frmAddLoc').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg" />
 				</td>
 			</tr>
 		</table>

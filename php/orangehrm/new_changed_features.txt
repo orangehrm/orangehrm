@@ -4,6 +4,11 @@ New & Changed Features for OrangeHRM ver 2.2 (26/06/2007)
 
 	1701837   Customers menu item icon
 	1701839   Projects menu item icon not correct
+	1709824   Add sub-division - buttons are not consistent
+
+	Following bugs were closed
+
+	1742916   Time PHP error
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_4 (25/06/2007) {Revision 950}
@@ -30,7 +35,6 @@ New & Changed Features for OrangeHRM ver 2.2_RC_4 (25/06/2007) {Revision 950}
 	1741271   On-demand should capture error msg and save it to a log file
 	1740744   On-Demand uses a single Email configuration
 	1741743   When employee ids are specified supervisor does not appear
-
 
 	Following bugs were closed
 
