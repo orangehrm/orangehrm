@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -145,7 +144,7 @@ class CompStruct {
 
 		$locCode = $this->_getEscapedLocation();
 
-		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s WHERE ID = %d", 
+		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s WHERE ID = %d",
                                   mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, $this->id);
 
 		$dbConnection = new DMLFunctions();
@@ -162,7 +161,7 @@ class CompStruct {
  	private function _getEscapedLocation() {
 
        		/*
-                 * Location code is optional. If not given it is set to NULL. 
+                 * Location code is optional. If not given it is set to NULL.
                  */
                 if ($this->location == '') {
 		    $locCode = "NULL";

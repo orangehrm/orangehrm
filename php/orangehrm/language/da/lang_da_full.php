@@ -2,7 +2,7 @@
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
- * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ * Copyright (C) 2006 hSenid Software, http://www.hsenid.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
@@ -16,6 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
+ * @author Rasmus Vidø
  */
 
 	/**
@@ -75,11 +76,11 @@
 	$lang_Error_CountryNotSelected 						= "Land er ikke valgt";
 	$lang_Error_StateNotSelected 						= "Stat er ikke valgt";
 	$lang_Error_CityCannotBeEmpty 						= "By kan ikke efterlades blank";
-	$lang_Error_AddressEmpty 							= "Addresse er ikke udfyldt";
+	$lang_Error_AddressEmpty 							= "Adresse er ikke udfyldt";
 	$lang_Error_ZipEmpty 								= "Postnummer kan ikke efterlades blank";
 	$lang_Error_CompStruct_ZipInvalid 					= "Postkode indeholder ikke-nummeriske tegn, her er de #characterList";
 
-	$lang_Error_InvalidEmail 							= "Ugyldig E-mail addresse";
+	$lang_Error_InvalidEmail 							= "Ugyldig E-mail adresse";
 
 	$lang_Error_FieldShouldBeNumeric					= "Felt skal være nummerisk";
 
@@ -144,7 +145,7 @@
 	// Leave Module
 	$lang_Menu_Leave 									= "Fravær";
 	$lang_Menu_Leave_PersonalLeaveSummary 				= "Personlig fraværsoversigt";
-	$lang_Menu_Leave_EmployeeLeaveSummary 				= "Medarbejder fraværsoversigt";
+	$lang_Menu_Leave_EmployeeLeaveSummary 				= "Medarbejder-fraværsoversigt";
 	$lang_Menu_Leave_LeaveSummary 						= "Fraværsoversigt";
 	$lang_Menu_Leave_LeavesList 						= "Fraværsliste";
 	$lang_Menu_Leave_ApproveLeave 						= "Godkend fravær";
@@ -293,7 +294,7 @@
 	$lang_compstruct_Other 							= "Andet";
 	$lang_compstruct_Location 						= "Lokation";
 	$lang_compstruct_frmNewLocation 				= "Definer en ny lokation";
-	$lang_compstruct_Address 						= "Addresse";
+	$lang_compstruct_Address 						= "Adresse";
 	$lang_compstruct_country						= "Land";
 	$lang_compstruct_state 							= "Stat / kommune";
 	$lang_compstruct_city 							= "By";
@@ -374,10 +375,10 @@
 	$lang_extracurractinfo_selectsecucat 	= "Vælg kategori for ekstra aktiviteter";
 
  	$lang_geninfo_heading 					= "Virksomhedsinfo : Generelt";
-	$lang_geninfo_compname 					= "Virksomhedsnavn";
+	$lang_geninfo_compname 					= "Virksomhedens navn";
 	$lang_geninfo_taxID 					= "Skatte ID";
 	$lang_geninfo_naics 					= "NAICS";
-	$lang_geninfo_err_CompanyName 			= "Virksomhedsnavn cannot be blank";
+	$lang_geninfo_err_CompanyName 			= "Virksomhedens navn cannot be blank";
 	$lang_geninfo_err_Phone 				= "Ikke et gyldigt telefon/fax nummer";
 
  	$lang_hierarchydef_heading 				= "Hierarki info : Virksomhedsinfo";
@@ -748,7 +749,7 @@
 
 	$lang_rep_LastName = "Efternavn";
 	$lang_rep_FirstName = "Fornavn";
-	$lang_rep_Address = "Addresse";
+	$lang_rep_Address = "Adresse";
 	$lang_rep_TelNo = "Telefon nummer";
 	$lang_rep_DateOfBirth = "Fødselsdato";
 	$lang_rep_JoinDate = "Tiltrædelsesdato";
@@ -782,7 +783,7 @@
 	$lang_rep_EmployeeLastName = "Medarbejder - Efternavn";
 	$lang_rep_ReportTo = "Reporter til";
 	$lang_rep_ReportingMethod = "Reporteringsmetode";
-	$lang_rep_Address = "Addresse";
+	$lang_rep_Address = "Adresse";
 	$lang_rep_Telephone = "Telefon";
 	$lang_rep_DateOfBirth = "Fødselsdag";
 	$lang_rep_Skills = "Færdigeheder";
@@ -847,7 +848,7 @@
 	$lang_Admin_Users_add = "Tilføj";
 	$lang_Admin_Users_delete = "Slet";
 	$lang_Admin_Users_view = "Vis";
-	$lang_Admin_Users_edit = "Regiger";
+	$lang_Admin_Users_edit = "Rediger";
 
 	$lang_Admin_Users_AssignedRights = "Tildelte rettigheder";
 	$lang_Admin_Users_DefineReports = "Definer raporter";
