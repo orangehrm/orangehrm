@@ -676,6 +676,7 @@ switch ($moduletype) {
 						}
 
 					$authorize = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+					$supervisor = false;
 
 					/* Set permission to the employee information view for non admins */
 					if (isset ($_GET['reqcode']) && ($_GET['reqcode'] === "EMP") && (!$authorize->isAdmin())) {
@@ -693,6 +694,7 @@ switch ($moduletype) {
 							/* If we came here, this is a subordinate. Assign all rights */
 							$locRights = array ('add' => true, 'edit' => true, 'delete' => true,'view' => true);
 							$_SESSION['localRights'] = $locRights;
+							$supervisor = true;
 
 						} else if ($authorize->isESS()) {
 
@@ -801,13 +803,6 @@ switch ($moduletype) {
 												$view_controller->delAssignData($_GET['reqcode'],$_POST,$_GET);
 										}
 
-										if(isset($_POST['paymentSTAT']) && (($_POST['paymentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['paymentSTAT'] == 'EDIT' && $locRights['edit']))) {
-												$parsedObject = $extractorForm->parseData($_POST);
-												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['paymentSTAT']);
-										} elseif(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT'] == 'DEL' && $locRights['delete']) {
-												$view_controller->delEmpFormData($_GET,$_POST);
-										}
-
 										if(isset($_POST['educationSTAT']) && (($_POST['educationSTAT'] == 'ADD') || ($_POST['educationSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['educationSTAT']);
@@ -829,11 +824,22 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['reporttoSTAT']) && (($_POST['reporttoSTAT'] == 'ADD' && $locRights['add']) || ($_POST['reporttoSTAT'] == 'EDIT' && $locRights['edit']))) {
-												$parsedObject = $extractorForm->parseData($_POST);
-												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['reporttoSTAT']);
-										} elseif(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT'] == 'DEL' && $locRights['delete']) {
-												$view_controller->delEmpFormData($_GET,$_POST);
+										/* If supervisor mode, don't allow changes to payment details or report-to */
+										if(!$supervisor) {
+
+											if(isset($_POST['paymentSTAT']) && (($_POST['paymentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['paymentSTAT'] == 'EDIT' && $locRights['edit']))) {
+													$parsedObject = $extractorForm->parseData($_POST);
+													$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['paymentSTAT']);
+											} elseif(isset($_POST['paymentSTAT']) && $_POST['paymentSTAT'] == 'DEL' && $locRights['delete']) {
+													$view_controller->delEmpFormData($_GET,$_POST);
+											}
+
+											if(isset($_POST['reporttoSTAT']) && (($_POST['reporttoSTAT'] == 'ADD' && $locRights['add']) || ($_POST['reporttoSTAT'] == 'EDIT' && $locRights['edit']))) {
+													$parsedObject = $extractorForm->parseData($_POST);
+													$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['reporttoSTAT']);
+											} elseif(isset($_POST['reporttoSTAT']) && $_POST['reporttoSTAT'] == 'DEL' && $locRights['delete']) {
+													$view_controller->delEmpFormData($_GET,$_POST);
+											}
 										}
 
 										if(isset($_POST['econtactSTAT']) && (($_POST['econtactSTAT'] == 'ADD' && $locRights['add']) || ($_POST['econtactSTAT'] == 'EDIT' && $locRights['edit']) || ($_GET['reqcode'] === "ESS") && (($_POST['econtactSTAT'] == 'ADD') || ($_POST['econtactSTAT'] == 'EDIT')))) {

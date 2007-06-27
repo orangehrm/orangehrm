@@ -160,6 +160,11 @@ function viewSup(sup,rep) {
 }
 </script>
 <?php
+	$supervisorEMPMode = false;
+	if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
+		$supervisorEMPMode = true;
+	}
+
 	$empInfoObj = new EmpInfo();
 
 	if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
@@ -197,7 +202,7 @@ function viewSup(sup,rep) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
+		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
 							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 			<?php			}  ?>
 						</td>
@@ -238,7 +243,7 @@ function viewSup(sup,rep) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
+		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
 				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 		<?php			}  ?>
 						</td>
@@ -253,7 +258,7 @@ function viewSup(sup,rep) {
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
     				  <td>
-					  <select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbRepType">
+					  <select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled'?> name="cmbRepType">
 					  <option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 
 <?php
@@ -266,7 +271,7 @@ function viewSup(sup,rep) {
 						</td></tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
-						<td align="left" valign="top"><select <?php echo $locRights['add'] ? '':'disabled'?> name='cmbRepMethod'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled'?> name='cmbRepMethod'>
 						   		<option value="0"><?php echo $lang_hrEmpMain_SelectMethod; ?></option>
 <?php
 									$keys = array_keys($arrRepMethod);
@@ -278,7 +283,7 @@ function viewSup(sup,rep) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?php	if($locRights['add']) { ?>
+<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
         <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 						</td>
@@ -326,7 +331,7 @@ if ($rset != Null&& $empname != Null){ ?>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php	if($locRights['delete']) { ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
         <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
@@ -394,7 +399,7 @@ if ($rset != Null && $empname != Null){ ?>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php	if($locRights['delete']) { ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
         <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 

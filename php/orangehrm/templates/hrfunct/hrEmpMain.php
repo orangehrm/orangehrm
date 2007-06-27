@@ -290,14 +290,38 @@ function editEmpMain() {
 			frm.elements[i].disabled=false;
 
 		<?php
+
+			  $supervisorEMPMode = false;
+			  if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
+			      $supervisorEMPMode = true;
+			  }
+
 		      /* If admin or supervisor in EMP page */
-			  if ((isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) ||
-		          (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) { ?>
+			  if ((isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) || $supervisorEMPMode ) { ?>
 
 		frm.elements[i].disabled=false;
 
 		<?php } ?>
 	}
+		<?php
+		/* form elements disabled only for supervisor mode */
+		if ($supervisorEMPMode) { ?>
+
+			disableArr = new Array(	'cmbRepEmpID',
+									'cmbRepMethod',
+									'cmbRepType',
+									'txtBasSal',
+									'cmbCurrCode');
+
+			for (j=0; j<disableArr.length; j++) {
+				if (frm[disableArr[j]]) {
+					frm[disableArr[j]].disabled = true;
+				}
+			}
+
+		<?php } ?>
+
+
 		<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
 		enableArr = new Array(	'txtEmpFirstName',
 								'txtEmpMiddleName',

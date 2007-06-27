@@ -133,7 +133,13 @@ function viewPayment(pay,curr) {
 	document.frmEmp.submit();
 }
 </script>
-<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+<?php
+	$supervisorEMPMode = false;
+	if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
+		$supervisorEMPMode = true;
+	}
+
+	if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
         <input type="hidden" name="paymentSTAT" value="">
         <input type="hidden" name="txtSalGrdId" value="<?php echo $this->popArr['salGrd']?>">
@@ -204,7 +210,7 @@ function viewPayment(pay,curr) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
+		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
 		<?php			}  ?>
 						</td>
@@ -224,7 +230,7 @@ function viewPayment(pay,curr) {
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_currency; ?></td>
-						<td align="left" valign="top"><select <?php echo ($locRights['add'] && $salGrd !== null)? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?php echo $this->popArr['salGrd']?>')" name='cmbCurrCode'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?php echo $this->popArr['salGrd']?>')" name='cmbCurrCode'>
                        						<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
 <?php
 						$curlist= $this->popArr['currlist'];
@@ -249,13 +255,13 @@ function viewPayment(pay,curr) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" <?php echo ($locRights['add'] && $salGrd !== null) ? '':'disabled'?> name="txtBasSal">
+						<td align="left" valign="top"><input type="text" <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null)) ? '':'disabled'?> name="txtBasSal">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					<?php	if($locRights['add']) { ?>
+					<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
 					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					<?php	} ?>
 						</td>
@@ -295,7 +301,7 @@ if ($rset !=Null && $currlist != Null ){?>
 						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
 					</tr>
 
-<?php	if($locRights['delete']) { ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
         <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 
