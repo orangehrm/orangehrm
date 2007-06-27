@@ -207,6 +207,9 @@
 	$lang_Common_Saturday 					= "Saturday";
 	$lang_Common_Sunday 					= "Sunday";
 
+	$lang_Common_Sort_ASC = "Ascending";
+	$lang_Common_Sort_DESC = "Descending";
+
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
 	// admin module
