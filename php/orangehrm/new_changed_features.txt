@@ -1,10 +1,11 @@
-New & Changed Features for OrangeHRM ver 2.2 (26/06/2007) {Revision 956}
+New & Changed Features for OrangeHRM ver 2.2_RC_4 (27/06/2007)
 
 	BugId     Name
 
 	1701837   Customers menu item icon
 	1701839   Projects menu item icon not correct
 	1709824   Add sub-division - buttons are not consistent
+	1743544   Leave Summary : no records found
 
 	Following bugs were closed
 
