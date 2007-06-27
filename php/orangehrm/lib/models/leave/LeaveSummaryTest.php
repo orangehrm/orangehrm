@@ -127,9 +127,24 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testFetchLeaveSummary().
-     */
+    public function testFetchAllEmployeeLeaveSummaryAccuracy() {
+
+        $res = $this->leaveSummary->fetchAllEmployeeLeaveSummary("012", date('Y', time()+3600*24));
+
+        $this->assertNotNull($res, "No records returned");
+        $this->assertEquals(count($res), 2, "Returned invalid numner of records");
+
+        $expected[] = array("Medical", 10, 0, 10);
+        $expected[] = array("Casual", 20, 0, 20);
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]['leave_type_name'], $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]['no_of_days_allotted'], $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]['leave_taken'], $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]['leave_available'], $expected[$i][3], "Didn't return expected result ");
+        }
+
+    }
 
     public function testFetchLeaveSummaryAccuracy() {
 
