@@ -283,95 +283,80 @@ class Backup {
 			// List tables
 			$dump = '';
 			if (isset($arr_tables) && is_array($arr_tables)) {
-			for ($y = 0; $y < count($arr_tables); $y++){
+				for ($y = 0; $y < count($arr_tables); $y++){
 
-				// DB Table name
-				$table = $arr_tables[$y];
+					// DB Table name
+					$table = $arr_tables[$y];
 
-				// Dump data
-				$data ="";
-				$result     = mysql_query("SELECT * FROM `$table`");
-				$num_rows   = mysql_num_rows($result);
-				$num_fields = mysql_num_fields($result);
+					// Dump data
+					$data ="";
+					$result     = mysql_query("SELECT * FROM `$table`");
+					$num_rows   = mysql_num_rows($result);
+					$num_fields = mysql_num_fields($result);
 
-				for ($i = 0; $i < $num_rows; $i++) {
+					$fieldSet = null;
+					$valueSet = null;
 
-					$row = mysql_fetch_object($result);
-					$data .= "INSERT INTO `$table` (";
+					for ($i=0; $i <$num_rows; $i++) {
 
-					// Field names
-					for ($x = 0; $x < $num_fields; $x++) {
+						$row = mysql_fetch_object($result);
 
-						$field_name = mysql_field_name($result, $x);
+						for ($x=0; $x<$num_fields; $x++) {
+							$field_name = mysql_field_name($result, $x);
+							$type = mysql_field_type($result, $x);
 
-						$valueOfFiled = $row->$field_name;
-						$type = mysql_field_type($result, $x);
+							$valueOfFiled = $row->$field_name;
 
-						if ((($valueOfFiled != "") && ($valueOfFiled != 'NULL')) || (($type == 'int') && ($valueOfFiled === 0))) {
-							$data .= "`{$field_name}`, ";
-						}
-					}
-
-					$data = substr($data, 0, -2);
-
-					$data .= ") VALUES (";
-
-					// Values
-					for ($x = 0; $x < $num_fields; $x++) {
-						$field_name = mysql_field_name($result, $x);
-						$type = mysql_field_type($result, $x);
-
-						$valueOfFiled = $row->$field_name;
-
-						if ($type == 'null') {
-							$valueOfFiled = 'NULL';
-						} else if ($type == 'string') {
-							if (empty($valueOfFiled)) {
+							if ($type == 'null') {
+								$valueOfFiled = 'NULL';
+							} else if ($type == 'string') {
+								if (empty($valueOfFiled)) {
+									if ($arr_fields[$y][$x]->Null == 'YES') {
+										$valueOfFiled = 'NULL';
+									} else {
+										$valueOfFiled = "''";
+									}
+								} else {
+									$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
+								}
+							} else if (($type == 'int') || ($type == 'real')) {
+								if (empty($valueOfFiled)) {
+									if ($arr_fields[$y][$x]->Null == 'YES') {
+										$valueOfFiled = 'NULL';
+									} else {
+										$valueOfFiled = '0';
+									}
+								} else {
+									$valueOfFiled = $valueOfFiled;
+								}
+							} else if (empty($valueOfFiled)) {
 								if ($arr_fields[$y][$x]->Null == 'YES') {
 									$valueOfFiled = 'NULL';
 								} else {
 									$valueOfFiled = "''";
 								}
+							} else if ($type == 'blob') {
+								$valueOfFiled = '0x'.bin2hex($valueOfFiled);
 							} else {
 								$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
 							}
-						} else if (($type == 'int') || ($type == 'real')) {
-							if (empty($valueOfFiled)) {
-								if ($arr_fields[$y][$x]->Null == 'YES') {
-									$valueOfFiled = 'NULL';
-								} else {
-									$valueOfFiled = '0';
-								}
-							} else {
-								$valueOfFiled = $valueOfFiled;
+
+							if ((($valueOfFiled != "''") && ($valueOfFiled != 'NULL')) || (($type == 'int') && ($valueOfFiled === 0))) {
+								$fieldSet[$i][] = "`{$field_name}`";
+								$valueSet[$i][] = $valueOfFiled;
 							}
-						} else if (empty($valueOfFiled)) {
-							if ($arr_fields[$y][$x]->Null == 'YES') {
-								$valueOfFiled = 'NULL';
-							} else {
-								$valueOfFiled = "''";
-							}
-						} else if ($type == 'blob') {
-							$valueOfFiled = '0x'.bin2hex($valueOfFiled);
-						} else {
-							$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
 						}
 
-						if ((($valueOfFiled != "''") && ($valueOfFiled != 'NULL')) || (($type == 'int') && ($valueOfFiled === 0))) {
-							$data .= $valueOfFiled.", ";
-						}
+						$fieldStr = join($fieldSet[$i], ", ");
+						$valueStr = join($valueSet[$i], ", ");
+
+						$data.="INSERT INTO `$table` ({$fieldStr}) VALUES ({$valueStr});\r\n";
 					}
 
-					$data = substr($data, 0, -2);
+					$data.= "\r\n";
 
-					$data.= ");\r\n";
+					$dump .= $data;
 				}
-
-				$data.= "\r\n";
-
-				$dump .= $data;
-
-			}
 			}
 
 			return $dump;
