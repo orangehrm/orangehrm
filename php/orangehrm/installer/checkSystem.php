@@ -25,22 +25,22 @@ function check_php_version($sys_php_version = '') {
 	// versions below $min_considered_php_version considered invalid by default,
 	// versions equal to or above this ver will be considered depending
 	// on the rules that follow
-	$min_considered_php_version = '5.1.0';
+	$min_considered_php_version = '5.1.2';
 
 	// only the supported versions,
 	// should be mutually exclusive with $invalid_php_versions
 	$supported_php_versions = array (
 		'5.0.1', '5.0.2', '5.0.3', '5.0.4',
-		'5.0.5', '5.1.0', '5.1.1', '5.1.2',
-		'5.1.3', '5.1.4', '5.1.5', '5.1.6',
-		'5.1.7', '5.2.0', '5.2.1', '5.2.2'
+		'5.1.0', '5.1.1', '5.1.2', '5.1.3',
+		'5.1.4', '5.1.5', '5.1.6', '5.1.7',
+		'5.2.0', '5.2.1', '5.2.2'
 	);
 
 	sort($supported_php_versions);
 
 	// invalid versions above the $min_considered_php_version,
 	// should be mutually exclusive with $supported_php_versions
-	$invalid_php_versions = array('5.0.0');
+	$invalid_php_versions = array('5.0.0', '5.0.5');
 
 	// default unsupported
 	$retval = 0;
