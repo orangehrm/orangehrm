@@ -137,7 +137,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     }
 
     .roundbox {
-        margin-top: 50px;
+        margin-top: 10px;
         margin-left: 0px;
     }
 
@@ -154,10 +154,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 		  		<td width='100%'>
 		  			<h2>Customer</h2>
 		  		</td>
-	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
+	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+	  		</tr>
 		</table>
 	</p>
-  	<div id="navigation">
+  	<div id="navigation" style="margin:0;">
   		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 	</div>
 	<font color="red" face="Verdana, Arial, Helvetica, sans-serif">
@@ -202,18 +203,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             <div align="center">
             <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 			<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
-
-
             </div>
         </div>
-        <script type="text/javascript">
+    </form>
+    <script type="text/javascript">
         <!--
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
         -->
-        </script>
-    </form>
+    </script>
     <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
 </html>

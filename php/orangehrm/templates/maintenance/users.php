@@ -198,7 +198,8 @@ function goBack() {
                 </tr>
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="450"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+                  <td width="450">
+                  <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
 							    <td><?php echo $lang_Commn_code; ?></td>
 							    <td><strong><?php echo $this->popArr['newID']?></strong></td>
@@ -247,10 +248,15 @@ function goBack() {
 						  <?php } else { ?>
 						   <input type="hidden" name="cmbUserGroupID" value="0" >
 						   <?php } ?>
-					  <tr><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
+					  <tr>
+					  <td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
 					  <td><img onClick="document.frmUsers.reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td>
-					  <td></td></tr>
-                  </table></td>
+					  <td></td>
+					  <td>&nbsp;</td>
+					  <td>&nbsp;</td>
+					  </tr>
+                  </table>
+                  </td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
@@ -526,14 +532,21 @@ function edit() {
 							  <td><input type="password" name="txtUserConfirmPassword"></td>
 						  </tr>
 						   <?php } ?>
-					  <tr><td></td><td align="right" width="100%">
-<?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
-<?php			}  ?>
-									  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
-
+					  <tr>
+					  	<td></td>
+					  	<td align="right" width="100%">
+			<?php	if($locRights['edit']) { ?>
+						<img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
+			<?php	} else { ?>
+						<img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			<?php	}  ?>
+						</td>
+						<td>
+						<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

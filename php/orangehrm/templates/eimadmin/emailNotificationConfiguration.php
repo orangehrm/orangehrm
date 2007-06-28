@@ -101,14 +101,23 @@ if (isset($editArr) && is_array($editArr)) {
 <h2><?php echo $lang_Admin_SubscribeToMailNotifications; ?><hr/></h2>
 <form name="mailSubscription" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=ENS&capturemode=updatemode&id=1" method="post" onsubmit="validate(); return false;" >
 <input type="hidden" name="sqlState" id="sqlState" />
-<div class="roundbox">
-  <table border="0">
+  <table border="0" cellpadding="0" cellspacing="0">
+  	<thead>
+      <tr>
+        <th class="tableTopLeft"></th>
+        <th class="tableTopMiddle"></th>
+        <th class="tableTopRight"></th>
+      </tr>
+    </thead>
     <tbody>
     <tr>
-        <td><label><?php echo $lang_Commn_Email; ?>
+    	<td class="tableMiddleLeft"></td>
+        <td>
+        	<label><?php echo $lang_Commn_Email; ?>
   				<input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $notificationEmail; ?>"/>
   			</label>
   		</td>
+  		<td class="tableMiddleRight"></td>
       </tr>
       <?php
       	$i=0;
@@ -123,28 +132,31 @@ if (isset($editArr) && is_array($editArr)) {
       		}
       ?>
       <tr>
-        <td><label>
+      	<td class="tableMiddleLeft"></td>
+        <td>
+        	<label>
 			<input type="hidden" name="notificationMessageId[<?php echo $i; ?>]" value="<?php echo $notificationType; ?>" />
 			<input type="hidden" name="notificationMessageStatus[<?php echo $i; ?>]" value="0" />
 			<input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]" value="1" />
-				<?php echo $notificationName; ?></label></td>
+				<?php echo $notificationName; ?></label>
+		</td>
+      	<td class="tableMiddleRight"></td>
       </tr>
       <?php
       	$i++;
       	}
       ?>
     </tbody>
+    <tfoot>
+      <tr>
+        <td class="tableBottomLeft"></td>
+        <td class="tableBottomMiddle"></td>
+        <td class="tableBottomRight"></td>
+      </tr>
+    </tfoot>
   </table>
-</div>
 <input type="image" name="btnAct" src="../../themes/beyondT/pictures/btn_save.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
 style="border:none;"/>
 </form>
-<script type="text/javascript">
-<!--
-	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
-</script>
 </body>
 </html>

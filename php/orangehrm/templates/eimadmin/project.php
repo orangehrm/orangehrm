@@ -159,7 +159,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     }
 
     .roundbox {
-        margin-top: 50px;
+        margin-top: 10px;
         margin-left: 0px;
     }
 

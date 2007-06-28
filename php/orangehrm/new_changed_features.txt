@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.2
+
+	BugId     Name
+
+	1739538   Mail configuration UI
+
+
 New & Changed Features for OrangeHRM ver 2.2_RC_4 (28/06/2007) {Revision 964}
 
 	BugId     Name
