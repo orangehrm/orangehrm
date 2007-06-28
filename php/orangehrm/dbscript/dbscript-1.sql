@@ -7,7 +7,7 @@ create table `hs_hr_geninfo` (
 
 create table `hs_hr_compstructtree` (
   `title` tinytext not null,
-  `description` text not null default '',
+  `description` text not null,
   `loc_code` varchar(6) default NULL,
   `lft` tinyint(4) not null default '0',
   `rgt` tinyint(4) not null default '0',

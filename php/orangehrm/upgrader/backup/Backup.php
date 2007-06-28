@@ -307,7 +307,13 @@ class Backup {
 
 							$valueOfFiled = $row->$field_name;
 
-							if ($type == 'null') {
+							if ($type == 'blob') {
+								if (bin2hex($valueOfFiled) == '') {
+									$valueOfFiled = "''";
+								} else {
+									$valueOfFiled = '0x'.bin2hex($valueOfFiled);
+								}
+							} else if ($type == 'null') {
 								$valueOfFiled = 'NULL';
 							} else if ($type == 'string') {
 								if (empty($valueOfFiled)) {
@@ -335,13 +341,11 @@ class Backup {
 								} else {
 									$valueOfFiled = "''";
 								}
-							} else if ($type == 'blob') {
-								$valueOfFiled = '0x'.bin2hex($valueOfFiled);
 							} else {
 								$valueOfFiled = "'".mysql_real_escape_string(stripslashes($valueOfFiled))."'";
 							}
 
-							if ((($valueOfFiled != "''") && ($valueOfFiled != 'NULL')) || (($type == 'int') && ($valueOfFiled === 0))) {
+							if (($valueOfFiled != 'NULL') || (($type == 'int') && ($valueOfFiled === 0))) {
 								$fieldSet[$i][] = "`{$field_name}`";
 								$valueSet[$i][] = $valueOfFiled;
 							}

@@ -1,8 +1,9 @@
-New & Changed Features for OrangeHRM ver 2.2
+New & Changed Features for OrangeHRM ver 2.2_RC_4 (28/06/2007) {Revision 964}
 
 	BugId     Name
 
 	1744610   Upgrader not works
+	1744673   Installer Not Works RC_4
 
 
 New & Changed Features for OrangeHRM ver 2.2_RC_4 (27/06/2007) {Revision 961}
