@@ -49,7 +49,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 }
 
-include ROOT_PATH."/scripts/calendar/calendar.php";
+include ROOT_PATH."/lib/common/calendar.php";
 ?>
 <script>
 

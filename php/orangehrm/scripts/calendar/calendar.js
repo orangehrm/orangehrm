@@ -1,5 +1,28 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ *
+ */
+
 YAHOO.namespace("OrangeHRM.calendar");
 
+/**
+ * Adds the calendar to the dom
+ */
 YAHOO.OrangeHRM.calendar.init = function () {
 	id="cal1", container="cal1Container";
 	YAHOO.OrangeHRM.calendar.cal = new YAHOO.widget.Calendar(id, container, {START_WEEKDAY:1,
@@ -15,6 +38,9 @@ YAHOO.OrangeHRM.calendar.init = function () {
 	YAHOO.OrangeHRM.calendar.cal.hide();
 };
 
+/**
+ * Configures the calendar to the specific element
+ */
 YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	YAHOO.OrangeHRM.calendar.cal.format = format;
 	YAHOO.OrangeHRM.calendar.cal.anchor = anchor;
@@ -41,6 +67,9 @@ YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	YAHOO.util.Dom.setXY(container, domElDimensions);
 };
 
+/**
+ * Triggered when the a date is selected. Puts the date in to the input element
+ */
 YAHOO.OrangeHRM.calendar.selected = function () {
 	date = this.getSelectedDates();
 	document.getElementById(this.anchor).value=formatDate(date[0], this.format);
@@ -48,4 +77,7 @@ YAHOO.OrangeHRM.calendar.selected = function () {
 	this.hide();
 };
 
+/**
+ * After the page has loaded the calendar is initalized
+ */
 YAHOO.util.Event.addListener(window, "load", YAHOO.OrangeHRM.calendar.init);
