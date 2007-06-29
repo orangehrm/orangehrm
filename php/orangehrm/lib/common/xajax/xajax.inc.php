@@ -29,6 +29,12 @@
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ///////////////////////////////////////////////////////////////////////////////
 
+/* Modifications done by OrangeHRM:
+ *
+ * 1. Function getJavascriptInclude().
+ *    Default URI and file paths were changed to match OrangeHRM needs.
+ */
+
 // Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
 // the xajax and xajaxResponse classes
 if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING'))

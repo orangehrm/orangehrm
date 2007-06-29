@@ -22,6 +22,17 @@
 * @package Mail
 */
 
+/* Modifications done by OrangeHRM:
+ *
+ * 1. In function validateMailbox(), the
+ *
+ *    for($i=0; $i<count(@$comments); $i++) 
+ *
+ *    loop was surrounded with
+ *    if (isset($comments)) { }
+ *
+ */
+
 class Mail_RFC822
 {
     /**

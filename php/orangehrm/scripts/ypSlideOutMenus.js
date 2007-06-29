@@ -10,6 +10,11 @@
  * --youngpup--
  *****************************************************/
 
+/*
+ * This file has been modified by OrangeHRM.
+ */
+
+
 ypSlideOutMenu.Registry = []
 ypSlideOutMenu.aniLen = 650
 ypSlideOutMenu.hideDelay = 325

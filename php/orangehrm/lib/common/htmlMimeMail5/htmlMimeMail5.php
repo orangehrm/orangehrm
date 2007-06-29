@@ -1,3 +1,4 @@
+
 <?php
 /**
 * This file is part of the htmlMimeMail5 package (http://www.phpguru.org/)
@@ -18,6 +19,11 @@
 * 
 * © Copyright 2005 Richard Heyes
 */
+
+/* Modifications done by OrangeHRM:
+ *
+ * 1. In function send, mail(...) was changed to @mail(...) 
+ */
 
 require_once(dirname(__FILE__) . '/mimePart.php');
 

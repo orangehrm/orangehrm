@@ -1,3 +1,12 @@
+/**
+ * This file was taken from XPlanner (http://www.xplanner.org). 
+ * See license/3rdParty/xplanner.license for the license.
+ *
+ * Modifications done by OrangeHRM
+ *
+ * 1) New function strToTime() was added.
+ */
+
 var dateFormatChars = "dMyhHmsa";
 
 function formatDate(date, format) {

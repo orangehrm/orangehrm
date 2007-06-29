@@ -19,6 +19,12 @@
 * � Copyright 2005 Richard Heyes
 */
 
+/* Modifications done by OrangeHRM:
+ *
+ * 1. function connect()
+ *    fsockopen(...) changed to @fsockopen(...)
+ */
+
 define('SMTP_STATUS_NOT_CONNECTED', 1, true);
 define('SMTP_STATUS_CONNECTED', 2, true);
 
