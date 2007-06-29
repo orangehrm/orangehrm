@@ -1,11 +1,11 @@
 OrangeHRM uses code from the following 3rd party projects.
 
-1. XAJAX - AJAX-PHP library (http://www.xajaxproject.org/) 
+1. XAJAX - AJAX-PHP library (http://www.xajaxproject.org/)
 
 License: LGPL v2.1
 License File: 3rdParty/xajax.license
 
-Files: 
+Files:
 
 lib/common/xajax/
 lib/common/xajax/xajax.inc.php
@@ -29,12 +29,12 @@ Files: scripts/time.js
 Modified files: (Modifications are listed in the file)
 scripts/time.js
 
-3. htmlMimeMail - (http://www.phpguru.org/static/mime.mail.html) 
+3. htmlMimeMail - (http://www.phpguru.org/static/mime.mail.html)
 
 License: GPL v2
 License File: 3rdParty/htmlMimeMail.license
 
-Files: 
+Files:
 
 lib/common/htmlMimeMail5/smtp.php
 lib/common/htmlMimeMail5/mimePart.php
@@ -47,12 +47,12 @@ lib/common/htmlMimeMail5/smtp.php
 lib/common/htmlMimeMail5/htmlMimeMail5.php
 lib/common/htmlMimeMail5/RFC822.php
 
-4. ypSlideOutMenus - (http://ypslideoutmenus.sourceforge.net/) 
+4. ypSlideOutMenus - (http://ypslideoutmenus.sourceforge.net/)
 
 License:  Artistic Free License (AFL) 2.0
 License File: 3rdParty/ypslideoutmenus.license.html
 
-Files: 
+Files:
 
 scripts/ypSlideOutMenus.js
 
@@ -60,12 +60,12 @@ Modified files: (Modifications are listed in the file)
 
 scripts/ypSlideOutMenus.js
 
-5. PHPMyAdmin - (http://www.phpmyadmin.net/) 
+5. PHPMyAdmin - (http://www.phpmyadmin.net/)
 
 License: GPL v2
 License File: 3rdParty/PHPMyAdmin.license
 
-Files: 
+Files:
 
 upgrader/backup/getConstraints.inc.php
 
@@ -76,8 +76,27 @@ upgrader/backup/getConstraints.inc.php
 6.  Javascript function to dynamically add css classed needed for a rounded
     box. Based on the article at http://www.dragon-labs.com/articles/octopus/
 
-Files: 
+Files:
 
 scripts/octopus.js
 
+7. Yahoo! UI Library - (http://developer.yahoo.com/yui/)
+
+License: BSD
+License File: 3rdParty/yui.license
+
+Files:
+
+scripts/yui/calendar/calendar.js
+scripts/yui/calendar/calendar-debug.js
+scripts/yui/calendar/calendar-min.js
+scripts/yui/yahoo/yahoo.js
+scripts/yui/yahoo/yahoo-min.js
+scripts/yui/yahoo/yahoo-debug.js
+scripts/yui/event/event.js
+scripts/yui/event/event-min.js
+scripts/yui/event/event-debug.js
+scripts/yui/dom/dom-min.js
+scripts/yui/dom/dom-debug.js
+scripts/yui/dom/dom.js
 

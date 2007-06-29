@@ -43,6 +43,7 @@
 		$action = "Holiday_Specific_Add";
 	}
 ?>
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script>
 	function goBack() {
 		location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_List';
@@ -127,7 +128,7 @@
   	<td width="135px"><span class="error">*</span><?php echo $lang_Leave_Common_Date;?></td>
   	<td >&nbsp;</td>
     <td ><input name="txtDate" id="txtDate" type="text" value="<?php echo $date; ?>" />
-          <input type="button" name="Submit" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmDefineHolidays.txtDate); return false;"/></td>
+          <input type="button" name="Submit" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtDate', 'cal1Container', 'yyyy-MM-dd'); return false;"/></td>
     <td >&nbsp;</td>
 	<td class="tableMiddleRight"></td>
   </tr>
@@ -174,4 +175,4 @@
 </table>
 </form>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>
+<div id="cal1Container" style="position:absolute;" ></div>

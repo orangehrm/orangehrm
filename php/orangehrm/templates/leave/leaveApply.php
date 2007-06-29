@@ -48,9 +48,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <?php
 	}
 }
-
-include ROOT_PATH."/lib/common/calendar.php";
 ?>
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script>
 
 	function addSave() {
@@ -295,4 +294,3 @@ include ROOT_PATH."/lib/common/calendar.php";
   </table>
 </form>
 <div id="cal1Container" style="position:absolute;" ></div>
-<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>
