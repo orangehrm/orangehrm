@@ -36,7 +36,7 @@ YAHOO.util.Config.CONFIG_CHANGED_EVENT = "configChanged";
 YAHOO.util.Config.BOOLEAN_TYPE = "boolean";
 
 YAHOO.util.Config.prototype = {
-	
+
 	/**
 	* Object reference to the owner of this Config Object
 	* @property owner
@@ -56,7 +56,7 @@ YAHOO.util.Config.prototype = {
 	* @property config
 	* @private
 	* @type Object
-	*/ 
+	*/
 	config : null,
 
 	/**
@@ -65,7 +65,7 @@ YAHOO.util.Config.prototype = {
 	* @property initialConfig
 	* @private
 	* @type Object
-	*/ 
+	*/
 	initialConfig : null,
 
 	/**
@@ -73,7 +73,7 @@ YAHOO.util.Config.prototype = {
 	* @property eventQueue
 	* @private
 	* @type Object
-	*/ 
+	*/
 	eventQueue : null,
 
 	/**
@@ -87,7 +87,7 @@ YAHOO.util.Config.prototype = {
 	* @method checkBoolean
 	* @param	{Object}	val	The value to validate
 	* @return	{Boolean}	true, if the value is valid
-	*/	
+	*/
 	checkBoolean: function(val) {
 		return (typeof val == YAHOO.util.Config.BOOLEAN_TYPE);
 	},
@@ -103,18 +103,18 @@ YAHOO.util.Config.prototype = {
 	},
 
 	/**
-	* Fires a configuration property event using the specified value. 
+	* Fires a configuration property event using the specified value.
 	* @method fireEvent
 	* @private
 	* @param {String}	key			The configuration property's name
 	* @param {value}	Object		The value of the correct type for the property
-	*/ 
+	*/
 	fireEvent : function( key, value ) {
 		var property = this.config[key];
 
 		if (property && property.event) {
 			property.event.fire(value);
-		}	
+		}
 	},
 
 	/**
@@ -136,11 +136,11 @@ YAHOO.util.Config.prototype = {
 		}
 
 		this.setProperty(key, propertyObject.value, true);
-		
+
 		if (! propertyObject.suppressEvent) {
 			this.queueProperty(key, propertyObject.value);
 		}
-		
+
 	},
 
 	/**
@@ -150,14 +150,14 @@ YAHOO.util.Config.prototype = {
 	*/
 	getConfig : function() {
 		var cfg = {};
-			
+
 		for (var prop in this.config) {
 			var property = this.config[prop];
 			if (property && property.event) {
 				cfg[prop] = property.value;
 			}
 		}
-		
+
 		return cfg;
 	},
 
@@ -208,7 +208,7 @@ YAHOO.util.Config.prototype = {
 		key = key.toLowerCase();
 
 		if (this.queueInProgress && ! silent) {
-			this.queueProperty(key,value); // Currently running through a queue... 
+			this.queueProperty(key,value); // Currently running through a queue...
 			return true;
 		} else {
 			var property = this.config[key];
@@ -236,12 +236,12 @@ YAHOO.util.Config.prototype = {
 	* @param {String} key	The name of the property
 	* @param {String} value	The value to set the property to
 	* @return {Boolean}		true, if the set was successful, false if it failed.
-	*/	
+	*/
 	queueProperty : function(key, value) {
 		key = key.toLowerCase();
 
 		var property = this.config[key];
-							
+
 		if (property && property.event) {
 			if (!YAHOO.lang.isUndefined(value) && property.validator && ! property.validator(value)) { // validator
 				return false;
@@ -261,7 +261,7 @@ YAHOO.util.Config.prototype = {
 					if (queueItem) {
 						var queueItemKey = queueItem[0];
 						var queueItemValue = queueItem[1];
-						
+
 						if (queueItemKey == key) {
 							// found a dupe... push to end of queue, null current item, and break
 							this.eventQueue[i] = null;
@@ -271,7 +271,7 @@ YAHOO.util.Config.prototype = {
 						}
 					}
 				}
-				
+
 				if (! foundDuplicate && !YAHOO.lang.isUndefined(value)) { // this is a refire, or a new property in the queue
 					this.eventQueue.push([key, value]);
 				}
@@ -288,7 +288,7 @@ YAHOO.util.Config.prototype = {
 						if (queueItemCheck) {
 							var queueItemCheckKey = queueItemCheck[0];
 							var queueItemCheckValue = queueItemCheck[1];
-							
+
 							if ( queueItemCheckKey == supercedesCheck.toLowerCase() ) {
 								this.eventQueue.push([queueItemCheckKey, queueItemCheckValue]);
 								this.eventQueue[q] = null;
@@ -360,27 +360,27 @@ YAHOO.util.Config.prototype = {
 			if (queueItem) {
 				var key = queueItem[0];
 				var value = queueItem[1];
-				
+
 				var property = this.config[key];
 				property.value = value;
 
 				this.fireEvent(key,value);
 			}
 		}
-		
+
 		this.queueInProgress = false;
 		this.eventQueue = [];
 	},
 
 	/**
-	* Subscribes an external handler to the change event for any given property. 
+	* Subscribes an external handler to the change event for any given property.
 	* @method subscribeToConfigEvent
 	* @param {String}	key			The property name
 	* @param {Function}	handler		The handler function to use subscribe to the property's event
 	* @param {Object}	obj			The Object to use for scoping the event handler (see CustomEvent documentation)
 	* @param {Boolean}	override	Optional. If true, will override "this" within the handler to map to the scope Object passed into the method.
 	* @return {Boolean}				True, if the subscription was successful, otherwise false.
-	*/	
+	*/
 	subscribeToConfigEvent : function(key, handler, obj, override) {
 		var property = this.config[key.toLowerCase()];
 		if (property && property.event) {
@@ -394,7 +394,7 @@ YAHOO.util.Config.prototype = {
 	},
 
 	/**
-	* Unsubscribes an external handler from the change event for any given property. 
+	* Unsubscribes an external handler from the change event for any given property.
 	* @method unsubscribeFromConfigEvent
 	* @param {String}	key			The property name
 	* @param {Function}	handler		The handler function to use subscribe to the property's event
@@ -553,7 +553,7 @@ YAHOO.widget.DateMath = {
 						years += 1;
 					}
 				}
-				
+
 				d.setMonth(newMonth);
 				d.setFullYear(date.getFullYear() + years);
 				break;
@@ -629,7 +629,7 @@ YAHOO.widget.DateMath = {
 			return false;
 		}
 	},
-	
+
 	/**
 	* Retrieves a JavaScript Date object representing January 1 of any given year.
 	* @method getJan1
@@ -637,7 +637,7 @@ YAHOO.widget.DateMath = {
 	* @return {Date}	January 1 of the calendar year specified.
 	*/
 	getJan1 : function(calendarYear) {
-		return new Date(calendarYear,0,1); 
+		return new Date(calendarYear,0,1);
 	},
 
 	/**
@@ -650,7 +650,7 @@ YAHOO.widget.DateMath = {
 	*/
 	getDayOffset : function(date, calendarYear) {
 		var beginYear = this.getJan1(calendarYear); // Find the start of the year. This will be in week 1.
-		
+
 		// Find the number of days the passed in date is away from the calendar year start
 		var dayOffset = Math.ceil((date.getTime()-beginYear.getTime()) / this.ONE_DAY_MS);
 		return dayOffset;
@@ -895,7 +895,7 @@ YAHOO.widget.Calendar.ONE_CHAR = "1char";
 * @type Object
 */
 YAHOO.widget.Calendar._DEFAULT_CONFIG = {
-	// Default values for pagedate and selected are not class level constants - they are set during instance creation 
+	// Default values for pagedate and selected are not class level constants - they are set during instance creation
 	PAGEDATE : {key:"pagedate", value:null},
 	SELECTED : {key:"selected", value:null},
 	TITLE : {key:"title", value:""},
@@ -940,7 +940,7 @@ YAHOO.widget.Calendar._DEFAULT_CONFIG = {
 * @type Object
 */
 YAHOO.widget.Calendar._EVENT_TYPES = {
-	BEFORE_SELECT : "beforeSelect", 
+	BEFORE_SELECT : "beforeSelect",
 	SELECT : "select",
 	BEFORE_DESELECT : "beforeDeselect",
 	DESELECT : "deselect",
@@ -979,8 +979,10 @@ YAHOO.widget.Calendar._STYLES = {
 	CSS_CALENDAR : "yui-calendar",
 	CSS_SINGLE : "single",
 	CSS_CONTAINER : "yui-calcontainer",
+	CSS_NAV_FIRST : "calnavfirst",
 	CSS_NAV_LEFT : "calnavleft",
 	CSS_NAV_RIGHT : "calnavright",
+	CSS_NAV_LAST : "calnavlast",
 	CSS_CLOSE : "calclose",
 	CSS_CELL_TOP : "calcelltop",
 	CSS_CELL_LEFT : "calcellleft",
@@ -1008,7 +1010,7 @@ YAHOO.widget.Calendar.prototype = {
 	* The parent CalendarGroup, only to be set explicitly by the parent group
 	* @property parent
 	* @type CalendarGroup
-	*/	
+	*/
 	parent : null,
 
 	/**
@@ -1024,7 +1026,7 @@ YAHOO.widget.Calendar.prototype = {
 	* @type HTMLTableCellElement[]
 	*/
 	cells : null,
-	
+
 	/**
 	* The collection of calendar cell dates that is parallel to the cells collection. The array contains dates field arrays in the format of [YYYY, M, D].
 	* @property cellDates
@@ -1054,7 +1056,7 @@ YAHOO.widget.Calendar.prototype = {
 	today : null,
 
 	/**
-	* The list of render functions, along with required parameters, used to render cells. 
+	* The list of render functions, along with required parameters, used to render cells.
 	* @property renderStack
 	* @type Array[]
 	*/
@@ -1107,7 +1109,7 @@ YAHOO.widget.Calendar.prototype.init = function(id, containerId, config) {
 	* @type YAHOO.util.Config
 	*/
 	this.cfg = new YAHOO.util.Config(this);
-	
+
 	/**
 	* The local object which contains the Calendar's options
 	* @property Options
@@ -1124,7 +1126,7 @@ YAHOO.widget.Calendar.prototype.init = function(id, containerId, config) {
 
 	this.initStyles();
 
-	YAHOO.util.Dom.addClass(this.oDomContainer, this.Style.CSS_CONTAINER);	
+	YAHOO.util.Dom.addClass(this.oDomContainer, this.Style.CSS_CONTAINER);
 	YAHOO.util.Dom.addClass(this.oDomContainer, this.Style.CSS_SINGLE);
 
 	this.cellDates = [];
@@ -1133,11 +1135,11 @@ YAHOO.widget.Calendar.prototype.init = function(id, containerId, config) {
 	this._renderStack = [];
 
 	this.setupConfig();
-	
+
 	if (config) {
 		this.cfg.applyConfig(config, true);
 	}
-	
+
 	this.cfg.fireQueue();
 };
 
@@ -1180,7 +1182,7 @@ YAHOO.widget.Calendar.prototype.configIframe = function(type, args, obj) {
 YAHOO.widget.Calendar.prototype.configTitle = function(type, args, obj) {
 	var title = args[0];
 	var close = this.cfg.getProperty(YAHOO.widget.Calendar._DEFAULT_CONFIG.CLOSE.key);
-	
+
 	var titleDiv;
 
 	if (title && title !== "") {
@@ -1209,7 +1211,7 @@ YAHOO.widget.Calendar.prototype.configTitle = function(type, args, obj) {
 YAHOO.widget.Calendar.prototype.configClose = function(type, args, obj) {
 	var close = args[0];
 	var title = this.cfg.getProperty(YAHOO.widget.Calendar._DEFAULT_CONFIG.TITLE.key);
-	
+
 	var DEPR_CLOSE_PATH = "us/my/bn/x_d.gif";
 
 	var linkClose;
@@ -1219,7 +1221,7 @@ YAHOO.widget.Calendar.prototype.configClose = function(type, args, obj) {
 		linkClose.href = "#";
 		linkClose.className = "link-close";
 		YAHOO.util.Event.addListener(linkClose, "click", function(e, cal) {cal.hide(); YAHOO.util.Event.preventDefault(e); }, this);
-		
+
 		if (YAHOO.widget.Calendar.IMG_ROOT !== null) {
 			var imgClose = document.createElement("img");
 			imgClose.src = YAHOO.widget.Calendar.IMG_ROOT + DEPR_CLOSE_PATH;
@@ -1228,7 +1230,7 @@ YAHOO.widget.Calendar.prototype.configClose = function(type, args, obj) {
 		} else {
 			linkClose.innerHTML = '<span class="' + YAHOO.widget.CalendarGroup.CSS_2UPCLOSE + ' ' + this.Style.CSS_CLOSE + '"></span>';
 		}
-		
+
 		this.oDomContainer.appendChild(linkClose);
 		YAHOO.util.Dom.addClass(this.oDomContainer, "withtitle");
 	} else {
@@ -1255,7 +1257,7 @@ YAHOO.widget.Calendar.prototype.initEvents = function() {
 	* Fired before a selection is made
 	* @event beforeSelectEvent
 	*/
-	this.beforeSelectEvent = new YAHOO.util.CustomEvent(defEvents.BEFORE_SELECT); 
+	this.beforeSelectEvent = new YAHOO.util.CustomEvent(defEvents.BEFORE_SELECT);
 
 	/**
 	* Fired when a selection is made
@@ -1334,11 +1336,11 @@ YAHOO.widget.Calendar.prototype.doSelectCell = function(e, cal) {
 	while (tagName != "td" && ! YAHOO.util.Dom.hasClass(target, cal.Style.CSS_CELL_SELECTABLE)) {
 
 		if (!defSelector && tagName == "a" && YAHOO.util.Dom.hasClass(target, cal.Style.CSS_CELL_SELECTOR)) {
-			defSelector = true;	
+			defSelector = true;
 		}
 
 		target = target.parentNode;
-		tagName = target.tagName.toLowerCase(); 
+		tagName = target.tagName.toLowerCase();
 		if (tagName == "html") {
 			return;
 		}
@@ -1355,7 +1357,7 @@ YAHOO.widget.Calendar.prototype.doSelectCell = function(e, cal) {
 		index = cell.id.split("cell")[1];
 		d = cal.cellDates[index];
 		date = new Date(d[0],d[1]-1,d[2]);
-	
+
 		var link;
 
 		if (cal.Options.MULTI_SELECT) {
@@ -1367,11 +1369,11 @@ YAHOO.widget.Calendar.prototype.doSelectCell = function(e, cal) {
 			var cellDate = cal.cellDates[index];
 			var cellDateIndex = cal._indexOfSelectedFieldArray(cellDate);
 
-			if (cellDateIndex > -1) {	
+			if (cellDateIndex > -1) {
 				cal.deselectCell(index);
 			} else {
 				cal.selectCell(index);
-			}	
+			}
 
 		} else {
 			link = cell.getElementsByTagName("a")[0];
@@ -1535,7 +1537,7 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @config SHOW_WEEK_FOOTER
 	* @type Boolean
 	* @default false
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.SHOW_WEEK_FOOTER.key,{ value:defCfg.SHOW_WEEK_FOOTER.value, handler:this.configOptions, validator:this.cfg.checkBoolean } );
 
 	/**
@@ -1543,16 +1545,16 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @config HIDE_BLANK_WEEKS
 	* @type Boolean
 	* @default false
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.HIDE_BLANK_WEEKS.key, { value:defCfg.HIDE_BLANK_WEEKS.value, handler:this.configOptions, validator:this.cfg.checkBoolean } );
-	
+
 	/**
 	* The image that should be used for the left navigation arrow.
 	* @config NAV_ARROW_LEFT
 	* @type String
-	* @deprecated	You can customize the image by overriding the default CSS class for the left arrow - "calnavleft"  
+	* @deprecated	You can customize the image by overriding the default CSS class for the left arrow - "calnavleft"
 	* @default null
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.NAV_ARROW_LEFT.key,	{ value:defCfg.NAV_ARROW_LEFT.value, handler:this.configOptions } );
 
 	/**
@@ -1561,7 +1563,7 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @type String
 	* @deprecated	You can customize the image by overriding the default CSS class for the right arrow - "calnavright"
 	* @default null
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.NAV_ARROW_RIGHT.key, { value:defCfg.NAV_ARROW_RIGHT.value, handler:this.configOptions } );
 
 	// Locale properties
@@ -1573,45 +1575,45 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @default ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 	*/
 	this.cfg.addProperty(defCfg.MONTHS_SHORT.key,	{ value:defCfg.MONTHS_SHORT.value, handler:this.configLocale } );
-	
+
 	/**
 	* The long month labels for the current locale.
 	* @config MONTHS_LONG
 	* @type String[]
 	* @default ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MONTHS_LONG.key,		{ value:defCfg.MONTHS_LONG.value, handler:this.configLocale } );
-	
+
 	/**
 	* The 1-character weekday labels for the current locale.
 	* @config WEEKDAYS_1CHAR
 	* @type String[]
 	* @default ["S", "M", "T", "W", "T", "F", "S"]
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_1CHAR.key,	{ value:defCfg.WEEKDAYS_1CHAR.value, handler:this.configLocale } );
-	
+
 	/**
 	* The short weekday labels for the current locale.
 	* @config WEEKDAYS_SHORT
 	* @type String[]
 	* @default ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_SHORT.key,	{ value:defCfg.WEEKDAYS_SHORT.value, handler:this.configLocale } );
-	
+
 	/**
 	* The medium weekday labels for the current locale.
 	* @config WEEKDAYS_MEDIUM
 	* @type String[]
 	* @default ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_MEDIUM.key,	{ value:defCfg.WEEKDAYS_MEDIUM.value, handler:this.configLocale } );
-	
+
 	/**
 	* The long weekday labels for the current locale.
 	* @config WEEKDAYS_LONG
 	* @type String[]
 	* @default ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_LONG.key,	{ value:defCfg.WEEKDAYS_LONG.value, handler:this.configLocale } );
 
 	/**
@@ -1631,21 +1633,21 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	this.cfg.subscribeToConfigEvent(defCfg.WEEKDAYS_SHORT.key, refreshLocale, this, true);
 	this.cfg.subscribeToConfigEvent(defCfg.WEEKDAYS_MEDIUM.key, refreshLocale, this, true);
 	this.cfg.subscribeToConfigEvent(defCfg.WEEKDAYS_LONG.key, refreshLocale, this, true);
-	
+
 	/**
 	* The setting that determines which length of month labels should be used. Possible values are "short" and "long".
 	* @config LOCALE_MONTHS
 	* @type String
 	* @default "long"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.LOCALE_MONTHS.key,	{ value:defCfg.LOCALE_MONTHS.value, handler:this.configLocaleValues } );
-	
+
 	/**
 	* The setting that determines which length of weekday labels should be used. Possible values are "1char", "short", "medium", and "long".
 	* @config LOCALE_WEEKDAYS
 	* @type String
 	* @default "short"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.LOCALE_WEEKDAYS.key,	{ value:defCfg.LOCALE_WEEKDAYS.value, handler:this.configLocaleValues } );
 
 	/**
@@ -1653,7 +1655,7 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @config DATE_DELIMITER
 	* @type String
 	* @default ","
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.DATE_DELIMITER.key,		{ value:defCfg.DATE_DELIMITER.value, handler:this.configLocale } );
 
 	/**
@@ -1661,7 +1663,7 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @config DATE_FIELD_DELIMITER
 	* @type String
 	* @default "/"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.DATE_FIELD_DELIMITER.key, { value:defCfg.DATE_FIELD_DELIMITER.value, handler:this.configLocale } );
 
 	/**
@@ -1768,11 +1770,11 @@ YAHOO.widget.Calendar.prototype.configMaxDate = function(type, args, obj) {
 YAHOO.widget.Calendar.prototype.configSelected = function(type, args, obj) {
 	var selected = args[0];
 	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
-	
+
 	if (selected) {
 		if (YAHOO.lang.isString(selected)) {
 			this.cfg.setProperty(cfgSelected, this._parseDates(selected), true);
-		} 
+		}
 	}
 	if (! this._selectedDates) {
 		this._selectedDates = this.cfg.getProperty(cfgSelected);
@@ -1804,7 +1806,7 @@ YAHOO.widget.Calendar.prototype.configLocale = function(type, args, obj) {
 * @method configLocaleValues
 */
 YAHOO.widget.Calendar.prototype.configLocaleValues = function(type, args, obj) {
-	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG; 
+	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
 
 	type = type.toLowerCase();
 	var val = args[0];
@@ -1835,7 +1837,7 @@ YAHOO.widget.Calendar.prototype.configLocaleValues = function(type, args, obj) {
 					this.Locale.LOCALE_WEEKDAYS = this.cfg.getProperty(defCfg.WEEKDAYS_LONG.key).concat();
 					break;
 			}
-			
+
 			var START_WEEKDAY = this.cfg.getProperty(defCfg.START_WEEKDAY.key);
 
 			if (START_WEEKDAY > 0) {
@@ -1933,6 +1935,10 @@ YAHOO.widget.Calendar.prototype.initStyles = function() {
 		*/
 		CSS_CONTAINER : defStyle.CSS_CONTAINER,
 		/**
+		* @property Style.CSS_NAV_FIRST
+		*/
+		CSS_NAV_FIRST : defStyle.CSS_NAV_FIRST,
+		/**
 		* @property Style.CSS_NAV_LEFT
 		*/
 		CSS_NAV_LEFT : defStyle.CSS_NAV_LEFT,
@@ -1940,6 +1946,10 @@ YAHOO.widget.Calendar.prototype.initStyles = function() {
 		* @property Style.CSS_NAV_RIGHT
 		*/
 		CSS_NAV_RIGHT : defStyle.CSS_NAV_RIGHT,
+		/**
+		* @property Style.CSS_NAV_LAST
+		*/
+		CSS_NAV_LAST : defStyle.CSS_NAV_LAST,
 		/**
 		* @property Style.CSS_CLOSE
 		*/
@@ -2012,11 +2022,11 @@ YAHOO.widget.Calendar.prototype.buildDayLabel = function(workingDate) {
 */
 YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 	var colSpan = 7;
-	
+
 	var DEPR_NAV_LEFT = "us/tr/callt.gif";
-	var DEPR_NAV_RIGHT = "us/tr/calrt.gif";	
+	var DEPR_NAV_RIGHT = "us/tr/calrt.gif";
 	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
-	
+
 	if (this.cfg.getProperty(defCfg.SHOW_WEEK_HEADER.key)) {
 		colSpan += 1;
 	}
@@ -2034,18 +2044,26 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 
 	if (this.parent) {
 		if (this.index === 0) {
+			renderFirst = true;
 			renderLeft = true;
 		}
 		if (this.index == (this.parent.cfg.getProperty("pages") -1)) {
 			renderRight = true;
+			renderLast = true;
 		}
 	} else {
+		renderFirst = true;
 		renderLeft = true;
 		renderRight = true;
+		renderLast = true;
 	}
 
 	var cal = this.parent || this;
-	
+
+	if (renderFirst) {
+		html[html.length] = '<a class="' + this.Style.CSS_NAV_FIRST + '"' + leftStyle + ' title="Previous year" >&#160;</a>';
+	}
+
 	if (renderLeft) {
 		var leftArrow = this.cfg.getProperty(defCfg.NAV_ARROW_LEFT.key);
 		// Check for deprecated customization - If someone set IMG_ROOT, but didn't set NAV_ARROW_LEFT, then set NAV_ARROW_LEFT to the old deprecated value
@@ -2053,18 +2071,22 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 			leftArrow = YAHOO.widget.Calendar.IMG_ROOT + DEPR_NAV_LEFT;
 		}
 		var leftStyle = (leftArrow === null) ? "" : ' style="background-image:url(' + leftArrow + ')"';
-		html[html.length] = '<a class="' + this.Style.CSS_NAV_LEFT + '"' + leftStyle + ' >&#160;</a>';
+		html[html.length] = '<a class="' + this.Style.CSS_NAV_LEFT + '"' + leftStyle + ' title="Previous month" >&#160;</a>';
 	}
-	
+
 	html[html.length] = this.buildMonthLabel();
-	
+
 	if (renderRight) {
 		var rightArrow = this.cfg.getProperty(defCfg.NAV_ARROW_RIGHT.key);
 		if (rightArrow === null && YAHOO.widget.Calendar.IMG_ROOT !== null) {
 			rightArrow = YAHOO.widget.Calendar.IMG_ROOT + DEPR_NAV_RIGHT;
 		}
 		var rightStyle = (rightArrow === null) ? "" : ' style="background-image:url(' + rightArrow + ')"';
-		html[html.length] = '<a class="' + this.Style.CSS_NAV_RIGHT + '"' + rightStyle + ' >&#160;</a>';
+		html[html.length] = '<a class="' + this.Style.CSS_NAV_RIGHT + '"' + rightStyle + ' title="Next month" >&#160;</a>';
+	}
+
+	if (renderLast) {
+		html[html.length] = '<a class="' + this.Style.CSS_NAV_LAST + '"' + rightStyle + ' title="Next year" >&#160;</a>';
 	}
 
 	html[html.length] =	'</div>\n</th>\n</tr>';
@@ -2072,7 +2094,7 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 	if (this.cfg.getProperty(defCfg.SHOW_WEEKDAYS.key)) {
 		html = this.buildWeekdays(html);
 	}
-	
+
 	html[html.length] = '</thead>';
 
 	return html;
@@ -2126,10 +2148,10 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 	if (this.preMonthDays < 0) {
 		this.preMonthDays += 7;
 	}
-	
+
 	this.monthDays = YAHOO.widget.DateMath.findMonthEnd(workingDate).getDate();
 	this.postMonthDays = YAHOO.widget.Calendar.DISPLAY_DAYS-this.preMonthDays-this.monthDays;
-	
+
 	workingDate = YAHOO.widget.DateMath.subtract(workingDate, YAHOO.widget.DateMath.DAY, this.preMonthDays);
 
 	var weekNum,weekClass;
@@ -2137,14 +2159,14 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 	var cellPrefix = "_cell";
 	var workingDayPrefix = "wd";
 	var dayPrefix = "d";
-	
+
 	var cellRenderers;
 	var renderer;
-	
+
 	var todayYear = this.today.getFullYear();
 	var todayMonth = this.today.getMonth();
 	var todayDate = this.today.getDate();
-	
+
 	var useDate = this.cfg.getProperty(defCfg.PAGEDATE.key);
 	var hideBlankWeeks = this.cfg.getProperty(defCfg.HIDE_BLANK_WEEKS.key);
 	var showWeekFooter = this.cfg.getProperty(defCfg.SHOW_WEEK_FOOTER.key);
@@ -2158,9 +2180,9 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 	if (maxdate) {
 		maxdate = YAHOO.widget.DateMath.clearTime(maxdate);
 	}
-	
+
 	html[html.length] = '<tbody class="m' + (useDate.getMonth()+1) + ' ' + this.Style.CSS_BODY + '">';
-	
+
 	var i = 0;
 
 	var tempDiv = document.createElement("div");
@@ -2182,9 +2204,9 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 		} else {
 
 			html[html.length] = '<tr class="' + weekClass + '">';
-			
+
 			if (showWeekHeader) { html = this.renderRowHeader(weekNum, html); }
-			
+
 			for (var d=0;d<7;d++){ // Render actual days
 
 				cellRenderers = [];
@@ -2194,31 +2216,31 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 				cell.className = this.Style.CSS_CELL;
 				cell.id = this.id + cellPrefix + i;
 
-				if (workingDate.getDate()		== todayDate && 
+				if (workingDate.getDate()		== todayDate &&
 					workingDate.getMonth()		== todayMonth &&
 					workingDate.getFullYear()	== todayYear) {
 					cellRenderers[cellRenderers.length]=cal.renderCellStyleToday;
 				}
-				
+
 				var workingArray = [workingDate.getFullYear(),workingDate.getMonth()+1,workingDate.getDate()];
 				this.cellDates[this.cellDates.length] = workingArray; // Add this date to cellDates
-				
+
 				// Local OOM check for performance, since we already have pagedate
 				if (workingDate.getMonth() != useDate.getMonth()) {
 					cellRenderers[cellRenderers.length]=cal.renderCellNotThisMonth;
 				} else {
 					YAHOO.util.Dom.addClass(cell, workingDayPrefix + workingDate.getDay());
 					YAHOO.util.Dom.addClass(cell, dayPrefix + workingDate.getDate());
-				
+
 					for (var s=0;s<this.renderStack.length;++s) {
 
 						var rArray = this.renderStack[s];
 						var type = rArray[0];
-						
+
 						var month;
 						var day;
 						var year;
-						
+
 						switch (type) {
 							case YAHOO.widget.Calendar.DATE:
 								month = rArray[1][1];
@@ -2233,7 +2255,7 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 							case YAHOO.widget.Calendar.MONTH_DAY:
 								month = rArray[1][0];
 								day = rArray[1][1];
-								
+
 								if (workingDate.getMonth()+1 == month && workingDate.getDate() == day) {
 									renderer = rArray[2];
 									this.renderStack.splice(s,1);
@@ -2246,7 +2268,7 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 								var d1month = date1[1];
 								var d1day = date1[2];
 								var d1year = date1[0];
-								
+
 								var d1 = new Date(d1year, d1month-1, d1day);
 
 								var d2month = date2[1];
@@ -2258,27 +2280,27 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 								if (workingDate.getTime() >= d1.getTime() && workingDate.getTime() <= d2.getTime()) {
 									renderer = rArray[2];
 
-									if (workingDate.getTime()==d2.getTime()) { 
+									if (workingDate.getTime()==d2.getTime()) {
 										this.renderStack.splice(s,1);
 									}
 								}
 								break;
 							case YAHOO.widget.Calendar.WEEKDAY:
-								
+
 								var weekday = rArray[1][0];
 								if (workingDate.getDay()+1 == weekday) {
 									renderer = rArray[2];
 								}
 								break;
 							case YAHOO.widget.Calendar.MONTH:
-								
+
 								month = rArray[1][0];
 								if (workingDate.getMonth()+1 == month) {
 									renderer = rArray[2];
 								}
 								break;
 						}
-						
+
 						if (renderer) {
 							cellRenderers[cellRenderers.length]=renderer;
 						}
@@ -2287,7 +2309,7 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 				}
 
 				if (this._indexOfSelectedFieldArray(workingArray) > -1) {
-					cellRenderers[cellRenderers.length]=cal.renderCellStyleSelected; 
+					cellRenderers[cellRenderers.length]=cal.renderCellStyleSelected;
 				}
 
 				if ((mindate && (workingDate.getTime() < mindate.getTime())) ||
@@ -2296,9 +2318,9 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 					cellRenderers[cellRenderers.length]=cal.renderOutOfBoundsDate;
 				} else {
 					cellRenderers[cellRenderers.length]=cal.styleCellDefault;
-					cellRenderers[cellRenderers.length]=cal.renderCellDefault;	
+					cellRenderers[cellRenderers.length]=cal.renderCellDefault;
 				}
-				
+
 				for (var x=0; x < cellRenderers.length; ++x) {
 					if (cellRenderers[x].call(cal, workingDate, cell) == YAHOO.widget.Calendar.STOP_RENDER) {
 						break;
@@ -2316,15 +2338,15 @@ YAHOO.widget.Calendar.prototype.renderBody = function(workingDate, html) {
 				if (((i+1) % 7) === 0) {
 					YAHOO.util.Dom.addClass(cell, this.Style.CSS_CELL_RIGHT);
 				}
-				
-				var postDays = this.postMonthDays; 
+
+				var postDays = this.postMonthDays;
 				if (hideBlankWeeks && postDays >= 7) {
 					var blankWeeks = Math.floor(postDays/7);
 					for (var p=0;p<blankWeeks;++p) {
 						postDays -= 7;
 					}
 				}
-				
+
 				if (i >= ((this.preMonthDays+postDays+this.monthDays)-7)) {
 					YAHOO.util.Dom.addClass(cell, this.Style.CSS_CELL_BOTTOM);
 				}
@@ -2356,7 +2378,7 @@ YAHOO.widget.Calendar.prototype.renderFooter = function(html) { return html; };
 /**
 * Renders the calendar after it has been configured. The render() method has a specific call chain that will execute
 * when the method is called: renderHeader, renderBody, renderFooter.
-* Refer to the documentation for those methods for information on 
+* Refer to the documentation for those methods for information on
 * individual render tasks.
 * @method render
 */
@@ -2398,19 +2420,26 @@ YAHOO.widget.Calendar.prototype.render = function() {
 * @method applyListeners
 */
 YAHOO.widget.Calendar.prototype.applyListeners = function() {
-	
+
 	var root = this.oDomContainer;
 	var cal = this.parent || this;
-	
+
 	var anchor = "a";
 	var mousedown = "mousedown";
 
+	var linkFirst = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_FIRST, anchor, root);
 	var linkLeft = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_LEFT, anchor, root);
 	var linkRight = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_RIGHT, anchor, root);
+	var linkLast = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_LAST, anchor, root);
 
 	if (linkLeft && linkLeft.length > 0) {
 		this.linkLeft = linkLeft[0];
 		YAHOO.util.Event.addListener(this.linkLeft, mousedown, cal.previousMonth, cal, true);
+	}
+
+	if (linkFirst && linkFirst.length > 0) {
+		this.linkFirst = linkFirst[0];
+		YAHOO.util.Event.addListener(this.linkFirst, mousedown, cal.previousYear, cal, true);
 	}
 
 	if (linkRight && linkRight.length > 0) {
@@ -2418,9 +2447,14 @@ YAHOO.widget.Calendar.prototype.applyListeners = function() {
 		YAHOO.util.Event.addListener(this.linkRight, mousedown, cal.nextMonth, cal, true);
 	}
 
+	if (linkLast && linkLast.length > 0) {
+		this.linkLast = linkLast[0];
+		YAHOO.util.Event.addListener(this.linkLast, mousedown, cal.nextYear, cal, true);
+	}
+
 	if (this.domEventMap) {
 		var el,elements;
-		for (var cls in this.domEventMap) {	
+		for (var cls in this.domEventMap) {
 			if (YAHOO.lang.hasOwnProperty(this.domEventMap, cls)) {
 				var items = this.domEventMap[cls];
 
@@ -2510,7 +2544,7 @@ YAHOO.widget.Calendar.prototype.renderRowFooter = function(weekNum, html) {
 
 /**
 * Renders a single standard calendar cell in the calendar widget table.
-* All logic for determining how a standard default cell will be rendered is 
+* All logic for determining how a standard default cell will be rendered is
 * encapsulated in this method, and must be accounted for when extending the
 * widget class.
 * @method renderCellDefault
@@ -2718,7 +2752,7 @@ YAHOO.widget.Calendar.prototype.previousYear = function() {
 // BEGIN SELECTION METHODS
 
 /**
-* Resets the calendar widget to the originally selected month and year, and 
+* Resets the calendar widget to the originally selected month and year, and
 * sets the calendar to the initial selection(s).
 * @method reset
 */
@@ -2743,7 +2777,7 @@ YAHOO.widget.Calendar.prototype.clear = function() {
 
 /**
 * Selects a date or a collection of dates on the current calendar. This method, by default,
-* does not call the render method explicitly. Once selection has completed, render must be 
+* does not call the render method explicitly. Once selection has completed, render must be
 * called for the changes to be reflected visually.
 * @method select
 * @param	{String/Date/Date[]}	date	The date string of dates to select in the current calendar. Valid formats are
@@ -2754,7 +2788,7 @@ YAHOO.widget.Calendar.prototype.clear = function() {
 */
 YAHOO.widget.Calendar.prototype.select = function(date) {
 	this.beforeSelectEvent.fire();
-	
+
 	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
 
 	var selected = this.cfg.getProperty(cfgSelected);
@@ -2766,7 +2800,7 @@ YAHOO.widget.Calendar.prototype.select = function(date) {
 			selected[selected.length]=toSelect;
 		}
 	}
-	
+
 	if (this.parent) {
 		this.parent.cfg.setProperty(cfgSelected, selected);
 	} else {
@@ -2774,7 +2808,7 @@ YAHOO.widget.Calendar.prototype.select = function(date) {
 	}
 
 	this.selectEvent.fire(aToBeSelected);
-	
+
 	return this.getSelectedDates();
 };
 
@@ -2783,12 +2817,12 @@ YAHOO.widget.Calendar.prototype.select = function(date) {
 * This method is used to easily select a single cell (usually with a mouse click) without having to do
 * a full render. The selected style is applied to the cell directly.
 * @method selectCell
-* @param	{Number}	cellIndex	The index of the cell to select in the current calendar. 
+* @param	{Number}	cellIndex	The index of the cell to select in the current calendar.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.selectCell = function(cellIndex) {
 	this.beforeSelectEvent.fire();
-	
+
 	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
 	var selected = this.cfg.getProperty(cfgSelected);
 
@@ -2820,13 +2854,13 @@ YAHOO.widget.Calendar.prototype.selectCell = function(cellIndex) {
 
 /**
 * Deselects a date or a collection of dates on the current calendar. This method, by default,
-* does not call the render method explicitly. Once deselection has completed, render must be 
+* does not call the render method explicitly. Once deselection has completed, render must be
 * called for the changes to be reflected visually.
 * @method deselect
 * @param	{String/Date/Date[]}	date	The date string of dates to deselect in the current calendar. Valid formats are
 *								individual date(s) (12/24/2005,12/26/2005) or date range(s) (12/24/2005-1/1/2006).
 *								Multiple comma-delimited dates can also be passed to this method (12/24/2005,12/11/2005-12/13/2005).
-*								This method can also take a JavaScript Date object or an array of Date objects.	
+*								This method can also take a JavaScript Date object or an array of Date objects.
 * @return	{Date[]}			Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.deselect = function(date) {
@@ -2840,8 +2874,8 @@ YAHOO.widget.Calendar.prototype.deselect = function(date) {
 	for (var a=0;a<aToBeSelected.length;++a) {
 		var toSelect = aToBeSelected[a]; // For each date item in the list of dates we're trying to select
 		var index = this._indexOfSelectedFieldArray(toSelect);
-	
-		if (index != -1) {	
+
+		if (index != -1) {
 			selected.splice(index,1);
 		}
 	}
@@ -2853,7 +2887,7 @@ YAHOO.widget.Calendar.prototype.deselect = function(date) {
 	}
 
 	this.deselectEvent.fire(aToBeSelected);
-	
+
 	return this.getSelectedDates();
 };
 
@@ -2862,14 +2896,14 @@ YAHOO.widget.Calendar.prototype.deselect = function(date) {
 * This method is used to easily deselect a single cell (usually with a mouse click) without having to do
 * a full render. The selected style is removed from the cell directly.
 * @method deselectCell
-* @param	{Number}	cellIndex	The index of the cell to deselect in the current calendar. 
+* @param	{Number}	cellIndex	The index of the cell to deselect in the current calendar.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.deselectCell = function(i) {
 	this.beforeDeselectEvent.fire();
-	
+
 	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
-	
+
 	var selected = this.cfg.getProperty(defCfg.SELECTED.key);
 
 	var cell = this.cells[i];
@@ -2894,7 +2928,7 @@ YAHOO.widget.Calendar.prototype.deselectCell = function(i) {
 	} else {
 		this.cfg.setProperty(defCfg.SELECTED.key, selected);
 	}
-	
+
 	this.deselectEvent.fire(selectDate);
 	return this.getSelectedDates();
 };
@@ -2909,7 +2943,7 @@ YAHOO.widget.Calendar.prototype.deselectCell = function(i) {
 */
 YAHOO.widget.Calendar.prototype.deselectAll = function() {
 	this.beforeDeselectEvent.fire();
-	
+
 	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
 
 	var selected = this.cfg.getProperty(cfgSelected);
@@ -2921,7 +2955,7 @@ YAHOO.widget.Calendar.prototype.deselectAll = function() {
 	} else {
 		this.cfg.setProperty(cfgSelected, []);
 	}
-	
+
 	if (count > 0) {
 		this.deselectEvent.fire(sel);
 	}
@@ -2941,7 +2975,7 @@ YAHOO.widget.Calendar.prototype.deselectAll = function() {
 * @param	{String/Date/Date[]}	date	The date string of dates to deselect in the current calendar. Valid formats are
 *								individual date(s) (12/24/2005,12/26/2005) or date range(s) (12/24/2005-1/1/2006).
 *								Multiple comma-delimited dates can also be passed to this method (12/24/2005,12/11/2005-12/13/2005).
-*								This method can also take a JavaScript Date object or an array of Date objects.	
+*								This method can also take a JavaScript Date object or an array of Date objects.
 * @return {Array[](Number[])}	Array of date field arrays
 */
 YAHOO.widget.Calendar.prototype._toFieldArray = function(date) {
@@ -2957,7 +2991,7 @@ YAHOO.widget.Calendar.prototype._toFieldArray = function(date) {
 			returnDate[returnDate.length] = [d.getFullYear(),d.getMonth()+1,d.getDate()];
 		}
 	}
-	
+
 	return returnDate;
 };
 
@@ -2976,7 +3010,7 @@ YAHOO.widget.Calendar.prototype._toDate = function(dateFieldArray) {
 	}
 };
 
-// END TYPE CONVERSION METHODS 
+// END TYPE CONVERSION METHODS
 
 // BEGIN UTILITY METHODS
 
@@ -2992,7 +3026,7 @@ YAHOO.widget.Calendar.prototype._fieldArraysAreEqual = function(array1, array2) 
 	var match = false;
 
 	if (array1[0]==array2[0]&&array1[1]==array2[1]&&array1[2]==array2[2]) {
-		match=true;	
+		match=true;
 	}
 
 	return match;
@@ -3032,8 +3066,8 @@ YAHOO.widget.Calendar.prototype.isDateOOM = function(date) {
 };
 
 /**
- * Parses a pagedate configuration property value. The value can either be specified as a string of form "mm/yyyy" or a Date object 
- * and is parsed into a Date object normalized to the first day of the month. If no value is passed in, the month and year from today's date are used to create the Date object 
+ * Parses a pagedate configuration property value. The value can either be specified as a string of form "mm/yyyy" or a Date object
+ * and is parsed into a Date object normalized to the first day of the month. If no value is passed in, the month and year from today's date are used to create the Date object
  * @method	_parsePageDate
  * @private
  * @param {Date|String}	date	Pagedate value which needs to be parsed
@@ -3041,7 +3075,7 @@ YAHOO.widget.Calendar.prototype.isDateOOM = function(date) {
  */
 YAHOO.widget.Calendar.prototype._parsePageDate = function(date) {
 	var parsedDate;
-	
+
 	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
 
 	if (date) {
@@ -3052,7 +3086,7 @@ YAHOO.widget.Calendar.prototype._parsePageDate = function(date) {
 			aMonthYear = date.split(this.cfg.getProperty(defCfg.DATE_FIELD_DELIMITER.key));
 			month = parseInt(aMonthYear[this.cfg.getProperty(defCfg.MY_MONTH_POSITION.key)-1], 10)-1;
 			year = parseInt(aMonthYear[this.cfg.getProperty(defCfg.MY_YEAR_POSITION.key)-1], 10);
-			
+
 			parsedDate = new Date(year, month, 1);
 		}
 	} else {
@@ -3177,7 +3211,7 @@ YAHOO.widget.Calendar.prototype._parseDates = function(sDates) {
 	var aReturn = [];
 
 	var aDates = sDates.split(this.Locale.DATE_DELIMITER);
-	
+
 	for (var d=0;d<aDates.length;++d) {
 		var sDate = aDates[d];
 
@@ -3236,7 +3270,7 @@ YAHOO.widget.Calendar.prototype.resetRenderers = function() {
 * Clears the inner HTML, CSS class and style information from the specified cell.
 * @method clearElement
 * @param	{HTMLTableCellElement}	The cell to clear
-*/ 
+*/
 YAHOO.widget.Calendar.prototype.clearElement = function(cell) {
 	cell.innerHTML = "&#160;";
 	cell.className="";
@@ -3254,7 +3288,7 @@ YAHOO.widget.Calendar.prototype.addRenderer = function(sDates, fnRender) {
 	var aDates = this._parseDates(sDates);
 	for (var i=0;i<aDates.length;++i) {
 		var aDate = aDates[i];
-	
+
 		if (aDate.length == 2) { // this is either a range or a month/day combo
 			if (aDate[0] instanceof Array) { // this is a range
 				this._addRenderer(YAHOO.widget.Calendar.RANGE,aDate,fnRender);
@@ -3281,7 +3315,7 @@ YAHOO.widget.Calendar.prototype.addRenderer = function(sDates, fnRender) {
 */
 YAHOO.widget.Calendar.prototype._addRenderer = function(type, aDates, fnRender) {
 	var add = [type,aDates,fnRender];
-	this.renderStack.unshift(add);	
+	this.renderStack.unshift(add);
 	this._renderStack = this.renderStack.concat();
 };
 
@@ -3431,7 +3465,7 @@ YAHOO.widget.Cal_Core = YAHOO.widget.Calendar;
 * YAHOO.widget.CalendarGroup is a special container class for YAHOO.widget.Calendar. This class facilitates
 * the ability to have multi-page calendar views that share a single dataset and are
 * dependent on each other.
-* 
+*
 * The calendar group instance will refer to each of its elements using a 0-based index.
 * For example, to construct the placeholder for a calendar group widget with id "cal1" and
 * containerId of "cal1Container", the markup would be as follows:
@@ -3471,7 +3505,7 @@ YAHOO.widget.CalendarGroup.prototype.init = function(id, containerId, config) {
 	* @type YAHOO.widget.Calendar[]
 	*/
 	this.pages = [];
-	
+
 	/**
 	* The unique id associated with the CalendarGroup
 	* @property id
@@ -3544,9 +3578,9 @@ YAHOO.widget.CalendarGroup.prototype.init = function(id, containerId, config) {
 
 
 YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
-	
+
 	var defCfg = YAHOO.widget.CalendarGroup._DEFAULT_CONFIG;
-	
+
 	/**
 	* The number of pages to include in the CalendarGroup. This value can only be set once, in the CalendarGroup's constructor arguments.
 	* @config pages
@@ -3608,7 +3642,7 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @config maxdate
 	* @type String
 	* @default null
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MAXDATE.key, { value:defCfg.MAXDATE.value, handler:this.delegateConfig  } );
 
 	// Options properties
@@ -3626,25 +3660,25 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @config START_WEEKDAY
 	* @type number
 	* @default 0
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.START_WEEKDAY.key,	{ value:defCfg.START_WEEKDAY.value, handler:this.delegateConfig, validator:this.cfg.checkNumber  } );
-	
+
 	/**
 	* True if the Calendar should show weekday labels. True by default.
 	* @config SHOW_WEEKDAYS
 	* @type Boolean
 	* @default true
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.SHOW_WEEKDAYS.key,	{ value:defCfg.SHOW_WEEKDAYS.value, handler:this.delegateConfig, validator:this.cfg.checkBoolean } );
-	
+
 	/**
 	* True if the Calendar should show week row headers. False by default.
 	* @config SHOW_WEEK_HEADER
 	* @type Boolean
 	* @default false
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.SHOW_WEEK_HEADER.key,{ value:defCfg.SHOW_WEEK_HEADER.value, handler:this.delegateConfig, validator:this.cfg.checkBoolean } );
-	
+
 	/**
 	* True if the Calendar should show week row footers. False by default.
 	* @config SHOW_WEEK_FOOTER
@@ -3652,35 +3686,35 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @default false
 	*/
 	this.cfg.addProperty(defCfg.SHOW_WEEK_FOOTER.key,{ value:defCfg.SHOW_WEEK_FOOTER.value, handler:this.delegateConfig, validator:this.cfg.checkBoolean } );
-	
+
 	/**
 	* True if the Calendar should suppress weeks that are not a part of the current month. False by default.
 	* @config HIDE_BLANK_WEEKS
 	* @type Boolean
 	* @default false
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.HIDE_BLANK_WEEKS.key,{ value:defCfg.HIDE_BLANK_WEEKS.value, handler:this.delegateConfig, validator:this.cfg.checkBoolean } );
-	
+
 	/**
 	* The image that should be used for the left navigation arrow.
 	* @config NAV_ARROW_LEFT
 	* @type String
 	* @deprecated	You can customize the image by overriding the default CSS class for the left arrow - "calnavleft"
 	* @default null
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.NAV_ARROW_LEFT.key,	{ value:defCfg.NAV_ARROW_LEFT.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The image that should be used for the right navigation arrow.
 	* @config NAV_ARROW_RIGHT
 	* @type String
 	* @deprecated	You can customize the image by overriding the default CSS class for the right arrow - "calnavright"
 	* @default null
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.NAV_ARROW_RIGHT.key,	{ value:defCfg.NAV_ARROW_RIGHT.value, handler:this.delegateConfig } );
 
 	// Locale properties
-	
+
 	/**
 	* The short month labels for the current locale.
 	* @config MONTHS_SHORT
@@ -3688,45 +3722,45 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @default ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 	*/
 	this.cfg.addProperty(defCfg.MONTHS_SHORT.key,	{ value:defCfg.MONTHS_SHORT.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The long month labels for the current locale.
 	* @config MONTHS_LONG
 	* @type String[]
 	* @default ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.MONTHS_LONG.key,		{ value:defCfg.MONTHS_LONG.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The 1-character weekday labels for the current locale.
 	* @config WEEKDAYS_1CHAR
 	* @type String[]
 	* @default ["S", "M", "T", "W", "T", "F", "S"]
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_1CHAR.key,	{ value:defCfg.WEEKDAYS_1CHAR.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The short weekday labels for the current locale.
 	* @config WEEKDAYS_SHORT
 	* @type String[]
 	* @default ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_SHORT.key,	{ value:defCfg.WEEKDAYS_SHORT.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The medium weekday labels for the current locale.
 	* @config WEEKDAYS_MEDIUM
 	* @type String[]
 	* @default ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_MEDIUM.key,	{ value:defCfg.WEEKDAYS_MEDIUM.value, handler:this.delegateConfig } );
-	
+
 	/**
 	* The long weekday labels for the current locale.
 	* @config WEEKDAYS_LONG
 	* @type String[]
 	* @default ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	*/		
+	*/
 	this.cfg.addProperty(defCfg.WEEKDAYS_LONG.key,	{ value:defCfg.WEEKDAYS_LONG.value, handler:this.delegateConfig } );
 
 	/**
@@ -3742,7 +3776,7 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @config LOCALE_WEEKDAYS
 	* @type String
 	* @default "short"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.LOCALE_WEEKDAYS.key,	{ value:defCfg.LOCALE_WEEKDAYS.value, handler:this.delegateConfig } );
 
 	/**
@@ -3758,7 +3792,7 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @config DATE_FIELD_DELIMITER
 	* @type String
 	* @default "/"
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.DATE_FIELD_DELIMITER.key,{ value:defCfg.DATE_FIELD_DELIMITER.value, handler:this.delegateConfig } );
 
 	/**
@@ -3776,53 +3810,53 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	* @default 1
 	*/
 	this.cfg.addProperty(defCfg.MY_MONTH_POSITION.key,	{ value:defCfg.MY_MONTH_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the year in a month/year date string
 	* @config MY_YEAR_POSITION
 	* @type Number
 	* @default 2
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MY_YEAR_POSITION.key,	{ value:defCfg.MY_YEAR_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the month in a month/day date string
 	* @config MD_MONTH_POSITION
 	* @type Number
 	* @default 1
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MD_MONTH_POSITION.key,	{ value:defCfg.MD_MONTH_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the day in a month/year date string
 	* @config MD_DAY_POSITION
 	* @type Number
 	* @default 2
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MD_DAY_POSITION.key,		{ value:defCfg.MD_DAY_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the month in a month/day/year date string
 	* @config MDY_MONTH_POSITION
 	* @type Number
 	* @default 1
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MDY_MONTH_POSITION.key,	{ value:defCfg.MDY_MONTH_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the day in a month/day/year date string
 	* @config MDY_DAY_POSITION
 	* @type Number
 	* @default 2
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MDY_DAY_POSITION.key,	{ value:defCfg.MDY_DAY_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
-	
+
 	/**
 	* The position of the year in a month/day/year date string
 	* @config MDY_YEAR_POSITION
 	* @type Number
 	* @default 3
-	*/	
+	*/
 	this.cfg.addProperty(defCfg.MDY_YEAR_POSITION.key,	{ value:defCfg.MDY_YEAR_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
 
 };
@@ -3863,7 +3897,7 @@ YAHOO.widget.CalendarGroup.prototype.initEvents = function() {
 			cal[this.type + strEvent].unsubscribe(fn, obj);
 		}
 	};
-	
+
 	var defEvents = YAHOO.widget.Calendar._EVENT_TYPES;
 
 	/**
@@ -3878,14 +3912,14 @@ YAHOO.widget.CalendarGroup.prototype.initEvents = function() {
 	* @event selectEvent
 	* @param {Array}	Array of Date field arrays in the format [YYYY, MM, DD].
 	*/
-	this.selectEvent = new YAHOO.util.CustomEvent(defEvents.SELECT); 
+	this.selectEvent = new YAHOO.util.CustomEvent(defEvents.SELECT);
 	this.selectEvent.subscribe = sub; this.selectEvent.unsubscribe = unsub;
 
 	/**
 	* Fired before a selection is made
 	* @event beforeDeselectEvent
 	*/
-	this.beforeDeselectEvent = new YAHOO.util.CustomEvent(defEvents.BEFORE_DESELECT); 
+	this.beforeDeselectEvent = new YAHOO.util.CustomEvent(defEvents.BEFORE_DESELECT);
 	this.beforeDeselectEvent.subscribe = sub; this.beforeDeselectEvent.unsubscribe = unsub;
 
 	/**
@@ -3893,14 +3927,14 @@ YAHOO.widget.CalendarGroup.prototype.initEvents = function() {
 	* @event deselectEvent
 	* @param {Array}	Array of Date field arrays in the format [YYYY, MM, DD].
 	*/
-	this.deselectEvent = new YAHOO.util.CustomEvent(defEvents.DESELECT); 
+	this.deselectEvent = new YAHOO.util.CustomEvent(defEvents.DESELECT);
 	this.deselectEvent.subscribe = sub; this.deselectEvent.unsubscribe = unsub;
-	
+
 	/**
 	* Fired when the Calendar page is changed
 	* @event changePageEvent
 	*/
-	this.changePageEvent = new YAHOO.util.CustomEvent(defEvents.CHANGE_PAGE); 
+	this.changePageEvent = new YAHOO.util.CustomEvent(defEvents.CHANGE_PAGE);
 	this.changePageEvent.subscribe = sub; this.changePageEvent.unsubscribe = unsub;
 
 	/**
@@ -3921,7 +3955,7 @@ YAHOO.widget.CalendarGroup.prototype.initEvents = function() {
 	* Fired when the Calendar is reset
 	* @event resetEvent
 	*/
-	this.resetEvent = new YAHOO.util.CustomEvent(defEvents.RESET); 
+	this.resetEvent = new YAHOO.util.CustomEvent(defEvents.RESET);
 	this.resetEvent.subscribe = sub; this.resetEvent.unsubscribe = unsub;
 
 	/**
@@ -3945,7 +3979,7 @@ YAHOO.widget.CalendarGroup.prototype.configPages = function(type, args, obj) {
 
 	var cfgPageDate = YAHOO.widget.CalendarGroup._DEFAULT_CONFIG.PAGEDATE.key;
 
-	// Define literals outside loop	
+	// Define literals outside loop
 	var sep = "_";
 	var groupCalClass = "groupcal";
 	var firstClass = "first";
@@ -3963,10 +3997,10 @@ YAHOO.widget.CalendarGroup.prototype.configPages = function(type, args, obj) {
 		var caldate = cal.cfg.getProperty(cfgPageDate);
 		this._setMonthOnDate(caldate, caldate.getMonth() + p);
 		cal.cfg.setProperty(cfgPageDate, caldate);
-		
+
 		YAHOO.util.Dom.removeClass(cal.oDomContainer, this.Style.CSS_SINGLE);
 		YAHOO.util.Dom.addClass(cal.oDomContainer, groupCalClass);
-		
+
 		if (p===0) {
 			YAHOO.util.Dom.addClass(cal.oDomContainer, firstClass);
 		}
@@ -3974,9 +4008,9 @@ YAHOO.widget.CalendarGroup.prototype.configPages = function(type, args, obj) {
 		if (p==(pageCount-1)) {
 			YAHOO.util.Dom.addClass(cal.oDomContainer, lastClass);
 		}
-		
+
 		cal.parent = this;
-		cal.index = p; 
+		cal.index = p;
 
 		this.pages[this.pages.length] = cal;
 	}
@@ -3992,9 +4026,9 @@ YAHOO.widget.CalendarGroup.prototype.configPages = function(type, args, obj) {
 YAHOO.widget.CalendarGroup.prototype.configPageDate = function(type, args, obj) {
 	var val = args[0];
 	var firstPageDate;
-	
+
 	var cfgPageDate = YAHOO.widget.CalendarGroup._DEFAULT_CONFIG.PAGEDATE.key;
-	
+
 	for (var p=0;p<this.pages.length;++p) {
 		var cal = this.pages[p];
 		if (p === 0) {
@@ -4018,7 +4052,7 @@ YAHOO.widget.CalendarGroup.prototype.configPageDate = function(type, args, obj) 
 YAHOO.widget.CalendarGroup.prototype.configSelected = function(type, args, obj) {
 	var cfgSelected = YAHOO.widget.CalendarGroup._DEFAULT_CONFIG.SELECTED.key;
 	this.delegateConfig(type, args, obj);
-	var selected = (this.pages.length > 0) ? this.pages[0].cfg.getProperty(cfgSelected) : []; 
+	var selected = (this.pages.length > 0) ? this.pages[0].cfg.getProperty(cfgSelected) : [];
 	this.cfg.setProperty(cfgSelected, selected, true);
 };
 
@@ -4070,7 +4104,7 @@ YAHOO.widget.CalendarGroup.prototype.callChildFunction = function(fnName, args) 
 			var fn = page[fnName];
 			fn.call(page, args);
 		}
-	}	
+	}
 };
 
 /**
@@ -4102,9 +4136,9 @@ YAHOO.widget.CalendarGroup.prototype.constructChild = function(id,containerId,co
 YAHOO.widget.CalendarGroup.prototype.setMonth = function(month) {
 	month = parseInt(month, 10);
 	var currYear;
-	
+
 	var cfgPageDate = YAHOO.widget.CalendarGroup._DEFAULT_CONFIG.PAGEDATE.key;
-	
+
 	for (var p=0; p<this.pages.length; ++p) {
 		var cal = this.pages[p];
 		var pageDate = cal.cfg.getProperty(cfgPageDate);
@@ -4113,7 +4147,7 @@ YAHOO.widget.CalendarGroup.prototype.setMonth = function(month) {
 		} else {
 			pageDate.setYear(currYear);
 		}
-		this._setMonthOnDate(pageDate, month+p); 
+		this._setMonthOnDate(pageDate, month+p);
 		cal.cfg.setProperty(cfgPageDate, pageDate);
 	}
 };
@@ -4154,7 +4188,7 @@ YAHOO.widget.CalendarGroup.prototype.render = function() {
 
 /**
 * Selects a date or a collection of dates on the current calendar. This method, by default,
-* does not call the render method explicitly. Once selection has completed, render must be 
+* does not call the render method explicitly. Once selection has completed, render must be
 * called for the changes to be reflected visually.
 * @method select
 * @param	{String/Date/Date[]}	date	The date string of dates to select in the current calendar. Valid formats are
@@ -4173,13 +4207,13 @@ YAHOO.widget.CalendarGroup.prototype.select = function(date) {
 
 /**
 * Selects dates in the CalendarGroup based on the cell index provided. This method is used to select cells without having to do a full render. The selected style is applied to the cells directly.
-* The value of the MULTI_SELECT Configuration attribute will determine the set of dates which get selected. 
+* The value of the MULTI_SELECT Configuration attribute will determine the set of dates which get selected.
 * <ul>
 *    <li>If MULTI_SELECT is false, selectCell will select the cell at the specified index for only the last displayed Calendar page.</li>
 *    <li>If MULTI_SELECT is true, selectCell will select the cell at the specified index, on each displayed Calendar page.</li>
 * </ul>
 * @method selectCell
-* @param	{Number}	cellIndex	The index of the cell to be selected. 
+* @param	{Number}	cellIndex	The index of the cell to be selected.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.CalendarGroup.prototype.selectCell = function(cellIndex) {
@@ -4192,13 +4226,13 @@ YAHOO.widget.CalendarGroup.prototype.selectCell = function(cellIndex) {
 
 /**
 * Deselects a date or a collection of dates on the current calendar. This method, by default,
-* does not call the render method explicitly. Once deselection has completed, render must be 
+* does not call the render method explicitly. Once deselection has completed, render must be
 * called for the changes to be reflected visually.
 * @method deselect
 * @param	{String/Date/Date[]}	date	The date string of dates to deselect in the current calendar. Valid formats are
 *								individual date(s) (12/24/2005,12/26/2005) or date range(s) (12/24/2005-1/1/2006).
 *								Multiple comma-delimited dates can also be passed to this method (12/24/2005,12/11/2005-12/13/2005).
-*								This method can also take a JavaScript Date object or an array of Date objects.	
+*								This method can also take a JavaScript Date object or an array of Date objects.
 * @return	{Date[]}			Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.CalendarGroup.prototype.deselect = function(date) {
@@ -4230,7 +4264,7 @@ YAHOO.widget.CalendarGroup.prototype.deselectAll = function() {
 * deselectCell will deselect the cell at the specified index on each displayed Calendar page.
 *
 * @method deselectCell
-* @param	{Number}	cellIndex	The index of the cell to deselect. 
+* @param	{Number}	cellIndex	The index of the cell to deselect.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.CalendarGroup.prototype.deselectCell = function(cellIndex) {
@@ -4242,7 +4276,7 @@ YAHOO.widget.CalendarGroup.prototype.deselectCell = function(cellIndex) {
 };
 
 /**
-* Resets the calendar widget to the originally selected month and year, and 
+* Resets the calendar widget to the originally selected month and year, and
 * sets the calendar to the initial selection(s).
 * @method reset
 */
@@ -4315,7 +4349,7 @@ YAHOO.widget.CalendarGroup.prototype.previousYear = function() {
 * @return			An array of currently selected JavaScript Date objects.
 * @type Date[]
 */
-YAHOO.widget.CalendarGroup.prototype.getSelectedDates = function() { 
+YAHOO.widget.CalendarGroup.prototype.getSelectedDates = function() {
 	var returnDates = [];
 	var selected = this.cfg.getProperty(YAHOO.widget.CalendarGroup._DEFAULT_CONFIG.SELECTED.key);
 	for (var d=0;d<selected.length;++d) {
