@@ -4,6 +4,18 @@ Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
 version: 2.2.2
 */
+
+/**
+ * This file is a modified version of calendar.js from the Yahoo! UI Library. (http://developer.yahoo.com/yui/)
+ *
+ * See license/3rdParty/yui.license for the license.
+ *
+ * Modifications done by OrangeHRM.
+ * 1) CSS_NAV_FIRST and CSS_NAV_LAST style methods introduced for year navigation
+ * 2) Year navigation introduced
+ *
+ */
+
 /**
 * Config is a utility used within an Object to allow the implementer to maintain a list of local configuration properties and listen for changes to those properties dynamically using CustomEvent. The initial values are also maintained so that the configuration can be reset at any given point to its initial state.
 * @namespace YAHOO.util

@@ -99,4 +99,13 @@ scripts/yui/event/event-debug.js
 scripts/yui/dom/dom-min.js
 scripts/yui/dom/dom-debug.js
 scripts/yui/dom/dom.js
+themes/beyondT/css/yui/calendar/assets/calendar.css
+themes/beyondT/css/yui/fonts/fonts.css
+themes/beyondT/css/yui/fonts/fonts-min.css
+themes/beyondT/icons/yui/calendar/assets/calx.gif
 
+Modified files: (Modifications are listed in the file)
+
+scripts/yui/calendar/calendar.js
+scripts/yui/calendar/calendar-min.js (Compressed calendar.js file)
+themes/beyondT/css/yui/calendar/assets/calendar.css

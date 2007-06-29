@@ -4,6 +4,18 @@ Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
 version: 2.2.2
 */
+
+/**
+ * This file is a modified version of calendar.css from the Yahoo! UI Library. (http://developer.yahoo.com/yui/)
+ *
+ * See license/3rdParty/yui.license for the license.
+ *
+ * Modifications done by OrangeHRM.
+ * 1) Classes .yui-calendar .calnavfirst and .yui-calendar .calnavlast was added to navigate between years
+ * 2) Classes .yui-calendar .calnavleft and .yui-calendar .calnavright image was changed
+ *
+ */
+
 .yui-calcontainer {
 	position:relative;
 	padding:5px;
@@ -57,7 +69,7 @@ version: 2.2.2
 }
 
 .yui-calcontainer .calclose {
-	background: url("calx.gif") no-repeat;
+	background: url("../../../../icons/yui/calendar/assets/calx.gif") no-repeat;
 	width:17px;
 	height:13px;
 	cursor:pointer;
@@ -86,7 +98,7 @@ version: 2.2.2
 	height:12px;
 	left:16px;
 	z-index:1;
-	background: url("go-previous.gif") no-repeat;
+	background: url("../../../../icons/navigation/go-previous.gif") no-repeat;
 }
 
 .yui-calendar .calnavfirst {
@@ -98,7 +110,7 @@ version: 2.2.2
 	height:12px;
 	left:2px;
 	z-index:1;
-	background: url("go-first.gif") no-repeat;
+	background: url("../../../../icons/navigation/go-first.gif") no-repeat;
 }
 
 .yui-calendar .calnavright {
@@ -110,7 +122,7 @@ version: 2.2.2
 	height:12px;
 	right:16px;
 	z-index:1;
-	background: url("go-next.gif") no-repeat;
+	background: url("../../../../icons/navigation/go-next.gif") no-repeat;
 }
 
 .yui-calendar .calnavlast {
@@ -122,7 +134,7 @@ version: 2.2.2
 	height:12px;
 	right:2px;
 	z-index:1;
-	background: url("go-last.gif") no-repeat;
+	background: url("../../../../icons/navigation/go-last.gif") no-repeat;
 }
 
 .yui-calendar td.calcell {
