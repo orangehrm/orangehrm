@@ -45,11 +45,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 <?php echo $$expString; ?>
 	</font>
-<?php 
+<?php
 	}
-}	
-?>
+}
 
+include ROOT_PATH."/scripts/calendar/calendar.php";
+?>
 <script>
 
 	function addSave() {
@@ -234,11 +235,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');"/>
-          <input type="button" name="Submit" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveFromDate); fillToDate(); return false;"/>
+          <input type="button" name="Submit" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd'); fillToDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
         <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');" />
-          <input type="button" name="Submit" value="..." onclick="fillAuto('txtLeaveFromDate', 'txtLeaveToDate'); if(self.gfPop)gfPop.fPopCalendar(document.frmLeaveApp.txtLeaveToDate);return false;"/>
+          <input type="button" name="Submit" value="..." onclick="fillAuto('txtLeaveFromDate', 'txtLeaveToDate'); YAHOO.OrangeHRM.calendar.pop('txtLeaveToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
@@ -293,4 +294,5 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     </tfoot>
   </table>
 </form>
+<div id="cal1Container" style="position:absolute;" ></div>
 <iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>

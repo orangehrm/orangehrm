@@ -60,7 +60,7 @@ version: 2.2.2
 	background: url("calx.gif") no-repeat;
 	width:17px;
 	height:13px;
-	cursor:pointer;	
+	cursor:pointer;
 }
 
 /* Calendar element styles */
@@ -83,7 +83,7 @@ version: 2.2.2
 	top:2px;
 	bottom:0;
 	width:9px;
-	height:12px;   
+	height:12px;
 	left:2px;
 	z-index:1;
 	background: url("callt.gif") no-repeat;
@@ -114,6 +114,7 @@ version: 2.2.2
 
 .yui-calendar td.calcell.today {
 	border:1px solid #000;
+	background-color: #FFFFFF;
 }
 
 .yui-calendar td.calcell.oom {
@@ -195,3 +196,7 @@ version: 2.2.2
 /* Specific changes for calendar running under fonts/reset */
 .yui-calendar .calbody a:hover {background:inherit;}
 p#clear {clear:left; padding-top:10px;}
+
+.wd6, .wd0 {
+	background-color:#99CCFF;
+}
