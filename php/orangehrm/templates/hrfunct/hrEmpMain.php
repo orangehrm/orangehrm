@@ -125,9 +125,7 @@ $objAjax->registerFunction('populateDistrict');
 $objAjax->registerFunction('assEmpStat');
 $objAjax->registerFunction('getUnAssMemberships');
 $objAjax->registerFunction('getMinMaxCurrency');
-//$objAjax->registerFunction('viewPassport');
-//$objAjax->registerFunction('editPassport');
-//$objAjax->registerFunction('addPassport');
+
 $objAjax->processRequests();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -138,8 +136,7 @@ $objAjax->processRequests();
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php
 $objAjax->printJavascript();
-?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script language="JavaScript">
 function MM_reloadPage(init) {  //reloads the window if Nav4 resized
   if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
