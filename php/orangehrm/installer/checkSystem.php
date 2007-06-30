@@ -18,103 +18,48 @@
  *
  */
 
+require(ROOT_PATH . '/lib/utils/installUtil.php');
 
-function check_php_version($sys_php_version = '') {
+function checkMemory() {
 
-	$sys_php_version = empty($sys_php_version) ? constant('PHP_VERSION') : $sys_php_version;
-	// versions below $min_considered_php_version considered invalid by default,
-	// versions equal to or above this ver will be considered depending
-	// on the rules that follow
-	$min_considered_php_version = '5.1.2';
-
-	// only the supported versions,
-	// should be mutually exclusive with $invalid_php_versions
-	$supported_php_versions = array (
-		'5.0.1', '5.0.2', '5.0.3', '5.0.4',
-		'5.1.0', '5.1.1', '5.1.2', '5.1.3',
-		'5.1.4', '5.1.5', '5.1.6', '5.1.7',
-		'5.2.0', '5.2.1', '5.2.2'
-	);
-
-	sort($supported_php_versions);
-
-	// invalid versions above the $min_considered_php_version,
-	// should be mutually exclusive with $supported_php_versions
-	$invalid_php_versions = array('5.0.0', '5.0.5');
-
-	// default unsupported
-	$retval = 0;
-
-	// versions below $min_considered_php_version are invalid
-	if(1 == version_compare($sys_php_version, $min_considered_php_version, '<')) {
-		$retval = -1;
-	}
-
-	// supported version check overrides default unsupported
-	foreach($supported_php_versions as $ver) {
-		if(1 == version_compare($sys_php_version, $ver, 'eq')) {
-			$retval = 1;
-			break;
-		}
-	}
-
-	if (($retval != 1) && (1 == version_compare($sys_php_version, $ver, '>'))) {
-		$retval = 1;
-	}
-
-	// invalid version check overrides default unsupported
-	foreach($invalid_php_versions as $ver) {
-		if(1 == version_compare($sys_php_version, $ver, 'eq')) {
-			$retval = -1;
-			break;
-		}
-	}
-
-	return $retval;
-}
-
-function chk_memory($limit=9, $recommended=16) {
+    $limit = 9;
+    $recommended = 16;
+    $maxMemory = null;
 
 	$msg = '';
-	$type = '';
+	$cssClass = '';
 
-	$max_memory = ini_get('memory_limit');
+    $result = checkPHPMemory($limit, $recommended, $maxMemory);
 
-	if ($max_memory == "") {
+	switch ($result) {
+		case INSTALLUTIL_MEMORY_NO_LIMIT:
+			$msg = "OK (No Limit)";
+			$cssClass = "done";
+			break;
 
-		$msg = "OK (No Limit)";
-		$type = "done";
+		case INSTALLUTIL_MEMORY_UNLIMITED:
+			$msg = "OK (Unlimited)";
+			$cssClass = "done";
+			break;
 
-	} else if ($max_memory === "-1") {
+		case INSTALLUTIL_MEMORY_HARD_LIMIT_FAIL:
+			$msg = "Warning at least ${limit}M required (${maxMemory} available, Recommended ${recommended}M)";
+			$cssClass = "error";
+			break;
 
-		$msg = "OK (Unlimited)";
-		$type = "done";
+		case INSTALLUTIL_MEMORY_SOFT_LIMIT_FAIL:
+			$msg = "OK (Recommended ${recommended}M)";
+			$cssClass = "pending";
+			break;
 
-	} else {
-
-		$max_memory = rtrim($max_memory, "M");
-		$max_memory_int = (int) $max_memory;
-
-		if ($max_memory_int < $limit) {
-
-			$msg = "Warning at least $limit M required ($max_memory M available, Recommended $recommended M)";
-			$type = "error";
-
-		} elseif ($max_memory_int < $recommended) {
-
-				$msg = "OK (Recommended $recommended M)";
-				$type = "pending";
-
-		} else {
-				$msg = "OK";
-				$type = "done";
-		}
-
+		case INSTALLUTIL_MEMORY_OK:
+			$msg = "OK";
+			$cssClass = "done";
+			break;
 	}
 
-	$msg = "<b class='$type'>".$msg."</b>";
-
-return $msg;
+	$msg = "<b class='$cssClass'>".$msg."</b>";
+	return $msg;
 }
 
 ?>
@@ -151,18 +96,28 @@ function sysCheckPassed() {
 
             	$error_found = false;
 
-            	$php_version = constant('PHP_VERSION');
-            	$check_php_version_result = check_php_version($php_version);
+				$minVersion = '5.1.2';
+				$supportedVersions = array (
+					'5.0.1', '5.0.2', '5.0.3', '5.0.4',
+					'5.1.0', '5.1.1', '5.1.2', '5.1.3',
+					'5.1.4', '5.1.5', '5.1.6', '5.1.7',
+					'5.2.0', '5.2.1', '5.2.2'
+				);
+				$invalidVersions = array('5.0.0', '5.0.5');
+
+				$php_version = constant('PHP_VERSION');
+				$check_php_version_result = checkPHPVersion($minVersion, $supportedVersions, $invalidVersions, $php_version);
+
             	switch($check_php_version_result)
             	{
-            		case -1:
+            		case INSTALLUTIL_VERSION_INVALID:
 	                  echo "<b><font color='red'>Invalid version, ($php_version) Installed</font></b>";
    	               $error_found = true;
             			break;
-            		case 0:
+            		case INSTALLUTIL_VERSION_UNSUPPORTED:
       	            echo "<b><font color='red'>Unsupported (ver $php_version)</font></b>";
             			break;
-            		case 1:
+            		case INSTALLUTIL_VERSION_SUPPORTED:
       	            echo "<b><font color='green'>OK (ver $php_version)</font></b>";
             			break;
                }
@@ -223,7 +178,7 @@ function sysCheckPassed() {
           </tr>
 		  <tr>
             <td class="tdComponent">Memory allocated for PHP script</td>
-            <td align="right" class="tdValues"><?php echo chk_memory(9, 16)?></td>
+            <td align="right" class="tdValues"><?php echo checkMemory()?></td>
           </tr>
           <?php
           	if(!(is_writable(ROOT_PATH . '/lib/confs'))){
