@@ -453,25 +453,25 @@ function deleteTimeEvents() {
 		onmouseout="this.src='../../themes/beyondT/icons/update.png';"
 		onclick="actionUpdate(); return false;"
 		name="btnUpdate" id="btnUpdate"
-		height="20" width="65"  type="image" />
+		height="20" width="65"  type="image" alt="Update" />
 <input src="../../themes/beyondT/icons/reset.gif"
 		onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
 		onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
 		onclick="actionReset(); return false;"
 		name="btnReset" id="btnReset"
-		height="20" width="65" type="image"/>
+		height="20" width="65" type="image" alt="Reset"/>
 <input src="../../themes/beyondT/icons/insertTime.png"
 		onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
 		onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
 		onclick="actionInsertTime(); return false;"
 		name="btnInsert" id="btnInsert"
-		height="20" width="90" type="image" />
+		height="20" width="90" type="image" alt="Insert Time" />
 <input src="../../themes/beyondT/pictures/btn_delete.jpg"
 		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';"
 		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
 		onclick="deleteTimeEvents(); return false;"
 		name="btnDelete" id="btnDelete"
-		type="image" />
+		type="image" alt="Delete" />
 </form>
 </p>
 <script type="text/javascript">
