@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2
+New & Changed Features for OrangeHRM ver 2.2 (30/06/2007) {Revision 988}
 
 	BugId     Name
 
