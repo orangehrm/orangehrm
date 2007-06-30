@@ -97,6 +97,8 @@
 
 		return str;
 	}
+
+	YAHOO.OrangeHRM.container.init();
 </script>
 <form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
 <p class="navigation">

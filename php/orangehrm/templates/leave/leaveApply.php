@@ -136,6 +136,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 	}
 
+	YAHOO.OrangeHRM.container.init();
 </script>
 <h2>
 	<?php

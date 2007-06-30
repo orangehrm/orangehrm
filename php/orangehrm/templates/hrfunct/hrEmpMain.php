@@ -130,7 +130,6 @@ $objAjax->registerFunction('getMinMaxCurrency');
 //$objAjax->registerFunction('addPassport');
 $objAjax->processRequests();
 ?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -140,7 +139,7 @@ $objAjax->processRequests();
 <?php
 $objAjax->printJavascript();
 ?>
-
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script language="JavaScript">
 function MM_reloadPage(init) {  //reloads the window if Nav4 resized
   if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
@@ -545,11 +544,13 @@ function resetAdd(panel) {
 </script>
 
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 <style type="text/css">@import url("../../themes/beyondT/css/hrEmpMain.css"); </style>
 <style type="text/css">@import url("../../themes/beyondT/css/essMenu.css"); </style>
 
 <body onLoad="hideLoad();">
+<script type="text/javascript">
+  YAHOO.OrangeHRM.container.init();
+</script>
 <?php
  if (!isset($this->getArr['pane'])) {
  	$this->getArr['pane'] = 1;
@@ -558,12 +559,13 @@ function resetAdd(panel) {
  	$this->postArr['pane'] = $this->getArr['pane'];
  };
  ?>
+<div id="cal1Container"></div>
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
     <td valign='top'>&nbsp; </td>
     <td width='100%'><h2 align="center"><?php echo $lang_empview_EmployeeInformation; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div align="right" id="status"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
+    <b><div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
   </tr>
 </table>
 
@@ -1280,7 +1282,6 @@ function resetAdd(panel) {
 <?php } ?>
 
 		</form>
-		<iframe width=174 height=189 name="gToday:normal:agenda.js" id="gToday:normal:agenda.js" src="../../scripts/ipopeng.htm" scrolling="no" frameborder="0" style="visibility:visible; z-index:999; position:absolute; top:-500px; left:-500px;"></iframe>
 	</body>
 	<script language="JavaScript" type="text/javascript">
   		displayLayer(<?php echo $this->postArr['pane']; ?>);

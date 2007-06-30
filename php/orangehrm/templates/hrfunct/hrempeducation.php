@@ -148,11 +148,15 @@ if(isset($this->popArr['editEducationArr'])) {
 					 </tr>
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td> <input type="text" name="txtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
+						<td>
+							<input type="text" name="txtEmpEduStartDate" id="txtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?> size="12" />
+							<input disabled type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td> <input type="text" name="txtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
+						<td>
+							<input type="text" name="txtEmpEduEndDate" id="txtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?> size="12" />
+							<input disabled type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					 </tr>
 
 					  <tr>
@@ -193,11 +197,15 @@ if(isset($this->popArr['editEducationArr'])) {
 					 </tr>
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td> <input type="text" name="txtEmpEduStartDate" readonly value="0000-00-00">&nbsp;<input type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduStartDate);return false;"></td>
+						<td>
+							<input type="text" name="txtEmpEduStartDate" id="txtEmpEduStartDate" readonly value="0000-00-00" size="12" />
+							<input type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td> <input type="text" name="txtEmpEduEndDate" readonly value="0000-00-00">&nbsp;<input type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpEduEndDate);return false;"></td>
+						<td>
+							<input type="text" name="txtEmpEduEndDate" id="txtEmpEduEndDate" readonly value="0000-00-00" size="12" />
+							<input type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					 </tr>
 
 					 <tr>

@@ -19,6 +19,7 @@
  */
 
 YAHOO.namespace("OrangeHRM.calendar");
+YAHOO.namespace("OrangeHRM.container");
 
 /**
  * Adds the calendar to the dom
@@ -36,6 +37,7 @@ YAHOO.OrangeHRM.calendar.init = function () {
 	YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(YAHOO.OrangeHRM.calendar.selected, YAHOO.OrangeHRM.calendar.cal, true);
 
 	YAHOO.OrangeHRM.calendar.cal.hide();
+	YAHOO.OrangeHRM.container.wait.hide();
 };
 
 /**
@@ -46,14 +48,17 @@ YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	YAHOO.OrangeHRM.calendar.cal.anchor = anchor;
 
 	selDate=document.getElementById(anchor).value;
-	if (selDate && (selDate != "")) {
+
+	if (selDate && (selDate != "") && (selDate != "0000-00-00")) {
 		YAHOO.OrangeHRM.calendar.cal.select(document.getElementById(anchor).value);
 
 		firstDate = YAHOO.OrangeHRM.calendar.cal.getSelectedDates()[0];
 		YAHOO.OrangeHRM.calendar.cal.cfg.setProperty("pagedate", (firstDate.getMonth()+1) + "-" + firstDate.getFullYear());
 	} else {
 		date = YAHOO.OrangeHRM.calendar.cal.getSelectedDates();
-		YAHOO.OrangeHRM.calendar.cal.deselect(date);
+		if (date != "") {
+			YAHOO.OrangeHRM.calendar.cal.deselect(date);
+		}
 	}
 
 	YAHOO.OrangeHRM.calendar.cal.render();
@@ -62,7 +67,7 @@ YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	domElDimensions = YAHOO.util.Dom.getXY(anchor);
 	domEl = YAHOO.util.Dom.get(anchor);
 
-	domElDimensions[1] += 27;
+	domElDimensions[1]+=25;
 
 	YAHOO.util.Dom.setXY(container, domElDimensions);
 };
@@ -76,6 +81,25 @@ YAHOO.OrangeHRM.calendar.selected = function () {
 
 	this.hide();
 };
+
+YAHOO.OrangeHRM.container.init = function () {
+	YAHOO.OrangeHRM.container.wait = new YAHOO.widget.Panel("wait",
+																{ width:"240px",
+																  fixedcenter:true,
+																  close:false,
+																  draggable:false,
+																  modal:true,
+																  visible:false
+																}
+															);
+
+	YAHOO.OrangeHRM.container.wait.setHeader("Loading, please wait...");
+	YAHOO.OrangeHRM.container.wait.setBody("<img src=\"/orangehrm/themes/beyondT/pictures/ajax-loader.gif\"/>");
+	YAHOO.OrangeHRM.container.wait.render(document.body);
+
+	// Show the Panel
+	YAHOO.OrangeHRM.container.wait.show();
+}
 
 /**
  * After the page has loaded the calendar is initalized

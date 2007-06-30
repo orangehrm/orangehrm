@@ -201,14 +201,18 @@ if(isset($this->popArr['editWrkExpArr'])) {
     				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					  <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
-					  <td nowrap><input type="text" readonly name="txtEmpExpFromDate" value=<?php echo $edit[0][4]?>>&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;"></td>
+					  <td nowrap>
+					  	<input type="text" readonly name="txtEmpExpFromDate" id="txtEmpExpFromDate" value=<?php echo $edit[0][4]?> size="12" />
+					  	<input disabled type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_empview_JobTitle?></td>
 						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 						<td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
-						<td nowrap><input type="text" name="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?> >&nbsp;<input disabled type="button" class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;"></td>
+						<td nowrap>
+							<input type="text" name="txtEmpExpToDate" id="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?> size="12" />
+							<input disabled type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $lang_Leave_Common_Comments; ?></td>
@@ -237,18 +241,18 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
-            <td nowrap><input type="text" name="txtEmpExpFromDate" readonly value="0000-00-00">
-              &nbsp;
-              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpFromDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            <td nowrap>
+            	<input type="text" name="txtEmpExpFromDate" id="txtEmpExpFromDate" readonly value="0000-00-00" size="12" />
+           		<input name="button" type="button" class="button" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
             <td><?php echo $lang_empview_JobTitle?></td>
             <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
-            <td nowrap><input type="text" name="txtEmpExpToDate" readonly value="0000-00-00">
-              &nbsp;
-              <input name="button" type="button" class="button" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtEmpExpToDate);return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            <td nowrap>
+            	<input type="text" name="txtEmpExpToDate" id="txtEmpExpToDate" readonly value="0000-00-00" size="12" />
+              	<input name="button" type="button" class="button" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="..." <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">

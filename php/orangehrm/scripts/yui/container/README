@@ -1,0 +1,277 @@
+Container Release Notes
+
+*** version 2.2.2 ***
+
++ Clicking the close button of a Panel (or any instance of a Panel subclass) 
+  registered with an OverlayManager will no longer result in the Panel 
+  receiving focus.
+
++ Overlay instances registered with an OverlayManager will now correctly 
+  blur themselves when hidden.
+
++ Calling the "destroy" method of an Overlay instance will now result in it 
+  being removed from its OverlayManager instance(s).
+
++ The DOM event listener for the event defined by the "focusevent" 
+  configuration property of an OverlayManager instance is now removed from each 
+  Overlay instance when it is removed from its OverlayManager.
+
++ All subscribers for an Overlay instance's "focus" and "blur" events are 
+  now unsubscribed when it is removed from its OverlayManager.
+
+
+*** version 2.2.1 ***
+
++ Made the default scope for all Custom Events published by Module, Overlay, 
+  Panel, Tooltip, Dialog and SimpleDialog the widget instance.  Previously the 
+  default scope for Custom Events was inconsistent across classes; the default
+  scope for Custom Events published by Overlay was always the Overlay instance
+  whereas the Custom Events published by all of the other classes had no 
+  default scope.  
+
++ Added default scope for CustomEvents published by YAHOO.util.Config:
+  - Default scope for the "configChangedEvent" is now the Config instance.
+  - Default scope for Config property events is now the Config's owner (widget).
+
++ Panel and Tooltip now always convert the value of a DOM element's "tagName" 
+  property to uppercase before evaluating it.  This improves 
+  XHTML compatibility.
+  
++ Pressing the enter key while focused on a form field inside a Dialog will 
+  now trigger the "click" event handler defined by the Dialog's default 
+  button in IE and Firefox.  Previously, this behavior only worked in Safari 
+  and Opera.
+
++ Added a "yui" prefix to the default CSS class name for Module to be 
+  consistent with the other Container family widgets.
+
++ Container/Panel's underlay shadow is now defined as partially-transparent
+  black rather than gray.  This prevents the shadow from lightening the 
+  background color of elements beneath it.
+
++ Fixed memory leaks in Panel and Dialog.
+
++ The Drag and Drop library is now a truly optional dependency for Panel and its 
+  subclasses.
+
++ Panel "focus" and "blur" events are now fired when Panels are focused and 
+  blurred via the "focus" and "blurAll" methods of YAHOO.widget.OverlayManager.
+
++ Panel instances rendered without setting the value for the "width" 
+  configuration property will now have their "width" configuration 
+  property set to the value of the Panel's element's "offsetWidth" property 
+  when rendered.  This fixes an issue in IE 6 and 7 where Panels that are 
+  rendered without setting the "width" configuration property will only be 
+  draggable by mousing down on the text inside the header, rather than anywhere 
+  inside the header.
+  
++ Refactored the Container family including the Config class to improve 
+  performance, especially when working with a large number of instances in IE6.
+
+
+
+*** version 2.2.0 ***
+
+	Module
+	   - Removed hardcoded file paths for image roots.  Affected properties
+	   include:
+		- YAHOO.widget.Module.IMG_ROOT
+		- YAHOO.widget.Module.IMG_ROOT_SSL
+	   - HTML elements, created via createElement, now use lowercase.
+
+	Panel
+	   - To shield against CSS class collision, the following references now
+	   have a "yui-" prefix:
+	      - YAHOO.widget.Panel.CSS_PANEL now references CSS class "yui-
+	      panel".
+	      - YAHOO.widget.Panel.CSS_PANEL_CONTAINER now references CSS class
+	      "yui-panel-container".
+	   -  Close button can now be configured via the CSS class "container-
+	   close".
+	   - HTML elements, created via createElement, now use lowercase.
+
+	Dialog
+	   - To shield against CSS class collision, the following references now
+	   have a "yui-" prefix:
+	   	- YAHOO.widget.Dialog.CSS_DIALOG now references CSS class "yui-
+	   	dialog".
+	   - HTML elements, created via createElement, now use lowercase.
+
+	SimpleDialog
+	   - Removed hardcoded file paths for SimpleDialog icons, which are now
+	   configurable in CSS:
+	      - YAHOO.widget.SimpleDialog.ICON_BLOCK now references CSS class
+	      "blckicon".
+	      - YAHOO.widget.SimpleDialog.ICON_ALARM now references CSS class
+	      "alrticon".
+	      - YAHOO.widget.SimpleDialog.ICON_HELP now references CSS class
+	      "hlpicon".
+	      - YAHOO.widget.SimpleDialog.ICON_INFO now references CSS class
+	      "infoicon".
+	      - YAHOO.widget.SimpleDialog.ICON_WARN now references CSS class
+	      "warnicon".
+	      - YAHOO.widget.SimpleDialog.ICON_TIP now references CSS class
+	      "tipicon".
+	   - To provide shield against CSS class collision the following
+	   references now have a "yui-" prefix:
+	      - YAHOO.widget.SimpleDialog.CSS_SIMPLEDIALOG now references CSS
+	      class "yui-simple-dialog";
+
+	Tooltip
+	   - To shield against CSS class collision, the following references now
+	   have a "yui-" prefix:
+	      - YAHOO.widget.Tooltip.CSS_TOOLTIP now references CSS class "yui-
+	      tipicon" "yui-tt";
+
+*** version 0.12.2 ***
+
+	Module
+	   - Corrected issue where listener was not properly removed from resize
+	   monitor element when "monitorresize" is disabled
+
+	Panel
+	   - Fixed issue that would sometimes prevent select lists from working
+	   properly in Firefox
+
+	Dialog
+	   - Fixed error that would occur when trying to create a Dialog where
+	   the first form element is set to "disabled"
+	   - Modified "close" property handler for Dialog/SimpleDialog to call
+	   "cancel" instead of "hide"
+
+*** version 0.12.1 ***
+
+	All Classes
+	   - "monitorresize" property now functions in situations where
+	   document.domain has been modified.
+	   - YAHOO.widget.Module.textResizeEvent now fires when the font size is
+	   changed (except for Opera, which uses "zoom" functionality that
+	   prevents this)
+	   - Event listeners attached to container elements are now properly
+	   purged on destroy using YAHOO.util.Event.purgeElement
+
+	Panel
+	   - Fixed issue where focus events were broken on the page when a modal
+	   Panel was created
+
+	Dialog
+	   - Fixed bug where hitting "enter" on a Dialog was forcing the default
+	   submission behavior of the form's action to execute
+	   - Dialog no longer tries to give focus to hidden form elements.
+	   - Replaced &nbsp; references in Panel with &#160; for XHTML
+	   compliance.
+	   - Fixed issue that was preventing Safari from successfully using the
+	   getData() function
+
+*** version 0.12 ***
+
+	All Classes
+	   - New documentation format implemented, and removed unnecessary
+	   prototype null references previously used for generating
+	   documentation
+
+	Config
+	   - Added 'undefined' check when reading initial properties for
+	   .reset()
+	   - Fixed Firefox warning on .resetProperty()
+	   - Fixed issue preventing resetProperty() from resetting values
+	   correctly
+
+	Module
+	   - Removed unused "childNodesInDom" property
+
+	Overlay
+	   - Converted center() to use Dom utility
+	   - Fixed configVisible() to properly detect actual visible/hidden
+	   status in Internet Explorer, which reports "inherit" for all elements
+	   by default.
+	   - Updated onDomResize to properly reapply "context" property
+	   - Unified scroll/resize handlers so that they fire properly (when the
+	   event has completed) as opposed to constantly (as seen in Mozilla-
+	   based browsers)
+
+	Panel
+	   - Modified modality mask to show before Panel is shown (prior to any
+	   animation)
+	   - Modified buildWrapper to eliminate cloning of the initial markup
+	   module, which fixes issues with select options not maintaining their
+	   default selections in IE
+	   - Modality mask is now z-indexed properly so that the mask z-index is
+	   always one less than the Panel z-index
+
+	Dialog
+	   - Fixed Connection to get "action" attribute using getAttribute, to
+	   allow for form fields named "action"
+	   - Added support for "GET" by retrieving the form "method" rather than
+	   always defaulting to "POST"
+
+	KeyListener
+	   - Fixed to work properly with Safari 2.0 by matching against keyCode
+	   or charCode
+
+*** version 0.11.4 ***
+
+	- Panel: Modality mask is now properly removed from DOM on Panel
+	destroy.
+
+*** version 0.11.3 ***
+
+	- Module: Fixed SSL warning issue in IE
+	- Overlay: Fixed memory leak related to iframe shim in IE
+	- Panel: No focusable elements under the mask can now be tabbed to
+	- Panel: Set Panel container overflow to hidden to fix scrolling issue
+	in Opera 9
+
+*** version 0.11.2 ***
+
+	- All: JsLint optimization
+	- Overlay: Fixed SSL issues with monitorresize property
+	- OverlayManager: Fixed z-index incrementing issues
+	- Dialog: Form elements called "name" will now function properly
+	- Dialog: Removed unnecessary scope:this reference
+
+*** version 0.11.1 ***
+
+	- Tooltip: Removed incorrect logger statement
+	- Dialog: Corrected logic that was causing browser lockup in IE for
+	SimpleDialog
+	- Dialog: Fixed "firstButtom" typo
+
+*** version 0.11.0 ***
+
+	- toString function added to all classes for easy logging
+	- YAHOO.extend is now being used for inheritance on all container
+	classes
+	- Module: monitorresize feature now works on all browsers
+	- Module: Fixed bug with image root and isSecure
+	- Overlay: Fixed bugs related to IFRAME shim positioning
+	- Overlay: center() now works in quirks mode
+	- Overlay: Overlay now has a custom destroy() method that also removes
+	the IFRAME shim
+	- OverlayManager: Fixed bug in the prototype that was preventing
+	multiple Managers on one page
+	- OverlayManager: focusEvent now fires at all appropriate times
+	- Tooltip: context can now be specified as an array, so Tooltips can be
+	reused across multiple context elements
+	- Tooltip: preventoverlap now functions properly for large context
+	elements (i.e, images)
+	- Tooltip: fixed bugs regarding setTimeout
+	- Tooltip: added mousemove event to allow for more accurate Tooltip
+	positioning
+	- Panel: added dragEvent for monitoring all event handlers for drag and
+	drop
+	- Panel: modality mask is now resized on scroll
+	- Panel: KeyListeners are now properly destroyed when the Panel is
+	destroyed
+	- Panel: Header is now sized properly in quirks mode
+	- Dialog: Blinking cursor issue is fixed for Firefox
+	- Dialog: callback object for Connection is now public (this.callback)
+	- Dialog: onsuccess/onfailure properties removed (as a result of the
+	public callback object)
+	- Dialog: Dialog is now invisible by default
+	- Dialog: Buttons are now properly cleaned up on destroy
+
+*** version 0.10.0 ***
+
+* Initial release
+

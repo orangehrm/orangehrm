@@ -236,3 +236,8 @@ p#clear {clear:left; padding-top:10px;}
 .wd6, .wd0 {
 	background-color:#99CCFF;
 }
+
+#cal1Container {
+	position: absolute;
+	z-index: 90000;
+}

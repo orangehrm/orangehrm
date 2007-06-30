@@ -70,7 +70,9 @@
 				<td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:''?>"></td>
 				<td>&nbsp;</td>
 				<td><?php echo $lang_hremp_licexpdate?></td>
-				<td><input type="text" readonly name="txtLicExpDate" value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?>>&nbsp;<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;"></td>
+				<td><input type="text" readonly name="txtLicExpDate" value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:''?> />
+					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtLicExpDate', 'cal1Container', 'yyyy-MM-dd'); return false;" />
+				</td>
 				</tr>
 				<tr>
 				<td><?php echo $lang_hremp_militaryservice?></td>
@@ -131,7 +133,10 @@
 					</td>
 					<td width="50">&nbsp;</td>
 				<td><?php echo $lang_hremp_dateofbirth?></td>
-				<td nowrap><input type="text" readonly name="DOB" value=<?php echo (isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?>>&nbsp;<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.DOB);return false;" name="btnDOB"></td>
+				<td nowrap>
+					<input type="text" readonly name="DOB" id="DOB" value=<?php echo (isset($this->postArr['DOB']))?$this->postArr['DOB']:$edit[0][3]?> size="12" />
+					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('DOB', 'cal1Container', 'yyyy-MM-dd'); return false;" name="btnDOB" />
+				</td>
 				</tr>
 				<tr>
 				<td><?php echo $lang_hremp_otherid?></td>
@@ -186,9 +191,8 @@
 					</td>
 				<td>&nbsp;</td>
 				<td><?php echo $lang_hremp_licexpdate?></td>
-				<td nowrap><input type="text" name="txtLicExpDate" readonly value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?> />
-				  &nbsp;
-				  <input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtLicExpDate);return false;" name="btnLicExpDate"></td></tr>
+				<td nowrap><input type="text" name="txtLicExpDate" id="txtLicExpDate" readonly value=<?php echo (isset($this->postArr['txtLicExpDate']))?$this->postArr['txtLicExpDate']:$edit[0][11]?> size="12" />
+				  <input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtLicExpDate', 'cal1Container', 'yyyy-MM-dd'); return false;" name="btnLicExpDate"></td></tr>
 				<tr>
 				<td><?php echo $lang_hremp_militaryservice?></td>
 				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtMilitarySer" value="<?php echo (isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:$edit[0][12]?>"></td>

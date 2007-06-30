@@ -18,6 +18,12 @@
  */
 
 /* Default Styles */
+
+thead th{
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
 body {
 	margin: 0px 0px 0px 0px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -28,11 +34,6 @@ body {
 
 .body {
 	font-size: 12px;
-	}
-
-table,td {
-	color: #444444;
-	font-size: 11px;
 	}
 
 p {

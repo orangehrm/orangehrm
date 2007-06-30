@@ -212,12 +212,16 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemCommDat" value=<?php echo $edit[0][5]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td align="left" valign="top">
+							<input type="text" readonly disabled name="txtMemCommDat" id="txtMemCommDat" value=<?php echo $edit[0][5]?> size="12" />
+							<input class="button" disabled type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly disabled name="txtMemRenDat" value=<?php echo $edit[0][6]?>>&nbsp;<input class="button" disabled type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td align="left" valign="top">
+							<input type="text" readonly disabled name="txtMemRenDat" id="txtMemRenDat" value=<?php echo $edit[0][6]?> size="12" />
+							<input class="button" disabled type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 
@@ -281,12 +285,16 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemCommDat" value="0000-00-00">&nbsp;<input class="button" type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemCommDat);return false;">
+						<td align="left" valign="top">
+							<input type="text" readonly name="txtMemCommDat" id="txtMemCommDat" value="0000-00-00" size="12" />
+							<input class="button" type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
-						<td align="left" valign="top"><input type="text" readonly name="txtMemRenDat" value="0000-00-00">&nbsp;<input class="button" type="button" value="..." onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtMemRenDat);return false;">
+						<td align="left" valign="top">
+							<input type="text" readonly name="txtMemRenDat" id="txtMemRenDat" value="0000-00-00" size="12" />
+							<input class="button" type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
