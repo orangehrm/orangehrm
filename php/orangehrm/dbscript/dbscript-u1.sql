@@ -565,7 +565,7 @@ create table `hs_hr_customer` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
-  `deleted` tinyint(1) default null,
+  `deleted` tinyint(1) default 0,
   primary key  (`customer_id`)
 ) engine=innodb default charset=utf8;
 
@@ -583,7 +583,7 @@ create table `hs_hr_project` (
   `customer_id` int(11) not null,
   `name` varchar(100) default null,
   `description` varchar(250) default null,
-  `deleted` tinyint(1) default null,
+  `deleted` tinyint(1) default 0,
   primary key  (`project_id`,`customer_id`),
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;

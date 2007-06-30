@@ -269,7 +269,11 @@ class Backup {
 								}
 							} else if (($type == 'int') || ($type == 'real')) {
 								if (empty($valueOfFiled)) {
-									$valueOfFiled = '0';
+									if ($arr_fields[$y][$x]->Null == 'YES') {
+										$valueOfFiled = 'NULL';
+									} else {
+										$valueOfFiled = '0';
+									}
 								} else {
 									$valueOfFiled = $valueOfFiled;
 								}
