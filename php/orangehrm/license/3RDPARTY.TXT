@@ -124,3 +124,4 @@ Modified files: (Modifications are listed in the file)
 scripts/yui/calendar/calendar.js
 scripts/yui/calendar/calendar-min.js (Compressed calendar.js file)
 themes/beyondT/css/yui/calendar/assets/calendar.css
+themes/beyondT/css/yui/container/assets/container.css

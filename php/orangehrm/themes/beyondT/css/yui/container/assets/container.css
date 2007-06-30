@@ -4,6 +4,17 @@ Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
 version: 2.2.2
 */
+
+/**
+ * This file is a modified version of container.css from the Yahoo! UI Library. (http://developer.yahoo.com/yui/)
+ *
+ * See license/3rdParty/yui.license for the license.
+ *
+ * Modifications done by OrangeHRM.
+ * 1) References to images were corrected to the current new location of images
+ *
+ */
+
 .yui-overlay {
 	position:absolute;
 	display:block;
@@ -145,7 +156,7 @@ version: 2.2.2
 	width:12px;
 	margin:0px;
 	padding:0px;
-	background:url(close12_1.gif) no-repeat;
+	background:url(../../../../icons/yui/container/assets/close12_1.gif) no-repeat;
 	cursor:pointer;
 	visibility:inherit;
 }
@@ -164,27 +175,27 @@ version: 2.2.2
 }
 
 .yui-simple-dialog .bd span.blckicon {
-	background: url("blck16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/blck16_1.gif") no-repeat;
 }
 
 .yui-simple-dialog .bd span.alrticon {
-	background: url("alrt16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/alrt16_1.gif") no-repeat;
 }
 
 .yui-simple-dialog .bd span.hlpicon {
-	background: url("hlp16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/hlp16_1.gif") no-repeat;
 }
 
 .yui-simple-dialog .bd span.infoicon {
-	background: url("info16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/info16_1.gif") no-repeat;
 }
 
 .yui-simple-dialog .bd span.warnicon {
-	background: url("warn16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/warn16_1.gif") no-repeat;
 }
 
 .yui-simple-dialog .bd span.tipicon {
-	background: url("tip16_1.gif") no-repeat;
+	background: url("../../../../icons/yui/container/assets/tip16_1.gif") no-repeat;
 }
 
 .yui-dialog .ft,
