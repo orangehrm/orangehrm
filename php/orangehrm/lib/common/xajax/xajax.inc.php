@@ -33,6 +33,8 @@
  *
  * 1. Function getJavascriptInclude().
  *    Default URI and file paths were changed to match OrangeHRM needs.
+ * 2. Fixed a bug in buffer cleaning - 2007/06/30
+ * 3. Enabled buffer cleaning - 2007/06/30
  */
 
 // Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
