@@ -50,6 +50,7 @@
             <include name="**"/>
             <exclude name="build/**"/>
             <exclude name="devDocs/**"/>
+            <exclude name="devTools/**"/>
             <exclude name="**/testConf.php"/>
             <exclude name="lib/confs/Conf.php"/>
             <exclude name="installer/log.txt"/>

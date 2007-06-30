@@ -94,7 +94,7 @@ YAHOO.OrangeHRM.container.init = function () {
 															);
 
 	YAHOO.OrangeHRM.container.wait.setHeader("Loading, please wait...");
-	YAHOO.OrangeHRM.container.wait.setBody("<img src=\"/orangehrm/themes/beyondT/pictures/ajax-loader.gif\"/>");
+	YAHOO.OrangeHRM.container.wait.setBody("<img src=\"../../themes/beyondT/pictures/ajax-loader.gif\"/>");
 	YAHOO.OrangeHRM.container.wait.render(document.body);
 
 	// Show the Panel
