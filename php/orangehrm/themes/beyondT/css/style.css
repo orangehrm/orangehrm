@@ -36,6 +36,11 @@ body {
 	font-size: 12px;
 	}
 
+table,td {
+	color: #444444;
+	font-size: 11px;
+	}
+
 p {
 	MARGIN-TOP: 0px;
 	MARGIN-BOTTOM: 10px;
