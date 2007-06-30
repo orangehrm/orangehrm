@@ -90,6 +90,12 @@ Files:
 scripts/yui/calendar/calendar.js
 scripts/yui/calendar/calendar-debug.js
 scripts/yui/calendar/calendar-min.js
+scripts/yui/container/container-debug.js
+scripts/yui/container/container-min.js
+scripts/yui/container/container.js
+scripts/yui/container/container_core-debug.js
+scripts/yui/container/container_core-min.js
+scripts/yui/container/container_core.js
 scripts/yui/yahoo/yahoo.js
 scripts/yui/yahoo/yahoo-min.js
 scripts/yui/yahoo/yahoo-debug.js
