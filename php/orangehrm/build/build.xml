@@ -104,8 +104,14 @@
           format="frames" todir="${test.reports.dir}" styledir="report-styles"/>
   </target>
 
-  <!-- The coverage target will not work if the php XDebug extension is not installed -->
+  <!-- Coverage task that uses phpunit's built in coverage feature -->
   <target name="coverage" depends="prepare">
+	<exec command="phpunit --report ${test.coverage.dir} AllTests ${project.dir}/lib/AllTests.php" 
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+  </target>
+
+  <!-- The coverage target will not work if the php XDebug extension is not installed -->
+  <target name="coverage.phing" depends="prepare">
 
       <coverage-setup database="${test.coverage.dir}/coverage.db">
           <fileset dir=".">
