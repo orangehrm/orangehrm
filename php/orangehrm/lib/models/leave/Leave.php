@@ -558,7 +558,7 @@ class Leave {
 	protected function _leaveLength($length, $timeOff) {
 		$factor = 1;
 		if ($length < 0) {
-			$factor = -1;
+			$factor = 1;
 		}
 
 		$length = abs($length);

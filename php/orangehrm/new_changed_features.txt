@@ -7,6 +7,7 @@ New & Changed Features for OrangeHRM ver 2.2
 	1746274   PIM : job title screwed
 	1746365   Admin -> Pay Grade Maximum sal
 	1746686   Assign Leave - the button should say Assign
+	1747072   Invalid leave calculations
 
 	Following bugs were closed
 
