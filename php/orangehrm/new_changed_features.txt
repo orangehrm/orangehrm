@@ -6,6 +6,11 @@ New & Changed Features for OrangeHRM ver 2.2
 	1746293   Emergency Contacts Not validated
 	1746274   PIM : job title screwed
 	1746365   Admin -> Pay Grade Maximum sal
+	1746686   Assign Leave - the button should say Assign
+
+	Following bugs were closed
+
+	1745501   problem with escape sequence \
 
 New & Changed Features for OrangeHRM ver 2.2 (30/06/2007) {Revision 988}
 
