@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.2
+
+	BugId     Name
+
+	1745925   Admin-> Company Info :Country Select
+
 New & Changed Features for OrangeHRM ver 2.2 (30/06/2007) {Revision 988}
 
 	BugId     Name

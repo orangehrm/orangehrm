@@ -23,7 +23,7 @@ require_once($lan->getLangPath("full.php"));
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
-function populateStates($value) {
+function populateStates($value, $oldState) {
 
 	$view_controller = new ViewController();
 	$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
@@ -35,7 +35,7 @@ function populateStates($value) {
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'frmGenInfo.lrState','txtState');
 
 	} else {
-		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
+		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="'. $oldState .'">');
 	}
 	$objResponse->addAssign('status','innerHTML','');
 
@@ -150,6 +150,19 @@ function edit()
     		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 	}
 
+	function OnCountryChange(newValue) {
+		document.getElementById('status').innerHTML = 'Please Wait....';
+
+		// keep the old value only if state is a text input
+		var oldVal = "";
+		var state =  document.getElementById('txtState');
+		if (state.type == 'text') {
+			oldVal = state.value;
+		}
+
+		xajax_populateStates(newValue, oldVal);
+	}
+
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
@@ -220,7 +233,7 @@ function edit()
 							  </tr>
 							  <tr>
 							    <td><?php echo $lang_compstruct_country; ?></td>
-							    <td><select name='cmbCountry' disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+							    <td><select name='cmbCountry' disabled onChange="OnCountryChange(this.value);">
 							    		<option value="0">--- Select ---</option>
 							    <?php		$cntlist = $this->popArr['cntlist'];
 							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++)
