@@ -129,14 +129,39 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		popup.focus();
 	}
 
+	/**
+	 * Called when a date is selected in the calendar.
+	 * Fills the to date if empty.
+	 */
+	var dateSelectHandler = function(type, args, obj) {
+	    fillToDate();
+	};
+
+	function selectFromDate() {
+
+		/* attempt to unsubscribe to avoid multiple listeners */
+		YAHOO.OrangeHRM.calendar.cal.selectEvent.unsubscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal);
+
+		/* Add listener that updates toDate when date is selected */
+		YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal, true);
+
+		YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd'); fillToDate();
+	}
+
+	function selectToDate() {
+
+		/* attempt to unsubscribe listener */
+		YAHOO.OrangeHRM.calendar.cal.selectEvent.unsubscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal);
+
+		YAHOO.OrangeHRM.calendar.pop('txtLeaveToDate', 'cal1Container', 'yyyy-MM-dd');
+	}
+
 	function fillToDate() {
-		obj = document.frmLeaveApp.txtLeaveToDate;
-		if (obj.value == '') {
-			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
-		}
+		fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
 	}
 
 	YAHOO.OrangeHRM.container.init();
+
 </script>
 <h2>
 	<?php
@@ -234,12 +259,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       </tr>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');"/>
-          <input type="button" name="Submit" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd'); fillToDate(); return false;"/>
+        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();"/>
+          <input type="button" name="Submit" value="..." onclick="selectFromDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate" onfocus="fillAuto('txtLeaveFromDate', 'txtLeaveToDate');" />
-          <input type="button" name="Submit" value="..." onclick="fillAuto('txtLeaveFromDate', 'txtLeaveToDate'); YAHOO.OrangeHRM.calendar.pop('txtLeaveToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"/>
+        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onfocus="fillToDate();" />
+          <input type="button" name="Submit" value="..." onclick="fillToDate(); selectToDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
