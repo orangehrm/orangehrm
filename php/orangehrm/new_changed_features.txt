@@ -5,6 +5,7 @@ New & Changed Features for OrangeHRM ver 2.2
 	1745925   Admin-> Company Info :Country Select
 	1746293   Emergency Contacts Not validated
 	1746274   PIM : job title screwed
+	1746365   Admin -> Pay Grade Maximum sal
 
 New & Changed Features for OrangeHRM ver 2.2 (30/06/2007) {Revision 988}
 
