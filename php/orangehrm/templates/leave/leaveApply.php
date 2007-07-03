@@ -133,26 +133,16 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 * Called when a date is selected in the calendar.
 	 * Fills the to date if empty.
 	 */
-	var dateSelectHandler = function(type, args, obj) {
+	var dateSelectHandler = function() {
 	    fillToDate();
 	};
 
 	function selectFromDate() {
-
-		/* attempt to unsubscribe to avoid multiple listeners */
-		YAHOO.OrangeHRM.calendar.cal.selectEvent.unsubscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal);
-
-		/* Add listener that updates toDate when date is selected */
-		YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal, true);
-
-		YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd'); fillToDate();
+		YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd');
+		fillToDate();
 	}
 
 	function selectToDate() {
-
-		/* attempt to unsubscribe listener */
-		YAHOO.OrangeHRM.calendar.cal.selectEvent.unsubscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal);
-
 		YAHOO.OrangeHRM.calendar.pop('txtLeaveToDate', 'cal1Container', 'yyyy-MM-dd');
 	}
 
@@ -160,8 +150,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
 	}
 
-	YAHOO.OrangeHRM.container.init();
+	/* Add listener that updates toDate when date is selected */
+	function init() {
+		YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal, true);
+	}
 
+	YAHOO.OrangeHRM.container.init();
+	YAHOO.util.Event.addListener(window, "load", init);
 </script>
 <h2>
 	<?php
