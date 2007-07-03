@@ -39,8 +39,29 @@
     }
 
     //check to see whether a valid phone number
-
+    // This function and calls to it should be removed and replaced with the checkPhone() function below.
     function numeric(txt)
+    {
+        var flag=true;
+
+        for(i=0;txt.value.length>i;i++){
+
+            code=txt.value.charCodeAt(i);
+
+            if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 43))
+                flag=true
+            else
+            {
+                flag=false;
+                break;
+            }
+        }
+    return flag;
+    }
+
+
+    //check to see whether a valid phone number
+    function checkPhone(txt)
     {
         var flag=true;
 

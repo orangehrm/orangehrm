@@ -61,6 +61,27 @@ function validateEContact() {
 		return false;
 	}
 
+	var cntrl = document.frmEmp.txtEConHmTel;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_hmtele : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
+
+	var cntrl = document.frmEmp.txtEConMobile;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_mobile : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
+
+	var cntrl = document.frmEmp.txtEConWorkTel;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_worktele : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
+
 	return true;
 }
 
