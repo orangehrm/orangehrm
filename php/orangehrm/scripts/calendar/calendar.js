@@ -41,15 +41,111 @@ YAHOO.OrangeHRM.calendar.init = function () {
 };
 
 /**
+ * Parse the date string.
+ *
+ * Allowed date delimiters - or /
+ * Allowed formats with preference
+ * yyyy-MM-dd
+ * MM-dd-yyyy
+ * dd-MM-yyyy
+ *
+ */
+YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
+	if ((strDate == "") || (strDate == "0000-00-00")) {
+		return false;
+	}
+
+	dateElements = strDate.split("-");
+	if (dateElements.length != 3) {
+		dateElements = strDate.split("/");
+	}
+
+	if (dateElements.length != 3) {
+		return false;
+	}
+
+	yearFormat = /^([0-9]{4})$/;
+	monthFormat = /^[0-1]{0,1}[0-9]{1}$/;
+	dateFormat = /^[0-3]{0,1}[0-9]{1}$/;
+
+	yearSegment = false;
+	monthSegment = false;
+	dateSegment = false;
+
+	if (yearFormat.test(dateElements[0])) {
+		yearSegment = 0;
+	} else if (yearFormat.test(dateElements[2])) {
+		yearSegment = 2;
+	} else {
+		alert("Y")
+		return false;
+	}
+
+	if (yearSegment == 2) {
+		if (monthFormat.test(dateElements[0])) {
+			monthSegment = 0;
+		} else if (monthFormat.test(dateElements[1])) {
+			monthSegment = 1;
+		} else {
+			return false;
+		}
+	} else if ((yearSegment == 0) && monthFormat.test(dateElements[1])) {
+		monthSegment = 1;
+	} else {
+		alert("M")
+		return false;
+	}
+
+	if ((yearSegment == 0) && dateFormat.test(dateElements[2])) {
+		dateSegment = 2;
+	} else if (yearSegment == 2) {
+		if (monthSegment == 0) {
+			if (dateFormat.test(dateElements[1])) {
+				dateSegment = 1;
+			} else if (dateFormat.test(dateElements[0])) {
+				dateSegment = 0;
+				monthSegment = 1;
+			} else {
+				return false;
+			}
+		} else if (dateFormat.test(dateElements[0])) {
+			dateSegment = 0;
+		} else {
+			return false;
+		}
+	} else {
+		alert(yearSegment);
+		alert("D")
+		return false;
+	}
+
+	return dateElements[yearSegment]+"-"+dateElements[monthSegment]+"-"+dateElements[dateSegment];
+};
+
+/**
  * Configures the calendar to the specific element
+ *
+ * If the anchor is not readonly, script will attempt to format the date
+ * provided as the value of the anchor.
+ *
  */
 YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
+
 	YAHOO.OrangeHRM.calendar.cal.format = format;
 	YAHOO.OrangeHRM.calendar.cal.anchor = anchor;
 
 	selDate=document.getElementById(anchor).value;
+	parsedDate=YAHOO.OrangeHRM.calendar.parseDate(selDate);
 
-	if (selDate && (selDate != "") && (selDate != "0000-00-00")) {
+	if ((!document.getElementById(anchor).readOnly) && parsedDate) {
+		document.getElementById(anchor).value=parsedDate;
+	} else if (!document.getElementById(anchor).readOnly) {
+		document.getElementById(anchor).value="";
+	}
+
+	selDate=parsedDate;
+
+	if (selDate) {
 		YAHOO.OrangeHRM.calendar.cal.select(document.getElementById(anchor).value);
 
 		firstDate = YAHOO.OrangeHRM.calendar.cal.getSelectedDates()[0];
