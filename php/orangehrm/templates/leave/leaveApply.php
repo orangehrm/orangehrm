@@ -153,7 +153,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	function fillToDate() {
-		fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
+		if (validDate(document.frmLeaveApp.txtLeaveFromDate.value)) {
+			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
+		}
 	}
 
 	/* Add listener that updates toDate when date is selected */
