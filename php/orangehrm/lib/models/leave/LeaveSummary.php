@@ -116,17 +116,20 @@ class LeaveSummary extends LeaveQuota {
 		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
 		$selectFields[2] = "c.`leave_type_name` as leave_type_name";
 		$selectFields[3] = "COALESCE(b.`no_of_days_allotted`, 0) as no_of_days_allotted";
-		$selectFields[4] = "SUM(ABS(COALESCE(d.`leave_length`, 0))) / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_taken";
-		$selectFields[5] = "COALESCE(no_of_days_allotted, 0) - SUM(ABS(COALESCE(d.`leave_length`, 0))) /" . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_available";
-		$selectFields[6] = "c.`leave_type_id` as leave_type_id";
-		$selectFields[7] = "c.`available_flag` as available_flag";
+		$sumOfTaken = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . ", ABS(COALESCE(d.`leave_length`, 0)), 0) )";
+		$selectFields[4] = "{$sumOfTaken} / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_taken";
+		$sumOfApproved = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ", ABS(COALESCE(d.`leave_length`, 0)), 0) )";
+		$selectFields[5] = "{$sumOfApproved} / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_scheduled";
+		$selectFields[6] = "COALESCE(no_of_days_allotted, 0) - SUM(ABS(COALESCE(d.`leave_length`, 0))) /" . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_available";
+		$selectFields[7] = "c.`leave_type_id` as leave_type_id";
+		$selectFields[8] = "c.`available_flag` as available_flag";
 
 		$arrTables[0] = '(`hs_hr_employee` a, `hs_hr_leavetype` c)';
 		$arrTables[1] = '`hs_hr_employee_leave_quota` b';
 		$arrTables[2] = '`hs_hr_leave` d';
 
 		$joinConditions[1] = 'a.`emp_number` = b.`employee_id` AND c.`leave_type_id` = b.`leave_type_id`';
-		$joinConditions[2] = "d.`employee_id` = a.`emp_number` AND c.`leave_type_id` = d.`leave_type_id` AND d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . " AND d.`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
+		$joinConditions[2] = "d.`employee_id` = a.`emp_number` AND c.`leave_type_id` = d.`leave_type_id` AND (d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . " OR d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ") AND d.`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
 
 		$groupBy = "emp_number, employee_name, leave_type_id, leave_type_name, no_of_days_allotted, available_flag";
 
@@ -155,7 +158,7 @@ class LeaveSummary extends LeaveQuota {
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, null, $groupBy);
 
 		$objLeaveType = new LeaveType();
-		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag} OR leave_taken > 0";
+		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag} OR leave_taken > 0 OR leave_scheduled > 0";
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
