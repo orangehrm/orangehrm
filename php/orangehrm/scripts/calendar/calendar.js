@@ -77,7 +77,6 @@ YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
 	} else if (yearFormat.test(dateElements[2])) {
 		yearSegment = 2;
 	} else {
-		alert("Y")
 		return false;
 	}
 
@@ -92,7 +91,6 @@ YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
 	} else if ((yearSegment == 0) && monthFormat.test(dateElements[1])) {
 		monthSegment = 1;
 	} else {
-		alert("M")
 		return false;
 	}
 
@@ -114,8 +112,6 @@ YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
 			return false;
 		}
 	} else {
-		alert(yearSegment);
-		alert("D")
 		return false;
 	}
 
