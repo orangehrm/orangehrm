@@ -100,6 +100,11 @@ li{
 				$reportingMethod = false;
 				$subDivision = false;
 				$contractDate = false;
+				$jobTitle = false;
+				$qualifications = false;
+				$skills = false;
+				$workExperience = false;
+
 				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
 				for($i=$startColumn;$i<count($this->headName); $i++){
 					if (isset($lang_Template_rep_headName) && ($lang_Template_rep_headName[$this->headName[$i]])) {

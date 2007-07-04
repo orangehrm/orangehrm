@@ -11,6 +11,7 @@ New & Changed Features for OrangeHRM ver 2.2
 	1746681   Apply Leave - to date should be automatically populated
 	1747444   Assign Leave: Apply with no employee generates error
 	1747505   Admin -> Company Info State with ' in name
+	1747514   Undefined variable: jobTitle in Reports-> view Reports
 
 	Following bugs were closed
 
