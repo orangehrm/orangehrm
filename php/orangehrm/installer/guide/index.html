@@ -37,7 +37,7 @@
 <p>
 <ol class="content_table">
 	<li><a href="#overview">Overview</a></li>
-	<li><a href="#pre-requisities">Pre-requisities</a>
+	<li><a href="#pre-requisities">Pre-requisites</a>
 	<ol class="content_table_sub">
 		<li><a href="#windows">AMP stack for Windows</a></li>
 		<li><a href="#linux">AMP stack for Linux</a></li>
@@ -82,8 +82,8 @@ who wish to manually configure OrangeHRM can refer the <a class="see"
 <p>This Guide describes how to install OrangeHRM 2.2. It is intended
 for experienced administrators and novices alike. After installation,
 you can configure users and do other administrative tasks. To install
-OrangeHRM 2.2, ensure that you have the appropriate pre-requisities: See
-<a href="#pre-requisities" class="see">Pre-requisities</a></p>
+OrangeHRM 2.2, ensure that you have the appropriate Pre-requisites: See
+<a href="#pre-requisities" class="see">Pre-requisites</a></p>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
 	src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
@@ -92,10 +92,10 @@ OrangeHRM 2.2, ensure that you have the appropriate pre-requisities: See
 
 </div>
 
-<!-- Pre-requisities -->
+<!-- Pre-requisites -->
 
 <div id="pre-requisities" class="section">
-<h2>Pre-requisities</h2>
+<h2>Pre-requisites</h2>
 <p>The pre-requisites are;
 <ul>
 	<li>Apache HTTP Server 1.3 or later</li>
@@ -103,7 +103,7 @@ OrangeHRM 2.2, ensure that you have the appropriate pre-requisities: See
 	<li>PHP 5.1.2 or later</li>
 </ul>
 </p>
-<p>If you already have Apache HTTP Webserver (and PHP5 loaded as an
+<p>If you already have Apache HTTP web server (and PHP5 loaded as an
 Apache Module) and MySQL running, then you have everything you need.
 (Note: OrangeHRM 2.2 requires PHP5)</p>
 <p>In case you don't have the requisites setup, you have two options.
@@ -120,7 +120,7 @@ Apache Module) and MySQL running, then you have everything you need.
 </ul>
 </p>
 
-<!-- pre-requisities - windows -->
+<!-- Pre-requisites - windows -->
 
 <div id="windows">
 <h3>AMP stack for Windows</h3>
@@ -169,7 +169,7 @@ biggest download out of the lot) and not the upgrades, developer packs,
 etc.</p>
 <p>After downloading, install XAMPP Linux. Follow the instructions
 that comes with XAMPP Linux or given in the XAMPP site.</p>
-<cite>Remeber to start the stack. </cite>
+<cite> Remember to start the stack. </cite>
 
 
 <div class="notes">
@@ -219,7 +219,7 @@ same folder, which would extract everything into a directory called
 'orangehrm2'.</p>
 
 <h3>Web Installation</h3>
-<p>Using a JavaScript enabled browser goto <span class="code">http://&lt;webhost&gt;/orangehrm2/</span><br />
+<p>Using a JavaScript enabled browser go to <span class="code">http://&lt;webhost&gt;/orangehrm2/</span><br />
 <br />
 Where <span class="code">&lt;webhost&gt;</span> is <span class="code">localhost</span>
 if it is installed in the machine you are currenty working on, IP
@@ -263,7 +263,7 @@ the installation.</p>
 <p>Here you will be provided with a copy of the <a
 	href="http://www.gnu.org/licenses/gpl.html" class="external"
 	target="_blank">GNU GENERAL PUBLIC LICENSE</a> and to continue the
-installation you will have to accept the licene. If you decline simply
+installation you will have to accept the license. If you decline simply
 discontinue the installation and delete all OrangeHRM files you posses.</p>
 
 <p>Click <b>[I Accept]</b> button in the License Acceptance screen
@@ -278,7 +278,7 @@ taken to the next page of the Web Installer.</p>
 <h3 id="systemChk">System Check</h3>
 
 <p>Here the Web Installer will check whether the <a
-	href="#pre-requisities" class="see">pre-requisities</a> are available.</p>
+	href="#pre-requisities" class="see">Pre-requisites</a> are available.</p>
 
 <p>If all responses are in green you can safely continue. You have
 installed the correct versions of the pre-requisities and configured
@@ -289,7 +289,7 @@ them to work in harmony.</p>
 <div class="screenshot"><img src="../images/system_check_01.gif"
 	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
 	width="797" height="188" /></div>
-<p class="caption">Rare occurance where all three states are in the
+<p class="caption">Rare occurrence where all three states are in the
 same screen.</p>
 </p>
 
@@ -297,20 +297,20 @@ same screen.</p>
 continue.</p>
 
 <div class="notes">
-<h4>OrangeHRM Configuration File Writable</h4>
+<h4>OrangeHRM Configuration File  Writeable</h4>
 <p>The web installer will create a configuration file to keep the setup information.
  This file is written to the file system at the end of the installation process. Therefore 
- adequate permission should be set for the webserver to write to the file.</p> 
+ adequate permission should be set for the web server to write to the file.</p> 
  
- <p>In case the status is shown as &quot;Not Writable&quot; you should set the permissions 
- such that the user-id set for the webserver could write to the directory 
+ <p>In case the status is shown as &quot;Not  Writeable&quot; you should set the permissions 
+ such that the user-id set for the web server could write to the directory 
  [orangehrm-dir]/lib/confs. This can be done by using the commands</p>
  
  <p class="bash">$ chown -R nobody.nobody [orangehrm-dir]/lib/confs<br>
  $ chmod -R 755 [orangehrm-dir]/lib/confs</p>
  
  <p>You can replace user/user-group &quot;nobody&quot; with the relevant user/user-group
- of your webserver.</p>
+ of your web server.</p>
  
 <h4>Maximum Session Idle Time before Timeout</h4>
 <p>Maximum Session Idle Time before Timeout is checked to ensure
@@ -401,7 +401,7 @@ Click <b>[Next]</b> button in the Installing screen to continue.</p>
 will be aborted. <br />
 Click <b>[Clean Up Install]</b> to go to previous pages to correct the
 error and start the installation again. See <a href="#installing_error"
-	class="see">screenshots</a></p>
+	class="see">screen shots</a></p>
 
 <div class="notes">
 <h4>Notes</h4>
@@ -419,7 +419,7 @@ name for the database.</p>
 
 <p><a href="#registration" class="skip">[Skip screen shots]</a></p>
 
-<h4>Following are sample screenshots of the Installing screen</h4>
+<h4>Following are sample screen shots of the Installing screen</h4>
 
 <div class="screenshot"><img src="../images/installing_01.gif"
 	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
@@ -446,7 +446,7 @@ name for the database.</p>
 <div class="screenshot"><img src="../images/installing_03.gif"
 	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
 	width="321" height="344" /></div>
-<p class="caption">Installation has finished successfuly.</p>
+<p class="caption">Installation has finished successfully.</p>
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
 	src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
@@ -469,7 +469,7 @@ name for the database.</p>
 <p>If you want be up to date on news about OrangeHRM, please provide
 your e-mail address and a name that the e-mails should be addressed to. It
 will be much appreciated if you register here, then we will know how
-many users have successfuly installed OrangeHRM.</p>
+many users have successfully installed OrangeHRM.</p>
 <p>You can also provide your comments.
 <p>
 <p>If you want to receive updates or newsletter select the tick box
