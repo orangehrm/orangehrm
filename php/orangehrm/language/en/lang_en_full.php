@@ -243,6 +243,7 @@
 	$lang_Leave_Common_HalfDay 				= "Half Day";
 	$lang_Leave_Common_LeaveTaken 			= "Leave Taken";
 	$lang_Leave_Common_LeaveAvailable 		= "Leave Available";
+	$lang_Leave_Common_LeaveScheduled 		= "Leave Scheduled";
 	$lang_Leave_Common_LeaveTypeName 		= "Leave Type Name";
 	$lang_Leave_Common_LeaveTypeId 			= "Leave Type Id";
 	$lang_Leave_Common_Select 				= "Select";
@@ -456,6 +457,7 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+	$lang_hremp_InvalidPhone				= "Not a valid phone/fax number";
 	$lang_hremp_largefileignore				= "1M Max, any larger attachments will be ignored";
 	$lang_lang_uploadfailed					= "Upload Failed";
 

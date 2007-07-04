@@ -41,6 +41,7 @@
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate 			= "Please select a valid From Date";
+	$lang_Error_PleaseSelectAValidToDate 			= "Please select a valid To Date";
 	$lang_Error_PleaseSelectALeaveType 				= "Please select a Leave Type";
 
 	$lang_Error_LeaveDateCannotBeABlankValue 		= "Leave date cannot be a blank value!";
@@ -241,8 +242,8 @@
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";
 	$lang_Leave_Common_HalfDay 				= "Half Day";
 	$lang_Leave_Common_LeaveTaken 			= "Leave Taken";
-	$lang_Leave_Common_LeaveScheduled 		= "Leave Scheduled";
 	$lang_Leave_Common_LeaveAvailable 		= "Leave Available";
+	$lang_Leave_Common_LeaveScheduled 		= "Leave Scheduled";
 	$lang_Leave_Common_LeaveTypeName 		= "Leave Type Name";
 	$lang_Leave_Common_LeaveTypeId 			= "Leave Type Id";
 	$lang_Leave_Common_Select 				= "Select";
@@ -456,6 +457,7 @@
 	$lang_hremp_size 						= "Size";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Name";
+	$lang_hremp_InvalidPhone				= "Not a valid phone/fax number";
 	$lang_hremp_largefileignore				= "1M Max, any larger attachments will be ignored";
 	$lang_lang_uploadfailed					= "Upload Failed";
 
@@ -503,7 +505,6 @@
 	$lang_hremp_ie_CurrentSubordinates 		= "i.e. Current Employee's Subordinates";
 
 	$lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo = "Please specify at least one phone number";
-	$lang_hremp_InvalidPhone				= "Not a valid phone/fax number";
 
  	$lang_hremplicenses_employeelicen 		= "Employee Licenses";
 	$lang_hremplicenses_assignlicenses 		= "Assigned Licenses";
