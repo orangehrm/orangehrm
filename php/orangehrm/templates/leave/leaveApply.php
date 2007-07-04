@@ -56,6 +56,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		err = false;
 		msg = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
 
+		obj = document.frmLeaveApp.cmbEmployeeId;
+		if (obj && ((obj.value == '') || (obj.value == -1))) {
+			err = true;
+			msg += " - <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n"
+		}
+
 		obj = document.frmLeaveApp.txtLeaveFromDate;
 		if ((obj.value == '') || !validDate(obj.value)) {
 			err = true;
@@ -68,7 +74,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 		if ((obj.value == '') || !validDate(obj.value)) {
 			err = true;
-			msg += " - <?php echo $lang_Error_PleaseSelectAValidFromDate; ?>\n"
+			msg += " - <?php echo $lang_Error_PleaseSelectAValidToDate; ?>\n"
 		}
 
 		obj = document.frmLeaveApp.sltLeaveType;

@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2
 	1746686   Assign Leave - the button should say Assign
 	1747072   Invalid leave calculations
 	1746681   Apply Leave - to date should be automatically populated
+	1747444   Assign Leave: Apply with no employee generates error
 
 	Following bugs were closed
 

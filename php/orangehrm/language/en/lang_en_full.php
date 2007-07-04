@@ -41,6 +41,7 @@
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate 			= "Please select a valid From Date";
+	$lang_Error_PleaseSelectAValidToDate 			= "Please select a valid To Date";
 	$lang_Error_PleaseSelectALeaveType 				= "Please select a Leave Type";
 
 	$lang_Error_LeaveDateCannotBeABlankValue 		= "Leave date cannot be a blank value!";
