@@ -13,11 +13,13 @@ New & Changed Features for OrangeHRM ver 2.2
 	1747505   Admin -> Company Info State with ' in name
 	1747514   Undefined variable: jobTitle in Reports-> view Reports
 	1747240   Leave summary should be updated when supervisor approves leave
-	1747570   Employee Image not displyed with Spanish a nd Russian
+	1747570   Employee Image not displyed with Spanish and Russian
 
 	Following bugs were closed
 
 	1745501   problem with escape sequence \
+	1747745   PIM -> Contact ->State / Province error when ' insert
+
 
 New & Changed Features for OrangeHRM ver 2.2 (30/06/2007) {Revision 988}
 

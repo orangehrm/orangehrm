@@ -71,7 +71,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	mysql_query("INSERT INTO `hs_hr_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
     	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
-    				"VALUES (10, 'Permanent', 'Weekly', 1, '".date('l')."', '".date('l', time()+3600*24*7)."', 'Testing')");
+    				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*7).", 'Testing')");
 
     	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
     				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*7)."', 0)");
