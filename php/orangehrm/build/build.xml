@@ -106,7 +106,7 @@
 
   <!-- Coverage task that uses phpunit's built in coverage feature -->
   <target name="coverage" depends="prepare">
-	<exec command="phpunit --report ${test.coverage.dir} AllTests ${project.dir}/lib/AllTests.php" 
+	<exec command="phpunit --report ${test.coverage.dir} AllTests ${project.dir}/lib/AllTests.php"
 		checkreturn="true" dir="${project.basedir}" passthru="true"/>
   </target>
 
@@ -159,6 +159,16 @@
       <coverage-report outfile="${test.coverage.dir}/coverage.xml">
           <report todir="${test.coverage.dir}" styledir="report-styles"/>
       </coverage-report>
+  </target>
+
+  <!-- Copies the default language files to the en directory -->
+  <target name="en.lang">
+      <copy todir="${project.dir}/language/en" overwrite="true">
+          <mapper type="regexp" from="^(.*)_default_(.*)$" to="\1_en_\2"/>
+          <fileset dir="${project.dir}/language/default/">
+              <include name="*.php"/>
+          </fileset>
+      </copy>
   </target>
 
   <!-- Copies the en language files to the default directory -->
