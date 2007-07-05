@@ -1,3 +1,5 @@
+SHOW INNODB STATUS;
+
 create table `hs_hr_geninfo` (
 	`code` varchar(8) not null default '',
 	`geninfo_keys` varchar(200) default null,
