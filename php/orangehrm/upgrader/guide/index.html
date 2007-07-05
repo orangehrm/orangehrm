@@ -301,6 +301,29 @@ the same server is overriding <span class="code">session.gc_maxlifetime</span>
 value in the <span class="code">php.ini</span> file at runtime. This
 will be the case if you are running OrangeHRM in a shared host.
 Workaround is available but beyond the scope of this document.</p>
+<h4>How to enable InnoDB support in MySQL</h4>
+<p>To enable "InnoDB" please open "my" (or "my.cnf") file in a text editor and search for "skip-innodb" and add the leading "#" to enable InnoDB.</p>  
+<p class="bash">
+ex: <br>
+.<br>
+.<br>
+.<br>
+skip-innodb<br>
+.<br>
+.<br>
+.<br>
+should read as<br> 
+.<br>
+.<br>
+.<br>
+#skip-innodb<br>
+.<br>
+.<br>
+.<br/>
+</p>
+<p>(in XAMPP for windows my.cnf is found in C:\xampp\mysql\bin\my.cnf)<br>
+(in XAMPP for linux my.cnf is found in /opt/lampp/etc/my.cnf)
+</p>
 </div>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
