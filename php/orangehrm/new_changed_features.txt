@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.2 (05/07/2007) {Revision 1012}
+
+	BugId     Name
+
+	1748130   Edit doesnt work in Spanish
+
+
 New & Changed Features for OrangeHRM ver 2.2 (04/07/2007) {Revision 1012}
 
 	BugId     Name

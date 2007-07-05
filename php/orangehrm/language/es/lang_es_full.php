@@ -1017,8 +1017,6 @@ $lang_hrEmpMain_currency 				= "divisa";
 
 	$lang_Time_Select_Employee_TimesheetPeriod = "periodo de hoja de servicio";
 
-	$lang_Time_Errors_PleaseAddAComment = "por favor añada comentario
-";
-
+	$lang_Time_Errors_PleaseAddAComment = "por favor añada comentario";
 
 ?>
