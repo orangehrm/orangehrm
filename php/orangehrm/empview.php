@@ -66,13 +66,15 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 </head>
 <script>
 	function nextPage() {
-		var i=eval(document.standardView.pageNO.value);
-		document.standardView.pageNO.value=i+1;
+		i=document.standardView.pageNO.value;
+		i++;
+		document.standardView.pageNO.value=i;
 		document.standardView.submit();
 	}
 	function prevPage() {
-		var i=eval(document.standardView.pageNO.value);
-		document.standardView.pageNO.value=i-1;
+		var i=document.standardView.pageNO.value;
+		i--;
+		document.standardView.pageNO.value=i;
 		document.standardView.submit();
 	}
 	function chgPage(pNO) {

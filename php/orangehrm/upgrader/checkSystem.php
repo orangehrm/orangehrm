@@ -153,6 +153,53 @@ function howToResolve() {
             </strong></td>
           </tr>
           <tr>
+            <td class="tdComponent">MySQL Server</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+			   $dbInfo = $_SESSION['dbInfo'];
+               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+
+	              $mysqlServer = mysql_get_server_info();
+
+                  if(version_compare($mysqlServer, "5.0.12") >= 0) {
+                  	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
+                  } else {
+                  	echo "<b><font color='#C4C781'>ver 5.0.12 or later recommended (reported ver " .$mysqlServer. ')</font></b>';
+                  }
+               } else {
+                  echo "<b><font color='red'>Not Available</font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
+            <td class="tdComponent">MySQL InnoDB Support</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+
+	              $mysqlServer = mysql_query("SHOW INNODB STATUS");
+
+                  if ($mysqlServer) {
+                  	echo "<b><font color='green'>OK</font></b>";
+                  } else if (mysql_errno() == 1235){
+                  	echo "<b><font color='red'>Disabled</font><a href='./guide/#howToEnableInnoDB' target='_blank' ><img border='0' src='images/help.png' alt='help' /></a></b>";
+                  	$error_found = true;
+                  } else {
+	                echo "<b><font color='red'>Not Available</font></b>";
+	                $error_found = true;
+	             }
+               } else {
+                  echo "<b><font color='red'>Not Available</font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>
+          <tr>
             <td class="tdComponent">OrangeHRM Configuration File Writable</td>
 
             <td align="right" class="tdValues"><strong>

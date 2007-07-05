@@ -63,8 +63,8 @@ function back($currScreen) {
 	default :
 	case 0 	: 	unset($_SESSION['WELCOME']); break;
 	case 1 	: 	unset($_SESSION['LICENSE']); break;
-	case 2 	: 	unset($_SESSION['SYSCHECK']); break;
-	case 3 	: 	unset($_SESSION['DBCONFIG']); break;
+	case 2 	: 	unset($_SESSION['DBCONFIG']); break;
+	case 3 	: 	unset($_SESSION['SYSCHECK']); break;
 	case 4 	: 	unset($_SESSION['DEFUSER']); break;
 	case 5 	: 	unset($_SESSION['CONFDONE']); break;
 	case 6 	: 	$_SESSION['UNISTALL'] = true;

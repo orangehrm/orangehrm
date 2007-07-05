@@ -97,9 +97,9 @@ class CommonFunctions {
 		    	$strpagedump .= "  ";
 				$strpagedump .= "<font color='Gray'>#previous</font>";
 			} else {
-	    		$strpagedump .= "<a href='javascript:void()' onClick='chgPage(1)'>#first</a>";
+	    		$strpagedump .= "<a href='javascript:chgPage(1);'>#first</a>";
 		    	$strpagedump .= "  ";
-	    		$strpagedump .= "<a href='javascript:void()' onClick='prevPage()'>#previous</a>";
+	    		$strpagedump .= "<a href='javascript:prevPage();'>#previous</a>";
 			}
 
 	    	$strpagedump .= "  ";
@@ -107,7 +107,7 @@ class CommonFunctions {
 			$lowerLimit = (($currentPage - self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT) <= 0) ? 1 : ($currentPage - self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT);
 			$c = $lowerLimit;
 			while($c < $currentPage) {
-	    		$strpagedump .= "<a href='javascript:void()' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+	    		$strpagedump .= "<a href='javascript:chgPage(" .$c. ");'>" .$c. "</a>";
 		    	$strpagedump .= "  ";
 				$c++;
 			}
@@ -118,7 +118,7 @@ class CommonFunctions {
 			$upperLimit = (($currentPage + self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT) >= $noPages) ? $noPages : ($currentPage + self::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT);
 			$c = $currentPage + 1;
 			while($c <=  $upperLimit) {
-	    		$strpagedump .= "<a href='javascript:void()' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
+	    		$strpagedump .= "<a href='javascript:chgPage(" .$c. ");'>" .$c. "</a>";
 		    	$strpagedump .= "  ";
 			    $c++;
 			}
@@ -128,9 +128,9 @@ class CommonFunctions {
 		    	$strpagedump .= "  ";
 				$strpagedump .= "<font color='Gray'>#last</font>";
 			} else {
-	    		$strpagedump .= "<a href='javascript:void()' onClick='nextPage()'>#next</a>";
+	    		$strpagedump .= "<a href='javascript:nextPage();'>#next</a>";
 		    	$strpagedump .= "  ";
-	    		$strpagedump .= "<a href='javascript:void()' onClick='chgPage(" .$noPages. ")'>#last</a>";
+	    		$strpagedump .= "<a href='javascript:chgPage(" .$noPages. ");'>#last</a>";
 			}
 		}
 
