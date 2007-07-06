@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2 (05/07/2007) {Revision 1018}
+New & Changed Features for OrangeHRM ver 2.2 (06/07/2007) {Revision 1019}
 
 	BugId     Name
 
@@ -6,6 +6,7 @@ New & Changed Features for OrangeHRM ver 2.2 (05/07/2007) {Revision 1018}
 	1748309   SQL/PHP Code is written in Reports
 	1748152   Can not access next page
 	1748398   InnoDB Disabled in XAMPP by default
+	1748851   Add Project and Customer screwed in IE
 
 
 New & Changed Features for OrangeHRM ver 2.2 (04/07/2007) {Revision 1012}

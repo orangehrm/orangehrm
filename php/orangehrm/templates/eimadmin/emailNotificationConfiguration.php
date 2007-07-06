@@ -95,6 +95,9 @@ if (isset($editArr) && is_array($editArr)) {
 	padding:15px;
 }
 
+input[type=checkbox] {
+	border:none;
+}
 </style>
 </head>
 <body>
