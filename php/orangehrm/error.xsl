@@ -39,7 +39,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="{Wroot}/themes/beyondT/icons/exceptions/{type}.png" rel="icon" type="image/png"/>
-<title>System was brought to a hault</title>
+<title>System was brought to a halt</title>
 </head>
 <style type="text/css">
 	.bod {
