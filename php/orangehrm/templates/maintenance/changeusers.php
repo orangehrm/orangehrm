@@ -58,6 +58,13 @@ function goBack() {
 	javascript:history.back()
 }
 
+function clearAll() {
+
+	document.frmchange.txtOldPassword.value = "";
+	document.frmchange.txtNewPassword.value = "";
+	document.frmchange.txtConfirmPassword.value = "";
+}
+
 function alpha(txt)
 {
 var flag=true;

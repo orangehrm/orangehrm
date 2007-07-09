@@ -1,7 +1,7 @@
 New & Changed Features for OrangeHRM ver 2.2 (06/07/2007) {Revision 1019}
 
 	BugId     Name
-
+	1750216   Clear not functional in Password Change form
 	1748130   Edit doesnt work in Spanish
 	1748309   SQL/PHP Code is written in Reports
 	1748152   Can not access next page
