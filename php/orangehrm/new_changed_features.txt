@@ -1,4 +1,6 @@
-New & Changed Features for OrangeHRM ver 2.2 (06/07/2007) {Revision 1019}
+New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1019}
+
+	1. OrangeHRM Installer for Windows
 
 	BugId     Name
 	1750216   Clear not functional in Password Change form
@@ -7,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2 (06/07/2007) {Revision 1019}
 	1748152   Can not access next page
 	1748398   InnoDB Disabled in XAMPP by default
 	1748851   Add Project and Customer screwed in IE
+	1748398   InnoDB Disabled in XAMPP by default
 
 
 New & Changed Features for OrangeHRM ver 2.2 (04/07/2007) {Revision 1012}
