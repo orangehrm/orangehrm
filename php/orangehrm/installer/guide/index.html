@@ -39,6 +39,7 @@
 	<li><a href="#overview">Overview</a></li>
 	<li><a href="#pre-requisities">Pre-requisites</a>
 	<ol class="content_table_sub">
+		<li><a href="#appliance">OrangeHRM Appliance for Windows</a></li>
 		<li><a href="#windows">AMP stack for Windows</a></li>
 		<li><a href="#linux">AMP stack for Linux</a></li>
 	</ol>
@@ -109,6 +110,10 @@ Apache Module) and MySQL running, then you have everything you need.
 <p>In case you don't have the requisites setup, you have two options.
 
 <ul>
+	<li>
+		Use OrangeHRM Appliance for Windows. Just install and use. 
+		See <a href="#appliance" class="see">OrangeHRM Appliance for Windows</a>.
+		</li>
 	<li>Use an AMP stack which has Apache, MySQL and PHP
 	pre-configured to work together. See <a href="#windows" class="see">AMP
 	stack for Windows</a> if you are using Windows or else if you are using
@@ -120,10 +125,37 @@ Apache Module) and MySQL running, then you have everything you need.
 </ul>
 </p>
 
+<!-- OrangeHRM Appliance -->
+<div id="appliance">
+<h3>OrangeHRM Appliance for Windows - Everything configured for you</h3>
+<div class="info">
+	Default username is Admin and Password is changeThis1St. 
+</div>
+<br/>
+<div class="warning">
+	Remember to change the default password as soon as you log in. 
+</div>
+<p>
+	Click <a class="external" href="http://sourceforge.net/project/showfiles.php?group_id=156477&package_id=238421" target="_blank">here</a> to download.
+	<br/>
+	After downloading you only have to install the appliance using the friendly installer where you will only have
+	to choose the location to install. Everything else is pre-configured.	
+</p>
+</div>
+
 <!-- Pre-requisites - windows -->
 
 <div id="windows">
 <h3>AMP stack for Windows</h3>
+<div class="info">
+	It is recommended that you use the OrangeHRM Appliance for Windows.
+	If you use the OrangeHRM Appliance you just have to install and use.
+</div>
+<br/>
+<div class="warning">
+	Remember to enable InnoDB support. 
+	See <a href="#howToEnableInnoDB" class="see">How to enable InnoDB support in MySQL</a>.
+</div>
 <p><cite>Recommended AMP stack for Windows is <a
 	href="http://www.apachefriends.org/en/xampp-windows.html#641"
 	class="external" target="_blank">XAMPP Windows 1.6.0a</a></cite></p>
@@ -161,6 +193,10 @@ Basic Package and not the upgrades, developer packs, etc.</p>
 
 <div id="linux">
 <h3>AMP stack for Linux</h3>
+<div class="warning">
+	Remember to enable InnoDB support. 
+	See <a href="#howToEnableInnoDB" class="see">How to enable InnoDB support in MySQL</a>.
+</div>
 <p><cite> Recommended AMP stack for Linux is <a
 	href="http://www.apachefriends.org/en/xampp-linux.html#374"
 	class="external" target="_blank">XAMPP Linux 1.6 </a></cite></p>
@@ -335,7 +371,7 @@ opening your PHP.INI file and setting the memory_limit value</p>
 
 <p class="bash">memory_limit = 16M;</p>
 <h4 id="howToEnableInnoDB">How to enable InnoDB support in MySQL</h4>
-<p>To enable "InnoDB" please open "my" (or "my.cnf") file in a text editor and search for "skip-innodb" and add the leading "#" to enable InnoDB.</p>  
+<p>To enable "InnoDB" please open "my" (or "my.cnf") file in a text editor and search for "skip-innodb" and add the leading "#" and restart the MySQL database server to enable InnoDB.</p>  
 <p class="bash">
 ex: <br>
 .<br>

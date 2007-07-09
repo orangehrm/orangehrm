@@ -318,3 +318,19 @@ ol ol {
 #logo {
 	float:right;
 }
+
+.info {
+	padding: 5px 5px 5px 33px;
+	border: 1px solid #72A6D6;
+	display: block;
+	background: url(../../themes/beyondT/icons/exceptions/24-message-info.png) no-repeat 4px 8px;
+	background-color: #C0E1FF;
+}
+
+.warning {
+	padding: 5px 5px 5px 33px;
+	border: 1px solid #FF9D0B;
+	display: block;
+	background: url(../../themes/beyondT/icons/exceptions/24-message-warn.png) no-repeat 4px 5px;
+	background-color: #FFEBB3;
+}
