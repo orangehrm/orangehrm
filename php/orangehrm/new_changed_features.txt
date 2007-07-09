@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1019}
+New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
 
 	1. OrangeHRM Appliance for Windows
 
