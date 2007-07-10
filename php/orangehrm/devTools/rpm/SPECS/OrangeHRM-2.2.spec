@@ -13,7 +13,8 @@ URL: http://orangehrm.com
 License: GPL
 Group: Enterprise
 Prefix: %{_prefix}
-Requires: httpd >= 1.3, mysql >= 5.0.12, php >= 5.1.2, php-mysql >= 5.1.2
+Requires: httpd >= 1.3, mysql >= 5.0.12, php >= 5.1.2, php-mysql >= 5.1.2, php-common >= 5.1.2
+Provides: orangehrm
 BuildArch: noarch
 BuildRoot: %{_topdir}/tmp/%{name}-%{version}-%{release}-buildroot
 
