@@ -1,97 +1,145 @@
-;NSIS Modern User Interface
-;Basic Example Script
-;Written by Joost Verburg
+;----------------------------------------------------------------------------------------------
+; OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+; all the essential functionalities required for any enterprise.
+; Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+;
+; OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+; the GNU General Public License as published by the Free Software Foundation; either
+; version 2 of the License, or (at your option) any later version.
+;
+; OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+; See the GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License along with this program;
+; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+; Boston, MA  02110-1301, USA
+;----------------------------------------------------------------------------------------------
+
+;---------------------------------------------------------
+; OrangeHRM Appliance for Windows NSIS installer script
+; Uses NSIS Modern User Interface
+;
+; Modified by Mohanjith
+;
+; See readme in this folder for details on how to use this
+; script to compile the installer.
+;----------------------------------------------------------
 
 ;--------------------------------
-;Include Modern UI
+; Product Details
 
-  !include "MUI.nsh"
-
-;--------------------------------
-;General
-
-  ; Macros
-
-  !include "Include\WordFunc.nsh"
-  !insertmacro WordReplace
-
-  !include "Include\StrRep.nsh"
-  !include "Include\ReplaceInFile.nsh"
-
-  ; Product Details
   !define ProductName "OrangeHRM"
   !define ProductVersion "2.2"
 
   !define Organization "OrangeHRM Inc."
 
-  !define SourceLocation "D:\source"
-  !define OrangeHRMPath "orangehrm2"
-  !define XamppPath "xampp"
+  ; Register details
 
-
-  ;Name and file
+  BrandingText "${Organization}"
   Name "${ProductName} ${ProductVersion}"
   OutFile "build\OrangeHRM-2.2.exe"
 
-  ;Default installation folder
+;--------------------------------
+; Directory structure
+
+  !define SourceLocation "~/work/build/SOURCE"
+  !define OrangeHRMPath "orangehrm2"
+  !define XamppPath "xampp"
+
+;--------------------------------
+; Includes
+
+  ; Modern UI
+
+  !include "MUI.nsh"
+
+  ; Macros
+
+  !include "Include\WordFunc.nsh"  
+  !include "Include\StrRep.nsh"
+  !include "Include\ReplaceInFile.nsh"
+
+  ; InstallOptions
+
+  ReserveFile "AdminUserDetails.ini"
+
+;--------------------------------
+; Register macros
+
+  !insertmacro WordReplace  
+  !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
+
+;--------------------------------
+; Global variables
+
+  Var /GLOBAL UserName
+  Var /GLOBAL PasswordHash
+
+;--------------------------------
+;General
+
+  ; Default installation folder
   InstallDir "$PROGRAMFILES\OrangeHRM\${ProductVersion}"
 
-  ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\OrangeHRM\${ProductVersion}" ""
+  ; Get installation folder from registry if available
+  InstallDirRegKey HKCU "Software\OrangeHRM\${ProductVersion}" ""  
 
-  ; MUI Settings / Icons
+;--------------------------------
+; Interface Settings
+
+  ; Icons
   !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
   !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 
-  ; MUI Settings / Header
+  ; Header
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_RIGHT
   !define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-r.bmp"
   !define MUI_HEADERIMAGE_UNBITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-uninstall-r.bmp"
 
-  ; MUI Settings / Wizard
+  ; Wizard
   !define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
   !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 
-;--------------------------------
-;Interface Settings
-
-  !define MUI_ABORTWARNING
-
-  BrandingText "${Organization}"
+  !define MUI_ABORTWARNING  
 
 ;--------------------------------
-;Pages
+; Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE ".\content\license.txt"
+  !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
+  Page custom AdminUserDetailsEnter AdminUserDetailsEnterValidate
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  ;!insertmacro MUI_PAGE_FINISH
+  !insertmacro MUI_PAGE_FINISH
 
   !insertmacro MUI_UNPAGE_WELCOME
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
-  ;!insertmacro MUI_UNPAGE_FINISH
+  !insertmacro MUI_UNPAGE_FINISH
 
 ;--------------------------------
-;Languages
+; Languages
 
   !insertmacro MUI_LANGUAGE "English"
 
 ;--------------------------------
-;Installer Sections
-
-Function buildUnixPath
+; Utility functions
+  Function buildUnixPath
 
     Var /GLOBAL UNIXINSTDIR
-    ${WordReplace} "$INSTDIR" "\" "/" "+" $UNIXINSTDIR
+    ${WordReplace} "$INSTDIR" "\" "/" "E+" $UNIXINSTDIR
 
-FunctionEnd
+  FunctionEnd
+
+;--------------------------------
+; Installer Sections
 
 !include "installer.nsi"
 
-;Uninstaller Section
+;--------------------------------
+; Uninstaller Sections
 
 !include "uninstaller.nsi"
