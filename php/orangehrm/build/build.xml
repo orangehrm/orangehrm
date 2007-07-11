@@ -32,6 +32,7 @@
   <property name="test.reports.dir" value="${reports.dir}/tests"/>
   <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
   <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
+  <property name="xampp.dir" value="../../xampp"/>
 
   <target name="prepare">
     <echo msg="Preparing build..." />
@@ -72,6 +73,29 @@
             <include name="${package.name}/**"/>
         </fileset>
     </tar>
+  </target>
+
+  <target name="win-dist" depends="build">
+  	<echo message="Copying XAMPP files..." />
+    <copy todir="${dist.dir}/installer-tmp/SOURCE/xampp">
+    	<fileset dir="${xampp.dir}" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Copying the package..." />
+    <copy todir="${dist.dir}/installer-tmp/SOURCE/${package.dir}">
+    	<fileset dir="${package.dir}" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Copying XAMPP files..." />
+    <copy todir="${dist.dir}/installer-tmp/">
+    	<fileset dir="${project.dir}/devTools/installer" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Creating the installer..." />
+    <exec executable="makensis" args="${dist.dir}/installer-tmp/SPEC/main.nsi" />
   </target>
 
   <target name="clean">
