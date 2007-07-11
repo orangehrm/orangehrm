@@ -1,0 +1,5 @@
+This directory contains the NSIS scripts to create
+a Windows installer.
+
+Inorder to compile the script you will need to have
+NSIS installed in the build system (Linux or Windows).
