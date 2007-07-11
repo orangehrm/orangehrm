@@ -38,14 +38,18 @@
 
   BrandingText "${Organization}"
   Name "${ProductName} ${ProductVersion}"
-  OutFile "build\OrangeHRM-2.2.exe"
 
 ;--------------------------------
 ; Directory structure
 
-  !define SourceLocation "~/work/build/SOURCE"
+  !define SourceLocation "../SOURCE"
   !define OrangeHRMPath "orangehrm2"
   !define XamppPath "xampp"
+
+;--------------------------------
+; Output
+
+  OutFile "../../OrangeHRM-2.2.exe"
 
 ;--------------------------------
 ; Includes
@@ -56,7 +60,7 @@
 
   ; Macros
 
-  !include "Include\WordFunc.nsh"  
+  !include "Include\WordFunc.nsh"
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
 
@@ -67,7 +71,7 @@
 ;--------------------------------
 ; Register macros
 
-  !insertmacro WordReplace  
+  !insertmacro WordReplace
   !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
 
 ;--------------------------------
@@ -83,7 +87,7 @@
   InstallDir "$PROGRAMFILES\OrangeHRM\${ProductVersion}"
 
   ; Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\OrangeHRM\${ProductVersion}" ""  
+  InstallDirRegKey HKCU "Software\OrangeHRM\${ProductVersion}" ""
 
 ;--------------------------------
 ; Interface Settings
@@ -102,7 +106,7 @@
   !define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
   !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 
-  !define MUI_ABORTWARNING  
+  !define MUI_ABORTWARNING
 
 ;--------------------------------
 ; Pages

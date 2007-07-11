@@ -83,7 +83,7 @@
     	</fileset>
     </copy>
     <echo message="Copying the package..." />
-    <copy todir="${dist.dir}/installer-tmp/SOURCE/${package.dir}">
+    <copy todir="${dist.dir}/installer-tmp/SOURCE/${package.name}">
     	<fileset dir="${package.dir}" >
     		<include name="**"/>
     	</fileset>
@@ -95,7 +95,7 @@
     	</fileset>
     </copy>
     <echo message="Creating the installer..." />
-    <exec executable="makensis" args="${dist.dir}/installer-tmp/SPEC/main.nsi" />
+    <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" />
   </target>
 
   <target name="clean">
