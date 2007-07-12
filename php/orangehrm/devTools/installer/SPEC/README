@@ -37,7 +37,7 @@ Simply build the target win-dist to compile the installer.
 
 e.g. From the build directory run
 
-	$ phing win-dist
+	$ phing dist.win
 
 If you do not have phing installer you will have to create the
 following directory structure and run makensis on the main.nsi script

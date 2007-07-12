@@ -75,7 +75,12 @@
     </tar>
   </target>
 
-  <target name="win-dist" depends="build">
+  <target name="dist.major">
+  	<phingcall target="dist" />
+  	<phingcall target="dist.bin.win" />
+  </target>
+
+  <target name="dist.bin.win">
   	<echo message="Copying XAMPP files..." />
     <copy todir="${dist.dir}/installer-tmp/SOURCE/xampp">
     	<fileset dir="${xampp.dir}" >
@@ -95,7 +100,11 @@
     	</fileset>
     </copy>
     <echo message="Creating the installer..." />
-    <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" />
+    <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" checkreturn="true" />
+  </target>
+
+  <target name="dist.win" depends="build">
+  	<phingcall target="dist.bin.win" />
   </target>
 
   <target name="clean">
