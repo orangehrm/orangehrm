@@ -1,5 +1,65 @@
-This directory contains the NSIS scripts to create
-a Windows installer.
+This directory contains the NSIS scripts to create a Windows installer.
 
-Inorder to compile the script you will need to have
-NSIS installed in the build system (Linux or Windows).
+Inorder to compile the script you will need to have NSIS installed in
+the build system (Linux or Windows).
+
+Read compiling NSIS makensis.txt in the devDocs directory.
+
+How to compile the installer
+--------------------------
+
+If you have makensis directly accessible from the command line
+(Bash or Command prompt) you could use phing to build the installer as
+well.
+
+Please make sure to copy the latest XAMPP for Windows files to the
+parent directory of the project directory
+
+e.g.
+	<Parent Directory>
+	|
+	+-- orangehrm
+	| +-- build
+	| +-- ...
+	| +-- devTools
+	| | +-- installer
+	| | | +-- SOURCE
+	| | | | +-- content
+	| | | | +-- xampp
+	| | | +-- SPEC
+	| | | | +-- Include
+	| | | | +-- ...
+	| | +-- ...
+	| +-- ...
+	+-- xampp ; Copy XAMPP for Windows files here
+
+Simply build the target win-dist to compile the installer.
+
+e.g. From the build directory run
+
+	$ phing win-dist
+
+If you do not have phing installer you will have to create the
+following directory structure and run makensis on the main.nsi script
+
+* Required directory structure
+
+	<Parent Directory>
+	|
+	+-- installer
+	| +-- SOURCE
+	| | +-- content ; Copy the content directory from devTools to here
+	| | +-- orangehrm2 ; Copy OrangeHRM release directory here
+	| | +-- xampp ; Copy XAMPP for Windows files here and then copy xampp directory from devTools
+	| +-- SPEC ; Installer scripts directory
+	| | +-- Include
+	| | +-- ...
+	| +-- ...
+	+-- ...
+
+To run makensis on the main.nsi script run
+
+	$ makensis /path/to/main.nsi
+
+
+Last revised on July 12th, 2007  by Mohanjith
