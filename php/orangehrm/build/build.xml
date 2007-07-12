@@ -218,4 +218,15 @@
       <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
           sourcepath="${project.dir}/lib" output="HTML:Smarty:PHP"/>
   </target>
+
+  <target name="lint" depends="prepare">
+      <phplint>
+          <fileset dir="${project.dir}/lib">
+              <include name="**/*.php"/>
+          </fileset>
+          <fileset dir="${project.dir}/templates">
+              <include name="**/*.php"/>
+          </fileset>
+      </phplint>
+  </target>
 </project>
