@@ -29,6 +29,9 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'CustomerTest.php';
 require_once 'EmailNotificationConfigurationTest.php';
 require_once 'ProjectsTest.php';
+require_once 'ProjectActivityTest.php';
+require_once 'ProjectAdminGatewayTest.php';
+require_once 'ProjectAdminTest.php';
 
 
  
@@ -45,6 +48,9 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('CustomerTest');
 	$suite->addTestSuite('EmailNotificationConfigurationTest');
 	$suite->addTestSuite('ProjectTest');
+	$suite->addTestSuite('ProjectActivityTest');
+	$suite->addTestSuite('ProjectAdminTest');
+	$suite->addTestSuite('ProjectAdminGatewayTest');
         return $suite;
     }
 }

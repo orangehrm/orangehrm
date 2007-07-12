@@ -1150,7 +1150,7 @@ function getCurrencyAssigned($salgrd) {
 	}
 
 	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
-		$query=$this->_buildSelect($selectFields)." FROM $selectTable";
+		$query=$this->_buildSelect($selectFields)." FROM $selectTable ";
 
 		if (isset($selectConditions)) {
 			$query .= $this->_buildWhere($selectConditions);

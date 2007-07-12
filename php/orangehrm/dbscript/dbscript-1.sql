@@ -591,6 +591,21 @@ create table `hs_hr_project` (
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_project_activity` (
+  `activity_id` int(11) not null auto_increment,
+  `project_id` int(11) not null,
+  `name` varchar(100) default null,
+  `deleted` tinyint(1) default 0,
+  primary key  (`activity_id`,`project_id`),
+  key `project_id` (`project_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_project_admin` (
+  `project_id` int(11) not null,
+  `emp_number` int(11) not null,
+  primary key  (`project_id`,`emp_number`),
+  key `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_timesheet` (
   `timesheet_id` int(11) not null,
@@ -893,6 +908,12 @@ alter table `hs_hr_project`
   add constraint foreign key (`customer_id`)
   							references `hs_hr_customer`
   									(`customer_id`) on delete restrict;
+alter table `hs_hr_project_activity`
+  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade;
+
+alter table `hs_hr_project_admin`
+  add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
+  add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_employee_timesheet_period`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,

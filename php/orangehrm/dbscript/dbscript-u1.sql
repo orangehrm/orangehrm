@@ -590,6 +590,21 @@ create table `hs_hr_project` (
   key `customer_id` (`customer_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_project_activity` (
+  `activity_id` int(11) not null auto_increment,
+  `project_id` int(11) not null,
+  `name` varchar(100) default null,
+  `deleted` tinyint(1) default 0,
+  primary key  (`activity_id`,`project_id`),
+  key `project_id` (`project_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_project_admin` (
+  `project_id` int(11) not null,
+  `emp_number` int(11) not null,
+  primary key  (`project_id`,`emp_number`),
+  key `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_timesheet` (
   `timesheet_id` int(11) not null,
