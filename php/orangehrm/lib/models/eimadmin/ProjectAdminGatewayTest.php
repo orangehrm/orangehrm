@@ -337,6 +337,9 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		// valid admin, correct project.
     	$this->assertTrue($gw->isAdmin($empNumber = 1, $projectId = 1));
 
+		// valid admin, without giving a project
+		$this->assertTrue($gw->isAdmin($empNumber = 1));
+
 		// valid admin, incorrect/invalid project.
     	$this->assertFalse($gw->isAdmin($empNumber = 1, $projectId = 2));
     	$this->assertFalse($gw->isAdmin($empNumber = 1, $projectId = 12));
@@ -344,6 +347,7 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	// admin with multiple projects
     	$this->assertTrue($gw->isAdmin($empNumber = 2, $projectId = 1));
     	$this->assertTrue($gw->isAdmin($empNumber = 2, $projectId = 2));
+    	$this->assertTrue($gw->isAdmin($empNumber = 2));
     	$this->assertFalse($gw->isAdmin($empNumber = 2, $projectId = 21));
     }
 

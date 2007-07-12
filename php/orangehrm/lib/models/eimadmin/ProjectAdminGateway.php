@@ -193,12 +193,7 @@ class ProjectAdminGateway {
 
 		if ($result) {
 			$numRows = mysql_num_rows($result);
-
-			if ($numRows > 1) {
-				throw new ProjectAdminException("Duplicate entries for admin. emp_number = $empNumber , " .
-												"projectId = $projectId");
-			}
-			$admin = ($numRows == 1);
+			$admin = ($numRows >= 1);
 		}
 
 		return $admin;
