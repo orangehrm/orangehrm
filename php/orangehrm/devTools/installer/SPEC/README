@@ -3,7 +3,7 @@ This directory contains the NSIS scripts to create a Windows installer.
 Inorder to compile the script you will need to have NSIS installed in
 the build system (Linux or Windows).
 
-Read compiling NSIS makensis.txt in the devDocs directory.
+Read makensis.txt in the devDocs directory for instructions on compiling NSIS.
 
 How to compile the installer
 --------------------------
