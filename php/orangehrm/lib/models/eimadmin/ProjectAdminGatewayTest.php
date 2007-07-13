@@ -30,6 +30,7 @@ require_once "testConf.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
+require_once 'Projects.php';
 require_once 'ProjectAdminGateway.php';
 
 /**
@@ -349,6 +350,21 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue($gw->isAdmin($empNumber = 2, $projectId = 2));
     	$this->assertTrue($gw->isAdmin($empNumber = 2));
     	$this->assertFalse($gw->isAdmin($empNumber = 2, $projectId = 21));
+
+    	// Deleted projects not considered when project Id not given
+        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 1"));
+		$this->assertEquals(1, mysql_affected_rows());
+
+    	$this->assertFalse($gw->isAdmin($empNumber = 1));
+    	$this->assertTrue($gw->isAdmin($empNumber = 1, $projectId = 1));
+
+        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 2"));
+		$this->assertEquals(1, mysql_affected_rows());
+
+    	$this->assertFalse($gw->isAdmin($empNumber = 2));
+    	$this->assertTrue($gw->isAdmin($empNumber = 2, $projectId = 2));
+    	$this->assertTrue($gw->isAdmin($empNumber = 2, $projectId = 1));
+
     }
 
     /**
@@ -375,8 +391,9 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_array($list));
 		$this->assertEquals(1, count($list));
 		$proj = $list[0];
-		$this->assertEquals(1, $proj['project_id']);
-		$this->assertEquals('Test project 1', $proj['name']);
+		$this->assertTrue($proj instanceof Projects);
+		$this->assertEquals(1, $proj->getProjectId());
+		$this->assertEquals('Test project 1', $proj->getProjectName());
 
 		// valid emp, admin of multiple projects
 		$list = $gw->getProjectsForAdmin(2);
@@ -386,14 +403,32 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$validResults = array( 1 => 'Test project 1', 2 => 'Test project 2');
 
 		foreach ($list as $proj) {
-			$id = $proj['project_id'];
-			$name = $proj['name'];
+			$this->assertTrue($proj instanceof Projects);
+			$id = $proj->getProjectId();
+			$name = $proj->getProjectName();
 
 			$this->assertTrue(array_key_exists($id, $validResults));
 			$this->assertEquals($name, $validResults[$id]);
 
 			unset($validResults[$id]);
 		}
+
+		// Verify that deleted projects are not returned by default
+        $this->assertTrue(mysql_query("UPDATE hs_hr_project SET deleted = 1 WHERE project_id = 1"));
+		$this->assertEquals(1, mysql_affected_rows());
+
+		$list = $gw->getProjectsForAdmin(1);
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(0, count($list));
+
+		// deleted projects are returned when requested
+		$list = $gw->getProjectsForAdmin(1, true);
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(1, count($list));
+		$proj = $list[0];
+		$this->assertTrue($proj instanceof Projects);
+		$this->assertEquals(1, $proj->getProjectId());
+		$this->assertEquals('Test project 1', $proj->getProjectName());
     }
 
 	public function errorHandler($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
@@ -453,3 +488,4 @@ if (PHPUnit_MAIN_METHOD == "ProjectAdminGatewayTest::main") {
     ProjectAdminGatewayTest::main();
 }
 ?>
+

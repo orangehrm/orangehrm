@@ -334,7 +334,7 @@ class Projects {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-		$objArr = $this->_projectObjArr($message2);
+		$objArr = self::projectObjArr($message2);
 
 		return $objArr;
 	}
@@ -388,9 +388,12 @@ class Projects {
 	}
 
 	/**
-	 * Build the project object from given result set
+	 * Build the project object array from the given result set
+	 *
+	 * @param resource $result Result set from the database
+	 * @return array   Array of Project objects
 	 */
-	private function _projectObjArr($result) {
+	public static function projectObjArr($result) {
 
 		$objArr = null;
 

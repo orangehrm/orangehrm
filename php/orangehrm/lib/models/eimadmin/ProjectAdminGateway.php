@@ -177,22 +177,12 @@ class ProjectAdminGateway {
 
 		$admin = false;
 
-		$fields[0] = self::PROJECT_ADMIN_FIELD_PROJECT_ID;
-		$fields[1] = self::PROJECT_ADMIN_FIELD_EMP_NUMBER;
+		// Include deleted if project ID given
+		$includeDeleted = !empty($projectId);
+		$results = $this->_getProjects($empNumber, $projectId, $includeDeleted);
 
-		$selectCondition[] = self::PROJECT_ADMIN_FIELD_EMP_NUMBER ." = $empNumber";
-		if (!empty($projectId)) {
-			$selectCondition[] = self::PROJECT_ADMIN_FIELD_PROJECT_ID ." = $projectId";
-		}
-
-		$sqlBuilder = new SQLQBuilder();
-		$sql = $sqlBuilder->simpleSelect(self::TABLE_NAME, $fields, $selectCondition);
-
-		$conn = new DMLFunctions();
-		$result = $conn->executeQuery($sql);
-
-		if ($result) {
-			$numRows = mysql_num_rows($result);
+		if ($results) {
+			$numRows = mysql_num_rows($results);
 			$admin = ($numRows >= 1);
 		}
 
@@ -200,23 +190,59 @@ class ProjectAdminGateway {
 	}
 
 	/**
-	 * Gets a list of projects for which the given employee is a project admin
+	 * Gets a array of projects for which the given employee is a project admin
 	 *
-	 * @param int $empNumber The employee number
-	 * @return array list of project id's
+	 * @param int  $empNumber       The employee number
+	 * @param bool $includeDeleted Included deleted projects
+	 * @return array Array of Projects objects
 	 */
-	public function getProjectsForAdmin($empNumber) {
+	public function getProjectsForAdmin($empNumber, $includeDeleted = false) {
 
-		$fields[0] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`";
+		$results = $this->_getProjects($empNumber, null, $includeDeleted);
+
+		if ($results) {
+		    $projects = Projects::projectObjArr($results);
+		}
+
+		if (empty($projects)) {
+			$projects = array();
+		}
+
+	     return $projects;
+	}
+
+	/**
+	 * Queries the hs_hr_project_admin and hs_hr_project tables with the given conditions
+	 *
+	 * @param int  $empNumber The employee number to filter by
+	 * @param int  $projectId The project ID to filter by
+	 * @param bool $includeDeleted Whether deleted projects should be included
+	 *
+	 * @return resource Resource returned from the database.
+	 */
+	private function _getProjects($empNumber, $projectId = null, $includeDeleted = false) {
+
+		$fields[0] = "b.`" . Projects::PROJECT_DB_FIELD_PROJECT_ID . "`";
+		$fields[1] = "b.`" . Projects::PROJECT_DB_FIELD_CUSTOMER_ID . "`";
 		$fields[2] = "b.`" . Projects::PROJECT_DB_FIELD_NAME . "`";
+		$fields[3] = "b.`" . Projects::PROJECT_DB_FIELD_DESCRIPTION . "`";
+		$fields[4] = "b.`" . Projects::PROJECT_DB_FIELD_DELETED . "`";
 
 		$tables[0] = "`" . self::TABLE_NAME. "` a ";
 		$tables[1] = "`" . Projects::PROJECT_DB_TABLE."` b ";
 
+		$selectConditions[] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`= $empNumber ";
+
+		if (!$includeDeleted) {
+			$selectConditions[] = "b.`" . Projects::PROJECT_DB_FIELD_DELETED . "`= " . Projects::PROJECT_NOT_DELETED;
+		}
+
+		if (!empty($projectId)) {
+			$selectConditions[] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`= $projectId ";
+		}
+
 		$joinConditions[1] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID .
 							 "` = b.`" . Projects::PROJECT_DB_FIELD_PROJECT_ID . "`";
-
-		$selectConditions[0] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`= $empNumber ";
 
 		$sqlBuilder = new SQLQBuilder();
 		$sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectConditions);
@@ -224,15 +250,7 @@ class ProjectAdminGateway {
 		$conn = new DMLFunctions();
 		$results = $conn->executeQuery($sql);
 
-		$projects = array();
-
-		if ($results) {
-			while ($row = mysql_fetch_assoc($results)) {
-		    	$projects[] = $row;
-		    }
-		}
-
-	     return $projects;
+	     return $results;
 	}
 
 	/**
