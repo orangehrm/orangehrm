@@ -166,7 +166,6 @@
 
 	      <!-- exclude files not containing any classes. -->
               <exclude name="controllers/CentralController.php"/>
-              <exclude name="controllers/BugViewController.php"/>
               <exclude name="confs/mailConf.php"/>
               <exclude name="confs/Conf-auto.php"/>
 
