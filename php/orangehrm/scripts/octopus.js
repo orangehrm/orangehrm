@@ -1,4 +1,3 @@
-<script>
 <!--
 function addEvent(obj, evType, fn) {
     if (obj.addEventListener) {
@@ -40,5 +39,3 @@ function initOctopus() {
 }
 
 -->
-</script>
-
