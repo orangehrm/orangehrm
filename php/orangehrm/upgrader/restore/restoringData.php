@@ -131,7 +131,7 @@ class Conf {
 	\$this->version	= '2.2';
 	\$this->upgrade	= true;
 
-	\$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
+	\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 	\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
 	}
 }
