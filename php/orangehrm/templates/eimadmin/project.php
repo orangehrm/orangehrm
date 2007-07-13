@@ -45,10 +45,6 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
 <script>
- 	function goBack() {
-        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-    }
-
  	function addSave() {
 
 		if (validateFields()) {
@@ -102,6 +98,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 	function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
+
 </script>
 
 
