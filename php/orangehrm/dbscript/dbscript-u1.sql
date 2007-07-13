@@ -635,6 +635,7 @@ create table `hs_hr_timesheet_submission_period` (
 create table `hs_hr_time_event` (
   `time_event_id` int(11) not null,
   `project_id` int(11) not null,
+  `activity_id` int(11) not null,
   `employee_id` int(11) not null,
   `timesheet_id` int(11) not null,
   `start_time` datetime default null,
@@ -644,6 +645,7 @@ create table `hs_hr_time_event` (
   `description` varchar(250) default null,
   primary key  (`time_event_id`,`project_id`,`employee_id`,`timesheet_id`),
   key `project_id` (`project_id`),
+  key `activity_id` (`activity_id`),
   key `employee_id` (`employee_id`),
   key `timesheet_id` (`timesheet_id`)
 ) engine=innodb default charset=utf8;

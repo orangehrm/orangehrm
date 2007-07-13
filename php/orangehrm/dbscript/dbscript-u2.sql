@@ -272,6 +272,7 @@ alter table `hs_hr_timesheet`
 
 alter table `hs_hr_time_event`
   add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
+  add constraint foreign key (`activity_id`) references `hs_hr_project_activity` (`activity_id`) on delete cascade,
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
@@ -286,3 +287,14 @@ INSERT INTO `hs_hr_jobtit_empstat`
   SELECT `jobtit_code`, 'EST000' FROM `hs_hr_job_title`
   ON DUPLICATE KEY UPDATE `estat_code`='EST000';
 
+INSERT INTO `hs_hr_customer`
+  (`customer_id`, `name`, `description`)
+  VALUES (0, 'Internal', "Used to track special time events");
+
+INSERT INTO `hs_hr_project`
+  (`project_id`, `customer_id`, `name`, `description`)
+  VALUES (0, 0, 'Internal', "Used to track special time events");
+
+INSERT INTO `hs_hr_project_activity`
+  (`activity_id`, `project_id`, `name`)
+  VALUES (0, 0, 'Work time');

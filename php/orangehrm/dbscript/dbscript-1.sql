@@ -636,6 +636,7 @@ create table `hs_hr_timesheet_submission_period` (
 create table `hs_hr_time_event` (
   `time_event_id` int(11) not null,
   `project_id` int(11) not null,
+  `activity_id` int(11) not null,
   `employee_id` int(11) not null,
   `timesheet_id` int(11) not null,
   `start_time` datetime default null,
@@ -645,6 +646,7 @@ create table `hs_hr_time_event` (
   `description` varchar(250) default null,
   primary key  (`time_event_id`,`project_id`,`employee_id`,`timesheet_id`),
   key `project_id` (`project_id`),
+  key `activity_id` (`activity_id`),
   key `employee_id` (`employee_id`),
   key `timesheet_id` (`timesheet_id`)
 ) engine=innodb default charset=utf8;
@@ -928,5 +930,6 @@ alter table `hs_hr_timesheet`
 
 alter table `hs_hr_time_event`
   add constraint foreign key (`timesheet_id`) references `hs_hr_timesheet` (`timesheet_id`) on delete cascade,
+  add constraint foreign key (`activity_id`) references `hs_hr_project_activity` (`activity_id`) on delete cascade,
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;

@@ -518,3 +518,15 @@ INSERT INTO `hs_hr_timesheet_submission_period` VALUES (1, 'week', 7, 1, 1, 7, '
 INSERT INTO `hs_hr_empstat`
 	(`estat_code`, `estat_name`)
 	VALUES ('EST000', 'Terminated');
+
+INSERT INTO `hs_hr_customer`
+  (`customer_id`, `name`, `description`)
+  VALUES (0, 'Internal', "Used to track special time events");
+
+INSERT INTO `hs_hr_project`
+  (`project_id`, `customer_id`, `name`, `description`)
+  VALUES (0, 0, 'Internal', "Used to track special time events");
+
+INSERT INTO `hs_hr_project_activity`
+  (`activity_id`, `project_id`, `name`)
+  VALUES (0, 0, 'Work time');
