@@ -81,6 +81,7 @@
   </target>
 
   <target name="dist.bin.win">
+  	<echo message="Preparing to build the Windows installer..." />
   	<echo message="Copying XAMPP files..." />
     <copy todir="${dist.dir}/installer-tmp/SOURCE/xampp">
     	<fileset dir="${xampp.dir}" >
@@ -93,7 +94,7 @@
     		<include name="**"/>
     	</fileset>
     </copy>
-    <echo message="Copying XAMPP files..." />
+    <echo message="Copying altered XAMPP files..." />
     <copy todir="${dist.dir}/installer-tmp/">
     	<fileset dir="${project.dir}/devTools/installer" >
     		<include name="**"/>
@@ -105,6 +106,17 @@
 
   <target name="dist.win" depends="build">
   	<phingcall target="dist.bin.win" />
+  </target>
+
+  <target name="dist.bin.linux">
+  	<echo message="Preparing to build the rpm..." />
+  	<echo message="Copying spec file..." />
+  	<copy todir="${dist.dir}/rpm-tmp/">
+    	<fileset dir="${project.dir}/devTools/rpm/" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+  	<echo message="Creating the directories..." />
   </target>
 
   <target name="clean">
