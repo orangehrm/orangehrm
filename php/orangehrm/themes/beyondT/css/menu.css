@@ -149,19 +149,11 @@
 	background: url(../pictures/email_notifications_o.gif)  no-repeat left top;
 }
 
-#menu #customers a{
-	background: url(../icons/customers.gif)  no-repeat left top;
-}
-
-#menu #customers a:hover {
-	background: url(../icons/customers_o.gif)  no-repeat left top;
-}
-
-#menu #projects a{
+#menu #projectInfo a{
 	background: url(../icons/projects.gif)  no-repeat left top;
 }
 
-#menu #projects a:hover {
+#menu #projectInfo a:hover {
 	background: url(../icons/projects_o.gif)  no-repeat left top;
 }
 

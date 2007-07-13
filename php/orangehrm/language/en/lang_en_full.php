@@ -142,6 +142,7 @@
 	$lang_Menu_Admin_EmailNotifications = "Email Notifications";
 	$lang_Menu_Admin_EmailConfiguration = "Configuration";
 	$lang_Menu_Admin_EmailSubscribe = "Subscribe";
+	$lang_Menu_Admin_ProjectInfo = "Project Info";
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
 
