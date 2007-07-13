@@ -179,8 +179,6 @@
 	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
-
-
 	/**
 	 * Common
 	 */
@@ -199,6 +197,9 @@
 
 	$lang_Common_Edit = "Edit";
 	$lang_Common_New = "New";
+
+	$lang_Common_Time = "Time";
+	$lang_Common_Note = "Note";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
