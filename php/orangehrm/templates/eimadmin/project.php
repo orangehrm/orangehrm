@@ -19,16 +19,24 @@
  * @author zanfer
  */
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+
 require_once($lan->getLangPath("full.php"));
 
-	$formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
-	$btnAction="addSave()";
+$formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
+$btnAction="addSave()";
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+
 	$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
 	$btnAction="addUpdate()";
 
-	}
+	$project = $this->popArr['editArr'];
+} else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+
+	$project = new Projects();
+	$project->setProjectId($this->popArr['newID']);
+}
 ?>
 <html>
 <head>
@@ -43,41 +51,38 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
  	function addSave() {
 
-        if(document.frmProject.txtId.value == '') {
-            alert("<?php echo $lang_Admin_Project_Error_PleaseDSpecifyTheProjectId; ?>");
-            document.frmProject.txtId.focus();
-            return;
-        }
+		if (validateFields()) {
 
-        if(document.frmProject.cmbCustomerId.value == 0) {
-            alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
-            document.frmProject.customerId.focus();
-            return;
-        }
-
-        if (document.frmProject.txtName.value == '') {
-            alert ("<?php echo $lang_Admin_Project_Error_PleaseSpecifyTheName; ?>");
-            document.frmProject.txtName.focus();
-            return false;
-        }
-
-        document.frmProject.sqlState.value = "NewRecord";
-        document.frmProject.submit();
+        	document.frmProject.sqlState.value = "NewRecord";
+        	document.frmProject.submit();
+		}
     }
-
 
    function addUpdate() {
 
-		if(document.frmProject.txtId.value == '') {
+		if (validateFields()) {
+
+			document.frmProject.sqlState.value  = "UpdateRecord";
+			document.frmProject.submit();
+		}
+	}
+
+   /**
+    * Validates the form fields in the project details form
+    * returns true if validated, false otherwise.
+    */
+   function validateFields() {
+
+        if(document.frmProject.txtId.value == '') {
             alert("<?php echo $lang_Admin_Project_Error_PleaseDSpecifyTheProjectId; ?>");
             document.frmProject.txtId.focus();
-            return;
+            return false;
         }
 
         if(document.frmProject.cmbCustomerId.value == 0) {
             alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
             document.frmProject.customerId.focus();
-            return;
+            return false;
         }
 
         if (document.frmProject.txtName.value == '') {
@@ -86,9 +91,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             return false;
         }
 
-		document.frmProject.sqlState.value  = "UpdateRecord";
-		document.frmProject.submit();
-	}
+		return true;
+   }
 
 	function clearAll() {
 		document.frmProject.txtId.value='';
@@ -175,7 +179,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 			<tr>
 		  		<td width='100%'>
-		  			<h2>Project</h2>
+		  			<h2><?php echo $lang_Admin_Project; ?></h2>
 		  		</td>
 	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 		</table>
@@ -197,51 +201,31 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
   <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
         <div class="roundbox">
-      <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
             <label for="txtId"><?php echo $lang_Commn_code; ?></label>
-            <input type="text" id="txtId" name="txtId" value="<?php echo $this->popArr['newID']; ?>" tabindex="1" readonly/>
+			<input type="text" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>"
+				tabindex="1" readonly/>
             <br/>
             <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
-            <?php
-            $arrcusid = $this->popArr['cusid'];?>
-			<select   name="cmbCustomerId">
-			<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
-			<?php
-	        for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {?>
-     		<option <?php echo (isset($cookie['cmbCustomerId']) && ($cookie['cmbCustomerId'] == $arrcusid[$c]->getCustomerId() )) ? 'selected' : '' ?> value="<?php echo $arrcusid[$c]->getCustomerId() ?>"><?php echo $arrcusid[$c]->getCustomerName() ?></option>
-   			<?php	} ?>
-	   	   </select>
-			<br/>
-			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
-            <input type="text" id="name" name="txtName" tabindex="2"/>
-			<br/>
-            <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
-            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"></textarea>
-            <br>
-       <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-
-			$message = $this->popArr['editArr'];
-		?>
-			<label for="projectId"><?php echo $lang_Commn_code; ?></label>
-			<input type="text" id="txtId" name="txtId" value="<?php echo $message->getProjectId(); ?>" tabindex="1" readonly/>
-            <br/>
-            <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
-            <select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : ''?> name="cmbCustomerId">
-					<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
+            <select name="cmbCustomerId">
+				<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 				<?php
-				$arrcusid = $this->popArr['cusid'];
-				for($c=0;$arrcusid && count($arrcusid)>$c;$c++) {
-				?>
-     				<option <?php echo (($message->getCustomerId() == $arrcusid[$c]->getCustomerId() )) ? 'selected' : '' ?> value="<?php echo $arrcusid[$c]->getCustomerId() ?>"><?php echo $arrcusid[$c]->getCustomerName() ?></option>
-   				<?php	} ?>
+					$customers = $this->popArr['cusid'];
+					if ($customers) {
+						foreach ($customers as $customer) {
+							$selected = ($project->getCustomerId() == $customer->getCustomerId()) ? 'selected' : '';
+
+							echo "<option $selected value=\"{$customer->getCustomerId()}\">{$customer->getCustomerName()}</option>";
+   						}
+					}
+   				?>
    			</select>
             <br/>
 			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
-            <input type="text" id="txtName" name="txtName" value="<?php echo $message->getProjectName(); ?>" tabindex="2"/>
+            <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>" tabindex="2"/>
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
-            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $message->getProjectDescription() ; ?></textarea><br/>
-			<br/> <?php } ?>
+            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $project->getProjectDescription() ; ?></textarea>
+            <br/>
             <div align="center">
 	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 				<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >

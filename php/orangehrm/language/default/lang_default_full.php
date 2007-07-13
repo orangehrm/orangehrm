@@ -910,6 +910,7 @@
 	$lang_Admin_Change_Password_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Change_Password_Errors_YourOldNewPasswordsAreEqual = "Your Old and New Passwords Are Equal";
 
+	$lang_Admin_Project = "Project";
 	$lang_Admin_Project_CutomerName = "Customer Name";
 	$lang_Admin_Project_SelectCutomer = "Select customer";
 
