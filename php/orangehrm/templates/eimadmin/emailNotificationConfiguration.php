@@ -48,7 +48,7 @@ if (isset($editArr) && is_array($editArr)) {
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
+<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script language="JavaScript" type="text/javascript">
   function validate() {
 		error = false;
