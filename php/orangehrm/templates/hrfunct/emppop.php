@@ -146,6 +146,13 @@ else
         window.opener.document.frmSelectEmployee.cmbEmpID.value = cntrl.title;
         window.close();
 
+<?php  } else if(isset($_GET['PROJECT'])) {
+			$reqPath.="&PROJECT={$_GET['PROJECT']}";
+?>
+        window.opener.document.frmProjectAdmins.projAdminID.value = cntrl.name;
+        window.opener.document.frmProjectAdmins.projAdminName.value = cntrl.title;
+        window.close();
+
 <?php  } else if(isset($_GET['reqcode'])) { ?>
         window.opener.document.frmEmp.txtRepEmpID.value = cntrl.name;
         window.opener.document.frmEmp.cmbRepEmpID.value = cntrl.title;
@@ -166,11 +173,7 @@ else
 		};
 		document.standardView.captureState.value = 'SearchMode';
 
-<?php   if(isset($_GET['USR'])) { ?>
-		document.standardView.action="./emppop.php?reqcode=<?php echo $_GET['reqcode']?>&USR=USR"
-<?php   } else { ?>
-		document.standardView.action="./emppop.php?reqcode=<?php echo $_GET['reqcode']?>"
-<?php   } ?>
+		document.standardView.action="./emppop.php<?php echo $reqPath;?>"
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}

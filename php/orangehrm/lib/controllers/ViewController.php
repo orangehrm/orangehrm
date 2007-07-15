@@ -45,6 +45,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.ph
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdmin.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -332,6 +334,13 @@ class ViewController {
 
 			$this-> Projects = new Projects();
 			$res = $this->Projects->deletewrapperProjects($arrList) ;
+			break;
+
+		case 'PAD': // Project admins
+
+			$gw = new ProjectAdminGateway();
+			$projectId = $_GET['id'];
+			$res = $gw->removeAdmins($projectId, $arrList[0]) ;
 			break;
 
 		case 'USR':
@@ -1351,12 +1360,17 @@ class ViewController {
 
 									break;
 
-				case 'PRJ'  :		$project = new Projects();
-									$project = $object;
-									$id= $project->getProjectId();
-									$res= $project->addProject();
+				case 'PAD'  :		$projectAdmin = $object;
+									$id = $projectAdmin->getProjectId();
+									$gw = new ProjectAdminGateway();
+									$res = $gw->addAdmin($id, $projectAdmin->getEmpNumber());
+
 									break;
 
+				case 'PRJ'  :		$project = $object;
+									$res= $project->addProject();
+									$id= $project->getProjectId();
+									break;
 
 				case 'USR'  :		$users = new Users();
 									$users = $object;
@@ -1411,6 +1425,12 @@ class ViewController {
 					case 'CUR' :
 								if($noRedirect)
 									break;
+
+					case 'PAD' : // Project admin page. Fall through to PRJ case below.
+
+					case 'PRJ' :
+								header("Location: ./CentralController.php?uniqcode=PRJ&id=$id&capturemode=updatemode");
+								break;
 
 					default:
 								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the
@@ -2763,6 +2783,9 @@ class ViewController {
 							break;
 
 
+			case 'PAD' :    // Project Admin. Fall through to PRJ case below.
+							$form_creator->getArr['uniqcode'] = "PRJ";
+
 			case 'PRJ' : 	$form_creator->formPath = '/templates/eimadmin/project.php';
 							$project = new Projects();
 							$customer = new Customer ();
@@ -2774,6 +2797,9 @@ class ViewController {
 
  							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $project->fetchProject($getArr['id']) ;
+
+								$gw = new ProjectAdminGateway();
+								$form_creator ->popArr['admins'] = $gw->getAdmins($getArr['id']);
 							}
 							break;
 

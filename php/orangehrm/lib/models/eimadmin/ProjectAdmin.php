@@ -26,6 +26,7 @@ class ProjectAdmin {
 	protected $empNumber;
 	protected $firstName;
 	protected $lastName;
+	protected $projectId;
 
 	public function getEmpNumber() {
 		return $this->empNumber;
@@ -49,6 +50,14 @@ class ProjectAdmin {
 
 	public function setLastName($lastName) {
 		$this->lastName = $lastName;
+	}
+
+	public function getProjectId() {
+		return $this->projectId;
+	}
+
+	public function setProjectId($projectId) {
+		$this->projectId = $projectId;
 	}
 
 	/**

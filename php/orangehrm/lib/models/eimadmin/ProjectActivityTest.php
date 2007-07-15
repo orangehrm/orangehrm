@@ -78,9 +78,9 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
 		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_project_activity`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
     }
 
     /**

@@ -38,6 +38,7 @@
 	$lang_Error_ShouldBeNumeric 					= "Should be Numeric";
 	$lang_Error_FollowingErrorsWereFound 			= "Following errors were found";
 	$lang_Error_AreYouSureYouWantToDelete 			= "Are you sure you want to delete";
+	$lang_Error_AccessDenied                        = "Access Denied";
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate 			= "Please select a valid From Date";
@@ -914,6 +915,9 @@
 	$lang_Admin_Project = "Project";
 	$lang_Admin_Project_CutomerName = "Customer Name";
 	$lang_Admin_Project_SelectCutomer = "Select customer";
+	$lang_Admin_Project_Administrators = "Project Administrators";
+	$lang_Admin_Project_EmployeeName = "Employee Name";
+	$lang_Admin_Project_EmployeeAlreadyAnAdmin = "Selected employee is already a project admin for this project.";
 
 	$lang_Admin_Project_Error_PleaseDSpecifyTheProjectId = "Please specify the Project Id";
 	$lang_Admin_Project_Error_PleaseSelectACustomer = "Please select a customer";

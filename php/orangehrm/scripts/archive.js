@@ -125,3 +125,13 @@
 		//need to work
 		document.forms[0].reset('');
 	}
+
+	/**
+	 * Trims any leading zeros from a number
+	 */
+	function trimLeadingZeros(num) {
+		while (num.substr(0,1) == '0' && num.length>1) {
+			num = num.substr(1,9999); 
+		}
+		return num;
+	}

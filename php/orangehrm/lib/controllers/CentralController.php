@@ -62,7 +62,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailConfiguration.p
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailNotificationConfiguration.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Customer.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Projects.php';
-
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectAdmin.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -147,6 +147,7 @@ switch ($moduletype) {
 if(!is_array($locRights) && $locRights == false)
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 
+/* TODO: This seems to give view permission to ESS users to admin module */
 if($_SESSION['isAdmin'] != 'Yes')
 	$locRights = array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> true);
 
@@ -572,6 +573,13 @@ switch ($moduletype) {
 					    case 'PRJ'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Projects();
+										}
+
+										break;
+
+					    case 'PAD'	:   // Project Admin
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_ProjectAdmin();
 										}
 
 										break;

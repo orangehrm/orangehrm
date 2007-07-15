@@ -53,10 +53,11 @@ class ProjectAdminGateway {
 	 *
 	 * @param int $projectId The project ID
 	 * @param int $empNumber The employee number
-	 *
+	 * @return true if successful
 	 */
 	public function addAdmin($projectId, $empNumber) {
 
+		$result = true;
 		if (!$this->isAdmin($empNumber, $projectId)) {
 
 			$fields[0] = self::PROJECT_ADMIN_FIELD_PROJECT_ID;
@@ -76,11 +77,12 @@ class ProjectAdminGateway {
 			$conn = new DMLFunctions();
 			$result = $conn->executeQuery($sql);
 			if (!$result || (mysql_affected_rows() != 1)) {
-				throw new ProjectAdminException("Insert failed.");
+				$result = false;
 			} else {
 				$this->id = mysql_insert_id();
 			}
 		}
+		return $result;
 
 	}
 
@@ -138,8 +140,9 @@ class ProjectAdminGateway {
 	public function getAdmins($projectId) {
 
 		$fields[0] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`";
-		$fields[1] = "b.`" . self::EMPLOYEE_FIELD_FIRST_NAME . "`";
-		$fields[2] = "b.`" . self::EMPLOYEE_FIELD_LAST_NAME . "`";
+		$fields[1] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`";
+		$fields[2] = "b.`" . self::EMPLOYEE_FIELD_FIRST_NAME . "`";
+		$fields[3] = "b.`" . self::EMPLOYEE_FIELD_LAST_NAME . "`";
 
 		$tables[0] = "`" . self::TABLE_NAME. "` a ";
 		$tables[1] = "`" . self::EMPLOYEE_TABLE_NAME . "` b ";
@@ -263,6 +266,7 @@ class ProjectAdminGateway {
 
 		$tmp = new ProjectAdmin();
 		$tmp->setEmpNumber($row[self::PROJECT_ADMIN_FIELD_EMP_NUMBER]);
+		$tmp->setLastName($row[self::PROJECT_ADMIN_FIELD_PROJECT_ID]);
 		$tmp->setFirstName($row[self::EMPLOYEE_FIELD_FIRST_NAME]);
 		$tmp->setLastName($row[self::EMPLOYEE_FIELD_LAST_NAME]);
 

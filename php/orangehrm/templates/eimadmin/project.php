@@ -23,29 +23,59 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 
 require_once($lan->getLangPath("full.php"));
 
-$formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
-$btnAction="addSave()";
+$formAction="{$_SERVER['PHP_SELF']}?uniqcode=PRJ";
+$saveBtnAction="addProject()";
 
-if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+$adminFormAction="";
+$addMode = false;
+if (isset($this->getArr['capturemode'])) {
+	$captureMode = $this->getArr['capturemode'];
 
-	$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
-	$btnAction="addUpdate()";
+	if ($captureMode == 'updatemode') {
 
-	$project = $this->popArr['editArr'];
-} else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+		$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
+		$saveBtnAction="updateProject()";
 
-	$project = new Projects();
-	$project->setProjectId($this->popArr['newID']);
+		$project = $this->popArr['editArr'];
+
+		// Admin form only shown in update mode
+		$adminFormAction="{$_SERVER['PHP_SELF']}?uniqcode=PAD&id={$this->getArr['id']}&capturemode=updatemode";
+	} else if ($captureMode == 'addmode') {
+
+		$project = new Projects();
+		$project->setProjectId($this->popArr['newID']);
+		$addMode = true;
+	}
+}
+
+$locRights=$_SESSION['localRights'];
+if ($locRights['edit']) {
+	$disableEdit =  "";
+	$addAdminBtnAction  = "addAdmin()";
+	$delAdminBtnAction  = "delAdmin()";
+	$saveAdminBtnAction = "saveAdmin()";
+	$clearBtnAction = "clearAll()";
+} else {
+	$disableEdit = 'disabled = "true"';
+	$saveBtnAction = "showAccessDeniedMsg()";
+	$addAdminBtnAction = "showAccessDeniedMsg()";
+	$saveAdminBtnAction = "showAccessDeniedMsg()";
+	$delAdminBtnAction = "showAccessDeniedMsg()";
+	$clearBtnAction = "showAccessDeniedMsg()";
 }
 ?>
 <html>
 <head>
-<title>Project</title>
+<title><?php echo $lang_Admin_Project; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<?php require_once ROOT_PATH . '/scripts/octopus.js'; ?>
+<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
- 	function addSave() {
+
+	/**
+	 * Add a new project
+	 */
+ 	function addProject() {
 
 		if (validateFields()) {
 
@@ -54,7 +84,10 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 		}
     }
 
-   function addUpdate() {
+   /**
+    * Update project details
+    */
+   function updateProject() {
 
 		if (validateFields()) {
 
@@ -90,74 +123,144 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 		return true;
    }
 
+	/**
+	 * Clear all form fields in the project details form
+	 */
 	function clearAll() {
-		document.frmProject.txtId.value='';
+		document.frmProject.cmbCustomerId.value='0';
 		document.frmProject.txtName.value='';
 		document.frmProject.txtDescription.value=''
 	}
+
+	/**
+	 * Go back to the project list page.
+	 */
 	function goBack() {
-        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+        location.href = "./CentralController.php?uniqcode=PRJ&VIEW=MAIN";
     }
+
+	/**
+	 * Show acccess denied message.
+	 */
+    function showAccessDeniedMsg() {
+    	alert("<?php echo $lang_Error_AccessDenied; ?>")
+    }
+
+	/**
+	 * Run when the "add" button is clicked.
+	 * Shows the employee select fields
+	 */
+	function addAdmin() {
+		oLayer = document.getElementById("addAdminLayer");
+
+		if (oLayer.style.display == 'none') {
+			oLayer.style.display = 'block';
+		} else {
+			oLayer.style.display = 'none';
+		}
+	}
+
+	/**
+	 * Check or uncheck all project admin check boxes.
+	 */
+	function checkUncheckAll() {
+		var checked;
+
+		with (document.frmProjectAdmins) {
+
+			checked = elements['allCheck'].checked;
+
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'checkbox') {
+					elements[i].checked = checked;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Popup the employee list.
+	 */
+	function popEmployeeList() {
+		var popup = window.open('../../templates/hrfunct/emppop.php?reqcode=REP&PROJECT=<?php echo $project->getProjectId();?>','Employees','height=450,width=400');
+    	if(!popup.opener) {
+    		popup.opener=self;
+		}
+		popup.focus();
+	}
+
+	/**
+	 * Delete selected admins.
+	 */
+	function delAdmin() {
+
+		var check = false;
+		with (document.frmProjectAdmins) {
+
+			for (var i=0; i < elements.length; i++) {
+				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
+					check = true;
+					break;
+				}
+			}
+
+			if (check) {
+				delState.value = 'DeleteMode';
+				submit();
+			} else {
+				alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
+			}
+		}
+	}
+
+	/**
+	 * Save an admin.
+	 */
+	function saveAdmin() {
+
+		with (document.frmProjectAdmins) {
+
+	        if (projAdminID.value == '') {
+	            alert("<?php echo $lang_Error_PleaseSelectAnEmployee; ?>");
+	            empPop.focus();
+	        } else if (isAdmin(projAdminID.value)) {
+	        	alert("<?php echo $lang_Admin_Project_EmployeeAlreadyAnAdmin; ?>");
+	        } else {
+	        	sqlState.value = "NewRecord";
+	        	submit();
+			}
+		}
+	}
+
+	/**
+	 * Checks whether the passed employee id is already
+	 * a project admin.
+	 */
+	function isAdmin(empId) {
+		var admin = false;
+		var empIdInt = trimLeadingZeros(empId);
+
+		with (document.frmProjectAdmins) {
+			for (var i=0; i < elements.length; i++) {
+				if ((elements[i].type == 'checkbox') && (elements[i].value == empIdInt)){
+					admin = true;
+					break;
+				}
+			}
+		}
+
+		return admin;
+	}
 
 </script>
 
 
- <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+ 	<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
     <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 
     <style type="text/css">
     <!--
-
-    label,select,input,textarea {
-        display: block;  /* block float the labels to left column, set a width */
-        width: 150px;
-        float: left;
-        margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
-    }
-
-    /* this is needed because otherwise, hidden fields break the alignment of the other fields */
-    input[type=hidden] {
-        display: none;
-        border: none;
-        background-color: red;
-    }
-
-    label {
-        text-align: left;
-        width: 75px;
-        padding-left: 10px;
-    }
-
-    select,input,textarea {
-        margin-left: 10px;
-    }
-
-    input,textarea {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-
-    textarea {
-        width: 250px;
-    }
-
-    form {
-        min-width: 550px;
-        max-width: 600px;
-    }
-
-    br {
-        clear: left;
-    }
-
-    .version_label {
-        display: block;
-        float: left;
-        width: 150px;
-        font-weight: bold;
-        margin-left: 10px;
-        margin-top: 10px;
-    }
+    @import url("../../themes/beyondT/css/octopus.css");
 
     .roundbox {
         margin-top: 10px;
@@ -166,8 +269,17 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     }
 
     .roundbox_content {
-        padding:15px;
+        padding:15px 15px 25px 35px;
     }
+
+    input[type=checkbox] {
+		border:0px;
+		background-color: transparent;
+		margin: 0px;
+		width: 12px;
+		vertical-align: bottom;
+    }
+
     -->
  </style>
 </head>
@@ -184,26 +296,15 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
   	<div id="navigation">
   		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 	</div>
-	<font color="red" face="Verdana, Arial, Helvetica, sans-serif">
-    <?php
-            if (isset($this->getArr['message'])) {
-                $expString  = $this->getArr['message'];
-                $expString = explode ("%",$expString);
-                $length = sizeof($expString);
-                for ($x=0; $x < $length; $x++) {
-                    echo " " . $expString[$x];
-                }
-            }   ?>
-   </font>
-  <form name="frmProject" method="post" action="<?php echo $formAction;?>">
+    <div class="roundbox">
+      <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
-        <div class="roundbox">
             <label for="txtId"><?php echo $lang_Commn_code; ?></label>
 			<input type="text" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>"
-				tabindex="1" readonly/>
+				tabindex="1" readonly="true"/>
             <br/>
             <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
-            <select name="cmbCustomerId">
+            <select name="cmbCustomerId" <?php echo $disableEdit; ?> >
 				<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 				<?php
 					$customers = $this->popArr['cusid'];
@@ -218,24 +319,107 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
    			</select>
             <br/>
 			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
-            <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>" tabindex="2"/>
+            <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>"
+            	tabindex="2" <?php echo $disableEdit; ?> />
 			<br/>
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
-            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" tabindex="3"><?php echo $project->getProjectDescription() ; ?></textarea>
+            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30"
+            	tabindex="3" <?php echo $disableEdit; ?> ><?php echo $project->getProjectDescription() ; ?></textarea>
             <br/>
             <div align="center">
-	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-				<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
+	            <img onClick="<?php echo $saveBtnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+				<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="<?php echo $clearBtnAction;?>" >
             </div>
-        </div>
-        <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-        -->
-        </script>
-    </form>
+      </form>
+
+      <?php if (!$addMode) { ?>
+
+      <h3><?php echo $lang_Admin_Project_Administrators; ?></h3>
+      <form name="frmProjectAdmins" method="post" action="<?php echo $adminFormAction;?>">
+        	<input type="hidden" name="delState" value="">
+        	<input type="hidden" name="sqlState" value="">
+			<input type="hidden" id="projectId" name="projectId" value="<?php echo $project->getProjectId(); ?>"/>
+
+		<?php
+			$admins = isset($this->popArr['admins']) ? $this->popArr['admins'] : null;
+			if (!empty($admins)) {
+		?>
+
+      <div style="float:left">
+		<table width="250" class="simpleList" >
+			<thead>
+				<tr>
+				<th class="listViewThS1" align="center">
+					<input type='checkbox' class='checkbox' name='allCheck' value=''
+						<?php echo $disableEdit; ?> onClick="checkUncheckAll();">
+				</th>
+				<th class="listViewThS1"><?php echo $lang_Admin_Project_EmployeeName; ?></th>
+				</tr>
+    		</thead>
+			<?php
+				$odd = false;
+				foreach ($admins as $admin) {
+	 	 	 		$cssClass = ($odd) ? 'even' : 'odd';
+	 	 	 		$odd = !$odd;
+	 		?>
+    		<tr>
+       			<td class="<?php echo $cssClass?>" align="center">
+       				<input type='checkbox' class='checkbox' name='chkLocID[]'
+       					<?php echo $disableEdit; ?> value='<?php echo $admin->getEmpNumber();?>'></td>
+		 		<td class="<?php echo $cssClass?>"><?php echo $admin->getName(); ?></td>
+			</tr>
+		 	<?php
+		 		}
+		  	?>
+ 		</table>
+		</div>
+		 	<?php
+			 }
+		  	?>
+
+			</br>
+            <div align="left">
+	            <img onClick="<?php echo $addAdminBtnAction; ?>;"
+	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';"
+	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';"
+	            	src="../../themes/beyondT/pictures/btn_add.jpg">
+	        <?php
+	        	if (!empty($admins)) {
+			?>
+				<img
+					onClick="<?php echo $delAdminBtnAction; ?>"
+				    src="../../themes/beyondT/pictures/btn_delete.jpg"
+					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
+					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';">
+			<?php
+				}
+	        ?>
+            </div>
+			<div id ="addAdminLayer" style="display:none;height:20px;">
+		    	<label for="projAdminName"><?php echo $lang_Admin_Users_Employee; ?></label>
+	               	<input type="text" readonly name="projAdminName" value="" >
+                  	<input type="hidden" readonly name="projAdminID" value="">
+                   	<input class="button" style="width:30px;" type="button" name="empPop" value=".."
+                   		onClick="popEmployeeList();" tabindex="4" <?php echo $disableEdit; ?> >
+	            	<img onClick="<?php echo $saveAdminBtnAction; ?>;"
+	            		style="margin-top:10px;"
+	            		onMouseOut="this.src='../../themes/beyondT/icons/assign.gif';"
+	            		onMouseOver="this.src='../../themes/beyondT/icons/assign_o.gif';"
+	            		src="../../themes/beyondT/icons/assign.gif">
+			</div>
+      </form>
+	  <?php } ?>
+    </div>
+
+    <script type="text/javascript">
+    <!--
+    	if (document.getElementById && document.createElement) {
+ 			initOctopus();
+		}
+    -->
+    </script>
+
     <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+
 </body>
 </html>

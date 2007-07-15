@@ -94,9 +94,9 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
 		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
     }
 
@@ -111,12 +111,8 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->_clearError();
 		set_error_handler(array($this, 'errorHandler'));
 
-		try {
-			$gw->addAdmin($projectId = 11, $empNumber = 12);
-			$this->fail("Expected exception not thrown");
-		} catch (ProjectAdminException $e) {
-			// expected.
-		}
+		$this->assertFalse($gw->addAdmin($projectId = 11, $empNumber = 12));
+
 		restore_error_handler();
 		$this->assertNotNull($this->errorLevel);
 		$this->assertEquals(0, $this->_countAdmins());
@@ -125,11 +121,8 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->_clearError();
 		set_error_handler(array($this, 'errorHandler'));
 
-		try {
-			$gw->addAdmin($projectId = 1, $empNumber = 4);
-		} catch (ProjectAdminException $e) {
-			// expected.
-		}
+		$this->assertFalse($gw->addAdmin($projectId = 1, $empNumber = 4));
+
 		restore_error_handler();
 		$this->assertNotNull($this->errorLevel);
 		$this->assertEquals(0, $this->_countAdmins());
@@ -138,11 +131,8 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$this->_clearError();
 		set_error_handler(array($this, 'errorHandler'));
 
-		try {
-			$gw->addAdmin($projectId = 12, $empNumber = 1);
-		} catch (ProjectAdminException $e) {
-			// expected.
-		}
+		$this->assertFalse($gw->addAdmin($projectId = 12, $empNumber = 1));
+
 		restore_error_handler();
 		$this->assertNotNull($this->errorLevel);
 		$this->assertEquals(0, $this->_countAdmins());

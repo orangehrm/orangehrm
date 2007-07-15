@@ -689,3 +689,20 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 *[readonly] {
 	color:#B8B6B0
 }
+
+table.simpleList {
+        border-width: 1px;
+        border-collapse: collapse;
+        border-style: solid;
+        border-color: gray;
+}
+table.simpleList th {
+        border-width: 0px 0px 1px 0px;
+        padding: 3px 3px 3px 5px;
+        border-style: solid;
+        border-color: gray;
+}
+table.simpleList td {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+}
