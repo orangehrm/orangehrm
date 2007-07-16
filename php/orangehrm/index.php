@@ -137,6 +137,22 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
+// Default page in admin module is the Company general info page.
+$defaultAdminView = "GEN";
+$allowAdminView = false;
+
+if (($_SESSION['isAdmin']=='No') && $_SESSION['isProjectAdmin']) {
+
+	// Default page for project admins is the Project Activity page
+	$defaultAdminView = "PAC";
+
+	// Allow project admins to view PAC (Project Activity) page only (in the admin module)
+	// If uniqcode is not set, the default view is Project activity
+	if ((!isset($_GET['uniqcode'])) || ($_GET['uniqcode'] == 'PAC')) {
+		$allowAdminView = true;
+	}
+}
+
 require_once ROOT_PATH . '/lib/common/Language.php';
 
 $lan = new Language();
@@ -945,16 +961,10 @@ function setSize() {
                 <td>
             <td valign="top">
 <?php
-			// Allow project admins to view PAC (Project Activity) page only in the admin module.
-			$allowAdminView = false;
-			if ($_SESSION['isProjectAdmin'] && isset($_GET['uniqcode']) && ($_GET['uniqcode'] == 'PAC') ) {
-				$allowAdminView = true;
-			}
-
 			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 			  <iframe src="home.html" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : $defaultAdminView;?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
