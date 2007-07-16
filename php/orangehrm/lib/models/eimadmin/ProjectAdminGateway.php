@@ -58,7 +58,7 @@ class ProjectAdminGateway {
 	 */
 	public function addAdmin($projectId, $empNumber) {
 
-		if (!$this->_isValidId($projectId) || !$this->_isValidId($empNumber)) {
+		if (!CommonFunctions::isValidId($projectId) || !CommonFunctions::isValidId($empNumber)) {
 			throw new ProjectAdminException("Invalid parameters to addAdmin(): emp_number = $empNumber , " .
 											"projectId = $projectId");
 		}
@@ -102,7 +102,7 @@ class ProjectAdminGateway {
 	 */
 	public function removeAdmin($projectId, $empNumber) {
 
-		if (!$this->_isValidId($projectId) || !$this->_isValidId($empNumber)) {
+		if (!CommonFunctions::isValidId($projectId) || !CommonFunctions::isValidId($empNumber)) {
 			throw new ProjectAdminException("Invalid parameters to removeAdmin(): emp_number = $empNumber , " .
 											"projectId = $projectId");
 		}
@@ -127,7 +127,7 @@ class ProjectAdminGateway {
 	 */
 	public function removeAdmins($projectId, $empList) {
 
-		if (!$this->_isValidId($projectId)) {
+		if (!CommonFunctions::isValidId($projectId)) {
 			throw new ProjectAdminException("Invalid parameter to removeAdmins(): projectId = $projectId");
 		}
 
@@ -136,7 +136,7 @@ class ProjectAdminGateway {
 		}
 
 		foreach ($empList as $employee) {
-			if (!$this->_isValidId($employee)) {
+			if (!CommonFunctions::isValidId($employee)) {
 				throw new ProjectAdminException("Invalid parameter to removeAdmins(): employee id = $employee");
 			}
 		}
@@ -164,7 +164,7 @@ class ProjectAdminGateway {
 	 */
 	public function getAdmins($projectId) {
 
-		if (!$this->_isValidId($projectId)) {
+		if (!CommonFunctions::isValidId($projectId)) {
 			throw new ProjectAdminException("Invalid parameters to getAdmins(): projectId = $projectId");
 		}
 
@@ -207,11 +207,11 @@ class ProjectAdminGateway {
 	 */
 	public function isAdmin($empNumber, $projectId = null) {
 
-		if (!$this->_isValidId($empNumber)) {
+		if (!CommonFunctions::isValidId($empNumber)) {
 			throw new ProjectAdminException("Invalid empNumber");
 		}
 
-		if (!$this->_isValidId($empNumber) || (!is_null($projectId) && !$this->_isValidId($projectId)) ) {
+		if (!CommonFunctions::isValidId($empNumber) || (!is_null($projectId) && !CommonFunctions::isValidId($projectId)) ) {
 			throw new ProjectAdminException("Invalid parameters to isAdmin(): emp_number = $empNumber , " .
 											"projectId = " . is_null($projectId));
 		}
@@ -239,7 +239,7 @@ class ProjectAdminGateway {
 	 */
 	public function getProjectsForAdmin($empNumber, $includeDeleted = false) {
 
-		if (!$this->_isValidId($empNumber)) {
+		if (!CommonFunctions::isValidId($empNumber)) {
 			throw new ProjectAdminException("Invalid parameters to getProjectsForAdmin(): empNumber = $empNumber");
 		}
 
@@ -312,30 +312,6 @@ class ProjectAdminGateway {
 		$tmp->setLastName($row[self::EMPLOYEE_FIELD_LAST_NAME]);
 
 		return $tmp;
-	}
-
-	/**
-	 * Function to check if the given variable is a valid id
-	 *
-	 * both pure ints and strings with leading zeros (ex: 012) are
-	 * considered valid.
-	 *
-	 * @param mixed id
-	 * @return bool true if a valid id, false otherwise
-	 */
-	private function _isValidId($id) {
-
-		if (is_int($id)) {
-			return true;
-		}
-
-		if (is_string($id)) {
-			$intValue = intval(ltrim($id, "0"));
-			if ($intValue > 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

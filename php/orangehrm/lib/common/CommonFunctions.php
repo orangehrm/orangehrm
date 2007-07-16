@@ -155,6 +155,52 @@ class CommonFunctions {
 		}
 		return empty($class) ? "" : strtolower($class);
 	}
+
+	/**
+	 * Converts the given time in seconds to decimal hours, with the given number of decimals
+	 *
+	 * @param int $seconds The number of seconds
+	 * @param int $noOfDecimals The number of decimals
+	 * @return string Formatted hours with the given decimal places
+	 */
+	 public static function getTimeInHours($seconds, $noOfDecimals = 2) {
+		$hours = intVal($seconds) / 3600;
+		$formattedHours = sprintf("%.{$noOfDecimals}f", $hours);
+		return $formattedHours;
+	 }
+
+	/**
+	 * Function to check if the given variable is a valid id
+	 *
+	 * both pure ints and strings with leading zeros (ex: 012) are
+	 * considered valid.
+	 *
+	 * NOTE: Considers negative numbers as invalid id's. Valid Id's
+	 * should be positive integers.
+	 *
+	 * @param mixed id
+	 * @return bool true if a valid id, false otherwise
+	 */
+	public static function isValidId($id) {
+
+		if (is_int($id) && (intVal($id) > 0)) {
+			return true;
+		}
+
+		/*
+		 * Trim leading zeros if a string and check that it is not a float.
+		 */
+		if (is_string($id)) {
+
+			if ((preg_match('/^[0-9]+$/', $id)) && (intval($id) > 0)) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
 
 ?>
