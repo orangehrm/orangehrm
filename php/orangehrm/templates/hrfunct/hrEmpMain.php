@@ -604,12 +604,7 @@ function resetAdd(panel) {
 	if (isset($this->getArr['message'])) {
 
 		$expString  = $this->getArr['message'];
-		$expString = explode ("_",$expString);
-		$length = count($expString);
-
-		$col_def=$expString[$length-1];
-
-		$expString=$this->getArr['message'];
+		$col_def = CommonFunctions::getCssClassForMessage($expString);
 ?>
 	<p align="right">
 		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif;" style="margin-right:10px">

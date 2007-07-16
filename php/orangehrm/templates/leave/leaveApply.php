@@ -34,12 +34,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
 
 	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
-
-	$col_def=strtolower($expString[$length-1]);
-
-	$expString='lang_Leave_'.$_GET['message'];
+	$col_def = CommonFunctions::getCssClassForMessage($expString);
+	$expString = 'lang_Leave_' . $expString;
 	if (isset($$expString)) {
 ?>
 	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">

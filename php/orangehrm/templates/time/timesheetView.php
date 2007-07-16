@@ -170,12 +170,8 @@ function actionApprove() {
 <?php if (isset($_GET['message'])) {
 
 		$expString  = $_GET['message'];
-		$expString = explode ("_",$expString);
-		$length = count($expString);
-
-		$col_def=strtolower($expString[$length-1]);
-
-		$expString='lang_Time_Errors_'.$_GET['message'];
+		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$expString = 'lang_Time_Errors_' . $expString;
 ?>
 		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 <?php echo $$expString; ?>

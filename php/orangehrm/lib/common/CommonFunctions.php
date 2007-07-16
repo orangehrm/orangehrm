@@ -136,6 +136,25 @@ class CommonFunctions {
 
 		return $strpagedump;
 	}
+
+	/**
+	 * Returns the css class by looking at the message.
+	 * Works with standard message strings like "UPDATE_SUCCESS", "ADD_FAILURE" etc.
+	 * Simply returns the last part of the string, in lower case.
+	 * Ex: For "UPDATE_SUCCESS" returns "success".
+	 *
+	 * @param string $message The message
+	 * @return string css class
+	 */
+	public static function getCssClassForMessage($message) {
+		$class = null;
+
+		if (!empty($message)) {
+			$expString = explode("_", $message);
+			$class = array_pop($expString);
+		}
+		return empty($class) ? "" : strtolower($class);
+	}
 }
 
 ?>

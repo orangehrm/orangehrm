@@ -1,15 +1,15 @@
 <?php
 /**
- * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
- * all the essential functionalities required for any enterprise. 
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
  * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program;
@@ -19,15 +19,15 @@
  */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once($lan->getLangPath("full.php")); 
-	
-	$sysConst = new sysConf(); 
+require_once($lan->getLangPath("full.php"));
+
+	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
-	
+
 
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
-	
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -35,34 +35,34 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>			
+<script>
 	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
 	function addSave() {
-		
+
 		if(document.frmEducation.txtUni.value=="") {
 			alert($alert1);
 			document.frmEducation.txtUni.focus();
 			return;
 		}
-		
+
 		if(document.frmEducation.txtDeg.value=="") {
 			alert($alert2);
 			document.frmEducation.txtDeg.focus();
 			return;
 		}
-		
+
 		document.frmEducation.sqlState.value = "NewRecord";
 		document.frmEducation.submit();
-	}			
-	
+	}
+
 	function clearAll() {
 		document.frmEducation.txtUni.value= '';
 		document.frmEducation.txtDeg.value= '';
 			}
-	
+
 </script>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
@@ -76,33 +76,27 @@ require_once($lan->getLangPath("full.php"));
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmEducation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
-		
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("_",$expString);
-			$length = count($expString);		
-			
-			$col_def=$expString[$length-1];
-			
-			$expString=$this->getArr['msg'];
+			$col_def = CommonFunctions::getCssClassForMessage($expString);
 	?>
-			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 	<?php
 				echo $$expString;
 	?>
 			</font>
 	<?php
-		}		
+		}
 		?>
       </font> </td>
   </tr><td width="177">
@@ -118,8 +112,8 @@ require_once($lan->getLangPath("full.php"));
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  
-							  <tr> 
+
+							  <tr>
 						    <td><?php echo $Code?></td>
 						    <td><strong><?php echo $this->popArr['newID']?></strong></td>
 						  </tr>
@@ -131,7 +125,7 @@ require_once($lan->getLangPath("full.php"));
 							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
 							     <td> <input type="text" name="txtDeg"></td>
 							  </tr>
-		
+
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
         <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
 
@@ -146,7 +140,7 @@ require_once($lan->getLangPath("full.php"));
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
- 
+
 </form>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
@@ -160,7 +154,7 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>Untitled Document</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>			
+<script>
 function alpha(txt)
 {
 var flag=true;
@@ -210,26 +204,26 @@ return flag;
 	}
 
 function mout() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
 }
 
 function mover() {
-	if(document.Edit.title=='Save') 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg'; 
+	if(document.Edit.title=='Save')
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg'; 
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
-	
+
 function edit()
 {
 	if(document.Edit.title=='Save') {
 		addUpdate();
 		return;
 	}
-	
+
 	var frm=document.frmEducation;
 //  alert(frm.elements.length);
 	for (var i=0; i < frm.elements.length; i++)
@@ -240,25 +234,25 @@ function edit()
 
 
 	function addUpdate() {
-		
+
 		if(document.frmEducation.txtUni.value=="") {
 			alert($alert1);
 			document.frmEducation.txtUni.focus();
 			return;
 		}
-		
+
 		if(document.frmEducation.txtDeg.value=="") {
 			alert($alert2);
 			document.frmEducation.txtDeg.focus();
 			return;
 		}
-		
+
 		document.frmEducation.sqlState.value = "UpdateRecord";
 		document.frmEducation.submit();
-	}			
+	}
 
 	function clearAll() {
-		if(document.Edit.title!='Save') 
+		if(document.Edit.title!='Save')
 			return;
 			document.frmEducation.txtUni.value= '';
 			document.frmEducation.txtDeg.value= '';
@@ -278,34 +272,29 @@ function edit()
   </tr>
 </table>
 <p>
-<p> 
+<p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmEducation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-  <tr> 
+  <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'>
       <?php
 		if (isset($this->getArr['msg'])) {
-		
+
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("_",$expString);
-			$length = count($expString);		
-			
-			$col_def=$expString[$length-1];
-			
-			$expString=$this->getArr['msg'];
+			$col_def = CommonFunctions::getCssClassForMessage($expString);
 	?>
-			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">	
+			<font class="<?php echo $col_def?> size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 	<?php
 				echo $$expString;
 	?>
 			</font>
 	<?php
-		}		
-		?>     
+		}
+		?>
   </tr><td width="177">
 </table>
            <table border="0" cellpadding="0" cellspacing="0">
@@ -318,7 +307,7 @@ function edit()
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr> 
+						  <tr>
 							    <td><?php echo $Code?></td>
 							    <td> <input type="hidden" name="txtEducationID" value=<?php echo $this->getArr['id']?>><strong><?php echo $this->getArr['id']?></strong></td>
 						  </tr>
@@ -330,7 +319,7 @@ function edit()
 							     <td nowrap valign="top"><span class="error">*</span> <?php echo $Degree?></td>
 							     <td> <input type="text" name="txtDeg"><?php echo $message[0][2]?></td>
 						   </tr>
-						
+
 					  <tr><td></td><td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
@@ -339,7 +328,7 @@ function edit()
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>
-					  </tr>				  
+					  </tr>
                   </table></td>
                   <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

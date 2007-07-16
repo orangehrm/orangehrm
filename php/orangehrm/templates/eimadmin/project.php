@@ -274,6 +274,13 @@ if ($locRights['edit']) {
 		vertical-align: bottom;
     }
 
+    .message {
+		float:left;
+		width:400px;
+		text-align:right;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+
     -->
  </style>
 </head>
@@ -287,9 +294,24 @@ if ($locRights['edit']) {
 	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 		</table>
 	</p>
-  	<div id="navigation">
+  	<div id="navigation" style="float:left;width:100px">
   		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 	</div>
+    <?php if (isset($this->getArr['msg'])) {
+			$expString  = $this->getArr['msg'];
+			$col_def = CommonFunctions::getCssClassForMessage($expString);
+	?>
+
+	<div class="message">
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?php echo $$expString; ?>
+			</font>
+	<?php
+		}
+	?>
+	</div>
+
+	<br/>
     <div class="roundbox">
       <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
