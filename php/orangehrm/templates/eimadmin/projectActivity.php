@@ -238,6 +238,14 @@ if (!empty($projectId)) {
     	font-family: Verdana, Arial, Helvetica, sans-serif;
     	font-size: -1;
     }
+
+    .message {
+		float:left;
+		width:500px;
+		text-align:right;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+
     -->
 </style>
 
@@ -258,6 +266,22 @@ if (!empty($projectId)) {
 <?php
 	  } else {
 ?>
+
+    <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+    	if (isset($message)) {
+			$col_def = CommonFunctions::getCssClassForMessage($message);
+			$message = "lang_Common_" . $message;
+	?>
+	<div class="message">
+		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+			<?php echo (isset($$message)) ? $$message: ""; ?>
+		</font>
+	</div>
+	<?php
+		}
+	?>
+	<br/>
+
     <div class="roundbox">
 		<form name="frmActivity" method="post" action="<?php echo $formAction;?>">
         	<input type="hidden" name="sqlState" value="">

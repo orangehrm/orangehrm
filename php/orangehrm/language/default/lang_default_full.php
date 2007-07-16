@@ -214,6 +214,13 @@
 	$lang_Common_Sort_ASC = "Ascending";
 	$lang_Common_Sort_DESC = "Descending";
 
+	$lang_Common_ADD_SUCCESS 				= "Successfully Added";
+	$lang_Common_UPDATE_SUCCESS 			= "Successfully Updated";
+	$lang_Common_DELETE_SUCCESS 			= "Successfully Deleted";
+	$lang_Common_ADD_FAILURE 				= "Failed to Add";
+	$lang_Common_UPDATE_FAILURE 			= "Failed to Update";
+	$lang_Common_DELETE_FAILURE 			= "Failed to Delete";
+
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
 	// admin module

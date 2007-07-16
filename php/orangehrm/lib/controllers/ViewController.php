@@ -1459,10 +1459,10 @@ class ViewController {
 					case 'PAD' : // Project admin page. Fall through to PRJ case below.
 
 					case 'PRJ' :
-								header("Location: ./CentralController.php?uniqcode=PRJ&id=$id&capturemode=updatemode");
+								header("Location: ./CentralController.php?message=ADD_SUCCESS&uniqcode=PRJ&id=$id&capturemode=updatemode");
 								break;
 					case 'PAC' :
-								header("Location: ./CentralController.php?uniqcode=PAC&projectId=$id");
+								header("Location: ./CentralController.php?message=ADD_SUCCESS&uniqcode=PAC&projectId=$id");
 								break;
 
 					default:

@@ -297,21 +297,21 @@ if ($locRights['edit']) {
   	<div id="navigation" style="float:left;width:100px">
   		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
 	</div>
-    <?php if (isset($this->getArr['msg'])) {
-			$expString  = $this->getArr['msg'];
-			$col_def = CommonFunctions::getCssClassForMessage($expString);
+    <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+    	if (isset($message)) {
+			$col_def = CommonFunctions::getCssClassForMessage($message);
+			$message = "lang_Common_" . $message;
 	?>
-
 	<div class="message">
-			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-	<?php echo $$expString; ?>
-			</font>
+		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+			<?php echo (isset($$message)) ? $$message: ""; ?>
+		</font>
+	</div>
 	<?php
 		}
 	?>
-	</div>
-
 	<br/>
+
     <div class="roundbox">
       <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
