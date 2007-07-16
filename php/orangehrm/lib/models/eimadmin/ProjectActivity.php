@@ -163,6 +163,10 @@ class ProjectActivity {
 	 */
 	public static function getActivityList($projectId, $includeDeleted = false) {
 
+		if (!self::_isValidId($projectId)) {
+			throw new ProjectActivityException("Invalid parameters to getActivityList(): projectId = $projectId");
+		}
+
 		$selectCondition[] = self::DB_FIELD_PROJECT_ID . " = $projectId";
 		if (!$includeDeleted) {
 			$selectCondition[] = self::DB_FIELD_DELETED . " = 0";
@@ -182,6 +186,10 @@ class ProjectActivity {
 	 */
 	public static function getActivity($activityId) {
 
+		if (!self::_isValidId($activityId)) {
+			throw new ProjectActivityException("Invalid parameters to getActivity(): activityId = $activityId");
+		}
+
 		$selectCondition[] = self::DB_FIELD_ACTIVITY_ID . " = $activityId";
 		$actList = self::_getList($selectCondition);
 		$obj = count($actList) == 0 ? null : $actList[0];
@@ -198,6 +206,11 @@ class ProjectActivity {
 	 */
 	public static function getActivitiesWithName($projectId, $activityName, $includeDeleted = false) {
 
+		if (!self::_isValidId($projectId)) {
+			throw new ProjectActivityException("Invalid parameters to getActivitiesWithName(): projectId = $projectId");
+		}
+
+		$activityName = mysql_real_escape_string($activityName);
 		$selectCondition[] = self::DB_FIELD_NAME . " = '$activityName'";
 		$selectCondition[] = self::DB_FIELD_PROJECT_ID . " = $projectId";
 		if (!$includeDeleted) {
@@ -219,6 +232,20 @@ class ProjectActivity {
 	public static function deleteActivities($activityIds, $projectId = null) {
 
 		$count = 0;
+
+		if (!is_null($projectId) && !self::_isValidId($projectId)) {
+			throw new ProjectActivityException("Invalid parameters to deleteActivities(): projectId = $projectId");
+		}
+
+		if (!is_array($activityIds)) {
+			throw new ProjectActivityException("Invalid parameter to deleteActivities(): activityIds should be an array");
+		}
+
+		foreach ($activityIds as $activityId) {
+			if (!self::_isValidId($activityId)) {
+				throw new ProjectActivityException("Invalid parameter to deleteActivities(): activity id = $activityId");
+			}
+		}
 
 		if (!empty($activityIds)) {
 
@@ -279,6 +306,30 @@ class ProjectActivity {
 		$tmp->setName($row[self::DB_FIELD_NAME]);
 		$tmp->setDeleted((bool)$row[self::DB_FIELD_DELETED]);
 		return $tmp;
+	}
+
+	/**
+	 * Function to check if the given variable is a valid id
+	 *
+	 * both pure ints and strings with leading zeros (ex: 012) are
+	 * considered valid.
+	 *
+	 * @param mixed id
+	 * @return bool true if a valid id, false otherwise
+	 */
+	private static function _isValidId($id) {
+
+		if (is_int($id)) {
+			return true;
+		}
+
+		if (is_string($id)) {
+			$intValue = intval(ltrim($id, "0"));
+			if ($intValue > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

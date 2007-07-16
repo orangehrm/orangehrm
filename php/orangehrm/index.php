@@ -276,8 +276,8 @@ function setSize() {
                   </table></td>
                   <?php } ?>
                   <?php
-                  if($_SESSION['isAdmin']=='Yes') {
-						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrAllRights[Admin]['view']) {
+                  if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) {
+						if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="eim") && ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'])) {
 
 					?>
                   <td style="background-image : url();" ></td>
@@ -290,7 +290,7 @@ function setSize() {
                         <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else if ($arrAllRights[Admin]['view']) { ?>
+                  <?php } else if ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
                       <tr height="20">
                         <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -473,7 +473,9 @@ function setSize() {
               <TABLE cellSpacing=0 cellPadding=0 border=0>
                 <TBODY>
                   <TR vAlign=top>
-<?php if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
+<?php if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))  {
+					if ($arrRights['view']) {
+?>
                     <TD width=158>
                       <ul id="menu">
   						<li id="compinfo"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu1');" onMouseOut="ypSlideOutMenu.hideMenu('menu1');"><?php echo $lang_Menu_Admin_CompanyInfo; ?></a></li>
@@ -486,7 +488,15 @@ function setSize() {
 						<li id="notifications"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
 						<li id="projectInfo"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu17');" onMouseOut="ypSlideOutMenu.hideMenu('menu17');"><?php echo $lang_Menu_Admin_ProjectInfo; ?></a></li>
 					  </ul></TD>
-<?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
+<?php				} else if ($_SESSION['isProjectAdmin']) { ?>
+                    <TD width=158>
+                      <ul id="menu">
+						<li id="projectInfo">
+							<a href="index.php?uniqcode=PAC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">
+							<?php echo $lang_Admin_ProjectActivities; ?></a></li>
+					  </ul></TD>
+<?php 				}
+				} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>
                     <TD width=158>
                     <ul id="menu">
   						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep"><?php echo $lang_Menu_Reports_ViewReports; ?></A></li>
@@ -912,6 +922,12 @@ function setSize() {
                         	<a class="rollmenu" href="index.php?uniqcode=PRJ&menu_no=2&submenutop=EIMModule&menu_no_top=eim" >
                         		<?php echo $lang_Menu_Admin_Projects; ?></a></td>
 					 </tr>
+					 <tr>
+                        <td onMouseOver="ypSlideOutMenu.showMenu('menu17')" onMouseOut="ypSlideOutMenu.hideMenu('menu17')"
+                        	vAlign="center" align="left" width="142" height="17"">
+                        	<a class="rollmenu" href="index.php?uniqcode=PAC&menu_no=2&submenutop=EIMModule&menu_no_top=eim" >
+                        		<?php echo $lang_Admin_ProjectActivities; ?></a></td>
+					 </tr>
                     </TBODY>
                   </TABLE>
                   <?php
@@ -928,9 +944,16 @@ function setSize() {
               <tr>
                 <td>
             <td valign="top">
-<?php		if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
+<?php
+			// Allow project admins to view PAC (Project Activity) page only in the admin module.
+			$allowAdminView = false;
+			if ($_SESSION['isProjectAdmin'] && isset($_GET['uniqcode']) && ($_GET['uniqcode'] == 'PAC') ) {
+				$allowAdminView = true;
+			}
+
+			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 			  <iframe src="home.html" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
-<?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && $arrRights['view']) {  ?>
+<?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {  ?>
               <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : 'GEN'?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>

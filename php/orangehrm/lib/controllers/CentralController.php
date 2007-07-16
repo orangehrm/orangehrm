@@ -63,6 +63,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmailNotificationCon
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Customer.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Projects.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectAdmin.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectActivity.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -155,6 +156,13 @@ if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id
 	trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
 }
 
+/*
+ * Allow Project admins to view project activity page.
+ */
+if ($_SESSION['isProjectAdmin'] && ($moduletype == 'admin') && ($_GET['uniqcode'] == 'PAC')) {
+	$locRights = array('add'=> true , 'edit'=> true , 'delete'=> true, 'view'=> true);
+}
+
 $ugroup = new UserGroups();
 $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 
@@ -167,7 +175,6 @@ switch ($moduletype) {
 	case 'admin' 	:  // beg. admin module
 
 					$view_controller = new ViewController();
-
 
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
 							    $arrList[0]=$_POST['chkLocID'];
@@ -580,6 +587,13 @@ switch ($moduletype) {
 					    case 'PAD'	:   // Project Admin
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_ProjectAdmin();
+										}
+
+										break;
+
+					    case 'PAC'	:   // Project Activity
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_ProjectActivity();
 										}
 
 										break;

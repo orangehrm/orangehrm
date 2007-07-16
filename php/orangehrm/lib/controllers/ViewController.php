@@ -47,6 +47,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectActivity.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -195,6 +196,9 @@ class ViewController {
 			case 'ENS' :
 						$this->reDirect($getArr);
 						break;
+			case 'PAC' :
+						$this->reDirect($getArr);
+						break;
 			default:
 						$form_creator = new FormCreator($getArr,$postArr);
 						$form_creator ->formPath ='/view.php';
@@ -341,6 +345,16 @@ class ViewController {
 			$gw = new ProjectAdminGateway();
 			$projectId = $_GET['id'];
 			$res = $gw->removeAdmins($projectId, $arrList[0]) ;
+			break;
+
+		case 'PAC': // Project activity
+
+			$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+			$projectId = $_GET['projectId'];
+
+			if ($authorizeObj->isAdmin() || $authorizeObj->isProjectAdminOf($projectId)) {
+				$res = ProjectActivity::deleteActivities($arrList[0], $projectId) ;
+			}
 			break;
 
 		case 'USR':
@@ -1372,6 +1386,22 @@ class ViewController {
 									$id= $project->getProjectId();
 									break;
 
+				case 'PAC'  :		$projectActivity = $object;
+									$id = $projectActivity->getProjectId();
+									$name = $projectActivity->getName();
+									$res = true;
+									$activities = ProjectActivity::getActivitiesWithName($id, $name);
+
+									if (empty($activities)) {
+										try {
+											$projectActivity->save();
+										} catch (ProjectActivityException $e) {
+											$res = false;
+										}
+									}
+
+									break;
+
 				case 'USR'  :		$users = new Users();
 									$users = $object;
 									$res = $users -> addUsers();
@@ -1431,6 +1461,9 @@ class ViewController {
 					case 'PRJ' :
 								header("Location: ./CentralController.php?uniqcode=PRJ&id=$id&capturemode=updatemode");
 								break;
+					case 'PAC' :
+								header("Location: ./CentralController.php?uniqcode=PAC&projectId=$id");
+								break;
 
 					default:
 								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the
@@ -1486,6 +1519,8 @@ class ViewController {
     }
 
 	function updateData($index,$id,$object,$noRedirect = false) {
+
+			$extraParams = "";
 
 			switch ($index) {
 
@@ -1735,6 +1770,22 @@ class ViewController {
 									$res = $projects->updateProject();
 									break;
 
+				case 'PAC'  :		$projectActivity = $object;
+									$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+									$projectId = $projectActivity->getProjectId();
+
+									$res = true;
+									if ($authorizeObj->isAdmin() || $authorizeObj->isProjectAdminOf($projectId)) {
+										try {
+											$projectActivity->save();
+											$extraParams = "&projectId={$projectId}";
+										} catch (ProjectActivityException $e) {
+											$res = false;
+										}
+									}
+
+									break;
+
 				case 'USR'  :		$users = new Users();
 									$users = $object;
 									$res = $users -> updateUsers();
@@ -1783,7 +1834,7 @@ class ViewController {
 
 								$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 
-								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp");
+								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp{$extraParams}");
 				}
 
 			} else {
@@ -1795,7 +1846,7 @@ class ViewController {
 				$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 				//echo mysql_error();
 
-				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp");
+				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp{$extraParams}");
 			}
 	}
 
@@ -2801,6 +2852,43 @@ class ViewController {
 								$gw = new ProjectAdminGateway();
 								$form_creator ->popArr['admins'] = $gw->getAdmins($getArr['id']);
 							}
+							break;
+
+			case 'PAC' : 	$form_creator->formPath = '/templates/eimadmin/projectActivity.php';
+
+							/* If a HR admin, show all projects. Otherwise only show projects for which
+							 * user is an admin
+							 */
+							$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+							if ($authorizeObj->isAdmin()) {
+
+								$projects = new Projects();
+								$projectList = $projects->fetchProjects();
+							} else if ($authorizeObj->isProjectAdmin()) {
+
+								$gw = new ProjectAdminGateway();
+								$projectList = $gw->getProjectsForAdmin($_SESSION['empID']);
+							}
+
+							/* If projectId given, get activities for that project else load first
+							 * project in list
+							 */
+							$projectId = null;
+							$activities = array();
+							if (!empty($projectList)) {
+
+								if (isset($getArr['projectId']) && ($authorizeObj->isAdmin() ||
+										$authorizeObj->isProjectAdminOf($getArr['projectId']))) {
+									$projectId = $getArr['projectId'];
+								} else {
+									$projectId = $projectList[0]->getProjectId();
+								}
+								$activities = ProjectActivity::getActivityList($projectId);
+							}
+
+							$form_creator->popArr['projects'] = $projectList;
+							$form_creator->popArr['projectId'] = $projectId;
+							$form_creator->popArr['activities'] = $activities;
 							break;
 
 			case 'USR' :	$form_creator ->formPath = '/templates/maintenance/users.php';

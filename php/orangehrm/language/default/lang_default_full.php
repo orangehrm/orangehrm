@@ -926,6 +926,14 @@
 	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Please specify the custormer Id";
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Please specify the name";
 
+	$lang_Admin_ProjectActivities = "Project Activities";
+	$lang_Admin_Activity = "Activity";
+	$lang_Admin_Project_Activity_ClickOnActivityToEdit = "Click on an existing activity to rename";
+	$lang_Admin_Project_Activity_Error_PleaseSpecifyTheActivityName = "Please specify the activity name";
+	$lang_Admin_Project_Error_NoProjects = "No projects found.";
+	$lang_Admin_Project_NoActivitiesDefined = "No Activities defined.";
+	$lang_Admin_Project_Activity_Error_NameAlreadyDefined = "An Activity with that name already exists in this project. Please select a different name.";
+
 	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";

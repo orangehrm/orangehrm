@@ -30,8 +30,8 @@ require_once "testConf.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 
-require_once 'Projects.php';
-require_once 'ProjectAdminGateway.php';
+require_once ROOT_PATH . "/lib/models/eimadmin/Projects.php";
+require_once ROOT_PATH . "/lib/models/eimadmin/ProjectAdminGateway.php";
 
 /**
  * Test class for ProjectAdminGateway.
@@ -66,9 +66,9 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
 
-		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
 		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection);
 
 		// Insert a project and customer and employees for use in the test
@@ -106,6 +106,35 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     public function testAddAdmin() {
 
 		$gw = new ProjectAdminGateway();
+
+		// Verify that invalid project id's emp numbers throw exceptions
+		try {
+			$gw->addAdmin($projectId = "", $empNumber = 12);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(0, $this->_countAdmins(), "No rows should be inserted");
+		}
+
+		try {
+			$gw->addAdmin($projectId = "test", $empNumber = 12);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(0, $this->_countAdmins(), "No rows should be inserted");
+		}
+
+		try {
+			$gw->addAdmin($projectId = 1, $empNumber = "");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(0, $this->_countAdmins(), "No rows should be inserted");
+		}
+
+		try {
+			$gw->addAdmin($projectId = 1, $empNumber = "xyz");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(0, $this->_countAdmins(), "No rows should be inserted");
+		}
 
 		// Verify that add using non existent projects and employee id's throws an error
 		$this->_clearError();
@@ -164,6 +193,35 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 		$gw = new ProjectAdminGateway();
 		$this->_insertAdmins();
 
+		// Verify that invalid project id's emp numbers throw exceptions
+		try {
+			$gw->removeAdmin($projectId = "", $empNumber = 12);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(3, $this->_countAdmins(), "No rows should be removed");
+		}
+
+		try {
+			$gw->removeAdmin($projectId = "test", $empNumber = 12);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(3, $this->_countAdmins(), "No rows should be removed");
+		}
+
+		try {
+			$gw->removeAdmin($projectId = 1, $empNumber = "");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(3, $this->_countAdmins(), "No rows should be removed");
+		}
+
+		try {
+			$gw->removeAdmin($projectId = 1, $empNumber = "xyz");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			$this->assertEquals(3, $this->_countAdmins(), "No rows should be removed");
+		}
+
     	// empNumber invalid, project invalid
 		$this->assertFalse($gw->removeAdmin($projectId = 111, $empNumber = 23));
 		$this->assertEquals(3, $this->_countAdmins());
@@ -207,6 +265,49 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 
 		$gw = new ProjectAdminGateway();
 		$this->_insertAdmins();
+
+		// Verify that invalid project id's emp numbers throw exceptions
+		try {
+			$gw->removeAdmins($projectId = "", array(12));
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->removeAdmins($projectId = "test", array(12));
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->removeAdmins($projectId = null, array(12));
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->removeAdmins($projectId = 1, array(12, ""));
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->removeAdmins($projectId = 1, array(1, "xyz"));
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->removeAdmins($projectId = 1, null);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
 
 		// Pass empty array, valid project Id
 		$this->assertEquals(0, $gw->removeAdmins($projectId = 1, $empList = array()));
@@ -261,6 +362,28 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 
 		$gw = new ProjectAdminGateway();
 
+		// Verify that invalid project ids  throw exceptions
+		try {
+			$gw->getAdmins("");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->getAdmins("xier");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
+		try {
+			$gw->getAdmins(null);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected
+		}
+
 		// Get admins for invalid project
 		$list = $gw->getAdmins(12);
 		$this->assertTrue(is_array($list));
@@ -313,6 +436,41 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
 
 		$gw = new ProjectAdminGateway();
 
+		// Verify that invalid project id's emp numbers throw exceptions
+		try {
+			$gw->isAdmin($empNumber = 12, $projectId = "");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->isAdmin($empNumber = 12, $projectId = "test");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->isAdmin($empNumber = "", $projectId = 1);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->isAdmin($empNumber = "xyz", $projectId = 1);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->isAdmin($empNumber = 1, $projectId = null);
+		} catch (ProjectAdminException $e) {
+			$this->fail("null project id should be allowed.");
+		}
+
 		// valid employee but not admin
     	$this->assertFalse($gw->isAdmin($empNumber = 1, $projectId = 1));
     	$this->assertFalse($gw->isAdmin($empNumber = 1, $projectId = 11));
@@ -363,6 +521,28 @@ class ProjectAdminGatewayTest extends PHPUnit_Framework_TestCase {
     public function testGetProjectsForAdmin() {
 
 		$gw = new ProjectAdminGateway();
+
+		// Verify that invalid emp numbers throw exceptions
+		try {
+			$gw->getProjectsForAdmin("");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->getProjectsForAdmin("aer");
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
+
+		try {
+			$gw->getProjectsForAdmin(null);
+			$this->fail("Exception not thrown");
+		} catch (ProjectAdminException $e) {
+			// Expected.
+		}
 
 		// invalid emp number
 		$list = $gw->getProjectsForAdmin(100);

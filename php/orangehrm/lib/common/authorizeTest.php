@@ -72,11 +72,21 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
+		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+
     	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', NULL, 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");
 
+        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) " .
+        			"VALUES(1, 'Test customer', 'description', 0)");
+        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        			"VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
+        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) " .
+        			"VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
     }
 
     /**
@@ -86,6 +96,10 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
+        mysql_query("TRUNCATE TABLE `hs_hr_project_admin`", $this->connection);
+		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '012'", $this->connection);
 
@@ -171,6 +185,34 @@ class authorizeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res, $roleArr[0], "Didn't return the first");
     }
 
+	/**
+	 * Test case of isProjectAdmin() method
+	 */
+    public function testIsProjectAdmin() {
+    	$authObj = new authorize("012", 'No');
+        $this->assertFalse($authObj->isProjectAdmin(), "Not a project admin");
+        $this->assertTrue(mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        			"VALUES(12, 1)"));
+
+		$authObj = new authorize("012", 'No');
+		$this->assertTrue($authObj->isProjectAdmin(), "Project admin not identified.");
+
+    }
+
+	/**
+	 * Test case of isProjectAdminOf() method
+	 */
+    public function testIsProjectAdminOf() {
+
+    	$authObj = new authorize("012", 'No');
+    	$this->assertFalse($authObj->isProjectAdminOf(1), "Not a project admin");
+        mysql_query("INSERT INTO hs_hr_project_admin(emp_number, project_id) " .
+        			"VALUES(12, 1)");
+
+		$authObj = new authorize("012", 'No');
+    	$this->assertTrue($authObj->isProjectAdminOf(1), "Employee is an admin of project 1");
+    	$this->assertFalse($authObj->isProjectAdminOf(2), "Employee is not an admin of project 2");
+    }
 
 }
 

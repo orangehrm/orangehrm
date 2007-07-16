@@ -23,6 +23,7 @@ require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 require_once ROOT_PATH.'/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH .'/lib/models/eimadmin/Projects.php';
 
 /**
  * This class implements the table gateway pattern and provides
@@ -56,6 +57,11 @@ class ProjectAdminGateway {
 	 * @return true if successful
 	 */
 	public function addAdmin($projectId, $empNumber) {
+
+		if (!$this->_isValidId($projectId) || !$this->_isValidId($empNumber)) {
+			throw new ProjectAdminException("Invalid parameters to addAdmin(): emp_number = $empNumber , " .
+											"projectId = $projectId");
+		}
 
 		$result = true;
 		if (!$this->isAdmin($empNumber, $projectId)) {
@@ -96,6 +102,11 @@ class ProjectAdminGateway {
 	 */
 	public function removeAdmin($projectId, $empNumber) {
 
+		if (!$this->_isValidId($projectId) || !$this->_isValidId($empNumber)) {
+			throw new ProjectAdminException("Invalid parameters to removeAdmin(): emp_number = $empNumber , " .
+											"projectId = $projectId");
+		}
+
 		$num = $this->removeAdmins($projectId, array($empNumber));
 
 		if ($num > 1) {
@@ -115,6 +126,20 @@ class ProjectAdminGateway {
 	 * @return int  Number of admins actually removed.
 	 */
 	public function removeAdmins($projectId, $empList) {
+
+		if (!$this->_isValidId($projectId)) {
+			throw new ProjectAdminException("Invalid parameter to removeAdmins(): projectId = $projectId");
+		}
+
+		if (!is_array($empList)) {
+			throw new ProjectAdminException("Invalid parameter to removeAdmins(): empList");
+		}
+
+		foreach ($empList as $employee) {
+			if (!$this->_isValidId($employee)) {
+				throw new ProjectAdminException("Invalid parameter to removeAdmins(): employee id = $employee");
+			}
+		}
 
 		$count = 0;
 		if (!empty($empList)) {
@@ -138,6 +163,10 @@ class ProjectAdminGateway {
 	 * @param int $projectId The project ID
 	 */
 	public function getAdmins($projectId) {
+
+		if (!$this->_isValidId($projectId)) {
+			throw new ProjectAdminException("Invalid parameters to getAdmins(): projectId = $projectId");
+		}
 
 		$fields[0] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`";
 		$fields[1] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`";
@@ -178,6 +207,15 @@ class ProjectAdminGateway {
 	 */
 	public function isAdmin($empNumber, $projectId = null) {
 
+		if (!$this->_isValidId($empNumber)) {
+			throw new ProjectAdminException("Invalid empNumber");
+		}
+
+		if (!$this->_isValidId($empNumber) || (!is_null($projectId) && !$this->_isValidId($projectId)) ) {
+			throw new ProjectAdminException("Invalid parameters to isAdmin(): emp_number = $empNumber , " .
+											"projectId = " . is_null($projectId));
+		}
+
 		$admin = false;
 
 		// Include deleted if project ID given
@@ -200,6 +238,10 @@ class ProjectAdminGateway {
 	 * @return array Array of Projects objects
 	 */
 	public function getProjectsForAdmin($empNumber, $includeDeleted = false) {
+
+		if (!$this->_isValidId($empNumber)) {
+			throw new ProjectAdminException("Invalid parameters to getProjectsForAdmin(): empNumber = $empNumber");
+		}
 
 		$results = $this->_getProjects($empNumber, null, $includeDeleted);
 
@@ -252,7 +294,6 @@ class ProjectAdminGateway {
 
 		$conn = new DMLFunctions();
 		$results = $conn->executeQuery($sql);
-
 	     return $results;
 	}
 
@@ -271,6 +312,30 @@ class ProjectAdminGateway {
 		$tmp->setLastName($row[self::EMPLOYEE_FIELD_LAST_NAME]);
 
 		return $tmp;
+	}
+
+	/**
+	 * Function to check if the given variable is a valid id
+	 *
+	 * both pure ints and strings with leading zeros (ex: 012) are
+	 * considered valid.
+	 *
+	 * @param mixed id
+	 * @return bool true if a valid id, false otherwise
+	 */
+	private function _isValidId($id) {
+
+		if (is_int($id)) {
+			return true;
+		}
+
+		if (is_string($id)) {
+			$intValue = intval(ltrim($id, "0"));
+			if ($intValue > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

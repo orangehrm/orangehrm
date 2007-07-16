@@ -131,7 +131,14 @@
 	 */
 	function trimLeadingZeros(num) {
 		while (num.substr(0,1) == '0' && num.length>1) {
-			num = num.substr(1,9999); 
+			num = num.substr(1,9999);
 		}
 		return num;
+	}
+
+	/**
+	 * Trim whitespace from a string.
+	 */
+	function trim(s) {
+		return s.replace(/^\s+|\s+$/g,"");
 	}

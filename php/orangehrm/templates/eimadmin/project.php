@@ -151,13 +151,7 @@ if ($locRights['edit']) {
 	 * Shows the employee select fields
 	 */
 	function addAdmin() {
-		oLayer = document.getElementById("addAdminLayer");
-
-		if (oLayer.style.display == 'none') {
-			oLayer.style.display = 'block';
-		} else {
-			oLayer.style.display = 'none';
-		}
+		oLayer = document.getElementById("addAdminLayer").style.display = 'block';
 	}
 
 	/**

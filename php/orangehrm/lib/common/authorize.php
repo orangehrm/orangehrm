@@ -20,6 +20,7 @@
  */
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 
 /**
  * Assigns roles at login tells the rest
@@ -36,10 +37,12 @@ class authorize {
 	public $roleAdmin = "Admin";
 	public $roleSupervisor = "Supervisor";
 	public $roleESS = "ESS";
+	public $roleProjectAdmin = "ProjectAdmin";
 
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
 	const AUTHORIZE_ROLE_ESS = 'ESS';
+	const AUTHORIZE_ROLE_PROJECT_ADMIN = "ProjectAdmin";
 
 	/**
 	 * class atributes
@@ -104,6 +107,7 @@ class authorize {
 		}
 
 		$roles[$this->roleSupervisor] = $this->_checkIsSupervisor();
+		$roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -135,6 +139,25 @@ class authorize {
 	}
 
 	/**
+	 * Check whether the user is a project admin
+	 *
+	 * @param int $projectId Project for which to check. If not given, all projects are checked.
+	 * @return boolean
+	 */
+	private function _checkIsProjectAdmin($projectId = null) {
+
+		$projectAdmin = false;
+		$id = $this->getEmployeeId();
+
+		if (!empty($id)) {
+			$gw = new ProjectAdminGateway();
+			$projectAdmin = $gw->isAdmin($id, $projectId);
+		}
+
+		return $projectAdmin;
+	}
+
+	/**
 	 * Checks whether an admin
 	 *
 	 * @return boolean
@@ -150,6 +173,15 @@ class authorize {
 	 */
 	public function isSupervisor() {
 		return $this->_chkRole($this->roleSupervisor);
+	}
+
+	/**
+	 * Checks whether a project admin
+	 *
+	 * @return boolean true if a project admin. False otherwise
+	 */
+	public function isProjectAdmin() {
+		return $this->_chkRole($this->roleProjectAdmin);
 	}
 
 	/**
@@ -182,6 +214,17 @@ class authorize {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks whether employee is a project admin of the
+	 * given project.
+	 *
+	 * @param int $projectId The project id
+	 * @return bool true if a project admin, false otherwise
+	 */
+	public function isProjectAdminOf($projectId) {
+		return $this->_checkIsProjectAdmin($projectId);
 	}
 
 	/**

@@ -28,7 +28,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once "testConf.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";
-require_once 'ProjectActivity.php';
+require_once ROOT_PATH."/lib/models/eimadmin/ProjectActivity.php";
 
 /**
  * Test class for ProjectActivity.
@@ -204,6 +204,30 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetActivityList() {
 
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivityList("");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivityList("xfe");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivityList(null);
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
 		// Test with empty table
 		$projId = 1;
 		$list = ProjectActivity::getActivityList($projId);
@@ -253,6 +277,30 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetActivity() {
 
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivity("");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivity("xfe");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivity(null);
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
     	// non existant activity id.
     	$obj = ProjectActivity::getActivity(1);
     	$this->assertNull($obj);
@@ -283,6 +331,34 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
      * test testgetActivitiesWithName() method.
      */
     public function testGetActivitiesWithName() {
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivitiesWithName("", "Test");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivitiesWithName("xafd", "Test");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::getActivitiesWithName(null, "Test");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Test that activity name is escaped to avoid sql injection.
+		// If not, following will throw an error.
+		ProjectActivity::getActivitiesWithName(1, "' WHERE xkaf in (SELECT * from xaf)");
 
     	// non existent name (with empty table)
     	$list = ProjectActivity::getActivitiesWithName(1, "Test activity");
@@ -328,6 +404,46 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 
 		$projId = 1;
 		$ids = array(1, 2, 3, 4);
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::deleteActivities($ids, "Test");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid project ids throw exceptions
+		try {
+			ProjectActivity::deleteActivities($ids, "");
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid activity ids throw exceptions
+		try {
+			ProjectActivity::deleteActivities(null, 1);
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid activity ids throw exceptions
+		try {
+			ProjectActivity::deleteActivities(array(1, ""), 1);
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
+
+		// Verify that invalid activity ids throw exceptions
+		try {
+			ProjectActivity::deleteActivities(array(1, "ew"), 1);
+			$this->fail("Exception not thrown");
+		} catch (ProjectActivityException $e) {
+			// Expected
+		}
 
 		// try deleting unavailable ids.
 		$numDeleted = ProjectActivity::deleteActivities($ids, $projId);
