@@ -635,7 +635,7 @@ create table `hs_hr_timesheet_submission_period` (
 create table `hs_hr_time_event` (
   `time_event_id` int(11) not null,
   `project_id` int(11) not null,
-  `activity_id` int(11) not null,
+  `activity_id` int(11) default null,
   `employee_id` int(11) not null,
   `timesheet_id` int(11) not null,
   `start_time` datetime default null,
@@ -649,3 +649,18 @@ create table `hs_hr_time_event` (
   key `employee_id` (`employee_id`),
   key `timesheet_id` (`timesheet_id`)
 ) engine=innodb default charset=utf8;
+
+INSERT INTO `hs_hr_customer`
+  (`customer_id`, `name`, `description`)
+  VALUES (0, 'Internal', "Used to track special time events")
+  ON DUPLICATE KEY UPDATE `name`= 'Used to track special time events';
+
+INSERT INTO `hs_hr_project`
+  (`project_id`, `customer_id`, `name`, `description`)
+  VALUES (0, 0, 'Internal', "Used to track special time events")
+  ON DUPLICATE KEY UPDATE `name`= 'Used to track special time events';
+
+INSERT INTO `hs_hr_project_activity`
+  (`activity_id`, `project_id`, `name`)
+  VALUES (0, 0, 'Work time')
+  ON DUPLICATE KEY UPDATE `name`= 'Work time';
