@@ -92,10 +92,10 @@ function back($currScreen) {
 		case 0 	: 	unset($_SESSION['WELCOME']); break;
 		case 1 	: 	unset($_SESSION['LICENSE']); break;
 		case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
-		case 4 	: 	unset($_SESSION['LOCCONFOPT']);	break;
-		case 3 	: 	unset($_SESSION['DBCONFOPT']); break;
-		case 5 	: 	unset($_SESSION['LOCCONF']); break;
-		case 6 	: 	unset($_SESSION['DOWNLOAD']); break;
+		case 3 	: 	unset($_SESSION['LOCCONFOPT']);	break;
+		case 4 	: 	unset($_SESSION['LOCCONF']); break;
+		case 5 	: 	unset($_SESSION['DOWNLOAD']); break;
+		case 6 	: 	unset($_SESSION['DBCONFIG']); unset($_SESSION['DBCONFOPT']); break;
 		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
 		case 8 	: 	unset($_SESSION['RESTORE']); break;
 		case 9 	: 	unset($_SESSION['RESTORING']);
@@ -123,11 +123,20 @@ function fetchDbInfo($location) {
 		$dbInfo = array( 'dbHostName' => $confObj->dbhost,
 					 	 'dbHostPort' => $confObj->dbport,
 					 	 'dbName' => $confObj->dbname,
-					 	 'dbUserName' => $confObj->dbuser,
-					 	 'dbPassword' => $confObj->dbpass
+					 	 'dbOHRMUserName' => $confObj->dbuser,
+					 	 'dbOHRMPassword' => $confObj->dbpass
 						);
 
 		$_SESSION['dbInfo'] = $dbInfo;
+
+		if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbOHRMUserName'], $dbInfo['dbOHRMPassword'])) {
+
+			if (!mysql_select_db($dbInfo['dbName'])) {
+				$_SESSION['error'] = mysql_error();
+				return false;
+			}
+		} else $error = 'Could not connect to the database server';
+
 		return true;
 	}
 
@@ -155,19 +164,7 @@ function extractDbInfo() {
 
 		if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
 			$error = 'WRONGDBVER';
-		elseif(mysql_select_db($dbInfo['dbName']))
-			$error = 'DBEXISTS';
-		elseif(!isset($_POST['chkSameUser'])) {
-			mysql_select_db('mysql');
-			$rset = mysql_query("SELECT USER FROM user WHERE USER = '" .$dbInfo['dbOHRMUserName'] . "'");
-
-			if(mysql_num_rows($rset) > 0)
-				$error = 'DBUSEREXISTS';
-			else $_SESSION['DBCONFIG'] = 'OK';
-
-	} else $_SESSION['DBCONFIG'] = 'OK';
-
-
+		else $_SESSION['DBCONFIG'] = 'OK';
 	} else $error = 'WRONGDBINFO';
 
 	if (isset($error)) {
@@ -206,7 +203,7 @@ if(isset($_POST['actionResponse'])) {
 		case 'LICENSEOK' 	: $_SESSION['LICENSE'] = 'OK'; break;
 		case 'DISCLAIMEROK' : $_SESSION['DISCLAIMER'] = 'OK'; break;
 		case 'LOCCONFOK' 	: $_SESSION['dbInfo']['locationOhrm'] = $_POST['locationOhrm'];
-							  if (fetchDbInfo( $_SESSION['dbInfo']['locationOhrm'])) {
+							  if (fetchDbInfo($_SESSION['dbInfo']['locationOhrm'])) {
 							  	$_SESSION['LOCCONF'] = 'OK';
 							  }
 							  //echo '1'.$error;
@@ -214,9 +211,11 @@ if(isset($_POST['actionResponse'])) {
 		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
 		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
 		case 'DBINFO'		: extractDbInfo();
-							  if (!isset($_SESSION['DBCONFIG'])) {
+							  /*if (!isset($_SESSION['DBCONFIG'])) {
 							  	break;
-							  }
+							  } else if (isset($_SESSION['error'])) {
+							  	break;
+							  }*/break;
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 
 		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {

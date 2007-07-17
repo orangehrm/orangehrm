@@ -31,15 +31,17 @@ if(isset($_SESSION['CONFDONE'])) {
 	$currScreen = 9;
 } else if (isset($_SESSION['SYSCHECK'])){
 	$currScreen = 8;
-} else if(isset($_SESSION['DOWNLOAD'])) {
+} else if(isset($_SESSION['DBCONFIG'])) {
 	$currScreen = 7;
-} else if(isset($_SESSION['LOCCONF'])) {
+}else if(isset($_SESSION['DBCONFOPT'])) {
 	$currScreen = 6;
-} else if(isset($_SESSION['LOCCONFOPT'])) {
+}else if(isset($_SESSION['DOWNLOAD'])) {
+	$currScreen = 6;
+} else if(isset($_SESSION['LOCCONF'])) {
 	$currScreen = 5;
-} else if(isset($_SESSION['DBCONFOPT'])) {
+} else if(isset($_SESSION['LOCCONFOPT'])) {
 	$currScreen = 4;
-}else if(isset($_SESSION['DISCLAIMER'])) {
+} else if(isset($_SESSION['DISCLAIMER'])) {
 	$currScreen = 3;
 } else if(isset($_SESSION['LICENSE'])) {
 	$currScreen = 2;
@@ -59,9 +61,9 @@ $steps = array('welcome',
 			   'license',
 			   'disclaimer',
 			   'options',
-			   'database',
 			   'OrangeHRM X.X',
 			   'Backup Data',
+			   'database',
 			   'System Check',
 			   'Upload',
 			   'upgrading',
@@ -71,9 +73,9 @@ $helpLink = array("#welcome",
 				  '#license',
 				  '#disclaimer',
 				  '#options',
-				  "#DBCreation",
 				  "#old",
 				  "#backup",
+				  "#DBCreation",
 				  '#syscheck',
 				  "#upload",
 				  '#upgrading',
@@ -145,9 +147,9 @@ switch ($currScreen) {
 	case 1 	: 	require(ROOT_PATH . '/upgrader/license.php'); break;
 	case 2 	: 	require(ROOT_PATH . '/upgrader/disclaimer.php'); break;
 	case 3 	: 	require(ROOT_PATH . '/upgrader/options.php'); break;
-	case 4 	: 	require(ROOT_PATH . '/upgrader/dbConfig.php'); break;
-	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
-	case 6 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
+	case 4 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
+	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
+	case 6 	: 	require(ROOT_PATH . '/upgrader/dbConfig.php'); break;
 	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
 	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/restoreData.php'); break;
 	case 9 	: 	require(ROOT_PATH . '/upgrader/restore/processing.php'); break;
