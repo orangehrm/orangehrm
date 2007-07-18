@@ -191,15 +191,15 @@ class TimeEvent {
 		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
 
 		if ($this->getStartTime() != null) {
-			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getStartTime()}' AND ";
-			$tmpQuery .= "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getStartTime()}')";
+			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` < '{$this->getStartTime()}' AND ";
+			$tmpQuery .= "((a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` IS NULL) OR (a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getStartTime()}')))";
 
 			if ($this->getEndTime() != null) {
-				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getEndTime()}' AND ";
-				$tmpQuery .= "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getEndTime()}')";
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` < '{$this->getEndTime()}' AND ";
+				$tmpQuery .= "((a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` IS NULL) OR (a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getEndTime()}')))";
 			}
 
-			$selectConditions[] = $tmpQuery;
+			$selectConditions[] = "({$tmpQuery})";
 		}
 
 		if ($this->getTimeEventId() != null) {
@@ -211,8 +211,6 @@ class TimeEvent {
 		}
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
-
-		echo $query;
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
@@ -240,7 +238,11 @@ class TimeEvent {
 
 		$timesheets = $timesheetObj->fetchTimesheets(true);
 		$timesheet = $timesheets[0];
-		$this->setTimesheetId($timesheet->getTimesheetId());
+		if ($timesheet) {
+			$this->setTimesheetId($timesheet->getTimesheetId());
+		} else {
+			$this->setTimesheetId($this->getTimesheetId());
+		}
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -396,6 +398,9 @@ class TimeEvent {
 		return $message2;
 	}
 
+	/**
+	 * Fetch a list of pending time events
+	 */
 	public function pendingTimeEvents($punch=false) {
 		$sqlBuilder = new SQLQBuilder();
 

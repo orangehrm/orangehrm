@@ -101,9 +101,9 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(CommonFunctions::IsValidId(-1));
 		$this->assertFalse(CommonFunctions::IsValidId("-1"));
 
-		$this->assertFalse(CommonFunctions::IsValidId(0));
-		$this->assertFalse(CommonFunctions::IsValidId("0"));
-		$this->assertFalse(CommonFunctions::IsValidId("000"));
+		$this->assertTrue(CommonFunctions::IsValidId(0));
+		$this->assertTrue(CommonFunctions::IsValidId("0"));
+		$this->assertTrue(CommonFunctions::IsValidId("000"));
 
 		$this->assertFalse(CommonFunctions::IsValidId(null));
 		$this->assertFalse(CommonFunctions::IsValidId(""));

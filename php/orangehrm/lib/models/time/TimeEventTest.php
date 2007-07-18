@@ -139,10 +139,15 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		}
     }
 
+    public function testFetchTimeEvents3() {
+    	// to do
+    	$this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
     public function testAddTimeEvent() {
 		$eventObj = $this->classTimeEvent;
 
-		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*1.5), date('Y-m-d'), 90, "Testing2");
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), date('Y-m-d H:i', time()+3600*3.5), date('Y-m-d'), 90, "Testing2");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setActivityId($expected[0][2]);
@@ -218,6 +223,21 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		 	$this->assertEquals($expected[$i][8], $res[$i]->getDuration(), "Invalid duration");
 		 	$this->assertEquals($expected[$i][9], $res[$i]->getDescription(), "Invalid description");
 		}
+    }
+
+    public function testPendingTimeEvents() {
+		// to do
+		$this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
+    public function testPendingTimeEvents2() {
+		// to do
+		$this->markTestIncomplete('This test has not been implemented yet.');
+    }
+
+    public function testPendingTimeEvents3() {
+		// to do
+		$this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     public function testDeleteTimeEvent() {
