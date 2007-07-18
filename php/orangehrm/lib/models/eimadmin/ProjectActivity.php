@@ -102,7 +102,7 @@ class ProjectActivity {
 		$fields[2] = self::DB_FIELD_PROJECT_ID;
 		$fields[3] = self::DB_FIELD_DELETED;
 
-		$values[0] = "'null'";
+		$values[0] = "null";
 		$values[1] = "'{$this->name}'";
 		$values[2] = "'{$this->projectId}'";
 		$values[3] = "'". intval($this->deleted) ."'";
