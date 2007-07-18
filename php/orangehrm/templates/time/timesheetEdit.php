@@ -30,7 +30,7 @@ function populateProjects($cutomerId, $row) {
 	$xajaxFiller = new xajaxElementFiller();
 	$element="cmbProject[$row]";
 
-	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projects,0,'frmTimesheet',$element);
+	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projects,0,'frmTimesheet',$element, 1);
 
 	$objResponse->addScript('document.getElementById("'.$element.'").focus();');
 
@@ -165,13 +165,13 @@ function validate() {
 				}
 			}
 
-			if ($("cmbCustomer["+i+"]").value == 0) {
+			if ($("cmbCustomer["+i+"]").value == "-1") {
 				errors[3] = "<?php echo $lang_Time_Errors_CustomerNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
 			}
 
-			if ($("cmbProject["+i+"]").value == 0) {
+			if ($("cmbProject["+i+"]").value == "-1") {
 				errors[4] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
@@ -211,11 +211,11 @@ function allEmpty(row) {
 		unUsed=false;
 	}
 
-	if ($("cmbCustomer["+row+"]").value != 0) {
+	if ($("cmbCustomer["+row+"]").value != "-1") {
 		unUsed=false;
 	}
 
-	if ($("cmbProject["+row+"]").value != 0) {
+	if ($("cmbProject["+row+"]").value != "-1") {
 		unUsed=false;
 	}
 
@@ -348,7 +348,7 @@ function deleteTimeEvents() {
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($customers)) { ?>
-						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
+						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($customers as $customer) {
 							$selected="";
 							if ($customerDet->getCustomerId() == $customer->getCustomerId()) {
@@ -358,13 +358,13 @@ function deleteTimeEvents() {
 						<option <?php echo $selected; ?> value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
 				<?php 	}
 					} else { ?>
-						<option value="0">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
+						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
 				<?php } ?>
 					</select>
 				</td>
 				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
-						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
+						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
 							$selected="";
 							if ($projectDet->getProjectId() == $project->getProjectId()) {
@@ -374,7 +374,7 @@ function deleteTimeEvents() {
 						<option <?php echo $selected; ?> value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
 				<?php 	}
 					} else { ?>
-						<option value="0">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
+						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
 				<?php } ?>
 					</select>
 				</td>
@@ -396,23 +396,23 @@ function deleteTimeEvents() {
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" disabled="disabled" /></td>
 				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($customers)) { ?>
-						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
+						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($customers as $customer) { ?>
 						<option value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
 				<?php 	}
 					} else { ?>
-						<option value="0">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
+						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
 				<?php } ?>
 					</select>
 				</td>
 				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projects)) { ?>
-						<option value="0">--<?php echo $lang_Leave_Common_Select;?>--</option>
+						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) { ?>
 						<option value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
 				<?php 	}
 					} else { ?>
-						<option value="0">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
+						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
 				<?php } ?>
 					</select>
 				</td>

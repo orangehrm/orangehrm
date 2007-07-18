@@ -977,86 +977,15 @@ switch ($moduletype) {
 						// choosing which extractor
 						switch ($_GET['mtcode']) {
 
-							case 'BUG'	:
-											if(isset($_POST['sqlState'])) {
+							case 'BUG'	:	if(isset($_POST['sqlState'])) {
 												$extractor = new EXTRACTOR_Bugs();
 											}
-
 											break;
 
-							case 'DVR'	:
-											if(isset($_POST['sqlState'])) {
-												$extractor = new EXTRACTOR_DbVersions();
+							case 'CPW'	:	if(isset($_POST['sqlState'])) {
+												$extractor = new EXTRACTOR_ChangeUsers();
 											}
-
 											break;
-
-							case 'MOD'	:
-											if(isset($_POST['sqlState'])) {
-												$extractor = new EXTRACTOR_Modules();
-											}
-
-											break;
-
-							case 'USG'	:
-											if(isset($_POST['sqlState'])) {
-												$extractor = new EXTRACTOR_UserGroups();
-											}
-
-											break;
-
-							case 'VER'	:
-											if(isset($_POST['sqlState'])) {
-												$extractor = new EXTRACTOR_Versions();
-											}
-
-											break;
-
-
-						case 'FVR'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_FileVersions();
-										}
-
-										break;
-
-
-						case 'CUS'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_Customer();
-										}
-
-										break;
-
-						case 'PRJ'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_Projects();
-										}
-
-										break;
-
-
-						case 'USR'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_Users();
-										}
-
-										break;
-
-						case 'CPW'	:
-										if(isset($_POST['sqlState'])) {
-											$extractor = new EXTRACTOR_ChangeUsers();
-										}
-
-										break;
-
-
-						case 'UGR'	:
-										if(isset($_POST['STAT'])) {
-											$extractor = new EXTRACTOR_Rights();
-										}
-
-										break;
 						}
 
 
@@ -1438,6 +1367,7 @@ switch ($moduletype) {
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 
 												$current=false;
+												$punchIn=false;
 
 												switch ($_GET['action']) {
 													case 'View_Current_Timesheet':	$current=true;
@@ -1488,6 +1418,13 @@ switch ($moduletype) {
 													case 'Fetch_Prev_Timesheet'	:	$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->previousEmployeeTimesheet();
+																					break;
+													case 'Show_Punch_Time'		:	$timeController->showPunchTime();
+																					break;
+													case 'Punch_In'				:	$punchIn=true;
+													case 'Punch_Out'			:	$obj = $timeEventExtractor->parsePunch($_POST, $punchIn);
+																					$timeController->setObjTime($obj);
+																					$timeController->punchTime($punchIn);
 																					break;
 												}
 											} else {

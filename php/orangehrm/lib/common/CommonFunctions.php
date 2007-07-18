@@ -183,7 +183,7 @@ class CommonFunctions {
 	 */
 	public static function isValidId($id) {
 
-		if (is_int($id) && (intVal($id) > 0)) {
+		if (is_int($id) && (intVal($id) >= 0)) {
 			return true;
 		}
 
@@ -192,7 +192,7 @@ class CommonFunctions {
 		 */
 		if (is_string($id)) {
 
-			if ((preg_match('/^[0-9]+$/', $id)) && (intval($id) > 0)) {
+			if ((preg_match('/^[0-9]+$/', $id)) && (intval($id) >= 0)) {
 
 				return true;
 			}

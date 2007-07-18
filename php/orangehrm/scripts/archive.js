@@ -137,6 +137,13 @@
 	}
 
 	/**
+	 * Prototype framework like function to access elements by Id
+	 */
+	function $(id) {
+		return document.getElementById(id);
+	}
+
+	/**
 	 * Trim whitespace from a string.
 	 */
 	function trim(s) {

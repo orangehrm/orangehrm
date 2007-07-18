@@ -652,15 +652,16 @@ create table `hs_hr_time_event` (
 
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
-  VALUES (0, 'Internal', "Used to track special time events")
-  ON DUPLICATE KEY UPDATE `name`= 'Used to track special time events';
+  VALUES (0, 'Internal', "Internal time tracker")
+  ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
 INSERT INTO `hs_hr_project`
   (`project_id`, `customer_id`, `name`, `description`)
   VALUES (0, 0, 'Internal', "Used to track special time events")
-  ON DUPLICATE KEY UPDATE `name`= 'Used to track special time events';
+  ON DUPLICATE KEY UPDATE `name`= 'Internal';
 
 INSERT INTO `hs_hr_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time')
   ON DUPLICATE KEY UPDATE `name`= 'Work time';
+  

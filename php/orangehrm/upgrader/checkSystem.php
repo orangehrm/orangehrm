@@ -188,8 +188,11 @@ function howToResolve() {
                   } else if (mysql_errno() == 1235){
                   	echo "<b><font color='red'>Disabled</font><a href='./guide/#howToEnableInnoDB' target='_blank' ><img border='0' src='images/help.png' alt='help' /></a></b>";
                   	$error_found = true;
-                  } else {
-	                echo "<b><font color='red'>Not Available</font></b>";
+                  } else if (mysql_errno() == 1227){
+	                echo "<b><font color='red'>Access denied</font></b>";
+	                $error_found = true;
+	             } else {
+	                echo "<b><font color='red'>Unable to determine</font></b>";
 	                $error_found = true;
 	             }
                } else {

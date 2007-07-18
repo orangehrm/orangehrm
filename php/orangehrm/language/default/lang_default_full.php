@@ -1007,4 +1007,16 @@
 	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
 	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
+
+	// 2.2 Time module
+	$lang_Time_PunchInPunchOutTimeTitle = "Punch In/Out Time";
+	$lang_Time_PunchIn = "In";
+	$lang_Time_PunchOut = "Out";
+
+	$lang_Time_LastPunchIn = "Last punch in time:";
+	$lang_Time_LastPunchOut = "Last punch out time:";
+
+	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
+	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
+	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
 ?>

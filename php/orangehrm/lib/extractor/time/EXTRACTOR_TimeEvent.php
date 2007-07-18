@@ -64,7 +64,7 @@ class EXTRACTOR_TimeEvent {
 				$tmpObj->setEmployeeId($postArr['txtEmployeeId']);
 				$tmpObj->setTimesheetId($postArr['txtTimesheetId']);
 
-				if (!empty($postArr['cmbProject'][$i])) {
+				if ($postArr['cmbProject'][$i] != -1) {
 					$tmpArr[] = $tmpObj;
 				}
 		}
@@ -84,6 +84,34 @@ class EXTRACTOR_TimeEvent {
 		}
 
 		return $tmpArr;
+	}
+
+	public function parsePunch($postArr, $punchIn) {
+		$tmpObj = new TimeEvent();
+
+		$tmpObj->setProjectId(0);
+		$tmpObj->setActivityId(1);
+		$tmpObj->setEmployeeId($_SESSION['empID']);
+
+		if ($punchIn) {
+			$tmpObj->setStartTime("{$postArr['txtDate']} {$postArr['txtTime']}");
+			$tmpObj->setDuration(0);
+		} else {
+			$startTime = strtotime($postArr['startTime']);
+			$endTime = strtotime("{$postArr['txtDate']} {$postArr['txtTime']}");
+
+			if ($startTime >= $endTime) {
+				return null;
+			}
+			$tmpObj->setStartTime($postArr['startTime']);
+			$tmpObj->setEndTime("{$postArr['txtDate']} {$postArr['txtTime']}");
+			$tmpObj->setDuration($endTime-$startTime);
+			$tmpObj->setTimeEventId($postArr['timeEventId']);
+		}
+		$tmpObj->setReportedDate($postArr['txtDate']);
+		$tmpObj->setDescription($postArr['txtNote']);
+
+		return $tmpObj;
 	}
 }
 ?>

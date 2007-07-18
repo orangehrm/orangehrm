@@ -98,6 +98,70 @@ class TimeController {
 		$this->redirect($message, "?timecode=Time&action=View_Timesheet&id={$timesheetId}");
 	}
 
+	public function punchTime($punchIn) {
+		$tmpObj  = $this->getObjTime();
+
+		if ($tmpObj == null) {
+			$this->redirect('INVALID_TIME_FAILURE', "?timecode=Time&action=Show_Punch_Time");
+		}
+
+		if ($punchIn) {
+			$res = $tmpObj->addTimeEvent();
+		} else {
+			$res = $tmpObj->editTimeEvent();
+		}
+
+		if ($res) {
+			$_GET['message'] = 'SUBMIT_SUCCESS';
+		} else {
+			$_GET['message'] = 'SUBMIT_FAILURE';
+		}
+
+		$this->redirect($_GET['message'], "?timecode=Time&action=Show_Punch_Time");
+
+		return $res;
+	}
+
+	public function showPunchTime() {
+		$path = "/templates/time/punchTime.php";
+
+		if (!isset($_SESSION['empID'])) {
+			$this->redirect('UNAUTHORIZED_FAILURE');
+		}
+
+		$tmpObj = new TimeEvent();
+		$tmpObj->setEmployeeId($_SESSION['empID']);
+		$tmpObj->setProjectId(TimeEvent::TIME_EVENT_PUNCH_PROJECT_ID);
+		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
+
+		$tmpTimeObj=$tmpObj->pendingTimeEvents(true);
+
+		if (!$tmpTimeObj) {
+			$tmpTimeObj=$tmpObj->fetchTimeEvents(true);
+		}
+
+		if (!isset($tmpTimeObj)) {
+			$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
+			$dataArr[1]=null;
+		} else {
+			if ($tmpTimeObj[0]->getEndTime() != null) {
+				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
+			} else {
+				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_OUT;
+			}
+			$dataArr[1]=$tmpTimeObj[0];
+		}
+
+		$employeeObj = new EmpInfo();
+
+		$employee = $employeeObj->filterEmpMain($_SESSION['empID']);
+
+		$dataArr[2]=$employee[0];
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
 	public function submitTimesheet() {
 		$timesheetObj = $this->objTime;
 
@@ -409,7 +473,7 @@ class TimeController {
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
 
-		if ($this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())) {
+		if ($timesheet && $this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())) {
 			$roles[] = authorize::AUTHORIZE_ROLE_SUPERVISOR;
 		}
 

@@ -33,6 +33,7 @@ class TimeEvent {
 
 	const TIME_EVENT_DB_FIELD_TIME_EVENT_ID = "time_event_id";
 	const TIME_EVENT_DB_FIELD_PROJECT_ID = "project_id";
+	const TIME_EVENT_DB_FIELD_ACTIVITY_ID = "activity_id";
 	const TIME_EVENT_DB_FIELD_EMPLOYEE_ID = "employee_id";
 	const TIME_EVENT_DB_FIELD_TIMESHEET_ID = "timesheet_id";
 	const TIME_EVENT_DB_FIELD_START_TIME = "start_time";
@@ -41,11 +42,18 @@ class TimeEvent {
 	const TIME_EVENT_DB_FIELD_DURATION = "duration";
 	const TIME_EVENT_DB_FIELD_DESCRIPTION = "description";
 
+	const TIME_EVENT_PUNCH_PROJECT_ID = 0;
+	const TIME_EVENT_PUNCH_ACTIVITY_ID = 1;
+
+	const TIME_EVENT_PUNCH_IN = 1;
+	const TIME_EVENT_PUNCH_OUT = 2;
+
 	/**
 	 * Class atributes
 	 */
 	private $timeEventId;
 	private $projectId;
+	private $activityId;
 	private $employeeId;
 	private $timesheetId;
 	private $startTime;
@@ -73,6 +81,14 @@ class TimeEvent {
 
 	public function getProjectId() {
 		return $this->projectId;
+	}
+
+	public function setActivityId($activityId) {
+		$this->activityId=$activityId;
+	}
+
+	public function getActivityId() {
+		return $this->activityId;
 	}
 
 	public function setEmployeeId($employeeId) {
@@ -163,12 +179,68 @@ class TimeEvent {
 	}
 
 	/**
+	 * Used to determine there are overlapping time events with the current
+	 * time event.
+	 *
+	 */
+	private function _isOverlapping() {
+		$sqlBuilder = new SQLQBuilder();
+
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
+
+		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+
+		if ($this->getStartTime() != null) {
+			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getStartTime()}' AND ";
+			$tmpQuery .= "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getStartTime()}')";
+
+			if ($this->getEndTime() != null) {
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getEndTime()}' AND ";
+				$tmpQuery .= "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getEndTime()}')";
+			}
+
+			$selectConditions[] = $tmpQuery;
+		}
+
+		if ($this->getTimeEventId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` != {$this->getTimeEventId()}";
+		}
+
+		if ($this->getEmployeeId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
+		}
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+
+		echo $query;
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+
+		if (mysql_num_rows($result) == 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Add new time event
 	 *
 	 * Time event id will be over written
 	 */
 	public function addTimeEvent() {
+		if (!$this->_isOverlapping()) {
+			return false;
+		}
+
 		$this->_getNewTimeEventId();
+
+		$timesheetObj = new Timesheet();
+
+		$timesheets = $timesheetObj->fetchTimesheets(true);
+		$timesheet = $timesheets[0];
+		$this->setTimesheetId($timesheet->getTimesheetId());
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -176,13 +248,15 @@ class TimeEvent {
 
 		$insertFields[0] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
 		$insertFields[1] = "`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
-		$insertFields[2] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
-		$insertFields[3] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+		$insertFields[2] = "`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
+		$insertFields[3] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+		$insertFields[4] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
 
 		$insertValues[0] = $this->getTimeEventId();
 		$insertValues[1] = $this->getProjectId();
-		$insertValues[2] = $this->getEmployeeId();
-		$insertValues[3] = $this->getTimesheetId();
+		$insertValues[2] = $this->getActivityId();
+		$insertValues[3] = $this->getEmployeeId();
+		$insertValues[4] = $this->getTimesheetId();
 
 		if ($this->getStartTime() != null) {
 			$insertFields[] = "`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
@@ -227,6 +301,10 @@ class TimeEvent {
 	 * All except time event id is editable
 	 */
 	public function editTimeEvent() {
+		if (!$this->_isOverlapping()) {
+			return false;
+		}
+
 		$sqlBuilder = new SQLQBuilder();
 
 		$updateTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
@@ -239,6 +317,11 @@ class TimeEvent {
 		if ($this->getEmployeeId() != null) {
 			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
 			$updateValues[] = $this->getEmployeeId();
+		}
+
+		if ($this->getActivityId() != null) {
+			$updateFields[] = "`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
+			$updateValues[] = $this->getActivityId();
 		}
 
 		if ($this->getTimesheetId() != null) {
@@ -313,33 +396,30 @@ class TimeEvent {
 		return $message2;
 	}
 
-	/**
-	 * Fetch time event records and build objects
-	 *
-	 * If any atributes are set records will searched against them
-	 *
-	 * @return TimeEvent[] array of time events
-	 */
-	public function fetchTimeEvents() {
+	public function pendingTimeEvents($punch=false) {
 		$sqlBuilder = new SQLQBuilder();
 
 		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
 
 		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
 		$selectFields[1] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
-		$selectFields[2] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[3] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
-		$selectFields[4] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
-		$selectFields[5] = "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
-		$selectFields[6] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
-		$selectFields[7] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."`";
-		$selectFields[8] = "a.`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+		$selectFields[2] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
+		$selectFields[3] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+		$selectFields[4] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+		$selectFields[5] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+		$selectFields[6] = "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+		$selectFields[7] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+		$selectFields[8] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+		$selectFields[9] = "a.`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
 
 		if ($this->getTimeEventId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
 		}
 		if ($this->getProjectId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
+		}
+		if ($this->getActivityId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = {$this->getActivityId()}";
 		}
 		if ($this->getEmployeeId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
@@ -348,7 +428,69 @@ class TimeEvent {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 		}
 
-		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+		$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."` IS NULL";
+
+		if ($punch) {
+			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[5], 'DESC', 1);
+		} else {
+			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+		}
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+
+		$eventArr = $this->_buildObjArr($result);
+
+		return $eventArr;
+	}
+
+	/**
+	 * Fetch time event records and build objects
+	 *
+	 * If any atributes are set records will searched against them.
+	 * If the parameter $punch is set, it will be the last Work Time
+	 * event that will be returned
+	 *
+	 * @param bool punch
+	 * @return TimeEvent[] array of time events
+	 */
+	public function fetchTimeEvents($punch=false) {
+		$sqlBuilder = new SQLQBuilder();
+
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
+
+		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+		$selectFields[1] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
+		$selectFields[2] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
+		$selectFields[3] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."`";
+		$selectFields[4] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`";
+		$selectFields[5] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+		$selectFields[6] = "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+		$selectFields[7] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+		$selectFields[8] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+		$selectFields[9] = "a.`".self::TIME_EVENT_DB_FIELD_DESCRIPTION."`";
+
+		if ($this->getTimeEventId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
+		}
+		if ($this->getProjectId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
+		}
+		if ($this->getActivityId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = {$this->getActivityId()}";
+		}
+		if ($this->getEmployeeId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
+		}
+		if ($this->getTimesheetId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
+		}
+
+		if ($punch) {
+			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[5], 'DESC', 1);
+		} else {
+			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+		}
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
@@ -372,6 +514,7 @@ class TimeEvent {
 
 			$tmpEventArr->setTimeEventId($row[self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID]);
 			$tmpEventArr->setProjectId($row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]);
+			$tmpEventArr->setActivityId($row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]);
 			$tmpEventArr->setEmployeeId($row[self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID]);
 			$tmpEventArr->setTimesheetId($row[self::TIME_EVENT_DB_FIELD_TIMESHEET_ID]);
 
@@ -392,4 +535,6 @@ class TimeEvent {
 	}
 }
 
+class TimeEventException extends Exception {
+}
 ?>

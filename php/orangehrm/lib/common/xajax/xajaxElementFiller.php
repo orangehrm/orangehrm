@@ -39,12 +39,14 @@ class xajaxElementFiller {
 		return $objResponse;
 	}
 
-	function cmbFillerById ($objResponse,$fillArr,$fele,$form,$element,$defSel=1) {
-		$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
+	function cmbFillerById ($objResponse,$fillArr,$fele,$form,$element,$defSel=-1) {
 
-		if($defSel == 1)
+		if($defSel == -1) {
+			$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
 	 		$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('--Select--','0');");
-
+		} else {
+			$objResponse->addScript("document.getElementById('".$element."').options.length = $defSel;");
+		}
 	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
 	 		$objResponse->addScript("document.getElementById('".$element."').options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" .$fillArr[$i][($fele+1)]. "','".$fillArr[$i][$fele]."');");
 

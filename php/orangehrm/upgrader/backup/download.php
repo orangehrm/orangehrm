@@ -37,7 +37,7 @@ function backupData() {
 
 function connectDB() {
 
-	if(!@$conn = mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
+	if(!@$conn = mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], $_SESSION['dbInfo']['dbOHRMUserName'], $_SESSION['dbInfo']['dbOHRMPassword'])) {
 		$_SESSION['error'] =  'Database Connection Error!';
 		return $conn;
 	}
