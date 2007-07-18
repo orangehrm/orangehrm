@@ -109,7 +109,7 @@ if ($timeEvent != null) {
 	YAHOO.util.Event.addListener(window, "load", init);
 </script>
 <h2>
-<?php echo $lang_Time_PunchInPunchOutTimeTitle; ?>
+<?php echo $lang_Time_PunchInPunchOutTitle; ?>
 <hr/>
 </h2>
 

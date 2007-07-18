@@ -1009,7 +1009,7 @@
 	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
 
 	// 2.2 Time module
-	$lang_Time_PunchInPunchOutTimeTitle = "Punch In/Out Time";
+	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
 	$lang_Time_PunchIn = "In";
 	$lang_Time_PunchOut = "Out";
 
@@ -1019,4 +1019,6 @@
 	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
 	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
 	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
+
+	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 ?>

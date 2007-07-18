@@ -137,6 +137,10 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
+if ($authorizeObj->isESS()) {
+	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time';
+}
+
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
 $allowAdminView = false;
@@ -568,6 +572,9 @@ function setSize() {
            	<TD width=158>
 	            <ul id="menu">
 	            	<li id="timesheets"><a href="<?php echo $timesheetPage; ?>" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu16');" onMouseOut="ypSlideOutMenu.hideMenu('menu16');"><?php echo $lang_Menu_Time_Timesheets; ?></a></li>
+  					<?php if ($authorizeObj->isESS()) { ?>
+	            	<li id="timesheets"><a href="lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time" target="rightMenu"><?php echo $lang_Menu_Time_PunchInOut; ?></a></li>
+	            	<?php } ?>
   				</ul>
 			</TD>
 
