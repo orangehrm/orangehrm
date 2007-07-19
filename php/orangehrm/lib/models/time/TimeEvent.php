@@ -234,16 +234,6 @@ class TimeEvent {
 
 		$this->_getNewTimeEventId();
 
-		$timesheetObj = new Timesheet();
-
-		$timesheets = $timesheetObj->fetchTimesheets(true);
-		$timesheet = $timesheets[0];
-		if ($timesheet) {
-			$this->setTimesheetId($timesheet->getTimesheetId());
-		} else {
-			$this->setTimesheetId($this->getTimesheetId());
-		}
-
 		$sqlBuilder = new SQLQBuilder();
 
 		$insertTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
@@ -539,6 +529,52 @@ class TimeEvent {
 		}
 
 		return $objArr;
+	}
+
+	public function resolveTimesheet($submissionPeriodId=null) {
+		if ($this->getTimesheetId() == null) {
+			$timesheetObj = new Timesheet();
+
+			$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+
+			if ($submissionPeriodId != null) {
+				$timesheetSubmissionPeriodObj->setTimesheetPeriodId($submissionPeriodId);
+			}
+
+			$timesheetSubmissionPeriods = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+			$currTime = strtotime($this->getStartTime());
+			$day=date('N', $currTime);
+
+			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
+			if ($diff > 0) {
+				$diff=$diff-7;
+			}
+			$timesheetObj->setStartDate(date('Y-m-d', $currTime+($diff*3600*24)));
+
+			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
+			if (0 > $diff) {
+				$diff=$diff+7;
+			}
+			$timesheetObj->setEndDate(date('Y-m-d', $currTime+($diff*3600*24)));
+
+			$timesheetObj->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
+			$timesheetObj->setEmployeeId($this->getEmployeeId());
+
+			$timesheets = $timesheetObj->fetchTimesheets();
+
+			if (!$timesheets || !$timesheets[0]) {
+
+				$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED);
+				$timesheetObj->addTimesheet();
+
+				$timesheetObj->setTimesheetId(null);
+
+				$timesheets = $timesheetObj->fetchTimesheets();
+			}
+
+			$this->setTimesheetId($timesheets[0]->getTimesheetId());
+		}
 	}
 }
 

@@ -74,11 +74,11 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	mysql_query("INSERT INTO `hs_hr_project_activity` (`activity_id`, `project_id`, `name`) VALUES (10, 10, 'Test');");
 
     	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
-    				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()*3600*24*7).", 'Testing')");
+    				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*6).", 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()*3600*24)."', 0)");
+    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*6)."', 0)");
 		mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (11, 10, 10, '".date('Y-m-d', time()*3600*24*7)."', '".date('Y-m-d', time()*3600*24*14)."', 0)");
+    				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*13)."', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i')."', '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
@@ -96,8 +96,10 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11)", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` = 10", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11, 12, 13)", $this->connection);
+
+    	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` IN (10, 11, 12)", $this->connection);
+
     	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection);
 
 		mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `activity_id` = 10", $this->connection);
@@ -172,6 +174,8 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAddTimeEvent() {
+    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (12)", $this->connection);
+
 		$eventObj = $this->classTimeEvent;
 
 		$expected[0] = array(13, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*3), date('Y-m-d H:i', time()+3600*4.5), date('Y-m-d'), 90, "Testing2");
@@ -284,6 +288,40 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$res = $eventObj->fetchTimeEvents();
 
     	$this->assertNull($res, "Found deleted records");
+    }
+
+    public function testResolveTimesheet() {
+    	$timesheetObj = new Timesheet();
+
+    	$eventObj = $this->classTimeEvent;
+
+    	$expected[0] = array(11, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*1.5), date('Y-m-d'), 30, "Testing12");
+
+		$eventObj->setProjectId($expected[0][1]);
+		$eventObj->setEmployeeId($expected[0][3]);
+		$eventObj->setStartTime($expected[0][5]);
+		$eventObj->setEndTime($expected[0][6]);
+
+		$eventObj->resolveTimesheet(10);
+
+		$this->assertNotNull($eventObj->getTimesheetId(), "Timesheet id was not resolved");
+		$this->assertEquals($eventObj->getTimesheetId(), $expected[0][4], "Timesheet id is invalid");
+    }
+
+     public function testResolveTimesheet2() {
+    	$eventObj = $this->classTimeEvent;
+
+    	$expected[0] = array(11, 10, 10, 10, 12, date('Y-m-d H:i', time()+3600*24*15), date('Y-m-d H:i', (time()+3600*24*15)+1800), date('Y-m-d'), 30, "Testing12");
+
+		$eventObj->setProjectId($expected[0][1]);
+		$eventObj->setEmployeeId($expected[0][3]);
+		$eventObj->setStartTime($expected[0][5]);
+		$eventObj->setEndTime($expected[0][6]);
+
+		$eventObj->resolveTimesheet(10);
+
+		$this->assertNotNull($eventObj->getTimesheetId(), "Timesheet id was not resolved");
+		$this->assertEquals($eventObj->getTimesheetId(), $expected[0][4], "Timesheet id is invalid");
     }
 }
 

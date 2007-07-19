@@ -105,10 +105,70 @@ class TimeController {
 			$this->redirect('INVALID_TIME_FAILURE', "?timecode=Time&action=Show_Punch_Time");
 		}
 
+		$tmpObj->resolveTimesheet();
+
 		if ($punchIn) {
 			$res = $tmpObj->addTimeEvent();
+
+			if (!$res) {
+				throw new TimeEventException("Failed to add time event");
+			}
 		} else {
-			$res = $tmpObj->editTimeEvent();
+			$startTimeStr = $tmpObj->getStartTime();
+			$endTimeStr = $tmpObj->getEndTime();
+
+			$startTime = strtotime($startTimeStr);
+			$endTime = strtotime($endTimeStr);
+
+			$dateEndTime = strtotime(date("Y-m-d 23:59", strtotime($startTimeStr)));
+			$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
+
+			if ($endTime > $dateEndTime) {
+				$tmpObj->setEndTime($dateEndTimeStr);
+				$tmpObj->setDuration($dateEndTime-$startTime);
+				$res = $tmpObj->editTimeEvent();
+
+				if (!$res) {
+					throw new TimeEventException("Failed to add time event");
+				}
+
+				$tmpObj->setTimeEventId(null);
+				$tmpObj->setTimesheetId(null);
+
+				$tmpObj->setStartTime(date("Y-m-d H:i", $dateEndTime+60));
+
+				$dateEndTime+=3600*24;
+				$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
+
+				while ($endTime > $dateEndTime) {
+					$tmpObj->setEndTime($dateEndTimeStr);
+					$tmpObj->setDuration($dateEndTime-strtotime($tmpObj->getStartTime()));
+
+					$tmpObj->resolveTimesheet();
+
+					$res = $tmpObj->addTimeEvent();
+
+					if (!$res) {
+						throw new TimeEventException("Failed to add time event");
+					}
+
+					$tmpObj->setStartTime(date("Y-m-d H:i", $dateEndTime+60));
+
+					$dateEndTime+=3600*24;
+					$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
+
+					$tmpObj->setTimesheetId(null);
+				}
+
+				$tmpObj->setEndTime($endTimeStr);
+				$tmpObj->setDuration($endTime-strtotime($tmpObj->getStartTime()));
+
+				$tmpObj->resolveTimesheet();
+
+				$res = $tmpObj->addTimeEvent();
+			} else {
+				$res = $tmpObj->editTimeEvent();
+			}
 		}
 
 		if ($res) {
