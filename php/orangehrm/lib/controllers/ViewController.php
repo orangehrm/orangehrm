@@ -2863,6 +2863,9 @@ class ViewController {
 							if ($authorizeObj->isAdmin()) {
 
 								$projects = new Projects();
+
+								/* Filter only not deleted projects */
+								$projects->setDeleted(Projects::PROJECT_NOT_DELETED);
 								$projectList = $projects->fetchProjects();
 							} else if ($authorizeObj->isProjectAdmin()) {
 

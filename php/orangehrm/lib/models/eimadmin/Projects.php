@@ -325,7 +325,8 @@ class Projects {
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DESCRIPTION."`= '".$this->getProjectDescription()."'";
 		}
 
-		if ($this->getDeleted() != null) {
+		if (!is_null($this->getDeleted())) {
+
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_DELETED."`= ".$this->getDeleted()."";
 		}
 
