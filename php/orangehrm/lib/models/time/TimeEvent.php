@@ -456,6 +456,8 @@ class TimeEvent {
 	 * If the parameter $punch is set, it will be the last Work Time
 	 * event that will be returned
 	 *
+	 * If punch is true, only the last record will be retrieved
+	 *
 	 * @param bool punch
 	 * @return TimeEvent[] array of time events
 	 */

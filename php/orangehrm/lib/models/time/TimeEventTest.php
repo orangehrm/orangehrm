@@ -77,11 +77,15 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()*3600*24*7).", 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
     				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()*3600*24)."', 0)");
+		mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (11, 10, 10, '".date('Y-m-d', time()*3600*24*7)."', '".date('Y-m-d', time()*3600*24*14)."', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i')."', '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d H:i', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
+		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (12, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600*2)."', NULL, '".date('Y-m-d')."', NULL, 'Testing2')");
 
     }
 
@@ -120,6 +124,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
 		$expected[0] = array(10, 10, 10, 10, 10, date('Y-m-d H:i'), date('Y-m-d H:i', time()+3600), date('Y-m-d'), 60, 'Testing');
 		$expected[1] = array(11, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
+		$expected[2] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
 
 		$this->assertNotNull($res, "Returned nothing");
 
@@ -140,14 +145,36 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testFetchTimeEvents3() {
-    	// to do
-    	$this->markTestIncomplete('This test has not been implemented yet.');
+    	$eventObj = $this->classTimeEvent;
+
+		$eventObj->setTimesheetId(10);
+
+    	$res = $eventObj->fetchTimeEvents(true);
+
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+
+		$this->assertNotNull($res, "Returned nothing");
+
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
+		 	$this->assertEquals($expected[$i][2], $res[$i]->getActivityId(), "Invalid activity id");
+		 	$this->assertEquals($expected[$i][3], $res[$i]->getEmployeeId(), "Invalid employee id");
+		 	$this->assertEquals($expected[$i][4], $res[$i]->getTimesheetId(), "Invalid timesheet id");
+		 	$this->assertEquals($expected[$i][5], $res[$i]->getStartTime(), "Invalid start time");
+		 	$this->assertEquals($expected[$i][6], $res[$i]->getEndTime(), "Invalid end time");
+		 	$this->assertEquals($expected[$i][7], $res[$i]->getReportedDate(), "Invalid reported date");
+		 	$this->assertEquals($expected[$i][8], $res[$i]->getDuration(), "Invalid duration");
+		 	$this->assertEquals($expected[$i][9], $res[$i]->getDescription(), "Invalid description");
+		}
     }
 
     public function testAddTimeEvent() {
 		$eventObj = $this->classTimeEvent;
 
-		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), date('Y-m-d H:i', time()+3600*3.5), date('Y-m-d'), 90, "Testing2");
+		$expected[0] = array(13, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*3), date('Y-m-d H:i', time()+3600*4.5), date('Y-m-d'), 90, "Testing2");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setActivityId($expected[0][2]);
@@ -226,8 +253,13 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testPendingTimeEvents() {
-		// to do
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$eventObj = $this->classTimeEvent;
+
+		$eventObj->setTimesheetId(11);
+
+    	$res = $eventObj->pendingTimeEvents();
+
+		$this->assertNull($res, "Returned nothing");
     }
 
     public function testPendingTimeEvents2() {
