@@ -595,7 +595,7 @@ create table `hs_hr_project_activity` (
   `project_id` int(11) not null,
   `name` varchar(100) default null,
   `deleted` tinyint(1) default 0,
-  primary key  (`activity_id`,`project_id`),
+  primary key  (`activity_id`),
   key `project_id` (`project_id`)
 ) engine=innodb default charset=utf8;
 

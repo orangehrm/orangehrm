@@ -252,19 +252,20 @@ alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
        						references hs_hr_users (id) on delete cascade;
 
-alter table `hs_hr_employee_timesheet_period`
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
-  add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
-
 alter table `hs_hr_project`
-  add constraint foreign key (`customer_id`) references `hs_hr_customer` (`customer_id`);
-
+  add constraint foreign key (`customer_id`)
+	references `hs_hr_customer` (`customer_id`)
+		on delete restrict;
 alter table `hs_hr_project_activity`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade;
 
 alter table `hs_hr_project_admin`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_employee_timesheet_period`
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade,
+  add constraint foreign key (`timesheet_period_id`) references `hs_hr_timesheet_submission_period` (`timesheet_period_id`) on delete cascade;
 
 
 alter table `hs_hr_timesheet`
