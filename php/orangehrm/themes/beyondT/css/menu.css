@@ -223,6 +223,10 @@
 	background: url(../icons/leaveSummary.gif)  no-repeat left top;
 }
 
+#menu #timesheets a:hover {
+	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
+}
+
 #menum1 {
 	visibility:hidden;
 }
