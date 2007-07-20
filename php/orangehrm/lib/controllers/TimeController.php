@@ -63,7 +63,6 @@ class TimeController {
 	public function nextEmployeeTimesheet($redirect=true) {
 		$timesheetObj = $this->objTime;
 
-		$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		$timesheetId = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_NEXT);
 
 		if (!$redirect) {
@@ -80,7 +79,6 @@ class TimeController {
 	public function previousEmployeeTimesheet($redirect=true) {
 		$timesheetObj = $this->objTime;
 
-		$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		$timesheetId = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_PREV);
 
 		if (!$redirect) {
@@ -453,7 +451,6 @@ class TimeController {
 			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
 				$this->redirect('UNAUTHORIZED_FAILURE');
 			}
-			$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		}
 
 		$timesheets = $timesheetObj->fetchTimesheets();
@@ -514,8 +511,6 @@ class TimeController {
 
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
-		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
-			$timesheetObj->setStatuses(array(Timesheet::TIMESHEET_STATUS_SUBMITTED, Timesheet::TIMESHEET_STATUS_APPROVED, Timesheet::TIMESHEET_STATUS_REJECTED));
 		}
 
 		$timesheets = $timesheetObj->fetchTimesheets($current);

@@ -361,7 +361,7 @@ class Timesheet {
 
 		if ($this->getStatuses() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN(".implode(", ", $this->getStatuses()).")";
-		} else {
+		} else if ($this->getStatus() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 
