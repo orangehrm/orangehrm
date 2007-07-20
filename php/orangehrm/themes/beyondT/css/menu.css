@@ -227,6 +227,14 @@
 	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
 }
 
+#menu #punchTime a {
+	background: url(../icons/applyLeave.gif)  no-repeat left top;
+}
+
+#menu #punchTime a:hover {
+	background: url(../icons/applyLeave_o.gif)  no-repeat left top;
+}
+
 #menum1 {
 	visibility:hidden;
 }
