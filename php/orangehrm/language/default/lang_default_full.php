@@ -957,6 +957,8 @@
 
 	$lang_Time_Timesheet_Customer = "Customer";
 	$lang_Time_Timesheet_ProjectActivity = "Project / Activity";
+	$lang_Time_Timesheet_Project = "Project";
+	$lang_Time_Timesheet_Activity = "Activity";
 
 	$lang_Time_Timesheet_Total = "Total";
 
@@ -1021,4 +1023,6 @@
 	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
 
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
+
+	$lang_Time_Timesheet_SelectProject = "Select a Project"
 ?>

@@ -20,19 +20,20 @@
 
 require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 
-function populateProjects($cutomerId, $row) {
+function populateActivities($projectId, $row) {
 	ob_clean();
 
 	$timeController = new TimeController();
-	$projects = $timeController->fetchCustomersProjects($cutomerId);
+	$projectActivities = $timeController->fetchProjectActivities($projectId);
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$element="cmbProject[$row]";
+	$element="cmbActivity[$row]";
 
-	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projects,0,'frmTimesheet',$element, 1);
+	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities,0,'frmTimesheet',$element, 1);
 
 	$objResponse->addScript('document.getElementById("'.$element.'").focus();');
+	$objResponse->addScript('alert("'.$projectId.'");');
 
 	$objResponse->addAssign('status','innerHTML','');
 
@@ -40,7 +41,7 @@ function populateProjects($cutomerId, $row) {
 }
 
 $objAjax = new xajax();
-$objAjax->registerFunction('populateProjects');
+$objAjax->registerFunction('populateActivities');
 $objAjax->processRequests();
 
 $timesheet=$records[0];
@@ -320,8 +321,8 @@ function deleteTimeEvents() {
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle"></th>
-			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
-			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
+			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
+			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
 			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
@@ -336,45 +337,47 @@ function deleteTimeEvents() {
 
 			$customerObj = new Customer();
 			$projectObj = new Projects();
+			$projectActivityObj = new ProjectActivity();
+
 			foreach ($timeExpenses as $timeExpense) {
 				$projectId = $timeExpense->getProjectId();
 
 				$projectDet = $projectObj->fetchProject($projectId);
-
-				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+				$projectActivities = $projectActivityObj->getActivityList($projectId);
 			?>
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);">
-				<?php if (is_array($customers)) { ?>
-						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
-				<?php	foreach ($customers as $customer) {
-							$selected="";
-							if ($customerDet->getCustomerId() == $customer->getCustomerId()) {
-								$selected="selected";
-							}
-				?>
-						<option <?php echo $selected; ?> value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
-				<?php 	}
-					} else { ?>
-						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
-				<?php } ?>
-					</select>
-				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
 							$selected="";
-							if ($projectDet->getProjectId() == $project->getProjectId()) {
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+							if ($projectId == $project->getProjectId()) {
 								$selected="selected";
 							}
 				?>
-						<option <?php echo $selected; ?> value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
+						<option <?php echo $selected; ?> value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
 				<?php 	}
 					} else { ?>
 						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
+				<?php } ?>
+					</select>
+				</td>
+				<td ><select id="cmbActivity[<?php echo $row; ?>]" name="cmbActivity[]" onfocus="looseCurrFocus();">
+				<?php if (is_array($projectActivities)) { ?>
+						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
+				<?php	foreach ($projectActivities as $projectActivity) {
+							$selected="";
+							if ($timeExpense->getActivityId() == $projectActivity->getId()) {
+								$selected="selected";
+							}
+				?>
+						<option <?php echo $selected; ?> value="<?php echo $projectActivity->getId(); ?>"><?php echo $projectActivity->getName(); ?></option>
+				<?php 	}
+					} else { ?>
+						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
 				<?php } ?>
 					</select>
 				</td>
@@ -394,26 +397,21 @@ function deleteTimeEvents() {
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" disabled="disabled" /></td>
-				<td ><select id="cmbCustomer[<?php echo $row; ?>]" name="cmbCustomer[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateProjects(this.value, <?php echo $row; ?>);" >
-				<?php if (is_array($customers)) { ?>
-						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
-				<?php	foreach ($customers as $customer) { ?>
-						<option value="<?php echo $customer->getCustomerId(); ?>"><?php echo $customer->getCustomerName(); ?></option>
-				<?php 	}
-					} else { ?>
-						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
-				<?php } ?>
-					</select>
-				</td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();"  onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
-				<?php	foreach ($projects as $project) { ?>
-						<option value="<?php echo $project->getProjectId(); ?>"><?php echo $project->getProjectName() ?></option>
+				<?php	foreach ($projects as $project) {
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+				?>
+						<option value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
 				<?php 	}
 					} else { ?>
 						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
 				<?php } ?>
+					</select>
+				</td>
+				<td ><select id="cmbActivity[<?php echo $row; ?>]" name="cmbActivity[]" onfocus="looseCurrFocus();">
+						<option value="-1">- <?php echo $lang_Time_Timesheet_SelectProject; ?> -</option>
 					</select>
 				</td>
 				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
