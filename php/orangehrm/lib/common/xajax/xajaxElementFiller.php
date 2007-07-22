@@ -43,7 +43,7 @@ class xajaxElementFiller {
 
 		if($defSel == -1) {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
-	 		$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('--Select--','0');");
+	 		$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- Select -','0');");
 		} else {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = $defSel;");
 		}

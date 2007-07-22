@@ -29,10 +29,11 @@ class EXTRACTOR_TimeEvent {
 	public function parseEditData($postArr) {
 		$tmpArr = null;
 
-		for ($i=0; $i<count($postArr['cmbCustomer']); $i++) {
+		for ($i=0; $i<count($postArr['cmbActivity']); $i++) {
 				$tmpObj = new TimeEvent();
 
 				$tmpObj->setProjectId($postArr['cmbProject'][$i]);
+				$tmpObj->setActivityId($postArr['cmbActivity'][$i]);
 
 				if (!empty($postArr['txtStartTime'][$i])) {
 					$tmpObj->setStartTime($postArr['txtStartTime'][$i]);

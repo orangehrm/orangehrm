@@ -191,8 +191,8 @@ function actionApprove() {
 		</tr>
 		<tr>
 			<th class="tableMiddleLeft"></th>
-			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Customer; ?></th>
-			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ProjectActivity; ?></th>
+			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
+			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
 	    <?php } ?>
@@ -205,15 +205,17 @@ function actionApprove() {
 		if (isset($timeExpenses) && is_array($timeExpenses)) {
 			$customerObj = new Customer();
 			$projectObj = new Projects();
+			$projectActivityObj = new ProjectActivity();
 
 			foreach ($timeExpenses as $project=>$timeExpense) {
 				$projectDet = $projectObj->fetchProject($project);
 				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId());
+				$projectActivities = $projectActivityObj->getActivityList($project);
 			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-				<td ><?php echo $customer->getCustomerName(); ?></td>
-				<td ><?php echo $projectDet->getProjectName(); ?></td>
+				<td ><?php echo "{$customer->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
+				<td ><?php echo $projectActivities[0]->getName(); ?></td>
 			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
 					if (!isset($timeExpense[$i])) {
 						$timeExpense[$i]=0;

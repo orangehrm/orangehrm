@@ -21,7 +21,10 @@
 require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 
 function populateActivities($projectId, $row) {
+
 	ob_clean();
+
+	require ROOT_PATH . '/language/default/lang_default_full.php';
 
 	$timeController = new TimeController();
 	$projectActivities = $timeController->fetchProjectActivities($projectId);
@@ -30,10 +33,18 @@ function populateActivities($projectId, $row) {
 	$xajaxFiller = new xajaxElementFiller();
 	$element="cmbActivity[$row]";
 
-	$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities,0,'frmTimesheet',$element, 1);
+	if (count($projectActivities) == 0) {
+		$projectActivities[0][0] = -1;
+		$projectActivities[0][1] = "- $lang_Time_Timesheet_SelectProject -";
+
+		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
+	} else {
+		$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
+	 	$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- $lang_Common_Select -','-1');");
+		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 1);
+	}
 
 	$objResponse->addScript('document.getElementById("'.$element.'").focus();');
-	$objResponse->addScript('alert("'.$projectId.'");');
 
 	$objResponse->addAssign('status','innerHTML','');
 
@@ -166,8 +177,8 @@ function validate() {
 				}
 			}
 
-			if ($("cmbCustomer["+i+"]").value == "-1") {
-				errors[3] = "<?php echo $lang_Time_Errors_CustomerNotSpecified; ?>";
+			if ($("cmbActivity["+i+"]").value == "-1") {
+				errors[3] = "<?php echo $lang_Time_Errors_ActivityNotSpecified; ?>";
 				err[i]=true;
 				errFlag=true;
 			}
@@ -212,7 +223,7 @@ function allEmpty(row) {
 		unUsed=false;
 	}
 
-	if ($("cmbCustomer["+row+"]").value != "-1") {
+	if ($("cmbActivity["+row+"]").value != "-1") {
 		unUsed=false;
 	}
 
@@ -333,11 +344,11 @@ function deleteTimeEvents() {
 	</thead>
 	<tbody>
 		<?php
-		if (isset($timeExpenses) && is_array($timeExpenses)) {
+		$customerObj = new Customer();
+		$projectObj = new Projects();
+		$projectActivityObj = new ProjectActivity();
 
-			$customerObj = new Customer();
-			$projectObj = new Projects();
-			$projectActivityObj = new ProjectActivity();
+		if (isset($timeExpenses) && is_array($timeExpenses)) {
 
 			foreach ($timeExpenses as $timeExpense) {
 				$projectId = $timeExpense->getProjectId();
@@ -470,6 +481,6 @@ function deleteTimeEvents() {
 </p>
 <script type="text/javascript">
 	totRows = <?php echo $row; ?>;
-	currFocus = $("cmbCustomer[<?php echo $row; ?>]");
+	currFocus = $("cmbProject[<?php echo $row; ?>]");
 	currFocus.focus();
 </script>

@@ -303,15 +303,19 @@ class TimeController {
 	}
 
 	public function fetchProjectActivities($projectId=0) {
+		if (0 > $projectId) {
+			return null;
+		}
+
 		$projectActivityObj = new ProjectActivity();
 		$projectActivities = $projectActivityObj->getActivityList($projectId);
 
 		$projectActivityArr = null;
 
-		if (isset($projects)) {
+		if (isset($projectActivities)) {
 			foreach ($projectActivities as $projectActivity) {
 				$tmpArr[0] = $projectActivity->getProjectId();
-				$tmpArr[1] = $projectActivity->getProjectName();
+				$tmpArr[1] = $projectActivity->getName();
 
 				$projectActivityArr[] = $tmpArr;
 			}

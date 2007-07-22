@@ -1021,6 +1021,7 @@
 	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
 	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
 	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
+	$lang_Time_Errors_ActivityNotSpecified = "Activity not specified";
 
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 
