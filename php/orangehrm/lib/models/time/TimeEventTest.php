@@ -259,21 +259,63 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     public function testPendingTimeEvents() {
 		$eventObj = $this->classTimeEvent;
 
-		$eventObj->setTimesheetId(11);
+		$eventObj->setTimeEventId(11);
 
     	$res = $eventObj->pendingTimeEvents();
 
-		$this->assertNull($res, "Returned nothing");
+		$this->assertNull($res, "Returned completed time event");
     }
 
     public function testPendingTimeEvents2() {
-		// to do
-		$this->markTestIncomplete('This test has not been implemented yet.');
+    	$eventObj = $this->classTimeEvent;
+
+		$eventObj->setTimeEventId(12);
+
+    	$res = $eventObj->pendingTimeEvents();
+
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+
+		$this->assertNotNull($res, "Returned nothing");
+
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
+		 	$this->assertEquals($expected[$i][2], $res[$i]->getActivityId(), "Invalid activity id");
+		 	$this->assertEquals($expected[$i][3], $res[$i]->getEmployeeId(), "Invalid employee id");
+		 	$this->assertEquals($expected[$i][4], $res[$i]->getTimesheetId(), "Invalid timesheet id");
+		 	$this->assertEquals($expected[$i][5], $res[$i]->getStartTime(), "Invalid start time");
+		 	$this->assertEquals($expected[$i][6], $res[$i]->getEndTime(), "Invalid end time");
+		 	$this->assertEquals($expected[$i][7], $res[$i]->getReportedDate(), "Invalid reported date");
+		 	$this->assertEquals($expected[$i][8], $res[$i]->getDuration(), "Invalid duration");
+		 	$this->assertEquals($expected[$i][9], $res[$i]->getDescription(), "Invalid description");
+		}
     }
 
     public function testPendingTimeEvents3() {
-		// to do
-		$this->markTestIncomplete('This test has not been implemented yet.');
+    	$eventObj = $this->classTimeEvent;
+
+		$res = $eventObj->pendingTimeEvents();
+
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+
+		$this->assertNotNull($res, "Returned nothing when no id was specified");
+
+		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimeEventId(), "Invalid time event id");
+		 	$this->assertEquals($expected[$i][1], $res[$i]->getProjectId(), "Invalid project id");
+		 	$this->assertEquals($expected[$i][2], $res[$i]->getActivityId(), "Invalid activity id");
+		 	$this->assertEquals($expected[$i][3], $res[$i]->getEmployeeId(), "Invalid employee id");
+		 	$this->assertEquals($expected[$i][4], $res[$i]->getTimesheetId(), "Invalid timesheet id");
+		 	$this->assertEquals($expected[$i][5], $res[$i]->getStartTime(), "Invalid start time");
+		 	$this->assertEquals($expected[$i][6], $res[$i]->getEndTime(), "Invalid end time");
+		 	$this->assertEquals($expected[$i][7], $res[$i]->getReportedDate(), "Invalid reported date");
+		 	$this->assertEquals($expected[$i][8], $res[$i]->getDuration(), "Invalid duration");
+		 	$this->assertEquals($expected[$i][9], $res[$i]->getDescription(), "Invalid description");
+		}
     }
 
     public function testDeleteTimeEvent() {
