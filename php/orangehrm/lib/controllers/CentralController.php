@@ -1368,6 +1368,7 @@ switch ($moduletype) {
 
 												$current=false;
 												$punchIn=false;
+												$new=false;
 
 												switch ($_GET['action']) {
 													case 'View_Current_Timesheet':	$current=true;
@@ -1425,6 +1426,13 @@ switch ($moduletype) {
 													case 'Punch_Out'			:	$obj = $timeEventExtractor->parsePunch($_POST, $punchIn);
 																					$timeController->setObjTime($obj);
 																					$timeController->punchTime($punchIn);
+																					break;
+													case 'Time_Event_Home'		:	$timeController->timeEventHome();
+																					break;
+													case 'New_Time_Event_View'	:	$new=true;
+													case 'Update_Event_View'	:	$timeController->timeEventEditView($new);
+																					break;
+													case 'Edit_Time_Event_View'	:	$timeController->timeEventHome();
 																					break;
 												}
 											} else {

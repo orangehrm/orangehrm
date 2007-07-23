@@ -180,6 +180,43 @@ class TimeController {
 		return $res;
 	}
 
+	public function timeEventHome() {
+		$path = "/templates/time/submitTimeHome.php";
+
+		if (!isset($_SESSION['empID'])) {
+			$this->redirect('UNAUTHORIZED_FAILURE');
+		}
+
+		$tmpObj = new TimeEvent();
+		$tmpObj->setEmployeeId($_SESSION['empID']);
+
+		$dataArr[0] = $tmpObj->pendingTimeEvents();
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	public function timeEventEditView($new) {
+		$path = "/templates/time/timeEventEdit.php";
+
+		if (!isset($_SESSION['empID'])) {
+			$this->redirect('UNAUTHORIZED_FAILURE');
+		}
+
+		$customerObj = new Customer();
+		$projectObj = new Projects();
+
+		$customers = $customerObj->fetchCustomers();
+
+		$projects = $projectObj->fetchProjects();
+
+		$dataArr[0] = $projects;
+		$dataArr[1] = $customers;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
 	public function showPunchTime() {
 		$path = "/templates/time/punchTime.php";
 

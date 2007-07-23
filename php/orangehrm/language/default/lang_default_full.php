@@ -1025,5 +1025,18 @@
 
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 
-	$lang_Time_Timesheet_SelectProject = "Select a Project"
+	$lang_Time_Timesheet_SelectProject = "Select a Project";
+
+	$lang_Time_Timesheet_UnfinishedActivitiesTitle = "Unfinished Activities";
+	$lang_Time_SubmitTimeEventTitle = "Submit Time Event";
+
+	$lang_Time_Timesheet_DateReportedFor = "Date reported for";
+
+	$lang_Time_UnfinishedActivitiesTitle = "Unfinished Activities";
+	$lang_Time_NewEvent = "New Event";
+	$lang_Time_Complete = "Complete";
+
+	$lang_Time_DurationFormat = "hh:mm or 0.0h";
+	$lang_Time_InsertTime="Insert time";
+
 ?>
