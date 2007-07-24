@@ -25,6 +25,18 @@ $pendingTimeEvents = $records[0];
 <?php echo $lang_Time_UnfinishedActivitiesTitle; ?>
 <hr/>
 </h2>
+<?php if (isset($_GET['message'])) {
+
+		$expString  = $_GET['message'];
+		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$expString = 'lang_Time_Errors_' . $expString;
+?>
+		<div class="<?php echo $col_def?>" >
+			<font size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $$expString; ?>
+			</font>
+		</div>
+<?php }	?>
 <?php if (isset($pendingTimeEvents) && is_array($pendingTimeEvents)) { ?>
 <form id="frmTimeEventList" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
@@ -78,4 +90,4 @@ $pendingTimeEvents = $records[0];
 </table>
 </form>
 <?php } ?>
-<a href="?timecode=Time&action=New_Time_Event"><?php echo $lang_Time_NewEvent; ?></a>
+<a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a>

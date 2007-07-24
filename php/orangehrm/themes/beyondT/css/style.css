@@ -469,6 +469,9 @@ textarea {
 	.error, .failure {
 		color: #ff0000;
 	}
+	.warning {
+		color: #E0B662;
+	}
 	.success {
 		color: #005500;
 	}

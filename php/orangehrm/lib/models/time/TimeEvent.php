@@ -216,10 +216,10 @@ class TimeEvent {
 		$result = $dbConnection -> executeQuery($query);
 
 		if (mysql_num_rows($result) == 0) {
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -228,7 +228,7 @@ class TimeEvent {
 	 * Time event id will be over written
 	 */
 	public function addTimeEvent() {
-		if (!$this->_isOverlapping()) {
+		if ($this->_isOverlapping()) {
 			return false;
 		}
 
@@ -280,8 +280,10 @@ class TimeEvent {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
 
-		if ($result && (mysql_affected_rows() > 0)) {
-			return true;
+		if ($result) {
+			if (mysql_affected_rows() > 0) {
+				return true;
+			}
 		}
 
 		return false;
@@ -293,7 +295,7 @@ class TimeEvent {
 	 * All except time event id is editable
 	 */
 	public function editTimeEvent() {
-		if (!$this->_isOverlapping()) {
+		if ($this->_isOverlapping()) {
 			return false;
 		}
 
@@ -357,10 +359,12 @@ class TimeEvent {
 		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
 
 		$dbConnection = new DMLFunctions();
-		$result = $dbConnection -> executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
 		if ($result) {
-			return true;
+			if (mysql_affected_rows() > 0) {
+				return true;
+			}
 		}
 
 		return false;

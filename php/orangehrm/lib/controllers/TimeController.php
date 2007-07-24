@@ -105,74 +105,87 @@ class TimeController {
 
 		$tmpObj->resolveTimesheet();
 
-		if ($punchIn) {
-			$res = $tmpObj->addTimeEvent();
+		$_GET['message'] = 'SUBMIT_SUCCESS';
 
-			if (!$res) {
-				throw new TimeEventException("Failed to add time event");
-			}
-		} else {
-			$startTimeStr = $tmpObj->getStartTime();
-			$endTimeStr = $tmpObj->getEndTime();
-
-			$startTime = strtotime($startTimeStr);
-			$endTime = strtotime($endTimeStr);
-
-			$dateEndTime = strtotime(date("Y-m-d 23:59", strtotime($startTimeStr)));
-			$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
-
-			if ($endTime > $dateEndTime) {
-				$tmpObj->setEndTime($dateEndTimeStr);
-				$tmpObj->setDuration($dateEndTime-$startTime);
-				$res = $tmpObj->editTimeEvent();
+		try {
+			if ($punchIn) {
+				$res = $tmpObj->addTimeEvent();
 
 				if (!$res) {
-					throw new TimeEventException("Failed to add time event");
+					throw new TimeEventException("Failed to add time event", 0);
 				}
 
-				$tmpObj->setTimeEventId(null);
-				$tmpObj->setTimesheetId(null);
+			} else {
+				$startTimeStr = $tmpObj->getStartTime();
+				$endTimeStr = $tmpObj->getEndTime();
 
-				$tmpObj->setStartTime(date("Y-m-d H:i", $dateEndTime+60));
+				$startTime = strtotime($startTimeStr);
+				$endTime = strtotime($endTimeStr);
 
-				$dateEndTime+=3600*24;
+				$dateEndTime = strtotime(date("Y-m-d 23:59", strtotime($startTimeStr)));
 				$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
 
-				while ($endTime > $dateEndTime) {
+				if ($endTime > $dateEndTime) {
 					$tmpObj->setEndTime($dateEndTimeStr);
-					$tmpObj->setDuration($dateEndTime-strtotime($tmpObj->getStartTime()));
-
-					$tmpObj->resolveTimesheet();
-
-					$res = $tmpObj->addTimeEvent();
+					$tmpObj->setDuration($dateEndTime-$startTime);
+					$res = $tmpObj->editTimeEvent();
 
 					if (!$res) {
-						throw new TimeEventException("Failed to add time event");
+						throw new TimeEventException("Failed to update time event", 0);
 					}
+
+					$tmpObj->setTimeEventId(null);
+					$tmpObj->setTimesheetId(null);
 
 					$tmpObj->setStartTime(date("Y-m-d H:i", $dateEndTime+60));
 
 					$dateEndTime+=3600*24;
 					$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
 
-					$tmpObj->setTimesheetId(null);
+					while ($endTime > $dateEndTime) {
+						$tmpObj->setEndTime($dateEndTimeStr);
+						$tmpObj->setDuration($dateEndTime-strtotime($tmpObj->getStartTime()));
+
+						$tmpObj->resolveTimesheet();
+
+						$res = $tmpObj->addTimeEvent();
+
+						if (!$res) {
+							throw new TimeEventException("Failed to add time event", 0);
+						}
+
+						$tmpObj->setStartTime(date("Y-m-d H:i", $dateEndTime+60));
+
+						$dateEndTime+=3600*24;
+						$dateEndTimeStr = date("Y-m-d H:i", $dateEndTime);
+
+						$tmpObj->setTimesheetId(null);
+					}
+
+					$tmpObj->setEndTime($endTimeStr);
+					$tmpObj->setDuration($endTime-strtotime($tmpObj->getStartTime()));
+
+					$tmpObj->resolveTimesheet();
+
+					$res = $tmpObj->addTimeEvent();
+
+					if (!$res) {
+						throw new TimeEventException("Failed to add time event", 0);
+					}
+				} else {
+					$res = $tmpObj->editTimeEvent();
+
+					if (!$res) {
+						throw new TimeEventException("Failed to update time event", 0);
+					}
 				}
-
-				$tmpObj->setEndTime($endTimeStr);
-				$tmpObj->setDuration($endTime-strtotime($tmpObj->getStartTime()));
-
-				$tmpObj->resolveTimesheet();
-
-				$res = $tmpObj->addTimeEvent();
-			} else {
-				$res = $tmpObj->editTimeEvent();
 			}
-		}
-
-		if ($res) {
-			$_GET['message'] = 'SUBMIT_SUCCESS';
-		} else {
-			$_GET['message'] = 'SUBMIT_FAILURE';
+		} catch (TimeEventException $exception) {
+			if ($exception->getCode() == 0) {
+				$_GET['message'] = 'SUBMIT_FAILURE';
+			} else {
+				$_GET['message'] = 'EXCEPTION_THROWN_WARNING';
+			}
 		}
 
 		$this->redirect($_GET['message'], "?timecode=Time&action=Show_Punch_Time");
@@ -212,6 +225,15 @@ class TimeController {
 
 		$dataArr[0] = $projects;
 		$dataArr[1] = $customers;
+
+		if (!$new) {
+			$timeEventObj = new TimeEvent();
+			$timeEventObj->setTimeEventId($_GET['id']);
+
+			$timeEvents = $timeEventObj->fetchTimeEvents();
+
+			$dataArr[2] = $timeEvents[0];
+		}
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
@@ -351,7 +373,7 @@ class TimeController {
 
 		if (isset($projectActivities)) {
 			foreach ($projectActivities as $projectActivity) {
-				$tmpArr[0] = $projectActivity->getProjectId();
+				$tmpArr[0] = $projectActivity->getId();
 				$tmpArr[1] = $projectActivity->getName();
 
 				$projectActivityArr[] = $tmpArr;
@@ -456,6 +478,32 @@ class TimeController {
 		}
 
 		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timeEvent->getTimesheetId()}");
+
+		return $res;
+	}
+
+	public function saveTimeEvent() {
+		$timeEvent = $this->getObjTime();
+
+		if ($timeEvent == null) {
+			$this->redirect('INVALID_TIME_FAILURE', "?timecode=Time&action=Show_Punch_Time");
+		}
+
+		$timeEvent->resolveTimesheet();
+
+		if ($timeEvent->getTimeEventId() == null) {
+			$res=$timeEvent->addTimeEvent();
+		} else {
+			$res=$timeEvent->editTimeEvent();
+		}
+
+		if ($res) {
+			$_GET['message'] = 'UPDATE_SUCCESS';
+		} else {
+			$_GET['message'] = 'UPDATE_FAILURE';
+		}
+
+		$this->redirect($_GET['message'], "?timecode=Time&action=Time_Event_Home");
 
 		return $res;
 	}

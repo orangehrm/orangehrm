@@ -1036,7 +1036,12 @@
 	$lang_Time_NewEvent = "New Event";
 	$lang_Time_Complete = "Complete";
 
-	$lang_Time_DurationFormat = "hh:mm or 0.0h";
+	$lang_Time_DurationFormat = "hh:mm or 0.00h";
 	$lang_Time_InsertTime="Insert time";
+
+	$lang_Time_Errors_NO_RECORDS_CHANGED_WARNING = "No changes to save";
+	$lang_Time_Errors_EXCEPTION_THROWN_WARNING = "Encountered a problem";
+
+	$lang_Menu_Time_ProjectTime = "Project time";
 
 ?>

@@ -1434,6 +1434,10 @@ switch ($moduletype) {
 																					break;
 													case 'Edit_Time_Event_View'	:	$timeController->timeEventHome();
 																					break;
+													case 'Time_Event_Save'		:	$obj = $timeEventExtractor->parseSingleEvent($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->saveTimeEvent();
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);

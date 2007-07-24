@@ -114,5 +114,44 @@ class EXTRACTOR_TimeEvent {
 
 		return $tmpObj;
 	}
+
+	public function parseSingleEvent($postArr) {
+		$tmpObj = new TimeEvent();
+
+		$tmpObj->setProjectId($postArr['cmbProject']);
+		$tmpObj->setActivityId($postArr['cmbActivity']);
+
+		if (!empty($postArr['txtStartTime'])) {
+			$tmpObj->setStartTime($postArr['txtStartTime']);
+		}
+
+		if (!empty($postArr['txtEndTime'])) {
+			$tmpObj->setEndTime($postArr['txtEndTime']);
+		}
+
+		$tmpObj->setReportedDate($postArr['txtReportedDate']);
+
+		if (isset($postArr['txtDuration']) && !empty($postArr['txtDuration'])) {
+			$tmpObj->setDuration($postArr['txtDuration']*3600);
+		} else if (isset($postArr['txtStartTime']) && isset($postArr['txtEndTime'])){
+			$startTime=strtotime($postArr['txtStartTime']);
+			$endTime=strtotime($postArr['txtEndTime']);
+			if ($endTime > $startTime) {
+				$tmpObj->setDuration($endTime-$startTime);
+			} else {
+				$tmpObj->setDuration(0);
+			}
+		}
+
+		$tmpObj->setDescription(stripslashes($postArr['txtDescription']));
+
+		if (isset($postArr['txtTimeEventId'])) {
+			$tmpObj->setTimeEventId($postArr['txtTimeEventId']);
+		}
+
+		$tmpObj->setEmployeeId($_SESSION['empID']);
+
+		return $tmpObj;
+	}
 }
 ?>
