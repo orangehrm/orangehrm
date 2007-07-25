@@ -200,3 +200,32 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
+/* Styles needed for rounded box (css) */
+.north {
+    background: url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+.east {
+    background: url(../pictures/table_r2_c3.gif) repeat-y right;
+}
+.south {
+    background: url(../pictures/table_r3_c2.gif) repeat-x bottom;
+}
+.west {
+    background: url(../pictures/table_r2_c1.gif) repeat-y left;
+}
+.ne {
+    background: url(../pictures/table_r1_c3.gif) no-repeat top right;
+}
+.se {
+    background: url(../pictures/table_r3_c3.gif) no-repeat bottom right;
+}
+.sw {
+    background: url(../pictures/table_r3_c1.gif) no-repeat bottom left;
+}
+.nw {
+    background: url(../pictures/table_r1_c1.gif) no-repeat top left;
+}
+.roundbox_content {
+    padding:15px;
+}

@@ -1438,6 +1438,8 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->saveTimeEvent();
 																					break;
+													case 'Work_Week_Edit_View'	:	$timeController->defineWorkWeekView();
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);

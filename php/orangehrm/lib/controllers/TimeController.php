@@ -508,6 +508,24 @@ class TimeController {
 		return $res;
 	}
 
+	public function defineWorkWeekView() {
+		$path = "/templates/time/defineWorkWeek.php";
+
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+
+		$timesheetSubmissionPeriodObj->setTimesheetPeriodId(1);
+		$tmpArr = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+		$dataArr[0] = $tmpArr[0];
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	public function saveWorkWeek() {
+
+	}
+
 	public function deleteTimesheet() {
 		$timeEvents = $this->getObjTime();
 

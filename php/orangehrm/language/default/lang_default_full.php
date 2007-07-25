@@ -1044,4 +1044,7 @@
 
 	$lang_Menu_Time_ProjectTime = "Project time";
 
+	$lang_Time_DefineTimesheetPeriodTitle = "Define Timesheet Period";
+
+	$lang_Time_FirstDayOfWeek = "First Day of Week";
 ?>
