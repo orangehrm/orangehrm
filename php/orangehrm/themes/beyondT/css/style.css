@@ -682,11 +682,11 @@ textarea {
 }
 
 *:not([type=image]):disabled {
-	background: #F6F4F1;
+	background-color: #F6F4F1;
 }
 
 input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
-	background: #FFFFD9;
+	background-color: #FFFFD9;
 }
 
 *[readonly] {
@@ -708,4 +708,10 @@ table.simpleList th {
 table.simpleList td {
         border-width: 0px;
         padding: 3px 3px 3px 5px;
+}
+
+.calendarBtn {
+	background-image: url(../icons/calendar.gif);
+	background-repeat: no-repeat;
+	background-position: center;
 }

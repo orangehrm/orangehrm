@@ -101,8 +101,9 @@ if ($timeEvent != null) {
 		$("txtDate").value = formatDate(new Date(), "yyyy-MM-dd");
 		$("txtTime").value = formatDate(new Date(), "HH:mm");
 
+		oButtonPunch = new YAHOO.widget.Button("btnPunch", {onclick: {fn:punchTime}});
+
 		YAHOO.util.Event.addListener($("btnSelDate"), "click", selectDate);
-		YAHOO.util.Event.addListener($("btnPunch"), "click", punchTime);
 	}
 
 	YAHOO.OrangeHRM.container.init();
@@ -138,8 +139,8 @@ if ($timeEvent != null) {
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Leave_Common_Date; ?></td>
         	<td>
-	        	<input type="text" name="txtDate" id="txtDate" />
-	        	<input type="button" name="btnSelDate" id="btnSelDate" value="..."/>
+	        	<input type="text" name="txtDate" id="txtDate" size="10"/>
+	        	<input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn"/>
         	</td>
         	<td class="tableMiddleRight"></td>
   		</tr>
@@ -157,6 +158,12 @@ if ($timeEvent != null) {
         	</td>
         	<td class="tableMiddleRight"></td>
   		</tr>
+  		<tr>
+  			<td class="tableMiddleLeft"></td>
+        	<td></td>
+        	<td><input type="button" name="btnPunch" id="btnPunch" value="<?php echo $punchTypeName; ?>" /></td>
+        	<td class="tableMiddleRight"></td>
+  		</tr>
   	</tbody>
   	<tfoot>
 	  	<tr>
@@ -172,7 +179,6 @@ if ($timeEvent != null) {
 	<input type="hidden" name="startTime" id="startTime" value="<?php echo $timeEvent->getStartTime(); ?>" />
 	<input type="hidden" name="timeEventId" id="timeEventId" value="<?php echo $timeEventId; ?>" />
 	<?php } ?>
-  	<input type="button" name="btnPunch" id="btnPunch" value="<?php echo $punchTypeName; ?>" />
 </form>
 <div id="punchInfo">
 	<?php echo $puchInfo; ?>

@@ -87,6 +87,9 @@ License File: 3rdParty/yui.license
 
 Files:
 
+scripts/yui/button/button-beta.js
+scripts/yui/button/button-beta-debug.js
+scripts/yui/button/button-min.js
 scripts/yui/calendar/calendar.js
 scripts/yui/calendar/calendar-debug.js
 scripts/yui/calendar/calendar-min.js
@@ -96,19 +99,29 @@ scripts/yui/container/container-min.js
 scripts/yui/container/container.js
 scripts/yui/container/container_core-min.js
 scripts/yui/container/container_core.js
+scripts/yui/dom/dom.js
+scripts/yui/dom/dom-debug.js
+scripts/yui/dom/dom-min.js
+scripts/yui/element/element-beta.js
+scripts/yui/element/element-beta-debug.js
+scripts/yui/element/element-beta-min.js
+scripts/yui/event/event.js
+scripts/yui/event/event-debug.js
+scripts/yui/event/event-min.js
 scripts/yui/yahoo/yahoo.js
 scripts/yui/yahoo/yahoo-min.js
 scripts/yui/yahoo/yahoo-debug.js
-scripts/yui/event/event.js
-scripts/yui/event/event-min.js
-scripts/yui/event/event-debug.js
-scripts/yui/dom/dom-min.js
-scripts/yui/dom/dom-debug.js
-scripts/yui/dom/dom.js
+scripts/yui/yahoo-dom-event/yahoo-dom-event.js
+themes/beyondT/css/yui/button/assets/button.css
 themes/beyondT/css/yui/calendar/assets/calendar.css
 themes/beyondT/css/yui/container/assets/container.css
 themes/beyondT/css/yui/fonts/fonts.css
 themes/beyondT/css/yui/fonts/fonts-min.css
+themes/beyondT/css/yui/button/assets/button.css
+themes/beyondT/icons/yui/button/assets/background.png
+themes/beyondT/icons/yui/button/assets/menuarrow.gif
+themes/beyondT/icons/yui/button/assets/splitarrow_active.gif
+themes/beyondT/icons/yui/button/assets/splitarrow.gif
 themes/beyondT/icons/yui/calendar/assets/calx.gif
 themes/beyondT/icons/yui/container/assets/warn16_1.gif
 themes/beyondT/icons/yui/container/assets/hlp16_1.gif
@@ -123,5 +136,6 @@ Modified files: (Modifications are listed in the file)
 
 scripts/yui/calendar/calendar.js
 scripts/yui/calendar/calendar-min.js (Compressed calendar.js file)
+themes/beyondT/css/yui/button/assets/button.css
 themes/beyondT/css/yui/calendar/assets/calendar.css
 themes/beyondT/css/yui/container/assets/container.css

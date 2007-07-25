@@ -73,42 +73,6 @@
  	$lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear), $lang_Leave_Leave_Summary_SUP_Title);
  }
 
- if (isset($_GET['message'])) {
-?>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
-
-<script language="javascript">
-	function actForm() {
-		document.frmSummary.action = '<?php echo $frmAction; ?>';
-		document.frmSummary.submit();
-	}
-
-	function goBack() {
-	<?php if ($modifier === 'edit') { ?>
-		document.frmSummary.reset();
-		actForm();
-	<?php } else { ?>
-		location.href = '<?php echo $backLink; ?>';
-	<?php } ?>
-	}
-
-	function sort(sortUrl) {
-		document.frmSummary.action = sortUrl;
-		document.frmSummary.submit();
-	}
-
-<?php	if ($auth === 'admin') { ?>
-
-	function actTakenLeave() {
-		document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
-		document.frmSummary.submit();
-	}
-
-<?php	} ?>
-
-<?php
-
 	function getCurSortOrder($colNum) {
 
 		$curSortOrder = null;
@@ -160,8 +124,46 @@
 		return "../../themes/beyondT/icons/" . $imgName . ".png";
 	}
 
+ if (isset($_GET['message'])) {
 ?>
+<var><?php echo $_GET['message']; ?></var>
+<?php } ?>
+<?php include ROOT_PATH."/lib/common/yui.php"; ?>
+<script language="javascript">
 
+	function init() {
+	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
+	}
+
+	YAHOO.util.Event.addListener(window, "load", init);
+
+	function actForm() {
+		document.frmSummary.action = '<?php echo $frmAction; ?>';
+		document.frmSummary.submit();
+	}
+
+	function goBack() {
+	<?php if ($modifier === 'edit') { ?>
+		document.frmSummary.reset();
+		actForm();
+	<?php } else { ?>
+		location.href = '<?php echo $backLink; ?>';
+	<?php } ?>
+	}
+
+	function sort(sortUrl) {
+		document.frmSummary.action = sortUrl;
+		document.frmSummary.submit();
+	}
+
+<?php	if ($auth === 'admin') { ?>
+
+	function actTakenLeave() {
+		document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
+		document.frmSummary.submit();
+	}
+
+<?php	} ?>
 </script>
 <h2><?php echo $lang_Title; ?><hr/></h2>
 <?php
@@ -184,7 +186,7 @@
 
 	<p class="controls">
 		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
-		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';">
+		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';" />
 	<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
 		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
 	<?php } ?>

@@ -99,14 +99,14 @@ function viewConExt(pSeq) {
       <tr>
           <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?></td>
     	  <td>
-    	  	<input type="text" readonly name="txtEmpConExtStartDat" id="txtEmpConExtStartDat" value=<?php echo $edit[0][2]?> size="12" />
-    	  	<input class="button" type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+    	  	<input type="text" readonly name="txtEmpConExtStartDat" id="txtEmpConExtStartDat" value=<?php echo $edit[0][2]?> size="10" />
+    	  	<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 	  </tr>
 	  <tr>
 		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top">
-			<input type="text" readonly name="txtEmpConExtEndDat" id="txtEmpConExtEndDat" value=<?php echo $edit[0][3]?> size="12" />
-			<input type="button" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+			<input type="text" readonly name="txtEmpConExtEndDat" id="txtEmpConExtEndDat" value=<?php echo $edit[0][3]?> size="10" />
+			<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 	  </tr>
 	  <tr>
 		<td valign="top"></td>
@@ -125,13 +125,13 @@ function viewConExt(pSeq) {
           <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?></td>
 		  <td>
 		  	<input type="text" readonly value="0000-00-00" name="txtEmpConExtStartDat" id="txtEmpConExtStartDat" size="12" />
-		  	<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+		  	<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 		</tr>
   	  <tr>
 		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top">
 			<input type="text" readonly value="0000-00-00" name="txtEmpConExtEndDat" id="txtEmpConExtEndDat" size="12" />
-			<input class="button" <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+			<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 	  </tr>
 	  <tr>
 		<td valign="top"></td>

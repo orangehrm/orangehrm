@@ -258,12 +258,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       </tr>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();"/>
-          <input type="button" name="Submit" value="..." onclick="selectFromDate(); return false;"/>
+        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"/>
+          <input type="button" name="Submit" value="  " class="calendarBtn" onclick="selectFromDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onfocus="fillToDate();" />
-          <input type="button" name="Submit" value="..." onclick="fillToDate(); selectToDate(); return false;"/>
+        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onfocus="fillToDate();" size="10" />
+          <input type="button" name="Submit" value="  " class="calendarBtn" onclick="fillToDate(); selectToDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>

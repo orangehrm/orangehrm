@@ -138,21 +138,21 @@ function editPassport() {
                 <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtPPNo"></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_issueddate; ?>&nbsp;&nbsp;</td>
-                <td><input type="text" readonly name="txtPPIssDat" id="txtPPIssDat" value="0000-00-00" size="12">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" readonly name="txtPPIssDat" id="txtPPIssDat" value="0000-00-00" size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr nowrap>
                 <td><?php echo $lang_hremp_i9status; ?></td>
                 <td><input name="txtI9status" <?php echo $locRights['add'] ? '':'disabled'?> type="text">
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_dateofexp; ?></td>
-                <td><input type="text" readonly value="0000-00-00" name="txtPPExpDat" id="txtPPExpDat" size="12">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" readonly value="0000-00-00" name="txtPPExpDat" id="txtPPExpDat" size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr nowrap>
                <td><?php echo $lang_hremp_i9reviewdate; ?></td>
-                <td nowrap><input type="text" readonly value="0000-00-00" name="txtI9ReviewDat" id="txtI9ReviewDat" size="12">
-                			<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td nowrap><input type="text" readonly value="0000-00-00" name="txtI9ReviewDat" id="txtI9ReviewDat" size="10">
+                			<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 				<td width="50">&nbsp;</td>
 				<td><?php echo $lang_Leave_Common_Comments; ?></td>
 				<td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtComments"></textarea></td>
@@ -239,21 +239,21 @@ if ($rset != Null){?>
                 <td><input type="text" name="txtPPNo" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_issueddate; ?></td>
-                <td><input type="text" name="txtPPIssDat" id="txtPPIssDat" readonly value=<?php echo $edit[0][3]?> size="12">
-					<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtPPIssDat" id="txtPPIssDat" readonly value=<?php echo $edit[0][3]?> size="10">
+					<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr>
                 <td><?php echo $lang_hremp_i9status; ?></td>
                 <td><input name="txtI9status" type="text" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][7]?>">
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_dateofexp; ?></td>
-                <td><input type="text" name="txtPPExpDat" id="txtPPExpDat" readonly value=<?php echo $edit[0][4]?> size="12">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtPPExpDat" id="txtPPExpDat" readonly value=<?php echo $edit[0][4]?> size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr>
                <td><?php echo $lang_hremp_i9reviewdate; ?></td>
-                <td><input type="text" name="txtI9ReviewDat" id="txtI9ReviewDat" readonly value=<?php echo $edit[0][8]?> size="12">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtI9ReviewDat" id="txtI9ReviewDat" readonly value=<?php echo $edit[0][8]?> size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 				<td width="50">&nbsp;</td>
 				<td><?php echo $lang_Leave_Common_Comments; ?></td>
 				<td><textarea <?php echo $locRights['edit'] ? '':'disabled'?> name="txtComments"><?php echo $edit[0][5]?></textarea></td>

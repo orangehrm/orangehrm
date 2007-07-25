@@ -87,6 +87,10 @@ $projectActivityObj = new ProjectActivity();
 <script type="text/javascript">
 var initialAction = "?timecode=Time&action=";
 
+function goBack() {
+	window.location = initialAction+"Time_Event_Home";
+}
+
 function validate() {
 	startTime = strToTime($("txtStartTime").value);
 	endTime = strToTime($("txtEndTime").value);
@@ -209,6 +213,9 @@ YAHOO.util.Event.addListener(window, "load", init);
 <hr/>
 </h2>
 <div id="status"></div>
+<p class="navigation">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;">
+</p>
 <form id="frmTimeEvent" name="frmTimesheet" method="post" action="?timecode=Time&action=" onsubmit="submitTimeEvent(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
@@ -224,7 +231,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_Project; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<select id="cmbProject" name="cmbProject" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value);" >
 				<?php if (is_array($projects)) { ?>
@@ -249,7 +256,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_Activity; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<select id="cmbActivity" name="cmbActivity" >
 					<?php
@@ -277,50 +284,72 @@ YAHOO.util.Event.addListener(window, "load", init);
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_StartTime; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<input type="text" id="txtStartTime" name="txtStartTime" size="16" value="<?php echo $startTime; ?>" />
-				<input type="button" id="btnStartTimeInsert" name="btnStartTimeInsert" value="<?php echo $lang_Time_InsertTime;?>"/>
+				<input src="../../themes/beyondT/icons/insertTime.png"
+					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
+					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+					onclick="return false;"
+					name="btnStartTimeInsert" id="btnStartTimeInsert"
+					height="20" width="90" type="image" alt="Insert Time" />
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_EndTime; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<input type="text" id="txtEndTime" name="txtEndTime" size="16" value="<?php echo $endTime; ?>" />
-				<input type="button" id="btnEndTimeInsert" name="btnEndTimeInsert" value="<?php echo $lang_Time_InsertTime;?>"/>
+				<input src="../../themes/beyondT/icons/insertTime.png"
+					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
+					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+					onclick="return false;"
+					name="btnEndTimeInsert" id="btnEndTimeInsert"
+					height="20" width="90" type="image" alt="Insert Time" />
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_DateReportedFor; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<input type="text" id="txtReportedDate" name="txtReportedDate" value="<?php echo $reportedDate; ?>" size="10"/>
-				<input type="button" id="btnReportedDateSelect" name="btnReportedDateSelect" value="..."/>
+				<input type="button" id="btnReportedDateSelect" name="btnReportedDateSelect" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_Duration; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<input type="text" id="txtDuration" name="txtDuration" size="3" value="<?php echo $duration; ?>" />
-				<span class="formHelp"><?php echo $lang_Time_DurationFormat; ?>
+				<span class="formHelp"><?php echo $lang_Time_DurationFormat; ?></span>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Time_Timesheet_Decription; ?></td>
-			<td >&nbsp;</td>
+			<td ></td>
 			<td >
 				<textarea type="text" id="txtDescription" name="txtDescription" ><?php echo $description; ?></textarea>
 			</td>
+			<td class="tableMiddleRight"></td>
+		</tr>
+		<tr>
+			<td class="tableMiddleLeft"></td>
+			<td ></td>
+			<td ></td>
+			<td >
+				<input src="../../themes/beyondT/icons/submit.png"
+					onclick="actionSubmit(); return false;"
+					onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
+					onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
+					name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/></td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 	</tbody>
@@ -338,7 +367,5 @@ YAHOO.util.Event.addListener(window, "load", init);
 <?php if (isset($timeEventId)) { ?>
 <input type="hidden" name="txtTimeEventId" id="txtTimeEventId" value="<?php echo $timeEventId; ?>"/>
 <?php } ?>
-
-<input type="submit" name="btnSubmit" value="Submit"/>
 </form>
 <div id="cal1Container" style="position:absolute;" ></div>

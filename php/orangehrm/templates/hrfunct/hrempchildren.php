@@ -86,8 +86,8 @@ function editChildren() {
                 </tr>
                 <tr>
                 <td><?php echo $lang_hremp_dateofbirth; ?></td>
-				<td><input type="text" readonly value="0000-00-00" name="ChiDOB" id="ChiDOB" size="12">
-					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('ChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+				<td><input type="text" readonly value="0000-00-00" name="ChiDOB" id="ChiDOB" size="10">
+					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('ChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
             </tr>
 
 				  <td>
@@ -149,8 +149,8 @@ function editChildren() {
                </tr>
               <tr>
                 <td><?php echo $lang_hremp_dateofbirth?></td>
-                <td><input type="text" name="ChiDOB" id="ChiDOB" readonly value=<?php echo $edit[0][3]?> size="12">
-                	<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('ChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="ChiDOB" id="ChiDOB" readonly value=<?php echo $edit[0][3]?> size="10">
+                	<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('ChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
                </tr>
 
 				  <td>

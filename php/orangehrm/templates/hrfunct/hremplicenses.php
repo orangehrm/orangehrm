@@ -145,13 +145,13 @@ if(isset($this->getArr['LIC'])) {
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpLicDat" id="txtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?> size="12" />
-							<input disabled type="button" name="btnEmpLicDat" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" readonly name="txtEmpLicDat" id="txtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?> size="10" />
+							<input disabled type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpreDat" id="txtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?> size="12" />
-							<input disabled type="button" name="btnEmpreDat" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" readonly name="txtEmpreDat" id="txtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?> size="10" />
+							<input disabled type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
@@ -180,14 +180,14 @@ if(isset($this->getArr['LIC'])) {
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>" size="12" />
-							<input type="button" name="btnEmpLicDat" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpLicDat" id="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>" size="10" />
+							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="txtEmpreDat" readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>" size="12" />
-							<input type="button" name="btnEmpreDat" class="button" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpreDat" id="txtEmpreDat" readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>" size="10" />
+							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 
 					  <tr>

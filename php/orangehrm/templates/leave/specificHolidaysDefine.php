@@ -129,8 +129,8 @@
   	<td class="tableMiddleLeft"></td>
   	<td width="135px"><span class="error">*</span><?php echo $lang_Leave_Common_Date;?></td>
   	<td >&nbsp;</td>
-    <td ><input name="txtDate" id="txtDate" type="text" value="<?php echo $date; ?>" />
-          <input type="button" name="Submit" value="..." onclick="YAHOO.OrangeHRM.calendar.pop('txtDate', 'cal1Container', 'yyyy-MM-dd'); return false;"/></td>
+    <td ><input name="txtDate" id="txtDate" type="text" value="<?php echo $date; ?>" size="10" />
+          <input type="button" name="Submit" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtDate', 'cal1Container', 'yyyy-MM-dd'); return false;"/></td>
     <td >&nbsp;</td>
 	<td class="tableMiddleRight"></td>
   </tr>

@@ -21,6 +21,28 @@
 $pendingTimeEvents = $records[0];
 
 ?>
+<?php include ROOT_PATH."/lib/common/yui.php"; ?>
+<script type="text/javascript">
+
+function init() {
+  oLinkNewTimeEvent = new YAHOO.widget.Button("linkNewTimeEvent");
+
+  completeEventBtns = YAHOO.util.Dom.getElementsByClassName("linkCompleteTimeEvent");
+
+  oLinkCompleteTimeEvent = new Array();
+
+  for (i=0; completeEventBtns.length > i; i++) {
+  	oLinkCompleteTimeEvent[i] = new YAHOO.widget.Button(completeEventBtns[i]);
+  }
+}
+
+function hideUrl() {
+	window.status="";
+}
+
+YAHOO.util.Event.addListener(window, "load", init);
+</script>
+
 <h2>
 <?php echo $lang_Time_UnfinishedActivitiesTitle; ?>
 <hr/>
@@ -38,7 +60,6 @@ $pendingTimeEvents = $records[0];
 		</div>
 <?php }	?>
 <?php if (isset($pendingTimeEvents) && is_array($pendingTimeEvents)) { ?>
-<form id="frmTimeEventList" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -71,7 +92,9 @@ $pendingTimeEvents = $records[0];
 			<td ><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 			<td ><?php echo "{$projectActivities->getName()}"; ?></td>
 			<td ><?php echo $pendingTimeEvent->getDescription(); ?></td>
-			<td ><a href="?timecode=Time&action=Update_Event_View&id=<?php echo $pendingTimeEvent->getTimeEventId(); ?>"><?php echo $lang_Time_Complete; ?></a></td>
+			<td >
+				<span class="linkCompleteTimeEvent"><span class="first-child"><a href="?timecode=Time&action=Update_Event_View&id=<?php echo $pendingTimeEvent->getTimeEventId(); ?>"><?php echo $lang_Time_Complete; ?></a></span></span>
+			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 		<?php } ?>
@@ -88,6 +111,7 @@ $pendingTimeEvents = $records[0];
 		</tr>
   	</tfoot>
 </table>
-</form>
 <?php } ?>
-<a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a>
+<p id="navigation">
+	<span id="linkNewTimeEvent"><span class="first-child"><a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a></span></span>
+</p>
