@@ -177,7 +177,7 @@
 	// Time module
 	$lang_Menu_Time = "Time";
 	$lang_Menu_Time_Timesheets = "Timesheets";
-	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
+	$lang_Menu_Time_PersonalTimesheet = "My timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
 	/**
@@ -957,6 +957,8 @@
 
 	$lang_Time_Timesheet_Customer = "Customer";
 	$lang_Time_Timesheet_ProjectActivity = "Project / Activity";
+	$lang_Time_Timesheet_Project = "Project";
+	$lang_Time_Timesheet_Activity = "Activity";
 
 	$lang_Time_Timesheet_Total = "Total";
 
@@ -1007,4 +1009,44 @@
 	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
 	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
+
+	// 2.2 Time module
+	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
+	$lang_Time_PunchIn = "In";
+	$lang_Time_PunchOut = "Out";
+
+	$lang_Time_LastPunchIn = "Last punch in time:";
+	$lang_Time_LastPunchOut = "Last punch out time:";
+
+	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
+	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
+	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
+	$lang_Time_Errors_ActivityNotSpecified = "Activity not specified";
+
+	$lang_Menu_Time_PunchInOut = "Punch In/Out";
+
+	$lang_Time_Timesheet_SelectProject = "Select a Project";
+
+	$lang_Time_Timesheet_UnfinishedActivitiesTitle = "Unfinished Activities";
+	$lang_Time_SubmitTimeEventTitle = "Submit Time Event";
+
+	$lang_Time_Timesheet_DateReportedFor = "Date reported for";
+
+	$lang_Time_UnfinishedActivitiesTitle = "Unfinished Activities";
+	$lang_Time_NewEvent = "New Event";
+	$lang_Time_Complete = "Complete";
+
+	$lang_Time_DurationFormat = "hh:mm or 0.00h";
+	$lang_Time_InsertTime="Insert time";
+
+	$lang_Time_Errors_NO_RECORDS_CHANGED_WARNING = "No changes to save";
+	$lang_Time_Errors_EXCEPTION_THROWN_WARNING = "Encountered a problem";
+
+	$lang_Menu_Time_ProjectTime = "Project time";
+
+	$lang_Time_DefineTimesheetPeriodTitle = "Define Timesheet Period";
+
+	$lang_Time_FirstDayOfWeek = "First Day of Week";
+
+	$lang_Menu_Time_DefineTimesheetPeriod = "Define Timesheet Period";
 ?>
