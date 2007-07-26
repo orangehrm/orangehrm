@@ -84,7 +84,7 @@ function viewTimesheet(id) {
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
-			<td>&nbsp;</td>
+			<td></td>
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
 			<td ><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" disabled />
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" />
@@ -103,9 +103,9 @@ function viewTimesheet(id) {
 				</select>
 			</td>
 		<?php } ?>
-			<td>&nbsp;</td>
+			<td></td>
 			<td><input type="image" name="btnView" onclick="view(); return false;" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
-			<td>&nbsp;</td>
+			<td></td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 	</tbody>
@@ -158,7 +158,13 @@ function viewTimesheet(id) {
 			<td><?php echo $employee[1];?></td>
 			<td>&nbsp;</td>
 			<td><?php echo preg_replace(array('/#date/'), array($timesheet->getStartDate()), $lang_Time_Select_Employee_WeekStartingDate); ?></td>
-			<td><input type="image" name="btnView" onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
+			<td>
+				<input type="image" name="btnView" alt="View"
+					   onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;"
+					   src="../../themes/beyondT/icons/view.jpg"
+					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
+					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
+			</td>
 			<td>&nbsp;</td>
 			<td class="tableMiddleRight"></td>
 		</tr>

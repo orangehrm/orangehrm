@@ -224,7 +224,6 @@ class TimeController {
 		$projects = $projectObj->fetchProjects();
 
 		$dataArr[0] = $projects;
-		$dataArr[1] = $customers;
 
 		if (!$new) {
 			$timeEventObj = new TimeEvent();
@@ -232,7 +231,7 @@ class TimeController {
 
 			$timeEvents = $timeEventObj->fetchTimeEvents();
 
-			$dataArr[2] = $timeEvents[0];
+			$dataArr[1] = $timeEvents[0];
 		}
 
 		$template = new TemplateMerger($dataArr, $path);
@@ -757,6 +756,32 @@ class TimeController {
 	public function viewDefineEmployeeTimeReport() {
 		$path="/templates/time/defineEmployeeTimeReport.php";
 
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if (!$role) {
+			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
+
+		$employees = null;
+		$pendingTimesheets = null;
+		$pending=false;
+		if ($this->authorizeObj->isSupervisor()) {
+			$empRepObj = new EmpRepTo();
+
+			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
+			$timesheetObj = new Timesheet();
+			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
+			for ($i=0; $i<count($employees); $i++) {
+				$timesheetObj->setEmployeeId($employees[$i][0]);
+				$newTimesheets=$timesheetObj->fetchTimesheets();
+				$pendingTimesheets[$employees[$i][0]]=$newTimesheets;
+				if (isset($newTimesheets) && $newTimesheets) {
+					$pending=true;
+				}
+			}
+		}
+
 		$customerObj = new Customer();
 		$projectObj = new Projects();
 
@@ -764,13 +789,41 @@ class TimeController {
 
 		$projects = $projectObj->fetchProjects();
 
+		$dataArr[0] = $role;
+		$dataArr[1] = $employees;
+		$dataArr[2] = $projects;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	public function viewEmployeeTimeReport($startDate, $endDate) {
+
+		$path="/templates/time/employeeTimeReport.php";
+
+		$timeEventObj = $this->objTime;
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
+
+		if ($timeEventObj && $this->authorizeObj->isTheSupervisor($timeEventObj->getEmployeeId())) {
+			$roles[] = authorize::AUTHORIZE_ROLE_SUPERVISOR;
+		}
+
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if (!$role) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+		}
+
 		$employeeObj = new EmpInfo();
 
-		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+		$employee = $employeeObj->filterEmpMain($timeEventObj->getEmployeeId());
 
-		$dataArr[0]=$customers;
-		$dataArr[1]=$projects;
-		$dataArr[2]=$employee[0];
+		$report = $timeEventObj->timeReport($startDate, $endDate);
+
+		$dataArr[0] = $role;
+		$dataArr[1] = $employee[0];
+		$dataArr[2] = $report;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

@@ -44,6 +44,8 @@
 .tableMiddleMiddle {
 	border-bottom: 1px solid #CCCCCC;
 	vertical-align: top;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
 td {

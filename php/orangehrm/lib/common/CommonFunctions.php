@@ -200,7 +200,5 @@ class CommonFunctions {
 
 		return false;
 	}
-
 }
-
 ?>

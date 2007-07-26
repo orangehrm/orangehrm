@@ -18,8 +18,6 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/controllers/TimeController.php';
-
 function populateActivities($projectId) {
 
 	ob_clean();
@@ -56,7 +54,6 @@ $objAjax->registerFunction('populateActivities');
 $objAjax->processRequests();
 
 $projects=$records[0];
-$customers=$records[1];
 
 $projectId = null;
 $activityId = null;
@@ -66,15 +63,15 @@ $reportedDate = date('Y-m-d');
 $duration = "";
 $description = "";
 
-if (isset($records[2])) {
-	$timeEventId = $records[2]->getTimeEventId();
-	$projectId = $records[2]->getProjectId();
-	$activityId = $records[2]->getActivityId();
-	$startTime = $records[2]->getStartTime();
-	$endTime = $records[2]->getEndTime();
-	$reportedDate = $records[2]->getReportedDate();
-	$duration = $records[2]->getDuration();
-	$description = $records[2]->getDescription();
+if (isset($records[1])) {
+	$timeEventId = $records[1]->getTimeEventId();
+	$projectId = $records[1]->getProjectId();
+	$activityId = $records[1]->getActivityId();
+	$startTime = $records[1]->getStartTime();
+	$endTime = $records[1]->getEndTime();
+	$reportedDate = $records[1]->getReportedDate();
+	$duration = $records[1]->getDuration();
+	$description = $records[1]->getDescription();
 }
 
 $customerObj = new Customer();
@@ -349,7 +346,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 					onclick="actionSubmit(); return false;"
 					onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
 					onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
-					name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/></td>
+					alt="Submit" name="btnSubmit" id="btnSubmit"
+					height="20" type="image" width="65"/></td>
 			<td class="tableMiddleRight"></td>
 		</tr>
 	</tbody>

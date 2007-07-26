@@ -1051,4 +1051,14 @@
 	$lang_Menu_Time_DefineTimesheetPeriod = "Define Timesheet Period";
 
 	$lang_Time_EmployeeTimeReportTitle = "Employee Time Report";
+
+	$lang_Time_Common_FromDate = $lang_Leave_Common_FromDate;
+	$lang_Time_Common_ToDate = $lang_Leave_Common_ToDate;
+	$lang_Time_Common_All = $lang_Leave_Common_All;
+
+	$lang_Time_Errors_EmployeeNotSpecified = "Employee not specified";
+
+	$lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified = "Invalid date or zero or negative range specified";
+
+	$lang_Menu_Time_EmployeeReports = "Employee Reports";
 ?>

@@ -575,7 +575,13 @@ function setSize() {
   					<?php if ($authorizeObj->isESS()) { ?>
 	            	<li id="punchTime"><a href="lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time" target="rightMenu"><?php echo $lang_Menu_Time_PunchInOut; ?></a></li>
 	            	<li id="punchTime"><a href="lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home" target="rightMenu"><?php echo $lang_Menu_Time_ProjectTime; ?></a></li>
-	            	<?php } ?>
+	            	<?php
+	            		  }
+	            		  $allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
+	            		  if ($authorizeObj->firstRole($allowedRoles)) {
+	            	?>
+	            	<li id="timesheets"><a href="lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define" target="rightMenu"><?php echo $lang_Menu_Time_EmployeeReports; ?></a></li>
+  					<?php } ?>
   				</ul>
 			</TD>
 

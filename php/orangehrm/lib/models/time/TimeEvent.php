@@ -580,6 +580,47 @@ class TimeEvent {
 			$this->setTimesheetId($timesheets[0]->getTimesheetId());
 		}
 	}
+
+	public function timeReport($startDate, $endDate) {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
+
+		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
+		$selectFields[1] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
+		$selectFields[2] = "SUM(a.`".self::TIME_EVENT_DB_FIELD_DURATION."`) as ".self::TIME_EVENT_DB_FIELD_DURATION;
+
+		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$startDate} 00:00:00'";
+		$selectConditions[1] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$endDate} 23:59:00'";
+
+		if ($this->getProjectId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
+		}
+
+		if ($this->getActivityId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = {$this->getActivityId()}";
+		}
+
+		if ($this->getEmployeeId() != null) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
+		}
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$query .= " GROUP BY {$selectFields[0]}, {$selectFields[1]}";
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$arrData=null;
+
+		while ($row = mysql_fetch_assoc($result)) {
+			$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]]=$row[self::TIME_EVENT_DB_FIELD_DURATION];
+		}
+
+		return $arrData;
+	}
 }
 
 class TimeEventException extends Exception {

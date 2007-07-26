@@ -1446,6 +1446,13 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->saveWorkWeek();
 																					break;
+													case 'Employee_Report_Define':	$timeController->viewDefineEmployeeTimeReport();
+																					break;
+													case 'Employee_Report'		:	$obj = $timeEventExtractor->parseReportParams($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewEmployeeTimeReport($_POST['txtFromDate'],
+																															$_POST['txtToDate']);
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
