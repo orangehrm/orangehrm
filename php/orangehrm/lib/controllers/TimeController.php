@@ -523,7 +523,24 @@ class TimeController {
 	}
 
 	public function saveWorkWeek() {
+		$timesheetSubmissionPeriod = $this->getObjTime();
+		$timesheetSubmissionPeriod->setFrequency(TimesheetSubmissionPeriod::TIMESHEET_SUBMISSION_PERIOD_FREQUENCY_WEEK);
 
+		try {
+			$res = $timesheetSubmissionPeriod->saveTimesheetSubmissionPeriod();
+		} catch (TimesheetSubmissionPeriodException $err) {
+    		$_GET['message'] = 'EXCEPTION_THROWN_WARNING';
+
+    		$this->redirect($_GET['message'], "?timecode=Time&action=Work_Week_Edit_View");
+    	}
+
+    	if ($res) {
+    		$_GET['message'] = 'UPDATE_SUCCESS';
+    	} else {
+    		$_GET['message'] = 'UPDATE_FAILURE';
+    	}
+
+    	$this->redirect($_GET['message'], "?timecode=Time&action=Work_Week_Edit_View");
 	}
 
 	public function deleteTimesheet() {

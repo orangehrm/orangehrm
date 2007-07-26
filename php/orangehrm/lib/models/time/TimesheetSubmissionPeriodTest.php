@@ -66,6 +66,68 @@ class TimesheetSubmissionPeriodTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+    	mysql_query("UPDATE `hs_hr_timesheet_submission_period` SET `start_day` = 1, `end_day` = 7 WHERE `timesheet_period_id` = 1");
+    }
+
+    public function testSaveTimesheetSubmissionPeriod() {
+    	$expected[0] = array(1, 'week', 7, 1, 1, 7, 'Weekly');
+
+    	$this->classTimesheetSubmissionPeriod->setTimesheetPeriodId(1);
+    	$this->classTimesheetSubmissionPeriod->setStartDay($expected[0][4]);
+
+    	try {
+    		$res = $this->classTimesheetSubmissionPeriod->saveTimesheetSubmissionPeriod();
+    	} catch (TimesheetSubmissionPeriodException $err) {
+    		$errCode = $err->getCode();
+    		$errMessage = $err->getMessage();
+
+    		$this->assertEquals($errCode, -2, "Unexpected error code");
+    		$this->assertEquals($errMessage, "Unable to determine the end date", "Unexpected error message");
+
+    		return;
+    	}
+
+    	$this->fail('An expected Exception has not been raised.');
+    }
+
+    public function testSaveTimesheetSubmissionPeriod2() {
+    	$expected[0] = array(1, 'week', 7, 1, 1, 7, 'Weekly');
+
+    	$this->classTimesheetSubmissionPeriod->setTimesheetPeriodId(1);
+    	$this->classTimesheetSubmissionPeriod->setStartDay($expected[0][4]);
+    	$this->classTimesheetSubmissionPeriod->setFrequency($expected[0][2]);
+
+    	$res = $this->classTimesheetSubmissionPeriod->saveTimesheetSubmissionPeriod();
+
+    	$this->assertFalse($res, "Saved a record which had no changes");
+    }
+
+    public function testSaveTimesheetSubmissionPeriod3() {
+    	$expected[0] = array(1, 'week', 7, 1, 2, 1, 'Weekly');
+
+    	$this->classTimesheetSubmissionPeriod->setTimesheetPeriodId(1);
+    	$this->classTimesheetSubmissionPeriod->setStartDay($expected[0][4]);
+    	$this->classTimesheetSubmissionPeriod->setFrequency($expected[0][2]);
+
+    	$res = $this->classTimesheetSubmissionPeriod->saveTimesheetSubmissionPeriod();
+
+    	$this->assertTrue($res, "Failed to save");
+
+		$res = $this->classTimesheetSubmissionPeriod->fetchTimesheetSubmissionPeriods();
+
+		$this->assertNotNull($res, "Returned nothing");
+
+		$this->assertEquals(count($res), 1, "Didn't return the expected number of records");
+
+		for ($i=0; $i<count($res); $i++) {
+			$this->assertEquals($expected[$i][0], $res[$i]->getTimesheetPeriodId(), "Invalid timesheet period id");
+			$this->assertEquals($expected[$i][1], $res[$i]->getName(), "Invalid timesheet period name");
+			$this->assertEquals($expected[$i][2], $res[$i]->getFrequency(), "Invalid timesheet period frequency");
+			$this->assertEquals($expected[$i][3], $res[$i]->getPeriod(), "Invalid timesheet period period");
+			$this->assertEquals($expected[$i][4], $res[$i]->getStartDay(), "Invalid timesheet period start day");
+			$this->assertEquals($expected[$i][5], $res[$i]->getEndDay(), "Invalid timesheet period end day");
+			$this->assertEquals($expected[$i][6], $res[$i]->getDescription(), "Invalid timesheet period description");
+		}
     }
 
     public function testFetchTimesheetSubmissionPeriods() {

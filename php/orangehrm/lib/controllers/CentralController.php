@@ -105,6 +105,7 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
 
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
 
 //leave modules extractorss go here
 
@@ -1365,6 +1366,7 @@ switch ($moduletype) {
 												$timeController = new TimeController();
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
+												$timesheetSubmissionPeriodExtractor = new EXTRACTOR_TimesheetSubmissionPeriod();
 
 												$current=false;
 												$punchIn=false;
@@ -1439,6 +1441,10 @@ switch ($moduletype) {
 																					$timeController->saveTimeEvent();
 																					break;
 													case 'Work_Week_Edit_View'	:	$timeController->defineWorkWeekView();
+																					break;
+													case 'Work_Week_Save'		:	$obj = $timesheetSubmissionPeriodExtractor->parseEditData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->saveWorkWeek();
 																					break;
 												}
 											} else {

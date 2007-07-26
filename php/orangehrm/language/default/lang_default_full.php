@@ -177,7 +177,7 @@
 	// Time module
 	$lang_Menu_Time = "Time";
 	$lang_Menu_Time_Timesheets = "Timesheets";
-	$lang_Menu_Time_PersonalTimesheet = "Personal timesheet";
+	$lang_Menu_Time_PersonalTimesheet = "My timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
 	/**
@@ -1047,4 +1047,6 @@
 	$lang_Time_DefineTimesheetPeriodTitle = "Define Timesheet Period";
 
 	$lang_Time_FirstDayOfWeek = "First Day of Week";
+
+	$lang_Menu_Time_DefineTimesheetPeriod = "Define Timesheet Period";
 ?>

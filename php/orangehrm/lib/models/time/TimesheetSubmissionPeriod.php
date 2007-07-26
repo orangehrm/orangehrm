@@ -108,6 +108,60 @@ class TimesheetSubmissionPeriod {
 		//nothing to do
 	}
 
+	public function saveTimesheetSubmissionPeriod() {
+		$this->_findEndDay();
+
+		$sql_builder = new SQLQBuilder();
+
+		$updateTable = self::TIMESHEET_SUBMISSION_PERIOD_DB_TABLE_TIMESHEET_SUBMISSION_PERIOD;
+
+		if ($this->getName() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_NAME."`";
+			$updateValues[] = "'{$this->getName()}'";
+		}
+
+		if ($this->getFrequency() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_FREQUENCY."`";
+			$updateValues[] = $this->getFrequency();
+		}
+
+		if ($this->getPeriod() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_PERIOD."`";
+			$updateValues[] = $this->getPeriod();
+		}
+
+		if ($this->getStartDay() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_START_DAY."`";
+			$updateValues[] = $this->getStartDay();
+		}
+
+		if ($this->getEndDay() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_END_DAY."`";
+			$updateValues[] = $this->getEndDay();
+		}
+
+		if ($this->getDescription() != null) {
+			$updateFields[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_DESCRIPTION."`";
+			$updateValues[] = "'{$this->getDescription()}'";
+		}
+
+		$updateConditions[] = "`".self::TIMESHEET_SUBMISSION_PERIOD_DB_FIELD_TIMESHEET_PERIOD_ID."` = {$this->getTimesheetPeriodId()}";
+
+		$query = $sql_builder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		if ($result) {
+			if (mysql_affected_rows() > 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function fetchTimesheetSubmissionPeriods() {
 		$sql_builder = new SQLQBuilder();
 
@@ -162,6 +216,23 @@ class TimesheetSubmissionPeriod {
 		return $objArr;
 	}
 
+	private function _findEndDay() {
+		if (($this->getFrequency() == null) || ($this->getStartDay() == null)) {
+			throw new TimesheetSubmissionPeriodException("Unable to determine the end date", -2);
+		}
+
+		$tmpEndDate = $this->getStartDay()+$this->getFrequency()-1;
+		$tmpEndDate = $tmpEndDate%self::TIMESHEET_SUBMISSION_PERIOD_FREQUENCY_WEEK;
+
+		if ($tmpEndDate == 0) {
+			$tmpEndDate = self::TIMESHEET_SUBMISSION_PERIOD_FREQUENCY_WEEK;
+		}
+
+		$this->setEndDay($tmpEndDate);
+
+		return true;
+	}
+
 	private function _buildObjArr($result) {
 		$objArr = null;
 
@@ -181,5 +252,8 @@ class TimesheetSubmissionPeriod {
 
 		return $objArr;
 	}
+}
+
+class TimesheetSubmissionPeriodException extends Exception {
 }
 ?>

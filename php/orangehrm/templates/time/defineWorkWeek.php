@@ -32,7 +32,21 @@ $submissionPeriod = $records[0];
 	<?php echo $lang_Time_DefineTimesheetPeriodTitle; ?>
   <hr/>
 </h2>
-<form id="frmWorkWeek" name="frmWorkWeek" method="post">
+<?php if (isset($_GET['message'])) {
+
+		$expString  = $_GET['message'];
+		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$expString = 'lang_Time_Errors_' . $expString;
+?>
+		<div class="<?php echo $col_def?>" >
+			<font size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $$expString; ?>
+			</font>
+		</div>
+<?php }	?>
+<form id="frmWorkWeek" name="frmWorkWeek" method="post" action="?timecode=Time&action=Work_Week_Save">
+<input type="hidden" name="txtTimeshetPeriodId" id="txtTimeshetPeriodId" value="<?php echo $submissionPeriod->getTimesheetPeriodId(); ?>"/>
+
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -49,7 +63,7 @@ $submissionPeriod = $records[0];
 			<td><?php echo $lang_Time_FirstDayOfWeek; ?></td>
 			<td></td>
         	<td>
-	        	<select id="startDay" name="startDay">
+	        	<select id="cmbStartDay" name="cmbStartDay">
 				<?php foreach ($daysOfTheWeek as $dayNo=>$dayName) {
 					$selected="";
 					if ($dayNo == $submissionPeriod->getStartDay())	{
