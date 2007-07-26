@@ -754,6 +754,28 @@ class TimeController {
 		$template->display();
 	}
 
+	public function viewDefineEmployeeTimeReport() {
+		$path="/templates/time/defineEmployeeTimeReport.php";
+
+		$customerObj = new Customer();
+		$projectObj = new Projects();
+
+		$customers = $customerObj->fetchCustomers();
+
+		$projects = $projectObj->fetchProjects();
+
+		$employeeObj = new EmpInfo();
+
+		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+
+		$dataArr[0]=$customers;
+		$dataArr[1]=$projects;
+		$dataArr[2]=$employee[0];
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
 	public function redirect($message=null, $url = null) {
 
 		if (isset($url)) {

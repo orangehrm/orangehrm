@@ -1049,4 +1049,6 @@
 	$lang_Time_FirstDayOfWeek = "First Day of Week";
 
 	$lang_Menu_Time_DefineTimesheetPeriod = "Define Timesheet Period";
+
+	$lang_Time_EmployeeTimeReportTitle = "Employee Time Report";
 ?>
