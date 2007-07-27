@@ -67,15 +67,15 @@ function goBack() {
 				foreach ($report as $projectId=>$projectTimeCost) {
 					foreach ($projectTimeCost as $activityId=>$activityTimeCost) {
 						$projectDet = $projectObj->fetchProject($projectId);
-						$customerDet = $customerObj->fetchCustomer($projectId);
-						$projectActivities = $projectActivityObj->getActivity($projectId);
+						$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+						$projectActivity = $projectActivityObj->getActivity($activityId);
 
 						$totalTime+=$activityTimeCost;
 		?>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td ><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
-			<td ><?php echo $projectActivities->getName(); ?></td>
+			<td ><?php echo $projectActivity->getName(); ?></td>
 			<td ><?php echo round($activityTimeCost/36)/100; ?></td>
 			<td class="tableMiddleRight"></td>
 		</tr>

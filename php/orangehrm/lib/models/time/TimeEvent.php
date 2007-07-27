@@ -616,7 +616,7 @@ class TimeEvent {
 		$arrData=null;
 
 		while ($row = mysql_fetch_assoc($result)) {
-			$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]]=$row[self::TIME_EVENT_DB_FIELD_DURATION];
+			$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]]=$row[self::TIME_EVENT_DB_FIELD_DURATION];
 		}
 
 		return $arrData;

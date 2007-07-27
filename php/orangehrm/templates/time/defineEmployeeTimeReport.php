@@ -45,7 +45,7 @@ $objAjax->registerFunction('populateActivities');
 $objAjax->processRequests();
 
 $role=$records[0];
-$employee=$records[1];
+$employees=$records[1];
 $projects=$records[2];
 
 $customerObj = new Customer();
