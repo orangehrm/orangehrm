@@ -443,7 +443,7 @@ class TimeController {
 		$template->display();
 	}
 
-	public function editTimesheet() {
+	public function editTimesheet($nextAction) {
 		$timeEvents = $this->getObjTime();
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -451,7 +451,7 @@ class TimeController {
 
 		if ($timeEvents == null) {
 			$_GET['message'] = 'UPDATE_FAILURE';
-			$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$_GET['id']}");
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
 			return false;
 		}
 
@@ -461,6 +461,8 @@ class TimeController {
 			}
 		}
 
+		$_GET['message'] = 'NO_RECORDS_CHANGED_WARNING';
+
 		foreach ($timeEvents as $timeEvent) {
 			if ($timeEvent->getTimeEventId() == null) {
 				$res=$timeEvent->addTimeEvent();
@@ -469,14 +471,17 @@ class TimeController {
 			}
 
 			if ($res) {
-				$_GET['message'] = 'UPDATE_SUCCESS';
+				echo $res;
+				if ($res == 1) {
+					$_GET['message'] = 'UPDATE_SUCCESS';
+				}
 			} else {
 				$_GET['message'] = 'UPDATE_FAILURE';
 				break;
 			}
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timeEvent->getTimesheetId()}");
+		$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvent->getTimesheetId()}");
 
 		return $res;
 	}
@@ -542,7 +547,7 @@ class TimeController {
     	$this->redirect($_GET['message'], "?timecode=Time&action=Work_Week_Edit_View");
 	}
 
-	public function deleteTimesheet() {
+	public function deleteTimesheet($nextAction) {
 		$timeEvents = $this->getObjTime();
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -550,7 +555,7 @@ class TimeController {
 
 		if ($timeEvents == null) {
 			$_GET['message'] = 'UPDATE_FAILURE';
-			$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$_GET['id']}");
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
 			return false;
 		}
 
@@ -575,12 +580,12 @@ class TimeController {
 			}
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action=View_Timesheet&id={$timeEvent->getTimesheetId()}");
+		$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvent->getTimesheetId()}");
 
 		return $res;
 	}
 
-	public function viewEditTimesheet() {
+	public function viewEditTimesheet($return="View_Timesheet") {
 		$timesheetObj = $this->objTime;
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -641,6 +646,63 @@ class TimeController {
 		$dataArr[5]=$employee[0];
 		$dataArr[6]=$self;
 		$dataArr[7]=$roles;
+		$dataArr[8]=$return;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	public function viewDetailedTimesheet() {
+		$timesheetObj = $this->objTime;
+
+		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
+		$role = $this->authorizeObj->firstRole($roles);
+
+		if ($timesheetObj->getTimesheetId() != null) {
+			$timesheetObj->setEmployeeId(null);
+		} else if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
+			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
+				$this->redirect('UNAUTHORIZED_FAILURE');
+			}
+		}
+
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if ($timesheets == null) {
+			if ($_SESSION['empID'] == $timesheetObj->getTimesheetId()) {
+				$timesheetObj->addTimesheet();
+				$timesheets = $timesheetObj->fetchTimesheets();
+			}
+		}
+
+		$timesheet = $timesheets[0];
+
+		$timeEventObj = new TimeEvent();
+
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
+		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+		$timeEvents = $timeEventObj->fetchTimeEvents();
+
+		$path="/templates/time/timesheetDetailedView.php";
+
+
+		$employeeObj = new EmpInfo();
+		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
+
+		$self=false;
+		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
+			$self=true;
+		}
+
+		$dataArr[0]=$timesheet;
+		$dataArr[1]=$timesheetSubmissionPeriod[0];
+		$dataArr[2]=$timeEvents;
+		$dataArr[3]=$employee[0];
+		$dataArr[4]=$self;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

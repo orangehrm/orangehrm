@@ -62,6 +62,7 @@ $customers=$records[3];
 $projects=$records[4];
 $employee=$records[5];
 $self=$records[6];
+$return=$records[8];
 
 $status=$timesheet->getStatus();
 
@@ -291,6 +292,10 @@ function deleteTimeEvents() {
 		alert("<?php echo $lang_Common_SelectDelete; ?>");
 	}
 }
+
+function goBack() {
+	window.location=initialAction+"<?php echo $return; ?>&id=<?php echo $timesheet->getTimesheetId(); ?>";
+}
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
@@ -304,6 +309,9 @@ function deleteTimeEvents() {
   <hr/>
 </h2>
 <div id="status"></div>
+<p class="navigation">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;">
+</p>
 <?php if (isset($_GET['message'])) {
 
 		$expString  = $_GET['message'];
@@ -452,6 +460,7 @@ function deleteTimeEvents() {
 
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
+<input type="hidden" name="nextAction" value="<?php echo $return; ?>" />
 
 <input src="../../themes/beyondT/icons/update.png"
 		onmouseover="this.src='../../themes/beyondT/icons/update_o.png';"

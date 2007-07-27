@@ -111,8 +111,7 @@ function actionCancel() {
 }
 
 function actionEdit() {
-	$("frmTimesheet").action= initialAction+"View_Edit_Timesheet";
-	$("frmTimesheet").submit();
+	window.location=initialAction+"View_Edit_Timesheet&id=<?php echo $timesheet->getTimesheetId(); ?>&return=View_Timesheet";
 }
 
 function actionReject() {
@@ -133,6 +132,10 @@ function actionApprove() {
 	}
 	$("frmTimesheet").action= initialAction+"Approve_Timesheet";
 	$("frmTimesheet").submit();
+}
+
+function actionDetails() {
+	window.location=initialAction+"View_Detail_Timesheet&id=<?php echo $timesheet->getTimesheetId(); ?>";
 }
 -->
 </script>
@@ -276,9 +279,8 @@ function actionApprove() {
 <input type="hidden" id="txtTimesheetPeriodId" name="txtTimesheetPeriodId" value="<?php echo $timesheet->getTimesheetPeriodId(); ?>" />
 <input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
-
-<?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 <div>
+<?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 	<input src="../../themes/beyondT/pictures/btn_edit.jpg"
 			onclick="actionEdit(); return false;"
 			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
@@ -297,8 +299,17 @@ function actionApprove() {
 			onmouseover="this.src='../../themes/beyondT/icons/cancel_o.png';"
 			onmouseout="this.src='../../themes/beyondT/icons/cancel.png';"
 			name="btnCancel" id="btnCancel" height="20" type="image" width="65"/>
-	<?php } ?>
+	<?php }
+	}
+	?>
+	<input src="../../themes/beyondT/icons/details.gif"
+			onclick="actionDetails(); return false;"
+			onmouseover="this.src='../../themes/beyondT/icons/details_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/details.gif';"
+			name="btnEdit" id="btnEdit" type="image" alt="Details"
+			height="20" width="65"/>
 </div>
+<?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
 <div>
 	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" /></label>

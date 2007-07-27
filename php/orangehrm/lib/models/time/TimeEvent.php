@@ -364,6 +364,8 @@ class TimeEvent {
 		if ($result) {
 			if (mysql_affected_rows() > 0) {
 				return true;
+			} else {
+				return 2;
 			}
 		}
 

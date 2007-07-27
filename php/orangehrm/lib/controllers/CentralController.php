@@ -1371,6 +1371,7 @@ switch ($moduletype) {
 												$current=false;
 												$punchIn=false;
 												$new=false;
+												$return=null;
 
 												switch ($_GET['action']) {
 													case 'View_Current_Timesheet':	$current=true;
@@ -1385,16 +1386,26 @@ switch ($moduletype) {
 																					if (isset($_GET['id']) && !empty($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
 																					}
+																					if (isset($_GET['return']) && !empty($_GET['return'])) {
+																						$return=$_GET['return'];
+																					}
 																					$timeController->setObjTime($obj);
-																					$timeController->viewEditTimesheet();
+																					$timeController->viewEditTimesheet($return);
+																					break;
+													case 'View_Detail_Timesheet' :	$obj = $timesheetExtractor->parseViewData($_POST);
+																					if (isset($_GET['id']) && !empty($_GET['id'])) {
+																						$obj->setTimesheetId($_GET['id']);
+																					}
+																					$timeController->setObjTime($obj);
+																					$timeController->viewDetailedTimesheet();
 																					break;
 													case 'Edit_Timesheet'		:	$objs = $timeEventExtractor->parseEditData($_POST);
 																					$timeController->setObjTime($objs);
-																					$timeController->editTimesheet();
+																					$timeController->editTimesheet($_POST['nextAction']);
 																					break;
 													case 'Delete_Timesheet'		:	$objs = $timeEventExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);
-																					$timeController->deleteTimesheet();
+																					$timeController->deleteTimesheet($_POST['nextAction']);
 																					break;
 													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);
