@@ -891,6 +891,15 @@ class TimeController {
 		$template->display();
 	}
 
+	public function viewSelectTimesheet() {
+		$path="/templates/time/selectTimesheets.php";
+
+		$dataArr = null;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
 	public function redirect($message=null, $url = null) {
 
 		if (isset($url)) {

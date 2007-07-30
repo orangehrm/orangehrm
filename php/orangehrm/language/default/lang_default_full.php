@@ -1061,4 +1061,9 @@
 	$lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified = "Invalid date or zero or negative range specified";
 
 	$lang_Menu_Time_EmployeeReports = "Employee Reports";
+
+	$lang_Time_SelectTimesheetsTitle = "Select Timesheets";
+	$lang_Time_Division = $lang_compstruct_Division;
+	$lang_Time_Supervisor = $lang_empview_Supervisor;
+	$lang_Time_EmploymentStatus = $lang_empview_EmploymentStatus;
 ?>

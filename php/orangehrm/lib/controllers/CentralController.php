@@ -1464,6 +1464,8 @@ switch ($moduletype) {
 																					$timeController->viewEmployeeTimeReport($_POST['txtFromDate'],
 																															$_POST['txtToDate']);
 																					break;
+													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
