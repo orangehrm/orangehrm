@@ -1066,4 +1066,6 @@
 	$lang_Time_Division = $lang_compstruct_Division;
 	$lang_Time_Supervisor = $lang_empview_Supervisor;
 	$lang_Time_EmploymentStatus = $lang_empview_EmploymentStatus;
+
+	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
 ?>

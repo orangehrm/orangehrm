@@ -13,6 +13,23 @@
 	return false;
     }
 
+    /**
+     * getElementById like function to get one
+     * element by the name
+     */
+    function getElementByName(name, parentEl) {
+    	if (!parentEl) {
+    		parentEl=document;
+    	}
+    	elements=parentEl.getElementsByName(name);
+
+		if (elements.length > 0) {
+        	return elements[0];
+        } else {
+        	return false;
+        }
+    }
+
     //checks that there aren't any numbers
 
     function alpha(txt)

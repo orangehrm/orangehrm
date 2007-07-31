@@ -30,6 +30,8 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
+require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
+
 class TimeController {
 
 	private $objTime;
@@ -895,6 +897,10 @@ class TimeController {
 		$path="/templates/time/selectTimesheets.php";
 
 		$dataArr = null;
+
+		$employmentStatusObj = new EmploymentStatus();
+
+		$dataArr[0] = $employmentStatusObj->getListofEmpStat(0, '', -1);
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

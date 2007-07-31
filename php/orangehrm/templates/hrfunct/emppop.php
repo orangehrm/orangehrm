@@ -96,6 +96,7 @@ else
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
@@ -121,8 +122,8 @@ else
 		if(isset($_GET['USR'])) {
 			$reqPath.="&USR={$_GET['USR']}";
 ?>
-        window.opener.document.frmUsers.cmbUserEmpID.value = cntrl.name;
-		window.opener.document.frmUsers.txtUserEmpID.value = cntrl.title;
+		getElementByName("cmbUserEmpID", window.opener.document).value = cntrl.name;
+		getElementByName("txtUserEmpID", window.opener.document).value = cntrl.title;
         window.close();
 
 <?php   } else if(isset($_GET['REPORT'])) {
