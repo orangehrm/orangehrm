@@ -10,6 +10,7 @@ New & Changed Features for OrangeHRM ver 2.2.1_alpha_1
 	BugId     Name
 	1754656   Email configuration Error
 	1754559   Upgrade issue from 2.2-rc2 to 2.2
+	1765530   Navigating back from System check will navigate to Options
 
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
