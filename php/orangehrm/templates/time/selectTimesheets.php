@@ -58,7 +58,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 <?php echo $lang_Time_SelectTimesheetsTitle; ?>
 <hr/>
 </h2>
-<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page&page=1">
+<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" >
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -147,7 +147,6 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td></td>
 			<td>
 				<input type="image" name="btnView" alt="View"
-					   onclick="viewTimesheet(); return false;"
 					   src="../../themes/beyondT/icons/view.jpg"
 					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
 					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />

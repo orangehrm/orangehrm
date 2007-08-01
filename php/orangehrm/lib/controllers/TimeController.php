@@ -875,6 +875,29 @@ class TimeController {
 		$template->display();
 	}
 
+	public function viewTimesheetPrintPreview($filterValues) {
+		$path = "/templates/time/timesheetPrintPreview.php";
+
+		$employeeObj = new EmpInfo();
+		$timesheetObj = $this->getObjTime();
+
+		$dataArr[0] = $filterValues;
+		$dataArr[0][4] = $timesheetObj->getStartDate();
+		$dataArr[0][5] = $timesheetObj->getEndDate();
+
+		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
+
+		$timesheetsCount = 0;
+		if (isset($employeeIds)) {
+			$timesheetsCount = $timesheetObj->countTimesheetsBulk($employeeIds);
+		}
+
+		$dataArr[1] = $timesheetsCount;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
 	/**
 	 * View timesheets in bulk
 	 *
@@ -890,20 +913,39 @@ class TimeController {
 	 * @param String[] filterValues Filter timesheets with the values
 	 */
 	public function viewTimesheelBulk($filterValues, $page=1) {
+		$path = "/templates/time/printTimesheetPage.php";
+
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
 
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
 		$timesheets = $timesheetObj->fetchTimesheetsBulk($page, $employeeIds);
 
+		$dataArr=null;
+
+		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
+
 		for($i=0; $i<count($timesheets); $i++) {
-			list($timesheets[$i]->durationArr,
-				 $timesheets[$i]->dailySum,
-				 $timesheets[$i]->activitySum,
-				 $timesheets[$i]->totalTime) = $this->_generateTimesheet($timesheets[$i]);
+			list($dataArr[0][$i]['durationArr'],
+				 $dataArr[0][$i]['dailySum'],
+				 $dataArr[0][$i]['activitySum'],
+				 $dataArr[0][$i]['totalTime']) = $this->_generateTimesheet($timesheets[$i]);
+
+			$employees = $employeeObj->filterEmpMain($timesheets[$i]->getEmployeeId());
+
+			$dataArr[0][$i]['employee'] = $employees[0];
+			$dataArr[0][$i]['timesheet'] = $timesheets[$i];
+
+			$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheets[$i]->getTimesheetPeriodId());
+			$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
+
+			$dataArr[0][$i]['timesheetSubmissionPeriod']=$timesheetSubmissionPeriod[0];
 		}
 
-		print_r($timesheets);
+		$dataArr[1]=$page;
+
+		$template = new TemplateMerger($dataArr, $path, "stubHeader.php", "stubFooter.php");
+		$template->display();
 	}
 
 	/**

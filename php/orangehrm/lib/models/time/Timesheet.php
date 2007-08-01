@@ -477,7 +477,7 @@ class Timesheet {
 
 		$result = $dbConnection->executeQuery($query);
 
-		if ($row = mysql_fetch_array($result)) {
+		if ($row = mysql_fetch_row($result)) {
 			return $row[0];
 		}
 

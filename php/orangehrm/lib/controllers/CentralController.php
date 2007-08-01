@@ -1466,10 +1466,18 @@ switch ($moduletype) {
 																					break;
 													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
 																					break;
-													case 'Print_Timesheet_Get_Page':$filterValues = array($_POST['cmbUserEmpID'],
+													case 'Timesheet_Print_Preview' :$filterValues = array($_POST['cmbUserEmpID'],
 																										  $_POST['cmbLocation'],
 																										  $_POST['txtRepEmpID'],
 																										  $_POST['cmbEmploymentStatus']);
+																					$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewTimesheetPrintPreview($filterValues);
+																					break;
+													case 'Print_Timesheet_Get_Page':$filterValues = array($_POST['txtEmpID'],
+																										  $_POST['txtLocation'],
+																										  $_POST['txtRepEmpID'],
+																										  $_POST['txtEmploymentStatus']);
 																					$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheelBulk($filterValues, $_GET['page']);

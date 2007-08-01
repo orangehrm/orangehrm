@@ -1068,4 +1068,7 @@
 	$lang_Time_EmploymentStatus = $lang_empview_EmploymentStatus;
 
 	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
+
+	$lang_Time_PrintTimesheetsTitle = "Print Timesheets";
+	$lang_Time_Print = "Print";
 ?>
