@@ -945,8 +945,8 @@
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
 
-	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Timesheet of #name for #periodName starting #startDate";
-	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Edit timesheet of #name for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetNameForViewTitle = "Timesheet for #name for #periodName starting #startDate";
+	$lang_Time_Timesheet_TimesheetNameForEditTitle = "Edit timesheet for #name for #periodName starting #startDate";
 
 	$lang_Time_Timesheet_Status = "Status: #status";
 
@@ -1049,4 +1049,23 @@
 	$lang_Time_FirstDayOfWeek = "First Day of Week";
 
 	$lang_Menu_Time_DefineTimesheetPeriod = "Define Timesheet Period";
+
+	$lang_Time_EmployeeTimeReportTitle = "Employee Time Report";
+
+	$lang_Time_Common_FromDate = $lang_Leave_Common_FromDate;
+	$lang_Time_Common_ToDate = $lang_Leave_Common_ToDate;
+	$lang_Time_Common_All = $lang_Leave_Common_All;
+
+	$lang_Time_Errors_EmployeeNotSpecified = "Employee not specified";
+
+	$lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified = "Invalid date or zero or negative range specified";
+
+	$lang_Menu_Time_EmployeeReports = "Employee Reports";
+
+	$lang_Time_SelectTimesheetsTitle = "Select Timesheets";
+	$lang_Time_Division = $lang_compstruct_Division;
+	$lang_Time_Supervisor = $lang_empview_Supervisor;
+	$lang_Time_EmploymentStatus = $lang_empview_EmploymentStatus;
+
+	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
 ?>
