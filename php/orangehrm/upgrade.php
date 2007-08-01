@@ -162,11 +162,18 @@ function extractDbInfo() {
 	if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
 		$mysqlHost = mysql_get_server_info();
 
+		if ($_SESSION['DBCONFOPT'] == 'OK') {
+			if (@mysql_select_db($dbInfo['dbName'])) {
+				$error="DBEXISTS";
+			}
+		}
+
 		if(intval(substr($mysqlHost,0,1)) < 4 || substr($mysqlHost,0,3) === '4.0')
 			$error = 'WRONGDBVER';
-		else $_SESSION['DBCONFIG'] = 'OK';
-	} else $error = 'WRONGDBINFO';
 
+	} else {
+		$error = 'WRONGDBINFO';
+	}
 	if (isset($error)) {
 		$_SESSION['error'] = $error;
 	}
@@ -211,11 +218,12 @@ if(isset($_POST['actionResponse'])) {
 		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
 		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
 		case 'DBINFO'		: extractDbInfo();
-							  /*if (!isset($_SESSION['DBCONFIG'])) {
+							  if (isset($_SESSION['error'])) {
 							  	break;
-							  } else if (isset($_SESSION['error'])) {
-							  	break;
-							  }*/break;
+							  } else {
+							  	$_SESSION['DBCONFIG'] = 'OK';
+							  }
+							  break;
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 
 		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {
