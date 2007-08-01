@@ -529,11 +529,6 @@ class EmpInfo {
 
 	function countEmployee($schStr='',$mode=0) {
 
-		/*$arrFieldList[0] = "a.`emp_number`";
-		$arrFieldList[1] = "a.`emp_firstname`";
-		$arrFieldList[2] = "a.`emp_lastname`";
-		$arrFieldList[3] = "a.`emp_middle_name`";*/
-
 		$arrFieldList[0] = "a.`employee_id`";
 		$arrFieldList[1] = "a.`emp_firstname`";
 		$arrFieldList[2] = "a.`emp_lastname`";
