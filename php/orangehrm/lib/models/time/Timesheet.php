@@ -21,6 +21,7 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
 
@@ -378,6 +379,109 @@ class Timesheet {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Retrieve timesheets in bulk
+	 *
+	 * Introduced for printing timesheets
+	 *
+	 * @param Integer page Page number
+	 * @param String[] employeeIds Array of employee ids
+	 */
+	public function fetchTimesheetsBulk($page, $employeeIds) {
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
+
+		$selectFields[0] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`";
+		$selectFields[1] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."`";
+		$selectFields[2] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."`";
+		$selectFields[3] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."`";
+		$selectFields[4] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."`";
+		$selectFields[5] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."`";
+		$selectFields[6] = "a.`".self::TIMESHEET_DB_FIELD_COMMENT."`";
+
+        $selectConditions = null;
+
+        $selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
+
+		if ($this->getTimesheetPeriodId() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."` = {$this->getTimesheetPeriodId()}";
+		}
+		if ($this->getStartDate() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` >= '{$this->getStartDate()}'";
+		}
+		if ($this->getEndDate() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."` <= '{$this->getEndDate()}'";
+		}
+		if ($this->getStatuses() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN('".implode("', '", $this->getStatuses())."')";
+		}
+
+		$sysConfObj = new sysConf();
+
+		if ($page == 0) {
+			$selectLimit=null;
+		} else {
+			$selectLimit = (($page-1)*$sysConfObj->itemsPerPage).", $sysConfObj->itemsPerPage";
+		}
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[1], 'ASC', $selectLimit);
+
+		//echo $query;
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		$objArr = $this->_buildObjArr($result);
+
+		return $objArr;
+	}
+
+	/**
+	 * Count timesheets in bulk
+	 *
+	 * Introduced for printing timesheets
+	 *
+	 * @param String[] employeeIds Array of employee ids
+	 */
+	public function countTimesheetsBulk($employeeIds) {
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
+
+		$selectFields[0] = "COUNT(a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`)";
+
+        $selectConditions = null;
+
+        $selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
+
+		if ($this->getTimesheetPeriodId() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."` = {$this->getTimesheetPeriodId()}";
+		}
+		if ($this->getStartDate() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` >= '{$this->getStartDate()}'";
+		}
+		if ($this->getEndDate() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."` <= '{$this->getEndDate()}'";
+		}
+		if ($this->getStatuses() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN('".implode("', '", $this->getStatuses())."')";
+		}
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		if ($row = mysql_fetch_array($result)) {
+			return $row[0];
+		}
+
+		return 0;
 	}
 
 	/**

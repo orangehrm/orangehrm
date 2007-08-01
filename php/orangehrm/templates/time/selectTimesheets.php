@@ -47,8 +47,8 @@ function selectDate() {
 }
 
 function init() {
-	YAHOO.util.Event.addListener($("btnFromDate"), "click", selectDate, $("txtFromDate"), true);
-	YAHOO.util.Event.addListener($("btnToDate"), "click", selectDate, $("txtToDate"), true);
+	YAHOO.util.Event.addListener($("btnStartDate"), "click", selectDate, $("txtStartDate"), true);
+	YAHOO.util.Event.addListener($("btnEndDate"), "click", selectDate, $("txtEndDate"), true);
 }
 
 YAHOO.OrangeHRM.container.init();
@@ -58,7 +58,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 <?php echo $lang_Time_SelectTimesheetsTitle; ?>
 <hr/>
 </h2>
-<form name="frmEmp" id="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page&page=1">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
@@ -75,8 +75,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
-				<input type="text" name="txtUserEmpID" id="txtUserEmpID" readonly />
-				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" />
+				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo $lang_Time_Common_All; ?>" readonly />
+				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="-1" />
 				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -86,8 +86,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td><?php echo $lang_Time_Division; ?></td>
 			<td></td>
 			<td>
-			  <input type="text" id="txtLocation" name="txtLocation" readonly />
-			  <input type="hidden" id="cmbLocation" name="cmbLocation" readonly />
+			  <input type="text" id="txtLocation" name="txtLocation" value="<?php echo $lang_Time_Common_All; ?>" readonly />
+			  <input type="hidden" id="cmbLocation" name="cmbLocation" value="-1" />
 			  <input type="button" id="popLoc" name="popLoc" value="..." onclick="returnLocDet();" />
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -96,8 +96,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Time_Supervisor; ?></td>
 			<td></td>
-			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" readonly />
-				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="">
+			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo $lang_Time_Common_All; ?>" readonly />
+				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="-1" />
 				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();"
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -109,13 +109,13 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td>
 				<select name="cmbEmploymentStatus">
 			<?php if (is_array($employmentStatuses)) { ?>
-					<option value="-1">- <?php echo $lang_Common_Select; ?> -</option>
+					<option value="-1"><?php echo $lang_Time_Common_All; ?></option>
 				<?php foreach ($employmentStatuses as $employmentStatus) { ?>
 					<option value="<?php echo $employmentStatus[0]; ?>"><?php echo $employmentStatus[1]; ?></option>
 				<?php }
 				 } else {
 			?>
-				    <option value="-1">- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
+				    <option value="-2">- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
 			<?php } ?>
 				</select>
 			</td>
@@ -126,8 +126,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ><?php echo $lang_Time_Common_FromDate; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtFromDate" name="txtFromDate" value="" size="10"/>
-				<input type="button" id="btnFromDate" name="btnFromDate" value="  " class="calendarBtn"/>
+				<input type="text" id="txtStartDate" name="txtStartDate" value="" size="10"/>
+				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -136,8 +136,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ><?php echo $lang_Time_Common_ToDate; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtToDate" name="txtToDate" value="" size="10"/>
-				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/>
+				<input type="text" id="txtEndDate" name="txtEndDate" value="" size="10"/>
+				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -151,6 +151,11 @@ YAHOO.util.Event.addListener(window, "load", init);
 					   src="../../themes/beyondT/icons/view.jpg"
 					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
 					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
+				<input type="image" name="btnReset" alt="Reset"
+					   onclick="$('frmTimesheet').reset(); return false;"
+					   src="../../themes/beyondT/icons/reset.gif"
+					   onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
+					   onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" />
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>

@@ -23,6 +23,7 @@ require_once ROOT_PATH . '/lib/models/time/TimeEvent.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
@@ -30,7 +31,7 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
-require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 class TimeController {
 
@@ -745,43 +746,11 @@ class TimeController {
 			}
 		}
 
-		$timeEventObj = new TimeEvent();
-
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
 		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
 		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
-
-		$timeEvents = $timeEventObj->fetchTimeEvents();
-
-		$durationArr = null;
-		$dailySum = null;
-		$activitySum = null;
-		$totalTime = 0;
-
-		for ($i=0; $i<count($timeEvents); $i++) {
-			$projectId=$timeEvents[$i]->getProjectId();
-			if ($timeEvents[$i]->getStartTime() != null) {
-				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
-			} else {
-				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getReportedDate())));
-			}
-			if (!isset($durationArr[$projectId][$expenseDate])) {
-				$durationArr[$projectId][$expenseDate]=0;
-			}
-			if (!isset($dailySum[$expenseDate])) {
-				$dailySum[$expenseDate]=0;
-			}
-			if (!isset($activitySum[$projectId])) {
-				$activitySum[$projectId]=0;
-			}
-
-			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
-			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
-			$activitySum[$projectId]+=$timeEvents[$i]->getDuration();
-			$totalTime+=$timeEvents[$i]->getDuration();
-		}
+		list($durationArr, $dailySum, $activitySum, $totalTime) = $this->_generateTimesheet($timesheet);
 
 		$self=false;
 		if ($timesheet->getEmployeeId() == $_SESSION['empID']) {
@@ -904,6 +873,81 @@ class TimeController {
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
+	}
+
+	/**
+	 * View timesheets in bulk
+	 *
+	 * Introduced for printing timesheets.
+	 * $fileterValues can optionally contain the following. Order is important.
+	 *	1. Employee Id
+	 * 	2. Division Id
+	 *	3. Supervisor Id
+	 *	4. Employment Status
+	 *
+	 * From and To date should be set as the timeobj
+	 *
+	 * @param String[] filterValues Filter timesheets with the values
+	 */
+	public function viewTimesheelBulk($filterValues, $page=1) {
+		$employeeObj = new EmpInfo();
+		$timesheetObj = $this->getObjTime();
+
+		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
+		$timesheets = $timesheetObj->fetchTimesheetsBulk($page, $employeeIds);
+
+		for($i=0; $i<count($timesheets); $i++) {
+			list($timesheets[$i]->durationArr,
+				 $timesheets[$i]->dailySum,
+				 $timesheets[$i]->activitySum,
+				 $timesheets[$i]->totalTime) = $this->_generateTimesheet($timesheets[$i]);
+		}
+
+		print_r($timesheets);
+	}
+
+	/**
+	 * Parse time events and generate the information for timesheets
+	 *
+	 * @param Timesheet timesheet
+	 */
+	private function _generateTimesheet($timesheet) {
+
+		$timeEventObj = new TimeEvent();
+
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+		$timeEvents = $timeEventObj->fetchTimeEvents();
+
+		$durationArr = null;
+		$dailySum = null;
+		$activitySum = null;
+		$totalTime = 0;
+
+		for ($i=0; $i<count($timeEvents); $i++) {
+			$projectId=$timeEvents[$i]->getProjectId();
+			if ($timeEvents[$i]->getStartTime() != null) {
+				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
+			} else {
+				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getReportedDate())));
+			}
+			if (!isset($durationArr[$projectId][$expenseDate])) {
+				$durationArr[$projectId][$expenseDate]=0;
+			}
+			if (!isset($dailySum[$expenseDate])) {
+				$dailySum[$expenseDate]=0;
+			}
+			if (!isset($activitySum[$projectId])) {
+				$activitySum[$projectId]=0;
+			}
+
+			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
+			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
+			$activitySum[$projectId]+=$timeEvents[$i]->getDuration();
+			$totalTime+=$timeEvents[$i]->getDuration();
+		}
+
+		return array($durationArr, $dailySum, $activitySum, $totalTime);
 	}
 
 	public function redirect($message=null, $url = null) {

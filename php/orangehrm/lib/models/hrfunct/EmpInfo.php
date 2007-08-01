@@ -369,8 +369,82 @@ class EmpInfo {
 	return $this->empOtherEmail;
 	}
 
-/////////////
+	/**
+	 * Get a list of employee ids that match a given criteria
+	 *
+	 * The criteria is given in the form of a string array.
+	 * The array keys should match to $filterFields keys
+	 *
+	 * @param String[] fileterValues
+	 */
+	public function getEmployeeIdsFilterMultiParams($filterValues) {
+		//$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = "a.`employee_id`";
 
+		$filterFields[0] = "LPAD(a.`emp_number`, ".$this->employeeIdLength.", 0)";
+		$filterFields[1] = "a.`work_station`";
+		$filterFields[2] = "g.`employee_id`";
+		$filterFields[3] = "a.`emp_status`";
+
+		$sql_builder = new SQLQBuilder();
+
+		$arrTables[0] = "`hs_hr_employee` a";
+		$arrTables[1] = "`hs_hr_emp_reportto` f";
+		$arrTables[2] = "`hs_hr_employee` g";
+
+		$joinConditions[1] = "a.`emp_number` = f.`erep_sub_emp_number`";
+		$joinConditions[2] = "f.`erep_sup_emp_number` = g.`emp_number`";
+
+		for ($i=0; $i<count($filterFields); $i++) {
+
+			if ((is_numeric($filterValues[$i]) && ($filterValues[$i] > -1)) || !is_numeric($filterValues[$i])) {
+				$filteredSearch[$i] = mysql_real_escape_string($filterValues[$i]);
+			} else {
+				if ($i == 3) {
+					$selectConditions[] = "(a.`emp_status` != 'EST000' OR a.`emp_status` IS NULL)";
+				}
+				continue;
+			}
+
+			if ($i == 1) {
+                // Special handling for search by subdivision.
+                // Get list of workstations with matches in the title or matches higher in the hierachy
+                $subdivisionIds = $this->_getMatchingSubdivisionIds($filterValues[$i]);
+
+                // Create select condition for employees with workstation set to any of the
+                // subdivisions
+                if (isset($subdivisionIds) && !empty($subdivisionIds)) {
+                    $selectConditions[] = "a.`work_station` IN (" . $subdivisionIds . ") ";
+                } else {
+
+                    // No subdivisions matches found.
+                    return '';
+                }
+            } else {
+                $selectConditions[] = "{$filterFields[$i]} LIKE '" . $filteredSearch[$i] . "%'";
+            }
+		}
+
+		$selectOrder = 'ASC';
+		$selectOrderBy = $arrFieldList[0];
+
+		$sqlQString = $sql_builder->selectFromMultipleTable($arrFieldList, $arrTables, $joinConditions, $selectConditions, null, $selectOrderBy, $selectOrder);
+
+		//echo $sqlQString;
+
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection->executeQuery($sqlQString);
+
+		$arrayDispList = null;
+
+		while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+	    	$arrayDispList[] = $line[0];
+	    }
+
+	    return $arrayDispList;
+	}
+
+/////////////
 	function getListofEmployee($pageNO=0,$schStr='',$mode=-1, $sortField=4, $sortOrder='ASC', $supervisorId = null) {
 
 		//$tableName = 'HS_HR_EMPLOYEE';
@@ -430,7 +504,6 @@ class EmpInfo {
                     return '';
                 }
             } else {
-
                 $selectConditions[] = "{$arrFieldList[$mode]} LIKE '" . $filteredSearch . "%'";
             }
 		}

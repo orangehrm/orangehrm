@@ -1466,6 +1466,14 @@ switch ($moduletype) {
 																					break;
 													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
 																					break;
+													case 'Print_Timesheet_Get_Page':$filterValues = array($_POST['cmbUserEmpID'],
+																										  $_POST['cmbLocation'],
+																										  $_POST['txtRepEmpID'],
+																										  $_POST['cmbEmploymentStatus']);
+																					$obj = $timesheetExtractor->parseViewData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewTimesheelBulk($filterValues, $_GET['page']);
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
