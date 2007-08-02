@@ -63,6 +63,7 @@
   !include "Include\WordFunc.nsh"
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
+  !include "Include\CheckUserEmailAddress.nsh"
 
   ; InstallOptions
 
