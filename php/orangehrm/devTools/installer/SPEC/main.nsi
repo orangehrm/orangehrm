@@ -66,7 +66,7 @@
 
   ; InstallOptions
 
-  ReserveFile "AdminUserDetails.ini"
+  ReserveFile "Forms\AdminUserDetails.ini"
 
 ;--------------------------------
 ; Register macros

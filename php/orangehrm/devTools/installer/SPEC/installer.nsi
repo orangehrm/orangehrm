@@ -22,15 +22,15 @@
 Function AdminUserDetailsEnter
 
     !insertmacro MUI_HEADER_TEXT "Admin User Creation" "After OrangeHRM is configured you will need an Administrator Account to Login into OrangeHRM."
-    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "AdminUserDetails.ini"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "forms\AdminUserDetails.ini"
 
 FunctionEnd
 
 Function AdminUserDetailsEnterValidate
 
-  !insertmacro MUI_INSTALLOPTIONS_READ $0 "AdminUserDetails.ini" "Field 2" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $1 "AdminUserDetails.ini" "Field 4" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $2 "AdminUserDetails.ini" "Field 6" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $0 "forms\AdminUserDetails.ini" "Field 2" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "forms\AdminUserDetails.ini" "Field 4" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $2 "forms\AdminUserDetails.ini" "Field 6" "State"
   StrCmpS $1 $2 done error
 
   error:
@@ -50,7 +50,7 @@ FunctionEnd
 ; Installer Sections
 
 SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
-    
+
     Section "PHP" SecPHP
 
         SetOutPath "$INSTDIR\php"
@@ -98,14 +98,14 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
         Call buildUnixPath
         !insertmacro ReplaceInFile "$INSTDIR\mysql\bin\my.cnf" "?INSTDIR" "$UNIXINSTDIR"
 
-    SectionEnd    
+    SectionEnd
 
     Section "OrangeHRM 2.2" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
 
-    SectionEnd    
+    SectionEnd
 
 SectionGroupEnd
 
@@ -199,7 +199,7 @@ Section "-Complete"
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql" "?UserName" "$UserName"
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql" "?PasswordHash" "$PasswordHash"
 
-      DetailPrint "Creating the admin user"      
+      DetailPrint "Creating the admin user"
       nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql"'
 
       Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql"
