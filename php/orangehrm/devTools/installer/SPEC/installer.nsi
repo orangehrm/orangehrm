@@ -19,18 +19,19 @@
 ;----------------------------------------------------------------------------------------------
 ; Installer Functions
 
+; Admin user details
 Function AdminUserDetailsEnter
 
     !insertmacro MUI_HEADER_TEXT "Admin User Creation" "After OrangeHRM is configured you will need an Administrator Account to Login into OrangeHRM."
-    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "forms\AdminUserDetails.ini"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "AdminUserDetails.ini"
 
 FunctionEnd
 
 Function AdminUserDetailsEnterValidate
 
-  !insertmacro MUI_INSTALLOPTIONS_READ $0 "forms\AdminUserDetails.ini" "Field 2" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $1 "forms\AdminUserDetails.ini" "Field 4" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $2 "forms\AdminUserDetails.ini" "Field 6" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $0 "AdminUserDetails.ini" "Field 2" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "AdminUserDetails.ini" "Field 4" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $2 "AdminUserDetails.ini" "Field 6" "State"
   StrCmpS $1 $2 done error
 
   error:
@@ -43,6 +44,51 @@ Function AdminUserDetailsEnterValidate
         pop $PasswordHash
 
   Return
+
+FunctionEnd
+
+; Registration functions
+Function RegistrationDetailsEnter
+
+	!insertmacro MUI_HEADER_TEXT "Registration" "Please take a moment to register"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Registration.ini"
+
+FunctionEnd
+
+Function RegistrationDetailsEnterValidate
+
+  !insertmacro MUI_INSTALLOPTIONS_READ $0 "AdminUserDetails.ini" "Field 2" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "AdminUserDetails.ini" "Field 4" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $2 "AdminUserDetails.ini" "Field 6" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $3 "AdminUserDetails.ini" "Field 8" "State"
+
+  ${CheckUserEmailAddress} "$1" "$R1"
+
+  StrCmpS $R1 "1" error done
+
+  error:
+  		MessageBox MB_OK|MB_ICONEXCLAMATION "E-mail address provided is invalid"
+
+  done:
+  		StrCpy $ContactName "$0"
+  		StrCpy $ContactEmail "$1"
+  		StrCpy $Coments "$2"
+  		StrCpy $Updates "$3"
+
+  		StrCpy $PostStr "userName=$ContactName&userEmail=$ContactEmail&userComments=$Coments&updates=$Updates"
+
+  		;inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" \
+
+  		nsExec::ExecToLog '"$INSTDIR\install\register.php" "$PostStr"'
+  		Pop $0
+
+  		StrCmpS $0 "0" success failedToSubmit
+
+  failedToSubmit:
+  		MessageBox MB_OK|MB_ICONEXCLAMATION "There was an error submitting the registration information"
+
+  success:
+  		MessageBox MB_OK|MB_ICONINFORMATION "Your information was successfully received by OrangeHRM"
 
 FunctionEnd
 
@@ -280,6 +326,7 @@ Function .onInit
   SectionSetFlags ${SecPHP} 17
   SectionSetFlags ${SecOrangeHRM} 17
 
+  ; Optional sections
   SectionSetFlags ${SecWebalizer} 0
   SectionSetFlags ${SecFileZillaFTP} 0
   SectionSetFlags ${SecMercuryMail} 0

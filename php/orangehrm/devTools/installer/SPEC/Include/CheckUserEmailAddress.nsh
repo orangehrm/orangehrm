@@ -9,8 +9,8 @@
 * "$result_var"    :  $result_var=1  (invalid e-mail address) *
 *                                                             *
 * Example:                                                    *
-*	${CheckUserEmailAddress} "$0" "$R0"                   *
-*	  $R0="1"  user entered an invalid e-mail address     *
+*	${CheckUserEmailAddress} "$0" "$R0"						  *
+*	  $R0="1"  user entered an invalid e-mail address		  *
 *                                                             *
 ***************************************************************/
 
