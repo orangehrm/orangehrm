@@ -64,12 +64,11 @@
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
   !include "Include\CheckUserEmailAddress.nsh"
-; !include "LogicLib.nsh"
 
   ; InstallOptions
 
   ReserveFile "AdminUserDetails.ini"
-  ReserveFile "Registration.ini"
+  ReserveFile "ContactDetails.ini"
 
 ;--------------------------------
 ; Register macros
@@ -124,9 +123,9 @@
   !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   Page custom AdminUserDetailsEnter AdminUserDetailsEnterValidate
-  Page custom RegistrationDetailsEnter RegistrationDetailsEnterValidate
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
+  Page custom ContactDetailsEnter ContactDetailsEnterValidate
   !insertmacro MUI_PAGE_FINISH
 
   !insertmacro MUI_UNPAGE_WELCOME

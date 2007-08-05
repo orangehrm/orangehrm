@@ -26,7 +26,7 @@ See http://nsis.sourceforge.net/Docs/AppendixG.html
 * Steps
   -----
 
-	1. Download both the release and the source of 2.15.
+	1. Download both the release and the source of x.xx.
 
 		nsis-x.xx.zip nsis-x-xx-src.tar.gz
 
@@ -55,9 +55,9 @@ See http://nsis.sourceforge.net/Docs/AppendixG.html
 
 	7. Install - Copy makensis to the install location
 
-		$ sudo cp nsis-x-xx/* /usr/local/share/nsis/
+		$ sudo cp -r nsis-x.xx/* /usr/local/share/nsis/
 
 	8. Create the link from the bin directory to the makensis such that
 	   makensis is accessible from the command line.
 
-		$ link /usr/local/share/nsis/makensis /usr/bin/makensis
+		$ sudo link /usr/local/share/nsis/makensis /usr/bin/makensis

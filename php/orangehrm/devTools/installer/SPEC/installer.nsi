@@ -48,19 +48,19 @@ Function AdminUserDetailsEnterValidate
 FunctionEnd
 
 ; Registration functions
-Function RegistrationDetailsEnter
+Function ContactDetailsEnter
 
 	!insertmacro MUI_HEADER_TEXT "Registration" "Please take a moment to register"
-    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Registration.ini"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
 
 FunctionEnd
 
-Function RegistrationDetailsEnterValidate
+Function ContactDetailsEnterValidate
 
-  !insertmacro MUI_INSTALLOPTIONS_READ $0 "AdminUserDetails.ini" "Field 2" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $1 "AdminUserDetails.ini" "Field 4" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $2 "AdminUserDetails.ini" "Field 6" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $3 "AdminUserDetails.ini" "Field 8" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $0 "ContactDetails.ini" "Field 2" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 4" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $2 "ContactDetails.ini" "Field 6" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $3 "ContactDetails.ini" "Field 8" "State"
 
   ${CheckUserEmailAddress} "$1" "$R1"
 
@@ -68,6 +68,7 @@ Function RegistrationDetailsEnterValidate
 
   error:
   		MessageBox MB_OK|MB_ICONEXCLAMATION "E-mail address provided is invalid"
+  		Abort
 
   done:
   		StrCpy $ContactName "$0"
@@ -79,13 +80,14 @@ Function RegistrationDetailsEnterValidate
 
   		;inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" \
 
-  		nsExec::ExecToLog '"$INSTDIR\install\register.php" "$PostStr"'
+  		nsExec::ExecToLog '"$INSTDIR\php\php" "$INSTDIR\install\register.php" "$PostStr"'
   		Pop $0
 
   		StrCmpS $0 "0" success failedToSubmit
 
   failedToSubmit:
   		MessageBox MB_OK|MB_ICONEXCLAMATION "There was an error submitting the registration information"
+  		Return
 
   success:
   		MessageBox MB_OK|MB_ICONINFORMATION "Your information was successfully received by OrangeHRM"
@@ -319,6 +321,7 @@ SectionEnd
 
 Function .onInit
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "AdminUserDetails.ini"
+  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ContactDetails.ini"
 
   ; Mandatory sections
   SectionSetFlags ${SecApache} 17
