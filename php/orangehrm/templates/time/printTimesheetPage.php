@@ -19,9 +19,6 @@
  */
 
 $page=$records[1];
-?>
-<div id="page<?php echo $page; ?>">
-<?php
 if (is_array($records[0])) {
 	foreach ($records[0] as $timesheetInfo) {
 
@@ -37,13 +34,13 @@ if (is_array($records[0])) {
 		$startDate = strtotime($timesheet->getStartDate());
 		$endDate = strtotime($timesheet->getEndDate());
 ?>
-<h2>
+<h3>
 <?php
 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 	echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 						  array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"), $headingStr);
 ?>
-</h2>
+</h3>
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
@@ -137,4 +134,3 @@ if (is_array($records[0])) {
 	}
 }
 ?>
-</div>

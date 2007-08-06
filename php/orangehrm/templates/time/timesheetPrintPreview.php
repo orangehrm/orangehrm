@@ -20,23 +20,127 @@
 
 $filterValues = $records[0];
 $timesheetsCount = $records[1];
+$recordPerPage = $records[2];
+
+$pages = ceil($timesheetsCount/$recordPerPage);
 ?>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo/yahoo-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/connection/connection-min.js"></script>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
 currPage=1;
 commonAction="?timecode=Time&action=Print_Timesheet_Get_Page";
-connections=new Array(<?php echo $timesheetsCount; ?>);
+pages=<?php echo $pages; ?>;
+connections=new Array(pages);
+loadedPages=new Array(pages);
 
-for (i=0; connections.length>i; i++) {
+for (i=0; pages>i; i++) {
 	connections[i]=false;
+	loadedPages[i]=false;
 }
 
 function nextPage() {
 	currPage++;
-	$('filterTimesheets').action=commonAction+"page="+currPage;
+	chgPage(currPage);
 }
+
+function nextPage() {
+	loadPage(currPage+1, false);
+}
+
+function prevPage() {
+	loadPage(currPage-1, false);
+}
+
+function chgPage(page) {
+	loadPage(page, false);
+}
+
+function loadPage(page, silent) {
+
+	if (loadedPages[page-1]) {
+		showPage(page);
+
+		return true;
+	}
+
+	showLoading(page);
+
+	sUrl=commonAction+"&page="+page;
+
+	callback = {
+					success:loadedPage,
+					failure: failedToLoad,
+					argument: [page, silent]
+				};
+
+	postData = buildPostString("filterTimesheets");
+
+	connections[page-1] = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback, postData);
+
+	showLoading(page);
+}
+
+function loadedPage(o) {
+	page = o.argument[0];
+	silent = o.argument[1];
+
+	if (o.responseText !== undefined){
+		$('page'+page).innerHTML = o.responseText;
+	} else {
+		return false;
+	}
+
+	loadedPages[page-1]=true;
+
+	if (!silent) {
+		showPage(page);
+		hideLoading(page);
+	}
+}
+
+function failedToLoad(o) {
+	page = o.argument[0];
+	silent = o.argument[1];
+
+	if (!silent) {
+		alert('Failed to load page '+page+'. Check your network connection.');
+	}
+
+	connections[page-1]=false;
+	loadedPages[page-1]=false;
+
+	hideLoading(page);
+}
+
+function showPage(page) {
+	for (i=0; pages>i; i++) {
+		if (loadedPages[page-1] && (i == (page+1))) {
+			$("page"+page).style.display="none";
+		}
+	}
+
+	if (loadedPages[page-1]) {
+		$("page"+page).style.display="block";
+	} else {
+		alert("Page is not loaded yet, please try again");
+	}
+}
+
+function showLoading(page) {
+	if (connections[page-1] && !loadedPages[page-1]) {
+		$('loadingMessage').style.display="block";
+	}
+}
+
+function hideLoading(page) {
+	if (!connections[page-1] || loadedPages[page-1]) {
+		$("loadingMessage").style.display="none";
+	}
+}
+
 </script>
+<span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
 <h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
 
 <form id="filterTimesheets" name="filterTimesheets" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page">
@@ -49,8 +153,11 @@ function nextPage() {
 </form>
 
 <div id="printPanel">
+	<?php for ($i=0; $i<$pages; $i++) { ?>
+		<div id="page<?php echo $i+1; ?>" class="hidden"></div>
+	<?php } ?>
 </div>
-<div id="pagePanel">
+<div id="navPanel">
 <?php
 $temp = $timesheetsCount;
 $currentPage = 1;
@@ -63,3 +170,6 @@ echo $pageStr;
 </div>
 <div id="controls">
 </div>
+<script type="text/javascript">
+loadPage(1, false);
+</script>

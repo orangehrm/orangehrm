@@ -1071,4 +1071,6 @@
 
 	$lang_Time_PrintTimesheetsTitle = "Print Timesheets";
 	$lang_Time_Print = "Print";
+
+	$lang_Common_Loading = "Loading";
 ?>

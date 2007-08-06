@@ -166,3 +166,23 @@
 	function trim(s) {
 		return s.replace(/^\s+|\s+$/g,"");
 	}
+
+
+    /**
+     * Collects all form element values to build a post string
+     *
+     * Used with YUI! connection to post data
+     */
+    function buildPostString(formId) {
+    	postStr="";
+    	elements=$(formId).elements;
+
+    	for (i=0; elements.length>i; i++) {
+    		if (i > 0) {
+    			postStr+="&";
+    		}
+    		postStr+=elements[i].name+"="+elements[i].value;
+    	}
+
+    	return postStr;
+    }
