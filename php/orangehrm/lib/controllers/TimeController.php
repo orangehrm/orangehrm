@@ -880,6 +880,7 @@ class TimeController {
 
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
+		$sysConfObj = new sysConf();
 
 		$dataArr[0] = $filterValues;
 		$dataArr[0][4] = $timesheetObj->getStartDate();
@@ -893,6 +894,7 @@ class TimeController {
 		}
 
 		$dataArr[1] = $timesheetsCount;
+		$dataArr[2] = $sysConfObj->itemsPerPage;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

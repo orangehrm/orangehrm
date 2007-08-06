@@ -21,6 +21,22 @@
 $filterValues = $records[0];
 $timesheetsCount = $records[1];
 ?>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo/yahoo-min.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/connection/connection-min.js"></script>
+<script type="text/javascript">
+currPage=1;
+commonAction="?timecode=Time&action=Print_Timesheet_Get_Page";
+connections=new Array(<?php echo $timesheetsCount; ?>);
+
+for (i=0; connections.length>i; i++) {
+	connections[i]=false;
+}
+
+function nextPage() {
+	currPage++;
+	$('filterTimesheets').action=commonAction+"page="+currPage;
+}
+</script>
 <h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
 
 <form id="filterTimesheets" name="filterTimesheets" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page">
@@ -35,7 +51,15 @@ $timesheetsCount = $records[1];
 <div id="printPanel">
 </div>
 <div id="pagePanel">
-<?php echo $timesheetsCount; ?>
+<?php
+$temp = $timesheetsCount;
+$currentPage = 1;
+$commonFunc = new CommonFunctions();
+$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+
+echo $pageStr;
+?>
 </div>
 <div id="controls">
 </div>
