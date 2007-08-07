@@ -25,14 +25,24 @@ $recordPerPage = $records[2];
 $pages = ceil($timesheetsCount/$recordPerPage);
 ?>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo/yahoo-min.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/event/event-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/connection/connection-min.js"></script>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
 currPage=1;
-commonAction="?timecode=Time&action=Print_Timesheet_Get_Page";
+commonAction="?timecode=Time&action=";
 pages=<?php echo $pages; ?>;
+timesheetsCount=<?php echo $timesheetsCount; ?>;
 connections=new Array(pages);
 loadedPages=new Array(pages);
+
+var LANG_NAV_FIRST = "<?php echo $lang_empview_first; ?>";
+var LANG_NAV_PREVIOUS = "<?php echo $lang_empview_previous; ?>";
+var LANG_NAV_NEXT = "<?php echo $lang_empview_next; ?>";
+var LANG_NAV_LAST = "<?php echo $lang_empview_last; ?>";
+
+var ITEMS_PER_PAGE = <?php echo $recordPerPage; ?>;
+var PAGE_NUMBER_LIMIT = <?php echo CommonFunctions::COMMONFUNCTIONS_PAGE_NUMBER_LIMIT; ?>;
 
 for (i=0; pages>i; i++) {
 	connections[i]=false;
@@ -60,13 +70,12 @@ function loadPage(page, silent) {
 
 	if (loadedPages[page-1]) {
 		showPage(page);
-
 		return true;
 	}
 
 	showLoading(page);
 
-	sUrl=commonAction+"&page="+page;
+	sUrl=commonAction+"Print_Timesheet_Get_Page&page="+page;
 
 	callback = {
 					success:loadedPage,
@@ -76,9 +85,37 @@ function loadPage(page, silent) {
 
 	postData = buildPostString("filterTimesheets");
 
-	connections[page-1] = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback, postData);
+	if (!silent) {
+		showLoading(page);
 
-	showLoading(page);
+		callback = {
+					success:abortedPageLoad,
+					failure: failedToAbortPageLoad,
+					argument: [page, silent]
+				   };
+
+		for (i=1; pages>i; i++) {
+			if (connections[i] && connections[i].argument[1]) {
+				YAHOO.util.Connect.abort(connections[i], callback, false);
+			}
+		}
+	}
+
+	callback = {
+					success:loadedPage,
+					failure: failedToLoad,
+					argument: [page, silent]
+				};
+
+	connections[page-1] = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback, postData);
+}
+
+function abortedPageLoad(page) {
+	connections[page-1]=false;
+}
+
+function failedToAbortPageLoad(page) {
+	return false;
 }
 
 function loadedPage(o) {
@@ -87,10 +124,12 @@ function loadedPage(o) {
 
 	if (o.responseText !== undefined){
 		$('page'+page).innerHTML = o.responseText;
+		$('page'+page).style.display="none";
 	} else {
 		return false;
 	}
 
+	connections[page-1]=false;
 	loadedPages[page-1]=true;
 
 	if (!silent) {
@@ -115,13 +154,16 @@ function failedToLoad(o) {
 
 function showPage(page) {
 	for (i=0; pages>i; i++) {
-		if (loadedPages[page-1] && (i == (page+1))) {
-			$("page"+page).style.display="none";
+		if (loadedPages[i]) {
+			$("page"+(i+1)).style.display="none";
 		}
 	}
 
 	if (loadedPages[page-1]) {
 		$("page"+page).style.display="block";
+		navStr = printPageLinks(timesheetsCount, page);
+		$("navPanel").innerHTML = navStr;
+		currPage=page;
 	} else {
 		alert("Page is not loaded yet, please try again");
 	}
@@ -139,9 +181,54 @@ function hideLoading(page) {
 	}
 }
 
+function printTimeSheets() {
+	allLoaded=true;
+	for (i=1; pages>i; i++) {
+		if (!loadedPages[i]) {
+			allLoaded=false;
+		}
+	}
+
+	if (allLoaded) {
+		popup = window.open('?timecode=Time&action=Print','Printing','height=550,width=750,scrollbars');
+		popup.parent = window;
+	}
+}
+
+function popAndPrint() {
+	popup.document.body.innerHTML=$('printPanel').innerHTML;
+	for (i=1; pages>i; i++) {
+		popup.document.getElementById("page"+(i+1)).style.display="block";
+	}
+}
+
+function init() {
+	if (pages == 0) {
+		$("loadingMessage").style.display="none";
+		$("printPanel").innerHTML = "<?php echo $lang_Error_NoRecordsFound; ?>";
+		return false;
+	}
+	loadPage(1, false);
+	for (i=1; pages>i; i++) {
+		loadPage(2, true);
+	}
+}
+
+function goBack() {
+	window.location=commonAction+"Select_Timesheets_View";
+}
+
+YAHOO.util.Event.addListener(window, "load", init);
 </script>
 <span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
 <h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
+<?php if ($pages > 0) { ?>
+<div id="controls">
+	<input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;"/>
+	<input type="button" name="btnPrint" id="btnPrint" value="Print" onclick="printTimeSheets();"/>
+</div>
+<?php } ?>
+<div id="navPanel"></div>
 
 <form id="filterTimesheets" name="filterTimesheets" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page">
 	<input type="hidden" name="txtEmpID" id="txtEmpID" value="<?php echo $filterValues[0]; ?>" />
@@ -154,22 +241,6 @@ function hideLoading(page) {
 
 <div id="printPanel">
 	<?php for ($i=0; $i<$pages; $i++) { ?>
-		<div id="page<?php echo $i+1; ?>" class="hidden"></div>
+		<div id="page<?php echo $i+1; ?>" style="display:none;"></div>
 	<?php } ?>
 </div>
-<div id="navPanel">
-<?php
-$temp = $timesheetsCount;
-$currentPage = 1;
-$commonFunc = new CommonFunctions();
-$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
-$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-
-echo $pageStr;
-?>
-</div>
-<div id="controls">
-</div>
-<script type="text/javascript">
-loadPage(1, false);
-</script>

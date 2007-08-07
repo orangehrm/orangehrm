@@ -900,6 +900,13 @@ class TimeController {
 		$template->display();
 	}
 
+	public function showPrint() {
+		$path = "/templates/time/printPop.php";
+
+		$template = new TemplateMerger(null, $path);
+		$template->display();
+	}
+
 	/**
 	 * View timesheets in bulk
 	 *

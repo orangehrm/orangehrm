@@ -34,13 +34,11 @@ if (is_array($records[0])) {
 		$startDate = strtotime($timesheet->getStartDate());
 		$endDate = strtotime($timesheet->getEndDate());
 ?>
-<h3>
-<?php
+<h3><?php
 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 	echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 						  array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"), $headingStr);
-?>
-</h3>
+?></h3>
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>

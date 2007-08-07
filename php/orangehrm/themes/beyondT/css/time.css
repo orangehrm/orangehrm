@@ -231,3 +231,13 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 .roundbox_content {
     padding:15px;
 }
+
+#loadingMessage {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1px 5px 1px 5px;
+	background-color: #CC4444;
+	color: #FFFFFF;
+	font-size: 10px;
+}

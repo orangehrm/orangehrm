@@ -925,6 +925,11 @@ function setSize() {
                         	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View" target="rightMenu"><?php echo $lang_Menu_Time_DefineTimesheetPeriod; ?></A>
                         </TD>
 					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View" target="rightMenu"><?php echo $lang_Menu_Time_PrintTimesheets; ?></A>
+                        </TD>
+					 </TR>
                     <?php
                     	}
                     ?>

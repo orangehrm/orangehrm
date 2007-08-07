@@ -427,9 +427,7 @@ class Timesheet {
 			$selectLimit = (($page-1)*$sysConfObj->itemsPerPage).", $sysConfObj->itemsPerPage";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[1], 'ASC', $selectLimit);
-
-		//echo $query;
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, "{$selectFields[1]}, {$selectFields[3]}", 'ASC', $selectLimit);
 
 		$dbConnection = new DMLFunctions();
 

@@ -186,3 +186,64 @@
 
     	return postStr;
     }
+
+    /**
+     * Used to generate page links
+     */
+    function printPageLinks(recordCount, currentPage) {
+		strpagedump= "" ;
+
+		if (recordCount) {
+	    	recCount = recordCount;
+		} else {
+			recCount = 0;
+		}
+
+		noPages = Math.ceil(recCount/ITEMS_PER_PAGE);
+
+		if (noPages > 1) {
+
+			if(currentPage == 1) {
+				strpagedump += "<font color='Gray'>"+LANG_NAV_FIRST+"</font>";
+		    	strpagedump += "  ";
+				strpagedump += "<font color='Gray'>"+LANG_NAV_PREVIOUS+"</font>";
+			} else {
+	    		strpagedump += "<a href='javascript:chgPage(1);'>"+LANG_NAV_FIRST+"</a>";
+		    	strpagedump += "  ";
+	    		strpagedump += "<a href='javascript:prevPage();'>"+LANG_NAV_PREVIOUS+"</a>";
+			}
+
+	    	strpagedump += "  ";
+
+			lowerLimit = ((currentPage - PAGE_NUMBER_LIMIT) <= 0) ? 1 : (currentPage - PAGE_NUMBER_LIMIT);
+			c = lowerLimit;
+			while(c < currentPage) {
+	    		strpagedump += "<a href='javascript:chgPage(" +c+ ");'>" +c+ "</a>";
+		    	strpagedump += "  ";
+				c++;
+			}
+
+	    	strpagedump += "  " + currentPage +"  ";
+
+
+			upperLimit = ((currentPage + PAGE_NUMBER_LIMIT) >= noPages) ? noPages : (currentPage + PAGE_NUMBER_LIMIT);
+			c = currentPage + 1;
+			while(c <=  upperLimit) {
+	    		strpagedump += "<a href='javascript:chgPage(" +c+ ");'>" +c+ "</a>";
+		    	strpagedump += "  ";
+			    c++;
+			}
+
+			if (currentPage == noPages) {
+				strpagedump += "<font color='Gray'>"+LANG_NAV_NEXT+"</font>";
+		    	strpagedump += "  ";
+				strpagedump += "<font color='Gray'>"+LANG_NAV_LAST+"</font>";
+			} else {
+	    		strpagedump += "<a href='javascript:nextPage();'>"+LANG_NAV_NEXT+"</a>";
+		    	strpagedump += "  ";
+	    		strpagedump += "<a href='javascript:chgPage(" +noPages+ ");'>"+LANG_NAV_LAST+"</a>";
+			}
+		}
+
+		return strpagedump;
+	}

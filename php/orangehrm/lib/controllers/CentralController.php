@@ -1482,6 +1482,8 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheelBulk($filterValues, $_GET['page']);
 																					break;
+													case 'Print'				   :$timeController->showPrint();
+																					break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
