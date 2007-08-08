@@ -11,6 +11,7 @@ New & Changed Features for OrangeHRM ver 2.2.1_alpha_1
 	1754656   Email configuration Error
 	1754559   Upgrade issue from 2.2-rc2 to 2.2
 	1765530   Navigating back from System check will navigate to Options
+	1769824   Report-to - do not assign with non English language packs
 
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}

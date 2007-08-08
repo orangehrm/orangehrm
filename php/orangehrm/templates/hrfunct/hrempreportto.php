@@ -262,8 +262,8 @@ function viewSup(sup,rep) {
 					  <option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 
 <?php
-							echo "<option value=" . $arrRepType[0] . ">" . $arrRepType[0] . "</option>";
-							echo "<option value=" . $arrRepType[1] . ">" . $arrRepType[1] . "</option>";
+							echo "<option value='Supervisor'>" . $arrRepType[0] . "</option>";
+							echo "<option value='Subordinate'>" . $arrRepType[1] . "</option>";
 ?>
 					  </select></td>
 					</tr>
