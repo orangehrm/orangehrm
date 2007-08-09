@@ -2,6 +2,7 @@ This directory contains the NSIS scripts to create a Windows installer.
 
 Inorder to compile the script you will need to have NSIS installed in
 the build system (Linux or Windows).
+You will also need the md5 plugin for NSIS (http://nsis.sourceforge.net/MD5_plugin)
 
 Read makensis.txt in the devDocs directory for instructions on compiling NSIS.
 

@@ -236,7 +236,6 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
     	// Project 1 time for day with spanning events.
     	$results = $report->getProjectActivityTime(1, "2007-07-19", "2007-07-19");
     	$res = $this->_verifyActivityTime($results, 1, array("Programming", "QA", "Support"), array(360+345, 0, 0));
-    	//var_dump($results);die;
     	$this->assertTrue($res);
 
 		// Project 1 time from 07-10
@@ -548,7 +547,6 @@ class ProjectReportTest extends PHPUnit_Framework_TestCase {
 	    	$res = $this->_verifyEmployeeTime($results, 1, $activityId, $empIds[$page], $timeValues[$page]);
 	    	$this->assertTrue($res);
 		}
-		die;
     }
 
 	/**
