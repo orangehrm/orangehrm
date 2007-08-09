@@ -250,4 +250,10 @@
       <exec command="php fix-ids.php" checkreturn="true" dir="${project.basedir}" passthru="true"/>
   </target>
 
+  <target name="verify-constraints" depends="prepare">
+	<exec command="phpunit --filter testAllConstraintsSet ConstraintHandlerTest ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+  </target>
+
+
 </project>

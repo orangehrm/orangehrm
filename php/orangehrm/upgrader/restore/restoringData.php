@@ -11,6 +11,7 @@ unset($error);
 require_once ROOT_PATH.'/upgrader/restore/Restore.php';
 require_once ROOT_PATH.'/upgrader/backup/Backup.php';
 require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH.'/lib/utils/ConstraintHandler.php';
 
 function createDB() {
 
@@ -32,6 +33,62 @@ function connectDB() {
 		return false;
 	}
 	return $connect;
+}
+
+/**
+ * Apply database constraints.
+ *
+ * @return boolean true if succeeded, false if failed.
+ */
+function applyConstraints() {
+	connectDB();
+	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+		$_SESSION['error'] = 'Unable to create Database!';
+		error_log (date("r")." Fill Data Phase $phase - Error - Unable to create Database\n",3, "log.txt");
+		return;
+	}
+
+	require_once ROOT_PATH.'/dbscript/constraints.php';
+
+	$result = true;
+
+	/* $fkConstraints is set in above file */
+	$constraintHandler = new ConstraintHandler();
+	$constraintHandler->setLogFile("constraints.log");
+
+	try {
+		$failed = $constraintHandler->applyConstraints($fkConstraints);
+
+		if (count($failed) > 0) {
+			foreach($failed as $constraint) {
+				$failedList[] = $constraintHandler->getConstraintSQL($constraint);
+			}
+
+			$_SESSION['error'] = "Failed applying constraints: " . implode(",",$failedList);
+			$result = false;
+		} else {
+
+			/* Double check that all the constraints have been applied */
+			$missing = $constraintHandler->getMissingConstraints($fkConstraints);
+
+			$numMissing = count($missing);
+			if ($numMissing > 0) {
+				foreach($missing as $constraint) {
+					$missingList[] = $constraintHandler->getConstraintSQL($constraint);
+				}
+
+				$_SESSION['error'] = "Following $numMissing constraint(s) were missing: " . implode(",",$missingList);
+				$result = false;
+			}
+		}
+
+	} catch (ConstraintHandlerException $e) {
+		$_SESSION['error'] = $e->getMessage();
+		$result = false;
+	}
+
+	return $result;
+
 }
 
 function alterOldData() {
@@ -250,9 +307,11 @@ if (isset($_SESSION['RESTORING'])) {
 						error_log (date("r")." Fill Data - Error \n ".mysql_error()."\n" ,3, "log.txt");
 					}
 					break;
-		case 3 	:	fillData(2);
-					if (alterOldData()) {
-						$_SESSION['RESTORING'] = 4;
+		case 3 	:	if(applyConstraints()) {
+						fillData(2);
+						if (alterOldData()) {
+							$_SESSION['RESTORING'] = 4;
+						}
 					}
 					break;
 		case 4 	:	writeConfFile();

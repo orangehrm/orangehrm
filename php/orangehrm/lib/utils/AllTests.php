@@ -27,7 +27,7 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
 require_once 'InstallUtilTest.php';
-
+require_once 'ConstraintHandlerTest.php';
  
 class utils_AllTests
 {
@@ -40,6 +40,7 @@ class utils_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM utils');
         $suite->addTestSuite('InstallUtilTest');
+        $suite->addTestSuite('ConstraintHandlerTest');
         return $suite;
     }
 }

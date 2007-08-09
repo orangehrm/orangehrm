@@ -5,7 +5,14 @@ New & Changed Features for OrangeHRM ver 2.2.1_alpha_1
 	   complete time events.
 	3. Define work week for timesheets
 	4. Detailed employee time reports
-	5. Datailed timesheet view
+	5. Detailed timesheet view
+
+	6. ID's now maintained in hs_hr_unique_id table.
+	   Note that if you insert data directly into the database using SQL,
+           you should run the script php build/fix-ids.php (or phing fix-ids).
+
+	7. Upgrader attempts to fix any corruption in database tables (due to running
+           on myISAM tables) before applying foreign key constraints.
 
 	BugId     Name
 	1754656   Email configuration Error
