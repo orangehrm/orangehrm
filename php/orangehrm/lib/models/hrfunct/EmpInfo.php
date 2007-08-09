@@ -24,6 +24,7 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EmpInfo {
 
@@ -678,36 +679,13 @@ class EmpInfo {
         return $count;
 	}
 
-	function getLastRecord() {
+	function getLastId() {
 
-		$sql_builder = new SQLQBuilder();
 		$tableName = 'HS_HR_EMPLOYEE';
-		$arrFieldList[0] = 'EMP_NUMBER';
 
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
+		$lastId = UniqueIDGenerator::getInstance()->getLastID($tableName, 'EMP_NUMBER');
 
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return str_pad(((int) $this->singleField)+1, $this->employeeIdLength, "0", STR_PAD_LEFT);
-		}
-
+		return str_pad(((int) $lastId)+1, $this->employeeIdLength, "0", STR_PAD_LEFT);
 	}
 
 	function getEmployeeIdLength() {
@@ -794,6 +772,9 @@ class EmpInfo {
 
 
 	function addEmpMain() {
+		$tableName = 'HS_HR_EMPLOYEE';
+
+		$this->empId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'EMP_NUMBER');
 
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = "'". $this->getEmpLastName() . "'";
@@ -879,7 +860,6 @@ class EmpInfo {
 		$arrFieldList[31] = 'EMP_OTH_EMAIL';
 */
 
-		$tableName = 'HS_HR_EMPLOYEE';
 
 		$sql_builder = new SQLQBuilder();
 

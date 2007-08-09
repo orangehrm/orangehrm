@@ -34,6 +34,7 @@ $_SESSION['WPATH'] = WPATH;
 require_once "Leave.php";
 require_once 'Holidays.php';
 require_once ROOT_PATH."/lib/confs/Conf.php";
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Test class for Holidays.
@@ -67,8 +68,12 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
 
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+        mysql_select_db($conf->dbname);
+
+    	mysql_query("TRUNCATE TABLE `hs_hr_holidays`", $this->connection);
     	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (10, 'Independence', '".date('Y')."-07-04', ".Holidays::HOLIDAYS_RECURRING.", 8)");
     	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (11, 'Poya', '".date('Y')."-01-04', 0, 4)");
+        UniqueIDGenerator::getInstance()->initTable();
     }
 
     /**
@@ -189,6 +194,9 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $holiday->setLength($expected[2][4]);
 
         $holiday->add();
+
+		// Set the expected ID for newly added holiday
+		$expected[2][0] = $holiday->getHolidayId();
 
         $res = $holiday->listHolidays();
 

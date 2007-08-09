@@ -29,7 +29,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once "testConf.php";
 require_once 'Customer.php';
-
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Test class for Customer.
@@ -65,6 +65,7 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
+		mysql_query("TRUNCATE TABLE `hs_hr_project`");
 		mysql_query("TRUNCATE TABLE `hs_hr_customer`");
 
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1001','zanfer1','forrw',0 )");
@@ -74,6 +75,7 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1005','zanfer5','forrw',0 )");
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1006','zanfer6','forrw',0 )");
         mysql_query("INSERT INTO `hs_hr_customer` VALUES ('1007','zanfer7','forrw',0 )");
+		UniqueIDGenerator::getInstance()->initTable();
     }
 
     /**
@@ -83,23 +85,23 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
 	protected function tearDown() {
-
+		mysql_query("TRUNCATE TABLE `hs_hr_project`");
 		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		UniqueIDGenerator::getInstance()->initTable();
     }
 
     public function testAddCustomer() {
 
-    	$this->classCustomer->setCustomerId("1008");
     	$this->classCustomer->setCustomerName("Dodle");
     	$this->classCustomer->setCustomerDescription("jhgjhg");
 
     	$res = $this->classCustomer->addCustomer();
-
-    	$res = $this->classCustomer->fetchCustomer("1008");
+    	$id = $this->classCustomer->getCustomerId();
+    	$res = $this->classCustomer->fetchCustomer($id);
 
 	    $this->assertNotNull($res, "No record found");
 
-	   	$this->assertEquals($res->getCustomerId(),'1008','Id Not Found');
+	   	$this->assertEquals($res->getCustomerId(),$id,'Id Not Found');
 	   	$this->assertEquals($res->getCustomerName(),'Dodle','Name Not Found');
 	   	$this->assertEquals($res->getCustomerDescription(),'jhgjhg','Description Not Found');
     }
@@ -200,16 +202,6 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 	    $this->assertEquals($res->getCustomerDescription(),'forrw','Description Not Found');
 	}
 
-    /**
-     * @todo Implement testGetLastRecord().
-     */
-	public function testGetLastRecord() {
-
-        $res = $this->classCustomer->getLastRecord();
-        $this->assertNotNull($res, "No record found");
-
-        $this->assertEquals($res,'1008','Invalid last id');
-	}
 }
 
 // Call CustomerTest::main() if this source file is executed directly.

@@ -122,11 +122,6 @@ function goBack() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-                  			  <tr>
-							    <td><?php echo $lang_Commn_code; ?></td>
-							    <td><strong><?php echo $this->popArr['newID'] ?></strong></td>
-							  </tr>
 							  <tr>
 							    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
 							    <td> <textarea name='txtLicensesDesc' rows="3" tabindex='3' cols="30"></textarea></td>

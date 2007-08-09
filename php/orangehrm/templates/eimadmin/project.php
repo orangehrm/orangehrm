@@ -43,7 +43,6 @@ if (isset($this->getArr['capturemode'])) {
 	} else if ($captureMode == 'addmode') {
 
 		$project = new Projects();
-		$project->setProjectId($this->popArr['newID']);
 		$addMode = true;
 	}
 }
@@ -101,12 +100,6 @@ if ($locRights['edit']) {
     * returns true if validated, false otherwise.
     */
    function validateFields() {
-
-        if(document.frmProject.txtId.value == '') {
-            alert("<?php echo $lang_Admin_Project_Error_PleaseDSpecifyTheProjectId; ?>");
-            document.frmProject.txtId.focus();
-            return false;
-        }
 
         if(document.frmProject.cmbCustomerId.value == 0) {
             alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
@@ -315,9 +308,7 @@ if ($locRights['edit']) {
     <div class="roundbox">
       <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
-            <label for="txtId"><?php echo $lang_Commn_code; ?></label>
-			<input type="text" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>"
-				tabindex="1" readonly="true"/>
+            <input type="hidden" id="txtId" name="txtId" value="" />
             <br/>
             <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
             <select name="cmbCustomerId" <?php echo $disableEdit; ?> >

@@ -64,6 +64,10 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		$conf = new Conf();
 
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+        mysql_select_db($conf->dbname);
+
+		mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR010'", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR011'", $this->connection);
 
     	mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR010', 'demo1', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
 		mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR011', 'demo2', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
@@ -79,9 +83,9 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-		/*mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR010'", $this->connection);
+		mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR010'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR011'", $this->connection);
-*/
+
 		mysql_query("TRUNCATE TABLE `hs_hr_mailnotifications`", $this->connection);
     }
 

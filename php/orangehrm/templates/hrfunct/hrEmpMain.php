@@ -628,7 +628,7 @@ function resetAdd(panel) {
 			  <tr>
 
 				<td><?php echo $lang_Commn_code; ?></td>
-				<td><input type="hidden" name="txtEmpID" value=<?php echo $this->popArr['newID']?>>
+				<td>
 					<input name="txtEmployeeId" type="text" value="<?php echo $this->popArr['newID']?>" maxlength="50">
 					</td>
 			  </tr>

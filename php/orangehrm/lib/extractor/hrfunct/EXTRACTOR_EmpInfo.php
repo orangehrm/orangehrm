@@ -77,7 +77,6 @@ class EXTRACTOR_EmpInfo {
 
 	function parseAddData($postArr) {
 
-		$this->parent_empinfo -> setEmpId($this->parent_empinfo->getLastRecord());
 		$this->parent_empinfo -> setEmployeeID(trim($postArr['txtEmployeeId']));
 		$this->parent_empinfo -> setEmpLastName(($postArr['txtEmpLastName']));
 		$this->parent_empinfo -> setEmpFirstName(trim($postArr['txtEmpFirstName']));

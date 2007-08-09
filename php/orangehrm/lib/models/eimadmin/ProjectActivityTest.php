@@ -29,6 +29,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 require_once "testConf.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";
 require_once ROOT_PATH."/lib/models/eimadmin/ProjectActivity.php";
+require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
 
 /**
  * Test class for ProjectActivity.
@@ -70,6 +71,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(1, 'Test customer', 'description', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**
@@ -81,6 +83,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
         mysql_query("TRUNCATE TABLE `hs_hr_project_activity`", $this->connection);
 		mysql_query("TRUNCATE TABLE `hs_hr_customer`", $this->connection);
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**
@@ -136,12 +139,14 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		}
 
 		// Save a valid new activity
+		$activity1Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+
 		$activity1 = new ProjectActivity();
 		$activity1->setProjectId(1);
 		$activity1->setName("Development");
 		$activity1->save();
 
-		$this->assertEquals(1, $activity1->getId(), "activity ID not updated with auto_increment value");
+		$this->assertEquals($activity1Id, $activity1->getId(), "activity ID not updated with auto_increment value");
 
 		$result = mysql_query("SELECT * FROM hs_hr_project_activity");
 		$this->assertEquals(1, mysql_num_rows($result), "Only one row should be inserted");
@@ -149,12 +154,14 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$this->_checkRow($activity1, $row);
 
 		// Save a second activity.
+		$activity2Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+
 		$activity2 = new ProjectActivity();
 		$activity2->setProjectId(1);
 		$activity2->setName("QA Testing");
 		$activity2->save();
 
-		$this->assertEquals(2, $activity2->getId(), "activity ID not updated with auto_increment value");
+		$this->assertEquals($activity2Id, $activity2->getId(), "activity ID not updated with auto_increment value");
 
 		$result = mysql_query("SELECT * FROM hs_hr_project_activity ORDER BY activity_id ASC");
 		$this->assertEquals(2, mysql_num_rows($result), "Only one row should be inserted");
@@ -167,18 +174,18 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$activity1->setName("Updated activity");
 		$activity1->setProjectId(2);
 		$activity1->save();
-		$this->assertEquals(1, $activity1->getId(), "activity ID should not change");
+		$this->assertEquals($activity1Id, $activity1->getId(), "activity ID should not change");
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = 1");
+		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity1Id");
 		$this->_checkRow($activity1, mysql_fetch_assoc($result));
 
 		// Change attributes and save activity using new object
-		$activity3 = new ProjectActivity(2);
+		$activity3 = new ProjectActivity($activity2Id);
 		$activity3->setProjectId(1);
 		$activity3->setName("Installing");
 		$activity3->save();
 
-		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = 2");
+		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity2Id");
 		$this->_checkRow($activity3, mysql_fetch_assoc($result));
 
 		// Verify that saving an activity without changes does not throw an exception
@@ -576,6 +583,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
                            $activity->getId(), $activity->getProjectId(), $activity->getName(),
                            ($activity->isDeleted() ? 1 : 0));
             mysql_query($sql);
+			UniqueIDGenerator::getInstance()->initTable();
 		}
     }
 }

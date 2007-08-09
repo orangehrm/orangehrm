@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class UserGroups {
 	var $tableName = 'hs_hr_user_group';
@@ -118,6 +119,9 @@ class UserGroups {
 	}
 
 	function addUserGroups(){
+
+		$this->userGroupID = UniqueIDGenerator::getInstance()->getNextID($this->tableName, 'userg_id', 'USG');
+
 		$arrFieldList[0] = "'". $this->getUserGroupID() . "'";
 		$arrFieldList[1] = "'". $this->getUserGroupName() . "'";
 		$arrFieldList[2] = "'". $this->getUserGroupRepDef() . "'";
@@ -136,7 +140,6 @@ class UserGroups {
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-		 echo $message2;
 	}
 
 	function updateUserGroups(){
@@ -158,34 +161,6 @@ class UserGroups {
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-	}
-
-	function getLastRecord(){
-		$arrFieldList[0] = 'userg_id';
-
-		$this->sql_builder->table_name = $this->tableName;
-		$this->sql_builder->flg_select = 'true';
-		$this->sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $this->sql_builder->selectOneRecordOnly();
-
-		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"USG");
-
-		}
 	}
 
 	function filterUserGroups($getID) {

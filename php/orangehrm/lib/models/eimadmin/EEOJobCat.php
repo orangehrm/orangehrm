@@ -21,7 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
-
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EEOJobCat {
 
@@ -149,14 +149,12 @@ class EEOJobCat {
 
 	function addEEOJobCat() {
 
-		$this->getEEOJobCatId();
+		$tableName = 'HS_HR_EEC';
+
+		$this->eeojobcatId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'EEC_CODE', 'EEC');
 		$arrFieldList[0] = "'". $this->getEEOJobCatId() . "'";
 		$arrFieldList[1] = "'". $this->getEEOJobCatDesc() . "'";
 
-		$tableName = 'HS_HR_EEC';
-
-		//print_r($arrFieldList);
-		//exit;
 
 		$sql_builder = new SQLQBuilder();
 
@@ -165,13 +163,11 @@ class EEOJobCat {
 		$sql_builder->arr_insert = $arrFieldList;
 
 		$sqlQString = $sql_builder->addNewRecordFeature1();
-		//echo $sqlQString;
-		//exit;
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
+		return $message2;
 
 	}
 
@@ -288,42 +284,6 @@ class EEOJobCat {
 	     	//Create Logs
 	     }
 	}
-
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_EEC';
-		$arrFieldList[0] = 'EEC_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"EEC");
-
-		}
-	}
-
 
 }
 

@@ -32,6 +32,7 @@ require_once "testConf.php";
 $_SESSION['WPATH'] = WPATH;
 
 require_once ROOT_PATH."/lib/confs/Conf.php";
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 require_once 'Projects.php';
 
 /**
@@ -79,7 +80,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO `hs_hr_project` VALUES ('1001','1001','p1','w',0 )");
         mysql_query("INSERT INTO `hs_hr_project` VALUES ('1002','1002','p2','w',0 )");
         mysql_query("INSERT INTO `hs_hr_project` VALUES ('1003','1003','p3','w',0 )");
-
+		UniqueIDGenerator::getInstance()->initTable();
     }
 
     /**
@@ -93,6 +94,7 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 	    mysql_query("TRUNCATE TABLE `hs_hr_project`", $this->connection);
 
 		mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (1001, 1002, 1003);", $this->connection);
+		UniqueIDGenerator::getInstance()->initTable();
     }
 
     public function testFetchProject() {
@@ -110,18 +112,18 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
     public function testAddProject() {
 
-    	$this->classProject->setProjectId("1004");
     	$this->classProject->setCustomerId("1003");
     	$this->classProject->setProjectName("Dodle");
     	$this->classProject->setProjectDescription("jhgjhg");
 
     	$res  = $this->classProject->addProject();
+    	$id = $this->classProject->getProjectId();
     	$this->assertTrue($res, "Adding failed");
 
-    	$res  = $this->classProject->fetchProject("1004");
+    	$res  = $this->classProject->fetchProject($id);
 	    $this->assertNotNull($res, "No record found");
 
-	   	$this->assertEquals($res->getProjectId(),'1004','Invalid project id');
+	   	$this->assertEquals($res->getProjectId(), $id,'Invalid project id');
 	   	$this->assertEquals($res->getCustomerId(),'1003','Invalid customer id');
 	   	$this->assertEquals($res->getProjectName(),'Dodle','Invalid description');
 	   	$this->assertEquals($res->getProjectDescription(),'jhgjhg','Invalid description');

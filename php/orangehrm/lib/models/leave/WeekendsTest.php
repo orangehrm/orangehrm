@@ -68,7 +68,7 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
 
     	mysql_select_db($conf->dbname);
-
+    	mysql_query("TRUNCATE TABLE `".Weekends::WEEKENDS_TABLE."`", $this->connection);
     	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (1, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
     	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (2, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");
     	mysql_query("INSERT INTO `".Weekends::WEEKENDS_TABLE."` (`".Weekends::WEEKENDS_TABLE_DAY."`, `".Weekends::WEEKENDS_TABLE_LENGTH ."`) VALUES (3, ".Weekends::WEEKENDS_LENGTH_FULL_DAY.");");

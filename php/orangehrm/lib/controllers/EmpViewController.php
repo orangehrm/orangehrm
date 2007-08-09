@@ -1533,7 +1533,7 @@ class EmpViewController {
 								$form_creator->popArr['ppcntlist'] = $countrylist;
 
 							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $empinfo->getLastRecord();
+								$form_creator ->popArr['newID'] = $empinfo->getLastId();
 
 								if($object != null) {
 
@@ -1999,8 +1999,8 @@ class EmpViewController {
 
 				case 'EMP'  :		$empinfo = new EmpInfo();
 									$empinfo = $object['EmpInfo'];
-									$id = $empinfo->getEmpId();
 									$res = $empinfo -> addEmpMain();
+									$id = $empinfo->getEmpId();
 
 									if(isset($object['EmpPhoto']) && $res) {
 										$empphoto = new EmpPicture();

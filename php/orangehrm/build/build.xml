@@ -134,6 +134,7 @@
               </fileset>
           </batchtest>
       </phpunit2>
+      <phingcall target="fix-ids"/>
   </target>
 
   <target name="test.report" depends="prepare">
@@ -145,6 +146,7 @@
               </fileset>
           </batchtest>
       </phpunit2>
+      <phingcall target="fix-ids"/>
       <phpunit2report infile="${test.reports.dir}/testreport.xml"
           format="frames" todir="${test.reports.dir}" styledir="report-styles"/>
   </target>
@@ -153,6 +155,7 @@
   <target name="coverage" depends="prepare">
 	<exec command="phpunit --report ${test.coverage.dir} AllTests ${project.dir}/lib/AllTests.php"
 		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
   </target>
 
   <!-- The coverage target will not work if the php XDebug extension is not installed -->
@@ -199,6 +202,7 @@
               </fileset>
           </batchtest>
       </phpunit2>
+        <phingcall target="fix-ids"/>
 
       <coverage-report outfile="${test.coverage.dir}/coverage.xml">
           <report todir="${test.coverage.dir}" styledir="report-styles"/>
@@ -239,6 +243,11 @@
               <include name="**/*.php"/>
           </fileset>
       </phplint>
+  </target>
+
+
+  <target name="fix-ids" depends="prepare">
+      <exec command="php fix-ids.php" checkreturn="true" dir="${project.basedir}" passthru="true"/>
   </target>
 
 </project>

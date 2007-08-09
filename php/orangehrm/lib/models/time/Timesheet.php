@@ -24,7 +24,7 @@ require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
-
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 /**
  *
  */
@@ -145,29 +145,6 @@ class Timesheet {
 	}
 
 	/**
-	 * Compute the new Timesheet id
-	 */
-	private function _getNewTimesheetId() {
-		$sql_builder = new SQLQBuilder();
-
-		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET;
-		$selectFields[0] = self::TIMESHEET_DB_FIELD_TIMESHEET_ID;
-		$selectOrder = "DESC";
-		$selectLimit = 1;
-		$sortingField = self::TIMESHEET_DB_FIELD_TIMESHEET_ID;
-
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection->executeQuery($query);
-
-		$row = mysql_fetch_row($result);
-
-		$this->setTimesheetId($row[0]+1);
-	}
-
-	/**
 	 * Generates the current timesheet start date and end date
 	 *
 	 * This will be called if start date of a time sheet is not set
@@ -196,7 +173,10 @@ class Timesheet {
 	 * Status will be overwritten
 	 */
 	public function addTimesheet() {
-		$this->_getNewTimesheetId();
+
+		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIMESHEET_DB_TABLE_TIMESHEET, self::TIMESHEET_DB_FIELD_TIMESHEET_ID);
+		$this->setTimesheetId($newId);
+
 		$this->_getNewDates();
 
 		$this->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);

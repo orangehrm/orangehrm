@@ -29,6 +29,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once 'testConf.php';
 require_once 'Timesheet.php';
+require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
 
 /**
  * Test class for Timesheet.
@@ -63,32 +64,44 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
 
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+    	$this->assertTrue($this->connection !== false);
+        $this->assertTrue(mysql_select_db($conf->dbname));
 
-    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+		$this->assertTrue(mysql_query("TRUNCATE TABLE hs_hr_time_event"));
+		$this->assertTrue(mysql_query("TRUNCATE TABLE hs_hr_timesheet"));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` = 10", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` IN (10)", $this->connection));
 
-		mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
-    				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
-    	mysql_query("INSERT INTO `hs_hr_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
-    				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
-    	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
-    				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*7).", 'Testing')");
 
-    	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*7)."', 0)");
-    	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*7*2)."', 10)");
-    	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (12, 10, 10, '".date('Y-m-d', time()+3600*24*7*2)."', '".date('Y-m-d', time()+3600*24*7*3)."', 20)");
-    	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (13, 10, 10, '".date('Y-m-d', time()+3600*24*7*3)."', '".date('Y-m-d', time()+3600*24*7*4)."', 30)");
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
 
-		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing1')");
-    	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (11, 10, 10, 10, '".date('Y-m-d H:i:00', time()+3600*2)."', '".date('Y-m-d H:i:00', time()+3600*3)."', '".date('Y-m-d')."', 60, 'Testing2')");
-		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (12, 10, 10, 11, '".date('Y-m-d H:i:00', time()+3600*24*7)."', '".date('Y-m-d H:i:00', time()+3600*24*7+3600)."', '".date('Y-m-d', time()+3600*24*7)."', 60, 'Testing3')");
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
+    				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_project` (`project_id`, `customer_id`, `name`, `description`, `deleted`) ".
+    				"VALUES (10, 10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
+    				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*7).", 'Testing')"));
 
+		$this->assertTrue(mysql_query("INSERT IGNORE INTO `hs_hr_project_activity`(activity_id, project_id, name) " .
+				    "VALUES (10, 10, 'Test Activity')"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*7)."', 0)"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*7*2)."', 10)"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (12, 10, 10, '".date('Y-m-d', time()+3600*24*7*2)."', '".date('Y-m-d', time()+3600*24*7*3)."', 20)"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (13, 10, 10, '".date('Y-m-d', time()+3600*24*7*3)."', '".date('Y-m-d', time()+3600*24*7*4)."', 30)"));
+
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing1')"), mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d H:i:00', time()+3600*2)."', '".date('Y-m-d H:i:00', time()+3600*3)."', '".date('Y-m-d')."', 60, 'Testing2')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (12, 10, 10, 10, 11, '".date('Y-m-d H:i:00', time()+3600*24*7)."', '".date('Y-m-d H:i:00', time()+3600*24*7+3600)."', '".date('Y-m-d', time()+3600*24*7)."', 60, 'Testing3')"));
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**
@@ -98,14 +111,15 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11, 12)", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` IN (10, 11, 12, 13, 14)", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection);
+		$this->assertTrue(mysql_query("TRUNCATE TABLE hs_hr_time_event"));
+		$this->assertTrue(mysql_query("TRUNCATE TABLE hs_hr_timesheet"));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection));
 
-    	mysql_query("DELETE FROM `hs_hr_timesheet_submission_period` WHERE `timesheet_period_id` IN (10)", $this->connection);
-
-    	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` IN (10)", $this->connection);
-    	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (10)", $this->connection);
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `project_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` IN (10)", $this->connection));
+    	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` IN (10)", $this->connection));
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     public function testfetchTimesheets() {
@@ -328,12 +342,13 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$timesheetObj->setEndDate(date('Y-m-d', time()+3600*24*7*5));
 
 		$timesheetObj->addTimesheet();
+		$expectedId = $timesheetObj->getTimesheetId();
 
 		$res = $timesheetObj->fetchTimesheets();
 
 		$this->assertNotNull($res, "Returned non existing record");
 
-		$expected[0]= array(14, 10, 10, date('Y-m-d', time()+3600*24*7*4), date('Y-m-d', time()+3600*24*7*5), 0);
+		$expected[0]= array($expectedId, 10, 10, date('Y-m-d', time()+3600*24*7*4), date('Y-m-d', time()+3600*24*7*5), 0);
 
 		$this->assertEquals(count($res), count($expected), "Returned invalid number of records");
 
@@ -355,13 +370,14 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$timesheetObj->addTimesheet();
 
+		$expectedId = $timesheetObj->getTimesheetId();
 		$res = $timesheetObj->fetchTimesheets();
 
 		$this->assertNotNull($res, "Returned non existing record");
 
 		$day=date("w");
 
-		$expected[0]= array(14, 10, 1, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
+		$expected[0]= array($expectedId, 10, 1, date('Y-m-d', time()+3600*24*(1-$day)), date('Y-m-d', time()+3600*24*(7-$day)), 0);
 
 		$this->assertEquals(count($res), count($expected), "Returned invalid number of records");
 

@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class MembershipType {
 
@@ -273,15 +274,16 @@ class MembershipType {
 
 	function addMembershipType() {
 
+		$tableName = 'hs_hr_membership_type';
+
 		$this->getMemId();
+		$this->memId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'membtype_code', 'MEM');
 		$arrFieldList[0] = "'". $this->getMemId() . "'";
 		$arrFieldList[1] = "'". $this->getMemDescription() . "'";
 
 
 		//$arrFieldList[0] = 'MEMBTYPE_CODE';
 		//$arrFieldList[1] = 'MEMBTYPE_NAME';
-
-		$tableName = 'HS_HR_MEMBERSHIP_TYPE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -368,39 +370,6 @@ class MembershipType {
 
 	}
 
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_MEMBERSHIP_TYPE';
-		$arrFieldList[0] = 'MEMBTYPE_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"MEM");
-
-		}
-
-	}
 }
 
 ?>

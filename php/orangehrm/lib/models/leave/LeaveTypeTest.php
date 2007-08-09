@@ -33,6 +33,7 @@ $_SESSION['WPATH'] = WPATH;
 
 require_once "LeaveType.php";
 require_once ROOT_PATH."/lib/confs/Conf.php";
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Test class for LeaveType.
@@ -75,7 +76,7 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Medical', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Medicals', 1)");
         mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY013', 'Medicalx', 1)");
-
+        UniqueIDGenerator::getInstance()->initTable();
     }
 
     /**
@@ -97,10 +98,12 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
     	$this->classLeaveType->setLeaveTypeName("Anual");
 
     	$res = $this->classLeaveType->addLeaveType();
+    	$id = $this->classLeaveType->getLeaveTypeId();
 
-    	$res = $this->classLeaveType->retriveLeaveType("LTY014");
+    	$res = $this->classLeaveType->retriveLeaveType($id);
+		$this->assertNotNull($res);
 
-        $expected = array('LTY014', 'Anual');
+        $expected = array($id, 'Anual');
 
         $this->assertEquals($res[0]->getLeaveTypeId(), $expected[0], "Didn't return expected result 1");
         $this->assertEquals($res[0]->getLeaveTypeName(), $expected[1], "Didn't return expected result 2");

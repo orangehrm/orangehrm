@@ -25,7 +25,6 @@
 	}
 
 	function parseAddData($postArr) {
-			$this->new_customer ->setCustomerId($this->new_customer ->getLastRecord());
 			$this->new_customer ->setCustomerName(trim($postArr['txtName']));
 			$this->new_customer ->setCustomerDescription(trim($postArr['txtDescription']));
 

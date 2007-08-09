@@ -664,11 +664,7 @@ function clearAll() {
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 
 				                  <tr>
-
-				                  		<td><?php echo $lang_jobtitle_jobtitid; ?></td>
-
-				                  		<td><strong><?php echo $this->popArr['newID']?></strong><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
-
+				                  		<td><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
 				                  </tr>
 
 				                  <tr>

@@ -22,6 +22,7 @@ require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
+require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
 
 class ProjectActivity {
 
@@ -102,7 +103,8 @@ class ProjectActivity {
 		$fields[2] = self::DB_FIELD_PROJECT_ID;
 		$fields[3] = self::DB_FIELD_DELETED;
 
-		$values[0] = "null";
+		$this->id = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::DB_FIELD_ACTIVITY_ID);
+		$values[0] = $this->id;
 		$values[1] = "'{$this->name}'";
 		$values[2] = "'{$this->projectId}'";
 		$values[3] = "'". intval($this->deleted) ."'";
@@ -119,8 +121,6 @@ class ProjectActivity {
 		$result = $conn->executeQuery($sql);
 		if (!$result || (mysql_affected_rows() != 1)) {
 			throw new ProjectActivityException("Insert failed. ");
-		} else {
-			$this->id = mysql_insert_id();
 		}
 	}
 

@@ -10,6 +10,7 @@ unset($error);
 //require_once(ROOT_PATH.'/upgrader/applicationSetup.php');
 require_once ROOT_PATH.'/upgrader/restore/Restore.php';
 require_once ROOT_PATH.'/upgrader/backup/Backup.php';
+require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
 
 function createDB() {
 
@@ -39,18 +40,22 @@ function alterOldData() {
 
 	$res = mysql_query($sqlQString);
 
-	$err = mysql_errno();
-	error_log (date("r")." Alter Old Data failed  with $err\n",3, "log.txt");
-
-	if ($res) {
-		return true;
+	if (!$res) {
+		$err = mysql_errno();
+		error_log (date("r")." Alter Old Data failed  with $err\n",3, "log.txt");
+		return false;
 	}
 
-	if (empty($err)) {
-		return true;
+	/* Initialize the hs_hr_unique_id table */
+	try {
+		UniqueIDGenerator::getInstance()->initTable();
+	} catch (IDGeneratorException $e) {
+		$errMsg = $e->getMessage() . ". Trace = " . $e->getTraceAsString();
+		error_log (date("r")." Initializing hs_hr_unique_id table failed with: $errMsg\n",3, "log.txt");
+		return false;
 	}
 
-	return $err;
+	return true;
 }
 
 

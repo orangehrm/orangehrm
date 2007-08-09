@@ -87,7 +87,8 @@ class CompStruct {
 
 		$locCode = $this->_getEscapedLocation();
 
-		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code=%s", $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $locCode);
+		$nextId = UniqueIDGenerator::getInstance()->getNextID("hs_hr_compstructtree", 'id');
+		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET id=%d, lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code=%s", $nextId, $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $locCode);
 
 		/*
 		 *

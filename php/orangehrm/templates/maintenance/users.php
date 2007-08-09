@@ -201,13 +201,6 @@ function goBack() {
                   <td width="450">
                   <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-							    <td><?php echo $lang_Commn_code; ?></td>
-							    <td><strong><?php echo $this->popArr['newID']?></strong></td>
-								<td></td>
-								<td></td>
-								<td></td>
-						  </tr>
-						  <tr>
 							    <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_UserName; ?></td>
 							    <td><input type="text" name="txtUserName"></td>
 								<td></td>

@@ -32,6 +32,7 @@ require_once "testConf.php";
 $_SESSION['WPATH'] = WPATH;
 
 require_once 'LeaveRequests.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Test class for LeaveRequest.
@@ -70,6 +71,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
+		mysql_query("TRUNCATE TABLE hs_hr_employee");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', NULL, 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('013', NULL, 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
@@ -93,7 +95,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`) VALUES (11, 13, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 1, 'Leave 2-2')");
 
-
+        UniqueIDGenerator::getInstance()->initTable();
     }
 
     /**
@@ -184,6 +186,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->classLeaveRequest->setLeaveComments("New Leave 1");
 
     	$this->classLeaveRequest->applyLeaveRequest();
+    	$newId = $this->classLeaveRequest->getLeaveRequestId();
 
     	$leaveObj = $this->classLeaveRequest;
 
@@ -193,7 +196,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertSame(1, count($res), 'Wrong number of records found');
 
-    	$expected[0] = array('12', 'Medical', date('Y-m-d', time()+3600*24), null);
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), null);
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
@@ -214,6 +217,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->classLeaveRequest->setLeaveComments("New Leave 1");
 
     	$this->classLeaveRequest->applyLeaveRequest();
+    	$newId = $this->classLeaveRequest->getLeaveRequestId();
 
     	$leaveObj = $this->classLeaveRequest;
 
@@ -223,7 +227,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertSame(1, count($res), 'Wrong number of records found');
 
-    	$expected[0] = array('12', 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*3));
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*3));
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');

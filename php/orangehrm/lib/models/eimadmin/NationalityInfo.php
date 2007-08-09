@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class NationalityInfo {
 
@@ -147,11 +148,11 @@ class NationalityInfo {
 
 	function addNationalityInfo() {
 
-		$this->getNationalityInfoId();
+		$tableName = 'hs_hr_nationality';
+
+		$this->nationalityId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'nat_code', 'NAT');
 		$arrFieldList[0] = "'". $this->getNationalityInfoId() . "'";
 		$arrFieldList[1] = "'". $this->getNationalityInfoDesc() . "'";
-
-		$tableName = 'HS_HR_NATIONALITY';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -280,41 +281,6 @@ class NationalityInfo {
 	     }
 
 	}
-
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_NATIONALITY';
-		$arrFieldList[0] = 'NAT_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"NAT");
-
-		}
-
-	}
-
 
 }
 

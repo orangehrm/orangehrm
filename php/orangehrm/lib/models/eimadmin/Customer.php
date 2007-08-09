@@ -22,6 +22,7 @@ require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Customer {
 	/**
@@ -88,7 +89,7 @@ class Customer {
 	 */
 	public function addCustomer() {
 
-		$this->getCustomerId();
+		$this->customerId = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::CUSTOMER_DB_FIELDS_ID);
 
 		$arrRecord[0] = "'". $this->getCustomerId() . "'";
 		$arrRecord[1] = "'". $this->getCustomerName() . "'";
@@ -108,8 +109,6 @@ class Customer {
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		//echo $sqlQString;
 
 		return $message2;
 	}
@@ -270,41 +269,6 @@ class Customer {
 
 		$tempArr =  $this->customerObjArr($result) ;
 		return $tempArr[0];
-	}
-
-	/**
-	 *
-	 */
-	public function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = self::TABLE_NAME;
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return str_pad(((int) $this->singleField)+1, $this->maxidLength, "0", STR_PAD_LEFT);
-		}
-
 	}
 
 	/**

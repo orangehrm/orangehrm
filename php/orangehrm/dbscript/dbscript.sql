@@ -1,7 +1,7 @@
 SHOW INNODB STATUS;
 
 create table `hs_hr_geninfo` (
-	`code` varchar(8) not null default '',
+	`code` varchar(13) not null default '',
 	`geninfo_keys` varchar(200) default null,
 	`geninfo_values` varchar(200) default null,
 	primary key (`code`)
@@ -10,39 +10,39 @@ create table `hs_hr_geninfo` (
 create table `hs_hr_compstructtree` (
   `title` tinytext not null,
   `description` text not null,
-  `loc_code` varchar(6) default NULL,
+  `loc_code` varchar(13) default NULL,
   `lft` tinyint(4) not null default '0',
   `rgt` tinyint(4) not null default '0',
-  `id` int(6) not null auto_increment,
+  `id` int(6) not null,
   `parnt` int(6) not null default '0',
   primary key  (`id`),
   key loc_code (`loc_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_job_title` (
-	`jobtit_code` varchar(6) not null default '',
+	`jobtit_code` varchar(13) not null default '',
 	`jobtit_name` varchar(50) default null,
 	`jobtit_desc` varchar(200) default null,
 	`jobtit_comm` varchar(400) default null,
-	`sal_grd_code` varchar(6) default null,
+	`sal_grd_code` varchar(13) default null,
 	primary key(`jobtit_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_empstat` (
-	`estat_code` varchar(6) not null default '',
+	`estat_code` varchar(13) not null default '',
 	`estat_name` varchar(50) default null,
   primary key  (`estat_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_eec` (
-	`eec_code` varchar(6) not null default '',
+	`eec_code` varchar(13) not null default '',
 	`eec_desc` varchar(50) default null,
   primary key  (`eec_code`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_jobtit_empstat` (
-	`jobtit_code` varchar(6) not null default '',
-	`estat_code` varchar(6) not null default '',
+	`jobtit_code` varchar(13) not null default '',
+	`estat_code` varchar(13) not null default '',
   primary key  (`jobtit_code`,`estat_code`)
 ) engine=innodb default charset=utf8;
 
@@ -63,7 +63,7 @@ create table `hs_hr_currency_type` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_licenses` (
-	`licenses_code` varchar(6) not null default '',
+	`licenses_code` varchar(13) not null default '',
 	`licenses_desc` varchar(50) default null,
   primary key  (`licenses_code`)
 ) engine=innodb default charset=utf8;
@@ -92,16 +92,16 @@ create table `hs_hr_developer` (
 
 
 create table `hs_hr_district` (
-  `district_code` varchar(6) not null default '',
+  `district_code` varchar(13) not null default '',
   `district_name` varchar(50) default null,
-  `province_code` varchar(6) default null,
+  `province_code` varchar(13) default null,
   primary key  (`district_code`)
 ) engine=innodb default charset=utf8;
 
 
 create table `hs_hr_emp_basicsalary` (
   `emp_number` int(7) not null default 0,
-  `sal_grd_code` varchar(6) not null default '',
+  `sal_grd_code` varchar(13) not null default '',
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` double default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
@@ -119,7 +119,7 @@ create table `hs_hr_emp_contract_extend` (
 
 create table `hs_hr_emp_language` (
   `emp_number` int(7) not null default 0,
-  `lang_code` varchar(6) not null default '',
+  `lang_code` varchar(13) not null default '',
   `elang_type` smallint(6) default '0',
   `competency` smallint default '0',
   primary key  (`emp_number`,`lang_code`,`elang_type`)
@@ -184,8 +184,8 @@ create table `hs_hr_emp_licenses` (
 
 create table `hs_hr_emp_member_detail` (
   `emp_number` int(7) not null default 0,
-  `membship_code` varchar(6) not null default '',
-  `membtype_code` varchar(6) not null default '',
+  `membship_code` varchar(13) not null default '',
+  `membtype_code` varchar(13) not null default '',
   `ememb_subscript_ownership` varchar(20) default null,
   `ememb_subscript_amount` decimal(15,2) default null,
   `ememb_commence_date` datetime default null,
@@ -211,7 +211,7 @@ create table `hs_hr_emp_passport` (
 
 create table `hs_hr_emp_skill` (
   `emp_number` int(7) not null default 0,
-  `skill_code` varchar(6) not null default '',
+  `skill_code` varchar(13) not null default '',
   `years_of_exp` decimal(2,0) not null default '0',
   `comments` varchar(100) not null default ''
 ) engine=innodb default charset=utf8;
@@ -228,7 +228,7 @@ create table `hs_hr_emp_picture` (
 
 create table `hs_hr_emp_education` (
   `emp_number` int(7) not null default 0,
-  `edu_code` varchar(6) not null default '',
+  `edu_code` varchar(13) not null default '',
   `edu_major` varchar(100) default null,
   `edu_year` decimal(4,0) default null,
   `edu_gpa` varchar(25) default null,
@@ -267,9 +267,9 @@ create table `hs_hr_employee` (
   `emp_middle_name` varchar(100) default '' not null,
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
-  `ethnic_race_code` varchar(6) default null,
+  `ethnic_race_code` varchar(13) default null,
   `emp_birthday` datetime default '0000-00-00',
-  `nation_code` varchar(6) default null,
+  `nation_code` varchar(13) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,
   `emp_ssn_num` varchar(100) default '',
@@ -278,9 +278,9 @@ create table `hs_hr_employee` (
   `emp_dri_lice_num` varchar(100) default '',
   `emp_dri_lice_exp_date` date default '0000-00-00',
   `emp_military_service` varchar(100) default '',
-  `emp_status` varchar(6) default null,
-  `job_title_code` varchar(6) default null,
-  `eeo_cat_code` varchar(6) default null,
+  `emp_status` varchar(13) default null,
+  `job_title_code` varchar(13) default null,
+  `eeo_cat_code` varchar(13) default null,
   `work_station` int(6) default null,
   `emp_street1` varchar(100) default '',
   `emp_street2` varchar(100) default '',
@@ -292,7 +292,7 @@ create table `hs_hr_employee` (
   `emp_mobile` varchar(50) default null,
   `emp_work_telephone` varchar(50) default null,
   `emp_work_email` varchar(50) default null,
-  `sal_grd_code` varchar(6) default null,
+  `sal_grd_code` varchar(13) default null,
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
   primary key  (`emp_number`),
@@ -314,14 +314,14 @@ create table `hs_hr_file_version` (
 
 
 create table `hs_hr_language` (
-  `lang_code` varchar(6) not null default '',
+  `lang_code` varchar(13) not null default '',
   `lang_name` varchar(120) default null,
   primary key  (`lang_code`)
 ) engine=innodb default charset=utf8;
 
 
 create table `hs_hr_location` (
-  `loc_code` varchar(6) not null default '',
+  `loc_code` varchar(13) not null default '',
   `loc_name` varchar(100) default null,
   `loc_country` varchar(3) default null,
   `loc_state` varchar(50) default null,
@@ -335,15 +335,15 @@ create table `hs_hr_location` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_membership` (
-  `membship_code` varchar(6) not null default '',
-  `membtype_code` varchar(6) default null,
+  `membship_code` varchar(13) not null default '',
+  `membtype_code` varchar(13) default null,
   `membship_name` varchar(120) default null,
   primary key  (`membship_code`)
 ) engine=innodb default charset=utf8;
 
 
 create table `hs_hr_membership_type` (
-  `membtype_code` varchar(6) not null default '',
+  `membtype_code` varchar(13) not null default '',
   `membtype_name` varchar(120) default null,
   primary key  (`membtype_code`)
 ) engine=innodb default charset=utf8;
@@ -361,7 +361,7 @@ create table `hs_hr_module` (
 
 
 create table `hs_hr_nationality` (
-  `nat_code` varchar(6) not null default '',
+  `nat_code` varchar(13) not null default '',
   `nat_name` varchar(120) default null,
   primary key  (`nat_code`)
 ) engine=innodb default charset=utf8;
@@ -376,7 +376,7 @@ create table `hs_hr_province` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_education` (
-	`edu_code` varchar(6) not null default '',
+	`edu_code` varchar(13) not null default '',
 	`edu_uni` varchar(100) default null,
 	`edu_deg` varchar(100) default null,
 	primary key (`edu_code`)
@@ -384,7 +384,7 @@ create table `hs_hr_education` (
 
 
 create table `hs_hr_ethnic_race` (
-  `ethnic_race_code` varchar(6) not null default '',
+  `ethnic_race_code` varchar(13) not null default '',
   `ethnic_race_desc` varchar(50) default null,
   primary key  (`ethnic_race_code`)
 ) engine=innodb default charset=utf8;
@@ -401,7 +401,7 @@ create table `hs_hr_rights` (
 
 
 create table `hs_hr_skill` (
-  `skill_code` varchar(6) not null default '',
+  `skill_code` varchar(13) not null default '',
   `skill_name` varchar(120) default null,
   `skill_description` text default null,
   primary key  (`skill_code`)
@@ -471,7 +471,7 @@ create table `hs_hr_versions` (
 
 
 create table `hs_pr_salary_currency_detail` (
-  `sal_grd_code` varchar(6) not null default '',
+  `sal_grd_code` varchar(13) not null default '',
   `currency_id` varchar(6) not null default '',
   `salcurr_dtl_minsalary` double default null,
   `salcurr_dtl_stepsalary` double default null,
@@ -480,14 +480,14 @@ create table `hs_pr_salary_currency_detail` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_pr_salary_grade` (
-  `sal_grd_code` varchar(6) not null default '',
+  `sal_grd_code` varchar(13) not null default '',
   `sal_grd_name` varchar(60) default null,
   primary key  (`sal_grd_code`)
 ) engine=innodb default charset=utf8;
 
 
 create table `hs_hr_empreport` (
-  `rep_code` varchar(6) not null default '',
+  `rep_code` varchar(13) not null default '',
   `rep_name` varchar(60) default null,
   `rep_cridef_str` varchar(200) default null,
   `rep_flddef_str` varchar(200) default null,
@@ -495,14 +495,14 @@ create table `hs_hr_empreport` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emprep_usergroup` (
-  `userg_id` varchar(6) not null default '',
-  `rep_code` varchar(6) not null default '',
+  `userg_id` varchar(13) not null default '',
+  `rep_code` varchar(13) not null default '',
   primary key  (`userg_id`,`rep_code`)
 ) engine=innodb default charset=utf8;
 
 CREATE TABLE `hs_hr_leave_requests` (
   `leave_request_id` int(11) NOT NULL,
-  `leave_type_id` varchar(6) NOT NULL,
+  `leave_type_id` varchar(13) NOT NULL,
   `leave_type_name` char(20) default NULL,
   `date_applied` date NOT NULL,
   `employee_id` int(7) NOT NULL,
@@ -518,7 +518,7 @@ CREATE TABLE `hs_hr_leave` (
   `leave_status` smallint(6) default NULL,
   `leave_comments` varchar(80) default NULL,
   `leave_request_id` int(11) NOT NULL,
-  `leave_type_id` varchar(6) NOT NULL,
+  `leave_type_id` varchar(13) NOT NULL,
   `employee_id` int(7) NOT NULL,
   PRIMARY KEY  (`leave_id`,`leave_request_id`,`leave_type_id`,`employee_id`),
   KEY `leave_request_id` (`leave_request_id`,`leave_type_id`,`employee_id`),
@@ -527,14 +527,14 @@ CREATE TABLE `hs_hr_leave` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_leavetype` (
-  `leave_type_id` varchar(6) not null,
+  `leave_type_id` varchar(13) not null,
   `leave_type_name` varchar(20) default null,
   `available_flag` smallint(6) default null,
   primary key  (`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_employee_leave_quota` (
-  `leave_type_id` varchar(6) not null,
+  `leave_type_id` varchar(13) not null,
   `employee_id` int(7) not null,
   `no_of_days_allotted` smallint(6) default null,
   primary key  (`leave_type_id`,`employee_id`)
@@ -591,7 +591,7 @@ create table `hs_hr_project` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_project_activity` (
-  `activity_id` int(11) not null auto_increment,
+  `activity_id` int(11) not null,
   `project_id` int(11) not null,
   `name` varchar(100) default null,
   `deleted` tinyint(1) default 0,
@@ -650,7 +650,14 @@ create table `hs_hr_time_event` (
   key `timesheet_id` (`timesheet_id`)
 ) engine=innodb default charset=utf8;
 
-
+create table `hs_hr_unique_id` (
+  `id` int not null auto_increment,
+  `last_id` int unsigned not null,
+  `table_name` varchar(50) not null,
+  `field_name` varchar(50) not null,
+  primary key(`id`),
+  unique key `table_field` (`table_name`, `field_name`)
+) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
@@ -1466,3 +1473,33 @@ INSERT INTO `hs_hr_project`
 INSERT INTO `hs_hr_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time');
+
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_title', 'jobtit_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_empstat', 'estat_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_eec', 'eec_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_licenses', 'licenses_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_employee', 'emp_number');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_location', 'loc_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_membership', 'membship_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_membership_type', 'membtype_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_module', 'mod_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_education', 'edu_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_ethnic_race', 'ethnic_race_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_skill', 'skill_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_user_group', 'userg_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_users', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_pr_salary_grade', 'sal_grd_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_empreport', 'rep_code');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave', 'leave_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leavetype', 'leave_type_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_holidays', 'holiday_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project', 'project_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet', 'timesheet_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet_submission_period', 'timesheet_period_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_time_event', 'time_event_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_compstructtree', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave_requests', 'leave_request_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project_activity', 'activity_id');

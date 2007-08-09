@@ -90,10 +90,6 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
                   <td>
 	                  <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 							  <tr>
-	       						<td><?php echo $lang_Commn_code; ?></td>
-								<td><strong><?php echo $this->popArr['newID'] ?></strong></td>
-							</tr>
-							  <tr>
 							    <td valign="top" nowrap><span class="error">*</span><?php echo $lang_Commn_name; ?></td>
 							    <td> <input type="text" name='txtUserGroupName' tabindex='3'></td>
 							  </tr>

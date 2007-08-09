@@ -289,7 +289,8 @@ class Holidays {
 	 * @access public
 	 */
 	public function add() {
-		$this->_getNewHolidayId();
+
+		$this->holidayId = UniqueIDGenerator::getInstance()->getNextID(self::HOLIDAYS_TABLE, self::HOLIDAYS_TABLE_HOLIDAY_ID);
 
 		$arrRecordsList[0] = $this->getHolidayId();
 		$arrRecordsList[1] = "'". $this->getDescription()."'";
@@ -369,31 +370,6 @@ class Holidays {
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
-	}
-
-	/**
-	 * Generates new holiday id
-	 *
-	 * @access private
-	 */
-	private function _getNewHolidayId() {
-		$sql_builder = new SQLQBuilder();
-
-		$selectTable = "`".self::HOLIDAYS_TABLE."`";
-		$selectFields[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
-		$selectOrder = "DESC";
-		$selectLimit = 1;
-		$sortingField = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
-
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection -> executeQuery($query);
-
-		$row = mysql_fetch_row($result);
-
-		$this->setHolidayId($row[0]+1);
 	}
 
 }

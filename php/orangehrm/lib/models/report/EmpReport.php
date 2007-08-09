@@ -18,6 +18,7 @@
  *
  */
 
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EmpReport {
 
@@ -137,12 +138,14 @@ class EmpReport {
 
 	function addReport() {
 
+		$tableName = 'HS_HR_EMPREPORT';
+
+		$this->repID = UniqueIDGenerator::getInstance()->getNextID($tableName, 'REP_CODE', 'REP');
+
 		$arrFieldList[0] = "'". $this->getRepID() . "'";
 		$arrFieldList[1] = "'". $this->getRepName() . "'";
 		$arrFieldList[2] = "'". $this->getRepCriteriaDefString() . "'";
 		$arrFieldList[3] = "'". $this->getRepFieldDefString() . "'";
-
-		$tableName = 'HS_HR_EMPREPORT';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -226,36 +229,6 @@ class EmpReport {
 
 			$arrayDispList = '';
 			return $arrayDispList;
-		}
-	}
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_EMPREPORT';
-		$arrFieldList[0] = 'REP_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-		return $common_func->explodeString($this->singleField,"REP");
 		}
 	}
 

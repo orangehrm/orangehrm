@@ -310,7 +310,6 @@ function reDirect($getArr,$object = null) {
 							$modls = new Modules();
 
 							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $modls->getLastRecord();
 								$form_creator ->popArr['version'] = $modls->getVersionList();
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $modls->filterModules($getArr['id']);
@@ -322,10 +321,7 @@ function reDirect($getArr,$object = null) {
 		    case 'USG'  :	$form_creator ->formPath = '/templates/maintenance/usergroups.php';
 							$usrgrp = new UserGroups();
 
-							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $usrgrp->getLastRecord();
-
-							} elseif($getArr['capturemode'] == 'updatemode') {
+							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $usrgrp->filterUserGroups($getArr['id']);
 
 							}
@@ -365,7 +361,6 @@ function reDirect($getArr,$object = null) {
 							$user= new Users();
 
 							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $user->getLastRecord();
 								$form_creator ->popArr['emplist'] = $user->getEmployeeCodes();
 								$form_creator ->popArr['uglist'] = $user->getUserGroupCodes();
 							} elseif($getArr['capturemode'] == 'updatemode') {
@@ -460,8 +455,8 @@ function reDirect($getArr,$object = null) {
 
 				case 'USG' :	    $usrgrp = new UserGroups();
 									$usrgrp = $object;
-									$id = $usrgrp->getUserGroupID();
 									$res = $usrgrp -> addUserGroups();
+									$id = $usrgrp->getUserGroupID();
 									break;
 
 				case 'VER' :	    $vers = new Versions();

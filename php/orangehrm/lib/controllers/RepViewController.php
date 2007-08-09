@@ -179,8 +179,8 @@ class RepViewController {
 
 				case 'EMPDEF'  :		$report = new EmpReport();
 										$report = $object;
-										$id = $report -> getRepID();
 										$res = $report -> addReport();
+										$id = $report -> getRepID();
 
 										$repusg = new EmpRepUserGroup();
 
@@ -298,9 +298,7 @@ class RepViewController {
 							$form_creator->popArr['skillList'] = $skillObj->getSkillCodes();
 
 
-							if($getArr['capturemode'] == 'addmode') {
-								$form_creator ->popArr['newID'] = $report->getLastRecord();
-							} elseif($getArr['capturemode'] == 'updatemode') {
+							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $edit = $report->filterReport($getArr['id']);
 								$criteria_value = explode('|',$edit[0][2]);
 

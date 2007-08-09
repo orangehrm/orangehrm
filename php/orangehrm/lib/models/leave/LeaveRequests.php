@@ -23,6 +23,7 @@
 require_once ROOT_PATH . '/lib/models/leave/Leave.php';
 require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Leave Request Class
@@ -295,7 +296,9 @@ class LeaveRequests extends Leave {
 	 */
 	private function _addLeaveRequest() {
 
-		$this->_getNewLeaveRequestId();
+		$newId = UniqueIDGenerator::getInstance()->getNextID('hs_hr_leave_requests', 'leave_request_id');
+		$this->setLeaveRequestId($newId);
+
 		$this->_getLeaveTypeName();
 		$this->setDateApplied(date('Y-m-d'));
 
@@ -353,26 +356,6 @@ class LeaveRequests extends Leave {
 		};
 
 		return false;
-	}
-
-	private function _getNewLeaveRequestId() {
-		$sql_builder = new SQLQBuilder();
-
-		$selectTable = "`hs_hr_leave_requests`";
-		$selectFields[0] = '`leave_request_id`';
-		$selectOrder = "DESC";
-		$selectLimit = 1;
-		$sortingField = '`leave_request_id`';
-
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-		//echo $query;
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection -> executeQuery($query);
-
-		$row = mysql_fetch_row($result);
-
-		$this->setLeaveRequestId($row[0]+1);
 	}
 
 }

@@ -22,6 +22,7 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EthnicRace {
 
@@ -147,15 +148,11 @@ class EthnicRace {
 
 	function addEthnicRace() {
 
-		$this->getethnicrace();
+		$tableName = 'hs_hr_ethnic_race';
+
+		$this->ethnicrace = UniqueIDGenerator::getInstance()->getNextID($tableName, 'ethnic_race_code', 'ETH');
 		$arrFieldList[0] = "'". $this->getethnicrace() . "'";
 		$arrFieldList[1] = "'". $this->getethnicraceDescription() . "'";
-
-
-		//$arrFieldList[0] = 'SKILL_CODE';
-		//$arrFieldList[1] = 'SKILL_DESC';
-
-		$tableName = 'HS_HR_ETHNIC_RACE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -282,41 +279,6 @@ class EthnicRace {
 	     	//Create Logs
 
 	     }
-
-	}
-
-
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_ETHNIC_RACE';
-		$arrFieldList[0] = 'ETHNIC_RACE_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"ETH");
-
-		}
 
 	}
 

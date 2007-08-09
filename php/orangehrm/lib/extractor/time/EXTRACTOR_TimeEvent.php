@@ -91,7 +91,7 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj = new TimeEvent();
 
 		$tmpObj->setProjectId(0);
-		$tmpObj->setActivityId(1);
+		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
 		$tmpObj->setEmployeeId($_SESSION['empID']);
 
 		if ($punchIn) {

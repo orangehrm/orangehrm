@@ -30,7 +30,6 @@ class EXTRACTOR_EmpReport {
 
 	function parseAddData($postArr) {
 
-			$this->empreport->setRepID($this->empreport->getLastRecord());
 			$this->empreport->setRepName(trim($postArr['txtRepName']));
 
 			$criteriaArr = $postArr['chkcriteria'];

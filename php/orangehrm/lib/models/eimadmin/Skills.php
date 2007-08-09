@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Skills {
 
@@ -159,16 +160,12 @@ class Skills {
 
 	function addSkills() {
 
-		$this->getSkillId();
+		$tableName = 'hs_hr_skill';
+
+		$this->skillId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'skill_code', 'SKI');
 		$arrFieldList[0] = "'". $this->getSkillId() . "'";
 		$arrFieldList[1] = "'". $this->getSkillName() . "'";
 		$arrFieldList[2] = "'". $this->getSkillDescription() . "'";
-
-
-		//$arrFieldList[0] = 'SKILL_CODE';
-		//$arrFieldList[1] = 'SKILL_NAME';
-
-		$tableName = 'HS_HR_SKILL';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -304,41 +301,6 @@ class Skills {
 
 	}
 
-
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_SKILL';
-		$arrFieldList[0] = 'SKILL_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"SKI");
-
-		}
-
-	}
-
 	function filterGetSkillInfo($getID) {
 
 		$this->getID = $getID;
@@ -455,7 +417,7 @@ class Skills {
 
 	    	$arrayDispList[$i][0] = $line[0]; // Province Code
 	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
-	    	$arrayDispList[$i][2] = $line[2]; 
+	    	$arrayDispList[$i][2] = $line[2];
 
 	    	$i++;
 

@@ -136,10 +136,11 @@ class EmploymentStatus {
 
 	function addEmpStat() {
 
+		$tableName = 'HS_HR_EMPSTAT';
+
+		$this->empStatId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'ESTAT_CODE', 'EST');
 		$arrFieldList[0] = "'". $this->getEmpStatId() . "'";
 		$arrFieldList[1] = "'". $this->getEmpStatName() . "'";
-
-		$tableName = 'HS_HR_EMPSTAT';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -153,7 +154,6 @@ class EmploymentStatus {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-		 echo $message2;
 
 	}
 
@@ -257,37 +257,6 @@ class EmploymentStatus {
 
 			$arrayDispList = '';
 			return $arrayDispList;
-		}
-	}
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_EMPSTAT';
-		$arrFieldList[0] = 'ESTAT_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"EST");
 		}
 	}
 }

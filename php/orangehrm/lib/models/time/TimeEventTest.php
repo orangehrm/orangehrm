@@ -32,6 +32,7 @@ require_once "testConf.php";
 require_once 'TimeEvent.php';
 
 require_once ROOT_PATH."/lib/confs/Conf.php";
+require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
 
 /**
  * Test class for TimeEvent.
@@ -86,7 +87,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d H:i', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (12, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600*2)."', NULL, '".date('Y-m-d')."', NULL, 'Testing2')");
-
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**
@@ -105,6 +106,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `activity_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     public function testFetchTimeEvents() {

@@ -28,7 +28,6 @@ class EXTRACTOR_Users{
 
 	function parseAddData($postArr) {
 
-			$this->users ->setUserID($this->users->getLastRecord());
 		 	$this->users -> setUserName(trim($postArr['txtUserName']));
 		 	$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword'])));
 		 	$this->users -> setUserEmpID($postArr['cmbUserEmpID']);

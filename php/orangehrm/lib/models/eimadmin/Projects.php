@@ -23,6 +23,7 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Project Class
@@ -115,36 +116,13 @@ class Projects {
 
 
 	/**
-	 * Compute the new Project id
-	 */
-	public function getNewProjectId() {
-		$sql_builder = new SQLQBuilder();
-
-		$selectTable = self::PROJECT_DB_TABLE;
-		$selectFields[0] = self::PROJECT_DB_FIELD_PROJECT_ID;
-		$selectOrder = "DESC";
-		$selectLimit = 1;
-		$sortingField = self::PROJECT_DB_FIELD_PROJECT_ID;
-
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection->executeQuery($query);
-
-		$row = mysql_fetch_row($result);
-
-		$this->setProjectId($row[0]+1);
-	}
-
-	/**
 	 * Add new project
 	 *
 	 * Deleted will be overwritten to NOT_DELETED
 	 */
 	public function addProject() {
 
-		$this->getNewProjectId();
+		$this->projectID = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::PROJECT_DB_FIELD_PROJECT_ID);
 
 		$arrRecord[0] = "'".$this->getProjectId()."'";
 		$arrRecord[1] = "'".$this->getCustomerId()."'";

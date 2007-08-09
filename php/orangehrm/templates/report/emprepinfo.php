@@ -505,10 +505,6 @@ function disableSerPeriodField() {
                 <tr>
                   <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?php echo $lang_repview_ReportID; ?></td>
-                      <td ><strong><?php echo $this->popArr['newID']?></strong></td>
-      				 </tr>
     				 <tr>
  					  <td><?php echo $lang_repview_ReportName; ?></td>
 						<td ><input type="text"  name="txtRepName" value="<?php echo (isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : '') ?>"  ></td>

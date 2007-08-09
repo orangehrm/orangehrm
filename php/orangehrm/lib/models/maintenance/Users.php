@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class Users {
 	var $tableName = 'hs_hr_users';
@@ -271,6 +272,9 @@ class Users {
 	}
 
 	function addUsers(){
+
+		 $this->userID = UniqueIDGenerator::getInstance()->getNextID($this->tableName, 'id', 'USR');
+
 		 $arrFieldList[0] = "'" . $this->getUserID() . "'";
 		 $arrFieldList[1] = "'" . $this->getUserName() . "'";
 		 $arrFieldList[2] = "'" . $this->getUserPassword() . "'";
@@ -280,7 +284,7 @@ class Users {
 		 $arrFieldList[6] = "'" . $this->getUserCreatedBy() . "'";
 		 $arrFieldList[7] = "'" . $this->getUserStatus() . "'";
 		 $arrFieldList[8] = ($this->getUserGroupID()=='0') ? 'null' :"'". $this->getUserGroupID() . "'";
-/////
+
 	    $arrRecordsList[0] = 'id';
 		$arrRecordsList[1] = 'user_name';
 		$arrRecordsList[2] = 'user_password';
@@ -297,11 +301,10 @@ class Users {
 		$this->sql_builder->arr_insert = $arrFieldList;
 
 		$sqlQString = $this->sql_builder->addNewRecordFeature2();
-		//echo $sqlQString;
+
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-		 echo $message2;
 	}
 
 	function updateUsers() {
@@ -376,34 +379,6 @@ class Users {
 		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-	}
-
-	function getLastRecord(){
-		$arrFieldList[0] = "CAST(REPLACE(`id`, 'USR', '') AS UNSIGNED)";
-
-		$this->sql_builder->table_name = $this->tableName;
-		$this->sql_builder->flg_select = 'true';
-		$this->sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $this->sql_builder->selectOneRecordOnly();
-
-		$message2 = $this->dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"USR");
-
-		}
 	}
 
 	public function updateUserEmail($userId, $email) {

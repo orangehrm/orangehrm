@@ -24,6 +24,7 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
  * Leave Class
@@ -402,7 +403,8 @@ class Leave {
 	 */
 	protected function _addLeave() {
 
-		$this->_getNewLeaveId();
+		$this->leaveId = UniqueIDGenerator::getInstance()->getNextID('hs_hr_leave', 'leave_id');
+
 		$this->_getLeaveTypeName();
 		$this->setDateApplied(date('Y-m-d'));
 
@@ -429,35 +431,6 @@ class Leave {
 
 		$result = $dbConnection -> executeQuery($query);
 		return $result;
-	}
-
-	/**
-	 *
-	 * function _getNewLeaveId, access is private, will not be documented
-	 *
-	 * @access private
-	 *
-	 **/
-
-	private function _getNewLeaveId() {
-
-		$sql_builder = new SQLQBuilder();
-
-		$selectTable = "`hs_hr_leave`";
-		$selectFields[0] = '`leave_id`';
-		$selectOrder = "DESC";
-		$selectLimit = 1;
-		$sortingField = '`leave_id`';
-
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, null, $sortingField, $selectOrder, $selectLimit);
-		//echo $query;
-		$dbConnection = new DMLFunctions();
-
-		$result = $dbConnection -> executeQuery($query);
-
-		$row = mysql_fetch_row($result);
-
-		$this->setLeaveId($row[0]+1);
 	}
 
 	/**

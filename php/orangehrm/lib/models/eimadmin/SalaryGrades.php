@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class SalaryGrades {
 
@@ -323,15 +324,11 @@ class SalaryGrades {
 
 	function addSalaryGrades() {
 
-		$this->getSalGrdId();
+		$tableName = 'HS_PR_SALARY_GRADE';
+
+		$this->salgrdId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'SAL_GRD_CODE', 'SAL');
 		$arrFieldList[0] = "'". $this->getSalGrdId() . "'";
 		$arrFieldList[1] = "'". $this->getSalGrdDesc() . "'";
-
-
-		//$arrFieldList[0] = 'CURRENCY_ID';
-		//$arrFieldList[1] = 'CURRENCY_NAME';
-
-		$tableName = 'HS_PR_SALARY_GRADE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -345,9 +342,7 @@ class SalaryGrades {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
-		 echo $message2;
-
+		return $message2;
 	}
 
 	function updateSalaryGrades() {
@@ -419,42 +414,6 @@ class SalaryGrades {
 		}
 
 	}
-
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_PR_SALARY_GRADE';
-		$arrFieldList[0] = 'SAL_GRD_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"SAL");
-
-		}
-
-	}
-
-
 
 	function getListofNonCashBenefits($pageNO,$schStr,$mode) {
 

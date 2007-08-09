@@ -142,80 +142,6 @@ class DistrictInfo {
 	    	return $line[0];
 	}
 
-	function delDistrictInfo($arrList) {
-
-		$tableName = 'HS_HR_DISTRICT';
-		$arrFieldList[0] = 'DISTRICT_CODE';
-
-		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_delete = 'true';
-		$sql_builder->arr_delete = $arrFieldList;
-
-		$sqlQString = $sql_builder->deleteRecord($arrList);
-
-		//echo $sqlQString;
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-	}
-
-
-	function addDistrictInfo() {
-
-		$this->getDistrictInfoId();
-		$arrFieldList[0] = "'". $this->getDistrictInfoId() . "'";
-		$arrFieldList[1] = "'". $this->getDistrictInfoDesc() . "'";
-		$arrFieldList[2] = "'". $this->getProvinceId() . "'";
-
-		$tableName = 'HS_HR_DISTRICT';
-
-		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrFieldList;
-
-		$sqlQString = $sql_builder->addNewRecordFeature1();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		 return $message2;
-
-	}
-
-	function updateDistrictInfo() {
-
-		$this->getDistrictInfoId();
-		$arrRecordsList[0] = "'". $this->getDistrictInfoId() . "'";
-		$arrRecordsList[1] = "'". $this->getDistrictInfoDesc() . "'";
-		$arrRecordsList[2] = "'". $this->getProvinceId() . "'";
-		$arrFieldList[0] = 'DISTRICT_CODE';
-		$arrFieldList[1] = 'DISTRICT_NAME';
-		$arrFieldList[2] = 'PROVINCE_CODE';
-
-		$tableName = 'HS_HR_DISTRICT';
-
-		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_update = 'true';
-		$sql_builder->arr_update = $arrFieldList;
-		$sql_builder->arr_updateRecList = $arrRecordsList;
-
-		$sqlQString = $sql_builder->addUpdateRecord1();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		return $message2;
-
-
-	}
-
-
 	function filterDistrictInfo($getID) {
 
 		$this->getID = $getID;
@@ -298,39 +224,6 @@ class DistrictInfo {
 			return $arrayDispList;
 
 		}
-	}
-
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_DISTRICT';
-		$arrFieldList[0] = 'DISTRICT_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"DIS");
-
-		}
-
 	}
 
 

@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class JobTitle {
 
@@ -166,13 +167,15 @@ class JobTitle {
 
 	function addJobTitles() {
 
+		$tableName = 'HS_HR_JOB_TITLE';
+
+		$this->jobId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'JOBTIT_CODE', 'JOB');
+
 		$arrFieldList[0] = "'". $this->getJobId() . "'";
 		$arrFieldList[1] = "'". $this->getJobName() . "'";
 		$arrFieldList[2] = "'". $this->getJobDesc() . "'";
 		$arrFieldList[3] = "'". $this->getJobComm() . "'";
 		$arrFieldList[4] = "'". $this->getJobSalGrd() . "'";
-
-		$tableName = 'HS_HR_JOB_TITLE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -313,36 +316,6 @@ class JobTitle {
 
 	}
 
-	function getLastRecord() {
-
-		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_HR_JOB_TITLE';
-		$arrFieldList[0] = 'JOBTIT_CODE';
-
-		$sql_builder->table_name = $tableName;
-		$sql_builder->flg_select = 'true';
-		$sql_builder->arr_select = $arrFieldList;
-
-		$sqlQString = $sql_builder->selectOneRecordOnly();
-
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-
-		$common_func = new CommonFunctions();
-
-		if (isset($message2)) {
-
-			$i=0;
-
-		while ($line = mysql_fetch_array($message2, MYSQL_ASSOC)) {
-			foreach ($line as $col_value) {
-			$this->singleField = $col_value;
-			}
-		}
-
-		return $common_func->explodeString($this->singleField,"JOB");
-		}
-	}
 }
 
 ?>
