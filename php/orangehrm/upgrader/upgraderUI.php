@@ -25,21 +25,19 @@ $cupath = realpath(dirname(__FILE__).'/../');
 
 define('ROOT_PATH', $cupath);
 
-if(isset($_SESSION['CONFDONE'])) {
+if(isset($_SESSION['NOTESDONE'])) {
 	$currScreen = 10;
-} else if(isset($_SESSION['RESTORING'])) {
+} else if(isset($_SESSION['CONFDONE'])) {
 	$currScreen = 9;
-} else if (isset($_SESSION['SYSCHECK'])){
+} else if(isset($_SESSION['RESTORING'])) {
 	$currScreen = 8;
-} else if(isset($_SESSION['DBCONFIG'])) {
+} else if (isset($_SESSION['SYSCHECK'])){
 	$currScreen = 7;
-}else if(isset($_SESSION['DBCONFOPT'])) {
+} else if(isset($_SESSION['DBCONFIG'])) {
 	$currScreen = 6;
 }else if(isset($_SESSION['DOWNLOAD'])) {
-	$currScreen = 6;
-} else if(isset($_SESSION['LOCCONF'])) {
 	$currScreen = 5;
-} else if(isset($_SESSION['LOCCONFOPT'])) {
+} else if(isset($_SESSION['LOCCONF'])) {
 	$currScreen = 4;
 } else if(isset($_SESSION['DISCLAIMER'])) {
 	$currScreen = 3;
@@ -60,25 +58,25 @@ if (isset($_SESSION['reqAccept'])) {
 $steps = array('welcome',
 			   'license',
 			   'disclaimer',
-			   'options',
 			   'OrangeHRM X.X',
-			   'Backup Data',
+			   'Backup',
 			   'database',
 			   'System Check',
 			   'Upload',
 			   'upgrading',
+			   'notes',
 			   'registration');
 
 $helpLink = array("#welcome",
 				  '#license',
 				  '#disclaimer',
-				  '#options',
 				  "#old",
 				  "#backup",
 				  "#DBCreation",
 				  '#syscheck',
 				  "#upload",
 				  '#upgrading',
+				  '#notes',
 				  "#registration");
 
 ?>
@@ -146,13 +144,13 @@ switch ($currScreen) {
 	case 0 	: 	require(ROOT_PATH . '/upgrader/welcome.php'); break;
 	case 1 	: 	require(ROOT_PATH . '/upgrader/license.php'); break;
 	case 2 	: 	require(ROOT_PATH . '/upgrader/disclaimer.php'); break;
-	case 3 	: 	require(ROOT_PATH . '/upgrader/options.php'); break;
-	case 4 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
-	case 5 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
-	case 6 	: 	require(ROOT_PATH . '/upgrader/dbConfig.php'); break;
-	case 7 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
-	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/restoreData.php'); break;
-	case 9 	: 	require(ROOT_PATH . '/upgrader/restore/processing.php'); break;
+	case 3 	: 	require(ROOT_PATH . '/upgrader/backup/getConfLocation.php'); break;
+	case 4 	: 	require(ROOT_PATH . '/upgrader/backup/downloadFile.php'); break;
+	case 5 	: 	require(ROOT_PATH . '/upgrader/dbConfig.php'); break;
+	case 6 	: 	require(ROOT_PATH . '/upgrader/checkSystem.php'); break;
+	case 7 	: 	require(ROOT_PATH . '/upgrader/restore/restoreData.php'); break;
+	case 8 	: 	require(ROOT_PATH . '/upgrader/restore/processing.php'); break;
+	case 9	: 	require(ROOT_PATH . '/upgrader/upgradeNotes.php'); break;
 	case 10	: 	require(ROOT_PATH . '/upgrader/registration.php'); break;
 }
 ?>

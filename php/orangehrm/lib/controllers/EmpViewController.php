@@ -2000,7 +2000,11 @@ class EmpViewController {
 				case 'EMP'  :		$empinfo = new EmpInfo();
 									$empinfo = $object['EmpInfo'];
 									$res = $empinfo -> addEmpMain();
-									$id = $empinfo->getEmpId();
+
+									/* Get padded empID since most classes expect the empId to
+									 * be left padded with zeros.
+									 */
+									$id = $empinfo->getPaddedEmpId();
 
 									if(isset($object['EmpPhoto']) && $res) {
 										$empphoto = new EmpPicture();

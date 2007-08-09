@@ -35,17 +35,26 @@ function connectDB() {
 	return $connect;
 }
 
+function selectDB() {
+	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+		$_SESSION['error'] = 'Unable to connect to Database!';
+		error_log (date("r")." Unable to connect to Database\n",3, "log.txt");
+		return false;
+	}
+	return true;
+}
+
 /**
  * Apply database constraints.
  *
  * @return boolean true if succeeded, false if failed.
  */
 function applyConstraints() {
-	connectDB();
-	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-		$_SESSION['error'] = 'Unable to create Database!';
-		error_log (date("r")." Fill Data Phase $phase - Error - Unable to create Database\n",3, "log.txt");
-		return;
+	if (!connectDB()) {
+		return false;
+	}
+	if (!selectDB()) {
+		return false;
 	}
 
 	require_once ROOT_PATH.'/dbscript/constraints.php';
@@ -91,6 +100,204 @@ function applyConstraints() {
 
 }
 
+/**
+ * Convenience method that adds the given message to the upgrade notes list
+ *
+ * @param string $note The upgrade note to add to the list
+ */
+function _appendUpgradeNote($note) {
+
+	if (isset($_SESSION['UPGRADE_NOTES'])) {
+		$upgradeNotes = $_SESSION['UPGRADE_NOTES'];
+	}
+	$upgradeNotes[] = $note;
+	$_SESSION['UPGRADE_NOTES'] = $upgradeNotes;
+}
+
+/**
+ * Convenience method that returns the count by running the given sql
+ *
+ * Throws an exception on error.
+ * @return int count
+ */
+function _getCount($sql) {
+
+	$result = mysql_query($sql);
+
+	if (!$result) {
+		throw new Exception("Error when running query: {$sql}. MysqlError:" . mysql_error());
+	}
+	$row = mysql_fetch_array($result, MYSQL_NUM);
+	$count = $row[0];
+	return $count;
+}
+
+/**
+ * Fix issue with 2.1 and 2.0 where admin groups didn't have permission for
+ * the leave module by default. The admin groups could view the leave module without permission
+ * due to a bug.
+ */
+function fixLeaveModulePermissions() {
+
+	if (isset($_SESSION['PREV_VERSION'])) {
+		$prevVersion = $_SESSION['PREV_VERSION'];
+
+		/* check if version between 2.0 and 2.1 (inclusive) */
+		if (version_compare($prevVersion, "2.0", ">=") && version_compare($prevVersion, "2.1", "<=")) {
+
+			$leaveModId = "MOD005";
+			error_log (date("r")." Previous version {$prevVersion} is between 2.0 and 2.1.\n",3, "log.txt");
+
+			/* Check if at least one group has permissions to view the leave module */
+			$sql = "SELECT COUNT(*) FROM hs_hr_rights WHERE mod_id = '{$leaveModId}' ";
+			$count = _getCount($sql);
+
+			if ($count == 0) {
+
+				/* Unlikely that no admin group has access to the leave module. Therefore grant access */
+				$addRightsSql = "INSERT IGNORE INTO hs_hr_rights(userg_id, mod_id, addition, editing, deletion, viewing) " .
+							    "SELECT hs_hr_user_group.userg_id, '{$leaveModId}', 1, 1, 1, 1 FROM hs_hr_user_group";
+				$result = mysql_query($addRightsSql);
+				if (!$result) {
+					throw new Exception("Error when running query: {$addRightsSql}. MysqlError:" . mysql_error());
+				}
+
+			}
+			$message = "Access rights to the Leave module may have changed due to changes in the way OrangeHRM handles access rights. " .
+                       "Please use the \"Users->Admin User Groups\" menu item in the Admin module to restrict access to this module as needed.";
+			_appendUpgradeNote($message);
+		}
+	}
+}
+
+/**
+ * Checks whether a module entry is there and inserts a new entry if not.
+ *
+ * @param string $modId Module ID
+ * @param string $name  Module Name
+ * @param string $owner Module owner
+ * @param string $ownerEmail Owner Email
+ * @param string $version Module version
+ * @param string $description Module description.
+ */
+function checkAndInsertModule($modId, $name, $owner, $ownerEmail, $version, $description) {
+
+	// Check if module already there
+	$countSql = "SELECT COUNT(mod_id) FROM hs_hr_module WHERE mod_id = '{$modId}'";
+	$count = _getCount($countSql);
+
+	// If module is missing
+	if ($count == 0) {
+
+		$note = "A new module named {$name} was added. All Admin user groups have been granted access to this module. " .
+                "Please use the \"Users->Admin User Groups\" menu item in the Admin module to restrict access to this module as needed.";
+		_appendUpgradeNote($note);
+
+		// Insert entry into modules table
+		$insertSql = sprintf("INSERT INTO `hs_hr_module`(mod_id, name, owner, owner_email, version, description) " .
+							 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+							 $modId, $name, $owner, $ownerEmail, $version, $description);
+
+		$result = mysql_query($insertSql);
+		if (!$result || mysql_affected_rows() != 1) {
+			throw new Exception("Error when running query: $insertSql. MysqlError:" . mysql_error());
+		}
+
+		// Add rights to admin user groups for the new module
+		$addRightsSql = sprintf("INSERT IGNORE INTO hs_hr_rights(userg_id, mod_id, addition, editing, deletion, viewing) " .
+					"SELECT hs_hr_user_group.userg_id, '%s', 1, 1, 1, 1 FROM hs_hr_user_group", $modId);
+		$result = mysql_query($addRightsSql);
+		if (!$result) {
+			throw new Exception("Error when running query: $addRightsSql. MysqlError:" . mysql_error());
+		}
+	}
+
+}
+
+/**
+ * Migrate old data from temporary tables
+ */
+function migrateOldData() {
+
+	if (isset($_SESSION['OLD_LEAVE_TABLE']) && ($_SESSION['OLD_LEAVE_TABLE'] === true)) {
+
+		// Double check that there are no entries in hs_hr_leave or hs_hr_leave_requests
+		$sql = "SELECT COUNT(*) FROM `hs_hr_leave`";
+		$leaveCount = _getCount($sql);
+
+		$sql = "SELECT COUNT(*) FROM `hs_hr_leave_requests`";
+		$requestCount = _getCount($sql);
+
+		if (($leaveCount == 0) && ($requestCount == 0)) {
+
+			/* We use the leave_id as the leave_request_id */
+			$insertRequestsSql = "insert into hs_hr_leave_requests(leave_request_id, leave_type_id, " .
+					"leave_type_name, date_applied, employee_id) select A.leave_id, A.leave_type_id, " .
+					"A.leave_type_name, A.date_applied, A.employee_id From hs_hr_temp_leave As A;";
+
+			$result = mysql_query($insertRequestsSql);
+			if (!$result) {
+				throw new Exception("Error when running query: $insertRequestsSql. MysqlError:" . mysql_error());
+			}
+
+	 		$insertLeave = "insert into hs_hr_leave(leave_id, leave_date, leave_length, leave_status, " .
+	 				"leave_comments, leave_request_id, leave_type_id, employee_id) select A.leave_id, " .
+	 				"A.leave_date, A.leave_length, A.leave_status, A.leave_comments, A.leave_id, A.leave_type_id, " .
+	 				"A.employee_id From hs_hr_temp_leave As A;";
+
+			$result = mysql_query($insertLeave);
+			if (!$result) {
+				throw new Exception("Error when running query: $insertLeave. MysqlError:" . mysql_error());
+			}
+
+		} else {
+			$errMsg = "Data migration: unexpected entries found in leave tables";
+			error_log (date("r")." {$errMsg}\n",3, "log.txt");
+			throw new Exception($errMsg);
+		}
+	}
+}
+
+/**
+ * Create temporary tables
+ */
+function createTempTables() {
+
+	if (isset($_SESSION['OLD_LEAVE_TABLE']) && ($_SESSION['OLD_LEAVE_TABLE'] === true)) {
+
+		$sql = 'create table `hs_hr_temp_leave` (' .
+			  '`leave_id` int(11) not null, ' .
+			  '`employee_id` varchar(6) not null, ' .
+			  '`leave_type_id` varchar(6) not null, ' .
+			  '`leave_type_name` varchar(20) not null, ' .
+			  '`date_applied` date default null, ' .
+			  '`leave_date` date default null, ' .
+			  '`leave_length` smallint(6) default null, ' .
+			  '`leave_status` smallint(6) default null, ' .
+			  '`leave_comments` varchar(80) default null, ' .
+			  'primary key  (`leave_id`,`employee_id`,`leave_type_id`) ' .
+			  ') engine=innodb default charset=utf8';
+
+
+		$result = mysql_query($sql);
+		if (!$result) {
+			$errMsg = mysql_error();
+			$_SESSION['error'] = $errMsg;
+			error_log (date("r")." Create hs_hr_temp_leave table Failed\nError: {$errMsg}",3, "log.txt");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Drop temporary tables created earlier.
+ */
+function dropTempTables() {
+	mysql_query("DROP TABLE IF EXISTS `hs_hr_temp_leave`");
+}
+
 function alterOldData() {
 	connectDB();
 	$sqlQString = "UPDATE `hs_hr_employee` SET `employee_id` = `emp_number` WHERE `employee_id` IS NULL";
@@ -103,11 +310,32 @@ function alterOldData() {
 		return false;
 	}
 
+	/* Insert any missing modules and assign module rights to new modules inserted */
+	try {
+		checkAndInsertModule("MOD005", "Leave", "Mohanjith", "mohanjith@beyondm.net", "VER001", "Leave Tracking");
+		checkAndInsertModule("MOD006", "Time", "Mohanjith", "mohanjith@orangehrm.com", "VER001", "Time Tracking");
+	} catch (Exception $e) {
+		$errMsg = $e->getMessage();
+		$_SESSION['error'] = $errMsg;
+		error_log (date("r")." Insert module failed with: $errMsg\n",3, "log.txt");
+		return false;
+	}
+
+	try {
+		fixLeaveModulePermissions();
+	} catch (Exception $e) {
+		$errMsg = $e->getMessage();
+		$_SESSION['error'] = $errMsg;
+		error_log (date("r")." Fixing leave module failed with: $errMsg\n",3, "log.txt");
+		return false;
+	}
+
 	/* Initialize the hs_hr_unique_id table */
 	try {
 		UniqueIDGenerator::getInstance()->initTable();
 	} catch (IDGeneratorException $e) {
 		$errMsg = $e->getMessage() . ". Trace = " . $e->getTraceAsString();
+		$_SESSION['error'] = $errMsg;
 		error_log (date("r")." Initializing hs_hr_unique_id table failed with: $errMsg\n",3, "log.txt");
 		return false;
 	}
@@ -190,7 +418,7 @@ class Conf {
 	\$this->dbname	= '$dbName';
 	\$this->dbuser	= '$dbOHRMUser';
 	\$this->dbpass	= '$dbOHRMPassword';
-	\$this->version	= '2.2';
+	\$this->version	= '2.2.1-alpha.1';
 	\$this->upgrade	= true;
 
 	\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
@@ -289,23 +517,45 @@ if (isset($_SESSION['RESTORING'])) {
 
 		case 2	:	error_log (date("r")." Getting the file content  - \n",3, "log.txt");
 					error_log (date("r")." File content ok  - \n",3, "log.txt");
-					$restorex = new Restore();
-					//$connection = mysql_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword']);	 			//
-					//mysql_close();
-					$restorex->setConnection($conn);
-					$restorex->setDatabase($_SESSION['dbInfo']['dbName']);
-					$restorex->setFileSource($_SESSION['FILEDUMP']);
-					error_log (date("r")." Fill Data  - Starting\n",3, "log.txt");
-					$res = $restorex->fillDatabase();
-					if ($res) {
-						$_SESSION['RESTORING'] = 3;
-						error_log (date("r")." Fill Data - Finished \n",3, "log.txt");
 
-					} else {
-						$_SESSION['error'] = mysql_error();
-						error_log (date("r")." Fill Data - Failed \n",3, "log.txt");
-						error_log (date("r")." Fill Data - Error \n ".mysql_error()."\n" ,3, "log.txt");
+					$res = connectDB();
+					if ($res) {
+						$res = selectDB();
 					}
+
+					if ($res) {
+						$res = createTempTables();
+					}
+
+					if ($res) {
+						$restorex = new Restore();
+						//$connection = mysql_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword']);	 			//
+						//mysql_close();
+						$restorex->setConnection($conn);
+						$restorex->setDatabase($_SESSION['dbInfo']['dbName']);
+						$restorex->setFileSource($_SESSION['FILEDUMP']);
+						error_log (date("r")." Fill Data  - Starting\n",3, "log.txt");
+						$res = $restorex->fillDatabase();
+						if ($res) {
+							error_log (date("r")." Fill Data - Finished \n",3, "log.txt");
+
+							/* Migrate old data */
+							try {
+								migrateOldData();
+								$_SESSION['RESTORING'] = 3;
+								error_log (date("r")." Data migration finished\n",3, "log.txt");
+							} catch (Exception $e) {
+								$errMsg = $e->getMessage();
+								$_SESSION['error'] = $errMsg;
+								error_log (date("r")." Data migration failed with: $errMsg\n",3, "log.txt");
+							}
+						} else {
+							$_SESSION['error'] = mysql_error();
+							error_log (date("r")." Fill Data - Failed \n",3, "log.txt");
+							error_log (date("r")." Fill Data - Error \n ".mysql_error()."\n" ,3, "log.txt");
+						}
+					}
+					dropTempTables();
 					break;
 		case 3 	:	if(applyConstraints()) {
 						fillData(2);

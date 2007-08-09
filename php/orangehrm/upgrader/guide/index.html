@@ -39,6 +39,7 @@
 	<li><a href="#overview">Overview</a></li>
 	<li><a href="#upgrade">Upgrade</a>
 	<ol class="content_table_sub">
+		<li><a href="#backupfiles">Backup files</a></li>	
 		<li><a href="#copying">Copying files</a></li>
 		<li><a href="#extracting">Extracting</a></li>
 	</ol>
@@ -48,13 +49,13 @@
 		<li><a href="#welcome">Welcome Screen</a></li>
 		<li><a href="#license">License Acceptance</a></li>
 		<li><a href="#disclaimer">Disclaimer</a></li>
-		<li><a href="#options">Options</a></li>
 		<li><a href="#old">OrangeHRM 1.2/2.0/2.1</a></li>
 		<li><a href="#backup">Backup Data</a></li>
 		<li><a href="#DBCreation">Database Creation</a></li>
 		<li><a href="#syscheck">System Check</a></li>
 		<li><a href="#upload">Upload</a></li>
-		<li><a href="#installing">Installing</a></li>
+		<li><a href="#installing">Upgrading</a></li>
+		<li><a href="#notes">Upgrade Notes</a></li>		
 		<li><a href="#registration">Registration</a></li>
 	</ol>
 	</li>
@@ -96,9 +97,21 @@ preserving your data.</p>
 	If you are using XAMPP remember to enable InnoDB support. 
 	See <a href="#howToEnableInnoDB" class="see">How to enable InnoDB support in MySQL</a>.
 </div>
+<h3 id="backupfiles">Backup files</h3>
+<p>Rename your existing OrangeHRM installation directory to avoid it being overwritten by files 
+from the new version. Your existing OrangeHRM installation would be under the document root of 
+the Apache HTTP Server. See <a href="#copying" class="see">Copying files</a> for information on
+locating the document root.</p>
+
+<div class="notes">
+<p>Example: If your old installation directory was:</p>
+<p class="bash">C:\Program Files\xamp\htdocs\orangehrm2</p>
+<p>you can rename it to:</p><p class="bash">C:\Program Files\xamp\htdocs\orangehrm2_bak</p>
+</div>
+
 <h3 id="copying">Copying files</h3>
-<p>Copy <span class="code">OrangeHRM-ver-2.2</span> and <span class="code">OrangeHRM-ver-2.2</span> 
- upgrader into the document root of the Apache HTTP Server.</p>
+<p>Copy <span class="code">OrangeHRM-ver-2.2.zip</span> into the
+document root of the Apache HTTP Server.</p>
 
 <div class="notes">
 <h4>Notes</h4>
@@ -114,7 +127,8 @@ preserving your data.</p>
 
 <h3 id="extracting">Extracting</h3>
 <p>Extract <span class="code">OrangeHRM-ver-2.2.zip</span> into the
-same folder. (i.e. Extract here)</p>
+same folder. (i.e. Extract here). This will create a new directory named <span class="code">orangehrm2</span>
+under the document root of Apache.</p>
 
 <h3>Web Upgrade</h3>
 <p>Using a JavaScript enabled browser goto <span class="code">http://&lt;webhost&gt;/orangehrm/upgrade.php</span><br />
@@ -189,29 +203,18 @@ to the next page of the Web Upgrader.</p>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
 	border="0" class="top" /></a></div>
 
-<h3 id="options">Options</h3>
-<h4>Upgrade Existing Database</h4>
-<p>Every user is expected to select this in the first attempt to
-upgrade. You will get a backup of the database in next screens if you
-select this option.</p>
-<h4>Create New Database</h4>
-<p>You could select this option if you already have a database
-backup file with you. Here a new database will be created and the
-database will be filled with data in the backup file.</p>
-<p>Click <b>[Next]</b> button in Options Screen to continue.</p>
-
 <h3 id="old">OrangeHRM 1.2/2.0/2.1</h3>
 <p>Enter the relative location of the previous installation of
-OrangeHRM in the textbox. You can only upgrade from version 1.2 or later to
-current version.</p>
+OrangeHRM in the textbox. This should be the directory that you renamed your previous installation
+to in the <a href="#backupfiles" class="see">Backup files</a> section.</p>
+<p>You can only upgrade from version 1.2 or later to the current version.</p>
 <p>Click <b>[Next]</b> button in this Screen to continue.</p>
 
 <div class="notes">
 <h5>Example</h5>
-<p>If you have OrangeHRM 1.2 and OrangeHRM 2.2 stored in the same
-parent directory and OrangeHRM 1.2 is stored in a folder called <span
-	class="code">orangehrm</span> and OrangeHRM 2.2 in a directory called <span
-	class="code">orangehrm2</span> you should enter <span class="code">orangehrm</span>.</p>
+<p>If your previous OrangeHRM version was installed under the same parent directory as OrangeHRM 2.2, and you renamed
+it to <span class="code">orangehrm2_bak</span>in the <a href="#backupfiles" class="see">Backup files</a> section, 
+you should enter <span class="code">orangehrm2_bak</span>.</p>
 </div>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
@@ -236,11 +239,6 @@ button in Backup Data screen to continue.</p>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
 	border="0" class="top" /></a></div>
 
-<p>Click [Skip] below if you are not interested to read about
-screens you will get if you selected Create new database in the <a
-	href="#options" class="see">Options screen</a>.</p>
-<p><a href="#syscheck" class="skip">[Skip]</a></p>
-
 <h3 id="DBCreation">Database Creation</h3>
 
 <p>Enter the relevant information about your MySQL database server
@@ -251,13 +249,12 @@ and database users.<br> Click
 <div class="notes">
 <h4>Notes</h4>
 
-<h5>Priviledged Database Users and OrangeHRM Database Users</h5>
-<p>Database users could be assigned different rights. In which case
-there may be users who can't create databases, users and perform certain
-database operations but allowed to view data in the databse. A
-previleged user is a user with rights to perform all database operations
-is a Privileged User.</p>
-<p>OrangeHRM database user doesn't need to be a privileged user.
+<h5>Privileged Database Users and OrangeHRM Database Users</h5>
+<p>Database users could be assigned different rights. There may be users who can't 
+create databases, users or perform certain database operations but are allowed to 
+view data in the databse. A privileged user is a user with rights to perform all database 
+operations.</p>
+<p>OrangeHRM database user doesn't have to be a privileged user.
 OrangeHRM database user only needs the rights to INSERT, UPDATE, SELECT
 and DELETE.</p>
 <p>Since the database user details are stored in the file in plain
@@ -416,6 +413,11 @@ error and start the upgrade again. See <a href="#installing_error"
 <a href="#"><img src="../images/top.gif" width="15" height="15"
 	border="0" class="top" /></a></div>
 <br />
+
+<h3 id="notes">Upgrade Notes</h3>
+<p>After the upgrade is complete, you will see a screen with important information.</p>
+<p>Please go through it carefully and take note of any actions you need to take.</p>
+<p>Click <b>[Next]</b> button to continue.</p>
 
 <h3 id="registration">Registration</h3>
 <p>If you want be up to date on news about OrangeHRM, please provide

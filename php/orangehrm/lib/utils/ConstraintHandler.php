@@ -303,7 +303,7 @@ class ConstraintHandler {
 
 		/* If no parents all the children have to be deleted */
 		if ($count == 0) {
-			$sql = sprintf("DELETE FROM `{$table}`");
+			$sql = sprintf("DELETE FROM `{$table}` WHERE NOT ({$checkNull})");
 		} else {
 
 			$sql = sprintf("DELETE FROM `{$table}` USING `{$table}`, `{$childTable}` WHERE NOT ({$checkNull}) AND NOT EXISTS(SELECT 1 FROM `{$childTable}` " .

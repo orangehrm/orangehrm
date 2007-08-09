@@ -22,10 +22,10 @@
 -->
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="2.2"/>
+  <property name="version" value="2.2.1-alpha.1"/>
 
   <property name="project.dir" value=".." />
-  <property name="package.name" value="orangehrm2"/>
+  <property name="package.name" value="orangehrm-${version}"/>
   <property name="dist.dir" value="dist"/>
   <property name="package.dir" value="${dist.dir}/${package.name}"/>
   <property name="reports.dir" value="reports"/>
@@ -49,10 +49,16 @@
     <copy todir="${package.dir}">
         <fileset dir="${project.dir}">
             <include name="**"/>
-            <exclude name="build/**"/>
+            <include name="build/fix-ids.php"/>
+            <include name="build/verify-constraints.sh"/>
+            <include name="build/testConf.php"/>
+            <exclude name="build/dist/**"/>
+            <exclude name="build/reports/**"/>
+            <exclude name="build/report-styles/**"/>
+            <exclude name="build/build.xml"/>
             <exclude name="devDocs/**"/>
             <exclude name="devTools/**"/>
-            <exclude name="**/testConf.php"/>
+            <exclude name="lib/**/testConf.php"/>
             <exclude name="lib/confs/Conf.php"/>
             <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
@@ -62,13 +68,17 @@
   </target>
 
   <target name="dist" depends="build">
-    <echo message="Creating archive..." />
-    <zip destfile="${dist.dir}/OrangeHRM-ver-${version}.zip">
+    <echo message="Creating archives ..." />
+
+    <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
+    <property name="base.name" value="${package.name}.${svn.revision}"/>
+
+    <zip destfile="${dist.dir}/${base.name}.zip">
         <fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
         </fileset>
     </zip>
-    <tar destfile="${dist.dir}/OrangeHRM-ver-${version}.tar.gz" compression="gzip">
+    <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
     	<fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
         </fileset>

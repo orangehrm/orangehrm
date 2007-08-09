@@ -18,6 +18,7 @@
  *
  */
 
+require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
 
 // Installing
 function createDB() {
@@ -39,6 +40,30 @@ function connectDB() {
 		return;
 	}
 
+}
+
+/**
+ * Initialize unique ID's
+ */
+function initUniqueIDs() {
+	connectDB();
+
+	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+		$_SESSION['error'] = 'Unable to connect to Database!';
+		error_log (date("r")." Initializing unique id's. Error - Unable to connect to Database\n",3, "installer/log.txt");
+		return false;
+	}
+
+	/* Initialize the hs_hr_unique_id table */
+	try {
+		UniqueIDGenerator::getInstance()->initTable();
+	} catch (IDGeneratorException $e) {
+		$errMsg = $e->getMessage() . ". Trace = " . $e->getTraceAsString();
+		$_SESSION['error'] = $errMsg;
+		error_log (date("r")." Initializing hs_hr_unique_id table failed with: $errMsg\n",3, "log.txt");
+		return false;
+	}
+	return true;
 }
 
 function fillData($phase=1, $source='/dbscript/dbscript-') {
@@ -201,7 +226,7 @@ class Conf {
 		\$this->dbname	= '$dbName';
 		\$this->dbuser	= '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '2.2';
+		\$this->version = '2.2.1-alpha.1';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -273,8 +298,11 @@ function writeLog() {
 					fillData(2);
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
-						$_SESSION['INSTALLING'] = 3;
-						error_log (date("r")." Fill Data Phase 2 - No Errors\n",3, "installer/log.txt");
+						$res = initUniqueIDs();
+						if ($res) {
+							$_SESSION['INSTALLING'] = 3;
+							error_log (date("r")." Fill Data Phase 2 - No Errors\n",3, "installer/log.txt");
+						}
 					} else {
 						error_log (date("r")." Fill Data Phase 2 - Errors\n",3, "installer/log.txt");
 						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");

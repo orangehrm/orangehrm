@@ -103,7 +103,7 @@ class EXTRACTOR_EmpInfo {
 					if(!get_magic_quotes_gpc())
 						$fileName=addslashes($fileName);
 
-				$photo->setEmpId($postArr['txtEmpID']);
+				$photo->setEmpId($postArr['txtEmployeeId']);
 				$photo->setEmpPicture($contents);
 				$photo->setEmpFilename($fileName);
 				$photo->setEmpPicType($fileType);

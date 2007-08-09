@@ -21,7 +21,7 @@
 
 function needToUpgrade() {
 
-	$currentVersion = '2.2';
+	$currentVersion = '2.2.1-alpha.1';
 
 	if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['RESTORING'])) {
 
@@ -31,6 +31,12 @@ function needToUpgrade() {
 
 		$installedVersion = $confObj->version;
 
+		/* Need to handle 2.2_01 specially due to numbering change from then on.
+                 * Next version was: 2.2.0.2
+                 */
+		if ($installedVersion == "2.2_01") {
+			$installedVersion = "2.2.0.1";
+		}
 		if ((version_compare($installedVersion, $currentVersion) >= 0) && isset($confObj->upgrade) && ($confObj->upgrade)) {
 			quit();
 		}
@@ -39,7 +45,32 @@ function needToUpgrade() {
 }
 
 function parseOldData($str) {
-	return preg_replace("/EMP([0-9]{3})/", "$1", $str);
+
+	// Replace old employee ID's
+	$newStr = preg_replace("/EMP([0-9]{3})/", "$1", $str);
+
+	// Check for old format leave table (version 2.0.x)
+	$_SESSION['OLD_LEAVE_TABLE'] = false;
+
+	// Look for hs_hr_leave_requests table. It's only found in 2.1 upwards
+	$pos1 = stripos($newStr, "`hs_hr_leave_requests`");
+
+	if ($pos1 === false) {
+
+		// Look for hs_hr_leave table.
+		$pos2 = stripos($newStr, "`hs_hr_leave`");
+
+		// If we have hs_hr_leave but no hs_hr_leave_requests, we have a 2.0.x database.
+		if ($pos2 !== false) {
+
+			$_SESSION['OLD_LEAVE_TABLE'] = true;
+
+			// change hs_hr_leave to a temporary table.
+			$newStr = str_ireplace("`hs_hr_leave`", "`hs_hr_temp_leave`", $newStr);
+		}
+	}
+
+	return $newStr;
 }
 
 function quit() {
@@ -92,18 +123,18 @@ function back($currScreen) {
 		case 0 	: 	unset($_SESSION['WELCOME']); break;
 		case 1 	: 	unset($_SESSION['LICENSE']); break;
 		case 2 	: 	unset($_SESSION['DISCLAIMER']); break;
-		case 3 	: 	unset($_SESSION['LOCCONFOPT']);	break;
-		case 4 	: 	unset($_SESSION['LOCCONF']); break;
-		case 5 	: 	unset($_SESSION['DOWNLOAD']); unset($_SESSION['DBCONFOPT']); break;
-		case 6 	: 	unset($_SESSION['DBCONFIG']); break;
-		case 7 	: 	unset($_SESSION['SYSCHECK']); break;
-		case 8 	: 	unset($_SESSION['RESTORE']); break;
-		case 9 	: 	unset($_SESSION['RESTORING']);
+		case 3 	: 	unset($_SESSION['LOCCONF']); break;
+		case 4 	: 	unset($_SESSION['DOWNLOAD']); break;
+		case 5 	: 	unset($_SESSION['DBCONFIG']); break;
+		case 6 	: 	unset($_SESSION['SYSCHECK']); break;
+		case 7 	: 	unset($_SESSION['RESTORE']); break;
+		case 8 	: 	unset($_SESSION['RESTORING']);
 					if(isset($_SESSION['DATABASE_BACKUP'])) {
 				 		include(ROOT_PATH.'/upgrader/restore/restoreBackup.php');
 					}
 					break;
 
+		case 9  	: 	return false; break;
 		case 10 	: 	return false; break;
  	}
 
@@ -128,6 +159,11 @@ function fetchDbInfo($location) {
 						);
 
 		$_SESSION['dbInfo'] = $dbInfo;
+
+		/* Conf->version only available from 2.0 */
+		if (isset($confObj->version)) {
+			$_SESSION['PREV_VERSION'] = ($confObj->version);
+		}
 
 		if(@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbOHRMUserName'], $dbInfo['dbOHRMPassword'])) {
 
@@ -215,8 +251,6 @@ if(isset($_POST['actionResponse'])) {
 							  }
 							  //echo '1'.$error;
 							  break;
-		case 'DBCONF'		: $_SESSION['DBCONFOPT'] = 'OK'; break;
-		case 'LOCCONF'		: $_SESSION['LOCCONFOPT'] = 'OK'; break;
 		case 'DBINFO'		: extractDbInfo();
 							  if (isset($_SESSION['error'])) {
 							  	break;
@@ -244,9 +278,17 @@ if(isset($_POST['actionResponse'])) {
 								exit(0);
 								break;
 
-		case 'REGISTER'  :	$_SESSION['CONFDONE'] = 'OK';
+		case 'REGISTER'  :	if (isset($_SESSION['UPGRADE_NOTES'])) {
+								$_SESSION['CONFDONE'] = 'OK';
+							} else {
+
+								//
+								$_SESSION['NOTESDONE'] = 'OK';
+							}
 							break;
 
+		case 'NOTESOK'   :  $_SESSION['NOTESDONE'] = 'OK';
+							break;
 
 		case 'REGINFO' 	:	$reqAccept = sockComm($_POST);
 							break;

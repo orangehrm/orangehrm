@@ -231,6 +231,10 @@ class EmpInfo {
 
 	}
 
+	function getPaddedEmpId() {
+		return str_pad($this->empId, $this->employeeIdLength, "0", STR_PAD_LEFT);
+	}
+
 	function getEmployeeId() {
 	return $this->employeeId;
 	}

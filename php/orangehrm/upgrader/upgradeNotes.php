@@ -18,38 +18,34 @@
  *
  */
 ?>
+
 <script language="JavaScript">
-function optionSubmit() {
-	obj = document.getElementById('option1');
-
-	if (!(obj && obj.checked)) {
-		obj = document.getElementById('option2');
-	}
-
-	if (obj) {
-		document.frmInstall.actionResponse.value  = obj.value;
-		document.frmInstall.submit();
-	} else {
-		alert('Please select one of the options before proceeding');
-	}
+function nextPage() {
+	document.frmInstall.actionResponse.value  = 'NOTESOK';
+	document.frmInstall.submit();
 }
 </script>
+<link href="style.css" rel="stylesheet" type="text/css" />
+
+
 <div id="content">
-	<h2>Options </h2>
 
-
-	<p>Select one of the options and click <b>[Next]</b> to continue.</p>
+	<h2>Upgrade Notes</h2>
 	<p>
-		<label>
-		  	<input name="option" id="option1" type="radio" value="LOCCONF" checked="checked" tabindex="1"/>
-		 	Upgrade Exsisting Database
-		 </label>
-		 <br/>
-		 <label>
-		  	<input name="option" id="option2" type="radio" value="DBCONF" tabindex="2"/>
-		  	Create New Database
-		  </label>
+	Please read the notes below and click <b>[Next]</b> to continue.
 	</p>
-	<input class="button" type="button" value="Back" onclick="back();" tabindex="4">
-	<input type="button" name="next" value="Next" onclick="optionSubmit();" id="next" tabindex="3">
+<?php
+	if (isset($_SESSION['UPGRADE_NOTES'])) {
+		$upgradeNotes = $_SESSION['UPGRADE_NOTES'];
+		foreach	($upgradeNotes as $note) {
+?>
+	<p><?php echo $note;?></p>
+<?php
+		}
+	}
+
+?>
+
+	<br />
+	<input class="button" type="button" value="Next" onclick="nextPage();" tabindex="2">
 </div>
