@@ -20,10 +20,12 @@
 
 require_once ROOT_PATH . '/lib/models/time/Timesheet.php';
 require_once ROOT_PATH . '/lib/models/time/TimeEvent.php';
+require_once ROOT_PATH . '/lib/models/time/ProjectReport.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
@@ -825,6 +827,121 @@ class TimeController {
 		$dataArr[0] = $role;
 		$dataArr[1] = $employees;
 		$dataArr[2] = $projects;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	/**
+	 * View project report
+	 */
+	public function viewProjectReport($startDate, $endDate) {
+
+		$path="/templates/time/projectReport.php";
+
+		$timeEventObj = $this->objTime;
+		$projectId = $timeEventObj->getProjectId();
+
+		if ((!$this->authorizeObj->isAdmin()) && (!$this->authorizeObj->isProjectAdminOf($projectId))) {
+			$this->redirect('UNAUTHORIZED_FAILURE');
+		}
+
+		$projectObj = new Projects();
+		$project = $projectObj->fetchProject($projectId);
+
+		if (empty($project)) {
+			$this->redirect('PROJECT_NOT_FOUND_FAILURE', '?timecode=Time&action=Project_Report_Define');
+		}
+
+		$report = new ProjectReport();
+		$activityTimeArray = $report->getProjectActivityTime($projectId, $startDate, $endDate);
+
+		$dataArr[0] = $project;
+		$dataArr[1] = $startDate;
+		$dataArr[2] = $endDate;
+		$dataArr[3] = $activityTimeArray;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	/**
+	 * View activity report
+	 */
+	public function viewActivityReport($startDate, $endDate, $pageNo) {
+
+		$path="/templates/time/activityReport.php";
+
+		$timeEventObj = $this->objTime;
+		$projectId = $timeEventObj->getProjectId();
+		$activityId = $timeEventObj->getActivityId();
+		$time = $timeEventObj->getDuration();
+
+		$returnUrl = '?timecode=Time&action=Project_Report_Define';
+
+		if ((!$this->authorizeObj->isAdmin()) && (!$this->authorizeObj->isProjectAdminOf($projectId))) {
+			$this->redirect('UNAUTHORIZED_FAILURE', $returnUrl);
+		}
+
+		$projectObj = new Projects();
+		$project = $projectObj->fetchProject($projectId);
+		if (empty($project)) {
+			$this->redirect('PROJECT_NOT_FOUND_FAILURE', $returnUrl);
+		}
+
+		$activity = ProjectActivity::getActivity($activityId);
+		if (empty($activity)) {
+			$this->redirect('ACTIVITY_NOT_FOUND_FAILURE', $returnUrl);
+		}
+
+		if ($projectId != $activity->getProjectId()) {
+			$this->redirect('UNAUTHORIZED_FAILURE', $returnUrl);
+		}
+
+		$report = new ProjectReport();
+		$count = $report->countEmployeesInActivity($projectId, $activityId, $startDate, $endDate);
+		$empTimeArray = $report->getEmployeeActivityTime($projectId, $activityId, $startDate, $endDate, $pageNo);
+
+		$dataArr[0] = $project;
+		$dataArr[1] = $activity;
+		$dataArr[2] = $startDate;
+		$dataArr[3] = $endDate;
+		$dataArr[4] = $empTimeArray;
+		$dataArr[5] = $count;
+		$dataArr[6] = $time;
+		$dataArr[7] = $pageNo;
+
+		$template = new TemplateMerger($dataArr, $path);
+		$template->display();
+	}
+
+	/**
+	 * View the define page for detailed project reports in time module
+	 */
+	public function viewDefineProjectReport() {
+
+		$path="/templates/time/defineProjectReport.php";
+
+		/* If a HR admin, show all projects. Otherwise only show projects for which
+		 * user is an admin
+		 */
+		if ($this->authorizeObj->isAdmin()) {
+
+			$projects = new Projects();
+
+			/* Filter only not deleted projects */
+			$projects->setDeleted(Projects::PROJECT_NOT_DELETED);
+			$projectList = $projects->fetchProjects();
+		} else if ($this->authorizeObj->isProjectAdmin()) {
+
+			$gw = new ProjectAdminGateway();
+			$projectList = $gw->getProjectsForAdmin($_SESSION['empID']);
+		} else {
+			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
+
+
+		$dataArr[0] = $projectList;
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

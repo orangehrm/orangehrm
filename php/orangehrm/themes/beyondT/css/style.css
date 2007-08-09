@@ -704,6 +704,8 @@ table.simpleList th {
         padding: 3px 3px 3px 5px;
         border-style: solid;
         border-color: gray;
+        color: black;
+        font-weight: bold;
 }
 table.simpleList td {
         border-width: 0px;

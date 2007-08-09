@@ -582,6 +582,10 @@ function setSize() {
 	            	?>
 	            	<li id="timesheets"><a href="lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define" target="rightMenu"><?php echo $lang_Menu_Time_EmployeeReports; ?></a></li>
   					<?php } ?>
+                    <?php if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) { ?>
+	            	<li id="projectInfo"><a href="lib/controllers/CentralController.php?timecode=Time&action=Project_Report_Define" target="rightMenu">
+	            		<?php echo $lang_Menu_Time_ProjectReports; ?></a></li>
+	            	<?php }?>
   				</ul>
 			</TD>
 

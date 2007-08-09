@@ -1464,6 +1464,20 @@ switch ($moduletype) {
 																					$timeController->viewEmployeeTimeReport($_POST['txtFromDate'],
 																															$_POST['txtToDate']);
 																					break;
+													case 'Project_Report_Define':	$timeController->viewDefineProjectReport();
+																					break;
+													case 'Project_Report'       :   $obj = $timeEventExtractor->parseProjectReportParams($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->viewProjectReport($_POST['txtFromDate'],
+																															$_POST['txtToDate']);
+																					break;
+													case 'Activity_Report'       :  $obj = $timeEventExtractor->parseActivityReportParams($_POST);
+																					$timeController->setObjTime($obj);
+																					$pageNo = isset($_POST['pageNo']) ? $_POST['pageNo']:1;
+																					$timeController->viewActivityReport($_POST['txtFromDate'],
+																															$_POST['txtToDate'],
+																															$pageNo);
+																					break;
 													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
 																					break;
 													case 'Timesheet_Print_Preview' :$filterValues = array($_POST['cmbUserEmpID'],

@@ -21,7 +21,7 @@
 /**
  * Class containing details of time spent on an activity by an employee
  */
- class EmployeeActivitytTime {
+ class EmployeeActivityTime {
 
 	/**
 	 * Class Attributes
@@ -55,7 +55,7 @@
 		$this->lastName = $lastName;
 	}
 
-	public function getlastName() {
+	public function getLastName() {
 		return $this->lastName;
 	}
 

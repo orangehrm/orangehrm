@@ -1068,4 +1068,19 @@
 	$lang_Time_EmploymentStatus = $lang_empview_EmploymentStatus;
 
 	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
+
+	$lang_Menu_Time_ProjectReports = "Project Reports";
+	$lang_Time_ProjectReportTitle = "Project Reports";
+	$lang_Time_Report_To = "To";
+	$lang_Time_Report_From = "From";
+	$lang_Time_TimeInHours = "Time (hours)";
+	$lang_Time_ActivityReportTitle = "Activity Details";
+	$lang_Time_Activity_Report_EmployeeName = "Employee Name";
+	$lang_Time_Activity_Report_View = "View";
+	$lang_Time_Activity_Report_TotalTime = "Total Time";
+	$lang_Time_Activity_Report_NoEvents = "No events found.";
+
+	$lang_Time_Errors_PROJECT_NOT_FOUND_FAILURE = "Project not found.";
+	$lang_Time_Errors_ACTIVITY_NOT_FOUND_FAILURE = "Activity not found.";
+
 ?>

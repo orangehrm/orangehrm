@@ -169,5 +169,23 @@ class EXTRACTOR_TimeEvent {
 
 		return $tmpObj;
 	}
+
+	public function parseProjectReportParams($postArr) {
+		$tmpObj = new TimeEvent();
+		$tmpObj->setProjectId($postArr['cmbProject']);
+
+		return $tmpObj;
+	}
+
+	public function parseActivityReportParams($postArr) {
+		$tmpObj = new TimeEvent();
+
+		$tmpObj->setProjectId($postArr['cmbProject']);
+		$tmpObj->setActivityId($postArr['activityId']);
+		$tmpObj->setDuration($postArr['time']);
+
+		return $tmpObj;
+	}
+
 }
 ?>
