@@ -148,23 +148,17 @@ function fixLeaveModulePermissions() {
 			$leaveModId = "MOD005";
 			error_log (date("r")." Previous version {$prevVersion} is between 2.0 and 2.1.\n",3, "log.txt");
 
-			/* Check if at least one group has permissions to view the leave module */
-			$sql = "SELECT COUNT(*) FROM hs_hr_rights WHERE mod_id = '{$leaveModId}' ";
-			$count = _getCount($sql);
-
-			if ($count == 0) {
-
-				/* Unlikely that no admin group has access to the leave module. Therefore grant access */
-				$addRightsSql = "INSERT IGNORE INTO hs_hr_rights(userg_id, mod_id, addition, editing, deletion, viewing) " .
-							    "SELECT hs_hr_user_group.userg_id, '{$leaveModId}', 1, 1, 1, 1 FROM hs_hr_user_group";
-				$result = mysql_query($addRightsSql);
-				if (!$result) {
-					throw new Exception("Error when running query: {$addRightsSql}. MysqlError:" . mysql_error());
-				}
-
+			/* Grant access to all admin groups to the leave module. */
+			$addRightsSql = "INSERT IGNORE INTO hs_hr_rights(userg_id, mod_id, addition, editing, deletion, viewing) " .
+						    "SELECT hs_hr_user_group.userg_id, '{$leaveModId}', 1, 1, 1, 1 FROM hs_hr_user_group";
+			$result = mysql_query($addRightsSql);
+			if (!$result) {
+				throw new Exception("Error when running query: {$addRightsSql}. MysqlError:" . mysql_error());
 			}
-			$message = "Access rights to the Leave module may have changed due to changes in the way OrangeHRM handles access rights. " .
-                       "Please use the \"Users->Admin User Groups\" menu item in the Admin module to restrict access to this module as needed.";
+
+			$message = "Due to changes in the way OrangeHRM handles access rights, all admin user groups have " .
+					   "been granted full access to the Leave Module. Please use the \"Users->Admin User Groups\" " .
+					   "menu item in the Admin module to restrict access to this module as needed.";
 			_appendUpgradeNote($message);
 		}
 	}
