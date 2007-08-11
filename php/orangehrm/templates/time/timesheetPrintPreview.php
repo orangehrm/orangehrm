@@ -183,7 +183,7 @@ function hideLoading(page) {
 
 function printTimeSheets() {
 	allLoaded=true;
-	for (i=1; pages>i; i++) {
+	for (i=0; pages>i; i++) {
 		if (!loadedPages[i]) {
 			allLoaded=false;
 		}
@@ -197,7 +197,7 @@ function printTimeSheets() {
 
 function popAndPrint() {
 	popup.document.body.innerHTML=$('printPanel').innerHTML;
-	for (i=1; pages>i; i++) {
+	for (i=0; pages>i; i++) {
 		popup.document.getElementById("page"+(i+1)).style.display="block";
 	}
 }
@@ -210,7 +210,7 @@ function init() {
 	}
 	loadPage(1, false);
 	for (i=1; pages>i; i++) {
-		loadPage(2, true);
+		loadPage(i+1, true);
 	}
 }
 

@@ -30,7 +30,7 @@
 ; Product Details
 
   !define ProductName "OrangeHRM"
-  !define ProductVersion "2.2"
+  !define ProductVersion "2.2.0.2"
 
   !define Organization "OrangeHRM Inc."
 
@@ -43,7 +43,7 @@
 ; Directory structure
 
   !define SourceLocation "../SOURCE"
-  !define OrangeHRMPath "orangehrm2"
+  !define OrangeHRMPath "orangehrm-${ProductVersion}"
   !define XamppPath "xampp"
 
 ;--------------------------------
