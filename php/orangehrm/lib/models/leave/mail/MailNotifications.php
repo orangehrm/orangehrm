@@ -267,7 +267,7 @@ class MailNotifications {
 				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
-				} else {
+				} else if ($leaveLength != 0) {
 					$halfdays++;
 				}
 				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
@@ -330,7 +330,7 @@ class MailNotifications {
 				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
-				} else {
+				} else if ($leaveLength != 0) {
 					$halfdays++;
 				}
 				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
@@ -394,7 +394,7 @@ class MailNotifications {
 					$leaveLength = $leaveObj->getLeaveLength();
 					if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 						$fulldays++;
-					} else {
+					} else if ($leaveLength != 0) {
 						$halfdays++;
 					}
 					$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
@@ -458,7 +458,7 @@ class MailNotifications {
 				$leaveLength = $leaveObj->getLeaveLength();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
-				} else {
+				} else if ($leaveLength != 0) {
 					$halfdays++;
 				}
 				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
