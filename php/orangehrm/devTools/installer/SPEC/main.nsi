@@ -49,7 +49,7 @@
 ;--------------------------------
 ; Output
 
-  OutFile "../../OrangeHRM-2.2.exe"
+  OutFile "../../orangehrm-${ProductVersion}.exe"
 
 ;--------------------------------
 ; Includes

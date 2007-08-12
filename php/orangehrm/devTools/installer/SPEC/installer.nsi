@@ -217,40 +217,16 @@ Section "-Install Services"
       DetailPrint "Setting up XAMPP"
       nsExec::ExecToLog '"$INSTDIR\setup_xampp.bat" -path "$INSTDIR"'
 
-      SetOutPath "$INSTDIR\apache"
-      ; Register the web server as a service
-      DetailPrint "Installing Apache web server as a service"
-      CopyFiles "$INSTDIR\php\php.ini" "$INSTDIR\apache\bin"
-      nsExec::ExecToLog '"$INSTDIR\apache\apache_installservice.bat" -path "$INSTDIR\apache"'
-
       SetOutPath "$INSTDIR\mysql"
       ; Register the db server as a service
       DetailPrint "Installing MySQL database server as a service"
       nsExec::ExecToLog '"$INSTDIR\mysql\mysql_installservice.bat" -path "$INSTDIR\mysql"'
 
-SectionEnd
-
-
-Section "-Complete"
-
-      SetOutPath "$INSTDIR\htdocs\orangehrm2"
-
-      DetailPrint "Creating OrangeHRM database"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -e "CREATE DATABASE hr_mysql;"'
-
-      DetailPrint "Creating OrangeHRM tables"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm2\dbscript\dbscript-1.sql"'
-
-      DetailPrint "Filling required data"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm2\dbscript\dbscript-2.sql"'
-
-      !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql" "?UserName" "$UserName"
-      !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql" "?PasswordHash" "$PasswordHash"
-
-      DetailPrint "Creating the admin user"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql"'
-
-      Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm2\dbscript\dbscript-user.sql"
+      SetOutPath "$INSTDIR\apache"
+      ; Register the web server as a service
+      DetailPrint "Installing Apache web server as a service"
+      CopyFiles "$INSTDIR\php\php.ini" "$INSTDIR\apache\bin"
+      nsExec::ExecToLog '"$INSTDIR\apache\apache_installservice.bat" -path "$INSTDIR\apache"'
 
 SectionEnd
 
@@ -271,6 +247,29 @@ SectionGroup /e "Extras" SecGrpExtraComponents
     SectionEnd
 
 SectionGroupEnd
+
+Section "-Complete"
+
+      SetOutPath "$INSTDIR\htdocs\orangehrm-${ProductVersion}"
+
+      DetailPrint "Creating OrangeHRM database"
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -e "CREATE DATABASE hr_mysql;"'
+
+      DetailPrint "Creating OrangeHRM tables"
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-1.sql"'
+
+      DetailPrint "Filling required data"
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-2.sql"'
+
+      !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?UserName" "$UserName"
+      !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?PasswordHash" "$PasswordHash"
+
+      DetailPrint "Creating the admin user"
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"'
+
+      Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"
+
+SectionEnd
 
 SectionGroup /e "XAMPP Components" SecGrpXamppComponents
 
