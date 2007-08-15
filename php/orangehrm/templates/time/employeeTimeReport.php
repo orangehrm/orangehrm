@@ -67,7 +67,7 @@ function goBack() {
 				foreach ($report as $projectId=>$projectTimeCost) {
 					foreach ($projectTimeCost as $activityId=>$activityTimeCost) {
 						$projectDet = $projectObj->fetchProject($projectId);
-						$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+						$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
 						$projectActivity = $projectActivityObj->getActivity($activityId);
 
 						$totalTime+=$activityTimeCost;

@@ -23,7 +23,7 @@ $startDate = $records[1];
 $endDate = $records[2];
 $activityTimeArray = $records[3];
 $customerObj = new Customer();
-$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
 ?>
 <html>

@@ -372,7 +372,7 @@ function goBack() {
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
 							$selected="";
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 							if ($projectId == $project->getProjectId()) {
 								$selected="selected";
 							}
@@ -420,7 +420,7 @@ function goBack() {
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 				?>
 						<option value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
 				<?php 	}

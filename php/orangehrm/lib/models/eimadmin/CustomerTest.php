@@ -200,6 +200,19 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($res->getCustomerId(),'1005','Id Not Found');
 	    $this->assertEquals($res->getCustomerName(),'zanfer5','Name Not Found');
 	    $this->assertEquals($res->getCustomerDescription(),'forrw','Description Not Found');
+
+	    // Fetch deleted customer
+	    $this->assertTrue(mysql_query("UPDATE `hs_hr_customer` SET deleted=1 WHERE customer_id=1005"));
+
+        $this->assertNull($this->classCustomer->fetchCustomer("1005"), "Deleted customer fetched");
+
+		// Try with fetchDeleted=true
+        $res = $this->classCustomer->fetchCustomer("1005", true);
+		$this->assertNotNull($res, "No record found");
+		$this->assertEquals($res->getCustomerId(),'1005','Id Not Found');
+	    $this->assertEquals($res->getCustomerName(),'zanfer5','Name Not Found');
+	    $this->assertEquals($res->getCustomerDescription(),'forrw','Description Not Found');
+
 	}
 
 }

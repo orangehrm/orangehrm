@@ -71,7 +71,7 @@ if (is_array($records[0])) {
 
 			foreach ($timeExpenses as $project=>$timeExpense) {
 				$projectDet = $projectObj->fetchProject($project);
-				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId());
+				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
 				$projectActivities = $projectActivityObj->getActivityList($project);
 			?>
 			<tr>

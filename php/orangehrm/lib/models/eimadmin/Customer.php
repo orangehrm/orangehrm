@@ -251,7 +251,7 @@ class Customer {
 	/**
 	 *
 	 */
-	public function fetchCustomer($cusId) {
+	public function fetchCustomer($cusId, $includeDeleted = false) {
 
 		$selectTable = "`".self::TABLE_NAME."`";
 
@@ -260,7 +260,10 @@ class Customer {
 		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
 
 		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_ID."` = $cusId";
-		$arrSelectConditions[1] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
+
+		if (!$includeDeleted) {
+			$arrSelectConditions[1] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
+		}
 
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, null, null, 1);

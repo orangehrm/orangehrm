@@ -82,7 +82,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 				$projectId = $pendingTimeEvent->getProjectId();
 
 				$projectDet = $projectObj->fetchProject($projectId);
-				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
 
 				$projectActivities = $projectActivityObj->getActivity($pendingTimeEvent->getActivityId());
 			?>

@@ -234,7 +234,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">- <?php echo $lang_Leave_Common_Select;?> -</option>
 				<?php	foreach ($projects as $project) {
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
 							$selected = "";
 							if (isset($projectId) && ($projectId == $project->getProjectId())) {

@@ -28,7 +28,7 @@ $totalTime = $records[6];
 $pageNo = $records[7];
 
 $customerObj = new Customer();
-$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
 ?>
 <html>

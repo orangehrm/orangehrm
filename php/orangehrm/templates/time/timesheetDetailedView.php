@@ -118,7 +118,7 @@ function actionEdit() {
 
 				$projectDet = $projectObj->fetchProject($projectId);
 				$projectActivity = $projectActivityObj->getActivity($timeExpense->getActivityId());
-				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId());
+				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
 			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>

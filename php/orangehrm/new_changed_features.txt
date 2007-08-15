@@ -29,6 +29,9 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	1766276	  Newly added supervisor not seen
 	1769115   Leave Module not listed after upgrading to 2.2.0.2
 	1772954   Timesheet Punc IN/OUT Undefined variable
+	1756630   When customer deleted, related timesheets not shown
+	1773026   Submit Time Event: Loading Please wait
+	1772964   Time Module: Punch IN/OUT Timesheet fatal error
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
 

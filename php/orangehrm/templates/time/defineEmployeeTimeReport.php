@@ -190,7 +190,7 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 				<?php if (is_array($projects)) { ?>
 						<option value="-1"><?php echo $lang_Time_Common_All;?></option>
 				<?php	foreach ($projects as $project) {
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
 							$selected = "";
 							if (isset($projectId) && ($projectId == $project->getProjectId())) {

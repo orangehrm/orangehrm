@@ -119,7 +119,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
                           $customerObj = new Customer();
 
                           foreach ($projects as $project) {
-                              $customerDet = $customerObj->fetchCustomer($project->getCustomerId());
+                              $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 
                               $selected = "";
                               if (isset($projectId) && ($projectId == $project->getProjectId())) {
