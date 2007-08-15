@@ -226,6 +226,7 @@ class TimeController {
 
 		$customers = $customerObj->fetchCustomers();
 
+		$projectObj->setDeleted(Projects::PROJECT_NOT_DELETED);
 		$projects = $projectObj->fetchProjects();
 
 		$dataArr[0] = $projects;

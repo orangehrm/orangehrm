@@ -159,16 +159,13 @@ class Customer {
 	}
 
 	public function deleteCustomer() {
+		$sql = sprintf("UPDATE hs_hr_customer c LEFT JOIN hs_hr_project p ON (c.customer_id = p.customer_id) " .
+				"SET c.deleted = 1, p.deleted = 1 " .
+				"WHERE c.customer_id = %s", $this->getCustomerId());
 
-		$arrRecordsList[0] = "'". $this->getCustomerId() ."'";
-		$arrRecordsList[1] = "'". self::CUSTOMER_DELETED ."'";
-
-		$tableName = self::TABLE_NAME;
-
-		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
-		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_DELETED ;
-
-		return $this->updateRecord($tableName,$arrFieldList,$arrRecordsList);
+		$dbConnection = new DMLFunctions();
+		$message = $dbConnection->executeQuery($sql);
+		return $message;
 	}
 
 

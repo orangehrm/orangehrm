@@ -125,12 +125,49 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteCustomer() {
 
+		// Delete customer without any project
        	$res  = $this->classCustomer->fetchCustomer("1007");
         $this->assertNotNull($res, "record Not found");
 
     	$res->deleteCustomer();
     	$res  = $this->classCustomer->fetchCustomer("1007");
     	$this->assertNull($res, "record found");
+
+    	// Add 2 projects to customer 1001
+    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    			" VALUES(1, 1001, 'Test Project1', 'description', 0)"), mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    			" VALUES(2, 1001, 'Test Project2', 'description', 0)"), mysql_error());
+
+		// Add 2 projects to customer 1002
+    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    			" VALUES(3, 1002, 'Test Project3', 'description', 0)"), mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted)" .
+    			" VALUES(4, 1002, 'Test Project4', 'description', 0)"), mysql_error());
+
+		// Delete customer and verify that customer was deleted.
+       	$res  = $this->classCustomer->fetchCustomer("1001");
+        $this->assertNotNull($res, "record Not found");
+
+    	$res->deleteCustomer();
+    	$res  = $this->classCustomer->fetchCustomer("1001");
+    	$this->assertNull($res, "record found");
+
+    	// Verify that projects belonging to customer was deleted.
+		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1001 AND deleted=0");
+		$this->assertEquals(0, $count, "Projects not deleted when customer deleted.");
+
+		// Verify that deleted was set to 1
+		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1001 AND deleted=1");
+		$this->assertEquals(2, $count, "deleted value not correct for projects belonging to deleted customer.");
+
+		// Verify that customer 1002 was not deleted.
+       	$this->assertNotNull($this->classCustomer->fetchCustomer("1002"), "Customer 1002 was deleted as well!");
+
+		// Verify that projects belonging to customer 1002 was NOT deleted
+		$count = $this->_getCount("SELECT COUNT(*) FROM hs_hr_project WHERE customer_id=1002 AND deleted=0");
+		$this->assertEquals(2, $count, "Customer 1002's projects were deleted as well!.");
+
     }
 
     /**
@@ -213,6 +250,18 @@ class CustomerTest extends PHPUnit_Framework_TestCase {
 	    $this->assertEquals($res->getCustomerName(),'zanfer5','Name Not Found');
 	    $this->assertEquals($res->getCustomerDescription(),'forrw','Description Not Found');
 
+	}
+
+	/**
+	 * Run the given sql statement and return the count
+	 */
+	private function _getCount($countSql) {
+
+		$result = mysql_query($countSql);
+		$this->assertTrue($result !== false);
+		$row = mysql_fetch_array($result, MYSQL_NUM);
+		$count = $row[0];
+		return $count;
 	}
 
 }

@@ -101,9 +101,9 @@ if ($locRights['edit']) {
     */
    function validateFields() {
 
-        if(document.frmProject.cmbCustomerId.value == 0) {
+        if(document.frmProject.cmbCustomerId.value == -1) {
             alert("<?php echo $lang_Admin_Project_Error_PleaseSelectACustomer; ?>");
-            document.frmProject.customerId.focus();
+            document.frmProject.cmbCustomerId.focus();
             return false;
         }
 
@@ -308,11 +308,11 @@ if ($locRights['edit']) {
     <div class="roundbox">
       <form name="frmProject" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
-            <input type="hidden" id="txtId" name="txtId" value="" />
+            <input type="hidden" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>" />
             <br/>
             <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
             <select name="cmbCustomerId" <?php echo $disableEdit; ?> >
-				<option value="0">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
+				<option value="-1">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 				<?php
 					$customers = $this->popArr['cusid'];
 					if ($customers) {

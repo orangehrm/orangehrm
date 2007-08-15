@@ -343,7 +343,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ></td>
 			<td >
 				<input src="../../themes/beyondT/icons/submit.png"
-					onclick="actionSubmit(); return false;"
+					onclick="submitTimeEvent(); return false;"
 					onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
 					onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
 					alt="Submit" name="btnSubmit" id="btnSubmit"

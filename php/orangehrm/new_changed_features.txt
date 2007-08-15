@@ -32,6 +32,8 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	1756630   When customer deleted, related timesheets not shown
 	1773026   Submit Time Event: Loading Please wait
 	1772964   Time Module: Punch IN/OUT Timesheet fatal error
+	1756632   When customer deleted, related projects are not deleted
+	1773749   Error When Adding Project supervisor
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
 

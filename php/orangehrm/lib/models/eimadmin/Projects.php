@@ -219,7 +219,9 @@ class Projects {
 			$dbConnection = new DMLFunctions();
 			$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
-			if ($message2 && (mysql_affected_rows() > 0)) {
+			// We don't check mysql_affected_rows here since the update may not have changed any
+			// of the database fields.
+			if ($message2) {
 				return true;
 			}
 		}
