@@ -76,7 +76,36 @@ function strToTime(str) {
 
 	timeArr = format.exec(str);
 
-	date = new Date(timeArr[1], timeArr[2]-1, timeArr[3], timeArr[4], timeArr[5]);
+	yearVal = timeArr[1];
+	monthVal = timeArr[2];
+	dateVal = timeArr[3];
+	hourVal = timeArr[4];
+	minuteVal = timeArr[5];
+	
+	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31) || (hourVal > 24) || (minuteVal > 59)) {
+		return false;
+	}
+	date = new Date(yearVal, monthVal-1, dateVal, hourVal, minuteVal);
+
+	return date.getTime();
+
+}
+
+function strToDate(str) {
+	format = /^\s*([0-9]{4})-([0-9]{2})-([0-9]{2})\s*$/;
+
+	if (!format.test(str)) return false;
+
+	timeArr = format.exec(str);
+
+	yearVal = timeArr[1];
+	monthVal = timeArr[2];
+	dateVal = timeArr[3];
+
+	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31)) {
+		return false;
+	}
+	date = new Date(yearVal, monthVal-1, dateVal);
 
 	return date.getTime();
 }

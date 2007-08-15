@@ -977,6 +977,7 @@
 	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
+	$lang_Time_Errors_INVALID_TIME_FAILURE = "Invalid time specified";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
 	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";

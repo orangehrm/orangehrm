@@ -28,6 +28,7 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	1766090   Adding first user after install fails
 	1766276	  Newly added supervisor not seen
 	1769115   Leave Module not listed after upgrading to 2.2.0.2
+	1772954   Timesheet Punc IN/OUT Undefined variable
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
 
