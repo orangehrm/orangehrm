@@ -1444,13 +1444,6 @@ class ViewController {
 
 					case 'EST' :
 
-					case 'LOC' :
-								if($noRedirect)
-									break;
-					case 'CUR' :
-								if($noRedirect)
-									break;
-
 					case 'PAD' : // Project admin page. Fall through to PRJ case below.
 
 					case 'PRJ' :
@@ -1459,6 +1452,13 @@ class ViewController {
 					case 'PAC' :
 								header("Location: ./CentralController.php?message=ADD_SUCCESS&uniqcode=PAC&projectId=$id");
 								break;
+
+					case 'LOC' :
+								if($noRedirect)
+									break;
+					case 'CUR' :
+								if($noRedirect)
+									break;
 
 					default:
 								$showMsg = "ADD_SUCCESS"; //If $message is 1 setting up the

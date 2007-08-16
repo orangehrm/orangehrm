@@ -35,6 +35,7 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	1756632   When customer deleted, related projects are not deleted
 	1773749   Error When Adding Project supervisor
 	1774595   Could not login to OrangeHRM: 2.2.1-alpha in win
+	1774484   Could Not add Location: Admin Module
 
 New & Changed Features for OrangeHRM ver 2.2 (09/07/2007) {Revision 1026}
 
