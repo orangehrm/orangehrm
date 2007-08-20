@@ -196,7 +196,7 @@ function printTimeSheets() {
 }
 
 function popAndPrint() {
-	popup.document.body.innerHTML=$('printPanel').innerHTML;
+	popup.document.getElementById("printArea").innerHTML=$('printPanel').innerHTML;
 	for (i=0; pages>i; i++) {
 		popup.document.getElementById("page"+(i+1)).style.display="block";
 	}

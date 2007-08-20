@@ -38,4 +38,14 @@ table {
 .tableMiddleRight, .tableBottomLeft, .tableBottomMiddle, .tableBottomRight {
 	background: none;
 }
+#branding {
+	text-align: right;
+	margin-top: 20px;
+	font-size: 0.5em;
+}
 </style>
+<div id="printArea"></div>
+<div id="branding">
+Powered by:<br/>
+<img src="../../themes/beyondT/pictures/orangehrm_tiny.png" alt="OrangeHRM" />
+</div>
