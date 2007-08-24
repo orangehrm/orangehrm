@@ -419,6 +419,20 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 				alert("<?php echo $lang_salarygrades_stepSalNumeric; ?>");
 				cnt.focus();
 				return;
+			} else if (!bMaxEmpty){
+				var minPlusStep = eval(cnt.value);
+				if (!bMinEmpty) {
+					errMsg = "<?php echo $lang_salarygrades_stepPlusMinGreaterThanMax; ?>";
+					minPlusStep += min;
+				} else {
+					errMsg = "<?php echo $lang_salarygrades_stepGreaterThanMax; ?>";
+				}
+
+				if (minPlusStep > max) {
+					alert(errMsg);
+					cnt.focus();
+					return;
+				}
 			}
 		}
 
@@ -467,6 +481,20 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 				alert("<?php echo $lang_salarygrades_stepSalNumeric; ?>");
 				cnt.focus();
 				return;
+			} else if (!bMaxEmpty){
+				var minPlusStep = eval(cnt.value);
+				if (!bMinEmpty) {
+					errMsg = "<?php echo $lang_salarygrades_stepPlusMinGreaterThanMax; ?>";
+					minPlusStep += min;
+				} else {
+					errMsg = "<?php echo $lang_salarygrades_stepGreaterThanMax; ?>";
+				}
+
+				if (minPlusStep > max) {
+					alert(errMsg);
+					cnt.focus();
+					return;
+				}
 			}
 		}
 

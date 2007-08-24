@@ -1047,8 +1047,8 @@ switch ($moduletype) {
 						}
 
 										if(isset($_POST['USG']) && $_POST['USG']=='SEL' && $locRights['add']) {
-												$objectArr = $extractor->parseAddData($_POST);
-												$view_controller->addUserGroups($objectArr);
+												$parsedObject = $extractor->parseAddData($_POST);
+												$view_controller->addUserGroups($parsedObject);
 										} elseif(isset($_POST['USG']) && $_POST['USG'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delUserGroups($_POST,$_GET);
 										}

@@ -63,17 +63,33 @@ $editArr = $this->popArr['editArr'];
 	}
 
 	function validate() {
-		error = false;
-		obj = $('txtMailAddress');
+		var errors = new Array();
+		var error = false;
 
-		if (!checkEmail(obj.value)) {
+		var email = $('txtMailAddress');
+		if (!checkEmail(email.value)) {
 			error = true;
-			alert('<?php echo $lang_Error_InvalidEmail; ?>')
+			errors.push('<?php echo $lang_Error_InvalidEmail; ?>');
 		}
 
-		if (!error) {
+		var port = $('txtSmtpPort');
+		if ( !numbers(port) || ((port <= 0) || (port > 65535))) {
+			error = true;
+			errors.push('<?php echo $lang_Error_Invalid_Port; ?>');
+		}
+
+		if (error) {
+			errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
+			for (i in errors) {
+				errStr += " - "+errors[i]+"\n";
+			}
+			alert(errStr);
+			return false;
+
+		} else  {
 			$('sqlState').value = 'UpdateRecord';
 			$('frmEmailConfig').submit();
+			return true;
 		}
 	}
 

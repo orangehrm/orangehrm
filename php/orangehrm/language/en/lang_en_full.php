@@ -213,6 +213,7 @@
 
 	$lang_Common_Sort_ASC = "Ascending";
 	$lang_Common_Sort_DESC = "Descending";
+	$lang_Common_EncounteredTheFollowingProblems = "Encountered the following problems";
 
 	$lang_Common_ADD_SUCCESS 				= "Successfully Added";
 	$lang_Common_UPDATE_SUCCESS 			= "Successfully Updated";
@@ -469,6 +470,10 @@
 	$lang_hremp_name 						= "Name";
 	$lang_hremp_InvalidPhone				= "Not a valid phone/fax number";
 	$lang_hremp_largefileignore				= "1M Max, any larger attachments will be ignored";
+	$lang_hremp_PleaseSelectFile				= "Please select a file.";
+	$lang_hremp_ShowFile					= "Show File";
+	$lang_hremp_Save					= "Save";
+	$lang_hremp_Delete					= "Delete";
 	$lang_lang_uploadfailed					= "Upload Failed";
 
 	$lang_hremp_browse						= "Browse";
@@ -650,6 +655,8 @@
 	$lang_salarygrades_maxSalNumeric		= "Maximum salary should be numeric";
 	$lang_salarygrades_stepSalNumeric		= "Step salary should be numeric";
     $lang_salarygrades_minGreaterThanMax	= "Minimum Salary > Maximum Salary !";
+	$lang_salarygrades_stepPlusMinGreaterThanMax = "Step Salary plus Minimum Salary should be less than Maximum salary";
+	$lang_salarygrades_stepGreaterThanMax = "Step Salary should be less than Maximum salary";
 
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
@@ -761,6 +768,8 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+	$lang_Error_Invalid_Port = "Invalid SMTP Port";
+
 	//Projects
 	$lang_view_ProjectId = "Project Id";
 	$lang_view_ProjectName = "Project Name";
@@ -848,11 +857,15 @@
 	$lang_rep_WorkExperience = "Work Experience";
 
 	$lang_rep_SelectAtLeaseOneUserGroupToAssign = "Select at least one User Group check box to assign";
+	$lang_rep_SelectAtLeaseOneUserGroupToDelete = "Select at least one User Group check box to delete";
 
 	$lang_rep_ReportDefinition = "Report Definition";
 	$lang_rep_AssignUserGroups = "Assign User Groups";
 	$lang_rep_UserGroups = "User Groups";
+	$lang_rep_UserGroup = "User Group";
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
+	$lang_rep_SelectUserGroup = "Select User Group";
+	$lang_rep_NoGroupSelected = "Please select a user group to assign";
 
 	// Skills
 	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";

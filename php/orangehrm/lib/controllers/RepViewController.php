@@ -243,15 +243,8 @@ class RepViewController {
 			}
 	}
 
-	function addUserGroups($objectArr) {
-
-		$repusg = new EmpRepUserGroup();
-
-			for($c=0;count($objectArr)>$c;$c++) {
-				$repusg = $objectArr[$c];
-				$repusg -> addRepUserGroup();
-			}
-
+	function addUserGroups($repusg) {
+		$repusg -> addRepUserGroup();
 	}
 
 	function delUserGroups($postArr,$getArr) {
@@ -385,9 +378,7 @@ class RepViewController {
 							$form_creator ->popArr['repDet'] = $emprepgroup -> getReportInfo();
 							$form_creator->popArr['usgAll'] = $emprepgroup -> getAllUserGroups();
 							$form_creator ->popArr['repUsgAss'] = $emprepgroup ->getAssignedUserGroup($getArr['id']);
-
-							if(isset($getArr['addForm']) && $getArr['addForm']=='ADD')
-								$form_creator ->popArr['usgUnAss'] = $emprepgroup ->getUnAssUserGroups($getArr['id']);
+							$form_creator ->popArr['usgUnAss'] = $emprepgroup ->getUnAssUserGroups($getArr['id']);
 
 							break;
 

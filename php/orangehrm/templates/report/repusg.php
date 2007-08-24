@@ -30,30 +30,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <head>
 <title>Untitled Document</title>
 <script language="JavaScript">
-function addUSG()
+
+function assignUSG()
 {
-    document.frmRepUserGroup.action = document.frmRepUserGroup.action + "&addForm=ADD";
-    document.frmRepUserGroup.submit();
-}
-
-function parseUSG()
-{
-      var check = 0;
-		with (document.frmUSG) {
-			for (var i=0; i < elements.length; i++) {
-				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
-					check = 1;
-				}
-			}
-        }
-
-        if(check==0)
-            {
-              alert("<?php echo $lang_rep_SelectAtLeaseOneUserGroupToAssign; ?>");
-              return;
-            }
-
-    //alert(cntrl.value);
+	if (document.frmUSG.cmbUserGroup.value == "0") {
+		alert("<?php echo $lang_rep_NoGroupSelected;?>")
+		return;
+	}
     document.frmUSG.USG.value="SEL";
     document.frmUSG.submit();
 }
@@ -105,12 +88,10 @@ function delUSG()
 
         if(check==0)
             {
-              alert("<?php echo $lang_rep_SelectAtLeaseOneUserGroupToAssign; ?>");
+              alert("<?php echo $lang_rep_SelectAtLeaseOneUserGroupToDelete; ?>");
               return;
             }
 
-
-    //alert(cntrl.value);
     document.frmRepUserGroup.USG.value="DEL";
     document.frmRepUserGroup.submit();
 }
@@ -132,10 +113,8 @@ function delUSG()
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmRepUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>">
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
-        <input type="hidden" name="USG" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
@@ -178,11 +157,74 @@ $repDet = $this->popArr['repDet'];
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
+<?php if($locRights['add']) { ?>
+<form name="frmUSG" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>" >
+<input type="hidden" name="USG" value="">
+<input type="hidden" name="txtRepID" value="<?php echo $this->getArr['id']?>">
 
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+  <tr>
+    <td valign='top'>&nbsp; </td>
+    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
+  </tr>
+</table>
+			   <input type="hidden" name="dummy">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+
+						<tr>
+							<td><strong><?php echo $lang_rep_UserGroup;?></strong></td>
+							<td>
+	 					    <select name="cmbUserGroup">
+	 					    	<option value="0">-- <?php echo $lang_rep_SelectUserGroup;?> --</option>
+	                                <?php
+	                                $unassignedGroups = $this->popArr['usgUnAss'];
+	                                if (!empty($unassignedGroups)) {
+	                                  foreach ($unassignedGroups as $group) {
+	                                          $groupId = $group[0];
+	                                          $groupName = htmlspecialchars($group[1]);
+	                                          echo "<option value=\"{$groupId}\">{$groupName}</option>";
+	                                  }
+	                                }
+	                                ?>
+	                        </select>
+	                        </td>
+							<td>
+  							<img onClick="assignUSG();"
+  							     onMouseOut="this.src='../../themes/beyondT/icons/assign.gif';"
+  							     onMouseOver="this.src='../../themes/beyondT/icons/assign_o.gif';"
+  							     src="../../themes/beyondT/icons/assign.gif">
+							</td>
+                        </tr>
+
+                  </table></td>
+                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                </tr>
+                <tr>
+                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                </tr>
+              </table>
+
+</form>
+<?php } ?>
 <?php
 $rset = $this->popArr['repUsgAss'];
 $usglist = $this->popArr['usgAll'];
 ?>
+<form name="frmRepUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>">
+	<input type="hidden" name="USG" value="">
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0'>
   <tr>
@@ -196,10 +238,7 @@ $usglist = $this->popArr['usgAll'];
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
   </tr>
   <tr><td>
-<?php if($locRights['add']) { ?>
-  	<img onClick="addUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php }
-	  if($locRights['delete']) { ?>
+<?php if($locRights['delete']) { ?>
 	<img onClick="delUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php } ?>
 		</td>
@@ -218,15 +257,19 @@ $usglist = $this->popArr['usgAll'];
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 <?php						if($rset) {	?>
 						<tr>
+						<?php if($locRights['delete']) { ?>
 						         <td></td>
-						         <td><strong><?php echo $lang_rep_UserGroups; ?></strong></td>
+						<?php } ?>
+						         <td><strong><?php echo $lang_rep_UserGroup; ?></strong></td>
 						</tr>
 						<?php
 
 						    for($c=0;$c < count($rset); $c++)
 						        {
 						        echo '<tr>';
-						            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."'></td>";
+							        if($locRights['delete']) {
+							            echo "<td><input type='checkbox' class='checkbox' name='chkdel[]' value='" . $rset[$c][1] ."'></td>";
+							        }
 						            for($a=0;count($usglist)>$a;$a++)
 						            	if($usglist[$a][0] == $rset[$c][1])
 						            	echo '<td>' . $usglist[$a][1] .'</td>';
@@ -251,67 +294,6 @@ $usglist = $this->popArr['usgAll'];
                 </tr>
               </table>
 
-</form>
-<form name="frmUSG" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>" >
-<input type="hidden" name="USG" value="">
-<input type="hidden" name="txtRepID" value="<?php echo $this->getArr['id']?>">
-<?php if(isset($this->getArr['addForm'])&&($this->getArr['addForm']=="ADD")) { ?>
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-
-  <tr>
-    <td><h3>Add User Groups</h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-  <tr>
-  <td><img onClick="parseUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg"></td>
-  </tr>
-</table>
-			   <input type="hidden" name="dummy">
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-								<tr>
-								         <td></td>
-								         <td><strong>User Group</strong></td>
-								</tr>
-								<?php
-								$rset=$this->popArr['usgUnAss'];
-
-								    for($c=0;$rset && $c < count($rset); $c++)
-								        {
-								        echo '<tr>';
-								            echo "<td><input type='checkbox' class='checkbox' name='chkadd[]' value='" . $rset[$c][0] ."'></td>";
-								            echo '<td>' . $rset[$c][1] .'</td>';
-								        echo '</tr>';
-								      }
-					?>
-                  </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-<?php    }
-?>
 </form>
 </body>
 </html>

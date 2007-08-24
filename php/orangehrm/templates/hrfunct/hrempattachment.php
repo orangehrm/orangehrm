@@ -46,6 +46,12 @@ function delAttach() {
 }
 
 function addAttach() {
+	var fileName = document.frmEmp.ufile.value;
+	fileName = trim(fileName);
+	if (fileName == "") {
+		alert("<?php echo $lang_hremp_PleaseSelectFile; ?>");
+		return;
+	}
 	document.frmEmp.attSTAT.value="ADD";
 	qCombo(6);
 }
@@ -68,44 +74,76 @@ function editAttach() {
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<table width="352" height="200" border="0" cellpadding="0" cellspacing="0">
+	<table width="352" height="50" border="0" cellpadding="0" cellspacing="0">
 
-<?php		if(!isset($this->getArr['ATTACH'])) { ?>
+<?php		if(!isset($this->getArr['ATTACH']) && $locRights['add']) { ?>
           <tr>
 				<td valign="top"><?php echo $lang_hremp_path?></td>
 				<td><input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
 					<input type="file" name="ufile"> <br>[<?php echo $lang_hremp_largefileignore?>]</td>
               </tr>
+			  <tr><td>&nbsp;</td></tr>
               <tr>
               	<td><?php echo $lang_Commn_description?></td>
               	<td><textarea name="txtAttDesc"></textarea></td>
               </tr>
 			  <tr>
+				<td>&nbsp;</td>
 				<td>
-<?php	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+
+        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+
+				</td>
+				</tr>
+
+<?php		} elseif(isset($this->getArr['ATTACH'])) {
+				$edit = $this->popArr['editAttForm'];
+		 		$disabled = ($locRights['edit']) ? "" : "disabled";
+?>
+              <input type="hidden" name="seqNO" value="<?php echo $edit[0][1]?>">
+              <tr>
+              	<td><?php echo $lang_hremp_filename?></td>
+              	<td><?php echo $edit[0][3];?></td>
+              </tr>
+			  <tr><td>&nbsp;</td></tr>
+              <tr>
+              	<td><?php echo $lang_Commn_description?></td>
+              	<td><textarea name="txtAttDesc" <?php echo $disabled; ?> ><?php echo $edit[0][2]?></textarea></td>
+              </tr>
+              <tr>
+              	<td><input type="button" value="<?php echo $lang_hremp_ShowFile; ?>"
+              		class="button" onclick="dwPopup()"></td>
+              </tr>
+			  <tr>
+				<td>&nbsp;</td>
+				<td>
+<?php	if($locRights['edit']) { ?>
+        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				</td>
 				</tr>
+
+<?php } ?>
+
 <?php
 		$rset = $this->popArr['empAttAss'] ;
 		if ($rset != Null){ ?>
+				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td nowrap="nowrap"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></td>
 					<td></td>
 				</tr>
+<?php	if($locRights['add'] || $locRights['delete']) { ?>
 			<tr>
 				<td>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php	} ?>
 <?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="<?php echo $lang_hremp_Delete; ?>" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php 	} ?>
 				</td>
 				<td>&nbsp;</td>
 				</tr>
-				<tr><td>&nbsp;</td></tr>
+<?php 	} ?>
+				<!-- <tr><td>&nbsp;</td></tr> -->
 			<table border="0" width="450" align="center" class="tabForm">
 			    <tr>
                       	<td></td>
@@ -115,77 +153,17 @@ function editAttach() {
 					</tr>
 <?php }
 
-
+	$disabled = ($locRights['delete']) ? "" : "disabled";
     for($c=0;$rset && $c < count($rset); $c++)
         {
         echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
+            echo "<td><input type='checkbox' $disabled class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
             ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
-            echo '<td>' . $rset[$c][4] .'byte(s)</td>';
+            echo '<td>' . $rset[$c][4] .' byte(s)</td>';
             echo '<td>' . $rset[$c][6] .'</td>';
         echo '</tr>';
         }
 ?>
-
-<?php		} elseif(isset($this->getArr['ATTACH'])) {
-		$edit = $this->popArr['editAttForm'];
-?>
-              <input type="hidden" name="seqNO" value="<?php echo $edit[0][1]?>">
-              <tr>
-              	<td>Description</td>
-              	<td><textarea name="txtAttDesc"><?php echo $edit[0][2]?></textarea></td>
-              </tr>
-              <tr>
-              	<td><input type="button" value="Show File" class="buton" onclick="dwPopup()"></td>
-              </tr>
-			  <tr>
-				<td>&nbsp;</td>
-				<td>
-<?php	if($locRights['edit']) { ?>
-        <img border="0" title="Save" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php	} ?>
-				</td>
-				</tr>
-				<tr>
-					<td nowrap="nowrap"><h3><?php echo $lang_hrEmpMain_assignattach?></h3></td>
-					<td></td>
-				</tr>
-				<tr>
-				<td>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="resetAdd(6);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php	} ?>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-				</td>
-				<td></td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<table border="0" width="450" align="center" class="tabForm">
-
-			    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_hremp_filename?></strong></td>
-						 <td><strong><?php echo $lang_hremp_size?></strong></td>
-						 <td><strong><?php echo $lang_hremp_type?></strong></td>
-					</tr>
-<?php
-	$rset = $this->popArr['empAttAss'] ;
-
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
-            echo '<td>' . $rset[$c][4] .'byte(s)</td>';
-            echo '<td>' . $rset[$c][6] .'</td>';
-        echo '</tr>';
-        }
-?>
-
-
-<?php } ?>
 
           </table>
 	<?php } ?>
