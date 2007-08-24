@@ -1442,8 +1442,6 @@ class ViewController {
 								header("Location: ./CentralController.php?uniqcode=JOB&id=$id&capturemode=updatemode");
 								break;
 
-					case 'EST' :
-
 					case 'PAD' : // Project admin page. Fall through to PRJ case below.
 
 					case 'PRJ' :
@@ -1452,6 +1450,8 @@ class ViewController {
 					case 'PAC' :
 								header("Location: ./CentralController.php?message=ADD_SUCCESS&uniqcode=PAC&projectId=$id");
 								break;
+
+					case 'EST' :
 
 					case 'LOC' :
 								if($noRedirect)
