@@ -262,7 +262,7 @@ class Leave {
 		$joinConditions[2] = "a.`employee_id` = c.`emp_number`";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
-		//echo $query."<br>";
+
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection->executeQuery($query);
@@ -531,7 +531,7 @@ class Leave {
 	protected function _leaveLength($length, $timeOff) {
 		$factor = 1;
 		if ($length < 0) {
-			$factor = 1;
+			$factor = -1;
 		}
 
 		$length = abs($length);

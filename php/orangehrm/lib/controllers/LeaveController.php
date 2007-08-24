@@ -296,7 +296,7 @@ class LeaveController {
 		return $tmpObj->cancelLeave($this->getId());
 	}
 
-	public function redirect($message=null, $url = null) {
+	public function redirect($message=null, $url = null, $id = null) {
 		if (isset($message)) {
 
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
@@ -310,6 +310,8 @@ class LeaveController {
 
 			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && !is_array($_REQUEST['id'])) {
 				$id = "&id=".$_REQUEST['id'];
+			} else if (isset($id)) {
+				$id="&id={$id}";
 			} else {
 				$id="";
 			}
@@ -323,7 +325,7 @@ class LeaveController {
 			}
 		}
 
-		header("Location: ".$url[0].$message.$id);
+		header("Location: {$url[0]}{$message}{$id}");
 	}
 
 	public function addLeave() {
@@ -364,10 +366,24 @@ class LeaveController {
 			$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 			$role = $authorizeObj->firstRole($roles);
 
+			$previousLeave = null;
+
+			if (isset($_GET['id'])) {
+				$leaveObj = new Leave();
+
+				$previousLeaves = $leaveObj->retrieveLeave($_GET['id']);
+				$previousLeave = $previousLeaves[0];
+
+				if ($authorizeObj->isSupervisor() && !($authorizeObj->isTheSupervisor($previousLeave->getEmployeeId()))) {
+					$previousLeave=null;
+				}
+			}
+
 			$this->setId($_SESSION['empID']);
 			$tmpObj = new LeaveType();
 			$tmpObjs[1] = $tmpObj->fetchLeaveTypes();
 			$tmpObjs[2] = $role;
+			$tmpObjs[3] = $previousLeave;
 		} else {
 
 			$this->setId($_SESSION['empID']);

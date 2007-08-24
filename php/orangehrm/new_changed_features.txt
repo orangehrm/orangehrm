@@ -6,6 +6,13 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.2
 	1747768   ESS user Attachments pane should not view
 	1720647   No validation for SMTP port no
 	1739556   Admin-> Pay Grade : step increase can exceed Maximum salary
+	1759410   No of days of leave in subject is incorrect
+	1753736   The default leave view for supervisor
+	1763177   Half day / morning taken as afternoon
+	1755951   Unable to delete/edit Leave
+	1756001   Upgrade issue from 2.2-rc2 to 2.2 (Upload limit)
+	1758672   Reports :Text overlapped in qualification
+	1741094   There is an unnecessary line in ESS Employee Box
 
 New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 
@@ -31,7 +38,7 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	1769824   Report-to - do not assign with non English language packs
 	1764128   Upgrading from 2.1 to 2.2 will not show the time module
 	1765590   Upgrading to 2.2 from 2.0 or 2.1 hides leave module
-	1765840   Upgrade from 2.0 to latest (2.2) fails due to leave changes	
+	1765840   Upgrade from 2.0 to latest (2.2) fails due to leave changes
 	1764192   Upgrade guide instructions may overwrite old version
 	1766085   Adding image when creating employee in PIM - fails
 	1766090   Adding first user after install fails

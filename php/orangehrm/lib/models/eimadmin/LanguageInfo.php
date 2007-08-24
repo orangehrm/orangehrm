@@ -1,21 +1,21 @@
 <?php
-/*
-// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-// all the essential functionalities required for any enterprise.
-// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-// the GNU General Public License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-
-// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License along with this program;
-// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-// Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
@@ -33,33 +33,22 @@ class LanguageInfo {
 
 
 	function LanguageInfo() {
-
 	}
 
 	function setLanguageInfoId($languageId) {
-
 		$this->languageId = $languageId;
-
 	}
 
 	function setLanguageInfoDesc($languageDesc) {
-
 		$this->languageDesc = $languageDesc;
-
 	}
-
 
 	function getLanguageInfoId() {
-
 		return $this->languageId;
-
 	}
 
-
 	function getLanguageInfoDesc() {
-
 		return $this->languageDesc;
-
 	}
 
 	function getListofLanguageInfo($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
@@ -83,23 +72,16 @@ class LanguageInfo {
 		$i=0;
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-
 	     }
 
-	     if (isset($arrayDispList)) {
-
+	    if (isset($arrayDispList)) {
 	     	return $arrayDispList;
-
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
 	}
 
@@ -123,7 +105,7 @@ class LanguageInfo {
 
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
 
-	    	return $line[0];
+	    return $line[0];
 	}
 
 	function delLanguageInfo($arrList) {
@@ -139,7 +121,6 @@ class LanguageInfo {
 
 		$sqlQString = $sql_builder->deleteRecord($arrList);
 
-		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
@@ -148,6 +129,10 @@ class LanguageInfo {
 
 
 	function addLanguageInfo() {
+
+		if ($this->_isDuplicateName()) {
+			throw new Exception("Duplicate name");
+		}
 
 		$tableName = 'hs_hr_language';
 
@@ -166,8 +151,7 @@ class LanguageInfo {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
-
+		return $message2;
 	}
 
 	function updateLanguageInfo() {
@@ -221,20 +205,15 @@ class LanguageInfo {
 		$i=0;
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
 
@@ -243,7 +222,6 @@ class LanguageInfo {
 	}
 
 	function getLang() {
-
 		$tableName = 'HS_HR_LANGUAGE';
 		$arrFieldList[0] = 'LANG_CODE';
 		$arrFieldList[1] = 'LANG_NAME';
@@ -258,29 +236,22 @@ class LanguageInfo {
 		$sqlQString = $sql_builder->passResultSetMessage();
 
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
 
 		$i=0;
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	     	return $arrayDispList;
-
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
 	}
 
@@ -310,7 +281,6 @@ class LanguageInfo {
 		$i=0;
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
-
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
@@ -319,16 +289,19 @@ class LanguageInfo {
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
-	     } else {
-	     	//Handle Exceptions
-	     	//Create Logs
 	     }
 	}
 
+	private function _isDuplicateName() {
+		$languages = $this->getListofLanguageInfo(0, $this->getLanguageInfoDesc(), 1);
 
+		if (is_array($languages)) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 ?>

@@ -166,9 +166,12 @@ li{
 						<td>
 					<?php 	if (isset($repDetails[$i][$j]) && ($repDetails[$i][$j] != '')) {
 								$last=null; ?>
-								<ul style="height: 90%; width:<?php echo $tdWidth; ?>;">
+								<ul style="height: 90%; width:<?php echo $tdWidth; ?>; clear:both;">
 						<?php
 								$rowHeight=floor(80/count($repDetails[$i][$j]));
+								$colWidth=substr($tdWidth, 0, -2);
+								$charWidth=$colWidth/5;
+
 								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
 									echo "<li style='height: $rowHeight%' >";
 									if (($repDetails[$i][$j][$k] != '')) {
@@ -176,6 +179,8 @@ li{
 											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
 										} else if ($reportingMethod && ($reportingMethod == $j)) {
 											echo $lang_Template_rep_ReportingMethod[$repDetails[$i][$j][$k]];
+										} else if ($charWidth > 0){
+											echo wordwrap($repDetails[$i][$j][$k], $charWidth, "<br>", 1);
 										} else {
 											echo $repDetails[$i][$j][$k];
 										}

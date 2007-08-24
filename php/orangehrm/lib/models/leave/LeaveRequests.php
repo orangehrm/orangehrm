@@ -196,6 +196,7 @@ class LeaveRequests extends Leave {
 				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
 
 				$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLength(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
+				$noOfDays = abs($noOfDays);
 
 				if ($totalLeaves > 1) {
 					$tmpLeaveRequestArr->setLeaveToDate($tmpLeaveArr[$totalLeaves-1]->getLeaveDate());
@@ -208,7 +209,7 @@ class LeaveRequests extends Leave {
 
 						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 							//echo $tmpLeaveArr[$i]->getLeaveLength()."<br>";
-							$noOfDays += $tmpLeaveArr[$i]->getLeaveLength();
+							$noOfDays += abs($tmpLeaveArr[$i]->getLeaveLength());
 
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;

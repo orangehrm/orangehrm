@@ -121,17 +121,21 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
+// Default leave home page
+if ($authorizeObj->isSupervisor()) {
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
+} else if ($authorizeObj->isAdmin()){
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
+} else if ($authorizeObj->isESS()) {
+	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
+}
+
+// Time module default pages
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 
-	if ($authorizeObj->isSupervisor()) {
-		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
-	} else {
-		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id='.$_SESSION['empID'];
-	}
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
 } else {
-	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';

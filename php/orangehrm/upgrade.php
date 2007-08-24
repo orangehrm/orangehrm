@@ -260,11 +260,15 @@ if(isset($_POST['actionResponse'])) {
 							  break;
 		case 'DOWNLOADOK' 	: $_SESSION['DOWNLOAD'] = 'OK'; break;
 
-		case 'UPLOADOK' 	:	if ($_FILES['file']['size'] < 0) {
-									$error = "UPLOAD THE BACK UP FILE!";
-								}else if (!validateMime($_FILES['file']['type'])) {
-	 								$error = "WRONG FILE FORMAT! <br/> Got ".$_FILES['file']['type'];
-								} else  {
+		case 'UPLOADOK' 	:	if (!$_FILES || !$_FILES['file']) {
+									$error = "Back up file is greater than the maximum upload limit.";
+								} else if ($_FILES['file']['error']) {
+									$error=$_FILES['file']['error'];
+								} else if ($_FILES['file']['size'] <= 0) {
+									$error = "Please upload the back up file.";
+								} else if (!validateMime($_FILES['file']['type'])) {
+	 								$error = "Wrong file format! Got ".$_FILES['file']['type'];
+								} else {
 									$_SESSION['RESTORING'] = -1;
 
 									$_SESSION['FILEDUMP'] = parseOldData(file_get_contents($_FILES['file']['tmp_name']));

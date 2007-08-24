@@ -197,3 +197,21 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
+.confirmBox {
+	margin: 10px 10px;
+	display: block;
+}
+
+.confirmInnerBox {
+	background-color: #FAD163;
+	padding: 3px 10px;
+	font-weight: bold;
+}
+
+.confirmBox .selectable {
+	text-decoration: underline;
+	color: #0404CD;
+	cursor: pointer;
+}
+

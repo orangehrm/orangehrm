@@ -571,3 +571,56 @@ textarea {
 #toogleContractLayerLink.hide {
 	background-image: url(../icons/contract_hide.png);
 }
+
+.tableTopLeft {
+	background:url(../pictures/table_r1_c1.gif) no-repeat top right;
+	width:12px;
+	height:11px;
+}
+
+.tableTopMiddle {
+	background:url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+
+.tableTopRight {
+	background:url(../pictures/table_r1_c3.gif) no-repeat top left;
+	width:12px;
+	height:11px;
+}
+
+.tableMiddleLeft {
+	background:url(../pictures/table_r2_c1.gif) repeat-y top right;
+	width:13px;
+	height: 4px;
+}
+
+.tableMiddleMiddle {
+	border-bottom: 1px solid #CCCCCC;
+	vertical-align: top;
+}
+
+td {
+	vertical-align: top;
+}
+
+.tableMiddleRight {
+	background:url(../pictures/table_r2_c3.gif) repeat-y top left;
+	width:13px;
+}
+
+.tableBottomLeft {
+	background:url(../pictures/table_r3_c1.gif) no-repeat bottom right;
+	width:12px;
+	height:15px;
+}
+
+.tableBottomMiddle {
+	background:url(../pictures/table_r3_c2.gif) repeat-x bottom;
+	height: 15px;
+}
+
+.tableBottomRight {
+	background:url(../pictures/table_r3_c3.gif) no-repeat bottom left;
+	width:12px;
+	height:15px;
+}

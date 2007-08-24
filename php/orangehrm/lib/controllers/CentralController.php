@@ -1214,15 +1214,14 @@ switch ($moduletype) {
 																						foreach ($objs as $obj) {
 																							$leaveController->setObjLeave($obj);
 																							$leaveController->setId($obj->getLeaveId());
-																							//echo $leaveController->getObjLeave()->getLeaveStatus();
+
 																							$mes=$leaveController->changeStatus("change");
 																							if ($mes) {
 																								$leaveController->sendChangedLeaveNotification($obj, true);
 																							}
 																						}
 
-																						//print_r($objs);
-																						$leaveController->redirect("");
+																						$leaveController->redirect("CANCEL_SUCCESS");
 																						break;
 
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
@@ -1243,11 +1242,9 @@ switch ($moduletype) {
 
 																						$mes=$leaveController->adminApproveLeave();
 
-																						if ($mes) {
-																							//$leaveController->sendChangedLeaveNotification($obj, true);
-																						}
+																						$id = $leaveController->getObjLeave()->getLeaveRequestId();
 
-																						$leaveController->redirect($mes);
+																						$leaveController->redirect($mes, null, $id);
 																						break;
 
 											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();
