@@ -807,10 +807,16 @@ class EmpViewController {
 		if(isset($postArr['reporttoSTAT']) && ($postArr['reporttoSTAT'] == 'ADD' || $postArr['reporttoSTAT'] == 'EDIT')) {
 			$emprepto = new EmpRepTo();
 			$emprepto = $object;
-			if($action == 'ADD')
+			if($action == 'ADD') {
+				if ($emprepto->getEmpSupId() == $emprepto->getEmpSubId()) {
+					$_GET['message']="ADD_FAILURE";
+					return false;
+				}
+
 				$emprepto->addEmpRepTo();
-			elseif($action == 'EDIT')
+			} else if($action == 'EDIT') {
 				$emprepto->updateEmpRepTo($_POST['txtSupEmpID'],$_POST['txtSubEmpID'],$_POST['oldRepMethod'],$_POST['cmbRepMethod']);
+			}
 
 		return;
 		}

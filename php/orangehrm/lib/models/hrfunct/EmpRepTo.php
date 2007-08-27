@@ -190,7 +190,7 @@ class EmpRepTo {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
+		return $message2;
 	}
 
 	function updateEmpRepTo($supEmpID,$subEmpID,$oldRepMethod,$newRepMethod) {
