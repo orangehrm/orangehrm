@@ -44,6 +44,12 @@ function viewActivityReport(activityId, time) {
 	$('frmActivity').action = initialAction+action;
 	$('frmActivity').submit();
 }
+
+function backToDefineProjectReport() {
+	action = "Project_Report_Define";
+
+	window.location = initialAction+action;
+}
 </script>
 
 <style type="text/css">
@@ -86,6 +92,11 @@ function viewActivityReport(activityId, time) {
 <?php echo $lang_Time_ProjectReportTitle; ?>
 <hr/>
 </h2>
+<div id="navigation" style="float:left;width:100px">
+	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';"
+	     onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"
+	     src="../../themes/beyondT/pictures/btn_back.jpg" onClick="backToDefineProjectReport();">
+</div><br/>
 <div id="status"></div>
 <?php if (isset($_GET['message'])) {
 

@@ -2,6 +2,7 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.2
 
 	BugId     Name
 	1774606   Record Internal Should not visible to the user
+	1774587   Back Button is Not there : Project Reports
 
 	(Bug fixes merged from 2.2 branch)
 	1758646   Define Report - Assign User Group - No option to save
