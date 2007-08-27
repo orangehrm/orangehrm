@@ -1,7 +1,9 @@
 New & Changed Features for OrangeHRM ver 2.2.1-alpha.2
 
-	(Bug fixes merged from 2.2 branch)
 	BugId     Name
+	1774606   Record Internal Should not visible to the user
+
+	(Bug fixes merged from 2.2 branch)
 	1758646   Define Report - Assign User Group - No option to save
 	1747768   ESS user Attachments pane should not view
 	1720647   No validation for SMTP port no

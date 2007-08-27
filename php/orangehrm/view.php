@@ -19,13 +19,8 @@
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-/*$srchlist[0] = array( 0 , 1 , 2 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Description' );
-*/
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
-
-	//$headingInfo=$this->popArr['headinginfo'];
 
 	$currentPage = $this->popArr['currentPage'];
 

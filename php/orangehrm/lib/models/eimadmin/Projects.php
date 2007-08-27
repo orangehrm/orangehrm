@@ -339,9 +339,10 @@ class Projects {
 		$sql_builder = new SQLQBuilder();
 
 		$arrSelectConditions[0] = "a.`".self::PROJECT_DB_FIELD_DELETED."`= ".self::PROJECT_NOT_DELETED."";
+		$arrSelectConditions[1] = "a.`".self::PROJECT_DB_FIELD_PROJECT_ID."` != 0";
 
 		if ($schField != -1) {
-			$arrSelectConditions[1] = "".$arrFieldList[$schField]." LIKE '%".$schStr."%'";
+			$arrSelectConditions[2] = "".$arrFieldList[$schField]." LIKE '%".$schStr."%'";
 		}
 
 		$limitStr = null;

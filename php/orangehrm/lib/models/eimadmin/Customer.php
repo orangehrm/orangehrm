@@ -223,9 +223,10 @@ class Customer {
 		$sql_builder = new SQLQBuilder();
 
 		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_DELETED."`= ".self::CUSTOMER_NOT_DELETED."";
+		$arrSelectConditions[1] = "`".self::CUSTOMER_DB_FIELDS_ID."` != 0";
 
 		if ($schField != -1) {
-			$arrSelectConditions[1] = "`".$arrFieldList[$schField]."` LIKE '%".$schStr."%'";
+			$arrSelectConditions[2] = "`".$arrFieldList[$schField]."` LIKE '%".$schStr."%'";
 		}
 
 		$limitStr = null;
