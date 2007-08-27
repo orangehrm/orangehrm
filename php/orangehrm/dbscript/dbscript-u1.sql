@@ -534,10 +534,11 @@ create table `hs_hr_leavetype` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_employee_leave_quota` (
+  `year` year(4) NOT NULL,
   `leave_type_id` varchar(13) not null,
   `employee_id` int(7) not null,
   `no_of_days_allotted` smallint(6) default null,
-  primary key  (`leave_type_id`,`employee_id`)
+  primary key  (`leave_type_id`,`employee_id`, `year`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_holidays` (
@@ -673,4 +674,4 @@ INSERT INTO `hs_hr_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time')
   ON DUPLICATE KEY UPDATE `name`= 'Work time';
-  
+
