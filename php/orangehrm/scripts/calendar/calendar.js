@@ -162,6 +162,8 @@ YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	domElDimensions[1]+=25;
 
 	YAHOO.util.Dom.setXY(container, domElDimensions);
+
+	YAHOO.util.Event.addListener(anchor, 'blur', YAHOO.OrangeHRM.calendar.cal.hide, YAHOO.OrangeHRM.calendar.cal, true);
 };
 
 /**
@@ -192,6 +194,7 @@ YAHOO.OrangeHRM.container.init = function () {
 	// Show the Panel
 	YAHOO.OrangeHRM.container.wait.show();
 }
+
 
 /**
  * After the page has loaded the calendar is initalized
