@@ -471,24 +471,38 @@ class TimeController {
 		$_GET['message'] = 'NO_RECORDS_CHANGED_WARNING';
 
 		foreach ($timeEvents as $timeEvent) {
-			if ($timeEvent->getTimeEventId() == null) {
-				$res=$timeEvent->addTimeEvent();
-			} else {
-				$res=$timeEvent->editTimeEvent();
-			}
-
-			if ($res) {
-				echo $res;
-				if ($res == 1) {
-					$_GET['message'] = 'UPDATE_SUCCESS';
+			try {
+				if ($timeEvent->getTimeEventId() == null) {
+					$res=$timeEvent->addTimeEvent();
+				} else {
+					$res=$timeEvent->editTimeEvent();
 				}
-			} else {
-				$_GET['message'] = 'UPDATE_FAILURE';
+				if ($res) {
+					if ($res == 1) {
+						$_GET['message'] = 'UPDATE_SUCCESS';
+					}
+				} else {
+					$_GET['message'] = 'UPDATE_FAILURE';
+					break;
+				}
+			} catch (TimeEventException $e) {
+				$res=false;
+				switch ($e->getCode()) {
+					case 2: $_GET['message'] = 'OVERLAPPING_TIME_PERIOD_FAILURE';
+							break;
+					default:
+							$_GET['message'] = 'UPDATE_FAILURE';
+							break;
+				}
 				break;
 			}
 		}
 
-		$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvent->getTimesheetId()}");
+		if ($res) {
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvent->getTimesheetId()}");
+		} else {
+			$this->redirect($_GET['message'], "?timecode=Time&action=View_Edit_Timesheet&id={$timeEvent->getTimesheetId()}&return={$nextAction}");
+		}
 
 		return $res;
 	}

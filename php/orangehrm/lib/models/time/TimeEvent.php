@@ -190,14 +190,14 @@ class TimeEvent {
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
 
-		//echo $query; exit(0);
-
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
 
 		if (mysql_num_rows($result) == 0) {
 			return false;
 		}
+
+		throw new TimeEventException("Overlapping time period", 2);
 
 		return true;
 	}

@@ -1110,4 +1110,6 @@
 
 	$lang_Leave_DoYouWantToCancelTheLeaveYouJustAssigned = "Do you want to cancel the leave you just assigned?";
 	$lang_Leave_PleaseProvideAReason = "Please provide a reason";
+
+	$lang_Time_Errors_OVERLAPPING_TIME_PERIOD_FAILURE = "You have a overlapping time period in your time events";
 ?>
