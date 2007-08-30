@@ -169,12 +169,12 @@ class TimeEvent {
 		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
 
 		if ($this->getStartTime() != null) {
-			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` < '{$this->getStartTime()}' AND ";
-			$tmpQuery .= "((a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` IS NULL) OR (a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getStartTime()}')))";
+			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getStartTime()}' AND ";
+			$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getStartTime()}'))";
 
 			if ($this->getEndTime() != null) {
 				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` < '{$this->getEndTime()}' AND ";
-				$tmpQuery .= "((a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` IS NULL) OR (a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getEndTime()}')))";
+				$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getEndTime()}'))";
 			}
 
 			$selectConditions[] = "({$tmpQuery})";
@@ -189,6 +189,8 @@ class TimeEvent {
 		}
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+
+		//echo $query; exit(0);
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
