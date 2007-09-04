@@ -947,11 +947,11 @@
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Geen urenstaat gevonden";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "De volgende problemen zijn gevonden";
-	$lang_Time_Errors_ReportedDateNotSpecified = "Datum niet opgegeven";
-	$lang_Time_Errors_ProjectNotSpecified = "Project niet opgegeven";
-	$lang_Time_Errors_CustomerNotSpecified = "Klant niet opgegeven";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Ongeldige tijd of nul of negative interval opgegeven";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Niet toegestaan om tijdsduur en interval op te geven tenzij ze overeen komen";
+	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Datum niet opgegeven";
+	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Project niet opgegeven";
+	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Klant niet opgegeven";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "Ongeldige tijd of nul of negative interval opgegeven";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "Niet toegestaan om tijdsduur en interval op te geven tenzij ze overeen komen";
 
 	$lang_Time_Timesheet_StartTime = "Start tijd";
 	$lang_Time_Timesheet_EndTime = "Eind tijd";

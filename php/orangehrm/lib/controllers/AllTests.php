@@ -19,20 +19,17 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'controllers_AllTests::main');
 }
+set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
  
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
-set_include_path(get_include_path() . PATH_SEPARATOR . "../build");
+require_once 'TimeControllerTest.php';
 
-require_once 'common/AllTests.php';
-require_once 'utils/AllTests.php';
-require_once 'models/AllTests.php';
-require_once 'controllers/AllTests.php';
  
-class AllTests
+class controllers_AllTests
 {
     public static function main()
     {
@@ -41,18 +38,13 @@ class AllTests
  
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM');
- 
-        $suite->addTest(common_AllTests::suite());
-        $suite->addTest(utils_AllTests::suite());
-        $suite->addTest(models_AllTests::suite());
-        $suite->addTest(controllers_AllTests::suite());
- 
+        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM controllers');
+        $suite->addTestSuite('TimeControllerTest');
         return $suite;
     }
 }
  
-if (PHPUnit_MAIN_METHOD == 'AllTests::main') {
-    AllTests::main();
+if (PHPUnit_MAIN_METHOD == 'controllers_AllTests::main') {
+    controllers_AllTests::main();
 }
 ?>

@@ -896,11 +896,11 @@
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Ingen tidsskemaer fundet";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Følgende problemer opstod";
-	$lang_Time_Errors_ReportedDateNotSpecified = "Raporteret dato ikke specificeret";
-	$lang_Time_Errors_ProjectNotSpecified = "Project ikke specificeret";
-	$lang_Time_Errors_CustomerNotSpecified = "Kunde ikke specificeret";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Ugyldig tid eller nul eller negativt interval specificeret";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Varighed og interval kan ikke specificeres medmindre de matcher";
+	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Raporteret dato ikke specificeret";
+	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Project ikke specificeret";
+	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Kunde ikke specificeret";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "Ugyldig tid eller nul eller negativt interval specificeret";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "Varighed og interval kan ikke specificeres medmindre de matcher";
 
 	$lang_Time_Timesheet_StartTime = "Start tid";
 	$lang_Time_Timesheet_EndTime = "Sluttid";

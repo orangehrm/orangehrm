@@ -996,11 +996,11 @@ $lang_hrEmpMain_currency 				= "divisa";
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "no se encontró hoja de servicio";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
-	$lang_Time_Errors_ReportedDateNotSpecified = "fecha de informe no especificada";
-	$lang_Time_Errors_ProjectNotSpecified = "proyecto no especificado";
-	$lang_Time_Errors_CustomerNotSpecified = "cliente no especificado";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "tiempo inválido o zero o intervalo negativo seleccionado";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "no autorizado a especificar duración e intervalo a menos que coincidan";
+	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "fecha de informe no especificada";
+	$lang_Time_Errors_ProjectNotSpecified_ERROR = "proyecto no especificado";
+	$lang_Time_Errors_CustomerNotSpecified_ERROR = "cliente no especificado";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "tiempo inválido o zero o intervalo negativo seleccionado";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "no autorizado a especificar duración e intervalo a menos que coincidan";
 
 	$lang_Time_Timesheet_StartTime = "tiempo de inicio";
 	$lang_Time_Timesheet_EndTime = "tiempo de finalización";

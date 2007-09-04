@@ -97,27 +97,27 @@ function validate() {
 	errors = new Array();
 
 	if ($("cmbActivity").value == "-1") {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ActivityNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ActivityNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 
 	if ($("cmbProject").value == "-1") {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 
 	if (startTime && ($("txtEndTime").value != "") && ($("txtDuration").value != "")) {
 		if (!startTime || !endTime || (startTime > endTime) || (0 >= duration)) {
-			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified; ?>";
+			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 			errFlag=true;
 		}
 	} else if (!startTime) {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 
 	if ($("txtReportedDate").value == "") {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 

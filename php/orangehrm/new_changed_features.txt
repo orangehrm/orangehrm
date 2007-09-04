@@ -20,6 +20,7 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.2
 	1756001   Upgrade issue from 2.2-rc2 to 2.2 (Upload limit)
 	1758672   Reports :Text overlapped in qualification
 	1741094   There is an unnecessary line in ESS Employee Box
+	1756638   Timesheets allow entering times outside of timesheet period
 
 New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 

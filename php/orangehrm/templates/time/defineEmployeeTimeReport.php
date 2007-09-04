@@ -88,12 +88,12 @@ function validate() {
 	}
 
 	if (-1 > $("cmbActivity").value) {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ActivityNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ActivityNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 
 	if (-1 > $("cmbProject").value) {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 

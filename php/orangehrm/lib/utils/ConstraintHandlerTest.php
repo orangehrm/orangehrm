@@ -265,7 +265,7 @@ class ConstraintHandlerTest extends PHPUnit_Framework_TestCase {
 	public function testAllConstraintsSet() {
 
 		$constraintHandler = new ConstraintHandler();
-		require_once ROOT_PATH.'/dbscript/constraints.php';
+		require ROOT_PATH.'/dbscript/constraints.php';
 
 		$failed = $constraintHandler->getMissingConstraints($fkConstraints);
 

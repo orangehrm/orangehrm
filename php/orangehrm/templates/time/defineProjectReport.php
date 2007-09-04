@@ -45,7 +45,7 @@ function validate() {
 	errors = new Array();
 
 	if (-1 > $("cmbProject").value) {
-		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
+		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
 

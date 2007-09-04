@@ -77,8 +77,8 @@ switch ($status) {
 												break;
 }
 
-$startDate = strtotime($timesheet->getStartDate());
-$endDate = strtotime($timesheet->getEndDate());
+$startDate = strtotime($timesheet->getStartDate() . " 00:00:00");
+$endDate = strtotime($timesheet->getEndDate() . " 23:59:00");
 
 $row=0;
 ?>
@@ -91,6 +91,15 @@ var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php 
 
 function $(id) {
 	return document.getElementById(id);
+}
+
+function isEmpty(value) {
+	value = trim(value);
+	return (value == "");
+}
+
+function isFieldEmpty(id) {
+	return isEmpty($(id).value);
 }
 
 function actionSubmit() {
@@ -117,86 +126,193 @@ function actionInsertTime() {
   	currFocus.focus();
 }
 
-function validateInterval(row) {
-	startTime = strToTime($("txtStartTime["+row+"]").value);
-	endTime = strToTime($("txtEndTime["+row+"]").value);
+/**
+ * Checks that the given date is within the timesheet period.
+ * @return true if date within period, false otherwise
+ */
+function checkDateWithinPeriod(dateToCheck) {
 
-	if (!startTime) return false;
+	if (dateToCheck) {
 
-	if (startTime && !endTime) {
-		return true;
+		periodStart = strToTime("<?php echo date("Y-m-d H:i", $startDate); ?>");
+		periodEnd = strToTime("<?php echo date("Y-m-d H:i", $endDate); ?>");
+		if ((dateToCheck < periodStart) || (dateToCheck > periodEnd)) {
+			return false;
+		}
 	}
+	return true;
 
-	if (endTime > startTime) {
-		return true;
-	} else {
-		return false;
-	}
 }
 
-function validateDuration(row) {
-	obj = $("txtDuration["+row+"]");
+/**
+ * checks that the given date and duration are within the timesheet period
+ *
+ * @return true if within period, false otherwise.
+ */
+function checkDateAndDuration(dateValue, duration) {
 
-	if (!obj || (obj.value == '') || (obj.value == 0)) {
-		return false;
-	}
+	periodStart = strToTime("<?php echo date("Y-m-d H:i", $startDate); ?>");
+	periodEnd = strToTime("<?php echo date("Y-m-d H:i", $endDate); ?>");
 
-	regExp = /^[0-9]+\.*[0-9]*/;
+	// ignore invalid dates and durations since those are checked separately
+	if (dateValue && validateDuration(duration)) {
 
-	if (!regExp.test(obj.value)) {
-		return false;
+		if ((dateValue < periodStart) || (dateValue > periodEnd)) {
+			return false;
+		}
+
+		endTime = new Date();
+		endTime.setTime(dateValue + (3600000 * duration));
+
+		if ((endTime < periodStart) || (endTime > periodEnd)) {
+			return false;
+		}
 	}
 
 	return true;
 }
 
+
+/**
+ * Validates the given duration.
+ * Checks that it is a positive number.
+ *
+ * @return true if valid, false otherwise
+ */
+function validateDuration(value) {
+
+	if (value != "") {
+		regExp = /^[0-9]+\.*[0-9]*/;
+
+		if (!regExp.test(value)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Validates fields
+ *
+ * @return true if valid, false otherwise
+ */
 function validate() {
-	errors = new Array();
+
+	errorMsgs = new Array();
 	err = new Array();
 	errFlag = false;
-	for (i=0; i<=totRows; i++) {
-		if (!allEmpty(i)) {
-			err[i]=false;
 
-			obj = $("txtDuration["+i+"]");
+	for (i = 0; i <= totRows; i++) {
+		if (i == totRows) {
+			lastRow = true;
+		} else {
+			lastRow = false;
+		}
 
-			startTime = strToTime($("txtStartTime["+i+"]").value);
-			endTime = strToTime($("txtEndTime["+i+"]").value);
-			if (validateInterval(i) && validateDuration(i) && (obj.value != duration(i)) && endTime) {
-				obj.value = duration(i);
-			} else if (validateDuration(i) && startTime && !endTime) {
-				endTime = new Date();
-				endTime.setTime(startTime+(3600000*obj.value));
-				$("txtEndTime["+i+"]").value = formatDate(endTime, "yyyy-MM-dd HH:mm");
-			}
+		if (!lastRow || !allEmpty(i)) {
+			err[i] = false;
 
-			if (!validateDuration(i)) {
-				if (!validateInterval(i)) {
-					errors[2] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified; ?>";
-					err[i]=true;
-					errFlag=true;
-				}
-			}
+			txtStartTime = trim($("txtStartTime["+i+"]").value);
+			txtEndTime = trim($("txtEndTime["+i+"]").value);
+			txtReportedDate = trim($("txtReportedDate["+i+"]").value);
+			duration = trim($("txtDuration["+i+"]").value);
 
+			startTime = strToTime(txtStartTime);
+			endTime = strToTime(txtEndTime);
+			reportedDate = strToDate(txtReportedDate);
+
+			// Validate values
 			if ($("cmbActivity["+i+"]").value == "-1") {
-				errors[3] = "<?php echo $lang_Time_Errors_ActivityNotSpecified; ?>";
-				err[i]=true;
-				errFlag=true;
+				errorMsgs[0] = "<?php echo $lang_Time_Errors_ActivityNotSpecified_ERROR; ?>";
+				err[i] = true;
 			}
 
 			if ($("cmbProject["+i+"]").value == "-1") {
-				errors[4] = "<?php echo $lang_Time_Errors_ProjectNotSpecified; ?>";
-				err[i]=true;
-				errFlag=true;
+				errorMsgs[1] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
+				err[i] = true;
 			}
 
-			if ($("txtReportedDate["+i+"]").value == "") {
-				errors[5] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified; ?>";
-				err[i]=true;
-				errFlag=true;
+			if ((txtStartTime != "") && !startTime) {
+				errorMsgs[2] = "<?php echo $lang_Time_Errors_InvalidStartTime_ERROR; ?>";
+				err[i] = true;
+			}
+
+			if ((txtEndTime != "") && !endTime) {
+				errorMsgs[3] = "<?php echo $lang_Time_Errors_InvalidEndTime_ERROR; ?>";
+				err[i] = true;
+			}
+
+			if (txtReportedDate == "") {
+				errorMsgs[4] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified_ERROR; ?>";
+				err[i] = true;
+			} else if (!reportedDate) {
+				errorMsgs[5] = "<?php echo $lang_Time_Errors_InvalidReportedDate_ERROR; ?>";
+				err[i] = true;
+			}
+
+			// 0 not allowed for duration in last row.
+			if (!validateDuration(duration) || (lastRow && (duration != "") && (duration == 0))) {
+				errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
+				err[i] = true;
+			}
+
+			// Validate period/interval
+			if (txtStartTime == "") {
+				if (!isEmpty(duration) && !isEmpty(txtReportedDate) && (txtEndTime == "")) {
+
+					// Only reported date and duration specified. Check duration within timesheet period
+					if (!checkDateAndDuration(reportedDate, duration)) {
+						errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+						err[i] = true;
+					} else if (!lastRow && (validateDuration(duration) && duration == 0)) {
+
+						// Don't allow zero duration (for saved rows)
+						errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
+						err[i] = true;
+					}
+				} else {
+					errorMsgs[8] = "<?php echo $lang_Time_Errors_NoValidDurationOrInterval_ERROR; ?>";
+					err[i] = true;
+				}
+
+			} else {
+				if (txtEndTime == "") {
+					if (duration == "") {
+
+						// start time only. Check that it's within timesheet period
+						if (!checkDateWithinPeriod(startTime)) {
+							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+							err[i] = true;
+						}
+					} else {
+						// Only start time and duration specified. Check duration within timesheet period
+						if (!checkDateAndDuration(startTime, duration)) {
+							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+							err[i] = true;
+						}
+					}
+				} else {
+					if ((duration == "") || (!lastRow)) {
+
+						// start time and end time specified
+						if ((startTime && endTime) && (startTime >= endTime)) {
+							errorMsgs[9] = "<?php echo $lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR; ?>";
+							err[i] = true;
+						} else {
+							if (!checkDateWithinPeriod(startTime) || !checkDateWithinPeriod(endTime)) {
+								errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+								err[i] = true;
+							}
+						}
+					} else {
+							errorMsgs[10] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR; ?>";
+							err[i] = true;
+					}
+				}
 			}
 
 			if (err[i]) {
+				errFlag = true;
 				$("row["+i+"]").style.background = "#FFAAAA";
 			} else {
 				$("row["+i+"]").style.background = "#FFFFFF";
@@ -205,9 +321,9 @@ function validate() {
 	}
 
 	if (errFlag) {
-		errStr="<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
-		for (i in errors) {
-			errStr+=" - "+errors[i]+"\n";
+		errStr = "<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
+		for (i in errorMsgs) {
+			errStr += " - " + errorMsgs[i] + "\n";
 		}
 		alert(errStr);
 
@@ -217,47 +333,36 @@ function validate() {
 	return true;
 }
 
+/**
+ * Checks whether all values in the row are empty.
+ */
 function allEmpty(row) {
-	unUsed=true;
 
-	if (!(($("txtDuration["+row+"]").value == "") || ($("txtDuration["+row+"]").value == 0))) {
-		unUsed=false;
+	if (!isFieldEmpty("txtDuration["+row+"]")) {
+		return false;
 	}
 
 	if ($("cmbActivity["+row+"]").value != "-1") {
-		unUsed=false;
+		return false;
 	}
 
 	if ($("cmbProject["+row+"]").value != "-1") {
-		unUsed=false;
+		return false;
 	}
 
-	if ($("txtDescription["+row+"]").value != "") {
-		unUsed=false;
+	if (!isFieldEmpty("txtDescription["+row+"]")) {
+		return false;
 	}
 
-	if (validateInterval(row)) {
-		unUsed=false;
+	if (!isFieldEmpty("txtStartTime["+row+"]")) {
+		return false;
 	}
 
-	return unUsed;
-}
-
-function duration(row) {
-	startTime = strToTime($("txtStartTime["+row+"]").value);
-	endTime = strToTime($("txtEndTime["+row+"]").value);
-
-	if (!startTime) return 0;
-
-	if (startTime && !endTime) {
-		return 0;
+	if (!isFieldEmpty("txtEndTime["+row+"]")) {
+		return false;
 	}
 
-	if (endTime > startTime) {
-		return (Math.round((endTime - startTime)/36000)/100);
-	}
-
-	return 0;
+	return true;
 }
 
 function actionUpdate() {

@@ -848,11 +848,11 @@
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Табеля не найдены";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Возникли следующие проблемы";
-	$lang_Time_Errors_ReportedDateNotSpecified = "Дата отчёта не указана";
-	$lang_Time_Errors_ProjectNotSpecified = "Проект не указан";
-	$lang_Time_Errors_CustomerNotSpecified = "Клиент не указан";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Не правильно указан интервал времени";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Продолжительность и указанный интервал времени должны совпадать";
+	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Дата отчёта не указана";
+	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Проект не указан";
+	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Клиент не указан";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "Не правильно указан интервал времени";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "Продолжительность и указанный интервал времени должны совпадать";
 
 	$lang_Time_Timesheet_StartTime = "Время начала";
 	$lang_Time_Timesheet_EndTime = "Время окончания";

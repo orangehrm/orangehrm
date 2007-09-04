@@ -286,6 +286,11 @@
 	$lang_Leave_Leave_Type_Summary_Title 	= "Leave Types";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
+	$lang_Leave_Summary_Deleted_Types_Shown = "Denotes deleted leave types.";
+        $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
+        $lang_Leave_Summary_Deleted_Types_Manage = "If you wish to completely remove them from the system, click: ";
+        $lang_Leave_Summary_Deleted_Types_Manage_LoginAsAdmin = "Login as an Admin to manage deleted leave types.";
+        $lang_Leave_Summary_Manage_Deleted_Types = "Manage deleted leave types";
 
 	$lang_Leave_Holiday = "Holiday";
 
@@ -992,13 +997,23 @@
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Invalid time specified";
+	$lang_Time_Errors_EVENT_START_AFTER_END_ERROR = "Event start time after end time.";
+	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Invalid timesheet period.";
 
-	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems";
-	$lang_Time_Errors_ReportedDateNotSpecified = "Reported date not specified";
-	$lang_Time_Errors_ProjectNotSpecified = "Project not specified";
-	$lang_Time_Errors_CustomerNotSpecified = "Customer not specified";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Invalid time or zero or negative interval specified";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Not allowed to specify duration and interval unless they match";
+	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
+	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Reported date not specified";
+	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Project not specified";
+	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Customer not specified";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "Invalid time or zero or negative interval specified";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "Cannot specify both an interval and a duration";
+	$lang_Time_Errors_InvalidReportedDate_ERROR = "Invalid value for Reported date.";
+	$lang_Time_Errors_InvalidDuration_ERROR = "Duration should be a valid positive number";
+	$lang_Time_Errors_InvalidStartTime_ERROR = "Invalid time value for start time";
+	$lang_Time_Errors_InvalidEndTime_ERROR = "Invalid time value for end time";
+	$lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE = "Event time must be within the timesheet period.";
+	$lang_Time_Errors_NoValidDurationOrInterval_ERROR = "No valid duration or interval specified";
+	$lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR = "Zero or negative interval specified";
+	$lang_Time_Errors_NO_EVENTS_WARNING = "No events to save";
 
 	$lang_Time_Timesheet_StartTime = "Start time";
 	$lang_Time_Timesheet_EndTime = "End time";
@@ -1036,7 +1051,7 @@
 	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
 	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
 	$lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed = "Zero or negative duratons are not allowed";
-	$lang_Time_Errors_ActivityNotSpecified = "Activity not specified";
+	$lang_Time_Errors_ActivityNotSpecified_ERROR = "Activity not specified";
 
 	$lang_Menu_Time_PunchInOut = "Punch In/Out";
 

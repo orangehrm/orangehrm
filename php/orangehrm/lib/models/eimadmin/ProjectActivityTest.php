@@ -69,6 +69,8 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 
 		// Insert a project and customer for use in the test
         mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(1, 'Test customer', 'description', 0)");
+        mysql_query("INSERT INTO hs_hr_customer(customer_id, name, description, deleted) VALUES(0, 'Internal customer', 'description', 0)");
+        mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
 		UniqueIDGenerator::getInstance()->resetIDs();
@@ -204,6 +206,18 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 			// expected
 		}
 
+		// Save an activity for the project 0
+		$activity3Id = UniqueIDGenerator::getInstance()->getLastId("hs_hr_project_activity", "activity_id") + 1;
+
+		$activity3 = new ProjectActivity();
+		$activity3->setProjectId(0);
+		$activity3->setName("Test internal");
+		$activity3->save();
+
+		$this->assertEquals($activity3Id, $activity3->getId(), "activity ID not updated with auto_increment value");
+
+		$result = mysql_query("SELECT * FROM hs_hr_project_activity WHERE activity_id = $activity3Id");
+		$this->_checkRow($activity3, mysql_fetch_assoc($result));
     }
 
     /**

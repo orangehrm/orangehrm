@@ -85,7 +85,7 @@ class ProjectActivity {
 	 */
 	public function save() {
 
-		if (empty($this->name) || empty($this->projectId)) {
+		if (empty($this->name) || !CommonFunctions::isValidId($this->projectId)) {
 			throw new ProjectActivityException("Attributes not set");
 		}
 
@@ -118,6 +118,7 @@ class ProjectActivity {
 		$sql = $sqlBuilder->addNewRecordFeature2();
 
 		$conn = new DMLFunctions();
+
 		$result = $conn->executeQuery($sql);
 		if (!$result || (mysql_affected_rows() != 1)) {
 			throw new ProjectActivityException("Insert failed. ");

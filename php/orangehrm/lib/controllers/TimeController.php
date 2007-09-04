@@ -37,6 +37,20 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 class TimeController {
 
+	const INVALID_TIMESHEET_PERIOD_ERROR = "INVALID_TIMESHEET_PERIOD_ERROR";
+	const EVENT_OUTSIDE_PERIOD_FAILURE = "EVENT_OUTSIDE_PERIOD_FAILURE";
+	const NO_TIMESHEET_FAILURE = "NO_TIMESHEET_FAILURE";
+	const ZeroOrNegativeIntervalSpecified_ERROR = "ZeroOrNegativeIntervalSpecified_ERROR";
+	const ProjectNotSpecified_ERROR = "ProjectNotSpecified_ERROR";
+	const ActivityNotSpecified_ERROR = "ActivityNotSpecified_ERROR";
+	const InvalidStartTime_ERROR = "InvalidStartTime_ERROR";
+	const InvalidEndTime_ERROR = "InvalidEndTime_ERROR";
+	const ReportedDateNotSpecified_ERROR = "ReportedDateNotSpecified_ERROR";
+	const InvalidReportedDate_ERROR = "InvalidReportedDate_ERROR";
+	const InvalidDuration_ERROR = "InvalidDuration_ERROR";
+	const NoValidDurationOrInterval_ERROR = "NoValidDurationOrInterval_ERROR";
+	const NotAllowedToSpecifyDurationAndInterval_ERROR = "NotAllowedToSpecifyDurationAndInterval_ERROR";
+
 	private $objTime;
 	private $id;
 	private $authorizeObj;
@@ -457,7 +471,7 @@ class TimeController {
 		$role = $this->authorizeObj->firstRole($roles);
 
 		if ($timeEvents == null) {
-			$_GET['message'] = 'UPDATE_FAILURE';
+			$_GET['message'] = 'NO_EVENTS_WARNING';
 			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$_GET['id']}");
 			return false;
 		}
@@ -469,39 +483,47 @@ class TimeController {
 		}
 
 		$_GET['message'] = 'NO_RECORDS_CHANGED_WARNING';
+		$result = $this->validateTimeEvents($timeEvents);
+		if ($result !== true) {
+			$_GET['message'] = $result;
+			$res = false;
+		} else {
 
-		foreach ($timeEvents as $timeEvent) {
-			try {
-				if ($timeEvent->getTimeEventId() == null) {
-					$res=$timeEvent->addTimeEvent();
-				} else {
-					$res=$timeEvent->editTimeEvent();
-				}
-				if ($res) {
-					if ($res == 1) {
-						$_GET['message'] = 'UPDATE_SUCCESS';
+			foreach ($timeEvents as $timeEvent) {
+				try {
+					if ($timeEvent->getTimeEventId() == null) {
+						$res=$timeEvent->addTimeEvent();
+					} else {
+						$res=$timeEvent->editTimeEvent();
 					}
-				} else {
-					$_GET['message'] = 'UPDATE_FAILURE';
+
+					if ($res) {
+						if ($res == 1) {
+							$_GET['message'] = 'UPDATE_SUCCESS';
+						}
+					} else {
+						$_GET['message'] = 'UPDATE_FAILURE';
+						break;
+					}
+				} catch (TimeEventException $e) {
+					$res=false;
+					switch ($e->getCode()) {
+						case 2: $_GET['message'] = 'OVERLAPPING_TIME_PERIOD_FAILURE';
+								break;
+						default:
+								$_GET['message'] = 'UPDATE_FAILURE';
+								break;
+					}
 					break;
 				}
-			} catch (TimeEventException $e) {
-				$res=false;
-				switch ($e->getCode()) {
-					case 2: $_GET['message'] = 'OVERLAPPING_TIME_PERIOD_FAILURE';
-							break;
-					default:
-							$_GET['message'] = 'UPDATE_FAILURE';
-							break;
-				}
-				break;
+
 			}
 		}
 
 		if ($res) {
-			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvent->getTimesheetId()}");
+			$this->redirect($_GET['message'], "?timecode=Time&action={$nextAction}&id={$timeEvents[0]->getTimesheetId()}");
 		} else {
-			$this->redirect($_GET['message'], "?timecode=Time&action=View_Edit_Timesheet&id={$timeEvent->getTimesheetId()}&return={$nextAction}");
+			$this->redirect($_GET['message'], "?timecode=Time&action=View_Edit_Timesheet&id={$timeEvents[0]->getTimesheetId()}&return={$nextAction}");
 		}
 
 		return $res;
@@ -746,7 +768,7 @@ class TimeController {
 				$timesheetObj->addTimesheet();
 				$timesheets = $timesheetObj->fetchTimesheets();
 			} else {
-				$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Select_Employee');
+				$this->redirect(self::NO_TIMESHEET_FAILURE, '?timecode=Time&action=View_Select_Employee');
 			}
 		}
 
@@ -1171,6 +1193,157 @@ class TimeController {
 		}
 
 		header("Location: ".$url[0].$message.$id);
+	}
+
+	/**
+	 * Validates given array of time events.
+	 * This function acts as a second level of validation. The time events
+	 * should have been validated in client side javascript as well.
+	 *
+	 * @param array $timeEventArray Array of time event objects to validate.
+	 * @return mixed true if validate success, error string if not.
+	 */
+	public function validateTimeEvents($timeEventArray) {
+
+		$timesheetArray = array();
+
+		foreach($timeEventArray as $timeEvent) {
+
+			$timesheetId = $timeEvent->getTimesheetId();
+
+			if (empty($timesheetId)) {
+				return  self::NO_TIMESHEET_FAILURE;
+			}
+
+			if (isset($timesheetArray[$timesheetId])) {
+				$timesheet = $timesheetArray[$timesheetId];
+			} else {
+				$tmpSheet = new Timesheet();
+				$tmpSheet->setTimesheetId($timesheetId);
+				$sheets = $tmpSheet->fetchTimesheets();
+
+				if (empty($sheets) || !is_object($sheets[0])) {
+					return  self::NO_TIMESHEET_FAILURE;
+				}
+				$timesheet = $sheets[0];
+			}
+
+			$timesheetArray[$timesheetId] = $timesheet;
+			$result = $this->validateTimeEvent($timeEvent, $timesheet);
+
+			if (!($result === true)) {
+				return $result;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates the timeevent against the given timesheet.
+	 *
+	 * @param TimeEvent $timeEvent Time event to validate
+	 * @param Timesheet $timesheet Time sheet
+	 * @return mixed true if validate success, error string if not.
+	 */
+	public function validateTimeEvent($timeEvent, $timesheet) {
+
+		$eventStartTime = $timeEvent->getStartTime();
+		$eventEndTime = $timeEvent->getEndTime();
+		$eventStart = strtotime($eventStartTime);
+		$eventEnd = strtotime($eventEndTime);
+
+		$periodStartDate = $timesheet->getStartDate();
+		$periodEndDate = $timesheet->getEndDate();
+		$periodStart = strtotime($periodStartDate);
+		$periodEnd = strtotime($periodEndDate);
+
+		$periodEnd = strtotime("+1 day", $periodEnd);
+		// strtotime returns false (-1 before php 5.1.0) on error
+		if (!($periodStart > 0) || !($periodEnd > 0) || ($periodStart >= $periodEnd)) {
+			return self::INVALID_TIMESHEET_PERIOD_ERROR;
+		}
+
+		$reportedDate = $timeEvent->getReportedDate();
+		$reported = strtotime($reportedDate);
+
+		$eventId = $timeEvent->getTimeEventId();
+		$newEvent = empty($eventId);
+
+		if (!CommonFunctions::IsValidId($timeEvent->getProjectId())) {
+			print "TEst";var_dump($timeEvent);die;
+			return self::ProjectNotSpecified_ERROR;
+		}
+
+		if (!CommonFunctions::IsValidId($timeEvent->getActivityId())) {
+			return self::ActivityNotSpecified_ERROR;
+		}
+
+		if (!empty($eventStartTime) && !($eventStart > 0)) {
+			return self::InvalidStartTime_ERROR;
+		}
+
+		if (!empty($eventEndTime) && !($eventEnd > 0)) {
+			return self::InvalidEndTime_ERROR;
+		}
+
+		if (empty($reportedDate)) {
+			return self::ReportedDateNotSpecified_ERROR;
+		} else if (!($reported > 0)) {
+			return self::InvalidReportedDate_ERROR;
+		}
+
+		$duration = $timeEvent->getDuration();
+		$duration = ($duration === "") ? null : $duration;
+
+		// 0 not allowed for duration in last row.
+		if (!is_null($duration) && (($duration < 0) || ($newEvent && $duration == 0))) {
+			return self::InvalidDuration_ERROR;
+		}
+
+		// Validate period/interval
+		if (empty($eventStartTime) && empty($eventEndTime) && !empty($duration)) {
+
+			// reported date + duration
+			if (($reported < $periodStart) || (($reported + $duration) > $periodEnd)) {
+				return self::EVENT_OUTSIDE_PERIOD_FAILURE;
+			}
+		} else if (!empty($eventStartTime) && empty($eventEndTime) && is_null($duration)) {
+
+			// start time only
+			if (($eventStart < $periodStart) || ($eventStart > $periodEnd)) {
+				return self::EVENT_OUTSIDE_PERIOD_FAILURE;
+			}
+		} else if (!empty($eventStartTime) && !empty($eventEndTime)) {
+
+			if (!empty($duration) && $newEvent) {
+				return self::NotAllowedToSpecifyDurationAndInterval_ERROR;
+			}
+
+			// start and end time
+			if ($eventStart >= $eventEnd) {
+				return self::ZeroOrNegativeIntervalSpecified_ERROR;
+			}
+
+			if (($eventStart < $periodStart) || ($eventEnd > $periodEnd)) {
+				return self::EVENT_OUTSIDE_PERIOD_FAILURE;
+			}
+
+			$timeEvent->setDuration($eventEnd - $eventStart);
+
+		} else if (!empty($eventStartTime) && !empty($duration) && empty($eventEndTime)) {
+
+			// start time and duration
+			if (($eventStart < $periodStart) || (($eventStart + $duration) > $periodEnd)) {
+				return self::EVENT_OUTSIDE_PERIOD_FAILURE;
+			}
+
+			$timeEvent->setEndTime(date("Y-m-d H:i", $eventStart + $duration));
+		} else {
+			return self::NoValidDurationOrInterval_ERROR;
+		}
+
+		return true;
 	}
 }
 ?>
