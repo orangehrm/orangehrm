@@ -28,6 +28,9 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.2
 	1764110   All text should be in resource files
 	1779797   emppop.php
 	1753736   The default leave view for supervisor
+	1779300   No Paging in User Management module
+	1766285   Membership name with quote not shown in PIM
+	1783741   Ess User : Should not view Attachment Browse
 
 New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 

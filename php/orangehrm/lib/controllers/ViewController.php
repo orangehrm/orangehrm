@@ -223,9 +223,9 @@ class ViewController {
 					    }
 
 				   		if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode")) {
-							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), $strName, $choice, $getArr['sortField'], $getArr[$sortOrderFld]);
+							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), $strName, $choice, $esp);
 						} else {
-							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $getArr['sortField'], $getArr[$sortOrderFld]);
+							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $esp);
 						}
 						$form_creator->display();
 

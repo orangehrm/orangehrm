@@ -39,7 +39,7 @@ class xajaxElementFiller {
 		}
 
 	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
-	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 3 ? $i+1 : $i)."] = new Option('" .$fillArr[$i][($fele+1)]. "','".$fillArr[$i][$fele]."');");
+	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 3 ? $i+1 : $i)."] = new Option('" .addslashes($fillArr[$i][($fele+1)]). "','".addslashes($fillArr[$i][$fele])."');");
 
 		return $objResponse;
 	}

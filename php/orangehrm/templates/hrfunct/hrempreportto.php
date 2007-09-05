@@ -206,7 +206,7 @@ function viewSup(sup,rep) {
 					  </tr>
  </table>
 </div>
-<?php } elseif (isset($this->getArr['editIDSub'])) { ?>
+<?php } else if (isset($this->getArr['editIDSub'])) { ?>
 <div id="editPaneReportTo" >
 	<input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>">
     <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>">
@@ -249,8 +249,8 @@ function viewSup(sup,rep) {
 					  </tr>
 			</table>
 </div>
-<?php } else { ?>
-	<div id="addPaneReportTo" class="<?php echo (($this->popArr['suprset'] != null) || ($this->popArr['subrset'] != null))?"addPane":""; ?>" >
+<?php } else if (!$supervisorEMPMode && $locRights['add']) { ?>
+	<div id="addPaneReportTo" class="<?php echo (($this->popArr['suprset'] != null) && ($this->popArr['subrset'] != null))?"addPane":""; ?>" >
 		<input type="hidden" name="txtSupEmpID">
      	<input type="hidden" name="txtSubEmpID">
 
@@ -299,12 +299,15 @@ function viewSup(sup,rep) {
 $rset = $this->popArr['suprset'];
 $empname = $this ->popArr['empname'];
 
+$keys = array_keys($arrRepMethod);
+$values = array_values($arrRepMethod);
+
 // checking for a records if exsist view the the table and delete btn else no
 if ($rset != null && $empname != null){ ?>
 <td>
 	<h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3>
 	<div><?php echo $lang_hremp_ie_CurrentSupervisors; ?></div>
-<?php if($locRights['add']) { ?>
+<?php if (!$supervisorEMPMode && $locRights['add']) { ?>
 	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>

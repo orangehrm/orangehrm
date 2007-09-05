@@ -98,14 +98,14 @@ function editAttach() {
 			  <tr>
 				<td>&nbsp;</td>
 				<td>
-<?php	if($locRights['edit']) { ?>
+<?php	if ($locRights['edit']) { ?>
         <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php	} ?>
 				</td>
 				</tr>
 		</table>
 	</div>
-<?php } else { ?>
+<?php } else if ($locRights['add']) { ?>
 <div id="addPaneAttachments" class="<?php echo ($this->popArr['empAttAss'] != null)?"addPane":""; ?>" >
 	  <table width="352" height="120" border="0" cellpadding="0" cellspacing="0">
           <tr>
@@ -130,7 +130,7 @@ function editAttach() {
 	$rset = $this->popArr['empAttAss'] ;
 	if ($rset != null){ ?>
 		<h3><?php echo $lang_hrEmpMain_assignattach?></h3>
-<?php if($locRights['add']) { ?>
+<?php if ($locRights['add']) { ?>
 		<img border="0" title="Add" onClick="showAddPane('Attachments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
 <?php } ?>
 <?php	if($locRights['delete']) { ?>
@@ -158,6 +158,8 @@ function editAttach() {
         }
 ?>
           </table>
-<?php } ?>
+<?php } else if (!$locRights['add']) { ?>
+	<p><?php echo $lang_empview_norecorddisplay; ?></p>
+<?php }?>
 <?php } ?>
 </span>
