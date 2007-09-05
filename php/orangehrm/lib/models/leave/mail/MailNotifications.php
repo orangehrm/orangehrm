@@ -273,7 +273,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED) {
 
-				$leaveLength = $leaveObj->getLeaveLength();
+				$leaveLength = $leaveObj->getLeaveLengthHours();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else if ($leaveLength != 0) {
@@ -337,7 +337,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_REJECTED) {
 
-				$leaveLength = $leaveObj->getLeaveLength();
+				$leaveLength = $leaveObj->getLeaveLengthHours();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else if ($leaveLength != 0) {
@@ -402,7 +402,7 @@ class MailNotifications {
 			foreach ($leaveObjs as $leaveObj) {
 				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
 
-					$leaveLength = $leaveObj->getLeaveLength();
+					$leaveLength = $leaveObj->getLeaveLengthHours();
 					if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 						$fulldays++;
 					} else if ($leaveLength != 0) {
@@ -467,7 +467,7 @@ class MailNotifications {
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 
-				$leaveLength = $leaveObj->getLeaveLength();
+				$leaveLength = $leaveObj->getLeaveLengthHours();
 				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
 					$fulldays++;
 				} else if ($leaveLength != 0) {

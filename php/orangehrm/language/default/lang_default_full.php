@@ -1214,4 +1214,11 @@
 	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
 	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
 
+	$lang_Leave_Common_FromTime = "From time";
+	$lang_Leave_Common_ToTime = "To time";
+	$lang_Leave_Common_TotalHours = "Total hours";
+	$lang_Leave_Error_ToTimeBeforeFromTime = "To time before from time";
+	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than 24 hours";
+	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period"
+
 ?>

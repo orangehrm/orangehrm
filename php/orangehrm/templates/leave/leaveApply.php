@@ -33,11 +33,22 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  	$previousLeave = $records[3];
  }
 
+ $startTime = strtotime("00:00");
+ $endTime = strtotime("23:59");
+ $interval = 60*15;
+ $shiftLength = Leave::LEAVE_LENGTH_FULL_DAY;
+
 ?>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<script src="../../scripts/time.js"></script>
 <script>
 
+	var shiftLength = <?php echo $shiftLength; ?>;
+
 	function addSave() {
+		fillToDate();
+		fillTimes();
+
 		err = false;
 		msg = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
 
@@ -68,11 +79,40 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			msg += " - <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
 		}
 
+		obj = document.frmLeaveApp.sltLeaveType;
+		if (obj.value == -1) {
+			err = true;
+			msg += " - <?php echo $lang_Error_PleaseSelectALeaveType; ?>\n"
+		}
+
 		if (document.frmLeaveApp.cmbEmployeeId) {
 			obj = document.frmLeaveApp.cmbEmployeeId;
 			if (obj.value == -1) {
 				err = true;
 				msg += " - <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n"
+			}
+		}
+
+		if (($('txtLeaveFromDate').value != '') && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
+			if (($('sltLeaveFromTime').value != '') && ($('sltLeaveToTime').value != '')) {
+				fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
+				toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value);
+
+				if (fromTime > toTime) {
+					err = true;
+					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
+				}
+			} else if (($('sltLeaveFromTime').value != '') && extractTimeFromHours($('txtLeaveTotalTime').value)) {
+				if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
+					err = true;
+					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
+				}
+			} else if ((extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) && (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000)) {
+				err = true;
+				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
+			} else if (($('sltLeaveFromTime').value != '') || ($('sltLeaveToTime').value != '')) {
+				err = true;
+				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
 			}
 		}
 
@@ -141,10 +181,67 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		if (validDate(document.frmLeaveApp.txtLeaveFromDate.value)) {
 			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
 		}
+		if (($('txtLeaveFromDate').value != '') && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
+			$('trTime1').className = 'display-table-row';
+			$('trTime2').className = 'display-table-row';
+			$('trTime3').className = 'display-table-row';
+			$('trTime4').className = 'display-table-row';
+		} else {
+			$('trTime1').className = 'hidden';
+			$('trTime2').className = 'hidden';
+			$('trTime3').className = 'hidden';
+			$('trTime4').className = 'hidden';
+		}
 	}
 
 	function clearRevertLeave() {
 		$("revertLeave").style.display = "none";
+	}
+
+	function fillTimes() {
+		if (($('txtLeaveFromDate').value == '') || ($('txtLeaveFromDate').value != $('txtLeaveToDate').value)) {
+			return false;
+		}
+		if (($('sltLeaveFromTime').value != '') && ($('sltLeaveToTime').value != '')) {
+			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
+			toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value);
+
+			if (fromTime > toTime) {
+				return false;
+			}
+
+			$('txtLeaveTotalTime').value = (toTime-fromTime)/3600000;
+		} else if (($('sltLeaveFromTime').value != '') && extractTimeFromHours($('txtLeaveTotalTime').value)) {
+			if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
+				return false;
+			}
+
+			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
+			toTime = fromTime+extractTimeFromHours($('txtLeaveTotalTime').value);
+
+			date = new Date();
+			date.setTime(toTime);
+
+			toTimeStr = formatDate(date, "HH:mm");
+			options = $('sltLeaveToTime').options;
+
+			for (i=0; options.length>i; i++) {
+				if (options[i].value == toTimeStr) {
+					options[i].selected = true;
+					break;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	function extractTimeFromHours(str) {
+		format = /^\s*[0-9]{0,2}(\.[0-9]{2}){0,1}\s*$/;
+
+		if (!format.test(str)) return false;
+
+		return str*60*60*1000;
 	}
 
 	function doRevertLeave() {
@@ -301,30 +398,63 @@ if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_S
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
+      <tr id="trTime1" class="hidden">
+        <td class="tableMiddleLeft"></td>
+        <td><?php echo $lang_Leave_Common_FromTime;?></td>
+        <td width="25px">&nbsp;</td>
+        <td><?php echo $lang_Leave_Common_TotalHours;?></td>
+        <td width="25px">&nbsp;</td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+      <tr id="trTime2" class="hidden">
+        <td class="tableMiddleLeft"></td>
+        <td><select name="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" >
+        	<option value="" selected ></option>
+        	<?php
+        		for ($i=$startTime; $i<=$endTime; $i+=$interval) { ?>
+        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo date('H:i', $i); ?></option>
+        	<?php } ?>
+        	</select>
+        </td>
+        <td width="25px">&nbsp;</td>
+        <td><input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();" /></td>
+        <td width="25px">&nbsp;</td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+      <tr id="trTime3" class="hidden">
+      	<td class="tableMiddleLeft"></td>
+        <td><?php echo $lang_Leave_Common_ToTime;?></td>
+      	<td width="25px">&nbsp;</td>
+      	<td>&nbsp;</td>
+      	<td width="25px">&nbsp;</td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+      <tr id="trTime4" class="hidden">
+     	<td class="tableMiddleLeft"></td>
+        <td><select name="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" >
+        	<option value="" selected ></option>
+        	<?php
+        		for ($i=$startTime; $i<=$endTime; $i+=$interval) { ?>
+        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo date('H:i', $i); ?></option>
+        	<?php } ?>
+        	</select>
+        </td>
+        <td width="25px">&nbsp;</td>
+        <td>&nbsp;</td>
+      	<td width="25px">&nbsp;</td>
+        <td class="tableMiddleRight"></td>
+      </tr>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><?php echo $lang_Leave_Common_Length; ?></td>
-        <td width="25px">&nbsp;</td>
         <td><?php echo $lang_Leave_Common_Comment; ?></td>
+        <td width="25px">&nbsp;</td>
+        <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
       <tr valign="top">
         <td class="tableMiddleLeft"></td>
-        <td><select name="sltLeaveLength" id="sltLeaveLength">
-            <option value="<?php echo (Leave::LEAVE_LENGTH_FULL_DAY);?>"><?php echo $lang_Leave_Common_FullDay;?></option>
-            <option value="<?php echo (Leave::LEAVE_LENGTH_HALF_DAY_MORNING);?>"><?php echo $lang_Leave_Common_HalfDayMorning;?></option>
-            <option value="<?php echo (Leave::LEAVE_LENGTH_HALF_DAY_AFTERNOON);?>"><?php echo $lang_Leave_Common_HalfDayAfternoon;?></option>
-          </select>
-        </td>
-        <td width="25px">&nbsp;</td>
         <td><textarea name="txtComments" id="txtComments"></textarea></td>
-        <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-      <tr>
-        <td class="tableMiddleLeft"></td>
-        <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>

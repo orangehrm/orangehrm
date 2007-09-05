@@ -45,7 +45,19 @@ class EXTRACTOR_LeaveRequests {
 			$this->parent_Leave->setLeaveToDate($postArr['txtLeaveFromDate']);
 		}
 
-		$this->parent_Leave->setLeaveLength($postArr['sltLeaveLength']);
+		if (($this->parent_Leave->getLeaveFromDate() == $this->parent_Leave->getLeaveToDate()) && ($this->parent_Leave->getLeaveFromDate() != null)) {
+
+			$this->parent_Leave->setStartTime($postArr['sltLeaveFromTime']);
+
+			$lengthHours = $postArr['txtLeaveTotalTime'];
+			$lengthDays = ceil($lengthHours/Leave::LEAVE_LENGTH_FULL_DAY);
+		} else {
+			$lengthDays = 1;
+			$lengthHours = Leave::LEAVE_LENGTH_FULL_DAY;
+		}
+
+		$this->parent_Leave->setLeaveLengthHours($lengthHours);
+		$this->parent_Leave->setLeaveLengthDays($lengthDays);
 		$this->parent_Leave->setLeaveComments($postArr['txtComments']);
 
 		return $this->parent_Leave;

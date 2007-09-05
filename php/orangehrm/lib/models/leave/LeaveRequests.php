@@ -189,13 +189,18 @@ class LeaveRequests extends Leave {
 
 			$tmpLeaveArr = $tmpLeave->retrieveLeave($row[1]);
 
+			$noOfDays = 0;
+
 			if (isset($tmpLeaveArr) && !empty($tmpLeaveArr)) {
 
 				$totalLeaves = count($tmpLeaveArr);
 
 				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
 
-				$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLength(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
+				if ($tmpLeaveArr[0]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+					$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLengthHours(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
+				}
+
 				$noOfDays = abs($noOfDays);
 
 				if ($totalLeaves > 1) {
@@ -208,8 +213,7 @@ class LeaveRequests extends Leave {
 					for ($i=1; $i<$totalLeaves; $i++) {
 
 						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-							//echo $tmpLeaveArr[$i]->getLeaveLength()."<br>";
-							$noOfDays += abs($tmpLeaveArr[$i]->getLeaveLength());
+							$noOfDays += abs($tmpLeaveArr[$i]->getLeaveLengthHours());
 
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
@@ -225,9 +229,9 @@ class LeaveRequests extends Leave {
 					$tmpLeaveRequestArr->setCommentsDiffer($commentsDiffer);
 
 					$tmpLeaveRequestArr->setLeaveStatus($status);
-					$tmpLeaveRequestArr->setLeaveLength(self::LEAVEREQUESTS_LEAVELENGTH_RANGE);
+					$tmpLeaveRequestArr->setLeaveLengthHours(self::LEAVEREQUESTS_LEAVELENGTH_RANGE);
 				} else {
-					$tmpLeaveRequestArr->setLeaveLength($tmpLeaveArr[0]->getLeaveLength());
+					$tmpLeaveRequestArr->setLeaveLengthHours($tmpLeaveArr[0]->getLeaveLengthHours());
 					$tmpLeaveRequestArr->setLeaveStatus($tmpLeaveArr[0]->getLeaveStatus());
 					$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
 				}

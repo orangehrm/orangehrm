@@ -75,10 +75,12 @@ class Leave {
 	private $leaveTypeName;
 	private $dateApplied;
 	private $leaveDate;
-	private $leaveLength;
+	private $leaveLengthHours;
+	private $leaveLengthDays;
 	private $leaveStatus;
 	private $leaveComments;
 	private $employeeName;
+	private $startTime;
 
 	protected $weekends;
 
@@ -155,12 +157,20 @@ class Leave {
 		return $this->leaveDate;
 	}
 
-	public function setLeaveLength($leaveLength) {
-		$this->leaveLength = $leaveLength;
+	public function setLeaveLengthHours($leaveLengthHours) {
+		$this->leaveLengthHours = $leaveLengthHours;
 	}
 
-	public function getLeaveLength() {
-		return $this->leaveLength;
+	public function getLeaveLengthHours() {
+		return $this->leaveLengthHours;
+	}
+
+	public function setLeaveLengthDays($leaveLengthDays) {
+		$this->leaveLengthDays = $leaveLengthDays;
+	}
+
+	public function getLeaveLengthDays() {
+		return $this->leaveLengthDays;
 	}
 
 	public function setLeaveStatus($leaveStatus) {
@@ -177,6 +187,14 @@ class Leave {
 
 	public function getLeaveComments() {
 		return $this->leaveComments;
+	}
+
+	public function setStartTime($startTime) {
+		$this->startTime = $startTime;
+	}
+
+	public function getStartTime() {
+		return $this->startTime;
 	}
 
 	public function setEmployeeName($employeeName) {
@@ -202,13 +220,14 @@ class Leave {
 
 		$arrFields[0] = 'a.`leave_date`';
 		$arrFields[1] = 'a.`leave_status`';
-		$arrFields[2] = 'a.`leave_length`';
-		$arrFields[3] = 'a.`leave_comments`';
-		$arrFields[4] = 'a.`leave_id`';
-		$arrFields[5] = 'd.`emp_firstname`';
-		$arrFields[6] = 'd.`emp_lastname`';
-		$arrFields[7] = 'a.`employee_id`';
-		$arrFields[8] = 'b.`leave_type_name` as leave_type_name';
+		$arrFields[2] = 'a.`leave_length_hours`';
+		$arrFields[3] = 'a.`leave_length_days`';
+		$arrFields[4] = 'a.`leave_comments`';
+		$arrFields[5] = 'a.`leave_id`';
+		$arrFields[6] = 'd.`emp_firstname`';
+		$arrFields[7] = 'd.`emp_lastname`';
+		$arrFields[8] = 'a.`employee_id`';
+		$arrFields[9] = 'b.`leave_type_name` as leave_type_name';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_employee` d";
@@ -242,14 +261,15 @@ class Leave {
 
 		$arrFields[0] = 'a.`leave_date` as leave_date';
 		$arrFields[1] = 'a.`leave_status` as leave_status';
-		$arrFields[2] = 'a.`leave_length` as leave_length';
-		$arrFields[3] = 'a.`leave_comments` as leave_comments';
-		$arrFields[4] = 'a.`leave_id` as leave_id';
-		$arrFields[5] = 'b.`leave_type_name` as leave_type_name';
-		$arrFields[6] = 'c.`emp_firstname` as emp_firstname';
-		$arrFields[7] = 'c.`emp_lastname` as emp_lastname';
-		$arrFields[8] = 'a.`employee_id` as employee_id';
-		$arrFields[9] = 'a.`leave_request_id` as leave_request_id';
+		$arrFields[2] = 'a.`leave_length_hours` as leave_length_hours';
+		$arrFields[3] = 'a.`leave_length_days` as leave_length_days';
+		$arrFields[4] = 'a.`leave_comments` as leave_comments';
+		$arrFields[5] = 'a.`leave_id` as leave_id';
+		$arrFields[6] = 'b.`leave_type_name` as leave_type_name';
+		$arrFields[7] = 'c.`emp_firstname` as emp_firstname';
+		$arrFields[8] = 'c.`emp_lastname` as emp_lastname';
+		$arrFields[9] = 'a.`employee_id` as employee_id';
+		$arrFields[10] = 'a.`leave_request_id` as leave_request_id';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leave_requests` b";
@@ -284,9 +304,10 @@ class Leave {
 
 		$arrFields[0] = '`leave_date`';
 		$arrFields[1] = '`leave_status`';
-		$arrFields[2] = '`leave_length`';
-		$arrFields[3] = '`leave_comments`';
-		$arrFields[4] = '`leave_id`';
+		$arrFields[2] = '`leave_length_hours`';
+		$arrFields[3] = '`leave_length_days`';
+		$arrFields[4] = '`leave_comments`';
+		$arrFields[5] = '`leave_id`';
 
 		$arrTable = "`hs_hr_leave`";
 
@@ -351,7 +372,7 @@ class Leave {
 
 		$sqlBuilder = new SQLQBuilder();
 
-		$arrFields[0] = 'SUM(ABS(`leave_length`))';
+		$arrFields[0] = 'SUM(ABS(`leave_length_days`))';
 
 		$arrTable = "`hs_hr_leave`";
 
@@ -371,30 +392,16 @@ class Leave {
 		$count = mysql_fetch_row($result);
 
 		$totalLeaveLength = $count[0];
-		/*
-		foreach ($leaveLengths as $length) {
-			$selectConditions[5] = "`leave_length` = '".$length."'";
-
-			$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
-
-			//echo $query;
-
-			$dbConnection = new DMLFunctions();
-
-			$result = $dbConnection->executeQuery($query);
-
-			$count = mysql_fetch_row($result);
-
-			if ($length < 0) {
-				$length *= -1;
-			}
-
-			$totalLeaveLength += $count[0]*$length;
-		}		*/
 
 		return ($totalLeaveLength/$this->lengthFullDay);
 	}
 
+	protected function _adjustLeaveLength() {
+		$timeOff = $this->_timeOffLength($this->getLeaveDate());
+
+		$this->setLeaveLengthHours($this->_leaveLength($this->getLeaveLengthHours(), $timeOff));
+		$this->setLeaveLengthDays($this->getLeaveLengthHours()/self::LEAVE_LENGTH_FULL_DAY);
+	}
 
 	/**
 	 * Adds Leave
@@ -408,22 +415,38 @@ class Leave {
 		$this->_getLeaveTypeName();
 		$this->setDateApplied(date('Y-m-d'));
 
+		$this->_adjustLeaveLength();
+
+		$insertFields[0] = '`leave_id`';
+		$insertFields[1] = '`leave_date`';
+		$insertFields[2] = '`leave_length_hours`';
+		$insertFields[3] = '`leave_length_days`';
+		$insertFields[4] = '`leave_status`';
+		$insertFields[5] = '`leave_comments`';
+		$insertFields[6] = '`leave_request_id`';
+		$insertFields[7] = '`leave_type_id`';
+		$insertFields[8] = '`employee_id`';
+
 		$arrRecordsList[0] = $this->getLeaveId();
 		$arrRecordsList[1] = "'". $this->getLeaveDate()."'";
-		$arrRecordsList[2] = "'". $this->getLeaveLength()."'";
-		$arrRecordsList[3] = $this->statusLeavePendingApproval;
-		$arrRecordsList[4] = "'".$this->getLeaveComments()."'";
-		$arrRecordsList[5] = "'". $this->getLeaveRequestId(). "'";
-		$arrRecordsList[6] = "'".$this->getLeaveTypeId()."'";
-		$arrRecordsList[7] = "'". $this->getEmployeeId() . "'";
+		$arrRecordsList[2] = "'". $this->getLeaveLengthHours()."'";
+		$arrRecordsList[3] = "'". $this->getLeaveLengthDays()."'";
+		$arrRecordsList[4] = $this->statusLeavePendingApproval;
+		$arrRecordsList[5] = "'".$this->getLeaveComments()."'";
+		$arrRecordsList[6] = "'". $this->getLeaveRequestId(). "'";
+		$arrRecordsList[7] = "'".$this->getLeaveTypeId()."'";
+		$arrRecordsList[8] = "'". $this->getEmployeeId() . "'";
+
+		if ($this->getStartTime() != null) {
+			$insertFields[9] = '`start_time`';
+			$arrRecordsList[9] = "'". $this->getStartTime() . "'";
+		}
 
 		$arrTable = "`hs_hr_leave`";
 
 		$sqlBuilder = new SQLQBuilder();
 
-		//print_r($arrRecordsList);
-
-		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList);
+		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList, $insertFields);
 
 		//echo  $query;
 
@@ -560,13 +583,11 @@ class Leave {
 			$tmpLeaveArr->setLeaveDate($row['leave_date']);
 			$tmpLeaveArr->setLeaveStatus($row['leave_status']);
 
-			if ($row['leave_status'] == self::LEAVE_STATUS_LEAVE_TAKEN) {
-				$leaveLength = $row['leave_length'];
-			} else {
-				$leaveLength = $this->_leaveLength($row['leave_length'], $this->_timeOffLength($row['leave_date']));
-			}
+			$leaveLengthHours = $row['leave_length_hours'];
+			$leaveLengthDays = $row['leave_length_days'];
 
-			$tmpLeaveArr->setLeaveLength($leaveLength);
+			$tmpLeaveArr->setLeaveLengthHours($leaveLengthHours);
+			$tmpLeaveArr->setLeaveLengthDays($leaveLengthDays);
 			$tmpLeaveArr->setLeaveComments($row['leave_comments']);
 			$tmpLeaveArr->setLeaveId($row['leave_id']);
 
@@ -580,7 +601,6 @@ class Leave {
 
 			if ($supervisor || isset($row['employee_id'])) {
 				$tmpLeaveArr->setEmployeeName("{$row['emp_firstname']} {$row['emp_lastname']}");
-				//echo $tmpLeaveArr->getEmployeeName();
 				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 
@@ -649,9 +669,10 @@ class Leave {
 
 		$selectFields[0] = '`leave_date`';
 		$selectFields[1] = '`leave_status`';
-		$selectFields[2] = '`leave_length`';
-		$selectFields[3] = '`leave_comments`';
-		$selectFields[4] = '`leave_id`';
+		$selectFields[2] = '`leave_length_hours`';
+		$selectFields[3] = '`leave_length_days`';
+		$selectFields[4] = '`leave_comments`';
+		$selectFields[5] = '`leave_id`';
 
 		$selectTable = '`hs_hr_leave`';
 
@@ -694,10 +715,10 @@ class Leave {
 		$table = "`hs_hr_leave`";
 
 		$changeFields[0] = "`leave_status`";
-		$changeFields[1] = "`leave_length`";
+		$changeFields[1] = "`leave_length_hours`";
 
 		$changeValues[0] = $this->getLeaveStatus();
-		$changeValues[1] = "'".$this->getLeaveLength()."'";
+		$changeValues[1] = "'".$this->getLeaveLengthHours()."'";
 
 		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
 

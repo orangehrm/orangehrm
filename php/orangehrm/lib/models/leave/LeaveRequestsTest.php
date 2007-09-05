@@ -85,15 +85,12 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		//Leave 1
 
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (10, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
-
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`) VALUES (10, 10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 1, 1, 'Leave 1')");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (10, 10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 0.12, 1, 1, 'Leave 1')");
 
 		//Leave 2
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Hospital', '".date('Y-m-d', time()+3600*24)."', '011')");
-
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`) VALUES (11, 11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 1, 1, 'Leave 2-1')");
-
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length`, `leave_status`, `leave_comments`) VALUES (11, 13, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 1, 'Leave 2-2')");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (11, 11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 0.12, 1, 1, 'Leave 2-1')");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (11, 13, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 0.12, 1, 1, 'Leave 2-2')");
 
         UniqueIDGenerator::getInstance()->initTable();
     }
@@ -181,7 +178,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->classLeaveRequest->setLeaveTypeId("LTY010");
     	$this->classLeaveRequest->setLeaveFromDate(date('Y-m-d', time()+3600*24));
     	$this->classLeaveRequest->setLeaveToDate(date('Y-m-d', time()+3600*24));
-    	$this->classLeaveRequest->setLeaveLength($this->classLeaveRequest->lengthFullDay);
+    	$this->classLeaveRequest->setLeaveLengthHours($this->classLeaveRequest->lengthFullDay);
     	$this->classLeaveRequest->setLeaveStatus("1");
     	$this->classLeaveRequest->setLeaveComments("New Leave 1");
 
@@ -212,7 +209,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->classLeaveRequest->setLeaveTypeId("LTY010");
     	$this->classLeaveRequest->setLeaveFromDate(date('Y-m-d', time()+3600*24));
     	$this->classLeaveRequest->setLeaveToDate(date('Y-m-d', time()+3600*24*3));
-    	$this->classLeaveRequest->setLeaveLength($this->classLeaveRequest->lengthFullDay);
+    	$this->classLeaveRequest->setLeaveLengthHours($this->classLeaveRequest->lengthFullDay);
     	$this->classLeaveRequest->setLeaveStatus("1");
     	$this->classLeaveRequest->setLeaveComments("New Leave 1");
 

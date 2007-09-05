@@ -143,7 +143,7 @@ if ($modifier === "SUP") {
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveRequestId(); ?>" />
-    			<?php if (($record->getLeaveLength() != null) || ($record->getLeaveLength() != 0)) { ?>
+    			<?php if (($record->getLeaveLengthHours() != null) || ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
   					<?php if ($modifier == null) {
@@ -175,7 +175,7 @@ if ($modifier === "SUP") {
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php
     		$leaveLength = null;
-    		switch ($record->getLeaveLength()) {
+    		switch ($record->getLeaveLengthHours()) {
     			case $record->lengthFullDay 		 :	$leaveLength = $lang_Leave_Common_FullDay;
     													break;
     			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_Leave_Common_HalfDayMorning;

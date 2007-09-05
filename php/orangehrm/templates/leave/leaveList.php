@@ -135,7 +135,7 @@ if ($modifier === "SUP") {
 	<input type="hidden" name="txtEmployeeName[]" id="txtEmployeeName[]" value="<?php echo $record->getEmployeeName(); ?>" />
 	<input type="hidden" name="txtLeaveDate[]" id="txtLeaveDate[]" value="<?php echo $record->getLeaveDate();; ?>" />
 	<input type="hidden" name="txtLeaveTypeName[]" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName(); ?>" />
-	<input type="hidden" name="sltLeaveLength[]" id="sltLeaveLength[]" value="<?php echo $record->getLeaveLength(); ?>" />
+	<input type="hidden" name="sltLeaveLength[]" id="sltLeaveLength[]" value="<?php echo $record->getLeaveLengthHours(); ?>" />
   <tr>
   	<td class="tableMiddleLeft"></td>
     <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d, Y', $tmpTimeStamp); ?></td>
@@ -147,7 +147,7 @@ if ($modifier === "SUP") {
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
-    		<?php if (($record->getLeaveLength() != null) || ($record->getLeaveLength() != 0)) { ?>
+    		<?php if (($record->getLeaveLengthHours() != null) || ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
   					<?php if ($modifier == null) {
@@ -179,7 +179,7 @@ if ($modifier === "SUP") {
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php
     		$leaveLength = null;
-    		switch ($record->getLeaveLength()) {
+    		switch ($record->getLeaveLengthHours()) {
     			case $record->lengthFullDay 		 :	$leaveLength = $lang_Leave_Common_FullDay;
     													break;
     			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_Leave_Common_HalfDayMorning;

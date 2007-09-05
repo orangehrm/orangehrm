@@ -217,3 +217,10 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 	cursor: pointer;
 }
 
+.hidden {
+	display: none;
+}
+
+.display-table-row {
+	display: table-row;
+}
