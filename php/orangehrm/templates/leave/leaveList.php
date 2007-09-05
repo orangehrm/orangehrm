@@ -109,7 +109,7 @@ if ($modifier === "SUP") {
     	<th width="155px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
     	<th width="110px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
-    	<th width="130px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
+    	<th width="130px" class="tableMiddleMiddle"><?php echo $lang_Leave_Duration;?></th>
     	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
@@ -178,18 +178,7 @@ if ($modifier === "SUP") {
 
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php
-    		$leaveLength = null;
-    		switch ($record->getLeaveLengthHours()) {
-    			case $record->lengthFullDay 		 :	$leaveLength = $lang_Leave_Common_FullDay;
-    													break;
-    			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_Leave_Common_HalfDayMorning;
-    													break;
-				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_Leave_Common_HalfDayAfternoon;
-    													break;
-				default: 	$leaveLength = '----';
-    		}
-
-    		echo $leaveLength;
+    		echo $record->getLeaveLengthHours();
     ?></td>
     <td class="<?php echo $cssClass; ?>">
 		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) || (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP"))) { ?>
