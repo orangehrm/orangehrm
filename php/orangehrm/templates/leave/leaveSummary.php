@@ -24,9 +24,11 @@
 
  array_pop($records);
 
+ $deletedLeaveTypesFound = false;
  $auth = $modifier[1];
  $dispYear = $modifier[2];
 
+ $copyQuota = $modifier[3];
 
 
  $modifier = $modifier[0];
@@ -123,11 +125,7 @@
 		}
 		return "../../themes/beyondT/icons/" . $imgName . ".png";
 	}
-
- if (isset($_GET['message'])) {
 ?>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
 <?php include ROOT_PATH."/lib/common/yui.php"; ?>
 <script language="javascript">
 
@@ -163,10 +161,31 @@
 		document.frmSummary.submit();
 	}
 
+	function actCopyLeaveQuota() {
+		window.location = '?leavecode=Leave&action=Leave_Quota_Copy_Last_Year&currYear=<?php echo $dispYear; ?>';
+	}
+
 <?php	} ?>
 </script>
 <h2><?php echo $lang_Title; ?><hr/></h2>
+<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
+
+	$expString  = $_GET['message'];
+	$expString = explode ("_",$expString);
+	$length = count($expString);
+
+	$col_def=strtolower($expString[$length-1]);
+
+	$expString='lang_Leave_'.$_GET['message'];
+	if (isset($$expString)) {
+?>
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $$expString; ?>
+	</font>
 <?php
+	}
+}
+
 	if (!is_array($records[0])) {
 ?>
 	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
@@ -190,6 +209,10 @@
 	<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
 		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
 	<?php } ?>
+	<?php if ($copyQuota) { ?>
+		<a href="javascript:actCopyLeaveQuota()"><?php echo $lang_Leave_CopyLeaveQuotaFromLastYear; ?></a>
+	<?php } ?>
+
 	</p>
 <?php
 		}
@@ -293,27 +316,32 @@
 	$j = 0;
 	if (is_array($records[0])) {
 		  foreach ($records[0] as $record) {
-			if(!($j%2)) {
-				$cssClass = 'odd';
-			 } else {
-			 	$cssClass = 'even';
-			 }
-			 $j++;
+			$cssClass = (!($j%2)) ? 'odd' : 'even';
+			$j++;
+
+			if ($record['available_flag'] == $leaveTypeObj->availableStatusFlag) {
+				$deletedLeaveType = false;
+			} else {
+				$deletedLeaveTypesFound = true;
+				$deletedLeaveType = true;
+			}
 ?>
   <tr>
   	<td class="tableMiddleLeft"></td>
    	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
   	<td class="<?php echo $cssClass; ?>"><?php echo $record['employee_name'] ?></td>
   	<?php } ?>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record['leave_type_name'] ?></td>
+    <td class="<?php echo $cssClass; ?>">
+    <?php echo $record['leave_type_name'];
+          if ($deletedLeaveType) {
+          	echo '<span class="error">*</span>';
+          }
+    ?></td>
     <?php if (($auth === 'admin') && ($modifier === 'display')) { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record['no_of_days_allotted']; ?></td>
     <?php } else if (($auth === 'admin') && ($modifier === 'edit')) {
 
-    				$readOnly = "readonly";
-    				if ($record['available_flag'] == $leaveTypeObj->availableStatusFlag) {
-    					$readOnly = "";
-    				}
+				$readOnly = ($deletedLeaveType) ? "readonly" : "";
     ?>
     <td class="<?php echo $cssClass; ?>">
     <input type="hidden" name="txtLeaveTypeId[]" value="<?php echo $record['leave_type_id']; ?>"/>
@@ -363,5 +391,8 @@
 </form>
 
 <?php
+	if ($deletedLeaveTypesFound) {
+		include ROOT_PATH . "/templates/leave/deletedLeaveInfo.php";
+	}
 }
 ?>

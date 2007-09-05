@@ -37,7 +37,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <head>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <script>

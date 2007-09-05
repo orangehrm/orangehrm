@@ -131,7 +131,7 @@ $objAjax->processRequests();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title>OrangeHRM - Employee Details</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php
@@ -410,7 +410,7 @@ function updateEmpMain() {
         var workEmail = document.frmEmp.txtWorkEmail.value;
         if (workEmail != '') {
             if( !checkEmail(workEmail) ){
-                alert ("The work email is not valid");
+                alert ('<?php echo $lang_Errro_WorkEmailIsNotValid; ?>');
                 return false;
             }
         }
@@ -419,7 +419,7 @@ function updateEmpMain() {
         var otherEmail = document.frmEmp.txtOtherEmail.value;
         if (otherEmail != '') {
             if( !checkEmail(otherEmail) ){
-                alert ("The other email is not valid");
+                alert ('<?php echo $lang_Errro_OtherEmailIsNotValid; ?>');
                 return false;
             }
         }
@@ -511,10 +511,12 @@ function displayLayer(panelNo) {
           	case 16 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','show','work-experiance','','hide'); break; //skills
           	case 17 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','show'); break; //work-experiance
 	}
+
+	document.frmEmp.pane.value = panelNo;
 }
 
 function setUpdate(opt) {
-		//alert(opt);
+
 		switch(eval(opt)) {
           	case 0 : document.frmEmp.main.value=1; break;
           	case 1 : document.frmEmp.personalFlag.value=1; break;
@@ -531,14 +533,41 @@ function popPhotoHandler() {
 	popup.focus()
 }
 
-function resetAdd(panel) {
+function resetAdd(panel, add) {
 	document.frmEmp.action = document.frmEmp.action;
 	document.frmEmp.pane.value = panel;
+	document.frmEmp.showAddPane.value = add;
 	document.frmEmp.submit();
 }
 
+function showAddPane(paneName) {
+	YAHOO.OrangeHRM.container.wait.show();
 
+	addPane = document.getElementById('addPane'+paneName);
+	editPane = document.getElementById('editPane'+paneName);
+	parentPane = document.getElementById('parentPane'+paneName);
+
+	if (addPane && addPane.style) {
+		addPane.style.display = tableDisplayStyle;
+	} else {
+		resetAdd(document.frmEmp.pane.value, paneName);
+		return;
+	}
+
+	if (editPane && parentPane) {
+		parentPane.removeChild(editPane);
+	}
+
+	YAHOO.OrangeHRM.container.wait.hide();
+}
+
+tableDisplayStyle = "table";
 </script>
+<!--[if IE]>
+<script type="text/javascript">
+	tableDisplayStyle = "block";
+</script>
+<![endif]-->
 
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/hrEmpMain.css"); </style>
@@ -562,7 +591,7 @@ function resetAdd(panel) {
     <td valign='top'>&nbsp; </td>
     <td width='100%'><h2 align="center"><?php echo $lang_empview_EmployeeInformation; ?></h2></td>
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top">Loading Page...</span></div></b></td>
+    <b><div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div></b></td>
   </tr>
 </table>
 
@@ -577,6 +606,7 @@ function resetAdd(panel) {
 
 <input type="hidden" name="sqlState">
 <input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>">
+<input type="hidden" name="showAddPane" >
 
 <input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>">
 <input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>">
@@ -673,7 +703,7 @@ function resetAdd(panel) {
 					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 
 					<?php 	} else { ?>
-					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
 
 					<?php	} ?>
     </td>
@@ -765,7 +795,7 @@ function resetAdd(panel) {
 <?php			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
 			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');  return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');  return false;">
 <?php			}  ?>
     </td>
     <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>
@@ -1271,5 +1301,8 @@ function resetAdd(panel) {
 	</body>
 	<script language="JavaScript" type="text/javascript">
   		displayLayer(<?php echo $this->postArr['pane']; ?>);
+  		<?php if (isset($this->postArr['showAddPane']) && !empty($this->postArr['showAddPane'])) { ?>
+  		showAddPane('<?php echo $this->postArr['showAddPane']; ?>');
+  		<?php } ?>
 	</script>
 </html>

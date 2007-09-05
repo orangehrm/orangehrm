@@ -25,6 +25,9 @@
 	require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	require_once($lan->getLangPath("full.php"));
 
+	$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+	$GLOBALS['lang_compstruct_Other'] = $lang_compstruct_Other;
+
 	$types = array(array($lang_compstruct_Division, $lang_compstruct_Division), array($lang_compstruct_Department, $lang_compstruct_Department), array($lang_compstruct_Team, $lang_compstruct_Team), array($lang_compstruct_Other, $lang_compstruct_Other));
 
 
@@ -67,12 +70,12 @@
 		$objResponse = new xajaxResponse();
 
 		$xajaxFiller = new xajaxElementFiller();
-
+		$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 		$objResponse = $xajaxFiller->cmbFiller($objResponse,$getLoc,0,'frmAddNode','cmbLocation',3);
 
 		$objResponse->addScript("document.getElementById('layerFormLoc').style.visibility='hidden';");
 
-		$objResponse->addScript("document.getElementById('cmbLocation').options[document.getElementById('cmbLocation').options.length] = new Option('Other', 'Other');");
+		$objResponse->addScript("document.getElementById('cmbLocation').options[document.getElementById('cmbLocation').options.length] = new Option('".$GLOBALS['lang_compstruct_Other']."', 'Other');");
 
 		$objResponse->addScript("document.getElementById('cmbLocation').selectedIndex = document.getElementById('cmbLocation').options.length-2;");
 
@@ -90,8 +93,9 @@
 
 		$objResponse = new xajaxResponse();
 		$xajaxFiller = new xajaxElementFiller();
+		$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 		if ($provlist) {
-			$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+			$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 			$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
 
 		} else {
@@ -114,7 +118,7 @@
 <html>
 
 <head>
-<title>Company Structure</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/beyondT/pictures/styles.css" rel="stylesheet" type="text/css">
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">

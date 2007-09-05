@@ -85,7 +85,7 @@ switch ($_GET['uniqcode']) {
 			break;
 
 		case 'MME' :
-			$srchlist = array( "-$lang_Leave_Common_Select-" , $lang_view_ID , $lang_Commn_name, 'Type' );
+			$srchlist = array( "-$lang_Leave_Common_Select-" , $lang_view_ID , $lang_Commn_name, $lang_view_Type );
 			$headings= array("$lang_view_Membership $lang_view_ID",$lang_view_MembershipName, $lang_view_MembershipType);
 			$headingInfo = array ("$lang_view_Membership $lang_view_ID",$lang_view_MembershipName,1,"$lang_Menu_Admin_Memberships : $lang_Menu_Admin_Memberships",$lang_view_message22);
 			break;

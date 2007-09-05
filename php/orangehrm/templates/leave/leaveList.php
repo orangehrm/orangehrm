@@ -50,11 +50,26 @@ if ($modifier === "SUP") {
  	$backLink = "Leave_FetchLeaveEmployee";
  }
 
- if (isset($_GET['message'])) {
 ?>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
 <h2><?php echo $lang_Title?><hr/></h2>
+<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
+
+	$expString  = $_GET['message'];
+	$expString = explode ("_",$expString);
+	$length = count($expString);
+
+	$col_def=strtolower($expString[$length-1]);
+
+	$expString='lang_Leave_'.$_GET['message'];
+	if (isset($$expString)) {
+?>
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $$expString; ?>
+	</font>
+<?php
+	}
+}
+?>
 <script language="javascript">
 	function goBack () {
 		<?php
@@ -66,7 +81,6 @@ if ($modifier === "SUP") {
 		<?php } ?>
 	}
 </script>
-
 <p class="navigation">
   	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;">
 </p>

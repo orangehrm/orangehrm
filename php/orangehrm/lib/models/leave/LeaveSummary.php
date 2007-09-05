@@ -18,9 +18,9 @@
  *
  */
 
-require_once "Leave.php";
-require_once "LeaveQuota.php";
-require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
+require_once ROOT_PATH."/lib/models/leave/Leave.php";
+require_once ROOT_PATH."/lib/models/leave/LeaveQuota.php";
+require_once ROOT_PATH.'/lib/logs/LogFileWriter.php';
 
 //require_once "LeaveType.php";
 
@@ -110,7 +110,7 @@ class LeaveSummary extends LeaveQuota {
 	/**
 	 * Leave summary of all employees
 	 */
-	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null) {
+	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false) {
 
 		$selectFields[0] = "a.`emp_number` as emp_number";
 		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
@@ -128,7 +128,7 @@ class LeaveSummary extends LeaveQuota {
 		$arrTables[1] = '`hs_hr_employee_leave_quota` b';
 		$arrTables[2] = '`hs_hr_leave` d';
 
-		$joinConditions[1] = 'a.`emp_number` = b.`employee_id` AND c.`leave_type_id` = b.`leave_type_id`';
+		$joinConditions[1] = "a.`emp_number` = b.`employee_id` AND c.`leave_type_id` = b.`leave_type_id` AND b.`year` = '{$year}'";
 		$joinConditions[2] = "d.`employee_id` = a.`emp_number` AND c.`leave_type_id` = d.`leave_type_id` AND (d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . " OR d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ") AND d.`leave_date` BETWEEN DATE('".$year."-01-01') AND DATE('".$year."-12-31')";
 
 		$groupBy = "emp_number, employee_name, leave_type_id, leave_type_name, no_of_days_allotted, available_flag";
@@ -158,7 +158,13 @@ class LeaveSummary extends LeaveQuota {
 		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, null, $groupBy);
 
 		$objLeaveType = new LeaveType();
-		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag} OR leave_taken > 0 OR leave_scheduled > 0";
+
+		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+		if (!$hideDeleted) {
+			$query = $query . " OR leave_taken > 0 OR leave_scheduled > 0";
+		}
+
+		//echo "$query\n";
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
@@ -306,19 +312,19 @@ class LeaveSummary extends LeaveQuota {
 
 			while ($row = mysql_fetch_row($result)) {
 
-				if (isset($leaveTypeList[$row[0]])) {
-					$tmpLeaveSummary = $leaveTypeList[$row[0]];
+				if (isset($leaveTypeList[$row[1]])) {
+					$tmpLeaveSummary = $leaveTypeList[$row[1]];
 
 					$leaveTypeAvailable = $tmpLeaveSummary->getLeaveTypeAvailable();
 
-					$tmpLeaveSummary->setNoOfDaysAllotted($row[2]);
+					$tmpLeaveSummary->setNoOfDaysAllotted($row[3]);
 
 					$taken = $tmpLeaveSummary->getLeaveTaken();
 					$alloted = $tmpLeaveSummary->getNoOfDaysAllotted();
 
 					$tmpLeaveSummary->setLeaveAvailable($alloted-$taken);
 
-					$leaveTypeList[$row[0]] = $tmpLeaveSummary;
+					$leaveTypeList[$row[1]] = $tmpLeaveSummary;
 				}
 			}
 

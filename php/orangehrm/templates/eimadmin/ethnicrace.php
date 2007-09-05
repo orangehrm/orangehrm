@@ -32,7 +32,7 @@ require_once($lan->getLangPath("full.php"));
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 	function goBack() {
@@ -42,7 +42,7 @@ require_once($lan->getLangPath("full.php"));
 	function addSave() {
 
 		if (document.frmEthnicRace.txtEthnicRaceDesc.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+			alert ('<?php echo $lang_ethnicrace_NameShouldBeSpecified; ?>');
 			return false;
 		}
 
@@ -74,18 +74,27 @@ require_once($lan->getLangPath("full.php"));
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      <?php
+    <td width="254" align='left' valign='bottom'>
+	<?php
 		if (isset($this->getArr['msg'])) {
+
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
+			$expString = explode ("_",$expString);
+			$length = count($expString);
+
+			$col_def=$expString[$length-1];
+
+			$expString='lang_view_'.$this->getArr['msg'];
+	?>
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?php
+				echo $$expString;
+	?>
+			</font>
+	<?php
 		}
 		?>
-      </font> </td>
+	</td>
   </tr><td width="177">
 </table>
               <table border="0" cellpadding="0" cellspacing="0">
@@ -130,7 +139,7 @@ require_once($lan->getLangPath("full.php"));
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 function alpha(txt)
@@ -203,7 +212,7 @@ function edit()
 	}
 
 	var frm=document.frmEthnicRace;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -213,7 +222,7 @@ function edit()
 	function addUpdate() {
 
 		if (document.frmEthnicRace.txtEthnicRaceDesc.value == '') {
-			alert ("Description Cannot be a Blank Value!");
+			alert ('<?php echo $lang_ethnicrace_NameShouldBeSpecified; ?>');
 			return false;
 		}
 
@@ -248,7 +257,7 @@ function edit()
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';" src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
+    <td width="254" align='left' valign='bottom'>
       <?php
 		if (isset($this->getArr['msg'])) {
 			$expString  = $this->getArr['msg'];
@@ -259,7 +268,7 @@ function edit()
 			}
 		}
 		?>
-      </font> </td>
+	</td>
   </tr><td width="177">
 </table>
            <table border="0" cellpadding="0" cellspacing="0">
@@ -284,7 +293,7 @@ function edit()
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>

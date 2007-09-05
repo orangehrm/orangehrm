@@ -1082,6 +1082,9 @@ switch ($moduletype) {
 												$weekendsExtractor   	 = new EXTRACTOR_Weekends();
 
 												switch ($_GET['action']) {
+													case 'Leave_HomeSupervisor'		:	$leaveController->setId($_SESSION['empID']);
+																						$leaveController->gotoLeaveHomeSupervisor();
+																						break;
 													case 'Leave_FetchLeaveEmployee' : 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves();
 																						break;
@@ -1142,6 +1145,9 @@ switch ($moduletype) {
 																						$leaveController->setId($id);
 																						$leaveController->setLeaveTypeId($leaveTypeId);
 																						$leaveController->editLeaves("summary", $year, $searchBy, $sortBy, $sortOrder);
+																						break;
+
+													case 'Leave_Quota_Copy_Last_Year' :	$leaveController->copyLeaveQuotaFromLastYear($_GET['currYear']);
 																						break;
 
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
@@ -1221,7 +1227,7 @@ switch ($moduletype) {
 																							}
 																						}
 
-																						$leaveController->redirect("CANCEL_SUCCESS");
+																						$leaveController->redirect("CHANGE_STATUS_SUCCESS");
 																						break;
 
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
@@ -1252,11 +1258,15 @@ switch ($moduletype) {
 
 													case 'Leave_Type_Define'		: 	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$mes = $leaveController->addLeaveType();
-																						$leaveController->redirect(null, array('?leavecode=Leave&action=Leave_Type_Summary&message='.$mes));
+																						$leaveController->addLeaveType();
 																						break;
 
 													case 'Leave_Type_Summary'		: 	$leaveController->displayLeaveTypeSummary();
+																						break;
+
+													case 'Leave_Type_Undelete'		:	$obj = $LeaveTypeExtractor->parseLeaveType($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->undeleteLeaveType();
 																						break;
 
 													case 'Leave_List_Taken'			: 	$id = isset($_REQUEST['id'])? $_REQUEST['id'] : $_SESSION['empID'];
@@ -1266,15 +1276,7 @@ switch ($moduletype) {
 																						break;
 
 													case 'Leave_Type_Edit'			: 	$objs = $LeaveTypeExtractor->parseEditData($_POST);
-																						$mes="";
-																						if (isset($objs)) {
-																							foreach ($objs as $obj) {
-																								$leaveController->setObjLeave($obj);
-																								$leaveController->setId($obj->getLeaveTypeId());
-																								$mes = $leaveController->editLeaveType();
-																							}
-																						}
-																						$leaveController->redirect($mes);
+																						$leaveController->editLeaveTypes($objs);
 																						break;
 
 													case 'Leave_Type_Delete'		: 	$objs = $LeaveTypeExtractor->parseDeleteData($_POST);

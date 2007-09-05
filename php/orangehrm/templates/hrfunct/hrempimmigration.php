@@ -59,8 +59,8 @@ function addPassport() {
 		return;
 	}
 
-	startDate = createDate(document.frmEmp.txtPPIssDat.value);
-	endDate = createDate(document.frmEmp.txtPPExpDat.value);
+	startDate = createDate(document.getElementById('atxtPPIssDat').value);
+	endDate = createDate(document.getElementById('atxtPPExpDat').value);
 
 	if(startDate >= endDate) {
 		alert("<?php echo $lang_hremp_IssedDateShouldBeBeforeExp; ?>");
@@ -97,8 +97,8 @@ function editPassport() {
 		return;
 	}
 
-	startDate = createDate(document.frmEmp.txtPPIssDat.value);
-	endDate = createDate(document.frmEmp.txtPPExpDat.value);
+	startDate = createDate(document.getElementById('etxtPPIssDat').value);
+	endDate = createDate(document.getElementById('etxtPPExpDat').value);
 
 	if(startDate >= endDate) {
 		alert("<?php echo $lang_hremp_IssedDateShouldBeBeforeExp; ?>");
@@ -110,113 +110,14 @@ function editPassport() {
 }
 
 </script>
+<span id="parentPaneImmigration" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
-
-	<table height="200" border="0" cellpadding="0" cellspacing="0">
-
-          <input type="hidden" name="passportSTAT" value="">
-<?php
-		if(!isset($this->getArr['PPSEQ'])) {
-?>
-          <tr >
-              <input type="hidden" name="txtPPSeqNo" value="<?php echo $this->popArr['newPPID']?>">
-			  <td nowrap><?php echo $lang_hremp_passport; ?>&nbsp;&nbsp;<input type="radio" <?php echo $locRights['add'] ? '':'disabled'?> checked name="PPType" value="1">&nbsp;&nbsp;</td>
-			  <td nowrap><?php echo $lang_hremp_visa; ?>&nbsp;&nbsp;<input type="radio" <?php echo $locRights['add'] ? '':'disabled'?> name="PPType" value="2"></td>
-			  <td width="50">&nbsp;</td>
-		  	  <td><?php echo $lang_hremp_citizenship; ?>&nbsp;&nbsp;</td>
-                <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbPPCountry">
-                		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist ?> --</option>
-<?php				$list = $this->popArr['ppcntlist'];
-				for($c=0;$list && count($list)>$c;$c++)
-				    echo "<option value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
-?>
-				</td>
-		    </tr>
-              <tr nowrap>
-                <td><?php echo $lang_hremp_passvisano; ?>&nbsp;&nbsp;</td>
-                <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtPPNo"></td>
-                <td width="50">&nbsp;</td>
-                <td><?php echo $lang_hremp_issueddate; ?>&nbsp;&nbsp;</td>
-                <td><input type="text" readonly name="txtPPIssDat" id="txtPPIssDat" value="0000-00-00" size="10">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
-              </tr>
-              <tr nowrap>
-                <td><?php echo $lang_hremp_i9status; ?></td>
-                <td><input name="txtI9status" <?php echo $locRights['add'] ? '':'disabled'?> type="text">
-                <td width="50">&nbsp;</td>
-                <td><?php echo $lang_hremp_dateofexp; ?></td>
-                <td><input type="text" readonly value="0000-00-00" name="txtPPExpDat" id="txtPPExpDat" size="10">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
-              </tr>
-              <tr nowrap>
-               <td><?php echo $lang_hremp_i9reviewdate; ?></td>
-                <td nowrap><input type="text" readonly value="0000-00-00" name="txtI9ReviewDat" id="txtI9ReviewDat" size="10">
-                			<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
-				<td width="50">&nbsp;</td>
-				<td><?php echo $lang_Leave_Common_Comments; ?></td>
-				<td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtComments"></textarea></td>
-				</tr>
-
-				  <td>
-<?php	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-<?php	} ?>
-				  </td>
-				</tr>
-				<tr>
-				<td>
-				</td>
-				</tr>
-<div id="tablePassport">
-				 <?php
-
-$rset = $this->popArr['empPPAss'];
-////checking for a records if exsist view the the table and delete btn else no
-
-	$rset = $this->popArr['empPPAss'];
-if ($rset != Null){?>
-
-
-				<table width="550" align="center" border="0" class="tabForm">
-				 <tr>
-                      	<td width="50">&nbsp;</td>
-						 <td><strong><?php echo "$lang_hremp_passport/$lang_hremp_visa"; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_passvisano?></strong></td>
-						 <td><strong><?php echo $lang_hremp_citizenship?></strong></td>
-						 <td><strong><?php echo $lang_hremp_issueddate; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_dateofexp; ?></strong></td>
-					</tr>
-
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-
-<?php }
-
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkpassportdel[]' value='" . $rset[$c][1] ."'></td>";
-			if($rset[$c][6]==1)
-            	$fname="Passport";
-            else
-            	$fname="Visa";
-
-            ?> <td><a href="#" onmousedown="viewPassport(<?php echo $rset[$c][1]?>)" ><?php echo $fname?></a></td> <?php
-            echo '<td>' . $rset[$c][2] .'</td>';
-            echo '<td>' . $rset[$c][9] .'</td>';
-            $dtPrint = explode(" ",$rset[$c][3]);
-            echo '<td>' . $dtPrint[0] .'</td>';
-            $dtPrint = explode(" ",$rset[$c][4]);
-            echo '<td>' . $dtPrint[0] .'</td>';
-        echo '</tr>';
-        }?>
-</div>
-<?php } elseif(isset($this->getArr['PPSEQ'])) {
+	<input type="hidden" name="passportSTAT" value="">
+<?php if(isset($this->getArr['PPSEQ'])) {
 		$edit = $this->popArr['editPPForm'];
 ?>
-
+	<div id="editPaneImmigration" >
+		<table height="170" border="0" cellpadding="0" cellspacing="0">
           <tr>
               <input type="hidden" name="txtPPSeqNo" value="<?php echo $edit[0][1]?>">
 			  <td><?php echo $lang_hremp_passport; ?> <input type="radio" checked <?php echo $locRights['edit'] ? '':'disabled'?> name="PPType" value="1"></td>
@@ -239,21 +140,21 @@ if ($rset != Null){?>
                 <td><input type="text" name="txtPPNo" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_issueddate; ?></td>
-                <td><input type="text" name="txtPPIssDat" id="txtPPIssDat" readonly value=<?php echo $edit[0][3]?> size="10">
-					<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtPPIssDat" id="etxtPPIssDat" readonly value=<?php echo $edit[0][3]?> size="10">
+					<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> value="   " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr>
                 <td><?php echo $lang_hremp_i9status; ?></td>
                 <td><input name="txtI9status" type="text" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][7]?>">
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_dateofexp; ?></td>
-                <td><input type="text" name="txtPPExpDat" id="txtPPExpDat" readonly value=<?php echo $edit[0][4]?> size="10">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtPPExpDat" id="etxtPPExpDat" readonly value=<?php echo $edit[0][4]?> size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
               </tr>
               <tr>
                <td><?php echo $lang_hremp_i9reviewdate; ?></td>
-                <td><input type="text" name="txtI9ReviewDat" id="txtI9ReviewDat" readonly value=<?php echo $edit[0][8]?> size="10">
-                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="txtI9ReviewDat" id="etxtI9ReviewDat" readonly value=<?php echo $edit[0][8]?> size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 				<td width="50">&nbsp;</td>
 				<td><?php echo $lang_Leave_Common_Comments; ?></td>
 				<td><textarea <?php echo $locRights['edit'] ? '':'disabled'?> name="txtComments"><?php echo $edit[0][5]?></textarea></td>
@@ -265,28 +166,81 @@ if ($rset != Null){?>
 					<?php	} ?>
 				  </td>
 				</tr>
-				<tr>
-				<td>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
+		</table>
+	</div>
+	<?php } else { ?>
+	<div id="addPaneImmigration" class="<?php echo ($this->popArr['empPPAss'] != null)?"addPane":""; ?>" >
+		<table height="170" border="0" cellpadding="0" cellspacing="0">
+          <tr >
+			  <td nowrap><?php echo $lang_hremp_passport; ?>
+			  	<input type="hidden" name="txtPPSeqNo" value="<?php echo $this->popArr['newPPID']?>">
+			  	<input type="radio" <?php echo $locRights['add'] ? '':'disabled'?> checked name="PPType" value="1">&nbsp;&nbsp;</td>
+			  <td nowrap><?php echo $lang_hremp_visa; ?>&nbsp;&nbsp;<input type="radio" <?php echo $locRights['add'] ? '':'disabled'?> name="PPType" value="2"></td>
+			  <td width="50">&nbsp;</td>
+		  	  <td><?php echo $lang_hremp_citizenship; ?>&nbsp;&nbsp;</td>
+                <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbPPCountry">
+                		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist ?> --</option>
+<?php				$list = $this->popArr['ppcntlist'];
+				for($c=0;$list && count($list)>$c;$c++)
+				    echo "<option value='" . $list[$c][0] . "'>" . $list[$c][1]. "</option>";
+?>
 				</td>
+		    </tr>
+              <tr nowrap>
+                <td><?php echo $lang_hremp_passvisano; ?>&nbsp;&nbsp;</td>
+                <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtPPNo"></td>
+                <td width="50">&nbsp;</td>
+                <td><?php echo $lang_hremp_issueddate; ?>&nbsp;&nbsp;</td>
+                <td><input type="text" readonly name="txtPPIssDat" id="atxtPPIssDat" value="0000-00-00" size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtPPIssDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+              </tr>
+              <tr nowrap>
+                <td><?php echo $lang_hremp_i9status; ?></td>
+                <td><input name="txtI9status" <?php echo $locRights['add'] ? '':'disabled'?> type="text">
+                <td width="50">&nbsp;</td>
+                <td><?php echo $lang_hremp_dateofexp; ?></td>
+                <td><input type="text" readonly value="0000-00-00" name="txtPPExpDat" id="atxtPPExpDat" size="10">
+                	<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtPPExpDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+              </tr>
+              <tr nowrap>
+               <td><?php echo $lang_hremp_i9reviewdate; ?></td>
+                <td nowrap><input type="text" readonly value="0000-00-00" name="txtI9ReviewDat" id="atxtI9ReviewDat" size="10">
+                			<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtI9ReviewDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+				<td width="50">&nbsp;</td>
+				<td><?php echo $lang_Leave_Common_Comments; ?></td>
+				<td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtComments"></textarea></td>
 				</tr>
 
-				<table width="550" align="center" border="0" class="tabForm">
-				 <tr>
-                      	<td width="50">&nbsp;</td>
-						 <td><strong><?php echo "$lang_hremp_passport/$lang_hremp_visa"; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_passvisano?></strong></td>
-						 <td><strong><?php echo $lang_hremp_citizenship?></strong></td>
-						 <td><strong><?php echo $lang_hremp_issueddate; ?></strong></td>
-						 <td><strong><?php echo $lang_hremp_dateofexp; ?></strong></td>
-					</tr>
+				  <td>
+<?php	if($locRights['add']) { ?>
+        <img border="0" title="Save" onClick="addPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+<?php	} ?>
+				  </td>
+				</tr>
+		</table>
+	</div>
+<?php } ?>
+<div id="tablePassport">
 <?php
-	$rset = $this->popArr['empPPAss'];
-
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+$rset = $this->popArr['empPPAss'];
+if ($rset != null){?>
+	<?php if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="showAddPane('Immigration');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+	<?php } ?>
+	<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delPassport();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	<?php 	} ?>
+		<table width="550" align="center" border="0" class="tabForm">
+			<tr>
+            	<td width="50">&nbsp;</td>
+				<td><strong><?php echo "$lang_hremp_passport/$lang_hremp_visa"; ?></strong></td>
+				<td><strong><?php echo $lang_hremp_passvisano?></strong></td>
+				<td><strong><?php echo $lang_hremp_citizenship?></strong></td>
+				<td><strong><?php echo $lang_hremp_issueddate; ?></strong></td>
+				<td><strong><?php echo $lang_hremp_dateofexp; ?></strong></td>
+			</tr>
+<?php
+    for($c=0;$rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkpassportdel[]' value='" . $rset[$c][1] ."'></td>";
 			if($rset[$c][6]==1)
@@ -302,10 +256,9 @@ if ($rset != Null){?>
             $dtPrint = explode(" ",$rset[$c][4]);
             echo '<td>' . $dtPrint[0] .'</td>';
         echo '</tr>';
-        }
-
- } ?>
-		</table>
-
+    } ?>
+    </table>
 <?php } ?>
-
+</div>
+<?php } ?>
+</span>

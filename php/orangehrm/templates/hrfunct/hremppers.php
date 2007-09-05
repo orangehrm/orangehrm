@@ -63,7 +63,7 @@
 			  <td><input type="checkbox" <?php echo $locRights['add'] ? '':'disabled'?> name="chkSmokeFlag" <?php echo (isset($this->postArr['chkSmokeFlag']) && $this->postArr['chkSmokeFlag']=='1'?'checked':'')?> value="1"></td>
 			  <td width="50">&nbsp;</td>
 				<td><?php echo $lang_hremp_gender?></td>
-				<td valign="middle">Male<input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="1" checked>		Female<input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="2" <?php echo (isset($this->postArr['optGender']) && isset($this->postArr['optGender'])==2)?'checked':''?>></td>
+				<td valign="middle"><?php echo $lang_Common_Male;?><input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="1" checked><?php echo $lang_Common_Female;?><input <?php echo $locRights['add'] ? '':'disabled'?> type="radio" name="optGender" value="2" <?php echo (isset($this->postArr['optGender']) && isset($this->postArr['optGender'])==2)?'checked':''?>></td>
 				</tr>
 				<tr>
 				<td><?php echo $lang_hremp_dlicenno?></td>
@@ -171,13 +171,13 @@
 <?php } ?>			  </td>
 				<td>&nbsp;</td>
 				<td><?php echo $lang_hremp_gender?></td>
-				<td valign="middle">Male<input <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>
+				<td valign="middle"><?php echo $lang_Common_Male;?><input <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> type="radio" name="optGender" value="1" checked>
 
 <?php				if(isset($this->postArr['optGender'])) { ?>
-				Female<input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($this->postArr['optGender']==2)?'checked':''?>></td>
+				<?php echo $lang_Common_Female;?><input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($this->postArr['optGender']==2)?'checked':''?>></td>
 
 <?php				} else {  ?>
-				Female<input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($edit[0][5]==2)?'checked':''?>>
+				<?php echo $lang_Common_Female;?><input type="radio" name="optGender" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="2" <?php echo ($edit[0][5]==2)?'checked':''?>>
 
 				</td>
 <?php } ?>

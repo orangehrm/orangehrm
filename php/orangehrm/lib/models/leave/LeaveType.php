@@ -31,7 +31,6 @@ class LeaveType {
 	 *	Leave Status Constants
 	 *
 	 **/
-
 	public  $availableStatusFlag = 1;
 	public  $unAvailableStatusFlag = 0;
 
@@ -109,6 +108,7 @@ class LeaveType {
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
+		return $result;
 
 	}
 
@@ -135,6 +135,37 @@ class LeaveType {
 		return $leaveTypeArr;
 	}
 
+	/**
+	 * Get leave type with given name
+	 * @param string $leaveTypeName Leave type name
+	 * @return LeaveType object
+	 */
+	public function getLeaveTypeWithName($leaveTypeName, $includeDeleted = false) {
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = "`hs_hr_leavetype` ";
+
+		$selectFields[0] = '`leave_type_id`';
+		$selectFields[1] = '`leave_type_name`';
+		$selectFields[2] = '`available_flag`';
+
+		$selectConditions[0] = "`leave_type_name` = '".$leaveTypeName."'";
+
+		if (!$includeDeleted) {
+			$selectConditions[1] = "`available_flag` = '".$this->availableStatusFlag."'";
+		}
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, null, null, null);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		$leaveTypeArr = $this->_buildObjArr($result);
+
+		return $leaveTypeArr;
+	}
+
 	public function editLeaveType () {
 
 		$sql_builder = new SQLQBuilder();
@@ -149,16 +180,13 @@ class LeaveType {
 
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
-		//echo $query."\n";
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection->executeQuery($query);
 
-		if (isset($result) && (mysql_affected_rows() > 0)) {
-			return true;
-		};
-
+		if ($result === true) {
+			return mysql_affected_rows();
+		}
 		return false;
 
 	}
@@ -179,6 +207,33 @@ class LeaveType {
 		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
 		//echo $query."\n";
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false;
+
+	}
+
+	public function undeleteLeaveType() {
+
+		$sql_builder = new SQLQBuilder();
+
+		$selectTable = "`hs_hr_leavetype` ";
+
+		$changeFields[0] = "`available_flag`";
+
+		$changeValues[0] = "'".$this->availableStatusFlag."'";
+
+
+		$updateConditions[0] = "`leave_type_id` = '".$this->getLeaveTypeId()."'";
+
+		$query = $sql_builder->simpleUpdate($selectTable, $changeFields, $changeValues, $updateConditions);
 
 		$dbConnection = new DMLFunctions();
 

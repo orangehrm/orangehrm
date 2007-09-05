@@ -21,6 +21,9 @@ class sysConf {
 
 	var $itemsPerPage;
 
+	/** $accessDenied is depreciated and no longer in use
+         *  Please use the language files to change the access denied message.
+         */
 	var $accessDenied;
 	var $viewDescLen;
 	var $userEmail;
@@ -30,6 +33,9 @@ class sysConf {
 
 		$this->itemsPerPage=10;
 
+		/* $accessDenied is depreciated and no longer in use
+		 *  Please use the language files to change the access denied message.
+		 */
 		$this->accessDenied="Access Denied";
 
 		$this->viewDescLen=60;

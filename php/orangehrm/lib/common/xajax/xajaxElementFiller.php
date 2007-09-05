@@ -19,13 +19,18 @@
 
 class xajaxElementFiller {
 
+	private $defaultOption = "Select";
+
 	function xajaxElementFiller() {
 	}
 
+	function setDefaultOptionName($defaultOption) {
+		$this->defaultOption = $defaultOption;
+	}
 	function cmbFiller ($objResponse,$fillArr,$fele,$form,$element,$defSel=1) {
 
 		if($defSel == 1) {
-	 		$objResponse->addScript("document.".$form.".".$element.".options[0] = new Option('--Select--','0');");
+	 		$objResponse->addScript("document.".$form.".".$element.".options[0] = new Option('--" . $this->defaultOption . "--','0');");
 			$objResponse->addScript("document.".$form.".".$element.".options.length = 0;");
 		} else if($defSel == 0) {
 			$objResponse->addScript("document.".$form.".".$element.".options.length = 0;");
@@ -43,7 +48,7 @@ class xajaxElementFiller {
 
 		if($defSel == -1) {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
-	 		$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- Select -','0');");
+	 		$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('--" . $this->defaultOption . "--','0');");
 		} else {
 			$objResponse->addScript("document.getElementById('".$element."').options.length = $defSel;");
 		}

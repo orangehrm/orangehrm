@@ -23,6 +23,8 @@ require_once($lan->getLangPath("full.php"));
 	$sysConst = new sysConf();
 	$locRights=$_SESSION['localRights'];
 
+	$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+
 function populateStates($value, $oldState) {
 
 	$view_controller = new ViewController();
@@ -30,42 +32,28 @@ function populateStates($value, $oldState) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	if ($provlist) {
-		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'frmGenInfo.lrState','txtState');
 
 	} else {
 		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="'. $oldState .'">');
 	}
+
 	$objResponse->addAssign('status','innerHTML','');
-
-return $objResponse->getXML();
-}
-
-
-function populateDistricts($value) {
-
-	$view_controller = new ViewController();
-	$dislist = $view_controller->xajaxObjCall($value,'LOC','district');
-
-	$objResponse = new xajaxResponse();
-	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$dislist,1,'frmGenInfo','cmbCity');
-	$response->addAssign('status','innerHTML','');
-
-return $response->getXML();
+	return $objResponse->getXML();
 }
 
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
-$objAjax->registerFunction('populateDistricts');
 $objAjax->processRequests();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -151,7 +139,7 @@ function edit()
 	}
 
 	function OnCountryChange(newValue) {
-		document.getElementById('status').innerHTML = 'Please Wait....';
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
 		// keep the old value only if state is a text input
 		var oldVal = "";
@@ -234,7 +222,7 @@ function edit()
 							  <tr>
 							    <td><?php echo $lang_compstruct_country; ?></td>
 							    <td><select name='cmbCountry' disabled onChange="OnCountryChange(this.value);">
-							    		<option value="0">--- Select ---</option>
+							    		<option value="0">--- <?php echo $lang_Common_Select;?> ---</option>
 							    <?php		$cntlist = $this->popArr['cntlist'];
 							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++)
 							    			if(isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == $cntlist[$c][0]))
@@ -257,7 +245,7 @@ function edit()
 							    <td><div id="lrState" name="lrState">
 							    <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
 							    	<select name="txtState" id="txtState" disabled>
-							    		<option value="0">--- Select ---</option>
+							    		<option value="0">--- <?php echo $lang_Common_Select;?>---</option>
 							     	<?php	$statlist = $this->popArr['provlist'];
 							    		for($c=0; $statlist && count($statlist)>$c ;$c++)
 							    			if($editArr['STATE'] == $statlist[$c][1])
@@ -285,7 +273,7 @@ function edit()
 <?php			if($locRights['edit']) { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>'); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;">
 <?php			}  ?>
 					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="clearAll(); return false;" />
 							</td> </tr>

@@ -33,7 +33,7 @@ $headingInfo = array ("$lang_emprepinfo_heading : $lang_Common_New", "$lang_empr
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 
 <script language="JavaScript">
 function alpha(txt)
@@ -326,7 +326,7 @@ function disableSerPeriodField() {
  function validation() {
 
  		if(document.frmEmpRepTo.txtRepName.value=='') {
- 			alert("Report Name Empty");
+ 			alert('<?php echo $lang_rep_ReportNameEmpty; ?>');
 			document.frmEmpRepTo.txtRepName.focus();
 			return false;
  		}
@@ -1166,7 +1166,7 @@ function disableSerPeriodField() {
 </tr>
                 <tr><td>&nbsp;</td></tr>
   <tr>
-    <td height="15"><h4>Field</h4></td>
+    <td height="15"><h4><?php echo $lang_rep_Field;?></h4></td>
   </tr>
 <tr><td>
       <table border="0" cellpadding="0" cellspacing="0">

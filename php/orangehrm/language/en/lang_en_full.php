@@ -63,6 +63,8 @@
 	$lang_Error_ChangePane							= "Please save the changes before you move onto another pane!";
 
 	$lang_Error_UploadFailed						= "Upload failed!";
+	$lang_Errro_WorkEmailIsNotValid                 = "The work email is not valid";
+	$lang_Errro_OtherEmailIsNotValid                = "The other email is not valid";
 
 	// Company Structure
 	$lang_Error_Company_General_Undefined 				= "Please define Company General Information first!";
@@ -195,12 +197,20 @@
 	$lang_Commn_PleaseWait					= "Please wait";
 	$lang_Common_Select 				= "Select";
 	$lang_Commn_Email						= "E-mail";
+	$lang_Common_Loading				= "Loading";
+	$lang_Common_LoadingPage                        = "Loading Page";
+	$lang_Common_NotApplicable                      = "N/A";
+	$lang_Common_Male                      		= "Male";
+	$lang_Common_Female                    		= "Female";
 
 	$lang_Common_Edit = "Edit";
 	$lang_Common_New = "New";
+	$lang_Common_Save = "Save";
 
 	$lang_Common_Time = "Time";
 	$lang_Common_Note = "Note";
+
+	$lang_Common_AccessDenied = "Access Denied";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -227,8 +237,12 @@
 	// admin module
 	$lang_Admin_Common_Institute 			= "Institute";
 	$lang_Admin_Common_Course 				= "Course";
+	$lang_Admin_education_InstituteCannotBeBlank = "Institute Cannot be a Blank Value!";
+	$lang_Admin_CourseCannotBeBlank         = "Course Cannot be a Blank Value!";
+	$lang_Admin_License_DescriptionCannotBeBlank = "License description cannot be blank!";
 
 	// leave module
+	$lang_Leave_Title = "OrangeHRM - Leave Module";
 	$lang_Leave_Common_Date 				= "Date";
 
 	$lang_Leave_Common_FromDate 			= "From Date";
@@ -248,6 +262,7 @@
 	$lang_Leave_Common_Rejected 			= "Rejected";
 	$lang_Leave_Common_Taken 				= "Taken";
 	$lang_Leave_Common_InvalidStatus 		= "Invalid Status";
+	$lang_Leave_Common_StatusDiffer 		= "Status Differ";
 	$lang_Leave_Common_FullDay 				= "Full Day";
 	$lang_Leave_Common_HalfDayMorning 		= "Half Day / Morning";
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";
@@ -285,13 +300,25 @@
 	$lang_Leave_Leave_Type_Summary_Title 	= "Leave Types";
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
-	$lang_Leave_Summary_Deleted_Types_Shown = "Denotes deleted leave types."; 
+	$lang_Leave_Summary_Deleted_Types_Shown = "Denotes deleted leave types.";
         $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
-        $lang_Leave_Summary_Deleted_Types_Manage = "If you wish to completely remove them from the system, click: ";
-        $lang_Leave_Summary_Deleted_Types_Manage_LoginAsAdmin = "Login as an Admin to manage deleted leave types.";
-        $lang_Leave_Summary_Manage_Deleted_Types = "Manage deleted leave types";
 
 	$lang_Leave_Holiday = "Holiday";
+	$lang_Leave_NoOfDays = "No of Days";
+	$lang_Leave_Period = "Leave Period";
+
+	$lang_Leave_Define_IsDeletedName  	= "Deleted Leave Type exists with the same name.";
+	$lang_Leave_Define_UndeleteLeaveType    = "To re-use deleted leave type instead of creating a new leave type, click:";
+	$lang_Leave_NAME_IN_USE_ERROR 		= "Leave Type name is in use. Choose another name.";
+	$lang_Leave_ADD_FAILURE			= "Failed to Add";
+	$lang_Leave_ADD_SUCCESS 		= "Successfully Added";
+	$lang_Leave_LEAVE_TYPE_NOT_FOUND_ERROR 	= "Leave type not found";
+	$lang_Leave_UNDELETE_SUCCESS		= "Leave type successfully undeleted.";
+	$lang_Leave_DUPLICATE_LEAVE_TYPE_ERROR  = "Duplicate leave type names specified. Leave type names should be unique.";
+	$lang_Leave_LEAVE_TYPE_EDIT_ERROR       = "Error saving changes";
+	$lang_Leave_LEAVE_TYPE_EDIT_SUCCESS     = "Changes saved successfully";
+	$lang_Leave_NO_CHANGES_TO_SAVE_WARNING  = "No changes to save";
+	$lang_Leave_Undelete			= "Undelete";
 
 	$lang_bankInformation_code 				= "Code";
 	$lang_bankInformation_description 		= "Description";
@@ -355,6 +382,8 @@
 
  	$lang_eeojobcat_heading 						= "Job : EEO Job Category";
 	$lang_eeojobcat_description 					= "Title";
+	$lang_eeojobcat_TitleContainsNumbers            = "Title contains numbers. Do you want to continue?";
+	$lang_eeojobcat_TitleMustBeSpecified            = "Title must be specified.";
 
  	$lang_electorateinformation_heading 			= "Electorate Information : Geo Information";
 	$lang_emprepinfo_heading						= "Define Employee Reports";
@@ -372,6 +401,8 @@
 	$lang_empview_searchby 					= "Search By:";
 	$lang_empview_description 				= "Search For:";
 	$lang_empview_norecorddisplay 			= "No Records to Display";
+	$lang_empstatus_PleaseEnterEmploymentStatus = "Please enter Employment Status Description";
+	$lang_empview_SelectField               = "Select the field to search!";
 
 	$lang_empview_last 						= "Last";
 	$lang_empview_next 						= "Next";
@@ -399,8 +430,10 @@
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
 	$lang_empview_EmploymentStatus			= "Employment status";
+	$lang_emppop_title                                      = "Search Employees";
 
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
+ 	$lang_ethnicrace_NameShouldBeSpecified  = "Ethnic Race Name should be specified";
 
  	$lang_extracurractcat_heading 			= "Extra Curricular Activities Category : Qualifications Information";
 
@@ -486,6 +519,8 @@
 	$lang_hremp_AreYouSureYouWantToDeleteThePhotograph = "Are you sure you want to delete the photograph";
 
 	$lang_hremp_SelectAPhoto				= "Select a Photo";
+	$lang_hremp_PhotoMaxSize				= "1M Max";
+	$lang_hremp_PhotoDimensions				= "Dimensions 100x120";
 
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Issued date should be before expiration date";
 	$lang_hremp_FromDateShouldBeBeforeToDate= "From date should be before To date";
@@ -595,6 +630,7 @@
 	$lang_hrEmpMain_YearsOfExperiencWrongFormat = "Years of Experience - Wrong input format";
 	$lang_hrEmpMain_YearsOfExperiencBetween = "Years of Experience should be a value between #range";
 	$lang_hrEmpMain_Skill 					= "Skill";
+	$lang_hrEmpMain_EnterFromDateFirst      = "Enter From Date first";
 
 	$lang_hrEmpMain_subown_Company = 'Company';
 	$lang_hrEmpMain_subown_Individual = 'Individual';
@@ -626,20 +662,38 @@
 	$lang_jobtitle_addempstat 				= "Add Employment Status";
 	$lang_jobtitle_editempstat 				= "Edit Employment Status";
 	$lang_jobtitle_empstat 					= "Employment Status";
+	$lang_jobtitle_NameShouldBeSpecified    = "Job Title Name should be specified";
+	$lang_jobtitle_DescriptionShouldBeSpecified = "Job Description should be specified";
+	$lang_jobtitle_PayGradeNotSelected      = "Pay Grade not selected";
+    $lang_jobtitle_ShowingSavedValues       = "Currently showing the values saved in session when you last edited this record.";
+    $lang_jobtitle_NoSelection              = "No Selection!";
+    $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employement status";
+    $lang_jobtitle_EnterEmploymentStatus    = "Please enter a value for Employment Status.";
 
  	$lang_languageinformation_heading 		= "Skills : Language";
 
  	$lang_licenses_heading 					= "Qualification : Licenses";
 
  	$lang_locations_heading 				= "Company Info : Locations";
+ 	$lang_locations_NameHasToBeSpecified    = "Location Name has to be specified";
+ 	$lang_locations_CountryShouldBeSelected = "Country should be selected!";
+ 	$lang_locations_AddressShouldBeSpecified = "Address should be specified";
+ 	$lang_locations_ZipCodeShouldBeSpecified = "Zip Code should be specified";
+ 	$lang_locations_ZipContainsNonNumericChars = "Zip - Code Contains non-numeric characters. Do you want to continue?";
+ 	$lang_locations_InvalidCharsInPhone = "Phone number contains invalid characters";
+ 	$lang_locations_InvalidCharsInFax = "Fax contains invalid characters";
 
  	$lang_membershipinfo_heading 			= "Memberships : Membership";
 	$lang_membershipinfo_membershiptype 	= "Membership Type";
 	$lang_membershipinfor_selectmember 		= "Select Membership";
+	$lang_membershipinfo_MembershipShouldBeSpecified = "Membership Name should be specified";
+	$lang_membershipinfo_MembershipTypeShouldBeSelected = "Membership Type should be selected";
 
- 	$lang_membershiptypes_heading 			= "Memeberships : Membership Type";
+ 	$lang_membershiptypes_heading 			= "Memberships : Membership Type";
+ 	$lang_membershiptypes_NameShouldBeSpecified = "Membership Type name should be specified";
 
  	$lang_nationalityinformation_heading 	= "Nationality & Race : Nationality";
+ 	$lang_nationalityinformation_PleaseEnterNationality = "Please Enter a Nationality Name";
 
  	$lang_provinceinformation_heading 		= "State/Province Information : Geo Information";
 
@@ -662,6 +716,7 @@
     $lang_salarygrades_minGreaterThanMax	= "Minimum Salary > Maximum Salary !";
 	$lang_salarygrades_stepPlusMinGreaterThanMax = "Step Salary plus Minimum Salary should be less than Maximum salary";
 	$lang_salarygrades_stepGreaterThanMax = "Step Salary should be less than Maximum salary";
+	$lang_salarygrades_NameCannotBeBlank = "Pay Grade Name cannot be blank!";
 
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
@@ -718,6 +773,7 @@
 	$lang_view_Membership 					= "Membership";
 	$lang_view_MembershipType 				= "Membership Type";
 	$lang_view_MembershipName 				= "Membership Name";
+	$lang_view_Type 					= "Type";
 	$lang_view_message22 					= "Deletion might affect employee membership";
 	$lang_view_ExtraActivities 				= "Extra Curricular Activities";
 	$lang_view_ExtraActivitiesName 			= "Extra Curricular Activities Name";
@@ -758,6 +814,7 @@
 	//Customer
 	$lang_view_CustomerId = "Customer Id";
 	$lang_view_CustomerName = "Customer Name";
+	$lang_customer_Heading          = "Customer";
 
 	$lang_index_WelcomeMes 			= "Welcome #username";
 	$lang_index_ChangePassword 		= "Change Password";
@@ -776,6 +833,7 @@
 	$lang_Error_Invalid_Port = "Invalid SMTP Port";
 
 	//Projects
+	$lang_view_Project_Heading = "Project";
 	$lang_view_ProjectId = "Project Id";
 	$lang_view_ProjectName = "Project Name";
 
@@ -871,6 +929,7 @@
 	$lang_rep_NoUserGroupsAssigned = "No User Groups Assigned";
 	$lang_rep_SelectUserGroup = "Select User Group";
 	$lang_rep_NoGroupSelected = "Please select a user group to assign";
+	$lang_rep_ReportNameEmpty = "Report Name Empty";
 
 	// Skills
 	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";
@@ -892,6 +951,7 @@
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
 	$lang_Admin_Users_Errors_ViewShouldBeSelected = "View should be selected";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
+	$lang_Admin_Users_WrongPassword = "Mismatch with your old password";
 
 	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Do you want to clear Rights";
 	$lang_Admin_Users_Errors_SameGroup = "Your login account belongs to the same User Group, you are not allowed change rights to this group";
@@ -902,6 +962,7 @@
 	$lang_Admin_Users_RightsAssignedToUserGroups = "Rights Assigned to User Groups";
 	$lang_Admin_Users_UserGroup = "User Group";
 	$lang_Admin_Users_UserGroupId = "User Group ID";
+	$lang_Admin_Users_SelectModule = "Select Module";
 
 	$lang_Admin_Users_UserName = "User Name";
 	$lang_Admin_Users_Password = "Password";
@@ -960,6 +1021,7 @@
 	$lang_Admin_Project_Activity_Error_NameAlreadyDefined = "An Activity with that name already exists in this project. Please select a different name.";
 
 	//timesheet
+	$lang_Time_Module_Title = "OrangeHRM - Time and Attendance Module";
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Timesheet for #periodName starting #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Edit timesheet for #periodName starting #startDate";
 
@@ -1032,12 +1094,31 @@
 
 	$lang_Time_Errors_PleaseAddAComment = "Please add a comment";
 
-	$lang_mtview_ADD_SUCCESS 				= "Successfully Added";
-	$lang_mtview_UPDATE_SUCCESS 			= "Successfully Updated";
-	$lang_mtview_DELETE_SUCCESS 			= "Successfully Deleted";
-	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
-	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
-	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
+	$lang_mtview_ADD_SUCCESS = "Successfully Added";
+	$lang_mtview_UPDATE_SUCCESS = "Successfully Updated";
+	$lang_mtview_DELETE_SUCCESS = "Successfully Deleted";
+	$lang_mtview_ADD_FAILURE = "Failed to Add";
+	$lang_mtview_UPDATE_FAILURE = "Failed to Update";
+	$lang_mtview_DELETE_FAILURE = "Failed to Delete";
+
+	$lang_view_DUPLICATE_NAME_FAILURE = "The same name is already used";
+
+	// login page
+	$lang_login_title = "OrangeHRM - New Level of HR Management";
+	$lang_login_UserNameNotGiven = "User Name not given!";
+	$lang_login_PasswordNotGiven = "Password not given!";
+	$lang_login_NeedJavascript = "You need a JavaScript enabled Browser. Ex. ";
+	$lang_login_MozillaFirefox = "Mozilla Firefox";
+	$lang_login_YourSessionExpired = "Your session expired because you were inactive. Please re-login.";
+	$lang_login_LoginName = "Login Name";
+	$lang_login_Password = "Password";
+	$lang_login_Login = "Login";
+	$lang_login_Clear = "Clear";
+	$lang_login_InvalidLogin = "Invalid Login";
+	$lang_login_UserDisabled = "User Disabled";
+	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
+	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
+
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";

@@ -21,6 +21,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 $sysConst = new sysConf();
 $locRights = $_SESSION['localRights'];
+$GLOBALS['lang_Admin_Users_ErrorsPasswordMismatch'] = $lang_Admin_Users_ErrorsPasswordMismatch;
 
 function chkPassword($value)
 {
@@ -32,7 +33,7 @@ function chkPassword($value)
     if ($matchResult)
         $objResponse->addScript("addUpdate();");
     else
-        $objResponse->addAlert("Mismatch with your old password");
+        $objResponse->addAlert($GLOBALS['lang_Admin_Users_ErrorsPasswordMismatch']);
 
     return $objResponse->getXML();
 }
@@ -148,11 +149,6 @@ function edit() {
 }
 
 function addUpdate() {
-	if(document.frmchange.txtUserName.value=='') {
-		alert("Enter Your Username");
-		document.frmchange.txtUserName.focus();
-		return;
-	}
 
 	if(document.frmchange.txtOldPassword.value=='') {
 		alert("<?php echo $lang_Admin_Change_Password_Errors_EnterYourOldPassword; ?>");

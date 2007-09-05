@@ -22,6 +22,8 @@ require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
 
+$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+
 function populateStates($value) {
 
 	$view_controller = new ViewController();
@@ -29,8 +31,9 @@ function populateStates($value) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	if ($provlist) {
-		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- Select ---</option></select>');
+		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
 
 	} else {
@@ -44,22 +47,8 @@ function populateStates($value) {
 return $objResponse->getXML();
 }
 
-function populateDistrict($value) {
-
-	$view_controller = new ViewController();
-	$dislist = $view_controller->xajaxObjCall($value,'LOC','district');
-
-	$objResponse = new xajaxResponse();
-	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$dislist,1,'frmLocation','cmbDistrict');
-	$response->addAssign('status','innerHTML','');
-
-return $response->getXML();
-}
-
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
-$objAjax->registerFunction('populateDistrict');
 $objAjax->processRequests();
 
 
@@ -73,7 +62,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -87,43 +76,31 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		var frm = document.frmLocation;
 
 		if (frm.txtLocDescription.value == '') {
-			alert ("Location Description empty!");
+			alert ('<?php echo $lang_locations_NameHasToBeSpecified; ?>');
 			frm.txtLocDescription.focus();
 			return;
 		}
 
 		if (frm.cmbCountry.value == '0') {
-			alert ("Country not selected!");
+			alert ('<?php echo $lang_locations_CountryShouldBeSelected; ?>');
 			frm.cmbCountry.focus();
 			return;
 		}
 
-		if ( frm.cmbProvince.value == '0') {
-			alert ("State not selected!");
-			frm.cmbProvince.focus();
-			return;
-		}
-
-		if ( frm.cmbDistrict.value == '0') {
-			alert ("City Cannot be empty!");
-			frm.cmbDistrict.focus();
-			return;
-		}
-
 		if ( frm.txtAddress.value == '') {
-			alert ("Address empty!");
+			alert ('<?php echo $lang_locations_AddressShouldBeSpecified; ?>');
 			frm.txtAddress.focus();
 			return;
 		}
 
 		if ( frm.txtZIP.value == '' ){
-			alert ("Zip - Code Cannot be empty!");
+			alert ('<?php echo $lang_locations_ZipCodeShouldBeSpecified; ?>');
 			frm.txtZIP.focus();
 			return;
 		}
 
 		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
-			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
+			if ( ! confirm ('<?php echo $lang_locations_ZipContainsNonNumericChars; ?>') ) {
 				frm.txtZIP.focus();
 			return;
 			}
@@ -131,14 +108,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 
 		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
-			alert("Should be Numeric!");
+			alert('<?php echo $lang_locations_InvalidCharsInPhone; ?>');
 			frm.txtPhone.focus();
 			return;
 		}
 
 		 if(frm.txtFax.value != '' && !numeric(frm.txtFax)) {
 
-			alert("Should be Numeric!");
+			alert('<?php echo $lang_locations_InvalidCharsInFax; ?>');
 			frm.txtFax.focus();
 			return;
 		}
@@ -218,7 +195,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
 					  <tr>
 						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
-						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; xajax_populateStates(this.value);">
 						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
@@ -290,7 +267,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -305,7 +282,7 @@ function edit()
 	}
 
 	var frm=document.frmLocation;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -335,58 +312,44 @@ function mover() {
 		var frm = document.frmLocation;
 
 		if (frm.txtLocDescription.value == '') {
-			alert ("Location Description empty!");
+			alert ('<?php echo $lang_locations_NameHasToBeSpecified; ?>');
 			frm.txtLocDescription.focus();
 			return;
 		}
 
 		if (frm.cmbCountry.value == '0') {
-			alert ("Country not selected!");
+			alert ('<?php echo $lang_locations_CountryShouldBeSelected; ?>');
 			frm.cmbCountry.focus();
 			return;
 		}
 
-		if ( frm.cmbProvince.value == '0') {
-			alert ("State not selected!");
-			frm.cmbProvince.focus();
-			return;
-		}
-
-		/*if ( frm.cmbDistrict.value == '' ){
-			alert ("City Cannot be empty!");
-			frm.cmbDistrict.focus();
-			return;
-		}*/
-
 		if ( frm.txtAddress.value == '') {
-			alert ("Address empty!");
+			alert ('<?php echo $lang_locations_AddressShouldBeSpecified; ?>');
 			frm.txtAddress.focus();
 			return;
 		}
 
 		if ( frm.txtZIP.value == '' ){
-			alert ("Zip - Code Cannot be empty!");
+			alert ('<?php echo $lang_locations_ZipCodeShouldBeSpecified; ?>');
 			frm.txtZIP.focus();
 			return;
 		}
 
 		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
-			if ( ! confirm ("Zip - Code Contains non-numeric characters! Here they are"+nonNumbers(frm.txtZIP)+". Do you want to continue?") ) {
+			if ( ! confirm ('<?php echo $lang_locations_ZipContainsNonNumericChars; ?>') ) {
 				frm.txtZIP.focus();
 			return;
 			}
 		}
 
 		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
-
-			alert("Should be Numeric!");
+			alert('<?php echo $lang_locations_InvalidCharsInPhone; ?>');
 			frm.txtPhone.focus();
 			return;
 		}
 
 		if (frm.txtFax.value != '' && !numeric(frm.txtFax)) {
-
-			alert("Should be Numeric!");
+			alert('<?php echo $lang_locations_InvalidCharsInFax; ?>');
 			frm.txtFax.focus();
 			return;
 		}
@@ -449,13 +412,13 @@ function mover() {
 						   	<td><strong><?php echo $message[0][0]?></strong></td>
 						  </tr>
 						  <tr>
-						    <td><span class="error">*</span> <?php echo $lang_Commn_description; ?></td>
+						    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea>
 						    </td>
 						  </tr>
 				  <tr>
 						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
-						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>....'; xajax_populateStates(this.value);">
 						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];
@@ -520,7 +483,7 @@ function mover() {
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 

@@ -1271,7 +1271,6 @@ class TimeController {
 		$newEvent = empty($eventId);
 
 		if (!CommonFunctions::IsValidId($timeEvent->getProjectId())) {
-			print "TEst";var_dump($timeEvent);die;
 			return self::ProjectNotSpecified_ERROR;
 		}
 

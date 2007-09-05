@@ -56,6 +56,14 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_TEMPLATE_APPROVE = "subordinate/approval.txt";
 
 	/**
+	 * Mail subject templates
+	 */
+	const MAILNOTIFICATIONS_TEMPLATE_APPLY_SUBJECT = 'supervisor/applied-subject.txt';
+	const MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT = 'supervisor/cancelled-subject.txt';
+	const MAILNOTIFICATIONS_TEMPLATE_REJECT_SUBJECT = 'subordinate/rejected-subject.txt';
+	const MAILNOTIFICATIONS_TEMPLATE_APPROVE_SUBJECT = 'subordinate/approval-subject.txt';
+
+	/**
 	 * Template variable identifier constants
 	 *
 	 */
@@ -68,6 +76,7 @@ class MailNotifications {
 	 */
 	const MAILNOTIFICATIONS_VARIABLE_SUPERVISOR = "supervisor";
 	const MAILNOTIFICATIONS_VARIABLE_SUBORDINATE = "subordinate";
+	const MAILNOTIFICATIONS_VARIABLE_LEAVECOUNT = "leavecount";
 
 
 	/*
@@ -296,7 +305,8 @@ class MailNotifications {
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
 			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
-			$this->subject = "Leave Notification - Approved $leaveCount day(s)";
+			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_APPROVE_SUBJECT,
+													$employeeName, $leaveCount);
 
 			$this->to = $this->subordinateMail;
 		}
@@ -359,7 +369,8 @@ class MailNotifications {
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
 			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
-			$this->subject = "Leave Notification - Rejected $leaveCount day(s)";
+			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_REJECT_SUBJECT,
+													$employeeName, $leaveCount);
 
 			$this->to = $this->subordinateMail;
 		}
@@ -424,7 +435,8 @@ class MailNotifications {
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
 			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
-			$this->subject = "Leave Notification - $employeeName applied for $leaveCount day(s)";
+			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_APPLY_SUBJECT,
+													$employeeName, $leaveCount);
 
 			$this->to = $this->supervisorMail;
 		}
@@ -487,7 +499,8 @@ class MailNotifications {
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
 			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
-			$this->subject = "Leave Notification - $employeeName cancelled leave for $leaveCount day(s)";
+			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT,
+													$employeeName, $leaveCount);
 
 			$this->to = $this->supervisorMail;
 		}
@@ -589,6 +602,28 @@ class MailNotifications {
 			$desc = $lang_Leave_Common_HalfDayAfternoon;
 		}
 		return $desc;
+	}
+
+	/**
+	 * Get the mail subject from given template
+	 *
+	 * @param string $template Mail subject template file
+	 * @param string $subordinate The name of the employee applying for leave
+	 * @param int    $leaveCount The number of days of leave
+	 *
+	 * @return string Mail subject from the given file, with parameters replaced
+	 */
+	private function _getMailSubject($template, $subordinate, $leaveCount) {
+
+		$subject = file_get_contents(ROOT_PATH."/templates/leave/mails/".$template);
+
+		$pattern = array('/#'.self::MAILNOTIFICATIONS_VARIABLE_LEAVECOUNT.'/',
+                          '/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/',
+                          "/\n/");
+		$replace = array($leaveCount, $subordinate, "");
+		$subject = preg_replace($pattern, $replace, $subject);
+
+		return $subject;
 	}
 }
 

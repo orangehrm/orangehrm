@@ -588,8 +588,5 @@ class SalaryGrades {
 
 		}
 	}
-
-
 }
-
 ?>

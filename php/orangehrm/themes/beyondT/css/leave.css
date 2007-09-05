@@ -157,7 +157,9 @@ hr {
 .success {
 	color: #005500;
 }
-
+.warning {
+	color: #005500;
+}
 .hide {
 	display:none;
 }

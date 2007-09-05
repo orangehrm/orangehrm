@@ -30,7 +30,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 function alpha(txt)
@@ -62,7 +62,7 @@ function goBack() {
 		 * Purpose-  To modify the Descrption in the UI to accept all Characters
 		 */
 		if(txt.value=="") {
-			alert("License cannot be blank value");
+			alert('<?php echo $lang_Admin_License_DescriptionCannotBeBlank; ?>');
 			txt.focus();
 			return;
 		}
@@ -154,7 +154,7 @@ function goBack() {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <script>
@@ -225,7 +225,7 @@ function edit()
 	}
 
 	var frm=document.frmlicenses;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -238,7 +238,7 @@ function edit()
 		 * Purpose-  To modify the Descrption in the UI to accept all Characters
 		 */
 		if(document.frmlicenses.txtLicensesDesc.value=="") {
-			alert("License cannot be blank value");
+			alert('<?php echo $lang_Admin_License_DescriptionCannotBeBlank; ?>');
 			document.frmlicenses.txtLicensesDesc.focus();
 			return;
 		}
@@ -312,7 +312,7 @@ function edit()
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>

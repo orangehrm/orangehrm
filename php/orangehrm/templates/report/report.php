@@ -45,7 +45,7 @@ $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <script language="JavaScript">
 function goBack() {
 	location.href = "./CentralController.php?repcode=EMPVIEW&VIEW=MAIN";

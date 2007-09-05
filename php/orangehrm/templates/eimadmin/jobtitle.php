@@ -21,6 +21,9 @@ require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
 
+$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+$GLOBALS['lang_Common_Save'] = $lang_Common_Save;
+
 function assignEmploymentStatus($valArr) {
 
 	$view_controller = new ViewController();
@@ -33,6 +36,7 @@ function assignEmploymentStatus($valArr) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$assList,0,'frmJobTitle','cmbAssEmploymentStatus',0);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssList,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 	$objResponse->addAssign('status','innerHTML','');
@@ -56,6 +60,7 @@ function unAssignEmploymentStatus($jobtit,$empstat) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$assList,0,'frmJobTitle','cmbAssEmploymentStatus',0);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssList,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 
@@ -74,7 +79,7 @@ function showAddEmpStatForm() {
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 	//$parent::
 	$objResponse->addAssign('layerEmpStat','style','visibility:hidden;');
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='addFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onClick='addFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
@@ -93,7 +98,7 @@ function showEditEmpStatForm($estatCode) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='Save' onClick='editFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onClick='editFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
@@ -114,6 +119,7 @@ function addExt($arrElements) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssEmpStat,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.disabled = true;");
@@ -138,6 +144,7 @@ function editExt($arrElements) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	$objResponse = $xajaxFiller->cmbFiller($objResponse,$unAssEmpStat,0,'frmJobTitle','cmbUnAssEmploymentStatus',0);
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatID.value = '';");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.value = '';");
@@ -196,7 +203,7 @@ return $objResponse->getXML();
 
 <head>
 
-<title>Untitled Document</title>
+<title></title>
 <?php $objAjax->printJavascript(); ?>
 <script language="JavaScript">
 
@@ -208,7 +215,7 @@ return $objResponse->getXML();
 
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
 
-			alert ("Name Field Empty!");
+			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
 
 			document.frmJobTitle.txtJobTitleName.focus();
 
@@ -220,7 +227,7 @@ return $objResponse->getXML();
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
 
-			alert ("Description Empty!");
+			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
 
 			document.frmJobTitle.txtJobTitleDesc.focus();
 
@@ -232,7 +239,7 @@ return $objResponse->getXML();
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 
-			alert ("Field not Selected!");
+			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 
 			document.frmJobTitle.cmbPayGrade.focus();
 
@@ -302,7 +309,6 @@ function edit() {
 
 	var frm=document.frmJobTitle;
 
-//  alert(frm.elements.length);
 
 	for (var i=0; i < frm.elements.length; i++)
 
@@ -322,7 +328,7 @@ function edit() {
 
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
 
-			alert ("Name Field Empty!");
+			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
 
 			document.frmJobTitle.txtJobTitleName.focus();
 
@@ -334,7 +340,7 @@ function edit() {
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
 
-			alert ("Description Empty!");
+			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
 
 			document.frmJobTitle.txtJobTitleDesc.focus();
 
@@ -346,7 +352,7 @@ function edit() {
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
 
-			alert ("Field not Selected!");
+			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 
 			document.frmJobTitle.cmbPayGrade.focus();
 
@@ -370,7 +376,7 @@ function assignEmploymentStatus() {
 
 	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
 
-		alert('No Selection!');
+		alert('<?php echo $lang_jobtitle_NoSelection; ?>');
 
 		return;
 
@@ -378,7 +384,7 @@ function assignEmploymentStatus() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....';
+	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
 
 
@@ -394,7 +400,7 @@ function unAssignEmploymentStatus() {
 
 	if(document.frmJobTitle.cmbAssEmploymentStatus.selectedIndex == -1) {
 
-		alert('No Selection!');
+		alert('<?php echo $lang_jobtitle_NoSelection; ?>');
 
 		return;
 
@@ -402,7 +408,7 @@ function unAssignEmploymentStatus() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....';
+	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
 
 
@@ -461,7 +467,7 @@ function editPayGrade() {
 	paygrade = document.frmJobTitle.cmbPayGrade.value;
 
 	if(paygrade == '0') {
-		alert('Please Select!');
+		alert('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 		document.frmJobTitle.cmbPayGrade.focus();
 		return;
 	}
@@ -482,7 +488,7 @@ function showEditForm() {
 
 	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
 
-		alert('Please Select!');
+		alert('<?php echo $lang_jobtitle_PleaseSelectEmploymentStatus; ?>');
 
 		document.frmJobTitle.cmbUnAssEmploymentStatus.focus();
 
@@ -504,7 +510,7 @@ function addFormData() {
 
 	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 
-		alert("Empty Field!");
+		alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
 
 		document.frmJobTitle.txtEmpStatDesc.focus();
 
@@ -514,7 +520,7 @@ function addFormData() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....';
+	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
 	xajax_addExt(xajax.getFormValues('frmJobTitle'));
 
@@ -528,7 +534,7 @@ function editFormData() {
 
 	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 
-		alert("Empty Field!");
+		alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
 
 		document.frmJobTitle.txtEmpStatDesc.focus();
 
@@ -538,7 +544,7 @@ function editFormData() {
 
 
 
-	document.getElementById('status').innerHTML = 'Please Wait....';
+	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
 	xajax_editExt(xajax.getFormValues('frmJobTitle'));
 
@@ -580,7 +586,7 @@ function writeCookie(name, value, expire) {
 }
 
 function promptUseCookieValues() {
-	if (!confirm('Currently showing the values saved in session\n when you last edited this record.\n Do you want to continue?')) {
+	if (!confirm('<?php echo $lang_jobtitle_ShowingSavedValues . "\\n" . $lang_Error_DoYouWantToContinue; ?>')) {
 		history.go();
 	}
 }
@@ -989,7 +995,7 @@ function clearAll() {
 
 <?php			} else { ?>
 
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 
 <?php			}  ?>
 

@@ -47,13 +47,25 @@ if ($modifier === "SUP") {
  	$action = "Leave_Request_CancelLeave";
  	$detailAction = "Leave_FetchDetailsEmployee";
  }
-
- if (isset($_GET['message'])) {
 ?>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
 <h2><?php echo $lang_Title?><hr/></h2>
+<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
+
+	$expString  = $_GET['message'];
+	$expString = explode ("_",$expString);
+	$length = count($expString);
+
+	$col_def=strtolower($expString[$length-1]);
+
+	$expString='lang_Leave_'.$_GET['message'];
+	if (isset($$expString)) {
+?>
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $$expString; ?>
+	</font>
 <?php
+	}
+}
 	if (!is_array($records)) {
 ?>
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
@@ -85,10 +97,10 @@ if ($modifier === "SUP") {
     	<?php if ($modifier == "SUP") { ?>
     	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
-    	<th width="50px" class="tableMiddleMiddle">No of Days</th>
+    	<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfDays;?></th>
     	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
-    	<th width="100px" class="tableMiddleMiddle">Leave Period</th>
+    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period;?></th>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
@@ -124,7 +136,7 @@ if ($modifier === "SUP") {
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getNoDays(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
-   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => "Status Differ");
+   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => $lang_Leave_Common_StatusDiffer);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
 

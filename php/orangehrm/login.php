@@ -20,6 +20,11 @@
 
 define('ROOT_PATH', dirname(__FILE__));
 
+require_once ROOT_PATH . '/lib/common/Language.php';
+$lan = new Language();
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
+require_once($lan->getLangPath("full.php"));
+
 session_start();
 
 $wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
@@ -75,7 +80,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 ?>
 <html>
 <head>
-<title>OrangeHRM - New Level of HR Management</title>
+<title><?php echo $lang_login_title; ?></title>
 <link href="favicon.ico" rel="icon" type="image/gif"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
@@ -83,12 +88,12 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 	function submitForm() {
 
 		if(document.loginForm.txtUserName.value == "") {
-				alert("User Name not Given!");
+				alert('<?php echo $lang_login_UserNameNotGiven; ?>');
 				return false;
 		   }
 
 		if(document.loginForm.txtPassword.value == "") {
-				alert("Password not Given!");
+				alert("<?php echo $lang_login_PasswordNotGiven; ?>");
 				return false;
 		   }
 
@@ -124,11 +129,15 @@ body {
 </style></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <noscript>
-	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">You need a JavaScript enabled Browser. Ex. <a href="http://www.mozilla.com/firefox/" target="_blank" style="text-decoration:none;">Mozilla Firefox</a></font>
+	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">
+		<?php echo $lang_login_NeedJavascript;?>
+		<a href="http://www.mozilla.com/firefox/" target="_blank" 
+			style="text-decoration:none;"><?php echo $lang_login_MozillaFirefox;?></a>
+		</font>
 	</strong>
 </noscript>
 <?php if (isset($_COOKIE['Loggedin']) && isset($_SERVER['HTTP_REFERER'])) { ?>
-	<strong><font color='Red' style="padding-left:15px;">Your session expired because you were inactive. Please re-login.</font>
+	<strong><font color='Red' style="padding-left:15px;"><?php echo $lang_login_YourSessionExpired;?></font>
 	</strong>
 <?php } ?>
 
@@ -168,7 +177,7 @@ body {
               <td width="55%">&nbsp;</td>
             </tr>
             <tr>
-              <td align="right" class="bodyTXT">Login Name : </td>
+              <td align="right" class="bodyTXT"><?php echo $lang_login_LoginName; ?> : </td>
               <td>
 <?php		if(isset($_POST['txtUserName'])) {?>
               <input name="txtUserName" type="text" class="loginTXT" size="10" value="<?php echo $_POST['txtUserName']?>">
@@ -178,12 +187,12 @@ body {
               </td>
             </tr>
             <tr>
-              <td align="right" class="bodyTXT">Password : </td>
+              <td align="right" class="bodyTXT"><?php echo $lang_login_Password; ?> : </td>
               <td><input name="txtPassword" type="password" class="loginTXT" size="10"></td>
             </tr>
             <tr>
-			<td height="40" valign="bottom" align="center"><input type="Submit" name="Submit" value="Login" class="button" > </td>
-            <td align="center" valign="bottom"><input type="reset" name="clear" value="Clear" class="button"></td>
+			<td height="40" valign="bottom" align="center"><input type="Submit" name="Submit" value="<?php echo $lang_login_Login; ?>" class="button" > </td>
+            <td align="center" valign="bottom"><input type="reset" name="clear" value="<?php echo $lang_login_Clear; ?>" class="button"></td>
             </tr>
             <tr>
              	<td></td>
@@ -191,11 +200,11 @@ body {
 			if(isset($InvalidLogin)) {
 			   switch ($InvalidLogin) {
 
-			   		case 1 : 	$InvalidLoginMes = "Invalid Login";
+			   		case 1 : 	$InvalidLoginMes = $lang_login_InvalidLogin;
 			   					break;
-			   		case 2 : 	$InvalidLoginMes = "User Disabled";
+			   		case 2 : 	$InvalidLoginMes = $lang_login_UserDisabled;
 			   					break;
-			   		case 3 : 	$InvalidLoginMes = "No Employee assigned to the ESS user account.";
+			   		case 3 : 	$InvalidLoginMes = $lang_login_NoEmployeeAssigned;
 			   					break;
 			   }
 			} else {
@@ -231,7 +240,11 @@ body {
         <td colspan="3" valign="top"><table width="80%"  border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td class="bodyTXT"><!--<strong>Orange<span class="style2">HRM</span></strong> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.-->
-            <font color="#6C7E89" size="2" face="Tahoma">Orange</font><font size="2" face="Tahoma" color="#FF9933">HRM</font></b><font color="#6C7E89" size="3" face="tahoma" style="line-height: 18px; font-size: 11.8px; font-family: tahoma;"> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.</font></td>
+            <font color="#6C7E89" size="2" face="Tahoma">Orange</font>
+	<font size="2" face="Tahoma" color="#FF9933">HRM</font></b>
+	<font color="#6C7E89" size="3" face="tahoma" style="line-height: 18px; font-size: 11.8px; font-family: tahoma;">
+	<?php echo $lang_login_OrangeHRMDescription; ?>
+	</font></td>
           </tr>
         </table></td>
       </tr>

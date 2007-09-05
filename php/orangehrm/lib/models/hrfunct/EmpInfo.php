@@ -787,83 +787,12 @@ class EmpInfo {
 		$arrRecordsList[4] = "'". $this->getEmpMiddleName() . "'";
 		$arrRecordsList[5] = "'". $this->getEmployeeId() . "'";
 
-		//personal
-/*		$arrRecordsList[5] = "'". $this->getEmpsmoker() . "'";
-		$arrRecordsList[6] = "'". $this->getEmpEthnicRace() . "'";
-		$arrRecordsList[7] = "'". $this->getEmpDOB() . "'";
-		$arrRecordsList[8] =($this->getEmpNation()=='0') ? 'null' : "'". $this->getEmpNation() . "'";
-		$arrRecordsList[9] = "'". $this->getEmpGender() . "'";
-		$arrRecordsList[10] = "'". $this->getEmpMarital() . "'";
-		$arrRecordsList[11] = "'". $this->getEmpSSNNo() . "'";
-		$arrRecordsList[12] = "'". $this->getEmpSINNo() . "'";
-		$arrRecordsList[13] = "'". $this->getEmpOthID() . "'";
-		$arrRecordsList[14] = "'". $this->getEmpDriLicNo() . "'";
-		$arrRecordsList[15] = "'". $this->empDriLicExpDat . "'";
-		$arrRecordsList[16] = "'". $this->getEmpMilitary() . "'";
-
-		//job info
-		$arrRecordsList[17] = "'". $this->getEmpStatus() . "'";
-		$arrRecordsList[18] = ($this->getEmpJobTitle()=='0') ? 'null' : "'". $this->getEmpJobTitle() . "'";
-		$arrRecordsList[19] = "'". $this->getEmpEEOCat() . "'";
-		$arrRecordsList[20] = ($this->getEmpLocation()=='0') ? 'null' : "'". $this->getEmpLocation() . "'";
-		$arrRecordsList[32] = "'". $this->getEmpJoinedDate() . "'";
-
-		//contact
-		$arrRecordsList[21] = "'". $this->getEmpStreet1() . "'";
-		$arrRecordsList[22] = "'". $this->getEmpStreet2() . "'";
-		$arrRecordsList[23] = "'". $this->getEmpCity() . "'";
-		$arrRecordsList[24] = "'". $this->getEmpCountry()  . "'";
-		$arrRecordsList[25] = "'". $this->getEmpProvince()  . "'";
-		$arrRecordsList[26] = "'". $this->getEmpZipCode() . "'";
-		$arrRecordsList[27] = "'". $this->getEmpHomeTelephone() . "'";
-		$arrRecordsList[28] = "'". $this->getEmpMobile() . "'";
-		$arrRecordsList[29] = "'". $this->getEmpWorkTelephone() . "'";
-		$arrRecordsList[30] = "'". $this->getEmpWorkEmail() . "'";
-		$arrRecordsList[31] = "'". $this->getEmpOtherEmail() . "'";
-*/
-
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'EMP_LASTNAME';
 		$arrFieldList[2] = 'EMP_FIRSTNAME';
 		$arrFieldList[3] = 'EMP_NICK_NAME';
 		$arrFieldList[4] = 'EMP_MIDDLE_NAME';
 		$arrFieldList[5] = 'EMPLOYEE_ID';
-
-		//personal
-/*		$arrFieldList[5]  = 'EMP_SMOKER';
-		$arrFieldList[6]  = 'EMP_ETH_RACE';
-		$arrFieldList[7]  = 'EMP_BIRTHDAY';
-		$arrFieldList[8]  = 'NATION_CODE';
-		$arrFieldList[9]  = 'EMP_GENDER';
-		$arrFieldList[10] = 'EMP_MARITAL_STATUS';
-		$arrFieldList[11] = 'EMP_SSN_NUM';
-		$arrFieldList[12] = 'EMP_SIN_NUM';
-		$arrFieldList[13] = 'EMP_OTHER_ID';
-		$arrFieldList[14] = 'EMP_DRI_LICE_NUM';
-		$arrFieldList[15] = 'EMP_DRI_LICE_EXP_DATE';
-		$arrFieldList[16] = 'EMP_MILITARY_SERVICE';
-
-		//job info
-		$arrFieldList[17] = 'EMP_STATUS';
-		$arrFieldList[18] = 'JOB_TITLE_CODE';
-		$arrFieldList[19] = 'EEO_CAT_CODE';
-		$arrFieldList[20] = 'WORK_STATION';
-		$arrFieldList[32] = 'JOINED_DATE';
-
-		//contact
-		$arrFieldList[21] = 'EMP_STREET1';
-		$arrFieldList[22] = 'EMP_STREET2';
-		$arrFieldList[23] = 'CITY_CODE';
-		$arrFieldList[24] = 'COUN_CODE';
-		$arrFieldList[25] = 'PROVIN_CODE';
-		$arrFieldList[26] = 'EMP_ZIPCODE';
-		$arrFieldList[27] = 'EMP_HM_TELEPHONE';
-		$arrFieldList[28] = 'EMP_MOBILE';
-		$arrFieldList[29] = 'EMP_WORK_TELEPHONE';
-		$arrFieldList[30] = 'EMP_WORK_EMAIL';
-		$arrFieldList[31] = 'EMP_OTH_EMAIL';
-*/
-
 
 		$sql_builder = new SQLQBuilder();
 

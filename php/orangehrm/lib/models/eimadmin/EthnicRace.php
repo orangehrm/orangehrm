@@ -35,31 +35,22 @@ class EthnicRace {
 
 
 	function EthnicRace() {
-
 	}
 
 	function setethnicraceId($ethnicrace) {
-
 		$this->ethnicrace = $ethnicrace;
-
 	}
 
 	function setethnicraceDescription($ethnicraceDesc) {
-
 		$this->ethnicraceDesc = $ethnicraceDesc;
 	}
 
-
 	function getethnicrace() {
-
 		return $this->ethnicrace;
-
 	}
 
 	function getethnicraceDescription() {
-
 		return $this->ethnicraceDesc;
-
 	}
 
 	function getListofEthnicRace($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
@@ -87,18 +78,13 @@ class EthnicRace {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
 	}
 
@@ -122,7 +108,7 @@ class EthnicRace {
 
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
 
-	    	return $line[0];
+	   return $line[0];
 	}
 
 	function delEthnicRace($arrList) {
@@ -145,8 +131,11 @@ class EthnicRace {
 		return $message2;
 	}
 
-
 	function addEthnicRace() {
+
+		if ($this->_isDuplicateName()) {
+			throw new EthnicaRaceException("Duplicate name", 1);
+		}
 
 		$tableName = 'hs_hr_ethnic_race';
 
@@ -166,10 +155,13 @@ class EthnicRace {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-
 	}
 
 	function updateEthnicRace() {
+
+		if ($this->_isDuplicateName(true)) {
+			throw new EthnicaRaceException("Duplicate name", 1);
+		}
 
 		$this->getethnicrace();
 		$arrRecordsList[0] = "'". $this->getethnicrace() . "'";
@@ -192,10 +184,7 @@ class EthnicRace {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-
-
 	}
-
 
 	function filterEthnicRace($getID) {
 
@@ -223,20 +212,14 @@ class EthnicRace {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
 
 	function getEthnicRaceCodes () {
@@ -264,22 +247,12 @@ class EthnicRace {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
-
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
 	     }
-
 	}
 
 	function filterGetEthnicRaceInfo($getID) {
@@ -308,22 +281,15 @@ class EthnicRace {
 	    	$arrayDispList[$i][1] = $line[1]; // Provicne Name
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
-
 
 	function filterNotEqualSubEthnicRaceInfo($getID) {
 
@@ -356,23 +322,30 @@ class EthnicRace {
 
 	     }
 
-	     if (isset($arrayDispList)) {
-
+	    if (isset($arrayDispList)) {
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
 
+	private function _isDuplicateName($update=false) {
+		$races = $this->getListofEthnicRace(0, $this->getethnicraceDescription(), 1);
 
+		if (is_array($races)) {
+			if ($update) {
+				if ($races[0][0] == $this->getethnicrace()) {
+					return false;
+				}
+			}
+			return true;
+		}
 
-
-
+		return false;
+	}
 }
 
+class EthnicaRaceException extends Exception {
+}
 ?>

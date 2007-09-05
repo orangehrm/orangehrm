@@ -23,7 +23,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- <link href="<?php //echo WROOT; ?>/favicon.ico" rel="icon" type="image/gif"/> -->
-<title>OrangeHRM - Leave Module</title>
+<title><?php echo $lang_Leave_Title;?></title>
 
 <link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
 </head>

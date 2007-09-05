@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-
 <script language="JavaScript">
 
 function editWrkExp() {
@@ -75,46 +74,20 @@ function addEXTWrkExp() {
 		return false;
 	}
 
-	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
-	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
-	var currentDate = document.frmEmp.txtEmpExpToDate.value;
-	///////////////To Handle the date field validation
+	var fromDate = createDate(document.getElementById('atxtEmpExpFromDate').value)
+	var toDate = createDate(document.getElementById('atxtEmpExpToDate').value);
+	var currentDate = document.getElementById('atxtEmpExpToDate').value;
+
 	if (!(currentDate == "0000-00-00")){
+		if(fromDate >= toDate){
+			alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 
-	if(fromDate >= toDate){
-		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
-
-		return;
-	}
+			return;
+		}
 	}
 
   document.frmEmp.wrkexpSTAT.value="ADD";
   qCombo(17);
-}
-
-function calcYearMonth() {
-
-	if(document.frmEmp.txtEmpExpFromDat.value == '') {
-		alert("Enter From Date first");
-		return;
-	}
-	var fromDate = createDate(document.frmEmp.txtEmpExpFromDat.value)
-	var toDate = createDate(document.frmEmp.txtEmpExpToDat.value);
-
-	var diffMs = toDate.getTime() - fromDate.getTime();
-
-	var oneMonth = 1000*60*60*24*30;
-	var oneYear = oneMonth * 12;
-
-	var eYears = diffMs / oneYear;
-	var eMonth = diffMs % oneYear;
-
-	eMonth = eMonth / oneMonth;
-
-	var str = eMonth.toString();
-	document.frmEmp.txtEmpExpMonths.value = str.substr(0,str.indexOf('.'));
-	str = eYears.toString();
-	document.frmEmp.txtEmpExpYears.value = str.substr(0,str.indexOf('.'));
 }
 
 function editEXTWrkExp() {
@@ -133,9 +106,9 @@ function editEXTWrkExp() {
 		return false;
 	}
 
-	var fromDate = createDate(document.frmEmp.txtEmpExpFromDate.value)
-	var toDate = createDate(document.frmEmp.txtEmpExpToDate.value);
-	var currentDate = document.frmEmp.txtEmpExpToDate.value;
+	var fromDate = createDate(document.getElementById('etxtEmpExpFromDate').value)
+	var toDate = createDate(document.getElementById('etxtEmpExpToDate').value);
+	var currentDate = document.getElementById('etxtEmpExpToDate').value;
 
 
 ///////////To validate the date fields
@@ -171,8 +144,6 @@ function delEXTWrkExp() {
 		return;
 	}
 
-
-    //alert(cntrl.value);
     document.frmEmp.wrkexpSTAT.value="DEL";
     qCombo(17);
 }
@@ -185,16 +156,16 @@ function viewWrkExp(wrkexp) {
 }
 
 </script>
+<span id="parentPaneWorkExperience" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
     <input type="hidden" name="wrkexpSTAT" value="">
-
 <?php
 if(isset($this->popArr['editWrkExpArr'])) {
     $edit = $this->popArr['editWrkExpArr'];
 ?>
-    		 <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>">
-
+<div id="editPaneWorkExperience" >
+      <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>">
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_employer?></td>
@@ -202,8 +173,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
     				  <td width="50">&nbsp;</td>
 					  <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
 					  <td nowrap>
-					  	<input type="text" readonly name="txtEmpExpFromDate" id="txtEmpExpFromDate" value=<?php echo $edit[0][4]?> size="10" />
-					  	<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+					  	<input type="text" readonly name="txtEmpExpFromDate" id="etxtEmpExpFromDate" value="<?php echo (strtotime($edit[0][4]) == 943898400)?"0000-00-00":date("Y-m-d", strtotime($edit[0][4])); ?>" size="10" />
+					  	<input disabled type="button" class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_empview_JobTitle?></td>
@@ -211,8 +182,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
     				  <td width="50">&nbsp;</td>
 						<td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
 						<td nowrap>
-							<input type="text" name="txtEmpExpToDate" id="txtEmpExpToDate" readonly value=<?php echo $edit[0][5]?> size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpExpToDate" id="etxtEmpExpToDate" readonly value="<?php echo (strtotime($edit[0][5]) == 943898400)?"0000-00-00":date("Y-m-d", strtotime($edit[0][5])); ?>" size="10" />
+							<input disabled type="button" class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $lang_Leave_Common_Comments; ?></td>
@@ -230,11 +201,11 @@ if(isset($this->popArr['editWrkExpArr'])) {
 		<?php		} 	 ?>
 						</td>
 	    </tr>
-</table>
-
+	</table>
+</div>
 <?php } else { ?>
-
-		<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>">
+<div id="addPaneWorkExperience" class="<?php echo ($this->popArr['rsetWrkExp'] != null)?"addPane":""; ?>" >
+    	<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>">
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
             <td><?php echo $lang_hrEmpMain_employer?></td>
@@ -242,8 +213,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
             <td nowrap>
-            	<input type="text" name="txtEmpExpFromDate" id="txtEmpExpFromDate" readonly value="0000-00-00" size="10" />
-           		<input name="button" type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            	<input type="text" name="txtEmpExpFromDate" id="atxtEmpExpFromDate" readonly value="0000-00-00" size="10" />
+           		<input name="button" type="button" class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
             <td><?php echo $lang_empview_JobTitle?></td>
@@ -251,8 +222,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
             <td nowrap>
-            	<input type="text" name="txtEmpExpToDate" id="txtEmpExpToDate" readonly value="0000-00-00" size="10" />
-              	<input name="button" type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            	<input type="text" name="txtEmpExpToDate" id="atxtEmpExpToDate" readonly value="0000-00-00" size="10" />
+              	<input name="button" type="button" class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">
@@ -271,10 +242,9 @@ if(isset($this->popArr['editWrkExpArr'])) {
             </td>
           </tr>
         </table>
-		<?php } ?>
-
+</div>
+<?php } ?>
 <?php
-
     $rset = $this->popArr['rsetWrkExp'];
 
     // check if there are any defined work experiences
@@ -284,34 +254,17 @@ if(isset($this->popArr['editWrkExpArr'])) {
         $assignedExperiences = false;
     }
 ?>
+<?php if($assignedExperiences) { ?>
 
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
- <?php
-if ($rset != Null ) {?>
-  <tr>
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignworkex?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-
- <?php } ?>
-<?php if( !$assignedExperiences ){ ?>
-  <!-- <tr>
-    <td width='100%'><h5> <?php /*echo $lang_empview_norecorddisplay */?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr> -->
-<?php
-     } else {
-?>
-<tr><td>&nbsp;</td></tr>
-</table>
+<h3><?php echo $lang_hrEmpMain_assignworkex?></h3>
+<?php	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="showAddPane('WorkExperience');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php } ?>
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-<?php
-//Handling the table hid eor view
-if ($rset != Null ) {?>
+
                   <tr>
                       	<td></td>
 						 <td width="125"><strong><?php echo $lang_hrEmpMain_workexid?></strong></td>
@@ -321,14 +274,7 @@ if ($rset != Null ) {?>
 						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_internal; ?></strong></td>
 				</tr>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="resetAdd(17);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php } ?>
-
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-<?php }
+<?php
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
@@ -344,7 +290,7 @@ if ($rset != Null ) {?>
         echo '</tr>';
         }
 ?>
-<?php } //if( $assignedExperiences ) ?>
 </table>
-
 <?php } ?>
+<?php } ?>
+</span>

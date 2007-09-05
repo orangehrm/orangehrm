@@ -18,7 +18,6 @@
  */
 ?>
 <script language="JavaScript">
-
 function editLicense() {
 	if(document.EditLicense.title=='Save') {
 		editEXTLicense();
@@ -58,8 +57,8 @@ function createDate(str) {
 
 function addEXTLicense() {
 
-	var fromDate = createDate(document.frmEmp.txtEmpLicDat.value)
-	var toDate = createDate(document.frmEmp.txtEmpreDat.value);
+	var fromDate = createDate(document.getElementById('atxtEmpLicDat').value)
+	var toDate = createDate(document.getElementById('atxtEmpreDat').value);
 
 	if(document.frmEmp.cmbLicCode.value == '0') {
 		alert("<?php echo $lang_hremplicenses_NoLicenseSelected; ?>");
@@ -78,11 +77,11 @@ function addEXTLicense() {
 
 function editEXTLicense() {
 
-	var fromDate = createDate(document.frmEmp.txtEmpLicDat.value)
-	var toDate = createDate(document.frmEmp.txtEmpreDat.value);
+	var fromDate = createDate(document.getElementById('etxtEmpLicDat').value)
+	var toDate = createDate(document.getElementById('etxtEmpreDat').value);
 
 	if(fromDate >= toDate){
-		alert("From Date should be before To date");
+		alert('<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>');
 		return;
 	}
 
@@ -106,7 +105,6 @@ function delEXTLicense() {
 		return;
 	}
 
-    //alert(cntrl.value);
     document.frmEmp.licenseSTAT.value="DEL";
 	qCombo(12);
 }
@@ -117,19 +115,16 @@ function viewLicense(lic) {
 	document.frmEmp.pane.value=12;
 	document.frmEmp.submit();
 }
-
 </script>
-
-
+<span id="parentPaneLicenses" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
-        <input type="hidden" name="licenseSTAT" value="">
+    <input type="hidden" name="licenseSTAT" value="">
 <?php
-
 if(isset($this->getArr['LIC'])) {
-
     $edit = $this->popArr['editLicenseArr'];
-?>			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+?>
+	<div id="editPaneLicenses" >
+		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 				 <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
     				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"><strong>
@@ -145,13 +140,13 @@ if(isset($this->getArr['LIC'])) {
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpLicDat" id="txtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?> size="10" />
-							<input disabled type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" readonly name="txtEmpLicDat" id="etxtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?> size="10" />
+							<input disabled type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpreDat" id="txtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?> size="10" />
-							<input disabled type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" readonly name="txtEmpreDat" id="etxtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?> size="10" />
+							<input disabled type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
@@ -159,9 +154,10 @@ if(isset($this->getArr['LIC'])) {
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editLicense();">
 						</td>
 					  </tr>
-                  </table>
+			</table>
+		</div>
 <?php } else { ?>
-
+	<div id="addPaneLicenses" class="<?php echo ($this->popArr['rsetLicense'] != null)?"addPane":""; ?>" >
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
@@ -180,14 +176,14 @@ if(isset($this->getArr['LIC'])) {
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="txtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>" size="10" />
-							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpLicDat" id="atxtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>" size="10" />
+							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="txtEmpreDat" readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>" size="10" />
-							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpreDat" id="atxtEmpreDat" readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>" size="10" />
+							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 
 					  <tr>
@@ -196,10 +192,9 @@ if(isset($this->getArr['LIC'])) {
         <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 					  </tr>
                   </table>
+	</div>
 <?php } ?>
-
 <?php
-
     $rset = $this->popArr['rsetLicense'];
 
     // check if there are any defined memberships
@@ -209,35 +204,13 @@ if(isset($this->getArr['LIC'])) {
         $assignedLicenses = false;
     }
 ?>
+<?php if($assignedLicenses){ ?>
+	 <h3><?php echo $lang_hremplicenses_assignlicen?></h3>
 
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
- <?php
-if ($rset != Null){ ?>
-  <tr>
+	 <img border="0" title="Add" onClick="showAddPane('Licenses');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+     <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 
-    <td width='100%'><h3><?php echo $lang_hremplicenses_assignlicen?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-<?php } ?>
-<?php if( !$assignedLicenses ){ ?>
- <!-- <tr>
-    <td width='100%'><h5><?php /*echo $lang_empview_norecorddisplay */ ?> </h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr> -->
-
-
-<?php
-     } else {
-?>
-<tr><td>&nbsp;</td></tr>
-</table>
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-<?php
-if ($rset != Null){ ?>
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	 <td ></td>
 						 <td ><strong><?php echo $lang_hremplicenses_licentype?></strong></td>
@@ -245,10 +218,7 @@ if ($rset != Null){ ?>
 						 <td ><strong><?php echo $lang_hrEmpMain_enddate?></strong></td>
 
 					</tr>
-		<img border="0" title="Add" onClick="resetAdd(12);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-
-<?php }
+<?php
 $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
@@ -269,7 +239,7 @@ $allLicenlist = $this -> popArr['allLicenlist'];
         }
 
 ?>
-<?php } //if( $assignedLicenses ) ?>
-</table>
-
+	</table>
 <?php } ?>
+<?php } ?>
+</span>

@@ -99,7 +99,7 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {
 <head>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<title>Select a Photo</title>
+<title><?php echo $lang_hremp_SelectAPhoto; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 function addPic() {
@@ -165,7 +165,7 @@ function windowClose() {
                     <td align="center" width="100%">
                     	<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
                     	<input type="file" name="photofile" accept="image/gif,image/jpeg,image/png">
-                    	[1M Max] [Dimensions 100x120]
+                    	[<?php echo $lang_hremp_PhotoMaxSize;?>] [<?php echo $lang_hremp_PhotoDimensions;?>]
                     </td>
 					</tr>
                     <tr>

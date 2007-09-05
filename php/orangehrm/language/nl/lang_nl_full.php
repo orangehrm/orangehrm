@@ -45,6 +45,7 @@
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate 			= "aub Selecteer een geldige begindatum";
+	$lang_Error_PleaseSelectAValidToDate 			= "Selecteer aub een geldige einddatum";
 	$lang_Error_PleaseSelectALeaveType 				= "aub Selecteer een verlof type";
 
 	$lang_Error_LeaveDateCannotBeABlankValue 		= "Verlofdatum mag geen blanco veld zijn!";
@@ -104,6 +105,7 @@
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
 
+	$lang_Menu_Ess								= "ESS";
 	$lang_Menu_Ess								= "Persoonlijke informatie";
 
 	// Admin Module
@@ -210,6 +212,9 @@
 	$lang_Common_Saturday 					= "zaterdag";
 	$lang_Common_Sunday 					= "zondag";
 
+	$lang_Common_Sort_ASC = "Oplopend";
+	$lang_Common_Sort_DESC = "Aflopend";
+
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
 	// admin module
@@ -223,6 +228,7 @@
 	$lang_Leave_Common_ToDate 				= "Tot";
 
 	$lang_Leave_Common_LeaveQuotaNotAllocated = "Verlof quota niet toegewezen. Raadpleeg de administrator";
+
 	$lang_Leave_Common_LeaveType 			= "Verlof type";
 	$lang_Leave_Common_Status 				= "Status";
 	$lang_Leave_Common_Length 				= "Volledige dag/halve dag";
@@ -241,6 +247,7 @@
 	$lang_Leave_Common_HalfDay 				= "Halve dag";
 	$lang_Leave_Common_LeaveTaken 			= "Opgenomen vrije dag";
 	$lang_Leave_Common_LeaveAvailable 		= "Mogelijke vrije dagen";
+	$lang_Leave_Common_LeaveScheduled 		= "Verlog gepland";
 	$lang_Leave_Common_LeaveTypeName 		= "Titel van vrije dag";
 	$lang_Leave_Common_LeaveTypeId 			= "Vrije dag type Id";
 	$lang_Leave_Common_Select 				= "Selecteer";
@@ -454,6 +461,7 @@
 	$lang_hremp_size 						= "Omvang";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Naam";
+	$lang_hremp_InvalidPhone				= "Niet een geldig telefoon/fax nummer";
 	$lang_hremp_largefileignore				= "1M max, groter wordt geweigerd";
 	$lang_lang_uploadfailed					= "Upload fout";
 
@@ -497,8 +505,10 @@
 
 	$lang_hremp_PleaseSelectJobTitle= "aub Selecteer een functie voor deze werknemer {here}";
 
-	$lang_hremp_ie_CurrentSupervisors 		= "Werknemers huidige manager";
-	$lang_hremp_ie_CurrentSubordinates 		= "Werknemers huidige ondergeschikten";
+	$lang_hremp_ie_CurrentSupervisors 		= "B.v. huidige manager van medewerker";
+	$lang_hremp_ie_CurrentSubordinates 		= "B.v. huidige ondergeschikten van medewerker";
+
+	$lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo = "Specificeer aub minsten 1 telefoonnummer";
 
  	$lang_hremplicenses_employeelicen 		= "Werknemers cerficaten";
 	$lang_hremplicenses_assignlicenses 		= "Toegekende certificaten";
@@ -871,6 +881,7 @@
 
 	$lang_Admin_Users_UserName = "Gebruikersnaam";
 	$lang_Admin_Users_Password = "Wachtwoord";
+	$lang_Admin_Users_Employee = "Medewerker";
 
 	$lang_Admin_Users_ConfirmPassword = "Wachtwoord bevestingen";
 
@@ -911,6 +922,7 @@
 
 	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Geef aub het klant ID op";
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Geef aub de naam op";
+
 	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Urenstaat voor #periodName startend #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Wijzig urenstaat voor #periodName startend #startDate";
@@ -970,4 +982,11 @@
 	$lang_Time_Select_Employee_TimesheetPeriod = "Urenstaat periode";
 
 	$lang_Time_Errors_PleaseAddAComment = "Voeg commentaar toe";
+
+	$lang_mtview_ADD_SUCCESS 				= "Succesvol toegevoegd";
+	$lang_mtview_UPDATE_SUCCESS 			= "Succesvol ge-update";
+	$lang_mtview_DELETE_SUCCESS 			= "Succesvol verwijderd";
+	$lang_mtview_ADD_FAILURE 				= "Toevoegen mislukt";
+	$lang_mtview_UPDATE_FAILURE 			= "Updaten mislukt";
+	$lang_mtview_DELETE_FAILURE 			= "Verwijderen mislukt";
 ?>

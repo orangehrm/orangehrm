@@ -1,23 +1,22 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-all the essential functionalities required for any enterprise.
-Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 ?>
-
 <script language="JavaScript">
 
 function editSkill() {
@@ -95,6 +94,20 @@ function decimal(txt) {
 }
 
 function editEXTSkill() {
+
+	var txt = document.getElementById('etxtEmpYears');
+	if (txt.value == '') {
+		alert ("<?php echo $lang_hrEmpMain_YearsOfExperiencCannotBeBlank; ?>!");
+		txt.focus();
+		return;
+	}
+
+	if (!decimal(txt.value)) {
+			alert ("<?php echo $lang_hrEmpMain_YearsOfExperiencWrongFormat; ?>");
+			txt.focus();
+			return;
+	}
+
   document.frmEmp.skillSTAT.value="EDIT";
   qCombo(16);
 }
@@ -125,17 +138,15 @@ function viewSkill(skill) {
 	document.frmEmp.submit();
 }
 </script>
-
+<span id="parentPaneSkills" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
     <input type="hidden" name="skillSTAT" value="">
-
 <?php
 if(isset($this->popArr['editSkillArr'])) {
     $edit = $this->popArr['editSkillArr'];
 ?>
-
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+	<div id="editPaneSkills" >
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hrEmpMain_Skill?></td>
     				  <td><input type="hidden" name="cmbSkilCode" value="<?php echo $edit[0][1]?>"><strong>
@@ -150,7 +161,7 @@ if(isset($this->popArr['editSkillArr'])) {
 					</tr>
 					  <tr>
                       <td><?php echo $lang_hrEmpMain_yearofex?></td>
-    				  <td><input type="text" name="txtEmpYears" <?php echo isset($this->popArr['txtEmpYears']) ? '':'disabled'?> value="<?php echo isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"></td>
+    				  <td><input type="text" name="txtEmpYears" id="etxtEmpYears" <?php echo isset($this->popArr['txtEmpYears']) ? '':'disabled'?> value="<?php echo isset($this->popArr['txtEmpYears']) ? $this->popArr['txtEmpYears'] : $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					  </tr>
 
@@ -169,14 +180,14 @@ if(isset($this->popArr['editSkillArr'])) {
 						</td>
 					  </tr>
                   </table>
-
+		</div>
 <?php } else { ?>
-
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+<div id="addPaneSkills" class="<?php echo ($this->popArr['rsetSkill'] != null)?"addPane":""; ?>" >
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hrEmpMain_Skill?></td>
     				  <td><select name="cmbSkilCode" <?php echo $locRights['add'] ? '':'disabled'?>>
-    				  		<option selected value="0">-----------Select Skill-------------</option>
+    				  		<option selected value="0">-----------<?php echo $lang_rep_SelectSkill;?>-------------</option>
 <?php
 						$skilllist= $this->popArr['uskilllist'];
 						for($c=0;$skilllist && count($skilllist)>$c;$c++)
@@ -203,39 +214,28 @@ if(isset($this->popArr['editSkillArr'])) {
 								</td>
 					  </tr>
                   </table>
+</div>
 <?php } ?>
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <?php
- $rset = $this->popArr['rsetSkill'] ;
-$allSkilllist = $this->popArr['allSkilllist'];
-if ($rset != Null){ ?>
-  <tr>
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignskills?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
- <?php } ?>
-<tr><td>&nbsp;</td></tr>
-</table>
-
-<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
 <?php
-if ($rset != NUll){ ?>
+$rset = $this->popArr['rsetSkill'] ;
+$allSkilllist = $this->popArr['allSkilllist'];
+
+if ($rset != null){ ?>
+<h3><?php echo $lang_hrEmpMain_assignskills?></h3>
+<?php	if($locRights['add']) { ?>
+		<img border="0" title="Add" onClick="showAddPane('Skills');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+<?php	} ?>
+<?php	if($locRights['delete']) { ?>
+        <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
        				<tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_Skill?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_yearofex?></strong></td>
 
 					</tr>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="resetAdd(16);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<?php	} ?>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-
-
-<?php }
+<?php
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
@@ -253,5 +253,6 @@ if ($rset != NUll){ ?>
 
 ?>
      </table>
-
 <?php } ?>
+<?php } ?>
+</span>

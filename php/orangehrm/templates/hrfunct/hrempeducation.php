@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-
 <script language="JavaScript">
-
 function editEducation() {
 
 	if(document.EditEducation.title=='Save') {
@@ -57,7 +55,7 @@ function addEXTEducation() {
 		return;
 	}
 
-	var txt = document.frmEmp.txtEmpEduYear;
+	var txt = document.getElementById('atxtEmpEduYear');
 		if (!numeric(txt)) {
 			alert ("<?php echo $lang_Error_FieldShouldBeNumeric; ?>!");
 			txt.focus();
@@ -70,7 +68,7 @@ function addEXTEducation() {
 
 function editEXTEducation() {
 
-	var txt = document.frmEmp.txtEmpEduYear;
+	var txt = document.getElementById('etxtEmpEduYear');
 		if (!numeric(txt)) {
 			alert ("<?php echo $lang_Error_FieldShouldBeNumeric; ?>!");
 			txt.focus();
@@ -107,18 +105,63 @@ function viewEducation(edu) {
 	document.frmEmp.pane.value = 9;
 	document.frmEmp.submit();
 }
-
 </script>
-
+<span id="parentPaneEducation" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
     <input type="hidden" name="educationSTAT" value="">
+   	<div id="addPaneEducation" class="<?php echo ($this->popArr['rsetEducation'] != null)?"addPane":""; ?>" >
+    	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+                    <tr>
+                      <td width="200"><?php echo $lang_hrEmpMain_education?></td>
+    				  <td><select name="cmbEduCode">
+    				  		<option selected value="0">--<?php echo $lang_hrEmpMain_SelectEducation; ?>--</option>
+						<?php	$unAssEduCodes = $this->popArr['unAssEduCodes'];
+							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++)
+								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .$unAssEduCodes[$c][1]. ", ".$unAssEduCodes[$c][2]. "</option>";
+						 ?>
+					  </select></td>
+					</tr>
+                    <tr>
+                      <td><?php echo $lang_hrEmpMain_major?></td>
+    				  <td><input type="text" name="txtEmpEduMajor"></td>
+    				  <td width="50">&nbsp;</td>
+					</tr>
+					 <tr>
+					<td><?php echo $lang_Leave_Common_Year?></td>
+					   <td><input type="text" name="txtEmpEduYear" id="atxtEmpEduYear" /></td>
+    				  <td width="50">&nbsp;</td>
+					 </tr>
+					 <tr>
+					<td><?php echo $lang_hrEmpMain_gpa?></td>
+						<td> <input type="text" name="txtEmpEduGPA"></td>
+    				  <td width="50">&nbsp;</td>
+					 </tr>
+					<tr>
+					<td><?php echo $lang_hrEmpMain_startdate?></td>
+						<td>
+							<input type="text" name="txtEmpEduStartDate" id="atxtEmpEduStartDate" readonly value="0000-00-00" size="10" />
+							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+					</tr>
+					  <tr>
+						<td><?php echo $lang_hrEmpMain_enddate?></td>
+						<td>
+							<input type="text" name="txtEmpEduEndDate" id="atxtEmpEduEndDate" readonly value="0000-00-00" size="10" />
+							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+					 </tr>
 
+					 <tr>
+						<td valign="top"></td>
+						<td align="left" valign="top">
+					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					    </td>
+					  </tr>
+			</table>
+	</div>
 <?php
 if(isset($this->popArr['editEducationArr'])) {
     $edit = $this->popArr['editEducationArr'];
 ?>
-
+	<div id="editPaneEducation" >
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hrEmpMain_education?></td>
@@ -138,7 +181,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					</tr>
 					 <tr>
 					<td><?php echo $lang_Leave_Common_Year?></td>
-						<td> <input type="text" disabled name="txtEmpEduYear" value="<?php echo $edit[0][3]?>"></td>
+						<td> <input type="text" disabled name="txtEmpEduYear" id="etxtEmpEduYear" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
@@ -149,14 +192,14 @@ if(isset($this->popArr['editEducationArr'])) {
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpEduStartDate" id="txtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?> size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?> size="10" />
+							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpEduEndDate" id="txtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?> size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?> size="10" />
+							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
 					 </tr>
 
 					  <tr>
@@ -165,80 +208,20 @@ if(isset($this->popArr['editEducationArr'])) {
 						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
 						</td>
 					  </tr>
-</table>
-
-<?php } else { ?>
-
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td width="200"><?php echo $lang_hrEmpMain_education?></td>
-    				  <td><select name="cmbEduCode">
-    				  		<option selected value="0">--<?php echo $lang_hrEmpMain_SelectEducation; ?>--</option>
-						<?php	$unAssEduCodes = $this->popArr['unAssEduCodes'];
-							for($c=0; $unAssEduCodes && count($unAssEduCodes)>$c; $c++)
-								echo "<option value='" .$unAssEduCodes[$c][0] . "'>" .$unAssEduCodes[$c][1]. ", ".$unAssEduCodes[$c][2]. "</option>";
-						 ?>
-					  </select></td>
-					</tr>
-                    <tr>
-                      <td><?php echo $lang_hrEmpMain_major?></td>
-    				  <td><input type="text" name="txtEmpEduMajor"></td>
-    				  <td width="50">&nbsp;</td>
-					</tr>
-					 <tr>
-					<td><?php echo $lang_Leave_Common_Year?></td>
-					   <td><input type="text" name="txtEmpEduYear" /></td>
-    				  <td width="50">&nbsp;</td>
-					 </tr>
-					 <tr>
-					<td><?php echo $lang_hrEmpMain_gpa?></td>
-						<td> <input type="text" name="txtEmpEduGPA"></td>
-    				  <td width="50">&nbsp;</td>
-					 </tr>
-					<tr>
-					<td><?php echo $lang_hrEmpMain_startdate?></td>
-						<td>
-							<input type="text" name="txtEmpEduStartDate" id="txtEmpEduStartDate" readonly value="0000-00-00" size="10" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
-					</tr>
-					  <tr>
-						<td><?php echo $lang_hrEmpMain_enddate?></td>
-						<td>
-							<input type="text" name="txtEmpEduEndDate" id="txtEmpEduEndDate" readonly value="0000-00-00" size="10" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
-					 </tr>
-
-					 <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					    </td>
-					  </tr>
-                  </table>
+		</table>
+	</div>
 <?php } ?>
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
 <?php
 $rset = $this->popArr['rsetEducation'] ;
 $allEduCodes = $this->popArr['allEduCodes'];
-if ($rset != Null) { ?>
-  <tr>
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_assigneducation?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-<?php } ?>
-  <tr>
-  <td>
-
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+?>
 <?php
 // Handling Table view hide or show depending on the records
-if ($rset != Null){?>
-
+if ($rset != null){?>
+<h3><?php echo $lang_hrEmpMain_assigneducation?></h3>
+<img border="0" title="Add" onClick="showAddPane('Education');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+<img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_education?></strong></td>
@@ -246,11 +229,7 @@ if ($rset != Null){?>
 						 <td><strong><?php echo $lang_hrEmpMain_gpa?></strong></td>
 
 					</tr>
-        <img border="0" title="Add" onClick="resetAdd(9);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php }
-
-
+<?php
     for($c=0; $rset && $c < count($rset); $c++)
         {
         echo '<tr>';
@@ -269,5 +248,6 @@ if ($rset != Null){?>
 
 ?>
 </table>
-
 <?php } ?>
+<?php } ?>
+</span>

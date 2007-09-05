@@ -28,7 +28,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <script language="JavaScript">
 
 function assignUSG()
@@ -68,7 +68,7 @@ function edit()
 	}
 
 	var frm=document.frmUSG;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";

@@ -20,6 +20,8 @@
 
 require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 
+$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+
 function populateActivities($projectId, $row) {
 
 	ob_clean();
@@ -31,6 +33,7 @@ function populateActivities($projectId, $row) {
 
 	$objResponse = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 	$element="cmbActivity[$row]";
 
 	if (count($projectActivities) == 0) {
@@ -472,7 +475,7 @@ function goBack() {
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, <?php echo $row; ?>);">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo $row; ?>);">
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
@@ -521,7 +524,7 @@ function goBack() {
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" disabled="disabled" /></td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();"  onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, <?php echo $row; ?>);" >
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();"  onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo $row; ?>);" >
 				<?php if (is_array($projects)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {

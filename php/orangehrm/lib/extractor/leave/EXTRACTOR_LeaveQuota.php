@@ -30,6 +30,7 @@ class EXTRACTOR_LeaveQuota {
 
 	public function parseAddData($postArr) {
 
+		$this->parent_Leave->setYear($postArr['year']);
 		$this->parent_Leave->setEmployeeId($_SESSION['empID']);
 		$this->parent_Leave->setLeaveTypeId($postArr['sltLeaveType']);
 		$this->parent_Leave->setLeaveDate($postArr['txtLeaveDate']);
@@ -52,6 +53,7 @@ class EXTRACTOR_LeaveQuota {
 
 		for ($i=0; $i < count($postArr['txtLeaveTypeId']); $i++) {
 			$tmpObj = new LeaveQuota();
+			$tmpObj->setYear($postArr['year']);
 			$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
 			$tmpObj->setLeaveTypeId($postArr['txtLeaveTypeId'][$i]);
 			$tmpObj->setNoOfDaysAllotted($postArr['txtLeaveEntitled'][$i]);

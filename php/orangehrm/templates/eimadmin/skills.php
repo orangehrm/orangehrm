@@ -1,21 +1,21 @@
 <?php
-/*
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-all the essential functionalities required for any enterprise.
-Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-*/
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
@@ -31,7 +31,7 @@ require_once($lan->getLangPath("full.php"));
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 	function goBack() {
@@ -74,18 +74,27 @@ require_once($lan->getLangPath("full.php"));
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
         <input type="hidden" name="sqlState" value="">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
+    <td width="254" align='left' valign='bottom'>
       <?php
 		if (isset($this->getArr['msg'])) {
+
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
+			$expString = explode ("_",$expString);
+			$length = count($expString);
+
+			$col_def=$expString[$length-1];
+
+			$expString='lang_view_'.$this->getArr['msg'];
+	?>
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?php
+				echo $$expString;
+	?>
+			</font>
+	<?php
 		}
 		?>
-      </font> </td>
+	</td>
   </tr><td width="177">
 </table>
               <table border="0" cellpadding="0" cellspacing="0">
@@ -134,7 +143,7 @@ require_once($lan->getLangPath("full.php"));
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script>
 function alpha(txt)
@@ -207,7 +216,7 @@ function edit()
 	}
 
 	var frm=document.frmSkills;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -255,12 +264,21 @@ function edit()
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       <?php
 		if (isset($this->getArr['msg'])) {
+
 			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
+			$expString = explode ("_",$expString);
+			$length = count($expString);
+
+			$col_def=$expString[$length-1];
+
+			$expString='lang_view_'.$this->getArr['msg'];
+	?>
+			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?php
+				echo $$expString;
+	?>
+			</font>
+	<?php
 		}
 		?>
       </font> </td>
@@ -301,7 +319,7 @@ function edit()
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 </td>

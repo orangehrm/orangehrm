@@ -82,13 +82,13 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Annual', 0)");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '012', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '012', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '012', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '012', 20);");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY012', '013', 30);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY012', '013', 30);");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '011', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '011', 20);");
 
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (10, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY012', 'Medical', '".date('Y-m-d', time()+3600*24)."', '013')");
@@ -138,10 +138,10 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         $expected[] = array("Casual", 20, 0, 20);
 
         for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]['leave_type_name'], $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]['no_of_days_allotted'], $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]['leave_taken'], $expected[$i][2], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]['leave_available'], $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]['leave_type_name'], $expected[$i][0], "Didn't return expected leave_type_name ");
+        	$this->assertEquals($res[$i]['no_of_days_allotted'], $expected[$i][1], "Didn't return expected no_of_days_allotted ");
+        	$this->assertEquals($res[$i]['leave_taken'], $expected[$i][2], "Didn't return expected leave_taken ");
+        	$this->assertEquals($res[$i]['leave_available'], $expected[$i][3], "Didn't return expected leave_available ");
         }
 
     }

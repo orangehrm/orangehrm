@@ -37,7 +37,7 @@ $lan = new Language();
 require_once($lan->getLangPath("full.php"));
 
 $srchlist[0] = array( -1 , 2 , 1 );
-$srchlist[1] = array( '-Select-' , 'ID' , 'Name' );
+$srchlist[1] = array( "-{$lang_Common_Select}-" , $lang_view_ID , $lang_Commn_name);
 
 $reqPath = "";
 
@@ -90,7 +90,7 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Search Employees</title>
+<title><?php echo $lang_emppop_title; ?></title>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
 
@@ -98,6 +98,11 @@ else
 </head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script>
+	function clear_form() {
+		document.standardView.loc_code.options[0].selected=true;
+		document.standardView.loc_name.value='';
+	}
+
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
 		document.standardView.pageNO.value=i+1;
@@ -168,7 +173,7 @@ else
 
 	function Search() {
 		if (document.standardView.loc_code.value == -1) {
-			alert("Select the field to search!");
+			alert('<?php echo $lang_empview_SelectField; ?>');
 			document.standardView.loc_code.Focus();
 			return;
 		};
@@ -330,7 +335,7 @@ echo $pageStr;
 			   	<td></td>
 				<td>
 		<?php
-        		 $dispMessage = "No Records to Display !";
+        		 $dispMessage = $lang_empview_norecorddisplay;
         		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
         		 echo $dispMessage;
         		 echo '</font>';

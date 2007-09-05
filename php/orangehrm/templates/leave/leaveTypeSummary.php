@@ -18,11 +18,24 @@
  */
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
- if (isset($_GET['message'])) {
+if (isset($_GET['message']) && !empty($_GET['message'])) {
+
+	$expString  = $_GET['message'];
+	$expString = explode ("_",$expString);
+	$length = count($expString);
+
+	$col_def=strtolower($expString[$length-1]);
+	$expString='lang_Leave_'.$_GET['message'];
+
+	$message = isset($$expString) ? $$expString : $_GET['message'];
 ?>
-<var><?php echo $_GET['message']; ?></var>
-<?php } ?>
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $message; ?>
+	</font>
+<?php }	?>
 <script>
+
+	var deletedLeaveTypes = new Array();
 
 	function actionAdd() {
 
@@ -120,14 +133,112 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 	}
 
+	function removeMarkFromCell(cell, mark) {
+
+		// See if cell already contains mark
+		children = cell.getElementsByTagName('span');
+		for (var i=0; i < children.length; i++) {
+
+			spanElement = children[i];
+			txtNode = spanElement.firstChild;
+			if (txtNode.data == mark) {
+				cell.removeChild(spanElement);
+				return;
+			}
+		}
+	}
+
+	function addMarkToCell(cell, mark, className) {
+
+		// See if cell already contains mark
+		children = cell.getElementsByTagName('span');
+		for (var i=0; i < children.length; i++) {
+
+			spanElement = children[i];
+			txtNode = spanElement.firstChild;
+			if (txtNode.data == mark) {
+				return;
+			}
+		}
+
+		txtNode = document.createTextNode(mark);
+		spanNode = document.createElement('span');
+		spanNode.setAttribute('class', className);
+		spanNode.appendChild(txtNode);
+		cell.appendChild(spanNode);
+	}
+
+	function checkForDuplicates() {
+
+		var noDuplicates = true;
+		var deletedNames = false;
+		var typeNames = {};
+
+		with (document.DefineLeaveType) {
+			for (var i=0; i < elements.length; i++) {
+				if (elements[i].type == 'text') {
+
+					var txtElement = elements[i];
+					var name = txtElement.value;
+					var cell = txtElement.parentNode;
+
+					if (name in typeNames) {
+						txtElement.className = "error";
+						otherTxtElement = typeNames[name];
+						otherTxtElement.className = "error";
+
+						addMarkToCell(cell, "*", "error");
+						addMarkToCell(otherTxtElement.parentNode, "*", "error");
+						noDuplicates = false;
+					} else {
+						removeMarkFromCell(cell, "*");
+						txtElement.className = "";
+						typeNames[name] = txtElement;
+					}
+
+
+					if (isDeletedName(name)) {
+						deletedNames = true;
+						addMarkToCell(cell, "+", "warning");
+					} else {
+						removeMarkFromCell(cell, "+");
+					}
+				}
+			}
+		}
+
+		message = (noDuplicates) ? "" : '* <?php echo $lang_Leave_DUPLICATE_LEAVE_TYPE_ERROR; ?>';
+		messageLayer = document.getElementById("messageLayer1");
+		messageLayer.className = "error";
+		messageLayer.innerHTML = message;
+
+		message = (deletedNames) ? '+ <?php echo $lang_Leave_Define_IsDeletedName; ?>' : "";
+		messageLayer = document.getElementById("messageLayer2");
+		messageLayer.className = "warning";
+		messageLayer.innerHTML = message;
+
+		return noDuplicates;
+	}
 
 	function editRecord() {
 
+		if (!checkForDuplicates()) {
+			alert('<?php echo $lang_Leave_DUPLICATE_LEAVE_TYPE_ERROR; ?>');
+			return false;
+		}
  		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
  		document.DefineLeaveType.submit();
 	}
 
-
+	function isDeletedName(name) {
+		n = deletedLeaveTypes.length;
+		for (var i=0; i<n; i++) {
+			if (deletedLeaveTypes[i] == name) {
+				return true;
+			}
+		}
+		return false;
+	}
 </script>
 <h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?><hr/></h2>
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
@@ -153,7 +264,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
         <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
       </div></th>
       <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveTypeId?></th>
-      <th colspan="4" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
+      <th colspan="3" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
+      <th width="5" align="left" class="tableMiddleMiddle"></th>
       <th class="tableMiddleRight"></th>
     </tr>
   </thead>
@@ -162,6 +274,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	$j = 0;
 	if (is_array($records))
 		foreach ($records as $record) {
+			if ($record->getLeaveTypeAvailable() != $record->availableStatusFlag) {
+				echo "<script>deletedLeaveTypes.push('{$record->getLeaveTypeName()}');</script>";
+				continue;
+			}
 			if(!($j%2)) {
 				$cssClass = 'odd';
 			 } else {
@@ -174,8 +290,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
       <td align="center" class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
       <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
-      <td colspan="4" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" />
+      <td colspan="3" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
         <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
+      <td class="<?php echo $cssClass; ?>" align="left"></td>
       <td class="tableMiddleRight"></td>
     </tr>
     <?php
@@ -190,4 +307,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
     </tr>
   </tfoot>
 </table>
+<div><span class="error" id="messageLayer1"></span></div>
+<div><span class="error" id="messageLayer2"></span></div>
+</div>
 </form>

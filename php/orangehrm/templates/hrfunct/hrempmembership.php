@@ -96,8 +96,8 @@ function addEXTMembership() {
 
 	}
 
-	var commDate = createDate(document.frmEmp.txtMemCommDat.value);
-	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
+	var commDate = createDate(document.getElementById('atxtMemCommDat').value);
+	var renDate = createDate(document.getElementById('atxtMemRenDat').value);
 
 	if(commDate >= renDate) {
 		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
@@ -110,15 +110,15 @@ function addEXTMembership() {
 
 function editEXTMembership() {
 
-	var txt = document.frmEmp.txtMemSubAmount;
+	var txt = document.getElementById('etxtMemSubAmount');
 	if ((txt.value != '') && !decimalCurr(txt)) {
 		alert ("<?php echo $lang_hrEmpMain_SubscriptionAmountShouldBeNumeric; ?>!");
 		txt.focus();
 		return false;
 	}
 
-	var commDate = createDate(document.frmEmp.txtMemCommDat.value);
-	var renDate = createDate(document.frmEmp.txtMemRenDat.value);
+	var commDate = createDate(document.getElementById('etxtMemCommDat').value);
+	var renDate = createDate(document.getElementById('etxtMemRenDat').value);
 
 	if(commDate >= renDate) {
 		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
@@ -157,17 +157,14 @@ function viewMembership(mem,mtp) {
 }
 
 </script>
+<span id="parentPaneMemberships" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
-        <input type="hidden" name="membershipSTAT" value="">
-
+     <input type="hidden" name="membershipSTAT" value="" />
 <?php
 if(isset($this->popArr['editMembershipArr'])) {
-
     $edit = $this->popArr['editMembershipArr'];
 ?>
-
-<br>
+  <div id="editPaneMemberships" >
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_membershiptype; ?></td>
@@ -207,21 +204,21 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" value="<?php echo $edit[0][4]?>">
+						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly disabled name="txtMemCommDat" id="txtMemCommDat" value=<?php echo $edit[0][5]?> size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" readonly disabled name="txtMemCommDat" id="etxtMemCommDat" value=<?php echo $edit[0][5]?> size="10" />
+							<input class="calendarBtn" disabled type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly disabled name="txtMemRenDat" id="txtMemRenDat" value=<?php echo $edit[0][6]?> size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" readonly disabled name="txtMemRenDat" id="etxtMemRenDat" value=<?php echo $edit[0][6]?> size="10" />
+							<input class="calendarBtn" disabled type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 
@@ -232,9 +229,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</td>
 					  </tr>
        </table>
-
+	</div>
 <?php } else { ?>
-
+	<div id="addPaneMemberships" class="<?php echo ($this->popArr['rsetMembership'] != null)?"addPane":""; ?>" >
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_membershiptype?></td>
@@ -280,21 +277,21 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" >
+						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" name="atxtMemSubAmount" >
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly name="txtMemCommDat" id="txtMemCommDat" value="0000-00-00" size="12" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" readonly name="txtMemCommDat" id="atxtMemCommDat" value="0000-00-00" size="12" />
+							<input class="calendarBtn" type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly name="txtMemRenDat" id="txtMemRenDat" value="0000-00-00" size="12" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" readonly name="txtMemRenDat" id="atxtMemRenDat" value="0000-00-00" size="12" />
+							<input class="calendarBtn" type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
 						</td>
 					  </tr>
 					  <tr>
@@ -304,10 +301,9 @@ if(isset($this->popArr['editMembershipArr'])) {
 						</td>
 					  </tr>
                   </table>
+	</div>
 <?php } ?>
-
 <?php
-
     $mship= $this->popArr['mshipAll'];
     $rset = $this->popArr['rsetMembership'];
 
@@ -318,33 +314,11 @@ if(isset($this->popArr['editMembershipArr'])) {
         $assignedMemberships = false;
     }
 ?>
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-<?php
-	if ($rset != Null){ ?>
-  <tr>
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_assignmemship?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-<?php } ?>
-<?php if( !$assignedMemberships ){ ?>
-  <!-- <tr>
-    <td width='100%'><h5><?php /*echo $lang_empview_norecorddisplay */ ?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr> -->
-
-
-<?php
-     } else {
-?>
-<tr><td>&nbsp;</td></tr>
-</table>
+<?php if($assignedMemberships){ ?>
+	<h3><?php echo $lang_hrEmpMain_assignmemship?></h3>
+	<img border="0" title="Add" onClick="showAddPane('Memberships');;" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-<?php
-	if ($rset != Null){ ?>
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_membership?></strong></td>
@@ -353,14 +327,8 @@ if(isset($this->popArr['editMembershipArr'])) {
 						 <td><strong><?php echo $lang_hrEmpMain_subcomdate?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_subredate?></strong></td>
 					</tr>
-		<img border="0" title="Add" onClick="resetAdd(13);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php }
-
-
-
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
+<?php
+    for($c=0;$rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
 			for($a=0;count($mship)>$a;$a++)
@@ -381,7 +349,7 @@ if(isset($this->popArr['editMembershipArr'])) {
         echo '</tr>';
         }
 ?>
-<?php } //if( $assignedMemberships ) ?>
-</table>
-
+	</table>
 <?php } ?>
+<?php } ?>
+</span>

@@ -19,11 +19,8 @@
 
 $arrRepType = array ($lang_hrEmpMain_arrRepType_Supervisor, $lang_hrEmpMain_arrRepType_Subordinate);
 $arrRepMethod = array ($lang_hrEmpMain_arrRepMethod_Direct => 1, $lang_hrEmpMain_arrRepMethod_Indirect => 2);
-
 ?>
-
 <script language="JavaScript">
-
 function editReportTo() {
 
 	if(document.EditReportTo.title=='Save') {
@@ -117,7 +114,6 @@ function delSupEXTReportTo() {
               return;
         }
 
-    //alert(cntrl.value);
     document.frmEmp.delSupSub.value='sup';
     document.frmEmp.reporttoSTAT.value="DEL";
     qCombo(15);
@@ -139,7 +135,6 @@ function delSubEXTReportTo() {
               return;
         }
 
-    //alert(cntrl.value);
     document.frmEmp.delSupSub.value='sub';
     document.frmEmp.reporttoSTAT.value="DEL";
     qCombo(15);
@@ -159,6 +154,7 @@ function viewSup(sup,rep) {
 	document.frmEmp.submit();
 }
 </script>
+<span id="parentPaneReportTo" >
 <?php
 	$supervisorEMPMode = false;
 	if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
@@ -170,9 +166,10 @@ function viewSup(sup,rep) {
 	if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
         <input type="hidden" name="reporttoSTAT" value="">
 <?php	if(isset($this->getArr['editIDSup'])) {	?>
-     <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>">
-     <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>">
-     <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
+<div id="editPaneReportTo" >
+    <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>">
+    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>">
+    <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
@@ -208,10 +205,12 @@ function viewSup(sup,rep) {
 						</td>
 					  </tr>
  </table>
+</div>
 <?php } elseif (isset($this->getArr['editIDSub'])) { ?>
-	 <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>">
-     <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>">
-  	 <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
+<div id="editPaneReportTo" >
+	<input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>">
+    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>">
+  	<input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
@@ -249,8 +248,9 @@ function viewSup(sup,rep) {
 						</td>
 					  </tr>
 			</table>
-
+</div>
 <?php } else { ?>
+	<div id="addPaneReportTo" class="<?php echo (($this->popArr['suprset'] != null) || ($this->popArr['subrset'] != null))?"addPane":""; ?>" >
 		<input type="hidden" name="txtSupEmpID">
      	<input type="hidden" name="txtSubEmpID">
 
@@ -289,55 +289,37 @@ function viewSup(sup,rep) {
 						</td>
 					  </tr>
                  </table>
+      </div>
 <?php } ?>
-	<input type="hidden" name="delSupSub">
-<table><tr><td>
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+<?php if (($this->popArr['suprset'] != null) || ($this->popArr['subrset'] != null)) { ?>
+<input type="hidden" name="delSupSub">
+<table>
   <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-
 <?php
 $rset = $this->popArr['suprset'];
 $empname = $this ->popArr['empname'];
-if ($rset != Null&& $empname != Null){ //To Handle Hide and Viewe Supervisor Label ?>
-<tr>
-
-    <td width='100%'><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3><?php echo $lang_hremp_ie_CurrentSupervisors; ?></td>
-     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
- <?php } //Finished Handling label?>
-  <tr>
-  <td>
-
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-
-<?php
 
 // checking for a records if exsist view the the table and delete btn else no
-
-
-?><table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-
-<?php
-if ($rset != Null&& $empname != Null){ ?>
+if ($rset != null && $empname != null){ ?>
+<td>
+	<h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3>
+	<div><?php echo $lang_hremp_ie_CurrentSupervisors; ?></div>
+<?php if($locRights['add']) { ?>
+	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+<?php } ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
+	<img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-        <img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
 
 
-<?php }// finished Checking
-
+<?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
         echo '<tr>';
@@ -355,56 +337,34 @@ if ($rset != Null&& $empname != Null){ ?>
 
         echo '</tr>';
         }
-
 ?>
-                   </table>
-            </td><td>
-
- <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-
-
+	</table>
+</td>
+<?php } ?>
 <?php
 $rset = $this -> popArr['subrset'];
 $empname = $this -> popArr['empname'];
-if ($rset != Null && $empname != Null){ //To Handle Subordinate Label?>
-	<tr>
- 	<td width='100%'><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3><?php echo $lang_hremp_ie_CurrentSubordinates; ?></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-<?php } //Finished Handle?>
-
-  <tr>
-  <td>
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-
-<?php
-
-
-
-// checking for a records if exsist view the the table and delete btn else no
 ?>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
 <?php
-if ($rset != Null && $empname != Null){ ?>
+// checking for a records if exsist view the the table and delete btn else no
+if ($rset != null && $empname != null){ ?>
+<td>
+	<h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3>
+	<div><?php echo $lang_hremp_ie_CurrentSubordinates; ?></div>
+<?php if($locRights['add']) { ?>
+	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+<?php } ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
+	<img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<?php 	} ?>
+	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
 						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
 					</tr>
-<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-        <img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-<?php 	} ?>
-
-<?php }// finished checking
-
+<?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
         echo '<tr>';
@@ -422,5 +382,11 @@ if ($rset != Null && $empname != Null){ ?>
         }
 
 ?>
-                </table></td></tr></table>
+   </table>
+</td>
 <?php } ?>
+  </tr>
+</table>
+<?php } ?>
+<?php } ?>
+</span>

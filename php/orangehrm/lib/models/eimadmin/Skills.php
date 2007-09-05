@@ -35,39 +35,29 @@ class Skills {
 
 
 	function Skills() {
-
 	}
 
 	function setSkillId($skillId) {
-
 		$this->skillId = $skillId;
-
 	}
 
 	function setSkillDescription($skillDesc) {
-
 		$this->skillDesc = $skillDesc;
 	}
 
 	function setSkillName($skillName) {
-
 		$this->skillName = $skillName;
 	}
 
 	function getSkillId() {
-
 		return $this->skillId;
-
 	}
 
 	function getSkillName() {
-
 		return $this->skillName;
-
 	}
 
 	function getSkillDescription() {
-
 		return $this->skillDesc;
 	}
 
@@ -102,11 +92,8 @@ class Skills {
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
 
@@ -134,7 +121,7 @@ class Skills {
 
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
 
-	    	return $line[0];
+	    return $line[0];
 	}
 
 	function delSkills($arrList) {
@@ -160,6 +147,10 @@ class Skills {
 
 	function addSkills() {
 
+		if ($this->_isDuplicateName()) {
+			throw new SkillsException("Duplicate name", 1);
+		}
+
 		$tableName = 'hs_hr_skill';
 
 		$this->skillId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'skill_code', 'SKI');
@@ -178,11 +169,14 @@ class Skills {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
-
+		return $message2;
 	}
 
 	function updateSkills() {
+
+		if ($this->_isDuplicateName(true)) {
+			throw new SkillsException("Duplicate name", 1);
+		}
 
 		$this->getSkillId();
 		$arrRecordsList[0] = "'". $this->getSkillId() . "'";
@@ -207,8 +201,6 @@ class Skills {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-
-
 	}
 
 
@@ -243,17 +235,12 @@ class Skills {
 
 	     }
 
-	     if (isset($arrayDispList)) {
-
+	    if (isset($arrayDispList)) {
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
 
 	function getSkillCodes () {
@@ -285,20 +272,11 @@ class Skills {
 
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
 	     }
-
 	}
 
 	function filterGetSkillInfo($getID) {
@@ -329,20 +307,14 @@ class Skills {
 	    	$arrayDispList[$i][2] = $line[2];
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
 
 	function getUnAssSkillCodes($id) {
@@ -378,15 +350,11 @@ class Skills {
 
 	     }
 
-	     if (isset($arrayDispList)) {
-
+	    if (isset($arrayDispList)) {
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
 	}
 
@@ -420,20 +388,32 @@ class Skills {
 	    	$arrayDispList[$i][2] = $line[2];
 
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
+	}
+
+	private function _isDuplicateName($update=false) {
+		$skills = $this->getListofSkills(0, $this->getSkillName(), 1);
+
+		if (is_array($skills)) {
+			if ($update) {
+				if ($skills[0][0] == $this->getSkillId()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
 	}
 }
 
+class SkillsException extends Exception {
+}
 ?>

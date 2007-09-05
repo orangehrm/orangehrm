@@ -61,7 +61,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 <head>
 <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
-<title>Untitled Document</title>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <script>
@@ -194,13 +194,13 @@ parent.scrollTo(0, 0);
 <?php	if($locRights['add']) { ?>
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?php 	} else { ?>
-        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
+        <img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_add.jpg">
 <?php	}
  if($this->getArr['reqcode']=='EMP') {
 		if($locRights['delete']) { ?>
 	        <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 	<?php 	} else { ?>
-	        <img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	        <img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 	<?php 	}
  }
  ?>

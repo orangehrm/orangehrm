@@ -624,3 +624,7 @@ td {
 	width:12px;
 	height:15px;
 }
+
+.addPane {
+	display: none;
+}

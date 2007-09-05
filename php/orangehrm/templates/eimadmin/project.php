@@ -65,7 +65,7 @@ if ($locRights['edit']) {
 ?>
 <html>
 <head>
-<title><?php echo $lang_Admin_Project; ?></title>
+<title><?php echo $lang_view_Project_Heading;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
@@ -282,7 +282,7 @@ if ($locRights['edit']) {
 		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 			<tr>
 		  		<td width='100%'>
-		  			<h2><?php echo $lang_Admin_Project; ?></h2>
+		  			<h2><?php echo $lang_view_Project_Heading;?></h2>
 		  		</td>
 	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
 		</table>

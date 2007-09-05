@@ -104,14 +104,12 @@ class EmailConfiguration {
 		}
 
 		if (isset($confObj->emailConfiguration) && is_file($confObj->emailConfiguration)) {
-			include $confObj->emailConfiguration;
 			$this->configurationFile=$confObj->emailConfiguration;
 		} else if (isset($confObj->emailConfiguration) && is_file(ROOT_PATH.$confObj->emailConfiguration)) {
-			include ROOT_PATH.$confObj->emailConfiguration;
 			$this->configurationFile=ROOT_PATH.$confObj->emailConfiguration;
 		}
 
-		if (($this->configurationFile == null) || ($this->configurationFile == ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG)) {
+		if ($this->configurationFile == null) {
 			include ROOT_PATH.self::EMAILCONFIGURATION_FILE_CONFIG."-distribution";
 
 			if (isset($confObj->emailConfiguration)) {

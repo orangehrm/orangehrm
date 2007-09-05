@@ -22,7 +22,7 @@
 	<table height="250" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td><?php echo $lang_compstruct_country?></td>
-			 <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbCountry" onChange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+			 <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbCountry" onChange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>....'; xajax_populateStates(this.value);">
 						  		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist?> --</option>
 <?php		$cntlist = $this->popArr['cntlist'];
 							    		for($c=0; $cntlist && count($cntlist)>$c ;$c++)
@@ -95,7 +95,7 @@
 ?>
           <tr>
 			  <td><?php echo $lang_compstruct_country?></td>
-						  <td colspan="4"><select name="cmbCountry" disabled onchange="document.getElementById('status').innerHTML = 'Please Wait....'; xajax_populateStates(this.value);">
+						  <td colspan="4"><select name="cmbCountry" disabled onchange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; xajax_populateStates(this.value);">
 						  		<option value="0"><?php echo $lang_districtinformation_selectcounlist?></option>
 					<?php
 								$cntlist = $this->popArr['cntlist'];

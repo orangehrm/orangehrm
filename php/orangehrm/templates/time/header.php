@@ -22,7 +22,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>OrangeHRM - Time and Attendance Module</title>
+<title><?php echo $lang_Time_Module_Title; ?></title>
 
 <link href="../../themes/beyondT/css/time.css" rel="stylesheet" type="text/css" />
 </head>

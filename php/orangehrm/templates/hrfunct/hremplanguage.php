@@ -108,12 +108,14 @@ function delEXTLang() {
 }
 
 </script>
+<span id="parentPaneLanguages" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 <input type="hidden" name="langSTAT" value="">
 <?php
 if(isset($this->getArr['lanSEQ'])) {
     $edit = $this->popArr['editLanArr'];
 ?>
+<div id="editPaneLanguages" >
 	<table width="100%" border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td width="200"><?php echo $lang_hremp_Language?></td>
@@ -162,9 +164,9 @@ if(isset($this->getArr['lanSEQ'])) {
 						</td>
 					  </tr>
                   </table>
-
+</div>
 <?php } else { ?>
-<table border="0" cellpadding="0" cellspacing="0">
+<div id="addPaneLanguages" class="<?php echo ($this->popArr['rsetLang'] != null)?"addPane":""; ?>" >
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td width="200"><?php echo $lang_hremp_Language?></td>
@@ -213,59 +215,30 @@ if(isset($this->getArr['lanSEQ'])) {
 								</td>
 					  </tr>
                   </table>
+</div>
 <?php } ?>
-
 <?php
-
     $rset = $this->popArr['rsetLang'];
 
-    // check if there are any defined memberships
     if( $rset && count($rset) > 0 ){
         $assignedLanguages = true;
     } else {
         $assignedLanguages = false;
     }
 ?>
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-
-  <tr>
-<?php
-if ($rset != Null) { ?>
-    <td width='100%'><h3><?php echo $lang_hremplan_assignlanguage; ?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-<?php } ?>
-<?php if( !$assignedLanguages ){ ?>
-  <!-- <tr>
-    <td width='100%'><h5><?php /* echo $lang_empview_norecorddisplay */ ?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr> -->
-
-
-<?php
-     } else {
-?>
-<tr><td>&nbsp;</td></tr>
-</table>
+<?php if($assignedLanguages) { ?>
+<h3><?php echo $lang_hremplan_assignlanguage; ?></h3>
+<img border="0" title="Add" onClick="showAddPane('Languages');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+<img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-<?php
-if($rset != Null) { ?>
+
                     <tr>
                       	<td></td>
 						 <td><strong><?php echo $lang_hremp_Language?></strong></td>
 						 <td><strong><?php echo $lang_hremplan_fluency?></strong></td>
 						 <td><strong><?php echo $lang_hremplan_ratinggarde?></strong></td>
 					</tr>
-		<img border="0" title="Add" onClick="resetAdd(11);" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-        <img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
-
-<?php }
-
+<?php
     for($c=0; $rset && $c < count($rset); $c++) {
         echo '<tr>';
             echo "<td><input type='checkbox' class='checkbox' name='chklangdel[]' value='" . $rset[$c][1] ."|". $rset[$c][2] ."'>";
@@ -286,10 +259,8 @@ if($rset != Null) { ?>
 
         echo '</tr>';
         }
-
 ?>
-<?php } //if( $assignedLanguages ) ?>
-</table>
-
+	</table>
 <?php } ?>
-
+<?php } ?>
+</span>

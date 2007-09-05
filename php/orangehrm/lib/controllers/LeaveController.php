@@ -1,6 +1,5 @@
 <?php
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -18,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  *
  */
-
 
 //the model objects are included here
 
@@ -121,6 +119,43 @@ class LeaveController {
 								 $this->_displayLeaveSummary("display", $year, null, $sortField, $sortOrder);
 								 break;
 			}
+		}
+	}
+
+	public function editLeaveTypes($leaveTypes) {
+
+		$changedCount = 0;
+
+		if (isset($leaveTypes)) {
+
+			// Test for duplicate names
+			$leaveTypeNames = array();
+			foreach ($leaveTypes as $leaveType) {
+
+				$name = $leaveType->getLeaveTypeName();
+				if (in_array($name, $leaveTypeNames)) {
+					$this->redirect("DUPLICATE_LEAVE_TYPE_ERROR");
+					return;
+				}
+				$leaveTypeNames[] = $name;
+			}
+
+			foreach ($leaveTypes as $leaveType) {
+				$this->setObjLeave($leaveType);
+				$res = $this->editLeaveType();
+				if ($res === false) {
+					$this->redirect("LEAVE_TYPE_EDIT_ERROR");
+					return;
+				} else {
+					$changedCount += $res;
+				}
+			}
+		}
+
+		if ($changedCount > 0) {
+			$this->redirect("LEAVE_TYPE_EDIT_SUCCESS");
+		} else {
+			$this->redirect("NO_CHANGES_TO_SAVE_WARNING");
 		}
 	}
 
@@ -296,7 +331,7 @@ class LeaveController {
 		return $tmpObj->cancelLeave($this->getId());
 	}
 
-	public function redirect($message=null, $url = null, $id = null) {
+	public function redirect($message=null, $url = null, $id = null, $cust=null) {
 		if (isset($message)) {
 
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
@@ -325,6 +360,10 @@ class LeaveController {
 			}
 		}
 
+		if (isset($cust)) {
+			$url[0].=$cust;
+		}
+
 		header("Location: {$url[0]}{$message}{$id}");
 	}
 
@@ -351,6 +390,7 @@ class LeaveController {
 		$message = ($res) ? "APPROVE_SUCCESS" : "APPROVE_FAILURE";
 		return $message;
 	}
+
 	public function displayLeaveInfo($admin=false) {
 		$authorizeObj = $this->authorize;
 
@@ -400,6 +440,62 @@ class LeaveController {
 		$template->display();
 	}
 
+	public function gotoLeaveHomeSupervisor() {
+		$tmpObj = new LeaveRequests();
+
+		$tmpObj = $tmpObj->retriveLeaveRequestsSupervisor($this->getId());
+
+		if ($tmpObj == null) {
+			$this->displayLeaveTypeSummary();
+			return true;
+		}
+
+		$this->viewLeaves("suprevisor");
+		return true;
+	}
+
+	public function copyLeaveQuotaFromLastYear($currYear) {
+		if ($_SESSION['isAdmin'] !== 'Yes') {
+			trigger_error("Unauthorized access", E_USER_NOTICE);
+		}
+
+		$leaveQuotaObj = new LeaveQuota();
+
+		$res = false;
+
+		if ($this->_validToCopyQuotaFromLastYear($currYear)) {
+			$res = $leaveQuotaObj->copyQuota($currYear-1, $currYear);
+		}
+
+		if ($res) {
+			$this->redirect("LEAVE_QUOTA_COPY_SUCCESS", null, null, "&year=$currYear&id=0");
+		} else {
+			$this->redirect("LEAVE_QUOTA_COPY_FAILURE", null, null, "&year=$currYear&id=0");
+		}
+	}
+
+	private function _validToCopyQuotaFromLastYear($currYear) {
+		if ($_SESSION['isAdmin'] !== 'Yes') {
+			return false;
+		}
+
+		$leaveQuotaObj = new LeaveQuota();
+
+		$leaveQuotaObj->setYear($currYear);
+		$currYearQuota = $leaveQuotaObj->fetchLeaveQuota(0);
+
+		$leaveQuotaObj->setYear($currYear-1);
+		$prevYearQuota = $leaveQuotaObj->fetchLeaveQuota(0);
+
+		$copyQuota = false;
+
+		if ((count($currYearQuota) == 0) && (count($prevYearQuota) > 0)) {
+			$copyQuota = true;
+		}
+
+		return $copyQuota;
+	}
+
 	/**
 	 * Displays the Leave Summary
 	 *
@@ -411,7 +507,9 @@ class LeaveController {
 
 		$auth = $this->_authenticateViewLeaveSummary();
 
-		$modifier = array($modifier, $auth, $year);
+		$copyQuota = $this->_validToCopyQuotaFromLastYear($year);
+
+		$modifier = array($modifier, $auth, $year, $copyQuota);
 
 		$empInfoObj = new EmpInfo();
 
@@ -498,12 +596,14 @@ class LeaveController {
 
 	public function displayLeaveTypeDefine() {
 
-		$tmpObj = new LeaveType();
+		$leaveType = new LeaveType();
 
-		$this->setObjLeave($tmpObj);
+		$this->setObjLeave($leaveType);
 
 		$path = "/templates/leave/leaveTypeDefine.php";
 
+		$tmpObj[0] = $leaveType;
+		$tmpObj[1] = $leaveType->fetchLeaveTypes(true);
 		$template = new TemplateMerger($tmpObj, $path);
 
 		$template->display();
@@ -513,13 +613,47 @@ class LeaveController {
 	public function addLeaveType() {
 
 		$tmpObj = $this->getObjLeave();
-		$res = $tmpObj->addLeaveType();
+		$newName = $tmpObj->getLeaveTypeName();
 
-		if ($res) {
-			$message="";
+		$action = "Leave_Type_View_Define";
+
+		if ($tmpObj->getLeaveTypeWithName($newName)) {
+			$message = "NAME_IN_USE_ERROR";
 		} else {
-			$message="FAILURE";
+			$res = $tmpObj->addLeaveType();
+			if ($res) {
+				$action = "Leave_Type_Summary";
+				$message="ADD_SUCCESS";
+			} else {
+				$message="ADD_FAILURE";
+			}
 		}
+
+		$this->redirect(null, array("?leavecode=Leave&action={$action}&message={$message}"));
+	}
+
+	/**
+	 * Undelete Leave type
+	 */
+	public function undeleteLeaveType() {
+
+		$tmpObj = $this->getObjLeave();
+		$newName = $tmpObj->getLeaveTypeName();
+
+		$action = "Leave_Type_View_Define";
+
+		$leaveTypes = $tmpObj->getLeaveTypeWithName($newName, true);
+		if ($leaveTypes) {
+			foreach($leaveTypes as $leaveType) {
+				$leaveType->undeleteLeaveType();
+			}
+			$message = "UNDELETE_SUCCESS";
+			$action = "Leave_Type_Summary";
+		} else {
+			$message="LEAVE_TYPE_NOT_FOUND";
+		}
+
+		$this->redirect(null, array("?leavecode=Leave&action={$action}&message={$message}"));
 	}
 
 	public function displayLeaveTypeSummary(){
@@ -528,7 +662,7 @@ class LeaveController {
 
 		$this->setObjLeave($tmpObj);
 
-		$tmpObjArr = $tmpObj->fetchLeaveTypes();
+		$tmpObjArr = $tmpObj->fetchLeaveTypes(true);
 
 		$path = "/templates/leave/leaveTypeSummary.php";
 
@@ -544,7 +678,8 @@ class LeaveController {
 
 		$this->setObjLeave($tmpObj);
 
-		$tmpOb = $tmpObj->retriveLeaveType($this->getId());
+		$tmpOb[0] = $tmpObj->retriveLeaveType($this->getId());
+		$tmpObj[1] = $leaveType->fetchLeaveTypes();
 
 		$path = "/templates/leave/leaveTypeDefine.php";
 
@@ -556,15 +691,8 @@ class LeaveController {
 	public function editLeaveType() {
 
 		$tmpObj = $this->getObjLeave();
-
 		$res = $tmpObj->editLeaveType();
-
-		if ($res) {
-			$message="FAILURE";
-		} else {
-			$message="";
-		}
-		return $message;
+		return $res;
 	}
 
 	public function LeaveTypeDelete() {

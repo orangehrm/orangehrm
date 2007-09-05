@@ -123,7 +123,11 @@ $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 // Default leave home page
 if ($authorizeObj->isSupervisor()) {
-	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
+	if ($authorizeObj->isAdmin()){
+		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_HomeSupervisor';
+	} else {
+		$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor';
+	}
 } else if ($authorizeObj->isAdmin()){
 	$leaveHomePage = 'lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary';
 } else if ($authorizeObj->isESS()) {
@@ -200,18 +204,13 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu3", "right", xPosition, yPosition + 44, 146, 220)
 		new ypSlideOutMenu("menu4", "right", xPosition, yPosition + 66, 146, 80)
 		new ypSlideOutMenu("menu5", "right", xPosition, yPosition + 88, 146, 130)
-		//new ypSlideOutMenu("menu6", "right", xPosition, yPosition + 110, 146, 140)
-		//new ypSlideOutMenu("menu7", "right", xPosition, yPosition + 132, 146, 205)
-		//new ypSlideOutMenu("menu8", "right", xPosition, yPosition + 82, 146, 130)
 		new ypSlideOutMenu("menu9", "right", xPosition, yPosition + 110, 146, 80)
-		//new ypSlideOutMenu("menu10", "right", xPosition, yPosition + 110, 146, 120)
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu15", "right", xPosition, yPosition + 154, 146, 120)
 		new ypSlideOutMenu("menu17", "right", xPosition, yPosition + 176, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
 		new ypSlideOutMenu("menu16", "right", xPosition, yPosition, 146, 120)
-		//new ypSlideOutMenu("menu11", "right", xPosition, yPosition + 220, 146, 205)
 
 function swapImgRestore() {
   var i,x,a=document.sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -703,68 +702,6 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu5 -->
-              <!-- Begin SubMenu6
-              <DIV id=menu6Container>
-                <DIV id=menu6Content>
-                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>
-                    <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=CCB&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Cash Benefits</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NCB&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Non-Cash Benefits</A> </TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=UNI&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Uniform Types</A> </TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=BBS&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Cash Benefits Assigned to Salary &nbsp;Grade</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu6')" onmouseout="ypSlideOutMenu.hideMenu('menu6')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=NBS&menu_no=6&submenutop=EIMModule&menu_no_top=eim">Non - Cash Benefits Assigned to Salary &nbsp;Grade</A> </TD>
-                    </TR>
-                    </TBODY>
-
-                  </TABLE>
-                </DIV>
-              </DIV>
-               End SubMenu7 -->
-              <!-- Begin SubMenu7
-              <DIV id=menu7Container>
-                <DIV id=menu7Content>
-                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>
-                    <TD onmouseover="ypSlideOutMenu.showMenu('menu7')" onmouseout="ypSlideOutMenu.hideMenu('menu7')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=ETY&menu_no=7&submenutop=EIMModule&menu_no_top=eim">Employee Type</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu7')" onmouseout="ypSlideOutMenu.hideMenu('menu7')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=SAT&menu_no=7&submenutop=EIMModule&menu_no_top=eim">Statutory Classification</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu7')" onmouseout="ypSlideOutMenu.hideMenu('menu7')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EMC&menu_no=7&submenutop=EIMModule&menu_no_top=eim">Employee Category</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onmouseover="ypSlideOutMenu.showMenu('menu7')" onmouseout="ypSlideOutMenu.hideMenu('menu7')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=EMG&menu_no=7&submenutop=EIMModule&menu_no_top=eim">Employee Groups</A></TD>
-                    </TR>
-                    </TBODY>
-                  </TABLE>
-                </DIV>
-              </DIV>
-                End SubMenu7 -->
-              <!-- Begin SubMenu8
-              <DIV id=menu8Container>
-                <DIV id=menu8Content>
-                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu8')" onmouseout="ypSlideOutMenu.hideMenu('menu8')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=RTE&menu_no=8&submenutop=EIMModule&menu_no_top=eim">Route Information</A></TD>
-                      </TR>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu8')" onmouseout="ypSlideOutMenu.hideMenu('menu8')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DWT&menu_no=8&submenutop=EIMModule&menu_no_top=eim">Dwelling Type</A></TD>
-                      </TR>
-                    </TBODY>
-                  </TABLE>
-                </DIV>
-              </DIV>
-               End SubMenu8 -->
               <!-- Begin SubMenu9 -->
               <DIV id=menu9Container>
                 <DIV id=menu9Content>
@@ -781,39 +718,7 @@ function setSize() {
                 </DIV>
               </DIV>
               <!-- End SubMenu9 -->
-              <!-- Begin SubMenu10
-              <DIV id=menu10Container>
-                <DIV id=menu10Content>
-                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>
-                    <TD onMouseOver="ypSlideOutMenu.showMenu('menu10')" onMouseOut="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=COU&menu_no=10&submenutop=EIMModule&menu_no_top=eim">Country</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu10')" onMouseOut="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=PRO&menu_no=10&submenutop=EIMModule&menu_no_top=eim">State/Province</A></TD>
-                    </TR>
-                    <TR>
-                      <TD onMouseOver="ypSlideOutMenu.showMenu('menu10')" onMouseOut="ypSlideOutMenu.hideMenu('menu10')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=DIS&menu_no=10&submenutop=EIMModule&menu_no_top=eim">City</A></TD>
-                    </TR>
-                    </TBODY>
-
-                  </TABLE>
-                </DIV>
-              </DIV>
-               End SubMenu10 -->
-			   <!-- Begin SubMenu11
-              <DIV id=menu11Container>
-                <DIV id=menu11Content>
-                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
-                    <TBODY>
-                      <TR>
-                        <TD onmouseover="ypSlideOutMenu.showMenu('menu11')" onmouseout="ypSlideOutMenu.hideMenu('menu11')" vAlign=center align=left width=142 height=17><A class=rollmenu href="index.php?uniqcode=TAX&menu_no=11&submenutop=EIMModule&menu_no_top=eim">Define Tax</A></TD>
-                      </TR>
-                    </TBODY>
-                  </TABLE>
-                </DIV>
-              </DIV>
-              End SubMenu11 -->
-              <!-- Begin SubMenu12 -->
+             <!-- Begin SubMenu12 -->
               <DIV id=menu12Container>
                 <DIV id=menu12Content>
                   <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>

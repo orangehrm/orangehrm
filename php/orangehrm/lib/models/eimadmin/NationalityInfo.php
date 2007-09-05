@@ -31,34 +31,23 @@ class NationalityInfo {
 	var $arrayDispList;
 	var $singleField;
 
-
 	function NationalityInfo() {
-
 	}
 
 	function setNationalityInfoId($nationalityId) {
-
 		$this->nationalityId = $nationalityId;
-
 	}
 
 	function setNationalityInfoDesc($nationalityDesc) {
-
 		$this->nationalityDesc = $nationalityDesc;
-
 	}
 
-
 	function getNationalityInfoId() {
-
 		return $this->nationalityId;
-
 	}
 
 	function getNationalityInfoDesc() {
-
 		return $this->nationalityDesc;
-
 	}
 
 	function getListofNationalityInfo($pageNO,$schStr,$mode,$sortField = 0, $sortOrder = 'ASC') {
@@ -86,19 +75,13 @@ class NationalityInfo {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	     	return $arrayDispList;
-
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
 	}
 
@@ -122,7 +105,7 @@ class NationalityInfo {
 
 		$line = mysql_fetch_array($message2, MYSQL_NUM);
 
-	    	return $line[0];
+	    return $line[0];
 	}
 
 	function delNationalityInfo($arrList) {
@@ -148,6 +131,10 @@ class NationalityInfo {
 
 	function addNationalityInfo() {
 
+		if ($this->_isDuplicateName()) {
+			throw new NationalityInfoException("Duplicate name", 1);
+		}
+
 		$tableName = 'hs_hr_nationality';
 
 		$this->nationalityId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'nat_code', 'NAT');
@@ -165,11 +152,14 @@ class NationalityInfo {
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		 return $message2;
-
+		return $message2;
 	}
 
 	function updateNationalityInfo() {
+
+		if ($this->_isDuplicateName(true)) {
+			throw new NationalityInfoException("Duplicate name", 1);
+		}
 
 		$this->getNationalityInfoId();
 		$arrRecordsList[0] = "'". $this->getNationalityInfoId() . "'";
@@ -192,8 +182,6 @@ class NationalityInfo {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-
-
 	}
 
 
@@ -223,20 +211,14 @@ class NationalityInfo {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 			return $arrayDispList;
-
 		} else {
-
 			$arrayDispList = '';
 			return $arrayDispList;
-
 		}
-
 	}
 
 	function getNationCodes() {
@@ -264,24 +246,30 @@ class NationalityInfo {
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
-
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {
-
 	       	return $arrayDispList;
-
-	     } else {
-
-	     	//Handle Exceptions
-	     	//Create Logs
-
 	     }
-
 	}
 
+	private function _isDuplicateName($update=false) {
+		$nationalities = $this->getListofNationalityInfo(0, $this->getNationalityInfoDesc(), 1);
+
+		if (is_array($nationalities)) {
+			if ($update) {
+				if ($nationalities[0][0] == $this->getNationalityInfoId()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
 }
 
+class NationalityInfoException extends Exception {
+}
 ?>

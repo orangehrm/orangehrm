@@ -131,7 +131,7 @@ class LanguageInfo {
 	function addLanguageInfo() {
 
 		if ($this->_isDuplicateName()) {
-			throw new Exception("Duplicate name");
+			throw new LanguageInfoException("Duplicate name", 1);
 		}
 
 		$tableName = 'hs_hr_language';
@@ -155,6 +155,10 @@ class LanguageInfo {
 	}
 
 	function updateLanguageInfo() {
+
+		if ($this->_isDuplicateName(true)) {
+			throw new LanguageInfoException("Duplicate name", 1);
+		}
 
 		$this->getLanguageInfoId();
 		$arrRecordsList[0] = "'". $this->getLanguageInfoId() . "'";
@@ -293,10 +297,15 @@ class LanguageInfo {
 	     }
 	}
 
-	private function _isDuplicateName() {
+	private function _isDuplicateName($update=false) {
 		$languages = $this->getListofLanguageInfo(0, $this->getLanguageInfoDesc(), 1);
 
 		if (is_array($languages)) {
+			if ($update) {
+				if ($languages[0][0] == $this->getLanguageInfoId()) {
+					return false;
+				}
+			}
 			return true;
 		}
 
@@ -304,4 +313,6 @@ class LanguageInfo {
 	}
 }
 
+class LanguageInfoException extends Exception {
+}
 ?>

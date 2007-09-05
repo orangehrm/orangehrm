@@ -30,7 +30,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Untitled Document</title>
+<title></title>
 
 <script language="JavaScript">
 
@@ -77,7 +77,6 @@ function delEXT() {
 
 	if(confirm("<?php echo $lang_Admin_Users_Errors_DoYouWantToClearRights; ?>!"))
 
-    //alert(cntrl.value);
     document.frmURights.STAT.value="DEL";
     document.frmURights.submit();
 }
@@ -104,7 +103,7 @@ function edit()
 	}
 
 	var frm=document.frmURights;
-//  alert(frm.elements.length);
+
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
@@ -248,7 +247,7 @@ $ugDet = $this ->popArr['ugDet'];
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $sysConst->accessDenied?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 						</td>
 					  </tr>
@@ -283,7 +282,7 @@ $ugDet = $this ->popArr['ugDet'];
 						<td valign="top"><?php echo $lang_Admin_Users_Modules; ?></td>
 						<td align="left" valign="top">
 						<select name="cmbModuleID" <?php echo $locRights['add'] ? '':'disabled'?>>
-									<option value="0">--Select Module--</option>
+									<option value="0">--<?php echo $lang_Admin_Users_SelectModule;?>--</option>
 <?php
 						$modlist = $this->popArr['modlistUnAss'];
 						for($c=0;$modlist && count($modlist)>$c;$c++)
@@ -313,7 +312,7 @@ $ugDet = $this ->popArr['ugDet'];
 <?php					if($locRights['add']) { ?>
 						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php					} else { ?>
-						<td align="left" valign="top"><img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+						<td align="left" valign="top"><img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
 <?php					}		?>
 						</td>
 					  </tr>
@@ -346,7 +345,7 @@ $ugDet = $this ->popArr['ugDet'];
 <?php					if($locRights['delete']) { ?>
 						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php					} else { ?>
-						<img onClick="alert('<?php echo $sysConst->accessDenied?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+						<img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
 <?php					}		?>
 
   </td>

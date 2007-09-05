@@ -1123,16 +1123,24 @@ function getCurrencyAssigned($salgrd) {
 
 	function simpleInsert($insertTable, $insertValues, $insertFields=false, $onDuplicateUpdate=null) {
 
-		$this->flg_insert = true;
+		if (is_array($insertValues)) {
+			$this->flg_insert = true;
 
-		$this->table_name = $insertTable;
-		$this->arr_insert = $insertValues;
+			$this->table_name = $insertTable;
+			$this->arr_insert = $insertValues;
 
-		if ($insertFields) {
-			$this->arr_insertfield = $insertFields;
-			$query = $this->addNewRecordFeature2('true');
+			if ($insertFields) {
+				$this->arr_insertfield = $insertFields;
+				$query = $this->addNewRecordFeature2('true');
+			} else {
+				$query = $this->addNewRecordFeature1('true');
+			}
 		} else {
-			$query = $this->addNewRecordFeature1('true');
+			$query = "INSERT INTO $insertTable ";
+			if ($insertFields) {
+				$query .= "({$this->_buildList($insertFields, " , ")}) ";
+			}
+			$query .= "$insertValues";
 		}
 
 		if (isset($onDuplicateUpdate) && isset($insertFields)) {

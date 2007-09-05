@@ -79,10 +79,10 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '012', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '012', 20);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY010', '011', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('LTY011', '011', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '012', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '012', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '011', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '011', 20);");
 
     }
 
@@ -112,13 +112,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testAddLeaveQuotaAccuracy1() {
-    	$expected[] = array("LTY010", "Medical", "10");
-        $expected[] = array("LTY011", "Casual", "20");
+		$expected[] = array(date('Y'), "LTY011", "Casual", "20");
+		$expected[] = array(date('Y'), "LTY010", "Medical", "10");
 
         for ($i=0; $i < count($expected); $i++) {
 
-    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
-    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
+			$this->classLeaveQuota->setYear($expected[$i][0]);
+    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][1]);
+    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][3]);
 
     		$res = $this->classLeaveQuota->addLeaveQuota("020");
 
@@ -132,9 +133,10 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
 
         for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getYear(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][3], "Didn't return expected result ");
         }
     }
 
@@ -142,13 +144,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testEditLeaveQuota().
      */
     public function testEditLeaveQuota() {
-    	$expected[] = array("LTY010", "Medical", "15");
-        $expected[] = array("LTY011", "Casual", "18");
+        $expected[] = array(date('Y'), "LTY011", "Casual", "18");
+        $expected[] = array(date('Y'), "LTY010", "Medical", "15");
 
-        for ($i=0; $i < count($expected); $i++) {
+        for ($i=0; $i<count($expected); $i++) {
 
-    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
-    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
+			$this->classLeaveQuota->setYear($expected[$i][0]);
+    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][1]);
+    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][3]);
     		$this->classLeaveQuota->setEmployeeId("015");
 
     		$res = $this->classLeaveQuota->editLeaveQuota();
@@ -157,14 +160,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         }
     }
     public function testEditLeaveQuota1() {
-
-        $expected[] = array("LTY010", "Medical", "15");
-        $expected[] = array("LTY011", "Casual", "18");
+        $expected[] = array(date('Y'), "LTY011", "Casual", "18");
+        $expected[] = array(date('Y'), "LTY010", "Medical", "15");
 
         for ($i=0; $i < count($expected); $i++) {
 
-    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][0]);
-    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][2]);
+			$this->classLeaveQuota->setYear($expected[$i][0]);
+    		$this->classLeaveQuota->setLeaveTypeId($expected[$i][1]);
+    		$this->classLeaveQuota->setNoOfDaysAllotted($expected[$i][3]);
     		$this->classLeaveQuota->setEmployeeId("011");
 
     		$res = $this->classLeaveQuota->editLeaveQuota();
@@ -179,9 +182,10 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
 
         for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getYear(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][3], "Didn't return expected result ");
         }
     }
 
@@ -212,13 +216,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(count($res), 2, "Number of records found is not accurate ");
 
-        $expected[] = array("LTY010", "Medical", "10");
-        $expected[] = array("LTY011", "Casual", "20");
+        $expected[] = array(date('Y'), "LTY011", "Casual", "20");
+        $expected[] = array(date('Y'), "LTY010", "Medical", "10");
 
         for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getYear(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeId(), $expected[$i][1], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getNoOfDaysAllotted(), $expected[$i][3], "Didn't return expected result ");
         }
     }
 }

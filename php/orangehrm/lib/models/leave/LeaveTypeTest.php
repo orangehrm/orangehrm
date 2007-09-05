@@ -199,6 +199,37 @@ class LeaveTypeTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testGetLeaveTypeWithName() {
+
+    	// Undeleted leave types
+    	$typeList = $this->classLeaveType->getLeaveTypeWithName("Medical");
+    	$this->assertNotNull($typeList);
+		$this->assertEquals(1, count($typeList));
+		$type = $typeList[0];
+
+    	$this->assertEquals("LTY011", $type->getLeaveTypeId());
+    	$this->assertEquals(1, $type->getLeaveTypeAvailable());
+
+    	// Deleted leave types
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_leavetype` SET available_flag = 0 WHERE leave_type_id='LTY011'"));
+
+    	$typeList = $this->classLeaveType->getLeaveTypeWithName("Medical");
+    	$this->assertNull($typeList);
+
+    	$typeList = $this->classLeaveType->getLeaveTypeWithName("Medical", true);
+    	$this->assertNotNull($typeList);
+		$this->assertEquals(1, count($typeList));
+		$type = $typeList[0];
+
+    	$this->assertEquals("LTY011", $type->getLeaveTypeId());
+    	$this->assertEquals(0, $type->getLeaveTypeAvailable());
+
+		// Unavailable leave type name
+    	$typeList = $this->classLeaveType->getLeaveTypeWithName("Annual");
+    	$this->assertNull($typeList);
+
+    }
+
 }
 
 // Call LeaveTypeTest::main() if this source file is executed directly.
