@@ -266,10 +266,10 @@
 			<?php $col = 3; ?>
 			<th width="180px" class="tableMiddleMiddle">
 				<?php if ($modifier === 'edit') {
-						  echo $lang_Leave_Common_LeaveEntitled;
+						  echo "$lang_Leave_Common_LeaveEntitled ($lang_Common_Days)";
 				      } else { ?>
 				<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
-				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveEntitled;?></a>
+				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveEntitled ($lang_Common_Days)";?></a>
 					<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
 			</th>
@@ -278,10 +278,10 @@
 		<?php $col = 4; ?>
 		<th width="180px" class="tableMiddleMiddle">
 				<?php if ($modifier === 'edit') {
-					      echo $lang_Leave_Common_LeaveTaken;
+					      echo "$lang_Leave_Common_LeaveTaken ($lang_Common_Days)";
 				      } else { ?>
 			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
-			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveTaken;?></a>
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveTaken ($lang_Common_Days)";?></a>
 				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
 		</th>
@@ -289,10 +289,10 @@
 		<?php $col = 5; ?>
 		<th width="180px" class="tableMiddleMiddle">
 				<?php if ($modifier === 'edit') {
-					      echo $lang_Leave_Common_LeaveScheduled;
+					      echo "$lang_Leave_Common_LeaveScheduled ($lang_Common_Days)";
 				      } else { ?>
 			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
-			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveScheduled;?></a>
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveScheduled ($lang_Common_Days)";?></a>
 				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
 		</th>
@@ -300,10 +300,10 @@
 		<?php $col = 6; ?>
 		<th width="180px" class="tableMiddleMiddle">
 				<?php if ($modifier === 'edit') {
-						  echo $lang_Leave_Common_LeaveAvailable;
+						  echo "$lang_Leave_Common_LeaveRemaining ($lang_Common_Days)";
 				      } else { ?>
 			<a href="#" onclick="sort('<?php echo getSortURL($col); ?>')"
-			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveAvailable;?></a>
+			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveRemaining ($lang_Common_Days)";?></a>
 			<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
 		</th>

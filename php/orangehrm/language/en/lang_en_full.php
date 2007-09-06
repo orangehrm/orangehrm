@@ -164,12 +164,14 @@
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specific Holidays";
 
- 	$lang_Leave_Title_Apply_Leave 						= "Apply Leave";
- 	$lang_Leave_Title_Assign_Leave 						= "Assign Leave";
-	$lang_Leave_APPLY_SUCCESS 						= "Apply succeeded";
-	$lang_Leave_APPLY_FAILURE 						= "Apply failed";
-	$lang_Leave_APPROVE_SUCCESS 						= "Leave Assigned";
-	$lang_Leave_APPROVE_FAILURE 						= "Leave Assign failed";
+ 	$lang_Leave_Title_Apply_Leave = "Apply Leave";
+ 	$lang_Leave_Title_Assign_Leave = "Assign Leave";
+	$lang_Leave_APPLY_SUCCESS = "Apply succeeded";
+	$lang_Leave_APPLY_FAILURE = "Apply failed";
+	$lang_Leave_APPROVE_SUCCESS = "Leave Assigned";
+	$lang_Leave_APPROVE_FAILURE = "Leave Assign failed";
+	$lang_Leave_CANCEL_SUCCESS = "Successfully cancelled";
+	$lang_Leave_CHANGE_STATUS_SUCCESS = "Successfully changed the leave status";
 
 	// Report
 	$lang_Menu_Reports = "Reports";
@@ -268,7 +270,7 @@
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";
 	$lang_Leave_Common_HalfDay 				= "Half Day";
 	$lang_Leave_Common_LeaveTaken 			= "Leave Taken";
-	$lang_Leave_Common_LeaveAvailable 		= "Leave Available";
+	$lang_Leave_Common_LeaveRemaining 		= "Leave Remaining";
 	$lang_Leave_Common_LeaveScheduled 		= "Leave Scheduled";
 	$lang_Leave_Common_LeaveTypeName 		= "Leave Type Name";
 	$lang_Leave_Common_LeaveTypeId 			= "Leave Type Id";
@@ -689,7 +691,7 @@
 	$lang_membershipinfo_MembershipShouldBeSpecified = "Membership Name should be specified";
 	$lang_membershipinfo_MembershipTypeShouldBeSelected = "Membership Type should be selected";
 
- 	$lang_membershiptypes_heading 			= "Memberships : Membership Type";
+ 	$lang_membershiptypes_heading 			= "Memeberships : Membership Type";
  	$lang_membershiptypes_NameShouldBeSpecified = "Membership Type name should be specified";
 
  	$lang_nationalityinformation_heading 	= "Nationality & Race : Nationality";
@@ -1094,31 +1096,12 @@
 
 	$lang_Time_Errors_PleaseAddAComment = "Please add a comment";
 
-	$lang_mtview_ADD_SUCCESS = "Successfully Added";
-	$lang_mtview_UPDATE_SUCCESS = "Successfully Updated";
-	$lang_mtview_DELETE_SUCCESS = "Successfully Deleted";
-	$lang_mtview_ADD_FAILURE = "Failed to Add";
-	$lang_mtview_UPDATE_FAILURE = "Failed to Update";
-	$lang_mtview_DELETE_FAILURE = "Failed to Delete";
-
-	$lang_view_DUPLICATE_NAME_FAILURE = "The same name is already used";
-
-	// login page
-	$lang_login_title = "OrangeHRM - New Level of HR Management";
-	$lang_login_UserNameNotGiven = "User Name not given!";
-	$lang_login_PasswordNotGiven = "Password not given!";
-	$lang_login_NeedJavascript = "You need a JavaScript enabled Browser. Ex. ";
-	$lang_login_MozillaFirefox = "Mozilla Firefox";
-	$lang_login_YourSessionExpired = "Your session expired because you were inactive. Please re-login.";
-	$lang_login_LoginName = "Login Name";
-	$lang_login_Password = "Password";
-	$lang_login_Login = "Login";
-	$lang_login_Clear = "Clear";
-	$lang_login_InvalidLogin = "Invalid Login";
-	$lang_login_UserDisabled = "User Disabled";
-	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
-	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
-
+	$lang_mtview_ADD_SUCCESS 				= "Successfully Added";
+	$lang_mtview_UPDATE_SUCCESS 			= "Successfully Updated";
+	$lang_mtview_DELETE_SUCCESS 			= "Successfully Deleted";
+	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
+	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
+	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
@@ -1179,6 +1162,13 @@
 
 	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
 
+	$lang_Time_PrintTimesheetsTitle = "Print Timesheets";
+	$lang_Time_Print = "Print";
+
+	$lang_Common_Loading = "Loading";
+
+	$lang_Menu_Time_PrintTimesheets = "Print Timesheets";
+
 	$lang_Menu_Time_ProjectReports = "Project Reports";
 	$lang_Time_ProjectReportTitle = "Project Reports";
 	$lang_Time_Report_To = "To";
@@ -1193,4 +1183,45 @@
 	$lang_Time_Errors_PROJECT_NOT_FOUND_FAILURE = "Project not found.";
 	$lang_Time_Errors_ACTIVITY_NOT_FOUND_FAILURE = "Activity not found.";
 
+	$lang_Common_Yes = "Yes";
+	$lang_Common_No = "No";
+
+	$lang_Leave_DoYouWantToCancelTheLeaveYouJustAssigned = "Do you want to cancel the leave you just assigned?";
+	$lang_Leave_PleaseProvideAReason = "Please provide a reason";
+
+	$lang_Time_Errors_OVERLAPPING_TIME_PERIOD_FAILURE = "You have a overlapping time period in your time events";
+
+	$lang_view_DUPLICATE_NAME_FAILURE = "The same name is already used";
+
+	$lang_Leave_CopyLeaveQuotaFromLastYear = "Copy leave quota from last year";
+
+	$lang_Leave_LEAVE_QUOTA_COPY_SUCCESS = "Successfully copied leave quota";
+	$lang_Leave_LEAVE_QUOTA_COPY_FAILURE = "Failed to copy leave quota";
+
+	// login page
+	$lang_login_title = "OrangeHRM - New Level of HR Management";
+	$lang_login_UserNameNotGiven = "User Name not given!";
+	$lang_login_PasswordNotGiven = "Password not given!";
+	$lang_login_NeedJavascript = "You need a JavaScript enabled Browser. Ex. ";
+	$lang_login_MozillaFirefox = "Mozilla Firefox";
+	$lang_login_YourSessionExpired = "Your session expired because you were inactive. Please re-login.";
+	$lang_login_LoginName = "Login Name";
+	$lang_login_Password = "Password";
+	$lang_login_Login = "Login";
+	$lang_login_Clear = "Clear";
+	$lang_login_InvalidLogin = "Invalid Login";
+	$lang_login_UserDisabled = "User Disabled";
+	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
+	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
+
+	$lang_Leave_Common_FromTime = "From time";
+	$lang_Leave_Common_ToTime = "To time";
+	$lang_Leave_Common_TotalHours = "Total hours";
+	$lang_Leave_Error_ToTimeBeforeFromTime = "To time before from time";
+	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than the shift length";
+	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period";
+
+	$lang_Leave_Duration = "Duration(hours)";
+	$lang_Common_Hours = "hours";
+	$lang_Common_Days = "days";
 ?>

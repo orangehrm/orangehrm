@@ -270,7 +270,7 @@
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";
 	$lang_Leave_Common_HalfDay 				= "Half Day";
 	$lang_Leave_Common_LeaveTaken 			= "Leave Taken";
-	$lang_Leave_Common_LeaveAvailable 		= "Leave Available";
+	$lang_Leave_Common_LeaveRemaining 		= "Leave Remaining";
 	$lang_Leave_Common_LeaveScheduled 		= "Leave Scheduled";
 	$lang_Leave_Common_LeaveTypeName 		= "Leave Type Name";
 	$lang_Leave_Common_LeaveTypeId 			= "Leave Type Id";
@@ -1223,4 +1223,5 @@
 
 	$lang_Leave_Duration = "Duration(hours)";
 	$lang_Common_Hours = "hours";
+	$lang_Common_Days = "days";
 ?>
