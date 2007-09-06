@@ -1222,4 +1222,5 @@
 	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period";
 
 	$lang_Leave_Duration = "Duration(hours)";
+	$lang_Common_Hours = "hours";
 ?>

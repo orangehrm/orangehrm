@@ -133,7 +133,7 @@ if ($modifier === "SUP") {
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record->getNoDays(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo round($record->getNoDays(),2); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
    			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => $lang_Leave_Common_StatusDiffer);
@@ -175,16 +175,14 @@ if ($modifier === "SUP") {
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php
     		$leaveLength = null;
-    		switch ($record->getLeaveLengthHours()) {
-    			case $record->lengthFullDay 		 :	$leaveLength = $lang_Leave_Common_FullDay;
-    													break;
-    			case $record->lengthHalfDayMorning	 :	$leaveLength = $lang_Leave_Common_HalfDayMorning;
-    													break;
-				case $record->lengthHalfDayAfternoon :	$leaveLength = $lang_Leave_Common_HalfDayAfternoon;
-    													break;
-				case LeaveRequests::LEAVEREQUESTS_LEAVELENGTH_RANGE : $leaveLength = $lang_Leave_Common_Range;
-    																  break;
-				default: $leaveLength = '----';
+    		if ($record->getLeaveLengthHours() == LeaveRequests::LEAVEREQUESTS_LEAVELENGTH_RANGE) {
+    			$leaveLength = $lang_Leave_Common_Range;
+    		} else if (($record->getStartTime() != null) && ($record->getEndTime() != null)) {
+    			$leaveLength = "{$record->getStartTime()} - {$record->getEndTime()}";
+    		} else if ($record->getLeaveLengthHours() != null) {
+    			$leaveLength = "{$record->getLeaveLengthHours()} {$lang_Common_Hours}";
+    		} else {
+    			$leaveLength = '----';
     		}
 
     		echo $leaveLength;

@@ -201,6 +201,11 @@ class LeaveRequests extends Leave {
 					$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLengthHours(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
 				}
 
+				if (($tmpLeaveArr[0]->getStartTime() != null) && ($tmpLeaveArr[0]->getEndTime() != null)) {
+					$tmpLeaveRequestArr->setStartTime($tmpLeaveArr[0]->getStartTime());
+					$tmpLeaveRequestArr->setEndTime($tmpLeaveArr[0]->getEndTime());
+				}
+
 				$noOfDays = abs($noOfDays);
 
 				if ($totalLeaves > 1) {

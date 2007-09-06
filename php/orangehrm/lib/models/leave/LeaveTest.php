@@ -84,15 +84,20 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (12, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '013')");
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (13, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '014')");
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (14, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '013')");
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (15, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '015')");
 
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 1, 0.1, 1, 'Leave 1', 11)");
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 0.1, 1, 'Leave 2', 11)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 1, 0.12, 1, 'Leave 1', 11)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 0.12, 1, 'Leave 2', 11)");
 
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (12, '013', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 8, 1, 3, 'Leave 4', 12)");
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (13, '013', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 8, 1, 3, 'Leave 5', 12)");
 
-		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (15, '014', 'LTY010', '".date('Y-m-d', time())."', 8, 1, 2, 'Leave 6', 13)");
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (15, '014', 'LTY010', '".date('Y-m-d', time())."', 8, 1, 2, 'Leave 6', 13, '10:00', '18:00')");
 
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (16, '013', 'LTY010', '".date('Y-m-d', time())."', 8, 1, 3, 'Leave 7', 14, '10:00', '18:00')");
+
+		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (17, '015', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 0.12, 1, 'Leave 2', 15, '10:00', '11:00')");
     }
 
     /**
@@ -136,18 +141,21 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
     	$res = $leveObj->retrieveTakenLeave(date('Y', time()+3600*24), '013');
 
-    	$expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 3, 8, 'Leave 4');
-        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 3, 8, 'Leave 5');
+    	$expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 3, 8, 'Leave 4', null, null);
+        $expected[1] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 3, 8, 'Leave 5', null, null);
+        $expected[2] = array(date('Y-m-d', time()), 'Medical', 3, 8, 'Leave 7', '10:00', '18:00');
 
         $this->assertNotNull($res, "Returned nothing");
 
-        $this->assertEquals(count($res), 2, "Didn't return the expected number of records");
+        $this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
 
     	for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getStartTime(), $expected[$i][5], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getEndTime(), $expected[$i][6], "Didn't return expected result");
         }
     }
 
@@ -166,6 +174,26 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
         	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Didn't return expected result ");
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result ");
+        }
+    }
+
+    public function testRetriveLeaveEmployeeAccuracy2() {
+        $res = $this->classLeave->retrieveLeaveEmployee("015");
+
+        $expected[0] = array(date('Y-m-d', time()+3600*24*2), 'Medical', 1, 1, 0.12, 'Leave 2', '10:00', '11:00');
+
+        $this->assertNotNull($res, "No record found ");
+
+        $this->assertEquals(count($res), count($expected), "Number of records found is not accurate ");
+
+        for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveLengthDays(), $expected[$i][4], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][5], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getStartTime(), $expected[$i][6], "Didn't return expected result ");
+        	$this->assertEquals($res[$i]->getEndTime(), $expected[$i][7], "Didn't return expected result ");
         }
     }
 
@@ -213,6 +241,40 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testApplyLeave2() {
+
+    	$this->classLeave->setLeaveRequestId("010");
+    	$this->classLeave->setEmployeeId("012");
+    	$this->classLeave->setLeaveTypeId("LTY010");
+    	$this->classLeave->setLeaveDate(date('Y-m-d', time()+3600*24));
+    	$this->classLeave->setLeaveLengthHours("2");
+    	$this->classLeave->setLeaveLengthDays("0.25");
+    	$this->classLeave->setLeaveStatus("1");
+    	$this->classLeave->setLeaveComments("Leave 1");
+    	$this->classLeave->setStartTime("08:00");
+    	$this->classLeave->setEndTime("10:00");
+
+    	$res = $this->classLeave->applyLeave();
+
+    	$res = $this->classLeave->retrieveLeaveEmployee("012");
+
+    	$this->assertNotNull($res, "No record found");
+
+    	$this->assertEquals(count($res), 1, "Wrong number of records found");
+
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 1, 2, 0.25, 'Leave 1', "08:00", "10:00");
+
+        for ($i=0; $i < count($expected); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveLengthDays(), $expected[$i][4], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][5], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getStartTime(), $expected[$i][6], "Checking added / applied leave ");
+        	$this->assertEquals($res[$i]->getEndTime(), $expected[$i][7], "Checking added / applied leave ");
+        }
+    }
+
     public function testCancelLeaveAccuracy() {
 
         $res = $this->classLeave->cancelLeave(10);
@@ -243,7 +305,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	$this->classLeave->setEmployeeId("013");
     	$res = $this->classLeave->countLeave( "LTY010", date('Y', time()+3600*24));
 
-    	$this->assertEquals($res, 0.25, "Retruned wrong count");
+    	$this->assertEquals($res, 3, "Retruned wrong count");
     }
 
     public function testGetLeaveYears() {

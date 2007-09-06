@@ -34,10 +34,10 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
  */
 class Leave {
 
-	/*
-	 *	Leave Status Constants
+	/**
+	 * Leave Status Constants
 	 *
-	 **/
+	 */
 	const LEAVE_LENGTH_FULL_DAY = 8;
 	const LEAVE_LENGTH_HALF_DAY_MORNING = -4;
 	const LEAVE_LENGTH_HALF_DAY_AFTERNOON = 4;
@@ -55,19 +55,18 @@ class Leave {
 	public $statusLeaveApproved = 2;
 	public $statusLeaveTaken = 3;
 
-	/*
+	/**
 	 *	Leave Length Constants
 	 *
-	 **/
+	 */
 	public $lengthFullDay = 8;
 	public $lengthHalfDayMorning = -4;
 	public $lengthHalfDayAfternoon = 4;
 
-	/*
+	/**
 	 *	Class Attributes
 	 *
-	 **/
-
+	 */
 	private $leaveId;
 	private $leaveRequestId;
 	private $employeeId;
@@ -81,26 +80,24 @@ class Leave {
 	private $leaveComments;
 	private $employeeName;
 	private $startTime;
+	private $endTime;
 
 	protected $weekends;
 
-
-	/*
+	/**
+	 * Class Constructor
 	 *
-	 *	Class Constructor
-	 *
-	 **/
-
+	 */
 	public function __construct() {
 		$weekendObj = new Weekends();
 		$this->weekends = $weekendObj->fetchWeek();
 	}
 
-	/*
-	 *	Setter method followed by getter method for each
-	 *	attribute
+	/**
+	 * Setter method followed by getter method for each
+	 * attribute
 	 *
-	 **/
+	 */
 	public function setLeaveId($leaveId) {
 		$this->leaveId = $leaveId;
 	}
@@ -197,6 +194,14 @@ class Leave {
 		return $this->startTime;
 	}
 
+	public function setEndTime($endTime) {
+		$this->endTime = $endTime;
+	}
+
+	public function getEndTime() {
+		return $this->endTime;
+	}
+
 	public function setEmployeeName($employeeName) {
 		$this->employeeName = $employeeName;
 	}
@@ -228,6 +233,8 @@ class Leave {
 		$arrFields[7] = 'd.`emp_lastname`';
 		$arrFields[8] = 'a.`employee_id`';
 		$arrFields[9] = 'b.`leave_type_name` as leave_type_name';
+		$arrFields[10] = 'a.`start_time`';
+		$arrFields[11] = 'a.`end_time`';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_employee` d";
@@ -270,6 +277,8 @@ class Leave {
 		$arrFields[8] = 'c.`emp_lastname` as emp_lastname';
 		$arrFields[9] = 'a.`employee_id` as employee_id';
 		$arrFields[10] = 'a.`leave_request_id` as leave_request_id';
+		$arrFields[11] = 'a.`start_time` as start_time';
+		$arrFields[12] = 'a.`end_time` as end_time';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leave_requests` b";
@@ -308,6 +317,8 @@ class Leave {
 		$arrFields[3] = '`leave_length_days`';
 		$arrFields[4] = '`leave_comments`';
 		$arrFields[5] = '`leave_id`';
+		$arrFields[6] = '`start_time`';
+		$arrFields[7] = '`end_time`';
 
 		$arrTable = "`hs_hr_leave`";
 
@@ -351,10 +362,10 @@ class Leave {
 	}
 
 	/**
-	 *	Counts Leaves taken of particular Leave type
+	 * Counts Leaves taken of particular Leave type
 	 *
-	 * 	@return int
-	 *	@param String LeaveTypeId, [int status]
+	 * @return int
+	 * @param String LeaveTypeId, [int status]
 	 *
 	 */
 	public function countLeave($leaveTypeId, $year=null, $status=null) {
@@ -393,7 +404,7 @@ class Leave {
 
 		$totalLeaveLength = $count[0];
 
-		return ($totalLeaveLength/$this->lengthFullDay);
+		return $totalLeaveLength;
 	}
 
 	protected function _adjustLeaveLength() {
@@ -437,9 +448,12 @@ class Leave {
 		$arrRecordsList[7] = "'".$this->getLeaveTypeId()."'";
 		$arrRecordsList[8] = "'". $this->getEmployeeId() . "'";
 
-		if ($this->getStartTime() != null) {
+		if (($this->getStartTime() != null) && ($this->getEndTime() != null)) {
 			$insertFields[9] = '`start_time`';
 			$arrRecordsList[9] = "'". $this->getStartTime() . "'";
+
+			$insertFields[10] = '`end_time`';
+			$arrRecordsList[10] = "'". $this->getEndTime() . "'";
 		}
 
 		$arrTable = "`hs_hr_leave`";
@@ -457,7 +471,6 @@ class Leave {
 	}
 
 	/**
-	 *
 	 * function _changeLeaveStatus, access is private, will not be documented
 	 *
 	 * @access private
@@ -597,6 +610,11 @@ class Leave {
 
 			if (isset($row['leave_request_id'])) {
 				$tmpLeaveArr->setLeaveRequestId($row['leave_request_id']);
+			}
+
+			if (!empty($row['start_time']) && !empty($row['start_time'])) {
+				$tmpLeaveArr->setStartTime(date("H:i", strtotime($row['start_time'])));
+				$tmpLeaveArr->setEndTime(date("H:i", strtotime($row['end_time'])));
 			}
 
 			if ($supervisor || isset($row['employee_id'])) {
