@@ -338,32 +338,32 @@
           }
     ?></td>
     <?php if (($auth === 'admin') && ($modifier === 'display')) { ?>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record['no_of_days_allotted']; ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?></td>
     <?php } else if (($auth === 'admin') && ($modifier === 'edit')) {
 
 				$readOnly = ($deletedLeaveType) ? "readonly" : "";
     ?>
     <td class="<?php echo $cssClass; ?>">
     <input type="hidden" name="txtLeaveTypeId[]" value="<?php echo $record['leave_type_id']; ?>"/>
-     <input type="hidden" name="txtEmployeeId[]" value="<?php echo $record['emp_number']; ?>"/>
+    <input type="hidden" name="txtEmployeeId[]" value="<?php echo $record['emp_number']; ?>"/>
 
-    <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record['no_of_days_allotted']; ?>" size="3" <?php echo $readOnly; ?>/></td>
+    <input type="text" name="txtLeaveEntitled[]" value="<?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?>" size="3" <?php echo $readOnly; ?>/></td>
     <?php } ?>
 		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_taken'])) {
 													  echo number_format(round($record['leave_taken'], 2), 2);
 												   } else {
-												      echo 0.00;
+												      echo "0.00";
 												   } ?></td>
 		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_scheduled'])) {
 													  echo number_format(round($record['leave_scheduled'], 2), 2);
 												   } else {
-												      echo 0.00;
+												      echo "0.00";
 												   } ?></td>
 
     <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available']) && $record['leave_available'] >= 0) {
 												    echo number_format(round($record['leave_available'], 2), 2);
     										   } else {
-    										   		echo 0.00;
+    										   		echo "0.00";
     										   } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
