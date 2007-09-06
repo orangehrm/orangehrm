@@ -350,20 +350,20 @@
     <input type="text" name="txtLeaveEntitled[]" value="<?php echo $record['no_of_days_allotted']; ?>" size="3" <?php echo $readOnly; ?>/></td>
     <?php } ?>
 		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_taken'])) {
-													  echo round($record['leave_taken'], 1);
+													  echo number_format(round($record['leave_taken'], 2), 2);
 												   } else {
-												      echo 0;
+												      echo 0.00;
 												   } ?></td>
 		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_scheduled'])) {
-													  echo round($record['leave_scheduled'], 1);
+													  echo number_format(round($record['leave_scheduled'], 2), 2);
 												   } else {
-												      echo 0;
+												      echo 0.00;
 												   } ?></td>
 
     <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available']) && $record['leave_available'] >= 0) {
-												    echo round($record['leave_available'], 1);
+												    echo number_format(round($record['leave_available'], 2), 2);
     										   } else {
-    										   		echo 0;
+    										   		echo 0.00;
     										   } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>

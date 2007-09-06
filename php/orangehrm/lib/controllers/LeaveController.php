@@ -414,7 +414,7 @@ class LeaveController {
 				$previousLeaves = $leaveObj->retrieveLeave($_GET['id']);
 				$previousLeave = $previousLeaves[0];
 
-				if ($authorizeObj->isSupervisor() && !($authorizeObj->isTheSupervisor($previousLeave->getEmployeeId()))) {
+				if (($authorizeObj->getIsAdmin() != 'Yes') && $authorizeObj->isSupervisor() && !($authorizeObj->isTheSupervisor($previousLeave->getEmployeeId()))) {
 					$previousLeave=null;
 				}
 			}

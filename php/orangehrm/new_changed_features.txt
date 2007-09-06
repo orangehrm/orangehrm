@@ -1,3 +1,7 @@
+New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
+
+	1. New & Changed Features for OrangeHRM ver 2.2.1-beta.1
+
 New & Changed Features for OrangeHRM ver 2.2.1-beta.1
 
 	BugId     Name
@@ -40,13 +44,11 @@ New & Changed Features for OrangeHRM ver 2.2.1-alpha.1
 	3. Define work week for timesheets
 	4. Detailed employee time reports
 	5. Detailed timesheet view
-
 	6. ID's now maintained in hs_hr_unique_id table.
 	   Note that if you insert data directly into the database using SQL,
-           you should run the script php build/fix-ids.php (or phing fix-ids).
-
+       you should run the script php build/fix-ids.php (or phing fix-ids).
 	7. Upgrader attempts to fix any corruption in database tables (due to running
-           on myISAM tables) before applying foreign key constraints.
+       on myISAM tables) before applying foreign key constraints.
 	8. Removed 'Create New Database' option from the upgrader
 
 	BugId     Name

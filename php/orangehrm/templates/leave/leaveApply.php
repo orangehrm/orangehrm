@@ -107,10 +107,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
 				}
-			} else if ((extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) && (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000)) {
+			} else if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
-			} else if (($('sltLeaveFromTime').value != '') || ($('sltLeaveToTime').value != '')) {
+			} else if (($('sltLeaveFromTime').value == '') || ($('sltLeaveToTime').value == '')) {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
 			}
@@ -237,6 +237,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	function extractTimeFromHours(str) {
+		if (str == '') return false;
+
 		format = /^\s*[0-9]{0,2}(\.[0-9]{2}){0,1}\s*$/;
 
 		if (!format.test(str)) return false;
@@ -392,7 +394,7 @@ if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_S
           <input type="button" name="Submit" value="  " class="calendarBtn" onclick="selectFromDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onfocus="fillToDate();" size="10" />
+        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10" />
           <input type="button" name="Submit" value="  " class="calendarBtn" onclick="fillToDate(); selectToDate(); return false;"/>
         </td>
         <td width="25px">&nbsp;</td>

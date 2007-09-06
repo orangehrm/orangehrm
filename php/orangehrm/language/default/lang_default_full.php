@@ -1218,7 +1218,7 @@
 	$lang_Leave_Common_ToTime = "To time";
 	$lang_Leave_Common_TotalHours = "Total hours";
 	$lang_Leave_Error_ToTimeBeforeFromTime = "To time before from time";
-	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than 24 hours";
+	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than the shift length";
 	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period";
 
 	$lang_Leave_Duration = "Duration(hours)";

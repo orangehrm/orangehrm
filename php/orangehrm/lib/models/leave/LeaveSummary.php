@@ -117,10 +117,10 @@ class LeaveSummary extends LeaveQuota {
 		$selectFields[2] = "c.`leave_type_name` as leave_type_name";
 		$selectFields[3] = "COALESCE(b.`no_of_days_allotted`, 0) as no_of_days_allotted";
 		$sumOfTaken = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_TAKEN . ", ABS(COALESCE(d.`leave_length_days`, 0)), 0) )";
-		$selectFields[4] = "{$sumOfTaken} / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_taken";
+		$selectFields[4] = "{$sumOfTaken} as leave_taken";
 		$sumOfApproved = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ", ABS(COALESCE(d.`leave_length_days`, 0)), 0) )";
-		$selectFields[5] = "{$sumOfApproved} / " . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_scheduled";
-		$selectFields[6] = "COALESCE(no_of_days_allotted, 0) - SUM(ABS(COALESCE(d.`leave_length_days`, 0))) /" . Leave::LEAVE_LENGTH_FULL_DAY . " as leave_available";
+		$selectFields[5] = "{$sumOfApproved} as leave_scheduled";
+		$selectFields[6] = "COALESCE(no_of_days_allotted, 0) - SUM(ABS(COALESCE(d.`leave_length_days`, 0))) as leave_available";
 		$selectFields[7] = "c.`leave_type_id` as leave_type_id";
 		$selectFields[8] = "c.`available_flag` as available_flag";
 
