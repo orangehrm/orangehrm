@@ -663,6 +663,21 @@ create table `hs_hr_unique_id` (
   unique key `table_field` (`table_name`, `field_name`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_workshift` (
+  `workshift_id` int(11) not null,
+  `name` varchar(250) not null,
+  `hours_per_day` int(11) not null,
+  primary key  (`workshift_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_employee_workshift` (
+  `workshift_id` int(11) not null,
+  `emp_number` int(11) not null,
+  primary key  (`workshift_id`,`emp_number`),
+  key `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -942,6 +957,9 @@ alter table `hs_hr_time_event`
   add constraint foreign key (`project_id`) references `hs_hr_project` (`project_id`) on delete cascade,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
+alter table `hs_hr_employee_workshift`
+  add constraint foreign key (`workshift_id`) references `hs_hr_workshift` (`workshift_id`) on delete cascade,
+  add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);
@@ -1507,3 +1525,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(1, 'hs_hr_compstructtree', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave_requests', 'leave_request_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project_activity', 'activity_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_workshift', 'workshift_id');

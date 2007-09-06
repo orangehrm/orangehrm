@@ -82,7 +82,9 @@ array("hs_hr_timesheet",  array("timesheet_period_id"), "hs_hr_timesheet_submiss
 array("hs_hr_time_event", array("timesheet_id"), "hs_hr_timesheet", array("timesheet_id"), "cascade"),
 array("hs_hr_time_event", array("activity_id"), "hs_hr_project_activity",     array("activity_id"), "cascade"),
 array("hs_hr_time_event", array("project_id"), "hs_hr_project",     array("project_id"), "cascade"),
-array("hs_hr_time_event", array("employee_id"), "hs_hr_employee",   array("emp_number"), "cascade")
+array("hs_hr_time_event", array("employee_id"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_employee_workshift", array("workshift_id"), "hs_hr_workshift",   array("workshift_id"), "cascade"),
+array("hs_hr_employee_workshift", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade")
 );
 
 

@@ -663,6 +663,20 @@ create table `hs_hr_unique_id` (
   unique key `table_field` (`table_name`, `field_name`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_workshift` (
+  `workshift_id` int(11) not null,
+  `name` varchar(250) not null,
+  `hours_per_day` int(11) not null,
+  primary key  (`workshift_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_employee_workshift` (
+  `workshift_id` int(11) not null,
+  `emp_number` int(11) not null,
+  primary key  (`workshift_id`,`emp_number`),
+  key `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")

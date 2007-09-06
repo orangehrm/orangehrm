@@ -28,6 +28,13 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class EmpInfo {
 
+	const EMPLOYEE_TABLE_NAME             = 'hs_hr_employee';
+	const EMPLOYEE_FIELD_EMP_NUMBER       = 'emp_number';
+	const EMPLOYEE_FIELD_FIRST_NAME       = 'emp_firstname';
+	const EMPLOYEE_FIELD_LAST_NAME        = 'emp_lastname';
+	const EMPLOYEE_FIELD_EMP_ID           = 'employee_id';
+	const EMPLOYEE_FIELD_MIDDLE_NAME      = 'emp_middle_name';
+
 	var $tableName = 'HS_HR_EMPLOYEE';
 	var $empId;
 	var $employeeId;

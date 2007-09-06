@@ -35,12 +35,6 @@ class ProjectAdminGateway {
 	const PROJECT_ADMIN_FIELD_PROJECT_ID  = 'project_id';
 	const PROJECT_ADMIN_FIELD_EMP_NUMBER  = 'emp_number';
 
-	const EMPLOYEE_TABLE_NAME             = 'hs_hr_employee';
-	const EMPLOYEE_FIELD_EMP_NUMBER       = 'emp_number';
-	const EMPLOYEE_FIELD_FIRST_NAME       = 'emp_firstname';
-	const EMPLOYEE_FIELD_LAST_NAME        = 'emp_lastname';
-	const EMPLOYEE_FIELD_EMP_ID           = 'employee_id';
-
 	/**
 	 * Constructor
 	 *
@@ -170,14 +164,14 @@ class ProjectAdminGateway {
 
 		$fields[0] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`";
 		$fields[1] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`";
-		$fields[2] = "b.`" . self::EMPLOYEE_FIELD_FIRST_NAME . "`";
-		$fields[3] = "b.`" . self::EMPLOYEE_FIELD_LAST_NAME . "`";
+		$fields[2] = "b.`" . EmpInfo::EMPLOYEE_FIELD_FIRST_NAME . "`";
+		$fields[3] = "b.`" . EmpInfo::EMPLOYEE_FIELD_LAST_NAME . "`";
 
 		$tables[0] = "`" . self::TABLE_NAME. "` a ";
-		$tables[1] = "`" . self::EMPLOYEE_TABLE_NAME . "` b ";
+		$tables[1] = "`" . EmpInfo::EMPLOYEE_TABLE_NAME . "` b ";
 
 		$joinConditions[1] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER .
-							 "` = b.`" . self::EMPLOYEE_FIELD_EMP_NUMBER . "`";
+							 "` = b.`" . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER . "`";
 
 		$selectConditions[0] = "a.`" . self::PROJECT_ADMIN_FIELD_PROJECT_ID . "`= $projectId ";
 
@@ -308,8 +302,8 @@ class ProjectAdminGateway {
 		$tmp = new ProjectAdmin();
 		$tmp->setEmpNumber($row[self::PROJECT_ADMIN_FIELD_EMP_NUMBER]);
 		$tmp->setLastName($row[self::PROJECT_ADMIN_FIELD_PROJECT_ID]);
-		$tmp->setFirstName($row[self::EMPLOYEE_FIELD_FIRST_NAME]);
-		$tmp->setLastName($row[self::EMPLOYEE_FIELD_LAST_NAME]);
+		$tmp->setFirstName($row[EmpInfo::EMPLOYEE_FIELD_FIRST_NAME]);
+		$tmp->setLastName($row[EmpInfo::EMPLOYEE_FIELD_LAST_NAME]);
 
 		return $tmp;
 	}

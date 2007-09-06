@@ -210,6 +210,7 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_leave_requests", "leave_request_id"),
 						new IDField("hs_hr_time_event", "time_event_id"),
 						new IDField("hs_hr_timesheet", "timesheet_id"),
+						new IDField("hs_hr_workshift", "workshift_id"),
 
 
 						/* Not used yet. Uncomment when we start using these
