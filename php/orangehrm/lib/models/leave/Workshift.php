@@ -151,7 +151,7 @@ class Workshift {
 
 		$result = $dbConnection->executeQuery($query);
 		if ($result === false) {
-			throw new WorkshiftException("Error in update");
+			throw new WorkshiftException("Error in update", 3);
 		}
 
 		return mysql_affected_rows();
@@ -163,14 +163,14 @@ class Workshift {
 	public function delete() {
 
 		if (!CommonFunctions::isValidId($this->workshiftId)) {
-			throw new WorkshiftException("Invalid id");
+			throw new WorkshiftException("Invalid id", 4);
 		}
 
 		$arrList = array($this->workshiftId);
 		$count = self::_deleteWorkshifts($arrList);
 
 		if (mysql_affected_rows() !== 1) {
-			throw new WorkshiftException("Error in Delete");
+			throw new WorkshiftException("Error in Delete", 2);
 		}
 
 	}

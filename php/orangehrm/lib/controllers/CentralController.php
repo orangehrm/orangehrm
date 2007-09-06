@@ -106,6 +106,7 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Workshift.php';
 
 //leave modules extractorss go here
 
@@ -1366,6 +1367,7 @@ switch ($moduletype) {
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 												$timesheetSubmissionPeriodExtractor = new EXTRACTOR_TimesheetSubmissionPeriod();
+												$workShiftExtractor = new EXTRACTOR_Workshift();
 
 												$current=false;
 												$punchIn=false;
@@ -1405,6 +1407,16 @@ switch ($moduletype) {
 													case 'Delete_Timesheet'		:	$objs = $timeEventExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);
 																					$timeController->deleteTimesheet($_POST['nextAction']);
+																					break;
+													case 'View_Work_Shifts'		:	$timeController->viewShifts();
+																					break;
+													case 'Add_Work_Shift'		:	$obj = $workShiftExtractor->parseAddData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->addWorkShift();
+																					break;
+													case 'Delete_Work_Shifts'	:	$objs = $workShiftExtractor->parseDeleteData($_POST);
+																					$timeController->setObjTime($objs);
+																					$timeController->deleteWorkShifts();
 																					break;
 													case 'Submit_Timesheet'		:	$obj = $timesheetExtractor->parseChangeStatusData($_POST);
 																					$timeController->setObjTime($obj);

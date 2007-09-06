@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/models/leave/Workshift.php';
 
 class TimeController {
 
@@ -1343,6 +1343,53 @@ class TimeController {
 		}
 
 		return true;
+	}
+
+	public function viewShifts() {
+		$path = "/templates/time/workShifts.php";
+
+		$objs[] = Workshift::getWorkshifts();
+
+		$template = new TemplateMerger($objs, $path);
+		$template->display();
+	}
+
+	public function addWorkShift() {
+		$workShift = $this->getObjTime();
+
+		try {
+			$res = $workShift->save();
+		} catch (WorkshiftException $exception) {
+			$this->redirect('INVALID_WORK_SHIFT_FAILURE', '?timecode=Time&action=View_Work_Shifts');
+		}
+
+		if ($res) {
+			$this->redirect('UPDATE_SUCCESS', '?timecode=Time&action=View_Work_Shifts');
+		} else {
+			$this->redirect('UPDATE_FAILURE', '?timecode=Time&action=View_Work_Shifts');
+		}
+	}
+
+	public function deleteWorkShifts() {
+		$workShifts = $this->getObjTime();
+
+		try {
+			foreach ($workShifts as $workShift) {
+				$res = $workShift->delete();
+			}
+			$mes = 'DELETE_SUCCESS';
+		} catch (WorkshiftException $exception) {
+			switch ($exception->getCode()) {
+				case 2 : $mes = 'DELETE_FAILURE';
+						 break;
+				case 4 : $mes = 'INVALID_ID_FAILURE';
+						 break;
+				default: $mes = 'UNKNOWN_ERROR_FAILURE';
+						 break;
+			}
+		}
+
+		$this->redirect($mes, '?timecode=Time&action=View_Work_Shifts');
 	}
 }
 ?>

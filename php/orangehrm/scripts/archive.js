@@ -164,9 +164,15 @@
 	 * Trim whitespace from a string.
 	 */
 	function trim(s) {
-		return s.replace(/^\s+|\s+$/g,"");
+		return s.trim();
 	}
 
+	String.prototype.trim = function () {
+		regExp = /^\s+|\s+$/g;
+		str = this;
+
+		return str.replace(regExp, "");
+	}
 
     /**
      * Collects all form element values to build a post string

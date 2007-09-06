@@ -1224,4 +1224,17 @@
 	$lang_Leave_Duration = "Duration(hours)";
 	$lang_Common_Hours = "hours";
 	$lang_Common_Days = "days";
+
+	$lang_Time_WorkShifts = "Work Shifts";
+	$lang_Time_ShiftName = "Shift Name";
+	$lang_Time_HoursPerDay = "Hours Per Day";
+
+	$lang_Time_Error_SpecifyWorkShiftName = "Specify work shift name";
+	$lang_Time_Error_SpecifyHoursPerDay = "Specify hours per day";
+	$lang_Time_Error_HoursPerDayShouldBePositive = "Hours per day should be positive";
+
+	$lang_Time_Errors_INVALID_WORK_SHIFT_FAILURE = "There were problems in the work shift details";
+	$lang_Time_Errors_NO_RECORDS_SELECTED_FAILURE = "No records selected to delete";
+	$lang_Time_Errors_UNKNOWN_ERROR_FAILURE = "Encountered an error";
+	$lang_Time_Errors_INVALID_ID_FAILURE = "Invalid id";
 ?>
