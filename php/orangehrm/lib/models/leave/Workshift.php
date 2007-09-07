@@ -203,15 +203,103 @@ class Workshift {
 	 * Assign employees to this workshift
 	 * @param array $employeeIds Array of employee ids to assign
 	 */
-	public function assignEmployees($employeeIds) {
+	public function assignEmployees($empNumbers) {
 
+		if (!CommonFunctions::isValidId($this->workshiftId)) {
+			throw new WorkshiftException("Invalid workshift id: ". $this->workshiftId);
+		}
+
+		// Filter out non-valid employee numbers
+		$empNumbers = array_filter($empNumbers, array("CommonFunctions", "isValidId"));
+
+		if (count($empNumbers) == 0) {
+			return 0;
+		}
+
+		$empNumberList = implode(",", $empNumbers);
+
+		$sql = "INSERT IGNORE INTO " . self::EMPLOYEE_WORKSHIFT_TABLE . "(" . self::DB_FIELD_WORKSHIFT_ID . ", " . self::DB_FIELD_EMP_NUMBER .") " .
+		       "SELECT b." . self::DB_FIELD_WORKSHIFT_ID . ", a." . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER . " " .
+		       "FROM " . EmpInfo::EMPLOYEE_TABLE_NAME . " a, " . self::WORKSHIFT_TABLE . " b " .
+		       "WHERE a." . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER . " IN (" . $empNumberList . ") AND " .
+		       " b." . self::DB_FIELD_WORKSHIFT_ID . " = " . $this->workshiftId;
+
+		$conn = new DMLFunctions();
+		$results = $conn->executeQuery($sql);
+
+		if ($results === false) {
+			throw new WorkshiftException("Error in db query:" . $sql . ": " . mysql_error());
+		}
+
+		return mysql_affected_rows();
+	}
+
+	/**
+	 * Get workshift for given employee
+	 *
+	 * @param int $empNumber The employee number
+	 * @return Workshift Workshift for employee or null if no workshift assigned
+	 */
+	public static function getWorkshiftForEmployee($empNumber) {
+
+		if (!CommonFunctions::isValidId($empNumber)) {
+			throw new WorkshiftException("Invalid emp number: $empNumber");
+		}
+
+		$fields[0] = "a.`" . self::DB_FIELD_WORKSHIFT_ID . "`";
+		$fields[1] = "a.`" . self::DB_FIELD_NAME . "`";
+		$fields[2] = "a.`" . self::DB_FIELD_HOURS . "`";
+
+		$tables[0] = "`" . self::WORKSHIFT_TABLE . "` a ";
+		$tables[1] = "`" . self::EMPLOYEE_WORKSHIFT_TABLE . "` b ";
+
+		$joinConditions[1] = "a." . self::DB_FIELD_WORKSHIFT_ID .
+							 " = b." . self::DB_FIELD_WORKSHIFT_ID;
+
+		$selectConditions[0] = " b." . self::DB_FIELD_EMP_NUMBER . " = " . $empNumber;
+
+		$sqlBuilder = new SQLQBuilder();
+		$sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectConditions);
+
+		$conn = new DMLFunctions();
+		$results = $conn->executeQuery($sql);
+
+		if ($results === false) {
+			throw new WorkshiftException("Error in db query:" . $sql);
+		}
+
+		$numResults = mysql_num_rows($results);
+		if ($numResults == 1) {
+			$objs = self::_getWorkshiftsFromResults($results);
+			return $objs[0];
+		} else if ($numResults == 0) {
+			return null;
+		} else {
+			throw new WorkshiftException("Invalid number of results returned.");
+		}
 	}
 
 	/**
 	 * Remove all employees assigned to this workshift
+	 * @return int Number of employees removed from workshift
 	 */
 	public function removeAssignedEmployees() {
 
+		if (!CommonFunctions::isValidId($this->workshiftId)) {
+			throw new WorkshiftException("Invalid id");
+		}
+
+		$sql = sprintf("DELETE FROM %s WHERE %s = %s", self::EMPLOYEE_WORKSHIFT_TABLE,
+		                self::DB_FIELD_WORKSHIFT_ID, $this->workshiftId);
+		$conn = new DMLFunctions();
+		$result = $conn->executeQuery($sql);
+		if ($result) {
+			$count = mysql_affected_rows();
+		} else {
+			throw new WorkshiftException("Error in SQL Query: $sql");
+		}
+
+		return $count;
 	}
 
 	/**
@@ -253,6 +341,35 @@ class Workshift {
 	 */
 	public function getAssignedEmployees() {
 
+		if(!CommonFunctions::isValidId($this->workshiftId)) {
+			throw new WorkshiftException("No valid workshift id defined");
+		}
+
+		$fields[0] = "b.`" . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER . "`";
+		$fields[1] = "b.`" . EmpInfo::EMPLOYEE_FIELD_EMP_ID . "`";
+		$fields[2] = "b.`" . EmpInfo::EMPLOYEE_FIELD_FIRST_NAME . "`";
+		$fields[3] = "b.`" . EmpInfo::EMPLOYEE_FIELD_MIDDLE_NAME . "`";
+		$fields[4] = "b.`" . EmpInfo::EMPLOYEE_FIELD_LAST_NAME . "`";
+
+		$tables[0] = "`" . self::EMPLOYEE_WORKSHIFT_TABLE. "` a ";
+		$tables[1] = "`" . EmpInfo::EMPLOYEE_TABLE_NAME . "` b ";
+
+		$joinConditions[1] = "a." . self::DB_FIELD_EMP_NUMBER .
+							 " = b." . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER;
+
+		$selectConditions[0] = " a." . self::DB_FIELD_WORKSHIFT_ID . " = " . $this->workshiftId;
+
+		$sqlBuilder = new SQLQBuilder();
+		$sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectConditions);
+
+		$conn = new DMLFunctions();
+		$results = $conn->executeQuery($sql);
+
+		if ($results === false) {
+			throw new WorkshiftException("Error in db query:" . $sql);
+		}
+
+		return self::_getEmployeesFromResults($results);
 	}
 
 	/**

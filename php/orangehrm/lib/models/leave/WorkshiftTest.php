@@ -264,12 +264,163 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testAssignEmployees().
      */
     public function testAssignEmployees() {
+
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('1' , 'New Test Shift', '5')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('2' , 'Workshift 2', '10')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('3' , 'Workshift 3', '11')"));
+
+    	// Try to assign without valid workshift id, should throw an error
+    	$employees = array(1, 2, 3);
+		$workshift = new Workshift();
+		try {
+			$workshift->assignEmployees($employees);
+			$this->fail("Trying to assign employees without setting workshift id should throw exception");
+		} catch (WorkshiftException $e) {
+		}
+
+		// Assigning to non existing workshift, should not insert any rows
+		$workshift->setWorkshiftId(4);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(0, $count);
+		$this->assertEquals(0, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+
+    	// Assign empty list of employees should be allowed
+		$workshift->setWorkshiftId(1);
+		$count = $workshift->assignEmployees(array());
+		$this->assertEquals(0, $count);
+		$this->assertEquals(0, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+
+    	// Assign valid employee list
+		$employees = array(1, 3);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(2, $count);
+		$this->assertEquals(2, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 1)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 3)"));
+
+		// reassigning already assigned employees shouldn't assign them again
+		$employees = array(1, 2, 3);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(1, $count);
+		$this->assertEquals(3, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 1)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 2)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 3)"));
+
+		// Passing same employee several times should not add duplicate entries
+		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee_workshift`"));
+
+		$employees = array(1, 3, 1, 1, 3);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(2, $count);
+		$this->assertEquals(2, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 1)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 3)"));
+
+		// Invalid employee ID's should not be assigned.
+		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee_workshift`"));
+		$employees = array(1, -1, "')", 3);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(2, $count);
+		$this->assertEquals(2, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 1)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 3)"));
+
+		// Non existing employee should not be added
+		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee_workshift`"));
+		$employees = array(1, 2, 4, 3, 5);
+		$count = $workshift->assignEmployees($employees);
+		$this->assertEquals(3, $count);
+		$this->assertEquals(3, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 1)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 2)"));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "(workshift_id = 1 AND emp_number = 3)"));
+
     }
+
+	/**
+	 * Test method for getWorkshiftForEmployee
+	 */
+	public function testGetWorkshiftForEmployee() {
+
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('1' , 'New Test Shift', '5')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('2' , 'Workshift 2', '10')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('3' , 'Workshift 3', '11')"));
+
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (1, 1)"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (2, 2)"));
+
+		// Invalid employee id
+		try {
+			Workshift::getWorkshiftForEmployee('sdf');
+			$this->fail("Invalid employee number should throw exception");
+		} catch (WorkshiftException $e) {
+		}
+
+		// Get workshift for non-existant employee
+		$this->assertNull(Workshift::getWorkshiftForEmployee(4));
+
+		// Get workshift for employee without assigned workshift
+		$this->assertNull(Workshift::getWorkshiftForEmployee(3));
+
+		// Get workshift for employee with workshift assigned
+		$shift = Workshift::getWorkshiftForEmployee(1);
+		$this->assertNotNull($shift);
+		$this->assertEquals("New Test Shift", $shift->getName());
+		$this->assertEquals(5, $shift->getHoursPerDay());
+		$this->assertEquals(1, $shift->getWorkshiftId());
+
+	}
+
 	/**
 	 * Test method for removeAssignedEmployees
 	 */
 	public function testRemoveAssignedEmployees() {
 
+		// Callling remove assigned employees without setting valid workshift id
+		$workshift = new Workshift();
+		try {
+			$workshift->removeAssignedEmployees();
+			$this->fail("Trying to remove assigned employees without setting workshift id should throw exception");
+		} catch (WorkshiftException $e) {
+		}
+
+		// remove assigned employees with non-existent workshift_id, shouldn't throw error
+		$workshift = new Workshift();
+		$workshift->setWorkshiftId(4);
+		$count = $workshift->removeAssignedEmployees();
+		$this->assertEquals(0, $count);
+
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('1' , 'New Test Shift', '5')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('2' , 'Workshift 2', '10')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('3' , 'Workshift 3', '11')"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (1, 1)"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (2, 2)"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (2, 3)"));
+
+		$count = $workshift->removeAssignedEmployees();
+		$this->assertEquals(0, $count);
+
+		// check no assignments are deleted
+		$this->assertEquals(3, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+
+		// Remove assigned employees when no employees are assigned - check no assignments are deleted
+		$workshift->setWorkshiftId(3);
+		$count = $workshift->removeAssignedEmployees();
+		$this->assertEquals(0, $count);
+		$this->assertEquals(3, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+
+		// Remove assigned employees
+		$workshift->setWorkshiftId(2);
+		$count = $workshift->removeAssignedEmployees();
+		$this->assertEquals(2, $count);
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
+		$this->assertEquals(1, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE, "workshift_id = 1"));
+
+		$workshift->setWorkshiftId(1);
+		$count = $workshift->removeAssignedEmployees();
+		$this->assertEquals(1, $count);
+		$this->assertEquals(0, $this->_countRows(Workshift::EMPLOYEE_WORKSHIFT_TABLE));
 	}
 
 	/**
@@ -316,7 +467,49 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGetAssignedEmployees() {
 
+		$workshift = new Workshift();
+
+		try {
+			$workshift->getAssignedEmployees();
+			$this->fail("Trying to fetch assigned employees without setting workshift id should throw exception");
+		} catch (WorkshiftException $e) {
+		}
+
+		// Workshift not in system
+		$workshift->setWorkshiftId(1);
+		$employees = $workshift->getAssignedEmployees();
+		$this->assertEquals(0, count($employees));
+
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('1' , 'New Test Shift', '5')"));
+		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('2' , 'Workshift 2', '10')"));
+
+		// Workshift with no assigned employees
+		$workshift->setWorkshiftId(2);
+		$employees = $workshift->getAssignedEmployees();
+		$this->assertEquals(0, count($employees));
+
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (1, 1)"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (2, 2)"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_employee_workshift(workshift_id, emp_number) VALUES (2, 3)"));
+
+
+		$expected[2] = array(2, '0022', 'Jayasinghe', 'Aruna', 'Shantha');
+		$expected[3] = array(3, '0034', 'Ranasinghe', 'Nimal', 'Bandara');
+
+		$employees = $workshift->getAssignedEmployees();
+		$this->assertEquals(2, count($employees));
+		$this->_checkEmployeeList($employees, $expected);
+
+
+		$workshift->setWorkshiftId(1);
+		$employees = $workshift->getAssignedEmployees();
+
+		unset($expected);
+		$expected[1] = array(1, '0011', 'Rajasinghe', 'Saman', 'Marlon');
+		$this->assertEquals(1, count($employees));
+		$this->_checkEmployeeList($employees, $expected);
 	}
+
     /**
      * Test case for testGetWorkshifts().
      */
