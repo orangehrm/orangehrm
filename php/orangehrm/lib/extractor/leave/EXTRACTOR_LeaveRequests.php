@@ -54,14 +54,12 @@ class EXTRACTOR_LeaveRequests {
 				$this->parent_Leave->setEndTime($postArr['sltLeaveToTime']);
 			}
 
-			$lengthDays = ceil($lengthHours/Leave::LEAVE_LENGTH_FULL_DAY);
+			$this->parent_Leave->setLeaveLengthHours($lengthHours);
 		} else {
 			$lengthDays = 1;
-			$lengthHours = Leave::LEAVE_LENGTH_FULL_DAY;
+			$this->parent_Leave->setLeaveLengthDays($lengthDays);
 		}
 
-		$this->parent_Leave->setLeaveLengthHours($lengthHours);
-		$this->parent_Leave->setLeaveLengthDays($lengthDays);
 		$this->parent_Leave->setLeaveComments($postArr['txtComments']);
 
 		return $this->parent_Leave;

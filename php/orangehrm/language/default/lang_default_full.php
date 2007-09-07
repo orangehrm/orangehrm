@@ -1237,4 +1237,6 @@
 	$lang_Time_Errors_NO_RECORDS_SELECTED_FAILURE = "No records selected to delete";
 	$lang_Time_Errors_UNKNOWN_ERROR_FAILURE = "Encountered an error";
 	$lang_Time_Errors_INVALID_ID_FAILURE = "Invalid id";
+
+	$lang_Menu_Time_WorkShifts = "Work shifts";
 ?>

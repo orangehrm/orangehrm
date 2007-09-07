@@ -410,8 +410,28 @@ class Leave {
 	protected function _adjustLeaveLength() {
 		$timeOff = $this->_timeOffLength($this->getLeaveDate());
 
-		$this->setLeaveLengthHours($this->_leaveLength($this->getLeaveLengthHours(), $timeOff));
-		$this->setLeaveLengthDays($this->getLeaveLengthHours()/self::LEAVE_LENGTH_FULL_DAY);
+		$shift = Workshift::getWorkshiftForEmployee($this->getEmployeeId());
+
+		if ($this->setLeaveLengthHours() != null) {
+			$hours = $this->setLeaveLengthHours()-$timeOff;
+			$days = round(($hours/$shift), 2);
+		}
+
+		if ($this->setLeaveLengthDays() != null) {
+			$days = $this->setLeaveLengthDays();
+			$hours = $days*$shift-$timeOff;
+		}
+
+		if (0 > $hours) {
+			$hours=0;
+		}
+
+		if (0 > $days) {
+			$days=0;
+		}
+
+		$this->setLeaveLengthHours($hours);
+		$this->setLeaveLengthDays($days);
 	}
 
 	/**
