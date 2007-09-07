@@ -1412,7 +1412,15 @@ switch ($moduletype) {
 																					break;
 													case 'Add_Work_Shift'		:	$obj = $workShiftExtractor->parseAddData($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->addWorkShift();
+																					$timeController->saveWorkShift();
+																					break;
+													case 'View_Edit_Work_Shift'	:   if (isset($_GET['id']) && !empty($_GET['id'])) {
+																						$timeController->viewEditWorkShift($_GET['id']);
+																					}
+																					break;
+													case 'Edit_Work_Shift'		:	$obj = $workShiftExtractor->parseEditData($_POST);
+																					$timeController->setObjTime($obj);
+																					$timeController->saveWorkShift();
 																					break;
 													case 'Delete_Work_Shifts'	:	$objs = $workShiftExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);

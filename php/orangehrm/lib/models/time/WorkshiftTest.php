@@ -595,8 +595,11 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
-		$workshift = Workshift::getWorkshift(16);
-		$this->assertNull($workshift);
+		try {
+			$workshift = Workshift::getWorkshift(16);
+		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::WORKSHIFT_NOT_FOUND, $e->getCode());
+		}
 
 		// valid id
 

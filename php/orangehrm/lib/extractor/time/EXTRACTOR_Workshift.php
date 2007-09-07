@@ -52,5 +52,19 @@ class EXTRACTOR_Workshift {
 
 		return $tmpObjArr;
 	}
+
+	public function parseEditData($postArr) {
+
+		$tmpObj = new Workshift();
+
+		if (!empty($postArr['txtShiftId']) && !empty($postArr['txtShiftName']) && !empty($postArr['txtHoursPerDay'])) {
+			$tmpObj->setWorkshiftId($postArr['txtShiftId']);
+			$tmpObj->setName($postArr['txtShiftName']);
+			$tmpObj->setHoursPerDay($postArr['txtHoursPerDay']);
+		}
+
+		return $tmpObj;
+	}
+
 }
 ?>

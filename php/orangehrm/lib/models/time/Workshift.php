@@ -431,7 +431,7 @@ class Workshift {
 			$objs = self::_getWorkshiftsFromResults($result);
 			return $objs[0];
 		} else if ($numResults == 0) {
-			return null;
+			throw new WorkshiftException("Invalid number of results returned.", WorkshiftException::WORKSHIFT_NOT_FOUND);
 		} else {
 			throw new WorkshiftException("Invalid number of results returned.", WorkshiftException::INVALID_ROW_COUNT);
 		}
@@ -499,6 +499,7 @@ class WorkshiftException extends Exception {
 	const INVALID_ID= 3;
 	const VALUES_EMPTY_OR_NOT_SET = 4;
 	const INVALID_ROW_COUNT = 5;
+	const WORKSHIFT_NOT_FOUND = 6;
 
 }
 ?>

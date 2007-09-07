@@ -1354,7 +1354,38 @@ class TimeController {
 		$template->display();
 	}
 
-	public function addWorkShift() {
+	/**
+	 * View the worksheet edit page
+	 * @param int $id The workshift Id
+	 */
+	public function viewEditWorkShift($id) {
+		$path = "/templates/time/editWorkShift.php";
+
+		try {
+			$workshift = Workshift::getWorkshift($id);
+
+			$objs[] = $workshift;
+			$objs[] = $workshift->getAssignedEmployees();
+			$objs[] = $workshift->getEmployeesWithoutWorkshift();
+
+			$template = new TemplateMerger($objs, $path);
+			$template->display();
+
+		} catch (WorkshiftException $e) {
+
+			switch ($e->getCode()) {
+				case WorkshiftException::WORKSHIFT_NOT_FOUND:
+					$msg = 'INVALID_WORK_SHIFT_FAILURE';
+					break;
+				default:
+					$msg = 'UNKNOWN_ERROR_FAILURE';
+					break;
+			}
+			$this->redirect($msg, '?timecode=Time&action=View_Work_Shifts');
+		}
+	}
+
+	public function saveWorkShift() {
 		$workShift = $this->getObjTime();
 
 		try {
