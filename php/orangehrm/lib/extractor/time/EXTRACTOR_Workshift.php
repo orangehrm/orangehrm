@@ -18,7 +18,7 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/models/leave/Workshift.php';
+require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 
 class EXTRACTOR_Workshift {
 

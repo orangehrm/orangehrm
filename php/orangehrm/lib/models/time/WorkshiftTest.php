@@ -11,7 +11,7 @@ require_once ROOT_PATH."/lib/confs/Conf.php";
 require_once ROOT_PATH."/lib/dao/DMLFunctions.php";
 require_once ROOT_PATH."/lib/dao/SQLQBuilder.php";
 require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
-require_once 'Workshift.php';
+require_once ROOT_PATH."/lib/models/time/Workshift.php";
 
 /**
  * Test class for Workshift.
