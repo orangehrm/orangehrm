@@ -83,7 +83,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("No exception thrown");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		$workshift = new Workshift();
@@ -92,7 +92,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("No exception thrown");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		$workshift = new Workshift();
@@ -101,7 +101,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("No exception thrown");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		$workshift = new Workshift();
@@ -111,7 +111,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("No exception thrown");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		$workshift = new Workshift();
@@ -153,7 +153,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("Workshift without name and hours per day saved");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		// Invalid hours per day
@@ -164,7 +164,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("Invalid hours per day allowed");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		$workshift = new Workshift();
@@ -175,7 +175,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->save();
 			$this->fail("Invalid hours per day allowed");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::VALUES_EMPTY_OR_NOT_SET, $e->getCode());
 		}
 
 		// Test if sql injection works - update
@@ -217,7 +217,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
     		$workshift->delete();
     		$this->fail("Non existing ID was not checked!");
     	} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::INVALID_ROW_COUNT, $e->getCode());
     	}
 
     	// Test for valid id
@@ -245,7 +245,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
     		$workshift->delete();
     		$this->fail("Empty ID was not checked!");
     	} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
     	}
 
     	// Invalid id
@@ -256,7 +256,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
     		$workshift->delete();
     		$this->fail("Invalid ID was not checked!");
     	} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
     	}
     }
 
@@ -276,6 +276,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->assignEmployees($employees);
 			$this->fail("Trying to assign employees without setting workshift id should throw exception");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// Assigning to non existing workshift, should not insert any rows
@@ -355,6 +356,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			Workshift::getWorkshiftForEmployee('sdf');
 			$this->fail("Invalid employee number should throw exception");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// Get workshift for non-existant employee
@@ -383,6 +385,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->removeAssignedEmployees();
 			$this->fail("Trying to remove assigned employees without setting workshift id should throw exception");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// remove assigned employees with non-existent workshift_id, shouldn't throw error
@@ -473,6 +476,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift->getAssignedEmployees();
 			$this->fail("Trying to fetch assigned employees without setting workshift id should throw exception");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// Workshift not in system
@@ -570,7 +574,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift = Workshift::getWorkshift(null);
 			$this->fail("Exception not thrown");
 		} catch (WorkshiftException $e) {
-
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// negative id
@@ -578,6 +582,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			$workshift = Workshift::getWorkshift(-1);
 			$this->fail("Negative id!");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		// try sql injection in id
@@ -585,8 +590,9 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 		// id not found in database
 		try {
 			$workshift = Workshift::getWorkshift("'{}");
-			$this->fail("Negative id!");
+			$this->fail("Invalid ID!");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		$workshift = Workshift::getWorkshift(16);
@@ -618,12 +624,14 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			Workshift::deleteWorkshifts(null);
 			$this->fail("null parameter allowed");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_PARAMETER, $e->getCode());
 		}
 
 		try {
 			Workshift::deleteWorkshifts(2);
 			$this->fail("integer parameter allowed");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_PARAMETER, $e->getCode());
 		}
 
 		// Empty array
@@ -632,6 +640,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			Workshift::deleteWorkshifts($idArray);
 			$this->fail("Empty array allowed");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_PARAMETER, $e->getCode());
 		}
 
 		// array contains invalid ids
@@ -640,6 +649,7 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 			Workshift::deleteWorkshifts($idArray);
 			$this->fail("Invalid id's allowed");
 		} catch (WorkshiftException $e) {
+			$this->assertEquals(WorkshiftException::INVALID_ID, $e->getCode());
 		}
 
 		$this->assertTrue(mysql_query("INSERT INTO " . Workshift::WORKSHIFT_TABLE . " VALUES ('1' , 'Work shift 1', '5')"));

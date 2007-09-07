@@ -95,7 +95,7 @@ class Workshift {
 	 */
 	public function save() {
 		if (empty($this->hoursPerDay) || empty($this->name) || $this->hoursPerDay <= 0) {
-			throw new WorkshiftException();
+			throw new WorkshiftException("Values not set", WorkshiftException::VALUES_EMPTY_OR_NOT_SET);
 		}
 
 		if (empty($this->workshiftId)) {
@@ -126,8 +126,12 @@ class Workshift {
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($sql);
-		if (!$result || mysql_affected_rows() != 1) {
-			throw new WorkshiftException("Not inserted");
+		if (!$result) {
+			throw new WorkshiftException("Workshift not inserted", WorkshiftException::ERROR_IN_DB_QUERY);
+		}
+
+		if (mysql_affected_rows() != 1) {
+			throw new WorkshiftException("Workshift not inserted", WorkshiftException::INVALID_ROW_COUNT);
 		}
 
 		return mysql_affected_rows();
@@ -151,7 +155,7 @@ class Workshift {
 
 		$result = $dbConnection->executeQuery($query);
 		if ($result === false) {
-			throw new WorkshiftException("Error in update", 3);
+			throw new WorkshiftException("Error in update", WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		return mysql_affected_rows();
@@ -163,14 +167,14 @@ class Workshift {
 	public function delete() {
 
 		if (!CommonFunctions::isValidId($this->workshiftId)) {
-			throw new WorkshiftException("Invalid id", 4);
+			throw new WorkshiftException("Invalid id", WorkshiftException::INVALID_ID);
 		}
 
 		$arrList = array($this->workshiftId);
 		$count = self::_deleteWorkshifts($arrList);
 
 		if (mysql_affected_rows() !== 1) {
-			throw new WorkshiftException("Error in Delete", 2);
+			throw new WorkshiftException("Error in Delete", WorkshiftException::INVALID_ROW_COUNT);
 		}
 
 	}
@@ -195,7 +199,7 @@ class Workshift {
 		if ($result) {
 			return mysql_affected_rows();
 		} else {
-			throw new WorkshiftException("Error in SQL Query");
+			throw new WorkshiftException("Error in SQL Query", WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 	}
 
@@ -206,7 +210,7 @@ class Workshift {
 	public function assignEmployees($empNumbers) {
 
 		if (!CommonFunctions::isValidId($this->workshiftId)) {
-			throw new WorkshiftException("Invalid workshift id: ". $this->workshiftId);
+			throw new WorkshiftException("Invalid workshift id: ". $this->workshiftId, WorkshiftException::INVALID_ID);
 		}
 
 		// Filter out non-valid employee numbers
@@ -228,7 +232,7 @@ class Workshift {
 		$results = $conn->executeQuery($sql);
 
 		if ($results === false) {
-			throw new WorkshiftException("Error in db query:" . $sql . ": " . mysql_error());
+			throw new WorkshiftException("Error in db query:" . $sql . ": " . mysql_error(), WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		return mysql_affected_rows();
@@ -243,7 +247,7 @@ class Workshift {
 	public static function getWorkshiftForEmployee($empNumber) {
 
 		if (!CommonFunctions::isValidId($empNumber)) {
-			throw new WorkshiftException("Invalid emp number: $empNumber");
+			throw new WorkshiftException("Invalid emp number: $empNumber", WorkshiftException::INVALID_ID);
 		}
 
 		$fields[0] = "a.`" . self::DB_FIELD_WORKSHIFT_ID . "`";
@@ -265,7 +269,7 @@ class Workshift {
 		$results = $conn->executeQuery($sql);
 
 		if ($results === false) {
-			throw new WorkshiftException("Error in db query:" . $sql);
+			throw new WorkshiftException("Error in db query:" . $sql, WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		$numResults = mysql_num_rows($results);
@@ -275,7 +279,7 @@ class Workshift {
 		} else if ($numResults == 0) {
 			return null;
 		} else {
-			throw new WorkshiftException("Invalid number of results returned.");
+			throw new WorkshiftException("Invalid number of results returned.", WorkshiftException::INVALID_ROW_COUNT);
 		}
 	}
 
@@ -286,7 +290,7 @@ class Workshift {
 	public function removeAssignedEmployees() {
 
 		if (!CommonFunctions::isValidId($this->workshiftId)) {
-			throw new WorkshiftException("Invalid id");
+			throw new WorkshiftException("Invalid id", WorkshiftException::INVALID_ID);
 		}
 
 		$sql = sprintf("DELETE FROM %s WHERE %s = %s", self::EMPLOYEE_WORKSHIFT_TABLE,
@@ -296,7 +300,7 @@ class Workshift {
 		if ($result) {
 			$count = mysql_affected_rows();
 		} else {
-			throw new WorkshiftException("Error in SQL Query: $sql");
+			throw new WorkshiftException("Error in SQL Query: $sql", WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		return $count;
@@ -328,7 +332,7 @@ class Workshift {
 		$connection = new DMLFunctions();
 		$result = $connection->executeQuery($sql);
 		if ($result === false) {
-			throw new WorkshiftException("Error in db query:" . $sql);
+			throw new WorkshiftException("Error in db query:" . $sql, WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		return self::_getEmployeesFromResults($result);
@@ -342,7 +346,7 @@ class Workshift {
 	public function getAssignedEmployees() {
 
 		if(!CommonFunctions::isValidId($this->workshiftId)) {
-			throw new WorkshiftException("No valid workshift id defined");
+			throw new WorkshiftException("No valid workshift id defined", WorkshiftException::INVALID_ID);
 		}
 
 		$fields[0] = "b.`" . EmpInfo::EMPLOYEE_FIELD_EMP_NUMBER . "`";
@@ -366,7 +370,7 @@ class Workshift {
 		$results = $conn->executeQuery($sql);
 
 		if ($results === false) {
-			throw new WorkshiftException("Error in db query:" . $sql);
+			throw new WorkshiftException("Error in db query:" . $sql, WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		return self::_getEmployeesFromResults($results);
@@ -389,7 +393,7 @@ class Workshift {
 		$result = $dbConnection->executeQuery($query);
 
 		if ($result === false) {
-			throw new WorkshiftException("Error in db query:" . $query);
+			throw new WorkshiftException("Error in db query:" . $query, WorkshiftException::ERROR_IN_DB_QUERY);
 		}
 
 		$workshifts = self::_getWorkshiftsFromResults($result);
@@ -404,7 +408,7 @@ class Workshift {
 	public static function getWorkshift($workShiftId) {
 
 		if (!CommonFunctions::isValidId($workShiftId)) {
-			throw new WorkshiftException("Invalid id");
+			throw new WorkshiftException("Invalid id", WorkshiftException::INVALID_ID);
 		}
 
 		$sqlBuilder = new SQLQBuilder();
@@ -429,7 +433,7 @@ class Workshift {
 		} else if ($numResults == 0) {
 			return null;
 		} else {
-			throw new WorkshiftException("Invalid number of results returned.");
+			throw new WorkshiftException("Invalid number of results returned.", WorkshiftException::INVALID_ROW_COUNT);
 		}
 	}
 
@@ -475,12 +479,12 @@ class Workshift {
 	public static function deleteWorkshifts($workshiftIds) {
 
 		if (!is_array($workshiftIds) || empty($workshiftIds)) {
-			throw new WorkshiftException("Invalid Parameter");
+			throw new WorkshiftException("Invalid Parameter", WorkshiftException::INVALID_PARAMETER);
 		}
 
 		foreach($workshiftIds as $id) {
 			if (!CommonFunctions::isValidId($id)) {
-				throw new WorkshiftException("Invalid ID in array");
+				throw new WorkshiftException("Invalid ID in array", WorkshiftException::INVALID_ID);
 			}
 		}
 
@@ -489,5 +493,12 @@ class Workshift {
 }
 
 class WorkshiftException extends Exception {
+
+	const ERROR_IN_DB_QUERY = 1;
+	const INVALID_PARAMETER = 2;
+	const INVALID_ID= 3;
+	const VALUES_EMPTY_OR_NOT_SET = 4;
+	const INVALID_ROW_COUNT = 5;
+
 }
 ?>

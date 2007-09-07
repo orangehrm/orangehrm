@@ -1380,12 +1380,16 @@ class TimeController {
 			$mes = 'DELETE_SUCCESS';
 		} catch (WorkshiftException $exception) {
 			switch ($exception->getCode()) {
-				case 2 : $mes = 'DELETE_FAILURE';
-						 break;
-				case 4 : $mes = 'INVALID_ID_FAILURE';
-						 break;
-				default: $mes = 'UNKNOWN_ERROR_FAILURE';
-						 break;
+				case WorkshiftException::ERROR_IN_DB_QUERY : // fall through
+				case WorkshiftException::INVALID_ROW_COUNT :
+					$mes = 'DELETE_FAILURE';
+					break;
+				case WorkshiftException::INVALID_ID :
+					$mes = 'INVALID_ID_FAILURE';
+                    break;
+				default:
+				    $mes = 'UNKNOWN_ERROR_FAILURE';
+					break;
 			}
 		}
 
