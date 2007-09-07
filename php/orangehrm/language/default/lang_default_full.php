@@ -902,6 +902,8 @@
 
 	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
 
+	$lang_rep_InvalidDateRange = "Invalid Date Range";
+
 	$lang_rep_Report = "Report";
 	$lang_rep_EmployeeNo = "Employee No";
 	$lang_rep_EmployeeFirstName = "Employee First Name";

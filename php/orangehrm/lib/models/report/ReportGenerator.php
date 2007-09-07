@@ -107,11 +107,14 @@ class ReportGenerator {
 			$criteriaComOper['EMPSTATUS'] = "=";
  		}
 
+
+
  		if(isset($this->criteria['SERPIR'])){
  			$parameter = $this->criteria['SERPIR'];
  			$pointer = explode('|',$parameter);
 
-			$criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
+			//$criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
+			$criteriaValue['SERPIR1'] = '\'' . $pointer[1] . '\'';
 			$criteriaField['SERPIR1'] = 'a.JOINED_DATE';
 			$criteriaTable['SERPIR1'] = 'HS_HR_EMPLOYEE a';
 
@@ -119,12 +122,16 @@ class ReportGenerator {
 				case '<' 	 : $criteriaComOper['SERPIR1'] = "<"; break;
 				case '>' 	 : $criteriaComOper['SERPIR1'] = ">"; break;
 				case 'range' : $criteriaComOper['SERPIR1'] = "<";
-					           $criteriaValue['SERPIR2'] = '\'' . $this->ageToYear($pointer[2]) . '\'';
+					           //$criteriaValue['SERPIR2'] = '\'' . $this->ageToYear($pointer[2]) . '\'';
+					           $criteriaValue['SERPIR1'] = '\'' . $pointer[2] . '\'';
+					           $criteriaValue['SERPIR2'] = '\'' . $pointer[1] . '\'';
 							   $criteriaField['SERPIR2'] = 'a.JOINED_DATE';
 							   $criteriaTable['SERPIR2'] = 'HS_HR_EMPLOYEE a';
 							   $criteriaComOper['SERPIR2'] = ">";
 			}
  		}
+
+
  		if(isset($this->criteria['QUL'])){
 
  			$criteriaValue['QUL'] = '\'' . $this->criteria['QUL'] . '\'';

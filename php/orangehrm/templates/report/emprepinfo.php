@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,22 +21,42 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
-	$sysConst = new sysConf();
-	$locRights=$_SESSION['localRights'];
+$sysConst = new sysConf();
+$locRights = $_SESSION['localRights'];
 
-	$arrAgeSim = $this-> popArr['arrAgeSim'];
-	$arrEmpType= $this-> popArr['arrEmpType'];
+$arrAgeSim = $this->popArr['arrAgeSim'];
+$arrEmpType = $this->popArr['arrEmpType'];
+$arrSerPer = $this->popArr['arrSerPer'];
 
-	$empInfoObj = new EmpInfo();
+$empInfoObj = new EmpInfo();
 
-$headingInfo = array ("$lang_emprepinfo_heading : $lang_Common_New", "$lang_emprepinfo_heading : $lang_Common_Edit");
+$headingInfo = array (
+	"$lang_emprepinfo_heading : $lang_Common_New",
+	"$lang_emprepinfo_heading : $lang_Common_Edit"
+);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title></title>
-
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<script src="../../scripts/time.js"></script>
 <script language="JavaScript">
+
+
+	// checking the date format yyyy-mm-dd
+
+	function validDate(txt) {
+		dateExpression = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
+
+		if (!dateExpression.test(txt)) {
+			return false;
+		}
+
+		return true;
+	}
+
+
 function alpha(txt)
 {
 var flag=true;
@@ -194,6 +215,10 @@ function chkboxCriteriaEnable() {
 					 						document.frmEmpRepTo.cmbSerPerCode.options[0].selected = true;
 					 						document.frmEmpRepTo.Service1.value='';
 					 						document.frmEmpRepTo.Service2.value='';
+					 						document.frmEmpRepTo.Service1.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Service2.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Service1Button.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
 
 											document.frmEmpRepTo.Service1.disabled = false;
 					 						document.frmEmpRepTo.Service2.disabled = false;
@@ -289,22 +314,32 @@ function disableSerPeriodField() {
 		document.frmEmpRepTo.Service2.disabled = true;
 		document.frmEmpRepTo.Service1.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
+		document.frmEmpRepTo.Service1Button.style.visibility = "hidden";
+		document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=="range") {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = false;
+		document.frmEmpRepTo.Service1Button.disabled = false;
+		document.frmEmpRepTo.Service2Button.disabled = false;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "visible";
+		document.frmEmpRepTo.Service1Button.style.visibility = "visible";
+		document.frmEmpRepTo.Service2Button.style.visibility = "visible";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = true;
+		document.frmEmpRepTo.Service1Button.disabled = false;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.value='';
+		document.frmEmpRepTo.Service1Button.style.visibility = "visible";
+		document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
 		return;
 	}
 }
+
 
 
 
@@ -408,7 +443,9 @@ function disableSerPeriodField() {
 												alert("<?php echo $lang_rep_SelectTheComparison; ?>");
 												document.frmEmpRepTo.cmbSerPerCode.focus();
 												return false;
-											} else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='range') {
+											} /*
+
+											else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='range') {
 
 												if(!numeric(document.frmEmpRepTo.Service1)) {
 													alert("<?php echo $lang_rep_DateShouldBeNumeric; ?>");
@@ -437,6 +474,44 @@ function disableSerPeriodField() {
 													return false;
 												}
 											}
+
+											*/
+
+											/* New dates functionality */
+
+											else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='range') {
+
+												if(!validDate(document.frmEmpRepTo.Service1.value)) {
+													alert("<?php echo $lang_Error_InvalidDate; ?>");
+													document.frmEmpRepTo.Service1.focus();
+													return false;
+												}
+
+												if(!validDate(document.frmEmpRepTo.Service2.value)) {
+													alert("<?php echo $lang_Error_InvalidDate; ?>");
+													document.frmEmpRepTo.Service2.focus();
+													return false;
+												}
+
+
+												if(strToDate(document.frmEmpRepTo.Service1.value) > strToDate(document.frmEmpRepTo.Service2.value)) {
+													alert("<?php echo $lang_rep_InvalidDateRange; ?>");
+													document.frmEmpRepTo.Service2.focus();
+													return false;
+												}
+
+
+											} else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
+
+												if(!validDate(document.frmEmpRepTo.Service1.value)) {
+													alert("<?php echo $lang_Error_InvalidDate; ?>");
+													document.frmEmpRepTo.Service1.focus();
+													return false;
+												}
+											}
+
+
+
 											break;
 
 						case 'JobTitle':	if(elements[i].checked && document.frmEmpRepTo.cmbDesig.value=='0') {
@@ -465,6 +540,17 @@ function disableSerPeriodField() {
 
  return true;
  }
+
+
+	function selectFromDate() {
+		YAHOO.OrangeHRM.calendar.pop('Service1', 'cal1Container', 'yyyy-MM-dd');
+	}
+
+	function selectToDate() {
+		YAHOO.OrangeHRM.calendar.pop('Service2', 'cal1Container', 'yyyy-MM-dd');
+	}
+
+	YAHOO.OrangeHRM.container.init();
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -554,14 +640,15 @@ function disableSerPeriodField() {
 					 <td align="left" valign="top"> <select   name="cmbAgeCode" onChange="disableAgeField();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
  					  <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
-							$keys   = array_keys($arrAgeSim);
-							$values = array_values($arrAgeSim);
 
-							for($c=0;count($arrAgeSim)>$c;$c++)
-								if(isset($this->postArr['cmbAgeCode']) && $this->postArr['cmbAgeCode']==$values[$c])
-									echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								else
-									echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
+$keys = array_keys($arrAgeSim);
+$values = array_values($arrAgeSim);
+
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbAgeCode']) && $this->postArr['cmbAgeCode'] == $values[$c])
+		echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	else
+		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 ?>
 					  </select>
 				    </td>
@@ -578,12 +665,14 @@ function disableSerPeriodField() {
 				  <td><?php echo $lang_rep_PayGrade; ?></td>
 			      <td><select  name="cmbSalGrd" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 			  		<option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
-<?php					$grdlist = $this->popArr['grdlist'];
-					for($c=0;$grdlist && count($grdlist)>$c;$c++)
-						if(isset($this->postArr['cmbSalGrd']) && $this->postArr['cmbSalGrd']==$grdlist[$c][0])
-							echo "<option selected value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
-						else
-							echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
+<?php
+
+$grdlist = $this->popArr['grdlist'];
+for ($c = 0; $grdlist && count($grdlist) > $c; $c++)
+	if (isset ($this->postArr['cmbSalGrd']) && $this->postArr['cmbSalGrd'] == $grdlist[$c][0])
+		echo "<option selected value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
+	else
+		echo "<option value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
 ?>
 			  </select></td>
 					</tr>
@@ -596,12 +685,13 @@ function disableSerPeriodField() {
 					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
 <?php
-						$edulist=$this -> popArr['edulist'];
-						for($c=0;$edulist && count($edulist)>$c;$c++)
-							if(isset($this->postArr['TypeCode']) && $this->postArr['TypeCode']==$edulist[$c][0])
-							   echo "<option selected value=" . $edulist[$c][0] . ">" . $edulist[$c][2].', '.$edulist[$c][1] . "</option>";
-							else
-							   echo "<option value=" . $edulist[$c][0] . ">" .$edulist[$c][2].', '. $edulist[$c][1] . "</option>";
+
+$edulist = $this->popArr['edulist'];
+for ($c = 0; $edulist && count($edulist) > $c; $c++)
+	if (isset ($this->postArr['TypeCode']) && $this->postArr['TypeCode'] == $edulist[$c][0])
+		echo "<option selected value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
+	else
+		echo "<option value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
 ?>
 					  </select></td>
 						<td valign="middle"></td>
@@ -615,11 +705,12 @@ function disableSerPeriodField() {
 					  	<td><select name="cmbEmpType" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 			  		    <option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
 <?php
-					//if(isset($this->postArr['cmbEmpType'])) {
-						$arrEmpType=$this-> popArr['arrEmpType'];
-						for($c=0;$arrEmpType && count($arrEmpType)>$c;$c++)
-						    echo "<option value=" . $arrEmpType[$c][0] . ">" . $arrEmpType[$c][1] . "</option>";
-						//}
+
+//if(isset($this->postArr['cmbEmpType'])) {
+$arrEmpType = $this->popArr['arrEmpType'];
+for ($c = 0; $arrEmpType && count($arrEmpType) > $c; $c++)
+	echo "<option value=" . $arrEmpType[$c][0] . ">" . $arrEmpType[$c][1] . "</option>";
+//}
 ?>
 			         		</select>
 						</td>
@@ -633,20 +724,24 @@ function disableSerPeriodField() {
 					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
-							$keys   = array_keys($arrAgeSim);
-							$values = array_values($arrAgeSim);
 
-							for($c=0;count($arrAgeSim)>$c;$c++)
-								if(isset($this->postArr['cmbSerPerCode']) && $this->postArr['cmbSerPerCode']==$values[$c])
-									echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								else
-									echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
+$keys = array_keys($arrSerPer);
+$values = array_values($arrSerPer);
 
-							?>
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbSerPerCode']) && $this->postArr['cmbSerPerCode'] == $values[$c])
+		echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	else
+		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" ></td>
-                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" ></td>
+				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" id="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" >
+				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1Button"/>
+				        </td>
+                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" id="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" >
+                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2Button"/>
+                        </td>
 					</tr>
 
 
@@ -656,12 +751,13 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbDesig" <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  		<option value="0">--<?php echo $lang_rep_SelectJobTitle; ?>--</option>
 <?php
-							$deslist = $this->popArr['deslist'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbDesig']) && $this->postArr['cmbDesig']==$deslist[$c][0])
-									echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								else
-									echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
+
+$deslist = $this->popArr['deslist'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbDesig']) && $this->postArr['cmbDesig'] == $deslist[$c][0])
+		echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	else
+		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 ?>
 					  </select></td>
 					</tr>
@@ -671,13 +767,14 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbLanguage" <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  		<option value="0">--<?php echo $lang_rep_SelectLanguage; ?>--</option>
 							<?php
-							$deslist = $this->popArr['languageList'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbLanguage']) && $this->postArr['cmbLanguage']==$deslist[$c][0])
-									echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								else
-									echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-							?>
+
+$deslist = $this->popArr['languageList'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbLanguage']) && $this->postArr['cmbLanguage'] == $deslist[$c][0])
+		echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	else
+		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+?>
 					  </select></td>
 					</tr>
 
@@ -687,13 +784,14 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbSkill" <?php echo (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  		<option value="0">--<?php echo $lang_rep_SelectSkill; ?>--</option>
 							<?php
-							$deslist = $this->popArr['skillList'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbSkill']) && $this->postArr['cmbSkill']==$deslist[$c][0])
-									echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								else
-									echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-							?>
+
+$deslist = $this->popArr['skillList'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbSkill']) && $this->postArr['cmbSkill'] == $deslist[$c][0])
+		echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	else
+		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+?>
 					  </select></td>
 					</tr>
                   </table></td>
@@ -841,6 +939,7 @@ function disableSerPeriodField() {
 </td></tr>
 </table>
 </form>
+<div id="cal1Container" style="position:absolute;" ></div>
 </body>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {  ?>
 <body>
@@ -921,17 +1020,18 @@ function disableSerPeriodField() {
                        <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
                       <td valign="top"><?php echo $lang_rep_Employee; ?></td>
                       <?php
-                      	$empId = isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : false;
 
-                      	if ($empId) {
-                      		 $empId = $empInfoObj->fetchEmployeeId($empId);
-                      		 if (!$empId) {
-                      		 	$empId = $criteriaData['EMPNO'][0];
-                      		 }
-                      	} else {
-                      		$empId = "";
-                      	}
-                      ?>
+$empId = isset ($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : false;
+
+if ($empId) {
+	$empId = $empInfoObj->fetchEmployeeId($empId);
+	if (!$empId) {
+		$empId = $criteriaData['EMPNO'][0];
+	}
+} else {
+	$empId = "";
+}
+?>
                       <td align="left">
 	                      <select name="cmbId" onchange="disableEmployeeId();" disabled >
 						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
@@ -950,21 +1050,22 @@ function disableSerPeriodField() {
 					 <td align="left" valign="top"> <select name="cmbAgeCode" onChange="disableAgeField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
  					  <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
-							$keys   = array_keys($arrAgeSim);
-							$values = array_values($arrAgeSim);
 
-							for($c=0;count($arrAgeSim)>$c;$c++)
-								if(isset($this->postArr['cmbAgeCode'])) {
-									if($this->postArr['cmbAgeCode']==$values[$c])
-										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-									else
-										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								} else {
-									if(isset($criteriaData['AGE']) && $criteriaData['AGE'][0]==$values[$c])
-										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-									else
-										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								}
+$keys = array_keys($arrAgeSim);
+$values = array_values($arrAgeSim);
+
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbAgeCode'])) {
+		if ($this->postArr['cmbAgeCode'] == $values[$c])
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	} else {
+		if (isset ($criteriaData['AGE']) && $criteriaData['AGE'][0] == $values[$c])
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	}
 ?>
 					  </select>
 				    </td>
@@ -978,19 +1079,21 @@ function disableSerPeriodField() {
 				  <td><?php echo $lang_rep_PayGrade; ?></td>
 			      <td><select  name="cmbSalGrd"   <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 		<option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
-<?php					$grdlist = $this->popArr['grdlist'];
-					for($c=0;$grdlist && count($grdlist)>$c;$c++)
-						if(isset($this->postArr['cmbSalGrd'])) {
-							if($this->postArr['cmbSalGrd']==$grdlist[$c][0])
-								echo "<option selected value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
-							else
-								echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
-						} else {
-							if(isset($criteriaData['PAYGRD']) && $criteriaData['PAYGRD'][0]==$grdlist[$c][0])
-								echo "<option selected value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
-							else
-								echo "<option value='" .$grdlist[$c][0]. "'>" .$grdlist[$c][1]. "</option>";
-						}
+<?php
+
+$grdlist = $this->popArr['grdlist'];
+for ($c = 0; $grdlist && count($grdlist) > $c; $c++)
+	if (isset ($this->postArr['cmbSalGrd'])) {
+		if ($this->postArr['cmbSalGrd'] == $grdlist[$c][0])
+			echo "<option selected value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
+	} else {
+		if (isset ($criteriaData['PAYGRD']) && $criteriaData['PAYGRD'][0] == $grdlist[$c][0])
+			echo "<option selected value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
+	}
 ?>
 			  </select></td>
 					</tr>
@@ -1003,12 +1106,13 @@ function disableSerPeriodField() {
 					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 					  <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
 <?php
-						$edulist=$this -> popArr['edulist'];
-						for($c=0;$edulist && count($edulist)>$c;$c++)
-							if(isset($criteriaData['QUL']) && $criteriaData['QUL'][0]==$edulist[$c][0])
-							   echo "<option selected value=" . $edulist[$c][0] . ">" . $edulist[$c][2].', '.$edulist[$c][1] . "</option>";
-							else
-							   echo "<option value=" . $edulist[$c][0] . ">" .$edulist[$c][2].', '. $edulist[$c][1] . "</option>";
+
+$edulist = $this->popArr['edulist'];
+for ($c = 0; $edulist && count($edulist) > $c; $c++)
+	if (isset ($criteriaData['QUL']) && $criteriaData['QUL'][0] == $edulist[$c][0])
+		echo "<option selected value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
+	else
+		echo "<option value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
 ?>
 					  </select></td>
 						<td valign="middle"></td>
@@ -1022,19 +1126,21 @@ function disableSerPeriodField() {
 					  <td valign="top"><?php echo $lang_rep_EmploymentStatus; ?></td>
 					  	<td><select name="cmbEmpType"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 			  		<option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
-<?php							$arrEmpType = $this->popArr['arrEmpType'];
-								for($c=0;count($arrEmpType)>$c;$c++)
-								if(isset($this->postArr['cmbEmpType'])){
-									if($this->postArr['cmbEmpType']==$arrEmpType[$c][0])
-										echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-									else
-										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-								} else {
-									if(isset($criteriaData['EMPSTATUS']) && $criteriaData['EMPSTATUS'][0]==$arrEmpType[$c][0])
-										echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-									else
-										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-								}
+<?php
+
+$arrEmpType = $this->popArr['arrEmpType'];
+for ($c = 0; count($arrEmpType) > $c; $c++)
+	if (isset ($this->postArr['cmbEmpType'])) {
+		if ($this->postArr['cmbEmpType'] == $arrEmpType[$c][0])
+			echo "<option selected value='" . $arrEmpType[$c][0] . "'>" . $arrEmpType[$c][1] . "</option>";
+		else
+			echo "<option value='" . $arrEmpType[$c][0] . "'>" . $arrEmpType[$c][1] . "</option>";
+	} else {
+		if (isset ($criteriaData['EMPSTATUS']) && $criteriaData['EMPSTATUS'][0] == $arrEmpType[$c][0])
+			echo "<option selected value='" . $arrEmpType[$c][0] . "'>" . $arrEmpType[$c][1] . "</option>";
+		else
+			echo "<option value='" . $arrEmpType[$c][0] . "'>" . $arrEmpType[$c][1] . "</option>";
+	}
 ?>
 			         		</select>
 						</td>
@@ -1048,26 +1154,31 @@ function disableSerPeriodField() {
 					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
 					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
-							$keys   = array_keys($arrAgeSim);
-							$values = array_values($arrAgeSim);
 
-							for($c=0;count($arrAgeSim)>$c;$c++)
-								if(isset($this->postArr['cmbSerPerCode'])){
-									 if($this->postArr['cmbSerPerCode']==$values[$c])
-										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-									else
-										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								} else {
-									  if(isset($criteriaData['SERPIR'][0]) && ($criteriaData['SERPIR'][0]==$values[$c]))
-										echo "<option selected value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-									else
-										echo "<option value='" .$values[$c]. "'>" .$keys[$c]. "</option>";
-								}
-							?>
+$keys = array_keys($arrAgeSim);
+$values = array_values($arrAgeSim);
+
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbSerPerCode'])) {
+		if ($this->postArr['cmbSerPerCode'] == $values[$c])
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	} else {
+		if (isset ($criteriaData['SERPIR'][0]) && ($criteriaData['SERPIR'][0] == $values[$c]))
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	}
+?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" ></td>
-                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>" ></td>
+				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" id="Service1">
+				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> name="Service1Button"/>
+				        </td>
+                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>"  id="Service2">
+                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> name="Service2Button"/>
+                        </td>
 					</tr>
 
    					<tr>
@@ -1077,22 +1188,21 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbDesig"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 				  		<option value="0">---<?php echo $lang_rep_SelectJobTitle; ?>---</option>
 						<?php
-							$deslist = $this->popArr['deslist'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbDesig'])) {
-									if($this->postArr['cmbDesig']==$deslist[$c][0])
 
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								} else {
-									 if(isset($criteriaData['JOBTITLE']) && $criteriaData['JOBTITLE'][0]==$deslist[$c][0])
-
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								}
-						?>
+$deslist = $this->popArr['deslist'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbDesig'])) {
+		if ($this->postArr['cmbDesig'] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	} else {
+		if (isset ($criteriaData['JOBTITLE']) && $criteriaData['JOBTITLE'][0] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	}
+?>
 					  </select></td>
 					</tr>
 
@@ -1103,22 +1213,21 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbLanguage"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 				  		<option value="0">---<?php echo $lang_rep_SelectLanguage; ?>---</option>
 						<?php
-							$deslist = $this->popArr['languageList'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbLanguage'])) {
-									if($this->postArr['cmbLanguage']==$deslist[$c][0])
 
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								} else {
-									 if(isset($criteriaData['LANGUAGE']) && $criteriaData['LANGUAGE'][0]==$deslist[$c][0])
-
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								}
-						?>
+$deslist = $this->popArr['languageList'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbLanguage'])) {
+		if ($this->postArr['cmbLanguage'] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	} else {
+		if (isset ($criteriaData['LANGUAGE']) && $criteriaData['LANGUAGE'][0] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	}
+?>
 					  </select></td>
 					</tr>
 
@@ -1129,22 +1238,21 @@ function disableSerPeriodField() {
 					  <td><select  name="cmbSkill"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
 				  		<option value="0">---<?php echo $lang_rep_SelectSkill; ?>---</option>
 						<?php
-							$deslist = $this->popArr['skillList'];
-							for($c=0;$deslist && count($deslist)>$c;$c++)
-								if(isset($this->postArr['cmbSkill'])) {
-									if($this->postArr['cmbSkill']==$deslist[$c][0])
 
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								} else {
-									 if(isset($criteriaData['SKILL']) && $criteriaData['SKILL'][0]==$deslist[$c][0])
-
-											echo "<option selected value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-										else
-											echo "<option value='" .$deslist[$c][0]. "'>" .$deslist[$c][1]. "</option>";
-								}
-						?>
+$deslist = $this->popArr['skillList'];
+for ($c = 0; $deslist && count($deslist) > $c; $c++)
+	if (isset ($this->postArr['cmbSkill'])) {
+		if ($this->postArr['cmbSkill'] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	} else {
+		if (isset ($criteriaData['SKILL']) && $criteriaData['SKILL'][0] == $deslist[$c][0])
+			echo "<option selected value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+		else
+			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
+	}
+?>
 					  </select></td>
 					</tr>
 
@@ -1294,6 +1402,7 @@ function disableSerPeriodField() {
 </td></tr>
 </table>
 </form>
+<div id="cal1Container" style="position:absolute;" ></div>
 </body>
 <?php } ?>
 </html>
