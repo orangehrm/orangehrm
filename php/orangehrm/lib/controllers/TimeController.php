@@ -33,7 +33,7 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
-require_once ROOT_PATH . '/lib/models/leave/Workshift.php';
+require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 
 class TimeController {
 

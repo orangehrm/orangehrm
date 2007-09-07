@@ -33,7 +33,6 @@ require_once 'LeaveSummaryTest.php';
 require_once 'LeaveTest.php';
 require_once 'LeaveTypeTest.php';
 require_once 'WeekendsTest.php';
-require_once 'WorkshiftTest.php';
 
  
 class models_leave_AllTests
@@ -53,7 +52,6 @@ class models_leave_AllTests
 	$suite->addTestSuite('LeaveTest');
 	$suite->addTestSuite('LeaveTypeTest');
 	$suite->addTestSuite('WeekendsTest');
-	$suite->addTestSuite('WorkshiftTest');
 
         return $suite;
     }
