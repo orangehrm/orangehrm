@@ -24,6 +24,9 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
+
+require_once ROOT_PATH . '/lib/models/time/Workshift.php';
+
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 /**
@@ -410,15 +413,19 @@ class Leave {
 	protected function _adjustLeaveLength() {
 		$timeOff = $this->_timeOffLength($this->getLeaveDate());
 
-		$shift = Workshift::getWorkshiftForEmployee($this->getEmployeeId());
+		$shift = Leave::LEAVE_LENGTH_FULL_DAY;
 
-		if ($this->setLeaveLengthHours() != null) {
-			$hours = $this->setLeaveLengthHours()-$timeOff;
-			$days = round(($hours/$shift), 2);
+		$workShift = Workshift::getWorkshiftForEmployee($this->getEmployeeId());
+
+		if (isset($workShift)) {
+			$shift = $workShift->getHoursPerDay();
 		}
 
-		if ($this->setLeaveLengthDays() != null) {
-			$days = $this->setLeaveLengthDays();
+		if ($this->getLeaveLengthHours() != null) {
+			$hours = $this->getLeaveLengthHours()-$timeOff;
+			$days = round(($hours/$shift), 2);
+		} else if ($this->getLeaveLengthDays() != null) {
+			$days = $this->getLeaveLengthDays();
 			$hours = $days*$shift-$timeOff;
 		}
 

@@ -268,24 +268,21 @@ class MailNotifications {
 		$recordArr = null;
 
 		$fulldays = 0;
-		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED) {
 
 				$leaveLength = $leaveObj->getLeaveLengthHours();
-				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
-					$fulldays++;
-				} else if ($leaveLength != 0) {
-					$halfdays++;
-				}
-				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
+
+				$fulldays+=$leaveObj->getLeaveLengthDays();
+
+				$duration = $leaveObj->getLeaveLengthHours();
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#duration/', '/#comments/'), array($date, $type, $duration, $comments), $recordTxt);
 			}
 		}
 
@@ -304,9 +301,8 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
-			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_APPROVE_SUBJECT,
-													$employeeName, $leaveCount);
+													$employeeName, $fulldays);
 
 			$this->to = $this->subordinateMail;
 		}
@@ -332,24 +328,21 @@ class MailNotifications {
 		$recordArr = null;
 
 		$fulldays = 0;
-		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_REJECTED) {
 
 				$leaveLength = $leaveObj->getLeaveLengthHours();
-				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
-					$fulldays++;
-				} else if ($leaveLength != 0) {
-					$halfdays++;
-				}
-				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
+
+				$fulldays+=$leaveObj->getLeaveLengthDays();
+
+				$duration = $leaveObj->getLeaveLengthHours();
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#duration/', '/#comments/'), array($date, $type, $duration, $comments), $recordTxt);
 			}
 		}
 
@@ -368,9 +361,8 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
-			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_REJECT_SUBJECT,
-													$employeeName, $leaveCount);
+													$employeeName, $fulldays);
 
 			$this->to = $this->subordinateMail;
 		}
@@ -396,25 +388,22 @@ class MailNotifications {
 		$recordArr = null;
 
 		$fulldays = 0;
-		$halfdays = 0;
 
 		if (is_array($leaveObjs)) {
 			foreach ($leaveObjs as $leaveObj) {
 				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) {
 
 					$leaveLength = $leaveObj->getLeaveLengthHours();
-					if ($leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
-						$fulldays++;
-					} else if ($leaveLength != 0) {
-						$halfdays++;
-					}
-					$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
+
+					$fulldays+=$leaveObj->getLeaveLengthDays();
+
+					$duration = $leaveObj->getLeaveLengthHours();
 
 					$date = $leaveObj->getLeaveDate();
 					$type = $leaveObj->getLeaveTypeName();
 					$comments = $leaveObj->getLeaveComments();
 
-					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
+					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#duration/', '/#comments/'), array($date, $type, $duration, $comments), $recordTxt);
 				}
 			}
 		}
@@ -434,9 +423,8 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
-			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_APPLY_SUBJECT,
-													$employeeName, $leaveCount);
+													$employeeName, $fulldays);
 
 			$this->to = $this->supervisorMail;
 		}
@@ -462,24 +450,21 @@ class MailNotifications {
 		$recordArr = null;
 
 		$fulldays = 0;
-		$halfdays = 0;
 
 		foreach ($leaveObjs as $leaveObj) {
 			if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 
 				$leaveLength = $leaveObj->getLeaveLengthHours();
-				if ( $leaveLength == Leave::LEAVE_LENGTH_FULL_DAY) {
-					$fulldays++;
-				} else if ($leaveLength != 0) {
-					$halfdays++;
-				}
-				$fullhalf = $this->_getLeaveLengthDesc($leaveLength);
+
+				$fulldays+=$leaveObj->getLeaveLengthDays();
+
+				$duration = $leaveObj->getLeaveLengthHours();
 
 				$date = $leaveObj->getLeaveDate();
 				$type = $leaveObj->getLeaveTypeName();
 				$comments = $leaveObj->getLeaveComments();
 
-				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#fullhalf/', '/#comments/'), array($date, $type, $fullhalf, $comments), $recordTxt);
+				$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#duration/', '/#comments/'), array($date, $type, $duration, $comments), $recordTxt);
 			}
 		}
 
@@ -498,9 +483,8 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
-			$leaveCount = $this->_getLeaveCountStr($fulldays, $halfdays);
 			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT,
-													$employeeName, $leaveCount);
+													$employeeName, $fulldays);
 
 			$this->to = $this->supervisorMail;
 		}

@@ -1,9 +1,9 @@
 Hi,
 
-#subordinate has cancelled  the following leave request: 
+#subordinate has cancelled  the following leave request:
 
-Applied Date(s)	Type of Leave	Full/Half Day		Comments
-#{#date	#type		#fullhalf	#comments}
+Applied Date(s)	Type of Leave	Duration (hours)	Comments
+#{#date	#type		#duration		#comments}
 
 You were sent this mail, as you are the supervisor assigned for #subordinate, and to be notified about this cancellation.
 

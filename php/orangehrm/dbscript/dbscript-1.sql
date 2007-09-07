@@ -514,8 +514,8 @@ CREATE TABLE `hs_hr_leave_requests` (
 CREATE TABLE `hs_hr_leave` (
   `leave_id` int(11) NOT NULL,
   `leave_date` date default NULL,
-  `leave_length_hours` decimal(6,2) default NULL,
-  `leave_length_days` decimal(4,2) default NULL,
+  `leave_length_hours` decimal(6,2) unsigned default NULL,
+  `leave_length_days` decimal(4,2) unsigned default NULL,
   `leave_status` smallint(6) default NULL,
   `leave_comments` varchar(80) default NULL,
   `leave_request_id` int(11) NOT NULL,
@@ -540,7 +540,7 @@ create table `hs_hr_employee_leave_quota` (
   `year` year(4) NOT NULL,
   `leave_type_id` varchar(13) not null,
   `employee_id` int(7) not null,
-  `no_of_days_allotted` smallint(6) default null,
+  `no_of_days_allotted` decimal(6,2) default null,
   primary key  (`leave_type_id`,`employee_id`, `year`)
 ) engine=innodb default charset=utf8;
 

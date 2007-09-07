@@ -198,7 +198,7 @@ class LeaveRequests extends Leave {
 				$tmpLeaveRequestArr->setLeaveFromDate($tmpLeaveArr[0]->getLeaveDate());
 
 				if ($tmpLeaveArr[0]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-					$noOfDays = $this->_leaveLength($tmpLeaveArr[0]->getLeaveLengthHours(), $this->_timeOffLength($tmpLeaveArr[0]->getLeaveDate()));
+					$noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
 				}
 
 				if (($tmpLeaveArr[0]->getStartTime() != null) && ($tmpLeaveArr[0]->getEndTime() != null)) {
@@ -206,7 +206,7 @@ class LeaveRequests extends Leave {
 					$tmpLeaveRequestArr->setEndTime($tmpLeaveArr[0]->getEndTime());
 				}
 
-				$noOfDays = abs($noOfDays);
+				$noOfDays = $noOfDays;
 
 				if ($totalLeaves > 1) {
 					$tmpLeaveRequestArr->setLeaveToDate($tmpLeaveArr[$totalLeaves-1]->getLeaveDate());
@@ -218,7 +218,7 @@ class LeaveRequests extends Leave {
 					for ($i=1; $i<$totalLeaves; $i++) {
 
 						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-							$noOfDays += abs($tmpLeaveArr[$i]->getLeaveLengthHours());
+							$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
 
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
@@ -241,7 +241,7 @@ class LeaveRequests extends Leave {
 					$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
 				}
 
-				$tmpLeaveRequestArr->setNoDays($noOfDays/self::LEAVE_LENGTH_FULL_DAY);
+				$tmpLeaveRequestArr->setNoDays($noOfDays);
 
 				if ($supervisor) {
 					$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
