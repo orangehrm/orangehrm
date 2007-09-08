@@ -197,15 +197,13 @@ class Holidays {
 
 		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
 		$arrFieldList[1] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
-		$arrFieldList[2] = "DATE_FORMAT(`".self::HOLIDAYS_TABLE_DATE."`, '$year-%m-%d') a";
+		$arrFieldList[2] = "IF(`".self::HOLIDAYS_TABLE_RECURRING."`=1,DATE_FORMAT(`".self::HOLIDAYS_TABLE_DATE."`, '$year-%m-%d'), `".self::HOLIDAYS_TABLE_DATE."`) a";
 		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
 		$arrFieldList[4] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
 
-		$arrSelectConditions[0] = "(`".self::HOLIDAYS_TABLE_DATE."` LIKE '$year-%' OR `".self::HOLIDAYS_TABLE_RECURRING."` = ".self::HOLIDAYS_RECURRING.")";
-
 		$sqlBuilder = new SQLQBuilder();
 
-		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $arrSelectConditions, 'a', 'ASC');
+		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, null, 'a', 'ASC');
 
 		//echo $query;
 
