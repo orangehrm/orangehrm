@@ -40,20 +40,11 @@ label {
 	padding:5px 5px 20px 5px;
 }
 
-input[type=checkbox] {
-	background-color: transparent;
-	margin: 0px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	width: 12px;
-	vertical-align: bottom;
-}
-
 #txtHoursPerDay {
 	width: 2em;
 }
 
-#addPanel {
+#editPanel {
 	display: block;
 }
 </style>
@@ -76,12 +67,13 @@ function upateShift() {
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyWorkShiftName; ?>\n";
 	}
 
-	if ($('txtHoursPerDay').value.trim() == '') {
+	var hoursPerDay = $('txtHoursPerDay').value.trim();
+	if ( hoursPerDay == '') {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyHoursPerDay; ?>\n";
-	} else if (0 >= $('txtHoursPerDay').value.trim()) {
+	} else if (!numbers($('txtHoursPerDay')) || (0 >= hoursPerDay)) {
 		err=true;
-		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositive; ?>\n";
+		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositiveNumber; ?>\n";
 	}
 
 	if (err) {
@@ -90,17 +82,39 @@ function upateShift() {
 		return false;
 	}
 
+	selectAllOptions($('cmbAssignedEmployees'));
 	$('frmEditWorkShift').action=baseUrl+'Edit_Work_Shift';
 	$('frmEditWorkShift').submit();
 }
 
+function assignEmployee() {
+	moveSelectOptions($('cmbAvailableEmployees'), $('cmbAssignedEmployees'), '<?php echo $lang_Time_Error_NoEmployeeSelected; ?>');
+}
+
+function removeEmployee() {
+	moveSelectOptions($('cmbAssignedEmployees'), $('cmbAvailableEmployees'), '<?php echo $lang_Time_Error_NoEmployeeSelected; ?>');
+}
+
+
+
 </script>
-<h2>
-<?php echo $lang_Time_WorkShifts; ?>
+<h2><?php echo $lang_Time_AssignEmployeesTitle; ?></h2>
 <hr/>
-</h2>
 <div class="navigation">
 	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+<?php
+if (isset($_GET['message']) && !empty($_GET['message'])) {
+
+	$expString  = $_GET['message'];
+	$col_def = CommonFunctions::getCssClassForMessage($expString);
+	$expString = 'lang_Time_Errors_'.$expString;
+
+	$message = isset($$expString) ? $$expString : $_GET['message'];
+?>
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<?php echo $message; ?>
+	</font>
+<?php }	?>
 </div>
 <div id="editPanel">
 	<form name="frmEditWorkShift" id="frmEditWorkShift" method="post" action="?timecode=Time&action=">
@@ -113,106 +127,52 @@ function upateShift() {
 	        <br>
 	        <label for="none">&nbsp;</label>
 	        <input type="hidden" id="txtShiftId" name="txtShiftId" value="<?php echo $workshift->getWorkshiftId(); ?>"/>
-	        <img onClick="upateShift();"
-	             style="margin-top:10px;"
-	             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
-	             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
-	             src="../../themes/beyondT/pictures/btn_save.jpg">
-	   	</div>
-	</form>
-</div>
-<script type="text/javascript">
-<!--
-    if (document.getElementById && document.createElement) {
- 			initOctopus();
-	}
- -->
-</script>
-<?php
-if (isset($_GET['message']) && !empty($_GET['message'])) {
-
-	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
-
-	$col_def=strtolower($expString[$length-1]);
-	$expString='lang_Time_Errors_'.$_GET['message'];
-
-	$message = isset($$expString) ? $$expString : $_GET['message'];
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $message; ?>
-	</font>
-<?php }	?>
-<br/>
-<div id="listOfShifts" >
-  <form id="frmListOfShifts" name="frmListOfShifts" method="post" action="?timecode=Time&action=">
-	<table border="0" cellpadding="0" cellspacing="0">
-		<thead>
-			<tr>
-				<th class="tableTopLeft"></th>
-				<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-				<th class="tableTopRight"></th>
-			</tr>
-			<tr>
-				<th class="tableMiddleLeft"></th>
-		    	<th width="25px"></th>
-		    	<th width="200px"><?php echo $lang_Time_ShiftName; ?></th>
-		    	<th width="150px"><?php echo $lang_Time_HoursPerDay; ?></th>
-				<th class="tableMiddleRight"></th>
-			</tr>
-			<tr>
-				<th class="tableMiddleLeft"></th>
-		    	<th class="tableMiddleMiddle"></th>
-		    	<th class="tableMiddleMiddle"></th>
-		    	<th class="tableMiddleMiddle"></th>
-				<th class="tableMiddleRight"></th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-		if (false) {
-			$i=0;
-			foreach ($workshifts as $workshift) {
-				if(!($i%2)) {
-					$cssClass = 'odd';
-			 	} else {
-			 		$cssClass = 'even';
-			 	}
-			 	$i++;
-		?>
-			<tr>
-				<td class="tableMiddleLeft"></td>
-		    	<td class="<?php echo $cssClass; ?>"><input type="checkbox" id="deleteShift[]" name="deleteShift[]" value="<?php echo $workshift->getWorkshiftId(); ?>" /></td>
-		    	<td class="<?php echo $cssClass; ?>"><a href="?timecode=Time&action=Edit_Work_Shift&id=<?php echo $workshift->getWorkshiftId(); ?>"><?php echo $workshift->getName(); ?></a></td>
-		    	<td class="<?php echo $cssClass; ?>"><?php echo $workshift->getHoursPerDay(); ?></td>
-				<td class="tableMiddleRight"></td>
-			</tr>
-		<?php
+	   	</div><br />
+        <img onClick="upateShift();"
+             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
+             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
+             src="../../themes/beyondT/pictures/btn_save.jpg">
+		<script type="text/javascript">
+		<!--
+		    if (document.getElementById && document.createElement) {
+		 			initOctopus();
 			}
-		} else {
-		?>
-			<tr>
-				<td class="tableMiddleLeft"></td>
-				<td></td>
-		    	<td colspan="2"><?php echo $lang_Error_NoRecordsFound; ?></td>
-				<td class="tableMiddleRight"></td>
-			</tr>
-		<?php
-		}
-		?>
-		</tbody>
-		<tfoot>
-		  	<tr>
-				<td class="tableBottomLeft"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomRight"></td>
-			</tr>
-	  	</tfoot>
+		 -->
+		</script>
+		<table border="0">
+		<tr>
+		   	<th width="100" style="align:center;"><?php echo $lang_Time_AvailableEmployees; ?></th>
+			<th width="100"/>
+		   	<th width="125" style="align:center;"><?php echo $lang_Time_AssignedEmployees; ?></th>
+		</tr>
+		<tr><td width="100" >
+			<select size="10" id="cmbAvailableEmployees" name="cmbAvailableEmployees[]" style="width:125px;"
+					multiple="multiple">
+       			<?php
+       				foreach($availableEmployees as $employee) {
+       					$empNum = $employee['emp_number'];
+       					$name = $employee['emp_firstname'] . " " . $employee['emp_lastname'];
+           				echo "<option value='{$empNum}'>{$name}</option>";
+       				}
+				?>
+			</select></td>
+			<td align="center" width="100">
+				<input type="button" name="btnAssignEmployee" id="btnAssignEmployee" onClick="assignEmployee();" value=" <?php echo $lang_compstruct_add; ?> >" style="width:80%"><br><br>
+				<input type="button" name="btnRemoveEmployee" id="btnRemoveEmployee" onClick="removeEmployee();" value="< <?php echo $lang_Leave_Common_Remove; ?>" style="width:80%">
+			</td>
+			<td>
+			<select size="10" name="cmbAssignedEmployees[]" id="cmbAssignedEmployees" style="width:125px;"
+			        multiple="multiple">
+       			<?php
+       				foreach($assignedEmployees as $employee) {
+       					$empNum = $employee['emp_number'];
+       					$name = $employee['emp_firstname'] . " " . $employee['emp_lastname'];
+           				echo "<option value='{$empNum}'>{$name}</option>";
+       				}
+				?>
+			</select></td>
+		</tr>
+
 	</table>
   </form>
 </div>

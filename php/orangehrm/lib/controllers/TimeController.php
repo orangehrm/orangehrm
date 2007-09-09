@@ -1401,6 +1401,24 @@ class TimeController {
 		}
 	}
 
+	public function updateWorkShift() {
+		$obj = $this->getObjTime();
+		$workShift = $obj[0];
+		$assignedEmployees = $obj[1];
+		$id = $workShift->getWorkshiftId();
+
+		try {
+			$workShift->save();
+			$workShift->removeAssignedEmployees();
+			$workShift->assignEmployees($assignedEmployees);
+
+		} catch (WorkshiftException $exception) {
+			$this->redirect('UPDATE_FAILURE', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
+		}
+
+		$this->redirect('UPDATE_SUCCESS', '?timecode=Time&action=View_Edit_Work_Shift&id='.$id);
+	}
+
 	public function deleteWorkShifts() {
 		$workShifts = $this->getObjTime();
 

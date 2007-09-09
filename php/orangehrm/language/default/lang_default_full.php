@@ -1230,10 +1230,14 @@
 	$lang_Time_WorkShifts = "Work Shifts";
 	$lang_Time_ShiftName = "Shift Name";
 	$lang_Time_HoursPerDay = "Hours Per Day";
+	$lang_Time_AvailableEmployees = "Available Employees";
+	$lang_Time_AssignedEmployees = "Assigned Employees";
+	$lang_Time_AssignEmployeesTitle = "Work Shift Edit";
 
 	$lang_Time_Error_SpecifyWorkShiftName = "Specify work shift name";
 	$lang_Time_Error_SpecifyHoursPerDay = "Specify hours per day";
-	$lang_Time_Error_HoursPerDayShouldBePositive = "Hours per day should be positive";
+	$lang_Time_Error_HoursPerDayShouldBePositiveNumber = "Hours per day should be a positive number";
+	$lang_Time_Error_NoEmployeeSelected = "No employee selected";
 
 	$lang_Time_Errors_INVALID_WORK_SHIFT_FAILURE = "There were problems in the work shift details";
 	$lang_Time_Errors_NO_RECORDS_SELECTED_FAILURE = "No records selected to delete";

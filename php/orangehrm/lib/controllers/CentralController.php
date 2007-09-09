@@ -1420,7 +1420,7 @@ switch ($moduletype) {
 																					break;
 													case 'Edit_Work_Shift'		:	$obj = $workShiftExtractor->parseEditData($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->saveWorkShift();
+																					$timeController->updateWorkShift();
 																					break;
 													case 'Delete_Work_Shifts'	:	$objs = $workShiftExtractor->parseDeleteData($_POST);
 																					$timeController->setObjTime($objs);

@@ -79,12 +79,13 @@ function addShift() {
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyWorkShiftName; ?>\n";
 	}
 
-	if ($('txtHoursPerDay').value.trim() == '') {
+	var hoursPerDay = $('txtHoursPerDay').value.trim();
+	if ( hoursPerDay == '') {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyHoursPerDay; ?>\n";
-	} else if (0 >= $('txtHoursPerDay').value.trim()) {
+	} else if (!numbers($('txtHoursPerDay')) || (0 >= hoursPerDay)) {
 		err=true;
-		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositive; ?>\n";
+		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositiveNumber; ?>\n";
 	}
 
 	if (err) {

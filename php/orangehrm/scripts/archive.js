@@ -253,3 +253,49 @@
 
 		return strpagedump;
 	}
+
+	/**
+	 * Move the currently selected options from the 'from' select list to the 'to' select list
+	 *
+	 * @param from From select object
+	 * @param to   To select object
+	 * @errorWhenNotSelected The error message to show if no option selected
+	 */
+	function moveSelectOptions(from, to, errorWhenNotSelected) {
+
+		if (from.selectedIndex == -1) {
+			if (errorWhenNotSelected != "") {
+				alert(errorWhenNotSelected);
+			}
+			return;
+		}
+
+		var fromLength = from.length;
+		var toLength = to.length;
+		var selected = new Array();
+		var numSelected = 0;
+
+		for (i = fromLength - 1; i>=0; i--) {
+			if (from.options[i].selected) {
+
+				selected[numSelected] = from.options[i];
+				from.options[i] = null;
+				numSelected++;
+			}
+		}
+
+		for (i = numSelected - 1; i >= 0; i--) {
+			to.options[toLength] = selected[i];
+			toLength++;
+		}
+	}
+
+	/**
+	 * Select all options of the given select object.
+	 */
+	function selectAllOptions(selectObj) {
+		var selLength = selectObj.length;
+		for (i = 0 ; i < selLength; i++) {
+			selectObj.options[i].selected = true;
+		}
+	}

@@ -61,9 +61,17 @@ class EXTRACTOR_Workshift {
 			$tmpObj->setWorkshiftId($postArr['txtShiftId']);
 			$tmpObj->setName($postArr['txtShiftName']);
 			$tmpObj->setHoursPerDay($postArr['txtHoursPerDay']);
+
+			$assignedEmployees = array();
+			if (isset($postArr['cmbAssignedEmployees']) && is_array($postArr['cmbAssignedEmployees'])) {
+				foreach ($postArr['cmbAssignedEmployees'] as $empNum) {
+					$assignedEmployees[] = $empNum;
+				}
+			}
+
 		}
 
-		return $tmpObj;
+		return array($tmpObj, $assignedEmployees);
 	}
 
 }
