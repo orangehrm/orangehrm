@@ -866,6 +866,7 @@
 	$lang_rep_Education = "Education";
 	$lang_rep_EmploymentStatus = "Employment Status";
 	$lang_rep_ServicePeriod = "Service Period";
+	$lang_rep_JoinedDate = "Joined Date";
 	$lang_rep_JobTitle = "Job Title";
 	$lang_rep_Language = "Language";
 	$lang_rep_Skill = "Skill";
@@ -901,8 +902,8 @@
 	$lang_rep_FieldNotSelected = "Field Not Selected";
 
 	$lang_rep_DateShouldBeNumeric = "Date Should Be Numeric";
-
-	$lang_rep_InvalidDateRange = "Invalid Date Range";
+	$lang_rep_ValueShouldBeinYears = "Value Should Be in Years";
+	$lang_rep_InvalidRange = "Invalid Range";
 
 	$lang_rep_Report = "Report";
 	$lang_rep_EmployeeNo = "Employee No";

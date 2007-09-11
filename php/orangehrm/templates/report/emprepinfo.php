@@ -27,6 +27,7 @@ $locRights = $_SESSION['localRights'];
 $arrAgeSim = $this->popArr['arrAgeSim'];
 $arrEmpType = $this->popArr['arrEmpType'];
 $arrSerPer = $this->popArr['arrSerPer'];
+$arrJoiDat = $this->popArr['arrJoiDat'];
 
 $empInfoObj = new EmpInfo();
 
@@ -213,16 +214,30 @@ function chkboxCriteriaEnable() {
 
 					 						if(!elements[i].checked){
 					 						document.frmEmpRepTo.cmbSerPerCode.options[0].selected = true;
-					 						document.frmEmpRepTo.Service1.value='';
-					 						document.frmEmpRepTo.Service2.value='';
+					 						document.frmEmpRepTo.Service1.value='Type in Years';
+					 						document.frmEmpRepTo.Service2.value='Type in Years';
 					 						document.frmEmpRepTo.Service1.style.visibility = "hidden";
 					 						document.frmEmpRepTo.Service2.style.visibility = "hidden";
-					 						document.frmEmpRepTo.Service1Button.style.visibility = "hidden";
-					 						document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
 
 											document.frmEmpRepTo.Service1.disabled = false;
 					 						document.frmEmpRepTo.Service2.disabled = false;
 					 						} break;
+
+					 	case 'JoinedDate'  : document.frmEmpRepTo.cmbJoiDatCode.disabled= !elements[i].checked;
+											disableJoiDatField()
+
+					 						if(!elements[i].checked){
+					 						document.frmEmpRepTo.cmbJoiDatCode.options[0].selected = true;
+					 						document.frmEmpRepTo.Join1.value='';
+					 						document.frmEmpRepTo.Join2.value='';
+					 						document.frmEmpRepTo.Join1.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Join2.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Join1Button.style.visibility = "hidden";
+					 						document.frmEmpRepTo.Join2Button.style.visibility = "hidden";
+
+					 						} break;
+
+
 					 	case 'JobTitle': document.frmEmpRepTo.cmbDesig.disabled= !elements[i].checked;
 					 						if(!elements[i].checked){
 					 						document.frmEmpRepTo.cmbDesig.options[0].selected = true;
@@ -314,33 +329,55 @@ function disableSerPeriodField() {
 		document.frmEmpRepTo.Service2.disabled = true;
 		document.frmEmpRepTo.Service1.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
-		document.frmEmpRepTo.Service1Button.style.visibility = "hidden";
-		document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=="range") {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = false;
-		document.frmEmpRepTo.Service1Button.disabled = false;
-		document.frmEmpRepTo.Service2Button.disabled = false;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "visible";
-		document.frmEmpRepTo.Service1Button.style.visibility = "visible";
-		document.frmEmpRepTo.Service2Button.style.visibility = "visible";
 		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = true;
-		document.frmEmpRepTo.Service1Button.disabled = false;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
-		document.frmEmpRepTo.Service2.value='';
-		document.frmEmpRepTo.Service1Button.style.visibility = "visible";
-		document.frmEmpRepTo.Service2Button.style.visibility = "hidden";
+		document.frmEmpRepTo.Service2.value='Type in Years';
 		return;
 	}
 }
 
 
+function disableJoiDatField() {
+	if(document.frmEmpRepTo.cmbJoiDatCode.value=="0") {
+		document.frmEmpRepTo.Join1.disabled = true;
+		document.frmEmpRepTo.Join2.disabled = true;
+		document.frmEmpRepTo.Join1.style.visibility = "hidden";
+		document.frmEmpRepTo.Join2.style.visibility = "hidden";
+		document.frmEmpRepTo.Join1Button.style.visibility = "hidden";
+		document.frmEmpRepTo.Join2Button.style.visibility = "hidden";
+		return;
+	} else if(document.frmEmpRepTo.cmbJoiDatCode.value=="range") {
+		document.frmEmpRepTo.Join1.disabled = false;
+		document.frmEmpRepTo.Join2.disabled = false;
+		document.frmEmpRepTo.Join1Button.disabled = false;
+		document.frmEmpRepTo.Join2Button.disabled = false;
+		document.frmEmpRepTo.Join1.style.visibility = "visible";
+		document.frmEmpRepTo.Join2.style.visibility = "visible";
+		document.frmEmpRepTo.Join1Button.style.visibility = "visible";
+		document.frmEmpRepTo.Join2Button.style.visibility = "visible";
+		return;
+	} else if(document.frmEmpRepTo.cmbJoiDatCode.value=='<' || document.frmEmpRepTo.cmbJoiDatCode.value=='>') {
+		document.frmEmpRepTo.Join1.disabled = false;
+		document.frmEmpRepTo.Join2.disabled = true;
+		document.frmEmpRepTo.Join1Button.disabled = false;
+		document.frmEmpRepTo.Join1.style.visibility = "visible";
+		document.frmEmpRepTo.Join2.style.visibility = "hidden";
+		document.frmEmpRepTo.Join2.value='';
+		document.frmEmpRepTo.Join1Button.style.visibility = "visible";
+		document.frmEmpRepTo.Join2Button.style.visibility = "hidden";
+		return;
+	}
+}
 
 
  function addEXT() {
@@ -443,24 +480,24 @@ function disableSerPeriodField() {
 												alert("<?php echo $lang_rep_SelectTheComparison; ?>");
 												document.frmEmpRepTo.cmbSerPerCode.focus();
 												return false;
-											} /*
+											}
 
 											else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='range') {
 
 												if(!numeric(document.frmEmpRepTo.Service1)) {
-													alert("<?php echo $lang_rep_DateShouldBeNumeric; ?>");
+													alert("<?php echo $lang_rep_ValueShouldBeinYears; ?>");
 													document.frmEmpRepTo.Service1.focus();
 													return false;
 												}
 
 												if(!numeric(document.frmEmpRepTo.Service2)) {
-													alert("<?php echo $lang_rep_DateShouldBeNumeric; ?>");
+													alert("<?php echo $lang_rep_ValueShouldBeinYears; ?>");
 													document.frmEmpRepTo.Service2.focus();
 													return false;
 												}
 
 												if(eval(document.frmEmpRepTo.Service1.value) > eval(document.frmEmpRepTo.Service2.value)) {
-													alert("<?php echo $lang_rep_InvalidAgeRange; ?>");
+													alert("<?php echo $lang_rep_InvalidRange; ?>");
 													document.frmEmpRepTo.Service2.focus();
 													return false;
 												}
@@ -469,43 +506,51 @@ function disableSerPeriodField() {
 											} else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
 
 												if(!numeric(document.frmEmpRepTo.Service1)) {
-													alert("<?php echo $lang_rep_AgeShouldBeNumeric; ?>");
+													alert("<?php echo $lang_rep_ValueShouldBeinYears; ?>");
 													document.frmEmpRepTo.Service1.focus();
 													return false;
 												}
 											}
 
-											*/
 
-											/* New dates functionality */
+											break;
 
-											else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='range') {
+						// Joined Date
 
-												if(!validDate(document.frmEmpRepTo.Service1.value)) {
+						case 'JoinedDate'  :
+											if(elements[i].checked && document.frmEmpRepTo.cmbJoiDatCode.value=="0") {
+												alert("<?php echo $lang_rep_SelectTheComparison; ?>");
+												document.frmEmpRepTo.cmbJoiDatCode.focus();
+												return false;
+											}
+
+											else if(elements[i].checked && document.frmEmpRepTo.cmbJoiDatCode.value=='range') {
+
+												if(!validDate(document.frmEmpRepTo.Join1.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Service1.focus();
+													document.frmEmpRepTo.Join1.focus();
 													return false;
 												}
 
-												if(!validDate(document.frmEmpRepTo.Service2.value)) {
+												if(!validDate(document.frmEmpRepTo.Join2.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Service2.focus();
+													document.frmEmpRepTo.Join2.focus();
 													return false;
 												}
 
 
-												if(strToDate(document.frmEmpRepTo.Service1.value) > strToDate(document.frmEmpRepTo.Service2.value)) {
-													alert("<?php echo $lang_rep_InvalidDateRange; ?>");
-													document.frmEmpRepTo.Service2.focus();
+												if(strToDate(document.frmEmpRepTo.Join1.value) > strToDate(document.frmEmpRepTo.Join2.value)) {
+													alert("<?php echo $lang_rep_InvalidRange; ?>");
+													document.frmEmpRepTo.Join2.focus();
 													return false;
 												}
 
 
-											} else if(elements[i].checked && document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
+											} else if(elements[i].checked && document.frmEmpRepTo.cmbJoiDatCode.value=='<' || document.frmEmpRepTo.cmbJoiDatCode.value=='>') {
 
-												if(!validDate(document.frmEmpRepTo.Service1.value)) {
+												if(!validDate(document.frmEmpRepTo.Join1.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Service1.focus();
+													document.frmEmpRepTo.Join1.focus();
 													return false;
 												}
 											}
@@ -513,6 +558,10 @@ function disableSerPeriodField() {
 
 
 											break;
+
+
+
+		// Joined Date Ends
 
 						case 'JobTitle':	if(elements[i].checked && document.frmEmpRepTo.cmbDesig.value=='0') {
 												alert("<?php echo $lang_Common_FieldEmpty; ?>");
@@ -541,7 +590,7 @@ function disableSerPeriodField() {
  return true;
  }
 
-
+// Remove later
 	function selectFromDate() {
 		YAHOO.OrangeHRM.calendar.pop('Service1', 'cal1Container', 'yyyy-MM-dd');
 	}
@@ -549,6 +598,17 @@ function disableSerPeriodField() {
 	function selectToDate() {
 		YAHOO.OrangeHRM.calendar.pop('Service2', 'cal1Container', 'yyyy-MM-dd');
 	}
+
+// Remove later ends
+
+	function selectFromDate() {
+		YAHOO.OrangeHRM.calendar.pop('Join1', 'cal1Container', 'yyyy-MM-dd');
+	}
+
+	function selectToDate() {
+		YAHOO.OrangeHRM.calendar.pop('Join2', 'cal1Container', 'yyyy-MM-dd');
+	}
+
 
 	YAHOO.OrangeHRM.container.init();
 
@@ -717,7 +777,7 @@ for ($c = 0; $arrEmpType && count($arrEmpType) > $c; $c++)
 					</tr>
 
 
-
+<?php //Service Period ?>
 					<tr>
 					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
 					  <td valign="top"><?php echo $lang_rep_ServicePeriod; ?></td>
@@ -736,14 +796,43 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 ?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" id="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : ''?>" >
-				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1Button"/>
+				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" id="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'Type in Years'?>" >
 				        </td>
-                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" id="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : ''?>" >
-                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2Button"/>
+                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" id="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'Type in Years'?>" >
+                        </td>
+					</tr>
+<?php //Service Period  ?>
+
+<?php //Joined-Date ?>
+
+					<tr>
+					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					  <td valign="top"><?php echo $lang_rep_JoinedDate; ?></td>
+					    <td align="left" valign="middle"> <select  name="cmbJoiDatCode" onChange="disableJoiDatField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
+					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<?php
+
+$keys = array_keys($arrJoiDat);
+$values = array_values($arrJoiDat);
+
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbJoiDatCode']) && $this->postArr['cmbJoiDatCode'] == $values[$c])
+		echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	else
+		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+?>
+					     </select>
+					  	</td>
+				        <td><input type="text" <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1" id="Join1" value="<?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : ''?>" >
+				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1Button"/>
+				        </td>
+                        <td><input type="text" <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2" id="Join2" value="<?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : ''?>" >
+                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2Button"/>
                         </td>
 					</tr>
 
+
+<?php //Joined-Date-Ends  ?>
 
    					<tr>
 					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
@@ -1147,7 +1236,7 @@ for ($c = 0; count($arrEmpType) > $c; $c++)
 					</tr>
 
 
-
+<?php // Service Period ?>
 					<tr>
 					   <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SERPIR',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
 					  <td valign="top"><?php echo $lang_rep_ServicePeriod; ?></td>
@@ -1155,8 +1244,8 @@ for ($c = 0; count($arrEmpType) > $c; $c++)
 					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
-$keys = array_keys($arrAgeSim);
-$values = array_values($arrAgeSim);
+$keys = array_keys($arrSerPer);
+$values = array_values($arrSerPer);
 
 for ($c = 0; count($arrAgeSim) > $c; $c++)
 	if (isset ($this->postArr['cmbSerPerCode'])) {
@@ -1173,13 +1262,50 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 ?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : ''?>" id="Service1">
-				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> name="Service1Button"/>
+				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : 'Type in Years'?>" id="Service1">
 				        </td>
-                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : ''?>"  id="Service2">
-                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> name="Service2Button"/>
+                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : 'Type in Years'?>"  id="Service2">
+                         </td>
+					</tr>
+
+<?php // Service Period Ends ?>
+
+
+<?php // Joined Date ?>
+					<tr>
+					   <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOIDAT',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+					  <td valign="top"><?php echo $lang_rep_JoinedDate; ?></td>
+					    <td align="left" valign="middle"> <select  name="cmbJoiDatCode" onChange="disableJoiDatField()"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
+					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<?php
+
+$keys = array_keys($arrJoiDat);
+$values = array_values($arrJoiDat);
+
+for ($c = 0; count($arrAgeSim) > $c; $c++)
+	if (isset ($this->postArr['cmbJoiDatCode'])) {
+		if ($this->postArr['cmbJoiDatCode'] == $values[$c])
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	} else {
+		if (isset ($criteriaData['JOIDAT'][0]) && ($criteriaData['JOIDAT'][0] == $values[$c]))
+			echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+		else
+			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
+	}
+?>
+					     </select>
+					  	</td>
+				        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join1" value="<?php echo isset($criteriaData['JOIDAT'][1]) ? $criteriaData['JOIDAT'][1] : ''?>" id="Join1">
+				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> name="Join1Button"/>
+				        </td>
+                        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join2" value="<?php echo isset($criteriaData['JOIDAT'][2]) ? $criteriaData['JOIDAT'][2] : ''?>"  id="Join2">
+                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> name="Join2Button"/>
                         </td>
 					</tr>
+
+<?php // Joined Date Ends ?>
 
    					<tr>
 					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOBTITLE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>

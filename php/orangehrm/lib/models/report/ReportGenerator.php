@@ -108,13 +108,13 @@ class ReportGenerator {
  		}
 
 
+		// Service Period
 
  		if(isset($this->criteria['SERPIR'])){
  			$parameter = $this->criteria['SERPIR'];
  			$pointer = explode('|',$parameter);
 
-			//$criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
-			$criteriaValue['SERPIR1'] = '\'' . $pointer[1] . '\'';
+			$criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
 			$criteriaField['SERPIR1'] = 'a.JOINED_DATE';
 			$criteriaTable['SERPIR1'] = 'HS_HR_EMPLOYEE a';
 
@@ -123,13 +123,40 @@ class ReportGenerator {
 				case '>' 	 : $criteriaComOper['SERPIR1'] = ">"; break;
 				case 'range' : $criteriaComOper['SERPIR1'] = "<";
 					           //$criteriaValue['SERPIR2'] = '\'' . $this->ageToYear($pointer[2]) . '\'';
-					           $criteriaValue['SERPIR1'] = '\'' . $pointer[2] . '\'';
-					           $criteriaValue['SERPIR2'] = '\'' . $pointer[1] . '\'';
+					           $criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
+					           $criteriaValue['SERPIR2'] = '\'' . $this->ageToYear($pointer[2]) . '\'';
 							   $criteriaField['SERPIR2'] = 'a.JOINED_DATE';
 							   $criteriaTable['SERPIR2'] = 'HS_HR_EMPLOYEE a';
 							   $criteriaComOper['SERPIR2'] = ">";
 			}
  		}
+
+ 		// Service Period Ends
+
+ 		// Joined Date
+
+ 		if(isset($this->criteria['JOIDAT'])){
+ 			$parameter = $this->criteria['JOIDAT'];
+ 			$pointer = explode('|',$parameter);
+
+			//$criteriaValue['SERPIR1'] = '\'' . $this->ageToYear($pointer[1]) . '\'';
+			$criteriaValue['JOIDAT1'] = '\'' . $pointer[1] . '\'';
+			$criteriaField['JOIDAT1'] = 'a.JOINED_DATE';
+			$criteriaTable['JOIDAT1'] = 'HS_HR_EMPLOYEE a';
+
+			switch ($pointer[0]) {
+				case '<' 	 : $criteriaComOper['JOIDAT1'] = "<"; break;
+				case '>' 	 : $criteriaComOper['JOIDAT1'] = ">"; break;
+				case 'range' : $criteriaComOper['JOIDAT1'] = "<";
+					           $criteriaValue['JOIDAT1'] = '\'' . $pointer[2] . '\'';
+					           $criteriaValue['JOIDAT2'] = '\'' . $pointer[1] . '\'';
+							   $criteriaField['JOIDAT2'] = 'a.JOINED_DATE';
+							   $criteriaTable['JOIDAT2'] = 'HS_HR_EMPLOYEE a';
+							   $criteriaComOper['JOIDAT2'] = ">";
+			}
+ 		}
+
+ 		// Joined Date Ends
 
 
  		if(isset($this->criteria['QUL'])){

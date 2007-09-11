@@ -273,7 +273,8 @@ class RepViewController {
 
 							$form_creator->popArr['arrAgeSim'] = array ('Less Than' => '>','Greater Than' =>'<','Range' =>'range');
 							//$form_creator->popArr['arrEmpType']= array( 'Permanent', 'Expatriate', 'Contract', 'Temporary' , 'Others');
-							$form_creator->popArr['arrSerPer'] = array ('Joined After' => '>','Joined Before' =>'<','Joined In Between' =>'range');
+							$form_creator->popArr['arrSerPer'] = array ('Less Than' => '>','Greater Than' =>'<','Range' =>'range');
+							$form_creator->popArr['arrJoiDat'] = array ('Joined After' => '>','Joined Before' =>'<','Joined In Between' =>'range');
 
 							$report = new EmpReport();
 							$empinfo = new EmpInfo();

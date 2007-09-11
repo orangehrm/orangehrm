@@ -63,6 +63,8 @@ class EXTRACTOR_EmpReport {
 				$criteriaStr .= '|EMPSTATUS=' . $postArr['cmbEmpType'];
 			}
 
+			// Service Period
+
 			if(in_array('SERPIR',$criteriaArr)){
 
 				switch ($postArr['cmbSerPerCode']) {
@@ -78,6 +80,28 @@ class EXTRACTOR_EmpReport {
 				}
 
 			}
+
+			// Service Period Ends
+
+			// Joined Date
+
+			if(in_array('JOIDAT',$criteriaArr)){
+
+				switch ($postArr['cmbJoiDatCode']) {
+
+					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' .$postArr['Join1'];
+									 break;
+
+					case '>' 	 :	$criteriaStr .= '|JOIDAT=>='.$postArr['Join1'];
+									 break;
+
+					case 'range' :	$criteriaStr .= '|JOIDAT=range='.$postArr['Join1'] . '=' .$postArr['Join2'];
+
+				}
+
+			}
+
+			// Joined Date Ends
 
 			if(in_array('JOBTITLE',$criteriaArr)){
 				$criteriaStr .= '|JOBTITLE=' . $postArr['cmbDesig'];
@@ -162,6 +186,26 @@ class EXTRACTOR_EmpReport {
 				}
 
 			}
+
+			// Joined Date
+
+			if(in_array('JOIDAT',$criteriaArr)){
+
+				switch ($postArr['cmbJoiDatCode']) {
+
+					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' .$postArr['Join1'];
+									 break;
+
+					case '>' 	 :	$criteriaStr .= '|JOIDAT=>='.$postArr['Join1'];
+									 break;
+
+					case 'range' :	$criteriaStr .= '|JOIDAT=range='.$postArr['Join1'] . '=' .$postArr['Join2'];
+
+				}
+
+			}
+
+			// Joined Date Ends
 
 			if(in_array('JOBTITLE',$criteriaArr)){
 				$criteriaStr .= '|JOBTITLE=' . $postArr['cmbDesig'];
