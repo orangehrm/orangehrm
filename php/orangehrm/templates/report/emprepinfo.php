@@ -590,17 +590,6 @@ function disableJoiDatField() {
  return true;
  }
 
-// Remove later
-	function selectFromDate() {
-		YAHOO.OrangeHRM.calendar.pop('Service1', 'cal1Container', 'yyyy-MM-dd');
-	}
-
-	function selectToDate() {
-		YAHOO.OrangeHRM.calendar.pop('Service2', 'cal1Container', 'yyyy-MM-dd');
-	}
-
-// Remove later ends
-
 	function selectFromDate() {
 		YAHOO.OrangeHRM.calendar.pop('Join1', 'cal1Container', 'yyyy-MM-dd');
 	}
@@ -788,7 +777,7 @@ for ($c = 0; $arrEmpType && count($arrEmpType) > $c; $c++)
 $keys = array_keys($arrSerPer);
 $values = array_values($arrSerPer);
 
-for ($c = 0; count($arrAgeSim) > $c; $c++)
+for ($c = 0; count($arrSerPer) > $c; $c++)
 	if (isset ($this->postArr['cmbSerPerCode']) && $this->postArr['cmbSerPerCode'] == $values[$c])
 		echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 	else
@@ -815,7 +804,7 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 $keys = array_keys($arrJoiDat);
 $values = array_values($arrJoiDat);
 
-for ($c = 0; count($arrAgeSim) > $c; $c++)
+for ($c = 0; count($arrJoiDat) > $c; $c++)
 	if (isset ($this->postArr['cmbJoiDatCode']) && $this->postArr['cmbJoiDatCode'] == $values[$c])
 		echo "<option selected value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 	else
