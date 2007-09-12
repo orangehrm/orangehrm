@@ -45,7 +45,6 @@
 
 	//leave
 	$lang_Error_PleaseSelectAValidFromDate 			= "aub Selecteer een geldige begindatum";
-	$lang_Error_PleaseSelectAValidToDate 			= "Selecteer aub een geldige einddatum";
 	$lang_Error_PleaseSelectALeaveType 				= "aub Selecteer een verlof type";
 
 	$lang_Error_LeaveDateCannotBeABlankValue 		= "Verlofdatum mag geen blanco veld zijn!";
@@ -91,7 +90,7 @@
 	$lang_Error_FieldShouldBeNumeric					= "Veld moet numeriek zijn";
 
 	$lang_Error_FieldShouldBeSelected					= "Veld moet geselecteerd zijn";
-	$lang_Error_SelectAtLeastOneCheckBox 				= "Selecteer tenminste een vak";
+	$lang_Error_SelectAtLeastOneCheckBox 				= "Selecteer minimaal een vak";
 
 	/**
 	 * Menu Items
@@ -105,7 +104,6 @@
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
 
-	$lang_Menu_Ess								= "ESS";
 	$lang_Menu_Ess								= "Persoonlijke informatie";
 
 	// Admin Module
@@ -145,29 +143,29 @@
 
 	$lang_Menu_Admin_EmailNotifications = "E-mail notificatie";
 	$lang_Menu_Admin_EmailConfiguration = "Configuratie";
-	$lang_Menu_Admin_EmailSubscribe = "Omschrijf";
+	$lang_Menu_Admin_EmailSubscribe = "Schrijf in";
 	$lang_Menu_Admin_Customers = "Klanten";
 	$lang_Menu_Admin_Projects = "Projecten";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Verlof";
 	$lang_Menu_Leave_PersonalLeaveSummary 				= "Persoonlijk verlof";
-	$lang_Menu_Leave_EmployeeLeaveSummary 				= "verlof werknemer";
-	$lang_Menu_Leave_LeaveSummary 						= "Verlof redenen";
+	$lang_Menu_Leave_EmployeeLeaveSummary 				= "Verlof werknemer";
+	$lang_Menu_Leave_LeaveSummary 						= "Verlof totalen";
 	$lang_Menu_Leave_LeavesList 						= "Overzicht verlof";
 	$lang_Menu_Leave_ApproveLeave 						= "Goedkeuring verlof";
 	$lang_Menu_Leave_LeaveTypes 						= "Type verlof";
-	$lang_Menu_Leave_Apply 								= "Toepassen";
+	$lang_Menu_Leave_Apply 								= "Verlof aanvragen";
 	$lang_Menu_Leave_Assign								= "Verlof toewijzen";
 	$lang_Menu_Leave_LeaveList 							= "Overzicht verlof";
 	$lang_Menu_Leave_DefineDaysOff 						= "Vrije dagen";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekeindes";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specifieke vakantiedagen";
 
- 	$lang_Leave_Title_Apply_Leave 						= "Verlof toepassen";
+ 	$lang_Leave_Title_Apply_Leave 						= "Verlof aanvragen";
  	$lang_Leave_Title_Assign_Leave 						= "Verlof toewijzen";
-	$lang_Leave_APPLY_SUCCESS 						= "Succesvol toegepast";
-	$lang_Leave_APPLY_FAILURE 						= "Toepassen mislukt";
+	$lang_Leave_APPLY_SUCCESS 						= "Succesvol aangevraagd";
+	$lang_Leave_APPLY_FAILURE 						= "Aanvraag mislukt";
 	$lang_Leave_APPROVE_SUCCESS 						= "Verlof toegekend";
 	$lang_Leave_APPROVE_FAILURE 						= "Verlof toekennen mislukt";
 
@@ -212,9 +210,6 @@
 	$lang_Common_Saturday 					= "zaterdag";
 	$lang_Common_Sunday 					= "zondag";
 
-	$lang_Common_Sort_ASC = "Oplopend";
-	$lang_Common_Sort_DESC = "Aflopend";
-
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
 	// admin module
@@ -228,11 +223,10 @@
 	$lang_Leave_Common_ToDate 				= "Tot";
 
 	$lang_Leave_Common_LeaveQuotaNotAllocated = "Verlof quota niet toegewezen. Raadpleeg de administrator";
-
 	$lang_Leave_Common_LeaveType 			= "Verlof type";
 	$lang_Leave_Common_Status 				= "Status";
 	$lang_Leave_Common_Length 				= "Volledige dag/halve dag";
-	$lang_Leave_Common_Range 				= "Volgorde";
+	$lang_Leave_Common_Range 				= "Meerdere dagen";
 	$lang_Leave_Common_Comments 			= "Notities";
 	$lang_Leave_Common_Comment 				= "Notitie";
 	$lang_Leave_Common_Approved 			= "Akkoord";
@@ -247,14 +241,13 @@
 	$lang_Leave_Common_HalfDay 				= "Halve dag";
 	$lang_Leave_Common_LeaveTaken 			= "Opgenomen vrije dag";
 	$lang_Leave_Common_LeaveAvailable 		= "Mogelijke vrije dagen";
-	$lang_Leave_Common_LeaveScheduled 		= "Verlog gepland";
 	$lang_Leave_Common_LeaveTypeName 		= "Titel van vrije dag";
 	$lang_Leave_Common_LeaveTypeId 			= "Vrije dag type Id";
 	$lang_Leave_Common_Select 				= "Selecteer";
 	$lang_Leave_Common_oldLeaveTypeName 	= "Bestaande titel vrije dagen";
 	$lang_Leave_Common_newLeaveTypeName 	= "Nieuwe titel vrije dagen";
 	$lang_Leave_Common_EmployeeName 		= "Naam werknemer";
-	$lang_Leave_Common_LeaveEntitled 		= "Verlof goedgekeurd";
+	$lang_Leave_Common_LeaveEntitled 		= "Toegewezen dagen";
 	$lang_Leave_Common_Year 				= "Jaar";
 	$lang_Leave_Common_ListOfTakenLeave 	= "Opgenomen verlof dagen";
 	$lang_Leave_Common_Remove 				= "Annuleren";
@@ -344,7 +337,7 @@
  	$lang_eeojobcat_heading 						= "Baan : EEO Baan categorie";
 	$lang_eeojobcat_description 					= "Titel";
 
- 	$lang_electorateinformation_heading 			= "Electoraat informatie : Geografische information";
+ 	$lang_electorateinformation_heading 			= "Electoraat informatie : Geografische informatie";
 	$lang_emprepinfo_heading						= "Definieer werknemers rapporten";
 
  	$lang_emptypes_heading 					= "Werknemer types : Nexus Informatie";
@@ -371,15 +364,15 @@
 	$lang_empview_ADD_SUCCESS 				= "Toevoegen succesvol";
 	$lang_empview_UPDATE_SUCCESS 			= "Wijziging succesvol";
 	$lang_empview_DELETE_SUCCESS 			= "Verwijderen succesvol";
-	$lang_empview_ADD_FAILURE 				= "Toegevoegen gefaald";
-	$lang_empview_UPDATE_FAILURE 			= "Wijzigen gefaald";
-	$lang_empview_DELETE_FAILURE 			= "Verwijderen gefaald";
+	$lang_empview_ADD_FAILURE 				= "Toegevoegen mislukt";
+	$lang_empview_UPDATE_FAILURE 			= "Wijzigen mislukt";
+	$lang_empview_DELETE_FAILURE 			= "Verwijderen mislukt";
 	$lang_empview_Language 					= "Talen";
 	$lang_empview_WorkExperience 			= "Werkervaring";
 	$lang_empview_Payment 					= "Betaling";
 	$lang_empview_Skills 					= "Vaardigheden";
 	$lang_empview_Licenses 					= "Certificaten";
-	$lang_empview_EmployeeInformation 		= "werknemer informatie";
+	$lang_empview_EmployeeInformation 		= "Werknemer informatie";
 	$lang_empview_Memberships 				= "Lid van";
 	$lang_empview_Report 					= "Rapport";
 	$lang_empview_ReportTo					= "Rapporteert aan";
@@ -461,8 +454,7 @@
 	$lang_hremp_size 						= "Omvang";
 	$lang_hremp_type 						= "Type";
 	$lang_hremp_name 						= "Naam";
-	$lang_hremp_InvalidPhone				= "Niet een geldig telefoon/fax nummer";
-	$lang_hremp_largefileignore				= "1M max, groter wordt geweigerd";
+	$lang_hremp_largefileignore				= "1MB max, groter wordt geweigerd";
 	$lang_lang_uploadfailed					= "Upload fout";
 
 	$lang_hremp_browse						= "Zoeken";
@@ -472,7 +464,7 @@
 	$lang_hremp_SelectAPhoto				= "Selecteer een foto";
 
 	$lang_hremp_IssedDateShouldBeBeforeExp	= "Verwerkings dag moet voor einddatum zijn";
-	$lang_hremp_FromDateShouldBeBeforeToDate= "Van datum moet voor tot datum";
+	$lang_hremp_FromDateShouldBeBeforeToDate= "Vanaf-datum moet voor tot-datum";
 	$lang_hremp_StaringDateShouldBeBeforeEnd= "Begin dag moet voor eind dag";
 
 	$lang_hremp_ContractExtensionStartDate	= "Contract verlenging begindatum";
@@ -505,10 +497,8 @@
 
 	$lang_hremp_PleaseSelectJobTitle= "aub Selecteer een functie voor deze werknemer {here}";
 
-	$lang_hremp_ie_CurrentSupervisors 		= "B.v. huidige manager van medewerker";
-	$lang_hremp_ie_CurrentSubordinates 		= "B.v. huidige ondergeschikten van medewerker";
-
-	$lang_hremp_ie_PleaseSpecifyAtLeastOnePhoneNo = "Specificeer aub minsten 1 telefoonnummer";
+	$lang_hremp_ie_CurrentSupervisors 		= "Werknemers huidige manager";
+	$lang_hremp_ie_CurrentSubordinates 		= "Werknemers huidige ondergeschikten";
 
  	$lang_hremplicenses_employeelicen 		= "Werknemers cerficaten";
 	$lang_hremplicenses_assignlicenses 		= "Toegekende certificaten";
@@ -550,7 +540,7 @@
 	$lang_hrEmpMain_bassalary 				= "Basis salaris";
 	$lang_hrEmpMain_assignedsalary 			= "Toegekend salaris";
 
- 	$lang_hrEmpMain_heading 				= "werknemers rapport";
+ 	$lang_hrEmpMain_heading 				= "Werknemers rapport";
 	$lang_hrEmpMain_supervisorsubordinator 	= "Manager / ondergeschikten";
 	$lang_hrEmpMain_reportingmethod 		= "Rapporteer methode";
 	$lang_hrEmpMain_subordinateinfomation 	= "Informatie ondergeschikten";
@@ -748,9 +738,9 @@
 	$lang_MailFrom = "E-mail gestuurd vanaf";
 	$lang_MailSendingMethod = "Verzendmethode";
 	$lang_MailTypes_Mail = "Intern PHP functie";
-	$lang_MailTypes_Sendmailer = "Stuur E-mail";
+	$lang_MailTypes_Sendmailer = "SendMail";
 	$lang_MailTypes_Smtp = "SMTP";
-	$lang_SendmailPath = "Pad naar Sendmail";
+	$lang_SendmailPath = "Pad naar SendMail";
 	$lang_SmtpHost = "SMTP Host";
 	$lang_SmtpPort = "SMTP poort";
 	$lang_SmtpUser = "SMTP gebruiker";
@@ -855,7 +845,7 @@
 	// Email Notification Subscription
 	$lang_Admin_EMX_MailConfiguration = "Mail Configuratie";
 	$lang_Admin_SubscribeToMailNotifications = "Een notificatie per E-mail";
-	$lang_Admin_ENS_LeaveApplications = "Verlof aanvragen";
+	$lang_Admin_ENS_LeaveApplications = "Verlofaanvragen";
 	$lang_Admin_ENS_LeaveApprovals = "Goedgekeurd verlof";
 	$lang_Admin_ENS_LeaveCancellations = "Geannuleerd verlof";
 	$lang_Admin_ENS_LeaveRejections = "Geweigerd verlof";
@@ -881,7 +871,6 @@
 
 	$lang_Admin_Users_UserName = "Gebruikersnaam";
 	$lang_Admin_Users_Password = "Wachtwoord";
-	$lang_Admin_Users_Employee = "Medewerker";
 
 	$lang_Admin_Users_ConfirmPassword = "Wachtwoord bevestingen";
 
@@ -922,7 +911,6 @@
 
 	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Geef aub het klant ID op";
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Geef aub de naam op";
-
 	//timesheet
 	$lang_Time_Timesheet_TimesheetForViewTitle = "Urenstaat voor #periodName startend #startDate";
 	$lang_Time_Timesheet_TimesheetForEditTitle = "Wijzig urenstaat voor #periodName startend #startDate";
@@ -954,16 +942,16 @@
 	$lang_Time_Errors_REJECT_FAILURE = "Afwijzen mislukt";
 	$lang_Time_Errors_DELETE_SUCCESS = "Succesvol verwijderd";
 	$lang_Time_Errors_DELETE_FAILURE = "Verwijderen mislukt";
-	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "U bent niet gemachtigt om deze handeling te doen";
+	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "U bent niet gemachtigd om deze handeling te doen";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "Geen urenstaat gevonden";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "De volgende problemen zijn gevonden";
-	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Datum niet opgegeven";
-	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Project niet opgegeven";
-	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Klant niet opgegeven";
-	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR = "Ongeldige tijd of nul of negative interval opgegeven";
-	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR = "Niet toegestaan om tijdsduur en interval op te geven tenzij ze overeen komen";
+	$lang_Time_Errors_ReportedDateNotSpecified = "Datum niet opgegeven";
+	$lang_Time_Errors_ProjectNotSpecified = "Project niet opgegeven";
+	$lang_Time_Errors_CustomerNotSpecified = "Klant niet opgegeven";
+	$lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified = "Ongeldige tijd of nul of negative interval opgegeven";
+	$lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval = "Niet toegestaan om tijdsduur en interval op te geven tenzij ze overeen komen";
 
 	$lang_Time_Timesheet_StartTime = "Start tijd";
 	$lang_Time_Timesheet_EndTime = "Eind tijd";
@@ -982,11 +970,4 @@
 	$lang_Time_Select_Employee_TimesheetPeriod = "Urenstaat periode";
 
 	$lang_Time_Errors_PleaseAddAComment = "Voeg commentaar toe";
-
-	$lang_mtview_ADD_SUCCESS 				= "Succesvol toegevoegd";
-	$lang_mtview_UPDATE_SUCCESS 			= "Succesvol ge-update";
-	$lang_mtview_DELETE_SUCCESS 			= "Succesvol verwijderd";
-	$lang_mtview_ADD_FAILURE 				= "Toevoegen mislukt";
-	$lang_mtview_UPDATE_FAILURE 			= "Updaten mislukt";
-	$lang_mtview_DELETE_FAILURE 			= "Verwijderen mislukt";
 ?>
