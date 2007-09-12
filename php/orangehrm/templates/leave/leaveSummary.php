@@ -360,10 +360,8 @@
 												      echo "0.00";
 												   } ?></td>
 
-    <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available']) && $record['leave_available'] >= 0) {
+    <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available'])) {
 												    echo number_format(round($record['leave_available'], 2), 2);
-    										   } else {
-    										   		echo "0.00";
     										   } ?></td>
 	<td class="tableMiddleRight"></td>
   </tr>
