@@ -573,8 +573,6 @@ class Leave {
 
 		if (isset($this->weekends[date('N', strtotime($date))-1])) {
 			$timeOff = $this->weekends[date('N', strtotime($date))-1]->getLength();
-
-			print_r($this->weekends[date('N', strtotime($date))-1]);
 		}
 
 
