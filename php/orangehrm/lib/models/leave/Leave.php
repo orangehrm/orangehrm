@@ -421,6 +421,9 @@ class Leave {
 			$shift = $workShift->getHoursPerDay();
 		}
 
+		$hours=$shift;
+		$days=1;
+
 		if ($this->getLeaveLengthHours() != null) {
 			$hours = $this->getLeaveLengthHours()-$timeOff;
 			$days = round(($hours/$shift), 2);
@@ -567,18 +570,20 @@ class Leave {
 	 */
 	protected function _timeOffLength($date) {
 		$timeOff = 0;
+
 		if (isset($this->weekends[date('N', strtotime($date))-1])) {
 			$timeOff = $this->weekends[date('N', strtotime($date))-1]->getLength();
+
+			print_r($this->weekends[date('N', strtotime($date))-1]);
 		}
 
-		if ($timeOff != Weekends::WEEKENDS_LENGTH_WEEKEND) {
-			$holidaysObj = new Holidays();
 
-			$length = $holidaysObj->isHoliday($date);
+		$holidaysObj = new Holidays();
 
-			if ($length > $timeOff) {
-				return $length;
-			}
+		$length = $holidaysObj->isHoliday($date);
+
+		if ($length > $timeOff) {
+				$timeOff = $length;
 		}
 
 		return $timeOff;
