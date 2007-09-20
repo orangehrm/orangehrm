@@ -3,6 +3,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	BugId     Name
 	1786631   Report - Service period should be a date range
 	1798542   Incorrect leave notification when applying range of leaves
+	1774620   All the Activies are not listed in the Time sheet view
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 

@@ -1134,24 +1134,26 @@ class TimeController {
 
 		for ($i=0; $i<count($timeEvents); $i++) {
 			$projectId=$timeEvents[$i]->getProjectId();
+			$activityId=$timeEvents[$i]->getActivityId();
+
 			if ($timeEvents[$i]->getStartTime() != null) {
 				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getStartTime())));
 			} else {
 				$expenseDate=strtotime(date('Y-m-d', strtotime($timeEvents[$i]->getReportedDate())));
 			}
-			if (!isset($durationArr[$projectId][$expenseDate])) {
-				$durationArr[$projectId][$expenseDate]=0;
+			if (!isset($durationArr[$projectId][$activityId][$expenseDate])) {
+				$durationArr[$projectId][$activityId][$expenseDate]=0;
 			}
 			if (!isset($dailySum[$expenseDate])) {
 				$dailySum[$expenseDate]=0;
 			}
-			if (!isset($activitySum[$projectId])) {
-				$activitySum[$projectId]=0;
+			if (!isset($activitySum[$projectId][$activityId])) {
+				$activitySum[$projectId][$activityId]=0;
 			}
 
-			$durationArr[$projectId][$expenseDate]+=$timeEvents[$i]->getDuration();
+			$durationArr[$projectId][$activityId][$expenseDate]+=$timeEvents[$i]->getDuration();
 			$dailySum[$expenseDate]+=$timeEvents[$i]->getDuration();
-			$activitySum[$projectId]+=$timeEvents[$i]->getDuration();
+			$activitySum[$projectId][$activityId]+=$timeEvents[$i]->getDuration();
 			$totalTime+=$timeEvents[$i]->getDuration();
 		}
 

@@ -213,23 +213,26 @@ function actionDetails() {
 			foreach ($timeExpenses as $project=>$timeExpense) {
 				$projectDet = $projectObj->fetchProject($project);
 				$customer = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
-				$projectActivities = $projectActivityObj->getActivityList($project);
+
+				foreach ($timeExpense as $activityId=>$activityExpense) {
+					$projectActivity = $projectActivityObj->getActivity($activityId);
 			?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
 				<td ><?php echo "{$customer->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
-				<td ><?php echo $projectActivities[0]->getName(); ?></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
-					if (!isset($timeExpense[$i])) {
-						$timeExpense[$i]=0;
-					}
+				<td ><?php echo $projectActivity->getName(); ?></td>
+			<?php 	for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
+						if (!isset($activityExpense[$i])) {
+							$activityExpense[$i]=0;
+						}
 			?>
-	    		<td ><?php echo round($timeExpense[$i]/36)/100; ?></td>
+	    		<td ><?php echo round($activityExpense[$i]/36)/100; ?></td>
 	    	<?php } ?>
-	    		<th ><?php echo round($activitySum[$project]/36)/100; ?></th>
+	    		<th ><?php echo round($activitySum[$project][$activityId]/36)/100; ?></th>
 				<td class="tableMiddleRight"></td>
 			</tr>
-		<?php } ?>
+		<?php	}
+			} ?>
 			<tr>
 				<th class="tableMiddleLeft"></th>
 				<th ><?php echo $lang_Time_Timesheet_Total; ?></th>
