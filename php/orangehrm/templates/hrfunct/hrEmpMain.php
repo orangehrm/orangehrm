@@ -425,7 +425,33 @@ function updateEmpMain() {
         }
     }
 
+    if ( (document.frmEmp.txtzipCode.value != '') && (!numbers(document.frmEmp.txtzipCode)) ){
+		if (!confirm ("<?php echo $lang_Error_CompStruct_ZipInvalid; ?>".replace(/#characterList/, nonNumbers(document.frmEmp.txtzipCode))+". <?php echo $lang_Error_DoYouWantToContinue; ?>") ) {
+			document.frmEmp.txtzipCode.focus();
+			return;
+		}
+	}
 
+	var cntrl = document.frmEmp.txtHmTelep;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_hmtele : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
+
+	var cntrl = document.frmEmp.txtMobile;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_mobile : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
+
+	var cntrl = document.frmEmp.txtWorkTelep;
+	if(cntrl.value != '' && !checkPhone(cntrl)) {
+		alert('<?php echo "$lang_hremp_worktele : $lang_hremp_InvalidPhone"; ?>');
+		cntrl.focus();
+		return;
+	}
 
 	document.getElementById("cmbProvince").value=document.getElementById("txtState").value;
 	document.frmEmp.sqlState.value = "UpdateRecord";

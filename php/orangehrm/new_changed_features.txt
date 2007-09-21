@@ -2,9 +2,13 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 
 	BugId     Name
 	1786631   Report - Service period should be a date range
+	1798609   supervisor view Leave Reports throws a error
+	1798647   ESS User Cannot delete time sheet entries
+	1798657   ESS User Cannot submit timesheets
 	1798542   Incorrect leave notification when applying range of leaves
 	1774620   All the Activies are not listed in the Time sheet view
 	1792369   Leave for range of days spanning holiday throws error
+	1797757   PIM->Contacts: Fields need to validated, Its not Consistent
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
