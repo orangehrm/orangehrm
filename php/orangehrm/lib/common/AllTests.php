@@ -28,6 +28,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'authorizeTest.php';
 require_once 'CommonFunctionsTest.php';
+require_once 'LocaleUtilTest.php';
 require_once 'UniqueIDGeneratorTest.php';
 
 class common_AllTests

@@ -41,10 +41,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	/**
-	 * Private constructor
+	 * Private construct
 	 */
-	private function __constructor() {
-		$this->setSysConf(new sysConf());
+	private function __construct() {
+		$this->sysConf = new sysConf();
 	}
 
 	/**
@@ -52,9 +52,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 */
 	 public static function getInstance() {
 
-	 	if (!is_object(self::$instance)) {
+	 	if (!is_a(self::$instance, 'LocaleUtil')) {
 	 		self::$instance = new LocaleUtil();
 	 	}
+
 		return self::$instance;
 	 }
 
@@ -64,20 +65,142 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  * @param string date
 	  * @return date formatted according to configured format
 	  */
-	 public function formatDate($date) {
+	 public function formatDate($date, $customFormat=null) {
 
+	 	 if (empty($date)) {
+	 	 	return "";
+	 	 }
+
+		 $timeStamp = strtotime($date);
+		 $format = $this->sysConf->getDateFormat();
+
+		 if (empty($customFormat)) {
+
+			 if (empty($format)) {
+			 	return $date;
+			 }
+		 	$formattedValue = date($format, $timeStamp);
+		 } else {
+		 	$formattedValue = date($customFormat, $timeStamp);
+		 }
+
+		 return $formattedValue;
+	 }
+
+	/**
+	  * Converts the time format to the format configured in the system
+	  *
+	  * @param string time
+	  * @return time formatted according to configured format
+	  */
+	 public function formatTime($time, $customFormat=null) {
+
+	 	 if (empty($time)) {
+	 	 	return "";
+	 	 }
+
+		 $timeStamp = strtotime($time);
+		 $format = $this->sysConf->getTimeFormat();
+
+		 if (empty($customFormat)) {
+
+			 if (empty($format)) {
+			 	return $time;
+			 }
+		 	$formattedValue = date($format, $timeStamp);
+		 } else {
+		 	$formattedValue = date($customFormat, $timeStamp);
+		 }
+
+		 return $formattedValue;
 	 }
 
 	 /**
 	  * Converts a date and time value to the format configured in the system
 	  *
 	  * @param string date and time to be converted
+	  * @param string customFormat Custom date time format to be used instead of the system configured format
 	  * @return date and time formatted according to configured format
 	  */
-	 public function formatDateTime($dateTime) {
+	 public function formatDateTime($dateTime, $customFormat=null) {
 
+	 	 if (empty($dateTime)) {
+	 	 	return "";
+	 	 }
+
+		 $timeStamp = strtotime($dateTime);
+		 $dateFormat = $this->sysConf->getDateFormat();
+		 $timeFormat = $this->sysConf->getTimeFormat();
+
+		 if (empty($customFormat)) {
+
+			 if (empty($dateFormat) || empty($timeFormat)) {
+			 	return $dateTime;
+			 }
+			 $format = $dateFormat . " " . $timeFormat;
+		 } else {
+			 $format = $customFormat;
+		 }
+
+		 $formattedValue = date($format, $timeStamp);
+
+		 return $formattedValue;
 	 }
 
+	 /**
+	  * String date will be converted from the custom format to YYYY-mm-dd
+	  *
+	  * Right now only English dates will be convered.
+	  *
+	  * @todo TODO The method should be extended to support date of a given format.
+	  *
+	  * @param String date
+	  * @param String customFormat(Optional)
+	  * @return String standardDate
+	  */
+	 public static function convertToStandardDateFormat($date, $customFormat=null) {
+	 	if ($customFormat == null) {
+	 		$sysConf = new sysConf();
+	 		$format = $sysConf->getDateFormat();
+	 	}
+	 	$standardDate = date('Y-m-d', strtotime($date));
+
+	 	return $standardDate;
+	 }
+
+	 public static function convertToXpDateFormat($dateFormat) {
+		$map = array(// Day
+					 'd'=>'dd',
+					 'j'=>'d',
+					 // Month
+					 'm'=>'MM',
+					 'n'=>'M',
+					 // Year
+					 'Y'=>'yyyy',
+					 'y'=>'yy',
+					 // Hours
+					 'H'=>'HH',
+					 'h'=>'hh',
+					 'G'=>'H',
+					 'g'=>'h',
+					 // Minutes
+					 'i'=>'mm',
+					 // Seconds
+					 's'=>'ss');
+
+		$chars = str_split($dateFormat, 1);
+		$conv = '';
+
+		for ($i=0; $i<count($chars); $i++) {
+			if (isset($map[$chars[$i]])) {
+				$conv.=$map[$chars[$i]];
+			} else {
+				$conv.=$chars[$i];
+			}
+		}
+
+		return $conv;
+	}
 }
 
 class LocaleException extends Exception {

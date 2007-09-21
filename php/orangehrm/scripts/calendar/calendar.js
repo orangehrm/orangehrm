@@ -39,6 +39,8 @@ YAHOO.OrangeHRM.calendar.init = function () {
 
 	YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(YAHOO.OrangeHRM.calendar.selected, YAHOO.OrangeHRM.calendar.cal, true);
 
+	YAHOO.OrangeHRM.calendar.cal.selectedEvent = new YAHOO.util.CustomEvent('CalendarSelected');
+
 	YAHOO.OrangeHRM.calendar.cal.hide();
 	YAHOO.OrangeHRM.calendar.addHooks();
 	YAHOO.OrangeHRM.container.wait.hide();
@@ -155,8 +157,10 @@ YAHOO.OrangeHRM.calendar.selected = function () {
 	date = this.getSelectedDates();
 	document.getElementById(this.anchor).value=formatDate(date[0], this.format);
 
+	//YAHOO.OrangeHRM.calendar.formatHint.hide.call(document.getElementById(this.anchor));
+
 	this.hide();
-	YAHOO.OrangeHRM.calendar.formatHint.hide.call(document.getElementById(this.anchor));
+	YAHOO.OrangeHRM.calendar.cal.selectedEvent.fire();
 };
 
 YAHOO.OrangeHRM.container.init = function () {
@@ -185,14 +189,10 @@ YAHOO.OrangeHRM.calendar.hook = function (button) {
 	if (!anchor.readonly) {
 		YAHOO.util.Event.addListener(anchor, "focus", YAHOO.OrangeHRM.calendar.formatHint.hide, anchor, true);
 		YAHOO.util.Event.addListener(anchor, "blur", YAHOO.OrangeHRM.calendar.formatHint.show, anchor, true);
-		YAHOO.util.Event.addListener(button, "blur", YAHOO.OrangeHRM.calendar.hide, anchor, true);
+		//YAHOO.OrangeHRM.calendar.cal.selectedEvent.subscribe(YAHOO.OrangeHRM.calendar.formatHint.hide, anchor, true);
 
 		YAHOO.OrangeHRM.calendar.formatHint.show.call(anchor);
 	}
-}
-
-YAHOO.OrangeHRM.calendar.hide = function () {
-	YAHOO.OrangeHRM.calendar.formatHint.show.call(this);
 }
 
 YAHOO.OrangeHRM.calendar.selectDate = function () {
@@ -207,7 +207,6 @@ YAHOO.OrangeHRM.calendar.formatHint.hide = function () {
 	if (this.value == YAHOO.OrangeHRM.calendar.formatHint.format) {
 		this.value='';
 	}
-	YAHOO.util.Dom.removeClass(this, 'inputFormatHint');
 }
 
 /**
@@ -216,10 +215,10 @@ YAHOO.OrangeHRM.calendar.formatHint.hide = function () {
  */
 YAHOO.OrangeHRM.calendar.formatHint.show = function () {
 	if (this.value == '') {
-		YAHOO.util.Dom.addClass(this, 'inputFormatHint');
 		this.value=YAHOO.OrangeHRM.calendar.formatHint.format;
 	}
-	setTimeout("YAHOO.OrangeHRM.calendar.cal.hide.call(YAHOO.OrangeHRM.calendar.cal)",150);
+
+	setTimeout("YAHOO.OrangeHRM.calendar.cal.hide.call(YAHOO.OrangeHRM.calendar.cal)",250);
 }
 
 /**

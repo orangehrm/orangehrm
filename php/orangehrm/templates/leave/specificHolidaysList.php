@@ -172,7 +172,7 @@ if ($modifier === "SUP") {
   	<td class="tableMiddleLeft"></td>
   	<td class="<?php echo $cssClass; ?>"><input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>"/></th>
     <td class="<?php echo $cssClass; ?>" style="padding-right: 20px;"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_View_Edit&id=<?php echo $record->getHolidayId(); ?>"><?php echo $record->getDescription(); ?></a></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo $record->getDate(); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
     		$leaveLength = null;
     		switch ($record->getLength()) {

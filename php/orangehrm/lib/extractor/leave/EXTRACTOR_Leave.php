@@ -30,6 +30,10 @@ class EXTRACTOR_Leave {
 
 	public function parseAddData($postArr) {
 
+		// Extract dates
+		$postArr['txtLeaveFromDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtLeaveFromDate']);
+		$postArr['txtLeaveToDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtLeaveToDate']);
+
 		$this->parent_Leave->setEmployeeId($_SESSION['empID']);
 		$this->parent_Leave->setLeaveTypeId($postArr['sltLeaveType']);
 		$this->parent_Leave->setLeaveFromDate($postArr['txtLeaveFromDate']);

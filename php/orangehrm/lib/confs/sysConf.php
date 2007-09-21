@@ -46,8 +46,8 @@ class sysConf {
 		$this->viewDescLen=60;
 		$this->userEmail = 'youremail@mailhost.com';
 		$this->maxEmployees = '999';
-		$this->dateFormat = "m-d-Y";
-		$this->dateInputHint = "mm-DD-YYYY";
+		$this->dateFormat = "Y/m/d";
+		$this->dateInputHint = "YYYY/mm/DD";
 		$this->timeFormat = "H:i";
 		$this->timeInputHint = "HH:MM";
 	}

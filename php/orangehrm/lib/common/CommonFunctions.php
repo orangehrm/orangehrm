@@ -201,38 +201,44 @@ class CommonFunctions {
 		return false;
 	}
 
-	public static function convertToXpDateFormat($dateFormat) {
-		$map = array(// Day
-					 'd'=>'dd',
-					 'j'=>'d',
-					 // Month
-					 'm'=>'MM',
-					 'n'=>'M',
-					 // Year
-					 'Y'=>'yyyy',
-					 'y'=>'yy',
-					 // Hours
-					 'H'=>'HH',
-					 'h'=>'hh',
-					 'G'=>'H',
-					 'g'=>'h',
-					 // Minutes
-					 'i'=>'mm',
-					 // Seconds
-					 's'=>'ss');
+	/**
+	 * Format a time period given in minutes as hours and minutes.
+	 *
+	 * Ex: $minutes = 70 gives output = "1h 10m"
+	 *
+	 * @param int $minutes Time period in minutes
+	 * @param string $zeroValue The value to be shown for zero minutes (optional)
+	 * @param string $minuteSymbol Symbol for minutes
+	 * @param string $hourSymbol Hour symbol
+	 * @return formatted string in hours and minutes
+	 */
+	public static function formatMinutesAsHoursAndMinutes($minutes, $zeroValue = "0h", $minuteSymbol = "m", $hourSymbol = "h") {
 
-		$chars = str_split($dateFormat, 1);
-		$conv = '';
+		$minus = false;
+		$formattedVal = "";
 
-		for ($i=0; $i<count($chars); $i++) {
-			if (isset($map[$chars[$i]])) {
-				$conv.=$map[$chars[$i]];
-			} else {
-				$conv.=$chars[$i];
-			}
+		$minutes = round($minutes);
+
+		if ($minutes == 0) {
+			return $zeroValue;
+		} else if ($minutes < 0) {
+			$minus = true;
+			$minutes = abs($minutes);
+			$formattedVal = "-";
 		}
 
-		return $conv;
+		$hours = floor($minutes / 60);
+
+		$minutesLeft = $minutes % 60;
+
+		if ($hours > 0) {
+			$formattedVal .= "{$hours}{$hourSymbol} ";
+		}
+		if ($minutesLeft > 0) {
+			$formattedVal .= "{$minutesLeft}{$minuteSymbol}";
+		}
+
+		return trim($formattedVal);
 	}
 }
 ?>

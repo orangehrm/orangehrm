@@ -117,19 +117,16 @@ if ($modifier === "SUP") {
 			 }
 			 $j++;
 
-			 $dateStr = $record->getLeaveFromDate();
-
-			 $toDate = $record->getLeaveToDate();
+			 $dateStr = LocaleUtil::getInstance()->formatDate($record->getLeaveFromDate());
+			 $toDate = LocaleUtil::getInstance()->formatDate($record->getLeaveToDate());
 
 			 if (!empty($toDate)) {
 			 	$dateStr .=	" -> ".$toDate;
 			 }
-
-
 ?>
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo  $dateStr; ?></a></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
     <?php if ($modifier == "SUP") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>

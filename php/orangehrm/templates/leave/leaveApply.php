@@ -123,26 +123,16 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 	}
 
-	function validDate(txt) {
-		dateExpression = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
-
-		if (!dateExpression.test(txt)) {
-			return false;
-		}
-
-		return true;
-	}
-
 	function $(id) {
 		return document.getElementById(id);
 	}
 
 	function fillAuto(from, to) {
-		v1 = $(from).value.trim();
-		v2 = $(to).value.trim();
+		v1 = YAHOO.OrangeHRM.calendar.parseDate($(from).value);
+		v2 = YAHOO.OrangeHRM.calendar.parseDate($(to).value);
 
-		if (v2 == "") {
-			$(to).value = v1;
+		if (!v2 && v1) {
+			$(to).value = $(from).value.trim();
 		}
 	}
 
@@ -169,10 +159,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	};
 
 	function fillToDate() {
-		if (validDate(document.frmLeaveApp.txtLeaveFromDate.value)) {
-			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
-		}
-		if (($('txtLeaveFromDate').value != '') && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
+		fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
+
+		if (YAHOO.OrangeHRM.calendar.parseDate($('txtLeaveFromDate').value) && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
 			$('trTime1').className = 'display-table-row';
 			$('trTime2').className = 'display-table-row';
 			$('trTime3').className = 'display-table-row';
@@ -190,7 +179,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	function fillTimes() {
-		if (($('txtLeaveFromDate').value == '') || ($('txtLeaveFromDate').value != $('txtLeaveToDate').value)) {
+		if (!YAHOO.OrangeHRM.calendar.parseDate($('txtLeaveFromDate').value) || ($('txtLeaveFromDate').value != $('txtLeaveToDate').value)) {
 			return false;
 		}
 		if (($('sltLeaveFromTime').value != '') && ($('sltLeaveToTime').value != '')) {
@@ -248,7 +237,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	/* Add listener that updates toDate when date is selected */
 	function init() {
-		YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal, true);
+		YAHOO.OrangeHRM.calendar.cal.selectedEvent.subscribe(dateSelectHandler, YAHOO.OrangeHRM.calendar.cal, true);
+
+		YAHOO.util.Event.addListener($("txtLeaveFromDate"), "change", dateSelectHandler);
+		YAHOO.util.Event.addListener($("txtLeaveToDate"), "change", dateSelectHandler);
+		YAHOO.util.Event.addListener($("txtLeaveFromDate"), "focus", dateSelectHandler);
+		YAHOO.util.Event.addListener($("txtLeaveToDate"), "focus", dateSelectHandler);
+		YAHOO.util.Event.addListener($("txtLeaveFromDate"), "blur", dateSelectHandler);
+		YAHOO.util.Event.addListener($("txtLeaveToDate"), "blur", dateSelectHandler);
 
 		if ($("revertLeave")) {
 			YAHOO.util.Event.addListener($("msgResponseNo"), "click", clearRevertLeave);
@@ -360,14 +356,12 @@ if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_S
         <td class="tableMiddleRight"></td>
      </tr>
      <?php
-	  	if (!(is_array($records[1]))) {  ?>
+	  	if (!(is_array($records[1])) && ($modifier == 'Leave_Apply')) {  ?>
 	    <tr>
      	<td class="tableMiddleLeft"></td>
      	<td width="75px">&nbsp;</td>
         <td width="25px">&nbsp;</td>
-      	<td><?php if ($modifier == 'Leave_Apply') {
-      					echo $lang_Leave_Common_LeaveQuotaNotAllocated;
-      			  }?></td>
+      	<td><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?></td>
     	<td width="25px">&nbsp;</td>
     	<td class="tableMiddleRight"></td>
      </tr> <?php } ?>
@@ -405,7 +399,7 @@ if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_S
         	<option value="" selected ></option>
         	<?php
         		for ($i=$startTime; $i<=$endTime; $i+=$interval) { ?>
-        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo date('H:i', $i); ?></option>
+        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo LocaleUtil::getInstance()->formatTime(date('H:i', $i)); ?></option>
         	<?php } ?>
         	</select>
         </td>

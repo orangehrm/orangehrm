@@ -53,9 +53,8 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
         			"VALUES(2, '0022', 'Jayasinghe', 'Aruna', 'Shantha')"));
         $this->assertTrue(mysql_query("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name) " .
         			"VALUES(3, '0034', 'Ranasinghe', 'Nimal', 'Bandara')"));
-        $idGenerator = new UniqueIDGenerator();
-        $idGenerator->resetIDs();
 
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**
@@ -68,8 +67,8 @@ class WorkshiftTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee_workshift`", $this->connection));
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_workshift`", $this->connection));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`", $this->connection));
-        $idGenerator = new UniqueIDGenerator();
-        $idGenerator->resetIDs();
+
+		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
     /**

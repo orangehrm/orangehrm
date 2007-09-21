@@ -30,16 +30,18 @@ class EXTRACTOR_Holidays {
 
 	public function parseAddData($postArr) {
 
-		$this->parent_Holidays->setDescription($_POST['txtDescription']);
-		$this->parent_Holidays->setDate($_POST['txtDate']);
+		$postArr['txtDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtDate']);
+
+		$this->parent_Holidays->setDescription($postArr['txtDescription']);
+		$this->parent_Holidays->setDate($postArr['txtDate']);
 
 		if (isset($_POST['chkRecurring'])) {
-			$this->parent_Holidays->setRecurring($_POST['chkRecurring']);
+			$this->parent_Holidays->setRecurring($postArr['chkRecurring']);
 		} else {
 			$this->parent_Holidays->setRecurring(Holidays::HOLIDAYS_NOT_RECURRING);
 		}
 
-		$this->parent_Holidays->setLength($_POST['sltLeaveLength']);
+		$this->parent_Holidays->setLength($postArr['sltLeaveLength']);
 
 		return $this->parent_Holidays;
 	}
@@ -53,20 +55,22 @@ class EXTRACTOR_Holidays {
 	 */
 	public function parseEditData($postArr) {
 
-		if (isset($_POST['txtId']) && !empty($_POST['txtId'])) {
-			$this->parent_Holidays->setHolidayId($_POST['txtId']);
+		$postArr['txtDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtDate']);
+
+		if (isset($_POST['txtId']) && !empty($postArr['txtId'])) {
+			$this->parent_Holidays->setHolidayId($postArr['txtId']);
 		}
 
-		$this->parent_Holidays->setDescription($_POST['txtDescription']);
-		$this->parent_Holidays->setDate($_POST['txtDate']);
+		$this->parent_Holidays->setDescription($postArr['txtDescription']);
+		$this->parent_Holidays->setDate($postArr['txtDate']);
 
-		if (isset($_POST['chkRecurring'])) {
-			$this->parent_Holidays->setRecurring($_POST['chkRecurring']);
+		if (isset($postArr['chkRecurring'])) {
+			$this->parent_Holidays->setRecurring($postArr['chkRecurring']);
 		} else {
 			$this->parent_Holidays->setRecurring(Holidays::HOLIDAYS_NOT_RECURRING);
 		}
 
-		$this->parent_Holidays->setLength($_POST['sltLeaveLength']);
+		$this->parent_Holidays->setLength($postArr['sltLeaveLength']);
 
 		return $this->parent_Holidays;
 	}

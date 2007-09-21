@@ -33,6 +33,7 @@ define("SALT", '$2a$'.str_pad($_SESSION['empID'].session_id(), 24, session_id())
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
 require_once ROOT_PATH . '/lib/controllers/MTViewController.php';

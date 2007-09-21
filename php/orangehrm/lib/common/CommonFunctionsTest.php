@@ -129,42 +129,35 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testConvertToXpDateFormat() {
-    	$formatStr = 'Y-m-d';
-    	$xpFormatStr = 'yyyy-MM-dd';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+    /**
+     * Test method for formatMinutesAsHoursAndMinutes()
+     */
+    public function testFormatMinutesAsHoursAndMinutes() {
 
-    	$formatStr = 'y-m-d';
-    	$xpFormatStr = 'yy-MM-dd';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+    	// Zero
+    	$this->assertEquals("0h", CommonFunctions::formatMinutesAsHoursAndMinutes(0));
+    	$this->assertEquals("0m", CommonFunctions::formatMinutesAsHoursAndMinutes(0, "0m"));
 
-    	$formatStr = 'Y-n-d';
-    	$xpFormatStr = 'yyyy-M-dd';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+    	// Minutes only
+    	$this->assertEquals("34m", CommonFunctions::formatMinutesAsHoursAndMinutes(34));
+    	$this->assertEquals("34 minutes", CommonFunctions::formatMinutesAsHoursAndMinutes(34, "0", " minutes"));
 
-    	$formatStr = 'Y-m-j';
-    	$xpFormatStr = 'yyyy-MM-d';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+		// Minutes and hours
+    	$this->assertEquals("1h 10m", CommonFunctions::formatMinutesAsHoursAndMinutes(70));
+    	$this->assertEquals("1hours 40minutes", CommonFunctions::formatMinutesAsHoursAndMinutes(100, "0", "minutes", "hours"));
 
-    	$formatStr = 'H:i:s';
-    	$xpFormatStr = 'HH:mm:ss';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+		// Only hours
+    	$this->assertEquals("2h", CommonFunctions::formatMinutesAsHoursAndMinutes(120));
+    	$this->assertEquals("2hours", CommonFunctions::formatMinutesAsHoursAndMinutes(120, "0", "minutes", "hours"));
 
-    	$formatStr = 'h:i:s';
-    	$xpFormatStr = 'hh:mm:ss';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+    	// Check negative times
+    	$this->assertEquals("-34m", CommonFunctions::formatMinutesAsHoursAndMinutes(-34));
+    	$this->assertEquals("-2h", CommonFunctions::formatMinutesAsHoursAndMinutes(-120));
+		$this->assertEquals("-1h 10m", CommonFunctions::formatMinutesAsHoursAndMinutes(-70));
 
-    	$formatStr = 'G:i:s';
-    	$xpFormatStr = 'H:mm:ss';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
-
-    	$formatStr = 'g:i:s';
-    	$xpFormatStr = 'h:mm:ss';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
-
-    	$formatStr = 'Y-m-d H:i';
-    	$xpFormatStr = 'yyyy-MM-dd HH:mm';
-    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+    	// Check non-integer minutes
+    	$this->assertEquals("33m", CommonFunctions::formatMinutesAsHoursAndMinutes(33.19));
+    	$this->assertEquals("1h 11m", CommonFunctions::formatMinutesAsHoursAndMinutes(70.78));
 
     }
 }

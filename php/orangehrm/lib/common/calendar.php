@@ -28,8 +28,8 @@ include 'yui.php';
 <script type="text/javascript">
 YAHOO.namespace("OrangeHRM.time");
 
-YAHOO.OrangeHRM.calendar.format = '<?php echo CommonFunctions::convertToXpDateFormat($sysConf->getDateFormat())?>';
+YAHOO.OrangeHRM.calendar.format = '<?php echo LocaleUtil::convertToXpDateFormat($sysConf->getDateFormat())?>';
 YAHOO.OrangeHRM.calendar.formatHint.format = '<?php echo $sysConf->getDateInputHint(); ?>';
 
-YAHOO.OrangeHRM.time.format = '<?php echo CommonFunctions::convertToXpDateFormat($sysConf->getTimeFormat())?>';
+YAHOO.OrangeHRM.time.format = '<?php echo LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat())?>';
 </script>

@@ -48,7 +48,7 @@ if(file_exists($confPHP)) {
 	/**
 	 * Private constructor
 	 */
-	private function __constructor() {
+	private function __construct() {
 	}
 
 	/**

@@ -30,6 +30,14 @@ class EXTRACTOR_LeaveRequests {
 
 	public function parseAddData($postArr, $admin=false) {
 
+		// Extract dates
+		$postArr['txtLeaveFromDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtLeaveFromDate']);
+		$postArr['txtLeaveToDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtLeaveToDate']);
+
+		// Extract time
+		$postArr['sltLeaveFromTime'] = LocaleUtil::convertToStandardDateFormat($postArr['sltLeaveFromTime']);
+		$postArr['sltLeaveToTime'] = LocaleUtil::convertToStandardDateFormat($postArr['sltLeaveToTime']);
+
 		if ($admin) {
 			$this->parent_Leave->setEmployeeId($postArr['cmbEmployeeId']);
 		} else {

@@ -126,10 +126,7 @@ if ($modifier === "SUP") {
 			 	$cssClass = 'even';
 			 }
 			 $j++;
-			 $tmpDate = $record->getLeaveDate();
 
-			 $tmpDate = split('-', $tmpDate);
-			 $tmpTimeStamp = mktime(0, 0, 0, $tmpDate[1], $tmpDate[2], $tmpDate[0]);
 ?>
   	<input type="hidden" name="txtLeaveRequestId[]" id="txtLeaveRequestId[]" value="<?php echo $record->getLeaveRequestId(); ?>" />
 	<input type="hidden" name="txtEmployeeName[]" id="txtEmployeeName[]" value="<?php echo $record->getEmployeeName(); ?>" />
@@ -138,7 +135,7 @@ if ($modifier === "SUP") {
 	<input type="hidden" name="sltLeaveLength[]" id="sltLeaveLength[]" value="<?php echo $record->getLeaveLengthHours(); ?>" />
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><?php echo  date('l, M d, Y', $tmpTimeStamp); ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
    			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken);

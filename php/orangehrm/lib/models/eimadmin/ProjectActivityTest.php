@@ -559,7 +559,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($activity->getName(), $row['name'], "Activity name not correct");
 		$this->assertEquals($activity->getProjectId(), $row['project_id'], "Project id wrong");
 		$this->assertEquals($activity->getId(), $row['activity_id'], "Activity id wrong");
-		$this->assertEquals($activity->isDeleted(), $row['deleted'], "Deleted value wrong");
+		$this->assertEquals($activity->isDeleted(), (bool)$row['deleted'], "Deleted value wrong");
     }
 
     /**
