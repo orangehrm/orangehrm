@@ -144,61 +144,6 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         }
 
     }
-
-    public function testFetchLeaveSummaryAccuracy() {
-
-        $res = $this->leaveSummary->fetchLeaveSummary("012", date('Y', time()+3600*24));
-
-        $this->assertNotNull($res, "No records returned");
-        $this->assertEquals(count($res), 2, "Returned invalid numner of records");
-
-        $expected[] = array("Medical", 0, 10);
-        $expected[] = array("Casual", 0, 20);
-
-        for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTaken(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveAvailable(), $expected[$i][2], "Didn't return expected result ");
-        }
-
-    }
-
-    public function testFetchLeaveSummaryAccuracy2() {
-
-        $res = $this->leaveSummary->fetchLeaveSummary("011", date('Y', time()+3600*24));
-
-        $this->assertNotNull($res, "No records returned");
-        $this->assertEquals(count($res), 2, "Returned invalid numner of records");
-
-        $expected[1] = array("Medical", 2, 8);
-        $expected[0] = array("Casual", 0, 20);
-
-        for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTaken(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveAvailable(), $expected[$i][2], "Didn't return expected result ");
-        }
-
-    }
-
-    public function testFetchLeaveSummaryAccuracy3() {
-
-        $res = $this->leaveSummary->fetchLeaveSummary("013", date('Y', time()+3600*24));
-
-        $this->assertNotNull($res, "No records returned");
-        $this->assertEquals(count($res), 3, "Returned invalid numner of records");
-
-        $expected[0] = array("Medical", 0, 0);
-        $expected[1] = array("Casual", 0, 0);
-        $expected[2] = array("Annual", 1, 29);
-
-        for ($i=0; $i < count($res); $i++) {
-        	$this->assertEquals($res[$i]->getLeaveTypeName(), $expected[$i][0], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveTaken(), $expected[$i][1], "Didn't return expected result ");
-        	$this->assertEquals($res[$i]->getLeaveAvailable(), $expected[$i][2], "Didn't return expected result ");
-        }
-
-    }
 }
 
 // Call LeaveSummaryTest::main() if this source file is executed directly.

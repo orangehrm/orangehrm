@@ -1,6 +1,23 @@
 
 YUI Library - Event - Release Notes
 
+2.3.0
+  * addListener now produces a logger warning if the supplied callback is 
+    undefined.
+  * Reduced the likelihood that window onload listeners fire before
+    onAvailable listeners when the two happen near the same moment.
+  * Fixed an IE error that could occur when the library was injected into 
+    the page after window onload.
+  * The onDOMReady listener will be executed immediately if the
+    DOMReady event had already fired prior to the call.
+  * Unsubscribing custom events within a handler for the event now works 
+    properly.
+  * EventProvider unsubscribeAll will unsubscribe all listeners from
+    all hosted custom events if the type is not specified.
+  * Event.getKeyCode now checks keyCode before charCode for Safari normalization.  
+    Safari arrow key codes are normalized as well.
+  * Broke up the </script> in Event to allow it to be included inline
+
 2.2.2
   * No change
 

@@ -224,3 +224,7 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 .display-table-row {
 	display: table-row;
 }
+
+.inputFormatHint {
+	color: #D2D2D2
+}

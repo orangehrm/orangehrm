@@ -2,7 +2,7 @@
 Copyright (c) 2007, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
+version: 2.3.0
 */
 
 /**
@@ -15,476 +15,692 @@ version: 2.2.2
  * 2) Year navigation introduced
  *
  */
+(function () {
 
-/**
-* Config is a utility used within an Object to allow the implementer to maintain a list of local configuration properties and listen for changes to those properties dynamically using CustomEvent. The initial values are also maintained so that the configuration can be reset at any given point to its initial state.
-* @namespace YAHOO.util
-* @class Config
-* @constructor
-* @param {Object}	owner	The owner Object to which this Config Object belongs
-*/
-YAHOO.util.Config = function(owner) {
-	if (owner) {
-		this.init(owner);
-	}
-};
+    /**
+    * Config is a utility used within an Object to allow the implementer to
+    * maintain a list of local configuration properties and listen for changes
+    * to those properties dynamically using CustomEvent. The initial values are
+    * also maintained so that the configuration can be reset at any given point
+    * to its initial state.
+    * @namespace YAHOO.util
+    * @class Config
+    * @constructor
+    * @param {Object} owner The owner Object to which this Config Object belongs
+    */
+    YAHOO.util.Config = function (owner) {
 
-/**
- * Constant representing the CustomEvent type for the config changed event.
- * @property YAHOO.util.Config.CONFIG_CHANGED_EVENT
- * @private
- * @static
- * @final
- */
-YAHOO.util.Config.CONFIG_CHANGED_EVENT = "configChanged";
+        if (owner) {
 
-/**
- * Constant representing the boolean type string
- * @property YAHOO.util.Config.BOOLEAN_TYPE
- * @private
- * @static
- * @final
- */
-YAHOO.util.Config.BOOLEAN_TYPE = "boolean";
+            this.init(owner);
 
-YAHOO.util.Config.prototype = {
+        }
 
-	/**
-	* Object reference to the owner of this Config Object
-	* @property owner
-	* @type Object
-	*/
-	owner : null,
-
-	/**
-	* Boolean flag that specifies whether a queue is currently being executed
-	* @property queueInProgress
-	* @type Boolean
-	*/
-	queueInProgress : false,
-
-	/**
-	* Maintains the local collection of configuration property objects and their specified values
-	* @property config
-	* @private
-	* @type Object
-	*/
-	config : null,
-
-	/**
-	* Maintains the local collection of configuration property objects as they were initially applied.
-	* This object is used when resetting a property.
-	* @property initialConfig
-	* @private
-	* @type Object
-	*/
-	initialConfig : null,
-
-	/**
-	* Maintains the local, normalized CustomEvent queue
-	* @property eventQueue
-	* @private
-	* @type Object
-	*/
-	eventQueue : null,
-
-	/**
-	* Custom Event, notifying subscribers when Config properties are set (setProperty is called without the silent flag
-	* @event configChangedEvent
-	*/
-	configChangedEvent : null,
-
-	/**
-	* Validates that the value passed in is a Boolean.
-	* @method checkBoolean
-	* @param	{Object}	val	The value to validate
-	* @return	{Boolean}	true, if the value is valid
-	*/
-	checkBoolean: function(val) {
-		return (typeof val == YAHOO.util.Config.BOOLEAN_TYPE);
-	},
-
-	/**
-	* Validates that the value passed in is a number.
-	* @method checkNumber
-	* @param	{Object}	val	The value to validate
-	* @return	{Boolean}	true, if the value is valid
-	*/
-	checkNumber: function(val) {
-		return (!isNaN(val));
-	},
-
-	/**
-	* Fires a configuration property event using the specified value.
-	* @method fireEvent
-	* @private
-	* @param {String}	key			The configuration property's name
-	* @param {value}	Object		The value of the correct type for the property
-	*/
-	fireEvent : function( key, value ) {
-		var property = this.config[key];
-
-		if (property && property.event) {
-			property.event.fire(value);
-		}
-	},
-
-	/**
-	* Adds a property to the Config Object's private config hash.
-	* @method addProperty
-	* @param {String}	key	The configuration property's name
-	* @param {Object}	propertyObject	The Object containing all of this property's arguments
-	*/
-	addProperty : function( key, propertyObject ) {
-		key = key.toLowerCase();
-
-		this.config[key] = propertyObject;
-
-		propertyObject.event = new YAHOO.util.CustomEvent(key, this.owner);
-		propertyObject.key = key;
-
-		if (propertyObject.handler) {
-			propertyObject.event.subscribe(propertyObject.handler, this.owner);
-		}
-
-		this.setProperty(key, propertyObject.value, true);
-
-		if (! propertyObject.suppressEvent) {
-			this.queueProperty(key, propertyObject.value);
-		}
-
-	},
-
-	/**
-	* Returns a key-value configuration map of the values currently set in the Config Object.
-	* @method getConfig
-	* @return {Object} The current config, represented in a key-value map
-	*/
-	getConfig : function() {
-		var cfg = {};
-
-		for (var prop in this.config) {
-			var property = this.config[prop];
-			if (property && property.event) {
-				cfg[prop] = property.value;
-			}
-		}
-
-		return cfg;
-	},
-
-	/**
-	* Returns the value of specified property.
-	* @method getProperty
-	* @param {String} key	The name of the property
-	* @return {Object}		The value of the specified property
-	*/
-	getProperty : function(key) {
-		var property = this.config[key.toLowerCase()];
-		if (property && property.event) {
-			return property.value;
-		} else {
-			return undefined;
-		}
-	},
-
-	/**
-	* Resets the specified property's value to its initial value.
-	* @method resetProperty
-	* @param {String} key	The name of the property
-	* @return {Boolean} True is the property was reset, false if not
-	*/
-	resetProperty : function(key) {
-		key = key.toLowerCase();
-
-		var property = this.config[key];
-		if (property && property.event) {
-			if (this.initialConfig[key] && !YAHOO.lang.isUndefined(this.initialConfig[key]))	{
-				this.setProperty(key, this.initialConfig[key]);
-			}
-			return true;
-		} else {
-			return false;
-		}
-	},
-
-	/**
-	* Sets the value of a property. If the silent property is passed as true, the property's event will not be fired.
-	* @method setProperty
-	* @param {String} key		The name of the property
-	* @param {String} value		The value to set the property to
-	* @param {Boolean} silent	Whether the value should be set silently, without firing the property event.
-	* @return {Boolean}			True, if the set was successful, false if it failed.
-	*/
-	setProperty : function(key, value, silent) {
-		key = key.toLowerCase();
-
-		if (this.queueInProgress && ! silent) {
-			this.queueProperty(key,value); // Currently running through a queue...
-			return true;
-		} else {
-			var property = this.config[key];
-			if (property && property.event) {
-				if (property.validator && ! property.validator(value)) { // validator
-					return false;
-				} else {
-					property.value = value;
-					if (! silent) {
-						this.fireEvent(key, value);
-						this.configChangedEvent.fire([key, value]);
-					}
-					return true;
-				}
-			} else {
-				return false;
-			}
-		}
-	},
-
-	/**
-	* Sets the value of a property and queues its event to execute. If the event is already scheduled to execute, it is
-	* moved from its current position to the end of the queue.
-	* @method queueProperty
-	* @param {String} key	The name of the property
-	* @param {String} value	The value to set the property to
-	* @return {Boolean}		true, if the set was successful, false if it failed.
-	*/
-	queueProperty : function(key, value) {
-		key = key.toLowerCase();
-
-		var property = this.config[key];
-
-		if (property && property.event) {
-			if (!YAHOO.lang.isUndefined(value) && property.validator && ! property.validator(value)) { // validator
-				return false;
-			} else {
-
-				if (!YAHOO.lang.isUndefined(value)) {
-					property.value = value;
-				} else {
-					value = property.value;
-				}
-
-				var foundDuplicate = false;
-				var iLen = this.eventQueue.length;
-				for (var i=0; i < iLen; i++) {
-					var queueItem = this.eventQueue[i];
-
-					if (queueItem) {
-						var queueItemKey = queueItem[0];
-						var queueItemValue = queueItem[1];
-
-						if (queueItemKey == key) {
-							// found a dupe... push to end of queue, null current item, and break
-							this.eventQueue[i] = null;
-							this.eventQueue.push([key, (!YAHOO.lang.isUndefined(value) ? value : queueItemValue)]);
-							foundDuplicate = true;
-							break;
-						}
-					}
-				}
-
-				if (! foundDuplicate && !YAHOO.lang.isUndefined(value)) { // this is a refire, or a new property in the queue
-					this.eventQueue.push([key, value]);
-				}
-			}
-
-			if (property.supercedes) {
-				var sLen = property.supercedes.length;
-				for (var s=0; s < sLen; s++) {
-					var supercedesCheck = property.supercedes[s];
-					var qLen = this.eventQueue.length;
-					for (var q=0; q < qLen; q++) {
-						var queueItemCheck = this.eventQueue[q];
-
-						if (queueItemCheck) {
-							var queueItemCheckKey = queueItemCheck[0];
-							var queueItemCheckValue = queueItemCheck[1];
-
-							if ( queueItemCheckKey == supercedesCheck.toLowerCase() ) {
-								this.eventQueue.push([queueItemCheckKey, queueItemCheckValue]);
-								this.eventQueue[q] = null;
-								break;
-							}
-						}
-					}
-				}
-			}
-
-			return true;
-		} else {
-			return false;
-		}
-	},
-
-	/**
-	* Fires the event for a property using the property's current value.
-	* @method refireEvent
-	* @param {String} key	The name of the property
-	*/
-	refireEvent : function(key) {
-		key = key.toLowerCase();
-
-		var property = this.config[key];
-		if (property && property.event && !YAHOO.lang.isUndefined(property.value)) {
-			if (this.queueInProgress) {
-				this.queueProperty(key);
-			} else {
-				this.fireEvent(key, property.value);
-			}
-		}
-	},
-
-	/**
-	* Applies a key-value Object literal to the configuration, replacing any existing values, and queueing the property events.
-	* Although the values will be set, fireQueue() must be called for their associated events to execute.
-	* @method applyConfig
-	* @param {Object}	userConfig	The configuration Object literal
-	* @param {Boolean}	init		When set to true, the initialConfig will be set to the userConfig passed in, so that calling a reset will reset the properties to the passed values.
-	*/
-	applyConfig : function(userConfig, init) {
-		if (init) {
-			this.initialConfig = userConfig;
-		}
-		for (var prop in userConfig) {
-			this.queueProperty(prop, userConfig[prop]);
-		}
-	},
-
-	/**
-	* Refires the events for all configuration properties using their current values.
-	* @method refresh
-	*/
-	refresh : function() {
-		for (var prop in this.config) {
-			this.refireEvent(prop);
-		}
-	},
-
-	/**
-	* Fires the normalized list of queued property change events
-	* @method fireQueue
-	*/
-	fireQueue : function() {
-		this.queueInProgress = true;
-		for (var i=0;i<this.eventQueue.length;i++) {
-			var queueItem = this.eventQueue[i];
-			if (queueItem) {
-				var key = queueItem[0];
-				var value = queueItem[1];
-
-				var property = this.config[key];
-				property.value = value;
-
-				this.fireEvent(key,value);
-			}
-		}
-
-		this.queueInProgress = false;
-		this.eventQueue = [];
-	},
-
-	/**
-	* Subscribes an external handler to the change event for any given property.
-	* @method subscribeToConfigEvent
-	* @param {String}	key			The property name
-	* @param {Function}	handler		The handler function to use subscribe to the property's event
-	* @param {Object}	obj			The Object to use for scoping the event handler (see CustomEvent documentation)
-	* @param {Boolean}	override	Optional. If true, will override "this" within the handler to map to the scope Object passed into the method.
-	* @return {Boolean}				True, if the subscription was successful, otherwise false.
-	*/
-	subscribeToConfigEvent : function(key, handler, obj, override) {
-		var property = this.config[key.toLowerCase()];
-		if (property && property.event) {
-			if (! YAHOO.util.Config.alreadySubscribed(property.event, handler, obj)) {
-				property.event.subscribe(handler, obj, override);
-			}
-			return true;
-		} else {
-			return false;
-		}
-	},
-
-	/**
-	* Unsubscribes an external handler from the change event for any given property.
-	* @method unsubscribeFromConfigEvent
-	* @param {String}	key			The property name
-	* @param {Function}	handler		The handler function to use subscribe to the property's event
-	* @param {Object}	obj			The Object to use for scoping the event handler (see CustomEvent documentation)
-	* @return {Boolean}				True, if the unsubscription was successful, otherwise false.
-	*/
-	unsubscribeFromConfigEvent : function(key, handler, obj) {
-		var property = this.config[key.toLowerCase()];
-		if (property && property.event) {
-			return property.event.unsubscribe(handler, obj);
-		} else {
-			return false;
-		}
-	},
-
-	/**
-	* Returns a string representation of the Config object
-	* @method toString
-	* @return {String}	The Config object in string format.
-	*/
-	toString : function() {
-		var output = "Config";
-		if (this.owner) {
-			output += " [" + this.owner.toString() + "]";
-		}
-		return output;
-	},
-
-	/**
-	* Returns a string representation of the Config object's current CustomEvent queue
-	* @method outputEventQueue
-	* @return {String}	The string list of CustomEvents currently queued for execution
-	*/
-	outputEventQueue : function() {
-		var output = "";
-		for (var q=0;q<this.eventQueue.length;q++) {
-			var queueItem = this.eventQueue[q];
-			if (queueItem) {
-				output += queueItem[0] + "=" + queueItem[1] + ", ";
-			}
-		}
-		return output;
-	}
-};
+        if (!owner) {
 
 
-/**
-* Initializes the configuration Object and all of its local members.
-* @method init
-* @param {Object}	owner	The owner Object to which this Config Object belongs
-*/
-YAHOO.util.Config.prototype.init = function(owner) {
-	this.owner = owner;
-	this.configChangedEvent = new YAHOO.util.CustomEvent(YAHOO.util.CONFIG_CHANGED_EVENT, this);
-	this.queueInProgress = false;
-	this.config = {};
-	this.initialConfig = {};
-	this.eventQueue = [];
-};
+        }
 
-/**
-* Checks to determine if a particular function/Object pair are already subscribed to the specified CustomEvent
-* @method YAHOO.util.Config.alreadySubscribed
-* @static
-* @param {YAHOO.util.CustomEvent} evt	The CustomEvent for which to check the subscriptions
-* @param {Function}	fn	The function to look for in the subscribers list
-* @param {Object}	obj	The execution scope Object for the subscription
-* @return {Boolean}	true, if the function/Object pair is already subscribed to the CustomEvent passed in
-*/
-YAHOO.util.Config.alreadySubscribed = function(evt, fn, obj) {
-	for (var e=0;e<evt.subscribers.length;e++) {
-		var subsc = evt.subscribers[e];
-		if (subsc && subsc.obj == obj && subsc.fn == fn) {
-			return true;
-		}
-	}
-	return false;
-};
+    };
+
+
+    var Lang = YAHOO.lang,
+        CustomEvent = YAHOO.util.CustomEvent,
+        Config = YAHOO.util.Config;
+
+
+    /**
+     * Constant representing the CustomEvent type for the config changed event.
+     * @property YAHOO.util.Config.CONFIG_CHANGED_EVENT
+     * @private
+     * @static
+     * @final
+     */
+    Config.CONFIG_CHANGED_EVENT = "configChanged";
+
+    /**
+     * Constant representing the boolean type string
+     * @property YAHOO.util.Config.BOOLEAN_TYPE
+     * @private
+     * @static
+     * @final
+     */
+    Config.BOOLEAN_TYPE = "boolean";
+
+    Config.prototype = {
+
+        /**
+        * Object reference to the owner of this Config Object
+        * @property owner
+        * @type Object
+        */
+        owner: null,
+
+        /**
+        * Boolean flag that specifies whether a queue is currently
+        * being executed
+        * @property queueInProgress
+        * @type Boolean
+        */
+        queueInProgress: false,
+
+        /**
+        * Maintains the local collection of configuration property objects and
+        * their specified values
+        * @property config
+        * @private
+        * @type Object
+        */
+        config: null,
+
+        /**
+        * Maintains the local collection of configuration property objects as
+        * they were initially applied.
+        * This object is used when resetting a property.
+        * @property initialConfig
+        * @private
+        * @type Object
+        */
+        initialConfig: null,
+
+        /**
+        * Maintains the local, normalized CustomEvent queue
+        * @property eventQueue
+        * @private
+        * @type Object
+        */
+        eventQueue: null,
+
+        /**
+        * Custom Event, notifying subscribers when Config properties are set
+        * (setProperty is called without the silent flag
+        * @event configChangedEvent
+        */
+        configChangedEvent: null,
+
+        /**
+        * Initializes the configuration Object and all of its local members.
+        * @method init
+        * @param {Object} owner The owner Object to which this Config
+        * Object belongs
+        */
+        init: function (owner) {
+
+            this.owner = owner;
+
+            this.configChangedEvent =
+                this.createEvent(Config.CONFIG_CHANGED_EVENT);
+
+            this.configChangedEvent.signature = CustomEvent.LIST;
+            this.queueInProgress = false;
+            this.config = {};
+            this.initialConfig = {};
+            this.eventQueue = [];
+
+        },
+
+        /**
+        * Validates that the value passed in is a Boolean.
+        * @method checkBoolean
+        * @param {Object} val The value to validate
+        * @return {Boolean} true, if the value is valid
+        */
+        checkBoolean: function (val) {
+            return (typeof val == Config.BOOLEAN_TYPE);
+        },
+
+        /**
+        * Validates that the value passed in is a number.
+        * @method checkNumber
+        * @param {Object} val The value to validate
+        * @return {Boolean} true, if the value is valid
+        */
+        checkNumber: function (val) {
+            return (!isNaN(val));
+        },
+
+        /**
+        * Fires a configuration property event using the specified value.
+        * @method fireEvent
+        * @private
+        * @param {String} key The configuration property's name
+        * @param {value} Object The value of the correct type for the property
+        */
+        fireEvent: function ( key, value ) {
+            var property = this.config[key];
+
+            if (property && property.event) {
+                property.event.fire(value);
+            }
+        },
+
+        /**
+        * Adds a property to the Config Object's private config hash.
+        * @method addProperty
+        * @param {String} key The configuration property's name
+        * @param {Object} propertyObject The Object containing all of this
+        * property's arguments
+        */
+        addProperty: function ( key, propertyObject ) {
+            key = key.toLowerCase();
+
+            this.config[key] = propertyObject;
+
+            propertyObject.event = this.createEvent(key, { scope: this.owner });
+            propertyObject.event.signature = CustomEvent.LIST;
+
+
+            propertyObject.key = key;
+
+            if (propertyObject.handler) {
+                propertyObject.event.subscribe(propertyObject.handler,
+                    this.owner);
+            }
+
+            this.setProperty(key, propertyObject.value, true);
+
+            if (! propertyObject.suppressEvent) {
+                this.queueProperty(key, propertyObject.value);
+            }
+
+        },
+
+        /**
+        * Returns a key-value configuration map of the values currently set in
+        * the Config Object.
+        * @method getConfig
+        * @return {Object} The current config, represented in a key-value map
+        */
+        getConfig: function () {
+
+            var cfg = {},
+                prop,
+                property;
+
+            for (prop in this.config) {
+                property = this.config[prop];
+                if (property && property.event) {
+                    cfg[prop] = property.value;
+                }
+            }
+
+            return cfg;
+        },
+
+        /**
+        * Returns the value of specified property.
+        * @method getProperty
+        * @param {String} key The name of the property
+        * @return {Object}  The value of the specified property
+        */
+        getProperty: function (key) {
+            var property = this.config[key.toLowerCase()];
+            if (property && property.event) {
+                return property.value;
+            } else {
+                return undefined;
+            }
+        },
+
+        /**
+        * Resets the specified property's value to its initial value.
+        * @method resetProperty
+        * @param {String} key The name of the property
+        * @return {Boolean} True is the property was reset, false if not
+        */
+        resetProperty: function (key) {
+
+            key = key.toLowerCase();
+
+            var property = this.config[key];
+
+            if (property && property.event) {
+
+                if (this.initialConfig[key] &&
+                    !Lang.isUndefined(this.initialConfig[key])) {
+
+                    this.setProperty(key, this.initialConfig[key]);
+
+                }
+
+                return true;
+
+            } else {
+
+                return false;
+            }
+
+        },
+
+        /**
+        * Sets the value of a property. If the silent property is passed as
+        * true, the property's event will not be fired.
+        * @method setProperty
+        * @param {String} key The name of the property
+        * @param {String} value The value to set the property to
+        * @param {Boolean} silent Whether the value should be set silently,
+        * without firing the property event.
+        * @return {Boolean} True, if the set was successful, false if it failed.
+        */
+        setProperty: function (key, value, silent) {
+
+            var property;
+
+            key = key.toLowerCase();
+
+            if (this.queueInProgress && ! silent) {
+                // Currently running through a queue...
+                this.queueProperty(key,value);
+                return true;
+
+            } else {
+                property = this.config[key];
+                if (property && property.event) {
+                    if (property.validator && !property.validator(value)) {
+                        return false;
+                    } else {
+                        property.value = value;
+                        if (! silent) {
+                            this.fireEvent(key, value);
+                            this.configChangedEvent.fire([key, value]);
+                        }
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        },
+
+        /**
+        * Sets the value of a property and queues its event to execute. If the
+        * event is already scheduled to execute, it is
+        * moved from its current position to the end of the queue.
+        * @method queueProperty
+        * @param {String} key The name of the property
+        * @param {String} value The value to set the property to
+        * @return {Boolean}  true, if the set was successful, false if
+        * it failed.
+        */
+        queueProperty: function (key, value) {
+
+            key = key.toLowerCase();
+
+            var property = this.config[key],
+                foundDuplicate = false,
+                iLen,
+                queueItem,
+                queueItemKey,
+                queueItemValue,
+                sLen,
+                supercedesCheck,
+                qLen,
+                queueItemCheck,
+                queueItemCheckKey,
+                queueItemCheckValue,
+                i,
+                s,
+                q;
+
+            if (property && property.event) {
+
+                if (!Lang.isUndefined(value) && property.validator &&
+                    !property.validator(value)) { // validator
+                    return false;
+                } else {
+
+                    if (!Lang.isUndefined(value)) {
+                        property.value = value;
+                    } else {
+                        value = property.value;
+                    }
+
+                    foundDuplicate = false;
+                    iLen = this.eventQueue.length;
+
+                    for (i = 0; i < iLen; i++) {
+                        queueItem = this.eventQueue[i];
+
+                        if (queueItem) {
+                            queueItemKey = queueItem[0];
+                            queueItemValue = queueItem[1];
+
+                            if (queueItemKey == key) {
+
+                                /*
+                                    found a dupe... push to end of queue, null
+                                    current item, and break
+                                */
+
+                                this.eventQueue[i] = null;
+
+                                this.eventQueue.push(
+                                    [key, (!Lang.isUndefined(value) ?
+                                    value : queueItemValue)]);
+
+                                foundDuplicate = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // this is a refire, or a new property in the queue
+
+                    if (! foundDuplicate && !Lang.isUndefined(value)) {
+                        this.eventQueue.push([key, value]);
+                    }
+                }
+
+                if (property.supercedes) {
+
+                    sLen = property.supercedes.length;
+
+                    for (s = 0; s < sLen; s++) {
+
+                        supercedesCheck = property.supercedes[s];
+                        qLen = this.eventQueue.length;
+
+                        for (q = 0; q < qLen; q++) {
+                            queueItemCheck = this.eventQueue[q];
+
+                            if (queueItemCheck) {
+                                queueItemCheckKey = queueItemCheck[0];
+                                queueItemCheckValue = queueItemCheck[1];
+
+                                if (queueItemCheckKey ==
+                                    supercedesCheck.toLowerCase() ) {
+
+                                    this.eventQueue.push([queueItemCheckKey,
+                                        queueItemCheckValue]);
+
+                                    this.eventQueue[q] = null;
+                                    break;
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        /**
+        * Fires the event for a property using the property's current value.
+        * @method refireEvent
+        * @param {String} key The name of the property
+        */
+        refireEvent: function (key) {
+
+            key = key.toLowerCase();
+
+            var property = this.config[key];
+
+            if (property && property.event &&
+
+                !Lang.isUndefined(property.value)) {
+
+                if (this.queueInProgress) {
+
+                    this.queueProperty(key);
+
+                } else {
+
+                    this.fireEvent(key, property.value);
+
+                }
+
+            }
+        },
+
+        /**
+        * Applies a key-value Object literal to the configuration, replacing
+        * any existing values, and queueing the property events.
+        * Although the values will be set, fireQueue() must be called for their
+        * associated events to execute.
+        * @method applyConfig
+        * @param {Object} userConfig The configuration Object literal
+        * @param {Boolean} init  When set to true, the initialConfig will
+        * be set to the userConfig passed in, so that calling a reset will
+        * reset the properties to the passed values.
+        */
+        applyConfig: function (userConfig, init) {
+
+            var prop;
+
+            if (init) {
+                this.initialConfig = userConfig;
+            }
+            for (prop in userConfig) {
+                this.queueProperty(prop, userConfig[prop]);
+            }
+        },
+
+        /**
+        * Refires the events for all configuration properties using their
+        * current values.
+        * @method refresh
+        */
+        refresh: function () {
+
+            var prop;
+
+            for (prop in this.config) {
+                this.refireEvent(prop);
+            }
+        },
+
+        /**
+        * Fires the normalized list of queued property change events
+        * @method fireQueue
+        */
+        fireQueue: function () {
+
+            var i,
+                queueItem,
+                key,
+                value,
+                property;
+
+            this.queueInProgress = true;
+            for (i = 0;i < this.eventQueue.length; i++) {
+                queueItem = this.eventQueue[i];
+                if (queueItem) {
+
+                    key = queueItem[0];
+                    value = queueItem[1];
+                    property = this.config[key];
+
+                    property.value = value;
+
+                    this.fireEvent(key,value);
+                }
+            }
+
+            this.queueInProgress = false;
+            this.eventQueue = [];
+        },
+
+        /**
+        * Subscribes an external handler to the change event for any
+        * given property.
+        * @method subscribeToConfigEvent
+        * @param {String} key The property name
+        * @param {Function} handler The handler function to use subscribe to
+        * the property's event
+        * @param {Object} obj The Object to use for scoping the event handler
+        * (see CustomEvent documentation)
+        * @param {Boolean} override Optional. If true, will override "this"
+        * within the handler to map to the scope Object passed into the method.
+        * @return {Boolean} True, if the subscription was successful,
+        * otherwise false.
+        */
+        subscribeToConfigEvent: function (key, handler, obj, override) {
+
+            var property = this.config[key.toLowerCase()];
+
+            if (property && property.event) {
+
+                if (!Config.alreadySubscribed(property.event, handler, obj)) {
+
+                    property.event.subscribe(handler, obj, override);
+
+                }
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        },
+
+        /**
+        * Unsubscribes an external handler from the change event for any
+        * given property.
+        * @method unsubscribeFromConfigEvent
+        * @param {String} key The property name
+        * @param {Function} handler The handler function to use subscribe to
+        * the property's event
+        * @param {Object} obj The Object to use for scoping the event
+        * handler (see CustomEvent documentation)
+        * @return {Boolean} True, if the unsubscription was successful,
+        * otherwise false.
+        */
+        unsubscribeFromConfigEvent: function (key, handler, obj) {
+            var property = this.config[key.toLowerCase()];
+            if (property && property.event) {
+                return property.event.unsubscribe(handler, obj);
+            } else {
+                return false;
+            }
+        },
+
+        /**
+        * Returns a string representation of the Config object
+        * @method toString
+        * @return {String} The Config object in string format.
+        */
+        toString: function () {
+            var output = "Config";
+            if (this.owner) {
+                output += " [" + this.owner.toString() + "]";
+            }
+            return output;
+        },
+
+        /**
+        * Returns a string representation of the Config object's current
+        * CustomEvent queue
+        * @method outputEventQueue
+        * @return {String} The string list of CustomEvents currently queued
+        * for execution
+        */
+        outputEventQueue: function () {
+
+            var output = "",
+                queueItem,
+                q,
+                nQueue = this.eventQueue.length;
+
+            for (q = 0; q < nQueue; q++) {
+                queueItem = this.eventQueue[q];
+                if (queueItem) {
+                    output += queueItem[0] + "=" + queueItem[1] + ", ";
+                }
+            }
+            return output;
+        },
+
+        /**
+        * Sets all properties to null, unsubscribes all listeners from each
+        * property's change event and all listeners from the configChangedEvent.
+        * @method destroy
+        */
+        destroy: function () {
+
+            var oConfig = this.config,
+                sProperty,
+                oProperty;
+
+
+            for (sProperty in oConfig) {
+
+                if (Lang.hasOwnProperty(oConfig, sProperty)) {
+
+                    oProperty = oConfig[sProperty];
+
+                    oProperty.event.unsubscribeAll();
+                    oProperty.event = null;
+
+                }
+
+            }
+
+            this.configChangedEvent.unsubscribeAll();
+
+            this.configChangedEvent = null;
+            this.owner = null;
+            this.config = null;
+            this.initialConfig = null;
+            this.eventQueue = null;
+
+        }
+
+    };
+
+
+
+    /**
+    * Checks to determine if a particular function/Object pair are already
+    * subscribed to the specified CustomEvent
+    * @method YAHOO.util.Config.alreadySubscribed
+    * @static
+    * @param {YAHOO.util.CustomEvent} evt The CustomEvent for which to check
+    * the subscriptions
+    * @param {Function} fn The function to look for in the subscribers list
+    * @param {Object} obj The execution scope Object for the subscription
+    * @return {Boolean} true, if the function/Object pair is already subscribed
+    * to the CustomEvent passed in
+    */
+    Config.alreadySubscribed = function (evt, fn, obj) {
+
+        var nSubscribers = evt.subscribers.length,
+            subsc,
+            i;
+
+        if (nSubscribers > 0) {
+
+            i = nSubscribers - 1;
+
+            do {
+
+                subsc = evt.subscribers[i];
+
+                if (subsc && subsc.obj == obj && subsc.fn == fn) {
+
+                    return true;
+
+                }
+
+            }
+            while (i--);
+
+        }
+
+        return false;
+
+    };
+
+    YAHOO.lang.augmentProto(Config, YAHOO.util.EventProvider);
+
+}());
 
 /**
 * YAHOO.widget.DateMath is used for simple date manipulation. The class is a static utility
@@ -679,7 +895,6 @@ YAHOO.widget.DateMath = {
 	* @param {Date}	date	The JavaScript date for which to find the week number
 	* @param {Number} calendarYear	OPTIONAL - The calendar year to use for determining the week number. Default is
 	*											the calendar year of parameter "date".
-	* @param {Number} weekStartsOn	OPTIONAL - The integer (0-6) representing which day a week begins on. Default is 0 (for Sunday).
 	* @return {Number}	The week number of the given date.
 	*/
 	getWeekNumber : function(date, calendarYear) {
@@ -760,7 +975,7 @@ YAHOO.widget.DateMath = {
 };
 
 /**
-* The Calendar component is a UI control that enables users to choose one or more dates from a graphical calendar presented in a one-month ("one-up") or two-month ("two-up") interface. Calendars are generated entirely via script and can be navigated without any page refreshes.
+* The Calendar component is a UI control that enables users to choose one or more dates from a graphical calendar presented in a one-month  or multi-month interface. Calendars are generated entirely via script and can be navigated without any page refreshes.
 * @module    calendar
 * @title     Calendar
 * @namespace YAHOO.widget
@@ -777,7 +992,6 @@ YAHOO.widget.DateMath = {
 *	<xmp>
 *		<div id="cal1Container"></div>
 *	</xmp>
-* Note that the table can be replaced with any kind of element.
 * </p>
 * @namespace YAHOO.widget
 * @class Calendar
@@ -912,7 +1126,7 @@ YAHOO.widget.Calendar._DEFAULT_CONFIG = {
 	SELECTED : {key:"selected", value:null},
 	TITLE : {key:"title", value:""},
 	CLOSE : {key:"close", value:false},
-	IFRAME : {key:"iframe", value:true},
+	IFRAME : {key:"iframe", value:(YAHOO.env.ua.ie && YAHOO.env.ua.ie <= 6) ? true : false},
 	MINDATE : {key:"mindate", value:null},
 	MAXDATE : {key:"maxdate", value:null},
 	MULTI_SELECT : {key:"multi_select", value:false},
@@ -940,7 +1154,11 @@ YAHOO.widget.Calendar._DEFAULT_CONFIG = {
 	MD_DAY_POSITION:{key:"md_day_position", value:2},
 	MDY_MONTH_POSITION:{key:"mdy_month_position", value:1},
 	MDY_DAY_POSITION:{key:"mdy_day_position", value:2},
-	MDY_YEAR_POSITION:{key:"mdy_year_position", value:3}
+	MDY_YEAR_POSITION:{key:"mdy_year_position", value:3},
+	MY_LABEL_MONTH_POSITION:{key:"my_label_month_position", value:1},
+	MY_LABEL_YEAR_POSITION:{key:"my_label_year_position", value:2},
+	MY_LABEL_MONTH_SUFFIX:{key:"my_label_month_suffix", value:" "},
+	MY_LABEL_YEAR_SUFFIX:{key:"my_label_year_suffix", value:""}
 };
 
 /**
@@ -1156,7 +1374,9 @@ YAHOO.widget.Calendar.prototype.init = function(id, containerId, config) {
 };
 
 /**
-* Renders the built-in IFRAME shim for the IE6 and below
+* Default Config listener for the iframe property. If the iframe config property is set to true,
+* renders the built-in IFRAME shim if the container is relatively or absolutely positioned.
+*
 * @method configIframe
 */
 YAHOO.widget.Calendar.prototype.configIframe = function(type, args, obj) {
@@ -1167,11 +1387,18 @@ YAHOO.widget.Calendar.prototype.configIframe = function(type, args, obj) {
 			if (useIframe) {
 				var pos = YAHOO.util.Dom.getStyle(this.oDomContainer, "position");
 
-				if (this.browser == "ie" && (pos == "absolute" || pos == "relative")) {
-					if (! YAHOO.util.Dom.inDocument(this.iframe)) {
+				if (pos == "absolute" || pos == "relative") {
+
+					if (!YAHOO.util.Dom.inDocument(this.iframe)) {
 						this.iframe = document.createElement("iframe");
 						this.iframe.src = "javascript:false;";
+
 						YAHOO.util.Dom.setStyle(this.iframe, "opacity", "0");
+
+						if (YAHOO.env.ua.ie && YAHOO.env.ua.ie <= 6) {
+							YAHOO.util.Dom.addClass(this.iframe, "fixedsize");
+						}
+
 						this.oDomContainer.insertBefore(this.iframe, this.oDomContainer.firstChild);
 					}
 				}
@@ -1487,9 +1714,12 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 
 	/**
 	* Whether or not an iframe shim should be placed under the Calendar to prevent select boxes from bleeding through in Internet Explorer 6 and below.
+	* This property is enabled by default for IE6 and below. It is disabled by default for other browsers for performance reasons, but can be
+	* enabled if required.
+	*
 	* @config iframe
 	* @type Boolean
-	* @default true
+	* @default true for IE6 and below, false for all other browsers
 	*/
 	this.cfg.addProperty(defCfg.IFRAME.key, { value:defCfg.IFRAME.value, handler:this.configIframe, validator:this.cfg.checkBoolean } );
 
@@ -1741,6 +1971,38 @@ YAHOO.widget.Calendar.prototype.setupConfig = function() {
 	* @default 3
 	*/
 	this.cfg.addProperty(defCfg.MDY_YEAR_POSITION.key,	{ value:defCfg.MDY_YEAR_POSITION.value, handler:this.configLocale, validator:this.cfg.checkNumber } );
+
+	/**
+	* The position of the month in the month year label string used as the Calendar header
+	* @config MY_LABEL_MONTH_POSITION
+	* @type Number
+	* @default 1
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_MONTH_POSITION.key,	{ value:defCfg.MY_LABEL_MONTH_POSITION.value, handler:this.configLocale, validator:this.cfg.checkNumber } );
+
+	/**
+	* The position of the year in the month year label string used as the Calendar header
+	* @config MY_LABEL_YEAR_POSITION
+	* @type Number
+	* @default 2
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_YEAR_POSITION.key,	{ value:defCfg.MY_LABEL_YEAR_POSITION.value, handler:this.configLocale, validator:this.cfg.checkNumber } );
+
+	/**
+	* The suffix used after the month when rendering the Calendar header
+	* @config MY_LABEL_MONTH_SUFFIX
+	* @type String
+	* @default " "
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_MONTH_SUFFIX.key,	{ value:defCfg.MY_LABEL_MONTH_SUFFIX.value, handler:this.configLocale } );
+
+	/**
+	* The suffix used after the year when rendering the Calendar header
+	* @config MY_LABEL_YEAR_SUFFIX
+	* @type String
+	* @default ""
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_YEAR_SUFFIX.key, { value:defCfg.MY_LABEL_YEAR_SUFFIX.value, handler:this.configLocale } );
 };
 
 /**
@@ -2013,7 +2275,15 @@ YAHOO.widget.Calendar.prototype.initStyles = function() {
 */
 YAHOO.widget.Calendar.prototype.buildMonthLabel = function() {
 	var pageDate = this.cfg.getProperty(YAHOO.widget.Calendar._DEFAULT_CONFIG.PAGEDATE.key);
-	return this.Locale.LOCALE_MONTHS[pageDate.getMonth()] + " " + pageDate.getFullYear();
+
+	var monthLabel  = this.Locale.LOCALE_MONTHS[pageDate.getMonth()] + this.Locale.MY_LABEL_MONTH_SUFFIX;
+	var yearLabel = pageDate.getFullYear() + this.Locale.MY_LABEL_YEAR_SUFFIX;
+
+	if (this.Locale.MY_LABEL_MONTH_POSITION == 2 || this.Locale.MY_LABEL_YEAR_POSITION == 1) {
+		return yearLabel + monthLabel;
+	} else {
+		return monthLabel + yearLabel;
+	}
 };
 
 /**
@@ -2052,7 +2322,7 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 	html[html.length] =			'<th colspan="' + colSpan + '" class="' + this.Style.CSS_HEADER_TEXT + '">';
 	html[html.length] =				'<div class="' + this.Style.CSS_HEADER + '">';
 
-	var renderLeft, renderRight = false;
+	var renderFirst, renderLeft, renderRight, renderLast = false;
 
 	if (this.parent) {
 		if (this.index === 0) {
@@ -2083,7 +2353,7 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 			leftArrow = YAHOO.widget.Calendar.IMG_ROOT + DEPR_NAV_LEFT;
 		}
 		var leftStyle = (leftArrow === null) ? "" : ' style="background-image:url(' + leftArrow + ')"';
-		html[html.length] = '<a class="' + this.Style.CSS_NAV_LEFT + '"' + leftStyle + ' title="Previous month" >&#160;</a>';
+	html[html.length] = '<a class="' + this.Style.CSS_NAV_LEFT + '"' + leftStyle + ' title="Previous month" >&#160;</a>';
 	}
 
 	html[html.length] = this.buildMonthLabel();
@@ -2100,7 +2370,6 @@ YAHOO.widget.Calendar.prototype.renderHeader = function(html) {
 	if (renderLast) {
 		html[html.length] = '<a class="' + this.Style.CSS_NAV_LAST + '"' + rightStyle + ' title="Next year" >&#160;</a>';
 	}
-
 	html[html.length] =	'</div>\n</th>\n</tr>';
 
 	if (this.cfg.getProperty(defCfg.SHOW_WEEKDAYS.key)) {
@@ -2444,14 +2713,14 @@ YAHOO.widget.Calendar.prototype.applyListeners = function() {
 	var linkRight = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_RIGHT, anchor, root);
 	var linkLast = YAHOO.util.Dom.getElementsByClassName(this.Style.CSS_NAV_LAST, anchor, root);
 
-	if (linkLeft && linkLeft.length > 0) {
-		this.linkLeft = linkLeft[0];
-		YAHOO.util.Event.addListener(this.linkLeft, mousedown, cal.previousMonth, cal, true);
-	}
-
 	if (linkFirst && linkFirst.length > 0) {
 		this.linkFirst = linkFirst[0];
 		YAHOO.util.Event.addListener(this.linkFirst, mousedown, cal.previousYear, cal, true);
+	}
+
+	if (linkLeft && linkLeft.length > 0) {
+		this.linkLeft = linkLeft[0];
+		YAHOO.util.Event.addListener(this.linkLeft, mousedown, cal.previousMonth, cal, true);
 	}
 
 	if (linkRight && linkRight.length > 0) {
@@ -2791,6 +3060,12 @@ YAHOO.widget.Calendar.prototype.clear = function() {
 * Selects a date or a collection of dates on the current calendar. This method, by default,
 * does not call the render method explicitly. Once selection has completed, render must be
 * called for the changes to be reflected visually.
+*
+* Any dates which are OOB (out of bounds, not selectable) will not be selected and the array of
+* selected dates passed to the selectEvent will not contain OOB dates.
+*
+* If all dates are OOB, the no state change will occur; beforeSelect and select events will not be fired.
+*
 * @method select
 * @param	{String/Date/Date[]}	date	The date string of dates to select in the current calendar. Valid formats are
 *								individual date(s) (12/24/2005,12/26/2005) or date range(s) (12/24/2005-1/1/2006).
@@ -2799,27 +3074,41 @@ YAHOO.widget.Calendar.prototype.clear = function() {
 * @return	{Date[]}			Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.select = function(date) {
-	this.beforeSelectEvent.fire();
 
-	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
-
-	var selected = this.cfg.getProperty(cfgSelected);
 	var aToBeSelected = this._toFieldArray(date);
 
-	for (var a=0;a<aToBeSelected.length;++a) {
-		var toSelect = aToBeSelected[a]; // For each date item in the list of dates we're trying to select
-		if (this._indexOfSelectedFieldArray(toSelect) == -1) { // not already selected?
-			selected[selected.length]=toSelect;
+	// Filtered array of valid dates
+	var validDates = [];
+	var selected = [];
+	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
+
+	for (var a=0; a < aToBeSelected.length; ++a) {
+		var toSelect = aToBeSelected[a];
+
+		if (!this.isDateOOB(this._toDate(toSelect))) {
+
+			if (validDates.length === 0) {
+				this.beforeSelectEvent.fire();
+				selected = this.cfg.getProperty(cfgSelected);
+			}
+
+			validDates.push(toSelect);
+
+			if (this._indexOfSelectedFieldArray(toSelect) == -1) {
+				selected[selected.length] = toSelect;
+			}
 		}
 	}
 
-	if (this.parent) {
-		this.parent.cfg.setProperty(cfgSelected, selected);
-	} else {
-		this.cfg.setProperty(cfgSelected, selected);
-	}
 
-	this.selectEvent.fire(aToBeSelected);
+	if (validDates.length > 0) {
+		if (this.parent) {
+			this.parent.cfg.setProperty(cfgSelected, selected);
+		} else {
+			this.cfg.setProperty(cfgSelected, selected);
+		}
+		this.selectEvent.fire(validDates);
+	}
 
 	return this.getSelectedDates();
 };
@@ -2828,38 +3117,44 @@ YAHOO.widget.Calendar.prototype.select = function(date) {
 * Selects a date on the current calendar by referencing the index of the cell that should be selected.
 * This method is used to easily select a single cell (usually with a mouse click) without having to do
 * a full render. The selected style is applied to the cell directly.
+*
+* If the cell is not marked with the CSS_CELL_SELECTABLE class (as is the case by default for out of month
+* or out of bounds cells), it will not be selected and in such a case beforeSelect and select events will not be fired.
+*
 * @method selectCell
 * @param	{Number}	cellIndex	The index of the cell to select in the current calendar.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.selectCell = function(cellIndex) {
-	this.beforeSelectEvent.fire();
-
-	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
-	var selected = this.cfg.getProperty(cfgSelected);
 
 	var cell = this.cells[cellIndex];
 	var cellDate = this.cellDates[cellIndex];
-
 	var dCellDate = this._toDate(cellDate);
 
-	var selectDate = cellDate.concat();
+	var selectable = YAHOO.util.Dom.hasClass(cell, this.Style.CSS_CELL_SELECTABLE);
 
-	if (this._indexOfSelectedFieldArray(selectDate) == -1) {
-		selected[selected.length] = selectDate;
+	if (selectable) {
+
+		this.beforeSelectEvent.fire();
+
+		var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
+		var selected = this.cfg.getProperty(cfgSelected);
+
+		var selectDate = cellDate.concat();
+
+		if (this._indexOfSelectedFieldArray(selectDate) == -1) {
+			selected[selected.length] = selectDate;
+		}
+		if (this.parent) {
+			this.parent.cfg.setProperty(cfgSelected, selected);
+		} else {
+			this.cfg.setProperty(cfgSelected, selected);
+		}
+		this.renderCellStyleSelected(dCellDate,cell);
+		this.selectEvent.fire([selectDate]);
+
+		this.doCellMouseOut.call(cell, null, this);
 	}
-
-	if (this.parent) {
-		this.parent.cfg.setProperty(cfgSelected, selected);
-	} else {
-		this.cfg.setProperty(cfgSelected, selected);
-	}
-
-	this.renderCellStyleSelected(dCellDate,cell);
-
-	this.selectEvent.fire([selectDate]);
-
-	this.doCellMouseOut.call(cell, null, this);
 
 	return this.getSelectedDates();
 };
@@ -2868,6 +3163,12 @@ YAHOO.widget.Calendar.prototype.selectCell = function(cellIndex) {
 * Deselects a date or a collection of dates on the current calendar. This method, by default,
 * does not call the render method explicitly. Once deselection has completed, render must be
 * called for the changes to be reflected visually.
+*
+* The method will not attempt to deselect any dates which are OOB (out of bounds, and hence not selectable)
+* and the array of deselected dates passed to the deselectEvent will not contain any OOB dates.
+*
+* If all dates are OOB, beforeDeselect and deselect events will not be fired.
+*
 * @method deselect
 * @param	{String/Date/Date[]}	date	The date string of dates to deselect in the current calendar. Valid formats are
 *								individual date(s) (12/24/2005,12/26/2005) or date range(s) (12/24/2005-1/1/2006).
@@ -2876,29 +3177,41 @@ YAHOO.widget.Calendar.prototype.selectCell = function(cellIndex) {
 * @return	{Date[]}			Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
 YAHOO.widget.Calendar.prototype.deselect = function(date) {
-	this.beforeDeselectEvent.fire();
+
+	var aToBeDeselected = this._toFieldArray(date);
+
+	var validDates = [];
+	var selected = [];
 	var cfgSelected = YAHOO.widget.Calendar._DEFAULT_CONFIG.SELECTED.key;
 
-	var selected = this.cfg.getProperty(cfgSelected);
+	for (var a=0; a < aToBeDeselected.length; ++a) {
+		var toDeselect = aToBeDeselected[a];
 
-	var aToBeSelected = this._toFieldArray(date);
+		if (!this.isDateOOB(this._toDate(toDeselect))) {
 
-	for (var a=0;a<aToBeSelected.length;++a) {
-		var toSelect = aToBeSelected[a]; // For each date item in the list of dates we're trying to select
-		var index = this._indexOfSelectedFieldArray(toSelect);
+			if (validDates.length === 0) {
+				this.beforeDeselectEvent.fire();
+				selected = this.cfg.getProperty(cfgSelected);
+			}
 
-		if (index != -1) {
-			selected.splice(index,1);
+			validDates.push(toDeselect);
+
+			var index = this._indexOfSelectedFieldArray(toDeselect);
+			if (index != -1) {
+				selected.splice(index,1);
+			}
 		}
 	}
 
-	if (this.parent) {
-		this.parent.cfg.setProperty(cfgSelected, selected);
-	} else {
-		this.cfg.setProperty(cfgSelected, selected);
-	}
 
-	this.deselectEvent.fire(aToBeSelected);
+	if (validDates.length > 0) {
+		if (this.parent) {
+			this.parent.cfg.setProperty(cfgSelected, selected);
+		} else {
+			this.cfg.setProperty(cfgSelected, selected);
+		}
+		this.deselectEvent.fire(validDates);
+	}
 
 	return this.getSelectedDates();
 };
@@ -2907,41 +3220,49 @@ YAHOO.widget.Calendar.prototype.deselect = function(date) {
 * Deselects a date on the current calendar by referencing the index of the cell that should be deselected.
 * This method is used to easily deselect a single cell (usually with a mouse click) without having to do
 * a full render. The selected style is removed from the cell directly.
+*
+* If the cell is not marked with the CSS_CELL_SELECTABLE class (as is the case by default for out of month
+* or out of bounds cells), the method will not attempt to deselect it and in such a case, beforeDeselect and
+* deselect events will not be fired.
+*
 * @method deselectCell
 * @param	{Number}	cellIndex	The index of the cell to deselect in the current calendar.
 * @return	{Date[]}	Array of JavaScript Date objects representing all individual dates that are currently selected.
 */
-YAHOO.widget.Calendar.prototype.deselectCell = function(i) {
-	this.beforeDeselectEvent.fire();
-
-	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
-
-	var selected = this.cfg.getProperty(defCfg.SELECTED.key);
-
-	var cell = this.cells[i];
-	var cellDate = this.cellDates[i];
+YAHOO.widget.Calendar.prototype.deselectCell = function(cellIndex) {
+	var cell = this.cells[cellIndex];
+	var cellDate = this.cellDates[cellIndex];
 	var cellDateIndex = this._indexOfSelectedFieldArray(cellDate);
 
-	var dCellDate = this._toDate(cellDate);
+	var selectable = YAHOO.util.Dom.hasClass(cell, this.Style.CSS_CELL_SELECTABLE);
 
-	var selectDate = cellDate.concat();
+	if (selectable) {
 
-	if (cellDateIndex > -1) {
-		if (this.cfg.getProperty(defCfg.PAGEDATE.key).getMonth() == dCellDate.getMonth() &&
-			this.cfg.getProperty(defCfg.PAGEDATE.key).getFullYear() == dCellDate.getFullYear()) {
-			YAHOO.util.Dom.removeClass(cell, this.Style.CSS_CELL_SELECTED);
+		this.beforeDeselectEvent.fire();
+
+		var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
+		var selected = this.cfg.getProperty(defCfg.SELECTED.key);
+
+		var dCellDate = this._toDate(cellDate);
+		var selectDate = cellDate.concat();
+
+		if (cellDateIndex > -1) {
+			if (this.cfg.getProperty(defCfg.PAGEDATE.key).getMonth() == dCellDate.getMonth() &&
+				this.cfg.getProperty(defCfg.PAGEDATE.key).getFullYear() == dCellDate.getFullYear()) {
+				YAHOO.util.Dom.removeClass(cell, this.Style.CSS_CELL_SELECTED);
+			}
+			selected.splice(cellDateIndex, 1);
 		}
 
-		selected.splice(cellDateIndex, 1);
+		if (this.parent) {
+			this.parent.cfg.setProperty(defCfg.SELECTED.key, selected);
+		} else {
+			this.cfg.setProperty(defCfg.SELECTED.key, selected);
+		}
+
+		this.deselectEvent.fire(selectDate);
 	}
 
-	if (this.parent) {
-		this.parent.cfg.setProperty(defCfg.SELECTED.key, selected);
-	} else {
-		this.cfg.setProperty(defCfg.SELECTED.key, selected);
-	}
-
-	this.deselectEvent.fire(selectDate);
 	return this.getSelectedDates();
 };
 
@@ -3075,6 +3396,33 @@ YAHOO.widget.Calendar.prototype._indexOfSelectedFieldArray = function(find) {
 */
 YAHOO.widget.Calendar.prototype.isDateOOM = function(date) {
 	return (date.getMonth() != this.cfg.getProperty(YAHOO.widget.Calendar._DEFAULT_CONFIG.PAGEDATE.key).getMonth());
+};
+
+/**
+* Determines whether a given date is OOB (out of bounds - less than the mindate or more than the maxdate).
+*
+* @method	isDateOOB
+* @param	{Date}	date	The JavaScript Date object for which to check the OOB status
+* @return	{Boolean}	true if the date is OOB
+*/
+YAHOO.widget.Calendar.prototype.isDateOOB = function(date) {
+	var defCfg = YAHOO.widget.Calendar._DEFAULT_CONFIG;
+
+	var minDate = this.cfg.getProperty(defCfg.MINDATE.key);
+	var maxDate = this.cfg.getProperty(defCfg.MAXDATE.key);
+	var dm = YAHOO.widget.DateMath;
+
+	if (minDate) {
+		minDate = dm.clearTime(minDate);
+	}
+	if (maxDate) {
+		maxDate = dm.clearTime(maxDate);
+	}
+
+	var clearedDate = new Date(date.getTime());
+	clearedDate = dm.clearTime(clearedDate);
+
+	return ((minDate && clearedDate.getTime() < minDate.getTime()) || (maxDate && clearedDate.getTime() > maxDate.getTime()));
 };
 
 /**
@@ -3435,6 +3783,8 @@ YAHOO.widget.Calendar.prototype.show = function() {
 
 /**
 * Returns a string representing the current browser.
+* @deprecated As of 2.3.0, environment information is available in YAHOO.env.ua
+* @see YAHOO.env.ua
 * @property browser
 * @type String
 */
@@ -3572,19 +3922,8 @@ YAHOO.widget.CalendarGroup.prototype.init = function(id, containerId, config) {
 	this.cfg.fireQueue();
 
 	// OPERA HACK FOR MISWRAPPED FLOATS
-	if (this.browser == "opera"){
-		var fixWidth = function() {
-			var startW = this.oDomContainer.offsetWidth;
-			var w = 0;
-			for (var p=0;p<this.pages.length;++p) {
-				var cal = this.pages[p];
-				w += cal.oDomContainer.offsetWidth;
-			}
-			if (w > 0) {
-				this.oDomContainer.style.width = w + "px";
-			}
-		};
-		this.renderEvent.subscribe(fixWidth,this,true);
+	if (YAHOO.env.ua.opera){
+		this.renderEvent.subscribe(this._fixWidth, this, true);
 	}
 };
 
@@ -3635,9 +3974,12 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 
 	/**
 	* Whether or not an iframe shim should be placed under the Calendar to prevent select boxes from bleeding through in Internet Explorer 6 and below.
+	* This property is enabled by default for IE6 and below. It is disabled by default for other browsers for performance reasons, but can be
+	* enabled if required.
+	*
 	* @config iframe
 	* @type Boolean
-	* @default true
+	* @default true for IE6 and below, false for all other browsers
 	*/
 	this.cfg.addProperty(defCfg.IFRAME.key, { value:defCfg.IFRAME.value, handler:this.configIframe, validator:this.cfg.checkBoolean } );
 
@@ -3871,6 +4213,37 @@ YAHOO.widget.CalendarGroup.prototype.setupConfig = function() {
 	*/
 	this.cfg.addProperty(defCfg.MDY_YEAR_POSITION.key,	{ value:defCfg.MDY_YEAR_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
 
+	/**
+	* The position of the month in the month year label string used as the Calendar header
+	* @config MY_LABEL_MONTH_POSITION
+	* @type Number
+	* @default 1
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_MONTH_POSITION.key,	{ value:defCfg.MY_LABEL_MONTH_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
+
+	/**
+	* The position of the year in the month year label string used as the Calendar header
+	* @config MY_LABEL_YEAR_POSITION
+	* @type Number
+	* @default 2
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_YEAR_POSITION.key,	{ value:defCfg.MY_LABEL_YEAR_POSITION.value, handler:this.delegateConfig, validator:this.cfg.checkNumber } );
+
+	/**
+	* The suffix used after the month when rendering the Calendar header
+	* @config MY_LABEL_MONTH_SUFFIX
+	* @type String
+	* @default " "
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_MONTH_SUFFIX.key,	{ value:defCfg.MY_LABEL_MONTH_SUFFIX.value, handler:this.delegateConfig } );
+
+	/**
+	* The suffix used after the year when rendering the Calendar header
+	* @config MY_LABEL_YEAR_SUFFIX
+	* @type String
+	* @default ""
+	*/
+	this.cfg.addProperty(defCfg.MY_LABEL_YEAR_SUFFIX.key, { value:defCfg.MY_LABEL_YEAR_SUFFIX.value, handler:this.delegateConfig } );
 };
 
 /**
@@ -3994,8 +4367,9 @@ YAHOO.widget.CalendarGroup.prototype.configPages = function(type, args, obj) {
 	// Define literals outside loop
 	var sep = "_";
 	var groupCalClass = "groupcal";
-	var firstClass = "first";
-	var lastClass = "last";
+
+	var firstClass = "first-of-type";
+	var lastClass = "last-of-type";
 
 	for (var p=0;p<pageCount;++p) {
 		var calId = this.id + sep + p;
@@ -4408,7 +4782,7 @@ YAHOO.widget.CalendarGroup.prototype.addMonthRenderer = function(month, fnRender
 * Adds a weekday to the render stack. The function reference passed to this method will be executed
 * when a date cell matches the weekday passed to this method.
 * @method addWeekdayRenderer
-* @param	{Number}	weekday		The weekday (0-6) to associate with this renderer
+* @param	{Number}	weekday		The weekday (1-7) to associate with this renderer. 1=Sunday, 2=Monday etc.
 * @param	{Function}	fnRender	The function executed to render cells that match the render rules for this renderer.
 */
 YAHOO.widget.CalendarGroup.prototype.addWeekdayRenderer = function(weekday, fnRender) {
@@ -4473,6 +4847,17 @@ YAHOO.widget.CalendarGroup.prototype.subtractYears = function(count) {
 };
 
 /**
+* Shows the CalendarGroup's outer container.
+* @method show
+*/
+YAHOO.widget.CalendarGroup.prototype.show = function() {
+	this.oDomContainer.style.display = "block";
+	if (YAHOO.env.ua.opera) {
+		this._fixWidth();
+	}
+};
+
+/**
 * Sets the month on a Date object, taking into account year rollover if the month is less than 0 or greater than 11.
 * The Date object passed in is modified. It should be cloned before passing it into this method if the original value needs to be maintained
 * @method	_setMonthOnDate
@@ -4481,13 +4866,30 @@ YAHOO.widget.CalendarGroup.prototype.subtractYears = function(count) {
 * @param	{Number}	iMonth	The month index to set
 */
 YAHOO.widget.CalendarGroup.prototype._setMonthOnDate = function(date, iMonth) {
-	// BUG in Safari 1.3, 2.0 (WebKit build < 420), Date.setMonth does not work consistently if iMonth is not 0-11
-	if (this.browser == "safari" && (iMonth < 0 || iMonth > 11)) {
+	// Bug in Safari 1.3, 2.0 (WebKit build < 420), Date.setMonth does not work consistently if iMonth is not 0-11
+	if (YAHOO.env.ua.webkit && YAHOO.env.ua.webkit < 420 && (iMonth < 0 || iMonth > 11)) {
 		var DM = YAHOO.widget.DateMath;
 		var newDate = DM.add(date, DM.MONTH, iMonth-date.getMonth());
 		date.setTime(newDate.getTime());
 	} else {
 		date.setMonth(iMonth);
+	}
+};
+
+/**
+ * Fixes the width of the CalendarGroup container element, to account for miswrapped floats
+ * @method _fixWidth
+ * @private
+ */
+YAHOO.widget.CalendarGroup.prototype._fixWidth = function() {
+	var startW = this.oDomContainer.offsetWidth;
+	var w = 0;
+	for (var p=0;p<this.pages.length;++p) {
+		var cal = this.pages[p];
+		w += cal.oDomContainer.offsetWidth;
+	}
+	if (w > 0) {
+		this.oDomContainer.style.width = w + "px";
 	}
 };
 
@@ -4530,7 +4932,7 @@ YAHOO.widget.CalendarGroup.CSS_2UPTITLE = "title";
 */
 YAHOO.widget.CalendarGroup.CSS_2UPCLOSE = "close-icon";
 
-YAHOO.augment(YAHOO.widget.CalendarGroup, YAHOO.widget.Calendar, "buildDayLabel",
+YAHOO.lang.augmentProto(YAHOO.widget.CalendarGroup, YAHOO.widget.Calendar, "buildDayLabel",
 																 "buildMonthLabel",
 																 "renderOutOfBoundsDate",
 																 "renderRowHeader",
@@ -4550,7 +4952,6 @@ YAHOO.augment(YAHOO.widget.CalendarGroup, YAHOO.widget.Calendar, "buildDayLabel"
 																 "configClose",
 																 "configIframe",
 																 "hide",
-																 "show",
 																 "browser");
 
 /**
@@ -4591,4 +4992,4 @@ YAHOO.extend(YAHOO.widget.Calendar2up, YAHOO.widget.CalendarGroup);
 */
 YAHOO.widget.Cal2up = YAHOO.widget.Calendar2up;
 
-YAHOO.register("calendar", YAHOO.widget.Calendar, {version: "2.2.2", build: "204"});
+YAHOO.register("calendar", YAHOO.widget.Calendar, {version: "2.3.0", build: "442"});

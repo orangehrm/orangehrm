@@ -200,5 +200,39 @@ class CommonFunctions {
 
 		return false;
 	}
+
+	public static function convertToXpDateFormat($dateFormat) {
+		$map = array(// Day
+					 'd'=>'dd',
+					 'j'=>'d',
+					 // Month
+					 'm'=>'MM',
+					 'n'=>'M',
+					 // Year
+					 'Y'=>'yyyy',
+					 'y'=>'yy',
+					 // Hours
+					 'H'=>'HH',
+					 'h'=>'hh',
+					 'G'=>'H',
+					 'g'=>'h',
+					 // Minutes
+					 'i'=>'mm',
+					 // Seconds
+					 's'=>'ss');
+
+		$chars = str_split($dateFormat, 1);
+		$conv = '';
+
+		for ($i=0; $i<count($chars); $i++) {
+			if (isset($map[$chars[$i]])) {
+				$conv.=$map[$chars[$i]];
+			} else {
+				$conv.=$chars[$i];
+			}
+		}
+
+		return $conv;
+	}
 }
 ?>

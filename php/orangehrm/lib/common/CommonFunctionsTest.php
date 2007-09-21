@@ -128,6 +128,45 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(CommonFunctions::IsValidId("031"));
 
     }
+
+    public function testConvertToXpDateFormat() {
+    	$formatStr = 'Y-m-d';
+    	$xpFormatStr = 'yyyy-MM-dd';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'y-m-d';
+    	$xpFormatStr = 'yy-MM-dd';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'Y-n-d';
+    	$xpFormatStr = 'yyyy-M-dd';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'Y-m-j';
+    	$xpFormatStr = 'yyyy-MM-d';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'H:i:s';
+    	$xpFormatStr = 'HH:mm:ss';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'h:i:s';
+    	$xpFormatStr = 'hh:mm:ss';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'G:i:s';
+    	$xpFormatStr = 'H:mm:ss';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'g:i:s';
+    	$xpFormatStr = 'h:mm:ss';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    	$formatStr = 'Y-m-d H:i';
+    	$xpFormatStr = 'yyyy-MM-dd HH:mm';
+    	$this->assertEquals($xpFormatStr, CommonFunctions::convertToXpDateFormat($formatStr));
+
+    }
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

@@ -1,5 +1,5 @@
 /**
- * This file was taken from XPlanner (http://www.xplanner.org). 
+ * This file was taken from XPlanner (http://www.xplanner.org).
  * See license/3rdParty/xplanner.license for the license.
  *
  * Modifications done by OrangeHRM
@@ -69,19 +69,48 @@ function formatDateLiteral(date, format, offset) {
     return format.substr(offset, end - offset) + formatDate2(date, format, end);
 }
 
-function strToTime(str) {
-	format = /^\s*([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})\s*$/;
+function strToTime(str, format) {
 
-	if (!format.test(str)) return false;
+	yearVal = '';
+	monthVal = '';
+	dateVal = '';
+	hourVal = '';
+	minuteVal = '';
+	aVal = '';
 
-	timeArr = format.exec(str);
+	for (i=0; i<format.length; i++) {
 
-	yearVal = timeArr[1];
-	monthVal = timeArr[2];
-	dateVal = timeArr[3];
-	hourVal = timeArr[4];
-	minuteVal = timeArr[5];
-	
+		ch = format.charAt(i);
+		sCh = str.charAt(i);
+
+		if (ch == 'd') {
+	        dateVal = dateVal.toString()+sCh;
+	    } else if (ch == 'M') {
+	        monthVal = monthVal.toString()+sCh;
+	    } else if (ch == 'y') {
+	        yearVal = yearVal.toString()+sCh;
+	    } else if (ch == 'H') {
+	    	hourVal = hourVal.toString()+sCh;
+	    } else if (ch == 'h') {
+	        hourVal = hourVal.toString()+sCh;
+	        if (hourVal > 12) return false;
+	    } else if (ch == 'm') {
+	        minuteVal = minuteVal.toString()+sCh;
+	    } else if (ch == 'a') {
+	        sCh = sCh+str.charAt(i+1);
+	        if (sCh == 'PM') {
+	        	hourVal+=12;
+	        } else if (sCh != 'AM') {
+	        	return false;
+	        }
+	        i++;
+	    } else {
+	    	if (ch != sCh) {
+	    		return false;
+	    	}
+	    }
+	}
+
 	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31) || (hourVal > 24) || (minuteVal > 59)) {
 		return false;
 	}
@@ -91,16 +120,29 @@ function strToTime(str) {
 
 }
 
-function strToDate(str) {
-	format = /^\s*([0-9]{4})-([0-9]{2})-([0-9]{2})\s*$/;
+function strToDate(str, format) {
 
-	if (!format.test(str)) return false;
+	yearVal = '';
+	monthVal = '';
+	dateVal = '';
 
-	timeArr = format.exec(str);
+	for (i=0; i<format.length; i++) {
 
-	yearVal = timeArr[1];
-	monthVal = timeArr[2];
-	dateVal = timeArr[3];
+		ch = format.charAt(i);
+		sCh = str.charAt(i);
+
+		if (ch == 'd') {
+	        dateVal = dateVal.toString()+sCh;
+	    } else if (ch == 'M') {
+	        monthVal = monthVal.toString()+sCh;
+	    } else if (ch == 'y') {
+	        yearVal = yearVal.toString()+sCh;
+	    } else {
+	    	if (ch != sCh) {
+	    		return false;
+	    	}
+	    }
+	}
 
 	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31)) {
 		return false;

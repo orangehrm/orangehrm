@@ -18,8 +18,18 @@
  *
  */
 
+$sysConf = new sysConf();
+
 include 'yui.php';
 ?>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/time.js"></script>
 
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/calendar/calendar.js"></script>
+<script type="text/javascript">
+YAHOO.namespace("OrangeHRM.time");
+
+YAHOO.OrangeHRM.calendar.format = '<?php echo CommonFunctions::convertToXpDateFormat($sysConf->getDateFormat())?>';
+YAHOO.OrangeHRM.calendar.formatHint.format = '<?php echo $sysConf->getDateInputHint(); ?>';
+
+YAHOO.OrangeHRM.time.format = '<?php echo CommonFunctions::convertToXpDateFormat($sysConf->getTimeFormat())?>';
+</script>

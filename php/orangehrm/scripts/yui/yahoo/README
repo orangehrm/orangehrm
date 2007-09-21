@@ -1,5 +1,13 @@
 YAHOO Global - Release Notes
 
+2.3.0
+  * Added YAHOO.env.ua - browser detection
+  * Added YAHOO.lang.merge - object merge
+  * Added YAHOO.lang.trim - whitespace removal
+  * Added YAHOO.lang.augmentObject - mixins.  Renamed augment to augmentProto and 
+    made augment an alias to augmentProto
+  * isObject/isArray return false rather than null when testing null
+
 2.2.2
 
   * No change

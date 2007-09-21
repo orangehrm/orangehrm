@@ -59,7 +59,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 
 		obj = document.frmLeaveApp.txtLeaveFromDate;
-		if ((obj.value == '') || !validDate(obj.value)) {
+		if ((obj.value == '') || !YAHOO.OrangeHRM.calendar.parseDate(obj.value)) {
 			err = true;
 			msg += " - <?php echo $lang_Error_PleaseSelectAValidFromDate; ?>\n"
 		}
@@ -68,7 +68,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		if (obj.value == '') {
 			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
 		}
-		if ((obj.value == '') || !validDate(obj.value)) {
+		if ((obj.value == '') || !YAHOO.OrangeHRM.calendar.parseDate(obj.value)) {
 			err = true;
 			msg += " - <?php echo $lang_Error_PleaseSelectAValidToDate; ?>\n"
 		}
@@ -95,8 +95,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 		if (($('txtLeaveFromDate').value != '') && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
 			if (($('sltLeaveFromTime').value != '') && ($('sltLeaveToTime').value != '')) {
-				fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
-				toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value);
+				fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
+				toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
 
 				if (fromTime > toTime) {
 					err = true;
@@ -168,15 +168,6 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	    fillToDate();
 	};
 
-	function selectFromDate() {
-		YAHOO.OrangeHRM.calendar.pop('txtLeaveFromDate', 'cal1Container', 'yyyy-MM-dd');
-		fillToDate();
-	}
-
-	function selectToDate() {
-		YAHOO.OrangeHRM.calendar.pop('txtLeaveToDate', 'cal1Container', 'yyyy-MM-dd');
-	}
-
 	function fillToDate() {
 		if (validDate(document.frmLeaveApp.txtLeaveFromDate.value)) {
 			fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
@@ -203,8 +194,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			return false;
 		}
 		if (($('sltLeaveFromTime').value != '') && ($('sltLeaveToTime').value != '')) {
-			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
-			toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value);
+			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
+			toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
 
 			if (fromTime > toTime) {
 				return false;
@@ -216,8 +207,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				return false;
 			}
 
-			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value);
-			toTime = fromTime+extractTimeFromHours($('txtLeaveTotalTime').value);
+			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format);
+			toTime = fromTime+extractTimeFromHours($('txtLeaveTotalTime').value, YAHOO.OrangeHRM.calendar.format);
 
 			date = new Date();
 			date.setTime(toTime);
@@ -391,11 +382,11 @@ if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_S
       <tr>
         <td class="tableMiddleLeft"></td>
         <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"/>
-          <input type="button" name="Submit" value="  " class="calendarBtn" onclick="selectFromDate(); return false;"/>
+          <input type="button" name="Submit" value="  " class="calendarBtn" />
         </td>
         <td width="25px">&nbsp;</td>
         <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10" />
-          <input type="button" name="Submit" value="  " class="calendarBtn" onclick="fillToDate(); selectToDate(); return false;"/>
+          <input type="button" name="Submit" value="  " class="calendarBtn" />
         </td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>

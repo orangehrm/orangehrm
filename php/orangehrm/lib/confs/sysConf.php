@@ -28,6 +28,11 @@ class sysConf {
 	var $viewDescLen;
 	var $userEmail;
 	var $maxEmployees;
+	var $dateFormat;
+	var $timeFormat;
+
+	var $dateInputHint;
+	var $timeInputHint;
 
 	function sysConf() {
 
@@ -41,12 +46,31 @@ class sysConf {
 		$this->viewDescLen=60;
 		$this->userEmail = 'youremail@mailhost.com';
 		$this->maxEmployees = '999';
+		$this->dateFormat = "m-d-Y";
+		$this->dateInputHint = "mm-DD-YYYY";
+		$this->timeFormat = "H:i";
+		$this->timeInputHint = "HH:MM";
 	}
 
 	function getEmployeeIdLength() {
 		return strlen($this->maxEmployees);
 	}
 
+	function getDateFormat() {
+		return $this->dateFormat;
+	}
+
+	function getTimeFormat() {
+		return $this->timeFormat;
+	}
+
+	function getDateInputHint() {
+		return $this->dateInputHint;
+	}
+
+	function getTimeInputHint() {
+		return $this->timeInputHint;
+	}
 }
 
 ?>

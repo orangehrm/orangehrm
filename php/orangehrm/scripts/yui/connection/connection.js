@@ -2,7 +2,7 @@
 Copyright (c) 2007, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
+version: 2.3.0
 */
 /**
  * The Connection Manager provides a simplified interface to the XMLHttpRequest
@@ -13,6 +13,7 @@ version: 2.2.2
  * @namespace YAHOO.util
  * @module connection
  * @requires yahoo
+ * @requires event
  */
 
 /**
@@ -218,7 +219,6 @@ YAHOO.util.Connect =
    * @property _hasSubmitListener
    * @private
    * @static
-   * @type boolean
    */
 	 _hasSubmitListener:(function()
 	 {
@@ -231,11 +231,86 @@ YAHOO.util.Connect =
 					if(obj.type == 'submit'){
 						YAHOO.util.Connect._submitElementValue = encodeURIComponent(obj.name) + "=" + encodeURIComponent(obj.value);
 					}
-				})
+				});
 			return true;
 	    }
 	    return false;
 	 })(),
+
+  /**
+   * @description Custom event that fires at the start of a transaction
+   * @property startEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	startEvent: new YAHOO.util.CustomEvent('start'),
+
+  /**
+   * @description Custom event that fires when a transaction response has completed.
+   * @property completeEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	completeEvent: new YAHOO.util.CustomEvent('complete'),
+
+  /**
+   * @description Custom event that fires when handleTransactionResponse() determines a
+   * response in the HTTP 2xx range.
+   * @property successEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	successEvent: new YAHOO.util.CustomEvent('success'),
+
+  /**
+   * @description Custom event that fires when handleTransactionResponse() determines a
+   * response in the HTTP 4xx/5xx range.
+   * @property failureEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	failureEvent: new YAHOO.util.CustomEvent('failure'),
+
+  /**
+   * @description Custom event that fires when handleTransactionResponse() determines a
+   * response in the HTTP 4xx/5xx range.
+   * @property failureEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	uploadEvent: new YAHOO.util.CustomEvent('upload'),
+
+  /**
+   * @description Custom event that fires when a transaction is successfully aborted.
+   * @property abortEvent
+   * @private
+   * @static
+   * @type CustomEvent
+   */
+	abortEvent: new YAHOO.util.CustomEvent('abort'),
+
+  /**
+   * @description A reference table that maps callback custom events members to its specific
+   * event name.
+   * @property _customEvents
+   * @private
+   * @static
+   * @type object
+   */
+	_customEvents:
+	{
+		onStart:['startEvent', 'start'],
+		onComplete:['completeEvent', 'complete'],
+		onSuccess:['successEvent', 'success'],
+		onFailure:['failureEvent', 'failure'],
+		onUpload:['uploadEvent', 'upload'],
+		onAbort:['abortEvent', 'abort']
+	},
 
   /**
    * @description Member to add an ActiveX id to the existing xml_progid array.
@@ -341,14 +416,22 @@ YAHOO.util.Connect =
    * @static
    * @return {object}
    */
-	getConnectionObject:function()
+	getConnectionObject:function(isFileUpload)
 	{
 		var o;
 		var tId = this._transaction_id;
 
 		try
 		{
-			o = this.createXhrObject(tId);
+			if(!isFileUpload){
+				o = this.createXhrObject(tId);
+			}
+			else{
+				o = {};
+				o.tId = tId;
+				o.isUpload = true;
+			}
+
 			if(o){
 				this._transaction_id++;
 			}
@@ -373,25 +456,29 @@ YAHOO.util.Connect =
    */
 	asyncRequest:function(method, uri, callback, postData)
 	{
-		var o = this.getConnectionObject();
+		var o = (this._isFileUpload)?this.getConnectionObject(true):this.getConnectionObject();
 
 		if(!o){
 			return null;
 		}
 		else{
+
+			// Intialize any transaction-specific custom events, if provided.
+			if(callback && callback.customevents){
+				this.initCustomEvents(o, callback);
+			}
+
 			if(this._isFormSubmit){
 				if(this._isFileUpload){
-					this.uploadFile(o.tId, callback, uri, postData);
-					this.releaseObject(o);
-
-					return;
+					this.uploadFile(o, callback, uri, postData);
+					return o;
 				}
 
-				//If the specified HTTP method is GET, setForm() will return an
-				//encoded string that is concatenated to the uri to
-				//create a querystring.
+				// If the specified HTTP method is GET, setForm() will return an
+				// encoded string that is concatenated to the uri to
+				// create a querystring.
 				if(method.toUpperCase() == 'GET'){
-					if(this._sFormData.length != 0){
+					if(this._sFormData.length !== 0){
 						// If the URI already contains a querystring, append an ampersand
 						// and then concatenate _sFormData to the URI.
 						uri += ((uri.indexOf('?') == -1)?'?':'&') + this._sFormData;
@@ -401,19 +488,24 @@ YAHOO.util.Connect =
 					}
 				}
 				else if(method.toUpperCase() == 'POST'){
-					//If POST data exist in addition to the HTML form data,
-					//it will be concatenated to the form data.
+					// If POST data exist in addition to the HTML form data,
+					// it will be concatenated to the form data.
 					postData = postData?this._sFormData + "&" + postData:this._sFormData;
 				}
 			}
 
 			o.conn.open(method, uri, true);
+			//this.processTransactionHeaders(o);
 
+			// Each transaction will automatically include a custom header of
+			// "X-Requested-With: XMLHttpRequest" to identify the request as
+			// having originated from Connection Manager.
 			if(this._use_default_xhr_header){
 				if(!this._default_headers['X-Requested-With']){
 					this.initHeader('X-Requested-With', this._default_xhr_header, true);
 				}
 			}
+
 			if(this._isFormSubmit || (postData && this._use_default_post_header)){
 				this.initHeader('Content-Type', this._default_post_header);
 				if(this._isFormSubmit){
@@ -428,7 +520,40 @@ YAHOO.util.Connect =
 			this.handleReadyState(o, callback);
 			o.conn.send(postData || null);
 
+			// Fire global custom event -- startEvent
+			this.startEvent.fire(o);
+
+			if(o.startEvent){
+				// Fire transaction custom event -- startEvent
+				o.startEvent.fire(o);
+			}
+
 			return o;
+		}
+	},
+
+  /**
+   * @description This method creates and subscribes custom events,
+   * specific to each transaction
+   * @method initCustomEvents
+   * @private
+   * @static
+   * @param {object} o The connection object
+   * @param {callback} callback The user-defined callback object
+   * @return {void}
+   */
+	initCustomEvents:function(o, callback)
+	{
+		// Enumerate through callback.customevents members and bind/subscribe
+		// events that match in the _customEvents table.
+		for(var prop in callback.customevents){
+			if(this._customEvents[prop][0]){
+				// Create the custom event
+				o[this._customEvents[prop][0]] = new YAHOO.util.CustomEvent(this._customEvents[prop][1], (callback.scope)?callback.scope:null);
+
+				// Subscribe the custom event
+				o[this._customEvents[prop][0]].subscribe(callback.customevents[prop]);
+			}
 		}
 	},
 
@@ -444,7 +569,9 @@ YAHOO.util.Connect =
    * @param {callback} callback The user-defined callback object
    * @return {void}
    */
+
     handleReadyState:function(o, callback)
+
     {
 		var oConn = this;
 
@@ -455,11 +582,23 @@ YAHOO.util.Connect =
 		this._poll[o.tId] = window.setInterval(
 			function(){
 				if(o.conn && o.conn.readyState === 4){
+
+					// Clear the polling interval for the transaction
+					// and remove the reference from _poll.
 					window.clearInterval(oConn._poll[o.tId]);
 					delete oConn._poll[o.tId];
 
 					if(callback && callback.timeout){
+						window.clearTimeout(oConn._timeOut[o.tId]);
 						delete oConn._timeOut[o.tId];
+					}
+
+					// Fire global custom event -- completeEvent
+					oConn.completeEvent.fire(o);
+
+					if(o.completeEvent){
+						// Fire transaction custom event -- completeEvent
+						o.completeEvent.fire(o);
 					}
 
 					oConn.handleTransactionResponse(o, callback);
@@ -476,8 +615,8 @@ YAHOO.util.Connect =
    * @private
    * @static
    * @param {object} o The connection object
-   * @param {object} callback The sser-defined callback object
-   * @param {boolean} isAbort Determines if the transaction was aborted.
+   * @param {object} callback The user-defined callback object
+   * @param {boolean} isAbort Determines if the transaction was terminated via abort().
    * @return {void}
    */
     handleTransactionResponse:function(o, callback, isAbort)
@@ -519,6 +658,14 @@ YAHOO.util.Connect =
 					callback.success.apply(callback.scope, [responseObject]);
 				}
 			}
+
+			// Fire global custom event -- successEvent
+			this.successEvent.fire(responseObject);
+
+			if(o.successEvent){
+				// Fire transaction custom event -- successEvent
+				o.successEvent.fire(responseObject);
+			}
 		}
 		else{
 			switch(httpStatus){
@@ -550,6 +697,15 @@ YAHOO.util.Connect =
 						}
 					}
 			}
+
+			// Fire global custom event -- failureEvent
+			this.failureEvent.fire(responseObject);
+
+			if(o.failureEvent){
+				// Fire transaction custom event -- failureEvent
+				o.failureEvent.fire(responseObject);
+			}
+
 		}
 
 		this.releaseObject(o);
@@ -689,7 +845,7 @@ YAHOO.util.Connect =
 	{
 		if(this._has_default_headers){
 			for(var prop in this._default_headers){
-				if(YAHOO.lang.hasOwnProperty(this._default_headers,prop)){
+				if(YAHOO.lang.hasOwnProperty(this._default_headers, prop)){
 					o.conn.setRequestHeader(prop, this._default_headers[prop]);
 				}
 			}
@@ -697,7 +853,7 @@ YAHOO.util.Connect =
 
 		if(this._has_http_headers){
 			for(var prop in this._http_headers){
-				if(YAHOO.lang.hasOwnProperty(this._http_headers,prop)){
+				if(YAHOO.lang.hasOwnProperty(this._http_headers, prop)){
 					o.conn.setRequestHeader(prop, this._http_headers[prop]);
 				}
 			}
@@ -716,7 +872,7 @@ YAHOO.util.Connect =
    * @return {void}
    */
 	resetDefaultHeaders:function(){
-		delete this._default_headers
+		delete this._default_headers;
 		this._default_headers = {};
 		this._has_default_headers = false;
 	},
@@ -724,15 +880,14 @@ YAHOO.util.Connect =
   /**
    * @description This method assembles the form label and value pairs and
    * constructs an encoded string.
-   * asyncRequest() will automatically initialize the
-   * transaction with a HTTP header Content-Type of
-   * application/x-www-form-urlencoded.
+   * asyncRequest() will automatically initialize the transaction with a
+   * a HTTP header Content-Type of application/x-www-form-urlencoded.
    * @method setForm
    * @public
    * @static
    * @param {string || object} form id or name attribute, or form object.
-   * @param {string} optional boolean to indicate SSL environment.
-   * @param {string || boolean} optional qualified path of iframe resource for SSL in IE.
+   * @param {boolean} optional enable file upload.
+   * @param {boolean} optional enable file upload over SSL in IE only.
    * @return {string} string of the HTML form field name and value pairs..
    */
 	setForm:function(formId, isUpload, secureUri)
@@ -762,14 +917,14 @@ YAHOO.util.Connect =
 		if(isUpload){
 
 			// Create iframe in preparation for file upload.
-			this.createFrame(secureUri?secureUri:null);
-
+			var io = this.createFrame(secureUri?secureUri:null);
 			// Set form reference and file upload properties to true.
 			this._isFormSubmit = true;
 			this._isFileUpload = true;
 			this._formNode = oForm;
 
 			return;
+
 		}
 
 		var oElement, oName, oValue, oDisabled;
@@ -787,7 +942,7 @@ YAHOO.util.Connect =
 			// do not have a name attribute value.
 			if(!oDisabled && oName)
 			{
-				switch (oElement.type)
+				switch(oElement.type)
 				{
 					case 'select-one':
 					case 'select-multiple':
@@ -799,7 +954,6 @@ YAHOO.util.Connect =
 								else{
 									this._sFormData += encodeURIComponent(oName) + '=' + encodeURIComponent(oElement.options[j].hasAttribute('value')?oElement.options[j].value:oElement.options[j].text) + '&';
 								}
-
 							}
 						}
 						break;
@@ -820,7 +974,7 @@ YAHOO.util.Connect =
 						break;
 					case 'submit':
 						if(hasSubmit === false){
-							if(this._hasSubmitListener){
+							if(this._hasSubmitListener && this._submitElementValue){
 								this._sFormData += this._submitElementValue + '&';
 							}
 							else{
@@ -832,7 +986,6 @@ YAHOO.util.Connect =
 						break;
 					default:
 						this._sFormData += encodeURIComponent(oName) + '=' + encodeURIComponent(oValue) + '&';
-						break;
 				}
 			}
 		}
@@ -874,8 +1027,9 @@ YAHOO.util.Connect =
 		// properties via createElement().  A different iframe creation
 		// pattern is required for IE.
 		var frameId = 'yuiIO' + this._transaction_id;
+		var io;
 		if(window.ActiveXObject){
-			var io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
+			io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
 
 			// IE will throw a security exception in an SSL environment if the
 			// iframe source is undefined.
@@ -888,7 +1042,7 @@ YAHOO.util.Connect =
 			}
 		}
 		else{
-			var io = document.createElement('iframe');
+			io = document.createElement('iframe');
 			io.id = frameId;
 			io.name = frameId;
 		}
@@ -928,68 +1082,120 @@ YAHOO.util.Connect =
 	},
 
   /**
-   * @description Uploads HTML form, including files/attachments, to the
-   * iframe created in createFrame.
+   * @description Uploads HTML form, inclusive of files/attachments, using the
+   * iframe created in createFrame to facilitate the transaction.
    * @method uploadFile
    * @private
    * @static
    * @param {int} id The transaction id.
-   * @param {object} callback - User-defined callback object.
+   * @param {object} callback User-defined callback object.
    * @param {string} uri Fully qualified path of resource.
+   * @param {string} postData POST data to be submitted in addition to HTML form.
    * @return {void}
    */
-	uploadFile:function(id, callback, uri, postData){
+	uploadFile:function(o, callback, uri, postData){
 
 		// Each iframe has an id prefix of "yuiIO" followed
 		// by the unique transaction id.
-		var frameId = 'yuiIO' + id;
+		var frameId = 'yuiIO' + o.tId;
 		var uploadEncoding = 'multipart/form-data';
 		var io = document.getElementById(frameId);
+		var oConn = this;
+
+		// Track original HTML form attribute values.
+		var rawFormAttributes =
+		{
+			action:this._formNode.getAttribute('action'),
+			method:this._formNode.getAttribute('method'),
+			target:this._formNode.getAttribute('target')
+		};
 
 		// Initialize the HTML form properties in case they are
 		// not defined in the HTML form.
 		this._formNode.setAttribute('action', uri);
 		this._formNode.setAttribute('method', 'POST');
-		this._formNode.setAttribute("target", frameId);
+		this._formNode.setAttribute('target', frameId);
 
 		if(this._formNode.encoding){
 			// IE does not respect property enctype for HTML forms.
 			// Instead it uses the property - "encoding".
-			this._formNode.encoding = uploadEncoding;
+			this._formNode.setAttribute('encoding', uploadEncoding);
 		}
 		else{
-			this._formNode.enctype = uploadEncoding;
+			this._formNode.setAttribute('enctype', uploadEncoding);
 		}
-
 
 		if(postData){
 			var oElements = this.appendPostData(postData);
 		}
 
+		// Start file upload.
 		this._formNode.submit();
 
+		// Fire global custom event -- startEvent
+		this.startEvent.fire(o);
+
+		if(o.startEvent){
+			// Fire transaction custom event -- startEvent
+			o.startEvent.fire(o);
+		}
+
+		// Start polling if a callback is present and the timeout
+		// property has been defined.
+		if(callback && callback.timeout){
+			this._timeOut[o.tId] = window.setTimeout(function(){ oConn.abort(o, callback, true); }, callback.timeout);
+		}
+
+		// Remove HTML elements created by appendPostData
 		if(oElements && oElements.length > 0){
 			for(var i=0; i < oElements.length; i++){
 				this._formNode.removeChild(oElements[i]);
 			}
 		}
 
-		// Reset HTML form status properties.
+		// Restore HTML form attributes to their original
+		// values prior to file upload.
+		for(var prop in rawFormAttributes){
+			if(YAHOO.lang.hasOwnProperty(rawFormAttributes, prop)){
+				if(rawFormAttributes[prop]){
+					this._formNode.setAttribute(prop, rawFormAttributes[prop]);
+				}
+				else{
+					this._formNode.removeAttribute(prop);
+				}
+			}
+		}
+
+		// Reset HTML form state properties.
 		this.resetFormState();
 
 		// Create the upload callback handler that fires when the iframe
 		// receives the load event.  Subsequently, the event handler is detached
 		// and the iframe removed from the document.
-
 		var uploadCallback = function()
 		{
+			if(callback && callback.timeout){
+				window.clearTimeout(oConn._timeOut[o.tId]);
+				delete oConn._timeOut[o.tId];
+			}
+
+			// Fire global custom event -- completeEvent
+			oConn.completeEvent.fire(o);
+
+			if(o.completeEvent){
+				// Fire transaction custom event -- completeEvent
+				o.completeEvent.fire(o);
+			}
+
 			var obj = {};
-			obj.tId = id;
+			obj.tId = o.tId;
 			obj.argument = callback.argument;
 
 			try
 			{
-				obj.responseText = io.contentWindow.document.body?io.contentWindow.document.body.innerHTML:null;
+				// responseText and responseXML will be populated with the same data from the iframe.
+				// Since the HTTP headers cannot be read from the iframe
+				obj.responseText = io.contentWindow.document.body?io.contentWindow.document.body.innerHTML:io.contentWindow.document.documentElement.textContent;
 				obj.responseXML = io.contentWindow.document.XMLDocument?io.contentWindow.document.XMLDocument:io.contentWindow.document;
 			}
 			catch(e){}
@@ -1001,6 +1207,14 @@ YAHOO.util.Connect =
 				else{
 					callback.upload.apply(callback.scope, [obj]);
 				}
+			}
+
+			// Fire global custom event -- completeEvent
+			oConn.uploadEvent.fire(obj);
+
+			if(o.uploadEvent){
+				// Fire transaction custom event -- completeEvent
+				o.uploadEvent.fire(obj);
 			}
 
 			if(YAHOO.util.Event){
@@ -1015,9 +1229,9 @@ YAHOO.util.Connect =
 			setTimeout(
 				function(){
 					document.body.removeChild(io);
+					oConn.releaseObject(o);
 				}, 100);
 		};
-
 
 		// Bind the onload handler to the iframe to detect the file upload response.
 		if(YAHOO.util.Event){
@@ -1038,26 +1252,64 @@ YAHOO.util.Connect =
    * @static
    * @param {object} o The connection object returned by asyncRequest.
    * @param {object} callback  User-defined callback object.
-   * @param {string} isTimeout boolean to indicate if abort was a timeout.
+   * @param {string} isTimeout boolean to indicate if abort resulted from a callback timeout.
    * @return {boolean}
    */
 	abort:function(o, callback, isTimeout)
 	{
-		if(this.isCallInProgress(o)){
-			o.conn.abort();
-			window.clearInterval(this._poll[o.tId]);
-			delete this._poll[o.tId];
-			if(isTimeout){
-				delete this._timeOut[o.tId];
+		var abortStatus;
+
+		if(o.conn){
+			if(this.isCallInProgress(o)){
+				// Issue abort request
+				o.conn.abort();
+
+				window.clearInterval(this._poll[o.tId]);
+				delete this._poll[o.tId];
+
+				if(isTimeout){
+					window.clearTimeout(this._timeOut[o.tId]);
+					delete this._timeOut[o.tId];
+				}
+
+				abortStatus = true;
+			}
+		}
+		else if(o.isUpload === true){
+			var frameId = 'yuiIO' + o.tId;
+			var io = document.getElementById(frameId);
+
+			if(io){
+				// Destroy the iframe facilitating the transaction.
+				document.body.removeChild(io);
+
+				if(isTimeout){
+					window.clearTimeout(this._timeOut[o.tId]);
+					delete this._timeOut[o.tId];
+				}
+
+				abortStatus = true;
+			}
+		}
+		else{
+			abortStatus = false;
+		}
+
+		if(abortStatus === true){
+			// Fire global custom event -- abortEvent
+			this.abortEvent.fire(o);
+
+			if(o.abortEvent){
+				// Fire transaction custom event -- abortEvent
+				o.abortEvent.fire(o);
 			}
 
 			this.handleTransactionResponse(o, callback, true);
-
-			return true;
 		}
 		else{
-			return false;
 		}
+
+		return abortStatus;
 	},
 
   /**
@@ -1073,11 +1325,14 @@ YAHOO.util.Connect =
 	{
 		// if the XHR object assigned to the transaction has not been dereferenced,
 		// then check its readyState status.  Otherwise, return false.
-		if(o.conn){
+		if(o && o.conn){
 			return o.conn.readyState !== 4 && o.conn.readyState !== 0;
 		}
+		else if(o && o.isUpload === true){
+			var frameId = 'yuiIO' + o.tId;
+			return document.getElementById(frameId)?true:false;
+		}
 		else{
-			//The XHR object has been destroyed.
 			return false;
 		}
 	},
@@ -1093,10 +1348,12 @@ YAHOO.util.Connect =
 	releaseObject:function(o)
 	{
 		//dereference the XHR instance.
-		o.conn = null;
+		if(o.conn){
+			o.conn = null;
+		}
 		//dereference the connection object.
 		o = null;
 	}
 };
 
-YAHOO.register("connection", YAHOO.util.Connect, {version: "2.2.2", build: "204"});
+YAHOO.register("connection", YAHOO.util.Connect, {version: "2.3.0", build: "442"});

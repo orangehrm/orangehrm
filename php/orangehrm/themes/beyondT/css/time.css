@@ -244,3 +244,7 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 	color: #FFFFFF;
 	font-size: 10px;
 }
+
+.inputFormatHint {
+	color: #D2D2D2
+}

@@ -19,6 +19,7 @@
  */
 
 YAHOO.namespace("OrangeHRM.calendar");
+YAHOO.namespace("OrangeHRM.calendar.formatHint");
 YAHOO.namespace("OrangeHRM.container");
 
 /**
@@ -34,88 +35,71 @@ YAHOO.OrangeHRM.calendar.init = function () {
 																			 MDY_YEAR_POSITION: 1,
 																			 close: true});
 
+	YAHOO.OrangeHRM.calendar.cal.format = 'yyyy-MM-dd';
+
 	YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(YAHOO.OrangeHRM.calendar.selected, YAHOO.OrangeHRM.calendar.cal, true);
 
 	YAHOO.OrangeHRM.calendar.cal.hide();
+	YAHOO.OrangeHRM.calendar.addHooks();
 	YAHOO.OrangeHRM.container.wait.hide();
 };
 
 /**
- * Parse the date string.
+ * Get all the calendar buttons on a page and add handlers
  *
- * Allowed date delimiters - or /
- * Allowed formats with preference
- * yyyy-MM-dd
- * MM-dd-yyyy
- * dd-MM-yyyy
+ */
+YAHOO.OrangeHRM.calendar.addHooks = function () {
+	elements = YAHOO.util.Dom.getElementsByClassName("calendarBtn");
+
+	for (x in elements) {
+		YAHOO.OrangeHRM.calendar.hook(elements[x]);
+	}
+}
+
+/**
+ * Parse the date string.
  *
  */
 YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
-	if ((strDate == "") || (strDate == "0000-00-00")) {
+	format = YAHOO.OrangeHRM.calendar.format;
+
+	if (YAHOO.OrangeHRM.calendar.formatHint.format == strDate) {
 		return false;
 	}
 
-	dateElements = strDate.split("-");
-	if (dateElements.length != 3) {
-		dateElements = strDate.split("/");
+	yearVal = '';
+	monthVal = '';
+	dateVal = '';
+
+	for (i=0; i<format.length; i++) {
+
+		ch = format.charAt(i);
+		sCh = strDate.charAt(i);
+
+		if (ch == 'd') {
+	        dateVal = dateVal.toString()+sCh;
+	    } else if (ch == 'M') {
+	        monthVal = monthVal.toString()+sCh;
+	    } else if (ch == 'y') {
+	        yearVal = yearVal.toString()+sCh;
+	    } else {
+	    	if (ch != sCh) {
+	    		return false;
+	    	}
+	    }
 	}
 
-	if (dateElements.length != 3) {
+	integerFormat = /[0-9]+/;
+
+	if (!integerFormat.test() || !integerFormat.test() || !integerFormat.test()) {
 		return false;
 	}
 
-	yearFormat = /^([0-9]{4})$/;
-	monthFormat = /^[0-1]{0,1}[0-9]{1}$/;
-	dateFormat = /^[0-3]{0,1}[0-9]{1}$/;
-
-	yearSegment = false;
-	monthSegment = false;
-	dateSegment = false;
-
-	if (yearFormat.test(dateElements[0])) {
-		yearSegment = 0;
-	} else if (yearFormat.test(dateElements[2])) {
-		yearSegment = 2;
-	} else {
+	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31)) {
 		return false;
 	}
 
-	if (yearSegment == 2) {
-		if (monthFormat.test(dateElements[0])) {
-			monthSegment = 0;
-		} else if (monthFormat.test(dateElements[1])) {
-			monthSegment = 1;
-		} else {
-			return false;
-		}
-	} else if ((yearSegment == 0) && monthFormat.test(dateElements[1])) {
-		monthSegment = 1;
-	} else {
-		return false;
-	}
-
-	if ((yearSegment == 0) && dateFormat.test(dateElements[2])) {
-		dateSegment = 2;
-	} else if (yearSegment == 2) {
-		if (monthSegment == 0) {
-			if (dateFormat.test(dateElements[1])) {
-				dateSegment = 1;
-			} else if (dateFormat.test(dateElements[0])) {
-				dateSegment = 0;
-				monthSegment = 1;
-			} else {
-				return false;
-			}
-		} else if (dateFormat.test(dateElements[0])) {
-			dateSegment = 0;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-
-	return dateElements[yearSegment]+"-"+dateElements[monthSegment]+"-"+dateElements[dateSegment];
+	return yearVal+"-"+monthVal+"-"+dateVal;
 };
 
 /**
@@ -125,24 +109,24 @@ YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
  * provided as the value of the anchor.
  *
  */
-YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
+YAHOO.OrangeHRM.calendar.pop = function(anchor) {
 
-	YAHOO.OrangeHRM.calendar.cal.format = format;
+	container = 'cal1Container';
+
 	YAHOO.OrangeHRM.calendar.cal.anchor = anchor;
+	YAHOO.OrangeHRM.calendar.cal.format = YAHOO.OrangeHRM.calendar.format;
 
 	selDate=document.getElementById(anchor).value;
 	parsedDate=YAHOO.OrangeHRM.calendar.parseDate(selDate);
 
-	if ((!document.getElementById(anchor).readOnly) && parsedDate) {
-		document.getElementById(anchor).value=parsedDate;
-	} else if (!document.getElementById(anchor).readOnly) {
+	if ((!document.getElementById(anchor).readOnly) && !parsedDate) {
 		document.getElementById(anchor).value="";
 	}
 
 	selDate=parsedDate;
 
 	if (selDate) {
-		YAHOO.OrangeHRM.calendar.cal.select(document.getElementById(anchor).value);
+		YAHOO.OrangeHRM.calendar.cal.select(parsedDate);
 
 		firstDate = YAHOO.OrangeHRM.calendar.cal.getSelectedDates()[0];
 		YAHOO.OrangeHRM.calendar.cal.cfg.setProperty("pagedate", (firstDate.getMonth()+1) + "-" + firstDate.getFullYear());
@@ -162,8 +146,6 @@ YAHOO.OrangeHRM.calendar.pop = function(anchor, container, format) {
 	domElDimensions[1]+=25;
 
 	YAHOO.util.Dom.setXY(container, domElDimensions);
-
-	YAHOO.util.Event.addListener(anchor, 'blur', YAHOO.OrangeHRM.calendar.cal.hide, YAHOO.OrangeHRM.calendar.cal, true);
 };
 
 /**
@@ -174,6 +156,7 @@ YAHOO.OrangeHRM.calendar.selected = function () {
 	document.getElementById(this.anchor).value=formatDate(date[0], this.format);
 
 	this.hide();
+	YAHOO.OrangeHRM.calendar.formatHint.hide.call(document.getElementById(this.anchor));
 };
 
 YAHOO.OrangeHRM.container.init = function () {
@@ -195,6 +178,49 @@ YAHOO.OrangeHRM.container.init = function () {
 	YAHOO.OrangeHRM.container.wait.show();
 }
 
+YAHOO.OrangeHRM.calendar.hook = function (button) {
+	anchor = YAHOO.util.Dom.getPreviousSibling(button);
+	YAHOO.util.Event.addListener(button, "click", YAHOO.OrangeHRM.calendar.selectDate, anchor, true);
+
+	if (!anchor.readonly) {
+		YAHOO.util.Event.addListener(anchor, "focus", YAHOO.OrangeHRM.calendar.formatHint.hide, anchor, true);
+		YAHOO.util.Event.addListener(anchor, "blur", YAHOO.OrangeHRM.calendar.formatHint.show, anchor, true);
+		YAHOO.util.Event.addListener(button, "blur", YAHOO.OrangeHRM.calendar.hide, anchor, true);
+
+		YAHOO.OrangeHRM.calendar.formatHint.show.call(anchor);
+	}
+}
+
+YAHOO.OrangeHRM.calendar.hide = function () {
+	YAHOO.OrangeHRM.calendar.formatHint.show.call(this);
+}
+
+YAHOO.OrangeHRM.calendar.selectDate = function () {
+	YAHOO.OrangeHRM.calendar.pop(this.id);
+}
+
+/**
+ * Show the format hint
+ *
+ */
+YAHOO.OrangeHRM.calendar.formatHint.hide = function () {
+	if (this.value == YAHOO.OrangeHRM.calendar.formatHint.format) {
+		this.value='';
+	}
+	YAHOO.util.Dom.removeClass(this, 'inputFormatHint');
+}
+
+/**
+ * Hide the format hint
+ *
+ */
+YAHOO.OrangeHRM.calendar.formatHint.show = function () {
+	if (this.value == '') {
+		YAHOO.util.Dom.addClass(this, 'inputFormatHint');
+		this.value=YAHOO.OrangeHRM.calendar.formatHint.format;
+	}
+	setTimeout("YAHOO.OrangeHRM.calendar.cal.hide.call(YAHOO.OrangeHRM.calendar.cal)",150);
+}
 
 /**
  * After the page has loaded the calendar is initalized

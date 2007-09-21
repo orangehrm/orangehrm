@@ -2,7 +2,7 @@
 Copyright (c) 2007, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
+version: 2.3.0
 */
 /**
  * Provides Attribute configurations.
@@ -116,10 +116,14 @@ YAHOO.util.Attribute.prototype = {
         };
         
         if (this.readOnly || ( this.writeOnce && this._written) ) {
+            YAHOO.log( 'setValue ' + name + ', ' +  value +
+                    ' failed: read only', 'error', 'Attribute');
             return false; // write not allowed
         }
         
         if (this.validator && !this.validator.call(owner, value) ) {
+            YAHOO.log( 'setValue ' + name + ', ' + value +
+                    ' validation failed', 'error', 'Attribute');
             return false; // invalid value
         }
 
@@ -127,7 +131,7 @@ YAHOO.util.Attribute.prototype = {
             beforeRetVal = owner.fireBeforeChangeEvent(event);
             if (beforeRetVal === false) {
                 YAHOO.log('setValue ' + name + 
-                        'cancelled by beforeChange event', 'info', 'Attribute');
+                        ' cancelled by beforeChange event', 'info', 'Attribute');
                 return false;
             }
         }
@@ -479,7 +483,7 @@ YAHOO.util.Element.prototype = {
     /**
      * Wrapper for HTMLElement method.
      * @method appendChild
-     * @param {Boolean} deep Whether or not to do a deep clone
+     * @param {YAHOO.util.Element || HTMLElement} child The element to append. 
      */
     appendChild: function(child) {
         child = child.get ? child.get('element') : child;
@@ -579,7 +583,7 @@ YAHOO.util.Element.prototype = {
             this.createEvent(type, this);
         }
         
-        this.subscribe.apply(this, arguments); // notify via customEvent
+        YAHOO.util.EventProvider.prototype.subscribe.apply(this, arguments); // notify via customEvent
     },
     
     
@@ -593,6 +597,15 @@ YAHOO.util.Element.prototype = {
      */
     on: function() { this.addListener.apply(this, arguments); },
     
+    /**
+     * Alias for addListener
+     * @method subscribe
+     * @param {String} type The name of the event to listen for
+     * @param {Function} fn The function call when the event fires
+     * @param {Any} obj A variable to pass to the handler
+     * @param {Object} scope The object to use for the scope of the handler 
+     */
+    subscribe: function() { this.addListener.apply(this, arguments); },
     
     /**
      * Remove an event listener
@@ -749,6 +762,23 @@ YAHOO.util.Element.prototype = {
         return AttributeProvider.prototype.get.call(this, key);
     },
 
+    setAttributes: function(map, silent){
+        var el = this.get('element');
+        for (var key in map) {
+            // need to configure if setting unconfigured HTMLElement attribute 
+            if ( !this._configs[key] && !YAHOO.lang.isUndefined(el[key]) ) {
+                this.setAttributeConfig(key);
+            }
+        }
+
+        // set based on configOrder
+        for (var i = 0, len = this._configOrder.length; i < len; ++i) {
+            if (map[this._configOrder[i]]) {
+                this.set(this._configOrder[i], map[this._configOrder[i]], silent);
+            }
+        }
+    },
+
     set: function(key, value, silent) {
         var el = this.get('element');
         if (!el) {
@@ -776,6 +806,7 @@ YAHOO.util.Element.prototype = {
         } else {
             AttributeProvider.prototype.setAttributeConfig.apply(this, arguments);
         }
+        this._configOrder.push(key);
     },
     
     getAttributeKeys: function() {
@@ -806,6 +837,7 @@ var _initElement = function(el, attr) {
     this._queue = this._queue || [];
     this._events = this._events || {};
     this._configs = this._configs || {};
+    this._configOrder = []; 
     attr = attr || {};
     attr.element = attr.element || el || null;
 
@@ -922,4 +954,4 @@ var _registerHTMLAttr = function(key, map) {
 YAHOO.augment(YAHOO.util.Element, AttributeProvider);
 })();
 
-YAHOO.register("element", YAHOO.util.Element, {version: "2.2.2", build: "204"});
+YAHOO.register("element", YAHOO.util.Element, {version: "2.3.0", build: "442"});

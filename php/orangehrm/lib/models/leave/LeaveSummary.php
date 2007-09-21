@@ -86,28 +86,6 @@ class LeaveSummary extends LeaveQuota {
 	}
 
 	/**
-	 * Leave summary of the employee
-	 *
-	 * @param String $employeeId e.g. 001
-	 * @return Array[][] LeaveSummary
-	 * @access public
-	 * @author S.H.Mohanjith
-	 *
-	 */
-	public function fetchLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL) {
-
-		$this->setYear($year);
-
-		$this->setEmployeeId($employeeId);
-
-		$this->setLeaveTypeId($leaveTypeId);
-
-		$leaveTypeArr = $this->fetchLeaveQuota($employeeId);
-
-		return $leaveTypeArr;
-	}
-
-	/**
 	 * Leave summary of all employees
 	 */
 	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false) {
