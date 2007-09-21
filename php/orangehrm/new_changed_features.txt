@@ -11,6 +11,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1797757   PIM->Contacts: Fields need to validated, Its not Consistent
 	1798637   Ess User edit time sheet thorws a error
 	1788313   Negative leave balance
+	1797694   Bugs in Currency list
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
