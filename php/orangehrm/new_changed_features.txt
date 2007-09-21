@@ -9,6 +9,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1774620   All the Activies are not listed in the Time sheet view
 	1792369   Leave for range of days spanning holiday throws error
 	1797757   PIM->Contacts: Fields need to validated, Its not Consistent
+	1798637   Ess User edit time sheet thorws a error
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 

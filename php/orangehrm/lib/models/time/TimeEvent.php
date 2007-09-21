@@ -178,6 +178,8 @@ class TimeEvent {
 			}
 
 			$selectConditions[] = "({$tmpQuery})";
+		} else {
+			return false;
 		}
 
 		if ($this->getTimeEventId() != null) {
