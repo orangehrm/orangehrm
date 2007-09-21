@@ -562,7 +562,7 @@ function popPhotoHandler() {
 function resetAdd(panel, add) {
 	document.frmEmp.action = document.frmEmp.action;
 	document.frmEmp.pane.value = panel;
-	document.frmEmp.showAddPane.value = add;
+	document.frmEmp.txtShowAddPane.value = add;
 	document.frmEmp.submit();
 }
 
@@ -632,7 +632,7 @@ tableDisplayStyle = "table";
 
 <input type="hidden" name="sqlState">
 <input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>">
-<input type="hidden" name="showAddPane" >
+<input type="hidden" name="txtShowAddPane" >
 
 <input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>">
 <input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>">
@@ -1327,8 +1327,8 @@ tableDisplayStyle = "table";
 	</body>
 	<script language="JavaScript" type="text/javascript">
   		displayLayer(<?php echo $this->postArr['pane']; ?>);
-  		<?php if (isset($this->postArr['showAddPane']) && !empty($this->postArr['showAddPane'])) { ?>
-  		showAddPane('<?php echo $this->postArr['showAddPane']; ?>');
+  		<?php if (isset($this->postArr['txtShowAddPane']) && !empty($this->postArr['txtShowAddPane'])) { ?>
+  		showAddPane('<?php echo $this->postArr['txtShowAddPane']; ?>');
   		<?php } ?>
 	</script>
 </html>

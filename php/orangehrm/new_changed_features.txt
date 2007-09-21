@@ -12,6 +12,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1798637   Ess User edit time sheet thorws a error
 	1788313   Negative leave balance
 	1797694   Bugs in Currency list
+	1798643   Cannot add 2nd information
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
