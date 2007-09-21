@@ -19,6 +19,7 @@
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/models/report/EmpReport.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 class EXTRACTOR_EmpReport {
 
@@ -89,13 +90,14 @@ class EXTRACTOR_EmpReport {
 
 				switch ($postArr['cmbJoiDatCode']) {
 
-					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' .$postArr['Join1'];
+					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']);
 									 break;
 
-					case '>' 	 :	$criteriaStr .= '|JOIDAT=>='.$postArr['Join1'];
+					case '>' 	 :	$criteriaStr .= '|JOIDAT=>=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']);
 									 break;
 
-					case 'range' :	$criteriaStr .= '|JOIDAT=range='.$postArr['Join1'] . '=' .$postArr['Join2'];
+					case 'range' :	$criteriaStr .= '|JOIDAT=range=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']) .
+					 				'=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join2']);
 
 				}
 
@@ -193,13 +195,14 @@ class EXTRACTOR_EmpReport {
 
 				switch ($postArr['cmbJoiDatCode']) {
 
-					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' .$postArr['Join1'];
+					case '<' 	 :	$criteriaStr .= '|JOIDAT=<=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']);
 									 break;
 
-					case '>' 	 :	$criteriaStr .= '|JOIDAT=>='.$postArr['Join1'];
+					case '>' 	 :	$criteriaStr .= '|JOIDAT=>=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']);
 									 break;
 
-					case 'range' :	$criteriaStr .= '|JOIDAT=range='.$postArr['Join1'] . '=' .$postArr['Join2'];
+					case 'range' :	$criteriaStr .= '|JOIDAT=range=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join1']) .
+									'=' . LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['Join2']);
 
 				}
 

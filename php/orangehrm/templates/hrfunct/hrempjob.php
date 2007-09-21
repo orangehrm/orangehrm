@@ -94,8 +94,8 @@
 			  </tr>
 			  <tr>
 			  <td><?php echo $lang_hremp_joindate?></td>
-				<td><input type="text" readonly name="txtJoinedDate" value=<?php echo (isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:''?> size="10" />
-					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" onclick="if(self.gfPop)gfPop.fPopCalendar(document.frmEmp.txtJoinedDate);return false;"></td>
+				<td><input type="text" name="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):''?>" size="10" />
+					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" /></td>
 			  </tr>
 			  </table>
 
@@ -169,8 +169,8 @@
 			  </tr>
 			  <tr>
 			  <td><?php echo $lang_hremp_joindate; ?></td>
-				<td><input type="text" readonly name="txtJoinedDate" id="txtJoinedDate" value=<?php echo (isset($this->postArr['txtJoinedDate']))?$this->postArr['txtJoinedDate']:$edit1[0][5]?> size="10" />
-					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('txtJoinedDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtJoinedDate" id="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):LocaleUtil::getInstance()->formatDate($edit1[0][5]); ?>" size="10" />
+					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" /></td>
 
 
 			  </tr>

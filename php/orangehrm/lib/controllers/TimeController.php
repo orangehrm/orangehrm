@@ -874,11 +874,14 @@ class TimeController {
 	/**
 	 * View project report
 	 */
-	public function viewProjectReport($startDate, $endDate) {
+	public function viewProjectReport() {
 
 		$path="/templates/time/projectReport.php";
 
-		$timeEventObj = $this->objTime;
+		$timeEventObj = $this->objTime[0];
+		$startDate = $this->objTime[1];
+		$endDate = $this->objTime[2];
+
 		$projectId = $timeEventObj->getProjectId();
 
 		if ((!$this->authorizeObj->isAdmin()) && (!$this->authorizeObj->isProjectAdminOf($projectId))) {
@@ -907,11 +910,15 @@ class TimeController {
 	/**
 	 * View activity report
 	 */
-	public function viewActivityReport($startDate, $endDate, $pageNo) {
+	public function viewActivityReport() {
 
 		$path="/templates/time/activityReport.php";
 
-		$timeEventObj = $this->objTime;
+		$timeEventObj = $this->objTime[0];
+		$startDate = $this->objTime[1];
+		$endDate = $this->objTime[2];
+		$pageNo = $this->objTime[3];
+
 		$projectId = $timeEventObj->getProjectId();
 		$activityId = $timeEventObj->getActivityId();
 		$time = $timeEventObj->getDuration();
@@ -986,11 +993,13 @@ class TimeController {
 		$template->display();
 	}
 
-	public function viewEmployeeTimeReport($startDate, $endDate) {
+	public function viewEmployeeTimeReport() {
 
 		$path="/templates/time/employeeTimeReport.php";
 
-		$timeEventObj = $this->objTime;
+		$timeEventObj = $this->objTime[0];
+		$startDate = $this->objTime[1];
+		$endDate = $this->objTime[2];
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
 

@@ -48,7 +48,7 @@ function addChildren() {
 		return;
 	}
 
-	if(document.frmEmp.DOB.value == '') {
+	if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.DOB.value)) {
 		alert('<?php echo $lang_Common_FieldEmpty; ?>');
 		document.frmEmp.DOB.focus();
 		return;
@@ -87,8 +87,8 @@ function editChildren() {
                </tr>
               <tr>
                 <td><?php echo $lang_hremp_dateofbirth?></td>
-                <td><input type="text" name="ChiDOB" id="eChiDOB" readonly value=<?php echo $edit[0][3]?> size="10">
-                	<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('eChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+                <td><input type="text" name="ChiDOB" id="eChiDOB" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10">
+                	<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="calendarBtn" value="   " /></td>
                </tr>
 
 				  <td>
@@ -109,8 +109,8 @@ function editChildren() {
                 </tr>
                 <tr>
                 <td><?php echo $lang_hremp_dateofbirth; ?></td>
-				<td><input type="text" readonly value="0000-00-00" name="ChiDOB" id="aChiDOB" size="10">
-					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('aChiDOB', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+				<td><input type="text" name="ChiDOB" id="aChiDOB" size="10">
+					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " /></td>
             </tr>
 				  <td>
 <?php	if($locRights['add']) { ?>
@@ -144,7 +144,7 @@ function editChildren() {
             echo "<td><input type='checkbox' class='checkbox' name='chkchidel[]' value='" . $rset[$c][1] ."'></td>";
 
             ?> <td><a href="javascript:viewChildren(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td> <?php
-            echo '<td>' . $rset[$c][3] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($rset[$c][3]) .'</td>';
             echo '</tr>';
         }?>
         </table>

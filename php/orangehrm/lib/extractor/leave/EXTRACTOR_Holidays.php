@@ -30,7 +30,7 @@ class EXTRACTOR_Holidays {
 
 	public function parseAddData($postArr) {
 
-		$postArr['txtDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtDate']);
+		$postArr['txtDate'] = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtDate']);
 
 		$this->parent_Holidays->setDescription($postArr['txtDescription']);
 		$this->parent_Holidays->setDate($postArr['txtDate']);
@@ -55,7 +55,7 @@ class EXTRACTOR_Holidays {
 	 */
 	public function parseEditData($postArr) {
 
-		$postArr['txtDate'] = LocaleUtil::convertToStandardDateFormat($postArr['txtDate']);
+		$postArr['txtDate'] = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtDate']);
 
 		if (isset($_POST['txtId']) && !empty($postArr['txtId'])) {
 			$this->parent_Holidays->setHolidayId($postArr['txtId']);

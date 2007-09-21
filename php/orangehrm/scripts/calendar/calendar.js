@@ -93,7 +93,7 @@ YAHOO.OrangeHRM.calendar.parseDate = function (strDate) {
 
 	integerFormat = /[0-9]+/;
 
-	if (!integerFormat.test() || !integerFormat.test() || !integerFormat.test()) {
+	if (!integerFormat.test(dateVal) || !integerFormat.test(monthVal) || !integerFormat.test(yearVal)) {
 		return false;
 	}
 

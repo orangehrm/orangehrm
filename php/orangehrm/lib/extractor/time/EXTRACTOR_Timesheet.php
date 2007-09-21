@@ -20,6 +20,7 @@
 
 require_once ROOT_PATH . '/lib/models/time/Timesheet.php';
 require_once ROOT_PATH . '/lib/models/time/TimesheetSubmissionPeriod.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 class EXTRACTOR_Timesheet {
 
@@ -34,11 +35,11 @@ class EXTRACTOR_Timesheet {
 		$this->parent_Timesheet = new Timesheet();
 
 		if (isset($postArr['txtStartDate'])) {
-			$this->parent_Timesheet->setStartDate(date('Y-m-d', strtotime($postArr['txtStartDate'])));
+			$this->parent_Timesheet->setStartDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtStartDate']));
 		}
 
 		if (isset($postArr['txtEndDate'])) {
-			$this->parent_Timesheet->setEndDate(date('Y-m-d', strtotime($postArr['txtEndDate'])));
+			$this->parent_Timesheet->setEndDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEndDate']));
 		}
 
 		if (isset($postArr['txtTimesheetPeriodId'])) {

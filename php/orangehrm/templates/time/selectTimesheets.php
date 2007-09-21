@@ -42,23 +42,38 @@ function returnEmpDetail() {
 	popup.focus();
 }
 
-function selectDate() {
-	YAHOO.OrangeHRM.calendar.pop(this.id, 'cal1Container', 'yyyy-MM-dd');
-}
 
-function init() {
-	YAHOO.util.Event.addListener($("btnStartDate"), "click", selectDate, $("txtStartDate"), true);
-	YAHOO.util.Event.addListener($("btnEndDate"), "click", selectDate, $("txtEndDate"), true);
-}
+function validate() {
+	startDate = strToDate($("txtStartDate").value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate($("txtEndDate").value, YAHOO.OrangeHRM.calendar.format);
 
+	errFlag=false;
+	errors = new Array();
+
+	if (!startDate || !endDate || (startDate > endDate)) {
+		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified; ?>";
+		errFlag=true;
+	}
+
+	if (errFlag) {
+		errStr="<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
+		for (i in errors) {
+			errStr+=" - "+errors[i]+"\n";
+		}
+		alert(errStr);
+
+		return false;
+	}
+
+	return true;
+}
 YAHOO.OrangeHRM.container.init();
-YAHOO.util.Event.addListener(window, "load", init);
 </script>
 <h2>
 <?php echo $lang_Time_SelectTimesheetsTitle; ?>
 <hr/>
 </h2>
-<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" >
+<form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" onsubmit="return validate();">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>

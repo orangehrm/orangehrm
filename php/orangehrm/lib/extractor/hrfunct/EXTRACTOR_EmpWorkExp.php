@@ -28,20 +28,23 @@ class EXTRACTOR_EmpWorkExp{
 
 	function parseData($postArr) {
 
-			if (isset($postArr['txtEmpExpToDate']) && ($postArr['txtEmpExpToDate'] == '0000-00-00')|| ($postArr['txtEmpExpToDate'] == "")) {
-				$postArr['txtEmpExpToDate'] = 'null';
-			}
+		$postArr['txtEmpExpFromDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpFromDate']);
+		$postArr['txtEmpExpToDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpToDate']);
 
-			$this->empwrkexp->setEmpId(trim($postArr['txtEmpID']));
-    		$this->empwrkexp->setEmpExpSeqNo($postArr['txtEmpExpID']);
-    		$this->empwrkexp->setEmpExpEmployer(trim($postArr['txtEmpExpEmployer']));
-    		$this->empwrkexp->setEmpExpJobTitle(trim($postArr['txtEmpExpJobTitle']));
-    		$this->empwrkexp->setEmpExpFromDate(trim($postArr['txtEmpExpFromDate']));
-    		$this->empwrkexp->setEmpExpToDate(trim($postArr['txtEmpExpToDate']));
-    		$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
-			$this->empwrkexp->setEmpExpInternal(isset($postArr['chkEmpExpInternal']) ? 1 : 0);
+		if (isset($postArr['txtEmpExpToDate']) && ($postArr['txtEmpExpToDate'] == '0000-00-00')|| ($postArr['txtEmpExpToDate'] == "")) {
+			$postArr['txtEmpExpToDate'] = 'null';
+		}
 
-			return $this->empwrkexp;
+		$this->empwrkexp->setEmpId(trim($postArr['txtEmpID']));
+    	$this->empwrkexp->setEmpExpSeqNo($postArr['txtEmpExpID']);
+    	$this->empwrkexp->setEmpExpEmployer(trim($postArr['txtEmpExpEmployer']));
+    	$this->empwrkexp->setEmpExpJobTitle(trim($postArr['txtEmpExpJobTitle']));
+    	$this->empwrkexp->setEmpExpFromDate(trim($postArr['txtEmpExpFromDate']));
+    	$this->empwrkexp->setEmpExpToDate(trim($postArr['txtEmpExpToDate']));
+    	$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
+		$this->empwrkexp->setEmpExpInternal(isset($postArr['chkEmpExpInternal']) ? 1 : 0);
+
+		return $this->empwrkexp;
 	}
 
 

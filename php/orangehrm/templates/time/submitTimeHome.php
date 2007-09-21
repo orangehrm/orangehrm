@@ -88,7 +88,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 			?>
 		<tr>
 			<td class="tableMiddleLeft"></td>
-			<td ><?php echo $pendingTimeEvent->getStartTime(); ?></td>
+			<td ><?php echo LocaleUtil::getInstance()->formatDateTime($pendingTimeEvent->getStartTime()); ?></td>
 			<td ><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 			<td ><?php echo "{$projectActivities->getName()}"; ?></td>
 			<td ><?php echo $pendingTimeEvent->getDescription(); ?></td>

@@ -37,7 +37,7 @@ if (is_array($records[0])) {
 <h3><?php
 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 	echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
-						  array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"), $headingStr);
+						  array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"), $headingStr);
 ?></h3>
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
@@ -56,7 +56,7 @@ if (is_array($records[0])) {
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
+	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?></th>
 	    <?php } ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Total; ?></th>
 			<th class="tableMiddleRight"></th>

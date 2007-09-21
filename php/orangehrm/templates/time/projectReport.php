@@ -17,10 +17,11 @@
  * Boston, MA  02110-1301, USA
  *
  */
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 $project = $records[0];
-$startDate = $records[1];
-$endDate = $records[2];
+$startDate = LocaleUtil::getInstance()->formatDate($records[1]);
+$endDate = LocaleUtil::getInstance()->formatDate($records[2]);
 $activityTimeArray = $records[3];
 $customerObj = new Customer();
 $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);

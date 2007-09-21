@@ -83,14 +83,15 @@ $projectActivityObj = new ProjectActivity();
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
 var initialAction = "?timecode=Time&action=";
+var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
 
 function goBack() {
 	window.location = initialAction+"Time_Event_Home";
 }
 
 function validate() {
-	startTime = strToTime($("txtStartTime").value);
-	endTime = strToTime($("txtEndTime").value);
+	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
+	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 	duration = $("txtDuration").value;
 
 	errFlag=false;
@@ -119,6 +120,12 @@ function validate() {
 	if ($("txtReportedDate").value == "") {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified_ERROR; ?>";
 		errFlag=true;
+	} else {
+		repDate = strToDate($("txtReportedDate").value, YAHOO.OrangeHRM.calendar.format);
+		if (!repDate) {
+			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidReportedDate_ERROR; ?>";
+			errFlag=true;
+		}
 	}
 
 	if (errFlag) {
@@ -145,18 +152,14 @@ function submitTimeEvent() {
 	return false;
 }
 
-function selectDate() {
-	YAHOO.OrangeHRM.calendar.pop('txtReportedDate', 'cal1Container', 'yyyy-MM-dd');
-}
-
 function insertTime() {
-	this.value=formatDate(new Date(), "yyyy-MM-dd HH:mm");
+	this.value=formatDate(new Date(), dateTimeFormat);
 	calculateDuration();
 }
 
 function calculateDuration() {
-	startTime = strToTime($("txtStartTime").value);
-	endTime = strToTime($("txtEndTime").value);
+	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
+	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 
 	if (startTime && endTime && (endTime > startTime)) {
 		$("txtDuration").value = Math.round((endTime-startTime)/36000)/100;
@@ -171,15 +174,15 @@ function calculateDuration() {
 }
 
 function calculateEndDate() {
-	startTime = strToTime($("txtStartTime").value);
-	endTime = strToTime($("txtEndTime").value);
+	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
+	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 	duration = $("txtDuration").value;
 
 	if (startTime && !endTime && (duration > 0)) {
 		endTime = new Date();
 		endTime.setTime(startTime+(3600000*duration));
 
-		$("txtEndTime").value = formatDate(endTime, "yyyy-MM-dd HH:mm");
+		$("txtEndTime").value = formatDate(endTime, dateTimeFormat);
 		$("txtDuration").readOnly = "readonly";
 	} else {
 		$("txtDuration").readOnly = "";
@@ -187,7 +190,6 @@ function calculateEndDate() {
 }
 
 function init() {
-	YAHOO.util.Event.addListener($("btnReportedDateSelect"), "click", selectDate);
 	YAHOO.util.Event.addListener($("btnStartTimeInsert"), "click", insertTime, $("txtStartTime"), true);
 	YAHOO.util.Event.addListener($("btnEndTimeInsert"), "click", insertTime, $("txtEndTime"), true);
 
@@ -283,7 +285,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ><?php echo $lang_Time_Timesheet_StartTime; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtStartTime" name="txtStartTime" size="16" value="<?php echo $startTime; ?>" />
+				<input type="text" id="txtStartTime" name="txtStartTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($startTime); ?>" />
 				<input src="../../themes/beyondT/icons/insertTime.png"
 					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
 					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
@@ -298,7 +300,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ><?php echo $lang_Time_Timesheet_EndTime; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtEndTime" name="txtEndTime" size="16" value="<?php echo $endTime; ?>" />
+				<input type="text" id="txtEndTime" name="txtEndTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($endTime); ?>" />
 				<input src="../../themes/beyondT/icons/insertTime.png"
 					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
 					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
@@ -313,7 +315,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ><?php echo $lang_Time_Timesheet_DateReportedFor; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtReportedDate" name="txtReportedDate" value="<?php echo $reportedDate; ?>" size="10"/>
+				<input type="text" id="txtReportedDate" name="txtReportedDate" value="<?php echo LocaleUtil::getInstance()->formatDate($reportedDate); ?>" size="10"/>
 				<input type="button" id="btnReportedDateSelect" name="btnReportedDateSelect" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>

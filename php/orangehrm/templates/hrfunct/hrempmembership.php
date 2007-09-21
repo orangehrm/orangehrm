@@ -47,16 +47,6 @@ function moverMembership() {
 		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
-function createDate(str) {
-		var yy=eval(str.substr(0,4));
-		var mm=eval(str.substr(5,2)) - 1;
-		var dd=eval(str.substr(8,2));
-
-		var tempDate = new Date(yy,mm,dd);
-
-		return tempDate;
-}
-
 function goBack() {
 		location.href = "./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
 	}
@@ -96,8 +86,8 @@ function addEXTMembership() {
 
 	}
 
-	var commDate = createDate(document.getElementById('atxtMemCommDat').value);
-	var renDate = createDate(document.getElementById('atxtMemRenDat').value);
+	var commDate = strToDate(document.getElementById('atxtMemCommDat').value, YAHOO.OrangeHRM.calendar.format);
+	var renDate = strToDate(document.getElementById('atxtMemRenDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(commDate >= renDate) {
 		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
@@ -117,8 +107,8 @@ function editEXTMembership() {
 		return false;
 	}
 
-	var commDate = createDate(document.getElementById('etxtMemCommDat').value);
-	var renDate = createDate(document.getElementById('etxtMemRenDat').value);
+	var commDate = strToDate(document.getElementById('etxtMemCommDat').value, YAHOO.OrangeHRM.calendar.format);
+	var renDate = strToDate(document.getElementById('etxtMemRenDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(commDate >= renDate) {
 		alert("<?php echo $lang_hrEmpMain_CommenceDateShouldBeBeforeRenewalDate; ?>");
@@ -192,7 +182,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subownership; ?></td>
-						<td align="left" valign="top"><select disabled name="cmbMemSubOwn">
+						<td align="left" valign="top"><select name="cmbMemSubOwn">
 <?php
 						for($c=0;count($subown)>$c;$c++)
 						    if($edit[0][3]==$subown[$c])
@@ -204,28 +194,28 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>">
+						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>">
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly disabled name="txtMemCommDat" id="etxtMemCommDat" value=<?php echo $edit[0][5]?> size="10" />
-							<input class="calendarBtn" disabled type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" name="txtMemCommDat" id="etxtMemCommDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
+							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly disabled name="txtMemRenDat" id="etxtMemRenDat" value=<?php echo $edit[0][6]?> size="10" />
-							<input class="calendarBtn" disabled type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" name="txtMemRenDat" id="etxtMemRenDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" size="10" />
+							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onClick="editMembership();">
+						        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onClick="editEXTMembership();">
 						</td>
 					  </tr>
        </table>
@@ -283,15 +273,15 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly name="txtMemCommDat" id="atxtMemCommDat" value="0000-00-00" size="12" />
-							<input class="calendarBtn" type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtMemCommDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" name="txtMemCommDat" id="atxtMemCommDat" value="" size="12" />
+							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top">
-							<input type="text" readonly name="txtMemRenDat" id="atxtMemRenDat" value="0000-00-00" size="12" />
-							<input class="calendarBtn" type="button" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('atxtMemRenDat', 'cal1Container', 'yyyy-MM-dd'); return false;">
+							<input type="text" name="txtMemRenDat" id="atxtMemRenDat" value="" size="12" />
+							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 					  <tr>
@@ -343,9 +333,9 @@ if(isset($this->popArr['editMembershipArr'])) {
             echo '<td>' . $fname .'</td>';
             echo '<td>' . $rset[$c][3] .'</td>';
             $disStr = explode(" ",$rset[$c][5]);
-            echo '<td>' . $disStr[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($disStr[0]) .'</td>';
             $disStr = explode(" ",$rset[$c][6]);
-            echo '<td>' . $disStr[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($disStr[0]) .'</td>';
         echo '</tr>';
         }
 ?>

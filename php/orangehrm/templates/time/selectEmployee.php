@@ -157,7 +157,7 @@ function viewTimesheet(id) {
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $employee[1];?></td>
 			<td>&nbsp;</td>
-			<td><?php echo preg_replace(array('/#date/'), array($timesheet->getStartDate()), $lang_Time_Select_Employee_WeekStartingDate); ?></td>
+			<td><?php echo preg_replace(array('/#date/'), array(LocaleUtil::getInstance()->formatDate($timesheet->getStartDate())), $lang_Time_Select_Employee_WeekStartingDate); ?></td>
 			<td>
 				<input type="image" name="btnView" alt="View"
 					   onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;"

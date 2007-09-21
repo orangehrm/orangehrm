@@ -62,6 +62,14 @@ function addEXTEducation() {
 			return;
 	}
 
+	startDate = strToDate(document.getElementById('atxtEmpEduStartDate').value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate(document.getElementById('atxtEmpEduEndDate').value, YAHOO.OrangeHRM.calendar.format);
+
+	if(startDate >= endDate) {
+		alert("<?php echo $lang_hremp_StaringDateShouldBeBeforeEnd; ?>");
+		return;
+	}
+
 	document.frmEmp.educationSTAT.value="ADD";
 	qCombo(9);
 }
@@ -73,6 +81,14 @@ function editEXTEducation() {
 			alert ("<?php echo $lang_Error_FieldShouldBeNumeric; ?>!");
 			txt.focus();
 			return;
+	}
+
+	startDate = strToDate(document.getElementById('etxtEmpEduStartDate').value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate(document.getElementById('etxtEmpEduEndDate').value, YAHOO.OrangeHRM.calendar.format);
+
+	if(startDate >= endDate) {
+		alert("<?php echo $lang_hremp_StaringDateShouldBeBeforeEnd; ?>");
+		return;
 	}
 
   document.frmEmp.educationSTAT.value="EDIT";
@@ -139,14 +155,14 @@ function viewEducation(edu) {
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpEduStartDate" id="atxtEmpEduStartDate" readonly value="0000-00-00" size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduStartDate" id="atxtEmpEduStartDate" value="" size="10" />
+							<input type="button" value="  " class="calendarBtn" /></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpEduEndDate" id="atxtEmpEduEndDate" readonly value="0000-00-00" size="10" />
-							<input disabled type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduEndDate" id="atxtEmpEduEndDate" value="" size="10" />
+							<input type="button" value="  " class="calendarBtn" /></td>
 					 </tr>
 
 					 <tr>
@@ -176,36 +192,36 @@ if(isset($this->popArr['editEducationArr'])) {
 					</tr>
                     <tr>
                       <td><?php echo $lang_hrEmpMain_major?></td>
-    				  <td><input type="text" name="txtEmpEduMajor" disabled value="<?php echo $edit[0][2]?>"></td>
+    				  <td><input type="text" name="txtEmpEduMajor" value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					</tr>
 					 <tr>
 					<td><?php echo $lang_Leave_Common_Year?></td>
-						<td> <input type="text" disabled name="txtEmpEduYear" id="etxtEmpEduYear" value="<?php echo $edit[0][3]?>"></td>
+						<td> <input type="text" name="txtEmpEduYear" id="etxtEmpEduYear" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 					<td><?php echo $lang_hrEmpMain_gpa?></td>
-						<td> <input type="text" disabled name="txtEmpEduGPA" value="<?php echo $edit[0][4]?>"></td>
+						<td> <input type="text" name="txtEmpEduGPA" value="<?php echo $edit[0][4]?>"></td>
     				  <td width="50">&nbsp;</td>
 					 </tr>
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" readonly value=<?php echo $edit[0][5]?> size="10" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpEduStartDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" value=<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?> size="10" />
+							<input type="button" value="  " class="calendarBtn" /></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" readonly value=<?php echo $edit[0][6]?> size="10" />
-							<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpEduEndDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" value=<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?> size="10" />
+							<input type="button" value="  " class="calendarBtn" /></td>
 					 </tr>
 
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
+						        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
 						</td>
 					  </tr>
 		</table>

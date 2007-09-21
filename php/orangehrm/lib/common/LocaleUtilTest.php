@@ -6,7 +6,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'PHPUnit/Framework.php';
 
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once "testConf.php";
+require_once ROOT_PATH."/lib/confs/sysConf.php";
 require_once 'LocaleUtil.php';
 
 
@@ -50,6 +51,17 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
     }
 
+	/**
+	 * Test that the sysConf is set by the LocaleUtil constructor.
+	 */
+	public function testSysConfSet() {
+    	$localeUtil = LocaleUtil::getInstance();
+
+		// Verify that LocaleUtil has got a sysConf instance
+		$sysConf = $localeUtil->getSysConf();
+		$this->assertTrue($sysConf instanceof sysConf);
+	}
+
     public function testFormatDate() {
     	$localeUtil = LocaleUtil::getInstance();
 
@@ -59,6 +71,10 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$date = '2007-12-22';
     	$expected = '22-12-2007';
     	$this->assertEquals($expected, $localeUtil->formatDate($date));
+
+    	// If input is invalid simply output input without attempting to convert
+    	$date = 'No date';
+    	$this->assertEquals($date, $localeUtil->formatDate($date));
 
 		// Try some other formats
 		$this->sysConf->dateFormat = "F jS, Y";
@@ -80,7 +96,6 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$date = '2007-12-22';
     	$expected = $date;
     	$this->assertEquals($expected, $localeUtil->formatDate($date));
-
     }
 
     public function testFormatTime() {
@@ -92,6 +107,10 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$time = '13:01';
     	$expected = '13:01';
     	$this->assertEquals($expected, $localeUtil->formatTime($time));
+
+    	// If input is invalid simply output input without attempting to convert
+    	$time = '-';
+    	$this->assertEquals($time, $localeUtil->formatTime($time));
 
     	// Passing a custom date format to method should ignore system configuration
     	$date = '18:35';
@@ -105,7 +124,6 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$time = '13:01';
     	$expected = $time;
     	$this->assertEquals($time, $localeUtil->formatTime($time));
-
     }
 
     public function testFormatDateTime() {
@@ -118,6 +136,10 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$time = '2007-12-22 13:01';
     	$expected = '22/12/2007 13:01';
     	$this->assertEquals($expected, $localeUtil->formatDateTime($time));
+
+    	// If input is invalid simply output input without attempting to convert
+    	$time = 'a - b';
+    	$this->assertEquals($time, $localeUtil->formatDateTime($time));
 
     	// Passing a custom date format to method should ignore system configuration
     	$date = '2007-9-18 18:35';
@@ -134,6 +156,89 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testConvertToStandardTimeFormat() {
+    	$localeUtil = LocaleUtil::getInstance();
+
+		$this->sysConf->timeFormat = "H:i";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$time = '13:01';
+    	$expected = '13:01';
+    	$this->assertEquals($expected, $localeUtil->convertToStandardTimeFormat($time));
+
+    	// If input is invalid return null
+    	$time = '-';
+    	$this->assertNull($localeUtil->convertToStandardTimeFormat($time));
+
+    	// Passing a custom date format to method should ignore system configuration
+    	$expected = '18:35';
+    	$date = '06:35 PM';
+    	$this->assertEquals($expected, $localeUtil->convertToStandardTimeFormat($date, "h:i A"));
+
+    	// With no date format specified. Should return null.
+		$this->sysConf->timeFormat = "";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$time = '13:01';
+    	$this->assertNull($localeUtil->convertToStandardTimeFormat($time));
+    }
+
+    public function testConvertToStandardDateFormat() {
+    	$localeUtil = LocaleUtil::getInstance();
+
+		$this->sysConf->dateFormat = "d-m-Y";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$expected = '2007-12-22';
+    	$date = '22-12-2007';
+    	$this->assertEquals($expected, $localeUtil->convertToStandardDateFormat($date));
+
+    	// If input is invalid return null
+    	$date = 'No date';
+    	$this->assertNull($localeUtil->convertToStandardDateFormat($date));
+
+    	// Passing a custom date format to method should ignore system configuration
+    	$expected = '2007-09-18';
+    	$date = '09-18-2007';
+    	$this->assertEquals($expected, $localeUtil->convertToStandardDateFormat($date, "m-d-Y"));
+
+    	// With no date format specified. Should return null.
+		$this->sysConf->dateFormat = "";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$date = '2007-12-22';
+    	$this->assertNull($localeUtil->convertToStandardDateFormat($date));
+    }
+
+    public function testConvertToStandardDateTimeFormat() {
+    	$localeUtil = LocaleUtil::getInstance();
+
+		$this->sysConf->dateFormat = "d/m/Y";
+		$this->sysConf->timeFormat = "H:i";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$expected = '2007-12-22 13:01';
+    	$time = '22/12/2007 13:01';
+
+    	$this->assertEquals($expected, $localeUtil->convertToStandardDateTimeFormat($time));
+
+    	// If input is invalid return null
+    	$time = 'a - b';
+    	$this->assertNull($localeUtil->convertToStandardDateTimeFormat($time));
+
+    	// Passing a custom date format to method should ignore system configuration
+    	$expected = '2007-09-18 18:35';
+    	$date= '09-18-2007 06:35 PM';
+    	$this->assertEquals($expected, $localeUtil->convertToStandardDateTimeFormat($date, "m-d-Y h:i A"));
+
+    	// With no date format specified. Should return null.
+		$this->sysConf->dateFormat = "";
+		$localeUtil->setSysConf($this->sysConf);
+
+    	$time = '2007 12 22 13:01';
+    	$expected = $time;
+    	$this->assertNull($localeUtil->convertToStandardDateTimeFormat($time));
+    }
 
     public function testConvertToXpDateFormat() {
     	$formatStr = 'Y-m-d';

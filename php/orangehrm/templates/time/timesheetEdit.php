@@ -82,8 +82,14 @@ switch ($status) {
 
 $startDate = strtotime($timesheet->getStartDate() . " 00:00:00");
 $endDate = strtotime($timesheet->getEndDate() . " 23:59:00");
-
+$startDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $startDate));
+$endDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $endDate));
 $row=0;
+
+$sysConf = new sysConf();
+$dateFormat = LocaleUtil::convertToXpDateFormat($sysConf->getDateFormat());
+$timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
+
 ?>
 <script type="text/javascript">
 <!--
@@ -91,6 +97,9 @@ currFocus = null;
 totRows = 0;
 
 var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php echo $timesheet->getTimesheetId(); ?>&action=";
+var dateFormat = '<?php echo $dateFormat; ?>';
+var timeFormat = '<?php echo $timeFormat; ?>';
+var dateTimeFormat = dateFormat + " " + timeFormat;
 
 function $(id) {
 	return document.getElementById(id);
@@ -124,7 +133,7 @@ function actionInsertTime() {
 		currFocus = $("txtStartTime["+totRows+"]");
 	}
 	if (currFocus.value == "") {
-    	currFocus.value = formatDate(new Date(), "yyyy-MM-dd HH:mm");
+    	currFocus.value = formatDate(new Date(), dateTimeFormat);
   	}
   	currFocus.focus();
 }
@@ -137,8 +146,8 @@ function checkDateWithinPeriod(dateToCheck) {
 
 	if (dateToCheck) {
 
-		periodStart = strToTime("<?php echo date("Y-m-d H:i", $startDate); ?>");
-		periodEnd = strToTime("<?php echo date("Y-m-d H:i", $endDate); ?>");
+		periodStart = strToTime("<?php echo $startDatePrint; ?>", dateTimeFormat);
+		periodEnd = strToTime("<?php echo $endDatePrint; ?>", dateTimeFormat);
 		if ((dateToCheck < periodStart) || (dateToCheck > periodEnd)) {
 			return false;
 		}
@@ -154,8 +163,8 @@ function checkDateWithinPeriod(dateToCheck) {
  */
 function checkDateAndDuration(dateValue, duration) {
 
-	periodStart = strToTime("<?php echo date("Y-m-d H:i", $startDate); ?>");
-	periodEnd = strToTime("<?php echo date("Y-m-d H:i", $endDate); ?>");
+	periodStart = strToTime("<?php echo $startDatePrint; ?>", dateTimeFormat);
+	periodEnd = strToTime("<?php echo $endDatePrint; ?>", dateTimeFormat);
 
 	// ignore invalid dates and durations since those are checked separately
 	if (dateValue && validateDuration(duration)) {
@@ -205,58 +214,61 @@ function validate() {
 	err = new Array();
 	errFlag = false;
 
-	for (i = 0; i <= totRows; i++) {
-		if (i == totRows) {
+	for (x = 0; x <= totRows; x++) {
+		if (x == totRows) {
 			lastRow = true;
 		} else {
 			lastRow = false;
 		}
 
-		if (!lastRow || !allEmpty(i)) {
-			err[i] = false;
+		if (!lastRow || !allEmpty(x)) {
+			err[x] = false;
 
-			txtStartTime = trim($("txtStartTime["+i+"]").value);
-			txtEndTime = trim($("txtEndTime["+i+"]").value);
-			txtReportedDate = trim($("txtReportedDate["+i+"]").value);
-			duration = trim($("txtDuration["+i+"]").value);
+			txtStartTime = trim($("txtStartTime["+x+"]").value);
+			txtEndTime = trim($("txtEndTime["+x+"]").value);
+			txtReportedDate = trim($("txtReportedDate["+x+"]").value);
+			duration = trim($("txtDuration["+x+"]").value);
 
-			startTime = strToTime(txtStartTime);
-			endTime = strToTime(txtEndTime);
-			reportedDate = strToDate(txtReportedDate);
+			startTime = strToTime(txtStartTime, dateTimeFormat);
+
+			endTime = strToTime(txtEndTime, dateTimeFormat);
+
+			reportedDate = strToDate(txtReportedDate, dateFormat);
 
 			// Validate values
-			if ($("cmbActivity["+i+"]").value == "-1") {
+
+			if ($("cmbActivity["+x+"]").value == "-1") {
 				errorMsgs[0] = "<?php echo $lang_Time_Errors_ActivityNotSpecified_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
-			if ($("cmbProject["+i+"]").value == "-1") {
+			if ($("cmbProject["+x+"]").value == "-1") {
 				errorMsgs[1] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
 			if ((txtStartTime != "") && !startTime) {
 				errorMsgs[2] = "<?php echo $lang_Time_Errors_InvalidStartTime_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
 			if ((txtEndTime != "") && !endTime) {
 				errorMsgs[3] = "<?php echo $lang_Time_Errors_InvalidEndTime_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
 			if (txtReportedDate == "") {
 				errorMsgs[4] = "<?php echo $lang_Time_Errors_ReportedDateNotSpecified_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			} else if (!reportedDate) {
 				errorMsgs[5] = "<?php echo $lang_Time_Errors_InvalidReportedDate_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
 			// 0 not allowed for duration in last row.
 			if (!validateDuration(duration) || (lastRow && (duration != "") && (duration == 0))) {
 				errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
-				err[i] = true;
+				err[x] = true;
 			}
 
 			// Validate period/interval
@@ -266,16 +278,16 @@ function validate() {
 					// Only reported date and duration specified. Check duration within timesheet period
 					if (!checkDateAndDuration(reportedDate, duration)) {
 						errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-						err[i] = true;
+						err[x] = true;
 					} else if (!lastRow && (validateDuration(duration) && duration == 0)) {
 
 						// Don't allow zero duration (for saved rows)
 						errorMsgs[6] = "<?php echo $lang_Time_Errors_InvalidDuration_ERROR; ?>";
-						err[i] = true;
+						err[x] = true;
 					}
 				} else {
 					errorMsgs[8] = "<?php echo $lang_Time_Errors_NoValidDurationOrInterval_ERROR; ?>";
-					err[i] = true;
+					err[x] = true;
 				}
 
 			} else {
@@ -285,13 +297,13 @@ function validate() {
 						// start time only. Check that it's within timesheet period
 						if (!checkDateWithinPeriod(startTime)) {
 							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-							err[i] = true;
+							err[x] = true;
 						}
 					} else {
 						// Only start time and duration specified. Check duration within timesheet period
 						if (!checkDateAndDuration(startTime, duration)) {
 							errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-							err[i] = true;
+							err[x] = true;
 						}
 					}
 				} else {
@@ -300,33 +312,33 @@ function validate() {
 						// start time and end time specified
 						if ((startTime && endTime) && (startTime >= endTime)) {
 							errorMsgs[9] = "<?php echo $lang_Time_Errors_ZeroOrNegativeIntervalSpecified_ERROR; ?>";
-							err[i] = true;
+							err[x] = true;
 						} else {
 							if (!checkDateWithinPeriod(startTime) || !checkDateWithinPeriod(endTime)) {
 								errorMsgs[7] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
-								err[i] = true;
+								err[x] = true;
 							}
 						}
 					} else {
 							errorMsgs[10] = "<?php echo $lang_Time_Errors_NotAllowedToSpecifyDurationAndInterval_ERROR; ?>";
-							err[i] = true;
+							err[x] = true;
 					}
 				}
 			}
 
-			if (err[i]) {
+			if (err[x]) {
 				errFlag = true;
-				$("row["+i+"]").style.background = "#FFAAAA";
+				$("row["+x+"]").style.background = "#FFAAAA";
 			} else {
-				$("row["+i+"]").style.background = "#FFFFFF";
+				$("row["+x+"]").style.background = "#FFFFFF";
 			}
 		}
 	}
 
 	if (errFlag) {
 		errStr = "<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
-		for (i in errorMsgs) {
-			errStr += " - " + errorMsgs[i] + "\n";
+		for (j in errorMsgs) {
+			errStr += " - " + errorMsgs[j] + "\n";
 		}
 		alert(errStr);
 
@@ -412,7 +424,7 @@ function goBack() {
 				$headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
 			}
 			echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
-							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
+							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
 							$headingStr); ?>
   <hr/>
 </h2>
@@ -508,9 +520,9 @@ function goBack() {
 				<?php } ?>
 					</select>
 				</td>
-				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo $timeExpense->getStartTime(); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo $timeExpense->getEndTime(); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo $timeExpense->getReportedDate(); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" value="<?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?>" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'readonly="readonly"':''; ?> id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" value="<?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?>" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?>" onfocus="looseCurrFocus();" /></td>
 				<td><input type="text" <?php echo ($timeExpense->getStartTime() == null)?'':'readonly="readonly"'; ?> id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" value="<?php echo round($timeExpense->getDuration()/36)/100; ?>" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ><?php echo $timeExpense->getDescription(); ?></textarea>
 					<input type="hidden" id="txtTimeEventId[<?php echo $row; ?>]" name="txtTimeEventId[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" />
@@ -543,7 +555,7 @@ function goBack() {
 				</td>
 				<td><input type="text" id="txtStartTime[<?php echo $row; ?>]" name="txtStartTime[]" onfocus="setCurrFocus('txtStartTime', <?php echo $row; ?>);" /></td>
 				<td><input type="text" id="txtEndTime[<?php echo $row; ?>]" name="txtEndTime[]" onfocus="setCurrFocus('txtEndTime', <?php echo $row; ?>);" /></td>
-				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo date('Y-m-d'); ?>" onfocus="looseCurrFocus();" /></td>
+				<td><input type="text" id="txtReportedDate[<?php echo $row; ?>]" name="txtReportedDate[]" value="<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d')); ?>" onfocus="looseCurrFocus();" /></td>
 				<td><input type="text" id="txtDuration[<?php echo $row; ?>]" name="txtDuration[]" onfocus="looseCurrFocus();" /></td>
 				<td><textarea type="text" id="txtDescription[<?php echo $row; ?>]" name="txtDescription[]" onfocus="looseCurrFocus();" ></textarea></td>
 				<td class="tableMiddleRight"></td>
@@ -594,6 +606,8 @@ function goBack() {
 		onclick="deleteTimeEvents(); return false;"
 		name="btnDelete" id="btnDelete"
 		type="image" alt="Delete" />
+<?php echo $lang_Time_TimeFormat . " : {$dateFormat} {$timeFormat}";?>
+
 </form>
 </p>
 <script type="text/javascript">

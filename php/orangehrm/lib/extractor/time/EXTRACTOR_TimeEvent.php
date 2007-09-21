@@ -20,6 +20,7 @@
 
 require_once ROOT_PATH . '/lib/models/time/TimeEvent.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 class EXTRACTOR_TimeEvent {
 
@@ -43,16 +44,16 @@ class EXTRACTOR_TimeEvent {
 
 				$txtStartTime = trim($postArr['txtStartTime'][$i]);
 				if (!empty($txtStartTime)) {
-					$tmpObj->setStartTime($txtStartTime);
+					$tmpObj->setStartTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($txtStartTime));
 				}
 
 				$txtEndTime = trim($postArr['txtEndTime'][$i]);
 				if (!empty($txtEndTime)) {
-					$tmpObj->setEndTime($txtEndTime);
+					$tmpObj->setEndTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($txtEndTime));
 				}
 
 				$txtReportedDate = trim($postArr['txtReportedDate'][$i]);
-				$tmpObj->setReportedDate($txtReportedDate);
+				$tmpObj->setReportedDate(LocaleUtil::getInstance()->convertToStandardDateFormat($txtReportedDate));
 
 				if (isset($postArr['txtDuration'][$i])) {
 
@@ -97,22 +98,26 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
 		$tmpObj->setEmployeeId($_SESSION['empID']);
 
+		$txtDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtDate']);
+		$txtTime = LocaleUtil::getInstance()->convertToStandardTimeFormat($postArr['txtTime']);
+
 		if ($punchIn) {
-			$tmpObj->setStartTime("{$postArr['txtDate']} {$postArr['txtTime']}");
+			$tmpObj->setStartTime("{$txtDate} {$txtTime}");
 			$tmpObj->setDuration(0);
 		} else {
-			$startTime = strtotime($postArr['startTime']);
-			$endTime = strtotime("{$postArr['txtDate']} {$postArr['txtTime']}");
+			$txtStartTime = LocaleUtil::getInstance()->convertToStandardDateTimeFormat($postArr['startTime']);
+			$startTime = strtotime($txtStartTime);
+			$endTime = strtotime("{$txtDate} {$txtTime}");
 
 			if ($startTime >= $endTime) {
 				return null;
 			}
-			$tmpObj->setStartTime($postArr['startTime']);
-			$tmpObj->setEndTime("{$postArr['txtDate']} {$postArr['txtTime']}");
+			$tmpObj->setStartTime($txtStartTime);
+			$tmpObj->setEndTime("{$txtDate} {$txtTime}");
 			$tmpObj->setDuration($endTime-$startTime);
 			$tmpObj->setTimeEventId($postArr['timeEventId']);
 		}
-		$tmpObj->setReportedDate($postArr['txtDate']);
+		$tmpObj->setReportedDate($txtDate);
 		$tmpObj->setDescription($postArr['txtNote']);
 
 		return $tmpObj;
@@ -125,20 +130,20 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj->setActivityId($postArr['cmbActivity']);
 
 		if (!empty($postArr['txtStartTime'])) {
-			$tmpObj->setStartTime($postArr['txtStartTime']);
+			$tmpObj->setStartTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($postArr['txtStartTime']));
 		}
 
 		if (!empty($postArr['txtEndTime'])) {
-			$tmpObj->setEndTime($postArr['txtEndTime']);
+			$tmpObj->setEndTime(LocaleUtil::getInstance()->convertToStandardDateTimeFormat($postArr['txtEndTime']));
 		}
 
-		$tmpObj->setReportedDate($postArr['txtReportedDate']);
+		$tmpObj->setReportedDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtReportedDate']));
 
 		if (isset($postArr['txtDuration']) && !empty($postArr['txtDuration'])) {
 			$tmpObj->setDuration($postArr['txtDuration']*3600);
 		} else if (isset($postArr['txtStartTime']) && isset($postArr['txtEndTime'])){
-			$startTime=strtotime($postArr['txtStartTime']);
-			$endTime=strtotime($postArr['txtEndTime']);
+			$startTime=strtotime($tmpObj->getStartTime());
+			$endTime=strtotime($tmpObj->getEndTime());
 			if ($endTime > $startTime) {
 				$tmpObj->setDuration($endTime-$startTime);
 			} else {
@@ -170,14 +175,20 @@ class EXTRACTOR_TimeEvent {
 			$tmpObj->setActivityId($postArr['cmbActivity']);
 		}
 
-		return $tmpObj;
+		$fromDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtFromDate']);
+		$toDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtToDate']);
+
+		return array($tmpObj, $fromDate, $toDate);
 	}
 
 	public function parseProjectReportParams($postArr) {
 		$tmpObj = new TimeEvent();
 		$tmpObj->setProjectId($postArr['cmbProject']);
 
-		return $tmpObj;
+		$fromDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtFromDate']);
+		$toDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtToDate']);
+
+		return array($tmpObj, $fromDate, $toDate);
 	}
 
 	public function parseActivityReportParams($postArr) {
@@ -187,7 +198,11 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj->setActivityId($postArr['activityId']);
 		$tmpObj->setDuration($postArr['time']);
 
-		return $tmpObj;
+		$fromDate  = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtFromDate']);
+		$toDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtToDate']);
+		$pageNo = isset($_POST['pageNo']) ? $postArr['pageNo']:1;
+
+		return array($tmpObj, $fromDate, $toDate, $pageNo);
 	}
 
 }

@@ -136,6 +136,10 @@ class EXTRACTOR_EmpInfo {
 
 	//personal
 	if ($postArr['personalFlag']=='1') {
+
+		$postArr['DOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['DOB']);
+		$postArr['txtLicExpDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtLicExpDate']);
+
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpSINNo(trim($postArr['txtSINNo']));
 		$this->parent_empinfo -> setEmpSSNNo(trim($postArr['txtNICNo']));
@@ -155,6 +159,9 @@ class EXTRACTOR_EmpInfo {
 
 	//job info
 	if ($postArr['jobFlag']=='1' && !(isset($this->isESS) && $this->isESS)) {
+
+		$postArr['txtJoinedDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtJoinedDate']);
+
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpJobTitle(trim($postArr['cmbJobTitle']));
 		$this->parent_empinfo -> setEmpStatus(trim($postArr['cmbType']));

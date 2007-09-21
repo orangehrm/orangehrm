@@ -85,7 +85,6 @@ require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPassPort.php';
 
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpAttach.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpRepTo.php';
-require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpEss.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpDependents.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpSkill.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpLicenses.php';
@@ -1481,22 +1480,17 @@ switch ($moduletype) {
 																					break;
 													case 'Employee_Report'		:	$obj = $timeEventExtractor->parseReportParams($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->viewEmployeeTimeReport($_POST['txtFromDate'],
-																															$_POST['txtToDate']);
+																					$timeController->viewEmployeeTimeReport();
 																					break;
 													case 'Project_Report_Define':	$timeController->viewDefineProjectReport();
 																					break;
 													case 'Project_Report'       :   $obj = $timeEventExtractor->parseProjectReportParams($_POST);
 																					$timeController->setObjTime($obj);
-																					$timeController->viewProjectReport($_POST['txtFromDate'],
-																															$_POST['txtToDate']);
+																					$timeController->viewProjectReport();
 																					break;
 													case 'Activity_Report'       :  $obj = $timeEventExtractor->parseActivityReportParams($_POST);
 																					$timeController->setObjTime($obj);
-																					$pageNo = isset($_POST['pageNo']) ? $_POST['pageNo']:1;
-																					$timeController->viewActivityReport($_POST['txtFromDate'],
-																															$_POST['txtToDate'],
-																															$pageNo);
+																					$timeController->viewActivityReport();
 																					break;
 													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
 																					break;

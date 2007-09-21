@@ -20,8 +20,8 @@
 
 $project = $records[0];
 $activity = $records[1];
-$startDate = $records[2];
-$endDate = $records[3];
+$startDate = LocaleUtil::getInstance()->formatDate($records[2]);
+$endDate = LocaleUtil::getInstance()->formatDate($records[3]);
 $empTimeArray = $records[4];
 $count = $records[5];
 $totalTime = $records[6];

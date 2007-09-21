@@ -235,8 +235,8 @@ YAHOO.util.Event.addListener(window, "load", init);
 	<input type="hidden" name="txtLocation" id="txtLocation" value="<?php echo $filterValues[1]; ?>" />
 	<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $filterValues[2]; ?>" />
 	<input type="hidden" name="txtEmploymentStatus" id="txtEmploymentStatus" value="<?php echo $filterValues[3]; ?>" />
-	<input type="hidden" name="txtStartDate" id="txtStartDate" value="<?php echo $filterValues[4]; ?>" />
-	<input type="hidden" name="txtEndDate" id="txtEndDate" value="<?php echo $filterValues[5]; ?>" />
+	<input type="hidden" name="txtStartDate" id="txtStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[4]); ?>" />
+	<input type="hidden" name="txtEndDate" id="txtEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>" />
 </form>
 
 <div id="printPanel">

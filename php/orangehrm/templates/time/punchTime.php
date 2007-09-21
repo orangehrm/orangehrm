@@ -32,10 +32,10 @@ $note = "";
 
 if ($timeEvent != null) {
 	switch ($records[0]) {
-		case TimeEvent::TIME_EVENT_PUNCH_IN  : $lastPunch = $timeEvent->getEndTime();
+		case TimeEvent::TIME_EVENT_PUNCH_IN  : $lastPunch = LocaleUtil::getInstance()->formatDateTime($timeEvent->getEndTime());
 											   $puchInfo = "$lang_Time_LastPunchOut {$lastPunch}";
 											   break;
-		case TimeEvent::TIME_EVENT_PUNCH_OUT : $lastPunch = $timeEvent->getStartTime();
+		case TimeEvent::TIME_EVENT_PUNCH_OUT : $lastPunch = LocaleUtil::getInstance()->formatDateTime($timeEvent->getStartTime());
 											   $puchInfo = "$lang_Time_LastPunchIn {$lastPunch}";
 											   $timeEventId = $timeEvent->getTimeEventId();
 											   $note = $timeEvent->getDescription();
@@ -49,6 +49,8 @@ if ($timeEvent != null) {
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
+	dateTimeFormat = YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format;
+
 	commonAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=";
 	<?php if (isset($timeEventId)) { ?>
 	submitAction = "Punch_Out";
@@ -57,28 +59,24 @@ if ($timeEvent != null) {
 	<?php } ?>
 
 	<?php if (isset($lastPunch)) { ?>
-	lastPunch = strToTime("<?php echo $lastPunch; ?>");
+	lastPunch = strToTime("<?php echo $lastPunch; ?>", dateTimeFormat);
 	<?php } else { ?>
 	lastPunch = false;
 	<?php }?>
-
-	function selectDate() {
-		YAHOO.OrangeHRM.calendar.pop('txtDate', 'cal1Container', 'yyyy-MM-dd');
-	}
 
 	function validate() {
 		startTime = false;
 
 		err = false;
 
-		if (!strToTime($("txtDate").value+" "+$("txtTime").value)) {
+		if (!strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat)) {
 			alert("<?php echo $lang_Time_Errors_InvalidDateOrTime; ?>");
 			err = true;
 		}
 
 		if ($("startTime")) {
-			startTime = strToTime($("startTime").value);
-			endTime = strToTime($("txtDate").value+" "+$("txtTime").value);
+			startTime = strToTime($("startTime").value, dateTimeFormat);
+			endTime = strToTime($("txtDate").value+" "+$("txtTime").value, dateTimeFormat);
 
 			if (0 >= (endTime-startTime)) {
 				alert("<?php echo $lang_Time_Errors_ZeroOrNegativeDurationTimeEventsAreNotAllowed; ?>");
@@ -98,12 +96,11 @@ if ($timeEvent != null) {
 
 	function init() {
 
-		$("txtDate").value = formatDate(new Date(), "yyyy-MM-dd");
-		$("txtTime").value = formatDate(new Date(), "HH:mm");
+		$("txtDate").value = formatDate(new Date(), YAHOO.OrangeHRM.calendar.format);
+		$("txtTime").value = formatDate(new Date(), YAHOO.OrangeHRM.time.format);
 
 		oButtonPunch = new YAHOO.widget.Button("btnPunch", {onclick: {fn:punchTime}});
 
-		YAHOO.util.Event.addListener($("btnSelDate"), "click", selectDate);
 	}
 
 	YAHOO.OrangeHRM.container.init();
@@ -176,7 +173,7 @@ if ($timeEvent != null) {
 	</table>
 
 	<?php if (isset($timeEventId)) { ?>
-	<input type="hidden" name="startTime" id="startTime" value="<?php echo $timeEvent->getStartTime(); ?>" />
+	<input type="hidden" name="startTime" id="startTime" value="<?php echo LocaleUtil::getInstance()->formatDateTime($timeEvent->getStartTime()); ?>" />
 	<input type="hidden" name="timeEventId" id="timeEventId" value="<?php echo $timeEventId; ?>" />
 	<?php } ?>
 </form>

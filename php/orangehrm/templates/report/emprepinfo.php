@@ -20,6 +20,7 @@
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 $sysConst = new sysConf();
 $locRights = $_SESSION['localRights'];
@@ -41,20 +42,20 @@ $headingInfo = array (
 <head>
 <title></title>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script src="../../scripts/time.js"></script>
 <script language="JavaScript">
 
 
-	// checking the date format yyyy-mm-dd
 
 	function validDate(txt) {
-		dateExpression = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
-
-		if (!dateExpression.test(txt)) {
+		txt = txt.trim();
+		if ((txt == '') || !YAHOO.OrangeHRM.calendar.parseDate(txt)) {
 			return false;
+		} else {
+			return true;
 		}
 
-		return true;
 	}
 
 
@@ -526,31 +527,34 @@ function disableJoiDatField() {
 
 											else if(elements[i].checked && document.frmEmpRepTo.cmbJoiDatCode.value=='range') {
 
-												if(!validDate(document.frmEmpRepTo.Join1.value)) {
+												var join1 = document.frmEmpRepTo.Join1;
+												var join2 = document.frmEmpRepTo.Join2;
+
+												if(!validDate(join1.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Join1.focus();
+													join1.focus();
 													return false;
 												}
 
-												if(!validDate(document.frmEmpRepTo.Join2.value)) {
+												if(!validDate(join2.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Join2.focus();
+													join2.focus();
 													return false;
 												}
 
-
-												if(strToDate(document.frmEmpRepTo.Join1.value) > strToDate(document.frmEmpRepTo.Join2.value)) {
+												var format = YAHOO.OrangeHRM.calendar.format;
+												if(strToDate(join1.value, format) > strToDate(join2.value, format)) {
 													alert("<?php echo $lang_rep_InvalidRange; ?>");
-													document.frmEmpRepTo.Join2.focus();
+													join2.focus();
 													return false;
 												}
 
 
 											} else if(elements[i].checked && document.frmEmpRepTo.cmbJoiDatCode.value=='<' || document.frmEmpRepTo.cmbJoiDatCode.value=='>') {
-
-												if(!validDate(document.frmEmpRepTo.Join1.value)) {
+												var join1 = document.frmEmpRepTo.Join1;
+												if(!validDate(join1.value)) {
 													alert("<?php echo $lang_Error_InvalidDate; ?>");
-													document.frmEmpRepTo.Join1.focus();
+													join1.focus();
 													return false;
 												}
 											}
@@ -589,15 +593,6 @@ function disableJoiDatField() {
 
  return true;
  }
-
-	function selectFromDate() {
-		YAHOO.OrangeHRM.calendar.pop('Join1', 'cal1Container', 'yyyy-MM-dd');
-	}
-
-	function selectToDate() {
-		YAHOO.OrangeHRM.calendar.pop('Join2', 'cal1Container', 'yyyy-MM-dd');
-	}
-
 
 	YAHOO.OrangeHRM.container.init();
 
@@ -812,11 +807,11 @@ for ($c = 0; count($arrJoiDat) > $c; $c++)
 ?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1" id="Join1" value="<?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : ''?>" >
-				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1Button"/>
+				        <td><input type="text" <?php echo isset($this->postArr['Join1']) ? "" : 'style="visibility:hidden;" disabled'?> name="Join1" id="Join1" value="<?php echo isset($this->postArr['Join1']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join1']) : ''?>" >
+				        <input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1Button"/>
 				        </td>
-                        <td><input type="text" <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2" id="Join2" value="<?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : ''?>" >
-                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2Button"/>
+                        <td><input type="text" <?php echo isset($this->postArr['Join2']) ? "" : 'style="visibility:hidden;" disabled'?> name="Join2" id="Join2" value="<?php echo isset($this->postArr['Join2']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join2']) : ''?>" >
+                        <input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2Button"/>
                         </td>
 					</tr>
 
@@ -1286,11 +1281,11 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 ?>
 					     </select>
 					  	</td>
-				        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join1" value="<?php echo isset($criteriaData['JOIDAT'][1]) ? $criteriaData['JOIDAT'][1] : ''?>" id="Join1">
-				        <input type="button" onclick="selectFromDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> name="Join1Button"/>
+				        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join1" value="<?php echo isset($criteriaData['JOIDAT'][1]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][1]) : ''?>" id="Join1">
+				        <input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> name="Join1Button"/>
 				        </td>
-                        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join2" value="<?php echo isset($criteriaData['JOIDAT'][2]) ? $criteriaData['JOIDAT'][2] : ''?>"  id="Join2">
-                        <input type="button" onclick="selectToDate(); return false;" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> name="Join2Button"/>
+                        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join2" value="<?php echo isset($criteriaData['JOIDAT'][2]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][2]) : ''?>"  id="Join2">
+                        <input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> name="Join2Button"/>
                         </td>
 					</tr>
 

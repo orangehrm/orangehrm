@@ -76,8 +76,8 @@ function viewEmployeeTimeReport() {
 }
 
 function validate() {
-	startTime = strToTime($("txtFromDate").value+" 00:00");
-	endTime = strToTime($("txtToDate").value+" 23:59");
+	startDate = strToDate($("txtFromDate").value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate($("txtToDate").value, YAHOO.OrangeHRM.calendar.format);
 
 	errFlag=false;
 	errors = new Array();
@@ -97,13 +97,13 @@ function validate() {
 		errFlag=true;
 	}
 
-	if (!startTime || !endTime || (startTime > endTime)) {
+	if (!startDate || !endDate || (startDate > endDate)) {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidDateOrZeroOrNegativeRangeSpecified; ?>";
 		errFlag=true;
 	}
 
 	if (errFlag) {
-		errStr="<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
+		errStr="<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
 		for (i in errors) {
 			errStr+=" - "+errors[i]+"\n";
 		}
@@ -115,17 +115,8 @@ function validate() {
 	return true;
 }
 
-function selectDate() {
-	YAHOO.OrangeHRM.calendar.pop(this.id, 'cal1Container', 'yyyy-MM-dd');
-}
-
-function init() {
-	YAHOO.util.Event.addListener($("btnFromDate"), "click", selectDate, $("txtFromDate"), true);
-	YAHOO.util.Event.addListener($("btnToDate"), "click", selectDate, $("txtToDate"), true);
-}
 
 YAHOO.OrangeHRM.container.init();
-YAHOO.util.Event.addListener(window, "load", init);
 YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 
 </script>

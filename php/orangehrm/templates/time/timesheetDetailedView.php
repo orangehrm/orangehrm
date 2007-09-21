@@ -62,7 +62,7 @@ function actionEdit() {
 				$headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
 			}
 			echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
-							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
+							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
 							$headingStr); ?>
   <hr/>
 </h2>
@@ -124,9 +124,9 @@ function actionEdit() {
 				<td class="tableMiddleLeft"></td>
 				<td><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 				<td><?php echo $projectActivity->getName(); ?></td>
-				<td><?php echo $timeExpense->getStartTime(); ?></td>
-				<td><?php echo $timeExpense->getEndTime(); ?></td>
-				<td><?php echo $timeExpense->getReportedDate(); ?></td>
+				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?></td>
+				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?></td>
+				<td><?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?></td>
 				<td><?php echo round($timeExpense->getDuration()/36)/100; ?></td>
 				<td><?php echo $timeExpense->getDescription(); ?></td>
 				<td class="tableMiddleRight"></td>
@@ -161,8 +161,8 @@ function actionEdit() {
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 
 <input type="hidden" id="txtTimesheetPeriodId" name="txtTimesheetPeriodId" value="<?php echo $timesheet->getTimesheetPeriodId(); ?>" />
-<input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
-<input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
+<input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()); ?>" />
+<input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($timesheet->getEndDate()); ?>" />
 
 <div>
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>

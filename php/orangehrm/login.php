@@ -131,7 +131,7 @@ body {
 <noscript>
 	<strong><font color='Red' style="padding-left:15px; text-decoration:blink;">
 		<?php echo $lang_login_NeedJavascript;?>
-		<a href="http://www.mozilla.com/firefox/" target="_blank" 
+		<a href="http://www.mozilla.com/firefox/" target="_blank"
 			style="text-decoration:none;"><?php echo $lang_login_MozillaFirefox;?></a>
 		</font>
 	</strong>
@@ -271,7 +271,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.2.2-alpha.1 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.2.2-alpha.2 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
 </tr>
 </table>
 

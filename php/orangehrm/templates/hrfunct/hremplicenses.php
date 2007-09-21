@@ -45,20 +45,10 @@ function moverLicense() {
 		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
 }
 
-function createDate(str) {
-		var yy=eval(str.substr(0,4));
-		var mm=eval(str.substr(5,2)) - 1;
-		var dd=eval(str.substr(8,2));
-
-		var tempDate = new Date(yy,mm,dd);
-
-		return tempDate;
-}
-
 function addEXTLicense() {
 
-	var fromDate = createDate(document.getElementById('atxtEmpLicDat').value)
-	var toDate = createDate(document.getElementById('atxtEmpreDat').value);
+	var fromDate = strToDate(document.getElementById('atxtEmpLicDat').value, YAHOO.OrangeHRM.calendar.format);
+	var toDate = strToDate(document.getElementById('atxtEmpreDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(document.frmEmp.cmbLicCode.value == '0') {
 		alert("<?php echo $lang_hremplicenses_NoLicenseSelected; ?>");
@@ -77,8 +67,8 @@ function addEXTLicense() {
 
 function editEXTLicense() {
 
-	var fromDate = createDate(document.getElementById('etxtEmpLicDat').value)
-	var toDate = createDate(document.getElementById('etxtEmpreDat').value);
+	var fromDate = strToDate(document.getElementById('etxtEmpLicDat').value, YAHOO.OrangeHRM.calendar.format);
+	var toDate = strToDate(document.getElementById('etxtEmpreDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(fromDate >= toDate){
 		alert('<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>');
@@ -140,18 +130,18 @@ if(isset($this->getArr['LIC'])) {
 					<tr>
                       	<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpLicDat" id="etxtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat']) ? $this->popArr['txtEmpLicDat'] : $edit[0][2]?> size="10" />
-							<input disabled type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpLicDat" id="etxtEmpLicDat" value=<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):LocaleUtil::getInstance()->formatDate($edit[0][2]); ?> size="10" />
+							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
     				<tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" readonly name="txtEmpreDat" id="etxtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat']) ? $this->popArr['txtEmpreDat'] : $edit[0][3]?> size="10" />
-							<input disabled type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpreDat" id="etxtEmpreDat" value=<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?> size="10" />
+							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editLicense();">
+						        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editEXTLicense();">
 						</td>
 					  </tr>
 			</table>
@@ -176,14 +166,14 @@ if(isset($this->getArr['LIC'])) {
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="atxtEmpLicDat" readonly value="<?php echo isset($this->popArr['txtEmpLicDat']) ?$this->popArr['txtEmpLicDat'] :'0000-00-00'?>" size="10" />
-							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpLicDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpLicDat" id="atxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):''?>" size="10" />
+							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="atxtEmpreDat" readonly value="<?php echo isset($this->popArr['txtEmpreDat']) ?$this->popArr['txtEmpreDat'] :'0000-00-00'?>" size="10" />
-							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpreDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpreDat" id="atxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):''?>" size="10" />
+							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 
 					  <tr>
@@ -232,9 +222,9 @@ $allLicenlist = $this -> popArr['allLicenlist'];
 				   $lname=$allLicenlist[$a][1];
 			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo $lname?></td><?php
             $str = explode(" ",$rset[$c][2]);
-            echo '<td>' . $str[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
             $str = explode(" ",$rset[$c][3]);
-            echo '<td>' . $str[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
         echo '</tr>';
         }
 

@@ -268,7 +268,7 @@ create table `hs_hr_employee` (
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
   `ethnic_race_code` varchar(13) default null,
-  `emp_birthday` datetime default '0000-00-00',
+  `emp_birthday` date default '0000-00-00',
   `nation_code` varchar(13) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,

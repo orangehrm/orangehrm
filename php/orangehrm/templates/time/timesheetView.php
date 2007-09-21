@@ -64,11 +64,11 @@ var next = new Array();
 
 var initialAction = "<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=";
 
-next.startDate = '<?php echo date('Y-m-d', $startDate+(3600*24*$duration)); ?>';
-next.endDate = '<?php echo date('Y-m-d', $endDate+(3600*24*$duration)); ?>';
+next.startDate = '<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d', $startDate+(3600*24*$duration))); ?>';
+next.endDate = '<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d', $endDate+(3600*24*$duration))); ?>';
 
-prev.startDate = '<?php echo date('Y-m-d', $startDate-(3600*24*$duration)); ?>';
-prev.endDate = '<?php echo date('Y-m-d', $endDate-(3600*24*$duration)); ?>';
+prev.startDate = '<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d', $startDate-(3600*24*$duration))); ?>';
+prev.endDate = '<?php echo LocaleUtil::getInstance()->formatDate(date('Y-m-d', $endDate-(3600*24*$duration))); ?>';
 
 function $(id) {
 	return document.getElementById(id);
@@ -151,7 +151,7 @@ function actionDetails() {
 					$headingStr = $lang_Time_Timesheet_TimesheetForViewTitle;
 				}
 				echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
-							array($timesheetSubmissionPeriod->getName(), $timesheet->getStartDate(), "{$employee[2]} {$employee[1]}"),
+							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
 							$headingStr);
 		if ($next) {
 	?>
@@ -197,7 +197,7 @@ function actionDetails() {
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
 		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
-	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l Y-m-d', $i); ?></th>
+	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?></th>
 	    <?php } ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Total; ?></th>
 			<th class="tableMiddleRight"></th>

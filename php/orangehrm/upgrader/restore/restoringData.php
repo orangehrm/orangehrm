@@ -412,7 +412,7 @@ class Conf {
 	\$this->dbname	= '$dbName';
 	\$this->dbuser	= '$dbOHRMUser';
 	\$this->dbpass	= '$dbOHRMPassword';
-	\$this->version	= '2.2.2-alpha.1';
+	\$this->version	= '2.2.2-alpha.2';
 	\$this->upgrade	= true;
 
 	\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';

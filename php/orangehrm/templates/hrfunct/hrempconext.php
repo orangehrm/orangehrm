@@ -44,8 +44,8 @@ function addConExt() {
 		return;
 	}
 
-	startDate = createDate(document.getElementById('atxtEmpConExtStartDat').value);
-	endDate = createDate(document.getElementById('atxtEmpConExtEndDat').value);
+	startDate = strToDate(document.getElementById('atxtEmpConExtStartDat').value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate(document.getElementById('atxtEmpConExtEndDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(startDate >= endDate) {
 		alert('<?php echo $lang_hremp_StaringDateShouldBeBeforeEnd; ?>');
@@ -57,8 +57,8 @@ function addConExt() {
 }
 
 function editConExt() {
-	startDate = createDate(document.getElementById('etxtEmpConExtStartDat').value);
-	endDate = createDate(document.getElementById('etxtEmpConExtEndDat').value);
+	startDate = strToDate(document.getElementById('etxtEmpConExtStartDat').value, YAHOO.OrangeHRM.calendar.format);
+	endDate = strToDate(document.getElementById('etxtEmpConExtEndDat').value, YAHOO.OrangeHRM.calendar.format);
 
 	if(startDate >= endDate) {
 		alert("<?php echo $lang_hremp_StaringDateShouldBeBeforeEnd; ?>");
@@ -94,14 +94,14 @@ function viewConExt(pSeq) {
           	<input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>">
           </td>
     	  <td>
-    	  	<input type="text" readonly name="txtEmpConExtStartDat" id="etxtEmpConExtStartDat" value=<?php echo $edit[0][2]?> size="10" />
-    	  	<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+    	  	<input type="text" name="txtEmpConExtStartDat" id="etxtEmpConExtStartDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
+    	  	<input type="button" value="  " class="calendarBtn" /></td>
 	  </tr>
 	  <tr>
 		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top">
-			<input type="text" readonly name="txtEmpConExtEndDat" id="etxtEmpConExtEndDat" value=<?php echo $edit[0][3]?> size="10" />
-			<input type="button" value="  " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+			<input type="text" name="txtEmpConExtEndDat" id="etxtEmpConExtEndDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+			<input type="button" value="  " class="calendarBtn" /></td>
 	  </tr>
 	  <tr>
 		<td valign="top"></td>
@@ -122,14 +122,14 @@ function viewConExt(pSeq) {
 	          	<input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>">
 	          </td>
 			  <td>
-			  	<input type="text" readonly value="0000-00-00" name="txtEmpConExtStartDat" id="atxtEmpConExtStartDat" size="12" />
-			  	<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpConExtStartDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+			  	<input type="text" value="" name="txtEmpConExtStartDat" id="atxtEmpConExtStartDat" size="12" />
+			  	<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" /></td>
 			</tr>
 	  	  <tr>
 			<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 			<td align="left" valign="top">
-				<input type="text" readonly value="0000-00-00" name="txtEmpConExtEndDat" id="atxtEmpConExtEndDat" size="12" />
-				<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpConExtEndDat', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+				<input type="text" value="" name="txtEmpConExtEndDat" id="atxtEmpConExtEndDat" size="12" />
+				<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" /></td>
 		  </tr>
 		  <tr>
 			<td valign="top"></td>
@@ -174,9 +174,9 @@ function viewConExt(pSeq) {
             echo "<td><input type='checkbox' class='checkbox' name='chkconextdel[]' value='" . $rset[$c][1] ."'></td>";
             ?> <td><a href="#" onmousedown="viewConExt(<?php echo $rset[$c][1]?>)" ><?php echo $rset[$c][1]?></a></td> <?php
             $dtfield = explode(" ",$rset[$c][2]);
-            echo '<td>' . $dtfield[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($dtfield[0]) .'</td>';
             $dtfield = explode(" ",$rset[$c][3]);
-            echo '<td>' . $dtfield[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($dtfield[0]) .'</td>';
                  echo '</tr>';
     }
 

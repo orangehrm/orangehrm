@@ -104,6 +104,7 @@ li{
 				$qualifications = false;
 				$skills = false;
 				$workExperience = false;
+				$dateFields = array_fill(0, count($this->headName), false);
 
 				$lang_Template_rep_ReportingMethod = array (1 => $lang_hrEmpMain_arrRepMethod_Direct, 2 => $lang_hrEmpMain_arrRepMethod_Indirect);
 				for($i=$startColumn;$i<count($this->headName); $i++){
@@ -131,6 +132,11 @@ li{
 										break;
 						case 'Work experience' : $workExperience = $i;
 												 break;
+						case 'Date of Birth' : $dateFields[$i] = true;
+												 break;
+						case 'Joined Date' : $dateFields[$i] = true;
+												 break;
+
 					}
 }?>
 
@@ -175,6 +181,22 @@ li{
 								foreach ($repDetails[$i][$j] as $k=>$dataItem) {
 									echo "<li style='height: $rowHeight%' >";
 									if (($repDetails[$i][$j][$k] != '')) {
+
+										// Convert date fields
+										if($dateFields[$j]) {
+											$repDetails[$i][$j][$k] = LocaleUtil::getInstance()->formatDate($repDetails[$i][$j][$k]);
+										}
+
+										if ($contractDate && $contractDate == $j) {
+											$dates = explode(" - ", $repDetails[$i][$j][$k]);
+											if (count($dates) == 2) {
+												$startDate = LocaleUtil::getInstance()->formatDate($dates[0]);
+												$endDate = LocaleUtil::getInstance()->formatDate($dates[1]);
+												$repDetails[$i][$j][$k] = $startDate . " - " . $endDate;
+											}
+										}
+
+
 										if ($subDivision && ($subDivision == $j)) {
 											echo $compStructObj->fetchHierarchString($repDetails[$i][$j][$k]);
 										} else if ($reportingMethod && ($reportingMethod == $j)) {

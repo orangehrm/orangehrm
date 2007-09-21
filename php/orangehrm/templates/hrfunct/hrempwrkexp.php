@@ -74,17 +74,16 @@ function addEXTWrkExp() {
 		return false;
 	}
 
-	var fromDate = createDate(document.getElementById('atxtEmpExpFromDate').value)
-	var toDate = createDate(document.getElementById('atxtEmpExpToDate').value);
+	var fromDate = strToDate(document.getElementById('atxtEmpExpFromDate').value, YAHOO.OrangeHRM.calendar.format);
+	var toDate = strToDate(document.getElementById('atxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('atxtEmpExpToDate').value;
 
-	if (!(currentDate == "0000-00-00")){
-		if(fromDate >= toDate){
-			alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
+	if (toDate && (fromDate > toDate)) {
+		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 
-			return;
-		}
+		return;
 	}
+
 
   document.frmEmp.wrkexpSTAT.value="ADD";
   qCombo(17);
@@ -106,20 +105,17 @@ function editEXTWrkExp() {
 		return false;
 	}
 
-	var fromDate = createDate(document.getElementById('etxtEmpExpFromDate').value)
-	var toDate = createDate(document.getElementById('etxtEmpExpToDate').value);
+	var fromDate = strToDate(document.getElementById('etxtEmpExpFromDate').value, YAHOO.OrangeHRM.calendar.format);
+	var toDate = strToDate(document.getElementById('etxtEmpExpToDate').value, YAHOO.OrangeHRM.calendar.format);
 	var currentDate = document.getElementById('etxtEmpExpToDate').value;
 
 
 ///////////To validate the date fields
 
-if (!(currentDate == "0000-00-00")){
-
-	if(fromDate >= toDate){
+	if (toDate && (fromDate > toDate)) {
 		alert("<?php echo $lang_hremp_FromDateShouldBeBeforeToDate; ?>");
 
 		return;
-	}
 	}
 /////////////////////
 
@@ -169,35 +165,35 @@ if(isset($this->popArr['editWrkExpArr'])) {
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_employer?></td>
-    				  <td><input type="text" name="txtEmpExpEmployer" disabled value="<?php echo $edit[0][2]?>"></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" value="<?php echo $edit[0][2]?>"></td>
     				  <td width="50">&nbsp;</td>
 					  <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
 					  <td nowrap>
-					  	<input type="text" readonly name="txtEmpExpFromDate" id="etxtEmpExpFromDate" value="<?php echo (strtotime($edit[0][4]) == 943898400)?"0000-00-00":date("Y-m-d", strtotime($edit[0][4])); ?>" size="10" />
-					  	<input disabled type="button" class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+					  	<input type="text" name="txtEmpExpFromDate" id="etxtEmpExpFromDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][4]); ?>" size="10" />
+					  	<input type="button" class="calendarBtn" value="   " /></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_empview_JobTitle?></td>
-						<td> <input type="text" disabled name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
+						<td> <input type="text" name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
     				  <td width="50">&nbsp;</td>
 						<td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
 						<td nowrap>
-							<input type="text" name="txtEmpExpToDate" id="etxtEmpExpToDate" readonly value="<?php echo (strtotime($edit[0][5]) == 943898400)?"0000-00-00":date("Y-m-d", strtotime($edit[0][5])); ?>" size="10" />
-							<input disabled type="button" class="calendarBtn" value="   " onclick="YAHOO.OrangeHRM.calendar.pop('etxtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;"></td>
+							<input type="text" name="txtEmpExpToDate" id="etxtEmpExpToDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
+							<input type="button" class="calendarBtn" value="   " /></td>
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $lang_Leave_Common_Comments; ?></td>
-						<td> <textarea disabled name="txtEmpExpComments"><?php echo $edit[0][6]?></textarea></td>
+						<td> <textarea name="txtEmpExpComments"><?php echo $edit[0][6]?></textarea></td>
     				  	<td width="50">&nbsp;</td>
 						<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
-						<td width="50"><input type="checkbox" name="chkEmpExpInternal" disabled value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
+						<td width="50"><input type="checkbox" name="chkEmpExpInternal" value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
 						<td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php		if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editWrkExp();">
+			        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editEXTWrkExp();">
 		<?php		} 	 ?>
 						</td>
 	    </tr>
@@ -213,8 +209,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
             <td nowrap>
-            	<input type="text" name="txtEmpExpFromDate" id="atxtEmpExpFromDate" readonly value="0000-00-00" size="10" />
-           		<input name="button" type="button" class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpExpFromDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            	<input type="text" name="txtEmpExpFromDate" id="atxtEmpExpFromDate" value="" size="10" />
+           		<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
           </tr>
           <tr>
             <td><?php echo $lang_empview_JobTitle?></td>
@@ -222,8 +218,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
             <td width="50">&nbsp;</td>
             <td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
             <td nowrap>
-            	<input type="text" name="txtEmpExpToDate" id="atxtEmpExpToDate" readonly value="0000-00-00" size="10" />
-              	<input name="button" type="button" class="calendarBtn" onclick="YAHOO.OrangeHRM.calendar.pop('atxtEmpExpToDate', 'cal1Container', 'yyyy-MM-dd'); return false;" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            	<input type="text" name="txtEmpExpToDate" id="atxtEmpExpToDate" value="" size="10" />
+              	<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
             <td width="50">&nbsp;</td>
           </tr>
           <tr valign="top">
@@ -282,9 +278,9 @@ if(isset($this->popArr['editWrkExpArr'])) {
             echo '<td>' . $rset[$c][2] .'</td>';
             echo '<td>' . $rset[$c][3] .'</td>';
             $str = explode(" ",$rset[$c][4]);
-            echo '<td>' . $str[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
             $str = explode(" ",$rset[$c][5]);
-            echo '<td>' . $str[0] .'</td>';
+            echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
 			$str = (isset($rset[$c][7]) && ($rset[$c][7] == 1))? '<img src="../../themes/beyondT/icons/flag.gif" alt="internal" width="22" height="19" title="Internal"/>' : '';
 			echo '<td>' .$str.'</td>';
         echo '</tr>';

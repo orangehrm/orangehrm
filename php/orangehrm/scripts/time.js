@@ -78,9 +78,10 @@ function strToTime(str, format) {
 	minuteVal = '';
 	aVal = '';
 
+	j=0;
 	for (i=0; i<format.length; i++) {
 
-		ch = format.charAt(i);
+		ch = format.charAt(j);
 		sCh = str.charAt(i);
 
 		if (ch == 'd') {
@@ -109,6 +110,7 @@ function strToTime(str, format) {
 	    		return false;
 	    	}
 	    }
+	    j++;
 	}
 
 	if ((monthVal < 1) || (monthVal > 12) || (dateVal < 1) || (dateVal > 31) || (hourVal > 24) || (minuteVal > 59)) {

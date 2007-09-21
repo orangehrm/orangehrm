@@ -1043,6 +1043,7 @@
 	$lang_Time_Timesheet_Activity = "Activity";
 
 	$lang_Time_Timesheet_Total = "Total";
+	$lang_Time_TimeFormat = "Time Format";
 
 	$lang_Time_Errors_SUBMIT_SUCCESS = "Submit succeeded";
 	$lang_Time_Errors_SUBMIT_FAILURE = "Submit failed";

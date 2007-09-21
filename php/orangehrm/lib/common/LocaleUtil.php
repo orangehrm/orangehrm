@@ -41,6 +41,19 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	/**
+	 * Get the sysConf instance used by this object.
+	 *
+	 * @return sysConf object used by this Locale Util
+	 */
+	public function getSysConf() {
+		return $this->sysConf;
+	}
+
+	public function getDateFormat() {
+		return $this->sysConf->getDateFormat();
+	}
+
+	/**
 	 * Private construct
 	 */
 	private function __construct() {
@@ -67,11 +80,17 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  */
 	 public function formatDate($date, $customFormat=null) {
 
-	 	 if (empty($date)) {
+	 	 if (empty($date) || ($date == "0000-00-00")) {
 	 	 	return "";
 	 	 }
 
 		 $timeStamp = strtotime($date);
+
+		 // Check if properly converted.
+		 if (($timeStamp === false) || $timeStamp == -1 ) {
+		 	return $date;
+		 }
+
 		 $format = $this->sysConf->getDateFormat();
 
 		 if (empty($customFormat)) {
@@ -100,6 +119,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 	 }
 
 		 $timeStamp = strtotime($time);
+
+		 // Check if properly converted.
+		 if (($timeStamp === false) || $timeStamp == -1 ) {
+		 	return $time;
+		 }
+
 		 $format = $this->sysConf->getTimeFormat();
 
 		 if (empty($customFormat)) {
@@ -129,6 +154,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 	 }
 
 		 $timeStamp = strtotime($dateTime);
+		 // Check if properly converted.
+		 if (($timeStamp === false) || $timeStamp == -1 ) {
+		 	return $dateTime;
+		 }
+
 		 $dateFormat = $this->sysConf->getDateFormat();
 		 $timeFormat = $this->sysConf->getTimeFormat();
 
@@ -152,22 +182,171 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  *
 	  * Right now only English dates will be convered.
 	  *
-	  * @todo TODO The method should be extended to support date of a given format.
-	  *
 	  * @param String date
 	  * @param String customFormat(Optional)
 	  * @return String standardDate
 	  */
-	 public static function convertToStandardDateFormat($date, $customFormat=null) {
+	 public function convertToStandardDateFormat($date, $customFormat=null) {
 	 	if ($customFormat == null) {
-	 		$sysConf = new sysConf();
-	 		$format = $sysConf->getDateFormat();
+	 		$format = LocaleUtil::convertToXpDateFormat($this->sysConf->getDateFormat());
+	 	} else {
+	 		$format = LocaleUtil::convertToXpDateFormat($customFormat);
 	 	}
-	 	$standardDate = date('Y-m-d', strtotime($date));
+
+		$timeStamp=$this->_customFormatStringToTimeStamp($date, $format);
+	 	if (!$timeStamp) {
+	 		return null;
+	 	}
+
+	 	$standardDate = date('Y-m-d', $timeStamp);
 
 	 	return $standardDate;
 	 }
 
+	 /**
+	  * String time will be converted from the custom format to HH:MM
+	  *
+	  * Right now only English dates will be convered.
+	  *
+	  * @param String time
+	  * @param String customFormat(Optional)
+	  * @return String standardDate
+	  */
+	 public function convertToStandardTimeFormat($time, $customFormat=null) {
+	 	if ($customFormat == null) {
+	 		$format = LocaleUtil::convertToXpDateFormat($this->sysConf->getTimeFormat());
+	 	} else {
+	 		$format = LocaleUtil::convertToXpDateFormat($customFormat);
+	 	}
+
+	 	$timeStamp=$this->_customFormatStringToTimeStamp($time, $format);
+	 	if (!$timeStamp) {
+	 		return null;
+	 	}
+
+	 	$standardDate = date('H:i', $timeStamp);
+
+	 	return $standardDate;
+	 }
+
+	 /**
+	  * String time will be converted from the custom format to YYY-mm-dd HH:MM
+	  *
+	  * Right now only English dates will be convered.
+	  *
+	  * @param String time
+	  * @param String customFormat (Optional)
+	  * @return String standardDate time
+	  */
+	 public function convertToStandardDateTimeFormat($time, $customFormat=null) {
+	 	if ($customFormat == null) {
+	 		$format = LocaleUtil::convertToXpDateFormat("{$this->sysConf->getDateFormat()} {$this->sysConf->getTimeFormat()}");
+	 	} else {
+	 		$format = LocaleUtil::convertToXpDateFormat($customFormat);
+	 	}
+
+	 	$timeStamp=$this->_customFormatStringToTimeStamp($time, $format);
+
+	 	if (!$timeStamp) {
+	 		return null;
+	 	}
+
+	 	$standardDate = date('Y-m-d H:i', $timeStamp);
+
+	 	return $standardDate;
+	 }
+
+	 /**
+	  * Convert the date/time sting $time in the given $format to the UNIX timestamp
+	  *
+	  * @param String time
+	  * @param String format
+	  * @return Integer timestamp
+	  */
+	 private function _customFormatStringToTimeStamp($time, $format) {
+		$yearVal = '';
+		$monthVal = '';
+		$dateVal = '';
+		$hourVal = '';
+		$minuteVal = '';
+		$aVal = '';
+
+		$format = str_split($format, 1);
+		$time = str_split($time, 1);
+		$j=0;
+
+		for ($i=0; $i<count($time); $i++) {
+
+			$ch = $format[$j];
+			$sCh = $time[$i];
+
+			if ($ch == 'd') {
+		        $dateVal = $dateVal.$sCh;
+		    } else if ($ch == 'M') {
+		        $monthVal = $monthVal.$sCh;
+		    } else if ($ch == 'y') {
+		        $yearVal = $yearVal.$sCh;
+		    } else if ($ch == 'H') {
+		    	$hourVal = $hourVal.$sCh;
+		    } else if ($ch == 'h') {
+		        $hourVal = $hourVal.$sCh;
+		        if ($hourVal > 12) return false;
+		    } else if ($ch == 'm') {
+		        $minuteVal = $minuteVal.$sCh;
+		    } else if ($ch == 'a') {
+		    	$i++;
+		        $sCh.=$time[$i];
+		        if ($sCh == 'PM') {
+		        	$hourVal+=12;
+		        } else if ($sCh != 'AM') {
+		        	return false;
+		        }
+		    } else if ($ch == 'd') {
+		        $dateVal = $dateVal.$sCh;
+		    } else if ($ch == 'M') {
+		        $monthVal = $monthVal.$sCh;
+		    } else if ($ch == 'y') {
+		        $yearVal = $yearVal.$sCh;
+		    } else {
+		    	if ($ch != $sCh) {
+		    		return false;
+		    	}
+		    }
+
+		    $j++;
+		}
+
+		if (($monthVal < 0) || ($monthVal > 12) || ($dateVal < 0) || ($dateVal > 31) || ($hourVal < 0) || ($hourVal > 24) || ($minuteVal < 0) || ($minuteVal > 59)) {
+			return false;
+		}
+
+		if ($yearVal == "") {
+			$yearVal="0000";
+		}
+		if ($monthVal == "") {
+			$monthVal="00";
+		}
+		if ($dateVal == "") {
+			$dateVal="00";
+		}
+		if ($hourVal == "") {
+			$hourVal="00";
+		}
+		if ($minuteVal == "") {
+			$minuteVal="00";
+		}
+
+		$timeStamp = strtotime("$yearVal-$monthVal-$dateVal $hourVal:$minuteVal");
+
+		return $timeStamp;
+	 }
+
+	 /**
+	  * Convert the PHP date format string to the Javascript time function format string
+	  *
+	  * @param String dateFormat;
+	  * @return String Javascript date format string
+	  */
 	 public static function convertToXpDateFormat($dateFormat) {
 		$map = array(// Day
 					 'd'=>'dd',
@@ -186,7 +365,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 					 // Minutes
 					 'i'=>'mm',
 					 // Seconds
-					 's'=>'ss');
+					 's'=>'ss',
+					 // AM/PM
+					 'A'=>'a');
 
 		$chars = str_split($dateFormat, 1);
 		$conv = '';
