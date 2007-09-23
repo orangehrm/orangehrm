@@ -63,18 +63,18 @@ function mout() {
 	var Edit = document.getElementById("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif';
 }
 
 function mover() {
 	var Edit = document.getElementById("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save_02.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit_02.gif';
 }
 
 function edit()
@@ -91,7 +91,7 @@ function edit()
 		frm.elements[i].disabled = false;
 	}
 	document.getElementById("btnClear").disabled = false;
-	Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	Edit.src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.jpg";
 	Edit.title="Save";
 }
 
@@ -152,9 +152,9 @@ function edit()
 	}
 
 </script>
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-@import url("../../themes/beyondT/css/style.css"); .style1 {color: #FF0000}
+@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); .style1 {color: #FF0000}
 </style>
 </head>
 <body>
@@ -194,13 +194,13 @@ function edit()
 
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="11"><img src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_geninfo_compname; ?></td>
@@ -271,21 +271,21 @@ function edit()
 							  </tr>
 							  <tr><td></td><td></td><td></td><td align="right">
 <?php			if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit(); return false;">
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;">
 <?php			}  ?>
-					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="clearAll(); return false;" />
+					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/<?php echo $styleSheet; ?>/icons/reset.gif" onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset.gif';" onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset_o.gif';" onClick="clearAll(); return false;" />
 							</td> </tr>
                   </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>

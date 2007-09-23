@@ -284,10 +284,10 @@ function actionDetails() {
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
 <div>
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-	<input src="../../themes/beyondT/pictures/btn_edit.jpg"
+	<input src="../../themes/beyondT/pictures/btn_edit.gif"
 			onclick="actionEdit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
-			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
 			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
 	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
 	<input src="../../themes/beyondT/icons/submit.png"

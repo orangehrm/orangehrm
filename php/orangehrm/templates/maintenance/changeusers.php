@@ -115,14 +115,14 @@ function mout() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function chkboxCheck() {
@@ -283,7 +283,7 @@ function prepCPW() {
 
 					  <tr><td></td><td align="right" width="100%">
 
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="chkboxCheck();"  >
+			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="chkboxCheck();"  >
 
 					<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 

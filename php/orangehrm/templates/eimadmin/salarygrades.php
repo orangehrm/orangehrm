@@ -237,14 +237,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		if(document.Edit.title=='Save')
 			document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 		else
-			document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+			document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 	}
 
 	function mover() {
 		if(document.Edit.title=='Save')
 			document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 		else
-			document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+			document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 	}
 
 	function edit() {
@@ -427,14 +427,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		if(document.EditAss.title=='Save')
 			document.EditAss.src='../../themes/beyondT/pictures/btn_save.jpg';
 		else
-			document.EditAss.src='../../themes/beyondT/pictures/btn_edit.jpg';
+			document.EditAss.src='../../themes/beyondT/pictures/btn_edit.gif';
 	}
 
 	function moverAss() {
 		if(document.EditAss.title=='Save')
 			document.EditAss.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 		else
-			document.EditAss.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+			document.EditAss.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 	}
 
 	function editAss() {
@@ -527,9 +527,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			<tr>
 		  <td></td><td align="right">
 <?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}  ?>
 					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="clearAll();" >
 						</td>
@@ -617,9 +617,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			<tr>
 		  <td></td><td align="right">
 <?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="moutAss();" onMouseOver="moverAss();" name="EditAss" onClick="editAss();">
+			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="moutAss();" onMouseOver="moverAss();" name="EditAss" onClick="editAss();">
 <?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
+			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 <?php			}
 
 		}?>

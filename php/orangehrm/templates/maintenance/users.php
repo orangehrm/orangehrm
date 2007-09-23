@@ -273,14 +273,14 @@ function mout() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function popEmpList() {
@@ -458,9 +458,9 @@ function edit() {
 					  	<td></td>
 					  	<td align="right" width="100%">
 			<?php	if($locRights['edit']) { ?>
-						<img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
+						<img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 			<?php	} else { ?>
-						<img src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
+						<img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
 			<?php	}  ?>
 						</td>
 						<td>

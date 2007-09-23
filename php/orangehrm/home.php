@@ -1,26 +1,35 @@
-<!--
-OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
-all the essential functionalities required for any enterprise. 
-Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
-OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
-
-OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program;
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-Boston, MA  02110-1301, USA
-
--->
+session_start();
+if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
+	$styleSheet = $_SESSION['styleSheet'];
+} else {
+	$styleSheet = "beyondT";
+}
+?>
 
 <html>
 <head>
 <title>OrangeHRM - New Level of HR Management</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .bodyTXT {	font-family: Arial, Helvetica, sans-serif;
@@ -31,7 +40,8 @@ Boston, MA  02110-1301, USA
 -->
 </style>
 </head>
-<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body>
+<!-- <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"> -->
 <!-- ImageReady Slices (orange_new.psd) -->
 
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">

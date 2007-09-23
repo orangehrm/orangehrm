@@ -166,10 +166,10 @@ function actionEdit() {
 
 <div>
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-	<input src="../../themes/beyondT/pictures/btn_edit.jpg"
+	<input src="../../themes/beyondT/pictures/btn_edit.gif"
 			onclick="actionEdit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';"
-			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
 			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
 <?php } ?>
 </div>

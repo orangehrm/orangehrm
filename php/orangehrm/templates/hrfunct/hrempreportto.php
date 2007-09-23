@@ -40,14 +40,14 @@ function moutReportTo() {
 	if(document.EditReportTo.title=='Save')
 		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverReportTo() {
 	if(document.EditReportTo.title=='Save')
 		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function returnEmpDetail(){
@@ -200,7 +200,7 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
+							        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 			<?php			}  ?>
 						</td>
 					  </tr>
@@ -243,7 +243,7 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
+				        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
 		<?php			}  ?>
 						</td>
 					  </tr>

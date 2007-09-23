@@ -62,11 +62,11 @@
 #menu li {
 	background-image: url(../pictures/buttonplain.gif);
 	background-repeat: no-repeat;
-	background-position: 21px;
+	background-position: 0px;
 }
 #menu li:hover{
 	background: url(../pictures/buttonplain_o.gif) no-repeat;
-	background-position: 21px;
+	background-position: 0px;
 }
 
 #menu #compinfo a {

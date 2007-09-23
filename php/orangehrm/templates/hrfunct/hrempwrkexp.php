@@ -38,14 +38,14 @@ function moutWrkExp() {
 	if(document.EditWrkExp.title=='Save')
 		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverWrkExp() {
 	if(document.EditWrkExp.title=='Save')
 		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function createDate(str) {

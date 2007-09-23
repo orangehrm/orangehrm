@@ -38,14 +38,14 @@ function moutSkill() {
 	if(document.EditSkill.title=='Save')
 		document.EditSkill.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverSkill() {
 	if(document.EditSkill.title=='Save')
 		document.EditSkill.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function addEXTSkill() {
@@ -175,7 +175,7 @@ if(isset($this->popArr['editSkillArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if($locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutSkill();" onmouseover="moverSkill();" name="EditSkill" onClick="editSkill();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutSkill();" onmouseover="moverSkill();" name="EditSkill" onClick="editSkill();">
 		<?php			}  ?>
 						</td>
 					  </tr>

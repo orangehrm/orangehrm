@@ -50,14 +50,14 @@ function mout() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
 		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function edit()

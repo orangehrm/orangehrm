@@ -186,26 +186,13 @@ textarea {
 		text-decoration: underline; */
 		}
 
-	/* myArea is for my account, admin, logout, an about links*/
-	.myArea {
-		font-size: 11px;
-		font-weight: bold;
-		}
-	a.myAreaLink:link, a.myAreaLink:visited {
-		color: #444444;
-		text-decoration: none;
-		}
-	a.myAreaLink:hover {
-		color: #666666;
-		text-decoration: none;
-		}
-
 	/*for the main screen navigation tabs*/
 	.currentTab {
 		color: #333333;
 		font-size: 12px;
 		font-weight: bold;
 		padding-top: 1px;
+		background : url(../pictures/nCurrentTab_middle.gif);
 		}
 	a.currentTab:link, a.currentTab:visited {
 		color: #333333;
@@ -215,10 +202,22 @@ textarea {
 		color: #666666;
 		text-decoration: none;
 		}
+	.currentTabLeft {
+		background : url(../pictures/nCurrentTab_left.gif);
+		}
+	.currentTabRight {
+		background : url(../pictures/nCurrentTab_right.gif);
+		}
+	.tabSpace {
+		background : url(../pictures/emptyTabSpace.gif);
+		}
 
 	.otherTab {
 		font-size: 12px;
 		font-weight: bold;
+		}
+	td.otherTab {
+		background-image : url(../pictures/otherTab_middle.png);
 		}
 	a.otherTab:link, a.otherTab:visited {
 		color: #6e6e6e;
@@ -227,6 +226,42 @@ textarea {
 	a.otherTab:hover {
 		color: #3C3C3C;
 		text-decoration: none;
+		}
+	.otherTabLeft {
+		background : url(../pictures/otherTab_left.png);
+		}
+	.otherTabRight {
+		background : url(../pictures/otherTab_right.png);
+		}
+	.tabSeparator {
+		padding-left:7px;
+		background-image :url(../pictures/nCurrentTab_left.gif);
+	}
+	.tabRow {
+		background-color: white;
+	}
+	.tabContainer {
+		width: 100%;
+		background-color: #E5E5E5;
+/*		border-width: 0px;
+		border-collapse: collapse;
+		border-spacing: 0px;
+		margin: 0px;
+		padding: 0px;*/
+	}
+	.tabLeftSpace {
+	}
+	.companyLogoHeader {
+		background : url(../pictures/orange3.png) no-repeat 10px 1px;
+		width: 264px;
+		height: 62px;
+		margin-left: 10px;
+		border-width: 0px;
+		}
+	.headerRight {
+		background : url(../pictures/top_img.jpg) no-repeat top right;
+		width: 300px;
+		height: 62px;
 		}
 
 	.subMenuTDIcon {
@@ -282,6 +317,14 @@ textarea {
 		border-bottom: 1px solid #000000;
 		padding-right: 10px;
 		text-align: right;
+		}
+	.searchSeparator {
+		border-bottom: 1px solid #000000;
+		background-color: #FF9900;
+		background-image: url(../pictures/nSearchSeparator.gif);
+		padding-right: 10px;
+		width: 12px;
+		height: 20px;
 		}
 	.searchButton {
 		background-color: transparent;
@@ -721,3 +764,4 @@ table.simpleList td {
 .inputFormatHint {
 	color: #D8D8D8;
 }
+

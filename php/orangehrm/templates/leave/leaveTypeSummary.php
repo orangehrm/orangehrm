@@ -244,7 +244,7 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
 <p class="navigation">
 	<input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
-	<input type="image" src="../../themes/beyondT/pictures/btn_edit.jpg" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.jpg';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.jpg';" name="btnEdit" id="btnEdit"/>
+	<input type="image" src="../../themes/beyondT/pictures/btn_edit.gif" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';" name="btnEdit" id="btnEdit"/>
 	<input type="image" onclick="actionDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg" name="btnDel" id="btnDel"/>
 </p>
 

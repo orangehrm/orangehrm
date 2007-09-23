@@ -35,14 +35,14 @@ function moutLicense() {
 	if(document.EditLicense.title=='Save')
 		document.EditLicense.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverLicense() {
 	if(document.EditLicense.title=='Save')
 		document.EditLicense.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function addEXTLicense() {

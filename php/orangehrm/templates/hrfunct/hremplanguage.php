@@ -40,14 +40,14 @@ function moutLang() {
 	if(document.EditLang.title=='Save')
 		document.EditLang.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditLang.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditLang.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverLang() {
 	if(document.EditLang.title=='Save')
 		document.EditLang.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditLang.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditLang.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 
@@ -160,7 +160,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutLang();" onmouseover="moverLang();" name="EditLang" onClick="editLang();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutLang();" onmouseover="moverLang();" name="EditLang" onClick="editLang();">
 						</td>
 					  </tr>
                   </table>

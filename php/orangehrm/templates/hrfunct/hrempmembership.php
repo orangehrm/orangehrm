@@ -37,14 +37,14 @@ function moutMembership() {
 	if(document.EditMembership.title=='Save')
 		document.EditMembership.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverMembership() {
 	if(document.EditMembership.title=='Save')
 		document.EditMembership.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditMembership.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function goBack() {

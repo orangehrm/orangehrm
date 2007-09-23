@@ -37,14 +37,14 @@ function moutEducation() {
 	if(document.EditEducation.title=='Save')
 		document.EditEducation.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverEducation() {
 	if(document.EditEducation.title=='Save')
 		document.EditEducation.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function addEXTEducation() {

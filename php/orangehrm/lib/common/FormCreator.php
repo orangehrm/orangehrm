@@ -48,6 +48,12 @@ class FormCreator
 		require_once($lan->getLangPath("full.php"));
 		$fileName = pathinfo($this->formPath, PATHINFO_BASENAME);
 
+		if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
+			$styleSheet = $_SESSION['styleSheet'];
+		} else {
+			$styleSheet = "beyondT";
+		}
+
 		if (preg_match('/view\.php$/', $fileName) == 1) {
 			require_once($lan->getLangPath($fileName));
 		}

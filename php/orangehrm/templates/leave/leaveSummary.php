@@ -38,8 +38,8 @@
  	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.jpg';
  	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save';
  } else {
- 	$btnImage = '../../themes/beyondT/pictures/btn_edit.jpg';
- 	$btnImageMO = '../../themes/beyondT/pictures/btn_edit_02.jpg';
+ 	$btnImage = '../../themes/beyondT/pictures/btn_edit.gif';
+ 	$btnImageMO = '../../themes/beyondT/pictures/btn_edit_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Edit_Summary';
  }
 

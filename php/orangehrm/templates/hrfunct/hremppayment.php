@@ -45,14 +45,14 @@ function moutPayment() {
 	if(document.EditPayment.title=='Save')
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverPayment() {
 	if(document.EditPayment.title=='Save')
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function addEXTPayment() {
@@ -210,7 +210,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.jpg" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
+						        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
 		<?php			}  ?>
 						</td>
 					  </tr>

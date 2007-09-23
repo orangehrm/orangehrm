@@ -256,7 +256,7 @@ function mout() {
 	if(document.frmEmp.EditMode.value=='1')
 		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
@@ -264,7 +264,7 @@ function mover() {
 	if(document.frmEmp.EditMode.value=='1')
 		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function editEmpMain() {
@@ -819,9 +819,9 @@ tableDisplayStyle = "table";
       <?php }?></td>
     <td>
 <?php			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.jpg'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.gif'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.jpg" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');  return false;">
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');  return false;">
 <?php			}  ?>
     </td>
     <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>

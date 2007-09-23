@@ -59,8 +59,8 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">@import url("../../themes/<?php echo $styleSheet; ?>/css/style.css"); </style>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>

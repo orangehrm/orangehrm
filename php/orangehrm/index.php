@@ -99,17 +99,12 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
 $_SESSION['localRights']=$arrRights;
 
 
-if (isset($_POST['styleSheet'])) {
+if (isset($_POST['styleSheet']) && !empty($_POST['styleSheet'])) {
 	$styleSheet = $_POST['styleSheet'];
 } else {
 	$styleSheet = "beyondT";
 }
-if (($styleSheet == '') && (!isset($styleSheet))) {
-	$styleSheet = "beyondT";
-} else {
-	$styleSheet = $styleSheet;
-	session_register($styleSheet);
-}
+$_SESSION['styleSheet'] = $styleSheet;
 
 if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 	session_destroy();
@@ -177,9 +172,9 @@ require_once($lan->getLangPath("full.php"));
 <head>
 <title>OrangeHRM</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
+<link href="themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <link href="favicon.ico" rel="icon" type="image/gif"/>
-<style type="text/css">@import url("themes/beyondT/css/menu.css"); </style>
+<style type="text/css">@import url("themes/<?php echo $styleSheet;?>/css/menu.css"); </style>
 <script language=javascript src="scripts/ypSlideOutMenus.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
 <script language="JavaScript">
@@ -242,6 +237,10 @@ function setSize() {
 	iframeElement.style.height = (window.innerHeight - 20) + 'px'; //100px or 100%
 	iframeElement.style.width = '100%'; //100px or 100%
 }
+function preloadAllImages() {
+	var base = 'themes/<?php echo $styleSheet; ?>/pictures';
+	preloadImages(base + '/buttonplain.gif', base + '/buttonplain_o.gif');
+}
 </SCRIPT>
 <style type="text/css">
 #rightMenu {
@@ -250,8 +249,7 @@ function setSize() {
 </style>
 
 </head>
-<body  onload="preloadImages('themes/beyondT/pictures/buttons01_on.gif','themes/beyondT/pictures/buttons02_on.gif','themes/beyondT/pictures/buttons03_on.gif','themes/beyondT/pictures/buttons04_on.gif','themes/beyondT/pictures/buttons05_on.gif',
-     'themes/beyondT/pictures/buttons06_on.gif','themes/beyondT/pictures/buttons07_on.gif','themes/beyondT/pictures/buttons08_on.gif','themes/beyondT/pictures/buttons09_on.gif','themes/beyondT/pictures/buttons10_on.gif','themes/beyondT/pictures/buttons11_on.gif')">
+<body onload="preloadAllImages()">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <form name="indexForm" action="./menu.php?TEST=1111" method="post">
 <input type="hidden" name="tabnumber" value="1">
@@ -259,9 +257,8 @@ function setSize() {
 <tr>
   <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
       <tr height="50">
-        <td width="23%"><img src=<?php echo '"' . "themes/" . $styleSheet . "/pictures/orange3.png" . '"'; ?>  width="264" height="62" alt="Company Logo" border="0" style="margin-left: 10px;"></td>
-        <td width="77%" align="right" nowrap class="myArea"><img src="themes/beyondT/pictures/top_img.jpg" width="300" height="62">
-        </td>
+      	<td title="Company Logo" class="companyLogoHeader" />
+        <td title="Header Image" class="headerRight"/>
       </tr>
       <tr>
         <?php
@@ -272,28 +269,28 @@ function setSize() {
 	if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {
 	?>
         <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
-          <tr height="20">
-            <td><img src="" width="8" height="1" border="0" alt="Home"></td>
-            <td style="background-image : url();" ></td>
-            <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-            <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+          <tr height="20" class="tabRow">
+            <td class="tabLeftSpace"><img src="" width="8" height="1" border="0" alt="Home"></td>
+            <td />
+            <td class="tabSeparator"></td>
+            <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                 <tr height="20">
-                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1" ><?php echo $lang_Menu_Home; ?></a></td>
-                  <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                  <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                  <td class="currentTabLeft"></td>
+                  <td class="currentTab" href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1" ><?php echo $lang_Menu_Home; ?></a></td>
+                  <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                  <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                 </tr>
             </table></td>
             <?php } else { ?>
             <td colspan="2"><table cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr height="20">
-                  <td><img src="" width="8" height="1" border="0" alt="Home"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td class="tabLeftSpace"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1"><?php echo $lang_Menu_Home; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
+                        <td class="otherTab" nowrap><a class="otherTab"  href="./index.php?module=Home&menu_no=0&menu_no_top=home&submenutop=home1"><?php echo $lang_Menu_Home; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="Dashboard"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } ?>
@@ -302,23 +299,23 @@ function setSize() {
 						if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="eim") && ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'])) {
 
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else if ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td  class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php }
@@ -330,91 +327,91 @@ function setSize() {
                   <?php
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrAllRights[PIM]['view']) {
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr" ><?php echo $lang_Menu_Pim; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr" ><?php echo $lang_Menu_Pim; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else if ($arrAllRights[PIM]['view']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr"><?php echo $lang_Menu_Pim; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=hr"><?php echo $lang_Menu_Pim; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php }
                   }
                   if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave") && (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view'])) {
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" ><?php echo $lang_Menu_Leave; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=leave" ><?php echo $lang_Menu_Leave; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=leave"><?php echo $lang_Menu_Leave; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=leave"><?php echo $lang_Menu_Leave; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php }
                   if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time") && (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view'])) {
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=time" ><?php echo $lang_Menu_Time; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=time" ><?php echo $lang_Menu_Time; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=time"><?php echo $lang_Menu_Time; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=time"><?php echo $lang_Menu_Time; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php }
                   if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep") && $arrAllRights[Report]['view']) {
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else if ($arrAllRights[Report]['view']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="./index.php?module=Home&menu_no=12&submenutop=home1&menu_no_top=rep"><?php echo $lang_Menu_Reports; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } ?>
@@ -422,23 +419,23 @@ function setSize() {
                   } else {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ess")) {
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=ess" ><?php echo $lang_Menu_Ess; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=ess" ><?php echo $lang_Menu_Ess; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=ess"><?php echo $lang_Menu_Ess; ?></a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=ess"><?php echo $lang_Menu_Ess; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php }
@@ -446,27 +443,27 @@ function setSize() {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {
 
 					?>
-                  <td style="background-image : url();" ></td>
-                  <td style="padding-left:7px; background-image :url(themes/beyondT/pictures/nCurrentTab_left.gif);"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_left.gif);" ></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_middle.gif);" class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug" >Bug Tracker</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/nCurrentTab_right.gif);"><img src="" width="8" height="1" border="0" alt="Home"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug" >Bug Tracker</a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } else { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #E5E5E5;">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_left.png);" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_middle.png);" class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug">Bug Tracker</a></td>
-                        <td style="background-image : url(themes/beyondT/pictures/otherTab_right.png);"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td  class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=bug">Bug Tracker</a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
                   <?php } ?>
-                  <td width="100%" style="background-image : url(themes/beyondT/pictures/emptyTabSpace.png);"><img src="" width="1" height="1" border="0" alt=""></td>
+                  <td width="100%" class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                 </tr>
             </table></td>
           </tr>
@@ -478,7 +475,7 @@ function setSize() {
                 <tr>
                   <td class="welcome" width="100%"><?php echo preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes); ?></td>
                   <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?php echo $_SESSION['user']?>" target="rightMenu"><strong><?php echo $lang_index_ChangePassword; ?></strong></a></td>
-                  <td class="search" style="padding: 0px" align="right" width="11"><img src="themes/beyondT/pictures/nSearchSeparator.gif" width="12" height="20" border="0" alt="Search"></td>
+                  <td class="searchSeparator">&nbsp;</td>
                   <td class="search" style="padding: 0px" align="right" nowrap="nowrap">&nbsp;&nbsp;<a href="./index.php?ACT=logout"><strong><?php echo $lang_index_Logout; ?></strong></a></td>
                   <td class="search" nowrap>&nbsp;&nbsp; </td>
                 </tr>
@@ -912,7 +909,7 @@ function setSize() {
             <td valign="top">
 <?php
 			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
-			  <iframe src="home.html" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
+			  <iframe src="home.php" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {  ?>
               <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : $defaultAdminView;?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>

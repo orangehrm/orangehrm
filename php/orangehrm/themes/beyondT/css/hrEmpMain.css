@@ -171,20 +171,6 @@ textarea {
 		text-decoration: underline; */
 		}
 
-	/* myArea is for my account, admin, logout, an about links*/
-	.myArea {
-		font-size: 11px;
-		font-weight: bold;
-		}
-	a.myAreaLink:link, a.myAreaLink:visited {
-		color: #444444;
-		text-decoration: none;
-		}
-	a.myAreaLink:hover {
-		color: #666666;
-		text-decoration: none;
-		}
-
 	/*for the main screen navigation tabs*/
 	.currentTab {
 		color: #333333;
