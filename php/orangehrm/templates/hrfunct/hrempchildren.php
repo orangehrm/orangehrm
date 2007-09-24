@@ -48,7 +48,7 @@ function addChildren() {
 		return;
 	}
 
-	if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.DOB.value)) {
+	if(!YAHOO.OrangeHRM.calendar.parseDate(document.frmEmp.ChiDOB.value)) {
 		alert('<?php echo $lang_Common_FieldEmpty; ?>');
 		document.frmEmp.DOB.focus();
 		return;
