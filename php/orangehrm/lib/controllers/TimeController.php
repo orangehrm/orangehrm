@@ -537,16 +537,28 @@ class TimeController {
 
 		$timeEvent->resolveTimesheet();
 
-		if ($timeEvent->getTimeEventId() == null) {
-			$res=$timeEvent->addTimeEvent();
-		} else {
-			$res=$timeEvent->editTimeEvent();
+		try {
+			if ($timeEvent->getTimeEventId() == null) {
+				$res=$timeEvent->addTimeEvent();
+			} else {
+				$res=$timeEvent->editTimeEvent();
+			}
+		} catch (TimeEventException $e) {
+			switch ($e->getCode()) {
+				case TimeEventException::OVERLAPPING_TIME_PERIOD : $_GET['message'] = 'OVERLAPPING_TIME_PERIOD_FAILURE';
+																   break;
+				default : $_GET['message'] = 'UNKNOWN_ERROR_FAILURE';
+						  break;
+			}
 		}
 
-		if ($res) {
-			$_GET['message'] = 'UPDATE_SUCCESS';
-		} else {
-			$_GET['message'] = 'UPDATE_FAILURE';
+
+		if (isset($res)) {
+			if ($res) {
+				$_GET['message'] = 'UPDATE_SUCCESS';
+			} else {
+				$_GET['message'] = 'UPDATE_FAILURE';
+			}
 		}
 
 		$this->redirect($_GET['message'], "?timecode=Time&action=Time_Event_Home");

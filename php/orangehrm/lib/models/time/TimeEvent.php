@@ -199,20 +199,18 @@ class TimeEvent {
 			return false;
 		}
 
-		throw new TimeEventException("Overlapping time period", 2);
-
-		return true;
+		throw new TimeEventException("Overlapping time period", TimeEventException::OVERLAPPING_TIME_PERIOD);
 	}
 
 	/**
 	 * Add new time event
 	 *
 	 * Time event id will be over written
+	 *
+	 * @throws TimeEventException Overlapping time period 2
 	 */
 	public function addTimeEvent() {
-		if ($this->_isOverlapping()) {
-			return false;
-		}
+		$this->_isOverlapping();
 
 		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIME_EVENT_DB_TABLE_TIME_EVENT, self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID);
 		$this->setTimeEventId($newId);
@@ -609,5 +607,6 @@ class TimeEvent {
 }
 
 class TimeEventException extends Exception {
+	const OVERLAPPING_TIME_PERIOD = 2;
 }
 ?>
