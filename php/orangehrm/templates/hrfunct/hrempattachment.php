@@ -99,7 +99,7 @@ function editAttach() {
 				<td>&nbsp;</td>
 				<td>
 <?php	if ($locRights['edit']) { ?>
-        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="editAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 				</td>
 				</tr>
@@ -120,7 +120,7 @@ function editAttach() {
 			  <tr>
 				<td>&nbsp;</td>
 				<td>
-        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="<?php echo $lang_hremp_Save; ?>" onClick="addAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 				</td>
 			  </tr>
 	   </table>
@@ -131,10 +131,10 @@ function editAttach() {
 	if ($rset != null){ ?>
 		<h3><?php echo $lang_hrEmpMain_assignattach?></h3>
 <?php if ($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Attachments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+		<img border="0" title="Add" onClick="showAddPane('Attachments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 <?php } ?>
 <?php	if($locRights['delete']) { ?>
-        <img title="<?php echo $lang_hremp_Delete; ?>" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="<?php echo $lang_hremp_Delete; ?>" onclick="delAttach();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	} ?>
 
 		<table border="0" width="450" align="center" class="tabForm">

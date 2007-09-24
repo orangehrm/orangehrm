@@ -254,7 +254,7 @@ function addEmpMain() {
 function mout() {
 	var Edit = document.getElementById("btnEdit");
 	if(document.frmEmp.EditMode.value=='1')
-		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
@@ -262,7 +262,7 @@ function mout() {
 function mover() {
 	var Edit = document.getElementById("btnEdit");
 	if(document.frmEmp.EditMode.value=='1')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -367,7 +367,7 @@ function editEmpMain() {
 		<?php } ?>
 
 	document.getElementById("btnClear").disabled = false;
-	Edit.src="../../themes/beyondT/pictures/btn_save_02.jpg";
+	Edit.src="../../themes/beyondT/pictures/btn_save_02.gif";
 	Edit.title="Save";
 	document.frmEmp.EditMode.value='1';
 }
@@ -723,13 +723,13 @@ tableDisplayStyle = "table";
                 <tr>
                 </tr>
     <tr>
-    <td><?php if($_GET['reqcode'] !== "ESS") {?><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"><?php }?></td>
+    <td><?php if($_GET['reqcode'] !== "ESS") {?><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"><?php }?></td>
     <td>
 					<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
-					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 
 					<?php 	} else { ?>
-					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" src="../../themes/beyondT/pictures/btn_save.gif">
 
 					<?php	} ?>
     </td>
@@ -815,11 +815,11 @@ tableDisplayStyle = "table";
 </table>
     <table border="0" align="center" >
     <tr>
-    <td><?php if($_GET['reqcode'] !== "ESS") {?>      <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+    <td><?php if($_GET['reqcode'] !== "ESS") {?>      <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
       <?php }?></td>
     <td>
 <?php			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.jpg' : '../../themes/beyondT/pictures/btn_edit.gif'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
+			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.gif' : '../../themes/beyondT/pictures/btn_edit.gif'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
 <?php			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');  return false;">
 <?php			}  ?>

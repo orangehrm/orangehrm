@@ -29,7 +29,7 @@ define("ROOT_PATH",$_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPhoto.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
-
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/language/default/lang_default_full.php';
 
 $lan = new Language();
@@ -49,12 +49,12 @@ if(isset($_GET['action']) && $_GET['action'] == 'VIEW') {
 
 	} else {
 
-		$tmpName = ROOT_PATH . '/themes/beyondT/pictures/untitled.PNG';
+		$tmpName = ROOT_PATH . '/themes/beyondT/pictures/default_employee_image.gif';
 		$fp = fopen($tmpName,'r');
 		$contents = fread($fp,filesize($tmpName));
 		fclose($fp);
 
-		header("Content-type: image/png");
+		header("Content-type: image/gif");
 		echo $contents;
 		exit();
 	}
@@ -92,11 +92,8 @@ if(isset($_POST['STAT']) && $_POST['STAT'] == 'DELETE') {
 	$object->delEmpPic(array(array($_GET['id'])));
 }
 
-if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
-	$styleSheet = $_SESSION['styleSheet'];
-} else {
-	$styleSheet = "beyondT";
-}
+$styleSheet = CommonFunctions::getTheme();
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -176,10 +173,10 @@ function windowClose() {
                     <tr>
                     <td align="center" width="100%">
                     <?php if($edit) { ?>
-					        <img border="0" title="Save" onClick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-					        <img border="0" title="Delete" onClick="deletePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+					        <img border="0" title="Save" onClick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+					        <img border="0" title="Delete" onClick="deletePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
                     <?php } else { ?>
-					        <img border="0" title="Save" onClick="addPic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addPic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
                     <?php } ?>
                     </td>
 					</tr>

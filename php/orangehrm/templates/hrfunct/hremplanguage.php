@@ -32,20 +32,20 @@ function editLang()
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.EditLang.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditLang.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditLang.title="Save";
 }
 
 function moutLang() {
 	if(document.EditLang.title=='Save')
-		document.EditLang.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditLang.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditLang.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverLang() {
 	if(document.EditLang.title=='Save')
-		document.EditLang.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditLang.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditLang.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -211,7 +211,7 @@ if(isset($this->getArr['lanSEQ'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					        <img border="0" title="Save" onClick="addEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 								</td>
 					  </tr>
                   </table>
@@ -228,8 +228,8 @@ if(isset($this->getArr['lanSEQ'])) {
 ?>
 <?php if($assignedLanguages) { ?>
 <h3><?php echo $lang_hremplan_assignlanguage; ?></h3>
-<img border="0" title="Add" onClick="showAddPane('Languages');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<img border="0" title="Add" onClick="showAddPane('Languages');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
+<img title="Delete" onclick="delEXTLang();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
 
                     <tr>

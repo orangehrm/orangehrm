@@ -82,12 +82,12 @@ th {
 
 .save:active, .save:hover, .save:focus {
 	outline:none;
-	background: url(../pictures/btn_save_02.jpg) 3px no-repeat;
+	background: url(../pictures/btn_save_02.gif) 3px no-repeat;
 }
 
 .save {
 	outline:none;
-	background: url(../pictures/btn_save.jpg) 3px no-repeat;
+	background: url(../pictures/btn_save.gif) 3px no-repeat;
 }
 
 body {

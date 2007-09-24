@@ -32,20 +32,20 @@ function editReportTo() {
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 
-	document.EditReportTo.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditReportTo.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditReportTo.title="Save";
 }
 
 function moutReportTo() {
 	if(document.EditReportTo.title=='Save')
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverReportTo() {
 	if(document.EditReportTo.title=='Save')
-		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditReportTo.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditReportTo.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -284,7 +284,7 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 <?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 						</td>
 					  </tr>
@@ -308,10 +308,10 @@ if ($rset != null && $empname != null){ ?>
 	<h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3>
 	<div><?php echo $lang_hremp_ie_CurrentSupervisors; ?></div>
 <?php if (!$supervisorEMPMode && $locRights['add']) { ?>
-	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	<img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	<img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	} ?>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
@@ -355,10 +355,10 @@ if ($rset != null && $empname != null){ ?>
 	<h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3>
 	<div><?php echo $lang_hremp_ie_CurrentSubordinates; ?></div>
 <?php if($locRights['add']) { ?>
-	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	<img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	<img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	} ?>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>

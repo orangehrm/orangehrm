@@ -63,7 +63,7 @@ function mout() {
 	var Edit = document.getElementById("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif';
 	else
 		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif';
 }
@@ -72,7 +72,7 @@ function mover() {
 	var Edit = document.getElementById("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save_02.jpg';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save_02.gif';
 	else
 		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit_02.gif';
 }
@@ -91,7 +91,7 @@ function edit()
 		frm.elements[i].disabled = false;
 	}
 	document.getElementById("btnClear").disabled = false;
-	Edit.src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.jpg";
+	Edit.src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif";
 	Edit.title="Save";
 }
 

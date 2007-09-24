@@ -158,7 +158,7 @@ input[type=checkbox] {
       </tr>
     </tfoot>
   </table>
-<input type="image" name="btnAct" src="../../themes/beyondT/pictures/btn_save.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
+<input type="image" name="btnAct" src="../../themes/beyondT/pictures/btn_save.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
 style="border:none;"/>
 </form>
 </body>

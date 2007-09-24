@@ -120,14 +120,14 @@ document.frmEmpRepTo.submit();
 }
 function mout() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -148,7 +148,7 @@ function edit()
 		}
 
 	chkboxCriteriaEnable();
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.Edit.title="Save";
 }
 
@@ -613,7 +613,7 @@ function disableJoiDatField() {
 </table>
 <table border="0" >
   <tr>
-  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
+  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
   </tr>
 </table>
 
@@ -881,7 +881,7 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
               </table>
 </td> </tr>
 <tr>
-	<td> <img border="0" title="Save" onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg"></td>
+	<td> <img border="0" title="Save" onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif"></td>
 </tr>
                 <tr><td>&nbsp;</td></tr>
   <tr>
@@ -1025,7 +1025,7 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 </table>
 <table border="0" >
   <tr>
-  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
+  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
   </tr>
 </table>
 

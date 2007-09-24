@@ -79,7 +79,7 @@ function editDependent() {
 
 				  <td>
 					<?php	if($locRights['edit']) { ?>
-					        <img border="0" title="Save" onClick="editDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="editDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 				  </td>
 				</tr>
@@ -100,7 +100,7 @@ function editDependent() {
 
 				  <td>
 <?php	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 				  </td>
 				</tr>
@@ -112,10 +112,10 @@ function editDependent() {
 $rset = $this->popArr['empDepAss'];
 if ($rset != null) { ?>
 	<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Dependents');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+		<img border="0" title="Add" onClick="showAddPane('Dependents');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 	<?php } ?>
 	<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 	<?php 	} ?>
 			<table width="275" align="center" border="0" class="tabForm">
 			<tr>

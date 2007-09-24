@@ -101,7 +101,7 @@ $editArr = $this->popArr['editArr'];
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
@@ -110,7 +110,7 @@ function mover() {
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -201,7 +201,7 @@ function mover() {
         <td width="25px">
 			<?php
 			   if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" />
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" />
 <?php			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" />
 <?php			}  ?></td>

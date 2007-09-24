@@ -101,7 +101,7 @@ function removeEmployee() {
 <h2><?php echo $lang_Time_AssignEmployeesTitle; ?></h2>
 <hr/>
 <div class="navigation">
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 <?php
 if (isset($_GET['message']) && !empty($_GET['message'])) {
 
@@ -129,9 +129,9 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	        <input type="hidden" id="txtShiftId" name="txtShiftId" value="<?php echo $workshift->getWorkshiftId(); ?>"/>
 	   	</div><br />
         <img onClick="upateShift();"
-             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
-             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
-             src="../../themes/beyondT/pictures/btn_save.jpg">
+             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
+             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
+             src="../../themes/beyondT/pictures/btn_save.gif">
 		<script type="text/javascript">
 		<!--
 		    if (document.getElementById && document.createElement) {

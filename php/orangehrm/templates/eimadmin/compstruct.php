@@ -300,9 +300,9 @@
 			<tr>
 				<td></td>
 				<td align="right">
-					<img onclick="validate();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
-					<img onclick="document.getElementById('frmAddNode').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg" />
-					<img onclick="frmAddHide();" onMouseOut="this.src='../../themes/beyondT/icons/hide.png';" onMouseOver="this.src='../../themes/beyondT/icons/hide_o.png';" src="../../themes/beyondT/icons/hide.png" />
+					<img onclick="validate();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
+					<img onclick="document.getElementById('frmAddNode').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif" />
+					<img onclick="frmAddHide();" onMouseOut="this.src='../../themes/beyondT/icons/hide.gif';" onMouseOver="this.src='../../themes/beyondT/icons/hide_o.gif';" src="../../themes/beyondT/icons/hide.gif" />
 				</td>
 			</tr>
 		</table>
@@ -362,8 +362,8 @@
 			</tr>
 			<tr>
 				<td align="right">
-					<img onclick="addNewLocation();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
-					<img onclick="resetx(); document.getElementById('frmAddLoc').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg" />
+					<img onclick="addNewLocation();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
+					<img onclick="resetx(); document.getElementById('frmAddLoc').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif" />
 				</td>
 			</tr>
 		</table>

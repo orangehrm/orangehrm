@@ -149,7 +149,7 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	    </tr>
 	    <tr>
 	      <td class="tableMiddleLeft"></td>
-	      <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" /></td>
+	      <td colspan="2"><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" /></td>
 	      <td></td>
 	      <td class="tableMiddleRight"></td>
 	    </tr>

@@ -19,6 +19,7 @@
  */
 
 define('ROOT_PATH', dirname(__FILE__));
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 require_once ROOT_PATH . '/lib/common/Language.php';
 $lan = new Language();
@@ -26,6 +27,10 @@ require_once ROOT_PATH . '/language/default/lang_default_full.php';
 require_once($lan->getLangPath("full.php"));
 
 session_start();
+
+// To test a different style, can use http://host/orangehrm/login.php?styleSheet=abc
+$styleSheet = CommonFunctions::getTheme();
+$_SESSION['styleSheet'] = $styleSheet;
 
 $wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 $_SESSION['WPATH']= $wpath[0];
@@ -64,6 +69,9 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 				$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 				$_SESSION['WPATH']= $wpath[0];
+
+				// TODO: Can set user specific stylesheet here.
+				$_SESSION['styleSheet'] = $styleSheet;
 
 				setcookie('Loggedin', 'True', 0, '/');
 

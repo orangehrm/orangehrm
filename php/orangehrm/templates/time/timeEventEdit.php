@@ -213,7 +213,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 </h2>
 <div id="status"></div>
 <p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
 </p>
 <form id="frmTimeEvent" name="frmTimesheet" method="post" action="?timecode=Time&action=" onsubmit="submitTimeEvent(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
@@ -286,9 +286,9 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ></td>
 			<td >
 				<input type="text" id="txtStartTime" name="txtStartTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($startTime); ?>" />
-				<input src="../../themes/beyondT/icons/insertTime.png"
-					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
-					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+				<input src="../../themes/beyondT/icons/insertTime.gif"
+					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
+					onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
 					onclick="return false;"
 					name="btnStartTimeInsert" id="btnStartTimeInsert"
 					height="20" width="90" type="image" alt="Insert Time" />
@@ -301,9 +301,9 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ></td>
 			<td >
 				<input type="text" id="txtEndTime" name="txtEndTime" size="16" value="<?php echo LocaleUtil::getInstance()->formatDateTime($endTime); ?>" />
-				<input src="../../themes/beyondT/icons/insertTime.png"
-					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
-					onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+				<input src="../../themes/beyondT/icons/insertTime.gif"
+					onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
+					onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
 					onclick="return false;"
 					name="btnEndTimeInsert" id="btnEndTimeInsert"
 					height="20" width="90" type="image" alt="Insert Time" />
@@ -344,10 +344,10 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td ></td>
 			<td ></td>
 			<td >
-				<input src="../../themes/beyondT/icons/submit.png"
+				<input src="../../themes/beyondT/icons/submit.gif"
 					onclick="submitTimeEvent(); return false;"
-					onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
-					onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
+					onmouseover="this.src='../../themes/beyondT/icons/submit_o.gif';"
+					onmouseout="this.src='../../themes/beyondT/icons/submit.gif';"
 					alt="Submit" name="btnSubmit" id="btnSubmit"
 					height="20" type="image" width="65"/></td>
 			<td class="tableMiddleRight"></td>

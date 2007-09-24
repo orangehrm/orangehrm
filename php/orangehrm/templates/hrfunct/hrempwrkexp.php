@@ -30,20 +30,20 @@ function editWrkExp() {
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 
-	document.EditWrkExp.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditWrkExp.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditWrkExp.title="Save";
 }
 
 function moutWrkExp() {
 	if(document.EditWrkExp.title=='Save')
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverWrkExp() {
 	if(document.EditWrkExp.title=='Save')
-		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditWrkExp.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -193,7 +193,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php		if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editEXTWrkExp();">
+			        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editEXTWrkExp();">
 		<?php		} 	 ?>
 						</td>
 	    </tr>
@@ -233,7 +233,7 @@ if(isset($this->popArr['editWrkExpArr'])) {
           <tr>
             <td valign="top"></td>
             <td align="left" valign="top"><?php	if($locRights['add']) { ?>
-                <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" />
+                <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
                 <?php	} ?>
             </td>
           </tr>
@@ -254,10 +254,10 @@ if(isset($this->popArr['editWrkExpArr'])) {
 
 <h3><?php echo $lang_hrEmpMain_assignworkex?></h3>
 <?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('WorkExperience');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+		<img border="0" title="Add" onClick="showAddPane('WorkExperience');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
 <?php } ?>
 <?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	} ?>
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 

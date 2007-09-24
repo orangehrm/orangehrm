@@ -48,14 +48,14 @@ function assignUSG()
 
 function mout() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -71,7 +71,7 @@ function edit()
 
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.Edit.title="Save";
 }
 
@@ -114,7 +114,7 @@ function delUSG()
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
   <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
       </font> </td>
@@ -239,7 +239,7 @@ $usglist = $this->popArr['usgAll'];
   </tr>
   <tr><td>
 <?php if($locRights['delete']) { ?>
-	<img onClick="delUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	<img onClick="delUSG();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php } ?>
 		</td>
 		</tr>

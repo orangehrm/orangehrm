@@ -84,7 +84,7 @@
   	<td >&nbsp;</td>
   	<td >&nbsp;</td>
     <td >&nbsp;</td>
-    <td ><img border="0" title="Add" onclick="editSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg" /></td>
+    <td ><img border="0" title="Add" onclick="editSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" /></td>
 	<td class="tableMiddleRight"></td>
   </tr>
   </tbody>

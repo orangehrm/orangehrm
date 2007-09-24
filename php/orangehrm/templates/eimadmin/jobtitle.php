@@ -271,7 +271,7 @@ function mout() {
 
 	if(document.Edit.title=='Save')
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 
 	else
 
@@ -285,7 +285,7 @@ function mover() {
 
 	if(document.Edit.title=='Save')
 
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 
 	else
 
@@ -316,7 +316,7 @@ function edit() {
 
 	frm.txtEmpStatDesc.disabled=true;
 
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
 
 	document.Edit.title="Save";
 
@@ -641,7 +641,7 @@ function clearAll() {
 
 <br>
 
-<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 
 <br>
 
@@ -723,9 +723,9 @@ function clearAll() {
 
 				                  </tr>
 
-					  <tr><td></td><td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					  <tr><td></td><td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 
-        				<img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" src="../../themes/beyondT/pictures/btn_clear.jpg"></td></tr>
+        				<img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td></tr>
 
                   </table></td>
 
@@ -800,7 +800,7 @@ function clearAll() {
 
 						<br>
 
-						<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+						<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 
 						<br>
 
@@ -999,7 +999,7 @@ function clearAll() {
 
 <?php			}  ?>
 
-					  <img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="" >
+					  <img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="" >
 
 </td>
 

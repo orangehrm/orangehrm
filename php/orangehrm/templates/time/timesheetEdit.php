@@ -430,7 +430,7 @@ function goBack() {
 </h2>
 <div id="status"></div>
 <p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack(); return false;">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
 </p>
 <?php if (isset($_GET['message'])) {
 
@@ -582,9 +582,9 @@ function goBack() {
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 <input type="hidden" name="nextAction" value="<?php echo $return; ?>" />
 
-<input src="../../themes/beyondT/icons/update.png"
-		onmouseover="this.src='../../themes/beyondT/icons/update_o.png';"
-		onmouseout="this.src='../../themes/beyondT/icons/update.png';"
+<input src="../../themes/beyondT/icons/update.gif"
+		onmouseover="this.src='../../themes/beyondT/icons/update_o.gif';"
+		onmouseout="this.src='../../themes/beyondT/icons/update.gif';"
 		onclick="actionUpdate(); return false;"
 		name="btnUpdate" id="btnUpdate"
 		height="20" width="65"  type="image" alt="Update" />
@@ -594,15 +594,15 @@ function goBack() {
 		onclick="actionReset(); return false;"
 		name="btnReset" id="btnReset"
 		height="20" width="65" type="image" alt="Reset"/>
-<input src="../../themes/beyondT/icons/insertTime.png"
-		onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.png';"
-		onmouseout="this.src='../../themes/beyondT/icons/insertTime.png';"
+<input src="../../themes/beyondT/icons/insertTime.gif"
+		onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
+		onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
 		onclick="actionInsertTime(); return false;"
 		name="btnInsert" id="btnInsert"
 		height="20" width="90" type="image" alt="Insert Time" />
-<input src="../../themes/beyondT/pictures/btn_delete.jpg"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
+<input src="../../themes/beyondT/pictures/btn_delete.gif"
+		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';"
+		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
 		onclick="deleteTimeEvents(); return false;"
 		name="btnDelete" id="btnDelete"
 		type="image" alt="Delete" />

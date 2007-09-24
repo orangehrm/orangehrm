@@ -162,9 +162,9 @@ YAHOO.OrangeHRM.container.init();
 			<td></td>
 			<td>
 				<input type="image" name="btnView" alt="View"
-					   src="../../themes/beyondT/icons/view.jpg"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
+					   src="../../themes/beyondT/icons/view.gif"
+					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
+					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
 				<input type="image" name="btnReset" alt="Reset"
 					   onclick="$('frmTimesheet').reset(); return false;"
 					   src="../../themes/beyondT/icons/reset.gif"

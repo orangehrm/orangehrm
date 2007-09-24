@@ -74,7 +74,7 @@ if ($modifier === "SUP") {
 ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
 <p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="history.back(); return false;">
+  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="history.back(); return false;">
 </p>
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
@@ -228,7 +228,7 @@ if ($modifier === "SUP") {
 </table>
 <?php 	if ($modifier !== "Taken") { ?>
 <p id="controls">
-<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.jpg"/>
+<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
 </p>
 </form>
 <?php   }

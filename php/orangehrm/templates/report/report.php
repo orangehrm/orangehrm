@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 $lan = new Language();
 
 require_once ROOT_PATH . '/language/default/lang_default_full.php';
@@ -42,11 +43,8 @@ $lang_Template_rep_headName = array('Employee No'=>$lang_rep_EmployeeNo,
 									'Contract'=>$lang_rep_Contract,
 									'Work experience'=>$lang_rep_WorkExperience);
 
-if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
-	$styleSheet = $_SESSION['styleSheet'];
-} else {
-	$styleSheet = "beyondT";
-}
+$styleSheet = CommonFunctions::getTheme();
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -81,7 +79,7 @@ li{
 <body>
 <table border="0">
 <tr><td></td>
-<td height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();"></td>
+<td height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
 </tr>
 <tr><td></td><td>
 	<h2><center><?php echo $lang_rep_Report; ?>: <?php echo $this->repName; ?></center></h2></td>

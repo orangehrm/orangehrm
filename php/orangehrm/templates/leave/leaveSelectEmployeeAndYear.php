@@ -143,7 +143,7 @@
 		 ?>
   	    		</select>
 		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('employee');" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
+    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('employee');" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
 	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
@@ -182,7 +182,7 @@
 		 ?>
   	    		</select>
 		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('leaveType');" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></th>
+    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('leaveType');" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
 	<?php } ?>

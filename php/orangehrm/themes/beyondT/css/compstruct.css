@@ -22,11 +22,6 @@
 		visibility:hidden;
 	}
 
-	.frame1 {
-		background-color: #FFFFFF;
-		visibility:inherit;
-	}
-
 	.btnAdd {
 		background: url(../../../themes/beyondT/icons/add.gif) no-repeat left;
 		padding-left: 15px;

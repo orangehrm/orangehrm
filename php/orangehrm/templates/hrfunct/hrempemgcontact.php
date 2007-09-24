@@ -134,7 +134,7 @@ function editEContact() {
 			 </tr>
 				<td>
 					<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")){ ?>
-					<img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					<img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 				</td>
 			</tr>
@@ -165,7 +165,7 @@ function editEContact() {
 			 </tr>
 				<td>
 <?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
-        <img border="0" title="Save" onClick="addEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 				</td>
 			</tr>
@@ -176,10 +176,10 @@ function editEContact() {
 $rset = $this->popArr['empECAss'];
 		if ($rset != null){ //checking for a records if exsist view the the table and delete btn else no ?>
 		<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('EmgContact');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+		<img border="0" title="Add" onClick="showAddPane('EmgContact');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 		<?php } ?>
 		<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { //checking for the privilege?>
-		<img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+		<img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 		<?php 	} //view the delete btn?>
 		<table width="550" align="center" border="0" class="tabForm">
 			<tr>

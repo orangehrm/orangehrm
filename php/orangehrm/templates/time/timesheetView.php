@@ -290,17 +290,17 @@ function actionDetails() {
 			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
 			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
 	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
-	<input src="../../themes/beyondT/icons/submit.png"
+	<input src="../../themes/beyondT/icons/submit.gif"
 			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/submit_o.png';"
-			onmouseout="this.src='../../themes/beyondT/icons/submit.png';"
+			onmouseover="this.src='../../themes/beyondT/icons/submit_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/submit.gif';"
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
 	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
-	<input src="../../themes/beyondT/icons/cancel.png"
+	<input src="../../themes/beyondT/icons/cancel.gif"
 			onclick="actionCancel(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/cancel_o.png';"
-			onmouseout="this.src='../../themes/beyondT/icons/cancel.png';"
+			onmouseover="this.src='../../themes/beyondT/icons/cancel_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/cancel.gif';"
 			name="btnCancel" id="btnCancel" height="20" type="image" width="65"/>
 	<?php }
 	}
@@ -317,15 +317,15 @@ function actionDetails() {
 <div>
 	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" /></label>
 	<br/>
-	<input src="../../themes/beyondT/icons/approve.jpg"
-			onmouseover="this.src='../../themes/beyondT/icons/approve_o.jpg';"
-			onmouseout="this.src='../../themes/beyondT/icons/approve.jpg';"
+	<input src="../../themes/beyondT/icons/approve.gif"
+			onmouseover="this.src='../../themes/beyondT/icons/approve_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/approve.gif';"
 			onclick="actionApprove(); return false;"
 			name="btnApprove" id="btnApprove"
 			height="20" width="65" type="image"/>
-	<input src="../../themes/beyondT/icons/reject.jpg"
-			onmouseover="this.src='../../themes/beyondT/icons/reject_o.jpg';"
-			onmouseout="this.src='../../themes/beyondT/icons/reject.jpg';"
+	<input src="../../themes/beyondT/icons/reject.gif"
+			onmouseover="this.src='../../themes/beyondT/icons/reject_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/reject.gif';"
 			onclick="actionReject(); return false;"
 			name="btnReject" id="btnReject"
 			height="20" width="65" type="image"/>

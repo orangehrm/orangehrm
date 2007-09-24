@@ -29,6 +29,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 require_once ROOT_PATH . '/language/default/lang_default_full.php';
 
@@ -36,11 +37,7 @@ $lan = new Language();
 
 require_once($lan->getLangPath("full.php"));
 
-if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
-	$styleSheet = $_SESSION['styleSheet'];
-} else {
-	$styleSheet = "beyondT";
-}
+$styleSheet = CommonFunctions::getTheme();
 
 $srchlist[0] = array( -1 , 2 , 1 );
 $srchlist[1] = array( "-{$lang_Common_Select}-" , $lang_view_ID , $lang_Commn_name);

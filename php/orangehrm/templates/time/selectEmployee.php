@@ -104,7 +104,7 @@ function viewTimesheet(id) {
 			</td>
 		<?php } ?>
 			<td></td>
-			<td><input type="image" name="btnView" onclick="view(); return false;" src="../../themes/beyondT/icons/view.jpg" onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';" onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" /></td>
+			<td><input type="image" name="btnView" onclick="view(); return false;" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></td>
 			<td></td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -161,9 +161,9 @@ function viewTimesheet(id) {
 			<td>
 				<input type="image" name="btnView" alt="View"
 					   onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;"
-					   src="../../themes/beyondT/icons/view.jpg"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
+					   src="../../themes/beyondT/icons/view.gif"
+					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
+					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
 			</td>
 			<td>&nbsp;</td>
 			<td class="tableMiddleRight"></td>

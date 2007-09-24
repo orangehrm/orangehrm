@@ -28,6 +28,7 @@ if(!isset($_SESSION['fname'])) {
 define('ROOT_PATH', dirname(__FILE__));
 require_once ROOT_PATH . '/lib/controllers/GenViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 $srchlist[0] = array( 0 , 1 , 2 );
 $srchlist[1] = array( '--Select--' , 'ID' , 'Description' );
@@ -50,11 +51,7 @@ else {
     $list = $genviewcontroller -> getInfo($_GET['uniqcode'],$currentPage);
 }
 
-if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
-	$styleSheet = $_SESSION['styleSheet'];
-} else {
-	$styleSheet = "beyondT";
-}
+$styleSheet = CommonFunctions::getTheme();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -160,7 +157,7 @@ if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
                       <td width="200" class="dataLabel" noWrap><slot>Description</slot>&nbsp;&nbsp;<slot>
                         <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>">
                      </slot></td>
-                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="Search();" onMouseOut="this.src='./themes/beyondT/pictures/btn_search.jpg';" onMouseOver="this.src='./themes/beyondT/pictures/btn_search_02.jpg';" src="./themes/beyondT/pictures/btn_search.jpg">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='./themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='./themes/beyondT/pictures/btn_clear_02.jpg';" src="./themes/beyondT/pictures/btn_clear.jpg"></td>
+                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="Search();" onMouseOut="this.src='./themes/beyondT/pictures/btn_search.gif';" onMouseOver="this.src='./themes/beyondT/pictures/btn_search_02.gif';" src="./themes/beyondT/pictures/btn_search.gif">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='./themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='./themes/beyondT/pictures/btn_clear_02.gif';" src="./themes/beyondT/pictures/btn_clear.gif"></td>
 
                   </table></td>
                   <td background="themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

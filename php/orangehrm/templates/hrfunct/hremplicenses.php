@@ -27,20 +27,20 @@ function editLicense() {
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.EditLicense.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditLicense.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditLicense.title="Save";
 }
 
 function moutLicense() {
 	if(document.EditLicense.title=='Save')
-		document.EditLicense.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditLicense.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverLicense() {
 	if(document.EditLicense.title=='Save')
-		document.EditLicense.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditLicense.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditLicense.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -141,7 +141,7 @@ if(isset($this->getArr['LIC'])) {
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editEXTLicense();">
+						        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editEXTLicense();">
 						</td>
 					  </tr>
 			</table>
@@ -179,7 +179,7 @@ if(isset($this->getArr['LIC'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-        <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+        <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					  </tr>
                   </table>
 	</div>
@@ -197,8 +197,8 @@ if(isset($this->getArr['LIC'])) {
 <?php if($assignedLicenses){ ?>
 	 <h3><?php echo $lang_hremplicenses_assignlicen?></h3>
 
-	 <img border="0" title="Add" onClick="showAddPane('Licenses');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-     <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	 <img border="0" title="Add" onClick="showAddPane('Licenses');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
+     <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>

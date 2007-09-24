@@ -106,9 +106,9 @@ function nextPage() {
 <hr/>
 </h2>
 <div id="navigation" style="float:left;width:100px">
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';"
-	     onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"
-	     src="../../themes/beyondT/pictures/btn_back.jpg" onClick="backToProjectReport();">
+	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';"
+	     onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"
+	     src="../../themes/beyondT/pictures/btn_back.gif" onClick="backToProjectReport();">
 </div><br/>
 
 <div id="status"></div>

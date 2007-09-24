@@ -288,7 +288,7 @@ if ($locRights['edit']) {
 		</table>
 	</p>
   	<div id="navigation" style="float:left;width:100px">
-  		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+  		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 	</div>
     <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
     	if (isset($message)) {
@@ -334,8 +334,8 @@ if ($locRights['edit']) {
             	tabindex="3" <?php echo $disableEdit; ?> ><?php echo $project->getProjectDescription() ; ?></textarea>
             <br/>
             <div align="center">
-	            <img onClick="<?php echo $saveBtnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
-				<img src="../../themes/beyondT/pictures/btn_clear.jpg" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.jpg';" onClick="<?php echo $clearBtnAction;?>" >
+	            <img onClick="<?php echo $saveBtnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+				<img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="<?php echo $clearBtnAction;?>" >
             </div>
       </form>
 
@@ -387,17 +387,17 @@ if ($locRights['edit']) {
 			</br>
             <div align="left">
 	            <img onClick="<?php echo $addAdminBtnAction; ?>;"
-	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';"
-	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';"
-	            	src="../../themes/beyondT/pictures/btn_add.jpg">
+	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
+	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
+	            	src="../../themes/beyondT/pictures/btn_add.gif">
 	        <?php
 	        	if (!empty($admins)) {
 			?>
 				<img
 					onClick="<?php echo $delAdminBtnAction; ?>"
-				    src="../../themes/beyondT/pictures/btn_delete.jpg"
-					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
-					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';">
+				    src="../../themes/beyondT/pictures/btn_delete.gif"
+					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
+					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
 			<?php
 				}
 	        ?>

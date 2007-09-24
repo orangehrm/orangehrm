@@ -83,14 +83,14 @@ function delEXT() {
 
 function mout() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -106,7 +106,7 @@ function edit()
 
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.Edit.title="Save";
 }
 
@@ -129,7 +129,7 @@ function edit()
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
   <tr>
-    <td valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+    <td valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
         <input type="hidden" name="STAT" value="">
       </p></td>
     <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
@@ -310,9 +310,9 @@ $ugDet = $this ->popArr['ugDet'];
 					  <tr>
 						<td valign="top"></td>
 <?php					if($locRights['add']) { ?>
-						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php					} else { ?>
-						<td align="left" valign="top"><img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_save.jpg">
+						<td align="left" valign="top"><img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php					}		?>
 						</td>
 					  </tr>
@@ -343,9 +343,9 @@ $ugDet = $this ->popArr['ugDet'];
   <tr>
   <td>
 <?php					if($locRights['delete']) { ?>
-						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php					} else { ?>
-						<img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.jpg">
+						<img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php					}		?>
 
   </td>

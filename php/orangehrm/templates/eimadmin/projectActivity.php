@@ -348,17 +348,17 @@ if (!empty($projectId)) {
 			</br>
             <div align="left">
 	            <img onClick="<?php echo $addBtnAction; ?>;"
-	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';"
-	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';"
-	            	src="../../themes/beyondT/pictures/btn_add.jpg">
+	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
+	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
+	            	src="../../themes/beyondT/pictures/btn_add.gif">
 	        <?php
 	        	if (!empty($activities)) {
 			?>
 				<img
 					onClick="<?php echo $delBtnAction; ?>"
-				    src="../../themes/beyondT/pictures/btn_delete.jpg"
-					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
-					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';">
+				    src="../../themes/beyondT/pictures/btn_delete.gif"
+					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
+					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
 			<?php
 				}
 	        ?>
@@ -368,14 +368,14 @@ if (!empty($projectId)) {
 	            <input type="text" name="activityName" value="" >
 	            	<img onClick="<?php echo $saveBtnAction; ?>;"
 	            		style="margin-top:10px;"
-	            		onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
-	            		onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
-	            		src="../../themes/beyondT/pictures/btn_save.jpg">
+	            		onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
+	            		onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
+	            		src="../../themes/beyondT/pictures/btn_save.gif">
 	            	<img onClick="<?php echo $cancelBtnAction; ?>;"
 	            		style="margin-top:10px;"
-	            		onMouseOut="this.src='../../themes/beyondT/icons/cancel.png';"
-	            		onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.png';"
-	            		src="../../themes/beyondT/icons/cancel.png">
+	            		onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
+	            		onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
+	            		src="../../themes/beyondT/icons/cancel.gif">
 			</div>
       </form>
     </div>

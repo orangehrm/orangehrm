@@ -123,14 +123,14 @@ function actionDelete() {
 <hr/>
 </h2>
 <div class="navigation">
-	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';"
-			src="../../themes/beyondT/pictures/btn_add.jpg"
+	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
+			src="../../themes/beyondT/pictures/btn_add.gif"
 			name="btnAdd" id="btnAdd" alt="Add"
 			onclick="actionShowAdd();"/>
-	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';"
-			src="../../themes/beyondT/pictures/btn_delete.jpg"
+	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';"
+			src="../../themes/beyondT/pictures/btn_delete.gif"
 			name="btnDel" id="btnDel" alt="Delete"
 			onclick="actionDelete();" />
 </div>
@@ -147,14 +147,14 @@ function actionDelete() {
 	        <input type="hidden" id="none" name="none"/>
 	        <img onClick="addShift();"
 	             style="margin-top:10px;"
-	             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
-	             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
-	             src="../../themes/beyondT/pictures/btn_save.jpg">
+	             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
+	             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
+	             src="../../themes/beyondT/pictures/btn_save.gif">
 	        <img onClick="cancelAddShift();"
 	             style="margin-top:10px;"
-	             onMouseOut="this.src='../../themes/beyondT/icons/cancel.png';"
-	             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.png';"
-	             src="../../themes/beyondT/icons/cancel.png">
+	             onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
+	             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
+	             src="../../themes/beyondT/icons/cancel.gif">
 	   	</div>
 	</form>
 </div>

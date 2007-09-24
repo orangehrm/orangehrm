@@ -18,6 +18,7 @@
  */
 
 require_once ROOT_PATH . '/lib/common/Language.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class TemplateMerger {
 
@@ -80,11 +81,8 @@ class TemplateMerger {
 
 		$records = $this->getObj();
 
-		if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
-			$styleSheet = $_SESSION['styleSheet'];
-		} else {
-			$styleSheet = "beyondT";
-		}
+		$styleSheet = CommonFunctions::getTheme();
+
 		require_once ROOT_PATH.$this->getTemplateHeader();
 		require_once ROOT_PATH.$this->getTemplatePath();
 		require_once ROOT_PATH.$this->getTemplateFooter();

@@ -29,20 +29,20 @@ function editEducation() {
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 
-	document.EditEducation.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditEducation.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditEducation.title="Save";
 }
 
 function moutEducation() {
 	if(document.EditEducation.title=='Save')
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverEducation() {
 	if(document.EditEducation.title=='Save')
-		document.EditEducation.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditEducation.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditEducation.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -168,7 +168,7 @@ function viewEducation(edu) {
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					    </td>
 					  </tr>
 			</table>
@@ -221,7 +221,7 @@ if(isset($this->popArr['editEducationArr'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_save.jpg" title="Save" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
+						        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutEducation();" onmouseover="moverEducation();" name="EditEducation" onClick="editEducation();">
 						</td>
 					  </tr>
 		</table>
@@ -235,8 +235,8 @@ $allEduCodes = $this->popArr['allEduCodes'];
 // Handling Table view hide or show depending on the records
 if ($rset != null){?>
 <h3><?php echo $lang_hrEmpMain_assigneducation?></h3>
-<img border="0" title="Add" onClick="showAddPane('Education');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
-<img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+<img border="0" title="Add" onClick="showAddPane('Education');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
+<img title="Delete" onclick="delEXTEducation();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
                       	<td></td>

@@ -50,6 +50,7 @@ $arrAllRights=array(Admin => $arrRights,
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 $_SESSION['path'] = ROOT_PATH;
 
@@ -99,13 +100,7 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
 $_SESSION['localRights']=$arrRights;
 
 
-if (isset($_POST['styleSheet']) && !empty($_POST['styleSheet'])) {
-	$styleSheet = $_POST['styleSheet'];
-} else {
-	$styleSheet = "beyondT";
-}
-
-$_SESSION['styleSheet'] = $styleSheet;
+$styleSheet = CommonFunctions::getTheme();
 
 if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 	session_destroy();

@@ -30,20 +30,20 @@ function editSkill() {
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
 
-	document.EditSkill.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditSkill.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditSkill.title="Save";
 }
 
 function moutSkill() {
 	if(document.EditSkill.title=='Save')
-		document.EditSkill.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverSkill() {
 	if(document.EditSkill.title=='Save')
-		document.EditSkill.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditSkill.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditSkill.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -209,7 +209,7 @@ if(isset($this->popArr['editSkillArr'])) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?php	if($locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="addEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 								</td>
 					  </tr>
@@ -223,10 +223,10 @@ $allSkilllist = $this->popArr['allSkilllist'];
 if ($rset != null){ ?>
 <h3><?php echo $lang_hrEmpMain_assignskills?></h3>
 <?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Skills');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg">
+		<img border="0" title="Add" onClick="showAddPane('Skills');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
 <?php	} ?>
 <?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+        <img title="Delete" onclick="delEXTSkill();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	} ?>
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
        				<tr>

@@ -34,8 +34,8 @@
  $modifier = $modifier[0];
 
  if ($modifier === 'edit') {
- 	$btnImage = '../../themes/beyondT/pictures/btn_save.jpg';
- 	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.jpg';
+ 	$btnImage = '../../themes/beyondT/pictures/btn_save.gif';
+ 	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save';
  } else {
  	$btnImage = '../../themes/beyondT/pictures/btn_edit.gif';
@@ -188,7 +188,7 @@
 
 	if (!is_array($records[0])) {
 ?>
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
 	} else {
@@ -204,7 +204,7 @@
 	?>
 
 	<p class="controls">
-		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.jpg';"  src="../../themes/beyondT/pictures/btn_back.jpg" onClick="goBack();">
+		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';" />
 	<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
 		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>

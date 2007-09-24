@@ -240,9 +240,9 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td ></td>
 			<td >
 				<input type="image" name="btnView" alt="View"
-					   src="../../themes/beyondT/icons/view.jpg"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
+					   src="../../themes/beyondT/icons/view.gif"
+					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
+					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>

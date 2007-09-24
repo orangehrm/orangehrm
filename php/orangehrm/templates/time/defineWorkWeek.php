@@ -82,9 +82,9 @@ $submissionPeriod = $records[0];
 				   name="btnSubmit" id="btnSubmit"
 				   height="20" width="65" alt="Save"
 				   style="width:65px; height: 20px"
-				   onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';"
-				   onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';"
-				   src="../../themes/beyondT/pictures/btn_save.jpg"/></td>
+				   onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';"
+				   onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
+				   src="../../themes/beyondT/pictures/btn_save.gif"/></td>
 			<td></td>
         	<td></td>
         	<td class="tableMiddleRight"></td>

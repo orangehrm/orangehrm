@@ -19,58 +19,65 @@
 
 class sysConf {
 
-	var $itemsPerPage;
+  var $itemsPerPage;
 
-	/** $accessDenied is depreciated and no longer in use
+  /** $accessDenied is depreciated and no longer in use
          *  Please use the language files to change the access denied message.
          */
-	var $accessDenied;
-	var $viewDescLen;
-	var $userEmail;
-	var $maxEmployees;
-	var $dateFormat;
-	var $timeFormat;
+  var $accessDenied;
+  var $viewDescLen;
+  var $userEmail;
+  var $maxEmployees;
+  var $dateFormat;
+  var $timeFormat;
 
-	var $dateInputHint;
-	var $timeInputHint;
+  var $dateInputHint;
+  var $timeInputHint;
 
-	function sysConf() {
+  var $styleSheet;
 
-		$this->itemsPerPage=10;
+  function sysConf() {
 
-		/* $accessDenied is depreciated and no longer in use
-		 *  Please use the language files to change the access denied message.
-		 */
-		$this->accessDenied="Access Denied";
+    $this->itemsPerPage=10;
 
-		$this->viewDescLen=60;
-		$this->userEmail = 'youremail@mailhost.com';
-		$this->maxEmployees = '999';
-		$this->dateFormat = "Y-m-d";
-		$this->dateInputHint = "YYYY-mm-DD";
-		$this->timeFormat = "H:i";
-		$this->timeInputHint = "HH:MM";
-	}
+    /* $accessDenied is depreciated and no longer in use
+     *  Please use the language files to change the access denied message.
+     */
+    $this->accessDenied="Access Denied";
 
-	function getEmployeeIdLength() {
-		return strlen($this->maxEmployees);
-	}
+    $this->viewDescLen=60;
+    $this->userEmail = 'youremail@mailhost.com';
+    $this->maxEmployees = '999';
+    $this->dateFormat = "Y-m-d";
+    $this->dateInputHint = "YYYY-mm-DD";
+    $this->timeFormat = "H:i";
+    $this->timeInputHint = "HH:MM";
+    $this->styleSheet = "beyondT";
+  }
 
-	function getDateFormat() {
-		return $this->dateFormat;
-	}
+  function getEmployeeIdLength() {
+    return strlen($this->maxEmployees);
+  }
 
-	function getTimeFormat() {
-		return $this->timeFormat;
-	}
+  function getDateFormat() {
+    return $this->dateFormat;
+  }
 
-	function getDateInputHint() {
-		return $this->dateInputHint;
-	}
+  function getTimeFormat() {
+    return $this->timeFormat;
+  }
 
-	function getTimeInputHint() {
-		return $this->timeInputHint;
-	}
+  function getDateInputHint() {
+    return $this->dateInputHint;
+  }
+
+  function getTimeInputHint() {
+    return $this->timeInputHint;
+  }
+
+  function getStyleSheet() {
+    return $this->styleSheet;
+  }
 }
 
 ?>

@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+require_once ROOT_PATH . '/lib/confs/sysConf.php';
+
 class CommonFunctions {
 
 	const COMMONFUNCTIONS_PAGE_NUMBER_LIMIT = 5;
@@ -239,6 +241,39 @@ class CommonFunctions {
 		}
 
 		return trim($formattedVal);
+	}
+
+	/**
+	 * Returns the theme directory
+	 * @return Theme directory
+	 */
+	public static function getTheme() {
+
+		// Look in request variables
+		if (isset($_REQUEST['styleSheet']) && !empty($_REQUEST['styleSheet'])) {
+			$requestParam = $_REQUEST['styleSheet'];
+
+			// If found, validate
+			$themePath = ROOT_PATH . '/themes/' . $requestParam;
+			if (file_exists($themePath)) {
+				return $requestParam;
+			}
+		}
+
+		// Look in session
+		if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
+			return $_SESSION['styleSheet'];
+		}
+
+		// If not found yet, look in sysConf.php
+		$sysConf = new sysConf();
+		$sysConfSetting = $sysConf->getStyleSheet();
+		if (!empty($sysConfSetting)) {
+			return $sysConfSetting;
+		}
+
+		// If still not found, use default beyondT
+		return 'beyondT';
 	}
 }
 ?>

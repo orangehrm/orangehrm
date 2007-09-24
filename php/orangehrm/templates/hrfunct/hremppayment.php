@@ -37,20 +37,20 @@ function editPayment() {
 	var frm=document.frmEmp;
 	for (var i=0; i < frm.elements.length; i++)
 		frm.elements[i].disabled = false;
-	document.EditPayment.src="../../themes/beyondT/pictures/btn_save.jpg";
+	document.EditPayment.src="../../themes/beyondT/pictures/btn_save.gif";
 	document.EditPayment.title="Save";
 }
 
 function moutPayment() {
 	if(document.EditPayment.title=='Save')
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.jpg';
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.gif';
 	else
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function moverPayment() {
 	if(document.EditPayment.title=='Save')
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.jpg';
+		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.gif';
 	else
 		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.gif';
 }
@@ -263,7 +263,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.jpg';" src="../../themes/beyondT/pictures/btn_save.jpg">
+					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 						</td>
 					  </tr>
@@ -278,10 +278,10 @@ $currlist=$this->popArr['currAlllist'];
 if (($rset != null) && ($currlist != null)) { ?>
 	<h3><?php echo $lang_hrEmpMain_assignedsalary; ?></h3>
 	<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Payments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.jpg';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.jpg';" src="../../themes/beyondT/pictures/btn_add.jpg" />
+		<img border="0" title="Add" onClick="showAddPane('Payments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 	<?php } ?>
 	<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	     <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.jpg';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.jpg';" src="../../themes/beyondT/pictures/btn_delete.jpg">
+	     <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 	<?php 	} ?>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
                     <tr>
