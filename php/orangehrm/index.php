@@ -104,7 +104,7 @@ if (isset($_POST['styleSheet']) && !empty($_POST['styleSheet'])) {
 } else {
 	$styleSheet = "beyondT";
 }
-//$styleSheet = "sss";
+
 $_SESSION['styleSheet'] = $styleSheet;
 
 if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
