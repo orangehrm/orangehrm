@@ -261,14 +261,17 @@ class RepViewController {
 		      $repusg -> delRepUserGroup($arr);
     }
 
-
 	function reDirect($getArr,$postArr,$object = null) {
 
 		$form_creator = new FormCreator($getArr,$postArr);
 
+		if ($_SESSION['isAdmin'] !== 'Yes') {
+			trigger_error("Unauthorized access", E_USER_NOTICE);
+		}
+
 		switch ($getArr['repcode']) {
 
-			case 'EMPDEF' :
+			case 'EMPDEF' : //if ()
 							$form_creator ->formPath = '/templates/report/emprepinfo.php';
 
 							$form_creator->popArr['arrAgeSim'] = array ('Less Than' => '>','Greater Than' =>'<','Range' =>'range');
