@@ -24,7 +24,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $lang_Time_Module_Title; ?></title>
 
-<link href="../../themes/beyondT/css/time.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/time.css" rel="stylesheet" type="text/css" />
 </head>
 <script src="../../scripts/time.js"></script>
 <script src="../../scripts/archive.js"></script>

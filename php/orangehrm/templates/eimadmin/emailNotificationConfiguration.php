@@ -45,8 +45,8 @@ if (isset($editArr) && is_array($editArr)) {
 <head>
 <title><?php echo $lang_Admin_SubscribeToMailNotifications; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script language="JavaScript" type="text/javascript">
@@ -72,7 +72,7 @@ if (isset($editArr) && is_array($editArr)) {
 </script>
 
 <style type="text/css">
-@import url("../../themes/beyondT/css/style.css");
+@import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
 
 .style1 {color: #FF0000}
 

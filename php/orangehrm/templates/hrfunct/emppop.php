@@ -36,6 +36,12 @@ $lan = new Language();
 
 require_once($lan->getLangPath("full.php"));
 
+if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
+	$styleSheet = $_SESSION['styleSheet'];
+} else {
+	$styleSheet = "beyondT";
+}
+
 $srchlist[0] = array( -1 , 2 , 1 );
 $srchlist[1] = array( "-{$lang_Common_Select}-" , $lang_view_ID , $lang_Commn_name);
 
@@ -91,8 +97,8 @@ else
 <html>
 <head>
 <title><?php echo $lang_emppop_title; ?></title>
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -213,13 +219,13 @@ else
 <!--  newtable -->
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/beyondT/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/beyondT/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
                   <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="" width="100%">
                     <tr>
                       <td width="200" class="dataLabel"><slot><?php echo $lang_empview_searchby; ?></slot>&nbsp;&nbsp;<slot>
@@ -237,25 +243,25 @@ else
                      </slot></td>
 
                   </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                     <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="<?php echo $lang_empview_search; ?>" onClick="Search();"/>
                           <input title="Clear [Alt+K]" accessKey="K" onClick="clear_form();" class="button" type="button" name="clear" value="<?php echo $lang_compstruct_clear; ?>"/></td>
 
                   </table></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/beyondT/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
@@ -284,13 +290,13 @@ echo $pageStr;
 
               <table bordeir="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td ><img name="table_r1_c1" src="../../themes/beyondT/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
-                  <td background="../../themes/beyondT/pictures/table_r1_c2.gif"></td>
-                  <td background="../../themes/beyondT/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td ><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
                 </tr>
                 <tr  valign="top" height="25">
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt=""></td>
 						  <?php
 						  	$j=0;
 						  	if (!isset($_GET['sortOrder'.$j])) {
@@ -305,7 +311,7 @@ echo $pageStr;
 							};
 						  ?>
 						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 </tr>
 
         <?php
@@ -315,7 +321,7 @@ echo $pageStr;
 
 		?>
                 <tr>
-                  <td background="../../themes/beyondT/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
          <?php		if(!($j%2)) { ?>
 				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
@@ -324,7 +330,7 @@ echo $pageStr;
 		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		}	?>
 
-                  <td background="../../themes/beyondT/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
                 </tr>
 
@@ -345,10 +351,10 @@ echo $pageStr;
 		 		</td>
 			</tr>
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/beyondT/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td background="../../themes/beyondT/pictures/table_r3_c2.gif"></td>
-                  <td ><img src="../../themes/beyondT/pictures/table_r3_c3.gif" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"></td>
+                  <td ><img src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" border="0" alt=""></td>
                 </tr>
       </table>
 <!--  newtable -->

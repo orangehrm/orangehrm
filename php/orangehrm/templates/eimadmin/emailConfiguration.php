@@ -29,10 +29,10 @@ $editArr = $this->popArr['editArr'];
 <head>
 <title><?php echo $lang_Admin_EMX_MailConfiguration; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
-@import url("../../themes/beyondT/css/style.css"); .style1 {color: #FF0000}
+@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); .style1 {color: #FF0000}
 
 .hide {
 	display:none;

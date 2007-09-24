@@ -80,6 +80,11 @@ class TemplateMerger {
 
 		$records = $this->getObj();
 
+		if (isset($_SESSION['styleSheet']) && !empty($_SESSION['styleSheet'])) {
+			$styleSheet = $_SESSION['styleSheet'];
+		} else {
+			$styleSheet = "beyondT";
+		}
 		require_once ROOT_PATH.$this->getTemplateHeader();
 		require_once ROOT_PATH.$this->getTemplatePath();
 		require_once ROOT_PATH.$this->getTemplateFooter();

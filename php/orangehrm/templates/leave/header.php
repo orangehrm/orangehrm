@@ -25,6 +25,6 @@
 <!-- <link href="<?php //echo WROOT; ?>/favicon.ico" rel="icon" type="image/gif"/> -->
 <title><?php echo $lang_Leave_Title;?></title>
 
-<link href="../../themes/beyondT/css/leave.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
 </head>
 <body>

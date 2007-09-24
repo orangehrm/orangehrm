@@ -120,8 +120,8 @@
 <head>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/beyondT/css/compstruct.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/compstruct.css" rel="stylesheet" type="text/css">
 </head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php

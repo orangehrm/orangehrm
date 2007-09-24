@@ -66,7 +66,7 @@ function nextPage() {
 
 <style type="text/css">
     <!--
-    @import url("../../themes/beyondT/css/style.css");
+    @import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
     @import url("../../themes/beyondT/css/octopus.css");
 
     .roundbox {

@@ -99,8 +99,8 @@
 
 </script>
 
-    <link href="../../themes/beyondT/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/beyondT/css/style.css"); </style>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
 
     <style type="text/css">
     <!--
