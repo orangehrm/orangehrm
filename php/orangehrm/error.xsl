@@ -38,71 +38,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="{Wroot}/themes/beyondT/icons/exceptions/{type}.png" rel="icon" type="image/png"/>
+<link href="{Wroot}/themes/{stylesheet}/icons/exceptions/{type}.png" rel="icon" type="image/png"/>
 <title>System was brought to a halt</title>
 </head>
 <style type="text/css">
-	.bod {
-		background: #EEEEEE;
-		width:auto;
-		height:auto;
-	}
-	#body {
-		font-family:Arial, Helvetica, sans-serif;
-		padding: 10px;
-		width:80%;
-		min-width: 700px;
-		margin: auto;
-		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/pictures/orange_new_02.gif) no-repeat right top;
-		background-color: #FFFFFF;
-		display:block;
-		min-height:75px;
-		position:relative;
-	}
-
-	#footer {
-		font-size: 10px;
-		color: #999999;
-		vertical-align: bottom;
-		position:fixed;
-		bottom: 0;
-		left:auto;
-	}
-
-	.code {
-		font-family:"Courier New", Courier, monospace;
-		color:#555555;
-	}
-
-	a {
-		color: #FF9900;
-		text-decoration: none;
-	}
-
-	.environment ul {
-		list-style-image: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/16-circle-orange.png);
-	}
-
-	.environment h3 {
-		padding-left: 26px;
-		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/24-settings-orange.png) no-repeat left center;
-	}
-
-	.diagnosis h3 {
-		padding-left: 26px;
-		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/24-tool-c.png) no-repeat left center;
-	}
+	@import url(<xsl:value-of select="Wroot"/>/themes/<xsl:value-of select="stylesheet"/>/css/error.css);
 
 	h2 {
-		padding-left: 26px;
-		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/exceptions/24-<xsl:value-of select="type"/>.png) no-repeat left center;
+		background: url(<xsl:value-of select="Wroot"/>/themes/beyondT/icons/exceptions/<xsl:value-of select="type"/>.png) no-repeat left center;
 	}
 </style>
 <script language="javascript">
 	parent.scrollTo(0, 0);
 </script>
 <body>
-	<div id="body">
+	<div id="error_body">
 		<h2>
 		<xsl:value-of select="heading"/>
 		</h2>

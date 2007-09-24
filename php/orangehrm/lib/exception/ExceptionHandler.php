@@ -18,6 +18,7 @@
 */
 
 require_once ROOT_PATH . '/lib/confs/Conf.php';
+require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
 
@@ -77,6 +78,7 @@ function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''
 
 	$message .= "	<root>".ROOT_PATH."</root>\n";
 	$message .= "	<Wroot>".$_SESSION['WPATH']."</Wroot>\n";
+	$message .= "   <stylesheet>" . CommonFunctions::getTheme() .  "</stylesheet>\n";
 	$message .= "	<logPath><![CDATA[".$logPath."]]></logPath>\n";
 
 	$errfileEsc = str_replace("\\", "/", $errfile);
