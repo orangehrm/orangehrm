@@ -606,7 +606,7 @@ function preloadAllImages() {
 
 <?php			}
 				 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug" )) { ?>
-				  <TD height="800" bgcolor="#FFB121" width=158><p><br>
+				  <TD class="bugtrackerLeftCol"><p><br>
                     </p></TD>
 <?php			}  ?>
                 </TR>

@@ -293,6 +293,11 @@ textarea {
 		text-decoration: none;
 		border-bottom: 0px;
 		}
+	.bugtrackerLeftCol {
+		height: 800;
+		width: 158;
+		background-color: #FFB121;
+	}
 
 	/*welcome user and date bar and last view*/
 	.moduleTitle {
