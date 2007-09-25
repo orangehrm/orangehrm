@@ -158,10 +158,18 @@ class Timesheet {
 			$day=date('w');
 
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
+			if ($diff > 0) {
+				$diff-=7;
+			}
 			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
 
-			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
-			$this->setEndDate(date('Y-m-d', time()+($diff*3600*24)));
+			$diff1=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
+
+			if (6 >= ($diff1-$diff)) {
+				$diff1+=6-($diff1-$diff);
+			}
+
+			$this->setEndDate(date('Y-m-d', time()+($diff1*3600*24)));
 
 			$this->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 		}
