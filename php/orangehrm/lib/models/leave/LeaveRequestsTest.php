@@ -80,6 +80,15 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
 
+		mysql_query("TRUNCATE TABLE `hs_hr_weekends`;");
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (1, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (2, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (3, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (4, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (5, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (6, 0);"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_weekends` (day, length) VALUES (7, 0);"), mysql_error());
+
 		//Leave 1
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (10, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (10, 10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 0.12, 1, 1, 'Leave 1')");
@@ -103,6 +112,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`");
     	mysql_query("TRUNCATE TABLE `hs_hr_leave_requests`");
+    	mysql_query("TRUNCATE TABLE `hs_hr_weekends`;");
 
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'");
 
@@ -136,7 +146,8 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
     		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
-    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');    			$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
     	}
     }
 
@@ -164,7 +175,8 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
     		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
-    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');    			$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
     	}
     }
 
@@ -190,12 +202,15 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertSame(1, count($res), 'Wrong number of records found');
 
-    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), null);
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), null, '8.00', '1.00');
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
     		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
-    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');    			$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][4], $res[$i]->getLeaveLengthHours(), "Wrong length(hours)");
+    		$this->assertEquals($expected[$i][5], $res[$i]->getNoDays(), "Wrong length(days)");
     	}
     }
 
@@ -221,12 +236,141 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 
     	$this->assertSame(1, count($res), 'Wrong number of records found');
 
-    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*3));
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*3), '24.00', '3.00');
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
     		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
-    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');    			$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][4], $res[$i]->getLeaveLengthHours(), "Wrong length(hours)");
+    		$this->assertSame($expected[$i][5], $res[$i]->getNoDays(), "Wrong length(days)");
+    	}
+    }
+
+    public function testApplyLeave3() {
+
+		// Mark Sunday as weekend
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_weekends` SET length=8 WHERE day=7"), mysql_error());
+
+    	$employeeId = '012';
+
+    	$this->classLeaveRequest = null;
+    	$this->classLeaveRequest = new LeaveRequests();
+
+        $this->classLeaveRequest->setEmployeeId($employeeId);
+    	$this->classLeaveRequest->setLeaveTypeId("LTY010");
+    	$this->classLeaveRequest->setLeaveFromDate(date('Y-m-d', time()+3600*24));
+    	$this->classLeaveRequest->setLeaveToDate(date('Y-m-d', time()+3600*24*7));
+    	$this->classLeaveRequest->setLeaveLengthHours($this->classLeaveRequest->lengthFullDay);
+    	$this->classLeaveRequest->setLeaveStatus("1");
+    	$this->classLeaveRequest->setLeaveComments("New Leave 1");
+
+    	$this->classLeaveRequest->applyLeaveRequest();
+    	$newId = $this->classLeaveRequest->getLeaveRequestId();
+
+    	$leaveObj = $this->classLeaveRequest;
+
+    	$res = $leaveObj->retriveLeaveRequestsEmployee($employeeId);
+
+    	$this->assertNotNull($res, 'Record not found');
+
+    	$this->assertSame(1, count($res), 'Wrong number of records found');
+
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*7), '48.00', '6.00');
+
+    	for ($i=0; $i<count($res); $i++) {
+    		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
+    		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), "Wrong To Date");
+    		$this->assertSame($expected[$i][4], $res[$i]->getLeaveLengthHours(), "Wrong length(hours) {$expected[$i][4]} {$res[$i]->getLeaveLengthHours()}");
+    		$this->assertSame($expected[$i][5], $res[$i]->getNoDays(), "Wrong length(days)");
+    	}
+    }
+
+    public function testApplyLeave4() {
+
+		// Mark Saturday and Sunday as weekend
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_weekends` SET length=8 WHERE day=7 OR day=6"), mysql_error());
+
+    	$employeeId = '012';
+
+    	$this->classLeaveRequest = null;
+    	$this->classLeaveRequest = new LeaveRequests();
+
+        $this->classLeaveRequest->setEmployeeId($employeeId);
+    	$this->classLeaveRequest->setLeaveTypeId("LTY010");
+    	$this->classLeaveRequest->setLeaveFromDate(date('Y-m-d', time()+3600*24));
+    	$this->classLeaveRequest->setLeaveToDate(date('Y-m-d', time()+3600*24*7));
+    	$this->classLeaveRequest->setLeaveLengthHours($this->classLeaveRequest->lengthFullDay);
+    	$this->classLeaveRequest->setLeaveStatus("1");
+    	$this->classLeaveRequest->setLeaveComments("New Leave 1");
+
+    	$this->classLeaveRequest->applyLeaveRequest();
+    	$newId = $this->classLeaveRequest->getLeaveRequestId();
+
+    	$leaveObj = $this->classLeaveRequest;
+
+    	$res = $leaveObj->retriveLeaveRequestsEmployee($employeeId);
+
+    	$this->assertNotNull($res, 'Record not found');
+
+    	$this->assertSame(1, count($res), 'Wrong number of records found');
+
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*7), '40.00', '5.00');
+
+    	for ($i=0; $i<count($res); $i++) {
+    		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
+    		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][4], $res[$i]->getLeaveLengthHours(), "Wrong length(hours) {$expected[$i][4]} {$res[$i]->getLeaveLengthHours()}");
+    		$this->assertSame($expected[$i][5], $res[$i]->getNoDays(), "Wrong length(days)");
+    	}
+    }
+
+    public function testApplyLeave5() {
+
+
+		// Mark Saturday as half day
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_weekends` SET length=4 WHERE day=6"), mysql_error());
+    	// Mark Sunday as weekend
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_weekends` SET length=8 WHERE day=7"), mysql_error());
+
+    	$employeeId = '012';
+
+    	$this->classLeaveRequest = null;
+    	$this->classLeaveRequest = new LeaveRequests();
+
+        $this->classLeaveRequest->setEmployeeId($employeeId);
+    	$this->classLeaveRequest->setLeaveTypeId("LTY010");
+    	$this->classLeaveRequest->setLeaveFromDate(date('Y-m-d', time()+3600*24));
+    	$this->classLeaveRequest->setLeaveToDate(date('Y-m-d', time()+3600*24*7));
+    	$this->classLeaveRequest->setLeaveLengthHours($this->classLeaveRequest->lengthFullDay);
+    	$this->classLeaveRequest->setLeaveStatus("1");
+    	$this->classLeaveRequest->setLeaveComments("New Leave 1");
+
+    	$this->classLeaveRequest->applyLeaveRequest();
+    	$newId = $this->classLeaveRequest->getLeaveRequestId();
+
+    	$leaveObj = $this->classLeaveRequest;
+
+    	$res = $leaveObj->retriveLeaveRequestsEmployee($employeeId);
+
+    	$this->assertNotNull($res, 'Record not found');
+
+    	$this->assertSame(1, count($res), 'Wrong number of records found');
+
+    	$expected[0] = array($newId, 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*7), '44.00', '5.50');
+
+    	for ($i=0; $i<count($res); $i++) {
+    		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
+    		$this->assertSame($expected[$i][1], $res[$i]->getLeaveTypeName(), 'Wrong Leave Type Name');
+    		$this->assertSame($expected[$i][2], $res[$i]->getLeaveFromDate(), 'Wrong From Date');
+    		$this->assertSame($expected[$i][3], $res[$i]->getLeaveToDate(), 'Wrong To Date');
+    		$this->assertSame($expected[$i][4], $res[$i]->getLeaveLengthHours(), "Wrong length(hours) {$expected[$i][4]} {$res[$i]->getLeaveLengthHours()}");
+    		$this->assertSame($expected[$i][5], $res[$i]->getNoDays(), "Wrong length(days)");
     	}
     }
 }

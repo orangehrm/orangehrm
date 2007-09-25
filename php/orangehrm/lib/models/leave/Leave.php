@@ -412,9 +412,7 @@ class Leave {
 
 	protected function _adjustLeaveLength() {
 		$timeOff = $this->_timeOffLength($this->getLeaveDate());
-
 		$shift = Leave::LEAVE_LENGTH_FULL_DAY;
-
 		$workShift = Workshift::getWorkshiftForEmployee($this->getEmployeeId());
 
 		if (isset($workShift)) {
@@ -428,17 +426,18 @@ class Leave {
 			$hours = $this->getLeaveLengthHours()-$timeOff;
 			$days = round(($hours/$shift), 2);
 		} else if ($this->getLeaveLengthDays() != null) {
-			$days = $this->getLeaveLengthDays();
-			$hours = $days*$shift-$timeOff;
+			$hours = $this->getLeaveLengthDays()*$shift-$timeOff;
+			$days = round(($hours/$shift), 2);
 		}
 
 		if (0 > $hours) {
 			$hours=0;
 		}
-
 		if (0 > $days) {
 			$days=0;
 		}
+
+		//echo "{$this->getLeaveDate()} $hours $days $timeOff\n";
 
 		$this->setLeaveLengthHours($hours);
 		$this->setLeaveLengthDays($days);
@@ -575,13 +574,12 @@ class Leave {
 			$timeOff = $this->weekends[date('N', strtotime($date))-1]->getLength();
 		}
 
-
 		$holidaysObj = new Holidays();
 
 		$length = $holidaysObj->isHoliday($date);
 
 		if ($length > $timeOff) {
-				$timeOff = $length;
+			$timeOff = $length;
 		}
 
 		return $timeOff;

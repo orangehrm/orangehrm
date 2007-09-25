@@ -190,6 +190,7 @@ class LeaveRequests extends Leave {
 			$tmpLeaveArr = $tmpLeave->retrieveLeave($row[1]);
 
 			$noOfDays = 0;
+			$hours = 0;
 
 			if (isset($tmpLeaveArr) && !empty($tmpLeaveArr)) {
 
@@ -199,14 +200,13 @@ class LeaveRequests extends Leave {
 
 				if ($tmpLeaveArr[0]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 					$noOfDays = $tmpLeaveArr[0]->getLeaveLengthDays();
+					$hours = $tmpLeaveArr[0]->getLeaveLengthHours();
 				}
 
 				if (($tmpLeaveArr[0]->getStartTime() != null) && ($tmpLeaveArr[0]->getEndTime() != null)) {
 					$tmpLeaveRequestArr->setStartTime($tmpLeaveArr[0]->getStartTime());
 					$tmpLeaveRequestArr->setEndTime($tmpLeaveArr[0]->getEndTime());
 				}
-
-				$noOfDays = $noOfDays;
 
 				if ($totalLeaves > 1) {
 					$tmpLeaveRequestArr->setLeaveToDate($tmpLeaveArr[$totalLeaves-1]->getLeaveDate());
@@ -219,6 +219,7 @@ class LeaveRequests extends Leave {
 
 						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
 							$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
+							$hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
 
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
@@ -234,14 +235,13 @@ class LeaveRequests extends Leave {
 					$tmpLeaveRequestArr->setCommentsDiffer($commentsDiffer);
 
 					$tmpLeaveRequestArr->setLeaveStatus($status);
-					$tmpLeaveRequestArr->setLeaveLengthHours(self::LEAVEREQUESTS_LEAVELENGTH_RANGE);
 				} else {
-					$tmpLeaveRequestArr->setLeaveLengthHours($tmpLeaveArr[0]->getLeaveLengthHours());
 					$tmpLeaveRequestArr->setLeaveStatus($tmpLeaveArr[0]->getLeaveStatus());
 					$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
 				}
 
-				$tmpLeaveRequestArr->setNoDays($noOfDays);
+				$tmpLeaveRequestArr->setNoDays(number_format($noOfDays,2));
+				$tmpLeaveRequestArr->setLeaveLengthHours(number_format($hours,2));
 
 				if ($supervisor) {
 					$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
@@ -280,8 +280,12 @@ class LeaveRequests extends Leave {
 		$to = strtotime($this->getLeaveToDate());
 
 		$res = true;
+		$days = $this->getLeaveLengthDays();
+		$hours = $this->getLeaveLengthHours();
 		for ($timeStamp=$from; $timeStamp<=$to; $timeStamp=$this->_incDate($timeStamp)) {
 			$this->setLeaveDate(date('Y-m-d', $timeStamp));
+			$this->setLeaveLengthDays($days);
+			$this->setLeaveLengthHours($hours);
 			$res = $res && $this->_addLeave();
 		}
 
