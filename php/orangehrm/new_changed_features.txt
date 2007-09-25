@@ -17,6 +17,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1746433   Security issue in reports
 	1801071   Time Module-> Project TIme - > New Event:Unhanded exception
 	1801796   Timesheet update fails when DefineTimesheet periode changed
+	1801799   Edit Timesheet fails : when Define Timesheet Period Changed
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
