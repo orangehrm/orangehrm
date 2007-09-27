@@ -613,16 +613,15 @@ class TimeController {
 			return false;
 		}
 
-		if ($_SESSION['empID'] != $timeEvents[0]->getEmployeeId()) {
-			if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timeEvents[0]->getEmployeeId())))) {
-				$this->redirect('UNAUTHORIZED_FAILURE');
-			}
-		}
-
 		foreach ($timeEvents as $timeEvent) {
 			if ($timeEvent->getTimeEventId() != null) {
 				$timeEventObjs = $timeEvent->fetchTimeEvents();
 				$timeEvent = $timeEventObjs[0];
+				if ($_SESSION['empID'] != $timeEvent->getEmployeeId()) {
+					if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timeEvent->getEmployeeId())))) {
+						$this->redirect('UNAUTHORIZED_FAILURE');
+					}
+				}
 				$res=$timeEvent->deleteTimeEvent();
 			}
 
