@@ -1198,9 +1198,14 @@
 	$lang_view_DUPLICATE_NAME_FAILURE = "The same name is already used";
 
 	$lang_Leave_CopyLeaveQuotaFromLastYear = "Copy leave quota from last year";
+	$lang_Leave_CopyLeaveBroughtForwardFromLastYear = "Copy leave brought forward from last year";
 
 	$lang_Leave_LEAVE_QUOTA_COPY_SUCCESS = "Successfully copied leave quota";
 	$lang_Leave_LEAVE_QUOTA_COPY_FAILURE = "Failed to copy leave quota";
+
+	$lang_Leave_LEAVE_BROUGHT_FORWARD_COPY_SUCCESS = "Successfully copied leave brought forward";
+	$lang_Leave_LEAVE_BROUGHT_FORWARD_COPY_FAILURE = "Failed to copy leave brought forward";
+
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";

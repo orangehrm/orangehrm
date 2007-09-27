@@ -1151,6 +1151,9 @@ switch ($moduletype) {
 													case 'Leave_Quota_Copy_Last_Year' :	$leaveController->copyLeaveQuotaFromLastYear($_GET['currYear']);
 																						break;
 
+													case 'Leave_Brought_Forward_Copy_Last_Year' :	$leaveController->copyLeaveBroughtForwardFromLastYear($_GET['currYear']);
+																									break;
+
 													case 'Leave_Quota_Save'			:	$objs = $leaveQuotaExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs)) {

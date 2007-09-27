@@ -152,6 +152,14 @@ class MySQLClass {
 		return mysql_fetch_array($result);
 	}
 
+	function numberOfAffectedRows () {
+	 	return mysql_affected_rows();
+	 }
+
+	 function numberOfRows($result) {
+	 	return mysql_num_rows($result);
+	 }
+
 /*
 	function fetch_result($result,$id = '') {
 		return mysql_result($result,$id);

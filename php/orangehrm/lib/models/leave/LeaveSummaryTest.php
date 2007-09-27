@@ -82,13 +82,13 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Annual', 0)");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '012', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '012', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY010', '012', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY011', '012', 20);");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY012', '013', 30);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY012', '013', 30);");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY010', '011', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` VALUES ('".date('Y')."', 'LTY011', '011', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY010', '011', 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY011', '011', 20);");
 
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (10, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
 		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY012', 'Medical', '".date('Y-m-d', time()+3600*24)."', '013')");

@@ -165,6 +165,10 @@
 		window.location = '?leavecode=Leave&action=Leave_Quota_Copy_Last_Year&currYear=<?php echo $dispYear; ?>';
 	}
 
+	function actCopyLeaveBroughtForward() {
+		window.location = '?leavecode=Leave&action=Leave_Brought_Forward_Copy_Last_Year&currYear=<?php echo $dispYear; ?>';
+	}
+
 <?php	} ?>
 </script>
 <h2><?php echo $lang_Title; ?><hr/></h2>
@@ -211,6 +215,8 @@
 	<?php } ?>
 	<?php if ($copyQuota) { ?>
 		<a href="javascript:actCopyLeaveQuota()"><?php echo $lang_Leave_CopyLeaveQuotaFromLastYear; ?></a>
+	<?php } if (!$copyQuota) { ?>
+		<a href="javascript:actCopyLeaveBroughtForward()"><?php echo $lang_Leave_CopyLeaveBroughtForwardFromLastYear; ?></a>
 	<?php } ?>
 
 	</p>

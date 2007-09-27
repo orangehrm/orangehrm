@@ -75,10 +75,15 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES (13, '013', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES (14, '014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 		mysql_query("INSERT INTO `hs_hr_employee` VALUES (15, '015', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
+		// For testStoreLeaveTaken
+		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('018', NULL, 'Gayanath', 'Wageeshwara', 'Jayarathne', 'GAYA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)");
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");
 
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
+		// For testStoreLeaveTaken
+		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Personal', 1)");
+
 
 		mysql_query("INSERT INTO `hs_hr_workshift` (`workshift_id`, `name`, `hours_per_day`) VALUES (10, 'Test', 6);");
 		mysql_query("INSERT INTO `hs_hr_employee_workshift` (`workshift_id`, `emp_number`) VALUES (10, 15)");
@@ -101,6 +106,10 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (16, '013', 'LTY010', '".date('Y-m-d', time())."', 8, 1, 3, 'Leave 7', 14, '10:00', '18:00')");
 
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (17, '015', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 1, 0.17, 1, 'Leave 2', 15, '10:00', '11:00')");
+
+		// For testStoreLeaveTaken
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('2007', 'LTY012', '018', '10')");
+
     }
 
     /**
@@ -125,6 +134,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '013'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '014'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '015'", $this->connection);
+		// For testStoreLeaveTaken
+		mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE employee_id = '018'");
     }
 
     public function testRetrieveTakenLeaveAccuracy1() {
@@ -397,6 +408,19 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
         $res = $this->classLeave->takeLeave();
     	$this->assertEquals($res, false, "Unexpected behavior ");
+    }
+
+    public function testStoreLeaveTaken() {
+
+    	$checkStoreTaken = new Leave();
+
+		$checkStoreTaken->setLeaveLengthDays(10);
+		$checkStoreTaken->setLeaveDate("2007-10-12");
+		$checkStoreTaken->setLeaveTypeId("LTY012");
+		$checkStoreTaken->setEmployeeId(18);
+
+		$this->assertTrue($checkStoreTaken->storeLeaveTaken());
+
     }
 
 }

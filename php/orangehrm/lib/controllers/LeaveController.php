@@ -83,6 +83,7 @@ class LeaveController {
 		$tmpLeaveObj = new Leave();
 
 		$tmpLeaveObj->takeLeave();
+
 	}
 
 	//public function
@@ -474,6 +475,23 @@ class LeaveController {
 		}
 	}
 
+	public function copyLeaveBroughtForwardFromLastYear($currYear) {
+		if ($_SESSION['isAdmin'] !== 'Yes') {
+			trigger_error("Unauthorized access", E_USER_NOTICE);
+		}
+
+		$leaveQuotaObj = new LeaveQuota();
+
+		$result = $leaveQuotaObj->copyLeaveBroughtForward($currYear-1, $currYear);
+
+		if ($result) {
+			$this->redirect("LEAVE_BROUGHT_FORWARD_COPY_SUCCESS", null, null, "&year=$currYear&id=0");
+		} else {
+			$this->redirect("LEAVE_BROUGHT_FORWARD_COPY_FAILURE", null, null, "&year=$currYear&id=0");
+		}
+
+	}
+
 	private function _validToCopyQuotaFromLastYear($currYear) {
 		if ($_SESSION['isAdmin'] !== 'Yes') {
 			return false;
@@ -515,6 +533,7 @@ class LeaveController {
 
 		$tmpObj = $this->getObjLeave();
 		$tmpObjX[] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder);
+
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
 
 		$path = "/templates/leave/leaveSummary.php";

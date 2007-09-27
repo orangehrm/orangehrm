@@ -541,6 +541,8 @@ create table `hs_hr_employee_leave_quota` (
   `leave_type_id` varchar(13) not null,
   `employee_id` int(7) not null,
   `no_of_days_allotted` decimal(6,2) default null,
+  `leave_taken` decimal(6,2) default '0.00',
+  `leave_brought_forward` decimal(6,2) default '0.00',
   primary key  (`leave_type_id`,`employee_id`, `year`)
 ) engine=innodb default charset=utf8;
 

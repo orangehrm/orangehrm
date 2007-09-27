@@ -109,6 +109,7 @@ class Leave {
 		return $this->leaveId;
 	}
 
+
 	public function setLeaveRequestId($leaveId) {
 		$this->leaveRequestId = $leaveId;
 	}
@@ -632,8 +633,16 @@ class Leave {
 			$tmpLeaveArr->setLeaveComments($row['leave_comments']);
 			$tmpLeaveArr->setLeaveId($row['leave_id']);
 
+			if (isset($row['employee_id'])) {
+				$tmpLeaveArr->setEmployeeId($row['employee_id']); // Newly Added
+			}
+
 			if (isset($row['leave_type_name'])) {
 				$tmpLeaveArr->setLeaveTypeName($row['leave_type_name']);
+			}
+
+			if (isset($row['leave_type_id'])) {
+				$tmpLeaveArr->setLeaveTypeId($row['leave_type_id']);
 			}
 
 			if (isset($row['leave_request_id'])) {
@@ -645,9 +654,9 @@ class Leave {
 				$tmpLeaveArr->setEndTime(date("H:i", strtotime($row['end_time'])));
 			}
 
-			if ($supervisor || isset($row['employee_id'])) {
+			if ($supervisor && isset($row['employee_id'])) {
 				$tmpLeaveArr->setEmployeeName("{$row['emp_firstname']} {$row['emp_lastname']}");
-				$tmpLeaveArr->setEmployeeId($row['employee_id']);
+				//$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 
 			$objArr[] = $tmpLeaveArr;
@@ -719,6 +728,8 @@ class Leave {
 		$selectFields[3] = '`leave_length_days`';
 		$selectFields[4] = '`leave_comments`';
 		$selectFields[5] = '`leave_id`';
+		$selectFields[6] = '`employee_id`';
+		$selectFields[7] = '`leave_type_id`';
 
 		$selectTable = '`hs_hr_leave`';
 
@@ -739,6 +750,7 @@ class Leave {
 				foreach ($leaveObjs as $leaveObj) {
 					$leaveObj->setLeaveStatus(self::LEAVE_STATUS_LEAVE_TAKEN);
 					$leaveObj->changeLeaveToTaken();
+					$leaveObj->storeLeaveTaken();
 				}
 
 				return true;
@@ -770,8 +782,6 @@ class Leave {
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
 
-		//echo $query."\n";
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection->executeQuery($query);
@@ -782,6 +792,34 @@ class Leave {
 
 		return false;
 	 }
+
+	public function storeLeaveTaken() {
+
+	 	$sqlBuilder = new SQLQBuilder();
+
+	 	$updateTable = '`hs_hr_employee_leave_quota`';
+
+	 	$updateFields[] = '`leave_taken`';
+
+	 	$updateValues[] = "`leave_taken`+{$this->getLeaveLengthDays()}";
+
+		$year = substr($this->getLeaveDate(), 0, 4); // To get the year from the date.
+	 	$updateConditions[] = "`year` = {$year}";
+	 	$updateConditions[] = "`leave_type_id` = '" . $this->getLeaveTypeId() . "'";
+	 	$updateConditions[] = "`employee_id` = {$this->getEmployeeId()}";
+
+		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions, false);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		if (isset($result) && (mysql_affected_rows() > 0)) {
+			return true;
+		};
+
+		return false;
+	}
 
 }
 

@@ -1150,9 +1150,12 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 	}
 
-	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions) {
+	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions, $quoteCorrect=true) {
+		if ($quoteCorrect) {
+			$changeValues = $this->quoteCorrect($changeValues);
+		}
 
-		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $this->quoteCorrect($changeValues)).$this->_buildWhere($updateConditions);
+		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
 
 		return $query;
 	}
@@ -1263,5 +1266,7 @@ function getCurrencyAssigned($salgrd) {
 
 		return $str;
 	}
+
+
 }
 ?>

@@ -98,7 +98,7 @@ class LeaveSummary extends LeaveQuota {
 		$selectFields[4] = "{$sumOfTaken} as leave_taken";
 		$sumOfApproved = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ", ABS(COALESCE(d.`leave_length_days`, 0)), 0) )";
 		$selectFields[5] = "{$sumOfApproved} as leave_scheduled";
-		$selectFields[6] = "COALESCE(no_of_days_allotted, 0) - SUM(ABS(COALESCE(d.`leave_length_days`, 0))) as leave_available";
+		$selectFields[6] = "COALESCE(b.`no_of_days_allotted`, 0) + COALESCE(b.`leave_brought_forward`, 0) - COALESCE(b.`leave_taken`, 0) as leave_available";
 		$selectFields[7] = "c.`leave_type_id` as leave_type_id";
 		$selectFields[8] = "c.`available_flag` as available_flag";
 
@@ -142,7 +142,7 @@ class LeaveSummary extends LeaveQuota {
 			$query = $query . " OR leave_taken > 0 OR leave_scheduled > 0";
 		}
 
-		//echo "$query\n";
+		// echo "$query\n";
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
