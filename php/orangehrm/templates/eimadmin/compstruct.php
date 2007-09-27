@@ -28,8 +28,7 @@
 	$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
 	$GLOBALS['lang_compstruct_Other'] = $lang_compstruct_Other;
 
-	$types = array(array($lang_compstruct_Division, $lang_compstruct_Division), array($lang_compstruct_Department, $lang_compstruct_Department), array($lang_compstruct_Team, $lang_compstruct_Team), array($lang_compstruct_Other, $lang_compstruct_Other));
-
+	$types = array(array($lang_compstruct_Division, $lang_compstruct_Division), array($lang_compstruct_Department, $lang_compstruct_Department), array($lang_compstruct_Team, $lang_compstruct_Team), array('Other', $lang_compstruct_Other));
 
 	$dbConnection = new DMLFunctions();
 
@@ -110,9 +109,6 @@
 
 	return $objResponse->getXML();
 	}
-
-
-
 ?>
 
 <html>
@@ -127,11 +123,8 @@
 <?php
 	$objAjax->printJavascript();
 ?>
-
 <script language="JavaScript" type="text/javascript">
-
 <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
-
 </script>
 <body style="padding-left:5px;">
 
@@ -150,7 +143,6 @@
 		unset($indentor);
 
 	if ($treeHierarchy) {
-
 		foreach ($treeHierarchy as $child) {
 	?>
 		<tr>
@@ -177,16 +169,14 @@
 
 					echo "<image src='../../themes/beyondT/icons/arrow.gif'>";
 			?>
-
-			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
-
+			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
 			<?php
 
 				} else {
 					// If in the popup window, allow top level (company) to be selected as well.
 					if (isset($_GET['esp']) && $_GET['esp'] == 1) {
                                         ?>
-						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['title']?></a>
+						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
 
                                         <?php
 					} else {
@@ -205,29 +195,20 @@
 			<?php if ( $child['depth'] > 0 ) {?>
 
 			| </td>
-
 			<td id="ControlButton" valign="bottom">
 					<a class="delete" href="#" onClick="deleteChild(<?php echo $child[0]['lft']; ?>, <?php echo $child[0]['rgt']; ?>, '<?php echo escapeshellcmd($child[0]['title'])?>');"><?php echo $lang_compstruct_delete; ?></a>
 
 			<?php } ?>
-
 			</td>
 			<?php } ?>
 		</tr>
-
 		<?php
-
 			}
-
 		} else {
-
 		?>
 	<p class='ERR'><?php echo $lang_compstruct_no_root; ?></p>
-
 	<?php } ?>
-
 	</table>
-
     </div>
     <!-- Delete Subdivision -->
     <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
@@ -237,9 +218,7 @@
 	</form>
 	<!-- End Delete Subdivision -->
 
-
     <!-- Add Subdivision  -->
-
 	<div id="layerForm"  class="frame">
 		<h3><LABEL id="parnt"></LABEL></h3>
 
