@@ -312,11 +312,11 @@ function actionDetails() {
 			name="btnEdit" id="btnEdit" type="image" alt="Details"
 			height="20" width="65"/>
 
-	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-	<input src="../../themes/beyondT/pictures/btn_edit.gif"
+	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED || $timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED) { ?>
+	<input src="../../themes/beyondT/icons/reset.gif"
 			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
-			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
+			onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
+			onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
 
