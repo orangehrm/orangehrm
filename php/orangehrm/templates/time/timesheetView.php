@@ -311,6 +311,15 @@ function actionDetails() {
 			onmouseout="this.src='../../themes/beyondT/icons/details.gif';"
 			name="btnEdit" id="btnEdit" type="image" alt="Details"
 			height="20" width="65"/>
+
+	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
+	<input src="../../themes/beyondT/pictures/btn_edit.gif"
+			onclick="actionSubmit(); return false;"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
+			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
+	<?php } ?>
+
 </div>
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
