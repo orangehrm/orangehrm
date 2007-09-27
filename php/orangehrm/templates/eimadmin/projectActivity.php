@@ -151,6 +151,10 @@ if (!empty($projectId)) {
 	 * Check or uncheck all project activity check boxes.
 	 */
 	function checkUncheckAll() {
+
+		var projectId = document.frmActivity.cmbProjectId.value;
+		document.frmActivity.action = "./CentralController.php?uniqcode=PAC&VIEW=MAIN&projectId=" + projectId;
+
 		var checked;
 
 		with (document.frmActivity) {
@@ -163,6 +167,15 @@ if (!empty($projectId)) {
 				}
 			}
 		}
+	}
+
+	/**
+	* When a check box is clicked, form action is changed according to selected ProjectID
+	*/
+
+	function setFormAction() {
+		var projectId = document.frmActivity.cmbProjectId.value;
+		document.frmActivity.action = "./CentralController.php?uniqcode=PAC&VIEW=MAIN&projectId=" + projectId;
 	}
 
 	/**
@@ -322,7 +335,7 @@ if (!empty($projectId)) {
 	    		<tr>
 	       			<td class="<?php echo $cssClass?>" align="center">
 	       				<input type='checkbox' class='checkbox' name='chkLocID[]'
-	       					<?php echo $disableEdit; ?> value='<?php echo $activity->getId();?>'>
+	       					<?php echo $disableEdit; ?> value='<?php echo $activity->getId();?>' onClick="setFormAction();">
 	       			</td>
 			 		<td class="<?php echo $cssClass?>">
 			 		<?php
