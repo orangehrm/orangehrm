@@ -312,7 +312,7 @@ function actionDetails() {
 			name="btnEdit" id="btnEdit" type="image" alt="Details"
 			height="20" width="65"/>
 
-	<?php if ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED || $timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED) { ?>
+	<?php if ($role && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
 	<input src="../../themes/beyondT/icons/reset.gif"
 			onclick="actionSubmit(); return false;"
 			onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"

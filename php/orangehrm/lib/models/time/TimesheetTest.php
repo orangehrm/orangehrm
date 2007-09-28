@@ -179,8 +179,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(11);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->submitTimesheet();
+    	$res = $timesheets[0]->submitTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -189,8 +190,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$timesheetObj = $this->classTimesheet;
 
     	$timesheetObj->setTimesheetId(10);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->submitTimesheet();
+    	$res = $timesheets[0]->submitTimesheet();
 
     	$this->assertTrue($res);
 
@@ -218,8 +220,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(10);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->cancelTimesheet();
+    	$res = $timesheets[0]->cancelTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -228,8 +231,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(11);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->cancelTimesheet();
+    	$res = $timesheets[0]->cancelTimesheet();
 
     	$this->assertTrue($res);
 
@@ -257,8 +261,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(10);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->approveTimesheet();
+    	$res = $timesheets[0]->approveTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -267,9 +272,10 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(11);
-		$timesheetObj->setComment('Testing...');
+		$timesheets = $timesheetObj->fetchTimesheets();
+		$timesheets[0]->setComment('Testing...');
 
-    	$res = $timesheetObj->approveTimesheet();
+    	$res = $timesheets[0]->approveTimesheet();
 
     	$this->assertTrue($res);
 
@@ -298,8 +304,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(10);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->rejectTimesheet();
+    	$res = $timesheets[0]->rejectTimesheet();
 
     	$this->assertFalse($res);
      }
@@ -308,8 +315,9 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$timesheetObj = $this->classTimesheet;
 
 		$timesheetObj->setTimesheetId(11);
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-    	$res = $timesheetObj->rejectTimesheet();
+    	$res = $timesheets[0]->rejectTimesheet();
 
     	$this->assertTrue($res);
 

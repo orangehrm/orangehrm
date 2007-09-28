@@ -223,20 +223,19 @@ class Timesheet {
 
 	/**
 	 * Submit timesheet
+	 *
+	 * @param boolean superior	Whether the request is coming from  a supervisor or a HR Admin
+	 * @return boolean Submitted/Not
 	 */
-	public function submitTimesheet($authorized) {
+	public function submitTimesheet($superior=false) {
 
-		$timeSheet = $this->fetchTimesheets();
-
-		if (!$authorized && (!$timeSheet[0] ||
-			!(($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_NOT_SUBMITTED) ||
-			($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_REJECTED)))) {
+		if (!($superior || ($this->getStatus() == self::TIMESHEET_STATUS_NOT_SUBMITTED) || ($this->getStatus() == self::TIMESHEET_STATUS_REJECTED))) {
 			return false;
 		}
 
-		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_SUBMITTED);
+		$this->setStatus(self::TIMESHEET_STATUS_SUBMITTED);
 
-		return $timeSheet[0]->_changeTimesheetStatus();
+		return $this->_changeTimesheetStatus();
 	}
 
 	/**
@@ -244,16 +243,14 @@ class Timesheet {
 	 */
 	public function approveTimesheet() {
 
-		$timeSheet = $this->fetchTimesheets();
-
-		if ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) {
+		if ($this->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) {
 			return false;
 		}
 
-		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_APPROVED);
-		$timeSheet[0]->setComment($this->getComment());
+		$this->setStatus(self::TIMESHEET_STATUS_APPROVED);
+		$this->setComment($this->getComment());
 
-		return $timeSheet[0]->_changeTimesheetStatus();
+		return $this->_changeTimesheetStatus();
 	}
 
 	/**
@@ -261,16 +258,14 @@ class Timesheet {
 	 */
 	public function cancelTimesheet() {
 
-		$timeSheet = $this->fetchTimesheets();
-
-		if (($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) && ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_REJECTED)) {
+		if (($this->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) && ($this->getStatus() != self::TIMESHEET_STATUS_REJECTED)) {
 			return false;
 		}
 
-		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);
-		$timeSheet[0]->setComment($this->getComment());
+		$this->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);
+		$this->setComment($this->getComment());
 
-		return $timeSheet[0]->_changeTimesheetStatus();
+		return $this->_changeTimesheetStatus();
 	}
 
 	/**
@@ -278,16 +273,14 @@ class Timesheet {
 	 */
 	public function rejectTimesheet() {
 
-		$timeSheet = $this->fetchTimesheets();
-
-		if ($timeSheet[0]->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) {
+		if ($this->getStatus() != self::TIMESHEET_STATUS_SUBMITTED) {
 			return false;
 		}
 
-		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_REJECTED);
-		$timeSheet[0]->setComment($this->getComment());
+		$this->setStatus(self::TIMESHEET_STATUS_REJECTED);
+		$this->setComment($this->getComment());
 
-		return $timeSheet[0]->_changeTimesheetStatus();
+		return $this->_changeTimesheetStatus();
 	}
 
 	/**

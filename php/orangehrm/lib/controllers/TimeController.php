@@ -301,17 +301,24 @@ class TimeController {
 	public function submitTimesheet() {
 		$timesheetObj = $this->objTime;
 
-		if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isSupervisor()) {
-			$authorized = true;
+		$timesheets = $timesheetObj->fetchTimesheets();
+		if (isset($timesheets) && isset($timesheets[0])) {
+			$timesheet = $timesheets[0];
 		} else {
-			$authorized = false;
+			$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Timesheet');
 		}
 
-		if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
-			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
+		if ($this->authorizeObj->isAdmin() || ($this->authorizeObj->isSupervisor() && $this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId()))) {
+			$superior = true;
+		} else {
+			if ($_SESSION['empID'] != $timesheet->getEmployeeId()) {
+				$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
+			}
+			$superior = false;
 		}
 
-		$res=$timesheetObj->submitTimesheet($authorized);
+		$res=$timesheet->submitTimesheet($superior);
+
 		if ($res) {
 			$_GET['message'] = 'SUBMIT_SUCCESS';
 		} else {
@@ -325,63 +332,88 @@ class TimeController {
 
 	public function cancelTimesheet() {
 		$timesheetObj = $this->objTime;
+		$timesheets = $timesheetObj->fetchTimesheets();
 
-		if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
+		if (isset($timesheets) && isset($timesheets[0])) {
+			$timesheet = $timesheets[0];
+		} else {
+			$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
+
+		if ($_SESSION['empID'] != $timesheet->getEmployeeId()) {
 			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
 		}
 
-		$res=$timesheetObj->cancelTimesheet();
+		$res=$timesheet->cancelTimesheet();
 		if ($res) {
 			$_GET['message'] = 'CANCEL_SUCCESS';
 		} else {
 			$_GET['message'] = 'CANCEL_FAILURE';
 		}
 
-		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+		$this->_redirectToTimesheet($timesheet->getTimesheetId(), $_GET['message']);
 
 		return $res;
 	}
 
 	public function approveTimesheet() {
 		$timesheetObj = $this->objTime;
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if (isset($timesheets) && isset($timesheets[0])) {
+			$timesheet = $timesheets[0];
+		} else {
+			$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 		$role = $this->authorizeObj->firstRole($roles);
 
-		if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
+		if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())))) {
 			$this->redirect('UNAUTHORIZED_FAILURE');
 		}
 
-		$res=$timesheetObj->approveTimesheet();
+		$timesheet->setComment($timesheetObj->getComment());
+
+		$res=$timesheet->approveTimesheet();
 		if ($res) {
 			$_GET['message'] = 'APPROVE_SUCCESS';
 		} else {
 			$_GET['message'] = 'APPROVE_FAILURE';
 		}
 
-		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+		$this->_redirectToTimesheet($timesheet->getTimesheetId(), $_GET['message']);
 
 		return $res;
 	}
 
 	public function rejectTimesheet() {
 		$timesheetObj = $this->objTime;
+		$timesheets = $timesheetObj->fetchTimesheets();
+
+		if (isset($timesheets) && isset($timesheets[0])) {
+			$timesheet = $timesheets[0];
+		} else {
+			$this->redirect('NO_TIMESHEET_FAILURE', '?timecode=Time&action=View_Timesheet');
+		}
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
 		$role = $this->authorizeObj->firstRole($roles);
 
-		if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheetObj->getEmployeeId())))) {
+		if (!$role || (($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) && (!$this->authorizeObj->isTheSupervisor($timesheet->getEmployeeId())))) {
 			$this->redirect('UNAUTHORIZED_FAILURE');
 		}
 
-		$res=$timesheetObj->rejectTimesheet();
+		$timesheet->setComment($timesheetObj->getComment());
+
+		$res=$timesheet->rejectTimesheet();
 		if ($res) {
 			$_GET['message'] = 'REJECT_SUCCESS';
 		} else {
 			$_GET['message'] = 'REJECT_FAILURE';
 		}
 
-		$this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+		$this->_redirectToTimesheet($timesheet->getTimesheetId(), $_GET['message']);
 
 		return $res;
 	}
