@@ -717,8 +717,9 @@
 	$lang_salarygrades_stepSalNumeric		= "Step salary should be numeric";
     $lang_salarygrades_minGreaterThanMax	= "Minimum Salary > Maximum Salary !";
 	$lang_salarygrades_stepPlusMinGreaterThanMax = "Step Salary plus Minimum Salary should be less than Maximum salary";
-	$lang_salarygrades_stepGreaterThanMax = "Step Salary should be less than Maximum salary";
-	$lang_salarygrades_NameCannotBeBlank = "Pay Grade Name cannot be blank!";
+	$lang_salarygrades_stepGreaterThanMax 	= "Step Salary should be less than Maximum salary";
+	$lang_salarygrades_NameCannotBeBlank 	= "Pay Grade Name cannot be blank!";
+	$lang_salarygrades_UpdateRecord 		= "UpdateRecord";
 
 	$lang_salcurrdet_heading 				= "Currency Assignment to Salary Grade";
 	$lang_salcurrdet_assigncurr 			= "Assigned Currency";
