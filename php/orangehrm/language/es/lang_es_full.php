@@ -277,7 +277,7 @@
 	$lang_bankInformation_code 				= "código";
 	$lang_bankInformation_description 		= "Descripción";
 
-	$lang_compstruct_add 			= "Descripción";
+	$lang_compstruct_add 			= "Agregar"; // Translated add to spanish using Google lang tools
 	$lang_compstruct_delete 		= "Borrar";
 	$lang_compstruct_clear 			= "despejar";
 	$lang_compstruct_hide 			= "Ocultar";

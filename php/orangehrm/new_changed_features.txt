@@ -20,6 +20,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1801799   Edit Timesheet fails : when Define Timesheet Period Changed
 	1798542   Incorrect leave notification when applying range of leaves.
 	1740184   "other" in defining company structure
+	1780724   $lang_compstruct_add wrong in spanish language pack
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
