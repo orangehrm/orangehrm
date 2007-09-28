@@ -544,7 +544,7 @@ function disableJoiDatField() {
 
 												var format = YAHOO.OrangeHRM.calendar.format;
 												if(strToDate(join1.value, format) > strToDate(join2.value, format)) {
-													alert("<?php echo $lang_rep_InvalidRange; ?>");
+													alert("<?php echo $lang_Leave_Common_InvalidDateRange; ?>");
 													join2.focus();
 													return false;
 												}

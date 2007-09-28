@@ -73,6 +73,15 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			msg += " - <?php echo $lang_Error_PleaseSelectAValidToDate; ?>\n"
 		}
 
+		date1 = document.frmLeaveApp.txtLeaveFromDate.value;
+		date2 = document.frmLeaveApp.txtLeaveToDate.value;
+		var format = YAHOO.OrangeHRM.calendar.format;
+		if (strToDate(date1, format) > strToDate(date2, format)) {
+			err = true;
+			msg += " - <?php echo $lang_Leave_Common_InvalidDateRange; ?>\n"
+		}
+
+
 		obj = document.frmLeaveApp.sltLeaveType;
 		if (obj.value == -1) {
 			err = true;

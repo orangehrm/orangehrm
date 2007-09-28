@@ -284,6 +284,7 @@
 	$lang_Leave_Common_Remove 				= "Remove";
 	$lang_Leave_Common_AllEmployees			= "All Employees";
 	$lang_Leave_Common_All					= "All";
+	$lang_Leave_Common_InvalidDateRange 	= "Invalid Date Range";
 
 	$lang_Leave_Common_NameOfHoliday 		= "Name of Holiday";
 	$lang_Leave_Common_Recurring 			= "Repeats annually";
