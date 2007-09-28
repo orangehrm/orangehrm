@@ -86,6 +86,9 @@ function addShift() {
 	} else if (!numbers($('txtHoursPerDay')) || (0 >= hoursPerDay)) {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositiveNumber; ?>\n";
+	} else if (hoursPerDay > 24) {
+		err=true;
+		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBeLessThan24; ?>\n";
 	}
 
 	if (err) {

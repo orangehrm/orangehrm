@@ -1244,6 +1244,7 @@
 	$lang_Time_Error_SpecifyWorkShiftName = "Specify work shift name";
 	$lang_Time_Error_SpecifyHoursPerDay = "Specify hours per day";
 	$lang_Time_Error_HoursPerDayShouldBePositiveNumber = "Hours per day should be a positive number";
+	$lang_Time_Error_HoursPerDayShouldBeLessThan24 = "Hours per day should be less than 24";
 	$lang_Time_Error_NoEmployeeSelected = "No employee selected";
 
 	$lang_Time_Errors_INVALID_WORK_SHIFT_FAILURE = "There were problems in the work shift details";
