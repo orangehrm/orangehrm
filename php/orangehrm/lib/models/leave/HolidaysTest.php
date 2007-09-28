@@ -72,7 +72,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
 
     	mysql_query("TRUNCATE TABLE `hs_hr_holidays`", $this->connection);
     	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (10, 'Independence', '".date('Y')."-07-04', ".Holidays::HOLIDAYS_RECURRING.", 8)");
-    	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (11, 'Poya', '".date('Y')."-01-04', 0, 4)");
+    	mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (11, 'Poya', '".date('Y')."-01-04', ".Holidays::HOLIDAYS_NOT_RECURRING.", 4)");
         UniqueIDGenerator::getInstance()->initTable();
     }
 
@@ -122,7 +122,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     	$expected[0] = array(11, date('Y').'-01-04', 'Poya', Holidays::HOLIDAYS_NOT_RECURRING, 4);
     	$expected[1] = array(10, date('Y').'-07-04', 'Independence', Holidays::HOLIDAYS_RECURRING, 8);
 
-    	$this->assertEquals(count($res), count($expected), 'Invalid Nuber of records found');
+    	$this->assertEquals(count($res), count($expected), 'Invalid Number of records found ('.count($res).')');
 
     	for ($i=0; $i<count($expected); $i++) {
     		$this->assertEquals($res[$i]->getHolidayId(), $expected[$i][0], 'Invalid Hoiday Id');
@@ -142,7 +142,7 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
 
     	$expected[0] = array(10, (date('Y')+1).'-07-04', 'Independence', Holidays::HOLIDAYS_RECURRING, 8);
 
-    	$this->assertEquals(count($res), count($expected), 'Invalid Nuber of records found');
+    	$this->assertEquals(count($res), count($expected), 'Invalid Number of records found ('.count($res).')');
 
     	for ($i=0; $i<count($expected); $i++) {
     		$this->assertEquals($res[$i]->getHolidayId(), $expected[$i][0], 'Invalid Hoiday Id');

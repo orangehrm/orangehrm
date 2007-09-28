@@ -201,9 +201,11 @@ class Holidays {
 		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
 		$arrFieldList[4] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
 
+		$selectConditions[0] = "`".self::HOLIDAYS_TABLE_RECURRING."` = ".self::HOLIDAYS_RECURRING." OR `".self::HOLIDAYS_TABLE_DATE."` >= '$year-01-01'";
+
 		$sqlBuilder = new SQLQBuilder();
 
-		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, null, 'a', 'ASC');
+		$query = $sqlBuilder->simpleSelect($selectTable, $arrFieldList, $selectConditions, 'a', 'ASC');
 
 		//echo $query;
 
