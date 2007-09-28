@@ -224,15 +224,15 @@ class Timesheet {
 	/**
 	 * Submit timesheet
 	 */
-	public function submitTimesheet() {
+	public function submitTimesheet($authorized) {
 
 		$timeSheet = $this->fetchTimesheets();
 
-		/*if (!$timeSheet[0] ||
+		if (!$authorized && (!$timeSheet[0] ||
 			!(($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_NOT_SUBMITTED) ||
-			($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_REJECTED))) {
+			($timeSheet[0]->getStatus() == self::TIMESHEET_STATUS_REJECTED)))) {
 			return false;
-		}*/
+		}
 
 		$timeSheet[0]->setStatus(self::TIMESHEET_STATUS_SUBMITTED);
 

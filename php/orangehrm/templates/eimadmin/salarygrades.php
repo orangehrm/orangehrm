@@ -268,7 +268,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 			return false;
 		}
 
-		document.frmSalGrd.sqlState.value = "<?php echo $lang_salarygrades_UpdateRecord; ?>";
+		document.frmSalGrd.sqlState.value = "UpdateRecord";
 		document.frmSalGrd.submit();
 	}
 

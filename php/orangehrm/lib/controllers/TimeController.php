@@ -301,11 +301,17 @@ class TimeController {
 	public function submitTimesheet() {
 		$timesheetObj = $this->objTime;
 
+		if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isSupervisor()) {
+			$authorized = true;
+		} else {
+			$authorized = false;
+		}
+
 		if ($_SESSION['empID'] != $timesheetObj->getEmployeeId()) {
 			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
 		}
 
-		$res=$timesheetObj->submitTimesheet();
+		$res=$timesheetObj->submitTimesheet($authorized);
 		if ($res) {
 			$_GET['message'] = 'SUBMIT_SUCCESS';
 		} else {
