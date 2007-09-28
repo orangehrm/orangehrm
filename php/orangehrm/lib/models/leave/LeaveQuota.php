@@ -161,74 +161,60 @@ class LeaveQuota {
 		$currentDate = strtotime(date('Y-m-d'));
 		$CurrentJanuaryFirst = date('Y-m-d', strtotime(date('Y') . "-01-01"));
 
-			if ($toYear != date('Y')) {
-				$this->setErrorMessage("Copying is allowed only for this year!");
-				return false;
-			} else if ($fromYear !== $toYear - 1) {
-				$this->setErrorMessage("You can only copy Leave Brought Forward from previous year to this year!");
-				return false;
-			}
-			else if ($currentDate < $CurrentJanuaryFirst) {
-				$this->setErrorMessage("You can not copy Leave Brought Forward until the year ends!");
-				return false;
-			} else {
-				$sqlBuilder = new SQLQBuilder();
+		if (date('Y') >= $toYear) {
+			throw new LeaveQuotaException("Leave can only be brought forward to years upto current year", LeaveQuotaException::CANNOT_CARRY_LEAVE_FORWARD_YEAR_IN_THE_FUTURE);
+		} else if ($fromYear !== $toYear-1) {
+			throw new LeaveQuotaException("Leave can only be carried forward from the immediately preceeding year", LeaveQuotaException::CANNOT_CARRY_LEAVE_FORWARD_NON_CONSECUTIVE_YEARS);
+		} else if ($currentDate < $CurrentJanuaryFirst) {
+			throw new LeaveQuotaException("Can not copy Leave Brought Forward until the year ends!", LeaveQuotaException::CANNOT_CARRY_LEAVE_FORWARD_YEAR_NOT_OVER);
+		} else {
+			$sqlBuilder = new SQLQBuilder();
 
-				$selectTable = "`" . self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA . "`";
+			$selectTable = "`" . self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA . "`";
 
-				$selectFields[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."`";
-				$selectFields[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID."`";
-				$selectFields[2] = "`".self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID."`";
-				$selectFields[3] = "`".self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED."`";
-				$selectFields[4] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN."`";
+			$selectFields[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."`";
+			$selectFields[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID."`";
+			$selectFields[2] = "`".self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID."`";
+			$selectFields[3] = "`".self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED."`";
+			$selectFields[4] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN."`";
 
-				$selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '{$fromYear}'";
+			$selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '{$fromYear}'";
 
-				$selectQuery = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+			$selectQuery = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
 
-				$dbConnection = new DMLFunctions();
+			$dbConnection = new DMLFunctions();
 
-				$result = $dbConnection->executeQuery($selectQuery);
+			$result = $dbConnection->executeQuery($selectQuery);
 
-				if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+			if ($dbConnection->dbObject->numberOfRows($result) > 0) {
 
-					while ($row = $dbConnection->dbObject->getArray($result)) {
+				while ($row = $dbConnection->dbObject->getArray($result)) {
 
-						$updateTable = "`" . self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA . "`";
+					$updateTable = "`" . self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA . "`";
 
-						$updateFields[0] = "`" . self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD . "`";
+					$updateFields[0] = "`" . self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD . "`";
 
-						$broughtForward = $row[self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED] - $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN];
-						$updateValues[0] = "'" . $broughtForward . "'";
+					$broughtForward = $row[self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED] - $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN];
+					$updateValues[0] = "'" . $broughtForward . "'";
 
-						$updateConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '{$toYear}'";
-						$updateConditions[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID."` = '". $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID] ."'";
-						$updateConditions[2] = "`".self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID."` = '" . $row[self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID]. "'";
+					$updateConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '{$toYear}'";
+					$updateConditions[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID."` = '". $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID] ."'";
+					$updateConditions[2] = "`".self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID."` = '" . $row[self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID]. "'";
 
-						$updateQuery = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+					$updateQuery = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
 
-						$dbConnection->executeQuery($updateQuery);
-
-					}
-
-					if ($dbConnection->dbObject->numberOfAffectedRows() > 0) {
-						return true;
-					} else {
-						$this->setErrorMessage("Update did not work");
-						return false;
-					}
-
-				} else {
-					$this->setErrorMessage("No record to update");
-					return false;
+					$dbConnection->executeQuery($updateQuery);
 				}
 
+				if ($dbConnection->dbObject->numberOfAffectedRows() > 0) {
+					return true;
+				} else {
+					throw new LeaveQuotaException("Update did not work", LeaveQuotaException::ERROR_IN_DB_QUERY);
+				}
+			} else {
+				throw new LeaveQuotaException("No record to update", LeaveQuotaException::NOTHING_TO_UPDATE);
 			}
-
-
-
-
-
+		}
 	}
 
 	/**
@@ -422,6 +408,13 @@ class LeaveQuota {
 
 		return $objArr;
 	}
+}
 
+class LeaveQuotaException extends Exception {
+	const ERROR_IN_DB_QUERY = 1;
+	const CANNOT_CARRY_LEAVE_FORWARD_YEAR_IN_THE_FUTURE = 2;
+	const CANNOT_CARRY_LEAVE_FORWARD_NON_CONSECUTIVE_YEARS = 3;
+	const CANNOT_CARRY_LEAVE_FORWARD_YEAR_NOT_OVER = 4;
+	const NOTHING_TO_UPDATE = 5;
 }
 ?>

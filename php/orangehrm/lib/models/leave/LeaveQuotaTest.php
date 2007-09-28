@@ -242,21 +242,18 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 
 	public function testCopyLeaveBroughtForward() {
 
-	$broughtForward = new LeaveQuota();
+		$broughtForward = new LeaveQuota();
 
-	$broughtForward->copyLeaveBroughtForward(2009,2010);
+		$res = $broughtForward->copyLeaveBroughtForward(2009,2010);
 
-	$query = "SELECT * FROM hs_hr_employee_leave_quota WHERE year = '2010' AND leave_type_id = 'LTY012' AND employee_id = '16'";
-	$result = mysql_query($query);
+		$this->assertTrue($res);
 
-	$row = mysql_fetch_array($result);
+		$query = "SELECT * FROM hs_hr_employee_leave_quota WHERE year = '2010' AND leave_type_id = 'LTY012' AND employee_id = '16'";
+		$result = mysql_query($query);
 
-	echo $broughtForward->getErrorMessage();
+		$row = mysql_fetch_array($result);
 
-
-	$this->assertEquals(10, $row['leave_brought_forward']);
-
-
+		$this->assertEquals(10, $row['leave_brought_forward'], $row['leave_brought_forward']);
 	}
 
 }
