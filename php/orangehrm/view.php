@@ -349,7 +349,10 @@ echo $pageStr;
 
 		 	 			if($headingInfo[2]==1) {
 		 		?>
-       		<td class="<?php echo $cssClass?>" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
+       		<td class="<?php echo $cssClass?>" width="50">
+       				<?php if (CommonFunctions::extractNumericId($message[$j][0]) > 0) { ?>
+       					<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' /></td>
+       				<?php } ?>
 		 		<?php 	} else { ?>
        		<td class="<?php echo $cssClass?>" width="50"></td>
 		 		<?php 	}  ?>

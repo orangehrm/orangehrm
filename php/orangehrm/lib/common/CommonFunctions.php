@@ -31,6 +31,11 @@ class CommonFunctions {
 		return $sciNO;
 	}
 
+	public static function extractNumericId($strId) {
+		$id = preg_replace('/^[A-Z]*([0-9])*$/', '$1', $strId);
+		return $id;
+	}
+
 	/**
 	 * function to Partition the Strings;
 	 * $String  = The string that should be passed to explode
