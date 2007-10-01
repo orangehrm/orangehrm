@@ -293,10 +293,10 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <?php
 	}
 }
-if (isset($previousLeave) && ($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED)) {
-?>
-<div id="revertLeave" class="confirmBox">
-	<span class="confirmInnerBox">
+if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) || ($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED))) {
+ ?>
+ <div id="revertLeave" class="confirmBox">
+ 	<span class="confirmInnerBox">
 	<?php echo $lang_Leave_DoYouWantToCancelTheLeaveYouJustAssigned; ?> <span id="msgResponseYes" class="selectable"><?php echo $lang_Common_Yes; ?></span> <span id="msgResponseNo" class="selectable" ><?php echo $lang_Common_No; ?></a>
 	</span>
 </div>

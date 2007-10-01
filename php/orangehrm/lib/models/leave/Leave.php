@@ -253,8 +253,6 @@ class Leave {
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
-		//echo $query;
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
@@ -340,6 +338,33 @@ class Leave {
 		return $leaveArr;
 	}
 
+	public function retrieveIndividualLeave($leaveId) {
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = '`leave_date`';
+		$arrFields[1] = '`leave_status`';
+		$arrFields[2] = '`leave_length_hours`';
+		$arrFields[3] = '`leave_length_days`';
+		$arrFields[4] = '`leave_comments`';
+		$arrFields[5] = '`leave_id`';
+		$arrFields[6] = '`start_time`';
+		$arrFields[7] = '`end_time`';
+
+		$arrTable = "`hs_hr_leave`";
+
+		$selectConditions[1] = "`leave_id` = '".$leaveId."'";
+
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[5], 'ASC');
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection -> executeQuery($query);
+
+		$leaveArr = $this->_buildObjArr($result);
+
+		return $leaveArr;
+	}
+
 	/**
 	 * Add Leave record to for a employee.
 	 *
@@ -354,8 +379,26 @@ class Leave {
 		if (isset($id)) {
 			$this->setLeaveId($id);
 		}
+
+		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
+
+		$taken = false;
+
+		if (isset($leaveObjs[0])) {
+			$leave = $leaveObjs[0];
+			$taken = ($leave->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN);
+		}
+
 		$this->setLeaveStatus($this->statusLeaveCancelled);
-		return $this->_changeLeaveStatus();
+		$res = $this->_changeLeaveStatus();
+
+		if ($res && $taken) {
+			$this->setLeaveLengthDays($this->leaveLengthDays*-1);
+			$this->setLeaveLengthHours($this->leaveLengthHours*-1);
+			$res = $this->storeLeaveTaken();
+		}
+
+		return $res;
 	}
 
 	public function changeLeaveStatus($id = null) {
@@ -398,8 +441,6 @@ class Leave {
 
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
 
-		//echo $query;
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection->executeQuery($query);
@@ -437,8 +478,6 @@ class Leave {
 		if (0 > $days) {
 			$days=0;
 		}
-
-		//echo "{$this->getLeaveDate()} $hours $days $timeOff\n";
 
 		$this->setLeaveLengthHours($hours);
 		$this->setLeaveLengthDays($days);
@@ -492,8 +531,6 @@ class Leave {
 
 		$query = $sqlBuilder->simpleInsert($arrTable, $arrRecordsList, $insertFields);
 
-		//echo  $query;
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
@@ -517,12 +554,9 @@ class Leave {
 		$changeValues[0] = $this->getLeaveStatus();
 		$changeValues[1] = "'".$this->getLeaveComments()."'";
 
-		//print_r($changeValues);
 		$updateConditions[0] = "`leave_id` = ".$this->getLeaveId();
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
-
-		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 
@@ -656,7 +690,6 @@ class Leave {
 
 			if ($supervisor && isset($row['employee_id'])) {
 				$tmpLeaveArr->setEmployeeName("{$row['emp_firstname']} {$row['emp_lastname']}");
-				//$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 
 			$objArr[] = $tmpLeaveArr;
@@ -820,7 +853,6 @@ class Leave {
 
 		return false;
 	}
-
 }
 
 ?>

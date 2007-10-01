@@ -22,6 +22,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1740184   "other" in defining company structure
 	1780724   $lang_compstruct_add wrong in spanish language pack
 	1779365   Supervisor should be able to change the approval status
+	1796027   Leave: alert shoud be there for past leaves
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 

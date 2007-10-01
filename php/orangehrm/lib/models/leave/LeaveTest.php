@@ -177,6 +177,27 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testRetrieveIndividualLeaveAccuracy1() {
+    	$leveObj = $this->classLeave;
+
+    	$res = $leveObj->retrieveIndividualLeave('12');
+
+    	$expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 3, 8, 'Leave 4', null, null);
+
+        $this->assertNotNull($res, "Returned nothing");
+
+        $this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
+
+    	for ($i=0; $i < count($res); $i++) {
+        	$this->assertEquals($res[$i]->getLeaveDate(), $expected[$i][0], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveStatus(), $expected[$i][2], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveLengthHours(), $expected[$i][3], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getStartTime(), $expected[$i][5], "Didn't return expected result");
+        	$this->assertEquals($res[$i]->getEndTime(), $expected[$i][6], "Didn't return expected result");
+        }
+    }
+
     public function testRetriveLeaveEmployeeAccuracy() {
         $res = $this->classLeave->retrieveLeaveEmployee("011");
 
