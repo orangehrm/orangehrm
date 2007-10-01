@@ -209,6 +209,7 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 	background-color: #FAD163;
 	padding: 3px 10px;
 	font-weight: bold;
+	width: 445px;
 }
 
 .confirmBox .selectable {
