@@ -141,20 +141,23 @@ function editAttach() {
 			<tr>
                 <td></td>
 				<td><strong><?php echo $lang_hremp_filename?></strong></td>
+				<td><strong><?php echo $lang_Commn_description?></strong></td>
 				<td><strong><?php echo $lang_hremp_size?></strong></td>
 				<td><strong><?php echo $lang_hremp_type?></strong></td>
 			</tr>
 <?php
 
 	$disabled = ($locRights['delete']) ? "" : "disabled";
-    for($c=0;$rset && $c < count($rset); $c++)
-        {
-        echo '<tr>';
-            echo "<td><input type='checkbox' $disabled class='checkbox' name='chkattdel[]' value='" . $rset[$c][1] ."'></td>";
-            ?> <td><a href="#" title="<?php echo $rset[$c][2]?>" onmousedown="viewAttach('<?php echo $rset[$c][1]?>')" ><?php echo $rset[$c][3]?></a></td> <?php
-            echo '<td>' . $rset[$c][4] .' byte(s)</td>';
-            echo '<td>' . $rset[$c][6] .'</td>';
-        echo '</tr>';
+    for($c=0;$rset && $c < count($rset); $c++) {
+?>
+        <tr>
+            <td><input type='checkbox' $disabled class='checkbox' name='chkattdel[]' value="<?php echo $rset[$c][1]; ?>"></td>
+            <td><a href="#" title="<?php echo $rset[$c][2]; ?>" onmousedown="viewAttach('<?php echo $rset[$c][1]; ?>')" ><?php echo $rset[$c][3]; ?></a></td>
+            <td><?php echo $rset[$c][2]; ?></td>
+            <td><?php echo CommonFunctions::formatSiUnitPrefix($rset[$c][4]); ?>B</td>
+            <td><?php echo $rset[$c][6]; ?></td>
+        </tr>
+<?php
         }
 ?>
           </table>

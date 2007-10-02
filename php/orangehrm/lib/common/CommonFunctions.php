@@ -280,5 +280,39 @@ class CommonFunctions {
 		// If still not found, use default beyondT
 		return 'beyondT';
 	}
+
+	/**
+	 * String format the given number with SI unit prefix for units.
+	 *
+	 * Method has an accuracy of 2 d.p
+	 *
+	 * e.g. 1000 => 1K
+	 *
+	 * @param Integer number
+	 * @return String formatted
+	 */
+	public static function formatSiUnitPrefix($number) {
+
+		switch ($number) {
+			case $number >= 1000000000000 : $prefix=" T";
+										   $divisor=1000000000000;
+										   break;
+			case $number >= 1000000000 	 : $prefix=" G";
+										   $divisor=1000000000;
+										   break;
+			case $number >= 1000000 	  	 : $prefix=" M";
+										   $divisor=1000000;
+										   break;
+			case $number >= 1000 	  	 : $prefix=" k";
+										   $divisor=1000;
+										   break;
+			default : $prefix="";
+					  $divisor=1;
+					  break;
+		}
+		$formatted=round(($number/$divisor), 2)."{$prefix}";
+
+		return $formatted;
+	}
 }
 ?>

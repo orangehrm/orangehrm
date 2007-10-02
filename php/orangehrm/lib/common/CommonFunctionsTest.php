@@ -160,6 +160,39 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
     	$this->assertEquals("1h 11m", CommonFunctions::formatMinutesAsHoursAndMinutes(70.78));
 
     }
+
+    /**
+     * Test method for formatSiUnitPrefix()
+     */
+    public function testFormatSiUnitPrefix() {
+    	// No Unit prefix
+		$this->assertEquals("100", CommonFunctions::formatSiUnitPrefix(100), CommonFunctions::formatSiUnitPrefix(100));
+		$this->assertEquals(152, CommonFunctions::formatSiUnitPrefix(152));
+		$this->assertEquals(94, CommonFunctions::formatSiUnitPrefix(94));
+
+		// kilo
+		$this->assertEquals("1 k", CommonFunctions::formatSiUnitPrefix(1000));
+		$this->assertEquals("1.52 k", CommonFunctions::formatSiUnitPrefix(1520));
+		$this->assertEquals("1.52 k", CommonFunctions::formatSiUnitPrefix(1523));
+
+		// Mega
+		$this->assertEquals("1 M", CommonFunctions::formatSiUnitPrefix(1000000));
+		$this->assertEquals("1.53 M", CommonFunctions::formatSiUnitPrefix(1530000));
+		$this->assertEquals("1.53 M", CommonFunctions::formatSiUnitPrefix(1525000));
+		$this->assertEquals("1.54 M", CommonFunctions::formatSiUnitPrefix(1536750));
+
+		// Giga
+		$this->assertEquals("1 G", CommonFunctions::formatSiUnitPrefix(1000000000));
+		$this->assertEquals("1.93 G", CommonFunctions::formatSiUnitPrefix(1930000000));
+		$this->assertEquals("1.54 G", CommonFunctions::formatSiUnitPrefix(1542000000));
+		$this->assertEquals("1.55 G", CommonFunctions::formatSiUnitPrefix(1546000000));
+
+		//Tera
+		$this->assertEquals("1 T", CommonFunctions::formatSiUnitPrefix(1000000000000));
+		$this->assertEquals("1.45 T", CommonFunctions::formatSiUnitPrefix(1450000000000));
+		$this->assertEquals("1.52 T", CommonFunctions::formatSiUnitPrefix(1523000000000));
+		$this->assertEquals("1.53 T", CommonFunctions::formatSiUnitPrefix(1525000000000));
+    }
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

@@ -25,6 +25,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1796027   Leave: alert shoud be there for past leaves
 	1798620   superviosr assign leave : user interface screwed up
 	1804007   Can delete terminated status
+	1758866   Upload Description Missing
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
