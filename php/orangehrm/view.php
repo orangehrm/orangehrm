@@ -113,7 +113,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 		if ($check == 1){
 
-			var res = confirm("<?php echo $headingInfo[4].$lang_Common_ConfirmDelete?>");
+			var res = confirm("<?php echo "{$headingInfo[4]}. {$lang_Common_ConfirmDelete}"; ?>");
 
 			if(!res) return;
 
