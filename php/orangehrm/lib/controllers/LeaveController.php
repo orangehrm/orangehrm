@@ -514,6 +514,24 @@ class LeaveController {
 		return $copyQuota;
 	}
 
+	private function _validToCopyBroughtForwardFromLastYear() {
+		if ($_SESSION['isAdmin'] !== 'Yes') {
+			return false;
+		}
+
+		$thisYear = date('Y');
+		$previousYear = $thisYear - 1;
+
+		$broughtForward = new LeaveQuota();
+
+		if ($broughtForward->checkBroughtForward($previousYear) && !$broughtForward->checkBroughtForward($thisYear)) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	/**
 	 * Displays the Leave Summary
 	 *
@@ -527,7 +545,9 @@ class LeaveController {
 
 		$copyQuota = $this->_validToCopyQuotaFromLastYear($year);
 
-		$modifier = array($modifier, $auth, $year, $copyQuota);
+		$broughtForward = $this->_validToCopyBroughtForwardFromLastYear();
+
+		$modifier = array($modifier, $auth, $year, $copyQuota, $broughtForward);
 
 		$empInfoObj = new EmpInfo();
 

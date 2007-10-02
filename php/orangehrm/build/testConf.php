@@ -12,12 +12,14 @@
 
 	require 'myconf.php';
 
-	if (!defined('ROOT_PATH')) {
-	    define('ROOT_PATH', $rootPath);
-	}
+	echo $rootPath;
 
-	if (!defined('WPATH')) {
+	//if (!defined('ROOT_PATH')) {
+	    define('ROOT_PATH', $rootPath);
+	//}
+
+	//if (!defined('WPATH')) {
 	    define('WPATH', $webPath);
-	}
+	//}
 
 ?>

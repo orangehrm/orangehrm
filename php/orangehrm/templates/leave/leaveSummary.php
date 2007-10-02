@@ -30,6 +30,8 @@
 
  $copyQuota = $modifier[3];
 
+ $broughtForward = $modifier[4];
+
 
  $modifier = $modifier[0];
 
@@ -215,7 +217,7 @@
 	<?php } ?>
 	<?php if ($copyQuota) { ?>
 		<a href="javascript:actCopyLeaveQuota()"><?php echo $lang_Leave_CopyLeaveQuotaFromLastYear; ?></a>
-	<?php } if (!$copyQuota) { ?>
+	<?php } if (!$copyQuota && $broughtForward) { ?>
 		<a href="javascript:actCopyLeaveBroughtForward()"><?php echo $lang_Leave_CopyLeaveBroughtForwardFromLastYear; ?></a>
 	<?php } ?>
 

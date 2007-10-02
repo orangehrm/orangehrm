@@ -390,6 +390,32 @@ class LeaveQuota {
 		return $leaveTypeArr;
 	}
 
+	public function checkBroughtForward ($year) {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$selectTable = "`".self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA."`";
+
+		$selectFields[0] = "SUM(".self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD.")";
+
+		$selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '".$year."'";
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if ($row['SUM(leave_brought_forward)'] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	protected function _buildObjArr($result) {
 
 		$objArr = null;

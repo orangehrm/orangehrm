@@ -668,7 +668,7 @@ class Leave {
 			$tmpLeaveArr->setLeaveId($row['leave_id']);
 
 			if (isset($row['employee_id'])) {
-				$tmpLeaveArr->setEmployeeId($row['employee_id']); // Newly Added
+				$tmpLeaveArr->setEmployeeId($row['employee_id']);
 			}
 
 			if (isset($row['leave_type_name'])) {

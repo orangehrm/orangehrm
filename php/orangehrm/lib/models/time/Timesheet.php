@@ -227,9 +227,11 @@ class Timesheet {
 	 * @param boolean superior	Whether the request is coming from  a supervisor or a HR Admin
 	 * @return boolean Submitted/Not
 	 */
+
 	public function submitTimesheet($superior=false) {
 
 		if (!($superior || ($this->getStatus() == self::TIMESHEET_STATUS_NOT_SUBMITTED) || ($this->getStatus() == self::TIMESHEET_STATUS_REJECTED))) {
+
 			return false;
 		}
 

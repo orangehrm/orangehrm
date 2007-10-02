@@ -314,9 +314,10 @@ function actionDetails() {
 
 	<?php if ($role && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
 	<input src="../../themes/beyondT/icons/reset.gif"
+
 			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
+			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
+			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
 			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
 	<?php } ?>
 
