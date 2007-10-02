@@ -144,7 +144,7 @@ if ($modifier === "SUP") {
     		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
-    		<?php if (($record->getLeaveLengthHours() != null) || ($record->getLeaveLengthHours() != 0)) { ?>
+    		<?php if (($record->getLeaveLengthHours() != null) && ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
   					<?php if ($modifier == null) {
@@ -175,7 +175,7 @@ if ($modifier === "SUP") {
 
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php
-    		echo $record->getLeaveLengthHours();
+    		echo (($record->getLeaveLengthHours() == null) || ($record->getLeaveLengthHours() == 0))?"----":$record->getLeaveLengthHours();
     ?></td>
     <td class="<?php echo $cssClass; ?>">
 		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) || (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP"))) { ?>
