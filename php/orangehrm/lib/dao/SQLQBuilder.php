@@ -102,6 +102,11 @@ class SQLQBuilder {
 			}
 		}
 		$temp = preg_replace(array("/^'/", "/'$/"), array("", ""), trim($value));
+
+		if (get_magic_quotes_gpc()) {
+			$temp=stripslashes($temp);
+		}
+
 		$temp = mysql_real_escape_string(trim($temp));
 
 		if ($quote) {
