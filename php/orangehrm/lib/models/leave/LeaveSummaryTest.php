@@ -82,8 +82,8 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Annual', 0)");
 
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY010', '012', 10);");
-		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY011', '012', 20);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('".date('Y')."', 'LTY010', '012', 10, 5);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('".date('Y')."', 'LTY011', '012', 20, 30);");
 
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY012', '013', 30);");
 
@@ -133,7 +133,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($res, "No records returned");
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
 
-        $expected[] = array("Medical", 10, 0, 10);
+        $expected[] = array("Medical", 10, 5, 5);
         $expected[] = array("Casual", 20, 30, -10);
 
         for ($i=0; $i < count($res); $i++) {
