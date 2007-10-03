@@ -134,7 +134,7 @@ class LeaveSummaryTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($res), 2, "Returned invalid numner of records");
 
         $expected[] = array("Medical", 10, 0, 10);
-        $expected[] = array("Casual", 20, 0, 20);
+        $expected[] = array("Casual", 20, 30, -10);
 
         for ($i=0; $i < count($res); $i++) {
         	$this->assertEquals($res[$i]['leave_type_name'], $expected[$i][0], "Didn't return expected leave_type_name ");

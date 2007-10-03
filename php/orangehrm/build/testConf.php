@@ -14,12 +14,12 @@
 
 	echo $rootPath;
 
-	//if (!defined('ROOT_PATH')) {
+	if (!defined('ROOT_PATH')) {
 	    define('ROOT_PATH', $rootPath);
-	//}
+	}
 
-	//if (!defined('WPATH')) {
+	if (!defined('WPATH')) {
 	    define('WPATH', $webPath);
-	//}
+	}
 
 ?>

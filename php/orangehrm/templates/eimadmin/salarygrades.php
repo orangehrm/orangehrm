@@ -145,7 +145,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
 						    <td nowrap><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
-						    <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' cols="30"></textarea>
+						    <td><input type="text" name="txtSalGrdDesc" size="40" tabindex="3">
 						    </td>
 						  </tr>
 					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
@@ -521,7 +521,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 							  </tr>
 							  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
-							  	  <td> <textarea name='txtSalGrdDesc' rows="3" tabindex='3' disabled cols="30"><?php echo $message[0][1]?></textarea>
+							  	  <td><input type="text" name="txtSalGrdDesc" size="40" tabindex="3" disabled value="<?php echo $message[0][1]?>">
 							    </td>
 							  </tr>
 			<tr>
