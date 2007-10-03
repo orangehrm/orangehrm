@@ -29,6 +29,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1803997   Error in displaying apostrophe
 	1806158   Holidays are not marked in the detailed leave list
 	1803994   Missing dot in warning message
+	1804158   Time - Project Reports - more space needed
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 

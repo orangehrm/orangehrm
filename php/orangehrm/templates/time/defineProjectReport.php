@@ -88,7 +88,7 @@ YAHOO.util.Event.addListener($("frmReport"), "submit", viewProjectReport);
 		</font>
 <?php }	?>
 <form name="frmReport" id="frmReport" method="post" action="?timecode=Time&action=" onsubmit="viewProjectReport(); return false;">
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
 			<th class="tableTopLeft"></th>
