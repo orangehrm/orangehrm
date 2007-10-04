@@ -32,6 +32,9 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1804158   Time - Project Reports - more space needed
 	1806812   Print timesheets - Printing does not work in IE
 	1807331   Leave - incorrect To time automatically calculated
+	1807339   Supervisor cannot cancel assigned leave
+	1807336	  Supervisor cannot cancel leave assigned by HR Admin
+	1807333   HR Admin cannot cancel leave
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 
