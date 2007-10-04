@@ -190,15 +190,15 @@ function printTimeSheets() {
 	}
 
 	if (allLoaded) {
-		popup = window.open('?timecode=Time&action=Print','Printing','height=550,width=750,scrollbars');
+		popup.src = '?timecode=Time&action=Print';
 		popup.parent = window;
 	}
 }
 
 function popAndPrint() {
-	popup.document.getElementById("printArea").innerHTML=$('printPanel').innerHTML;
+	frames['printFrame'].document.getElementById("printArea").innerHTML=$('printPanel').innerHTML;
 	for (i=0; pages>i; i++) {
-		popup.document.getElementById("page"+(i+1)).style.display="block";
+		frames['printFrame'].document.getElementById("page"+(i+1)).style.display="block";
 	}
 }
 
@@ -212,6 +212,7 @@ function init() {
 	for (i=1; pages>i; i++) {
 		loadPage(i+1, true);
 	}
+	popup = new getObj('printFrame').obj;
 }
 
 function goBack() {
@@ -220,27 +221,32 @@ function goBack() {
 
 YAHOO.util.Event.addListener(window, "load", init);
 </script>
-<span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
-<h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
-<?php if ($pages > 0) { ?>
-<div id="controls">
-	<input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;"/>
-	<input type="button" name="btnPrint" id="btnPrint" value="Print" onclick="printTimeSheets();"/>
-</div>
-<?php } ?>
-<div id="navPanel"></div>
-
-<form id="filterTimesheets" name="filterTimesheets" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page">
-	<input type="hidden" name="txtEmpID" id="txtEmpID" value="<?php echo $filterValues[0]; ?>" />
-	<input type="hidden" name="txtLocation" id="txtLocation" value="<?php echo $filterValues[1]; ?>" />
-	<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $filterValues[2]; ?>" />
-	<input type="hidden" name="txtEmploymentStatus" id="txtEmploymentStatus" value="<?php echo $filterValues[3]; ?>" />
-	<input type="hidden" name="txtStartDate" id="txtStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[4]); ?>" />
-	<input type="hidden" name="txtEndDate" id="txtEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>" />
-</form>
-
-<div id="printPanel">
-	<?php for ($i=0; $i<$pages; $i++) { ?>
-		<div id="page<?php echo $i+1; ?>" style="display:none;"></div>
+<div id="nonPrintPanel">
+	<span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
+	<h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
+	<?php if ($pages > 0) { ?>
+	<div id="controls">
+		<input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;"/>
+		<input type="button" name="btnPrint" id="btnPrint" value="Print" onclick="printTimeSheets();"/>
+	</div>
 	<?php } ?>
+	<div id="navPanel"></div>
+
+	<form id="filterTimesheets" name="filterTimesheets" method="post" action="?timecode=Time&action=Print_Timesheet_Get_Page">
+		<input type="hidden" name="txtEmpID" id="txtEmpID" value="<?php echo $filterValues[0]; ?>" />
+		<input type="hidden" name="txtLocation" id="txtLocation" value="<?php echo $filterValues[1]; ?>" />
+		<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $filterValues[2]; ?>" />
+		<input type="hidden" name="txtEmploymentStatus" id="txtEmploymentStatus" value="<?php echo $filterValues[3]; ?>" />
+		<input type="hidden" name="txtStartDate" id="txtStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[4]); ?>" />
+		<input type="hidden" name="txtEndDate" id="txtEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>" />
+	</form>
+
+	<div id="printPanel">
+		<?php for ($i=0; $i<$pages; $i++) { ?>
+			<div id="page<?php echo $i+1; ?>" style="display:none;"></div>
+		<?php } ?>
+	</div>
+</div>
+<div id="printIframePanel" >
+	<iframe id="printFrame" name="printFrame" width="0" height="0" style="border:none;"></iframe>
 </div>

@@ -30,6 +30,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 	1806158   Holidays are not marked in the detailed leave list
 	1803994   Missing dot in warning message
 	1804158   Time - Project Reports - more space needed
+	1806812   Print timesheets - Printing does not work in IE
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.1
 

@@ -18,14 +18,14 @@
  *
  */
 ?>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/archive.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo/yahoo-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/event/event-min.js"></script>
 <script type="text/javascript">
 function init() {
 	parent.popAndPrint();
 
-	window.print();
-	window.close();
+	printPage(window);
 }
 
 YAHOO.util.Event.addListener(window, "load", init);

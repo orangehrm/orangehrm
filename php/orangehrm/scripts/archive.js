@@ -299,3 +299,26 @@
 			selectObj.options[i].selected = true;
 		}
 	}
+
+	function printPage(page) {
+		if (page.print) {
+			page.print() ;
+		} else {
+    		var WebBrowser = '<OBJECT ID="WebBrowser1" WIDTH=0 HEIGHT=0 CLASSID="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2"></OBJECT>';
+			page.document.body.insertAdjacentHTML('beforeEnd', WebBrowser);
+			WebBrowser1.ExecWB(6, 2);//Use a 1 vs. a 2 for a prompting dialog box    WebBrowser1.outerHTML = "";
+		}
+	}
+
+	function getObj(name) {
+		if (document.getElementById) {
+			this.obj = document.getElementById(name);
+			this.style = document.getElementById(name).style;
+		} else if (document.all) {
+			this.obj = document.all[name];
+			this.style = document.all[name].style;
+		} else if (document.layers) {
+			this.obj = document.layers[name];
+			this.style = document.layers[name];
+		}
+}
