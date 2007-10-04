@@ -205,13 +205,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				return false;
 			}
 
-			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format);
-			toTime = fromTime+extractTimeFromHours($('txtLeaveTotalTime').value, YAHOO.OrangeHRM.calendar.format);
+			fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
+			toTime = fromTime+extractTimeFromHours($('txtLeaveTotalTime').value);
 
 			date = new Date();
 			date.setTime(toTime);
 
-			toTimeStr = formatDate(date, "HH:mm");
+			toTimeStr = formatDate(date, YAHOO.OrangeHRM.time.format);
 			options = $('sltLeaveToTime').options;
 
 			for (i=0; options.length>i; i++) {
@@ -228,7 +228,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function extractTimeFromHours(str) {
 		if (str == '') return false;
 
-		format = /^\s*[0-9]{0,2}(\.[0-9]{2}){0,1}\s*$/;
+		format = /^\s*[0-9]{0,2}(\.[0-9]{1,2}){0,1}\s*$/;
 
 		if (!format.test(str)) return false;
 
