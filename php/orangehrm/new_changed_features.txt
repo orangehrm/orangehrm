@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.2.2-alpha.3
+
+	BugId     Name
+	1808010   When entering the "port" for the DB, your maxlength and size
+
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 
 	BugId     Name

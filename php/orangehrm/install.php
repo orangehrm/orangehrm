@@ -105,6 +105,7 @@ if(isset($_POST['actionResponse']))
 
 		case 'DBINFO' : $dbInfo = array( 'dbHostName' => trim($_POST['dbHostName']),
 										 'dbHostPort' => trim($_POST['dbHostPort']),
+										 'dbHostPortModifier' => trim($_POST['dbHostPortModifier']),
 										 'dbName' => trim($_POST['dbName']),
 										 'dbUserName' => trim($_POST['dbUserName']),
 										 'dbPassword' => trim($_POST['dbPassword']));

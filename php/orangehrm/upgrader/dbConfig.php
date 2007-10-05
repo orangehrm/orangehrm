@@ -32,6 +32,21 @@ function disableFields() {
 
 }
 
+function changePortField() {
+	portModifier = document.getElementById('dbHostPortModifier');
+	port = document.getElementById('dbHostPort');
+
+	if (portModifier.value == "port") {
+		port.maxLength = '4';
+		port.size = '4';
+		port.value = "3306";
+	} else if (portModifier.value == "socket") {
+		port.maxLength = '256';
+		port.size = 40;
+		port.value = "socket:/var/lib/mysql/mysql.sock";
+	}
+}
+
 function submitDBInfo() {
 
 	frm = document.frmInstall;
@@ -99,8 +114,17 @@ document.frmInstall.submit();
 	<td class="tdValues"><input type="text" name="dbHostName" value="<?php echo  isset($_SESSION['dbInfo']['dbHostName']) ? $_SESSION['dbInfo']['dbHostName'] : 'localhost'?>" tabindex="1" ></td>
 </tr>
 <tr>
-	<td class="tdComponent">Database Host Port</td>
-	<td class="tdValues"><input type="text" maxlength="4" size="4" name="dbHostPort" value="<?php echo  isset($_SESSION['dbInfo']['dbHostPort']) ? $_SESSION['dbInfo']['dbHostPort'] : '3306'?>" tabindex="2" ></td>
+	<td class="tdComponent">Database Host Port <select name="dbHostPortModifier" id="dbHostPortModifier" onchange="changePortField();">
+											     <option value="port" <?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] != 'port'))?'':'selected'; ?> >Port</option>
+											     <option value="socket" <?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'selected':''; ?> >Socket</option>
+											   </select>
+	</td>
+	<td class="tdValues">
+		<input id="dbHostPort" name="dbHostPort"
+				maxlength="<?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'256':'4'; ?>"
+				size="<?php echo (isset($_SESSION['dbInfo']['dbHostPortModifier']) && ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket'))?'40':'4'; ?>"
+				type="text" value="<?php echo  isset($_SESSION['dbInfo']['dbHostPort']) ? $_SESSION['dbInfo']['dbHostPort'] : '3306'?>"
+				tabindex="2" /></td>
 </tr>
 <tr>
 	<td class="tdComponent">Database Name</td>

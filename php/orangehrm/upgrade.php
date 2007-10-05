@@ -151,8 +151,16 @@ function fetchDbInfo($location) {
 
 		$confObj = new Conf();
 
+		$portModifier = split(':', $confObj->dbport);
+		if (count($portModifier) > 1) {
+			$portModifier = $portModifier[0];
+		} else {
+			$portModifier = 'port';
+		}
+
 		$dbInfo = array( 'dbHostName' => $confObj->dbhost,
 					 	 'dbHostPort' => $confObj->dbport,
+					 	 'dbHostPortModifier' => $portModifier,
 					 	 'dbName' => $confObj->dbname,
 					 	 'dbOHRMUserName' => $confObj->dbuser,
 					 	 'dbOHRMPassword' => $confObj->dbpass
@@ -184,6 +192,7 @@ function fetchDbInfo($location) {
 function extractDbInfo() {
 	$dbInfo = array('dbHostName' => trim($_POST['dbHostName']),
 					'dbHostPort' => trim($_POST['dbHostPort']),
+					'dbHostPortModifier' => trim($_POST['dbHostPortModifier']),
 					'dbName' => trim($_POST['dbName']),
 					'dbUserName' => trim($_POST['dbUserName']),
 					'dbPassword' => trim($_POST['dbPassword']));
