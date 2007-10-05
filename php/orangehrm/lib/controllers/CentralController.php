@@ -22,6 +22,8 @@ ob_start();
 
 session_start();
 
+$_SESSION['posted'] = false;
+
 if(!isset($_SESSION['fname'])) {
 
 	header("Location: ../../login.php");
@@ -104,11 +106,13 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveRequests.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveReport.php';
 
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Workshift.php';
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Delay.php';
 
 //leave modules extractorss go here
 
@@ -146,7 +150,7 @@ switch ($moduletype) {
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
 	case 'rep'		:	$locRights = $rights->getRights($_SESSION['userGroup'],REP); break;
 	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
-	case 'timeMod'		:	$locRights = $rights->getRights($_SESSION['userGroup'],TIMEMOD); break;
+	case 'timeMod'	:	$locRights = $rights->getRights($_SESSION['userGroup'],TIMEMOD); break;
 }
 
 if(!is_array($locRights) && $locRights == false)
@@ -1083,6 +1087,7 @@ switch ($moduletype) {
 												$leaveQuotaExtractor 	 = new EXTRACTOR_LeaveQuota();
 												$holidaysExtractor   	 = new EXTRACTOR_Holidays();
 												$weekendsExtractor   	 = new EXTRACTOR_Weekends();
+												$leaveReportExtractor	 = new EXTRACTOR_LeaveReport();
 
 												switch ($_GET['action']) {
 													case 'Leave_HomeSupervisor'		:	$leaveController->setId($_SESSION['empID']);
@@ -1308,6 +1313,13 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect("");
 																						break;
+													case 'Leave_Report_Define'		:  	$leaveController->viewDefineLeaveReport();
+																						break;
+
+													case 'Leave_Report_View'		:  	$obj = $leaveReportExtractor->parseReportData($_POST);
+																						$leaveController->setObjLeave($obj);
+																						$leaveController->viewLeaveReport();
+																						break;
 
 													case 'Holiday_Specific_List'	:	$leaveController->viewHoliday();
 																						break;
@@ -1373,6 +1385,7 @@ switch ($moduletype) {
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 												$timesheetSubmissionPeriodExtractor = new EXTRACTOR_TimesheetSubmissionPeriod();
 												$workShiftExtractor = new EXTRACTOR_Workshift();
+												$delayExtractor = new EXTRACTOR_Delay();
 
 												$current=false;
 												$punchIn=false;
@@ -1497,9 +1510,23 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->viewActivityReport();
 																					break;
-													case 'Select_Timesheets_View':	$timeController->viewSelectTimesheet();
+													case 'Select_Timesheets_View':	if (isset($_GET['cache'])) {
+																						$_SESSION['posted'] = true;
+																					}
+																					$timeController->viewSelectTimesheet();
 																					break;
-													case 'Timesheet_Print_Preview' :$filterValues = array($_POST['cmbUserEmpID'],
+													case 'Timesheet_Print_Preview' :$_SESSION['txtUserEmpID'] = $_POST['txtUserEmpID'];
+																					$_SESSION['cmbUserEmpID'] = $_POST['cmbUserEmpID'];
+																					$_SESSION['txtLocation'] = $_POST['txtLocation'];
+																					$_SESSION['cmbLocation'] = $_POST['cmbLocation'];
+																					$_SESSION['cmbRepEmpID'] = $_POST['cmbRepEmpID'];
+																					$_SESSION['txtRepEmpID'] = $_POST['txtRepEmpID'];
+																					$_SESSION['cmbEmploymentStatus'] = $_POST['cmbEmploymentStatus'];
+																					$_SESSION['txtStartDate'] = $_POST['txtStartDate'];
+																					$_SESSION['txtEndDate'] = $_POST['txtEndDate'];
+
+																					$filterValues = array($_POST['cmbUserEmpID'],
+
 																										  $_POST['cmbLocation'],
 																										  $_POST['txtRepEmpID'],
 																										  $_POST['cmbEmploymentStatus']);
@@ -1517,6 +1544,11 @@ switch ($moduletype) {
 																					break;
 													case 'Print'				   :$timeController->showPrint();
 																					break;
+													case 'Mark_Delayed_View'	: $timeController->viewMarkDelayed();
+																				  break;
+													case 'Save_Mark_Delayed'	: $delay = $delayExtractor->parseAddData($_POST);
+																				  $timeController->saveMarkDelayed($delay);
+																				  break;
 												}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);

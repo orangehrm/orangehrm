@@ -205,7 +205,8 @@ function popAndPrint() {
 function init() {
 	if (pages == 0) {
 		$("loadingMessage").style.display="none";
-		$("printPanel").innerHTML = "<?php echo $lang_Error_NoRecordsFound; ?>";
+		<?php $backButton = "<input type=image title=Back onMouseOut=this.src='../../themes/beyondT/pictures/btn_back.jpg'; onMouseOver=this.src='../../themes/beyondT/pictures/btn_back_02.jpg';  src=../../themes/beyondT/pictures/btn_back.jpg onClick=goBack(); return false;/>"; ?>
+		$("printPanel").innerHTML = "<?php echo "<br><br>" . $lang_Error_NoRecordsFound . "<br><br>" . $backButton; ?>";
 		return false;
 	}
 	loadPage(1, false);
@@ -216,7 +217,7 @@ function init() {
 }
 
 function goBack() {
-	window.location=commonAction+"Select_Timesheets_View";
+	window.location=commonAction+"Select_Timesheets_View&cache=set";
 }
 
 YAHOO.util.Event.addListener(window, "load", init);

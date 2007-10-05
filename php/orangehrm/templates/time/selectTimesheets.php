@@ -19,6 +19,7 @@
  */
 
 $employmentStatuses = $records[0];
+
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
@@ -67,6 +68,20 @@ function validate() {
 
 	return true;
 }
+
+function formReset() {
+	document.frmEmp.txtUserEmpID.value = "<?php echo $lang_Time_Common_All; ?>";
+	document.frmEmp.cmbUserEmpID.value = "-1";
+	document.frmEmp.txtLocation.value = "<?php echo $lang_Time_Common_All; ?>";
+	document.frmEmp.cmbLocation.value = "-1";
+	document.frmEmp.cmbRepEmpID.value = "<?php echo $lang_Time_Common_All; ?>";
+	document.frmEmp.txtRepEmpID.value = "-1";
+	document.frmEmp.txtStartDate.value = "";
+	document.frmEmp.txtEndDate.value = "";
+	var statusDefault = document.getElementById("statusDefault");
+	statusDefault.selected = true;
+}
+
 YAHOO.OrangeHRM.container.init();
 </script>
 <h2>
@@ -90,8 +105,8 @@ YAHOO.OrangeHRM.container.init();
 			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
-				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo $lang_Time_Common_All; ?>" readonly />
-				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="-1" />
+				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo (isset($_SESSION['txtUserEmpID']) && $_SESSION['posted'])?$_SESSION['txtUserEmpID']:$lang_Time_Common_All; ?>" readonly />
+				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'])?$_SESSION['cmbUserEmpID']:"-1"; ?>" />
 				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -101,8 +116,8 @@ YAHOO.OrangeHRM.container.init();
 			<td><?php echo $lang_Time_Division; ?></td>
 			<td></td>
 			<td>
-			  <input type="text" id="txtLocation" name="txtLocation" value="<?php echo $lang_Time_Common_All; ?>" readonly />
-			  <input type="hidden" id="cmbLocation" name="cmbLocation" value="-1" />
+			  <input type="text" id="txtLocation" name="txtLocation" value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />
+			  <input type="hidden" id="cmbLocation" name="cmbLocation" value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
 			  <input type="button" id="popLoc" name="popLoc" value="..." onclick="returnLocDet();" />
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -111,8 +126,8 @@ YAHOO.OrangeHRM.container.init();
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Time_Supervisor; ?></td>
 			<td></td>
-			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo $lang_Time_Common_All; ?>" readonly />
-				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="-1" />
+			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" readonly />
+				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
 				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();"
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -124,13 +139,13 @@ YAHOO.OrangeHRM.container.init();
 			<td>
 				<select name="cmbEmploymentStatus">
 			<?php if (is_array($employmentStatuses)) { ?>
-					<option value="-1"><?php echo $lang_Time_Common_All; ?></option>
+					<option value="-1" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-1")?"selected":""; ?> id="statusDefault"><?php echo $lang_Time_Common_All; ?></option>
 				<?php foreach ($employmentStatuses as $employmentStatus) { ?>
-					<option value="<?php echo $employmentStatus[0]; ?>"><?php echo $employmentStatus[1]; ?></option>
+					<option value="<?php echo $employmentStatus[0]; ?>" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == $employmentStatus[0])?"selected":""; ?>><?php echo $employmentStatus[1]; ?></option>
 				<?php }
 				 } else {
 			?>
-				    <option value="-2">- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
+				    <option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
 			<?php } ?>
 				</select>
 			</td>
@@ -141,8 +156,8 @@ YAHOO.OrangeHRM.container.init();
 			<td ><?php echo $lang_Time_Common_FromDate; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtStartDate" name="txtStartDate" value="" size="10"/>
-				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>
+				<input type="text" id="txtStartDate" name="txtStartDate" value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
+>				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -151,7 +166,7 @@ YAHOO.OrangeHRM.container.init();
 			<td ><?php echo $lang_Time_Common_ToDate; ?></td>
 			<td ></td>
 			<td >
-				<input type="text" id="txtEndDate" name="txtEndDate" value="" size="10"/>
+				<input type="text" id="txtEndDate" name="txtEndDate" value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
 				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -162,11 +177,11 @@ YAHOO.OrangeHRM.container.init();
 			<td></td>
 			<td>
 				<input type="image" name="btnView" alt="View"
-					   src="../../themes/beyondT/icons/view.gif"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
+					   src="../../themes/beyondT/icons/view.jpg"
+					   onmouseover="this.src='../../themes/beyondT/icons/view_o.jpg';"
+					   onmouseout="this.src='../../themes/beyondT/icons/view.jpg';" />
 				<input type="image" name="btnReset" alt="Reset"
-					   onclick="$('frmTimesheet').reset(); return false;"
+					   onclick="formReset(); return false;"
 					   src="../../themes/beyondT/icons/reset.gif"
 					   onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
 					   onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" />
