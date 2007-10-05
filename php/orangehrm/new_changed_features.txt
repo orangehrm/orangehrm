@@ -2,6 +2,7 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.3
 
 	BugId     Name
 	1808010   When entering the "port" for the DB, your maxlength and size
+	1807298   Gary out fields can not being seen. It’s very light.
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 

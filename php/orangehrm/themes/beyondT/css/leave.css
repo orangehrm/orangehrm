@@ -175,6 +175,7 @@ tbody td, tbody th {
 
 *:not([type=image]):disabled {
 	background-color: #F6F4F1;
+	color: #666562;
 }
 
 input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
