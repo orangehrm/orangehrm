@@ -119,7 +119,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			} else if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
-			} else if (($('sltLeaveFromTime').value == '') || ($('sltLeaveToTime').value == '')) {
+			} else if (($('sltLeaveFromTime').value == '' || $('sltLeaveToTime').value == '') && $('txtLeaveTotalTime').value == '') {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
 			}
