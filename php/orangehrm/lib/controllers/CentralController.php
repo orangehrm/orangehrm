@@ -106,13 +106,11 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveRequests.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
-require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveReport.php';
 
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Workshift.php';
-require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Delay.php';
 
 //leave modules extractorss go here
 
@@ -1087,7 +1085,6 @@ switch ($moduletype) {
 												$leaveQuotaExtractor 	 = new EXTRACTOR_LeaveQuota();
 												$holidaysExtractor   	 = new EXTRACTOR_Holidays();
 												$weekendsExtractor   	 = new EXTRACTOR_Weekends();
-												$leaveReportExtractor	 = new EXTRACTOR_LeaveReport();
 
 												switch ($_GET['action']) {
 													case 'Leave_HomeSupervisor'		:	$leaveController->setId($_SESSION['empID']);
@@ -1313,14 +1310,6 @@ switch ($moduletype) {
 																						}
 																						$leaveController->redirect("");
 																						break;
-													case 'Leave_Report_Define'		:  	$leaveController->viewDefineLeaveReport();
-																						break;
-
-													case 'Leave_Report_View'		:  	$obj = $leaveReportExtractor->parseReportData($_POST);
-																						$leaveController->setObjLeave($obj);
-																						$leaveController->viewLeaveReport();
-																						break;
-
 													case 'Holiday_Specific_List'	:	$leaveController->viewHoliday();
 																						break;
 
@@ -1385,7 +1374,6 @@ switch ($moduletype) {
 												$timeEventExtractor = new EXTRACTOR_TimeEvent();
 												$timesheetSubmissionPeriodExtractor = new EXTRACTOR_TimesheetSubmissionPeriod();
 												$workShiftExtractor = new EXTRACTOR_Workshift();
-												$delayExtractor = new EXTRACTOR_Delay();
 
 												$current=false;
 												$punchIn=false;
@@ -1544,12 +1532,7 @@ switch ($moduletype) {
 																					break;
 													case 'Print'				   :$timeController->showPrint();
 																					break;
-													case 'Mark_Delayed_View'	: $timeController->viewMarkDelayed();
-																				  break;
-													case 'Save_Mark_Delayed'	: $delay = $delayExtractor->parseAddData($_POST);
-																				  $timeController->saveMarkDelayed($delay);
-																				  break;
-												}
+													}
 											} else {
 												trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 											}
