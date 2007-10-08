@@ -809,7 +809,7 @@ class EmpViewController {
 			$emprepto = $object;
 			if($action == 'ADD') {
 				if ($emprepto->getEmpSupId() == $emprepto->getEmpSubId()) {
-					$_GET['message']="ADD_FAILURE";
+					$_GET['message']="SELF_SUPERVISOR_FAILURE";
 					return false;
 				}
 
