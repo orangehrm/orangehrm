@@ -437,8 +437,11 @@ class Timesheet {
 
         $selectConditions = null;
 
-        $selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
-
+		if ($employeeIds != null) {
+        	$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
+		} else {
+			return 0; // If no empoyee is there, no need to continue in querying.
+		}
 		if ($this->getTimesheetPeriodId() != null) {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."` = {$this->getTimesheetPeriodId()}";
 		}

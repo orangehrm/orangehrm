@@ -128,7 +128,7 @@ YAHOO.OrangeHRM.container.init();
 			<td></td>
 			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" readonly />
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
-				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();"
+				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();" />
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -157,7 +157,7 @@ YAHOO.OrangeHRM.container.init();
 			<td ></td>
 			<td >
 				<input type="text" id="txtStartDate" name="txtStartDate" value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
->				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>
+				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
