@@ -122,6 +122,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			} else if (($('sltLeaveFromTime').value == '' || $('sltLeaveToTime').value == '') && $('txtLeaveTotalTime').value == '') {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
+			} else if (!numeric($('txtLeaveTotalTime'))) {
+				err = true;
+				msg += " - <?php echo $lang_Error_NonNumericHours; ?>\n"
 			}
 		}
 
@@ -263,6 +266,28 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	YAHOO.OrangeHRM.container.init();
 	YAHOO.util.Event.addListener(window, "load", init);
+
+	function numeric(txt) {
+		var flag=true;
+		var i,code;
+
+		if(txt.value=="") {
+   			return false;
+		}
+
+		for(i=0;txt.value.length>i;i++) {
+			code=txt.value.charCodeAt(i);
+   			if(code>=48 && code<=57 || code==46) {
+	   			flag=true;
+			} else {
+	   			flag=false;
+	   			break;
+	   		}
+		}
+	return flag;
+	}
+
+
 </script>
 <h2>
 	<?php

@@ -53,6 +53,8 @@
 
 	$lang_Error_InvalidDate 						= "Invalid date";
 
+	$lang_Error_NonNumericHours						= "Number of hours should be numeric";
+
 	//PIM
 	$lang_Error_LastNameNumbers						= "Last Name contains numbers. Do you want to continue?";
 	$lang_Error_FirstNameNumbers					= "First Name contains numbers. Do you want to continue?";
