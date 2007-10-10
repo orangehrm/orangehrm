@@ -3,6 +3,10 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.3
 	BugId     Name
 	1808010   When entering the "port" for the DB, your maxlength and size
 	1807298   Gary out fields can not being seen. It’s very light.
+	1807890   Report to : Employee report to himself : Failed to Add
+	1809332   Leave apply, Total hours can be space
+	1809926   Print Time sheet , selecting a division thrown an error
+	1809927   Print Timesheet: Back button not viewd
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 

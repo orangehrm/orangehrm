@@ -205,7 +205,7 @@ function popAndPrint() {
 function init() {
 	if (pages == 0) {
 		$("loadingMessage").style.display="none";
-		<?php $backButton = "<input type=image title=Back onMouseOut=this.src='../../themes/beyondT/pictures/btn_back.gif'; onMouseOver=this.src='../../themes/beyondT/pictures/btn_back_02.gif';  src=../../themes/beyondT/pictures/btn_back.jpg onClick=goBack(); return false;/>"; ?>
+		<?php $backButton = "<input type=image title=Back onMouseOut=this.src='../../themes/beyondT/pictures/btn_back.gif'; onMouseOver=this.src='../../themes/beyondT/pictures/btn_back_02.gif';  src=../../themes/beyondT/pictures/btn_back.gif onClick=goBack(); return false;/>"; ?>
 		$("printPanel").innerHTML = "<?php echo "<br><br>" . $lang_Error_NoRecordsFound . "<br><br>" . $backButton; ?>";
 		return false;
 	}
