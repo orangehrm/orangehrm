@@ -110,6 +110,10 @@ class LeaveController {
 				case "employee": $this->setObjLeave(new LeaveRequests());
 								 $this->_viewLeavesEmployee($details);
 								 break;
+				case "admin": 	$this->setObjLeave(new LeaveRequests());
+								$this->_viewLeavesAdmin($details);
+								break;
+
 				case "suprevisor": 	$this->setObjLeave(new LeaveRequests());
 								 	$this->_viewLeavesSupervisor($details);
 								 	break;
@@ -300,6 +304,26 @@ class LeaveController {
 		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);
 
 		return true;
+	}
+
+	private function _viewLeavesAdmin($details) {
+		$tmpObj = $this->getObjLeave();
+
+		if (!$details) {
+			$tmpObj = $tmpObj->retriveLeaveRequestsAdmin();
+			$path = "/templates/leave/leaveRequestList.php";
+		} else {
+			$this->_authenticateViewLeaveDetails();
+			$tmpObj = $tmpObj->retrieveLeave($this->getId());
+			$path = "/templates/leave/leaveList.php";
+		}
+
+		$template = new TemplateMerger($tmpObj, $path);
+
+		$modifiers[] = "SUP";
+
+		$template->display($modifiers);
+		$template->display();
 	}
 
 	/**
@@ -608,6 +632,10 @@ class LeaveController {
 
 		if ($status != $this->getObjLeave()->statusLeaveCancelled) {
 			$id = $this->getObjLeave()->getEmployeeId();
+		}
+
+		if ($this->authorize->isAdmin()) {
+			return;
 		}
 
 		if (isset($id)) {

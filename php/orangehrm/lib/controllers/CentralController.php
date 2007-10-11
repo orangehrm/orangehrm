@@ -1094,10 +1094,12 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves();
 																						break;
 
+													case 'Leave_FetchLeaveAdmin'	: 	$leaveController->setId($_SESSION['empID']);
+																						$leaveController->viewLeaves("admin");
+																						break;
 													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
-
 													case 'Leave_FetchDetailsEmployee':	$leaveController->setId($_REQUEST['id']);
 																						$leaveController->viewLeaves("employee", null, true);
 																						break;

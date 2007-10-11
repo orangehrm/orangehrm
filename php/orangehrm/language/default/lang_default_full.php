@@ -292,6 +292,7 @@
 	$lang_Leave_Common_Recurring 			= "Repeats annually";
 
  	$lang_Leave_Leave_list_Title1 			= "Approve Leave";
+ 	$lang_Leave_all_emplyee_leaves			= "All Employee Leaves";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 			= "Leaves Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";

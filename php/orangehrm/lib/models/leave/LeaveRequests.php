@@ -114,6 +114,32 @@ class LeaveRequests extends Leave {
 		return $leaveArr;
 	}
 
+	public function retriveLeaveRequestsAdmin() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'a.`leave_type_name`';
+		$arrFields[1] = 'a.`leave_request_id`';
+		$arrFields[2] = 'd.`emp_firstname`';
+		$arrFields[3] = 'a.`employee_id`';
+		$arrFields[4] = 'd.`emp_lastname`';
+
+		$arrTables[0] = "`hs_hr_leave_requests` a";
+		$arrTables[1] = "`hs_hr_employee` d";
+
+		$joinConditions[1] = "a.`employee_id` = d.`emp_number`";
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection -> executeQuery($query);
+
+		$leaveArr = $this->_buildObjArr($result, true);
+
+		return $leaveArr;
+	}
+
 	/**
 	 * Retrieves Leave Request Details of all leave that have been applied for but
 	 * not yet taken by all supervisor's subordinates.

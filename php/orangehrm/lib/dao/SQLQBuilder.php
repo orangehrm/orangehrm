@@ -1055,7 +1055,7 @@ function getCurrencyAssigned($salgrd) {
 	/**
 	 * Select from multiple tables
 	 */
-	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null, $groupBy = null) {
+	function selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions = null, $joinTypes = null, $selectOrderBy = null, $selectOrder = null, $selectLimit = null, $groupBy = null) {
 
 		if (!isset($joinTypes)) {
 			$joinTypes = array_fill(1, count($arrTables)-1, "LEFT");
