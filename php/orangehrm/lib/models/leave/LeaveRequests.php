@@ -103,8 +103,6 @@ class LeaveRequests extends Leave {
 
 		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[1], 'ASC');
 
-		//echo $query."\n";
-
 		$dbConnection = new DMLFunctions();
 
 		$result = $dbConnection -> executeQuery($query);
@@ -120,14 +118,14 @@ class LeaveRequests extends Leave {
 
 		$arrFields[0] = 'a.`leave_type_name`';
 		$arrFields[1] = 'a.`leave_request_id`';
-		$arrFields[2] = 'd.`emp_firstname`';
+		$arrFields[2] = 'b.`emp_firstname`';
 		$arrFields[3] = 'a.`employee_id`';
-		$arrFields[4] = 'd.`emp_lastname`';
+		$arrFields[4] = 'b.`emp_lastname`';
 
 		$arrTables[0] = "`hs_hr_leave_requests` a";
-		$arrTables[1] = "`hs_hr_employee` d";
+		$arrTables[1] = "`hs_hr_employee` b";
 
-		$joinConditions[1] = "a.`employee_id` = d.`emp_number`";
+		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions);
 
@@ -167,7 +165,40 @@ class LeaveRequests extends Leave {
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
-		//echo $query."\n";
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection -> executeQuery($query);
+
+		$leaveArr = $this->_buildObjArr($result, true);
+
+		return $leaveArr;
+	}
+
+/**
+ * This retrives alreadyt taken leaves.
+ */
+
+	public function retriveLeaveTaken() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = 'a.`leave_id`';
+		$arrFields[1] = 'a.`leave_date`';
+		$arrFields[2] = 'b.`emp_firstname`';
+		$arrFields[3] = 'b.`emp_lastname`';
+		$arrFields[4] = 'a.`leave_length_hours`';
+		$arrFields[5] = 'a.`leave_comments`';
+		$arrFields[6] = 'a.`leave_type_id`';
+		$arrFields[7] = 'a.`employee_id`';
+
+		$arrTables[0] = "`hs_hr_leave` a";
+		$arrTables[1] = "`hs_hr_employee` b";
+
+		$joinConditions[1] = "a.`employee_id` = b.`employee_id`";
+
+		$selectConditions[1] = "a.`leave_status` = '3'";
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
 		$dbConnection = new DMLFunctions();
 
@@ -380,12 +411,9 @@ class LeaveRequests extends Leave {
 		$changeValues[0] = $this->getLeaveStatus();
 		$changeValues[1] = "'".$this->getLeaveComments()."'";
 
-		//print_r($changeValues);
 		$updateConditions[0] = "`leave_request_id` = ".$this->getLeaveRequestId();
 
 		$query = $sqlBuilder->simpleUpdate($table, $changeFields, $changeValues, $updateConditions);
-
-		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 

@@ -173,6 +173,7 @@
 	$lang_Leave_APPROVE_SUCCESS = "Leave Assigned";
 	$lang_Leave_APPROVE_FAILURE = "Leave Assign failed";
 	$lang_Leave_CANCEL_SUCCESS = "Successfully cancelled";
+	$lang_Leave_CANCEL_FAILURE = "Cancellation failed";
 	$lang_Leave_CHANGE_STATUS_SUCCESS = "Successfully changed the leave status";
 
 	// Report
@@ -262,6 +263,7 @@
 	$lang_Leave_Common_Comment 				= "Comment";
 	$lang_Leave_Common_Approved 			= "Approved";
 	$lang_Leave_Common_Cancelled 			= "Cancelled";
+	$lang_Leave_Common_Cancel 				= "Cancel";
 	$lang_Leave_Common_PendingApproval 		= "Pending Approval";
 	$lang_Leave_Common_Rejected 			= "Rejected";
 	$lang_Leave_Common_Taken 				= "Taken";
@@ -292,10 +294,13 @@
 	$lang_Leave_Common_Recurring 			= "Repeats annually";
 
  	$lang_Leave_Leave_list_Title1 			= "Approve Leave";
- 	$lang_Leave_all_emplyee_leaves			= "All Employee Leaves";
+ 	$lang_Leave_all_emplyee_leaves			= "Scheduled Leaves";
+ 	$lang_Leave_all_emplyee_taken_leaves	= "Taken Leaves";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 			= "Leaves Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";
+	$lang_Leave_Leave_list_Title4 			= "Scheduled Leaves";
+	$lang_Leave_Leave_list_Title5 			= "Taken Leaves";
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #employeeName for #dispYear";
@@ -307,10 +312,11 @@
 	$lang_Leave_Leave_Holiday_Specific_Title = "Define Days Off : Specific Holidays";
 	$lang_Leave_Leave_Holiday_Weeked_Title 	= "Define Days Off : Weekend";
 	$lang_Leave_Summary_Deleted_Types_Shown = "Denotes deleted leave types.";
-        $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
+    $lang_Leave_Summary_Deleted_Types_MoreInfo = "Deleted leave types are shown here if employees have used these leave types before they were deleted. Deleted leave types are retained in the system but cannot be used for new leave requests.";
 
 	$lang_Leave_Holiday = "Holiday";
 	$lang_Leave_NoOfDays = "No of Days";
+	$lang_Leave_NoOfHours = "No of Hours";
 	$lang_Leave_Period = "Leave Period";
 
 	$lang_Leave_Define_IsDeletedName  	= "Deleted Leave Type exists with the same name.";

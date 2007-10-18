@@ -27,6 +27,7 @@ require_once ROOT_PATH . '/lib/models/leave/LeaveSummary.php';
 require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 require_once ROOT_PATH . '/lib/models/leave/mail/MailNotifications.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveTakenRequests.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
@@ -320,10 +321,10 @@ class LeaveController {
 
 		$template = new TemplateMerger($tmpObj, $path);
 
-		$modifiers[] = "SUP";
+		$modifiers[] = "ADMIN";
 
 		$template->display($modifiers);
-		$template->display();
+
 	}
 
 	/**
@@ -956,6 +957,39 @@ class LeaveController {
 		$modifier = $edit;
 
 		$template->display($modifier);
+	}
+
+	public function viewTakenLeaves() {
+
+		$tmpObj = new LeaveTakenRequests();
+
+		$tmpObj = $tmpObj->retriveLeaveTaken();
+		$path = "/templates/leave/leaveTakenList.php";
+
+		$template = new TemplateMerger($tmpObj, $path);
+
+		$template->display();
+
+	}
+
+	public function updateTakenLeaves($objArr) {
+
+		$failiure = 0;
+		$noofexecutions = 0;
+
+		foreach ($objArr as $obj) {
+			$leaveObj = new LeaveTakenRequests();
+			if (!$leaveObj->cancelLeaveTaken($obj) || !$leaveObj->changeTakenLeaveQuota($obj)) {
+				$failiure++;
+			}
+		}
+
+		if ($failiure > 0) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 
 }

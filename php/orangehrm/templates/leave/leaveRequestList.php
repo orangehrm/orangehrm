@@ -31,16 +31,17 @@
 
  	$records = $records[0];
  }
-
-if ($modifier === "SUP") {
- $lang_Title = $lang_Leave_Leave_list_Title1;
+if ($modifier === "ADMIN") {
+	$lang_Title = $lang_Leave_Leave_list_Title4;
+} else if ($modifier === "SUP") {
+	$lang_Title = $lang_Leave_Leave_list_Title1;
 } else if ($modifier === "Taken") {
- $lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
+	$lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
 } else {
- $lang_Title = $lang_Leave_Leave_list_Title3;
+	$lang_Title = $lang_Leave_Leave_list_Title3;
 }
 
- if ($modifier === "SUP") {
+ if ($modifier === "SUP" || $modifier === "ADMIN") {
  	$action = "Leave_Request_ChangeStatus";
  	$detailAction = "Leave_FetchDetailsSupervisor";
  } else {
@@ -73,15 +74,13 @@ if ($modifier === "SUP") {
 	} else {
 ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
-<p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="history.back(); return false;">
-</p>
+
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
 		<th class="tableTopLeft"></th>
     	<th class="tableTopMiddle"></th>
-    	<?php if ($modifier == "SUP") { ?>
+    	<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     	<th class="tableTopMiddle"></th>
     	<?php } ?>
     	<th class="tableTopMiddle"></th>
@@ -94,7 +93,7 @@ if ($modifier === "SUP") {
 	<tr>
 		<th class="tableMiddleLeft"></th>
     	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
-    	<?php if ($modifier == "SUP") { ?>
+    	<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
     	<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfDays;?></th>
@@ -127,7 +126,7 @@ if ($modifier === "SUP") {
   <tr>
   	<td class="tableMiddleLeft"></td>
     <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
-    <?php if ($modifier == "SUP") { ?>
+    <?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>
     <td class="<?php echo $cssClass; ?>"><?php echo round($record->getNoDays(),2); ?></td>
@@ -137,7 +136,7 @@ if ($modifier === "SUP") {
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
 
-    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
+    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveRequestId(); ?>" />
     			<?php if (($record->getLeaveLengthHours() != null) || ($record->getLeaveLengthHours() != 0)) { ?>
@@ -150,7 +149,7 @@ if ($modifier === "SUP") {
   							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
   					<?php 		}
   							}
-  						} else if ($modifier == "SUP") {
+  						} else if ($modifier == "SUP" || $modifier == "ADMIN") {
 		  					foreach($suprevisorRespArr as $key => $value) {
 		  						if ($key != $record->getLeaveStatus()) {
   					?>
@@ -165,7 +164,7 @@ if ($modifier === "SUP") {
   				<?php }?>
     	<?php
     		} else if ($record->getLeaveStatus() != null) {
-    			echo $statusArr[$record->getLeaveStatus()];
+     			echo $statusArr[$record->getLeaveStatus()];
     		}
 
 
@@ -195,7 +194,7 @@ if ($modifier === "SUP") {
 		if (($modifier != null) && ($modifier == "Taken")) {
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
-	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) { ?>
+	<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN"))) { ?>
 		<input type="text" <?php echo $inputType; ?> name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved)) { ?>
@@ -214,7 +213,7 @@ if ($modifier === "SUP") {
   	<tr>
 		<td class="tableBottomLeft"></td>
 		<td class="tableBottomMiddle"></td>
-		<?php if ($modifier == "SUP") { ?>
+		<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     	<td class="tableBottomMiddle"></td>
     	<?php } ?>
 		<td class="tableBottomMiddle"></td>

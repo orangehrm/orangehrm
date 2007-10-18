@@ -562,6 +562,7 @@ function preloadAllImages() {
 							if ($authorizeObj->isAdmin()) {
 						?>
 						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin" target="rightMenu"><?php echo $lang_Leave_all_emplyee_leaves; ?> </a></li>
+						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveTaken" target="rightMenu"><?php echo $lang_Leave_all_emplyee_taken_leaves; ?> </a></li>
   						<?php } ?>
   					</ul>
 			</TD>

@@ -103,6 +103,7 @@ require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Leave.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveType.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveQuota.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveRequests.php';
+require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_LeaveTakenRequests.php';
 
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Holidays.php';
 require_once ROOT_PATH . '/lib/extractor/leave/EXTRACTOR_Weekends.php';
@@ -1081,6 +1082,7 @@ switch ($moduletype) {
 												$leaveController 	 	 = new LeaveController();
 												$leaveExtractor 	 	 = new EXTRACTOR_Leave();
 												$leaveRequestsExtractor  = new EXTRACTOR_LeaveRequests();
+												$leaveTakenExtractor = new EXTRACTOR_LeaveTakenRequests();
 												$LeaveTypeExtractor  	 = new EXTRACTOR_LeaveType();
 												$leaveQuotaExtractor 	 = new EXTRACTOR_LeaveQuota();
 												$holidaysExtractor   	 = new EXTRACTOR_Holidays();
@@ -1100,6 +1102,10 @@ switch ($moduletype) {
 													case 'Leave_FetchLeaveSupervisor': 	$leaveController->setId($_SESSION['empID']);
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
+													case 'Leave_FetchLeaveTaken'	: 	//$leaveController->setId($_SESSION['empID']);
+																						$leaveController->viewTakenLeaves();
+																						break;
+
 													case 'Leave_FetchDetailsEmployee':	$leaveController->setId($_REQUEST['id']);
 																						$leaveController->viewLeaves("employee", null, true);
 																						break;
@@ -1207,6 +1213,16 @@ switch ($moduletype) {
 																						$leaveController->sendCancelledLeaveNotification($objs);
 																						$leaveController->redirect("");
 																						break;
+
+													case 'Leave_CancelTakenLeaves' 	:	$objArr = $leaveTakenExtractor->parseUpdateData($_POST);
+																						if ($leaveController->updateTakenLeaves($objArr)) {
+																							$leaveController->redirect("Success");
+																						} else {
+																							$leaveController->redirect("Failiure");
+																						}
+
+																						break;
+
 													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						$objx=false;
