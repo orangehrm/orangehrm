@@ -1240,7 +1240,7 @@ switch ($moduletype) {
 																						$leaveController->redirect("");
 																						break;
 
-													case "Leave_Request_ChangeStatus": 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
+													case 'Leave_Request_ChangeStatus': 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
 																						$mes = "Empty record";
 																						if (isset($objs))
 																						foreach ($objs as $obj) {

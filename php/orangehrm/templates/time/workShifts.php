@@ -225,9 +225,9 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 		?>
 			<tr>
 				<td class="tableMiddleLeft"></td>
-		    	<td class="<?php echo $cssClass; ?>"><input type="checkbox" id="deleteShift[]" name="deleteShift[]" value="<?php echo $workshift->getWorkshiftId(); ?>" /></td>
-		    	<td class="<?php echo $cssClass; ?>"><a href="?timecode=Time&action=View_Edit_Work_Shift&id=<?php echo $workshift->getWorkshiftId(); ?>"><?php echo $workshift->getName(); ?></a></td>
-		    	<td class="<?php echo $cssClass; ?>"><?php echo $workshift->getHoursPerDay(); ?></td>
+		    	<td class="<?php echo $cssClass; ?>" valign="middle"><input type="checkbox" id="deleteShift[]" name="deleteShift[]" value="<?php echo $workshift->getWorkshiftId(); ?>" /></td>
+		    	<td class="<?php echo $cssClass; ?>" valign="middle"><a href="?timecode=Time&action=View_Edit_Work_Shift&id=<?php echo $workshift->getWorkshiftId(); ?>"><?php echo $workshift->getName(); ?></a></td>
+		    	<td class="<?php echo $cssClass; ?>" valign="middle"><?php echo $workshift->getHoursPerDay(); ?></td>
 				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php

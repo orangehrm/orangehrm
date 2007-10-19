@@ -7,6 +7,9 @@ New & Changed Features for OrangeHRM ver 2.2.2-alpha.3
 	1809332   Leave apply, Total hours can be space
 	1809926   Print Time sheet , selecting a division thrown an error
 	1809927   Print Timesheet: Back button not viewd
+	1810498   HRAdmin can not cancel mistakenly assigned leaves
+	1810503   HRAdmin need a way to approve leaves
+	1810611   It should be possible to cancel leave taken in the past
 
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.2
 
