@@ -125,7 +125,7 @@ if ($modifier === "ADMIN") {
 ?>
   <tr>
   	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo $detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo ($modifier == "ADMIN")?"Leave_FetchDetailsAdmin":$detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
     <?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>

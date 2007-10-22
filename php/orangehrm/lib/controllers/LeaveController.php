@@ -96,6 +96,9 @@ class LeaveController {
 				case "employee": $this->setObjLeave(new Leave());
 								 $this->_viewLeavesEmployee($details);
 								 break;
+				case "admin": 	$this->setObjLeave(new Leave());
+								$this->_viewLeavesAdmin($details);
+								break;
 				case "suprevisor": $this->setObjLeave(new Leave());
 								 $this->_viewLeavesSupervisor($details);
 								 break;

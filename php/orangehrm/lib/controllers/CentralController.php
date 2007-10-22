@@ -1110,6 +1110,10 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves("employee", null, true);
 																						break;
 
+													case 'Leave_FetchDetailsAdmin'	:	$leaveController->setId($_REQUEST['id']);
+																						$leaveController->viewLeaves("admin", null, true);
+																						break;
+
 													case 'Leave_FetchDetailsSupervisor':$leaveController->setId($_REQUEST['id']);
 																						$leaveController->viewLeaves("suprevisor", null, true);
 																						break;

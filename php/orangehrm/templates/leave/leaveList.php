@@ -72,8 +72,10 @@ if ($modifier === "SUP") {
 ?>
 <script language="javascript">
 	function goBack () {
+		<?php if ($modifier == "ADMIN") { ?>
+			window.location = "?leavecode=Leave&action=Leave_FetchLeaveAdmin";
 		<?php
-			if ($modifier == "Taken") {
+	    } else if ($modifier == "Taken") {
 		?>
 			history.back();
 		<?php } else { ?>
