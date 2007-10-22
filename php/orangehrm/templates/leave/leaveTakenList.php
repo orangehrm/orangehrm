@@ -31,7 +31,7 @@ if (isset($_GET['message']) && $_GET['message'] == "Success") {
 	echo $lang_Leave_CANCEL_SUCCESS;
 } else if (isset($_GET['message']) && $_GET['message'] == "Failiure") {
 ?>
-<font color="#ff6600" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+<font color="#ff0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 <?php
 	echo $lang_Leave_CANCEL_FAILURE;
 }

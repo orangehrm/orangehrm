@@ -974,6 +974,10 @@ class LeaveController {
 
 	public function updateTakenLeaves($objArr) {
 
+		if (count($objArr) == 0) {
+			return false;
+		}
+
 		$failiure = 0;
 		$noofexecutions = 0;
 
