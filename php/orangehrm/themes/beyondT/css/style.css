@@ -316,6 +316,10 @@ textarea {
 		font-size: 11px;
 		background-color: #ffffff;
 	}
+
+        td.search a {
+               color: #444444;
+        }
 	.search {
 		color: #ffffff;
 		background-color: #FF9900;
@@ -535,6 +539,10 @@ textarea {
 	}
 
 /* menu styles */
+a.rollmenu:link, a.rollmenu:visited {
+	color: #444444;
+	font-size: 11px;
+}
 .rollmenu
 {
 	padding-right: 2px;
