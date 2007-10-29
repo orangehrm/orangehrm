@@ -81,10 +81,12 @@ th {
 
 .odd {
     background-color: #FFFFFF;
+    vertical-align: middle;
 }
 
 .even {
     background-color: #EEEEEE;
+    vertical-align: middle;
 }
 
 .save:active, .save:hover, .save:focus {

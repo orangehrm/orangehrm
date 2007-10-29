@@ -218,6 +218,10 @@ class LeaveTakenRequests {
 
 	protected function _buildObjArr($result) {
 
+		if (!$result) {
+			return false;
+		}
+
 		$objArr = null;
 
 		while ($row = mysql_fetch_array($result)) {

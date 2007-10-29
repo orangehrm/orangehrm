@@ -22,10 +22,10 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'models_leave_AllTests::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
- 
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
+
 require_once 'HolidaysTest.php';
 require_once 'LeaveQuotaTest.php';
 require_once 'LeaveRequestsTest.php';
@@ -34,14 +34,14 @@ require_once 'LeaveTest.php';
 require_once 'LeaveTypeTest.php';
 require_once 'WeekendsTest.php';
 
- 
+
 class models_leave_AllTests
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_leave');
@@ -53,10 +53,10 @@ class models_leave_AllTests
 	$suite->addTestSuite('LeaveTypeTest');
 	$suite->addTestSuite('WeekendsTest');
 
-        return $suite;
+    return $suite;
     }
 }
- 
+
 if (PHPUnit_MAIN_METHOD == 'models_leave_AllTests::main') {
     models_leave_AllTests::main();
 }

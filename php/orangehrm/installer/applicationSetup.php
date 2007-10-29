@@ -226,7 +226,7 @@ class Conf {
 		\$this->dbname	= '$dbName';
 		\$this->dbuser	= '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '2.2.2-alpha.3';
+		\$this->version = '2.2.2';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
