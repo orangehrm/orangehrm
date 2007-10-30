@@ -234,18 +234,20 @@ if(file_exists($confPHP)) {
 			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
 
 			if (!$result) {
-				throw new IDGeneratorException("Error querying last ID. SQL = $sql");
+				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				throw new IDGeneratorException("Error querying last ID. SQL = $sql. Msg = $errMsg");
 			}
 
 			$numRows = mysql_num_rows($result);
-			if ($numRows == 1) {
+			if ($numRows === 1) {
 				$insert = false;
 				$row = mysql_fetch_array($result, MYSQL_NUM);
 				$lastId = $row[0];
-			} else if ($numRows == 0) {
+			} else if ($numRows === 0) {
 				$insert = true;
 			} else {
-				throw new IDGeneratorException("Error in hs_hr_unique_id table.");
+				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				throw new IDGeneratorException("Error in hs_hr_unique_id table. Msg = $errMsg");
 			}
 
 			/* If the field has a prefix, look for existing invalid id's */
@@ -253,7 +255,8 @@ if(file_exists($confPHP)) {
 				$sql = sprintf(self::FIND_INVALID_ID_SQL, $tableName, $fieldName, $prefix);
 				$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
 				if (!$result) {
-					throw new IDGeneratorException("Error looking for invalid ID's. SQL = $sql");
+					$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+					throw new IDGeneratorException("Error looking for invalid ID's. SQL = $sql. Msg = $errMsg");
 				}
 
 				$row = mysql_fetch_array($result, MYSQL_NUM);
@@ -269,7 +272,8 @@ if(file_exists($confPHP)) {
 			$sql = sprintf(self::FIND_EXISTING_MAX_ID_SQL, $fieldName, $tableName);
 			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
 			if (!$result) {
-				throw new IDGeneratorException("Error looking for existing MAX ID. SQL = $sql");
+				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				throw new IDGeneratorException("Error looking for existing MAX ID. SQL = $sql. Msg = $errMsg");
 			}
 
 			$row = mysql_fetch_array($result, MYSQL_NUM);
@@ -301,7 +305,8 @@ if(file_exists($confPHP)) {
 
 			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
 			if (!$result) {
-				throw new IDGeneratorException("Error updating hs_hr_unique_id table. SQL = $sql");
+				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				throw new IDGeneratorException("Error updating hs_hr_unique_id table. SQL = $sql. Msg = $errMsg");
 			}
 		}
 
