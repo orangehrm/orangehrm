@@ -137,7 +137,7 @@ select {
 	background-color: #ffffff;
 	padding-left: 0px;
 	}
-input {
+input:not([type=image]) {
 	border: 1px solid #888888;
 	font-size: 11px;
 	background-color: #ffffff;

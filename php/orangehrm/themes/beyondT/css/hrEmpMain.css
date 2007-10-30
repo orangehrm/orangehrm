@@ -126,7 +126,7 @@ a:hover {
 	font-weight: normal;
 	}
 
-input,select {
+input:not([type=image]),select {
 	border: 1px solid #888888;
 	font-size: 11px;
 	background-color: #ffffff;

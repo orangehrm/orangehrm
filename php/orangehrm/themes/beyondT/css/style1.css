@@ -58,7 +58,7 @@ body {
 /*	background-image: url(../pictures/formButtonBgOn.png); */
 	}
 
-input,select {
+input:not([type=image]),select {
 	border: 1px solid #888888;
 	font-size: 9px;
 	background-color: #ffffff;

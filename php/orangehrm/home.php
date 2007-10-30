@@ -27,26 +27,26 @@ $styleSheet = CommonFunctions::getTheme();
 
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="20%"><img src="themes/beyondT/pictures/spacer.gif" width="5" height="5" alt=""></td>
+    <td width="20%"><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="5" height="5" alt=""></td>
     <td width="60%"><table id="Table_01" width="717" height="379" border="0" cellpadding="0" cellspacing="0">
       <tr>
-        <td rowspan="6"><img src="themes/beyondT/pictures/orange_newMain_01.gif" width="5" height="338" alt=""></td>
-        <td rowspan="6"><img src="themes/beyondT/pictures/orange_newMain_02.gif" width="167" height="338" alt=""></td>
-        <td colspan="2" rowspan="3"><img src="themes/beyondT/pictures/orange_newMain_03.gif" width="94" height="116" alt=""></td>
-        <td colspan="2"><img src="themes/beyondT/pictures/orange_newMain_04.gif" width="451" height="29" alt=""></td>
+        <td rowspan="6"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_01.gif" width="5" height="338" alt=""></td>
+        <td rowspan="6"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_02.gif" width="167" height="338" alt=""></td>
+        <td colspan="2" rowspan="3"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_03.gif" width="94" height="116" alt=""></td>
+        <td colspan="2"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_04.gif" width="451" height="29" alt=""></td>
       </tr>
       <tr>
-        <td colspan="2"><img src="themes/beyondT/pictures/orange_newMain_05.gif" width="451" height="46" alt=""></td>
+        <td colspan="2"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_05.gif" width="451" height="46" alt=""></td>
       </tr>
       <tr>
-        <td colspan="2"><img src="themes/beyondT/pictures/orange_newMain_06.gif" width="451" height="41" alt=""></td>
+        <td colspan="2"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_06.gif" width="451" height="41" alt=""></td>
       </tr>
       <tr>
-        <td><img src="themes/beyondT/pictures/orange_newMain_07.gif" width="23" height="22" alt=""></td>
-        <td colspan="3"><img src="themes/beyondT/pictures/orange_newMain_08.gif" width="522" height="22" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_07.gif" width="23" height="22" alt=""></td>
+        <td colspan="3"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_08.gif" width="522" height="22" alt=""></td>
       </tr>
       <tr>
-        <td><img src="themes/beyondT/pictures/orange_newMain_09.gif" width="23" height="169" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_09.gif" width="23" height="169" alt=""></td>
         <td colspan="3" valign="top"><table width="80%"  border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td class="bodyTXT"><!--<strong>Orange<span class="style2">HRM</span></strong> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vast range of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.-->
@@ -55,19 +55,19 @@ $styleSheet = CommonFunctions::getTheme();
         </table></td>
       </tr>
       <tr>
-        <td colspan="4"><img src="themes/beyondT/pictures/orange_newMain_11.gif" width="545" height="31" alt=""></td>
+        <td colspan="4"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_11.gif" width="545" height="31" alt=""></td>
       </tr>
       <tr>
-        <td colspan="5"><img src="themes/beyondT/pictures/orange_newMain_12.gif" width="657" height="40" alt=""></td>
-        <td><img src="themes/beyondT/pictures/orange_newMain_13.gif" width="60" height="40" alt=""></td>
+        <td colspan="5"><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_12.gif" width="657" height="40" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/orange_newMain_13.gif" width="60" height="40" alt=""></td>
       </tr>
       <tr>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="5" height="1" alt=""></td>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="167" height="1" alt=""></td>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="23" height="1" alt=""></td>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="71" height="1" alt=""></td>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="391" height="1" alt=""></td>
-        <td><img src="themes/beyondT/pictures/spacer.gif" width="60" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="5" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="167" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="23" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="71" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="391" height="1" alt=""></td>
+        <td><img src="themes/<?php echo $styleSheet;?>/pictures/spacer.gif" width="60" height="1" alt=""></td>
       </tr>
     </table></td>
     <td width="20%">&nbsp;</td>
