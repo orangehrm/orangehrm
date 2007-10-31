@@ -63,6 +63,8 @@
             <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
             <exclude name="lib/logs/notification_mails.log"/>
+            <exclude name="upgrade.php"/>
+            <exclude name="upgrader/**"/>
         </fileset>
     </copy>
   </target>
