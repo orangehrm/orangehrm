@@ -1,5 +1,5 @@
 %define name orangehrm
-%define version 2.2.2-alpha.2
+%define version 2.2.2
 %define release 1
 %define _prefix /var/www/html
 

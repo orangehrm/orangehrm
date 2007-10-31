@@ -39,7 +39,7 @@ class Conf {
 
 		$this->smtphost = 'localhost';
 
-		$this->version = '2.2.2-alpha.2';
+		$this->version = '2.2.2';
 
 		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
 		$this->logPath =  realpath(dirname(__FILE__).'/../logs/').'/';
