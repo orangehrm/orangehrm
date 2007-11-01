@@ -1273,12 +1273,15 @@ switch ($moduletype) {
 																						break;
 
 													case 'Leave_Admin_Apply'		: 	$obj = $leaveRequestsExtractor->parseAddData($_POST, true);
+
 																						$leaveController->setObjLeave($obj);
 																						$leaveController->addLeave();
 
 																						$mes=$leaveController->adminApproveLeave();
 
 																						$id = $leaveController->getObjLeave()->getLeaveRequestId();
+
+																						$leaveController->sendAssignedLeaveNotification($leaveController->getObjLeave(),"assign");
 
 																						$leaveController->redirect($mes, null, $id);
 																						break;

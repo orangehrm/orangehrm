@@ -28,6 +28,7 @@ require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 require_once ROOT_PATH . '/lib/models/leave/mail/MailNotifications.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveTakenRequests.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveRequests.php';
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
@@ -308,6 +309,22 @@ class LeaveController {
 		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);
 
 		return true;
+	}
+
+	public function sendAssignedLeaveNotification($obj, $action) {
+
+		$mailObj = new LeaveRequests();
+
+		$mailObj->setLeaveRequestId($obj->getLeaveRequestId());
+		$mailObj->setLeaveStatus($obj->getLeaveStatus());
+		$mailObj->setLeaveComments($obj->getLeaveComments());
+		$mailObj->setEmployeeId($obj->getEmployeeId());
+
+		$mailNotificaton = new MailNotifications();
+		$mailNotificaton->setLeaveRequestObj($mailObj);
+		$mailNotificaton->setAction($action);
+		$result = $mailNotificaton->send();
+		return $result;
 	}
 
 	private function _viewLeavesAdmin($details) {

@@ -443,7 +443,7 @@
 	$lang_empview_JobTitle					= "Job Title";
 	$lang_empview_Supervisor 				= "Supervisor";
 	$lang_empview_EmploymentStatus			= "Employment status";
-	$lang_emppop_title                                      = "Search Employees";
+	$lang_emppop_title                      = "Search Employees";
 
  	$lang_ethnicrace_heading 				= "Nationality & Race :Ethnic Races";
  	$lang_ethnicrace_NameShouldBeSpecified  = "Ethnic Race Name should be specified";

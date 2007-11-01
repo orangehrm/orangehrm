@@ -45,6 +45,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_ACTION_CANCEL = "cancel";
 	const MAILNOTIFICATIONS_ACTION_REJECT = "reject";
 	const MAILNOTIFICATIONS_ACTION_APPROVE = "approve";
+	const MAILNOTIFICATIONS_ACTION_ASSIGN = "assign";
 
 	/**
 	 * Template file name constants
@@ -54,6 +55,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_TEMPLATE_CANCEL = "supervisor/cancelled.txt";
 	const MAILNOTIFICATIONS_TEMPLATE_REJECT = "subordinate/rejected.txt";
 	const MAILNOTIFICATIONS_TEMPLATE_APPROVE = "subordinate/approval.txt";
+	const MAILNOTIFICATIONS_TEMPLATE_ASSIGN = "subordinate/assign.txt";
 
 	/**
 	 * Mail subject templates
@@ -62,6 +64,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT = 'supervisor/cancelled-subject.txt';
 	const MAILNOTIFICATIONS_TEMPLATE_REJECT_SUBJECT = 'subordinate/rejected-subject.txt';
 	const MAILNOTIFICATIONS_TEMPLATE_APPROVE_SUBJECT = 'subordinate/approval-subject.txt';
+	const MAILNOTIFICATIONS_TEMPLATE_ASSIGN_SUBJECT = 'subordinate/assign-subject.txt';
 
 	/**
 	 * Template variable identifier constants
@@ -214,6 +217,7 @@ class MailNotifications {
 		}
 
 		if ((!is_array($this->to)) || (!@$mailer->send($this->to, $this->mailType))) {
+
 			$logMessage .= " - FAILED \r\nReason(s):";
 			if (isset($mailer->errors)) {
 				$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
@@ -246,6 +250,8 @@ class MailNotifications {
 			case self::MAILNOTIFICATIONS_ACTION_APPROVE : $this->_approveMail();
 														break;
 			case self::MAILNOTIFICATIONS_ACTION_REJECT : $this->_rejectMail();
+														break;
+			case self::MAILNOTIFICATIONS_ACTION_ASSIGN : $this->_assignMail();
 														break;
 		}
 	}
@@ -432,6 +438,65 @@ class MailNotifications {
 		$this->mail = $txt;
 	}
 
+	private function _assignMail() {
+		$this->notificationTypeId = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_PENDING_APPROVAL;
+
+		$this->templateFile = file_get_contents(ROOT_PATH."/templates/leave/mails/".self::MAILNOTIFICATIONS_TEMPLATE_ASSIGN);
+		$txt = $this->templateFile;
+
+		$leaveObjs = $this->getLeaveObjs();
+
+ 		$txtArr = preg_split('/#\{(.*)\}/', $txt, null, PREG_SPLIT_DELIM_CAPTURE);
+
+		$recordTxt = $txtArr[1];
+		$recordArr = null;
+
+		$fulldays = 0;
+
+		if (is_array($leaveObjs)) {
+
+			foreach ($leaveObjs as $leaveObj) {
+				if ($leaveObj->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED) {
+
+					$leaveLength = $leaveObj->getLeaveLengthHours();
+
+					$fulldays+=$leaveObj->getLeaveLengthDays();
+
+					$duration = $leaveObj->getLeaveLengthHours();
+
+					$date = $leaveObj->getLeaveDate();
+					$type = $leaveObj->getLeaveTypeName();
+					$comments = $leaveObj->getLeaveComments();
+
+					$recordArr[] = preg_replace(array('/#date/', '/#type/', '/#duration/', '/#comments/'), array($date, $type, $duration, $comments), $recordTxt);
+				}
+			}
+		}
+
+		$recordTxt = "";
+		if (isset($recordArr)) {
+			$recordTxt = join("\r\n", $recordArr);
+		}
+
+		$txt = $txtArr[0].$recordTxt.$txtArr[2];
+
+		if (isset($leaveObjs[0])) {
+			$employeeName = $leaveObjs[0]->getEmployeeName();
+			$employeeId = $leaveObjs[0]->getEmployeeId();
+
+			$this->_getAddresses($employeeId);
+
+			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
+
+			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_ASSIGN_SUBJECT,
+													$employeeName, $fulldays);
+
+			$this->to = $this->subordinateMail;
+		}
+
+		$this->mail = $txt;
+	}
+
 	/**
 	 * Builds leave cancellation notice
 	 *
@@ -501,6 +566,8 @@ class MailNotifications {
 		$leaveRequestObj = $this->getLeaveRequestObj();
 
 		$leaveObjs = $leaveObj->retrieveLeave($leaveRequestObj->getLeaveRequestId());
+
+		$leaveObjs = $leaveObjs;
 
 		$this->setLeaveObjs($leaveObjs);
 	}
