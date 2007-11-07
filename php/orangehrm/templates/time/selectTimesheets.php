@@ -19,6 +19,7 @@
  */
 
 $employmentStatuses = $records[0];
+$subList = $records[1];
 
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
@@ -105,9 +106,23 @@ YAHOO.OrangeHRM.container.init();
 			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
+			<?php if ($_SESSION['isAdmin'] == 'yes') { ?>
 				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo (isset($_SESSION['txtUserEmpID']) && $_SESSION['posted'])?$_SESSION['txtUserEmpID']:$lang_Time_Common_All; ?>" readonly />
 				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'])?$_SESSION['cmbUserEmpID']:"-1"; ?>" />
 				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
+			<?php } else if ($_SESSION['isSupervisor'] == 'yes') { ?>
+			<input type="hidden" name="txtUserEmpID" id="txtUserEmpID" value="">
+			<select name="cmbUserEmpID">
+			<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
+			<?php
+		   	if (is_array($subList)) {
+		   		sort($subList);
+		   		foreach ($subList as $sub) {
+		    ?>
+		 	<option value="<?php echo $sub[0]; ?>" <?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'] && $_SESSION['cmbUserEmpID'] == $sub[0])?"selected":""; ?>><?php echo $sub[1]; ?></option>
+		   <?php }  }
+    		}
+		   ?>
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
@@ -122,6 +137,7 @@ YAHOO.OrangeHRM.container.init();
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
+		<?php if ($_SESSION['isAdmin'] == 'yes') { ?>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Time_Supervisor; ?></td>
@@ -132,6 +148,10 @@ YAHOO.OrangeHRM.container.init();
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
+		<?php } else if ($_SESSION['isSupervisor'] == 'yes') { ?>
+			<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" value=""/>
+			<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $_SESSION['empID']; ?>" />
+		<?php } ?>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Time_EmploymentStatus; ?></td>

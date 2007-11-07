@@ -1542,6 +1542,7 @@ switch ($moduletype) {
 																										  $_POST['cmbLocation'],
 																										  $_POST['txtRepEmpID'],
 																										  $_POST['cmbEmploymentStatus']);
+
 																					$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheetPrintPreview($filterValues);
