@@ -1085,7 +1085,7 @@ class TimeController {
 
 		$dataArr[0] = $employmentStatusObj->getListofEmpStat(0, '', -1);
 
-		if ($_SESSION['isSupervisor'] == 'yes') {
+		if ($_SESSION['isSupervisor']) {
 			$repObj = new EmpRepTo();
 			$dataArr[1] = $repObj->getEmpSubDetails($_SESSION['empID']);
 		}

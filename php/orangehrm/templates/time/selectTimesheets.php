@@ -148,7 +148,7 @@ YAHOO.OrangeHRM.container.init();
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
-		<?php } else if ($_SESSION['isSupervisor'] == 'yes') { ?>
+		<?php } else if ($_SESSION['isSupervisor']) { ?>
 			<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" value=""/>
 			<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $_SESSION['empID']; ?>" />
 		<?php } ?>
