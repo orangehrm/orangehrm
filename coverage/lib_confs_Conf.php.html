@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>OrangeHRM</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="title">OrangeHRM</td></tr>
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+
+      <tr>
+        <td width="100%">
+          <table cellpadding="1" border="0" width="100%">
+            <tr>
+              <td class="headerItem" width="20%">Current view:</td>
+              <td class="headerValue" width="80%" colspan="4"><a href="index.html">/var/www/html/orangehrm-svn</a>/<a href="lib.html">lib</a>/<a href="lib_confs.html">confs</a>/<a href="lib_confs_Conf.php.html">Conf.php</a></td>
+            </tr>
+            <tr>
+              <td class="headerItem" width="20%">Date:</td>
+              <td class="headerValue" width="20%">Mon Nov 12 7:28:07 IST 2007</td>
+              <td width="20%"></td>
+              <td class="headerItem" width="20%">Executable lines:</td>
+              <td class="headerValue" width="20%">9</td>
+            </tr>
+            <tr>
+              <td class="headerItem" width="20%">Code covered:</td>
+              <td class="headerValue" width="20%">100.00%</td>
+              <td width="20%"></td>
+              <td class="headerItem" width="20%">Executed lines:</td>
+              <td class="headerValue" width="20%">9</td>
+            </tr>
+            <tr>
+              <td class="legendItem" width="20%">Legend:</td>
+              <td class="legendValue" width="80%" colspan="4">
+                <span class="legendCov">executed</span>
+                <span class="legendNoCov">not executed</span>
+                <span class="legendDeadCode">dead code</span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td>
+      </tr>
+    </table>
+
+    <br />
+
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td><br /></td>
+      </tr>
+      <tr>
+        <td>
+<pre class="source">
+<span class="lineNum"><a name="1"></a><a href="#1">       1</a> </span>                : <span class="default">&lt;?php</span>                                                            
+<span class="lineNum"><a name="2"></a><a href="#2">       2</a> </span>                : <span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">Conf</span><span class="default">&nbsp;</span><span class="keyword">{</span>                                                     
+<span class="lineNum"><a name="3"></a><a href="#3">       3</a> </span>                :                                                                  
+<span class="lineNum"><a name="4"></a><a href="#4">       4</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$smtphost</span><span class="keyword">;</span>                                                  
+<span class="lineNum"><a name="5"></a><a href="#5">       5</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$dbhost</span><span class="keyword">;</span>                                                    
+<span class="lineNum"><a name="6"></a><a href="#6">       6</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$dbport</span><span class="keyword">;</span>                                                    
+<span class="lineNum"><a name="7"></a><a href="#7">       7</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$dbname</span><span class="keyword">;</span>                                                    
+<span class="lineNum"><a name="8"></a><a href="#8">       8</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$dbuser</span><span class="keyword">;</span>                                                    
+<span class="lineNum"><a name="9"></a><a href="#9">       9</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">var</span><span class="default">&nbsp;</span><span class="default">$version</span><span class="keyword">;</span>                                                   
+<span class="lineNum"><a name="10"></a><a href="#10">      10</a> </span>                :                                                                  
+<span class="lineNum"><a name="11"></a><a href="#11">      11</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">Conf</span><span class="keyword">(</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span>                                               
+<span class="lineNum"><a name="12"></a><a href="#12">      12</a> </span>                :                                                                  
+<span class="lineNum"><a name="13"></a><a href="#13">      13</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">dbhost</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'localhost'</span><span class="keyword">;</span>                                   </span>
+<span class="lineNum"><a name="14"></a><a href="#14">      14</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">dbport</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'3306'</span><span class="keyword">;</span>                                       </span>
+<span class="lineNum"><a name="15"></a><a href="#15">      15</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">dbname</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'hr_test1'</span><span class="keyword">;</span>                                    </span>
+<span class="lineNum"><a name="16"></a><a href="#16">      16</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">dbuser</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'hr_test1'</span><span class="keyword">;</span>                                    </span>
+<span class="lineNum"><a name="17"></a><a href="#17">      17</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">dbpass</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'hr_test1'</span><span class="keyword">;</span>                                    </span>
+<span class="lineNum"><a name="18"></a><a href="#18">      18</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">version</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="string">'2.2.2'</span><span class="keyword">;</span>                                      </span>
+<span class="lineNum"><a name="19"></a><a href="#19">      19</a> </span>                :                                                                  
+<span class="lineNum"><a name="20"></a><a href="#20">      20</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">emailConfiguration</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">dirname</span><span class="keyword">(</span><span class="default">__FILE__</span><span class="keyword">)</span><span class="keyword">.</span><span class="string">'/mailConf.php'</span><span class="keyword">;</span> </span>
+<span class="lineNum"><a name="21"></a><a href="#21">      21</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="keyword">-&gt;</span><span class="default">errorLog</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;&nbsp;</span><span class="default">realpath</span><span class="keyword">(</span><span class="default">dirname</span><span class="keyword">(</span><span class="default">__FILE__</span><span class="keyword">)</span><span class="keyword">.</span><span class="string">'/../logs/'</span><span class="keyword">)</span><span class="keyword">.</span><span class="string">'/'</span><span class="keyword">;</span></span>
+<span class="lineNum"><a name="22"></a><a href="#22">      22</a> </span><span class="lineCov">            174 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                               </span>
+<span class="lineNum"><a name="23"></a><a href="#23">      23</a> </span>                : <span class="keyword">}</span>                                                                
+<span class="lineNum"><a name="24"></a><a href="#24">      24</a> </span>                : <span class="default">?&gt;</span>                                                               
+
+</pre>
+        </td>
+      </tr>
+    </table>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+      <tr><td class="versionInfo">Generated by: <a href="http://www.phpunit.de/">PHPUnit 3.0.6</a> and <a href="http://www.xdebug.org/">Xdebug 2.0.0RC2</a>.</td></tr>
+    </table>
+
+    <br />
+
+  </body>
+</html>
