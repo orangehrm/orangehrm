@@ -50,7 +50,9 @@ following directory structure and run makensis on the main.nsi script
 	+-- installer
 	| +-- SOURCE
 	| | +-- content ; Copy the content directory from devTools to here
-	| | +-- orangehrm2 ; Copy OrangeHRM release directory here
+	| | +-- orangehrm-x.x.x ; Copy OrangeHRM release directory here (eg: build/dist/orangehrm-2.2.2 or unzip 
+        | |                       the source archive here (remove the zip file afterwards))
+        | |                       make sure this directory name matches the constant OrangeHRMPath set in main.nsi
 	| | +-- xampp ; Copy XAMPP for Windows files here and then copy xampp directory from devTools
 	| +-- SPEC ; Installer scripts directory
 	| | +-- Include

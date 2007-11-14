@@ -123,6 +123,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
         Call buildUnixPath
         !insertmacro ReplaceInFile "$INSTDIR\apache\conf\httpd.conf" "?INSTDIR" "$UNIXINSTDIR"
+        !insertmacro ReplaceInFile "$INSTDIR\apache\conf\httpd.conf" "?OrangeHRMPath" "${OrangeHRMPath}"
         !insertmacro ReplaceInFile "$INSTDIR\apache\conf\extra\httpd-ssl.conf" "?INSTDIR" "$UNIXINSTDIR"
         !insertmacro ReplaceInFile "$INSTDIR\apache\conf\extra\httpd-mpm.conf" "?INSTDIR" "$UNIXINSTDIR"
         !insertmacro ReplaceInFile "$INSTDIR\apache\conf\extra\httpd-multilang-errordoc.conf" "?INSTDIR" "$UNIXINSTDIR"
