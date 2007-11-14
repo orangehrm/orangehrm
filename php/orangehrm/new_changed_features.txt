@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 2.2.2.1
+	BugId     Name
+	1809967   No option listed superviser to print timesheets
+
+New & Changed Features for OrangeHRM ver 2.2.2
+	BugId     Name
+	1817700   Admin-> Leave Schedule back button incorrect function
+
 New & Changed Features for OrangeHRM ver 2.2.2-alpha.3
 
 	BugId     Name
