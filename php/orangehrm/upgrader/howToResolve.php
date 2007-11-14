@@ -45,8 +45,8 @@ body {
 <a href="javascript:close()" id="close">[Close]</a>
 <!-- Main Content -->
 <div id="main">
-<h4>Upgrade to PHP5 to use OrangeHRM 2.2</h4>
-<p>You have PHP4 installed. OrangeHRM 2.2 requires PHP5. You will have to upgrade to PHP5.</p>
+<h4>Upgrade to PHP5 to use OrangeHRM 2.2.2.1</h4>
+<p>You have PHP4 installed. OrangeHRM 2.2.2.1 requires PHP5. You will have to upgrade to PHP5.</p>
 <ul>
 	<li>If you are using EasyPHP (AMP Stack), please click <a href="javascript:ampDet()">here</a> for datails</li>
 	<li>If you configured Apache, MySQL and PHP manually, please click <a href="javascript:mannualDet()">here</a> for datails</li>
