@@ -142,7 +142,7 @@ class LeaveTakenRequests {
 		$arrTables[1] = "`hs_hr_employee` b";
 		$arrTables[2] = "`hs_hr_leavetype` c";
 
-		$joinConditions[1] = "a.`employee_id` = b.`employee_id`";
+		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
 		$joinConditions[2] = "a.`leave_type_id` = c.`leave_type_id`";
 
 		$selectConditions[1] = "a.`leave_status` = '3'";
