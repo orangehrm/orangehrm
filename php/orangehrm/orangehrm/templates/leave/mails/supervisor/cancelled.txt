@@ -1,0 +1,12 @@
+Hi,
+
+#subordinate has cancelled  the following leave request:
+
+Applied Date(s)	Type of Leave	Duration (hours)	Comments
+#{#date	#type		#duration		#comments}
+
+You were sent this mail, as you are the supervisor assigned for #subordinate, and to be notified about this cancellation.
+
+Thanks,
+
+OrangeHRM

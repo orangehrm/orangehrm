@@ -1,0 +1,237 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+#menu {
+	width: 160px;
+	margin: 0px;
+	left: -6px;
+	position: relative;
+	top: 0px;
+    padding-top: 2px;
+    padding-left: 0px;
+}
+
+#menu a {
+	text-decoration: none;
+	color: #444444;
+	width: 125px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-transform: capitalize;
+	height: 22px;
+	font-size: 11px;
+	margin-top: -2px;
+	display: block;
+	padding-left: 30px;
+	cursor:pointer;
+    vertical-align:middle;
+    overflow: hidden;
+}
+
+#menu a:hover {
+	color: #000000;
+}
+
+#menu li a:focus, #menu li a:active {
+	outline: none;
+}
+
+#menu li{
+	display: block;
+	list-style-position: outside;
+	list-style-type: none;
+	vertical-align: middle;
+	margin-top:0;
+}
+
+#menu li {
+	background-image: url(../pictures/buttonplain.gif);
+	background-repeat: no-repeat;
+	background-position: 0px;
+}
+#menu li:hover{
+	background: url(../pictures/buttonplain_o.gif) no-repeat;
+	background-position: 0px;
+}
+
+#menu #compinfo a {
+    background: url(../pictures/compinfo.gif) no-repeat left top;
+}
+
+#menu #compinfo a:hover {
+	background: url(../pictures/compinfo_o.gif)  no-repeat left top;
+}
+
+#menu #job a{
+	background: url(../pictures/job.gif)  no-repeat left top;
+}
+
+#menu #job a:hover {
+	background: url(../pictures/job_o.gif)  no-repeat left top;
+}
+
+#menu #skills a{
+	background: url(../pictures/skills.gif)  no-repeat left top;
+}
+
+#menu #skills a:hover {
+	background: url(../pictures/skills_o.gif)  no-repeat left top;
+}
+
+#menu #qualification a{
+	background: url(../pictures/qualification.gif)  no-repeat left top;
+}
+
+#menu #qualification a:hover {
+	background: url(../pictures/qualification_o.gif)  no-repeat left top;
+}
+
+#menu #benefits a{
+	background: url(../pictures/benefits.gif)  no-repeat left top;
+}
+
+#menu #benefits a:hover {
+	background: url(../pictures/benefits_o.gif)  no-repeat left top;
+}
+
+#menu #memberships a{
+	background: url(../pictures/memberships.gif)  no-repeat left top;
+}
+
+#menu #memberships a:hover {
+	background: url(../pictures/memberships_o.gif)  no-repeat left top;
+}
+
+#menu #natandrace a{
+	background: url(../pictures/natandrace.gif)  no-repeat left top;
+}
+
+#menu #natandrace a:hover {
+	background: url(../pictures/natandrace_o.gif)  no-repeat left top;
+}
+
+#menu #geoinfo a{
+	background: url(../pictures/geoinfo.gif)  no-repeat left top;
+}
+
+#menu #geoinfo a:hover {
+	background: url(../pictures/geoinfo_o.gif)  no-repeat left top;
+}
+
+#menu #users a{
+	background: url(../pictures/users.gif)  no-repeat left top;
+}
+
+#menu #users a:hover {
+	background: url(../pictures/users_o.gif)  no-repeat left top;
+}
+
+#menu #notifications a{
+	background: url(../pictures/email_notifications.gif)  no-repeat left top;
+}
+
+#menu #notifications a:hover {
+	background: url(../pictures/email_notifications_o.gif)  no-repeat left top;
+}
+
+#menu #projectInfo a{
+	background: url(../icons/projects.gif)  no-repeat left top;
+}
+
+#menu #projectInfo a:hover {
+	background: url(../icons/projects_o.gif)  no-repeat left top;
+}
+
+#menu #viewemprep a {
+	background: url(../pictures/viewemprep.gif)  no-repeat left top;
+}
+
+#menu #viewemprep a:hover {
+	background: url(../pictures/viewemprep_o.gif)  no-repeat left top;
+}
+
+#menu #defemprep a {
+	background: url(../pictures/defemprep.gif)  no-repeat left top;
+}
+
+#menu #defemprep a:hover {
+	background: url(../pictures/defemprep_o.gif)  no-repeat left top;
+}
+
+/* Leave Module */
+
+#menu #applyLeave a:hover {
+	background: url(../icons/applyLeave_o.gif)  no-repeat left top;
+}
+
+#menu #applyLeave a {
+	background: url(../icons/applyLeave.gif)  no-repeat left top;
+}
+
+#menu #approveLeave a:hover {
+	background: url(../icons/approveLeave_o.gif)  no-repeat left top;
+}
+
+#menu #approveLeave a {
+	background: url(../icons/approveLeave.gif)  no-repeat left top;
+}
+
+#menu #defineLeaveType a:hover {
+	background: url(../icons/defineLeaveType_o.gif)  no-repeat left top;
+}
+
+#menu #defineLeaveType a {
+	background: url(../icons/defineLeaveType.gif)  no-repeat left top;
+}
+
+#menu #leaveList a:hover {
+	background: url(../icons/leaveList_o.gif)  no-repeat left top;
+}
+
+#menu #leaveList a {
+	background: url(../icons/leaveList.gif)  no-repeat left top;
+}
+
+#menu #leaveSummary a:hover {
+	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
+}
+
+#menu #leaveSummary a {
+	background: url(../icons/leaveSummary.gif)  no-repeat left top;
+}
+
+#menu #timesheets a {
+	background: url(../icons/leaveSummary.gif)  no-repeat left top;
+}
+
+#menu #timesheets a:hover {
+	background: url(../icons/leaveSummary_o.gif)  no-repeat left top;
+}
+
+#menu #punchTime a {
+	background: url(../icons/applyLeave.gif)  no-repeat left top;
+}
+
+#menu #punchTime a:hover {
+	background: url(../icons/applyLeave_o.gif)  no-repeat left top;
+}
+
+#menum1 {
+	visibility:hidden;
+}
+

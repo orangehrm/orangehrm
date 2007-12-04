@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>OrangeHRM FAQ</title>
+<link href="installer/guide/style.css" rel="stylesheet" type="text/css" />
+<link href="favicon.ico" rel="icon" type="image/gif" />
+</head>
+
+<body>
+<div id="content">
+<h1>FAQ</h1>
+<!-- Contents -->
+
+<div id="contents" class="section">
+<h2>Contents</h2>
+<p>
+<ol class="content_table">
+	<li><a href="#1">What are the required software to run
+	OrangeHRM?</a></li>
+	<li><a href="#2">How to install OrangeHRM manually on Linux?</a>
+	<li><a href="#3">How to install OrangeHRM manually on Windows?</a>
+	<li><a href="#4">How to install the pre-requisities manually
+	on Windows?</a>
+</ol>
+</p>
+
+<div class="navigate"></div>
+</div>
+<!-- Question 1 -->
+
+<div id="1" class="section">
+<h2>1. What are the required software to run OrangeHRM?</h2>
+<p>You will need to be running an Operationg System that supports
+the Apache HTTP Server and MySQL database server. In addition to that
+following pre-requisities must be installed.
+<ol>
+	<li>Apache HTTP Server 1.3 or later</li>
+	<li>MySQL 4.1 or later</li>
+	<li>PHP 5.1.0 or later</li>
+</ol>
+
+Instead of installing above mentioned pre-requisities seperately, it is
+possible to install a stack which has MySQL, Apache and PHP configured
+to work together.
+</p>
+<br />
+<br />
+<div class="navigate"></div>
+
+</div>
+
+<!-- Question 2 -->
+
+<div id="2" class="section">
+<h2>2. How to install OrangeHRM manually on Linux?</h2>
+<p>For Linux Installation these steps should be followed;
+<ol>
+	<li>Retrieve the PHP source of OrangeHRM onto the directory that
+	is configured as Apache Server htdocs directory;
+	<div class="code">ex: /var/www/html/orangehrm/</div>
+	</li>
+	<li>Change the owner &amp; group of the source directory (and all
+	files and sub-directories within it) to apache (on most Linux 
+	distributions the user/user-group of apache webserver is set to
+	apache/apache, if your apache web server's httpd.conf has another
+	user/user-group please use that user instead ex: nobody). Run the
+	following command in bash.
+	<div class="code">ex: /var/html/orangehrm/</div>
+	<div class="bash">chown -R apache.apache /var/www/html/orangehrm/</div>
+	</li>
+	<li>Now you need to create the database. To do this get to the MySQL
+	prompt (you should be logged in as a user having rights create
+	databases and users). Create the database using command; (please note
+	down the database name), and change into the database using 'USE'.
+	<div class="bash">CREATE DATABASE &lt;orangehrm-db-name&gt;<br />
+	USE &lt;orangehrm-db-name&gt;</div>
+	then you need to create the tables using the script dbscript.sql
+	residing in /orangehrm/dbscript directory. Then type in command</li>
+	<div class="bash">SOURCE
+	&lt;path-to-doc-root&gt;/orangehrm/dbscript/dbscript.sql</div>
+	</li>
+
+	<li>In the MySQL server create a user account with all
+	priviledges, please note down the username and password since it will
+	be required to configure the application to give it access to the
+	database in step (5). You will also need the database name given in
+	step (3). Use the commands as follows (Note: the second command is
+	required if your PHP distribution has a MySQL client older than 4.1);
+	<div class="bash">GRANT ALL PRIVILEGES ON
+	&lt;orangehrm-db-name&gt;.* TO '&lt;username&gt;'@'%' IDENTIFIED BY
+	'&lt;password&gt;' WITH GRANT OPTION;<br />
+	<br />
+
+	SET PASSWORD FOR '&lt;username&gt;'@'%' =
+	OLD_PASSWORD('&lt;password&gt;');</div>
+	</li>
+	<li>Then you have to configure the application to give the
+	authentication information it requires to access MySQL server. To do
+	this rename file Conf.php-distribution(in
+	/orangehrm/lib/Confs/Conf.php)to Conf.php and edit following settings.
+	Set the following parameters;<br />
+	<div class="bash">$this->dbhost = '&lt;IP address of MySQL
+	server&gt;';<br />
+	$this->dbport = '&lt;port no, of MySQL server&gt;';<br />
+	$this->dbname = '&lt;orangehrm-db-name&gt;';<br />
+	$this->dbuser = '&lt;username&gt;'; //the user name of the account you
+	created<br />
+	$this->dbpass = '&lt;password&gt;'; //the user name of the account you
+	created<br />
+	</div>
+	</li>
+	<li>Start or restart Apache server</li>
+</ol>
+</p>
+<br />
+<br />
+<div class="navigate"></div>
+
+</div>
+
+<!-- Question 3 -->
+
+<div id="3" class="section">
+<h2>3. How to install OrangeHRM manually on Windows?</h2>
+<p>For Windows Installation these steps should be followed;
+<ol>
+	<li>Extract the PHP source of OrangeHRM onto the directory that is
+	configured as Apache Server htdocs directory;
+	<div class="code">ex: C:\apache\Apache2\htdocs\orangehrm\</div>
+	</li>
+	<li>Now you need to create the database. To do this get to the MySQL
+	prompt (you should be logged in as a user having rights create
+	databases and users). Create the database, and change into the database
+	using 'USE'; (please note down the database name)
+	<div class="bash">CREATE DATABASE &lt;orangehrm-db-name&gt;<br />
+	USE &lt;orangehrm-db-name&gt;</div>
+	then you need to create the tables using the script dbscript.sql
+	residing in /orangehrm/dbscript directory. Type in command</li>
+	<div class="bash">SOURCE
+	C:\apache\Apache2\htdocs\orangehrm\dbscript\dbscript.sql</div>
+	</li>
+
+	<li>In the MySQL server create a user account with all
+	priviledges, please note down the username and password since it will
+	be required to configure the application to give it access to the
+	database in step (5). You will also need the database name given in
+	step (2). Use the commands as follows (Note: the second command is
+	required if you your PHP distribution has a MySQL client older than 4.1);
+	<div class="bash">GRANT ALL PRIVILEGES ON
+	&lt;orangehrm-db-name&gt;.* TO '&lt;username&gt;'@'%' IDENTIFIED BY
+	'&lt;password&gt;' WITH GRANT OPTION;<br />
+	<br />
+
+	SET PASSWORD FOR '&lt;username&gt;'@'%' =
+	OLD_PASSWORD('&lt;password&gt;');</div>
+	</li>
+	<li>Then you have to configure the application to give the
+	authentication information it requires to access MySQL server. To do
+	this rename file Conf.php-distribution(in
+	/orangehrm/lib/Confs/Conf.php)to Conf.php and edit following settings.
+	Set the following parameters;<br />
+	<div class="bash">$this->dbhost = '&lt;IP address of MySQL
+	server&gt;';<br />
+	$this->dbport = '&lt;port no, of MySQL server&gt;';<br />
+	$this->dbname = '&lt;orangehrm-db-name&gt;';<br />
+	$this->dbuser = '&lt;username&gt;'; //the user name of the account you
+	created<br />
+	$this->dbpass = '&lt;password&gt;'; //the user name of the account you
+	created<br />
+	</div>
+	</li>
+</ol>
+</p>
+<br />
+<br />
+<div class="navigate"></div>
+
+</div>
+
+<!-- Question 4 -->
+
+<div id="4" class="section">
+<h2>4. How to install the pre-requisities manually on Windows?</h2>
+<p>
+<ol>
+	<li>Download Apache HTTP Server, PHP Windows package, MySQL server<br />
+	<br />
+	Versions Requirements :
+	<ul>
+		<li>Apache HTTP Server ver 1.33 or later</li>
+		<li>PHP Windows package ver 5.1.0 or later</li>
+		<li>MySQL Server ver 4.1 or later</li>
+	</ul>
+
+
+	<div class="notes">
+	<h4>Note</h4>
+	<p>Download PHP complete ZIP package from
+	http://www.php.net/downloads.php. Usually it comes in the form of
+	php-x.x.x-Win32.zip. (do not use the windows installer package since it
+	only contains the CGI interpreter, and contains no extensions)</p>
+	</div>
+	</li>
+
+	<li>Firstly Install Apache HTTP Server by following these steps;<br />
+	<br />
+	<ol>
+		<li>Accept the license agreement and press next</li>
+		<li>Press next again after reading about Apache HTTP Server</li>
+		<li>When promted for details about; Network Domain, Server Name,
+		etc., use the values below :<br />
+		<br />
+		<table border="0">
+			<tr>
+				<td>Network Domain</td>
+				<td>:</td>
+				<td>localhost</td>
+			</tr>
+			<tr>
+				<td>Server Name</td>
+				<td>:</td>
+				<td>localhost</td>
+			</tr>
+			<tr>
+				<td>Admin. Email</td>
+				<td>:</td>
+				<td>&lt;your Email-id&gt;</td>
+			</tr>
+		</table>
+
+		<br />
+		press next</li>
+		<li>If you are installing Apache HTTP server 2, then<br />
+		Select Install Apache HTTP Server 2.0 as a Service.</li>
+		<li>Choose custom installation.</li>
+		<li>change path of apache to directory
+		<div class="code">c:\apache\</div>
+		</li>
+
+		<li>Install server</li>
+	</ol>
+	<div class="notes">
+	<h4>Note</h4>
+	<p>In case you are using a firewall software, please make sure the
+	you give (allow) access to Apache HTTP server.</p>
+	</div>
+	</li>
+
+	<li>Secondly you have to install PHP;
+
+	<ol>
+		<li>unzip the PHP package you downloaded into directory.
+		<div class="code">c:\php\</div>
+		</li>
+
+		<li>Then open the file in the apache installation directory
+		<div class="code">C:\apache\Apache2\conf\httpd.conf"</div>
+		</li>
+
+		<li>Then goto the area where the LoadModule tags are defined. In
+		the list there should be one line that reads as
+
+		<div class="code"># LoadModule rewrite_module
+		modules/mod_rewrite.so</div>
+
+		Remove the leading '#' char to make the line active</li>
+		<li>Goto the end of LoadModule section<br />
+
+
+
+		</li>
+		<div class="notes">
+		<h4>Note</h4>
+		<p>if you are using PHP5 the LoadModule lines should be altered as
+		
+		<div class="code">LoadModule php5_module "c:/php/php5apache.dll"</div>
+		<div align="center">OR</div>
+		<div class="code">LoadModule php5_module
+		"c:/php/php5apache2.dll"</div>
+		<div align="center">OR</div>
+		<div class="code">LoadModule php5_module
+		"c:/php/php5apache2_2.dll"</div>
+
+		<br />
+		for Apache 1.3 / Apache 2 / Apache 2.2 Web servers respectively. Also
+		add line;
+		<div class="code">PHPIniDir "C:/php"</div>
+		</p>
+		</div>
+
+
+		<li>Then at the end of AddType section add line
+		<div class="code">AddType application/x-httpd-php .php</div>
+		</li>
+		<li>Save and close httpd.conf</li>
+
+		<li>Now goto directory
+		<div class="code">c:\php\</div>
+		and open file
+		<div class="code">c:\php\php.ini</div>
+		</li>
+		<div class="notes">
+		<h4>Note</h4>
+		<p>if the php.ini file does not exist then rename exisiting file
+		php.ini-dist as php.ini and open it</p>
+		</div>
+
+		<li>Find these key-words in it and change them if required
+
+		<div class="code">error_reporting = E_ALL<br />
+		display_errors = On<br />
+		<b>for PHP5, extension_dir should read as;</b><br />
+		extension_dir = “c:\php\ext”<br />
+		<b>and in the 'Dynamic Extension' area should have; <br />
+		'extension=php_mysql.dll',<br />
+		'extension=php_xmlrpc.dll',<br />
+		'extension=php_xsl.dll' <br />
+		enabled by removing preceding ';' if any</b><br />
+		</div>
+		</li>
+		<li>Save &amp; close php.ini</li>
+	</ol>
+	<li>Restart Apache Server(on windows; through the Apache Server
+	Monitor on task bar)</li>
+
+	<li>Start installing MySQL server</li>
+
+	<ol>
+		<li>Double-click the setup.exe file to start the installation.
+		The Setup Wizard panel is displayed.</li>
+		<li>Click Next.</li>
+		<li>Select Custom Install and click Next.</li>
+		<li>Expand the Developer Components and select “Scripts.Examples”
+		to run from your hard drive</li>
+		<li>Change installation directory to
+		<div class="code">C:\MySQL</div>
+		</li>
+		<li>Click next</li>
+
+		<li>When promted to signup for MySql.com account select skip
+		sign-up, press next.</li>
+		<li>The installation setup wizard is complete, leave the
+		checkmark next to the field,<br />
+		Configure the MySQL Server now. <br />
+		Click Finish.</li>
+
+		<li>Click Next to begin the configuration process,</li>
+		<li>accept the default value of Detailed Configuration for the
+		configuration type <br />
+		click Next.</li>
+
+		<li>Select Sever Machine for the server type and click Next.</li>
+		<li>Select Transactional Database Only for the database usage and
+		click Next.</li>
+		<li>For the InnoDB Tablespace Settings, select MySQL Datafiles
+		from the dropdown list<br />
+		Click Next.</li>
+		<li>Select Manual Setting for the number of concurrent
+		connections.Set this value to 5 (depending on number clients using the
+		application)<br />
+		Click Next.</li>
+
+		<li>Accept the default value of Enable TCP/IP Networking for the
+		networking options and click Next.</li>
+
+		<li>Accept the default value of Standard Character Set for the
+		default character set and click Next.</li>
+
+		<li>Accept the default value of Install as Windows Service for
+		the Windows. You may explicitly identify which version of MySQL is
+		running (you need not worry if you are having only single MySQL
+		server) Check the box to Include Bin Directory in Windows.<br />
+		Click Next.</li>
+
+		<li>Always select a new root password when you install MySQL for
+		the first time. That is because MySQL normally has no password in
+		Windows which allows anyone to access the database. Make sure you
+		remember what the password is.<br />
+		Remove the check mark next to the Anonymous Account.<br />
+		Click Next.</li>
+
+		<li>All of the information required by the configuration wizard
+		is complete.<br />
+		Click the Execute button to begin the actual configuration.</li>
+		<li>After all the status messages are issued, click the Finish
+		button.</li>
+	</ol>
+	</li>
+
+	</p>
+	<br />
+	<br />
+	<div class="navigate"></div>
+</div>
+</div>
+<div id="footer"><a href="http://www.orangehrm.com"
+	target="_blank" tabindex="37">OrangeHRM</a> FAQ ver 0.2 &copy; OrangeHRM Inc.
+	2005 - 2007 All rights reserved.</div>
+</div>
+</body>
+</html>

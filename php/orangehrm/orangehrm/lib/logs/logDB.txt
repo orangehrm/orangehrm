@@ -1,0 +1,8 @@
+Thu, 29 Nov 2007 11:41:56 +0530 : 
+mysql_connect() [function.mysql-connect]: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /var/www/html/orangehrm2.2.2/lib/dao/MySQLClass.php on line 53
+Thu, 29 Nov 2007 11:42:58 +0530 : 
+mysql_connect() [function.mysql-connect]: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /var/www/html/orangehrm2.2.2/lib/dao/MySQLClass.php on line 53
+Thu, 29 Nov 2007 14:54:04 +0530 : 
+mysql_connect() [function.mysql-connect]: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) in /var/www/html/orangehrm2.2.2/lib/dao/MySQLClass.php on line 53
+Mon, 03 Dec 2007 15:00:06 +0530 : 
+require_once(/var/www/html/orangehrm2.2.2/lib/controllers/BenefitsController.php) [function.require-once]: failed to open stream: No such file or directory in /var/www/html/mischg/lib/controllers/CentralController.php on line 55

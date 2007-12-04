@@ -1,0 +1,47 @@
+Client Info
+
+User Agent : Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20061011 Fedora/1.5.0.7-7.fc6 Firefox/1.5.0.7
+Remote Address : 127.0.0.1
+
+Server Info
+
+Host : localhost
+PHP Version : 5.1.6
+Server : Apache/2.2.3 (Fedora)
+Admin : root@localhost
+
+Document Root : /var/www/html
+ROOT_PATH : /var/www/html/orangehrm2.2.2
+
+OrangeHRM Installation Log
+
+Wed, 21 Nov 2007 16:00:49 +0530 DB Creation - Starting
+Wed, 21 Nov 2007 16:00:49 +0530 DB Creation - Done
+Wed, 21 Nov 2007 16:00:49 +0530 DB Creation - No Errors
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Starting
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Connected to the DB Server
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Selected the DB
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Reading DB Script
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Opened DB Script
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - Read DB script
+Wed, 21 Nov 2007 16:00:51 +0530 Fill Data Phase 1 - There are 138 Statements in the DB script
+Wed, 21 Nov 2007 16:00:52 +0530 Fill Data Phase 1 - Done
+Wed, 21 Nov 2007 16:00:52 +0530 Fill Data Phase 1 - No Errors
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Starting
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Connected to the DB Server
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Selected the DB
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Reading DB Script
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Opened DB Script
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Read DB script
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - There are 530 Statements in the DB script
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - Done
+Wed, 21 Nov 2007 16:00:54 +0530 Fill Data Phase 2 - No Errors
+Wed, 21 Nov 2007 16:00:56 +0530 Create DB user - Starting
+Wed, 21 Nov 2007 16:00:56 +0530 Create DB user - Done
+Wed, 21 Nov 2007 16:00:56 +0530 Create DB user - No Errors
+Wed, 21 Nov 2007 16:00:58 +0530 Create OrangeHRM user - Starting
+Wed, 21 Nov 2007 16:00:58 +0530 Create OrangeHRM user - Done
+Wed, 21 Nov 2007 16:00:58 +0530 Create OrangeHRM user - No Errors
+Wed, 21 Nov 2007 16:01:01 +0530 Write Conf - Starting
+Wed, 21 Nov 2007 16:01:01 +0530 Write Conf - Done
+Wed, 21 Nov 2007 16:01:01 +0530 Write Conf - No Errors

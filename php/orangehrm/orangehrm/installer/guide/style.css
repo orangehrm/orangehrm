@@ -1,0 +1,337 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+
+/* CSS Document */
+
+/* Top Table */
+
+.left_Active {
+	background-image : url(/themes/beyondT/pictures/nCurrentTab_left.gif);
+	width:9px;
+	height:19px;
+}
+
+.middle_Active {
+	background-image : url(/themes/beyondT/pictures/nCurrentTab_middle.gif);
+	height:19px;
+	font-size: 11px;
+	text-transform: capitalize;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	padding-left: 7px;
+	padding-right: 7px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.right_Active {
+	background-image : url(/themes/beyondT/pictures/nCurrentTab_right.gif);
+	width:9px;
+	height:19px;
+}
+
+.left_Inactive {
+	background-image : url(/themes/beyondT/pictures/otherTab_left.png);
+	width:9px;
+	height:19px;
+}
+
+.middle_Inactive {
+	background-image : url(/themes/beyondT/pictures/otherTab_middle.png);
+	height:19px;
+	font-size: 11px;
+	text-transform: capitalize;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	padding-left: 7px;
+	padding-right: 7px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.middle_Inactive_tocome {
+	background-image : url(/themes/beyondT/pictures/otherTab_middle.png);
+	height:19px;
+	font-size: 11px;
+	text-transform: capitalize;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	padding-left: 7px;
+	padding-right: 7px;
+	font-weight: bold;
+	color: #999999;
+}
+
+.right_Inactive {
+	background-image : url(/themes/beyondT/pictures/otherTab_right.png);
+	width:9px;
+	height:19px;
+}
+
+#footer {
+	font-size: 10px;
+	color: #999999;
+	vertical-align: bottom;
+	position: static;
+	bottom: 0;
+	left:auto;
+}
+
+#footer a {
+	color: #FF9900;
+	text-decoration: none;
+}
+
+#welcomeLink,  #welcomeLink a{
+	color: #FF9900;
+	text-decoration: none;
+	text-align: right;
+	width: 750px;
+	clear:left;
+}
+
+#logo {
+	text-align: right;
+
+}
+
+h1 {
+	padding-top:10px;
+	margin-bottom:-15px;
+}
+
+h2 {
+	text-align:left;
+	font-size:20px;
+}
+
+h3 {
+	text-align:left;
+	font-size:16px;
+}
+
+h4 {
+	text-align:left;
+	font-size:12px;
+}
+
+h5 {
+	text-align:left;
+	font-size:11px;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	height:100%;
+	background:url(../images/logo.gif) left no-repeat fixed top;
+	background-color:#EEEEEE;
+}
+
+
+#next {
+	position:relative;
+	right:0px;
+}
+
+
+.th {
+	padding-left: 5px;
+	height: 40px;
+	border-bottom:#CCCCCC thin solid;
+}
+
+th {
+	padding-left: 5px;
+	height: 40px;
+	vertical-align:top;
+}
+
+td {
+	vertical-align:top;
+}
+
+.tdComponent {
+	padding-right: 50px;
+	padding-left: 5px;
+	border-bottom:#CCCCCC thin solid;
+}
+
+
+.tdComponent_n{
+	padding-right: 50px;
+	padding-left: 5px;
+}
+
+
+#content {
+	width: 800px;
+	margin-top: 10px;
+	margin-left: 60px;
+	margin-bottom:10px;
+	padding-left:20px;
+	padding-right:20px;
+	background:top right no-repeat url(../../themes/beyondT/pictures/orange_new_02.gif);
+	background-color:#FFFFFF;
+}
+
+.error {
+	color: #ff0000;
+}
+
+.see {
+	margin: 0;
+	font-style:italic;
+	color:#DD7700;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+.docLogo {
+	position:fixed;
+	top:0;
+	left:0;
+}
+
+.external {
+	background:url(../images/link.gif) no-repeat right;
+	padding-right: 15px;
+	color:#0099FF;
+}
+
+.notes {
+	background:#CCCCCC;
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:12px;
+	padding-bottom:12px;
+	margin:10px;
+}
+
+.code {
+	font-family:"Courier New", Courier, monospace;
+	color:#555555;
+}
+
+.bash {
+	font-family:"Courier New", Courier, monospace;
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:12px;
+	padding-bottom:12px;
+	margin:10px;
+	background:#DDDDDD;
+	color:#555555;
+}
+
+.section {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.navigate {
+	color:#3399CC;
+	border: thin none;
+	border-top: dotted thin #DD7700;
+}
+
+.back {
+	text-align:left;
+	margin-top:5px;
+	margin-left:10px;
+}
+
+.top {
+	position:absolute;
+	text-align:right;
+	margin-left:750px;
+	margin-top:5px;
+}
+
+.screenshot {
+	border:1px solid #CC3300;
+	width:100%;
+}
+
+.caption {
+	font-size:9px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left:15px;
+	padding-bottom:15px;
+	background:url(../images/above.gif) no-repeat left top;
+}
+
+.skip {
+	color:#0099FF;
+	font-size:12px;
+	font-family:"Courier New", Courier, monospace;
+}
+
+ul {
+	list-style:square;
+}
+
+ul ol {
+	list-style:decimal;
+}
+
+ol ol {
+	list-style:lower-roman;
+}
+
+.content_table a{
+	color:#3399FF;
+}
+
+.content_table_sub {
+	font-size:11px;
+}
+
+#logo {
+	float:right;
+}
+
+.info {
+	padding: 5px 5px 5px 33px;
+	border: 1px solid #72A6D6;
+	display: block;
+	background: url(../../themes/beyondT/icons/exceptions/24-message-info.png) no-repeat 4px 8px;
+	background-color: #C0E1FF;
+}
+
+.warning {
+	padding: 5px 5px 5px 33px;
+	border: 1px solid #FF9D0B;
+	display: block;
+	background: url(../../themes/beyondT/icons/exceptions/24-message-warn.png) no-repeat 4px 5px;
+	background-color: #FFEBB3;
+}
