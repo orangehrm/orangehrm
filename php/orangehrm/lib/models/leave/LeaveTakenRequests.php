@@ -198,7 +198,7 @@ class LeaveTakenRequests {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($sql);
 
-		if ($result && mysql_affected_rows() === 1) {
+		if ($result) {
 			return true;
 		} else {
 			return false;
