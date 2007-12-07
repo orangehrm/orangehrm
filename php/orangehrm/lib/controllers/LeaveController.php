@@ -331,8 +331,50 @@ class LeaveController {
 	private function _viewLeavesAdmin($details) {
 		$tmpObj = $this->getObjLeave();
 
+		/* Show only leave with requested statuses, default to approved leave
+		 * Save preferences in session.
+		 *
+		 * TODO: This huge manipulation of POST and SESSION is not that appropriate here.
+		 */
+		if (isset($_GET['NewQuery'])) {
+			unset($_SESSION['leaveStatusFilters']);
+			unset($_SESSION['leaveListFromDate']);
+			unset($_SESSION['leaveListToDate']);
+		}
+
+		if (isset($_POST['leaveStatus'])) {
+			$leaveStatuses = $_POST['leaveStatus'];
+		} else if (isset($_SESSION['leaveStatusFilters'])) {
+			$leaveStatuses = $_SESSION['leaveStatusFilters'];
+		} else {
+			$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_APPROVED);
+		}
+		$_SESSION['leaveStatusFilters'] = $leaveStatuses;
+
+		$fromDate = isset($_POST['txtFromDate'])?$_POST['txtFromDate']:
+			(isset($_SESSION['leaveListFromDate']) ? $_SESSION['leaveListFromDate']:null);
+		$toDate = isset($_POST['txtToDate'])?$_POST['txtToDate']:
+			(isset($_SESSION['leaveListToDate']) ? $_SESSION['leaveListToDate']:null);
+
+
+		 $timeStamp = strtotime($fromDate);
+		 if (($timeStamp === false) || $timeStamp == -1 ) {
+		 	$fromDate = null;
+		 	unset($_SESSION['leaveListFromDate']);
+		 } else {
+			$_SESSION['leaveListFromDate'] = $fromDate;
+		 }
+
+		 $timeStamp = strtotime($toDate);
+		 if (($timeStamp === false) || $timeStamp == -1 ) {
+		 	$toDate = null;
+		 	unset($_SESSION['leaveListToDate']);
+		 } else {
+			$_SESSION['leaveListToDate'] = $toDate;
+		 }
+
 		if (!$details) {
-			$tmpObj = $tmpObj->retriveLeaveRequestsAdmin();
+			$tmpObj = $tmpObj->retriveLeaveRequestsAdmin($leaveStatuses, $fromDate, $toDate);
 			$path = "/templates/leave/leaveRequestList.php";
 		} else {
 			$this->_authenticateViewLeaveDetails();
@@ -343,6 +385,9 @@ class LeaveController {
 		$template = new TemplateMerger($tmpObj, $path);
 
 		$modifiers[] = "ADMIN";
+		$modifiers['leave_statuses'] = $leaveStatuses;
+		$modifiers['from_date'] = $fromDate;
+		$modifiers['to_date'] = $toDate;
 
 		$template->display($modifiers);
 

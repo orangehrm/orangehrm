@@ -304,6 +304,10 @@
 	$lang_Leave_Leave_list_TitleAllEmployees= "Leave List (All Employees)";
 	$lang_Leave_Leave_list_TitleMyLeaveList = "My Leave List";
 	$lang_Leave_Leave_list_Title5 			= "Taken Leaves";
+	$lang_Leave_Leave_list_ShowLeavesWithStatus = "Show leave with status";
+	$lang_Leave_Leave_list_SelectAtLeastOneStatus = "Select at least one leave status";
+	$lang_Leave_Leave_list_From             = "From";
+	$lang_Leave_Leave_list_To               = "To";
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #employeeName for #dispYear";

@@ -112,7 +112,15 @@ class LeaveRequests extends Leave {
 		return $leaveArr;
 	}
 
-	public function retriveLeaveRequestsAdmin() {
+	/**
+	 * Retrieve leave requests for admin user
+	 *
+	 * @param $filterLeaveStatus array Array of leave statuses to include. If set, only
+	 *                                 leaves with these statuses are returned.
+	 * @param $fromDate Date Start date to search
+	 * @param $toDate Date End date to search
+	 */
+	public function retriveLeaveRequestsAdmin($filterLeaveStatus = null, $fromDate = null, $toDate = null) {
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -133,7 +141,7 @@ class LeaveRequests extends Leave {
 
 		$result = $dbConnection->executeQuery($query);
 
-		$leaveArr = $this->_buildObjArr($result, true);
+		$leaveArr = $this->_buildObjArr($result, true, $filterLeaveStatus, $fromDate, $toDate);
 
 		return $leaveArr;
 	}
@@ -231,7 +239,13 @@ class LeaveRequests extends Leave {
 		return $requiredLength*$factor;
 	}
 
-	protected function _buildObjArr($result, $supervisor=false) {
+	/**
+	 * @param $filterLeaveStatus array Array of leave statuses to include. If set, only
+	 *                                 leaves with these statuses are returned.
+	 * @param $fromDate Date Start date to search
+	 * @param $toDate Date End date to search
+	 */
+	protected function _buildObjArr($result, $supervisor=false, $filterLeaveStatus = null, $fromDate = null, $toDate = null) {
 
 		$objArr = null;
 
@@ -274,10 +288,11 @@ class LeaveRequests extends Leave {
 
 					for ($i=1; $i<$totalLeaves; $i++) {
 
-						if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
-							$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
-							$hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
-
+						if ($tmpLeaveArr[$i]->getLeaveLengthHours() > 0) {
+							if ($tmpLeaveArr[$i]->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+								$noOfDays += $tmpLeaveArr[$i]->getLeaveLengthDays();
+								$hours += $tmpLeaveArr[$i]->getLeaveLengthHours();
+							}
 							if ($status != $tmpLeaveArr[$i]->getLeaveStatus()) {
 								$status = self::LEAVEREQUESTS_MULTIPLESTATUSES;
 							}
@@ -293,6 +308,7 @@ class LeaveRequests extends Leave {
 
 					$tmpLeaveRequestArr->setLeaveStatus($status);
 				} else {
+
 					$tmpLeaveRequestArr->setLeaveStatus($tmpLeaveArr[0]->getLeaveStatus());
 					$tmpLeaveRequestArr->setLeaveComments($tmpLeaveArr[0]->getLeaveComments());
 				}
@@ -300,13 +316,45 @@ class LeaveRequests extends Leave {
 				$tmpLeaveRequestArr->setNoDays(number_format($noOfDays,2));
 				$tmpLeaveRequestArr->setLeaveLengthHours(number_format($hours,2));
 
-				if ($supervisor) {
-					$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
-					$tmpLeaveRequestArr->setEmployeeId($row[3]);
-					if ($tmpLeaveRequestArr->getLeaveStatus() != self::LEAVE_STATUS_LEAVE_TAKEN) {
-						$objArr[] = $tmpLeaveRequestArr;
+
+				/* Check that at least one leave in the list contains a status in
+				 * $filterLeaveStatus.
+				 */
+				$skip = false;
+
+				if (isset($filterLeaveStatus)) {
+					$skip = true;
+					for ($i=0; $i<$totalLeaves; $i++) {
+						if (in_array($tmpLeaveArr[$i]->getLeaveStatus(), $filterLeaveStatus)) {
+							$skip = false;
+							break;
+						}
 					}
-				} else {
+				} else if ($supervisor &&  $tmpLeaveRequestArr->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN) {
+					$skip = true;
+				}
+
+				if (isset($fromDate) && !$skip) {
+					if (strtotime($tmpLeaveRequestArr->getLeaveFromDate()) < strtotime($fromDate)) {
+						$skip = true;
+					}
+				}
+
+				if (isset($toDate) && !$skip) {
+					$endDate = $tmpLeaveRequestArr->getLeaveToDate();
+					if (empty($endDate)) {
+						$endDate = $tmpLeaveRequestArr->getLeaveFromDate();
+					}
+					if (strtotime($endDate) > strtotime($toDate)) {
+						$skip = true;
+					}
+				}
+
+				if (!$skip) {
+					if ($supervisor) {
+						$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
+						$tmpLeaveRequestArr->setEmployeeId($row[3]);
+					}
 					$objArr[] = $tmpLeaveRequestArr;
 				}
 			}
