@@ -1,6 +1,9 @@
 New & Changed Features for OrangeHRM ver 2.2.2.2
 	BugId     Name
 	1843217   Leave Module: Taken leave incorrect calculation
+        1841792   Incorrect number of leave hours when shift changes
+        1838473   Leave -> Apply Leave
+        1841195   Leave hours calculated for holidays
 
 New & Changed Features for OrangeHRM ver 2.2.2.1
 	BugId     Name

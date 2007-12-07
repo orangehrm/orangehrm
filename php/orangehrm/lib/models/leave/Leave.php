@@ -465,10 +465,10 @@ class Leave {
 		$days=1;
 
 		if ($this->getLeaveLengthHours() != null) {
-			$hours = $this->getLeaveLengthHours()-$timeOff;
+			$hours = $this->getLeaveLengthHours() - ($timeOff * $shift);
 			$days = round(($hours/$shift), 2);
 		} else if ($this->getLeaveLengthDays() != null) {
-			$hours = $this->getLeaveLengthDays()*$shift-$timeOff;
+			$hours = ($this->getLeaveLengthDays() - $timeOff) * $shift;
 			$days = round(($hours/$shift), 2);
 		}
 
@@ -599,6 +599,9 @@ class Leave {
 	/**
 	 * Calculates the time off for a particular date
 	 *
+	 * Return values:
+	 * Eg: Returns 1 for full day off, 0.5 for half day off, 0 for no off time
+	 *
 	 * @param String $date
 	 * @return integer $timeOff
 	 */
@@ -617,7 +620,7 @@ class Leave {
 			$timeOff = $length;
 		}
 
-		return $timeOff;
+		return $timeOff / 8;
 	}
 
 	/**
