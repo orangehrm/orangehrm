@@ -10,6 +10,7 @@ New & Changed Features for OrangeHRM ver 2.2.2.2
         1838473   Leave -> Apply Leave
         1841195   Leave hours calculated for holidays
 	1843238   Scheduled Leave will show cancelled leave
+	1845291   Leave Module : HRAdmin Could not change state
 
 New & Changed Features for OrangeHRM ver 2.2.2.1
 	BugId     Name
