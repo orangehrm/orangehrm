@@ -1,3 +1,7 @@
+New & Changed Features for OrangeHRM ver 2.2.2.2
+	BugId     Name
+	1843217   Leave Module: Taken leave incorrect calculation
+
 New & Changed Features for OrangeHRM ver 2.2.2.1
 	BugId     Name
 	1809967   No option listed superviser to print timesheets

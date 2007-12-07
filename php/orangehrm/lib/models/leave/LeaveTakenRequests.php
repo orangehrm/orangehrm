@@ -188,27 +188,17 @@ class LeaveTakenRequests {
 
 	public function changeTakenLeaveQuota($obj) {
 
-		$sqlBuilder = new SQLQBuilder();
-
-		$updateTable = "`hs_hr_employee_leave_quota`";
-
-		$updateFileds[0] = "`leave_taken`";
-
-		$updateValues[0] = "`leave_taken` - " . round($obj->getNoHours()/8, 2);
-
-		$updateConditions[0] = "`year` = '".$obj->getLeaveYear()."'";
-		$updateConditions[1] = "`leave_type_id` = '".$obj->getLeaveTypeId()."'";
-		$updateConditions[2] = "`employee_id` = '".$obj->getEmployeeId()."'";
-
-		$query = $sqlBuilder->simpleUpdate($updateTable, $updateFileds, $updateValues, $updateConditions, false);
-
-		//echo $query; die;
+        $sql = "UPDATE `hs_hr_employee_leave_quota` q, `hs_hr_leave` l SET " .
+               "q.`leave_taken` = q.`leave_taken` - l.`leave_length_days` WHERE " .
+               "q.`year` = '".$obj->getLeaveYear()."' AND " .
+               "q.`leave_type_id` = '".$obj->getLeaveTypeId()."' AND " .
+               "q.`employee_id` = '".$obj->getEmployeeId()."' AND " .
+               "l.`leave_id` = '".$obj->getLeaveId()."'" ;
 
 		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($sql);
 
-		$result = $dbConnection->executeQuery($query);
-
-		if ($result) {
+		if ($result && mysql_affected_rows() === 1) {
 			return true;
 		} else {
 			return false;
