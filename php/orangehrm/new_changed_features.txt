@@ -2,7 +2,7 @@ New & Changed Features for OrangeHRM ver 2.2.2.2
 
         1. "Leave List" menu item in Leave module renamed to "My Leave"
         2. "Scheduled Leave" menu item in Leave module renamed to "Leave List"
-and options added to filter leave list by status and date.
+           and options added to filter leave list by status and date.
 
 	BugId     Name
 	1843217   Leave Module: Taken leave incorrect calculation

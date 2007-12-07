@@ -232,7 +232,7 @@ if ($modifier === "ADMIN") {
 ?>
 		<?php echo "$value";?>
 		<input type='checkbox' class='checkbox' name='leaveStatus[]' value='<?php echo $key;?>'
-			'<?php echo $checked;?>'/>
+			<?php echo $checked;?> />
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php
 	}
