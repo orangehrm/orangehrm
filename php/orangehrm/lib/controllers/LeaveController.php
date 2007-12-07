@@ -234,7 +234,8 @@ class LeaveController {
 
 		$template = new TemplateMerger($tmpObj, $path);
 
-		$template->display();
+		$modifiers[] = "MY";
+		$template->display($modifiers);
 	}
 
 	/**

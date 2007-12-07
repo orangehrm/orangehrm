@@ -32,11 +32,13 @@
  	$records = $records[0];
  }
 if ($modifier === "ADMIN") {
-	$lang_Title = $lang_Leave_Leave_list_Title4;
+	$lang_Title = $lang_Leave_Leave_list_TitleAllEmployees;
 } else if ($modifier === "SUP") {
 	$lang_Title = $lang_Leave_Leave_list_Title1;
 } else if ($modifier === "Taken") {
 	$lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
+} else if ($modifier === "MY") {
+	$lang_Title = $lang_Leave_Leave_list_TitleMyLeaveList;
 } else {
 	$lang_Title = $lang_Leave_Leave_list_Title3;
 }
@@ -142,7 +144,7 @@ if ($modifier === "ADMIN") {
     			<?php if (($record->getLeaveLengthHours() != null) || ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
-  					<?php if ($modifier == null) {
+  					<?php if ($modifier === "MY") {
   							foreach($employeeRespArr as $key => $value) {
   								if ($key != $record->getLeaveStatus()) {
   					?>

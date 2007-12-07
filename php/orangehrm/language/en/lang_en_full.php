@@ -160,6 +160,7 @@
 	$lang_Menu_Leave_Apply 								= "Apply";
 	$lang_Menu_Leave_Assign								= "Assign Leave";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
+	$lang_Menu_Leave_MyLeave 							= "My Leave";
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specific Holidays";

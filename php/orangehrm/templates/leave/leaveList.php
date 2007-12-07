@@ -38,6 +38,8 @@ if ($modifier === "SUP") {
 	$lang_Title = preg_replace('/#employeeName/', $employeeName, $lang_Leave_Leave_Requestlist_Title1);
 } else if ($modifier === "Taken") {
  $lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
+} else if ($modifier === "MY") {
+	$lang_Title = $lang_Leave_Leave_list_TitleMyLeaveList;
 } else {
  $lang_Title = $lang_Leave_Leave_list_Title3;
 }
@@ -149,14 +151,14 @@ if ($modifier === "SUP") {
     		<?php if (($record->getLeaveLengthHours() != null) && ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
-  					<?php if ($modifier == null) {
+  					<?php if ($modifier == "MY") {
   							foreach($employeeRespArr as $key => $value) {
   								if ($key != $record->getLeaveStatus()) {
   					?>
   							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
   					<?php 		}
   							}
-  						} else if ($modifier == "SUP") {
+  						} else if ($modifier == "SUP" || $modifier == "ADMIN") {
 		  					foreach($suprevisorRespArr as $key => $value) {
 		  						if ($key != $record->getLeaveStatus()) {
   					?>
@@ -183,7 +185,7 @@ if ($modifier === "SUP") {
 		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) || (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP"))) { ?>
 		<input type="text" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
-		<?php } else if (($modifier == null) || ($modifier == "Taken")) {
+		<?php } else if (($modifier == "MY") || ($modifier == "Taken")) {
 			echo $record->getLeaveComments(); ?>
 		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<?php } else {

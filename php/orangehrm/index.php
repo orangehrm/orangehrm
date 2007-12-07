@@ -546,7 +546,7 @@ function preloadAllImages() {
   							}
                  			if ($authorizeObj->isESS()) {
   						?>
-  						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu"><?php echo $lang_Menu_Leave_LeaveList; ?></a></li>
+  						<li id="leaveList"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee" target="rightMenu"><?php echo $lang_Menu_Leave_MyLeave; ?></a></li>
   						<li id="applyLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view" target="rightMenu"><?php echo $lang_Menu_Leave_Apply; ?></a></li>
   						<?php
                       		}

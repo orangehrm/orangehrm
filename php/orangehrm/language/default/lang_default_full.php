@@ -162,6 +162,7 @@
 	$lang_Menu_Leave_Apply 								= "Apply";
 	$lang_Menu_Leave_Assign								= "Assign Leave";
 	$lang_Menu_Leave_LeaveList 							= "Leave List";
+	$lang_Menu_Leave_MyLeave 							= "My Leave";
 	$lang_Menu_Leave_DefineDaysOff 						= "Define Days Off";
 	$lang_Menu_Leave_DefineDaysOff_Weekends 			= "Weekends";
 	$lang_Menu_Leave_DefineDaysOff_SpecificHolidays 	= "Specific Holidays";
@@ -294,12 +295,14 @@
 	$lang_Leave_Common_Recurring 			= "Repeats annually";
 
  	$lang_Leave_Leave_list_Title1 			= "Approve Leave";
- 	$lang_Leave_all_emplyee_leaves			= "Scheduled Leaves";
+ 	$lang_Leave_all_emplyee_leaves			= "Leave List";
  	$lang_Leave_all_emplyee_taken_leaves	= "Taken Leaves";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_list_Title2 			= "Leaves Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";
 	$lang_Leave_Leave_list_Title4 			= "Scheduled Leaves";
+	$lang_Leave_Leave_list_TitleAllEmployees= "Leave List (All Employees)";
+	$lang_Leave_Leave_list_TitleMyLeaveList = "My Leave List";
 	$lang_Leave_Leave_list_Title5 			= "Taken Leaves";
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
