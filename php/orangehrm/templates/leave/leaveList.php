@@ -36,6 +36,9 @@
 if ($modifier === "SUP") {
  	$employeeName = $records[0]->getEmployeeName();
 	$lang_Title = preg_replace('/#employeeName/', $employeeName, $lang_Leave_Leave_Requestlist_Title1);
+} else if ($modifier === "ADMIN") {
+ 	$employeeName = $records[0]->getEmployeeName();
+	$lang_Title = preg_replace('/#employeeName/', $employeeName, $lang_Leave_Leave_Requestlist_Title2);
 } else if ($modifier === "Taken") {
  $lang_Title = preg_replace(array('/#employeeName/', '/#dispYear/'), array($employeeName, $dispYear) , $lang_Leave_Leave_list_Title2);
 } else if ($modifier === "MY") {
@@ -47,6 +50,9 @@ if ($modifier === "SUP") {
  if ($modifier === "SUP") {
  	$action = "Leave_ChangeStatus";
  	$backLink = "Leave_FetchLeaveSupervisor";
+ } else if ($modifier === "ADMIN") {
+ 	$action = "Leave_ChangeStatus";
+ 	$backLink = "Leave_FetchLeaveAdmin";
  } else {
  	$action = "Leave_CancelLeave";
  	$backLink = "Leave_FetchLeaveEmployee";
@@ -145,27 +151,30 @@ if ($modifier === "SUP") {
    			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
-    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP"))) {
+
+			if ($modifier === "MY") {
+  				$possibleStatusesArr = $employeeRespArr;
+  			} else if ($modifier == "SUP" || $modifier == "ADMIN") {
+		  		$possibleStatusesArr = $suprevisorRespArr;
+
+		  		if ($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) {
+		  			$possibleStatusesArr = array(Leave::LEAVE_STATUS_LEAVE_CANCELLED => $lang_Leave_Common_Cancelled);
+		  		}
+			}
+
+    		if (($record->getLeaveStatus() == $record->statusLeavePendingApproval) || ($record->getLeaveStatus() ==  $record->statusLeaveApproved) || (($record->getLeaveStatus() ==  $record->statusLeaveRejected) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
+    			(($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) {
     	?>
     			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
     		<?php if (($record->getLeaveLengthHours() != null) && ($record->getLeaveLengthHours() != 0)) { ?>
     			<select name="cmbStatus[]">
   					<option value="<?php echo $record->getLeaveStatus();?>" selected="selected" ><?php echo $statusArr[$record->getLeaveStatus()]; ?></option>
-  					<?php if ($modifier == "MY") {
-  							foreach($employeeRespArr as $key => $value) {
-  								if ($key != $record->getLeaveStatus()) {
+  					<?php foreach($possibleStatusesArr as $key => $value) {
+                                if ($key != $record->getLeaveStatus()) {
   					?>
   							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-  					<?php 		}
-  							}
-  						} else if ($modifier == "SUP" || $modifier == "ADMIN") {
-		  					foreach($suprevisorRespArr as $key => $value) {
-		  						if ($key != $record->getLeaveStatus()) {
-  					?>
-  							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-  					<?php 		}
-		  					}
-  						}
+  					<?php       }
+                          }
   					?>
   				</select>
   			<?php } else { ?>
@@ -182,7 +191,11 @@ if ($modifier === "SUP") {
     		echo (($record->getLeaveLengthHours() == null) || ($record->getLeaveLengthHours() == 0))?"----":$record->getLeaveLengthHours();
     ?></td>
     <td class="<?php echo $cssClass; ?>">
-		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) || (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP"))) { ?>
+		<?php if (($record->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) || ($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_APPROVED) ||
+	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_REJECTED) && ($modifier == "SUP" || $modifier == "ADMIN")) ||
+	    (($record->getLeaveStatus() ==  Leave::LEAVE_STATUS_LEAVE_TAKEN) && ($modifier == "ADMIN"))) { ?>
+
+
 		<input type="text" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($modifier == "MY") || ($modifier == "Taken")) {
