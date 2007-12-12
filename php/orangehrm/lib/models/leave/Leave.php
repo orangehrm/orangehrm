@@ -349,6 +349,9 @@ class Leave {
 		$arrFields[5] = '`leave_id`';
 		$arrFields[6] = '`start_time`';
 		$arrFields[7] = '`end_time`';
+		$arrFields[8] = '`leave_request_id`';
+		$arrFields[9] = '`leave_type_id`';
+		$arrFields[10] = '`employee_id`';
 
 		$arrTable = "`hs_hr_leave`";
 
@@ -376,36 +379,42 @@ class Leave {
 	}
 
 	public function cancelLeave($id = null) {
-		if (isset($id)) {
-			$this->setLeaveId($id);
-		}
-
-		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
-
-		$taken = false;
-
-		if (isset($leaveObjs[0])) {
-			$leave = $leaveObjs[0];
-			$taken = ($leave->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN);
-		}
-
-		$this->setLeaveStatus($this->statusLeaveCancelled);
-		$res = $this->_changeLeaveStatus();
-
-		if ($res && $taken) {
-			$this->setLeaveLengthDays($this->leaveLengthDays*-1);
-			$this->setLeaveLengthHours($this->leaveLengthHours*-1);
-			$res = $this->storeLeaveTaken();
-		}
-
-		return $res;
+		return $this->changeLeaveStatus($id);
 	}
 
 	public function changeLeaveStatus($id = null) {
 		if (isset($id)) {
 			$this->setLeaveId($id);
 		}
-		return $this->_changeLeaveStatus();
+
+		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
+
+		if (!isset($leaveObjs)) {
+			return false;
+		}
+		$leave = $leaveObjs[0];
+
+		$newStatus = $this->getLeaveStatus();
+
+		/** Check if no change */
+		if ($newStatus == $leave->getLeaveStatus()) {
+			return true;
+		}
+
+		$taken = ($leave->getLeaveStatus() == self::LEAVE_STATUS_LEAVE_TAKEN);
+
+		$this->setLeaveStatus($newStatus);
+		$res = $this->_changeLeaveStatus();
+
+		if ($res && $taken) {
+			$this->setLeaveTypeId($leave->getLeaveTypeId());
+			$this->setLeaveDate($leave->getLeaveDate());
+			$this->setLeaveLengthDays($leave->leaveLengthDays*-1);
+			$this->setLeaveLengthHours($leave->leaveLengthHours*-1);
+			$res = $this->storeLeaveTaken();
+		}
+
+		return $res;
 	}
 
 	/**

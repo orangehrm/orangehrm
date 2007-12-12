@@ -239,6 +239,32 @@ class LeaveRequests extends Leave {
 		return $requiredLength*$factor;
 	}
 
+	public function cancelLeave($id = null) {
+		return $this->changeLeaveStatus($id);
+	}
+
+	public function changeLeaveStatus($id = null) {
+		if (isset($id)) {
+			$this->setLeaveRequestId($id);
+		}
+
+		$newStatus = $this->getLeaveStatus();
+
+		$tmpLeave = new Leave();
+		$tmpLeaveArr = $tmpLeave->retrieveLeave($this->getLeaveRequestId());
+
+		$ok = true;
+		foreach ($tmpLeaveArr as $leave) {
+			$leave->setLeaveStatus($newStatus);
+			$res = $leave->changeLeaveStatus();
+			if (!$res) {
+				$ok = false;
+			}
+		}
+		return $ok;
+
+	}
+
 	/**
 	 * @param $filterLeaveStatus array Array of leave statuses to include. If set, only
 	 *                                 leaves with these statuses are returned.
