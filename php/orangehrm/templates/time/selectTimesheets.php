@@ -19,7 +19,11 @@
  */
 
 $employmentStatuses = $records[0];
-$subList = $records[1];
+
+ if (isset($records[1])) {
+ $subList = $records[1];
+}
+
 
 ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
