@@ -369,6 +369,44 @@ class Leave {
 	}
 
 	/**
+	 * Retrieves leave for the given employee between the given two dates.
+	 * If the given dates are the same and startTime and endTime are given
+	 * looks for leave on that date between the given times.
+	 *
+	 *
+	 */
+	public function retrieveDuplicateLeave($employeeNum, $fromDate, $toDate) {
+		$sqlBuilder = new SQLQBuilder();
+
+		$arrFields[0] = '`leave_id`';
+		$arrFields[1] = '`leave_date`';
+		$arrFields[2] = '`leave_length_hours`';
+		$arrFields[3] = '`leave_length_days`';
+		$arrFields[4] = '`leave_status`';
+		$arrFields[5] = '`leave_comments`';
+		$arrFields[6] = '`leave_request_id`';
+		$arrFields[7] = '`leave_type_id`';
+		$arrFields[8] = '`employee_id`';
+		$arrFields[9] = '`start_time`';
+		$arrFields[10] = '`end_time`';
+
+		$arrTable = "`hs_hr_leave`";
+
+		$dbConnection = new DMLFunctions();
+		$selectConditions[1] = "`employee_id` = '". mysql_real_escape_string($employeeNum) . "'";
+		$selectConditions[2] = "`leave_date` >='". mysql_real_escape_string($fromDate) . "'";
+		$selectConditions[3] = "`leave_date` <='". mysql_real_escape_string($toDate) . "'";
+		$selectConditions[4] = "`leave_status` <>'". self::LEAVE_STATUS_LEAVE_CANCELLED . "'";
+
+		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions);
+		$result = $dbConnection->executeQuery($query);
+
+		$leaveArr = $this->_buildObjArr($result);
+
+		return $leaveArr;
+	}
+
+	/**
 	 * Add Leave record to for a employee.
 	 *
 	 * @access public
