@@ -145,7 +145,11 @@ require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 				if (fromTime > toTime) {
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
+				} else if (($('txtLeaveTotalTime').value != '') && (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) ) {
+					err = true;
+					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
 				}
+
 			} else if (($('sltLeaveFromTime').value != '') && extractTimeFromHours($('txtLeaveTotalTime').value)) {
 				if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 					err = true;
