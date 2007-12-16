@@ -284,6 +284,47 @@ class Workshift {
 	}
 
 	/**
+	 * Gets workshift hours for all employees
+	 *
+	 * @return array empid->workshift array for all employees with workshifts.
+	 */
+	public static function getWorkshiftForAllEmployees() {
+
+		$fields[0] = "b.`" . self::DB_FIELD_EMP_NUMBER . "`";
+		$fields[1] = "a.`" . self::DB_FIELD_HOURS . "`";
+
+		$tables[0] = "`" . self::WORKSHIFT_TABLE . "` a ";
+		$tables[1] = "`" . self::EMPLOYEE_WORKSHIFT_TABLE . "` b ";
+
+		$joinConditions[1] = "a." . self::DB_FIELD_WORKSHIFT_ID .
+							 " = b." . self::DB_FIELD_WORKSHIFT_ID;
+
+		$selectConditions = null;
+
+		$sqlBuilder = new SQLQBuilder();
+		$sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectConditions);
+
+		$conn = new DMLFunctions();
+		$results = $conn->executeQuery($sql);
+
+		if ($results === false) {
+			throw new WorkshiftException("Error in db query:" . $sql, WorkshiftException::ERROR_IN_DB_QUERY);
+		}
+
+		$numResults = mysql_num_rows($results);
+		$empWorkshifts = array();
+
+		while($row = mysql_fetch_array($results)) {
+
+			$empId = $row[self::DB_FIELD_EMP_NUMBER];
+			$hours = $row[self::DB_FIELD_HOURS];
+			$empWorkshifts[$empId] = $hours;
+		}
+
+		return $empWorkshifts;
+	}
+
+	/**
 	 * Remove all employees assigned to this workshift
 	 * @return int Number of employees removed from workshift
 	 */

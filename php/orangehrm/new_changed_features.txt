@@ -5,7 +5,9 @@ New & Changed Features for OrangeHRM ver 2.2.2.2
            and options added to filter leave list by status and date.
         3. "Taken Leave" menu item removed, since "Leave List" menu item
            allows you to view/cancel taken leaves.
-
+	4. Now leave requests that overlap previous leave requests are not
+           allowed.
+	
 	BugId     Name
 	1843217   Leave Module: Taken leave incorrect calculation
         1841792   Incorrect number of leave hours when shift changes
@@ -14,6 +16,9 @@ New & Changed Features for OrangeHRM ver 2.2.2.2
 	1843238   Scheduled Leave will show cancelled leave
 	1845291   Leave Module : HRAdmin Could not change state
         1847761   Leave List -> take and taken Leaves : same functionality
+	1847625   Apply leave hours greater than work shift
+	1849844   overlapping leave ranges. Common days counted several times.
+	1846303   Duplicate leave requests
 
 New & Changed Features for OrangeHRM ver 2.2.2.1
 	BugId     Name

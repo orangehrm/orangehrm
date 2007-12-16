@@ -314,5 +314,41 @@ class CommonFunctions {
 
 		return $formatted;
 	}
+
+	/**
+	 * Checks two time periods for overlapping times
+	 * Time values must be given in HH:MM 24 hour format
+	 * eg: 08:20, 21:15 etc.
+	 *
+	 * @param string $start1 Start time of first time period
+	 * @param string $end1 End time of first time period
+	 * @param string $start2 Start time of second time period
+	 * @param string $end2 End time of second time period
+	 *
+	 * @return boolean true if there is an overlap, false otherwise
+	 *
+	 * NOTE: Assumes time periods are correctly ordered (start time < end time)
+	 */
+	public static function checkTimeOverlap($start1, $end1, $start2, $end2) {
+
+		// Replace : with .
+		$startTime1 = str_replace(':', '.', $start1);
+		$endTime1 = str_replace(':', '.', $end1);
+		$startTime2 = str_replace(':', '.', $start2);
+		$endTime2 = str_replace(':', '.', $end2);
+
+		// Consider only correctly ordered time periods.
+		if (($startTime1 < $endTime1) && ($startTime2 < $endTime2)) {
+			if (($startTime1 < $startTime2) && ($endTime1 > $startTime2)) {
+				return true;
+			}
+			if (($startTime2 < $startTime1) && ($endTime2 > $startTime1)) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
 }
 ?>

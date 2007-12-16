@@ -194,6 +194,18 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("1.52 T", CommonFunctions::formatSiUnitPrefix(1523000000000));
 		$this->assertEquals("1.53 T", CommonFunctions::formatSiUnitPrefix(1525000000000));
     }
+
+    public function testCheckTimeOverlap() {
+    	$this->assertFalse(CommonFunctions::checkTimeOverlap('08:00', '09:00', '09:01', '13:00'));
+
+    	// start 2 = end 1 -> no overlap
+    	$this->assertFalse(CommonFunctions::checkTimeOverlap('08:00', '09:00', '09:00', '13:00'));
+
+		$this->assertTrue(CommonFunctions::checkTimeOverlap('13:00', '21:00', '09:00', '14:00'));
+		$this->assertTrue(CommonFunctions::checkTimeOverlap('11:00', '15:00', '13:00', '18:00'));
+		$this->assertTrue(CommonFunctions::checkTimeOverlap('11:00', '15:00', '10:00', '18:00'));
+		$this->assertTrue(CommonFunctions::checkTimeOverlap('17:00', '21:00', '18:00', '18:30'));
+    }
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

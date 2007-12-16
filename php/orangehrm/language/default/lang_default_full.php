@@ -1247,7 +1247,14 @@
 	$lang_Leave_Common_TotalHours = "Total hours";
 	$lang_Leave_Error_ToTimeBeforeFromTime = "To time before from time";
 	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than the shift length";
+	$lang_Leave_Common_WorkshiftLengthIs = "Workshift length is ";
 	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period";
+
+	$lang_Leave_Error_DuplicateLeaveError = "Your leave request overlaps with the following existing leave requests.";
+	$lang_Leave_Error_DuplicateLeaveErrorInstructions = "Please cancel existing leave requests that overlap or change the leave request below and retry.";
+
+	$lang_Leave_Error_DuplicateLeaveWarning = "The following leave requests are on the same day as the current leave request";
+	$lang_Leave_Error_DuplicateLeaveWarningInstructions = "Please review the existing leave requests and submit again to confirm or change the leave period if needed.";
 
 	$lang_Leave_Duration = "Duration(hours)";
 	$lang_Common_Hours = "hours";

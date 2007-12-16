@@ -18,6 +18,7 @@
  */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 
  $employees = null;
 
@@ -36,14 +37,48 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  $startTime = strtotime("00:00");
  $endTime = strtotime("23:59");
  $interval = 60*15;
+
  $shiftLength = Leave::LEAVE_LENGTH_FULL_DAY;
+ if (isset($records['shiftLength'])) {
+ 	$shiftLength = $records['shiftLength'];
+ }
+
+ if (isset($records['exception'])) {
+ 	$exception = $records['exception'];
+ }
+
 
 ?>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script src="../../scripts/time.js"></script>
 <script>
 
 	var shiftLength = <?php echo $shiftLength; ?>;
+	var empShifts = new Array();
+<?php
+	if (isset($records['allEmpWorkshits'])) {
+		foreach($records['allEmpWorkshits'] as $empId=>$shiftLen) {
+			echo "\t" . 'empShifts["' . $empId . '"] = ' . $shiftLen . ";\n";
+		}
+	}
+?>
+
+	function resetShiftLength() {
+
+		var empId = document.frmLeaveApp.cmbEmployeeId.value;
+
+		if (empId > 0) {
+			empId = trimLeadingZeros(empId);
+			workshift = empShifts[empId];
+
+			if (workshift > 0) {
+				shiftLength = workshift;
+			} else {
+				shiftLength = 8;
+			}
+		}
+	}
 
 	function addSave() {
 		fillToDate();
@@ -114,11 +149,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			} else if (($('sltLeaveFromTime').value != '') && extractTimeFromHours($('txtLeaveTotalTime').value)) {
 				if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 					err = true;
-					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
+					msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
 				}
 			} else if (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) {
 				err = true;
-				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?>\n"
+				msg += " - <?php echo $lang_Leave_Error_TotalTimeMoreThanADay; ?> (" + "<?php echo $lang_Leave_Common_WorkshiftLengthIs;?> " + shiftLength + " <?php echo $lang_Common_Hours; ?>) \n";
 			} else if (($('sltLeaveFromTime').value == '' || $('sltLeaveToTime').value == '') && $('txtLeaveTotalTime').value == '') {
 				err = true;
 				msg += " - <?php echo $lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod; ?>\n"
@@ -331,7 +366,133 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
 	<input type="hidden" name="txtComment[]" id="txtCommentC" value="" />
 </form>
 <?php } ?>
+<?php
+if (isset($exception)) {
+	if ($exception->isWarning()) {
+		$confirmDate = true;
+?>
+<div id="duplicateWarning" class="confirmBox">
+ 	<div class="confirmInnerBox">
+	<?php echo $lang_Leave_Error_DuplicateLeaveWarning; ?><br />
+	<?php echo $lang_Leave_Error_DuplicateLeaveWarningInstructions; ?>
+	</div>
+</div>
+<?php	} else { ?>
+<div id="duplicateError" class="confirmBox">
+ 	<div class="confirmInnerBox">
+	<?php echo $lang_Leave_Error_DuplicateLeaveError; ?><br />
+	<?php echo $lang_Leave_Error_DuplicateLeaveErrorInstructions; ?>
+	</div>
+</div>
+
+<?php
+	}
+$duplicateLeaves = $exception->getDuplicateLeaveList();
+if (!empty($duplicateLeaves) && count($duplicateLeaves) > 0) {
+	$empName = $duplicateLeaves[0]->getEmployeeName();
+}
+?>
+<table border="0" cellpadding="0" cellspacing="0">
+<thead>
+<tr>
+<th class="tableTopLeft"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopMiddle"></th>
+<th class="tableTopRight"></th>
+</tr>
+
+<tr>
+<th class="tableMiddleLeft"></th>
+<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date; ?></th>
+<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfHours; ?></th>
+<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period; ?></th>
+<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType; ?></th>
+<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status; ?></th>
+<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments; ?></th>
+<th class="tableMiddleRight"></th>
+</tr>
+</thead>
+<tbody>
+
+<?php
+
+$j = 0;
+if (is_array($duplicateLeaves)) {
+	$statusArr = array(Leave::LEAVE_STATUS_LEAVE_REJECTED => $lang_Leave_Common_Rejected,
+                       Leave::LEAVE_STATUS_LEAVE_CANCELLED => $lang_Leave_Common_Cancelled,
+                       Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => $lang_Leave_Common_PendingApproval,
+                       Leave::LEAVE_STATUS_LEAVE_APPROVED => $lang_Leave_Common_Approved,
+                       Leave::LEAVE_STATUS_LEAVE_TAKEN => $lang_Leave_Common_Taken);
+	foreach ($duplicateLeaves as $dup) {
+		if(!($j%2)) {
+			$cssClass = 'odd';
+		} else {
+			$cssClass = 'even';
+		}
+		$j++;
+		$leaveTime = "";
+		$dupStart = $dup->getStartTime();
+		$dupEnd = $dup->getEndTime();
+
+		if (!empty($dupStart) && !empty($dupEnd) && ($dupStart != "00:00") && ($dupEnd != "00:00") ) {
+			$leaveTime = LocaleUtil::getInstance()->formatTime($dupStart) . ' - ' . LocaleUtil::getInstance()->formatTime($dupEnd);
+		}
+
+?>
+
+<tr>
+<td class="tableMiddleLeft"></td>
+<td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($dup->getLeaveDate()); ?></td>
+<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveLengthHours(); ?></td>
+<td class="<?php echo $cssClass; ?>"><?php echo $leaveTime; ?></td>
+<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveTypeName(); ?></td>
+<td class="<?php echo $cssClass; ?>"><?php echo $statusArr[$dup->getLeaveStatus()]; ?></td>
+<td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveComments(); ?></td>
+<td class="tableMiddleRight"></td>
+</tr>
+
+<?php } } ?>
+
+</tbody>
+<tfoot>
+<tr>
+<td class="tableBottomLeft"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomMiddle"></td>
+<td class="tableBottomRight"></td>
+</tr>
+</tfoot>
+</table>
+<hr />
+<?php
+}
+
+$prevEmployeeId= (isset($_POST['cmbEmployeeId'])) ? $_POST['cmbEmployeeId'] : "";
+$prevLeaveFromDate = (isset($_POST['txtLeaveFromDate'])) ? $_POST['txtLeaveFromDate'] : "";
+$prevLeaveToDate = (isset($_POST['txtLeaveToDate'])) ? $_POST['txtLeaveToDate'] : "";
+$prevLeaveType = (isset($_POST['sltLeaveType'])) ? $_POST['sltLeaveType'] : "";
+$prevToTime = (isset($_POST['sltLeaveToTime'])) ? $_POST['sltLeaveToTime'] : "";
+$prevFromTime = (isset($_POST['sltLeaveFromTime'])) ? $_POST['sltLeaveFromTime'] : "";
+$prevTotalTime = (isset($_POST['txtLeaveTotalTime'])) ? $_POST['txtLeaveTotalTime'] : "";
+
+$prevComments = (isset($_POST['txtComments'])) ? $_POST['txtComments'] : "";
+
+$timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevLeaveToDate)) ?
+						"display-table-row" : "hidden";
+?>
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $modifier; ?>">
+
+<?php if (isset($confirmDate)) { ?>
+	<input type="hidden" name="confirmDate" value="<?php echo $prevLeaveFromDate; ?>"/>
+<?php } ?>
   <table border="0" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
@@ -351,17 +512,18 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
         <td width="25px">&nbsp;</td>
 		<td>
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled />
-			<input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" />
+			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled value="<?php echo isset($empName) ? $empName : ""; ?>" />
+			<input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo $prevEmployeeId;?>"/>
 			<input type="button" value="..." onclick="returnEmpDetail();" />
 		<?php } else if (isset($employees) && is_array($employees)) { ?>
-			<select name="cmbEmployeeId">
+			<select name="cmbEmployeeId" onchange="resetShiftLength();">
 	        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
 				<?php
 			   		sort($employees);
 			   		foreach ($employees as $employee) {
+						$selected = ($prevEmployeeId == $employee[0]) ? "selected" : "";
 			  	?>
-			 		  	<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
+			 		  	<option <?php echo $selected; ?> value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
 			  <?php } ?>
 	  	    </select>
 		<?php } ?>
@@ -378,8 +540,9 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
             <?php
 	  	if (is_array($records[1])) {
 	  	 	foreach ($records[1] as $record) {
+	  	 		$selected = ($record->getLeaveTypeID() == $prevLeaveType) ? "selected" : "";
 	  ?>
-            <option value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option>
+            <option <?php echo $selected;?> value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option>
             <?php  }
 			} else {?>
             <option value="-1">-- <?php echo $lang_Error_NoLeaveTypes; ?> --</option>
@@ -409,17 +572,19 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
       </tr>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"/>
+        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+        	value="<?php echo $prevLeaveFromDate; ?>"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
         </td>
         <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10" />
+        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+        	value="<?php echo $prevLeaveToDate; ?>"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
         </td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
-      <tr id="trTime1" class="hidden">
+      <tr id="trTime1" class="<?php echo $timeElementClass;?>">
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_FromTime;?></td>
         <td width="25px">&nbsp;</td>
@@ -427,22 +592,26 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
-      <tr id="trTime2" class="hidden">
+      <tr id="trTime2" class="<?php echo $timeElementClass;?>">
         <td class="tableMiddleLeft"></td>
         <td><select name="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" >
         	<option value="" selected ></option>
         	<?php
-        		for ($i=$startTime; $i<=$endTime; $i+=$interval) { ?>
-        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo LocaleUtil::getInstance()->formatTime(date('H:i', $i)); ?></option>
+        		for ($i=$startTime; $i<=$endTime; $i+=$interval) {
+        			$timeVal = date('H:i', $i);
+        			$selected = ($timeVal == $prevFromTime) ? "selected" : "";
+        	?>
+        			<option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
         	<?php } ?>
         	</select>
         </td>
         <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();" /></td>
+        <td><input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();"
+        		value="<?php echo $prevTotalTime; ?>"/></td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
-      <tr id="trTime3" class="hidden">
+      <tr id="trTime3" class="<?php echo $timeElementClass;?>">
       	<td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_ToTime;?></td>
       	<td width="25px">&nbsp;</td>
@@ -450,13 +619,17 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
       	<td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
-      <tr id="trTime4" class="hidden">
+      <tr id="trTime4" class="<?php echo $timeElementClass;?>">
      	<td class="tableMiddleLeft"></td>
         <td><select name="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" >
         	<option value="" selected ></option>
         	<?php
-        		for ($i=$startTime; $i<=$endTime; $i+=$interval) { ?>
-        			<option value="<?php echo date('H:i', $i); ?>" ><?php echo date('H:i', $i); ?></option>
+        		for ($i=$startTime; $i<=$endTime; $i+=$interval) {
+        			$timeVal = date('H:i', $i);
+        			$selected = ($timeVal == $prevToTime) ? "selected" : "";
+
+        		?>
+        			<option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
         	<?php } ?>
         	</select>
         </td>
@@ -475,7 +648,7 @@ if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_
       </tr>
       <tr valign="top">
         <td class="tableMiddleLeft"></td>
-        <td><textarea name="txtComments" id="txtComments"></textarea></td>
+        <td><textarea name="txtComments" id="txtComments"><?php echo $prevComments;?></textarea></td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>

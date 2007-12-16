@@ -184,6 +184,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '019'", $this->connection);
 		// For testStoreLeaveTaken
 		mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE employee_id = '018'");
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '018'", $this->connection);
     }
 
     public function testRetrieveTakenLeaveAccuracy1() {

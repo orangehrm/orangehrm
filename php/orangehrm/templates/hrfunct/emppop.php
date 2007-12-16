@@ -146,6 +146,9 @@ else
 ?>
         window.opener.document.frmLeaveApp.cmbEmployeeId.value = cntrl.name;
         window.opener.document.frmLeaveApp.txtEmployeeId.value = cntrl.title;
+        if (!window.opener.closed) {
+        	window.opener.resetShiftLength();
+        }
         window.close();
 
 <?php  } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'SUMMARY')) {

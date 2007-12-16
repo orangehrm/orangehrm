@@ -1262,8 +1262,13 @@ switch ($moduletype) {
 
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
 																						$leaveController->setObjLeave($obj);
-																						$mes = $leaveController->addLeave();
-																						$leaveController->redirect($mes);
+
+																						try {
+																							$mes = $leaveController->addLeave();
+																							$leaveController->redirectToLeaveApplyPage(false, $mes);
+																						} catch (DuplicateLeaveException $e) {
+																							$leaveController->displayLeaveInfo(false, $e);
+																						}
 																						break;
 
 													case 'Leave_Apply_view'			: 	$leaveController->displayLeaveInfo();
@@ -1275,15 +1280,21 @@ switch ($moduletype) {
 													case 'Leave_Admin_Apply'		: 	$obj = $leaveRequestsExtractor->parseAddData($_POST, true);
 
 																						$leaveController->setObjLeave($obj);
-																						$leaveController->addLeave();
+																						try {
+																							$leaveController->addLeave();
+																							$mes=$leaveController->adminApproveLeave();
 
-																						$mes=$leaveController->adminApproveLeave();
+																							$id = $leaveController->getObjLeave()->getLeaveRequestId();
 
-																						$id = $leaveController->getObjLeave()->getLeaveRequestId();
+																							$leaveController->sendAssignedLeaveNotification($leaveController->getObjLeave(),"assign");
 
-																						$leaveController->sendAssignedLeaveNotification($leaveController->getObjLeave(),"assign");
+																							$leaveController->redirectToLeaveApplyPage(true, $mes, $id);
 
-																						$leaveController->redirect($mes, null, $id);
+																						} catch (DuplicateLeaveException $e) {
+
+																							$leaveController->displayLeaveInfo(true, $e);
+																						}
+
 																						break;
 
 											  		case 'Leave_Type_View_Define'	: 	$leaveController->displayLeaveTypeDefine();

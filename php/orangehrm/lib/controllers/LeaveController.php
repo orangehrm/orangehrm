@@ -423,6 +423,25 @@ class LeaveController {
 		return $tmpObj->cancelLeave($this->getId());
 	}
 
+	public function redirectToLeaveApplyPage($admin, $message = null, $id = null) {
+		$action = ($admin) ? "Leave_Apply_Admin_view" : "Leave_Apply_view";
+		$url = "./CentralController.php?leavecode=Leave&action=" . $action;
+
+		if (isset($message)) {
+			$url .= "&message=" . $message;
+		}
+
+		if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && !is_array($_REQUEST['id'])) {
+			$id = $_REQUEST['id'];
+		}
+
+		if (isset($id)) {
+			$url .= "&id=" . $id;
+		}
+
+		header("Location: {$url}");
+	}
+
 	public function redirect($message=null, $url = null, $id = null, $cust=null) {
 		if (isset($message)) {
 
@@ -461,6 +480,89 @@ class LeaveController {
 
 	public function addLeave() {
 		$tmpObj = $this->getObjLeave();
+
+		$fromDate = $tmpObj->getLeaveFromDate();
+		$toDate = $tmpObj->getLeaveToDate();
+
+		$tmpLeave = new Leave();
+		$duplicateList = $tmpLeave->retrieveDuplicateLeave($tmpObj->getEmployeeId(), $fromDate, $toDate);
+
+		$rejects = array();
+		$duplicates = array();
+
+		if (!empty($duplicateList)) {
+
+			foreach($duplicateList as $dup) {
+				if ($dup->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_REJECTED) {
+					$rejects[] = $dup;
+				} else {
+					$duplicates[] = $dup;
+				}
+			}
+
+			/* Only rejected leave conflicts with current leave request */
+			if (count($duplicates) == 0) {
+
+				/* Change status of rejected leave requests to cancelled */
+				foreach($rejects as $rej) {
+					$rej->setLeaveStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
+					$res = $rej->changeLeaveStatus();
+					if (!$res) {
+						return "APPLY_FAILURE";
+					}
+				}
+
+			} else {
+
+				/* If multiple day leave request, we don't need to check leave times.
+				 * Just throw an exception.
+				 */
+				if ($fromDate != $toDate) {
+					throw new DuplicateLeaveException($duplicates);
+				} else {
+					/* A single day leave request. We need to check leave times. */
+
+					// Count total hours and check for greater than workshift hours
+					$shift = Leave::LEAVE_LENGTH_FULL_DAY;
+					$workShift = Workshift::getWorkshiftForEmployee($tmpObj->getEmployeeId());
+					if (isset($workShift)) {
+						$shift = $workShift->getHoursPerDay();
+					}
+
+					$totalHours = 0;
+					foreach ($duplicates as $dup) {
+						$totalHours += $dup->getLeaveLengthHours();
+					}
+
+					if ($totalHours + $tmpObj->getLeaveLengthHours() > $shift) {
+						throw new DuplicateLeaveException($duplicates);
+					}
+
+					/* Check for overlapping leave times*/
+					$startTime = $tmpObj->getStartTime();
+					$endTime = $tmpObj->getEndTime();
+					if (!empty($startTime) && !empty($endTime)) {
+
+						foreach ($duplicates as $dup) {
+							$dupStartTime = $dup->getStartTime();
+							$dupEndTime = $dup->getEndTime();
+							if (!empty($dupStartTime) && !empty($dupEndTime)) {
+								$overlap = CommonFunctions::checkTimeOverlap($startTime, $endTime, $dupStartTime, $dupEndTime);
+								if ($overlap) {
+									throw new DuplicateLeaveException($duplicates);
+								}
+							}
+						}
+					}
+
+					/* Show warning (Only if we haven't shown the warning before (in previous requst) for this date')*/
+					if (!isset($_POST['confirmDate']) || ($_POST['confirmDate'] != $fromDate)) {
+						throw new DuplicateLeaveException($duplicates, true);
+					}
+				}
+			}
+		}
+
 		$res = $tmpObj->applyLeaveRequest();
 
 		$mailNotificaton = new MailNotifications();
@@ -469,9 +571,7 @@ class LeaveController {
 
 		$mailNotificaton->setAction(MailNotifications::MAILNOTIFICATIONS_ACTION_APPLY);
 		$mailNotificaton->send();
-
 		$message = ($res) ? "APPLY_SUCCESS" : "APPLY_FAILURE";
-
 		return $message;
 	}
 
@@ -483,7 +583,13 @@ class LeaveController {
 		return $message;
 	}
 
-	public function displayLeaveInfo($admin=false) {
+	/**
+	 * Display leave information
+	 *
+	 * @param boolean $admin Show admin view or ess user view
+	 * @param Exception $exception Exception class (used to display any errors from previous apply/assign)
+	 */
+	public function displayLeaveInfo($admin=false, $exception = null) {
 		$authorizeObj = $this->authorize;
 
 		if ($admin) {
@@ -516,17 +622,26 @@ class LeaveController {
 			$tmpObjs[1] = $tmpObj->fetchLeaveTypes();
 			$tmpObjs[2] = $role;
 			$tmpObjs[3] = $previousLeave;
+			$tmpObjs['allEmpWorkshits'] = Workshift::getWorkshiftForAllEmployees();
 		} else {
 
 			$this->setId($_SESSION['empID']);
 			$tmpObj = new LeaveQuota();
 			$tmpObjs[1] = $tmpObj->fetchLeaveQuota($this->getId());
+
+			$workShift = Workshift::getWorkshiftForEmployee($this->getId());
+			$shiftLength = isset($workShift) ? $workShift->getHoursPerDay() : Leave::LEAVE_LENGTH_FULL_DAY;
+			$tmpObjs['shiftLength'] = $shiftLength;
+
 		}
 
 		$this->setObjLeave($tmpObjs);
 
 		$path = "/templates/leave/leaveApply.php";
 
+		if (!empty($exception)) {
+			$tmpObjs['exception'] = $exception;
+		}
 		$template = new TemplateMerger($tmpObjs, $path);
 
 		$template->display();
@@ -1062,5 +1177,26 @@ class LeaveController {
 
 	}
 
+}
+
+class DuplicateLeaveException extends Exception {
+
+	private $duplicateLeaveList;
+	private $warn;
+
+    public function __construct($duplicateList, $warn = false, $message = null, $code = 0) {
+
+        $this->duplicateLeaveList = $duplicateList;
+        $this->warn = $warn;
+        parent::__construct($message, $code);
+    }
+
+    public function getDuplicateLeaveList() {
+    	return $this->duplicateLeaveList;
+    }
+
+    public function isWarning() {
+    	return $this->warn;
+    }
 }
 ?>
