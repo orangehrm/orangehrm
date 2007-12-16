@@ -393,7 +393,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($expected[$i][0], $res[$i]->getTimesheetId(), "Invalid Timesheet id");
 			$this->assertEquals($expected[$i][1], $res[$i]->getEmployeeId(), "Invalid Employee id");
 			$this->assertEquals($expected[$i][2], $res[$i]->getTimesheetPeriodId(), "Invalid Timesheet period id");
-			$this->assertEquals($expected[$i][3], $res[$i]->getStartDate(), "Invalid Start date");
+			$this->assertEquals($expected[$i][3], $res[$i]->getStartDate(), "Invalid Start date (FIXME: test fails on sundays!)");
 			$this->assertEquals($expected[$i][4], $res[$i]->getEndDate(), "Invalid End date");
 			$this->assertEquals($expected[$i][5], $res[$i]->getStatus(), "Invalid Status");
  		}
