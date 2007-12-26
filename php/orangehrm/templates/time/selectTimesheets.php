@@ -110,11 +110,11 @@ YAHOO.OrangeHRM.container.init();
 			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
-			<?php if ($_SESSION['isAdmin'] == 'yes') { ?>
+			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 				<input type="text" name="txtUserEmpID" id="txtUserEmpID" value="<?php echo (isset($_SESSION['txtUserEmpID']) && $_SESSION['posted'])?$_SESSION['txtUserEmpID']:$lang_Time_Common_All; ?>" readonly />
 				<input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo (isset($_SESSION['cmbUserEmpID']) && $_SESSION['posted'])?$_SESSION['cmbUserEmpID']:"-1"; ?>" />
 				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
-			<?php } else if ($_SESSION['isSupervisor'] == 'yes') { ?>
+			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
 			<input type="hidden" name="txtUserEmpID" id="txtUserEmpID" value="">
 			<select name="cmbUserEmpID">
 			<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
@@ -141,7 +141,7 @@ YAHOO.OrangeHRM.container.init();
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
-		<?php if ($_SESSION['isAdmin'] == 'yes') { ?>
+		<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 		<tr>
 			<td class="tableMiddleLeft"></td>
 			<td><?php echo $lang_Time_Supervisor; ?></td>
@@ -152,7 +152,7 @@ YAHOO.OrangeHRM.container.init();
 			</td>
 			<td class="tableMiddleRight"></td>
 		</tr>
-		<?php } else if ($_SESSION['isSupervisor']) { ?>
+		<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
 			<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" value=""/>
 			<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $_SESSION['empID']; ?>" />
 		<?php } ?>
