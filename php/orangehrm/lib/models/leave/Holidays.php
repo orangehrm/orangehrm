@@ -183,7 +183,7 @@ class Holidays {
 	}
 
 	/**
-	 * List the holidays for a year
+	 * List the holidays for this year and later
 	 *
 	 * @access public
 	 * @param String $year
@@ -197,7 +197,7 @@ class Holidays {
 
 		$arrFieldList[0] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
 		$arrFieldList[1] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
-		$arrFieldList[2] = "IF(`".self::HOLIDAYS_TABLE_RECURRING."`=1,DATE_FORMAT(`".self::HOLIDAYS_TABLE_DATE."`, '$year-%m-%d'), `".self::HOLIDAYS_TABLE_DATE."`) a";
+		$arrFieldList[2] = "IF(`".self::HOLIDAYS_TABLE_RECURRING."`=1 && YEAR(`".self::HOLIDAYS_TABLE_DATE."`) <= $year,DATE_FORMAT(`".self::HOLIDAYS_TABLE_DATE."`, '$year-%m-%d'), `".self::HOLIDAYS_TABLE_DATE."`) a";
 		$arrFieldList[3] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
 		$arrFieldList[4] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
 

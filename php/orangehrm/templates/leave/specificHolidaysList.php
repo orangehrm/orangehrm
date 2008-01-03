@@ -144,14 +144,16 @@ if ($modifier === "SUP") {
     	<th class="tableTopMiddle"></th>
     	<th class="tableTopMiddle"></th>
     	<th class="tableTopMiddle"></th>
+    	<th class="tableTopMiddle"></th>
 		<th class="tableTopRight"></th>
 	</tr>
 	<tr>
 		<th class="tableMiddleLeft"></th>
 		<th width="30px" class="tableMiddleMiddle"><input type="checkbox" name='allCheck' value='' onclick="doHandleAll();" /></th>
     	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_NameOfHoliday;?></th>
-    	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
-    	<th width="135px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
+    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
+    	<th width="125px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
+    	<th width="110px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Recurring;?></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
   </thead>
@@ -184,6 +186,8 @@ if ($modifier === "SUP") {
 
     		echo $leaveLength;
     ?></td>
+    <td class="<?php echo $cssClass; ?>"><?php echo ($record->getRecurring() == Holidays::HOLIDAYS_RECURRING) ? $lang_Common_Yes: $lang_Common_No;?>
+    </td>
 	<td class="tableMiddleRight"></td>
   </tr>
 
@@ -194,6 +198,7 @@ if ($modifier === "SUP") {
   <tfoot>
   	<tr>
 		<td class="tableBottomLeft"></td>
+		<td class="tableBottomMiddle"></td>
 		<td class="tableBottomMiddle"></td>
 		<td class="tableBottomMiddle"></td>
 		<td class="tableBottomMiddle"></td>

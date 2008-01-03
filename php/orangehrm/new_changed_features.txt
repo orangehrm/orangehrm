@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.2.3
+
+	BugId     Name
+        1856039 - Specific holiday shown for previous year
+
 New & Changed Features for OrangeHRM ver 2.2.2.2
 
         1. "Leave List" menu item in Leave module renamed to "My Leave"

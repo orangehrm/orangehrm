@@ -112,6 +112,29 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($res, 'Unexpected behavior');
     }
 
+	/**
+	 * Test that for a recurring holiday, the holiday is only considered from the starting date.
+	 */
+    public function testIsRecurringHolidayConsideredOnlyFromDefinedDate() {
+
+    	$holiday = $this->classHoliday;
+
+    	// check for holiday in year previous to year on which recurring holiday is defined.
+        $res = $holiday->isHoliday((date('Y')-1).'-07-04');
+
+        $this->assertNull($res, 'Recurring holiday should be only conidered from defined date.');
+
+    	// check for holiday on year on which recurring holiday is defined.
+        $res = $holiday->isHoliday(date('Y').'-07-04');
+        $this->assertNotNull($res, 'Unexpected behavior');
+        $this->assertEquals($res, 8, 'Invalid Length');
+
+    	// check for holiday on year after year on which recurring holiday is defined.
+        $res = $holiday->isHoliday((date('Y')+2).'-07-04');
+        $this->assertNotNull($res, 'Unexpected behavior');
+        $this->assertEquals($res, 8, 'Invalid Length');
+    }
+
     public function testListHolidays1() {
     	$holiday = $this->classHoliday;
 
@@ -141,6 +164,40 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
     	$this->assertNotNull($res, 'Exsisting records not found');
 
     	$expected[0] = array(10, (date('Y')+1).'-07-04', 'Independence', Holidays::HOLIDAYS_RECURRING, 8);
+
+    	$this->assertEquals(count($res), count($expected), 'Invalid Number of records found ('.count($res).')');
+
+    	for ($i=0; $i<count($expected); $i++) {
+    		$this->assertEquals($res[$i]->getHolidayId(), $expected[$i][0], 'Invalid Hoiday Id');
+    		$this->assertEquals($res[$i]->getDate(), $expected[$i][1], 'Invalid Date');
+    		$this->assertEquals($res[$i]->getDescription(), $expected[$i][2], 'Invalid Description');
+    		$this->assertEquals($res[$i]->getRecurring(), $expected[$i][3], 'Invalid Recurring Status');
+    		$this->assertEquals($res[$i]->getLength(), $expected[$i][4], 'Invalid Length');
+    	}
+    }
+
+	/**
+	 * Unit test to check that a recurring holiday defined for a future year is not returned as a holiday
+	 * in the current year.
+	 *
+	 * Eg: If this year is 2007 and a recurring holiday is defined on 2009-11-02,
+	 * listHolidays should not return 2007-11-02 as a holiday.
+	 */
+    public function testListHolidaysRecurringDateNotBeforeDefinedDate() {
+    	$holiday = $this->classHoliday;
+
+		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_holidays`", $this->connection), mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (13, 'Recurring holiday in the future', '".(date('Y')+1) ."-11-02', ".Holidays::HOLIDAYS_RECURRING.", 8)"), mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (14, 'Recurring holiday in the past', '".(date('Y')-1) ."-10-02', ".Holidays::HOLIDAYS_RECURRING.", 8)"), mysql_error());;
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_holidays` (`holiday_id`, `description`, `date`, `recurring`, `length`) VALUES (15, 'Recurring holiday in this year', '".date('Y') ."-09-02', ".Holidays::HOLIDAYS_RECURRING.", 8)"), mysql_error());;
+
+    	$res = $holiday->listHolidays(date('Y'));
+
+    	$this->assertNotNull($res, 'Existing records not found');
+
+    	$expected[0] = array(15, (date('Y')).'-09-02', 'Recurring holiday in this year', Holidays::HOLIDAYS_RECURRING, 8);
+    	$expected[1] = array(14, (date('Y')).'-10-02', 'Recurring holiday in the past', Holidays::HOLIDAYS_RECURRING, 8);
+    	$expected[2] = array(13, (date('Y')+1).'-11-02', 'Recurring holiday in the future', Holidays::HOLIDAYS_RECURRING, 8);
 
     	$this->assertEquals(count($res), count($expected), 'Invalid Number of records found ('.count($res).')');
 
