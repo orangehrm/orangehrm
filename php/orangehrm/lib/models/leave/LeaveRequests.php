@@ -177,7 +177,8 @@ class LeaveRequests extends Leave {
 
 		$result = $dbConnection -> executeQuery($query);
 
-		$leaveArr = $this->_buildObjArr($result, true);
+		$leaveStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, Leave::LEAVE_STATUS_LEAVE_APPROVED, Leave::LEAVE_STATUS_LEAVE_REJECTED);
+		$leaveArr = $this->_buildObjArr($result, true, $leaveStatuses);
 
 		return $leaveArr;
 	}

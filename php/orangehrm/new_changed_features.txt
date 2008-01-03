@@ -2,6 +2,8 @@ New & Changed Features for OrangeHRM ver 2.2.3
 
 	BugId     Name
         1856039 - Specific holiday shown for previous year
+        1824976 - Approved leave should not show cancelled leave
+        1824973 - Leave list shown as 0:00 - 0:00
 
 New & Changed Features for OrangeHRM ver 2.2.2.2
 

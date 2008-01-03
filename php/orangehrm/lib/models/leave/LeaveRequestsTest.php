@@ -184,6 +184,64 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	}
     }
 
+    /**
+     * Tests that retrieveLeaveRequestsSupervisor only retrieves leave requests with the
+     * statuses: Pending approval, approved and rejected
+     */
+    public function testRetriveLeaveRequestsSupervisorStatuses() {
+    	$leaveObj = $this->classLeaveRequest;
+    	$supervisorId = '012';
+
+		// Change status to Pending approval
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL." WHERE leave_request_id = 10"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL." WHERE leave_request_id = 11"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNotNull($res, 'Record not found');
+    	$this->assertSame(2, count($res), 'Wrong number of records found');
+
+		// Change status to Rejected
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_request_id = 10"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_request_id = 11"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNotNull($res, 'Record not found');
+    	$this->assertSame(2, count($res), 'Wrong number of records found');
+
+		// Change status to Approved
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_request_id = 10"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_request_id = 11"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNotNull($res, 'Record not found');
+    	$this->assertSame(2, count($res), 'Wrong number of records found');
+
+		// Change one leave request's status to 'Status Differ'11, 13
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_id = 11"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_id = 13"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNotNull($res, 'Record not found');
+    	$this->assertSame(2, count($res), 'Wrong number of records found');
+
+		// Change status to Cancelled - not shown
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_CANCELLED." WHERE leave_request_id = 10"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_CANCELLED." WHERE leave_request_id = 11"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNull($res, 'Should not return any results');
+
+
+		// Change status to Taken - not shown
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_TAKEN." WHERE leave_request_id = 10"), mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_TAKEN." WHERE leave_request_id = 11"), mysql_error());
+    	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);
+
+    	$this->assertNull($res, 'Should not return any results');
+
+    }
+
+
     public function testApplyLeave1() {
     	$employeeId = '012';
 
