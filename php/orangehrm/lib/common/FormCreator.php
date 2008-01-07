@@ -52,7 +52,7 @@ class FormCreator
 		$styleSheet = CommonFunctions::getTheme();
 
 		if (preg_match('/view\.php$/', $fileName) == 1) {
-			require_once($lan->getLangPath($fileName));
+			require_once(ROOT_PATH . '/language/default/lang_default_' .$fileName);
 		}
 
 		require_once(ROOT_PATH.$this->formPath);
