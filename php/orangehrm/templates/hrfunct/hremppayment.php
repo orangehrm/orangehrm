@@ -19,6 +19,7 @@
  */
 
 $common_func = new CommonFunctions();
+$payPeriodList = $this->popArr['payPeriodList'];
 ?>
 <script language="JavaScript">
 function decimalCurr(txt) {
@@ -207,6 +208,21 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						</td>
 					  </tr>
 					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_payfrequency; ?></td>
+						<td align="left" valign="top">
+							<select disabled name="cmbPayPeriod" id="cmbPayPeriod">
+					              	<option selected value="0">-- <?php echo $lang_Common_Select?> --</option>
+							<?php
+								foreach ($payPeriodList as $period) {
+									$selected = ($period->getCode() == $edit[0][4])? "selected" : "";
+							    	echo "<option " . $selected . " value='" . $period->getCode() . "'>" . $period->getName() . "</option>";
+								}
+							?>
+							</select>
+						</td>
+					  </tr>
+
+					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
@@ -260,6 +276,20 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						</td>
 					  </tr>
 					  <tr>
+						<td valign="top"><?php echo $lang_hrEmpMain_payfrequency;?></td>
+						<td align="left" valign="top">
+						<select name="cmbPayPeriod" id="cmbPayPeriod"
+							<?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null)) ? '':'disabled'?> >
+					              	<option selected value="0">-- <?php echo $lang_Common_Select?> --</option>
+							<?php
+								foreach ($payPeriodList as $period) {
+							    	echo "<option value='" . $period->getCode() . "'>" . $period->getName() . "</option>";
+								}
+							?>
+							</select>
+						</td>
+					  </tr>
+					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
@@ -288,6 +318,7 @@ if (($rset != null) && ($currlist != null)) { ?>
                       	 <td></td>
 						 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
 						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_payfrequency?></strong></td>
 					</tr>
 
 <?php
@@ -301,6 +332,16 @@ if (($rset != null) && ($currlist != null)) { ?>
 				   $fname=$currlist[$a][1];
             ?><td><a href="javascript:viewPayment('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $fname?></a></td><?php
             echo '<td>' . $common_func->formatSciNo($rset[$c][3]) .'</td>';
+
+            $payFrequency = "--";
+
+            if (isset($rset[$c][4])) {
+            	$payPeriodCode = $rset[$c][4];
+            	if (array_key_exists($payPeriodCode, $payPeriodList)) {
+	            	$payFrequency = $payPeriodList[$payPeriodCode]->getName();
+            	}
+            }
+            echo '<td>' . $payFrequency .'</td>';
         echo '</tr>';
         }
 

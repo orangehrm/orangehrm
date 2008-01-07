@@ -206,6 +206,14 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(CommonFunctions::checkTimeOverlap('11:00', '15:00', '10:00', '18:00'));
 		$this->assertTrue(CommonFunctions::checkTimeOverlap('17:00', '21:00', '18:00', '18:30'));
     }
+
+	public function testExtractNumericId() {
+		$this -> assertEquals("001", CommonFunctions :: extractNumericId("SKI001"));
+		$this -> assertEquals("002", CommonFunctions :: extractNumericId("SKI002"));
+		$this -> assertEquals("010", CommonFunctions :: extractNumericId("SKI010"));
+		$this -> assertEquals("100", CommonFunctions :: extractNumericId("SKI100"));
+		$this -> assertEquals("0", CommonFunctions :: extractNumericId("SKI0"));
+	}
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

@@ -929,6 +929,7 @@ function clearAll() {
 
 									<input type="button" disabled value="<?php echo $lang_jobtitle_editempstat; ?>" onClick="showEditForm();">
 
+
 									</td>
 
 									<td>

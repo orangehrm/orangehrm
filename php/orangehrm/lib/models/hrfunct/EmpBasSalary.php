@@ -34,6 +34,8 @@ class EmpBasSalary {
 	var $arrayDispList;
 	var $singleField;
 
+	var $payPeriod;
+
 	function EmpBasSalary() {
 
 	}
@@ -78,6 +80,13 @@ class EmpBasSalary {
 	return $this->empBasSal;
 	}
 
+	function getPayPeriod() {
+		return $this->payPeriod;
+	}
+
+	function setPayPeriod($payPeriod) {
+		$this->payPeriod = $payPeriod;
+	}
 	////
 
 
@@ -168,6 +177,13 @@ class EmpBasSalary {
 		$arrFieldList[1] = "'". $this->getEmpSalGrdCode() . "'";
 		$arrFieldList[2] = "'". $this->getEmpCurrCode() . "'";
 		$arrFieldList[3] = "'". $this->getEmpBasSal() . "'";
+		$arrFieldList[4] = empty($this->payPeriod) ? "null" : "'". $this->payPeriod . "'";
+
+		$fields[0] = 'EMP_NUMBER';
+		$fields[1] = 'SAL_GRD_CODE';
+		$fields[2] = 'CURRENCY_ID';
+		$fields[3] = 'EBSAL_BASIC_SALARY';
+		$fields[4] = 'PAYPERIOD_CODE';
 
 		$tableName = 'HS_HR_EMP_BASICSALARY';
 
@@ -176,9 +192,9 @@ class EmpBasSalary {
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;
+		$sql_builder->arr_insertfield = $fields;
 
-
-		$sqlQString = $sql_builder->addNewRecordFeature1();
+		$sqlQString = $sql_builder->addNewRecordFeature2();
 
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -194,12 +210,14 @@ class EmpBasSalary {
 		$arrRecordsList[1] = "'". $this->getEmpSalGrdCode() . "'";
 		$arrRecordsList[2] = "'". $this->getEmpCurrCode() . "'";
 		$arrRecordsList[3] = "'". $this->getEmpBasSal() . "'";
+		$arrRecordsList[4] = empty($this->payPeriod) ? "null" : "'". $this->payPeriod . "'";
 
 		$tableName = 'HS_HR_EMP_BASICSALARY';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
 		$arrFieldList[3] = 'EBSAL_BASIC_SALARY';
+		$arrFieldList[4] = 'PAYPERIOD_CODE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -227,6 +245,7 @@ class EmpBasSalary {
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
 		$arrFieldList[3] = 'EBSAL_BASIC_SALARY';
+		$arrFieldList[4] = 'PAYPERIOD_CODE';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -272,6 +291,7 @@ class EmpBasSalary {
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
 		$arrFieldList[3] = 'EBSAL_BASIC_SALARY';
+		$arrFieldList[4] = 'PAYPERIOD_CODE';
 
 		$sql_builder = new SQLQBuilder();
 

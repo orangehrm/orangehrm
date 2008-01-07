@@ -157,6 +157,14 @@
 	background: url(../icons/projects_o.gif)  no-repeat left top;
 }
 
+#menu #dataexport a:hover {
+	background: url(../icons/approveLeave_o.gif)  no-repeat left top;
+}
+
+#menu #dataexport a {
+	background: url(../icons/approveLeave.gif)  no-repeat left top;
+}
+
 #menu #viewemprep a {
 	background: url(../pictures/viewemprep.gif)  no-repeat left top;
 }

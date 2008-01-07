@@ -84,7 +84,10 @@ array("hs_hr_time_event", array("activity_id"), "hs_hr_project_activity",     ar
 array("hs_hr_time_event", array("project_id"), "hs_hr_project",     array("project_id"), "cascade"),
 array("hs_hr_time_event", array("employee_id"), "hs_hr_employee",   array("emp_number"), "cascade"),
 array("hs_hr_employee_workshift", array("workshift_id"), "hs_hr_workshift",   array("workshift_id"), "cascade"),
-array("hs_hr_employee_workshift", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade")
+array("hs_hr_employee_workshift", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_emp_us_tax", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_emp_directdebit", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_emp_basicsalary", array("payperiod_code"), "hs_hr_payperiod",   array("payperiod_code"), "cascade")
 );
 
 

@@ -98,12 +98,18 @@ create table `hs_hr_district` (
   primary key  (`district_code`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_payperiod` (
+  `payperiod_code` varchar(13) not null default '',
+  `payperiod_name` varchar(100) default null,
+  primary key  (`payperiod_code`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_basicsalary` (
   `emp_number` int(7) not null default 0,
   `sal_grd_code` varchar(13) not null default '',
   `currency_id` varchar(6) not null default '',
   `ebsal_basic_salary` double default null,
+  `payperiod_code` varchar(13) default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
 
@@ -123,6 +129,18 @@ create table `hs_hr_emp_language` (
   `elang_type` smallint(6) default '0',
   `competency` smallint default '0',
   primary key  (`emp_number`,`lang_code`,`elang_type`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_emp_us_tax` (
+  `emp_number` int(7) not null default 0,
+  `tax_federal_status` varchar(13) default null,
+  `tax_federal_exceptions` int(2) default 0,
+  `tax_state` varchar(13) default null,
+  `tax_state_status` varchar(13) default null,
+  `tax_state_exceptions` int(2) default 0,
+  `tax_unemp_state` varchar(13) default null,
+  `tax_work_state` varchar(13) default null,
+  primary key  (`emp_number`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_attachment` (
@@ -208,6 +226,16 @@ create table `hs_hr_emp_passport` (
   primary key  (`emp_number`,`ep_seqno`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_directdebit` (
+  `emp_number` int(7) not null default 0,
+  `dd_seqno` decimal(2,0) not null default '0',
+  `dd_routing_num` int(9) not null,
+  `dd_account` varchar(100) not null default '',
+  `dd_amount` decimal(11,2) not null,
+  `dd_account_type` varchar(20) not null default '' comment 'CHECKING, SAVINGS',
+  `dd_transaction_type` varchar(20) not null default '' comment 'blank, %, flat or flat-',
+  primary key  (`emp_number`,`dd_seqno`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_emp_skill` (
   `emp_number` int(7) not null default 0,
@@ -295,6 +323,16 @@ create table `hs_hr_employee` (
   `sal_grd_code` varchar(13) default null,
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
+  `custom1` varchar(250) default null,
+  `custom2` varchar(250) default null,
+  `custom3` varchar(250) default null,
+  `custom4` varchar(250) default null,
+  `custom5` varchar(250) default null,
+  `custom6` varchar(250) default null,
+  `custom7` varchar(250) default null,
+  `custom8` varchar(250) default null,
+  `custom9` varchar(250) default null,
+  `custom10` varchar(250) default null,
   primary key  (`emp_number`),
   unique key `employee_id` (`employee_id`)
 ) engine=innodb default charset=utf8;
@@ -680,6 +718,15 @@ create table `hs_hr_employee_workshift` (
 ) engine=innodb default charset=utf8;
 
 
+create table `hs_hr_custom_fields` (
+  `field_num` int(11) not null,
+  `name` varchar(250) not null,
+  `type` int(11) not null,
+  `extra_data` varchar(250) default null,
+  primary key  (`field_num`),
+  key `emp_number` (`field_num`)
+) engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -792,6 +839,10 @@ alter table hs_hr_emp_passport
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
+alter table hs_hr_emp_directdebit
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
+
 alter table hs_hr_emp_member_detail
        add constraint foreign key (membtype_code)
                              references hs_hr_membership_type(membtype_code) on delete cascade;
@@ -824,6 +875,10 @@ alter table hs_hr_emp_basicsalary
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
+alter table hs_hr_emp_basicsalary
+       add constraint foreign key (payperiod_code)
+                             references hs_hr_payperiod(payperiod_code) on delete cascade;
+
 alter table hs_hr_emp_language
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
@@ -831,6 +886,10 @@ alter table hs_hr_emp_language
 alter table hs_hr_emp_language
        add constraint foreign key (lang_code)
                              references hs_hr_language(lang_code) on delete cascade;
+
+alter table hs_hr_emp_us_tax
+       add constraint foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;
 
 alter table hs_hr_emp_contract_extend
        add constraint foreign key (emp_number)
@@ -1495,6 +1554,12 @@ INSERT INTO `hs_hr_project`
 INSERT INTO `hs_hr_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time');
+
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(1, 'Weekly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(2, 'Bi Weekly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Monthly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');

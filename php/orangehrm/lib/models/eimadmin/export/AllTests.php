@@ -19,20 +19,16 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'models_AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'models_eimadmin_export_AllTests::main');
 }
+set_include_path(get_include_path() . PATH_SEPARATOR . "../../../../build");
  
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
-
-require_once 'time/AllTests.php';
-require_once 'leave/AllTests.php';
-require_once 'eimadmin/AllTests.php';
-require_once 'hrfunct/AllTests.php';
+require_once 'plugins/MilleniumPayrollExportTest.php';
  
-class models_AllTests
+class models_eimadmin_export_AllTests
 {
     public static function main()
     {
@@ -41,18 +37,13 @@ class models_AllTests
  
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM model unit tests');
- 
-        $suite->addTest(models_time_AllTests::suite());
-        $suite->addTest(models_leave_AllTests::suite());
-        $suite->addTest(models_eimadmin_AllTests::suite());
-        $suite->addTest(models_hrfunct_AllTests::suite());
- 
+        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
+	$suite->addTestSuite('plugins_MilleniumPayrollExportTest');
         return $suite;
     }
 }
  
-if (PHPUnit_MAIN_METHOD == 'models_AllTests::main') {
-    models_AllTests::main();
+if (PHPUnit_MAIN_METHOD == 'models_eimadmin_::main') {
+    models_eimadmin_AllTests::main();
 }
 ?>

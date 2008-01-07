@@ -32,7 +32,7 @@ class CommonFunctions {
 	}
 
 	public static function extractNumericId($strId) {
-		$id = preg_replace('/^[A-Z]*([0-9])*$/', '$1', $strId);
+		$id = preg_replace('/^[A-Z]*([0-9]*)$/', '$1', $strId);
 		return $id;
 	}
 

@@ -81,9 +81,101 @@ class EmpInfo {
 /*	//immigration
 
 	*/
+	// custom fields
+	var $custom1;
+	var $custom2;
+	var $custom3;
+	var $custom4;
+	var $custom5;
+	var $custom6;
+	var $custom7;
+	var $custom8;
+	var $custom9;
+	var $custom10;
 
 	var $arrayDispList;
 	var $singleField;
+
+
+	function setCustom1($value) {
+		$this->custom1 = $value;
+	}
+
+	function getCustom1() {
+		return $this->custom1;
+	}
+
+	function setCustom2($value) {
+		$this->custom2 = $value;
+	}
+
+	function getCustom2() {
+		return $this->custom2;
+	}
+
+	function setCustom3($value) {
+		$this->custom3 = $value;
+	}
+
+	function getCustom3() {
+		return $this->custom3;
+	}
+
+	function setCustom4($value) {
+		$this->custom4 = $value;
+	}
+
+	function getCustom4() {
+		return $this->custom4;
+	}
+
+	function setCustom5($value) {
+		$this->custom5 = $value;
+	}
+
+	function getCustom5() {
+		return $this->custom5;
+	}
+
+	function setCustom6($value) {
+		$this->custom6 = $value;
+	}
+
+	function getCustom6() {
+		return $this->custom6;
+	}
+
+	function setCustom7($value) {
+		$this->custom7 = $value;
+	}
+
+	function getCustom7() {
+		return $this->custom7;
+	}
+
+	function setCustom8($value) {
+		$this->custom8 = $value;
+	}
+
+	function getCustom8() {
+		return $this->custom8;
+	}
+
+	function setCustom9($value) {
+		$this->custom9 = $value;
+	}
+
+	function getCustom9() {
+		return $this->custom9;
+	}
+
+	function setCustom10($value) {
+		$this->custom10 = $value;
+	}
+
+	function getCustom10() {
+		return $this->custom10;
+	}
 
 	function EmpInfo() {
 		$sysConfObj = new sysConf();
@@ -957,6 +1049,42 @@ class EmpInfo {
 		return $message2;
 	}
 
+	function filterEmpCustomInfo($getID) {
+
+		$this->getID = $getID;
+		$tableName = 'HS_HR_EMPLOYEE';
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'custom1';
+		$arrFieldList[2] = 'custom2';
+		$arrFieldList[3] = 'custom3';
+		$arrFieldList[4] = 'custom4';
+		$arrFieldList[5] = 'custom5';
+		$arrFieldList[6] = 'custom6';
+		$arrFieldList[7] = 'custom7';
+		$arrFieldList[8] = 'custom8';
+		$arrFieldList[9] = 'custom9';
+		$arrFieldList[10] = 'custom10';
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_select = 'true';
+		$sql_builder->arr_select = $arrFieldList;
+
+		$sqlQString = $sql_builder->selectOneRecordFiltered($this->getID);
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString);
+
+		 if (mysql_num_rows($message2) == 1) {
+		 	$line = mysql_fetch_assoc($message2);
+		 	return $line;
+  		} else {
+			return array();
+		}
+	}
+
 	function filterEmpJobInfo($getID) {
 
 		$this->getID = $getID;
@@ -1019,6 +1147,49 @@ class EmpInfo {
 		$arrFieldList[3] = 'EEO_CAT_CODE';
 		$arrFieldList[4] = 'WORK_STATION';
 		$arrFieldList[5] = 'JOINED_DATE';
+
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = $tableName;
+		$sql_builder->flg_update = 'true';
+		$sql_builder->arr_update = $arrFieldList;
+		$sql_builder->arr_updateRecList = $arrRecordsList;
+
+		$sqlQString = $sql_builder->addUpdateRecord1();
+
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		return $message2;
+	}
+
+	function updateEmpCustomInfo() {
+
+		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
+		$arrRecordsList[1] = isset($this->custom1) ? "'" . $this->custom1 . "'" : 'null';
+		$arrRecordsList[2] = isset($this->custom2) ? "'" . $this->custom2 . "'" : 'null';
+		$arrRecordsList[3] = isset($this->custom3) ? "'" . $this->custom3 . "'" : 'null';
+		$arrRecordsList[4] = isset($this->custom4) ? "'" . $this->custom4 . "'" : 'null';
+		$arrRecordsList[5] = isset($this->custom5) ? "'" . $this->custom5 . "'" : 'null';
+		$arrRecordsList[6] = isset($this->custom6) ? "'" . $this->custom6 . "'" : 'null';
+		$arrRecordsList[7] = isset($this->custom7) ? "'" . $this->custom7 . "'" : 'null';
+		$arrRecordsList[8] = isset($this->custom8) ? "'" . $this->custom8 . "'" : 'null';
+		$arrRecordsList[9] = isset($this->custom9) ? "'" . $this->custom9 . "'" : 'null';
+		$arrRecordsList[10] = isset($this->custom10) ? "'" . $this->custom10 . "'" : 'null';
+
+		$tableName = 'HS_HR_EMPLOYEE';
+
+		$arrFieldList[0] = 'EMP_NUMBER';
+		$arrFieldList[1] = 'custom1';
+		$arrFieldList[2] = 'custom2';
+		$arrFieldList[3] = 'custom3';
+		$arrFieldList[4] = 'custom4';
+		$arrFieldList[5] = 'custom5';
+		$arrFieldList[6] = 'custom6';
+		$arrFieldList[7] = 'custom7';
+		$arrFieldList[8] = 'custom8';
+		$arrFieldList[9] = 'custom9';
+		$arrFieldList[10] = 'custom10';
 
 		$sql_builder = new SQLQBuilder();
 

@@ -529,6 +529,12 @@ INSERT INTO `hs_hr_project_activity`
   (`activity_id`, `project_id`, `name`)
   VALUES (0, 0, 'Work time');
 
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(1, 'Weekly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(2, 'Bi Weekly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Monthly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
+INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
+
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');

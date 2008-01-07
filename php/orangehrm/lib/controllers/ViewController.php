@@ -48,6 +48,9 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectActivity.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
+
+require_once ROOT_PATH . '/lib/models/eimadmin/CSVExport.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -193,6 +196,9 @@ class ViewController {
 			case 'EMX' :
 						$this->reDirect($getArr);
 						break;
+			case 'EXP' :
+						$this->reDirect($getArr);
+						break;
 			case 'ENS' :
 						$this->reDirect($getArr);
 						break;
@@ -227,6 +233,7 @@ class ViewController {
 						} else {
 							$form_creator ->popArr['temp'] = $this->countList(trim($getArr['uniqcode']), '', -1, $esp);
 						}
+
 						$form_creator->display();
 
 						break;
@@ -334,6 +341,18 @@ class ViewController {
 			$res = $this->customers->deletewrapperCustomer($arrList);
 			break;
 
+		case 'CTM':		$this->customFields = new CustomFields();
+						if (isset($arrList[0])) {
+							try {
+								$this->customFields->deleteFields($arrList[0]);
+								$res = true;
+							} catch (CustomFieldsException $e) {
+								$res = false;
+							}
+						} else {
+							$res = false;
+						}
+						break;
 		case 'PRJ':
 
 			$this-> Projects = new Projects();
@@ -494,6 +513,12 @@ class ViewController {
 
 			return $message;
 
+		case 'CTM' :
+
+			$this-> customFields = new CustomFields();
+			$message = $this->customFields->getCustomerFieldListForView($pageNO, $schStr, $mode, $sortField, $sortOrder);
+
+			return $message;
 
 		case 'PRJ' :
 
@@ -1100,6 +1125,14 @@ class ViewController {
 
 			return $message;
 
+		case 'CTM' :
+
+			$customerFields = new CustomFields();
+			$list = $customerFields->getCustomFieldList();
+			$message = count($list);
+
+			return $message;
+
 
 		case 'PRJ' :
 
@@ -1366,6 +1399,17 @@ class ViewController {
 									$customer = $object;
 									$res= $customer->addCustomer();
 									$id= $customer->getCustomerId();
+
+									break;
+
+				case 'CTM'  :		$customField = $object;
+									try {
+										$customField->addCustomField();
+										$res = true;
+									} catch (CustomFieldsException $e) {
+										$res = false;
+									}
+									$id= $customField->getFieldNumber();
 
 									break;
 
@@ -1762,6 +1806,15 @@ class ViewController {
 									$res = $customers->updateCustomer();
 									break;
 
+				case 'CTM'  :		$customField = $object;
+									try {
+										$customField->updateCustomField();
+										$res = true;
+									} catch (CustomFieldsException $e) {
+										$res = false;
+									}
+									break;
+
 				case 'PRJ'  :		$projects = new Projects();
 									$projects = $object;
 									$res = $projects->updateProject();
@@ -1851,6 +1904,22 @@ class ViewController {
 
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&uniqcode=$uniqcode$esp{$extraParams}");
 			}
+	}
+
+
+	/**
+	 * Run CSV Export
+	 *
+	 * @param string $exportType The export type
+	 */
+	public function exportCSV($exportType) {
+
+		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
+		if ($authorizeObj->isAdmin()) {
+			$csvExport = new CSVExport();
+			$csvExport->exportData($exportType);
+		}
 	}
 
 
@@ -2264,6 +2333,10 @@ class ViewController {
 			case 'EMX' :	$form_creator ->formPath = '/templates/eimadmin/emailConfiguration.php';
 							$emailConfigObj = new EmailConfiguration();
 							$form_creator ->popArr['editArr'] = $emailConfigObj;
+							break;
+			case 'EXP' :	$form_creator ->formPath = '/templates/eimadmin/dataExport.php';
+							$csvExport = new CSVExport();
+							$form_creator ->popArr['exportTypes'] = $csvExport->getDefinedExportTypes();
 							break;
 			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
 							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
@@ -2783,6 +2856,13 @@ class ViewController {
 							}
 							break;
 
+			case 'CTM' :	$form_creator->formPath = '/templates/eimadmin/customFields.php';
+
+							$form_creator ->popArr['available'] = CustomFields::getAvailableFieldNumbers();
+							if($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = CustomFields::getCustomField($getArr['id']);
+							}
+							break;
 
 			case 'PAD' :    // Project Admin. Fall through to PRJ case below.
 							$form_creator->getArr['uniqcode'] = "PRJ";

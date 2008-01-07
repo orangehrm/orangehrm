@@ -125,3 +125,16 @@
 #work_experienceLink {
 	background-image: url(../icons/work_experience.gif);
 }
+
+#taxLink {
+	background-image: url(../icons/tax.gif);
+}
+
+#directDebitLink {
+	background-image: url(../icons/direct_debit.gif);
+}
+
+#customLink {
+	background-image: url(../icons/custom.gif);
+}
+

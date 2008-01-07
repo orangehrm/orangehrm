@@ -1,9 +1,18 @@
 New & Changed Features for OrangeHRM ver 2.2.3
 
+        Features merged from payroll-integration branch:
+          * Direct deposit information
+          * Tax information
+          * Custom fields
+          * CSV Export
+
 	BugId     Name
         1856039 - Specific holiday shown for previous year
         1824976 - Approved leave should not show cancelled leave
         1824973 - Leave list shown as 0:00 - 0:00
+        1861635 - change the heading “Payments
+        1861636 - menu icon name change direct deposit NOT direct debi
+        1861634 - Title change.. cosmetic
 
 New & Changed Features for OrangeHRM ver 2.2.2.2
 

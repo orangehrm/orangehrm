@@ -502,6 +502,8 @@ function preloadAllImages() {
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 						<li id="notifications"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
 						<li id="projectInfo"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu17');" onMouseOut="ypSlideOutMenu.hideMenu('menu17');"><?php echo $lang_Menu_Admin_ProjectInfo; ?></a></li>
+						<li id="dataexport"><a href="index.php?uniqcode=EXP&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_DataExport; ?> </a></li>
+						<li id="dataexport"><a href="index.php?uniqcode=CTM&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CustomFields; ?> </a></li>
 					  </ul></TD>
 <?php				} else if ($_SESSION['isProjectAdmin']) { ?>
                     <TD width=158>

@@ -66,7 +66,8 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
 
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
-    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')");
+    	mysql_select_db($conf->dbname);
+    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
 
     	mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
@@ -106,6 +107,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 		mysql_query("DELETE FROM `hs_hr_project_activity` WHERE `activity_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);
+    	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 10", $this->connection);
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 

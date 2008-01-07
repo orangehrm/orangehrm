@@ -75,7 +75,7 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue(mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` IN (10)", $this->connection));
 
 
-    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
 
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)"));

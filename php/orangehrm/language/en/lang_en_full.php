@@ -847,7 +847,7 @@
 	$lang_pim_tabs_Dependents = "Dependents";
 	$lang_pim_tabs_Immigration = "Immigration";
 	$lang_pim_tabs_Job = "Job";
-	$lang_pim_tabs_Payments = "Payments";
+	$lang_pim_tabs_Payments = "Salary";
 	$lang_pim_tabs_ReportTo = "Report-to";
 	$lang_pim_tabs_WorkExperience = "Work experience";
 	$lang_pim_tabs_Education = "Education";

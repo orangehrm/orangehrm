@@ -150,6 +150,8 @@
 	$lang_Menu_Admin_ProjectInfo = "Project Info";
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
+	$lang_Menu_Admin_DataExport = "Data Export";
+	$lang_Menu_Admin_CustomFields = "Custom Fields";
 
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
@@ -621,6 +623,7 @@
 	$lang_hrEmpMain_maxpoint 				= "Maximum Salary";
 	$lang_hrEmpMain_bassalary 				= "Basic Salary";
 	$lang_hrEmpMain_assignedsalary 			= "Assigned Salary";
+	$lang_hrEmpMain_payfrequency 			= "Pay Frequency";
 
  	$lang_hrEmpMain_heading 				= "Employee Report";
 	$lang_hrEmpMain_supervisorsubordinator 	= "Supervisor / Subordinate";
@@ -671,6 +674,44 @@
 
 	$lang_hrEmpMain_membershiptype = "Membership Type";
 	$lang_hrEmpMain_membership = "Membership";
+
+	$lang_hrEmpMain_FederalIncomeTax = "Federal Income Tax";
+	$lang_hrEmpMain_TaxStatus = "Status";
+	$lang_hrEmpMain_TaxExemptions = "Exemptions";
+
+	$lang_hrEmpMain_TaxStatusSelect = "--Select--";
+	$lang_hrEmpMain_TaxStatusMarried = "Married";
+	$lang_hrEmpMain_TaxStatusSingle = "Single";
+	$lang_hrEmpMain_TaxStatusNonResidentAlien = "Non Resident Alien";
+	$lang_hrEmpMain_TaxStatusNotApplicable = "Not Applicable";
+
+	$lang_hrEmpMain_StateIncomeTax = "State Income Tax";
+	$lang_hrEmpMain_TaxState = "State";
+	$lang_hrEmpMain_TaxUnemploymentState = "Unemployment State";
+	$lang_hrEmpMain_TaxWorkState = "Work State";
+
+	$lang_hrEmpMain_DirectDebitAccount = "Account";
+	$lang_hrEmpMain_DirectDebitAccountType = "Account Type";
+	$lang_hrEmpMain_DirectDebitAccountTypeChecking = "Checking";
+	$lang_hrEmpMain_DirectDebitAccountTypeSavings = "Savings";
+	$lang_hrEmpMain_DirectDebitRoutingNumber = "Routing Number";
+	$lang_hrEmpMain_DirectDebitAmount = "Amount";
+	$lang_hrEmpMain_DirectDebitTransactionType = "Transaction Type";
+
+	$lang_hrEmpMain_DirectDebitSelectTransactionType = "--Select--";
+
+	$lang_hrEmpMain_DirectDebitTransactionTypeBlank = "Blank";
+	$lang_hrEmpMain_DirectDebitTransactionTypePercentage = "Percentage";
+	$lang_hrEmpMain_DirectDebitTransactionTypeFlat = "Flat";
+	$lang_hrEmpMain_DirectDebitTransactionTypeFlatMinus = "Flat - ";
+
+	$lang_hrEmpMain_DirectDebitAssigned = "Assigned Direct Debit Accounts";
+	$lang_hrEmpMain_DirectDebitAccountShouldBeSpecified = "Account should be specified";
+	$lang_hrEmpMain_DirectDebitRoutingNumberShouldBeSpecified = "Routing number should be specified";
+	$lang_hrEmpMain_DirectDebitRoutingNumberShouldBeNumeric = "Routing number should be numeric";
+	$lang_hrEmpMain_DirectDebitAmountShouldBeSpecified = "Amount should be specified";
+	$lang_hrEmpMain_DirectDebitAmountShouldBeNumeric = "Amount should be numeric";
+	$lang_hrEmpMain_DirectDebitTransactionTypeShouldBeSelected = "Transaction Type should be selected";
 
  	$lang_jobtitle_heading 					= "Job : Job Title";
 	$lang_jobtitle_jobtitid 				= "Job Title ID";
@@ -858,6 +899,29 @@
 	$lang_view_ProjectId = "Project Id";
 	$lang_view_ProjectName = "Project Name";
 
+	// Data Export
+	$lang_DataExport_Title = "Export HR Data";
+	$lang_DataExport_Type = "Export Type";
+	$lang_DataExport_ExportTypeNotSelected = "Export Type not selected";
+	$lang_DataExport_Export = "Export";
+
+	// Custom Fields
+	$lang_CustomFields_Title = "Custom Fields";
+	$lang_CustomFields_CustomFieldId = "Custom Field Id";
+	$lang_CustomFields_CustomFieldName = "Custom Field Name";
+	$lang_CustomFields_CustomFieldNumber = "Field Number";
+	$lang_customeFields_Heading = "Custom Fields";
+	$lang_customeFields_FieldName = "Field Name";
+	$lang_customeFields_Type = "Type";
+	$lang_customeFields_StringType = "String";
+	$lang_customeFields_SelectType = "Drop Down";
+	$lang_customeFields_SelectOptions = "Select Options";
+	$lang_Admin_CustomeFields_PleaseSpecifyCustomFieldName = "Please specify custom field name";
+	$lang_Admin_CustomeFields_PleaseSpecifySelectOptions = "Please specify select options";
+	$lang_Admin_CustomeFields_SelectOptionsHint = "Enter allowed options separated by commas";
+	$lang_Admin_CustomeFields_MaxCustomFieldsCreated = "The maximum number of custom fields have been created.";
+	$lang_pim_CustomFields_NoCustomFieldsDefined = "No custom fields defined.";
+
 	// PIM tab labels
 	$lang_pim_tabs_Personal = "Personal";
 	$lang_pim_tabs_Contact = "Contact";
@@ -865,7 +929,7 @@
 	$lang_pim_tabs_Dependents = "Dependents";
 	$lang_pim_tabs_Immigration = "Immigration";
 	$lang_pim_tabs_Job = "Job";
-	$lang_pim_tabs_Payments = "Payments";
+	$lang_pim_tabs_Payments = "Salary";
 	$lang_pim_tabs_ReportTo = "Report-to";
 	$lang_pim_tabs_WorkExperience = "Work experience";
 	$lang_pim_tabs_Education = "Education";
@@ -875,6 +939,9 @@
 	$lang_pim_tabs_License = "License";
 	$lang_pim_tabs_Membership = "Membership";
 	$lang_pim_tabs_Attachments = "Attachments";
+	$lang_pim_tabs_Tax = "Tax Exemptions";
+	$lang_pim_tabs_DirectDebit = "Direct Deposit";
+	$lang_pim_tabs_Custom = "Custom";
 
 	// Report module
 	$lang_rep_SelectionCriteria = "Selection Criteria";
@@ -1189,6 +1256,7 @@
 	$lang_Time_Print = "Print";
 
 	$lang_Common_Loading = "Loading";
+	$lang_Common_Select = "Select";
 
 	$lang_Menu_Time_PrintTimesheets = "Print Timesheets";
 

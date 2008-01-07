@@ -215,7 +215,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	}
 
 	function decimal(txt) {
-		regExp = /^[0-9]+(\.[0-9]+)*$/;
+		regExp = /^[0-9]*(\.[0-9]+)*$/;
 
 		return regExp.test(txt.value);
 	}

@@ -24,6 +24,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpDependents.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpAttach.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpTax.php';
 
 class EXTRACTOR_EmpInfo {
 
@@ -189,6 +190,73 @@ class EXTRACTOR_EmpInfo {
 
 		$objectArr['EmpPermRes'] = $this->parent_empinfo;
 		}
+
+	if($postArr['taxFlag']=='1') {
+		$taxInfo = new EmpTax();
+		$taxInfo->setEmpNumber(trim($postArr['txtEmpID']));
+
+		$federalTaxStatus = trim($postArr['cmbTaxFederalStatus']);
+		if (!empty($federalTaxStatus)) {
+			$taxInfo->setFederalTaxStatus($federalTaxStatus);
+		}
+
+		$taxInfo->setFederalTaxExceptions(trim($postArr['taxFederalExceptions']));
+		$taxInfo->setTaxState(trim($postArr['cmbTaxState']));
+
+		$stateTaxStatus = trim($postArr['cmbTaxStateStatus']);
+		if (!empty($stateTaxStatus)) {
+			$taxInfo->setStateTaxStatus($stateTaxStatus);
+		}
+
+		$taxInfo->setStateTaxExceptions(trim($postArr['taxStateExceptions']));
+
+		$unemploymentState = trim($postArr['cmbTaxUnemploymentState']);
+		if (!empty($unemploymentState)) {
+			$taxInfo->setTaxUnemploymentState($unemploymentState);
+		}
+
+		$workState = trim($postArr['cmbTaxWorkState']);
+		if (!empty($workState)) {
+			$taxInfo->setTaxWorkState($workState);
+		}
+
+		$objectArr['EmpTaxInfo'] = $taxInfo;
+	}
+
+	if($postArr['customFlag']=='1') {
+		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
+		if (isset($postArr['custom1'])) {
+			$this->parent_empinfo->setCustom1(trim($postArr['custom1']));
+		}
+		if (isset($postArr['custom2'])) {
+			$this->parent_empinfo->setCustom2(trim($postArr['custom2']));
+		}
+		if (isset($postArr['custom3'])) {
+			$this->parent_empinfo->setCustom3(trim($postArr['custom3']));
+		}
+		if (isset($postArr['custom4'])) {
+			$this->parent_empinfo->setCustom4(trim($postArr['custom4']));
+		}
+		if (isset($postArr['custom5'])) {
+			$this->parent_empinfo->setCustom5(trim($postArr['custom5']));
+		}
+		if (isset($postArr['custom6'])) {
+			$this->parent_empinfo->setCustom6(trim($postArr['custom6']));
+		}
+		if (isset($postArr['custom7'])) {
+			$this->parent_empinfo->setCustom7(trim($postArr['custom7']));
+		}
+		if (isset($postArr['custom8'])) {
+			$this->parent_empinfo->setCustom8(trim($postArr['custom8']));
+		}
+		if (isset($postArr['custom9'])) {
+			$this->parent_empinfo->setCustom9(trim($postArr['custom9']));
+		}
+		if (isset($postArr['custom10'])) {
+			$this->parent_empinfo->setCustom10(trim($postArr['custom10']));
+		}
+		$objectArr['EmpCustomInfo'] = $this->parent_empinfo;
+	}
 
   return isset($objectArr)? $objectArr : false;
   }

@@ -154,6 +154,12 @@ switch ($_GET['uniqcode']) {
 		$headingInfo = array ($lang_view_ProjectId,$lang_view_ProjectName,1, "$lang_Menu_Admin_Projects",$lang_view_message34);
 		break;
 
+	case 'CTM' :
+		$srchlist = array( "-$lang_Leave_Common_Select-" );
+		$headings= array($lang_CustomFields_CustomFieldId,$lang_CustomFields_CustomFieldName);
+		$headingInfo = array ($lang_CustomFields_CustomFieldId,$lang_CustomFields_CustomFieldName,1, "$lang_CustomFields_Title",$lang_view_message26);
+		break;
+
 }
 
 ?>

@@ -33,7 +33,9 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpSkill.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLicenses.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
-
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpDirectDebit.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/PayPeriod.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -727,6 +729,17 @@ class EmpViewController {
 		return;
 		}
 
+		if(isset($postArr['directDebitSTAT']) && ($postArr['directDebitSTAT'] == 'ADD' || $postArr['directDebitSTAT'] == 'EDIT')) {
+			$directDebit = $object;
+			if($action == 'ADD') {
+				$directDebit->add();
+			} elseif ($action == 'EDIT') {
+				$directDebit->update();
+			}
+
+			return;
+		}
+
 		if(isset($postArr['langSTAT']) && ($postArr['langSTAT'] == 'ADD' || $postArr['langSTAT'] == 'EDIT')) {
 			$emplanguage = new EmpLanguage();
 			$emplanguage = $object;
@@ -910,6 +923,12 @@ class EmpViewController {
 				   $arr[0][$c]=$getArr['id'];
 
 			$passport->delEmpPP($arr);
+		}
+
+		if(isset($postArr['directDebitSTAT']) && $postArr['directDebitSTAT'] =='DEL') {
+
+			$directDebit = new EmpDirectDebit();
+			$directDebit->delete($getArr['id'], $postArr['chkdebitdel']);
 		}
 
 		if(isset($postArr['wrkexpSTAT']) && $postArr['wrkexpSTAT'] =='DEL') {
@@ -1498,6 +1517,7 @@ class EmpViewController {
 
 							$empinfo = new EmpInfo();
 							$pport = new EmpPassPort();
+							$ddebit = new EmpDirectDebit();
 							$dep = new EmpDependents();
 							$econ = new EmpEmergencyCon();
 							$chi = new EmpChildren();
@@ -1526,6 +1546,7 @@ class EmpViewController {
 							$empworkex= new EmpWorkExp();
 							$empeducation = new EmpEducation();
 							$education = new Education();
+							$empTax = new EmpTax();
 
 								$form_creator ->popArr['nation'] = $nationinfo ->getNationCodes();
 								$form_creator->popArr['loc'] = $location->getLocCodes();
@@ -1537,6 +1558,7 @@ class EmpViewController {
 
 								$form_creator->popArr['cntlist'] = $countrylist = $countryinfo->getCountryCodes();
 								$form_creator->popArr['ppcntlist'] = $countrylist;
+								$form_creator->popArr['customFieldList'] = CustomFields::getCustomFieldList();
 
 							if($getArr['capturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $empinfo->getLastId();
@@ -1557,9 +1579,18 @@ class EmpViewController {
 
 
 							} elseif($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editTaxInfo'] = $empTax->getEmployeeTaxInfo($getArr['id']);
+								$form_creator ->popArr['usStateList'] = $porinfo->getProvinceCodes('US');
+
+								$form_creator->popArr['empDDAss'] = $ddebit->getEmployeeDirectDebit($getArr['id']);
+								if(isset($getArr['DDSEQ'])) {
+									$form_creator->popArr['editDDForm'] = $ddebit->getDirectDebit($getArr['id'], $getArr['DDSEQ']);
+								}
+
 								$form_creator ->popArr['editMainArr'] = $empinfo ->filterEmpMain($getArr['id']);
 								$form_creator ->popArr['editPersArr'] = $empinfo->filterEmpPers($getArr['id']);
 								$form_creator ->popArr['editJobInfoArr'] = $empJobInfo = $empinfo->filterEmpJobInfo($getArr['id']);
+								$form_creator ->popArr['editCustomInfoArr'] = $empCustomInfo = $empinfo->filterEmpCustomInfo($getArr['id']);
 
 								$view_controller = new ViewController();
 								$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($empJobInfo[0][2],'JOB','assigned');
@@ -1666,6 +1697,7 @@ class EmpViewController {
 					    	$form_creator->popArr['salgradelist'] = $salgradelist->getSalGrades();
 							$empdet = $empinfo->filterEmpJobInfo($getArr['id']);
 							$jt = $jobtit->filterJobTitles($empdet[0][2]);
+							$form_creator->popArr['payPeriodList'] = PayPeriod::getPayPeriodList();
 
 							if($jt == '')
 								$form_creator->popArr['salGrd'] = $salGrd = null;
@@ -1936,17 +1968,22 @@ class EmpViewController {
 										$empinfo -> updateEmpJobInfo();
 									}
 
+									if(isset($object['EmpCustomInfo'])) {
+										$empinfo = $object['EmpCustomInfo'];
+										$empinfo -> updateEmpCustomInfo();
+									}
+
 									/*if(isset($object['EmpJobStat'])) {
 										$empinfo = $object['EmpJobStat'];
 										$empinfo -> updateEmpJobStat();
+									}*/
+
+									if(isset($object['EmpTaxInfo'])) {
+										$empinfo = $object['EmpTaxInfo'];
+										$empinfo->updateEmpTax();
 									}
 
-									if(isset($object['EmpTax'])) {
-										$empinfo = $object['EmpTax'];
-										$empinfo -> updateEmpTax();
-									}
-
-									if(isset($object['EmpWrkStation'])) {
+									/*if(isset($object['EmpWrkStation'])) {
 										$empinfo = $object['EmpWrkStation'];
 										$empinfo -> updateEmpWrkStation();
 									}

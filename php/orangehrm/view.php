@@ -31,6 +31,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		$this->getArr['sortOrder0']='ASC';
 	}
 
+
+	$readOnlyView = (isset($this->popArr['readOnlyView'])) && ($this->popArr['readOnlyView'] === true);
+
 	function getNextSortOrder($curSortOrder) {
 		switch ($curSortOrder) {
 			case 'null' :
@@ -196,6 +199,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
         <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
 
+<?php if (!$readOnlyView) { ?>
 <?php	if($locRights['add']) { ?>
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
 <?php 	} else { ?>
@@ -210,7 +214,9 @@ if($headingInfo[2]==1) {
         <img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php 	}
 }?>
-
+<?php
+}
+?>
       </h3></td>
     <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
   </tr>
@@ -319,7 +325,7 @@ echo $pageStr;
 			<tr nowrap>
 				<td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 				<td width="50" NOWRAP class="listViewThS1" scope="col">
-				<?php	if($headingInfo[2]==1) { ?>
+				<?php	if (($headingInfo[2]==1) && (!$readOnlyView)) { ?>
 					<input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
 				<?php	}	?>
 				</td>
@@ -350,7 +356,7 @@ echo $pageStr;
 		 	 			if($headingInfo[2]==1) {
 		 		?>
        		<td class="<?php echo $cssClass?>" width="50">
-       				<?php if (CommonFunctions::extractNumericId($message[$j][0]) > 0) { ?>
+       				<?php if ((!$readOnlyView) && (CommonFunctions::extractNumericId($message[$j][0]) > 0)) { ?>
        					<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' /></td>
        				<?php } ?>
 		 		<?php 	} else { ?>

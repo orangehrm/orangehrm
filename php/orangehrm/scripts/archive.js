@@ -138,6 +138,11 @@
 	return notNum;
 	}
 
+	function decimalCurrency(txt) {
+		regExp = /^[0-9]+(\.[0-9]+)*$/;
+		return regExp.test(txt.value);
+	}
+
 	function clearAll() {
 		//need to work
 		document.forms[0].reset('');

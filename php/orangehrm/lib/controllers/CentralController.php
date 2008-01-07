@@ -69,6 +69,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Customer.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Projects.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectActivity.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomFields.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -95,6 +96,7 @@ require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpLicenses.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpDependents.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpChildren.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpEmergencyCon.php';
+require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpDirectDebit.php';
 
 require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpReport.php';
 require_once ROOT_PATH . '/lib/extractor/report/EXTRACTOR_EmpRepUserGroups.php';
@@ -584,6 +586,13 @@ switch ($moduletype) {
 										}
 
 										break;
+			 			case 'CTM'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_CustomFields();
+										}
+
+										break;
+
 					    case 'PRJ'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_Projects();
@@ -649,6 +658,9 @@ switch ($moduletype) {
 												$parsedObject = $extractor->parseEditData($_POST);
 												$view_controller->updateData($_GET['uniqcode'],$_GET['id'],$parsedObject);
 												break;
+										} elseif (($_GET['uniqcode'] == 'EXP') && isset($_GET['download'])) {
+											$view_controller->exportCSV($_GET['cmbExportType']);
+											break;
 										}
 
 										if(isset($_POST['KRA']) && $_POST['KRA']=='SEL' && $locRights['add']) {
@@ -739,6 +751,10 @@ switch ($moduletype) {
 
 					if(isset($_POST['passportSTAT']) && $_POST['passportSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
 						$extractorForm = new EXTRACTOR_EmpPassPort();
+					}
+
+					if(isset($_POST['directDebitSTAT']) && $_POST['directDebitSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+						$extractorForm = new EXTRACTOR_EmpDirectDebit();
 					}
 
 					if(isset($_POST['langSTAT']) && $_POST['langSTAT']!= '') {
@@ -882,6 +898,13 @@ switch ($moduletype) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['passportSTAT']);
 										} elseif(isset($_POST['passportSTAT']) && $_POST['passportSTAT'] == 'DEL' && $locRights['delete']) {
+												$view_controller->delEmpFormData($_GET,$_POST);
+										}
+
+										if(isset($_POST['directDebitSTAT']) && (($_POST['directDebitSTAT'] == 'ADD' && $locRights['add']) || ($_POST['directDebitSTAT'] == 'EDIT' && $locRights['edit']))) {
+												$parsedObject = $extractorForm->parseData($_POST);
+												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['directDebitSTAT']);
+										} elseif(isset($_POST['directDebitSTAT']) && $_POST['directDebitSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 

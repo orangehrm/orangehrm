@@ -17,41 +17,30 @@
 // Boston, MA  02110-1301, USA
 */
 
-require_once ROOT_PATH . '/lib/models/hrfunct/EmpBasSalary.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpPassPort.php';
 
-class EXTRACTOR_EmpBasSalary{
+class EXTRACTOR_EmpDirectDebit {
 
-	var $txtEmpID;
-	var $txtSalGrdId;
-	var $cmbCurrCode;
-	var $txtBasSal;
 
-	function EXTRACTOR_EmpBasSalary() {
-
-		$this->empbassal = new EmpBasSalary();
-			}
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+	}
 
 	function parseData($postArr) {
 
-			$this->empbassal->setEmpId(trim($postArr['txtEmpID']));
-			$this->empbassal->setEmpSalGrdCode(trim($postArr['txtSalGrdId']));
-			$this->empbassal->setEmpCurrCode($postArr['cmbCurrCode']);
-			$this->empbassal->setEmpBasSal(trim($postArr['txtBasSal']));
-			$payPeriod = trim($postArr['cmbPayPeriod']);
-			if ($payPeriod > 0) {
-				$this->empbassal->setPayPeriod($payPeriod);
-			}
-			return $this->empbassal;
-	}
+		$dd = new EmpDirectDebit();
 
-	function reloadData($postArr) {
+		$dd->setEmpNumber($postArr['txtEmpID']);
+		$dd->setDDSeqNo($postArr['DDSeqNo']);
+		$dd->setRoutingNumber($postArr['DDRoutingNumber']);
+		$dd->setAccount($postArr['DDAccount']);
+		$dd->setAmount($postArr['DDAmount']);
+		$dd->setAccountType($postArr['DDAccountType']);
+		$dd->setTransactionType($postArr['cmbTransactionType']);
 
-			$this->txtEmpID = (trim($postArr['txtEmpID']));
-			$this->txtSalGrdId = (trim($postArr['txtSalGrdId']));
-			$this->cmbCurrCode = $postArr['cmbCurrCode'];
-			$this->txtBasSal = (trim($postArr['txtBasSal']));
-
-			return $this;
+		return $dd;
 	}
 
 }
