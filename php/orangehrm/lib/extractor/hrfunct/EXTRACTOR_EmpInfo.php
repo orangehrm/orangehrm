@@ -201,7 +201,11 @@ class EXTRACTOR_EmpInfo {
 		}
 
 		$taxInfo->setFederalTaxExceptions(trim($postArr['taxFederalExceptions']));
-		$taxInfo->setTaxState(trim($postArr['cmbTaxState']));
+
+		$taxState = trim($postArr['cmbTaxState']);
+		if (!empty($taxState)) {
+			$taxInfo->setTaxState($taxState);
+		}
 
 		$stateTaxStatus = trim($postArr['cmbTaxStateStatus']);
 		if (!empty($stateTaxStatus)) {
