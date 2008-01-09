@@ -925,6 +925,9 @@
 	$lang_DataExport_Error_NoFieldSelected = "No Field Selected";
 	$lang_DataExport_Error_AssignAtLeastOneField = "Please assign at least one field";
 	$lang_DataExport_Error_NameInUse = "This name is in use.";
+	$lang_DataExport_Error_NoFieldSelectedForMove = "Please select at least one field from the Assigned fields to move";
+	$lang_DataExport_MoveUp = "Move selected fields up";
+	$lang_DataExport_MoveDown = "Move selected fields down";
 
 	// Custom Fields
 	$lang_CustomFields_Title = "Custom Fields";

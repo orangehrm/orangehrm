@@ -296,6 +296,57 @@
 	}
 
 	/**
+	 * Move up the currently selected options in the given select list, if possible
+	 *
+	 * @param selectObj The select object
+	 * @errorWhenNotSelected The error message to show if no option selected
+	 */
+	function moveSelectionsUp(selectObj, errorWhenNotSelected) {
+		if (selectObj.selectedIndex == -1) {
+			if (errorWhenNotSelected != "") {
+				alert(errorWhenNotSelected);
+			}
+			return;
+		}
+
+		// start from 1 since we can't move the 0'th element up
+		for (i = 1; i<selectObj.length; i++) {
+			if (selectObj.options[i].selected) {
+
+				opt = selectObj.options[i];
+				selectObj.removeChild(opt);
+				selectObj.insertBefore(opt, selectObj.options[i-1]);
+			}
+		}
+	}
+
+	/**
+	 * Move down the currently selected options in the given select list, if possible
+	 *
+	 * @param selectObj The select object
+	 * @errorWhenNotSelected The error message to show if no option selected
+	 */
+	function moveSelectionsDown(selectObj, errorWhenNotSelected) {
+		if (selectObj.selectedIndex == -1) {
+			if (errorWhenNotSelected != "") {
+				alert(errorWhenNotSelected);
+			}
+			return;
+		}
+
+		// start from one before last since we can't move the 0'th element up
+		for (i = selectObj.length - 2; i >= 0; i--) {
+			if (selectObj.options[i].selected) {
+
+				nextOpt = selectObj.options[i+1];
+				selectObj.removeChild(nextOpt);
+				selectObj.insertBefore(nextOpt, selectObj.options[i]);
+			}
+		}
+
+	}
+
+	/**
 	 * Select all options of the given select object.
 	 */
 	function selectAllOptions(selectObj) {

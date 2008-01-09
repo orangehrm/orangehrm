@@ -127,13 +127,21 @@ class CustomizableCSVExport implements CSVExportPlugin {
 		$ddList = $dd->getEmployeeDirectDebit($row['emp_number']);
 
 		$csvRow = "";
+		$firstField = true;
 
 		$assignedFields = $this->customExport->getAssignedFields();
+
 		foreach ($assignedFields as $field) {
+
 			$csvField = $this->fieldMap[$field];
 			$value = $csvField->getValue($row, $ddList);
 
-			$csvRow = empty($csvRow) ? $value : $csvRow . ',' . $value;
+			if ($firstField) {
+				$firstField = false;
+				$csvRow = $value;
+			} else {
+				$csvRow .= ',' . $value;
+			}
 		}
 		return $csvRow;
 	}

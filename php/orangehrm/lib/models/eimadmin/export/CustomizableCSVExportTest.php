@@ -176,6 +176,12 @@ class CustomizableCSVExportTest extends PHPUnit_Framework_TestCase {
     	$expected = '111 Main Street,Karunadasa,E1921A,Kamal,SUITE A29,K,Houston' . "\n";
     	$this->assertEquals($expected, $csv);
 
+		$this->_runQuery("UPDATE hs_hr_custom_export SET fields = 'salary,payFrequency,street1,lastName,firstName,street2,middleName,city,location' WHERE export_id = 1");
+    	$export = new CustomizableCSVExport(1);
+    	$csv = $export->getCSVData();
+    	$expected = ',,111 Main Street,Karunadasa,Kamal,SUITE A29,K,Houston,' . "\n";
+    	$this->assertEquals($expected, $csv);
+
 		// All available fields
 		$available = "empId,lastName,firstName,middleName,street1,street2,city," .
                            "state,zip,gender,birthDate,ssn,empStatus,joinedDate,workStation,location,custom1,custom2," .

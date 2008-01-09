@@ -114,6 +114,14 @@ $customExportList = $this->popArr['customExportList'];
 		moveSelectOptions($('cmbAssignedFields'), $('cmbAvailableFields'), '<?php echo $lang_DataExport_Error_NoFieldSelected; ?>');
 	}
 
+	function moveUp() {
+		res = moveSelectionsUp($('cmbAssignedFields'), '<?php echo $lang_DataExport_Error_NoFieldSelectedForMove;?>');
+	}
+
+	function moveDown() {
+		res = moveSelectionsDown($('cmbAssignedFields'), '<?php echo $lang_DataExport_Error_NoFieldSelectedForMove;?>');
+	}
+
 	function isNameInUse(name) {
 		n = names.length;
 		for (var i=0; i<n; i++) {
@@ -249,8 +257,8 @@ $customExportList = $this->popArr['customExportList'];
             <div id="messageCell" class="error" style="display:block; float: left; margin:10px;">&nbsp;</div>
 			<br/>
             <div align="left">
-	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-				<img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
+	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
+				<img src="../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
             </div>
 	<table border="0">
 		<tr>
@@ -280,6 +288,14 @@ $customExportList = $this->popArr['customExportList'];
        				}
 				?>
 			</select></td>
+			<td>
+			<img id="btnMoveUp" onClick="moveUp();" alt="<?php echo $lang_DataExport_MoveUp; ?>"
+				title="<?php echo $lang_DataExport_MoveUp; ?>"
+				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br><br>
+			<img id="btnMoveDown" onClick="moveDown();" alt="<?php echo $lang_DataExport_MoveDown; ?>"
+				title="<?php echo $lang_DataExport_MoveDown; ?>"
+				src="../../themes/<?php echo $styleSheet;?>/icons/down.gif"/>
+			</td>
 		</tr>
 	</table>
 	</form>
