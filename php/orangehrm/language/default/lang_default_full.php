@@ -151,6 +151,8 @@
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
 	$lang_Menu_Admin_DataExport = "Data Export";
+	$lang_Menu_Admin_DataExportExport = "Export";
+	$lang_Menu_Admin_DataExportDefine = "Define Custom Export";
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
 
 	// Leave Module
@@ -239,6 +241,7 @@
 	$lang_Common_ADD_FAILURE 				= "Failed to Add";
 	$lang_Common_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_Common_DELETE_FAILURE 			= "Failed to Delete";
+	$lang_Common_DUPLICATE_NAME_FAILURE     = "Name is already in use";
 
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
@@ -787,6 +790,7 @@
 
  	$lang_view_EmploymentStatusID 			= "Employment Status ID";
 	$lang_view_EmploymentStatusName 		= "Employment Status Name";
+	$lang_view_deletePrompt                 = "Deletion cannot be undone";
 	$lang_view_message 						= "Deletion may affect Job Titles";
 	$lang_view_message1 					= "Deletion may affect Pay Grade of Employees in PIM";
 	$lang_view_SkillName 					= "Skill Name";
@@ -904,6 +908,23 @@
 	$lang_DataExport_Type = "Export Type";
 	$lang_DataExport_ExportTypeNotSelected = "Export Type not selected";
 	$lang_DataExport_Export = "Export";
+	$lang_DataExport_PluginsAreMarked = "Export Types marked with (+) are defined in Plugin files and are not editable via the UI.";
+	$lang_DataExport_CustomExportTypesCanBeManaged = "Custom export types can be managed ";
+	$lang_DataExport_ClickingHereLink = "here";
+
+	// Define Custom Data Export
+	$lang_DataExport_CustomExportId = "ID";
+	$lang_DataExport_CustomExportName = "Export Name";
+	$lang_DataExportCustom_Title = "Custom Export Definitions";
+	$lang_DataExport_DefineCustomField_Heading = "Define Custom Export";
+	$lang_DataExport_AssignedFields = "Assigned Fields";
+	$lang_DataExport_AvailableFields = "Available Fields";
+	$lang_DataExport_Add = "Add";
+	$lang_DataExport_Remove = "Remove";
+	$lang_DataExport_PleaseSpecifyExportName = "Please specify export name";
+	$lang_DataExport_Error_NoFieldSelected = "No Field Selected";
+	$lang_DataExport_Error_AssignAtLeastOneField = "Please assign at least one field";
+	$lang_DataExport_Error_NameInUse = "This name is in use.";
 
 	// Custom Fields
 	$lang_CustomFields_Title = "Custom Fields";

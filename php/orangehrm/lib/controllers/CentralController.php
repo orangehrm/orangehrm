@@ -70,6 +70,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Projects.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectActivity.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomFields.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomExport.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -589,6 +590,13 @@ switch ($moduletype) {
 			 			case 'CTM'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CustomFields();
+										}
+
+										break;
+
+			 			case 'CEX'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_CustomExport();
 										}
 
 										break;

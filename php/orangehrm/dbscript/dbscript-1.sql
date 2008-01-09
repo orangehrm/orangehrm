@@ -233,7 +233,7 @@ create table `hs_hr_emp_directdebit` (
   `dd_account` varchar(100) not null default '',
   `dd_amount` decimal(11,2) not null,
   `dd_account_type` varchar(20) not null default '' comment 'CHECKING, SAVINGS',
-  `dd_transaction_type` varchar(5) not null default '' comment 'blank, %, flat or flat-',
+  `dd_transaction_type` varchar(20) not null default '' comment 'BLANK, PERC, FLAT, FLATMINUS',
   primary key  (`emp_number`,`dd_seqno`)
 ) engine=innodb default charset=utf8;
 
@@ -725,6 +725,15 @@ create table `hs_hr_custom_fields` (
   `extra_data` varchar(250) default null,
   primary key  (`field_num`),
   key `emp_number` (`field_num`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_custom_export` (
+  `export_id` int(11) not null,
+  `name` varchar(250) not null,
+  `fields` text default null,
+  `headings` text default null,
+  primary key  (`export_id`),
+  key `emp_number` (`export_id`)
 ) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree

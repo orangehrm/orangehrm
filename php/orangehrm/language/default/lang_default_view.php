@@ -160,6 +160,12 @@ switch ($_GET['uniqcode']) {
 		$headingInfo = array ($lang_CustomFields_CustomFieldId,$lang_CustomFields_CustomFieldName,1, "$lang_CustomFields_Title",$lang_view_message26);
 		break;
 
+	case 'CEX' :
+		$srchlist = array( "-$lang_Leave_Common_Select-" );
+		$headings= array($lang_DataExport_CustomExportId,$lang_DataExport_CustomExportName);
+		$headingInfo = array ($lang_DataExport_CustomExportId,$lang_DataExport_CustomExportName,1, "$lang_DataExportCustom_Title",$lang_view_deletePrompt);
+		break;
+
 }
 
 ?>

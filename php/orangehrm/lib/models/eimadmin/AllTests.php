@@ -32,9 +32,8 @@ require_once 'ProjectsTest.php';
 require_once 'ProjectActivityTest.php';
 require_once 'ProjectAdminGatewayTest.php';
 require_once 'ProjectAdminTest.php';
+require_once 'CustomExportTest.php';
 
-
- 
 class models_eimadmin_AllTests
 {
     public static function main()
@@ -51,6 +50,7 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('ProjectActivityTest');
 	$suite->addTestSuite('ProjectAdminTest');
 	$suite->addTestSuite('ProjectAdminGatewayTest');
+	$suite->addTestSuite('CustomExportTest');
         return $suite;
     }
 }

@@ -23,6 +23,7 @@ require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 require_once ROOT_PATH.'/lib/models/eimadmin/export/CSVExportPlugin.php';
+require_once ROOT_PATH.'/lib/models/eimadmin/export/CustomizableCSVExport.php';
 
 class CSVExport {
 
@@ -39,6 +40,14 @@ class CSVExport {
 	public function __construct() {
 		$this->pluginDir = ROOT_PATH . '/lib/models/eimadmin/export/plugins';
 		$this->exportPlugins = $this->_getListOfAvailablePlugins();
+
+		/* Get user defined exports - defined via the UI.*/
+		$customExports = CustomExport::getCustomExportList();
+		foreach ($customExports as $export) {
+
+			/* We don't check for any conflicts in key since, plugins have the class name as key*/
+			$this->exportPlugins[$export->getId()] = $export->getName();
+		}
 	}
 
 	/**
@@ -58,6 +67,7 @@ class CSVExport {
 
 		$exportPlugin = $this->_getPlugin($type);
 
+		$fileName = $exportPlugin->getName();
 		$csvContents = $exportPlugin->getHeader() . "\n" . $exportPlugin->getCSVData();
 
 		ob_end_clean();
@@ -66,7 +76,7 @@ class CSVExport {
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Cache-Control: private", false);
 		header("Content-Type: text/csv");
-		header('Content-Disposition: attachment; filename="' . $type . '.csv";');
+		header('Content-Disposition: attachment; filename="' . $fileName . '.csv";');
 		header("Content-Transfer-Encoding: none");
 		//header("Content-Length: " .strlen($csvContents));
 
@@ -119,10 +129,15 @@ class CSVExport {
 		return $plugins;
 	 }
 
-	 private function _getPlugin($name) {
+	 private function _getPlugin($type) {
 
-		require_once $this->pluginDir . "/" . $name . ".php";
-		$object = new $name;
+		/* If the type is an ID, get the customizable CSV Export class */
+		if (CommonFunctions::isValidId($type)) {
+			$object = new CustomizableCSVExport($type);
+		} else {
+			require_once $this->pluginDir . "/" . $type . ".php";
+			$object = new $type;
+		}
 		return $object;
 	 }
 }

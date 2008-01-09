@@ -49,6 +49,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectActivity.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CustomExport.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/CSVExport.php';
 
@@ -353,6 +354,18 @@ class ViewController {
 							$res = false;
 						}
 						break;
+		case 'CEX':		if (isset($arrList[0])) {
+							try {
+								CustomExport::deleteExports($arrList[0]);
+								$res = true;
+							} catch (CustomExportException $e) {
+								$res = false;
+							}
+						} else {
+							$res = false;
+						}
+						break;
+
 		case 'PRJ':
 
 			$this-> Projects = new Projects();
@@ -519,6 +532,10 @@ class ViewController {
 			$message = $this->customFields->getCustomerFieldListForView($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
 			return $message;
+
+		case 'CEX' :
+
+			return CustomExport::getCustomExportListForView($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
 		case 'PRJ' :
 
@@ -1133,6 +1150,10 @@ class ViewController {
 
 			return $message;
 
+		case 'CEX' :
+
+			$list = CustomExport::getCustomExportList();
+			return count($list);
 
 		case 'PRJ' :
 
@@ -1411,6 +1432,19 @@ class ViewController {
 									}
 									$id= $customField->getFieldNumber();
 
+									break;
+
+				case 'CEX'  :		$customExport = $object;
+									try {
+										$customExport->save();
+										$res = true;
+									} catch (CustomExportException $e) {
+										if ($e->getCode() == CustomExportException::DUPLICATE_EXPORT_NAME){
+											$showMsg = "DUPLICATE_NAME_FAILURE";
+										}
+										$res = false;
+									}
+									$id = $customExport->getId();
 									break;
 
 				case 'PAD'  :		$projectAdmin = $object;
@@ -1811,6 +1845,18 @@ class ViewController {
 										$customField->updateCustomField();
 										$res = true;
 									} catch (CustomFieldsException $e) {
+										$res = false;
+									}
+									break;
+
+				case 'CEX'  :		$customExport = $object;
+									try {
+										$customExport->save();
+										$res = true;
+									} catch (CustomExportException $e) {
+										if ($e->getCode() == CustomExportException::DUPLICATE_EXPORT_NAME){
+											$showMsg = "DUPLICATE_NAME_FAILURE";
+										}
 										$res = false;
 									}
 									break;
@@ -2861,6 +2907,24 @@ class ViewController {
 							$form_creator ->popArr['available'] = CustomFields::getAvailableFieldNumbers();
 							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = CustomFields::getCustomField($getArr['id']);
+							}
+							break;
+
+			case 'CEX' :	$form_creator->formPath = '/templates/eimadmin/customExportDefine.php';
+
+							$form_creator ->popArr['customExportList'] = CustomExport::getCustomExportList();
+							if($getArr['capturemode'] == 'updatemode') {
+								$customExport = CustomExport::getCustomExport($getArr['id']);
+
+								$form_creator ->popArr['available'] = $customExport->getAvailableFields();
+								$form_creator ->popArr['assigned'] = $customExport->getAssignedFields();
+								$form_creator ->popArr['exportName'] = $customExport->getName();
+								$form_creator ->popArr['id'] = $customExport->getId();
+							} else {
+								$form_creator ->popArr['available'] = CustomExport::getAllFields();
+								$form_creator ->popArr['assigned'] = array();
+								$form_creator ->popArr['exportName'] = null;
+								$form_creator ->popArr['id'] = null;
 							}
 							break;
 

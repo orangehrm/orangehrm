@@ -5,6 +5,7 @@ New & Changed Features for OrangeHRM ver 2.2.3
           * Tax information
           * Custom fields
           * CSV Export
+          * User defined CSV export
 
 	BugId     Name
         1856039 - Specific holiday shown for previous year
@@ -13,6 +14,8 @@ New & Changed Features for OrangeHRM ver 2.2.3
         1861635 - change the heading “Payments
         1861636 - menu icon name change direct deposit NOT direct debi
         1861634 - Title change.. cosmetic
+        1867592	- Error when saving direct deposit with type = 'FLATMINUS
+        1867597 - Direct Debit info not in CSV if empId & empnum different
 
 New & Changed Features for OrangeHRM ver 2.2.2.2
 

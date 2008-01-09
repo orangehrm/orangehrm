@@ -26,6 +26,8 @@ set_include_path(get_include_path() . PATH_SEPARATOR . "../../../../build");
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
+require_once 'CSVFieldTest.php';
+require_once 'CustomizableCSVExportTest.php';
 require_once 'plugins/MilleniumPayrollExportTest.php';
  
 class models_eimadmin_export_AllTests
@@ -38,8 +40,10 @@ class models_eimadmin_export_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
+	$suite->addTestSuite('CSVFieldTest');
+	$suite->addTestSuite('CustomizableCSVExportTest');
 	$suite->addTestSuite('plugins_MilleniumPayrollExportTest');
-        return $suite;
+	return $suite;
     }
 }
  

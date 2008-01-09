@@ -198,6 +198,7 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu15", "right", xPosition, yPosition + 154, 146, 120)
 		new ypSlideOutMenu("menu17", "right", xPosition, yPosition + 176, 146, 120)
+		new ypSlideOutMenu("menu18", "right", xPosition, yPosition + 198, 146, 120)
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
 		new ypSlideOutMenu("menu16", "right", xPosition, yPosition, 146, 120)
@@ -502,7 +503,7 @@ function preloadAllImages() {
 						<li id="users"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu12');" onMouseOut="ypSlideOutMenu.hideMenu('menu12');"><?php echo $lang_Menu_Admin_Users; ?></a></li>
 						<li id="notifications"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
 						<li id="projectInfo"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu17');" onMouseOut="ypSlideOutMenu.hideMenu('menu17');"><?php echo $lang_Menu_Admin_ProjectInfo; ?></a></li>
-						<li id="dataexport"><a href="index.php?uniqcode=EXP&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_DataExport; ?> </a></li>
+						<li id="dataexport"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu18');" onMouseOut="ypSlideOutMenu.hideMenu('menu18');"><?php echo $lang_Menu_Admin_DataExport; ?></a></li>
 						<li id="dataexport"><a href="index.php?uniqcode=CTM&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CustomFields; ?> </a></li>
 					  </ul></TD>
 <?php				} else if ($_SESSION['isProjectAdmin']) { ?>
@@ -907,6 +908,34 @@ function preloadAllImages() {
                 </DIV>
               </DIV>
               <!-- End SubMenu17 -->
+              <!-- Begin SubMenu18 -->
+              <DIV id=menu18Container>
+                <DIV id=menu18Content>
+                 <?php
+				 	if ($authorizeObj->isAdmin()) {
+                 ?>
+                  <TABLE cellSpacing="0" cellPadding="0" width="142" border="0"">
+                    <TBODY>
+                      <tr>
+                        <td onMouseOver="ypSlideOutMenu.showMenu('menu18')" onMouseOut="ypSlideOutMenu.hideMenu('menu18')"
+                        	vAlign="center" align="left" width="142" height="17">
+                        	<a class="rollmenu" href="index.php?uniqcode=EXP&submenutop=EIMModule&menu_no_top=eim" >
+                        		<?php echo $lang_Menu_Admin_DataExportExport; ?></a></td>
+					 </tr>
+					 <tr>
+                        <td onMouseOver="ypSlideOutMenu.showMenu('menu18')" onMouseOut="ypSlideOutMenu.hideMenu('menu18')"
+                        	vAlign="center" align="left" width="142" height="17"">
+                        	<a class="rollmenu" href="index.php?uniqcode=CEX&submenutop=EIMModule&menu_no_top=eim" >
+                        		<?php echo $lang_Menu_Admin_DataExportDefine; ?></a></td>
+					 </tr>
+                    </TBODY>
+                  </TABLE>
+                  <?php
+                 	}
+                 ?>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu18 -->
 
               <!--------------------- End Menu --------------------->
             </td>

@@ -23,6 +23,9 @@ require_once($lan->getLangPath("full.php"));
 $locRights=$_SESSION['localRights'];
 
 $exportTypes = $this->popArr['exportTypes'];
+$pluginExportTypesFound = false;
+$editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -98,7 +101,16 @@ $exportTypes = $this->popArr['exportTypes'];
         		<option value="0">-- <?php echo $lang_Common_Select;?> --</option>
         		<?php
         		    foreach ($exportTypes as $key=>$exportType) {
-        		    	echo "<option value='" . $key . "' >" . $exportType . "</option>";
+
+        		    	/* mark export types defined in plugins. key is an int for user defined exports
+        		    	 and a class name for exports defined in plugin classes. */
+        		    	if (!is_int($key)) {
+        		    		$pluginExportTypesFound = true;
+        		    		$mark = ' (+)';
+        		    	} else {
+        		    		$mark = '';
+        		    	}
+        		    	echo "<option value='" . $key . "' >" . $exportType . $mark . "</option>";
         		    }
         		?>
         	</select>
@@ -129,6 +141,10 @@ $exportTypes = $this->popArr['exportTypes'];
     </tfoot>
   </table>
 </form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+<?php if ($pluginExportTypesFound) { ?>
+	<span id="notice"><?php echo $lang_DataExport_PluginsAreMarked; ?><br /></span>
+<?php } ?>
+<span id="notice"><?php echo $lang_DataExport_CustomExportTypesCanBeManaged; ?><a href='<?php echo $editLink; ?>'><?php echo $lang_DataExport_ClickingHereLink;?></a></span>
+
 </body>
 </html>
