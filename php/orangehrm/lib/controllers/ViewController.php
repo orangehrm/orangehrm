@@ -1498,6 +1498,9 @@ class ViewController {
 			if ($res) {
 
 				switch($index) {
+					case 'CEX' : // Go to CSV heading Define page
+								 header("Location: ./CentralController.php?uniqcode=CHD&id=$id");
+								 break;
 
 					case 'SGR' :
 								$backtype = isset($_POST['backtype']) ? $_POST['backtype'] : '';
@@ -1849,6 +1852,8 @@ class ViewController {
 									}
 									break;
 
+				case 'CHD'  :	    // Fall through to 'CEX' below
+
 				case 'CEX'  :		$customExport = $object;
 									try {
 										$customExport->save();
@@ -1917,6 +1922,15 @@ class ViewController {
 			if ($res) {
 
 				switch ($index) {
+
+					case 'CEX' : // Go to CSV heading Define page
+								 header("Location: ./CentralController.php?uniqcode=CHD&id=$id");
+								 break;
+
+					case 'CHD' : $showMsg = "UPDATE_SUCCESS";
+								 $esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
+								 header("Location: ./CentralController.php?message=$showMsg&uniqcode=CEX&VIEW=MAIN$esp{$extraParams}");
+								 break;
 
 					case 'CST' : break;
 
@@ -2916,16 +2930,29 @@ class ViewController {
 							if($getArr['capturemode'] == 'updatemode') {
 								$customExport = CustomExport::getCustomExport($getArr['id']);
 
+								$form_creator ->popArr['headings'] = $customExport->getHeadings();
 								$form_creator ->popArr['available'] = $customExport->getAvailableFields();
 								$form_creator ->popArr['assigned'] = $customExport->getAssignedFields();
 								$form_creator ->popArr['exportName'] = $customExport->getName();
 								$form_creator ->popArr['id'] = $customExport->getId();
 							} else {
+								$form_creator ->popArr['headings'] = array();
 								$form_creator ->popArr['available'] = CustomExport::getAllFields();
 								$form_creator ->popArr['assigned'] = array();
 								$form_creator ->popArr['exportName'] = null;
 								$form_creator ->popArr['id'] = null;
 							}
+							break;
+
+			case 'CHD' :	$form_creator->formPath = '/templates/eimadmin/customExportHeadingDefine.php';
+
+							$customExport = CustomExport::getCustomExport($getArr['id']);
+
+							$headings = $customExport->getHeadings();
+							$form_creator ->popArr['headings'] = empty($headings) ? $customExport->getAssignedFields() : $headings;
+							$form_creator ->popArr['assigned'] = $customExport->getAssignedFields();
+							$form_creator ->popArr['exportName'] = $customExport->getName();
+							$form_creator ->popArr['id'] = $customExport->getId();
 							break;
 
 			case 'PAD' :    // Project Admin. Fall through to PRJ case below.

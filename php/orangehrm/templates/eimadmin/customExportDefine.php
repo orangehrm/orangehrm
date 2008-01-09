@@ -24,6 +24,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 	$btnAction="addUpdate()";
 }
 
+$headings = $this->popArr['headings'];
 $availableFields = $this->popArr['available'];
 $assignedFields = $this->popArr['assigned'];
 $name = $this->popArr['exportName'];
@@ -298,6 +299,9 @@ $customExportList = $this->popArr['customExportList'];
 			</td>
 		</tr>
 	</table>
+	<?php foreach ($headings as $heading) { ?>
+		<input type="hidden" name="headerValues[]" value="<?php echo $heading;?>"/>
+	<?php } ?>
 	</form>
     </div>
     <script type="text/javascript">

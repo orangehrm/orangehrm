@@ -27,9 +27,12 @@
 			$export->setName(trim($postArr['txtFieldName']));
 		}
 
-		$assignedFields = array();
 		if (isset($postArr['cmbAssignedFields']) && is_array($postArr['cmbAssignedFields'])) {
 			$export->setAssignedFields($postArr['cmbAssignedFields']);
+		}
+
+		if (isset($postArr['headerValues']) && is_array($postArr['headerValues'])) {
+			$export->setHeadings($postArr['headerValues']);
 		}
 
 		return $export;
@@ -46,9 +49,12 @@
 			$export->setName(trim($postArr['txtFieldName']));
 		}
 
-		$assignedFields = array();
 		if (isset($postArr['cmbAssignedFields']) && is_array($postArr['cmbAssignedFields'])) {
 			$export->setAssignedFields($postArr['cmbAssignedFields']);
+		}
+
+		if (isset($postArr['headerValues']) && is_array($postArr['headerValues'])) {
+			$export->setHeadings($postArr['headerValues']);
 		}
 
 		return $export;

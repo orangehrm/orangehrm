@@ -929,6 +929,12 @@
 	$lang_DataExport_MoveUp = "Move selected fields up";
 	$lang_DataExport_MoveDown = "Move selected fields down";
 
+	// Define custom data export CSV headings
+	$lang_DataExport_DefineCustomFieldHeadings_Heading = "Define CSV Heading for Custom Export";
+	$lang_DataExport_ColumnHeadings = "CSV column headings";
+	$lang_DataExport_EditColumnHeadings = "Edit column headings if needed.";
+	$lang_DataExport_Error_AllHeadingsMustBeSpecified = "All column headings must be specified";
+
 	// Custom Fields
 	$lang_CustomFields_Title = "Custom Fields";
 	$lang_CustomFields_CustomFieldId = "Custom Field Id";
