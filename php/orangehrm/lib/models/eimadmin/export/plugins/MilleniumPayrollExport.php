@@ -63,7 +63,7 @@ class MilleniumPayrollExport implements CSVExportPlugin {
 	 * @return string formatted csv data
 	 */
 	public function getCSVData() {
-		$sql = "SELECT employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_street1, emp_street2," .
+		$sql = "SELECT hs_hr_employee.emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_street1, emp_street2," .
 		"city_code,provin_code,emp_zipcode,emp_gender,emp_birthday,emp_ssn_num,emp_status,joined_date, " .
 		"tax_federal_status, tax_federal_exceptions, tax_state, tax_state_status, tax_state_exceptions, " .
 		"tax_unemp_state,tax_work_state,custom1,custom2,custom3,custom4,custom5,custom6,custom7,custom8,custom9,custom10, " .
@@ -176,7 +176,7 @@ class MilleniumPayrollExport implements CSVExportPlugin {
 
 		// Get direct debit information
 		$dd = new EmpDirectDebit();
-		$ddList = $dd->getEmployeeDirectDebit($row['employee_id']);
+		$ddList = $dd->getEmployeeDirectDebit($row['emp_number']);
 
 		if (count($ddList) > 0) {
 			$transit1 = $this->_escape($ddList[0]->getRoutingNumber());
