@@ -35,6 +35,13 @@ $numFields = count($assignedFields);
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
 
+	origHeadings = new Array();
+<?php
+   	for($i = 0; $i < $numFields; $i++) {
+		print "\torigHeadings.push(\"{$headings[$i]}\");\n";
+   	}
+
+?>
     function goBack() {
         location.href = "./CentralController.php?uniqcode=CEX&id=<?php echo $this->getArr['id'];?>&capturemode=updatemode";
     }
@@ -87,7 +94,15 @@ $numFields = count($assignedFields);
 		}
 	}
 
-	function clearAll() {
+	/**
+	 * Reset form, undoing any changes done
+	 */
+	function reset() {
+		var headerValues = document.frmCustomExport.elements["headerValues[]"];
+
+		for (var i = 0; i < headerValues.length; i++) {
+			headerValues[i].value = origHeadings[i];
+		}
 	}
 
 </script>
@@ -150,8 +165,8 @@ $numFields = count($assignedFields);
 	<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 	<input type="hidden" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" />
     <div align="left">
-        <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
-		<img src="../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
+        <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
+		<img src="../../themes/<?php echo $styleSheet;?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset_o.gif';" onClick="reset();" >
     </div>
     <?php echo $lang_DataExport_EditColumnHeadings; ?><br /><br />
 	<table class="simpleList" >

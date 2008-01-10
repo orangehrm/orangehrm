@@ -356,6 +356,17 @@
 		}
 	}
 
+	/**
+	 * Remove all options of the given select object.
+	 */
+	function removeAllOptions(selectObj) {
+		var selLength = selectObj.length;
+
+		for (i = selLength - 1 ; i >= 0; i--) {
+			selectObj.remove(i);
+		}
+	}
+
 	function printPage(page) {
 		if (page.print) {
 			page.print() ;

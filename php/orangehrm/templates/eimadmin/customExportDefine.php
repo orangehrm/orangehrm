@@ -39,6 +39,24 @@ $customExportList = $this->popArr['customExportList'];
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
+
+    // original values
+    var origName = "<?php echo $name;?>";
+
+    var origAvailableFields = new Array();
+<?php
+	foreach($availableFields as $field) {
+	   	print "\torigAvailableFields.push(\"{$field}\");\n";
+	}
+?>
+
+    var origAssignedFields = new Array();
+<?php
+	foreach($assignedFields as $field) {
+	   	print "\torigAssignedFields.push(\"{$field}\");\n";
+	}
+?>
+
 	names = new Array();
 <?php
 	if($customExportList) {
@@ -104,7 +122,7 @@ $customExportList = $this->popArr['customExportList'];
 			if (key in headings) {
 				heading = headings[key];
 			} else {
-				heading = selectObj.options[i].value;
+				heading = selectObj.options[i].text;
 			}
 
 			// Create hidden element and add heading value
@@ -140,8 +158,29 @@ $customExportList = $this->popArr['customExportList'];
 		}
 	}
 
-	function clearAll() {
-		document.frmCustomExport.txtFieldName.value='';
+	function reset() {
+		$('txtFieldName').value = origName;
+
+		var assignedFields = $('cmbAssignedFields');
+		removeAllOptions(assignedFields);
+
+		for (var i = 0; i < origAssignedFields.length; i++) {
+			newElement = document.createElement("option");
+			newElement.setAttribute("value", origAssignedFields[i]);
+			newElement.text = origAssignedFields[i];
+			assignedFields.appendChild(newElement);
+		}
+
+
+		var availableFields = $('cmbAvailableFields');
+		removeAllOptions(availableFields);
+		for (var i = 0; i < origAvailableFields.length; i++) {
+			newElement = document.createElement("option");
+			newElement.setAttribute("value", origAvailableFields[i]);
+			newElement.text = origAvailableFields[i];
+			availableFields.appendChild(newElement);
+		}
+
 	}
 
 	function assignFields() {
@@ -296,7 +335,7 @@ $customExportList = $this->popArr['customExportList'];
 			<br/>
             <div align="left">
 	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
-				<img src="../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
+				<img src="../../themes/<?php echo $styleSheet;?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reset();" >
             </div>
 	<table border="0">
 		<tr>
