@@ -934,6 +934,7 @@
 	$lang_DataExport_ColumnHeadings = "CSV column headings";
 	$lang_DataExport_EditColumnHeadings = "Edit column headings if needed.";
 	$lang_DataExport_Error_AllHeadingsMustBeSpecified = "All column headings must be specified";
+	$lang_DataExport_Error_CommaNotAllowedInHeadings = "The comma (,) character is not allowed in headings";
 
 	// Custom Fields
 	$lang_CustomFields_Title = "Custom Fields";

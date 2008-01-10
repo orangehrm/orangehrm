@@ -49,6 +49,15 @@ $customExportList = $this->popArr['customExportList'];
 	   	}
 	}
 ?>
+
+	headings = new Array();
+<?php
+	$numAssigned = count($assignedFields);
+	for ($i = 0; $i < $numAssigned; $i++) {
+		$heading = isset($headings[$i]) ? $headings[$i] : $assignedFields[$i];
+		print "\theadings[\"{$assignedFields[$i]}\"] = \"{$heading}\";\n";
+	}
+?>
     function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
@@ -81,11 +90,38 @@ $customExportList = $this->popArr['customExportList'];
 		}
 	}
 
+	// Set headings for assigned elements
+	function setHeadings() {
+
+		var selectObj = $('cmbAssignedFields');
+		var selLength = selectObj.length;
+
+		// Go through assigned elements
+		for (i = 0 ; i < selLength; i++) {
+
+			key = selectObj.options[i].value;
+
+			if (key in headings) {
+				heading = headings[key];
+			} else {
+				heading = selectObj.options[i].value;
+			}
+
+			// Create hidden element and add heading value
+			newElement = document.createElement("input");
+			newElement.setAttribute("type", "hidden");
+			newElement.setAttribute("name", "headerValues[]");
+			newElement.setAttribute("value", heading);
+			document.frmCustomExport.appendChild(newElement);
+		}
+	}
+
     function addSave() {
 
 		if (validate()) {
         	document.frmCustomExport.sqlState.value = "NewRecord";
 			selectAllOptions($('cmbAssignedFields'));
+			setHeadings();
         	document.frmCustomExport.submit();
 		} else {
 			return false;
@@ -97,6 +133,7 @@ $customExportList = $this->popArr['customExportList'];
 		if (validate()) {
 			document.frmCustomExport.sqlState.value  = "UpdateRecord";
 			selectAllOptions($('cmbAssignedFields'));
+			setHeadings();
 			document.frmCustomExport.submit();
 		} else {
 			return false;
@@ -299,9 +336,6 @@ $customExportList = $this->popArr['customExportList'];
 			</td>
 		</tr>
 	</table>
-	<?php foreach ($headings as $heading) { ?>
-		<input type="hidden" name="headerValues[]" value="<?php echo $heading;?>"/>
-	<?php } ?>
 	</form>
     </div>
     <script type="text/javascript">

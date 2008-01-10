@@ -54,6 +54,12 @@ $numFields = count($assignedFields);
 				headerValues[i].focus();
 				break;
 			}
+			if (headerValues[i].value.indexOf(',') != -1) {
+				err = true;
+				msg = '<?php echo $lang_DataExport_Error_CommaNotAllowedInHeadings; ?>';
+				headerValues[i].focus();
+				break;
+			}
 		}
 
 		if (!err) {
