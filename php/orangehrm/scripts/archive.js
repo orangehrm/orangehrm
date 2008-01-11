@@ -78,6 +78,7 @@
 
 
     //check to see whether a valid phone number
+    // Space character, plus sign and dash are allowed in phone numbers
     function checkPhone(txt)
     {
         var flag=true;
@@ -86,7 +87,7 @@
 
             code=txt.value.charCodeAt(i);
 
-            if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 43))
+            if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 43) || (code == 32) )
                 flag=true
             else
             {

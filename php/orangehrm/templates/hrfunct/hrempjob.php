@@ -140,6 +140,10 @@
 										echo "<option selected value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
 									else
 										echo "<option value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+
+							if(count($arrEmpType) == 0) {
+									echo "<option value='EST000'>Terminated</option>";
+									}
 ?>
 			  </select></td>
               </tr>

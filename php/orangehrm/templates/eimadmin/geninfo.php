@@ -104,14 +104,14 @@ function edit()
 		}
 
 		var cntrl = document.frmGenInfo.txtPhone;
-		if(cntrl.value != '' && !numeric(cntrl)) {
+		if(cntrl.value != '' && !checkPhone(cntrl)) {
 			alert('<?php echo $lang_geninfo_err_Phone; ?>');
 			cntrl.focus();
 			return;
 		}
 
 		var cntrl = document.frmGenInfo.txtFax;
-		if(cntrl.value != '' && !numeric(cntrl)) {
+		if(cntrl.value != '' && !checkPhone(cntrl)) {
 			alert('<?php echo $lang_geninfo_err_Phone; ?>');
 			cntrl.focus();
 			return;
