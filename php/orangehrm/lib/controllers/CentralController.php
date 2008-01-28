@@ -71,6 +71,8 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectAdmin.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_ProjectActivity.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomFields.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomExport.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CustomImport.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CSVImport.php';
 
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Bugs.php';
 require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_Users.php';
@@ -601,6 +603,19 @@ switch ($moduletype) {
 										}
 
 										break;
+			 			case 'CIM'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_CustomImport();
+										}
+
+										break;
+
+			 			case 'IMP'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_CSVImport();
+										}
+
+										break;
 
 					    case 'PRJ'	:
 										if(isset($_POST['sqlState'])) {
@@ -667,10 +682,11 @@ switch ($moduletype) {
 												$parsedObject = $extractor->parseEditData($_POST);
 												$view_controller->updateData($_GET['uniqcode'],$_GET['id'],$parsedObject);
 												break;
-										} elseif (($_GET['uniqcode'] == 'EXP') && isset($_GET['download'])) {
+										} elseif (($_GET['uniqcode'] == 'CSE') && isset($_GET['download'])) {
 											$view_controller->exportCSV($_GET['cmbExportType']);
 											break;
 										}
+
 
 										if(isset($_POST['KRA']) && $_POST['KRA']=='SEL' && $locRights['add']) {
 												$objectArr = $extractor->parseAddData($_POST);

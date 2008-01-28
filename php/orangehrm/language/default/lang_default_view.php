@@ -166,6 +166,12 @@ switch ($_GET['uniqcode']) {
 		$headingInfo = array ($lang_DataExport_CustomExportId,$lang_DataExport_CustomExportName,1, "$lang_DataExportCustom_Title",$lang_view_deletePrompt);
 		break;
 
+	case 'CIM' :
+		$srchlist = array( "-$lang_Leave_Common_Select-" );
+		$headings= array($lang_DataImport_CustomImportId,$lang_DataImport_CustomImportName);
+		$headingInfo = array ($lang_DataImport_CustomImportId,$lang_DataImport_CustomImportName,1, "$lang_DataImportCustom_Title",$lang_view_deletePrompt);
+		break;
+
 }
 
 ?>

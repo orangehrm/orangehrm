@@ -736,6 +736,15 @@ create table `hs_hr_custom_export` (
   key `emp_number` (`export_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_custom_import` (
+  `import_id` int(11) not null,
+  `name` varchar(250) not null,
+  `fields` text default null,
+  `has_heading` tinyint(1) default 0,
+  primary key  (`import_id`),
+  key `emp_number` (`import_id`)
+) engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -1601,3 +1610,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_project_activity', 'activity_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_workshift', 'workshift_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_export', 'export_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');

@@ -24,17 +24,18 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 	$btnAction="addUpdate()";
 }
 
-$headings = $this->popArr['headings'];
+$hasHeading = $this->popArr['has_heading'];
 $availableFields = $this->popArr['available'];
 $assignedFields = $this->popArr['assigned'];
-$name = $this->popArr['exportName'];
+$name = $this->popArr['importName'];
 $id = $this->popArr['id'];
-$customExportList = $this->popArr['customExportList'];
+$customImportList = $this->popArr['customImportList'];
+$compulsaryFields = $this->popArr['compulsary_fields'];
 
 ?>
 <html>
 <head>
-<title><?php echo $lang_DataExport_DefineCustomField_Heading; ?></title>
+<title><?php echo $lang_DataImport_DefineCustomField_Heading; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
@@ -59,23 +60,22 @@ $customExportList = $this->popArr['customExportList'];
 
 	names = new Array();
 <?php
-	if($customExportList) {
-	   	foreach($customExportList as $export) {
-	   		if (empty($id) || ($id != $export->getId())) {
-	   			print "\tnames.push(\"{$export->getName()}\");\n";
+	if($customImportList) {
+	   	foreach($customImportList as $import) {
+	   		if (empty($id) || ($id != $import->getId())) {
+	   			print "\tnames.push(\"{$import->getName()}\");\n";
 	   		}
 	   	}
 	}
 ?>
 
-	headings = new Array();
+    var compulsaryFields = new Array();
 <?php
-	$numAssigned = count($assignedFields);
-	for ($i = 0; $i < $numAssigned; $i++) {
-		$heading = isset($headings[$i]) ? $headings[$i] : $assignedFields[$i];
-		print "\theadings[\"{$assignedFields[$i]}\"] = \"{$heading}\";\n";
+	foreach($compulsaryFields as $field) {
+	   	print "\tcompulsaryFields.push(\"{$field}\");\n";
 	}
 ?>
+
     function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
@@ -89,15 +89,44 @@ $customExportList = $this->popArr['customExportList'];
 		name = trim($('txtFieldName').value);
         if (name == '') {
 			err = true;
-			msg += "\t- <?php echo $lang_DataExport_PleaseSpecifyExportName; ?>\n";
+			msg += "\t- <?php echo $lang_DataImport_PleaseSpecifyImportName; ?>\n";
         } else if (isNameInUse(name)) {
 			err = true;
-			msg += "\t- <?php echo $lang_DataExport_Error_NameInUse; ?>\n";
+			msg += "\t- <?php echo $lang_DataImport_Error_NameInUse; ?>\n";
         }
 
 		if ($('cmbAssignedFields').length == 0) {
 			err = true;
-			msg += "\t- <?php echo $lang_DataExport_Error_AssignAtLeastOneField; ?>\n";
+			msg += "\t- <?php echo $lang_DataImport_Error_AssignAtLeastOneField; ?>\n";
+		} else {
+
+			// Check all compulsary fields have been assigned
+			var missingFields = "";
+			for (var i = 0; i < compulsaryFields.length; i++) {
+				var field = compulsaryFields[i];
+				var assigned = $('cmbAssignedFields');
+				var assignedLength = assigned.length;
+				var found = false;
+
+				for (j = 0; j<assignedLength; j++) {
+					if (assigned.options[j].value == field) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+				    if (missingFields == "") {
+				    	missingFields = field;
+				    } else {
+				    	missingFields += "," + field;
+				    }
+				}
+			}
+
+			if (missingFields != "") {
+				err = true;
+				msg += "\t- <?php echo $lang_DataImport_Error_AssignCompulsaryFields; ?> (" + missingFields + ")\n";
+			}
 		}
 
 		if (err) {
@@ -108,39 +137,12 @@ $customExportList = $this->popArr['customExportList'];
 		}
 	}
 
-	// Set headings for assigned elements
-	function setHeadings() {
-
-		var selectObj = $('cmbAssignedFields');
-		var selLength = selectObj.length;
-
-		// Go through assigned elements
-		for (i = 0 ; i < selLength; i++) {
-
-			key = selectObj.options[i].value;
-
-			if (key in headings) {
-				heading = headings[key];
-			} else {
-				heading = selectObj.options[i].text;
-			}
-
-			// Create hidden element and add heading value
-			newElement = document.createElement("input");
-			newElement.setAttribute("type", "hidden");
-			newElement.setAttribute("name", "headerValues[]");
-			newElement.setAttribute("value", heading);
-			document.frmCustomExport.appendChild(newElement);
-		}
-	}
-
     function addSave() {
 
 		if (validate()) {
-        	document.frmCustomExport.sqlState.value = "NewRecord";
+        	document.frmCustomImport.sqlState.value = "NewRecord";
 			selectAllOptions($('cmbAssignedFields'));
-			setHeadings();
-        	document.frmCustomExport.submit();
+        	document.frmCustomImport.submit();
 		} else {
 			return false;
 		}
@@ -149,10 +151,9 @@ $customExportList = $this->popArr['customExportList'];
   function addUpdate() {
 
 		if (validate()) {
-			document.frmCustomExport.sqlState.value  = "UpdateRecord";
+			document.frmCustomImport.sqlState.value  = "UpdateRecord";
 			selectAllOptions($('cmbAssignedFields'));
-			setHeadings();
-			document.frmCustomExport.submit();
+			document.frmCustomImport.submit();
 		} else {
 			return false;
 		}
@@ -184,19 +185,45 @@ $customExportList = $this->popArr['customExportList'];
 	}
 
 	function assignFields() {
-		moveSelectOptions($('cmbAvailableFields'), $('cmbAssignedFields'), '<?php echo $lang_DataExport_Error_NoFieldSelected; ?>');
+		moveSelectOptions($('cmbAvailableFields'), $('cmbAssignedFields'), '<?php echo $lang_DataImport_Error_NoFieldSelected; ?>');
 	}
 
 	function removeFields() {
-		moveSelectOptions($('cmbAssignedFields'), $('cmbAvailableFields'), '<?php echo $lang_DataExport_Error_NoFieldSelected; ?>');
+
+		// Check if any of the selected fields are compulsary and give an error message if so
+		var assigned = $('cmbAssignedFields');
+		var compFields = "";
+
+		for (j = 0; j<assigned.length; j++) {
+			if (assigned.options[j].selected) {
+
+				for (var i = 0; i < compulsaryFields.length; i++) {
+					if (assigned.options[j].value == compulsaryFields[i]) {
+					    if (compFields == "") {
+					    	compFields = compulsaryFields[i];
+					    } else {
+							compFields += ", " + compulsaryFields[i];
+						}
+						break;
+					}
+				}
+			}
+		}
+
+		if (compFields != "") {
+			msg = "<?php echo $lang_DataImport_Error_CantRemoveCompulsaryFields; ?>: (" + compFields + ")";
+			alert(msg);
+		} else {
+			moveSelectOptions($('cmbAssignedFields'), $('cmbAvailableFields'), '<?php echo $lang_DataImport_Error_NoFieldSelected; ?>');
+		}
 	}
 
 	function moveUp() {
-		res = moveSelectionsUp($('cmbAssignedFields'), '<?php echo $lang_DataExport_Error_NoFieldSelectedForMove;?>');
+		res = moveSelectionsUp($('cmbAssignedFields'), '<?php echo $lang_DataImport_Error_NoFieldSelectedForMove;?>');
 	}
 
 	function moveDown() {
-		res = moveSelectionsDown($('cmbAssignedFields'), '<?php echo $lang_DataExport_Error_NoFieldSelectedForMove;?>');
+		res = moveSelectionsDown($('cmbAssignedFields'), '<?php echo $lang_DataImport_Error_NoFieldSelectedForMove;?>');
 	}
 
 	function isNameInUse(name) {
@@ -214,7 +241,7 @@ $customExportList = $this->popArr['customExportList'];
 		oLink = document.getElementById("messageCell");
 
 		if (isNameInUse(name)) {
-			oLink.innerHTML = "<?php echo $lang_DataExport_Error_NameInUse; ?>";
+			oLink.innerHTML = "<?php echo $lang_DataImport_Error_NameInUse; ?>";
 		} else {
 			oLink.innerHTML = "&nbsp;";
 		}
@@ -235,6 +262,11 @@ $customExportList = $this->popArr['customExportList'];
         float: left;
         margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
     }
+    input[type=checkbox] {
+		width: 15px;
+		background-color: transparent;
+		vertical-align: bottom;
+    }
 
     /* this is needed because otherwise, hidden fields break the alignment of the other fields */
     input[type=hidden] {
@@ -245,7 +277,7 @@ $customExportList = $this->popArr['customExportList'];
 
     label {
         text-align: left;
-        width: 75px;
+        width: 110px;
         padding-left: 10px;
     }
 
@@ -305,7 +337,7 @@ $customExportList = $this->popArr['customExportList'];
 		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 			<tr>
 		  		<td width='100%'>
-		  			<h2><?php echo $lang_DataExport_DefineCustomField_Heading; ?></h2>
+		  			<h2><?php echo $lang_DataImport_DefineCustomField_Heading; ?></h2>
 		  		</td>
 	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
 	  		</tr>
@@ -326,22 +358,26 @@ $customExportList = $this->popArr['customExportList'];
 	</div>
 	<?php }	?>
   <div class="roundbox">
-  <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>">
+  <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value="">
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
             <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" onkeyup="checkName();"/>
             <div id="messageCell" class="error" style="display:block; float: left; margin:10px;">&nbsp;</div>
 			<br/>
+			<label for="containsHeader"><?php echo $lang_DataImport_ContainsHeader; ?></label>
+            <input type="checkbox" id="containsHeader" name="containsHeader" tabindex="3" <?php echo ($hasHeading)? 'checked="1"':"";?> />
+            <div style="display:block; font-style: italic; float: left; margin:10px;">(<?php echo $lang_DataImport_ContainsHeaderDescription;?>)</div>
+			<br/><br/>
             <div align="left">
 	            <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
 				<img src="../../themes/<?php echo $styleSheet;?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reset();" >
             </div>
 	<table border="0">
 		<tr>
-		   	<th width="100" style="align:center;"><?php echo $lang_DataExport_AvailableFields; ?></th>
+		   	<th width="100" style="align:center;"><?php echo $lang_DataImport_AvailableFields; ?></th>
 			<th width="100"/>
-		   	<th width="125" style="align:center;"><?php echo $lang_DataExport_AssignedFields; ?></th>
+		   	<th width="125" style="align:center;"><?php echo $lang_DataImport_AssignedFields; ?></th>
 		</tr>
 		<tr><td width="100" >
 			<select size="10" id="cmbAvailableFields" name="cmbAvailableFields[]" style="width:125px;"
@@ -353,8 +389,8 @@ $customExportList = $this->popArr['customExportList'];
 				?>
 			</select></td>
 			<td align="center" width="100">
-				<input type="button" name="btnAssignField" id="btnAssignField" onClick="assignFields();" value=" <?php echo $lang_DataExport_Add; ?> >" style="width:80%"><br><br>
-				<input type="button" name="btnRemoveField" id="btnRemoveField" onClick="removeFields();" value="< <?php echo $lang_DataExport_Remove; ?>" style="width:80%">
+				<input type="button" name="btnAssignField" id="btnAssignField" onClick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> >" style="width:80%"><br><br>
+				<input type="button" name="btnRemoveField" id="btnRemoveField" onClick="removeFields();" value="< <?php echo $lang_DataImport_Remove; ?>" style="width:80%">
 			</td>
 			<td>
 			<select size="10" name="cmbAssignedFields[]" id="cmbAssignedFields" style="width:125px;"
@@ -366,14 +402,17 @@ $customExportList = $this->popArr['customExportList'];
 				?>
 			</select></td>
 			<td>
-			<img id="btnMoveUp" onClick="moveUp();" alt="<?php echo $lang_DataExport_MoveUp; ?>"
-				title="<?php echo $lang_DataExport_MoveUp; ?>"
+			<img id="btnMoveUp" onClick="moveUp();" alt="<?php echo $lang_DataImport_MoveUp; ?>"
+				title="<?php echo $lang_DataImport_MoveUp; ?>"
 				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br><br>
-			<img id="btnMoveDown" onClick="moveDown();" alt="<?php echo $lang_DataExport_MoveDown; ?>"
-				title="<?php echo $lang_DataExport_MoveDown; ?>"
+			<img id="btnMoveDown" onClick="moveDown();" alt="<?php echo $lang_DataImport_MoveDown; ?>"
+				title="<?php echo $lang_DataImport_MoveDown; ?>"
 				src="../../themes/<?php echo $styleSheet;?>/icons/down.gif"/>
 			</td>
 		</tr>
+		<tr><td colspan="3" style="font-style: italic;">
+			<?php echo $lang_DataImport_CompulsaryFields . ': ' . implode(',', $compulsaryFields);?>
+		</td></tr>
 	</table>
 	</form>
     </div>

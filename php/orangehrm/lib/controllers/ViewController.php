@@ -50,8 +50,10 @@ require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectActivity.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CustomExport.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CustomImport.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/CSVExport.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CSVImport.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 
@@ -197,7 +199,10 @@ class ViewController {
 			case 'EMX' :
 						$this->reDirect($getArr);
 						break;
-			case 'EXP' :
+			case 'CSE' :
+						$this->reDirect($getArr);
+						break;
+			case 'IMP' :
 						$this->reDirect($getArr);
 						break;
 			case 'ENS' :
@@ -359,6 +364,18 @@ class ViewController {
 								CustomExport::deleteExports($arrList[0]);
 								$res = true;
 							} catch (CustomExportException $e) {
+								$res = false;
+							}
+						} else {
+							$res = false;
+						}
+						break;
+
+		case 'CIM':		if (isset($arrList[0])) {
+							try {
+								CustomImport::deleteImports($arrList[0]);
+								$res = true;
+							} catch (CustomImportException $e) {
 								$res = false;
 							}
 						} else {
@@ -536,6 +553,10 @@ class ViewController {
 		case 'CEX' :
 
 			return CustomExport::getCustomExportListForView($pageNO, $schStr, $mode, $sortField, $sortOrder);
+
+		case 'CIM' :
+
+			return CustomImport::getCustomImportListForView($pageNO, $schStr, $mode, $sortField, $sortOrder);
 
 		case 'PRJ' :
 
@@ -1155,6 +1176,11 @@ class ViewController {
 			$list = CustomExport::getCustomExportList();
 			return count($list);
 
+		case 'CIM' :
+
+			$list = CustomImport::getCustomImportList();
+			return count($list);
+
 		case 'PRJ' :
 
 			$this-> projects = new Projects();
@@ -1447,6 +1473,37 @@ class ViewController {
 									$id = $customExport->getId();
 									break;
 
+				case 'CIM'  :		$customImport = $object;
+									try {
+										$customImport->save();
+										$res = true;
+									} catch (CustomImportException $e) {
+										if ($e->getCode() == CustomImportException::DUPLICATE_IMPORT_NAME){
+											$showMsg = "DUPLICATE_NAME_FAILURE";
+										}
+										if ($e->getCode() == CustomImportException::COMPULSARY_FIELDS_NOT_ASSIGNED){
+											$showMsg = "COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE";
+										}
+										$res = false;
+									}
+									$id = $customImport->getId();
+									break;
+				case 'IMP'  :
+									$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+									if ($authorizeObj->isAdmin()) {
+										$csvImport = $object;
+
+										try {
+											$res = $csvImport->importData();
+										} catch (CSVImportException $e) {
+											if ($e->getCode() == CSVImportException::IMPORT_DATA_NOT_RECEIVED) {
+												$showMsg = "IMPORT_FAILURE";
+											}
+											$res = false;
+										}
+									}
+									break;
+
 				case 'PAD'  :		$projectAdmin = $object;
 									$id = $projectAdmin->getProjectId();
 									$gw = new ProjectAdminGateway();
@@ -1498,6 +1555,10 @@ class ViewController {
 			if ($res) {
 
 				switch($index) {
+
+					case 'IMP' :
+								$this->reDirect($_GET, $res);
+								break;
 					case 'CEX' : // Go to CSV heading Define page
 								 header("Location: ./CentralController.php?uniqcode=CHD&id=$id");
 								 break;
@@ -1866,6 +1927,21 @@ class ViewController {
 									}
 									break;
 
+				case 'CIM'  :		$customImport = $object;
+									try {
+										$customImport->save();
+										$res = true;
+									} catch (CustomImportException $e) {
+										if ($e->getCode() == CustomImportException::DUPLICATE_IMPORT_NAME){
+											$showMsg = "DUPLICATE_NAME_FAILURE";
+										}
+										if ($e->getCode() == CustomImportException::COMPULSARY_FIELDS_NOT_ASSIGNED){
+											$showMsg = "COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE";
+										}
+										$res = false;
+									}
+									break;
+
 				case 'PRJ'  :		$projects = new Projects();
 									$projects = $object;
 									$res = $projects->updateProject();
@@ -1981,7 +2057,6 @@ class ViewController {
 			$csvExport->exportData($exportType);
 		}
 	}
-
 
 	function assignData($index,$object,$action) {
 
@@ -2174,7 +2249,7 @@ class ViewController {
 							if($getArr['capturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $brch ->getLastRecord();
 								$form_creator ->popArr['bankcode'] = $bank ->getBankCodes();
-							} elseif($getArr['capturemode'] == 'updatemode') {
+							} elseif($getArr['captuIMPremode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $brch ->filterBranches($getArr['id']);
 								$form_creator ->popArr['bankcode'] = $bank ->getBankCodes();
 							}
@@ -2302,7 +2377,7 @@ class ViewController {
 
 							if($getArr['capturemode'] == 'addmode') {
 								$form_creator ->popArr['newID'] = $emptype ->getLastRecord();
-							} elseif($getArr['capturemode'] == 'updatemode') {
+							} elseif($getArr['capturemIMPode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $emptype ->filterEmployeeType($getArr['id']);
 							}
 
@@ -2394,9 +2469,18 @@ class ViewController {
 							$emailConfigObj = new EmailConfiguration();
 							$form_creator ->popArr['editArr'] = $emailConfigObj;
 							break;
-			case 'EXP' :	$form_creator ->formPath = '/templates/eimadmin/dataExport.php';
+			case 'CSE' :	$form_creator ->formPath = '/templates/eimadmin/dataExport.php';
 							$csvExport = new CSVExport();
 							$form_creator ->popArr['exportTypes'] = $csvExport->getDefinedExportTypes();
+							break;
+			case 'IMP' :    if (isset($getArr['upload']) && $getArr['upload'] == 1) {
+								$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
+								$form_creator ->popArr['importStatus'] = $object;
+							} else {
+								$form_creator ->formPath = '/templates/eimadmin/dataImport.php';
+								$csvImport = new CSVImport();
+								$form_creator ->popArr['importTypes'] = $csvImport->getDefinedImportTypes();
+							}
 							break;
 			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
 							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
@@ -2941,6 +3025,34 @@ class ViewController {
 								$form_creator ->popArr['assigned'] = array();
 								$form_creator ->popArr['exportName'] = null;
 								$form_creator ->popArr['id'] = null;
+							}
+							break;
+
+			case 'CIM' :	$form_creator->formPath = '/templates/eimadmin/customImportDefine.php';
+
+							$form_creator ->popArr['customImportList'] = CustomImport::getCustomImportList();
+							if($getArr['capturemode'] == 'updatemode') {
+								$customImport = CustomImport::getCustomImport($getArr['id']);
+
+								$form_creator ->popArr['has_heading'] = $customImport->getContainsHeader();
+								$form_creator ->popArr['available'] = $customImport->getAvailableFields();
+								$form_creator ->popArr['assigned'] = $customImport->getAssignedFields();
+								$form_creator ->popArr['importName'] = $customImport->getName();
+								$form_creator ->popArr['id'] = $customImport->getId();
+								$form_creator ->popArr['compulsary_fields'] = CustomImport::getCompulsaryFields();
+							} else {
+								$customImport = new CustomImport();
+
+								// Assign compulsary fields
+								$compulsary = CustomImport::getCompulsaryFields();
+								$customImport->setAssignedFields($compulsary);
+
+								$form_creator ->popArr['has_heading'] = true;
+								$form_creator ->popArr['available'] = $customImport->getAvailableFields();
+								$form_creator ->popArr['assigned'] = $compulsary;
+								$form_creator ->popArr['importName'] = null;
+								$form_creator ->popArr['id'] = null;
+								$form_creator ->popArr['compulsary_fields'] = $compulsary;
 							}
 							break;
 

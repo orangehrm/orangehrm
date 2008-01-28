@@ -22,15 +22,15 @@ require_once($lan->getLangPath("full.php"));
 
 $locRights=$_SESSION['localRights'];
 
-$exportTypes = $this->popArr['exportTypes'];
-$pluginExportTypesFound = false;
-$editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
+$importTypes = $this->popArr['importTypes'];
+$pluginImportTypesFound = false;
+$editLink = './CentralController.php?uniqcode=CIM&VIEW=MAIN';
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?php echo $lang_DataExport_Title; ?></title>
+<title><?php echo $lang_DataImport_Title; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
@@ -42,25 +42,30 @@ $editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" >
 
-	function exportData() {
+	function importData() {
 
-		if (!validate()) {
-			return;
+		if (validate()) {
+			$('sqlState').value = 'NewRecord';
+			return true;
 		}
-		var url = "<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=CSE&download=1&cmbExportType=" + $('cmbExportType').value;
-
-        var popup = window.open(url, 'Export');
-        if(!popup.opener) popup.opener=self;
+		return false;
 
 	}
 	function validate() {
 		var errors = new Array();
 		var error = false;
 
-		var exportType = $('cmbExportType');
-		if (exportType.value == 0) {
+		var importType = $('cmbImportType');
+		if (importType.value == 0) {
 			error = true;
-			errors.push('<?php echo $lang_DataExport_ExportTypeNotSelected; ?>');
+			errors.push('<?php echo $lang_DataImport_ImportTypeNotSelected; ?>');
+		}
+
+		var fileName = $('importFile').value;
+		fileName = trim(fileName);
+		if (fileName == "") {
+			error = true;
+			errors.push('<?php echo $lang_DataImport_Error_PleaseSelectFile; ?>');
 		}
 
 		if (error) {
@@ -77,8 +82,21 @@ $editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
 
 </script>
 <body>
-<h2><?php echo $lang_DataExport_Title; ?><hr/></h2>
-<form id="frmDataExport" name="frmDataExport" method="post" >
+<h2><?php echo $lang_DataImport_Title; ?><hr/></h2>
+<?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+	if (isset($message)) {
+		$col_def = CommonFunctions::getCssClassForMessage($message);
+		$message = "lang_Common_" . $message;
+?>
+<div class="message">
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+		<?php echo (isset($$message)) ? $$message: ""; ?>
+	</font>
+</div>
+<?php }	?>
+
+<form enctype="multipart/form-data" id="frmDataImport" name="frmDataImport" method="post" onsubmit="return importData();"
+	action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=IMP&upload=1">
 <input type="hidden" name="sqlState" id="sqlState" value=""/>
   <table border="0" cellpadding="0" cellspacing="0" >
     <thead>
@@ -95,31 +113,49 @@ $editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
     <tbody>
       <tr>
         <td class="tableMiddleLeft"></td>
-        <td><span class="error">*</span>&nbsp;<?php echo $lang_DataExport_Type; ?></td>
+        <td><span class="error">*</span>&nbsp;<?php echo $lang_DataImport_Type; ?></td>
         <td width="5px">&nbsp;</td>
-        <td width="50px"><select name="cmbExportType" id="cmbExportType">
+        <td width="50px"><select name="cmbImportType" id="cmbImportType">
         		<option value="0">-- <?php echo $lang_Common_Select;?> --</option>
         		<?php
-        		    foreach ($exportTypes as $key=>$exportType) {
+        		    foreach ($importTypes as $key=>$importType) {
 
-        		    	/* mark export types defined in plugins. key is an int for user defined exports
-        		    	 and a class name for exports defined in plugin classes. */
+        		    	/* mark import types defined in plugins. key is an int for user defined imports
+        		    	 and a class name for imports defined in plugin classes. */
         		    	if (!is_int($key)) {
-        		    		$pluginExportTypesFound = true;
+        		    		$pluginImportTypesFound = true;
         		    		$mark = ' (+)';
         		    	} else {
         		    		$mark = '';
         		    	}
-        		    	echo "<option value='" . $key . "' >" . $exportType . $mark . "</option>";
+        		    	echo "<option value='" . $key . "' >" . $importType . $mark . "</option>";
         		    }
         		?>
         	</select>
         </td>
         <td width="5px"></td>
+        <td width="25px"></td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+      <tr>
+        <td class="tableMiddleLeft"></td>
+        <td><span class="error">*</span>&nbsp;<?php echo $lang_DataImport_CSVFile; ?></td>
+        <td width="5px">&nbsp;</td>
+        <td width="50px"><input type="file" name="importFile" id="importFile"/>
+        </td>
+        <td width="5px"></td>
+        <td width="25px"></td>
+        <td class="tableMiddleRight"></td>
+      </tr>
+	  <tr>
+        <td class="tableMiddleLeft"></td>
+        <td></td>
+        <td width="5px">&nbsp;</td>
         <td width="25px">
-	        <input type="button" class="button" id="btnExport" value="<?php echo $lang_DataExport_Export?>"
-	        	title="<?php echo $lang_DataExport_Export?>" name="btnExport" onclick="exportData();"/>
+	        <input type="submit" class="button" id="btnImport" value="<?php echo $lang_DataImport_Import?>"
+	        	title="<?php echo $lang_DataImport_Import?>" name="btnImport" />
 	    </td>
+	    <td colspan="2"></td>
         <td class="tableMiddleRight"></td>
       </tr>
 	  <tr>
@@ -141,10 +177,10 @@ $editLink = './CentralController.php?uniqcode=CEX&VIEW=MAIN';
     </tfoot>
   </table>
 </form>
-<?php if ($pluginExportTypesFound) { ?>
-	<span id="notice"><?php echo $lang_DataExport_PluginsAreMarked; ?><br /></span>
+<?php if ($pluginImportTypesFound) { ?>
+	<span id="notice"><?php echo $lang_DataImport_PluginsAreMarked; ?><br /></span>
 <?php } ?>
-<span id="notice"><?php echo $lang_DataExport_CustomExportTypesCanBeManaged; ?><a href='<?php echo $editLink; ?>'><?php echo $lang_DataExport_ClickingHereLink;?></a></span>
+<span id="notice"><?php echo $lang_DataImport_CustomImportTypesCanBeManaged; ?><a href='<?php echo $editLink; ?>'><?php echo $lang_DataImport_ClickingHereLink;?></a></span>
 
 </body>
 </html>

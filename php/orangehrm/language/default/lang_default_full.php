@@ -150,9 +150,11 @@
 	$lang_Menu_Admin_ProjectInfo = "Project Info";
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
-	$lang_Menu_Admin_DataExport = "Data Export";
-	$lang_Menu_Admin_DataExportExport = "Export";
+	$lang_Menu_Admin_DataImportExport = "Data Import/Export";
+	$lang_Menu_Admin_DataExport = "Export";
 	$lang_Menu_Admin_DataExportDefine = "Define Custom Export";
+	$lang_Menu_Admin_DataImport = "Import";
+	$lang_Menu_Admin_DataImportDefine = "Define Custom Import";
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
 
 	// Leave Module
@@ -242,6 +244,8 @@
 	$lang_Common_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_Common_DELETE_FAILURE 			= "Failed to Delete";
 	$lang_Common_DUPLICATE_NAME_FAILURE     = "Name is already in use";
+	$lang_Common_COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE = "Compulsary fields not assigned";
+	$lang_Common_IMPORT_FAILURE = "Import failed";
 
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
@@ -928,6 +932,59 @@
 	$lang_DataExport_Error_NoFieldSelectedForMove = "Please select at least one field from the Assigned fields to move";
 	$lang_DataExport_MoveUp = "Move selected fields up";
 	$lang_DataExport_MoveDown = "Move selected fields down";
+
+	// Data Import
+	$lang_DataImport_Title = "Import HR Data";
+	$lang_DataImport_Type = "Import Type";
+	$lang_DataImport_CSVFile = "CSV File";
+	$lang_DataImport_ImportTypeNotSelected = "Import Type not selected";
+	$lang_DataImport_Import = "Import";
+	$lang_DataImport_PluginsAreMarked = "Import Types marked with (+) are defined in Plugin files and are not editable via the UI.";
+	$lang_DataImport_CustomImportTypesCanBeManaged = "Custom import types can be managed ";
+	$lang_DataImport_ClickingHereLink = "here";
+	$lang_DataImport_Error_PleaseSelectFile = "Please select a CSV File";
+
+	// Data Import Status
+	$lang_DataImportStatus_Title = "Data Import Status";
+	$lang_DataImportStatus_Summary = "Summary";
+	$lang_DataImportStatus_Details = "Details of failed rows";
+	$lang_DataImportStatus_NothingImported = "No rows were imported";
+	$lang_DataImportStatus_ImportSuccess = "Import successful";
+	$lang_DataImportStatus_ImportFailed = "Import failed, no rows imported";
+	$lang_DataImportStatus_ImportSomeFailed = "Some rows failed to import";
+	$lang_DataImportStatus_NumImported = "Number of rows imported";
+	$lang_DataImportStatus_NumFailed = "Number of rows which failed to import";
+	$lang_DataImportStatus_NumSkipped = "Number of header rows skipped";
+	$lang_DataImportStatus_Heading_Row = "Row";
+	$lang_DataImportStatus_Heading_Error = "Error";
+	$lang_DataImportStatus_Heading_Comments = "Comments";
+
+	$lang_DataImportStatus_Error_IMPORT_ERROR = "Import error ";
+	$lang_DataImportStatus_Error_INCORRECT_COLUMN_NUMBER = "Incorrect number of columns";
+	$lang_DataImportStatus_Error_MISSING_WORKSTATION = "Workstation not found";
+	$lang_DataImportStatus_Error_COMPULSARY_FIELDS_MISSING_DATA = "Compulsary fields missing in data";
+
+	// Define Custom Data Import
+	$lang_DataImport_CustomImportId = "ID";
+	$lang_DataImport_CustomImportName = "Import Name";
+	$lang_DataImportCustom_Title = "Custom Import Definitions";
+	$lang_DataImport_DefineCustomField_Heading = "Define Custom Import";
+	$lang_DataImport_ContainsHeader = "Contains Header";
+	$lang_DataImport_ContainsHeaderDescription = "If selected, OrangeHRM will skip first line of CSV file";
+	$lang_DataImport_AssignedFields = "Assigned Fields";
+	$lang_DataImport_AvailableFields = "Available Fields";
+	$lang_DataImport_Add = "Add";
+	$lang_DataImport_Remove = "Remove";
+	$lang_DataImport_PleaseSpecifyImportName = "Please specify import name";
+	$lang_DataImport_Error_NoFieldSelected = "No Field Selected";
+	$lang_DataImport_Error_AssignAtLeastOneField = "Please assign at least one field";
+	$lang_DataImport_Error_NameInUse = "This name is in use.";
+	$lang_DataImport_Error_NoFieldSelectedForMove = "Please select at least one field from the Assigned fields to move";
+	$lang_DataImport_MoveUp = "Move selected fields up";
+	$lang_DataImport_MoveDown = "Move selected fields down";
+	$lang_DataImport_Error_AssignCompulsaryFields = "The following compulsary fields have not been assigned";
+	$lang_DataImport_CompulsaryFields = "The following fields are compulsary and must be assigned";
+	$lang_DataImport_Error_CantRemoveCompulsaryFields = "The following fields are compulsary and cannot be removed";
 
 	// Define custom data export CSV headings
 	$lang_DataExport_DefineCustomFieldHeadings_Heading = "Define CSV Heading for Custom Export";

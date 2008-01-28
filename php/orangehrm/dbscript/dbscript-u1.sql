@@ -736,6 +736,15 @@ create table `hs_hr_custom_export` (
   key `emp_number` (`export_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_custom_import` (
+  `import_id` int(11) not null,
+  `name` varchar(250) not null,
+  `fields` text default null,
+  `has_heading` tinyint(1) default 0,
+  primary key  (`import_id`),
+  key `emp_number` (`import_id`)
+) engine=innodb default charset=utf8;
+
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")

@@ -1,11 +1,13 @@
-New & Changed Features for OrangeHRM ver 2.2.3
+New & Changed Features for OrangeHRM ver 2.2.3-alpha.1
 
-        Features merged from payroll-integration branch:
+        1. Features merged from payroll-integration branch:
           * Direct deposit information
           * Tax information
           * Custom fields
           * CSV Export
           * User defined CSV export
+	
+	2. CSV Import 
 
 	BugId     Name
         1856039 - Specific holiday shown for previous year

@@ -54,7 +54,7 @@ switch ($_GET['reqcode']) {
 		       $headingInfo = array ($lang_empview_Language, 1);
 		       break;
 
-	case  'EXP' :
+	case  'CSE' :
 			   $headingInfo = array ($lang_empview_WorkExperience, 1);
 			   break;
 
