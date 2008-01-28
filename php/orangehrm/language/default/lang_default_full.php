@@ -963,6 +963,11 @@
 	$lang_DataImportStatus_Error_INCORRECT_COLUMN_NUMBER = "Incorrect number of columns";
 	$lang_DataImportStatus_Error_MISSING_WORKSTATION = "Workstation not found";
 	$lang_DataImportStatus_Error_COMPULSARY_FIELDS_MISSING_DATA = "Compulsary fields missing in data";
+	$lang_DataImportStatus_Error_DD_DATA_INCOMPLETE = "Direct Deposit data is not complete";
+	$lang_DataImportStatus_Error_INVALID_TYPE = "Invalid field data type";
+	$lang_DataImportStatus_Error_DUPLICATE_EMPLOYEE_ID = "Employee ID is in use";
+	$lang_DataImportStatus_Error_DUPLICATE_EMPLOYEE_NAME = "Employee with same name exists";
+	$lang_DataImportStatus_Error_FIELD_TOO_LONG = "Field too long";
 
 	// Define Custom Data Import
 	$lang_DataImport_CustomImportId = "ID";

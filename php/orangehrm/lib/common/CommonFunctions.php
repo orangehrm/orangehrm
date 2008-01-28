@@ -177,6 +177,25 @@ class CommonFunctions {
 	 }
 
 	/**
+	 * Function to check if passed value is an int.
+	 * Works even with string parameters unlike php's is_int. And supports plus/minus as a prefix
+	 *
+	 * @param string/int value to check
+	 * @param boolean allowSign Whether sign (+ or -) should be allowed
+	 * @return boolean true if an integer false otherwise
+	 */
+	public static function isInt($value, $allowSign = false) {
+
+		if ($allowSign) {
+			$regExp = '/^(\+|\-)[0-9]+$/';
+		} else {
+			$regExp = '/^[0-9]+$/';
+		}
+
+		return (preg_match($regExp, $value) > 0) ? true : false;
+	}
+
+	/**
 	 * Function to check if the given variable is a valid id
 	 *
 	 * both pure ints and strings with leading zeros (ex: 012) are

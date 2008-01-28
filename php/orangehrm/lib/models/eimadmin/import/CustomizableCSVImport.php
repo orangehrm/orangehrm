@@ -37,8 +37,11 @@ require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
  */
 class CustomizableCSVImport implements CSVImportPlugin {
 
+	const MAX_VAR_LENGTH_TO_PRINT = 25;
+
 	/** Custom import object */
 	private $customImport;
+	private $usStateList;
 
 	/**
 	 * Construct instance of Customizable CSV Import
@@ -47,6 +50,13 @@ class CustomizableCSVImport implements CSVImportPlugin {
 		$this->customImport = CustomImport :: getCustomImport($id);
 		if (empty ($this->customImport)) {
 			throw new Exception("CustomImport with id = $id not found!");
+		}
+		$provinceInfo = new ProvinceInfo();
+		$states = $provinceInfo->getProvinceCodes('US');
+		$this->usStateList = array();
+
+		foreach ($states as $state) {
+			$this->usStateList[$state[1]] =	$state[2];
 		}
 	}
 
@@ -97,7 +107,17 @@ class CustomizableCSVImport implements CSVImportPlugin {
 		if (empty ($empId)) {
 			$empId = $empinfo->getLastId();
 		}
+
+		// check for duplicate employee ID
+		if ($empinfo->checkIfEmpIDInUse($empId)) {
+			throw new CSVImportException("Employee ID is in use: $empId", CSVImportException::DUPLICATE_EMPLOYEE_ID);
+		}
 		$empinfo->setEmployeeID($empId);
+
+		// Check for duplicate employee name
+		if ($empinfo->checkForEmployeeWithSameName($lastName, $firstName, $middleName)) {
+			throw new CSVImportException("Employee with same name exists: $lastName, $firstName $middleName", CSVImportException::DUPLICATE_EMPLOYEE_NAME);
+		}
 
 		$dobValue = $this->_getField(CustomImport :: FIELD_BIRTHDATE, $data);
 		$dob = self::_getFormattedDate($dobValue);
@@ -166,10 +186,13 @@ class CustomizableCSVImport implements CSVImportPlugin {
 			2 => "F"
 		);
 
-		$genderVal = $this->_getField(CustomImport :: FIELD_GENDER, $data);
-		$gender = self::_getKeyFromMap($genderValues, $genderVal);
+		$genderVal = $this->_getField(CustomImport :: FIELD_GENDER, $data, false);
+		if (!empty($genderVal)) {
+			$gender = self::_getKeyFromMap($genderValues, $genderVal);
 
-		if ($gender) {
+			if (empty($gender)) {
+				throw new CSVImportException("Invalid value for gender: $genderVal", CSVImportException::INVALID_TYPE);
+			}
 			$empinfo->setEmpGender($gender);
 		}
 
@@ -235,9 +258,40 @@ class CustomizableCSVImport implements CSVImportPlugin {
 
 		$workStation = $this->_getField(CustomImport :: FIELD_WORKSTATION, $data);
 		if (!empty($workStation)) {
-			$workStationID = getCompStructure($workStation);
+			$workStationID = $this->_getCompStructure($workStation);
 			$empinfo->setEmpLocation($workStationID);
+		} else {
+			$empinfo->setEmpLocation('');
 		}
+
+		// First direct debit account
+		$routing = $this->_getField(CustomImport::FIELD_DD1ROUTING, $data);
+		$account = $this->_getField(CustomImport::FIELD_DD1ACCOUNT, $data);
+		$amount = $this->_getField(CustomImport::FIELD_DD1AMOUNT, $data);
+		$accountType = $this->_getField(CustomImport::FIELD_DD1CHECKING, $data, false);
+		$transactionType = $this->_getField(CustomImport::FIELD_DD1AMOUNTCODE, $data, false);
+
+		$dd1 = $this->_getDirectDeposit($routing, $account, $amount, $accountType, $transactionType);
+
+		// Second direct debit account
+		$routing = $this->_getField(CustomImport::FIELD_DD2ROUTING, $data);
+		$account = $this->_getField(CustomImport::FIELD_DD2ACCOUNT, $data);
+		$amount = $this->_getField(CustomImport::FIELD_DD2AMOUNT, $data);
+		$accountType = $this->_getField(CustomImport::FIELD_DD2CHECKING, $data, false);
+		$transactionType = $this->_getField(CustomImport::FIELD_DD2AMOUNTCODE, $data, false);
+
+		$dd2 = $this->_getDirectDeposit($routing, $account, $amount, $accountType, $transactionType);
+
+		// Employee Tax information
+		$federalTaxStatus = $this->_getField(CustomImport::FIELD_FITWSTATUS, $data);
+		$fedEx = $this->_getField(CustomImport::FIELD_FITWEXCEMPTIONS, $data);
+		$taxState = $this->_getField(CustomImport::FIELD_SITWSTATE, $data, false);
+		$stateTaxStatus = $this->_getField(CustomImport::FIELD_SITWSTATUS, $data);
+		$stateEx = $this->_getField(CustomImport::FIELD_SITWEXCEMPTIONS, $data);
+		$unemploymentState = $this->_getField(CustomImport::FIELD_SUISTATE, $data, false);
+		$workState = $this->_getField(CustomImport::FIELD_WORKSTATE, $data, false);
+
+		$taxInfo = $this-> _getTaxInfo($federalTaxStatus, $fedEx, $taxState, $stateTaxStatus, $stateEx, $unemploymentState, $workState);
 
 		$result = $empinfo->addEmpMain();
 		if (!$result) {
@@ -252,122 +306,36 @@ class CustomizableCSVImport implements CSVImportPlugin {
 			throw new CSVImportException("Error inserting personal info", CSVImportException::UNKNOWN_ERROR);
 		}
 
-		$empinfo->setEmpStatus(0);
-		$empinfo->setEmpEEOCat(0);
-
-		$result = $empinfo->updateEmpJobInfo();
-		if (!$result) {
-			throw new CSVImportException("Error inserting job info", CSVImportException::UNKNOWN_ERROR);
-		}
-
 		$result = $empinfo->updateEmpContact();
 		if (!$result) {
 			throw new CSVImportException("Error inserting contact details", CSVImportException::UNKNOWN_ERROR);
 		}
 
-		// Employee Tax information
-		$taxInfo = new EmpTax();
-		$taxInfo->setEmpNumber($empNumber);
+		$empinfo->setEmpStatus('0');
+		$empinfo->setEmpJobTitle('0');
+		$empinfo->setEmpEEOCat('0');
 
-		$federalTaxStatus = $this->_getField(CustomImport::FIELD_FITWSTATUS, $data);
-		if (!empty($federalTaxStatus)) {
-			$taxInfo->setFederalTaxStatus($federalTaxStatus);
+		$result = $empinfo->updateEmpJobInfo();
+		if (!$result) {
+			throw new CSVImportException("Error inserting job details", CSVImportException::UNKNOWN_ERROR);
 		}
 
-		$fedEx = $this->_getField(CustomImport::FIELD_FITWEXCEMPTIONS, $data);
-		if (!empty($fedEx)) {
-			$taxInfo->setFederalTaxExceptions($fedEx);
+		// Save tax information
+		if (!empty($taxInfo)) {
+			$taxInfo->setEmpNumber($empNumber);
+			$taxInfo->updateEmpTax();
 		}
 
-		$taxState = $this->_getField(CustomImport::FIELD_SITWSTATE, $data);
-		if (!empty($taxState)) {
-			$taxInfo->setTaxState($taxState);
+		// Save Direct Debit information
+		if (!empty($dd1)) {
+			$dd1->setEmpNumber($empNumber);
+			$dd1->add();
 		}
 
-		$stateTaxStatus = $this->_getField(CustomImport::FIELD_SITWSTATUS, $data);
-		if (!empty($stateTaxStatus)) {
-			$taxInfo->setStateTaxStatus($stateTaxStatus);
+		if (!empty($dd2)) {
+			$dd2->setEmpNumber($empNumber);
+			$dd2->add();
 		}
-
-		$stateEx = $this->_getField(CustomImport::FIELD_SITWEXCEMPTIONS, $data);
-		if (!empty($stateEx)) {
-			$taxInfo->setStateTaxExceptions($stateEx);
-		}
-
-		$unemploymentState = $this->_getField(CustomImport::FIELD_SUISTATE, $data);
-		if (!empty($unemploymentState)) {
-			$taxInfo->setTaxUnemploymentState($unemploymentState);
-		}
-
-		$workState = $this->_getField(CustomImport::FIELD_WORKSTATE, $data);
-		if (!empty($workState)) {
-			$taxInfo->setTaxWorkState($workState);
-		}
-		$taxInfo->updateEmpTax();
-
-		// First direct debit account
-		$transactionTypes = array (
-			EmpDirectDebit::TRANSACTION_TYPE_BLANK => 'Blank',
-			EmpDirectDebit::TRANSACTION_TYPE_PERCENTAGE => '%',
-			EmpDirectDebit::TRANSACTION_TYPE_FLAT => 'Flat',
-			EmpDirectDebit::TRANSACTION_TYPE_FLAT_MINUS => 'Flat-'
-		);
-
-		$accountTypes = array (
-			EmpDirectDebit::ACCOUNT_TYPE_CHECKING => "Y",
-			EmpDirectDebit::ACCOUNT_TYPE_SAVINGS => ""
-		);
-
-		$dd1 = new EmpDirectDebit();
-
-		$dd1->setEmpNumber($empNumber);
-
-		$routing = $this->_getField(CustomImport::FIELD_DD1ROUTING, $data);
-		if ($routing) {
-			$dd1->setRoutingNumber($routing);
-		}
-
-		$account = $this->_getField(CustomImport::FIELD_DD1ACCOUNT, $data);
-		$dd1->setAccount($account);
-
-		$amount = $this->_getField(CustomImport::FIELD_DD1AMOUNT, $data);
-		$dd1->setAmount($amount);
-
-		$accountTypeVal = $this->_getField(CustomImport::FIELD_DD1CHECKING, $data);
-		$accountType = self::_getKeyFromMap($accountTypes, $accountTypeVal);
-		$dd1->setAccountType($accountType);
-
-		$transactionTypeVal = $this->_getField(CustomImport::FIELD_DD1AMOUNTCODE, $data);
-		$transactionType = self::_getKeyFromMap($transactionTypes, $transactionTypeVal);
-		$dd1->setTransactionType($transactionType);
-
-		$dd1->add();
-
-		// Second direct debit account
-		$dd2 = new EmpDirectDebit();
-
-		$dd2->setEmpNumber($empNumber);
-
-		$routing = $this->_getField(CustomImport::FIELD_DD2ROUTING, $data);
-		if ($routing) {
-			$dd2->setRoutingNumber($routing);
-		}
-
-		$account = $this->_getField(CustomImport::FIELD_DD2ACCOUNT, $data);
-		$dd2->setAccount($account);
-
-		$amount = $this->_getField(CustomImport::FIELD_DD2AMOUNT, $data);
-		$dd2->setAmount($amount);
-
-		$accountTypeVal = $this->_getField(CustomImport::FIELD_DD2CHECKING, $data);
-		$accountType = self::_getKeyFromMap($accountTypes, $accountTypeVal);
-		$dd2->setAccountType($accountType);
-
-		$transactionTypeVal = $this->_getField(CustomImport::FIELD_DD2AMOUNTCODE, $data);
-		$transactionType = self::_getKeyFromMap($transactionTypes, $transactionTypeVal);
-		$dd2->setTransactionType($transactionType);
-
-		$dd2->add();
 
 		return $empNumber;
 	}
@@ -380,7 +348,7 @@ class CustomizableCSVImport implements CSVImportPlugin {
 	 * @param string $workStation
 	 * @return $string ID of matching company structure location.
 	 */
-	private function getCompStructure($workStation) {
+	private function _getCompStructure($workStation) {
 
 		$conn = new DMLFunctions();
 		$workStation = mysql_real_escape_string($workStation);
@@ -399,16 +367,32 @@ class CustomizableCSVImport implements CSVImportPlugin {
 	 * Get the given field from the data row
 	 * @param string $fieldName The field name
 	 * @param array $data Array containing data for one CSV row
+	 * @param boolean $checkLength Should the length be checked?
 	 *
 	 * @return string value of field or null if field not defined
 	 */
-	private function _getField($fieldName, $data) {
+	private function _getField($fieldName, $data, $checkLength = true) {
 		$value = null;
 
 		$assignedFields = $this->customImport->getAssignedFields();
-		$key = array_search($fieldName, $data);
+		$key = array_search($fieldName, $assignedFields);
+
 		if ($key !== FALSE) {
 			$value = $data[$key];
+
+			if ($checkLength) {
+				$customImport = new CustomImport();
+				if (!$customImport->checkFieldLength($fieldName, $value)) {
+
+					if (strlen($value) > self::MAX_VAR_LENGTH_TO_PRINT) {
+						$valueSample = substr($value, 0, self::MAX_VAR_LENGTH_TO_PRINT) . '...';
+					} else {
+						$valueSample = $value;
+					}
+
+					throw new CSVImportException("Value '{$valueSample}' exceeds max length for field: $fieldName", CSVImportException::FIELD_TOO_LONG);
+				}
+			}
 		}
 		return $value;
 	}
@@ -430,6 +414,145 @@ class CustomizableCSVImport implements CSVImportPlugin {
 	}
 
 	/**
+	 * Get a DirectDeposit object after validating input
+	 * Throws an error on invalid input data
+	 *
+	 * @return DirectDeposit object or null if none of the data is available.
+	 */
+	private function _getDirectDeposit($routing, $account, $amount, $accountType, $transactionType) {
+
+		// If all empty, return null
+		if (empty($routing) && empty($account)  && empty($amount) && empty($accountType) && empty($transactionType)) {
+			return null;
+		}
+
+		$transactionTypes = array (
+			EmpDirectDebit::TRANSACTION_TYPE_BLANK => 'Blank',
+			EmpDirectDebit::TRANSACTION_TYPE_PERCENTAGE => '%',
+			EmpDirectDebit::TRANSACTION_TYPE_FLAT => 'Flat',
+			EmpDirectDebit::TRANSACTION_TYPE_FLAT_MINUS => 'Flat-'
+		);
+
+		$accountTypes = array (
+			EmpDirectDebit::ACCOUNT_TYPE_CHECKING => "Y",
+			EmpDirectDebit::ACCOUNT_TYPE_SAVINGS => ""
+		);
+
+		$accountType = self::_getKeyFromMap($accountTypes, $accountType);
+		$transactionType = self::_getKeyFromMap($transactionTypes, $transactionType);
+
+		if (empty($routing) || empty($account)  || empty($amount) || empty($accountType) || empty($transactionType)) {
+
+			$invalid = array();
+			if (empty($routing)) {
+				$invalid[] = "Routing Number";
+			}
+			if (empty($account)) {
+				$invalid[] = "Account";
+			}
+			if (empty($amount)) {
+				$invalid[] = "Amount";
+			}
+			if (empty($accountType)) {
+				$invalid[] = "AccountType";
+			}
+			if (empty($transactionType)) {
+				$invalid[] = "TransactionType";
+			}
+
+			$msg = implode(',', $invalid);
+
+			// If at least one parameter is specifiec, all the rest should be specified as well.
+			throw new CSVImportException("Direct Debit data not complete invalid. Check following fields: $msg", CSVImportException::DD_DATA_INCOMPLETE);
+		} else {
+
+			// Validate routing number and amount
+			if (!CommonFunctions::isInt($routing)) {
+				throw new CSVImportException("Routing number not an integer: $routing", CSVImportException::INVALID_TYPE);
+			}
+
+			if (!is_numeric($amount)) {
+				throw new CSVImportException("Amount not a number: $amount", CSVImportException::INVALID_TYPE);
+			}
+
+			$dd = new EmpDirectDebit();
+			$dd->setRoutingNumber($routing);
+			$dd->setAccount($account);
+			$dd->setAmount($amount);
+			$dd->setAccountType($accountType);
+			$dd->setTransactionType($transactionType);
+			return $dd;
+		}
+	}
+
+	private function _getTaxInfo($federalTaxStatus, $fedEx, $taxState, $stateTaxStatus, $stateEx, $unemploymentState, $workState) {
+
+		$allStatuses = array(EmpTax::TAX_STATUS_MARRIED,EmpTax::TAX_STATUS_SINGLE,
+						EmpTax::TAX_STATUS_NONRESIDENTALIEN, EmpTax::TAX_STATUS_NOTAPPLICABLE);
+
+		$taxInfo = new EmpTax();
+		if (!empty($federalTaxStatus)) {
+			if (array_search($federalTaxStatus, $allStatuses) === FALSE) {
+				throw new CSVImportException("Invalid Federal tax status value $federalTaxStatus", CSVImportException::INVALID_TYPE);
+			}
+			$taxInfo->setFederalTaxStatus($federalTaxStatus);
+		}
+
+  		if (!empty($fedEx)) {
+			if (!CommonFunctions::isInt($fedEx)) {
+				throw new CSVImportException("Federal tax exemptions should be an integer: $fedEx", CSVImportException::INVALID_TYPE);
+			}
+
+			$taxInfo->setFederalTaxExceptions($fedEx);
+		}
+		if (!empty($taxState)) {
+			$state = $this->_getUSState($taxState);
+			$taxInfo->setTaxState($state);
+		}
+		if (!empty($stateTaxStatus)) {
+			if (array_search($federalTaxStatus, $allStatuses) === FALSE) {
+				throw new CSVImportException("Invalid State tax status value $stateTaxStatus", CSVImportException::INVALID_TYPE);
+			}
+			$taxInfo->setStateTaxStatus($stateTaxStatus);
+		}
+		if (!empty($stateEx)) {
+			if (!CommonFunctions::isInt($stateEx)) {
+				throw new CSVImportException("State tax exemptions should be an integer: $stateEx", CSVImportException::INVALID_TYPE);
+			}
+			$taxInfo->setStateTaxExceptions($stateEx);
+		}
+		if (!empty($unemploymentState)) {
+			$state = $this->_getUSState($unemploymentState);
+			$taxInfo->setTaxUnemploymentState($state);
+		}
+		if (!empty($workState)) {
+			$state = $this->_getUSState($workState);
+			$taxInfo->setTaxWorkState($state);
+		}
+		return $taxInfo;
+	}
+
+	/**
+	 * Check if passed value is a US State name or abbreviation and return the
+	 * correct state abbreviation. Throws an exception if not a correct state abbreviation
+	 *
+	 * @param string $state State name or abreviation
+	 * @return string state abbreviation
+	 */
+	private function _getUSState($state) {
+
+		if (array_key_exists($state, $this->usStateList)) {
+			return $state;
+		}
+
+		$key = array_search($state, $this->usStateList);
+		if ($key === false) {
+			throw new CSVImportException("Invalid value for state: $state", CSVImportException::INVALID_TYPE);
+		}
+		return $key;
+	}
+
+	/**
 	 * Get the key for the given value from the map (array)
 	 *
 	 * @param array $map Associative array
@@ -437,7 +560,7 @@ class CustomizableCSVImport implements CSVImportPlugin {
 	 *
 	 * @return string value of the key or null if not found.
 	 */
-	public static function _getKeyFromMap($map, $value) {
+	private static function _getKeyFromMap($map, $value) {
 
 		$key = array_search($value, $map);
 		return ($key === FALSE) ? null : $key;

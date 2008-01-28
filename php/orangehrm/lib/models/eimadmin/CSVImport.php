@@ -34,6 +34,11 @@ class CSVImport {
 	const SKIPPED_HEADER = "SKIPPED_HEADER";
 	const MISSING_WORKSTATION = "MISSING_WORKSTATION";
 	const COMPULSARY_FIELDS_MISSING_DATA = "COMPULSARY_FIELDS_MISSING_DATA";
+	const DD_DATA_INCOMPLETE = "DD_DATA_INCOMPLETE";
+	const INVALID_TYPE = "INVALID_TYPE";
+	const DUPLICATE_EMPLOYEE_ID = "DUPLICATE_EMPLOYEE_ID";
+	const DUPLICATE_EMPLOYEE_NAME = "DUPLICATE_EMPLOYEE_NAME";
+	const FIELD_TOO_LONG = "FIELD_TOO_LONG";
 
 	/**
 	 * Class Attributes
@@ -125,14 +130,33 @@ class CSVImport {
 					} catch (CSVImportException $e) {
 
 						switch ($e->getCode()) {
-							case MISSING_WORKSTATION:
+							case CSVImportException::MISSING_WORKSTATION:
 								$error = self::MISSING_WORKSTATION;
 								break;
+							case CSVImportException::DD_DATA_INCOMPLETE:
+								$error = self::DD_DATA_INCOMPLETE;
+								break;
+							case CSVImportException::INVALID_TYPE:
+								$error = self::INVALID_TYPE;
+								break;
+							case CSVImportException::DUPLICATE_EMPLOYEE_ID:
+								$error = self::DUPLICATE_EMPLOYEE_ID;
+								break;
+							case CSVImportException::DUPLICATE_EMPLOYEE_NAME:
+								$error = self::DUPLICATE_EMPLOYEE_NAME;
+								break;
+							case CSVImportException::FIELD_TOO_LONG:
+								$error = self::FIELD_TOO_LONG;
+								break;
+
 							default:
 								$error = self::IMPORT_ERROR;
 						}
 
 						$importResults[$row] = new ImportResult($error, $e->getMessage());
+						$rowsWithErrors++;
+					} catch (Exception $ee) {
+						$importResults[$row] = new ImportResult(self::IMPORT_ERROR, $ee->getMessage());
 						$rowsWithErrors++;
 					}
 				} else {

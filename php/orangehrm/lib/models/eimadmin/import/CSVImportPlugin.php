@@ -46,6 +46,11 @@ class CSVImportException extends Exception {
 	const COMPULSARY_FIELDS_MISSING_DATA = 1;
 	const MISSING_WORKSTATION = 2;
 	const UNKNOWN_ERROR = 3;
+	const DD_DATA_INCOMPLETE = 4;
+	const INVALID_TYPE = 5;
+	const DUPLICATE_EMPLOYEE_ID = 6;
+	const DUPLICATE_EMPLOYEE_NAME = 7;
+	const FIELD_TOO_LONG = 8;
 
 }
 

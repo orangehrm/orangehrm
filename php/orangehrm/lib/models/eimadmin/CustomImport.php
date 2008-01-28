@@ -96,6 +96,7 @@ class CustomImport {
 	private $name;
 	private $assignedFields;
 	private $containsHeader;
+	private $maxFieldLengths;
 
 	/**
 	 *	Setter method followed by getter method for each
@@ -138,6 +139,7 @@ class CustomImport {
 	}
 
 	public function __construct() {
+		$this->maxFieldLengths = self::getMaxFieldLengths();
 	}
 
 	/**
@@ -173,6 +175,82 @@ class CustomImport {
 			self::FIELD_DD1AMOUNTCODE, self::FIELD_DD1CHECKING, self::FIELD_DD2ROUTING, self::FIELD_DD2ACCOUNT,
 			self::FIELD_DD2AMOUNT, self::FIELD_DD2AMOUNTCODE, self::FIELD_DD2CHECKING);
 		return $allFields;
+	}
+
+	/**
+	 * Check if given value is within allowed field length for the given field
+	 *
+	 * @param string $fieldName The field to check
+	 * @param string $value The field value to check
+	 * @return boolean true if field length within allowed limits, false otherwise
+	 */
+	public function checkFieldLength($fieldName, $value) {
+
+		if (isset($this->maxFieldLengths[$fieldName])) {
+			$maxLength = $this->maxFieldLengths[$fieldName];
+			if (($maxLength > -1) && (strlen($value) > $maxLength)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Get array with maximum allowed field lengths for all supported fields
+	 * Max length is set to -1 where not applicable
+	 *
+	 * @return array Array with maximum allowed field lengths.
+	 */
+	public static function getMaxFieldLengths() {
+		$maxLengths = array(
+			self::FIELD_EMPID => 50,
+		    self::FIELD_LASTNAME => 100,
+			self::FIELD_FIRSTNAME =>  100,
+			self::FIELD_MIDDLENAME => 100,
+			self::FIELD_STREET1 => 100,
+			self::FIELD_STREET2 => 100,
+			self::FIELD_CITY => 100,
+			self::FIELD_STATE => 100,
+			self::FIELD_ZIP => 20,
+			self::FIELD_GENDER => -1,
+			self::FIELD_BIRTHDATE => -1,
+			self::FIELD_SSN => 100,
+			self::FIELD_JOINEDDATE => -1,
+			self::FIELD_WORKSTATION => -1,
+			self::FIELD_CUSTOM1 => 250,
+			self::FIELD_CUSTOM2 => 250,
+			self::FIELD_CUSTOM3 => 250,
+			self::FIELD_CUSTOM4 => 250,
+			self::FIELD_CUSTOM5 => 250,
+			self::FIELD_CUSTOM6 => 250,
+			self::FIELD_CUSTOM7 => 250,
+			self::FIELD_CUSTOM8 => 250,
+			self::FIELD_CUSTOM9 => 250,
+			self::FIELD_CUSTOM10 => 250,
+			self::FIELD_WORKSTATE => 13,
+			self::FIELD_FITWSTATUS => 13,
+			self::FIELD_FITWEXCEMPTIONS => -1,
+			self::FIELD_SITWSTATE => 13,
+			self::FIELD_SITWSTATUS => 13,
+			self::FIELD_SITWEXCEMPTIONS => -1,
+			self::FIELD_SUISTATE => 13,
+			self::FIELD_DD1ROUTING => -1,
+			self::FIELD_DD1ACCOUNT => 100,
+			self::FIELD_DD1AMOUNT => -1,
+			self::FIELD_DD1AMOUNTCODE => 20,
+			self::FIELD_DD1CHECKING => 20,
+			self::FIELD_DD2ROUTING => -1,
+			self::FIELD_DD2ACCOUNT => 100,
+			self::FIELD_DD2AMOUNT => -1,
+			self::FIELD_DD2AMOUNTCODE => 20,
+			self::FIELD_DD2CHECKING => 20,
+			self::FIELD_HOME_PHONE => 50,
+			self::FIELD_MOBILE_PHONE => 50,
+			self::FIELD_WORK_PHONE => 50,
+			self::FIELD_WORK_EMAIL => 50,
+			self::FIELD_OTHER_EMAIL => 50,
+			self::FIELD_DRIVING_LIC => 100);
+		return $maxLengths;
 	}
 
 	/**

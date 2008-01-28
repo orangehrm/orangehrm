@@ -113,10 +113,16 @@ if ($importStatus->getNumFailed() > 0) {
 <?php
 	$odd = false;
 	foreach($importStatus->getImportResults() as $row=>$result) {
+
+		$status = $result->getStatus();
+
+		if (($status == CSVImport::IMPORTED) || ($status == CSVImport::SKIPPED_HEADER)) {
+			continue;
+		}
  		$cssClass = ($odd) ? 'even' : 'odd';
  		$odd = !$odd;
- 		$resource = 'lang_DataImportStatus_Error_' . $result->getStatus();;
- 		$msg = isset($$resource) ? $$resource : $result->getStatus();
+ 		$resource = 'lang_DataImportStatus_Error_' . $status;;
+ 		$msg = isset($$resource) ? $$resource : $status;
 ?>
 	<tr>
 		<td class="tableMiddleLeft"></td>

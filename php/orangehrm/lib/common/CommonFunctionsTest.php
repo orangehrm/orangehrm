@@ -214,6 +214,25 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this -> assertEquals("100", CommonFunctions :: extractNumericId("SKI100"));
 		$this -> assertEquals("0", CommonFunctions :: extractNumericId("SKI0"));
 	}
+
+	public function testIsInt() {
+		$this->assertTrue(CommonFunctions::isInt("12"));
+		$this->assertTrue(CommonFunctions::isInt(12));
+
+		$this->assertFalse(CommonFunctions::isInt(12.1));
+		$this->assertFalse(CommonFunctions::isInt("12.11"));
+
+		$this->assertTrue(CommonFunctions::isInt(12.0));
+		$this->assertFalse(CommonFunctions::isInt("12.0"));
+
+		$this->assertTrue(CommonFunctions::isInt("-12", true));
+		$this->assertFalse(CommonFunctions::isInt("-12"));
+
+		$this->assertTrue(CommonFunctions::isInt("+12", true));
+		$this->assertFalse(CommonFunctions::isInt("+12"));
+
+		$this->assertFalse(CommonFunctions::isInt("abc"));
+	}
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.

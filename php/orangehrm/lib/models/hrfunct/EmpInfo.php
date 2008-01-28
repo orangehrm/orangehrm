@@ -2968,7 +2968,51 @@ class EmpInfo {
         return $subdivisionIds;
     }
 
+	/**
+	 * Check if there are employees with the passed employee ID
+	 *
+	 * @param string $empId Employee ID to check for duplicates
+	 * @return boolean true if employee ID is already in use, false otherwise
+	 */
+	public function checkIfEmpIDInUse($empId) {
+		$conn = new DMLFunctions();
+		$empId = mysql_real_escape_string($empId);
+		$sql = "SELECT count(*) FROM `hs_hr_employee` WHERE `employee_id` = '" . $empId . "'";
 
+		$result = $conn->executeQuery($sql);
+		$line = mysql_fetch_array($result, MYSQL_NUM);
+
+	    return $line[0] > 0;
+	}
+
+	/**
+	 * Check for an employee in the system with the same name.
+	 *
+	 * @param string $last Last name
+	 * @param string $first First name
+	 * @param string $middle middle name
+	 * @return boolean true if employee with same name exists, false otherwise
+	 */
+	public function checkForEmployeeWithSameName($last, $first, $middle) {
+
+		$conn = new DMLFunctions();
+		$first = mysql_real_escape_string($first);
+		$last = mysql_real_escape_string($last);
+		if (empty($middle)) {
+			$middle = '';
+		} else {
+			$middle = mysql_real_escape_string($middle);
+		}
+
+		$sql = "SELECT count(*) FROM `hs_hr_employee` WHERE `emp_firstname` = '{$first}' AND " .
+               " `emp_lastname` = '{$last}' AND `emp_middle_name` = '{$middle}'";
+
+		$result = $conn->executeQuery($sql);
+		$line = mysql_fetch_array($result, MYSQL_NUM);
+
+	    return $line[0] > 0;
+
+	}
 }
 
 
