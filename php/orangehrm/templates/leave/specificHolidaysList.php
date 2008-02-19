@@ -42,7 +42,7 @@ if ($modifier === "SUP") {
 
  if (isset($_GET['message'])) {
 ?>
-<var><?php echo $_GET['message']; ?></var>
+<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
 <?php } ?>
 <h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title; ?><hr/></h2>
 <?php

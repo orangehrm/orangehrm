@@ -109,7 +109,7 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	$col_def = CommonFunctions::getCssClassForMessage($expString);
 	$expString = 'lang_Time_Errors_'.$expString;
 
-	$message = isset($$expString) ? $$expString : $_GET['message'];
+	$message = isset($$expString) ? $$expString : CommonFunctions::escapeHtml($_GET['message']);
 ?>
 	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 <?php echo $message; ?>

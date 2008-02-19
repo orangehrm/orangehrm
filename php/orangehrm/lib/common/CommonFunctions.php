@@ -369,5 +369,15 @@ class CommonFunctions {
 		return false;
 
 	}
+
+    /**
+     * Escapes any special characters to html entities and make it safe for including into a web page.
+     *
+     * @param string $value Value to escape
+     * @return string Escaped value
+     */
+    public static function escapeHtml($value) {
+        return htmlspecialchars($value, ENT_QUOTES);
+    }
 }
 ?>

@@ -29,6 +29,15 @@ class FormCreator
 
 	function FormCreator($getArr,$postArr = null) {
 
+        /**
+         * Escape any html in GET variables, making them safer
+         */
+        foreach($getArr as $key=>$val) {
+            if (is_string($val)) {
+                $getArr[$key] = CommonFunctions::escapeHtml($val);
+            }
+        }
+
 		$this->getArr = $getArr;
 		if($postArr != null)
 			$this->postArr = $postArr;

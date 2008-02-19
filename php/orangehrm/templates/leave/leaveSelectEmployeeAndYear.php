@@ -38,7 +38,7 @@
 
 	if (isset($_GET['message'])) {
 ?>
-<var><?php echo $_GET['message']; ?></var>
+<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
 <?php } ?>
 <h2><?php echo $lang_Leave_Select_Employee_Title; ?><hr/></h2>
 <script type="text/javascript">
