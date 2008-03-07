@@ -359,7 +359,7 @@ class CustomizableCSVImport implements CSVImportPlugin {
 			$row = mysql_fetch_row($result);
 			return $row[0];
 		} else {
-			throw new CSVImportException("Company structure: " . $workStation . " not found", MISSING_WORKSTATION);
+			throw new CSVImportException("Company structure: " . $workStation . " not found", CSVImportException::MISSING_WORKSTATION);
 		}
 	}
 
@@ -405,7 +405,8 @@ class CustomizableCSVImport implements CSVImportPlugin {
 	private static function _getFormattedDate($date) {
 
 		$formattedDate = null;
-		$fmt = str_replace(' ', '-', $date);
+		$fmt = str_replace(' ', '/', $date);
+		$fmt = str_replace('-', '/', $date);
 		$dateStamp = strtotime($fmt);
 		if ($dateStamp > 0) {
 			$formattedDate = date("Y-m-d", $dateStamp);
