@@ -27,6 +27,7 @@ require_once($lan->getLangPath("full.php"));
 
 	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
 	$_GET['isAdmin'] = isset($_GET['isAdmin'])?$_GET['isAdmin']:'No';
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -77,6 +78,8 @@ function goBack() {
 			return false;
 		}
 
+		<?php if ($_SESSION['ldap'] == "enabled") {} else {?>
+
 		if(frm.txtUserPassword.value.length < 4) {
 			alert("<?php echo $lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong; ?>!");
 			frm.txtUserPassword.focus();
@@ -88,6 +91,8 @@ function goBack() {
 			frm.txtUserPassword.focus();
 			return;
 		}
+
+		<?php } ?>
 
 		if(!frm.chkUserIsAdmin && frm.cmbUserEmpID.value == '') {
 			alert("<?php echo $lang_Admin_Users_Errors_EmployeeIdShouldBeDefined; ?>");
@@ -172,10 +177,10 @@ function goBack() {
 							  	<td></td>
 						  </tr>
 						  <tr>
-							  <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_Password; ?></td>
+							  <td nowrap="nowrap"><?php if ($_SESSION['ldap'] == "enabled") {} else {?><span class="error">*</span><?php } ?> <?php echo $lang_Admin_Users_Password; ?></td>
 							  <td><input type="password" name="txtUserPassword"></td>
 							  <td></td>
-							  <td nowrap="nowrap"><span class="error">*</span> <?php echo $lang_Admin_Users_ConfirmPassword; ?></td>
+							  <td nowrap="nowrap"><?php if ($_SESSION['ldap'] == "enabled") {} else {?><span class="error">*</span><?php } ?> <?php echo $lang_Admin_Users_ConfirmPassword; ?></td>
 							  <td><input type="password" name="txtUserConfirmPassword"></td>
 						  </tr>
 						  <tr valign="top">
@@ -325,6 +330,7 @@ function edit() {
 		}
 
 		<?php if ($_GET['isAdmin'] == 'No') { ?>
+		<?php if ($_SESSION['ldap'] == "enabled") {} else { ?>
 		if (frm.txtUserPassword.value != '') {
 			if (frm.txtUserPassword.value.length < 4) {
 				alert("<?php echo $lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong; ?>.");
@@ -338,6 +344,7 @@ function edit() {
 				return;
 			}
 		}
+		<?php } ?>
 		<?php } ?>
 		document.frmUsers.sqlState.value = "UpdateRecord";
 		document.frmUsers.submit();

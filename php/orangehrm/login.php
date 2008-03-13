@@ -38,6 +38,21 @@ $_SESSION['WPATH']= $wpath[0];
 require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
+/* LDAP Module Begins */
+
+$ldapFile = ROOT_PATH . "/plugins/ldap/LdapLogin.php";
+$_SESSION['ldap'] = "disabled";
+$_SESSION['ldapStatus'] = "disabled";
+
+if (file_exists($ldapFile)) {
+	$_SESSION['ldap'] = "enabled";
+	require_once $ldapFile;
+	$ldap = new LDapLogin();
+	$ldapStatus = $ldap->retrieveLdapStatus();
+	$_SESSION['ldapStatus'] = $ldapStatus;
+}
+
+/* LDAP Module Ends */
 
 if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
@@ -45,7 +60,53 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
 	$rset=$login->filterUser(trim($_POST['txtUserName']));
 
-	if (md5($_POST['txtPassword']) == $rset[0][1]) {
+	if (md5("") == $rset[0][1] && $_SESSION['ldapStatus'] == "enabled") {
+			$ldapAuth = $ldap->ldapAuth($rset[0][0], $_POST['txtPassword']);
+			if ($ldapAuth) { // stuff in normal login process
+
+				$_SESSION['ladpUser'] = true;
+
+				if ($rset[0][5]=='Enabled') {
+					if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
+						$_SESSION['user']=$rset[0][3];
+						$_SESSION['userGroup']=$rset[0][4];
+						$_SESSION['isAdmin']=$rset[0][7];
+						$_SESSION['empID']=$rset[0][6];
+
+						$_SESSION['fname']=$rset[0][2];
+
+						/* If not an admin user, check if a supervisor and/or project admin */
+						$isSupervisor = false;
+						$isProjectAdmin = false;
+						if ($_SESSION['isAdmin'] == 'No') {
+
+						$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+						$isSupervisor = $authorizeObj->isSupervisor();
+						$isProjectAdmin = $authorizeObj->isProjectAdmin();
+					}
+					$_SESSION['isSupervisor'] = $isSupervisor;
+					$_SESSION['isProjectAdmin'] = $isProjectAdmin;
+
+					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
+					$_SESSION['WPATH']= $wpath[0];
+
+					// TODO: Can set user specific stylesheet here.
+					$_SESSION['styleSheet'] = $styleSheet;
+
+					setcookie('Loggedin', 'True', 0, '/');
+
+					header("Location: ./index.php");
+					} else {
+						$InvalidLogin=3;
+					}
+				} else {
+					$InvalidLogin=2;
+				}
+			} else {
+				$InvalidLogin = 1;
+			}
+
+	}else if (md5($_POST['txtPassword']) == $rset[0][1]) {
 		if ($rset[0][5]=='Enabled') {
 			if (($rset[0][7] == "Yes") || (($rset[0][7] == "No") && !empty($rset[0][6]))) {
 				$_SESSION['user']=$rset[0][3];
@@ -214,6 +275,9 @@ body {
 			   					break;
 			   		case 3 : 	$InvalidLoginMes = $lang_login_NoEmployeeAssigned;
 			   					break;
+			   		case 4 : 	$InvalidLoginMes = $lang_login_temporarily_unavailable;
+			   					break;
+
 			   }
 			} else {
 		       $InvalidLoginMes = "&nbsp;";

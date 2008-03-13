@@ -52,7 +52,11 @@ class EXTRACTOR_Users{
 		 	$this->users -> setUserStatus($postArr['cmbUserStatus']);
 		 	$this->users -> setUserGroupID($postArr['cmbUserGroupID']);
 
-		 	if ($_SESSION['isAdmin'] == 'Yes') {
+		 	if ($_SESSION['isAdmin'] == 'Yes' && $_SESSION['ldap'] == "enabled") {
+		 		if (isset($postArr['txtUserPassword']) && ($postArr['txtUserPassword'] == $postArr['txtUserConfirmPassword']) && is_string($postArr['txtUserPassword'])) {
+		 			$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword'])));
+		 		}
+		 	} else if ($_SESSION['isAdmin'] == 'Yes') {
 		 		if (isset($postArr['txtUserPassword']) && ($postArr['txtUserPassword'] == $postArr['txtUserConfirmPassword']) && is_string($postArr['txtUserPassword']) && (strlen($postArr['txtUserPassword']) > 3)) {
 		 			$this->users -> setUserPassword(md5(trim($postArr['txtUserPassword'])));
 		 		}

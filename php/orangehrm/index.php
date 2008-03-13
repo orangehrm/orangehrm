@@ -471,7 +471,14 @@ function preloadAllImages() {
             <td class="subTabBar" colspan="2"><table width="100%" cellspacing="0" cellpadding="0" border="0" height="20">
                 <tr>
                   <td class="welcome" width="100%"><?php echo preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes); ?></td>
-                  <td class="search" align="right" nowrap="nowrap"><a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?php echo $_SESSION['user']?>" target="rightMenu"><strong><?php echo $lang_index_ChangePassword; ?></strong></a></td>
+                  <td class="search" align="right" nowrap="nowrap">
+                  <?php if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser']) {
+                  	echo "&nbsp;";
+                  } else {
+                  ?>
+                  <a href="./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id=<?php echo $_SESSION['user']?>" target="rightMenu"><strong><?php echo $lang_index_ChangePassword; ?></strong></a>
+				  <?php } ?>
+                  </td>
                   <td class="searchSeparator">&nbsp;</td>
                   <td class="search" style="padding: 0px" align="right" nowrap="nowrap">&nbsp;&nbsp;<a href="./index.php?ACT=logout"><strong><?php echo $lang_index_Logout; ?></strong></a></td>
                   <td class="search" nowrap>&nbsp;&nbsp; </td>
@@ -505,6 +512,13 @@ function preloadAllImages() {
 						<li id="projectInfo"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu17');" onMouseOut="ypSlideOutMenu.hideMenu('menu17');"><?php echo $lang_Menu_Admin_ProjectInfo; ?></a></li>
 						<li id="dataexport"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu18');" onMouseOut="ypSlideOutMenu.hideMenu('menu18');"><?php echo $lang_Menu_Admin_DataImportExport; ?></a></li>
 						<li id="dataexport"><a href="index.php?uniqcode=CTM&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CustomFields; ?> </a></li>
+					  	<?php
+					  	if ($_SESSION['ldap'] == "enabled") {
+					  	?>
+					  		<li id="projectInfo"><a href="index.php?uniqcode=LDAP&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_LDAP_Configuration; ?></a></li>
+					  	<?php
+					  	}
+					  	?>
 					  </ul></TD>
 <?php				} else if ($_SESSION['isProjectAdmin']) { ?>
                     <TD width=158>

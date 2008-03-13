@@ -117,6 +117,9 @@ require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Timesheet.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimeEvent.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_TimesheetSubmissionPeriod.php';
 require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_Workshift.php';
+if ($_SESSION['ldap'] == "enabled") {
+	require_once ROOT_PATH . '/plugins/ldap/EXTRACTOR_LdapDetails.php';
+}
 
 //leave modules extractorss go here
 
@@ -670,6 +673,11 @@ switch ($moduletype) {
 						case 'ENS'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmailNotificationConfiguration();
+										}
+										break;
+						case 'LDAP'	:
+										if(isset($_POST['sqlState']) && $_SESSION['ldap'] == "enabled") {
+											$extractor = new EXTRACTOR_LdapDetails();
 										}
 										break;
 
@@ -1288,8 +1296,8 @@ switch ($moduletype) {
 
 																						break;
 
-													case 'Leave_ChangeStatus' 		: 
-//changes made here to avoid sending mail notifications when clicked the save button without changing leave status 
+													case 'Leave_ChangeStatus' 		:
+//changes made here to avoid sending mail notifications when clicked the save button without changing leave status
 																						$objs = $leaveExtractor->parseEditData($_POST);
 																						$objx=false;
 																						$numChanged = 0;
@@ -1313,7 +1321,7 @@ switch ($moduletype) {
 																						$leaveController->redirect($message);
 																						break;
 
-													case 'Leave_Request_ChangeStatus': 
+													case 'Leave_Request_ChangeStatus':
 																						$objs = $leaveRequestsExtractor->parseEditData($_POST);
 																						$numChanged = 0;
 																						if (isset($objs)){

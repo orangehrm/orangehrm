@@ -157,6 +157,16 @@
 	$lang_Menu_Admin_DataImportDefine = "Define Custom Import";
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
 
+	// LDAP Module
+	$lang_LDAP_Configuration 	= "LDAP Configuration";
+	$lang_LDAP_Server			= "LDAP Server";
+	$lang_LDAP_Port				= "LDAP Port";
+	$lang_LDAP_Domain_Name		= "LDAP Domain Name";
+	$lang_LDAP_Enable			= "Enable LDAP Authentication";
+	$lang_LDAP_Error_Server_Empty	= "Please enter LDAP server name";
+	$lang_LDAP_Error_Domain_Empty	= "Please enter LDAP domain name";
+	$lang_LDAP_Invalid_Port			= "Invalid LDAP Port";
+
 	// Leave Module
 	$lang_Menu_Leave 									= "Leave";
 	$lang_Menu_Leave_PersonalLeaveSummary 				= "Personal Leave Summary";

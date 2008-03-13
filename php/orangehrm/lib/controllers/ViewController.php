@@ -61,6 +61,10 @@ require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 
+if ($_SESSION['ldap'] == "enabled") {
+	require_once ROOT_PATH . '/plugins/ldap/LdapDetails.php';
+}
+
 class ViewController {
 
 	var $indexCode;
@@ -209,6 +213,9 @@ class ViewController {
 						$this->reDirect($getArr);
 						break;
 			case 'PAC' :
+						$this->reDirect($getArr);
+						break;
+			case 'LDAP':
 						$this->reDirect($getArr);
 						break;
 			default:
@@ -1987,6 +1994,13 @@ class ViewController {
 										}
 									}
 									break;
+
+				case 'LDAP'	:		if ($_SESSION['ldap'] == "enabled") {
+										$ldapDetails = new LdapDetails();
+										$ldapDetails = $object;
+										$res = $ldapDetails->updateLdapDetails();
+									}
+									break;
 			}
 		} catch (Exception $e) {
 			if ($e->getCode() == 1) {
@@ -3166,6 +3180,12 @@ class ViewController {
 							$form_creator->popArr['modlistAss'] = $urights->getAssRights($getArr['id']);
 							break;
 
+			case 'LDAP' :	if ($_SESSION['ldap'] == "enabled") {
+								$form_creator ->formPath = '/templates/eimadmin/ldapConfiguration.php';
+								$ldapConfigObj = new LdapDetails();
+								$form_creator ->popArr['editArr'] = $ldapConfigObj->retrieveLdapDetails();
+							}
+							break;
 
 				}
 		$form_creator->display();
