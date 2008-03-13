@@ -43,6 +43,22 @@ class xajaxElementFiller {
 
 		return $objResponse;
 	}
+	function cmbFiller2 ($objResponse,$fillArr,$nameIdex, $valueIndex, $form,$element,$defSel=1) {
+
+		if($defSel == 1) {
+	 		$objResponse->addScript("document.".$form.".".$element.".options[0] = new Option('--" . $this->defaultOption . "--','0');");
+			$objResponse->addScript("document.".$form.".".$element.".options.length = 1;");
+		} else if($defSel == 0) {
+			$objResponse->addScript("document.".$form.".".$element.".options.length = 0;");
+		} else {
+			$objResponse->addScript("document.".$form.".".$element.".options.length = 1;");
+		}
+
+	 	for($i=0;$fillArr && count($fillArr)>$i;$i++)
+	 		$objResponse->addScript("document.".$form.".".$element.".options[".($defSel == 1 ? $i+1 : $i)."] = new Option('" .addslashes($fillArr[$i][($nameIdex)]). "','".addslashes($fillArr[$i][$valueIndex])."');");
+
+		return $objResponse;
+	}
 
 	function cmbFillerById ($objResponse,$fillArr,$fele,$form,$element,$defSel=-1) {
 

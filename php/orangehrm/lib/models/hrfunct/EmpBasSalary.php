@@ -24,7 +24,7 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 class EmpBasSalary {
 
-	var $tableName = 'HS_HR_EMP_BASICSALARY';
+	var $tableName = 'hs_hr_emp_basicsalary';
 
 	var $empId;
 	var $empSalGrdCode;
@@ -92,7 +92,7 @@ class EmpBasSalary {
 
 	function getListofEmpBasSal($page,$str,$mode) {
 
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -130,7 +130,7 @@ class EmpBasSalary {
 
 	function countEmpBasSal($str,$mode) {
 
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -151,7 +151,7 @@ class EmpBasSalary {
 
 	function delEmpBasSal($arrList) {
 
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
@@ -185,7 +185,7 @@ class EmpBasSalary {
 		$fields[3] = 'EBSAL_BASIC_SALARY';
 		$fields[4] = 'PAYPERIOD_CODE';
 
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -200,7 +200,7 @@ class EmpBasSalary {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		 return $message2;
-		 echo $message2;
+
 
 	}
 
@@ -212,7 +212,7 @@ class EmpBasSalary {
 		$arrRecordsList[3] = "'". $this->getEmpBasSal() . "'";
 		$arrRecordsList[4] = empty($this->payPeriod) ? "null" : "'". $this->payPeriod . "'";
 
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
@@ -240,7 +240,7 @@ class EmpBasSalary {
 	function filterEmpBasSal($getID) {
 
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
@@ -283,10 +283,31 @@ class EmpBasSalary {
 
 	}
 
+	function getEmpSalGrade($empID) {
+		$tableName = 'hs_hr_emp_basicsalary';
+		$arrFieldList[0] = 'SAL_GRD_CODE';
+		$selectCondition[0] = "`EMP_NUMBER` = '". $empID . "'";
+		$sql_builder = new SQLQBuilder();
+
+		$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectCondition, $arrFieldList[0], 'ASC');
+
+		//echo $sqlQString;
+		$dbConnection = new DMLFunctions();
+		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+
+		if(isset($message2)){
+			while ($row = mysql_fetch_assoc($message2)) {
+				if(isset($row['SAL_GRD_CODE'])){
+					return $row['SAL_GRD_CODE'];
+				}
+			}
+		}
+	}
+
 	function getAssEmpBasSal($getID) {
 
 		$this->getID = $getID;
-		$tableName = 'HS_HR_EMP_BASICSALARY';
+		$tableName = 'hs_hr_emp_basicsalary';
 		$arrFieldList[0] = 'EMP_NUMBER';
 		$arrFieldList[1] = 'SAL_GRD_CODE';
 		$arrFieldList[2] = 'CURRENCY_ID';
@@ -366,7 +387,7 @@ class EmpBasSalary {
 
 	function getUnAssCurrCodes($salGrd,$eno) {
 
-		$sqlQString = "SELECT b.CURRENCY_NAME, a.* FROM HS_PR_SALARY_CURRENCY_DETAIL a, HS_HR_CURRENCY_TYPE b WHERE a.CURRENCY_ID NOT IN (SELECT CURRENCY_ID FROM HS_HR_EMP_BASICSALARY WHERE SAL_GRD_CODE = '" . $salGrd . "' AND EMP_NUMBER = '" .$eno. "') AND a.CURRENCY_ID = b.CURRENCY_ID AND a.SAL_GRD_CODE = '" . $salGrd . "'";
+		$sqlQString = "SELECT b.CURRENCY_NAME, a.* FROM HS_PR_SALARY_CURRENCY_DETAIL a, HS_HR_CURRENCY_TYPE b WHERE a.CURRENCY_ID NOT IN (SELECT CURRENCY_ID FROM hs_hr_emp_basicsalary WHERE SAL_GRD_CODE = '" . $salGrd . "' AND EMP_NUMBER = '" .$eno. "') AND a.CURRENCY_ID = b.CURRENCY_ID AND a.SAL_GRD_CODE = '" . $salGrd . "'";
 		$sqlQString = strtolower($sqlQString);
 
 		//echo $sqlQString;

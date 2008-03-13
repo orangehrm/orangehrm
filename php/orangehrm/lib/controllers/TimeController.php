@@ -84,6 +84,8 @@ class TimeController {
 
 		$timesheetId = $timesheetObj->fetchTimesheetId(Timesheet::TIMESHEET_DIRECTION_NEXT);
 
+
+
 		if (!$redirect) {
 			return $timesheetId;
 		}
@@ -465,6 +467,8 @@ class TimeController {
 	}
 
 	public function viewSelectEmployee() {
+
+
 		$path = "/templates/time/selectEmployee.php";
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN, authorize::AUTHORIZE_ROLE_SUPERVISOR);
@@ -481,17 +485,21 @@ class TimeController {
 			$empRepObj = new EmpRepTo();
 
 			$employees = $empRepObj->getEmpSubDetails($_SESSION['empID']);
+
+
 			$timesheetObj = new Timesheet();
 			$timesheetObj->setStatus(Timesheet::TIMESHEET_STATUS_SUBMITTED);
 			for ($i=0; $i<count($employees); $i++) {
 				$timesheetObj->setEmployeeId($employees[$i][0]);
 				$newTimesheets=$timesheetObj->fetchTimesheets();
+
 				$pendingTimesheets[$employees[$i][0]]=$newTimesheets;
 				if (isset($newTimesheets) && $newTimesheets) {
 					$pending=true;
 				}
 			}
 		}
+
 
 		$dataArr[0] = $role;
 		$dataArr[1] = $employees;
@@ -707,7 +715,11 @@ class TimeController {
 		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
 		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+
+        $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
+        $timeEventObj->setStartTime($timesheet->getStartDate());
+        $timeEventObj->setEndTime($timesheet->getEndDate());
 
 		$timeEvents = $timeEventObj->fetchTimeEvents();
 
@@ -774,9 +786,13 @@ class TimeController {
 
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
 		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
+
 		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+        $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
+        $timeEventObj->setStartTime($timesheet->getStartDate());
+        $timeEventObj->setEndTime($timesheet->getEndDate());
 
 		$timeEvents = $timeEventObj->fetchTimeEvents();
 
@@ -805,6 +821,8 @@ class TimeController {
 
 		$timesheetObj = $this->objTime;
 
+
+
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
 		}
@@ -821,6 +839,8 @@ class TimeController {
 		}
 
 		$timesheet = $timesheets[0];
+
+
 
 		$roles = array(authorize::AUTHORIZE_ROLE_ADMIN);
 
@@ -859,6 +879,8 @@ class TimeController {
 
 		$next=$this->nextEmployeeTimesheet(false);
 		$prev=$this->previousEmployeeTimesheet(false);
+
+
 
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;
@@ -1185,9 +1207,15 @@ class TimeController {
 
 		$timeEventObj = new TimeEvent();
 
-		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
 
+		$timeEventObj->setEmployeeId($timesheet->getEmployeeId());
+		$timeEventObj->setStartTime($timesheet->getStartDate());
+		$timeEventObj->setEndTime($timesheet->getEndDate()) ;
 		$timeEvents = $timeEventObj->fetchTimeEvents();
+
+
+		//$timeEvents = $timeEventObj->fetchTimeEvents();
 
 		$durationArr = null;
 		$dailySum = null;

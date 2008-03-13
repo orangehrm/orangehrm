@@ -18,8 +18,10 @@
  *
  */
 
+
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
+
 
 $timeExpenses=$records[0];
 $timesheet=$records[1];
@@ -30,6 +32,8 @@ $self=$records[5];
 $next=$records[6];
 $prev=$records[7];
 $role=$records[8];
+
+
 
 $activitySum=$records[9];
 $totalTime=$records[10];
@@ -55,7 +59,13 @@ switch ($status) {
 $startDate = strtotime($timesheet->getStartDate());
 $endDate = strtotime($timesheet->getEndDate());
 
+
 $duration = 7;
+
+
+
+
+
 ?>
 <script type="text/javascript">
 <!--
@@ -76,9 +86,15 @@ function $(id) {
 
 
 function actionNav(nav) {
+
+
+
+
+
 <?php if ($self) { ?>
 	switch (nav) {
 		case 1  : $("txtStartDate").value = prev.startDate;
+
 				  $("txtEndDate").value = prev.endDate;
 				  break;
 		case -1 : $("txtStartDate").value = next.startDate;
@@ -97,6 +113,9 @@ function actionNav(nav) {
 <?php } ?>
 
 	$("frmTimesheet").submit();
+
+
+
 }
 
 
@@ -153,7 +172,7 @@ function actionDetails() {
 				echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
 							$headingStr);
-		if ($next) {
+		if (($next)  && !($timesheet->getEndDate() >= date('Y-m-d'))) {
 	?>
 	<input src="../../themes/beyondT/icons/resultset_next.png"
 			onclick="actionNav(-1); return false;"

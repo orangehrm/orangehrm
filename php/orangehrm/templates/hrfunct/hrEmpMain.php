@@ -119,6 +119,24 @@ function getMinMaxCurrency($value, $salGrd) {
 return $response->getXML();
 }
 
+
+function getUnAssignedCurrencyList($payGrade) {
+	$emp_view_controller = new EmpViewController();
+	$empId = $_GET['id'];
+
+	$temp[] = $payGrade;
+	$temp[] = $empId;
+	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
+
+	$response = new xajaxResponse();
+	$xajaxFiller = new xajaxElementFiller();
+	$xajaxFiller->setDefaultOptionName('Select Currency');
+	$response = $xajaxFiller->cmbFiller2($response, $currlist, 0, 2, 'frmEmp', 'cmbCurrCode', 1);
+	$response->addAssign('status','innerHTML','');
+
+	return $response->getXML();
+}
+
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->registerFunction('populateDistrict');

@@ -26,7 +26,9 @@ class EmploymentStatus {
 
 	const EMPLOYMENT_STATUS_ID_TERMINATED = "EST000";
 
-	var $tableName = 'HS_HR_EMPSTAT';
+
+	var $tableName = 'hs_hr_empstat';
+
 
 	var $empStatId;
 	var $empStatName;

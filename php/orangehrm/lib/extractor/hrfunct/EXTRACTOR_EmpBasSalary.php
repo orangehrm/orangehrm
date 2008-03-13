@@ -34,7 +34,7 @@ class EXTRACTOR_EmpBasSalary{
 	function parseData($postArr) {
 
 			$this->empbassal->setEmpId(trim($postArr['txtEmpID']));
-			$this->empbassal->setEmpSalGrdCode(trim($postArr['txtSalGrdId']));
+			$this->empbassal->setEmpSalGrdCode(trim($postArr['cmbSalaryGrade']));
 			$this->empbassal->setEmpCurrCode($postArr['cmbCurrCode']);
 			$this->empbassal->setEmpBasSal(trim($postArr['txtBasSal']));
 			$payPeriod = trim($postArr['cmbPayPeriod']);

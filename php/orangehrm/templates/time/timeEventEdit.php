@@ -107,11 +107,14 @@ function validate() {
 		errFlag=true;
 	}
 
+
+
 	if (startTime && (($("txtEndTime").value != "") || ($("txtDuration").value != ""))) {
 		if (!startTime || !endTime || (startTime > endTime) || (0 >= duration)) {
 			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 			errFlag=true;
 		}
+
 	} else if (!startTime) {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 		errFlag=true;
@@ -145,6 +148,7 @@ function submitTimeEvent() {
 	action = "Time_Event_Save";
 
 	if (validate()) {
+
 		$('frmTimeEvent').action = initialAction+action;
 		$('frmTimeEvent').submit();
 	}
@@ -161,9 +165,10 @@ function calculateDuration() {
 	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
 	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 
-	if (startTime && endTime && (endTime > startTime)) {
+	if (startTime && endTime) {
+
 		$("txtDuration").value = Math.round((endTime-startTime)/36000)/100;
-		$("txtDuration").readOnly = "readonly";
+		//$("txtDuration").readOnly = "readonly";
 	} else {
 		$("txtDuration").readOnly = "";
 
@@ -174,16 +179,17 @@ function calculateDuration() {
 }
 
 function calculateEndDate() {
+
 	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
 	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 	duration = $("txtDuration").value;
 
-	if (startTime && !endTime && (duration > 0)) {
+	if (startTime   && (duration > 0)) {
 		endTime = new Date();
 		endTime.setTime(startTime+(3600000*duration));
 
 		$("txtEndTime").value = formatDate(endTime, dateTimeFormat);
-		$("txtDuration").readOnly = "readonly";
+		//$("txtDuration").readOnly = "readonly";
 	} else {
 		$("txtDuration").readOnly = "";
 	}
@@ -198,7 +204,8 @@ function init() {
 	YAHOO.util.Event.addListener($("txtEndTime"), "focus", calculateDuration);
 	YAHOO.util.Event.addListener($("txtEndTime"), "change", calculateDuration);
 
-	YAHOO.util.Event.addListener($("txtDuration"), "focus", calculateEndDate);
+	YAHOO.util.Event.addListener($("txtDuration"), "change", calculateEndDate);
+	//YAHOO.util.Event.addListener($("txtDuration"), "focus", calculateEndDate);
 	YAHOO.util.Event.addListener($("txtDuration"), "blur", calculateEndDate);
 }
 

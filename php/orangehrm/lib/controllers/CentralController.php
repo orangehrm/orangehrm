@@ -149,6 +149,8 @@ define('REP', 'MOD004');
 define('LEAVE', 'MOD005');
 define('TIMEMOD', 'MOD006');
 
+
+
 switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
@@ -181,6 +183,9 @@ $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 $locRights['repDef'] = ($ugDet !== null && $ugDet[0][2] == '1') ? true : false;
 
 $_SESSION['localRights'] = $locRights;
+
+
+
 
 switch ($moduletype) {
 
@@ -729,14 +734,19 @@ switch ($moduletype) {
 						break;
 
 	case 'hr'		:
+
+
 					$view_controller = new EmpViewController();
 
 						if(isset($_POST['delState']) && $_POST['delState']=='DeleteMode' && $locRights['delete']) {
+
 							    $arrList[0]=$_POST['chkLocID'];
 							    $view_controller->delParser(trim($_GET['reqcode']),$arrList);
 						}
 
 						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
+
+
 							$view_controller ->viewList($_GET,$_POST);
 							break;
 						}
@@ -822,11 +832,11 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpAttach();
 					}
 
-					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpDependents();
 					}
 
-					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+					if(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT']!= '') {
 						$extractorForm = new EXTRACTOR_EmpChildren();
 					}
 
@@ -842,12 +852,15 @@ switch ($moduletype) {
 										break;
 						case 'EMP'	:
 										if(isset($_POST['sqlState'])) {
+
 											$extractor = new EXTRACTOR_EmpInfo();
 										}
+
 										break;
 					}
 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='NewRecord' && $locRights['add']) {
+
 												$parsedObject = $extractor->parseAddData($_POST);
 												$view_controller->addData($_POST,$_GET['reqcode'],$parsedObject);
 												break;
@@ -954,17 +967,17 @@ switch ($moduletype) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD' && $locRights['add']) || ($_POST['dependentSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['dependentSTAT']) && (($_POST['dependentSTAT'] == 'ADD') || ($_POST['dependentSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['dependentSTAT']);
-										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['dependentSTAT']) && $_POST['dependentSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
-										if(isset($_POST['childrenSTAT']) && (($_POST['childrenSTAT'] == 'ADD' && $locRights['add']) || ($_POST['childrenSTAT'] == 'EDIT' && $locRights['edit']))) {
+										if(isset($_POST['childrenSTAT']) && (($_POST['childrenSTAT'] == 'ADD') || ($_POST['childrenSTAT'] == 'EDIT'))) {
 												$parsedObject = $extractorForm->parseData($_POST);
 												$view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['childrenSTAT']);
-										} elseif(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT'] == 'DEL' && $locRights['delete']) {
+										} elseif(isset($_POST['childrenSTAT']) && $_POST['childrenSTAT'] == 'DEL') {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
 
@@ -1061,7 +1074,7 @@ switch ($moduletype) {
 												$view_controller->updateData($_GET['mtcode'],$_GET['id'],$parsedObject);
 												break;
 										} else {
-												//echo $locRights['edit'];
+
 												$view_controller -> reDirect($_GET);
 												break;
 
@@ -1275,37 +1288,47 @@ switch ($moduletype) {
 
 																						break;
 
-													case 'Leave_ChangeStatus' 		:  	$objs = $leaveExtractor->parseEditData($_POST);
-																						$mes = "Empty record";
+													case 'Leave_ChangeStatus' 		: 
+//changes made here to avoid sending mail notifications when clicked the save button without changing leave status 
+																						$objs = $leaveExtractor->parseEditData($_POST);
 																						$objx=false;
+																						$numChanged = 0;
 																						if (isset($objs)) {
 																							foreach ($objs as $obj) {
 																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getLeaveId());
 																								$mes=$leaveController->changeStatus("change");
-																								if ($mes) {
+																					if ($mes) {
+																									$numChanged++;
 																									$objx[] = $obj;
 																								}
 																							}
 																						}
-																						$leaveController->sendChangedLeaveNotification($objx);
-																						$leaveController->redirect("");
+																						if ($numChanged > 0) {
+																							$leaveController->sendChangedLeaveNotification($objx);
+																							$message = "CHANGE_STATUS_SUCCESS";
+																						} else {
+																							$message = "";
+																						}
+																						$leaveController->redirect($message);
 																						break;
 
-													case 'Leave_Request_ChangeStatus': 	$objs = $leaveRequestsExtractor->parseEditData($_POST);
-																						$mes = "Empty record";
-																						if (isset($objs))
-																						foreach ($objs as $obj) {
-																							$leaveController->setObjLeave($obj);
-																							$leaveController->setId($obj->getLeaveId());
-
-																							$mes=$leaveController->changeStatus("change");
-																							if ($mes) {
-																								$leaveController->sendChangedLeaveNotification($obj, true);
-																							}
-																						}
-
-																						$leaveController->redirect("CHANGE_STATUS_SUCCESS");
+													case 'Leave_Request_ChangeStatus': 
+																						$objs = $leaveRequestsExtractor->parseEditData($_POST);
+																						$numChanged = 0;
+																						if (isset($objs)){
+            																						foreach ($objs as $obj) {
+            																							$leaveController->setObjLeave($obj);
+            																							$leaveController->setId($obj->getLeaveId());
+            																							$res=$leaveController->changeStatus("change");
+             	                                                                                                                                                                                if ($res) {
+             	                                                                                                                                                                                $numChanged++;
+            																							$leaveController->sendChangedLeaveNotification($obj, true);
+            																							}
+        																						}
+        																					}
+																						$message = ($numChanged > 0) ? "CHANGE_STATUS_SUCCESS" : "";
+																						$leaveController->redirect($message);
 																						break;
 
 													case 'Leave_Apply'				: 	$obj = $leaveRequestsExtractor->parseAddData($_POST);
@@ -1451,7 +1474,9 @@ switch ($moduletype) {
 						}
 						break;
 
-	case 'timeMod'	:	switch ($_GET['timecode']) {
+	case 'timeMod'	:
+
+							switch ($_GET['timecode']) {
 							case 'Time'	:	if (isset($_GET['action'])) {
 												$timeController = new TimeController();
 												$timesheetExtractor = new EXTRACTOR_Timesheet();
@@ -1466,10 +1491,14 @@ switch ($moduletype) {
 
 												switch ($_GET['action']) {
 													case 'View_Current_Timesheet':	$current=true;
+
+
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
 																					if (isset($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
+
 																					}
+
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheet($current);
 																					break;
@@ -1534,11 +1563,13 @@ switch ($moduletype) {
 																					break;
 													case 'View_Select_Employee'	:	$timeController->viewSelectEmployee();
 																					break;
-													case 'Fetch_Next_Timesheet'	:	$obj = $timesheetExtractor->parseViewData($_POST);
+													case 'Fetch_Next_Timesheet'	:
+																					$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->nextEmployeeTimesheet();
 																					break;
-													case 'Fetch_Prev_Timesheet'	:	$obj = $timesheetExtractor->parseViewData($_POST);
+													case 'Fetch_Prev_Timesheet'	:
+																					$obj = $timesheetExtractor->parseViewData($_POST);
 																					$timeController->setObjTime($obj);
 																					$timeController->previousEmployeeTimesheet();
 																					break;

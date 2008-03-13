@@ -83,16 +83,16 @@ function editChildren() {
               <tr>
                 <td><?php echo $lang_hremp_name?>
                 	<input type="hidden" name="txtCSeqNo" value="<?php echo $edit[0][1]?>"></td>
-                <td><input type="text" name="txtChiName" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
+                <td><input type="text" name="txtChiName" value="<?php echo $edit[0][2]?>"></td>
                </tr>
               <tr>
                 <td><?php echo $lang_hremp_dateofbirth?></td>
                 <td><input type="text" name="ChiDOB" id="eChiDOB" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10">
-                	<input type="button" <?php echo $locRights['edit'] ? '':'disabled'?> class="calendarBtn" value="   " /></td>
+                	<input type="button" class="calendarBtn" value="   " /></td>
                </tr>
 
 				  <td>
-					<?php	if($locRights['edit']) { ?>
+					<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 					        <img border="0" title="Save" onClick="editChildren();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 				</td>
@@ -105,15 +105,15 @@ function editChildren() {
               <tr>
                 <td><?php echo $lang_hremp_name; ?>
                 	<input type="hidden" name="txtCSeqNo" value="<?php echo $this->popArr['newCID']?>"></td>
-                <td><input name="txtChiName" <?php echo $locRights['add'] ? '':'disabled'?> type="text">
+                <td><input name="txtChiName" type="text">
                 </tr>
                 <tr>
                 <td><?php echo $lang_hremp_dateofbirth; ?></td>
 				<td><input type="text" name="ChiDOB" id="aChiDOB" size="10">
-					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> class="calendarBtn" value="   " /></td>
+					<input type="button" class="calendarBtn" value="   " /></td>
             </tr>
 				  <td>
-<?php	if($locRights['add']) { ?>
+<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
         <img border="0" title="Save" onClick="addChildren();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 				</td>
@@ -125,10 +125,10 @@ function editChildren() {
 //checking for the records if exsists show the children table and the delete btn else hide
 	$rset = $this->popArr['empChiAss'];
 	if ($rset != null) {?>
-		<?php if($locRights['add']) { ?>
+		<?php if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
         <img border="0" title="Add" onClick="showAddPane('Children');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 		<?php } ?>
-		<?php	if($locRights['delete']) { ?>
+		<?php	if($locRights['delete'] || ($_GET['reqcode'] === "ESS")) { ?>
 		<img title="Delete" onclick="delChildren();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 		<?php 	}//finish checking ?>
 		<table width="275" align="center" border="0" class="tabForm">

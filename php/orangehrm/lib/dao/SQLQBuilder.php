@@ -1038,7 +1038,8 @@ function getAssCompStruct($lev,$relat) {
 
 function getAssEmpStat($jobtit) {
 
-	$sqlQString = "SELECT b.ESTAT_CODE, b.ESTAT_NAME FROM HS_HR_JOBTIT_EMPSTAT a, HS_HR_EMPSTAT b WHERE a.ESTAT_CODE = b.ESTAT_CODE AND a.JOBTIT_CODE = '" .$jobtit. "'";
+	//$sqlQString = "SELECT b.ESTAT_CODE, b.ESTAT_NAME FROM HS_HR_JOBTIT_EMPSTAT a, HS_HR_EMPSTAT b WHERE a.ESTAT_CODE = b.ESTAT_CODE AND a.JOBTIT_CODE = '" .$jobtit. "'";
+	$sqlQString = "SELECT b.ESTAT_CODE, b.ESTAT_NAME FROM HS_HR_JOBTIT_EMPSTAT a, hs_hr_empstat b WHERE a.ESTAT_CODE = b.ESTAT_CODE AND a.JOBTIT_CODE = '" .$jobtit. "'";
 	$sqlQString=strtolower($sqlQString);
 
 	return $sqlQString;
@@ -1179,6 +1180,13 @@ function getCurrencyAssigned($salgrd) {
 		if (isset($selectLimit)) {
 			$query .= " LIMIT $selectLimit";
 		}
+
+		return $query;
+	}
+
+	function simpleDelete($deleteTable, $deleteConditions) {
+		$query = "DELETE FROM " . $deleteTable . " ";
+		$query .= $this->_buildWhere($deleteConditions);
 
 		return $query;
 	}

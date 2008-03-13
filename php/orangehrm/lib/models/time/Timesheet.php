@@ -163,6 +163,8 @@ class Timesheet {
 			}
 			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
 
+
+
 			$diff1=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 
 			if (6 >= ($diff1-$diff)) {
@@ -334,11 +336,14 @@ class Timesheet {
 
 		$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
 
+        $order = "ASC" ;
 		switch ($direction) {
 			case self::TIMESHEET_DIRECTION_NEXT :
+                                                    $order = "DESC" ;
 													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` > '{$this->getEndDate()}'";
 													break;
 			case self::TIMESHEET_DIRECTION_PREV :
+                                                    $order = "ASC" ;
 													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` < '{$this->getStartDate()}'";
 													break;
 		}
@@ -349,7 +354,7 @@ class Timesheet {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC', 1);
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0],  $order , 1);
 
 		$dbConnection = new DMLFunctions();
 
@@ -374,6 +379,7 @@ class Timesheet {
 	 */
 	public function fetchTimesheetsBulk($page, $employeeIds) {
 		$sql_builder = new SQLQBuilder();
+
 
 		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
 
@@ -516,6 +522,7 @@ class Timesheet {
 		}
 
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+
 
 		$dbConnection = new DMLFunctions();
 

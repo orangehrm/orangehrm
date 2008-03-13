@@ -282,6 +282,7 @@ class LeaveController {
 
 		$approveObj = null;
 		$rejectedObj = null;
+		$cancelledObj = null;
 
 		if ($request) {
 			switch ($objs->getLeaveStatus()) {
@@ -289,6 +290,9 @@ class LeaveController {
 														  break;
 				case Leave::LEAVE_STATUS_LEAVE_REJECTED : $rejectedObj = $objs;
 														  break;
+				case Leave::LEAVE_STATUS_LEAVE_CANCELLED : $cancelledObj = $objs;
+														  break;
+
 			}
 		} else {
 			if (!is_array($objs)) {
@@ -301,13 +305,44 @@ class LeaveController {
 																  break;
 						case Leave::LEAVE_STATUS_LEAVE_REJECTED : $rejectedObj[] = $obj;
 																  break;
+						case Leave::LEAVE_STATUS_LEAVE_CANCELLED : $cancelledObj[] = $obj;
+																  break;
+
 					}
 				}
 			}
 		}
 
-		$this->_sendChangedLeaveNotification($approveObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_APPROVE);
-		$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);
+		if (!empty($approveObj)) {
+			$this->_sendChangedLeaveNotification($approveObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_APPROVE);
+		}
+
+		if (!empty($rejectedObj)) {
+			$this->_sendChangedLeaveNotification($rejectedObj, $request, MailNotifications::MAILNOTIFICATIONS_ACTION_REJECT);
+		}
+
+		if (!empty($cancelledObj)) {
+
+			// check and see if supervisor is doing the cancellation.
+			$authorize = $this->authorize;
+			if ($request) {
+				$empId = $cancelledObj->getEmployeeId();
+			} else if (is_array($cancelledObj) && count($cancelledObj) > 0) {
+				$empId = $cancelledObj[0]->getEmployeeId();
+			}
+
+			$loggedInEmpId = $authorize->getEmployeeId();
+
+			if ($authorize->isAdmin() || (!empty($empId) && !empty($loggedInEmpId) && ($empId != $authorize->getEmployeeId()) &&
+					$authorize->isSupervisor())) {
+
+				$action = MailNotifications::MAILNOTIFICATIONS_ACTION_SUPERVISOR_CANCEL;
+			} else {
+				$action = MailNotifications::MAILNOTIFICATIONS_ACTION_CANCEL;
+			}
+
+			$this->_sendChangedLeaveNotification($cancelledObj, $request, $action);
+		}
 
 		return true;
 	}
@@ -1056,7 +1091,11 @@ class LeaveController {
 	public function addHoliday() {
 		$this->_authenticateViewHoliday();
 
-		$this->getObjLeave()->add();
+		$objLeave = $this->getObjLeave();
+
+		$objLeave->add();
+
+		Leave::deleteLeavesForDate($objLeave->getDate());
 	}
 
 	/**
@@ -1068,7 +1107,9 @@ class LeaveController {
 		$this->_authenticateViewHoliday();
 
 		switch ($modifier) {
-			case "specific" : $this->getObjLeave()->edit();
+			case "specific" : $objLeave = $this->getObjLeave();
+							  $this->getObjLeave()->edit();
+							  Leave::deleteLeavesForDate($objLeave->getDate());
 							  break;
 			case "weekend" 	: $this->getObjLeave()->editDay();
 							  break;

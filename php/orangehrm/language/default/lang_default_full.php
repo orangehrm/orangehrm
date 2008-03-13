@@ -567,6 +567,7 @@
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
 
 	$lang_hremp_SelectCurrency				= "Select Currency";
+	$lang_hremp_SelectPayGrade				= "Select Pay Grade";
 
 	$lang_hremp_ContractExtensionId			= "Contract Extension ID";
 	$lang_hremp_ContractStartDate			= "Contract Start Date";

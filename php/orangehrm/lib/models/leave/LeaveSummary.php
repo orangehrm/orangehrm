@@ -97,7 +97,7 @@ class LeaveSummary extends LeaveQuota {
 		$selectFields[4] = "COALESCE(b.`leave_taken`, 0) as leave_taken";
 		$sumOfApproved = "SUM( IF( d.`leave_status` = " . Leave::LEAVE_STATUS_LEAVE_APPROVED . ", ABS(COALESCE(d.`leave_length_days`, 0)), 0) )";
 		$selectFields[5] = "{$sumOfApproved} as leave_scheduled";
-		$selectFields[6] = "COALESCE(b.`no_of_days_allotted`, 0) + COALESCE(b.`leave_brought_forward`, 0) - COALESCE(b.`leave_taken`, 0) as leave_available";
+		$selectFields[6] = "COALESCE(b.`no_of_days_allotted`, 0) + COALESCE(b.`leave_brought_forward`, 0) - COALESCE(b.`leave_taken`, 0) - {$sumOfApproved} as leave_available";
 		$selectFields[7] = "c.`leave_type_id` as leave_type_id";
 		$selectFields[8] = "c.`available_flag` as available_flag";
 
@@ -118,6 +118,8 @@ class LeaveSummary extends LeaveQuota {
 		if ( $searchBy == "leaveType" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "b.`leave_type_id` = '{$leaveTypeId}'";
 		}
+		
+		$selectConditions[]  = "a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000'" ;
 
 		if ($sortField == null) {
 			$sortField = 0;

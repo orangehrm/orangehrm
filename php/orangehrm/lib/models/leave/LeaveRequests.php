@@ -133,9 +133,11 @@ class LeaveRequests extends Leave {
 		$arrTables[0] = "`hs_hr_leave_requests` a";
 		$arrTables[1] = "`hs_hr_employee` b";
 
+                $selectConditions[]  = "b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000'" ;
+
 		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
 
-		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions);
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
 		$dbConnection = new DMLFunctions();
 

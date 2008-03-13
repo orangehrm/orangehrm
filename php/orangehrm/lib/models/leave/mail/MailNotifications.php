@@ -46,6 +46,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_ACTION_REJECT = "reject";
 	const MAILNOTIFICATIONS_ACTION_APPROVE = "approve";
 	const MAILNOTIFICATIONS_ACTION_ASSIGN = "assign";
+	const MAILNOTIFICATIONS_ACTION_SUPERVISOR_CANCEL = "supervisorCancel";
 
 	/**
 	 * Template file name constants
@@ -56,6 +57,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_TEMPLATE_REJECT = "subordinate/rejected.txt";
 	const MAILNOTIFICATIONS_TEMPLATE_APPROVE = "subordinate/approval.txt";
 	const MAILNOTIFICATIONS_TEMPLATE_ASSIGN = "subordinate/assign.txt";
+	const MAILNOTIFICATIONS_TEMPLATE_SUPERVISOR_CANCEL = "subordinate/cancelled.txt";
 
 	/**
 	 * Mail subject templates
@@ -65,6 +67,7 @@ class MailNotifications {
 	const MAILNOTIFICATIONS_TEMPLATE_REJECT_SUBJECT = 'subordinate/rejected-subject.txt';
 	const MAILNOTIFICATIONS_TEMPLATE_APPROVE_SUBJECT = 'subordinate/approval-subject.txt';
 	const MAILNOTIFICATIONS_TEMPLATE_ASSIGN_SUBJECT = 'subordinate/assign-subject.txt';
+	const MAILNOTIFICATIONS_TEMPLATE_SUPERVISOR_CANCEL_SUBJECT = 'subordinate/cancelled-subject.txt';
 
 	/**
 	 * Template variable identifier constants
@@ -176,6 +179,7 @@ class MailNotifications {
 			}
 			return $this->_sendMail();
 		} else if (isset($this->leaveObjs)) {
+			$this->_refreshLeaves();
 			return $this->_sendMail();
 		}
 		return false;
@@ -245,6 +249,8 @@ class MailNotifications {
 		switch ($this->getAction()) {
 			case self::MAILNOTIFICATIONS_ACTION_APPLY : $this->_applyMail();
 														break;
+
+			case self::MAILNOTIFICATIONS_ACTION_SUPERVISOR_CANCEL: // fall through to next case
 			case self::MAILNOTIFICATIONS_ACTION_CANCEL : $this->_cancelMail();
 														break;
 			case self::MAILNOTIFICATIONS_ACTION_APPROVE : $this->_approveMail();
@@ -502,9 +508,14 @@ class MailNotifications {
 	 *
 	 */
 	private function _cancelMail() {
-		$this->notificationTypeId = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_CANCELLED;
 
-		$this->templateFile = file_get_contents(ROOT_PATH."/templates/leave/mails/".self::MAILNOTIFICATIONS_TEMPLATE_CANCEL);
+		$this->notificationTypeId = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_CANCELLED;
+		if ($this->action == self::MAILNOTIFICATIONS_ACTION_SUPERVISOR_CANCEL) {
+			$this->templateFile = file_get_contents(ROOT_PATH."/templates/leave/mails/".self::MAILNOTIFICATIONS_TEMPLATE_SUPERVISOR_CANCEL);
+		} else {
+			$this->templateFile = file_get_contents(ROOT_PATH."/templates/leave/mails/".self::MAILNOTIFICATIONS_TEMPLATE_CANCEL);
+		}
+
 		$txt = $this->templateFile;
 
 		$leaveObjs = $this->getLeaveObjs();
@@ -548,10 +559,15 @@ class MailNotifications {
 
 			$txt = preg_replace('/#'.self::MAILNOTIFICATIONS_VARIABLE_SUBORDINATE.'/', $employeeName, $txt);
 
-			$this->subject = $this->_getMailSubject(self::MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT,
+			if ($this->action == self::MAILNOTIFICATIONS_ACTION_SUPERVISOR_CANCEL) {
+				$subjectTemplate = self::MAILNOTIFICATIONS_TEMPLATE_SUPERVISOR_CANCEL_SUBJECT;
+				$this->to = $this->subordinateMail;
+			} else {
+				$subjectTemplate = self::MAILNOTIFICATIONS_TEMPLATE_CANCEL_SUBJECT;
+				$this->to = $this->supervisorMail;
+			}
+			$this->subject = $this->_getMailSubject($subjectTemplate,
 													$employeeName, $fulldays);
-
-			$this->to = $this->supervisorMail;
 		}
 
 		$this->mail = $txt;
@@ -567,9 +583,21 @@ class MailNotifications {
 
 		$leaveObjs = $leaveObj->retrieveLeave($leaveRequestObj->getLeaveRequestId());
 
-		$leaveObjs = $leaveObjs;
-
 		$this->setLeaveObjs($leaveObjs);
+	}
+
+	/**
+	 * Refresh leave objects from the database, since leave objects extracted from request are
+	 * missing some information like dates and leave lengths.
+	 */
+	private function _refreshLeaves() {
+
+		$leaveObjs = array();
+		foreach ($this->leaveObjs as $leaveObj) {
+			$leave = $leaveObj->retrieveIndividualLeave($leaveObj->getLeaveId());
+			$leaveObjs[] = $leave[0];
+		}
+		$this->leaveObjs = $leaveObjs;
 	}
 
 	/**

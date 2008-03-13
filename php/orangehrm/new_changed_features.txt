@@ -10,6 +10,16 @@ New & Changed Features for OrangeHRM ver 2.2.3-alpha.1
 	2. CSV Import 
 
 	BugId     Name
+		1874111 - Leave approve/deny emails do not have information
+		1874462 - Leave approval emails are sent again, each time the 'Save'
+		1852876 - Admin can assign leave without setting leave quota
+		1858828 - Apply leave 2007 -2008 : Summary inaccurate
+		1882536 - Problem in Time sheet data
+		1896684 - Timesheets are not populated with time events
+		1896689 - Details of timesheet not showing all the time events
+		1899339 - Essuser can view future timesheets ,enter future time events
+		1901201 - Terminated employees' names are shown in leave summary
+		1903690 - Next button in timesheet doesn't jump to the next timesheet
         1856039 - Specific holiday shown for previous year
         1824976 - Approved leave should not show cancelled leave
         1824973 - Leave list shown as 0:00 - 0:00

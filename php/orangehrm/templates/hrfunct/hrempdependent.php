@@ -69,16 +69,16 @@ function editDependent() {
               <tr>
                 <td><?php echo $lang_hremp_name; ?>
                 	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>"></td>
-                <td><input type="text" name="txtDepName" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][2]?>"></td>
+                <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"></td>
                </tr>
               <tr>
                 <td><?php echo $lang_hremp_relationship; ?></td>
-                <td><input name="txtRelShip" type="text" <?php echo $locRights['edit'] ? '':'disabled'?> value="<?php echo $edit[0][3]?>">
+                <td><input name="txtRelShip" type="text" value="<?php echo $edit[0][3]?>">
                </tr>
 
 
 				  <td>
-					<?php	if($locRights['edit']) { ?>
+					<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
 					        <img border="0" title="Save" onClick="editDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 				  </td>
@@ -91,15 +91,15 @@ function editDependent() {
               <tr>
                 <td><?php echo $lang_hremp_name; ?>
                 	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>"></td>
-                <td><input name="txtDepName" <?php echo $locRights['add'] ? '':'disabled'?> type="text">
+                <td><input name="txtDepName" type="text">
                 </tr>
                 <tr>
                 <td><?php echo $lang_hremp_relationship ; ?></td>
-                <td><input type="text" <?php echo $locRights['add'] ? '':'disabled'?> name="txtRelShip"></td>
+                <td><input type="text" name="txtRelShip"></td>
               </tr>
 
 				  <td>
-<?php	if($locRights['add']) { ?>
+<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
         <img border="0" title="Save" onClick="addDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 <?php	} ?>
 				  </td>
@@ -111,10 +111,10 @@ function editDependent() {
 //checking for the records if exsists show the dependents table and the delete btn else hide
 $rset = $this->popArr['empDepAss'];
 if ($rset != null) { ?>
-	<?php if($locRights['add']) { ?>
+	<?php if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
 		<img border="0" title="Add" onClick="showAddPane('Dependents');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 	<?php } ?>
-	<?php	if($locRights['delete']) { ?>
+	<?php	if($locRights['delete'] || ($_GET['reqcode'] === "ESS")) { ?>
         <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 	<?php 	} ?>
 			<table width="275" align="center" border="0" class="tabForm">
