@@ -26,6 +26,7 @@ class TemplateMerger {
 	private $templateHeader;
 	private $templateFooter;
 	private $obj;
+	private $error;
 
 	public function __construct($obj, $templatePath, $templateHeader='header.php', $templateFooter='footer.php') {
 
@@ -70,22 +71,61 @@ class TemplateMerger {
 		return $this->obj;
 	}
 
+	public function setError($error) {
+		$this->error = $error;
+	}
+
+	public function getError() {
+		return $this->error;
+	}
+
 	public function display($modifier=null) {
 
 		require_once ROOT_PATH . '/lib/common/xajax/xajax.inc.php';
 		require_once ROOT_PATH . '/lib/common/xajax/xajaxElementFiller.php';
 		require_once ROOT_PATH . '/language/default/lang_default_full.php';
+                require_once ROOT_PATH . '/plugins/fpdf2/html2pdf.php';
+
+                $printPdf = (isset($_GET['printPdf']) && $_GET['printPdf'] == 1);
+
+                if ($printPdf) {
+                        ob_start();
+                }
 
 		$lan = new Language();
 		require_once($lan->getLangPath("full.php"));
 
 		$records = $this->getObj();
 
+		if (isset($this->error)) {
+		    $errorFlag = true;
+		}
+
 		$styleSheet = CommonFunctions::getTheme();
 
 		require_once ROOT_PATH.$this->getTemplateHeader();
 		require_once ROOT_PATH.$this->getTemplatePath();
 		require_once ROOT_PATH.$this->getTemplateFooter();
+
+                if ($printPdf) {
+                        $html = ob_get_clean();
+
+                        $pdf = new PDF();
+                        $pdf->AddPage();
+                        $pdf->SetFont('Arial', '', 10);
+
+                        if(ini_get('magic_quotes_gpc') == '1')
+                                $html = stripslashes($html);
+
+                        $pdf->WriteHTML($html);
+                        $pdf->Output('doc.pdf', 'F');
+                        //echo "<pre>" . htmlentities($html) . "</pre>";
+
+                        echo "<img onclick=\"history.back();\" src=\"" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif\" onmouseover=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back_02.gif';\" onmouseout=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif';\" title=\"Back\" />";
+
+                        echo "<script>window.open('".$_SESSION['WPATH']."/lib/controllers/doc.pdf');</script>";
+                }
+
 	}
 }
 ?>

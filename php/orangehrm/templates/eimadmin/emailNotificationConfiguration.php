@@ -26,7 +26,9 @@ $editArr = $this->popArr['editArr'];
 $allNotifications = array(	EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_PENDING_APPROVAL => $lang_Admin_ENS_LeaveApplications,
 							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_APPROVED => $lang_Admin_ENS_LeaveApprovals,
 							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_CANCELLED => $lang_Admin_ENS_LeaveCancellations,
-							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_REJECTED => $lang_Admin_ENS_LeaveRejections);
+							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_REJECTED => $lang_Admin_ENS_LeaveRejections,
+
+EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HSP => $lang_Admin_ENS_HspNotifications);
 
 $statusArr = null;
 

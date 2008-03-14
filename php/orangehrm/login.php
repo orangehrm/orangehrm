@@ -38,7 +38,7 @@ $_SESSION['WPATH']= $wpath[0];
 require_once ROOT_PATH . '/lib/models/eimadmin/Login.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
-/* LDAP Module Begins */
+/* LDAP Module */
 
 $ldapFile = ROOT_PATH . "/plugins/ldap/LdapLogin.php";
 $_SESSION['ldap'] = "disabled";
@@ -52,7 +52,18 @@ if (file_exists($ldapFile)) {
 	$_SESSION['ldapStatus'] = $ldapStatus;
 }
 
-/* LDAP Module Ends */
+/* LDAP Module */
+
+/* Print Benefits Module */
+
+$benefitsFile = ROOT_PATH . "/plugins/printBenefits/pdfHspSummary.php";
+$_SESSION['printBenefits'] = "disabled";
+
+if (file_exists($benefitsFile)) {
+	$_SESSION['printBenefits'] = "enabled";
+}
+
+/* Print Benefits Module */
 
 if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 
@@ -343,7 +354,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.2.3-alpha.1 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.3-alpha.1 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
 </tr>
 </table>
 

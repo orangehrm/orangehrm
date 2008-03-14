@@ -1,0 +1,426 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+?>
+
+<?php
+if (isset($errorFlag)) {
+
+	foreach ($records as $error) {
+	    echo "<h5>".$error."</h5>";
+	}
+
+} else { // HSP defined and Employees exist
+    $hspSummary = $records[1];
+    $year = $records[2];
+    if (isset($records[5])) {
+    	$saveSuccess = $records[5];
+    }
+
+    if ($records[0] == "searchHspSummary") {
+        $oneEmployee = true;
+    }
+
+    if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == "Yes") {
+        $adminUser = true;
+    } else {
+        $adminUser = false;
+    }
+?>
+<style>
+@import url("../../themes/<?php echo $styleSheet; ?>/css/suggestions.css");
+</style>
+<script src="../../scripts/autoSuggest.js"></script>
+<script src="../../scripts/suggestions.js"></script>
+<script>
+	function nextPage() {
+		i=document.hspFullSummary.pageNo.value;
+		i++;
+		document.hspFullSummary.pageNo.value=i;
+		document.hspFullSummary.action = "?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>";
+		document.hspFullSummary.submit();
+	}
+	function prevPage() {
+		var i=document.hspFullSummary.pageNo.value;
+		i--;
+		document.hspFullSummary.pageNo.value=i;
+		document.hspFullSummary.action = "?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>";
+		document.hspFullSummary.submit();
+	}
+	function chgPage(pNo) {
+		document.hspFullSummary.pageNo.value=pNo;
+		document.hspFullSummary.action = "?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>";
+		document.hspFullSummary.submit();
+	}
+
+	function markEmpNumber(empName) {
+		empNoField = document.getElementById("hidEmpNo");
+		for(i in employees) {
+			if (employees[i].toLowerCase() == empName.toLowerCase()) {
+				empNoField.value = ids[i];
+				return;
+			} else {
+				empNoField.value = '';
+			}
+		}
+	}
+
+        var employees = new Array();
+        var ids = new Array();
+
+	<?php
+	$employees = $records[6];
+	for ($i=0;$i<count($employees);$i++) {
+		echo "employees[" . $i . "] = \"" . $employees[$i][1]." ". $employees[$i][2] . "\";";
+		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";";
+	}
+	?>
+
+	function edit() {
+		with (document.hspFullSummary) {
+			for (var i=0; i < elements.length; i++) {
+				if ((elements[i].name == 'txtAnnualLimit[]') || (elements[i].name == 'txtEmployerAmount[]') || (elements[i].name == 'txtEmployeeAmount[]') || (elements[i].name == 'txtTotalAccrued[]') || (elements[i].name == 'txtTotalUsed[]')) {
+					elements[i].disabled = '';
+				}
+			}
+		}
+		document.getElementById('btnAdd').style.display = 'none';
+		document.getElementById('btnSave').style.display = 'inline';
+	}
+
+	function save() {
+
+		/*for (var i; i < document.txtAnnualLimit.length; i++) {
+
+		var annualLimit = document.txtAnnualLimit[i].value;
+		var employerAmount = document.txtEmployerAmount[i].value;
+		var employeeAmount = document.txtEmployeeAmount[i].value;
+		var totalAccrued = document.txtTotalAccrued[i].value;
+		var totalUsed = document.txtTotalUsed[i].value;
+
+			if ((!numeric(document.txtAnnualLimit[i].value))||(!numeric(document.txtEmployerAmount[i].value))||(!numeric(document.txtEmployeeAmount[i].value))||(!numeric(document.txtTotalAccrued[i].value))||(!numeric(document.txtTotalUsed[i].value))) {
+				alert('Contains a non numeric field(s)');
+				//elements[i].focus();
+				return false;
+			}
+
+		}*/
+
+		document.hspFullSummary.action = "?benefitcode=Benefits&action=Save_Hsp_Summary&year=<?php echo $year; ?><?php echo (isset($oneEmployee) && $oneEmployee)?"&empId=".$hspSummary[0]->getEmployeeId():""; ?>";
+		document.hspFullSummary.submit();
+	}
+
+	function numeric(txt) {
+		var flag=true;
+		var i,code;
+
+		if(txt.value=="") {
+   			return false;
+		}
+
+		for(i=0;txt.value.length>i;i++) {
+			code=txt.value.charCodeAt(i);
+   			if(code>=48 && code<=57 || code==46) {
+	   			flag=true;
+			} else {
+	   			flag=false;
+	   			break;
+	   		}
+		}
+		return flag;
+	}
+
+    function haltResumeHsp(hspId, empId, hspStatus) {
+    	xmlHTTPObject = null;
+
+	try {
+		xmlHTTPObject = new XMLHttpRequest();
+	} catch (e) {
+		try {
+			xmlHTTPObject = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try {
+				xmlHTTPObject = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e) {
+				alert("Your browser does not support AJAX!");
+			}
+		}
+	}
+
+        xmlHTTPObject.onreadystatechange = function() {
+            if (xmlHTTPObject.readyState == 4){
+
+                if(xmlHTTPObject.responseText.trim().substr(0, 4) == 'done') {
+		   if(xmlHTTPObject.responseText.trim().substr(5) == 'pending') {
+			alert('Halt request sent to HR Admins');
+		   }
+                   if(hspStatus == 1) {
+                        btnLabel = 'Resume';
+                        hspNewStatus = 0;
+                        statusLabel = 'Halted'
+                    } else {
+                        btnLabel = 'Halt';
+                        hspNewStatus = 1;
+                        statusLabel = 'Active'
+                    }
+
+                    with(document.getElementById('btnHspStatus' + hspId)) {
+                        setAttribute("value", btnLabel);
+                        setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspNewStatus + "');");
+                }
+                    document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
+		} else {
+			alert(xmlHTTPObject.responseText);
+		}
+            }
+        }
+
+        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&hspStatus=' + hspStatus, false);
+        xmlHTTPObject.send(null);
+    }
+
+</script>
+<?php if (isset($oneEmployee)) {  ?>
+<h2><?php echo $lang_Benefits_Summary_Employee_Heading." "; echo $hspSummary[0]->getEmployeeName(); ?> - <?php echo $year; ?></h2>
+<?php } else { ?>
+<h2><?php echo $lang_Benefits_Summary_Heading; ?> - <?php echo $year; ?></h2>
+<?php } ?>
+<br />
+
+<!-- Save success message begins -->
+<?php
+
+if (isset($saveSuccess) && $saveSuccess) {
+	echo "<font color=\"#009900\"><b>".$lang_Benefits_Summary_Saved_Successfully."</b></font><br>";
+} elseif (isset($saveSuccess) && !$saveSuccess) {
+	echo "<font color=\"#FF0066\"><b>".$lang_Benefits_Summary_Could_Not_Save."</b></font><br>";
+}
+
+?>
+<!-- Save success message ends -->
+
+<!-- Search form begins -->
+<form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
+<input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
+<table width="500" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>
+    <?php if ($adminUser) { ?>
+    Employee <input type="text" name="txtEmployeeSearchName" id="txtEmployeeSearch" size="20" onchange="" />
+    <?php } ?>
+    &nbsp;&nbsp;&nbsp;
+    Year
+	<select name="year" id="">
+	<?php
+	$years = $records[7];
+	foreach ($years as $val) {
+	?>
+	<option value="<?php echo $val; ?>" <?php echo ($val==date('Y'))?"selected":""; ?>><?php echo $val; ?></option>
+	<?php } ?>
+	</select>&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="search" id="search" value="Search" />
+    </td>
+    <td width="20">
+	</td>
+    <td>
+    <?php if ($adminUser) { ?>
+ 	<img id="btnAdd" title="Add" onClick="edit();"
+ 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
+ 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
+ 		 src="../../themes/beyondT/pictures/btn_edit.gif"
+ 		 style="display:inline;" />
+ 	<img id="btnSave" title="Save" onClick="save();"
+ 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
+ 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
+ 		 src="../../themes/beyondT/pictures/btn_save.gif"
+ 		 style="display:none;"/>
+ 	<?php } ?>
+    </td>
+  </tr>
+</table>
+</form>
+<script language="javascript">
+	var oTextbox = new AutoSuggestControl(document.getElementById("txtEmployeeSearch"), new StateSuggestions(employees));
+</script>
+<br />
+<!-- Search form ends -->
+
+<!-- Summary form begins -->
+<form name="hspFullSummary" action="" method="post">
+<input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
+<table width="740" border="0" cellspacing="0" cellpadding="0">
+<thead>
+		  	<tr>
+			<th class="tableTopLeft"></th>
+			<?php if (!isset($oneEmployee) || $adminUser) { ?>
+			<th class="tableTopMiddle" width="130"></th>
+			<?php } ?>
+			<th class="tableTopMiddle" width="50"></th>
+		    	<th class="tableTopMiddle" width="70"></th>
+		    	<th class="tableTopMiddle" width="90"></th>
+		    	<th class="tableTopMiddle" width="90"></th>
+		    	<th class="tableTopMiddle" width="90"></th>
+		    	<th class="tableTopMiddle" width="90"></th>
+			<th class="tableTopMiddle" width="90"></th>
+		    	<th class="tableTopMiddle" width="50"></th>
+		    	<th class="tableTopRight"></th>
+			</tr>
+  <tr>
+    <th class="tableMiddleLeft"></th>
+    <th colspan="<?php echo (!isset($oneEmployee) || $adminUser)?"4":"3"; ?>" scope="col">&nbsp;</th>
+    <th colspan="2" align="center" scope="col"><?php echo $lang_Benefits_Summary_Contribution; ?></th>
+    <th colspan="3" scope="col">&nbsp;</th>
+	<th class="tableMiddleRight"></th>
+  </tr>
+  <tr>
+    <th class="tableMiddleLeft"></th>
+    <?php if (!isset($oneEmployee) || $adminUser) {  ?>
+    <th><?php echo $lang_Benefits_Summary_Employee; ?></th>
+    <?php } ?>
+    <th><?php echo $lang_Benefits_Summary_Plan; ?></th>
+    <th><?php echo $lang_Benefits_Summary_Status; ?></th>
+    <th><?php echo $lang_Benefits_Summary_Annual_Limit; ?> <br />($) </th>
+    <th><?php echo $lang_Benefits_Summary_Employer; ?> <br />($) </th>
+    <th><?php echo $lang_Benefits_Summary_Employee; ?> <br />($) </th>
+    <th><?php echo $lang_Benefits_Summary_Total_Accured; ?> <br />($) </th>
+    <th><?php echo $lang_Benefits_Summary_Total_Used; ?> <br />($) </th>
+    <th>&nbsp;</th>
+	<th class="tableMiddleRight"></th>
+  </tr>
+</thead>
+<tbody>
+<?php for ($i=0; $i<count($hspSummary); $i++) { // Displaying summary begins
+
+$rowStyle = 'odd'; // For adding row background color. Refers time.css at /themes/beyondT/css/
+if (($i%2) == 0) {
+	$rowStyle = 'even';
+}
+
+?>
+<!-- This TR is repeated for each summary record -->
+  <tr>
+    <td class="tableMiddleLeft"></td>
+    <?php if (!isset($oneEmployee) || $adminUser) { ?>
+    <td class="<?php echo $rowStyle; ?>"><a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo $hspSummary[$i]->getEmployeeName(); ?></a>
+    <?php } ?>
+    <input type="hidden" name="hidSummaryId[]" id="" value="<?php echo $hspSummary[$i]->getSummaryId(); ?>" />
+    <input type="hidden" name="hidEmployeeId[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeId(); ?>" />
+    </td>
+    <td class="<?php echo $rowStyle; ?>"><?php echo $hspSummary[$i]->getHspPlanName(); ?></td>
+    <td class="<?php echo $rowStyle; ?>"><span id="lblHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo ($hspSummary[$i]->getHspPlanStatus())? "Active" : "Halted"; ?></span></td>
+    <td class="<?php echo $rowStyle; ?>">
+    <?php if ($adminUser) { ?>
+    <input type="text" name="txtAnnualLimit[]" id="" value="<?php echo $hspSummary[$i]->getAnnualLimit(); ?>" size="6" disabled />
+    <?php } else {
+    	echo $hspSummary[$i]->getAnnualLimit();
+    }
+    ?>
+    </td>
+
+    <td class="<?php echo $rowStyle; ?>">
+    <?php
+    if ($hspSummary[$i]->getHspPlanId() == 3) {
+    	echo "NA";
+    } else {
+    ?>
+    <?php if ($adminUser) { ?>
+    <input type="text" name="txtEmployerAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployerAmount(); ?>" size="6" disabled />
+    <?php } else {
+    	echo $hspSummary[$i]->getEmployerAmount();
+    }
+    ?>
+    <?php } ?>
+    </td>
+    <td class="<?php echo $rowStyle; ?>">
+	<?php
+    if ($hspSummary[$i]->getHspPlanId() == 2) {
+    	echo "NA";
+    } else {
+    ?>
+    <?php if ($adminUser) { ?>
+    <input type="text" name="txtEmployeeAmount[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeAmount(); ?>" size="6" disabled />
+    <?php } else {
+    	echo $hspSummary[$i]->getEmployeeAmount();
+    }
+    ?>
+    <?php } ?>
+    </td>
+    <td class="<?php echo $rowStyle; ?>">
+    <?php if ($adminUser) { ?>
+    <input type="text" name="txtTotalAccrued[]" id="" value="<?php echo $hspSummary[$i]->getTotalAccrued(); ?>" size="6" disabled />
+    <?php } else {
+    	echo $hspSummary[$i]->getTotalAccrued();
+    }
+    ?>
+    </td>
+    <td class="<?php echo $rowStyle; ?>">
+    <?php if ($adminUser) { ?>
+    <input type="text" name="txtTotalUsed[]" id="" value="<?php echo $hspSummary[$i]->getTotalUsed(); ?>" size="6" disabled />
+    <?php } else {
+    	echo $hspSummary[$i]->getTotalUsed();
+    }
+    ?>
+    </td>
+    <td>
+    <input type="button" name="btnHspStatus[]" id="btnHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>" value="<?php echo ($hspSummary[$i]->getHspPlanStatus())? "Halt" : "Resume"; ?>" onclick="haltResumeHsp('<?php echo $hspSummary[$i]->getSummaryId(); ?>', '<?php echo $hspSummary[$i]->getEmployeeId(); ?>', '<?php echo $hspSummary[$i]->getHspPlanStatus(); ?>')" style="width: 56px;" />
+    </td>
+   <td class="tableMiddleRight"></td>
+  </tr>
+<?php } // Displaying summary ends ?>
+</tbody>
+		<tfoot>
+		  	<tr>
+				<td class="tableBottomLeft"></td>
+				<?php if (!isset($oneEmployee) || $adminUser) { ?>
+				<td class="tableBottomMiddle"></td>
+				<?php } ?>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomMiddle"></td>
+				<td class="tableBottomRight"></td>
+			</tr>
+	  	</tfoot>
+</table>
+</form>
+<!-- Summary form ends -->
+<table width="750">
+<!-- Paging begins -->
+<tr>
+<td class="paging" height="40">
+<?php
+if (!isset($oneEmployee)) {
+	$commonFunc = new CommonFunctions();
+	$pageStr = $commonFunc->printPageLinks($records[4], $records[3], 50);
+	$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+
+	echo $pageStr;
+}
+?>
+</td>
+</tr>
+<!-- Paging ends -->
+</table>
+
+<?php } // HSP defined and Employees exist ?>

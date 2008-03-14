@@ -22,30 +22,34 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'models_hrfunct_AllTests::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
- 
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
+
+require_once "testConf.php";
+
 require_once 'EmpTaxTest.php';
+require_once 'EmpInfoTest.php';
 
 
- 
 class models_hrfunct_AllTests
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_hrfunct');
-	$suite->addTestSuite('EmpTaxTest');
+        $suite->addTestSuite('EmpTaxTest');
+		$suite->addTestSuite('EmpInfo');
         return $suite;
     }
 }
- 
+
 if (PHPUnit_MAIN_METHOD == 'models_hrfunct_AllTests::main') {
-    models_eimadmin_AllTests::main();
+    models_hrfunct_AllTests::main();
 }
 ?>
+

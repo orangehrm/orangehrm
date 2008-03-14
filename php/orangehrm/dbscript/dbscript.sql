@@ -7,6 +7,12 @@ create table `hs_hr_geninfo` (
 	primary key (`code`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_config` (
+	`key` varchar(100) not null default '',
+	`value` varchar(100) not null default '',
+	primary key (`key`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_compstructtree` (
   `title` tinytext not null,
   `description` text not null,
@@ -717,6 +723,15 @@ create table `hs_hr_employee_workshift` (
   key `emp_number` (`emp_number`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_pay_period` (
+	`id` int not null ,
+	`start_date` date not null ,
+	`end_date` date not null ,
+	`close_date` date not null ,
+	`check_date` date not null ,
+	`timesheet_aproval_due_date` date not null ,
+	primary key (`id`)
+) engine=innodb default charset=utf8;
 
 create table `hs_hr_custom_fields` (
   `field_num` int(11) not null,
@@ -743,6 +758,70 @@ create table `hs_hr_custom_import` (
   `has_heading` tinyint(1) default 0,
   primary key  (`import_id`),
   key `emp_number` (`import_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_allotment` (
+	`id` int not null ,
+	`name` varchar(100) default null ,
+	`description` varchar(250) default null ,
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp` (
+	`id` int not null ,
+	`employee_id` int not null ,
+	`allotment_id` int not null ,
+	`benefit_year` date default null ,
+	`hsp_value` decimal(10,2) not null ,
+	`total_acrued` decimal(10,2) not null ,
+	`accrued_last_updated` date default null ,
+	`amount_per_day` decimal(10,2) not null ,
+	`edited_status` tinyint default 0 ,
+	`termination_date` date default null ,
+	`halted` tinyint default 0 ,
+	`halted_date` date default null ,
+	`terminated` tinyint default 0 ,
+	primary key (`id`),
+	key `employee_id` (`employee_id`),
+	key `allotment_id` (`allotment_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_payment_request` (
+	`id` int not null ,
+	`hsp_id` int not null ,
+	`employee_id` int not null ,
+	`allotment_id` int not null ,
+	`date_incurred` date not null ,
+	`provider_name` varchar(100) default null ,
+	`person_incurring_expense` varchar(100) default null ,
+	`expense_description` varchar(250) default null ,
+	`expense_amount` decimal(10,2) not null ,
+	`payment_made_to` varchar(100) default null ,
+	`third_party_account_number` varchar(50) default null ,
+	`mail_address` varchar(250) default null ,
+	`comments` varchar(250) default null ,
+	`date_paid` date default null ,
+	`check_number` varchar(50) default null ,
+	`status` tinyint default 0 ,
+	`hr_notes` varchar(250) default null ,
+	primary key (`id`),
+	key `employee_id` (`employee_id`),
+	key `allotment_id` (`allotment_id`),
+	key `hsp_id` (`hsp_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_summary` (
+  `summary_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `hsp_plan_id` tinyint(2) NOT NULL,
+  `hsp_plan_year` int(6) NOT NULL,
+  `hsp_plan_status` tinyint(2) NOT NULL default '0',
+  `annual_limit` decimal(10,2) NOT NULL default '0.00',
+  `employer_amount` decimal(10,2) NOT NULL default '0.00',
+  `employee_amount` decimal(10,2) NOT NULL default '0.00',
+  `total_accrued` decimal(10,2) NOT NULL default '0.00',
+  `total_used` decimal(10,2) NOT NULL default '0.00',
+  primary key (`summary_id`)
 ) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree
@@ -1039,6 +1118,13 @@ alter table `hs_hr_time_event`
 alter table `hs_hr_employee_workshift`
   add constraint foreign key (`workshift_id`) references `hs_hr_workshift` (`workshift_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_hsp`
+  add constraint foreign key (`allotment_id`) references `hs_hr_hsp_allotment` (`id`) on delete restrict,
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_hsp_payment_request`
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);
@@ -1534,13 +1620,15 @@ INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.n
 								  ('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),
 								  ('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting'),
 								  ('MOD005', 'Leave', 'Mohanjith', 'mohanjith@beyondm.net', 'VER001', 'Leave Tracking'),
-								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking');
+								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking'),
+								  ('MOD007', 'Benefits', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Benefits Tracking');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
 		('USG001', 'MOD002', '1', '1', '1', '1'),
 		('USG001', 'MOD004', '1', '1', '1', '1'),
 		('USG001', 'MOD005', '1', '1', '1', '1'),
-		('USG001', 'MOD006', '1', '1', '1', '1');
+		('USG001', 'MOD006', '1', '1', '1', '1'),
+		('USG001', 'MOD007', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
 INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e229','Admin','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001');
 
@@ -1579,6 +1667,14 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Mo
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
 
+INSERT INTO `hs_hr_hsp_allotment`
+	(`id`, `name`, `description`)
+	VALUES (1, 'Medical Allotment', 'Medical expense reimbursement');
+
+INSERT INTO `hs_hr_hsp_allotment`
+	(`id`, `name`, `description`)
+	VALUES (2, 'Childcare Allotment', 'Childcare expense reimbursement');
+
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');
@@ -1611,3 +1707,14 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_workshift', 'workshift_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_export', 'export_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_pay_period', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_allotment', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');
+
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_domain_name', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_port', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');

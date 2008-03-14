@@ -1,0 +1,282 @@
+/**
+ * OrangeHRM Enterprise is a closed sourced comprehensive Human Resource Management (HRM)
+ * System that captures all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM Inc is the owner of the patent, copyright, trade secrets, trademarks and any
+ * other intellectual property rights which subsist in the Licensed Materials. OrangeHRM Inc
+ * is the owner of the media / downloaded OrangeHRM Enterprise software files on which the
+ * Licensed Materials are received. Title to the Licensed Materials and media shall remain
+ * vested in OrangeHRM Inc. For the avoidance of doubt title and all intellectual property
+ * rights to any design, new software, new protocol, new interface, enhancement, update,
+ * derivative works, revised screen text or any other items that OrangeHRM Inc creates for
+ * Customer shall remain vested in OrangeHRM Inc. Any rights not expressly granted herein are
+ * reserved to OrangeHRM Inc.
+ *
+ * You should have received a copy of the OrangeHRM Enterprise  proprietary license file along
+ * with this program; if not, write to the OrangeHRM Inc. 538 Teal Plaza, Secaucus , NJ 0709
+ * to get the file.
+ *
+ */
+
+/* CSS Document */
+
+.tableMain
+{
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+
+.tableLogo
+{
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+
+.page {
+	page-break-after: always;
+}
+
+.powered {
+    color: #CCCCCC;
+}
+
+.tableTopLeft {
+	background-image:url(../../themes/beyondT/pictures/table_r1_c1.gif) no-repeat top right;
+	width:12px;
+	height:11px;
+}
+
+.tableTopMiddle {
+	background:url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+
+.tableTopRight {
+	background:url(../pictures/table_r1_c3.gif) no-repeat top left;
+	width:12px;
+	height:11px;
+}
+
+.tableMiddleLeft {
+	background:url(../pictures/table_r2_c1.gif) repeat-y top right;
+	width:12px;
+	height: 4px;
+}
+
+.tableMiddleMiddle {
+	border-bottom: 1px solid #CCCCCC;
+	vertical-align: top;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+td {
+	vertical-align: top;
+}
+
+.tableMiddleRight {
+	background:url(../pictures/table_r2_c3.gif) repeat-y top left;
+	width:13px;
+}
+
+.tableBottomLeft {
+	background:url(../pictures/table_r3_c1.gif) no-repeat bottom right;
+	width:12px;
+	height:15px;
+}
+
+.tableBottomMiddle {
+	background:url(../pictures/table_r3_c2.gif) repeat-x bottom;
+	height: 15px;
+}
+
+.tableBottomRight {
+	background:url(../pictures/table_r3_c3.gif) no-repeat bottom left;
+	width:12px;
+	height:15px;
+}
+
+th {
+	text-align:center;
+	font-size: 11px;
+	vertical-align: top;
+}
+
+.odd {
+    background-color: #FFFFFF;
+}
+
+.even {
+    background-color: #EEEEEE;
+}
+
+.save:active, .save:hover, .save:focus {
+	outline:none;
+	background: url(../pictures/btn_save_02.gif) 3px no-repeat;
+}
+
+.save {
+	outline:none;
+	background: url(../pictures/btn_save.gif) 3px no-repeat;
+}
+
+body {
+	font-family: Helvetica, sans-serif;
+	font-size:11px;
+}
+
+h1 {
+	color: #EA1313;
+	font-family: Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+
+h2 {
+	color: #666666;
+	font-family: Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 0px;
+	margin-top: 30px;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+h3 {
+	font-size:16px;
+}
+h4 {
+	font-size:15px;
+}
+h5 {
+	font-size:14px;
+}
+
+select {
+	font-size: 11px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left: 0px;
+}
+
+input, textarea {
+	font-size: 11px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+hr {
+	border: 1px solid #DDDDDD;
+	height: 1px;
+}
+
+#frmSummary a {
+	padding: 5px;
+	vertical-align: top;
+	height: 25px;
+}
+
+.error {
+	color: #ff0000;
+}
+
+.error, .failure {
+		color: #ff0000;
+}
+
+.warning {
+	color: #E0B662;
+}
+
+.success {
+	color: #005500;
+}
+.warning {
+	color: #005500;
+}
+
+#status {
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+tbody td, tbody th {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+*:not([type=image]):disabled {
+	background-color: #F6F4F1;
+	color: #666562;
+}
+
+input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
+	background-color: #FFFFD9;
+}
+
+*[readonly] {
+	color:#B8B6B0
+}
+
+.formHelp {
+	color: #AFAFAF;
+	font-size: 0.8em;
+}
+
+.calendarBtn {
+	background-image: url(../icons/calendar.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* Styles needed for rounded box (css) */
+.north {
+    background: url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+.east {
+    background: url(../pictures/table_r2_c3.gif) repeat-y right;
+}
+.south {
+    background: url(../pictures/table_r3_c2.gif) repeat-x bottom;
+}
+.west {
+    background: url(../pictures/table_r2_c1.gif) repeat-y left;
+}
+.ne {
+    background: url(../pictures/table_r1_c3.gif) no-repeat top right;
+}
+.se {
+    background: url(../pictures/table_r3_c3.gif) no-repeat bottom right;
+}
+.sw {
+    background: url(../pictures/table_r3_c1.gif) no-repeat bottom left;
+}
+.nw {
+    background: url(../pictures/table_r1_c1.gif) no-repeat top left;
+}
+.roundbox_content {
+    padding:15px;
+}
+
+#loadingMessage {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1px 5px 1px 5px;
+	background-color: #CC4444;
+	color: #FFFFFF;
+	font-size: 10px;
+}
+
+.inputFormatHint {
+	color: #D2D2D2
+}
+
+.branding {
+	position: relative;
+	right: 20px;
+}
+

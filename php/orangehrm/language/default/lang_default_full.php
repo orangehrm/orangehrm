@@ -345,6 +345,7 @@
 	$lang_Leave_NoOfDays = "No of Days";
 	$lang_Leave_NoOfHours = "No of Hours";
 	$lang_Leave_Period = "Leave Period";
+	$lang_Leave_Closed = "Closed";
 
 	$lang_Leave_Define_IsDeletedName  	= "Deleted Leave Type exists with the same name.";
 	$lang_Leave_Define_UndeleteLeaveType    = "To re-use deleted leave type instead of creating a new leave type, click:";
@@ -1137,9 +1138,10 @@
 	$lang_Admin_ENS_LeaveApprovals = "Leave Approvals";
 	$lang_Admin_ENS_LeaveCancellations = "Leave Cancellations";
 	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
+	$lang_Admin_ENS_HspNotifications = "HSP Notifications";
 
 	//Users
-	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast five characters long";
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast four characters long";
 	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be atleast four characters long";
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
@@ -1412,6 +1414,7 @@
 	$lang_login_InvalidLogin = "Invalid Login";
 	$lang_login_UserDisabled = "User Disabled";
 	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
+	$lang_login_temporarily_unavailable = "Service Temporarily Unavailable";
 	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
 
 	$lang_Leave_Common_FromTime = "From time";
@@ -1451,4 +1454,8 @@
 	$lang_Time_Errors_INVALID_ID_FAILURE = "Invalid id";
 
 	$lang_Menu_Time_WorkShifts = "Work shifts";
+
+	include 'lang_default_benefits.php';
+
+	$lang_Common_To = "to";
 ?>

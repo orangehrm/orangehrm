@@ -192,8 +192,8 @@
 
         <div class="roundbox">
 
-            <label for="dummy1"><?php echo $lang_bugtracker_FoundInRelease; ?></label><div class="version_label">2.2.3-alpha.1</div></br>
-            <input type="hidden" readonly name="artifact_group_id" value="802058">
+            <label for="dummy1"><?php echo $lang_bugtracker_FoundInRelease; ?></label><div class="version_label">2.3-alpha.1</div></br>
+            <input type="hidden" readonly name="artifact_group_id" value="786061">
 
             <label for="category_id"><span class="error">*</span><?php echo $lang_bugtracker_Category; ?></label>
             <select id="category_id" name="category_id" tabindex="1">

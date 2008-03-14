@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 2.3-alpha.1
+
+		Completed benefits module
+
+New & Changed Features for OrangeHRM ver 2.3-alpha.1 - 2nd Weekly Release
+
+		1. HR Admin records details of a payment
+		2. HR Admin views HSP due payments
+
+New & Changed Features for OrangeHRM ver 2.3-alpha.1 - 1st Weekly Release
+
+		1. Added 'Benefits' module.
+		2. Add pay periods functionlity.
+		3. HSP Request functionality.
+
 New & Changed Features for OrangeHRM ver 2.2.3-alpha.1
 
         1. Features merged from payroll-integration branch:
@@ -6,8 +21,8 @@ New & Changed Features for OrangeHRM ver 2.2.3-alpha.1
           * Custom fields
           * CSV Export
           * User defined CSV export
-	
-	2. CSV Import 
+
+	2. CSV Import
 
 	BugId     Name
 		1874111 - Leave approve/deny emails do not have information
@@ -38,7 +53,7 @@ New & Changed Features for OrangeHRM ver 2.2.2.2
            allows you to view/cancel taken leaves.
 	4. Now leave requests that overlap previous leave requests are not
            allowed.
-	
+
 	BugId     Name
 	1843217   Leave Module: Taken leave incorrect calculation
         1841792   Incorrect number of leave hours when shift changes
@@ -575,7 +590,8 @@ New & Changed Features for OrangeHRM ver 2.1_beta_1 (Opala) (09/03/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1674602   Undefined index Qualifications
+	BugId     Name
+	1674602   Undefined index Qualifications
 	1674707   Memberships are not retrieved
 	1675454   When user cancels leave supervisor gets a notification with
 	1675453   When user applies for leave supervisor gets a notification:
@@ -597,7 +613,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_9 (Ivan) (05/03/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1671396   User without subordinates also has "Assign" leave option
+	BugId     Name
+	1671396   User without subordinates also has "Assign" leave option
 	1671513   Leave approval comments get displaced
 	1650447   Can't Save image on Profile
 	1636575   Leave First Time
@@ -639,7 +656,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_8 (Peter) (28/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1669706   Unable to create user
+	BugId     Name
+	1669706   Unable to create user
 	1669702   Unable to configure mail settings in leave module
 	1670684   PIM->Languages the drop down not translated
 	1670803   Undefined variable: headingInfo
@@ -649,7 +667,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_7 (Potr) (26/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1668779   undefined variable $employeeinformation
+	BugId     Name
+	1668779   undefined variable $employeeinformation
 	1668784   Undefined variable: addempstat
 	1668794   Failed to Delete
 	1668800   Nationality & Race: failed to delete
@@ -666,7 +685,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_6 (Nikolaj) (23/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1649424   menu problem
+	BugId     Name
+	1649424   menu problem
 	1666769   System Check Error with absent MySQL ext
 	1666689   Missing pull down menu
 	1665950   \'x\'; DROP TABLE hs_hr_compstructtree; --\';
@@ -683,7 +703,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_5 (Alex) (13/02/2007)
 
 	Bugs fixed include:
 
-	BugId     Name	1654026   MySQL Error in Employee Leave Summary
+	BugId     Name
+	1654026   MySQL Error in Employee Leave Summary
 	1656548   Unable to login
 	1656000   Security Vulnerabilities
 	1655111   PIM Undefined String offset error
@@ -708,7 +729,8 @@ New & Changed Features for OrangeHRM ver 2.1_alpha_3 (Dima) (24/01/2007)
 
 	2. Usability related bug fixes
 
-	BugID	Name	1619883   Usability - Add consistant borders to edit fields
+	BugID	Name
+	1619883   Usability - Add consistant borders to edit fields
 	1619870   Usability - Cannot identify which section is being edited in Employee Information
 	1619863   Usability - Mark compulsary fields in bug tracker page
 	1619877   Usability - Comment field in "Apply leave" should be multiline

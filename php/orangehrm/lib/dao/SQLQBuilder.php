@@ -1157,6 +1157,7 @@ function getCurrencyAssigned($salgrd) {
 	}
 
 	function simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions, $quoteCorrect=true) {
+
 		if ($quoteCorrect) {
 			$changeValues = $this->quoteCorrect($changeValues);
 		}
@@ -1199,8 +1200,6 @@ function getCurrencyAssigned($salgrd) {
 	}
 
 	function _buildSelect($arrFields) {
-
-		//print_r($arrFields);
 
 		$query = "SELECT ".$this->_buildList($arrFields, " , ");
 
@@ -1254,6 +1253,7 @@ function getCurrencyAssigned($salgrd) {
 		return $query;
 
 	}
+
 
 	/*
 	 *	Trims a string of the glue word used to join array elements.

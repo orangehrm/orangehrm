@@ -7,6 +7,12 @@ create table `hs_hr_geninfo` (
 	primary key (`code`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_config` (
+	`key` varchar(100) not null default '',
+	`value` varchar(100) not null default '',
+	primary key (`key`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_compstructtree` (
   `title` tinytext not null,
   `description` text not null,
@@ -727,6 +733,16 @@ create table `hs_hr_custom_fields` (
   key `emp_number` (`field_num`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_pay_period` (
+	`id` int not null ,
+	`start_date` date not null ,
+	`end_date` date not null ,
+	`close_date` date not null ,
+	`check_date` date not null ,
+	`timesheet_aproval_due_date` date not null ,
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_custom_export` (
   `export_id` int(11) not null,
   `name` varchar(250) not null,
@@ -744,6 +760,71 @@ create table `hs_hr_custom_import` (
   primary key  (`import_id`),
   key `emp_number` (`import_id`)
 ) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_allotment` (
+	`id` int not null ,
+	`name` varchar(100) default null ,
+	`description` varchar(250) default null ,
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp` (
+	`id` int not null ,
+	`employee_id` int not null ,
+	`allotment_id` int not null ,
+	`benefit_year` date default null ,
+	`hsp_value` decimal(10,2) not null ,
+	`total_acrued` decimal(10,2) not null ,
+	`accrued_last_updated` date default null ,
+	`amount_per_day` decimal(10,2) not null ,
+	`edited_status` tinyint default 0 ,
+	`termination_date` date default null ,
+	`halted` tinyint default 0 ,
+	`halted_date` date default null ,
+	`terminated` tinyint default 0 ,
+	primary key (`id`),
+	key `employee_id` (`employee_id`),
+	key `allotment_id` (`allotment_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_payment_request` (
+	`id` int not null ,
+	`hsp_id` int not null ,
+	`employee_id` int not null ,
+	`allotment_id` int not null ,
+	`date_incurred` date not null ,
+	`provider_name` varchar(100) default null ,
+	`person_incurring_expense` varchar(100) default null ,
+	`expense_description` varchar(250) default null ,
+	`expense_amount` decimal(10,2) not null ,
+	`payment_made_to` varchar(100) default null ,
+	`third_party_account_number` varchar(50) default null ,
+	`mail_address` varchar(250) default null ,
+	`comments` varchar(250) default null ,
+	`date_paid` date default null ,
+	`check_number` varchar(50) default null ,
+	`status` tinyint default 0 ,
+	`hr_notes` varchar(250) default null ,
+	primary key (`id`),
+	key `employee_id` (`employee_id`),
+	key `allotment_id` (`allotment_id`),
+	key `hsp_id` (`hsp_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_hsp_summary` (
+  `summary_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `hsp_plan_id` tinyint(2) NOT NULL,
+  `hsp_plan_year` int(6) NOT NULL,
+  `hsp_plan_status` tinyint(2) NOT NULL default '0',
+  `annual_limit` decimal(10,2) NOT NULL default '0.00',
+  `employer_amount` decimal(10,2) NOT NULL default '0.00',
+  `employee_amount` decimal(10,2) NOT NULL default '0.00',
+  `total_accrued` decimal(10,2) NOT NULL default '0.00',
+  `total_used` decimal(10,2) NOT NULL default '0.00',
+  primary key (`summary_id`)
+) engine=innodb default charset=utf8;
+
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
@@ -1039,3 +1120,10 @@ alter table `hs_hr_time_event`
 alter table `hs_hr_employee_workshift`
   add constraint foreign key (`workshift_id`) references `hs_hr_workshift` (`workshift_id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_hsp`
+  add constraint foreign key (`allotment_id`) references `hs_hr_hsp_allotment` (`id`) on delete restrict,
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_hsp_payment_request`
+  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;

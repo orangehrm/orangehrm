@@ -491,13 +491,15 @@ INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.n
 								  ('MOD002','PIM','Koshika','koshika@beyondm.net','VER001','HR Functions'),
 								  ('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting'),
 								  ('MOD005', 'Leave', 'Mohanjith', 'mohanjith@beyondm.net', 'VER001', 'Leave Tracking'),
-								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking');
+								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking'),
+								  ('MOD007', 'Benefits', 'Gayanath', 'gayanath@orangehrm.com', 'VER001', 'Benefits Tracking');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
 		('USG001', 'MOD002', '1', '1', '1', '1'),
 		('USG001', 'MOD004', '1', '1', '1', '1'),
 		('USG001', 'MOD005', '1', '1', '1', '1'),
-		('USG001', 'MOD006', '1', '1', '1', '1');
+		('USG001', 'MOD006', '1', '1', '1', '1'),
+		('USG001', 'MOD007', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
@@ -535,6 +537,22 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Mo
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
 
+INSERT INTO `hs_hr_hsp_allotment`
+	(`id`, `name`, `description`)
+	VALUES (1, 'Medical Allotment', 'Medical expense reimbursement');
+
+INSERT INTO `hs_hr_hsp_allotment`
+	(`id`, `name`, `description`)
+	VALUES (2, 'Childcare Allotment', 'Childcare expense reimbursement');
+
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_domain_name', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_port', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_current_plan', '0');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');
+
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');
@@ -567,3 +585,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_workshift', 'workshift_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_export', 'export_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_pay_period', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_summary', 'summary_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_allotment', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');

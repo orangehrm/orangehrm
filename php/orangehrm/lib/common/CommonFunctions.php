@@ -81,7 +81,7 @@ class CommonFunctions {
 		}
 	}
 
-	public function printPageLinks($recordCount, $currentPage) {
+	public function printPageLinks($recordCount, $currentPage, $recordsPerPage=null) {
 
 		$sysConst = new sysConf();
 		$strpagedump= "" ;
@@ -92,9 +92,15 @@ class CommonFunctions {
 			$recCount = 0;
 		}
 
-		$noPages = (int) ($recCount / $sysConst->itemsPerPage);
+		if (isset($recordsPerPage)) {
+		    $noPages = (int) ($recCount / $recordsPerPage);
+		    $additionalPage = $recCount%$recordsPerPage;
+		} else {
+		    $noPages = (int) ($recCount / $sysConst->itemsPerPage);
+		    $additionalPage = $recCount%$sysConst->itemsPerPage;
+		}
 
-		if($recCount%$sysConst->itemsPerPage)
+		if($additionalPage)
 		   $noPages++;
 
 		if ($noPages > 1) {

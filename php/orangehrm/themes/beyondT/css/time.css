@@ -50,6 +50,7 @@
 
 td {
 	vertical-align: top;
+	padding: 5px;
 }
 
 .tableMiddleRight {
@@ -75,8 +76,10 @@ td {
 }
 
 th {
-	text-align:left;
+	text-align:center;
 	font-size: 11px;
+	padding: 5px;
+	vertical-align: top;
 }
 
 .odd {
@@ -251,4 +254,12 @@ input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
 
 .inputFormatHint {
 	color: #D2D2D2
+}
+
+.paging {
+	text-align: right;
+}
+
+.paging a {
+	color: #000000;
 }

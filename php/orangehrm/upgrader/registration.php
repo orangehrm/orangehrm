@@ -62,7 +62,7 @@ document.frmInstall.btnRegister.disabled = true;
 <div id="content">
 	<h2>Step 7: Registration</h2>
 
-        <p>You have sucessfully upgraded to OrangeHRM 2.2.3-alpha.1, please take a moment to register.</p>
+        <p>You have sucessfully upgraded to OrangeHRM 2.3-alpha.1, please take a moment to register.</p>
         <p>By registering you will be kept Up to Date and receive information on OrangeHRM (releases, updates, etc.).</p>
 
 

@@ -30,6 +30,7 @@ require_once 'authorizeTest.php';
 require_once 'CommonFunctionsTest.php';
 require_once 'LocaleUtilTest.php';
 require_once 'UniqueIDGeneratorTest.php';
+require_once 'ConfigTest.php';
 
 class common_AllTests
 {

@@ -36,13 +36,11 @@ class Conf {
 		$this->dbname	= 'hr_mysql';
 		$this->dbuser	= 'root';
 		$this->dbpass	= 'orangehrm';
-
 		$this->smtphost = 'localhost';
-
-		$this->version = '2.2.3-alpha.1';
-
+		$this->version = '2.3-alpha.1';
 		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
 		$this->logPath =  realpath(dirname(__FILE__).'/../logs/').'/';
+
 	}
 }
 

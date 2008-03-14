@@ -22,6 +22,10 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 function notifyUser($errlevel, $errstr, $errfile='', $errline='', $errcontext=''){
 
+	if (error_reporting() == 0) {
+		return;
+	}
+
 	$errMsg = "\n".$errstr.' in '.$errfile.' on line '.$errline."\n";
 	switch ($errlevel) {
 		case E_USER_WARNING : $type = "Warning";

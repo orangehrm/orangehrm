@@ -1,0 +1,7 @@
+Hi,
+
+You are hereby notified that #employee has halted his/her Health Saving Plan on #haltedDate.
+
+Thanks,
+
+OrangeHRM

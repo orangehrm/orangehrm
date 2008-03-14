@@ -39,6 +39,7 @@ define('MT', 'MOD003');
 define('Report', 'MOD004');
 define('Leave', 'MOD005');
 define('TimeM', 'MOD006');
+define('Benefits', 'MOD007');
 
 $arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 $arrAllRights=array(Admin => $arrRights,
@@ -46,7 +47,8 @@ $arrAllRights=array(Admin => $arrRights,
 					MT => $arrRights,
 					Report => $arrRights,
 					Leave => $arrRights,
-					TimeM => $arrRights);
+					TimeM => $arrRights,
+					Benefits => $arrRights);
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
@@ -96,6 +98,9 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave"))
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
 	$arrRights=$arrAllRights[TimeM];
 
+if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits"))
+	$arrRights=$arrAllRights[Benefits];
+
 
 $_SESSION['localRights']=$arrRights;
 
@@ -127,13 +132,22 @@ if ($authorizeObj->isSupervisor()) {
 
 // Time module default pages
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
-
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
 } else {
 	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
+}
+
+if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
+	$beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
+	$empId = $_SESSION['empID'];
+	$year = date('Y');
+	$personalHspSummary = "lib/controllers/CentralController.php?benefitcode=Benefits&action=Search_Hsp_Summary&empId=$empId&year=$year";
+} else {
+	$beneftisHomePage = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
+	$personalHspSummary = 'lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee_Admin';
 }
 
 if ($authorizeObj->isESS()) {
@@ -198,10 +212,12 @@ require_once($lan->getLangPath("full.php"));
 		new ypSlideOutMenu("menu12", "right", xPosition, yPosition + 132, 146, 120)
 		new ypSlideOutMenu("menu15", "right", xPosition, yPosition + 154, 146, 120)
 		new ypSlideOutMenu("menu17", "right", xPosition, yPosition + 176, 146, 120)
-		new ypSlideOutMenu("menu18", "right", xPosition, yPosition + 198, 146, 120)
+		new ypSlideOutMenu("menu18", "right", xPosition, yPosition + 198, 146, 120)//CVS
 		new ypSlideOutMenu("menu13", "right", xPosition, yPosition, 146, 120)
 		new ypSlideOutMenu("menu14", "right", xPosition, yPosition + 22, 146, 120)
 		new ypSlideOutMenu("menu16", "right", xPosition, yPosition, 146, 120)
+		new ypSlideOutMenu("menu19", "right", xPosition, yPosition, 146, 140)//HSP
+		new ypSlideOutMenu("menu20", "right", xPosition, yPosition + 16, 146, 120)
 
 function swapImgRestore() {
   var i,x,a=document.sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -246,7 +262,7 @@ function preloadAllImages() {
 </style>
 
 </head>
-<body onload="preloadAllImages()">
+<body onLoad="preloadAllImages()">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <form name="indexForm" action="./menu.php?TEST=1111" method="post">
 <input type="hidden" name="tabnumber" value="1">
@@ -389,6 +405,28 @@ function preloadAllImages() {
                       </tr>
                   </table></td>
                   <?php }
+                  if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits") && (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view'])) {
+					?>
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                      <tr height="20">
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=benefits" ><?php echo $lang_Menu_Benefits; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt="Home"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php } else if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                      <tr height="20">
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=benefits"><?php echo $lang_Menu_Benefits; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php }
                   if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep") && $arrAllRights[Report]['view']) {
 					?>
@@ -472,7 +510,7 @@ function preloadAllImages() {
                 <tr>
                   <td class="welcome" width="100%"><?php echo preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes); ?></td>
                   <td class="search" align="right" nowrap="nowrap">
-                  <?php if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser']) {
+                  <?php if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'] != "Yes") {
                   	echo "&nbsp;";
                   } else {
                   ?>
@@ -576,7 +614,7 @@ function preloadAllImages() {
                  		?>
   						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveSupervisor" target="rightMenu"><?php echo $lang_Menu_Leave_ApproveLeave; ?></a></li>
 						<?php }
-							if ($authorizeObj->isAdmin()) {
+						if ($authorizeObj->isAdmin()) {
 						?>
 						<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1" target="rightMenu"><?php echo $lang_Leave_all_emplyee_leaves; ?> </a></li>
 						<!--<li id="approveLeave"><a href="lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveTaken" target="rightMenu"><?php echo $lang_Leave_all_emplyee_taken_leaves; ?> </a></li>-->
@@ -617,6 +655,33 @@ function preloadAllImages() {
 			</TD>
 
 <?php			}
+
+				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits" )) { ?>
+           	<TD width=158>
+	            <ul id="menu">
+	            	<li id="projectInfo">
+					<?php if ($_SESSION['isAdmin'] == "Yes") { ?>
+	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
+					<?php } else { ?>
+						<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
+					<?php } ?>
+	            	</li>
+	            	<li id="projectInfo">
+	            		<?php if ($_SESSION['isAdmin'] == "Yes") { ?>
+	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu20');" onMouseOut="ypSlideOutMenu.hideMenu('menu20');">
+	            			<?php echo $lang_Menu_Benefits_PayrollSchedule; ?>
+	            		</a>
+	            		<?php } else { ?>
+	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year" target="rightMenu">
+	            			<?php echo $lang_Menu_Benefits_PayrollSchedule; ?>
+	            		</a>
+	            		<?php } ?>
+	            	</li>
+	             </ul>
+			</TD>
+
+<?php			}
+
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 		                <TD valign="top" width=158>
 		                    <ul id="menu">
@@ -862,11 +927,10 @@ function preloadAllImages() {
                         	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View" target="rightMenu"><?php echo $lang_Menu_Time_DefineTimesheetPeriod; ?></A>
                         </TD>
 					 </TR>
-                    <?php
+					 <?php
                     	}
                     	if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
                     ?>
-
 					 <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
                         	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View" target="rightMenu"><?php echo $lang_Menu_Time_PrintTimesheets; ?></A>
@@ -962,8 +1026,99 @@ function preloadAllImages() {
                 </DIV>
               </DIV>
               <!-- End SubMenu18 -->
+              <!-- Begin SubMenu19 -->
+              <DIV id=menu19Container>
+                <DIV id=menu19Content>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>
+                    <?php
+				 		if ($authorizeObj->isAdmin()) {
+                 	?>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Define_Health_Savings_Plans" target="rightMenu"><?php echo $lang_Menu_Benefits_Define_Health_savings_plans; ?></A>
+                        </TD>
+					 </TR>
 
-              <!--------------------- End Menu --------------------->
+                      <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo date('Y'); ?>" target="rightMenu"><?php echo $lang_Menu_Benefits_EmployeeHspSummary; ?></A>
+                        </TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=List_Hsp_Due" target="rightMenu"><?php echo $lang_Benefits_HspPaymentsDue; ?></A>
+                        </TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Expenditures_Select_Year_And_Employee" target="rightMenu"><?php echo $lang_Benefits_HspExpenditures; ?></A>
+                        </TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Used_Select_Year&year=<?php echo date('Y'); ?>" target="rightMenu"><?php echo $lang_Benefits_HspUsed; ?></A>
+                        </TD>
+					 </TR>
+					 <?php
+                 		} else if ($authorizeObj->isESS()) {
+					 ?>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo date('Y'); ?>&employeeId=<?php echo $_SESSION['empID']; ?>" target="rightMenu"><?php echo $lang_Benefits_HspExpenditures; ?></A>
+                        </TD>
+					 </TR>
+					 <?php
+                 		}
+                 		if ($authorizeObj->isESS()) {
+                 	?>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Request_Add_View" target="rightMenu"><?php echo $lang_Benefits_HspRequest; ?></A>
+                        </TD>
+					 </TR>
+					 <?php
+                 		}
+                 		if ($authorizeObj->isESS()) {
+                 	?>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu19')" onMouseOut="ypSlideOutMenu.hideMenu('menu19')" onClick="ypSlideOutMenu.hideMenu('menu19')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="<?php echo $personalHspSummary; ?>" target="rightMenu"><?php echo $lang_Menu_Benefits_PersonalHspSummary; ?></A>
+                        </TD>
+					 </TR>
+					 <?php
+                 		}
+                 	?>
+                    </TBODY>
+                  </TABLE>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu19 -->
+
+             <!-- Begin SubMenu20 -->
+              <DIV id=menu20Container>
+                <DIV id=menu20Content>
+                  <TABLE cellSpacing=0 cellPadding=0 width=142 border=0>
+                    <TBODY>
+                    <?php if ($authorizeObj->isAdmin()) {  ?>
+                      <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu20')" onMouseOut="ypSlideOutMenu.hideMenu('menu20')" onClick="ypSlideOutMenu.hideMenu('menu20')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year" target="rightMenu"><?php echo $lang_Benefits_ViewPayrollSchedule; ?></A>
+                        </TD>
+					 </TR>
+					 <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu20')" onMouseOut="ypSlideOutMenu.hideMenu('menu20')" onClick="ypSlideOutMenu.hideMenu('menu20')" vAlign=center align=left width=142 height=17>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?benefitcode=Benefits&action=View_Add_Pay_Period" target="rightMenu"><?php echo $lang_Benefits_AddPayPeriod; ?></A>
+                        </TD>
+					 </TR>
+					 <?php } ?>
+                    </TBODY>
+                  </TABLE>
+                </DIV>
+              </DIV>
+              <!-- End SubMenu20 -->
+
+              <!-- ------------------ End Menu ------------------ -->
             </td>
             <td width="779" valign="top" id="rightMenuHolder">
             <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
@@ -977,7 +1132,12 @@ function preloadAllImages() {
               <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : $defaultAdminView;?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
-<?php			} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
+
+<?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="ldap") && $arrRights['view']) {  ?>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : ''?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+
+
+<?php		} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="bug")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?mtcode=BUG&capturemode=addmode" id="rightMenu" name="rightMenu" width="100%" height="750" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) {  ?>
               <iframe src="./lib/controllers/CentralController.php?repcode=<?php echo isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
@@ -989,6 +1149,8 @@ function preloadAllImages() {
               <iframe src="<?php echo $leaveHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php 		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time")) {  ?>
               <iframe src="<?php echo $timeHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+<?php 		}  elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits")) {  ?>
+              <iframe src="<?php echo $beneftisHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php 		} ?>
 
             </td>
@@ -1001,7 +1163,7 @@ function preloadAllImages() {
 <?php } ?>
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.2.3-alpha.1 &copy; OrangeHRM Inc. 2005 - 2007 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.3-alpha.1 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
 </tr>
 </table>
 <script language="javascript">
