@@ -49,6 +49,7 @@
     <copy todir="${package.dir}">
         <fileset dir="${project.dir}">
             <include name="**"/>
+            <include name="**/*.htaccess"/>
             <include name="build/fix-ids.php"/>
             <include name="build/verify-constraints.sh"/>
             <include name="build/testConf.php"/>
