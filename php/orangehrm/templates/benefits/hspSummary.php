@@ -338,6 +338,7 @@ if (($i%2) == 0) {
     <?php
     if ($hspSummary[$i]->getHspPlanId() == 3) {
     	echo "NA";
+    	echo "<input type=\"hidden\" name=\"txtEmployerAmount[]\" value=\"0\" />";
     } else {
     ?>
     <?php if ($adminUser) { ?>
@@ -352,6 +353,7 @@ if (($i%2) == 0) {
 	<?php
     if ($hspSummary[$i]->getHspPlanId() == 2) {
     	echo "NA";
+    	echo "<input type=\"hidden\" name=\"txtEmployeeAmount[]\" value=\"0\" />";
     } else {
     ?>
     <?php if ($adminUser) { ?>
