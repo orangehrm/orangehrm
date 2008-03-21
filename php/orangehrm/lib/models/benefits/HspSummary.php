@@ -36,12 +36,8 @@ class HspSummary extends Hsp {
 
     public static function fetchHspSummary($year, $page=1, $empId=null) {
 
-		if (Config::getHspAccruedLastUpdated() > "0000-00-00") {
-		    parent::updateAccrued($year); // Update 'total_accrued' for $year
-		}
-		if (Config::getHspUsedLastUpdated() > "0000-00-00") {
-		    parent::updateUsed($year); // Update 'total_used' for $year
-		}
+		parent::updateAccrued($year); // Update 'total_accrued' for $year
+		parent::updateUsed($year); // Update 'total_used' for $year
 
 		$selectTable = parent::DB_TABLE_HSP_SUMMARY;
 		$selectFields[0] = "*";

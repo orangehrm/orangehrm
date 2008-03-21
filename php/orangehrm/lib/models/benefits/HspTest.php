@@ -173,8 +173,8 @@ class HspTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_payment_request`"), mysql_error());
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
 
 		// For employee1
 		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
@@ -220,12 +220,12 @@ class HspTest extends PHPUnit_Framework_TestCase {
 		$result = mysql_query("SELECT `total_used` FROM `hs_hr_hsp_summary` WHERE `summary_id` = 1");
 		$resultArray = mysql_fetch_array($result);
 
-		$this->assertEquals($resultArray[0], 399);
+		$this->assertEquals(399, $resultArray[0]);
 
 		$result = mysql_query("SELECT `total_used` FROM `hs_hr_hsp_summary` WHERE `summary_id` = 2");
 		$resultArray = mysql_fetch_array($result);
 
-		$this->assertEquals($resultArray[0], 163); // should be 163 (122+41)
+		$this->assertEquals(163, $resultArray[0]); // should be 163 (122+41)
 
     }
 
@@ -235,8 +235,8 @@ class HspTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_payment_request`"), mysql_error());
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
 
 		// For employee1
 		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .

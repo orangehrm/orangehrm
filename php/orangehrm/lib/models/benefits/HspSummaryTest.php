@@ -52,7 +52,7 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
-		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '32'"),mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '34'"),mysql_error());
     }
 
     /**
@@ -82,12 +82,12 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
-        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '32'"),mysql_error());
+        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '34'"),mysql_error());
 
         //Add 3 employees to `hs_hr_employee`
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Bauer', 'Jack', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Bond', 'James', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (3, '003', 'Owen', 'David', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Bauer', 'Jack', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Bond', 'James', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (3, '003', 'Owen', 'David', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"),mysql_error());
 
 		$hspSummary = new HspSummary();
 		$hspSummary->saveInitialSummary(date('Y'), 1);
@@ -141,7 +141,7 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
 		// Cleaning the database
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
-        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '32'"),mysql_error());
+        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '34'"),mysql_error());
 
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '8'"),mysql_error());
