@@ -37,12 +37,12 @@ while (true) {
 											  break;
 		case 'View_Edit_Pay_Period'			: BenefitsController::viewEditPayPeriod($_GET['year'], $_GET['id']);
 											  break;
-		case 'Delete_Pay_Period'			: $payPeriods = EXTRACTOR_PayPeriod::parseDeleteData($_POST);
+		case 'Delete_Pay_Period'			: $payPeriods = EXTRACTOR_HspPayPeriod::parseDeleteData($_POST);
 											  BenefitsController::deletePayPeriods($payPeriods, $_GET['year']);
 											  break;
 		case 'Add_Pay_Period'				: $payPeriod = EXTRACTOR_HspPayPeriod::parseAddData($_POST);
 											  BenefitsController::addPayPeriod($payPeriod);
-		case 'Edit_Pay_Period'				: $payPeriod = EXTRACTOR_PayPeriod::parseEditData($_POST);
+		case 'Edit_Pay_Period'				: $payPeriod = EXTRACTOR_HspPayPeriod::parseEditData($_POST);
 											  BenefitsController::editPayPeriod($payPeriod);
 											  break;
 		case 'Hsp_Summary_Select_Year'		: BenefitsController::selectYear('Hsp_Summary');
