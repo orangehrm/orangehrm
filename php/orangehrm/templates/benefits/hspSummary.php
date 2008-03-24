@@ -219,9 +219,9 @@ if (isset($saveSuccess) && $saveSuccess) {
 <!-- Search form begins -->
 <form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
-<table width="500" border="0" cellspacing="0" cellpadding="5">
+<table width="600" border="0" cellspacing="0" cellpadding="5">
   <tr>
-    <td>
+    <td width="410">
     <?php if ($adminUser) { ?>
     Employee <input type="text" name="txtEmployeeSearchName" id="txtEmployeeSearch" size="20" onchange="" />
     <?php } ?>
@@ -239,7 +239,7 @@ if (isset($saveSuccess) && $saveSuccess) {
     </td>
     <td width="20">
 	</td>
-    <td>
+    <td width="170">
     <?php if ($adminUser) { ?>
  	<img id="btnAdd" title="Add" onClick="edit();"
  		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
