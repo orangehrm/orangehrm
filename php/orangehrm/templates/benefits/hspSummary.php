@@ -299,7 +299,7 @@ if (isset($saveSuccess) && $saveSuccess) {
     <th><?php echo $lang_Benefits_Summary_Annual_Limit; ?> <br />($) </th>
     <th><?php echo $lang_Benefits_Summary_Employer; ?> <br />($) </th>
     <th><?php echo $lang_Benefits_Summary_Employee; ?> <br />($) </th>
-    <th><?php echo $lang_Benefits_Summary_Total_Accured; ?> <br />($) </th>
+    <th><?php echo $lang_Benefits_Summary_Total_Accrued; ?> <br />($) </th>
     <th><?php echo $lang_Benefits_Summary_Total_Used; ?> <br />($) </th>
     <th>&nbsp;</th>
 	<th class="tableMiddleRight"></th>

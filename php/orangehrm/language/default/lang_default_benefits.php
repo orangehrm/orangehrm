@@ -187,7 +187,7 @@ $lang_Benefits_Summary_Status = "Status";
 $lang_Benefits_Summary_Annual_Limit = "Annual Limit";
 $lang_Benefits_Summary_Employer = "Employer";
 $lang_Benefits_Summary_Employee = "Employee";
-$lang_Benefits_Summary_Total_Accured = "Total Accured";
+$lang_Benefits_Summary_Total_Accrued = "Total Accrued";
 $lang_Benefits_Summary_Total_Used = "Total Used";
 
 $lang_Benefits_Summary_Saved_Successfully = "Saved successfully";
