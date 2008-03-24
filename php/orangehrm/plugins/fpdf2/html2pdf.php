@@ -7,7 +7,7 @@
 if (!defined('ROOT_PATH'))
 	define('ROOT_PATH', $_SESSION['path']);
 
-define('FPDF_FONTPATH', '/var/www/html/test/fpdf/font/');
+define('FPDF_FONTPATH', ROOT_PATH . '/plugins/fpdf2/font/');
 require ROOT_PATH . '/plugins/fpdf2/fpdf.php';
 require ROOT_PATH . '/plugins/fpdf2/htmlparser.inc';
 
