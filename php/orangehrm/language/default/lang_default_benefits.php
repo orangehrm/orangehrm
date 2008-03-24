@@ -56,6 +56,7 @@ $lang_Benefits_Errors_SAVE_SUCCESS = "The given information saved successfully";
 $lang_Benefits_Errors_SAVE_FAILURE = "Failed to save";
 $lang_Benefits_Errors_SAVE_TERMINATED_FAILURE = "Failed to save - Your HSP account has been terminated";
 $lang_Benefits_Errors_SAVE_LOWBALANCE_FAILURE = "Failed to save - Your HSP acount does not have request amount";
+$lang_Benefits_Errors_SAVE_LIMIT_EXCEED_FAILURE = "Request amout cannot exceed the annual limit";
 $lang_Benefits_Errors_NO_PAY_PERIODS = "No Pay Periods";
 $lang_Benefits_Errors_UNKNOWN_ERROR_FAILURE = "Encountered An Error";
 $lang_Benefits_Errors_DENY_SUCCESS = "Successfully Denied";

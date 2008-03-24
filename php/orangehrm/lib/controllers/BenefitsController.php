@@ -596,6 +596,12 @@ class BenefitsController {
 			$hspRecordArr = array();
 
 			$amount = $hspReqest -> getExpenseAmount();
+			$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+			$amountLimit = $personalHspSummary[0]->getAnnualLimit();
+
+			if ($amount > $amountLimit) {
+				throw new HspPaymentRequestException('Request amount cannot exceed the annual limit', HspPaymentRequestException::EXCEED_LIMIT);
+			}
 
 			$msg = 'SAVE_SUCCESS';
 			$hspReqest->addHspRequest();
@@ -603,14 +609,21 @@ class BenefitsController {
 			$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest);
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
-				case HspPaymentRequestException::INVALID_ROW_COUNT : $msg = 'SAVE_FAILURE';
-													  		 break;
-				case HspPaymentRequestException::HSP_TERMINATED : $msg = 'SAVE_TERMINATED_FAILURE';
-															break;
-				case HspPaymentRequestException::HSP_NOT_ENOUGH_BALANCE_REMAINING : $msg = 'SAVE_LOWBALANCE_FAILURE';
-																					break;
-				default : $msg = 'UNKNOWN_ERROR_FAILURE';
-						  break;
+				case HspPaymentRequestException::INVALID_ROW_COUNT : 
+					$msg = 'SAVE_FAILURE';
+					break;
+				case HspPaymentRequestException::HSP_TERMINATED : 
+					$msg = 'SAVE_TERMINATED_FAILURE';
+					break;
+				case HspPaymentRequestException::HSP_NOT_ENOUGH_BALANCE_REMAINING : 
+					$msg = 'SAVE_LOWBALANCE_FAILURE';
+					break;
+				case HspPaymentRequestException::EXCEED_LIMIT :
+					$msg = 'SAVE_LIMIT_EXCEED_FAILURE';
+					break;
+				default :
+					$msg = 'UNKNOWN_ERROR_FAILURE';
+					 break;
 			}
 		}
 
