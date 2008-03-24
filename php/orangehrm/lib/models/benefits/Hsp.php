@@ -302,11 +302,11 @@ class Hsp {
 	protected static function _twoHspPlansCondition($hspPlanId) {
 
 		if ($hspPlanId == 4) {
-    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` = '1' OR "."`".self::DB_FIELD_HSP_PLAN_ID."` = '3'";
+    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` In ('1', '2')";
     	} elseif ($hspPlanId == 5) {
-    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` = '2' OR "."`".self::DB_FIELD_HSP_PLAN_ID."` = '3'";
+    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` In ('2', '3')";
     	} elseif ($hspPlanId == 6) {
-    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` = '1' OR "."`".self::DB_FIELD_HSP_PLAN_ID."` = '2'";
+    		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` In ('1', '3')";
     	} else {
     		$condition = "`".self::DB_FIELD_HSP_PLAN_ID."` = '".$hspPlanId."'";
     	}
