@@ -45,6 +45,7 @@ class HspMailNotification {
 	const HSP_ESS_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/ess_halts_plan.txt';
 
 	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_EMPLOYEE = 'employee';
+	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_LINK = 'link';
 	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_DATEINQ = 'dateInquired';
 	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_DESC = 'expenseDesc';
 
@@ -55,6 +56,7 @@ class HspMailNotification {
 	const HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_PERSONINQ = 'personInquiring';
 	const HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_AMOUNT = 'amount';
 	const HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_PAIDDATE = 'paidDate';
+	const HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_LINK = 'link';
 
 	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_EMPLOYEE = 'employee';
 	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_HALTED_DATE = 'haltedDate';
@@ -92,7 +94,7 @@ class HspMailNotification {
 	* @param HspPaymentRequest $hspPaymentRequest model/HspPaymentRequest bean
 	* @return boolean $success true if successfuly send or null otherwise
 	**/
-	public function sendHspPaymentRequestNotifications($hspPaymentRequest) {
+	public function sendHspPaymentRequestNotifications($hspPaymentRequest, $link) {
 		$toAddress = null;
 		$subject = null;
 		$msg = null;
@@ -107,7 +109,7 @@ class HspMailNotification {
 		$toAddress = $this -> _getNotificationAddress($emailNotificationTypeId);
 
 		$subject = $this -> _getPaymentRequestSubject($empName);
-		$msg = $this -> _getPaymentRequestMsg($empName);
+		$msg = $this -> _getPaymentRequestMsg($empName, $link);
 
 		$success = $this -> _sendEmail($msg, $subject, $toAddress);
 
@@ -119,7 +121,7 @@ class HspMailNotification {
 	 * @param HspPaymentRequest
 	 * @return boolean true if success
 	 */
-	 public function sendHspPaymentAcceptNotification($hspPaymentRequest) {
+	 public function sendHspPaymentAcceptNotification($hspPaymentRequest, $link) {
 		$toAddress = null;
 		$ccAddress = null;
 		$subject = null;
@@ -152,7 +154,7 @@ class HspMailNotification {
 		$ccAddress = $this -> _getNotificationAddress($emailNotificationTypeId);
 
 		$subject = $this -> _getPaymentAcceptSubject();
-		$msg = $this -> _getPaymentAcceptMsg($empName, $dateInquired, $expenseDescription, $personInquiring, $amount, $paidDate);
+		$msg = $this -> _getPaymentAcceptMsg($empName, $dateInquired, $expenseDescription, $personInquiring, $amount, $paidDate, $link);
 
 		$success = $this -> _sendEmail($msg, $subject, $toAddress, $ccAddress);
 
@@ -410,12 +412,12 @@ class HspMailNotification {
 	* @param string $expenceDescription
 	* @return string $msg body of the email msg
 	*/
-	public function _getPaymentRequestMsg($empName) {
+	public function _getPaymentRequestMsg($empName, $link) {
 		$msgTemp = file_get_contents(ROOT_PATH . self::HSP_PAYMENT_REQUEST_NOTIFICATION_TEMPLATE_MESSAGE);
 
-		$pattern = array('/#'.self::HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_EMPLOYEE.'/');
+		$pattern = array('/#'.self::HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_EMPLOYEE.'/', '/#'.self::HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_LINK.'/');
 
-		$replace = array($empName);
+		$replace = array($empName, $link);
 
 		$msg = preg_replace($pattern, $replace, $msgTemp);
 
@@ -432,7 +434,7 @@ class HspMailNotification {
 	* @param string paidDate
 	* @return string $msg body of the email msg
 	*/
-	public function _getPaymentAcceptMsg($empName, $dateInquired, $expenseDescription, $personInquring, $amount, $paidDate) {
+	public function _getPaymentAcceptMsg($empName, $dateInquired, $expenseDescription, $personInquring, $amount, $paidDate, $link) {
 		$msgTemp = file_get_contents(ROOT_PATH . self::HSP_PAYMENT_ACCEPT_NOTIFICATION_TEMPLATE_MESSAGE);
 
 		$pattern = array('/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_FIRSTNAME.'/',
@@ -441,7 +443,8 @@ class HspMailNotification {
 		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_DESC.'/',
 		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_PERSONINQ.'/',
 		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_AMOUNT.'/',
-		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_PAIDDATE.'/');
+		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_PAIDDATE.'/',
+		  '/#'.self::HSP_PAYMENT_ACCPTE_NOTIFICATION_VARIABLE_LINK.'/');
 
 		$empNameAry = explode(' ', $empName);
 		if(isset($empNameAry) && is_array($empNameAry)) {
@@ -451,7 +454,7 @@ class HspMailNotification {
 		}
 
 		$replace = array($firstName, $dateInquired, $empName, $expenseDescription,
-		$personInquring, $amount, $paidDate);
+		$personInquring, $amount, $paidDate, $link);
 
 		$msg = preg_replace($pattern, $replace, $msgTemp);
 

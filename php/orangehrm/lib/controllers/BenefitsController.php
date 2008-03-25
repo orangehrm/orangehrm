@@ -628,9 +628,15 @@ class BenefitsController {
 			}
 
 			$msg = 'SAVE_SUCCESS';
+
 			$hspReqest->addHspRequest();
+
+			$server = $_SERVER['HTTP_HOST'];
+			$path = str_replace(__FILE__, '', $_SERVER['REQUEST_URI']);
+			$link = 'http://'. $server . $path .'&benefitcode=Benefits&action=View_Edit_Hsp_Request&id=' . $hspReqest->getId();
+
 			$hspMailNotification = new HspMailNotification();
-			$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest);
+			$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest, $link);
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
 				case HspPaymentRequestException::INVALID_ROW_COUNT :
@@ -697,9 +703,14 @@ class BenefitsController {
 			$hspRecordArr = array();
 
 			$amount = $hspReqestTemp -> getExpenseAmount();
-//$log->debug("BC before ter :" . $terminated);
-//$log->debug("BC before hsp :" . $hspValue);
-//$log->debug("BC before total :" . $totalUsed);
+
+			$server = $_SERVER['HTTP_HOST'];
+			$path = str_replace(__FILE__, '', $_SERVER['REQUEST_URI']);
+			$link = 'http://'. $server . $path .'&benefitcode=Benefits&action=View_Edit_Hsp_Request&id=' . $hspReqest->getId();
+
+			//$log->debug("BC before ter :" . $terminated);
+			//$log->debug("BC before hsp :" . $hspValue);
+			//$log->debug("BC before total :" . $totalUsed);
 
 			$msg = 'SAVE_SUCCESS';
 			$hspReqest->payHspRequest();
@@ -708,7 +719,7 @@ class BenefitsController {
 			Hsp::updateUsedPerPayment($year, $hspReqestTemp->getHspId(), $empId, $hspReqest->getExpenseAmount());
 
 			$hspMailNotification = new HspMailNotification();
-			$hspMailNotification -> sendHspPaymentAcceptNotification($hspReqestTemp);
+			$hspMailNotification -> sendHspPaymentAcceptNotification($hspReqestTemp, $link);
 
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
