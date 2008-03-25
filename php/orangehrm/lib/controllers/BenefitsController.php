@@ -17,6 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
+if(! defined('ROOT_PATH'))
+	define('ROOT_PATH', '/var/www/html/orangehrm-2.3');
+
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
@@ -588,16 +591,37 @@ class BenefitsController {
 
 	public static function saveHspRequest($hspReqest) {
 		try {
-			$hspSummary = new HspSummary();
 			$empId = $hspReqest->getEmployeeId();
 			$year = date('Y', strtotime($hspReqest->getDateIncurred()));
-			$allotmentId = $hspReqest->getAllotmentId();
+			$amount = $hspReqest->getExpenseAmount();
+			$hspId = $hspReqest->getHspId();
 
-			$hspRecordArr = array();
+			switch ($hspId) {
+				case 1 : 
+					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+					$amountLimit = $personalHspSummary[0]->getTotalAccrued();
+					break;
+				case 2 :
+					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+					if (count($personalHspSummary) == 2) {
+						$index = ($personalHspSummary[0]->getHspPlanName() == 'HRA') ? 0 : 1;
+					} else {
+						$index = 0;
+					}
+					$amountLimit = $personalHspSummary[$index]->getTotalAccrued();
+					break;
+				case 3 :
+					$reqError = BenefitsController::_validateFSARequest($year);
+					if (is_null($reqError)) {
+						$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+						$index = (count($personalHspSummary) == 2) ? 1 : 0;
 
-			$amount = $hspReqest -> getExpenseAmount();
-			$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
-			$amountLimit = $personalHspSummary[0]->getAnnualLimit();
+						$amountLimit = $personalHspSummary[$index]->getAnnualLimit();
+					}
+					else
+						throw $reqError;
+					break;
+			}
 
 			if ($amount > $amountLimit) {
 				throw new HspPaymentRequestException('Request amount cannot exceed the annual limit', HspPaymentRequestException::EXCEED_LIMIT);
@@ -619,7 +643,13 @@ class BenefitsController {
 					$msg = 'SAVE_LOWBALANCE_FAILURE';
 					break;
 				case HspPaymentRequestException::EXCEED_LIMIT :
-					$msg = 'SAVE_LIMIT_EXCEED_FAILURE';
+					$msg = 'SAVE_REQUEST_LIMIT_EXCEED_FAILURE';
+					break;
+				case HspPaymentRequestException::INVALID_YEAR :
+					$msg = 'SAVE_REQUEST_INVALID_YEAR_FAILURE';
+					break;
+				case HspPaymentRequestException::INVALID_DATE :
+					$msg = 'SAVE_REQUEST_INVALID_DATE_FAILURE';
 					break;
 				default :
 					$msg = 'UNKNOWN_ERROR_FAILURE';
@@ -628,6 +658,20 @@ class BenefitsController {
 		}
 
 		self::redirect($msg, '?benefitcode=Benefits&action=Hsp_Request_Add_View');
+	}
+
+	private static function _validateFSARequest($year) {
+		if ($year == date('Y')) {
+			return null;
+		} elseif ($year + 1 == date('Y')) {
+			if (date('m-d') <= '03-15') {
+				return null;
+			} else {
+				return new HspPaymentRequestException('Requests for the previous year should be made before 15th of March this year', HspPaymentRequestException::INVALID_DATE);
+			}
+		} else {
+			throw new HspPaymentRequestException('Requests are allowed only for this year and the previous year', HspPaymentRequestException::INVALID_YEAR);
+		}
 	}
 
 	public static function payHspRequest($hspReqest) {

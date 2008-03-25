@@ -221,7 +221,7 @@ if (isset($saveSuccess) && $saveSuccess) {
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
 <table width="600" border="0" cellspacing="0" cellpadding="5">
   <tr>
-    <td width="410">
+    <td width="470">
     <?php if ($adminUser) { ?>
     Employee <input type="text" name="txtEmployeeSearchName" id="txtEmployeeSearch" size="20" onchange="" />
     <?php } ?>
@@ -234,12 +234,11 @@ if (isset($saveSuccess) && $saveSuccess) {
 	?>
 	<option value="<?php echo $val; ?>" <?php echo ($val==date('Y'))?"selected":""; ?>><?php echo $val; ?></option>
 	<?php } ?>
-	</select>&nbsp;&nbsp;&nbsp;
-	<input type="submit" name="search" id="search" value="Search" />
+	</select>&nbsp;&nbsp;&nbsp;<input type="submit" name="search" id="search" value="Search" />
     </td>
     <td width="20">
 	</td>
-    <td width="170">
+    <td width="250">
     <?php if ($adminUser) { ?>
  	<img id="btnAdd" title="Add" onClick="edit();"
  		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
@@ -252,6 +251,9 @@ if (isset($saveSuccess) && $saveSuccess) {
  		 src="../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
  	<?php } ?>
+	<?php if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { ?>
+		<a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=All-Employees-HSP-Summary"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
+	<?php } ?>
     </td>
   </tr>
 </table>

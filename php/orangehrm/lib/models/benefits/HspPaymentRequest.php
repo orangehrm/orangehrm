@@ -926,5 +926,8 @@ class HspPaymentRequestException extends Exception {
 	const NO_HSP = 9;
 	const HSP_TERMINATED = 10;
 	const HSP_NOT_ENOUGH_BALANCE_REMAINING = 11;
+	const EXCEED_LIMIT = 12;
+	const INVALID_YEAR = 13;
+	const INVALID_DATE = 14;
 }
 ?>
