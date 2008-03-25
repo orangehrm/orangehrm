@@ -65,7 +65,7 @@ while (true) {
 											      BenefitsController::saveHspSummary($hspArr, $_GET['year']);
 											  }
 											  break;
-		case 'Search_Hsp_Summary'			: if (!isset($_POST['txtEmployeeSearchName']) && isset($_POST['year'])) {
+		case 'Search_Hsp_Summary'			: if ((!isset($_POST['txtEmployeeSearchName']) || empty($_POST['txtEmployeeSearchName'])) && isset($_POST['year'])) {
 		    								  	  BenefitsController::viewHspSummary($_POST['year']);
 											  } elseif (isset($_POST['txtEmployeeSearchName']) && isset($_POST['year'])) {
 											      $empId = EXTRACTOR_HspSummary::parseSearchData($_POST);
