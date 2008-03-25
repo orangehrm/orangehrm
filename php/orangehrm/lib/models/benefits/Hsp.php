@@ -295,6 +295,23 @@ class Hsp {
 
 	}
 
+	public static function updateUsedPerPayment($year, $hspPlanId, $employeeId, $amount) {
+
+	    $updateTable = "`".self::DB_TABLE_HSP_SUMMARY."`";
+	    $updateFields[0] = "`".self::DB_FIELD_TOTAL_USED."`";
+	    $updateValues[0] = "`".self::DB_FIELD_TOTAL_USED."` + ".$amount;
+	    $updateConditions[0] = "`".self::DB_FIELD_HSP_PLAN_YEAR."` = '".$year."'";
+	    $updateConditions[1] = "`".self::DB_FIELD_HSP_PLAN_ID."` = '".$hspPlanId."'";
+	    $updateConditions[2] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '".$employeeId."'";
+
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions, false);
+
+	    $dbConnection = new DMLFunctions();
+	    $dbConnection->executeQuery($query);
+
+	}
+
 	/**
 	 * Used when `hsp_plan_id` can be 4, 5 or 6
 	 */

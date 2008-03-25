@@ -633,13 +633,13 @@ class BenefitsController {
 			$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest);
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
-				case HspPaymentRequestException::INVALID_ROW_COUNT : 
+				case HspPaymentRequestException::INVALID_ROW_COUNT :
 					$msg = 'SAVE_FAILURE';
 					break;
-				case HspPaymentRequestException::HSP_TERMINATED : 
+				case HspPaymentRequestException::HSP_TERMINATED :
 					$msg = 'SAVE_TERMINATED_FAILURE';
 					break;
-				case HspPaymentRequestException::HSP_NOT_ENOUGH_BALANCE_REMAINING : 
+				case HspPaymentRequestException::HSP_NOT_ENOUGH_BALANCE_REMAINING :
 					$msg = 'SAVE_LOWBALANCE_FAILURE';
 					break;
 				case HspPaymentRequestException::EXCEED_LIMIT :
@@ -703,6 +703,9 @@ class BenefitsController {
 
 			$msg = 'SAVE_SUCCESS';
 			$hspReqest->payHspRequest();
+
+			// For updating Total Used in HSP Summary
+			Hsp::updateUsedPerPayment($year, $hspReqestTemp->getHspId(), $empId, $hspReqest->getExpenseAmount());
 
 			$hspMailNotification = new HspMailNotification();
 			$hspMailNotification -> sendHspPaymentAcceptNotification($hspReqestTemp);
