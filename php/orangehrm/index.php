@@ -53,6 +53,7 @@ $arrAllRights=array(Admin => $arrRights,
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/Config.php';
 
 $_SESSION['path'] = ROOT_PATH;
 
@@ -1070,6 +1071,7 @@ function preloadAllImages() {
 					 </TR>
 					 <?php
                  		}
+                 	if (Config::getHspCurrentPlan() > 0) { // Show only when Admin has defined a HSP paln (HSP not defined)
                  		if ($authorizeObj->isESS()) {
                  	?>
 					 <TR>
@@ -1088,6 +1090,7 @@ function preloadAllImages() {
 					 </TR>
 					 <?php
                  		}
+                 	} // HSP not defined ends
                  	?>
                     </TBODY>
                   </TABLE>
