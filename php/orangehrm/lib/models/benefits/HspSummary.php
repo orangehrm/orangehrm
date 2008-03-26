@@ -120,6 +120,69 @@ class HspSummary extends Hsp {
 
 	}
 
+	public static function saveInitialSummaryForOneEmployee($year, $hspPlanId, $empId) {
+
+		switch ($hspPlanId) {
+
+		    case 4:
+		    	$hspPlanId = 1;
+		    	$hspPlanId2 = 3;
+		    	break;
+
+		    case 5:
+		    	$hspPlanId = 2;
+		    	$hspPlanId2 = 3;
+		    	break;
+
+		    case 6:
+		    	$hspPlanId = 1;
+		    	$hspPlanId2 = 2;
+		    	break;
+
+		}
+
+		$insertTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
+
+		$insertFields[0] = "`".parent::DB_FIELD_SUMMARY_ID."`";
+		$insertFields[1] = "`".parent::DB_FIELD_EMPLOYEE_ID."`";
+		$insertFields[2] = "`".parent::DB_FIELD_HSP_PLAN_ID."`";
+		$insertFields[3] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."`";
+		$insertFields[4] = "`".parent::DB_FIELD_HSP_PLAN_STATUS."`";
+		$insertFields[5] = "`".parent::DB_FIELD_ANNUAL_LIMIT."`";
+		$insertFields[6] = "`".parent::DB_FIELD_EMPLOYER_AMOUNT."`";
+		$insertFields[7] = "`".parent::DB_FIELD_EMPLOYEE_AMOUNT."`";
+		$insertFields[8] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+		$insertFields[9] = "`".parent::DB_FIELD_TOTAL_USED."`";
+
+		$insertValues[0] = UniqueIDGenerator::getInstance()->getNextID(parent::DB_TABLE_HSP_SUMMARY, parent::DB_FIELD_SUMMARY_ID);
+		$insertValues[1] = $empId;
+		$insertValues[2] = $hspPlanId;
+		$insertValues[3] = $year;
+		$insertValues[4] = 1;
+		$insertValues[5] = 0;
+		$insertValues[6] = 0;
+		$insertValues[7] = 0;
+		$insertValues[8] = 0;
+		$insertValues[9] = 0;
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
+
+		$dbConnection = new DMLFunctions();
+		$dbConnection->executeQuery($query);
+
+		if (isset($hspPlanId2)) {
+
+		    $insertValues[0] = UniqueIDGenerator::getInstance()->getNextID(parent::DB_TABLE_HSP_SUMMARY, parent::DB_FIELD_SUMMARY_ID);
+		    $insertValues[2] = $hspPlanId2;
+
+		    $query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
+		    $dbConnection->executeQuery($query);
+
+		}
+
+	}
+
 	/**
 	 * This function saves edited HSP data
 	 */

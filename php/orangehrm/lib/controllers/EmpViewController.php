@@ -36,9 +36,9 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpDirectDebit.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/PayPeriod.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
-
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
-
+require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
+require_once ROOT_PATH . '/lib/common/Config.php';
 
 class EmpViewController {
 
@@ -1930,6 +1930,18 @@ class EmpViewController {
 			}
 
 			if($res) {
+
+				// For adding a new record to `hs_hr_hsp_summary` table.
+				$hspPlanId = Config::getHspCurrentPlan();
+
+				if (HspSummary::recordsExist(date('Y'))) {
+				    HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $hspPlanId, $empinfo->getEmpId());
+				} else {
+					HspSummary::saveInitialSummary(date('Y'), $hspPlanId);
+					HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $hspPlanId, $empinfo->getEmpId());
+				}
+
+
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
 
 				$reqcode = $index;
