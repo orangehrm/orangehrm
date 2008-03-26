@@ -18,9 +18,8 @@
  *
  */
 
-?>
+require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
 
-<?php
 if (isset($errorFlag)) {
 
 	foreach ($records as $error) {
@@ -47,8 +46,10 @@ if (isset($errorFlag)) {
 <style>
 @import url("../../themes/<?php echo $styleSheet; ?>/css/suggestions.css");
 </style>
+<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 <script src="../../scripts/autoSuggest.js"></script>
 <script src="../../scripts/suggestions.js"></script>
+<?php } ?>
 <script>
 	function nextPage() {
 		i=document.hspFullSummary.pageNo.value;
@@ -147,7 +148,7 @@ if (isset($errorFlag)) {
 		return flag;
 	}
 
-    function haltResumeHsp(hspId, empId, hspStatus) {
+    function haltResumeHsp(hspId, empId, newHspStatus) {
     	xmlHTTPObject = null;
 
 	try {
@@ -167,32 +168,62 @@ if (isset($errorFlag)) {
         xmlHTTPObject.onreadystatechange = function() {
             if (xmlHTTPObject.readyState == 4){
 
-                if(xmlHTTPObject.responseText.trim().substr(0, 4) == 'done') {
-		   if(xmlHTTPObject.responseText.trim().substr(5) == 'pending') {
-			alert('Halt request sent to HR Admins');
-		   }
-                   if(hspStatus == 1) {
-                        btnLabel = 'Resume';
-                        hspNewStatus = 0;
-                        statusLabel = 'Halted'
-                    } else {
-                        btnLabel = 'Halt';
-                        hspNewStatus = 1;
-                        statusLabel = 'Active'
-                    }
+		completed = (xmlHTTPObject.responseText.trim().substr(0, 4) == 'done');
+		serverMsg = xmlHTTPObject.responseText.trim().substr(5);
 
-                    with(document.getElementById('btnHspStatus' + hspId)) {
-                        setAttribute("value", btnLabel);
-                        setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspNewStatus + "');");
-                }
-                    document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
+                if(completed) {
+		   successMsg = parseInt(xmlHTTPObject.responseText.trim().substr(5));
+
+		   switch (successMsg) {
+			case <?php echo Hsp::HSP_STATUS_HALTED; ?> :
+				statusLabel = 'Halted';
+				buttonLabel = 'Resume';
+				buttonWidth = '56px';
+				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+				break;
+
+			case <?php echo Hsp::HSP_STATUS_ACTIVE; ?> :
+				statusLabel = 'Active';
+				<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+					buttonLabel = 'Halt';
+					buttonWidth = '56px';
+					hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+				<?php } else { ?>
+					buttonLabel = 'Request Halt';
+					buttonWidth = '75px';
+					hspReverseStatus = <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?>;
+				<?php } ?>
+				break;
+
+			case <?php echo Hsp::HSP_STATUS_ESS_HALTED; ?> :
+				statusLabel = 'Halted';
+				buttonLabel = 'Resume';
+				buttonWidth = '56px';
+				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+				break;
+
+			case <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?> :
+				statusLabel = 'Pending Halt';
+				buttonLabel = 'Cancel Halt Request';
+				buttonWidth = '110px';
+				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+				break;
+
+		   }
+                   with(document.getElementById('btnHspStatus' + hspId)) {
+                        setAttribute("value", buttonLabel);
+			setAttribute("style", "width: " + buttonWidth);
+                        setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
+                   }
+
+                   document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
 		} else {
-			alert(xmlHTTPObject.responseText);
+			alert('Error: ' + serverMsg);
 		}
             }
         }
 
-        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&hspStatus=' + hspStatus, false);
+        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, false);
         xmlHTTPObject.send(null);
     }
 
@@ -258,9 +289,11 @@ if (isset($saveSuccess) && $saveSuccess) {
   </tr>
 </table>
 </form>
+<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 <script language="javascript">
 	var oTextbox = new AutoSuggestControl(document.getElementById("txtEmployeeSearch"), new StateSuggestions(employees));
 </script>
+<?php } ?>
 <br />
 <!-- Search form ends -->
 
@@ -326,7 +359,7 @@ if (($i%2) == 0) {
     <input type="hidden" name="hidEmployeeId[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeId(); ?>" />
     </td>
     <td class="<?php echo $rowStyle; ?>"><?php echo $hspSummary[$i]->getHspPlanName(); ?></td>
-    <td class="<?php echo $rowStyle; ?>"><span id="lblHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo ($hspSummary[$i]->getHspPlanStatus())? "Active" : "Halted"; ?></span></td>
+    <td class="<?php echo $rowStyle; ?>"><span id="lblHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo $hspSummary[$i]->getHspPlanStatusName(); ?></span></td>
     <td class="<?php echo $rowStyle; ?>">
     <?php if ($adminUser) { ?>
     <input type="text" name="txtAnnualLimit[]" id="" value="<?php echo $hspSummary[$i]->getAnnualLimit(); ?>" size="6" disabled />
@@ -383,7 +416,67 @@ if (($i%2) == 0) {
     ?>
     </td>
     <td>
-    <input type="button" name="btnHspStatus[]" id="btnHspStatus<?php echo $hspSummary[$i]->getSummaryId(); ?>" value="<?php echo ($hspSummary[$i]->getHspPlanStatus())? "Halt" : "Resume"; ?>" onclick="haltResumeHsp('<?php echo $hspSummary[$i]->getSummaryId(); ?>', '<?php echo $hspSummary[$i]->getEmployeeId(); ?>', '<?php echo $hspSummary[$i]->getHspPlanStatus(); ?>')" style="width: 56px;" />
+    <?php
+	$summaryId = $hspSummary[$i]->getSummaryId();
+	$statusId  = $hspSummary[$i]->getHspPlanStatus();
+	$empId	   = $hspSummary[$i]->getEmployeeId();
+
+	$buttonDisabled = '';
+	$buttonWidth = '56px';
+
+	switch ($statusId) {
+
+		case Hsp::HSP_STATUS_HALTED :
+			if ($_SESSION['isAdmin'] == 'Yes') {
+				$buttonLabel = 'Resume';
+				$newStatusId = Hsp::HSP_STATUS_ACTIVE;
+			} else {
+				$buttonLabel = 'Resume';
+				$buttonDisabled = 'disabled';
+				$newStatusId = '';
+			}
+
+			break;
+
+		case Hsp::HSP_STATUS_ACTIVE :
+			if ($_SESSION['isAdmin'] == 'Yes') {
+				$buttonLabel = 'Halt';
+				$newStatusId = Hsp::HSP_STATUS_ESS_HALTED;
+			} else {
+				$buttonLabel = 'Request Halt';
+				$buttonWidth = '75px';
+				$newStatusId = Hsp::HSP_STATUS_PENDING_HALT;
+			}
+
+			break;
+
+		case Hsp::HSP_STATUS_ESS_HALTED :
+			$buttonLabel = 'Resume';
+			$newStatusId = Hsp::HSP_STATUS_ACTIVE;
+
+			break;
+
+		case Hsp::HSP_STATUS_PENDING_HALT :
+			if ($_SESSION['isAdmin'] == 'Yes') {
+				$buttonLabel = 'Halt';
+				$newStatusId = Hsp::HSP_STATUS_ESS_HALTED;
+			} else {
+				$buttonLabel = 'Cancel Halt Request';
+				$buttonWidth = '110px';
+				$newStatusId = Hsp::HSP_STATUS_ACTIVE;
+			}
+
+			break;
+
+		default :
+			break;
+
+	}
+
+	$onclickFunction = "haltResumeHsp('$summaryId', '$empId', '$newStatusId')";
+
+    ?>
+    <input type="button" name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
     </td>
    <td class="tableMiddleRight"></td>
   </tr>

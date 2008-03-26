@@ -28,34 +28,38 @@ if (!defined('ROOT_PATH'))
 require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
 require_once ROOT_PATH . '/lib/models/benefits/mail/HspMailNotification.php';
 
-
 try {
 	$hspSummaryId 	= $_GET['hspSummaryId'];
-	$hspStatus    	= $_GET['hspStatus'];
+	$newHspStatus   = $_GET['newHspStatus'];
 	$empId		= $_GET['empId'];
 
 	$hsp = new Hsp();
 	$hsp->setEmployeeId($empId);
 	$hsp->setSummaryId($hspSummaryId);
-	$hsp->setHspPlanStatus($hspStatus);
+	$hsp->setHspPlanStatus($newHspStatus);
 
 	$hspMailNotification = new HspMailNotification();
-	if ($_SESSION['isAdmin'] == 'Yes') {
-	
-		if(Hsp::updateStatus($hspSummaryId, $hspStatus)) {
-			if($hspStatus == '1')
-				$hspMailNotification -> sendHspPlanHaltedByHRAdminNotification($hsp);
-			echo 'done:complete';
-		} else {
-			echo 'fail:while updating the record';
-		}
 
+	if(Hsp::updateStatus($hspSummaryId, $newHspStatus)) {
+		switch ($newHspStatus) {
+			case Hsp::HSP_STATUS_HALTED :
+				$hspMailNotification -> sendHspPlanHaltedByHRAdminNotification($hsp);
+				break;
+			case Hsp::HSP_STATUS_ACTIVE :
+				break;
+			case Hsp::HSP_STATUS_ESS_HALTED :
+				$hspMailNotification -> sendHspPlanHaltedByHRAdminOnRequestNotification($hsp);
+				break;
+			case Hsp::HSP_STATUS_PENDING_HALT :
+				//$hspMailNotification->sendHspPlanHaltRequestedByESSNotification($hsp);
+				break;
+		}
+		echo 'done:'. $newHspStatus;
 	} else {
-		//$hspMailNotification -> sendHspPlanHaltedByESSNotification($hsp);
-		echo 'done:pending';
+		echo 'fail:Error while changing the new HSP status';
 	}
 } catch(Exception $e) {
-	echo 'fail:while sending notification';
+	echo 'fail:Error while performing the requested action';
 }
 
 ?>

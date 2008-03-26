@@ -23,7 +23,12 @@ $year = $records[2];
 $summary = $records[1];
 
 $_SESSION['cellHeight'] = 15;
-$_SESSION['colunmWidths'] = array(20, 25, 28, 28, 28, 28, 28);
+
+if ($_SESSION['isAdmin'] == 'Yes')
+	$_SESSION['colunmWidths'] = array(35, 15, 20, 23, 23, 23, 23, 23);
+else
+	$_SESSION['colunmWidths'] = array(20, 25, 28, 28, 28, 28, 28);
+
 $_SESSION['recordsPerPage'] = 14;
 
 ?>
@@ -46,6 +51,9 @@ $count = count($summary);
 <table border="0" cellpadding="5" cellspacing="0" width="580" align="center" class="tableMain">
 		<thead>
 			<tr>
+			<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+			<th><?php echo $lang_Benefits_Summary_Employee; ?></th>
+			<?php } ?>
 			<th><?php echo $lang_Benefits_Summary_Plan; ?></th>
 		    	<th><?php echo $lang_Benefits_Summary_Status; ?></th>
 		    	<th><?php echo $lang_Benefits_Summary_Annual_Limit . "<br />" . $lang_Benefits_US_Dollars; ?></th>
@@ -62,8 +70,11 @@ $count = count($summary);
 				for ($i=0; $i<$count; $i++) {
 			?>
 				<tr>
+					<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+					<td><?php echo $summary[$i]->getEmployeeName(); ?></td>
+					<?php } ?>
 					<td><?php echo $summary[$i]->getHspPlanName(); ?></td>
-					<td><?php echo ($summary[$i]->getHspPlanStatus() == 1) ? 'Active' : 'Halted'; ?></td>
+					<td><?php echo $summary[$i]->getHspPlanStatusName(); ?></td>
 					<td><?php if ($summary[$i]->getAnnualLimit() > 0) {
 						echo number_format($summary[$i]->getAnnualLimit(), 2, ".", "");
 					 } else {
@@ -94,6 +105,9 @@ $count = count($summary);
 		</tbody>
 		<tfoot>
 		  	<tr>
+				<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+				<td class="tableBottomMiddle"></td>
+				<?php } ?>
 				<td class="tableBottomMiddle"></td>
 				<td class="tableBottomMiddle"></td>
 				<td class="tableBottomMiddle"></td>

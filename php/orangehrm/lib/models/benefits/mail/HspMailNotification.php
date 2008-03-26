@@ -266,11 +266,29 @@ class HspMailNotification {
 		return $success;
 	 }
 
+	 public function sendHspPlanHaltedByHRAdminOnRequestNotification($hsp) {
+	 	$empId = $hsp->getEmployeeId();
+	 	$empName = $this -> _getEmployeeName($empId);
+	 	$toAdd = $this->getEmployeeAddress($empId);
+	 	$haltedDate = date('Y-m-d');
+
+	 	$emailNotificationTypeId = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HSP;
+		$ccAddress = $this -> _getNotificationAddress($emailNotificationTypeId);
+
+		$subject = $this -> _getAdminHaltePlanSubject();
+		$msg = $this -> _getAdminHaltedPlanMsg($empName, $haltedDate);
+
+		$success = $this -> _sendEmail($msg, $subject, $toAdd[0], $ccAddress[0]);
+
+		return $success;
+	}
+
 	 public function sendHspPlanHaltRequestedByESSNotification($hsp) {
 	 	$empId = $hsp -> getEmployeeId();
 	 	$empName = $this -> _getEmployeeName($empId);
 	 	$toCC = $this -> getEmployeeAddress($empId);
 	 	$requestedDate = date('Y-m-d');
+	 	$haltedDate = date('Y-m-d');
 
 	 	$emailNotificationTypeId = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HSP;
 		$toAdd = $this -> _getNotificationAddress($emailNotificationTypeId);

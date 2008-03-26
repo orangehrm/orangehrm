@@ -24,20 +24,25 @@ require_once ROOT_PATH.'/lib/common/Config.php';
 
 class Hsp {
 
-    const DB_TABLE_HSP_SUMMARY = "hs_hr_hsp_summary";
-    const DB_FIELD_SUMMARY_ID = "summary_id";
-    const DB_FIELD_EMPLOYEE_ID = "employee_id";
-    const DB_FIELD_HSP_PLAN_ID = "hsp_plan_id";
-    const DB_FIELD_HSP_PLAN_YEAR = "hsp_plan_year";
-    const DB_FIELD_HSP_PLAN_STATUS = "hsp_plan_status";
-    const DB_FIELD_ANNUAL_LIMIT = "annual_limit";
-    const DB_FIELD_EMPLOYER_AMOUNT = "employer_amount";
-    const DB_FIELD_EMPLOYEE_AMOUNT = "employee_amount";
-    const DB_FIELD_TOTAL_ACCRUED = "total_accrued";
-    const DB_FIELD_TOTAL_USED = "total_used";
+	const DB_TABLE_HSP_SUMMARY 	= "hs_hr_hsp_summary";
+	const DB_FIELD_SUMMARY_ID 	= "summary_id";
+	const DB_FIELD_EMPLOYEE_ID 	= "employee_id";
+	const DB_FIELD_HSP_PLAN_ID 	= "hsp_plan_id";
+	const DB_FIELD_HSP_PLAN_YEAR 	= "hsp_plan_year";
+	const DB_FIELD_HSP_PLAN_STATUS 	= "hsp_plan_status";
+	const DB_FIELD_ANNUAL_LIMIT 	= "annual_limit";
+	const DB_FIELD_EMPLOYER_AMOUNT 	= "employer_amount";
+	const DB_FIELD_EMPLOYEE_AMOUNT 	= "employee_amount";
+	const DB_FIELD_TOTAL_ACCRUED 	= "total_accrued";
+	const DB_FIELD_TOTAL_USED 	= "total_used";
 
-    private $summaryId;
-    private	$employeeId;
+	const HSP_STATUS_HALTED 	= 0;
+	const HSP_STATUS_ACTIVE 	= 1;
+	const HSP_STATUS_ESS_HALTED   	= 2;
+	const HSP_STATUS_PENDING_HALT 	= 3;
+
+	private $summaryId;
+	private	$employeeId;
 	private	$hspPlanId;
 	private $hspPlanName;
 	private $employeeName;
@@ -145,6 +150,32 @@ class Hsp {
 	    return $this->totalUsed;
 	}
 
+	public function getHspPlanStatusName() {
+
+		switch ($this->hspPlanStatus) {
+
+			case self::HSP_STATUS_HALTED :
+				$statusName = 'Halted';
+				break;
+			case self::HSP_STATUS_ACTIVE :
+				$statusName = 'Active';
+				break;
+			case self::HSP_STATUS_ESS_HALTED :
+				$statusName = 'Halted';
+				break;
+			case self::HSP_STATUS_PENDING_HALT :
+				$statusName = 'Pending Halt';
+				break;
+			default :
+				$statusName = null;
+				break;
+
+		}
+
+		return $statusName;
+
+	}
+
 	/**
 	 * This function updates 'total_accrued' field in 'hs_hr_hsp_summary'.
 	 * It first calls 'hsp_accrued_last_updated' field from 'hs_hr_config' table.
@@ -183,7 +214,7 @@ class Hsp {
 				for ($i=0; $i<$rowCount; $i++) {
 
 					$row = $dbConnection->dbObject->getArray($result);
-					if ($row[1] == 1) {
+					if ($row[1] == Hsp::HSP_STATUS_ACTIVE || $row[1] == Hsp::HSP_STATUS_PENDING_HALT) {
 					    $updatedArray[$i][0] = $row[0];
 					    $updatedArray[$i][1] = $row[4]+($checkDates*($row[2]+$row[3]));
 					} else {
@@ -219,12 +250,9 @@ class Hsp {
 	 * based on current HSP status
 	 */
 
-	public static function updateStatus($hspSummaryId, $hspStatus) {
+	public static function updateStatus($hspSummaryId, $newHspStatus) {
 
 	    $dbConnection = new DMLFunctions();
-
-	    $newHspStatus = ($hspStatus == '1') ? 0 : 1;
-
 	    $sqlBuilder = new SQLQBuilder();
 
 	    $updateTable = "`".self::DB_TABLE_HSP_SUMMARY."`";

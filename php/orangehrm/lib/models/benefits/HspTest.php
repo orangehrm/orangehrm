@@ -299,13 +299,13 @@ class HspTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '".(date('Y')-1)."-12-31' WHERE `key` = 'hsp_Used_last_updated'"));
 
 
-		Hsp::updateStatus(1, 1);
+		Hsp::updateStatus(1, 0);
 		$result = mysql_query("SELECT `hsp_plan_status` FROM `hs_hr_hsp_summary` WHERE `summary_id` = 1");
 		$resultArray = mysql_fetch_array($result);
 
 		$this->assertEquals($resultArray[0], 0); // should be 0 (Halted)
 
-		Hsp::updateStatus(1, 0);
+		Hsp::updateStatus(1, 1);
 		$result = mysql_query("SELECT `hsp_plan_status` FROM `hs_hr_hsp_summary` WHERE `summary_id` = 1");
 		$resultArray = mysql_fetch_array($result);
 
