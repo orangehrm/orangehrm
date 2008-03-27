@@ -162,11 +162,6 @@ function saveRequest() {
 			msg += " - <?php echo $lang_Benefits_Common_InvalidDateIncurred; ?>\n"
 		}
 
-		if (0 > $('cmbAllotmentType').value.trim()) {
-			err = true;
-			msg += " - <?php echo $lang_Benefits_Common_InvalidAllotmentType; ?>\n"
-		}
-
 		if ($('txtProviderName').value.trim() == "") {
 			err = true;
 			msg += " - <?php echo $lang_Benefits_Errors_ProviderNameEmpty; ?>\n"

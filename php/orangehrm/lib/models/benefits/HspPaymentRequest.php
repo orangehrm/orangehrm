@@ -278,7 +278,6 @@ class HspPaymentRequest {
 		$arrRecordsList[] = $this->id;
 		$arrRecordsList[] = "'". $this->hspId."'";
 		$arrRecordsList[] = "'". $this->employeeId."'";
-		$arrRecordsList[] = 1;
 		$arrRecordsList[] = "'".$this->dateIncurred."'";
 		$arrRecordsList[] = "'".$this->providerName."'";
 		$arrRecordsList[] = "'". $this->personIncurringExpense."'";

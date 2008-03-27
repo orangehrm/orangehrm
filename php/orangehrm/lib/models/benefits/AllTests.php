@@ -27,7 +27,6 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'HspPayPeriodTest.php';
-require_once 'HspAllotmentTest.php';
 require_once 'HspTest.php';
 require_once 'HspPaymentRequestTest.php';
 require_once 'HspSummaryTest.php';
@@ -45,7 +44,6 @@ class models_benefits_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_benefits');
         $suite->addTestSuite('HspPayPeriodTest');
-		$suite->addTestSuite('HspAllotmentTest');
 		$suite->addTestSuite('HspTest');
 		$suite->addTestSuite('HspSummaryTest');
 		$suite->addTestSuite('HspPaymentRequestTest');

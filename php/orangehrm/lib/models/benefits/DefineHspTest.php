@@ -1,5 +1,5 @@
 <?php
-// Call HspAllotmentTest::main() if this source file is executed directly.
+// Call DefineHspTest::main() if this source file is executed directly.
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'DefineHspTest::main');
 }

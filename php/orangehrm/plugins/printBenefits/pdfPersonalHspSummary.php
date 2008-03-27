@@ -63,7 +63,7 @@ $count = count($summary);
 				for ($i=0; $i<count($summary); $i++) {
 			?>
 				<tr>
-					<td><?php echo $summary[$i]['allotment_name']; ?></td>
+					<td></td>
 					<td><?php if ($summary[$i]['hsp_value'] > 0) {
 						echo number_format($summary[$i]['hsp_value'], 2, ".", "");
 					} else {

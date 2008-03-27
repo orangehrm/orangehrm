@@ -95,7 +95,6 @@ $lang_Benefits_US_Dollars = "(US$)";
 $lang_Benefits_Error_HspValueCannotBeEmpty = "HSP value cannot be empty";
 
 $lang_Benefits_HspRequestForm = "Health Savings Plan Request Form";
-$lang_Benefits_TypeOfAllotment = "Type of allotment";
 $lang_Benefits_Plan = "Plan";
 $lang_Benefits_DateIncurred = "Date Incurred";
 $lang_Benefits_ProviderName = "Provider Name";
@@ -118,9 +117,7 @@ $lang_Benefits_HspRequestFormNote[1] = "<u>HR note</u>: Clicking the Save button
 									   "request as paid throughout OrangeHRM. Please ensure that " .
 									   "all fields are properly entered.";
 
-$lang_Benefits_NoAllotmentType = "No Allotment Types";
 $lang_Benefits_Common_InvalidDateIncurred = "Invalid Date Incurred";
-$lang_Benefits_Common_InvalidAllotmentType = "Invalid Allotment Type";
 
 $lang_Benefits_Errors_ProviderNameEmpty = "Provider Name Empty";
 $lang_Benefits_Errors_PersonIncurringExpenseAmountEmpty = "Person Incurring Expense Empty";

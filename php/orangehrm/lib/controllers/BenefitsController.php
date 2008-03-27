@@ -25,7 +25,6 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 require_once ROOT_PATH . '/lib/models/benefits/HspPayPeriod.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
-require_once ROOT_PATH . '/lib/models/benefits/HspAllotment.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/benefits/mail/HspMailNotification.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspPaymentRequest.php';
@@ -470,8 +469,6 @@ class BenefitsController {
 
 		$hspSummary = new HspSummary();
 		$empId = $hsp -> getEmployeeId();
-		$allotmentId = $hsp -> getAllotmentId();
-		//$hspRecordArr = $hspSummary -> fetchEmployeeHspSummary($year, null, null, $empId, $allotmentId);
 
 		$totalUsed = $hspRecordArr[0]['total_used'];
 		$totalAccrued = $hspRecordArr[0]['total_acrued'];
@@ -553,7 +550,6 @@ class BenefitsController {
 
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
-		$allotments = HspAllotment::fetchHspAllotments();
 
 		$path = "/templates/benefits/editHspPaymentRequest.php";
 		$header = "requestHeader.php";
@@ -574,7 +570,7 @@ class BenefitsController {
 			$plans = $planName;
 
 		$tmpOb[0]=$year;
-		$tmpOb[1]=$allotments;
+		$tmpOb[1]=null;
 		$tmpOb[2]=0;
 		$tmpOb[3]=null;
 		$tmpOb[4]=$authorizeObj;
@@ -698,7 +694,6 @@ class BenefitsController {
 			$hspSummary = new HspSummary();
 			$empId = $hspReqestTemp->getEmployeeId();
 			$year = date('Y', strtotime($hspReqestTemp->getDateIncurred()));
-			$allotmentId = $hspReqestTemp->getAllotmentId();
 			$hspReqestTemp->setDatePaid($hspReqest->getDatePaid());
 			$hspRecordArr = array();
 
@@ -863,7 +858,6 @@ class BenefitsController {
 		$year = date('Y');
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
-		$allotments = HspAllotment::fetchHspAllotments();
 
 		$path = "/templates/benefits/editHspPaymentRequest.php";
 
@@ -875,7 +869,7 @@ class BenefitsController {
                 $planName = DefineHsp::getHspPlanName($planId);
 
 		$tmpOb[0]=$year;
-		$tmpOb[1]=$allotments;
+		$tmpOb[1]=null;
 		if ($edit) {
 			$tmpOb[2]=1;
 		} else {

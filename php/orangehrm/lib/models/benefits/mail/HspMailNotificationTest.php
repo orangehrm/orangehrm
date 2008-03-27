@@ -1,6 +1,6 @@
 <?php
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'HspAllotmentTest::main');
+    define('PHPUnit_MAIN_METHOD', 'HspMailNotificationTest::main');
 }
 
 require_once "PHPUnit/Framework/TestCase.php";

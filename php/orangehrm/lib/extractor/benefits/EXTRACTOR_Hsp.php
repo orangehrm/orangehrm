@@ -33,7 +33,6 @@ class EXTRACTOR_Hsp {
 			if (!empty($postArr['txtHspId'][$i])) {
 				$tmpHsp->setId($postArr['txtHspId'][$i]);
 			}
-			$tmpHsp->setAllotmentId($postArr['txtAllotmentId'][$i]);
 			$tmpHsp->setEmployeeId($postArr['txtEmployeeId'][$i]);
 			$tmpHsp->setHspValue($postArr['txtHspValue'][$i]);
 			$tmpHsp->setEditedStatus($postArr['editedStatus'][$i]);

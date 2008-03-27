@@ -10,7 +10,6 @@ require_once "PHPUnit/Framework/TestSuite.php";
 require_once "testConf.php";
 
 require_once 'HspPaymentRequest.php';
-require_once 'HspAllotment.php';
 
 
 require_once ROOT_PATH."/lib/confs/Conf.php";
@@ -46,7 +45,6 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
         mysql_select_db($conf->dbname);
 
     	$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (11, '011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
-        $this->assertNotNull(mysql_query("INSERT INTO ".HspAllotment::HSP_ALLOTMENT_DB_TABLE." (".HspAllotment::HSP_ALLOTMENT_DB_FIELD_ID.", ".HspAllotment::HSP_ALLOTMENT_DB_FIELD_NAME.", ".HspAllotment::HSP_ALLOTMENT_DB_FIELD_DESCRIPTION.") " .
         							  "VALUES(10, 'Test', 'For testing purposes')"), mysql_error());
         $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`," .
         							  "`termination_date`,`halted`,`halted_date`,`terminated`) " .
@@ -94,7 +92,6 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
     	$this->assertNotNull(mysql_query("TRUNCATE `hs_hr_hsp_payment_request`;", $this->connection), mysql_error());
     	$this->assertNotNull(mysql_query("DELETE FROM `hs_hr_hsp` WHERE `id` = '10'", $this->connection), mysql_error());
-    	$this->assertNotNull(mysql_query("DELETE FROM `".HspAllotment::HSP_ALLOTMENT_DB_TABLE."` WHERE `".HspAllotment::HSP_ALLOTMENT_DB_FIELD_ID."` = '10'", $this->connection), mysql_error());
     	$this->assertNotNull(mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '11'", $this->connection), mysql_error());
 		$this->assertNotNull(mysql_query("DELETE FROM `hs_hr_emp_children` WHERE `emp_number` = '11'", $this->connection), mysql_error());
 		$this->assertNotNull(mysql_query("DELETE FROM 'hs_hr_emp_dependents' `emp_number` = '11'", $this->connection), mysql_error());
@@ -115,19 +112,18 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected[0], $paymentRequest->getId());
 		$this->assertEquals($expected[1], $paymentRequest->getHspId());
 		$this->assertEquals($expected[2], $paymentRequest->getEmployeeId());
-		$this->assertEquals($expected[3], $paymentRequest->getAllotmentId());
-		$this->assertEquals($expected[4], $paymentRequest->getDateIncurred());
-		$this->assertEquals($expected[5], $paymentRequest->getProviderName());
-		$this->assertEquals($expected[6], $paymentRequest->getPersonIncurringExpense());
-		$this->assertEquals($expected[7], $paymentRequest->getExpenseDescription());
-		$this->assertEquals($expected[8], $paymentRequest->getExpenseAmount());
-		$this->assertEquals($expected[9], $paymentRequest->getPaymentMadeTo());
-		$this->assertEquals($expected[10], $paymentRequest->getThirdPartyAccountNumber());
-		$this->assertEquals($expected[11], $paymentRequest->getMailAddress());
-		$this->assertEquals($expected[12], $paymentRequest->getComments());
-		$this->assertEquals($expected[13], $paymentRequest->getDatePaid());
-		$this->assertEquals($expected[14], $paymentRequest->getCheckNumber());
-		$this->assertEquals($expected[15], $paymentRequest->getStatus());
+		$this->assertEquals($expected[3], $paymentRequest->getDateIncurred());
+		$this->assertEquals($expected[4], $paymentRequest->getProviderName());
+		$this->assertEquals($expected[5], $paymentRequest->getPersonIncurringExpense());
+		$this->assertEquals($expected[6], $paymentRequest->getExpenseDescription());
+		$this->assertEquals($expected[7], $paymentRequest->getExpenseAmount());
+		$this->assertEquals($expected[8], $paymentRequest->getPaymentMadeTo());
+		$this->assertEquals($expected[9], $paymentRequest->getThirdPartyAccountNumber());
+		$this->assertEquals($expected[10], $paymentRequest->getMailAddress());
+		$this->assertEquals($expected[11], $paymentRequest->getComments());
+		$this->assertEquals($expected[12], $paymentRequest->getDatePaid());
+		$this->assertEquals($expected[13], $paymentRequest->getCheckNumber());
+		$this->assertEquals($expected[14], $paymentRequest->getStatus());
 
     }
 
@@ -145,19 +141,18 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($expected[$i][0], $paymentRequests[$i]->getId());
 			$this->assertEquals($expected[$i][1], $paymentRequests[$i]->getHspId());
 			$this->assertEquals($expected[$i][2], $paymentRequests[$i]->getEmployeeId());
-			$this->assertEquals($expected[$i][3], $paymentRequests[$i]->getAllotmentId());
-			$this->assertEquals($expected[$i][4], $paymentRequests[$i]->getDateIncurred());
-			$this->assertEquals($expected[$i][5], $paymentRequests[$i]->getProviderName());
-			$this->assertEquals($expected[$i][6], $paymentRequests[$i]->getPersonIncurringExpense());
-			$this->assertEquals($expected[$i][7], $paymentRequests[$i]->getExpenseDescription());
-			$this->assertEquals($expected[$i][8], $paymentRequests[$i]->getExpenseAmount());
-			$this->assertEquals($expected[$i][9], $paymentRequests[$i]->getPaymentMadeTo());
-			$this->assertEquals($expected[$i][10], $paymentRequests[$i]->getThirdPartyAccountNumber());
-			$this->assertEquals($expected[$i][11], $paymentRequests[$i]->getMailAddress());
-			$this->assertEquals($expected[$i][12], $paymentRequests[$i]->getComments());
-			$this->assertEquals($expected[$i][13], $paymentRequests[$i]->getDatePaid());
-			$this->assertEquals($expected[$i][14], $paymentRequests[$i]->getCheckNumber());
-			$this->assertEquals($expected[$i][15], $paymentRequests[$i]->getStatus());
+			$this->assertEquals($expected[$i][3], $paymentRequests[$i]->getDateIncurred());
+			$this->assertEquals($expected[$i][4], $paymentRequests[$i]->getProviderName());
+			$this->assertEquals($expected[$i][5], $paymentRequests[$i]->getPersonIncurringExpense());
+			$this->assertEquals($expected[$i][6], $paymentRequests[$i]->getExpenseDescription());
+			$this->assertEquals($expected[$i][7], $paymentRequests[$i]->getExpenseAmount());
+			$this->assertEquals($expected[$i][8], $paymentRequests[$i]->getPaymentMadeTo());
+			$this->assertEquals($expected[$i][9], $paymentRequests[$i]->getThirdPartyAccountNumber());
+			$this->assertEquals($expected[$i][10], $paymentRequests[$i]->getMailAddress());
+			$this->assertEquals($expected[$i][11], $paymentRequests[$i]->getComments());
+			$this->assertEquals($expected[$i][12], $paymentRequests[$i]->getDatePaid());
+			$this->assertEquals($expected[$i][13], $paymentRequests[$i]->getCheckNumber());
+			$this->assertEquals($expected[$i][14], $paymentRequests[$i]->getStatus());
 		}
 
 		$this->assertTrue(mysql_query("DELETE FROM `hs_hr_hsp_payment_request` WHERE `id` IN (11);", $this->connection), mysql_error());
@@ -186,19 +181,18 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($expected[$i][0], $paymentRequests[$i]->getId());
 			$this->assertEquals($expected[$i][1], $paymentRequests[$i]->getHspId());
 			$this->assertEquals($expected[$i][2], $paymentRequests[$i]->getEmployeeId());
-			$this->assertEquals($expected[$i][3], $paymentRequests[$i]->getAllotmentId());
-			$this->assertEquals($expected[$i][4], $paymentRequests[$i]->getDateIncurred());
-			$this->assertEquals($expected[$i][5], $paymentRequests[$i]->getProviderName());
-			$this->assertEquals($expected[$i][6], $paymentRequests[$i]->getPersonIncurringExpense());
-			$this->assertEquals($expected[$i][7], $paymentRequests[$i]->getExpenseDescription());
-			$this->assertEquals($expected[$i][8], $paymentRequests[$i]->getExpenseAmount());
-			$this->assertEquals($expected[$i][9], $paymentRequests[$i]->getPaymentMadeTo());
-			$this->assertEquals($expected[$i][10], $paymentRequests[$i]->getThirdPartyAccountNumber());
-			$this->assertEquals($expected[$i][11], $paymentRequests[$i]->getMailAddress());
-			$this->assertEquals($expected[$i][12], $paymentRequests[$i]->getComments());
-			$this->assertEquals($expected[$i][13], $paymentRequests[$i]->getDatePaid());
-			$this->assertEquals($expected[$i][14], $paymentRequests[$i]->getCheckNumber());
-			$this->assertEquals($expected[$i][15], $paymentRequests[$i]->getStatus());
+			$this->assertEquals($expected[$i][3], $paymentRequests[$i]->getDateIncurred());
+			$this->assertEquals($expected[$i][4], $paymentRequests[$i]->getProviderName());
+			$this->assertEquals($expected[$i][5], $paymentRequests[$i]->getPersonIncurringExpense());
+			$this->assertEquals($expected[$i][6], $paymentRequests[$i]->getExpenseDescription());
+			$this->assertEquals($expected[$i][7], $paymentRequests[$i]->getExpenseAmount());
+			$this->assertEquals($expected[$i][8], $paymentRequests[$i]->getPaymentMadeTo());
+			$this->assertEquals($expected[$i][9], $paymentRequests[$i]->getThirdPartyAccountNumber());
+			$this->assertEquals($expected[$i][10], $paymentRequests[$i]->getMailAddress());
+			$this->assertEquals($expected[$i][11], $paymentRequests[$i]->getComments());
+			$this->assertEquals($expected[$i][12], $paymentRequests[$i]->getDatePaid());
+			$this->assertEquals($expected[$i][13], $paymentRequests[$i]->getCheckNumber());
+			$this->assertEquals($expected[$i][14], $paymentRequests[$i]->getStatus());
 		}
 
 		$paymentRequests = HspPaymentRequest::listEmployeeHspRequests(date('Y')+1, 11);
@@ -299,7 +293,6 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 
 	    $paymentRequest->setHspId(0);
 	    $paymentRequest->setEmployeeId(1);
-	    $paymentRequest->setAllotmentId(1);
 	    $paymentRequest->setDateIncurred(date('Y-m-d', time()-3600*24));
 	    $paymentRequest->setProviderName('Jack');
 	    $paymentRequest->setPersonIncurringExpense('Bauer');
@@ -356,7 +349,6 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 
      public function testIsDataChangedByAdmin() {
      	$hspPaymentRequest = new HspPaymentRequest();
-     	$hspPaymentRequest->setAllotmentId(10);
      	$hspPaymentRequest->setDateIncurred(date('Y-m-d', time()-3600*24));
      	$hspPaymentRequest->setProviderName('Test provider');
      	$hspPaymentRequest->setPersonIncurringExpense('Tester');
