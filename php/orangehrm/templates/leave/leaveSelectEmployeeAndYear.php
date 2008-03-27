@@ -63,8 +63,14 @@
 		}
 	}
 
-	function view(type) {
-		document.frmSelectEmployee.searchBy.value = type;
+	function view() {
+
+		if(undefined===window.cmbEmpID){
+			document.frmSelectEmployee.searchBy.value = "employee";
+		} else {
+		    document.frmSelectEmployee.searchBy.value = "leaveType";
+		}
+
 	}
 
 	function changeEmployeeSelection() {
@@ -143,7 +149,7 @@
 		 ?>
   	    		</select>
 		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('employee');" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
+    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view();" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
 	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
@@ -182,7 +188,7 @@
 		 ?>
   	    		</select>
 		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view('leaveType');" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
+    	<th width="100px" class="odd"></th>
 		<th class="tableMiddleRight"></th>
 	</tr>
 	<?php } ?>
