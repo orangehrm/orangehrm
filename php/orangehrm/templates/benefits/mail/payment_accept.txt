@@ -1,6 +1,6 @@
 Hi #firstName,
 
-Human Resources have completed your Health Savings Plan request to receive a reimbursement. Please click the below link to view the completed the request:
+Human Resources have completed your Health Savings Plan request to receive a reimbursement. Please click below link to view the completed request:
 
 #link
 
