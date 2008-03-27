@@ -338,6 +338,26 @@ class LeaveQuota {
 	}
 
 	/**
+	 *	Add Default Leave Quota Details For Leave
+	 *	available to the employee.
+	 *
+	 * 	@return  true
+	 * 	@access public
+	 */
+
+	 public function addLeaveQuotaAdmin(){
+
+     	if (!$this->checkRecordExsist()) {
+
+        	if($this->addLeaveQuota($this->getEmployeeId())) return true ;
+            else return false ;
+        }
+
+        return true ;
+	}
+
+
+	/**
 	 *	Retrieves Leave Quota Details of all Leave Quota
 	 *	available to the employee.
 	 *

@@ -26,7 +26,21 @@ function createDB() {
 	mysql_query("CREATE DATABASE " . $_SESSION['dbInfo']['dbName']);
 
 	if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-		$_SESSION['error'] = 'Unable to create Database!';
+		$mysqlErrNo = mysql_errno();
+
+		$errorMsg = mysql_error();
+		if(!isset($errorMsg) || $errorMsg == '') {
+			$errorMsg = 'Unable to create Database.';
+		}
+
+		if (isset($mysqlErrNo)) {
+			if ($mysqlErrNo == '1102') {
+				$errorMsg .= '. Please use valid name for database.';
+			}
+		}
+
+		$_SESSION['error'] = $errorMsg;
+
 		return;
 	}
 

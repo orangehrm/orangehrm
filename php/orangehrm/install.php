@@ -137,7 +137,8 @@ if(isset($_POST['actionResponse']))
 
 
 						} else $error = 'WRONGDBINFO';
-
+							$errorMsg = mysql_error();
+							$mysqlErrNo = mysql_errno();
 						break;
 
 		case 'DEFUSERINFO' :
@@ -175,6 +176,14 @@ if(isset($_POST['actionResponse']))
 
 if (isset($error)) {
 	$_SESSION['error'] = $error;
+}
+
+if (isset($mysqlErrNo)) {
+	$_SESSION['mysqlErrNo'] = $mysqlErrNo;
+}
+
+if (isset($errorMsg)) {
+	$_SESSION['errorMsg'] = $errorMsg;
 }
 
 if (isset($reqAccept)) {

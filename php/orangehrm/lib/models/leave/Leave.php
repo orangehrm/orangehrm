@@ -287,7 +287,6 @@ class Leave {
 		$arrTables[2] = "`hs_hr_employee` c";
 
 		$selectConditions[1] = "a.`leave_request_id` = '".$requestId."'";
-		$selectConditions[2] = "a.`leave_date` >= '".date('Y')."-01-01'";
 
 		$joinConditions[1] = "a.`leave_request_id` = b.`leave_request_id`";
 		$joinConditions[2] = "a.`employee_id` = c.`emp_number`";

@@ -143,13 +143,11 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
         <input type="hidden" name="paymentSTAT" value="">
 <?php
 	$salGrd = $this->popArr['salGrd'];
-
-	if($salGrd === null) {
-		$pleaseSelectJobTitle = preg_replace('/\{(.*)\}/', "<a href='javascript:displayLayer(2)'>$1</a>", $lang_hremp_PleaseSelectJobTitle);
-		echo "<p align='center'><strong>$pleaseSelectJobTitle</strong></p>";
-	}
+//	if($salGrd === null) {
+//		$pleaseSelectJobTitle = preg_replace('/\{(.*)\}/', "<a href='javascript:displayLayer(2)'>$1</a>", $lang_hremp_PleaseSelectJobTitle);
+//		echo "<p align='center'><strong>$lang_hremp_AddPayGrade</strong></p>";
+//	}
 ?>
-	<input type="hidden" name="txtSalGrdId" value="<?php echo $this->popArr['salGrd']?>">
 <?php
 	if(isset($this->popArr['editPaymentArr'])) {
 	 	$edit = $this->popArr['editPaymentArr'];
@@ -160,10 +158,22 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
                       <td><?php echo $lang_hrEmpMain_paygrade?></td>
     				  <td><strong>
     				  <?php $salgradelist = $this->popArr['salgradelist'];
-    				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
-    				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
-    				    		echo $salgradelist[$c][1];
+    				  if(!isset($salgradelist) || !is_array($salgradelist)) {
+    				  	echo $lang_Common_NotApplicable;
+    				  } else {
+    				  	if(isset($salGrd)) {
+    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'>
+    				  		</input><?php
+    				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
+    				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
+    				    			 echo $salgradelist[$c][1];
+    				    		}
+    				  		}
+    				  	}
+    				  }
     				 ?>
+
+
     				  </strong></td>
 					</tr>
 					  <tr>
@@ -239,15 +249,37 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
                       <td><?php echo $lang_hrEmpMain_paygrade; ?></td>
     				  <td><strong>
     				 <?php $salgradelist = $this->popArr['salgradelist'];
-    				    for($c=0; $salgradelist && count($salgradelist) > $c; $c++)
-    				    	if($this->popArr['salGrd'] == $salgradelist[$c][0])
-    				    		echo $salgradelist[$c][1];
+    				  if(!isset($salgradelist) || !is_array($salgradelist)) {
+    				  	echo $lang_Common_NotApplicable;
+    				  } else {
+    				  	if(isset($salGrd)) {
+    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'>
+    				  		</input><?php
+    				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
+    				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
+    				    			 echo $salgradelist[$c][1];
+    				    		}
+    				  		}
+    				  	}else {
+    				  		?>
+    				  		<select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getUnAssignedCurrencyList(this.value)" name='cmbSalaryGrade'>
+    				  		<option value="0">-- <?php echo $lang_hremp_SelectPayGrade; ?> --</option>
+    				  		<?php
+    				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
+    				    		?><option value="<?php echo $salgradelist[$c][0]; ?>"> <?php echo $salgradelist[$c][1]; ?> </option>
+    				    		<?php
+    				  		}
+    				  		?></select>
+    				  		<?php
+    				  	}
+
+    				  }
     				 ?>
     				  </strong></td>
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_currency; ?></td>
-						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value,'<?php echo $this->popArr['salGrd']?>')" name='cmbCurrCode'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value)" name='cmbCurrCode'>
                        						<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
 <?php
 						$curlist= $this->popArr['unAssCurrList'];
@@ -293,7 +325,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						<td valign="top"></td>
 						<td align="left" valign="top">
 					<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="<?php echo $salGrd !== null ? 'addEXTPayment()': ''?>;" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+					        <img border="0" title="Save" onClick="addEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 					<?php	} ?>
 						</td>
 					  </tr>

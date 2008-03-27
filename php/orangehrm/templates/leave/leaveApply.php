@@ -357,7 +357,7 @@ require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 <?php
 	}
 }
-if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) || ($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED))) {
+if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) || ($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED)) && !$_SESSION['isAdmin']=='Yes') {
  ?>
  <div id="revertLeave" class="confirmBox">
  	<div class="confirmInnerBox">

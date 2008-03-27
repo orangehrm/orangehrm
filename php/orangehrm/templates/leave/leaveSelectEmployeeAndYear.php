@@ -65,7 +65,7 @@
 
 	function view() {
 
-		if(undefined===window.cmbEmpID){
+		if(document.frmSelectEmployee.cmbEmpID.value == ""){
 			document.frmSelectEmployee.searchBy.value = "employee";
 		} else {
 		    document.frmSelectEmployee.searchBy.value = "leaveType";
@@ -159,7 +159,7 @@
     	<th>&nbsp;</th>
     	<th>&nbsp;</th>
 		<th>
-			<input type="text" name="cmbEmpID" id="cmbEmpID" disabled />
+			<input type="text" name="cmbEmpID" id="cmbEmpID" value="" disabled />
 			<input type="hidden" name="id" id="id" value="0" />
 			<input type="button" value="..." onclick="returnEmpDetail();" />
 		</th>

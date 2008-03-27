@@ -12,13 +12,13 @@ New & Changed Features for OrangeHRM ver 2.3-alpha.1
 	1916296 - Data repeating in Personal HSP summery
 	1916315 - EmployeeHSP Summery,names of the text boxes are changed
 	1916439 - Email notification doesnt have a link for HSP request
-	1916489 - Before the first pay date emp can request amount greter than limit 
+	1916489 - Before the first pay date emp can request amount greter than limit
 	1916497 - Employee can enter greater value for HRA before 1st pay date
 	1924121 - After Admin paid it is not added to Total Used in HSPSummery
 	1924262 - When trying to save HSP used list moved to warning page
 	1924274 - HSP Summery cannot be viewed as PDF format
 	1916456 - EmployeeHSP Summery Spelling mistake-"Accured"
-	1916313 - EmployeHSP Summery,year Drop D.Box apear over navigation 
+	1916313 - EmployeHSP Summery,year Drop D.Box apear over navigation
 	1923644 - Health Savings Plan UsedList ,data under columns not centerd
 
 	Enhancements

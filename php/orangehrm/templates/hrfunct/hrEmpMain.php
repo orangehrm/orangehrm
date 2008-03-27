@@ -58,18 +58,18 @@ function populateDistrict($value) {
 return $response->getXML();
 }
 
-function assEmpStat($value) {
-
-	$view_controller = new ViewController();
-	$empstatlist = $view_controller->xajaxObjCall($value,'JOB','assigned');
-
-	$objResponse = new xajaxResponse();
-	$xajaxFiller = new xajaxElementFiller();
-	$response = $xajaxFiller->cmbFiller($objResponse,$empstatlist,0,'frmEmp','cmbType',3);
-	$response->addAssign('status','innerHTML','');
-
-return $response->getXML();
-}
+//function assEmpStat($value) {
+//
+//	$view_controller = new ViewController();
+//	$empstatlist = $view_controller->xajaxObjCall($value,'JOB','assigned');
+//
+//	$objResponse = new xajaxResponse();
+//	$xajaxFiller = new xajaxElementFiller();
+//	$response = $xajaxFiller->cmbFiller($objResponse,$empstatlist,0,'frmEmp','cmbType',3);
+//	$response->addAssign('status','innerHTML','');
+//
+//return $response->getXML();
+//}
 
 function getUnAssMemberships($mtype) {
 
@@ -99,7 +99,7 @@ function getMinMaxCurrency($value, $salGrd) {
 	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
 
 	for($c=0; $c < count($currlist);$c++)
-		if($currlist[$c][2] == $value)
+		if(isset($currlist[$c][2]) && $currlist[$c][2] == $value)
 			break;
 
 	$response = new xajaxResponse();
@@ -119,7 +119,6 @@ function getMinMaxCurrency($value, $salGrd) {
 return $response->getXML();
 }
 
-
 function getUnAssignedCurrencyList($payGrade) {
 	$emp_view_controller = new EmpViewController();
 	$empId = $_GET['id'];
@@ -130,19 +129,21 @@ function getUnAssignedCurrencyList($payGrade) {
 
 	$response = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
-	$xajaxFiller->setDefaultOptionName('Select Currency');
-	$response = $xajaxFiller->cmbFiller2($response, $currlist, 0, 2, 'frmEmp', 'cmbCurrCode', 1);
+	$xajaxFiller->setDefaultOptionName('select_currency');
+	$response = $xajaxFiller->cmbFiller2($response, $currlist, 0, 2, 'frmEmp', 'cmbCurrCode', 0);
 	$response->addAssign('status','innerHTML','');
 
 	return $response->getXML();
 }
 
+
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->registerFunction('populateDistrict');
-$objAjax->registerFunction('assEmpStat');
+//$objAjax->registerFunction('assEmpStat');
 $objAjax->registerFunction('getUnAssMemberships');
 $objAjax->registerFunction('getMinMaxCurrency');
+$objAjax->registerFunction('getUnAssignedCurrencyList');
 
 $objAjax->processRequests();
 ?>

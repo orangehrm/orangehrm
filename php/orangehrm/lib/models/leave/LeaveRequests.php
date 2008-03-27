@@ -257,11 +257,15 @@ class LeaveRequests extends Leave {
 		$tmpLeaveArr = $tmpLeave->retrieveLeave($this->getLeaveRequestId());
 
 		$ok = true;
-		foreach ($tmpLeaveArr as $leave) {
-			$leave->setLeaveStatus($newStatus);
-			$res = $leave->changeLeaveStatus();
-			if (!$res) {
-				$ok = false;
+
+
+		if(! is_null($tmpLeaveArr)){
+			foreach ($tmpLeaveArr as $leave) {
+				$leave->setLeaveStatus($newStatus);
+				$res = $leave->changeLeaveStatus();
+				if (!$res) {
+					$ok = false;
+				}
 			}
 		}
 		return $ok;
@@ -398,12 +402,62 @@ class LeaveRequests extends Leave {
 	 */
 	public function applyLeaveRequest() {
 		$res = $this->_addLeaveRequest();
+		$resQuta  = $this->_addLeaveQuota();
 
-		if ($res) {
+		if ($res && $resQuta) {
 			$res = $this->_applyLeaves();
 		}
 		return $res;
 	}
+
+	/**
+	 * Apply leave Quota multiple Years
+	 *
+	 */
+
+	private function _addLeaveQuota(){
+
+
+                $fromYearArray  = explode("-" , $this->getLeaveFromDate()) ;
+                $toYearArray    = explode("-" , $this->getLeaveToDate()) ;
+
+                if(trim($fromYearArray[0])  == trim($toYearArray[0])){
+
+
+                        $leaveQuata = new LeaveQuota() ;
+                        $leaveQuata->setEmployeeId($this->getEmployeeId());
+                        $leaveQuata->setLeaveTypeId($this->getLeaveTypeId());
+                        $leaveQuata->setNoOfDaysAllotted(0);
+                        $leaveQuata->setYear(trim($fromYearArray[0]));
+                        if($leaveQuata->addLeaveQuotaAdmin()) return true ;
+                        else return false ;
+
+
+
+                }else{
+
+                        $leaveQuata = new LeaveQuota() ;
+                        $leaveQuata->setEmployeeId($this->getEmployeeId());
+                        $leaveQuata->setLeaveTypeId($this->getLeaveTypeId());
+                        $leaveQuata->setNoOfDaysAllotted(0);
+
+
+                        $leaveQuata->setYear(trim($fromYearArray[0]));
+                        $quotaFrom	= $leaveQuata->addLeaveQuotaAdmin();
+
+
+                        $leaveQuata->setYear(trim($toYearArray[0]));
+                        $quotaTo	= $leaveQuata->addLeaveQuotaAdmin();
+
+
+                        if(($quotaFrom) && ($quotaTo)) return true ;
+                        else return false ;
+
+
+                }
+
+		}
+
 
 	/**
 	 * Does actual leave applying

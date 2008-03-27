@@ -178,6 +178,12 @@ class ViewController {
 								return $empstat->filterEmpStat($value);
 							}
 
+							if($cntrl == 'allEmpStat') {
+
+								$jobtit_empstat = new JobTitEmpStat();
+								return $jobtit_empstat->getAllEmpStats();
+							}
+
 							break;
 		}
 	}
@@ -200,8 +206,7 @@ class ViewController {
 			case 'GEN' :
 						$this->reDirect($getArr);
 						break;
-			case 'EMX' :
-						$this->reDirect($getArr);
+			case 'EMX' :$this->reDirect($getArr);
 						break;
 			case 'CSE' :
 						$this->reDirect($getArr);

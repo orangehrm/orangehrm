@@ -137,7 +137,7 @@ function sysCheckPassed() {
 	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
                   } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
                } else {
-                  echo "<b><font color='red'>Not Available</font></b>";
+                  echo "<b><font color='red'>MySQL support not available in PHP settings</font></b>";
                   $error_found = true;
                }
             ?>

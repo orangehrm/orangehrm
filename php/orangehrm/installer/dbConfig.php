@@ -91,7 +91,26 @@ document.frmInstall.submit();
 <?php if(isset($error)) { ?>
 	<font color="Red">
 	    <?php if($error == 'WRONGDBINFO') {
-	    		echo "Wrong DB Information";
+	    		$msg = '';
+	    		if(isset($_SESSION['mysqlErrNo']) && $_SESSION['mysqlErrNo'] == '1045') {
+
+					if (isset($_SESSION['errorMsg'])) {
+						$msg = $_SESSION['errorMsg'] . '. ';
+					}
+
+					$msg .= 'Please Check Priviledged Database Username and Password Correct.';
+
+	    		}else if(isset($_SESSION['mysqlErrNo']) && $_SESSION['mysqlErrNo'] == '2003'){
+	    			if (isset($_SESSION['errorMsg'])) {
+						$msg = $_SESSION['errorMsg'] . '. ';
+					}
+
+					$msg .= 'Please Make Sure MySQL Server Is Up And Running.';
+	    		} else {
+	    			$msg = "Unable to Connect to MySQL server. Please check MySQL server is running and DB Information given are correct";
+	    		}
+	    		echo $msg;
+
 	       } elseif ($error == 'WRONGDBVER') {
 	       	 	echo "You need atleast MySQL 4.1.x, Detected MySQL ver " . $mysqlHost;
 	       } elseif ($error == 'DBEXISTS') {
