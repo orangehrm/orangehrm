@@ -537,14 +537,6 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Mo
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
 
-INSERT INTO `hs_hr_hsp_allotment`
-	(`id`, `name`, `description`)
-	VALUES (1, 'Medical Allotment', 'Medical expense reimbursement');
-
-INSERT INTO `hs_hr_hsp_allotment`
-	(`id`, `name`, `description`)
-	VALUES (2, 'Childcare Allotment', 'Childcare expense reimbursement');
-
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_domain_name', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_port', '');
@@ -587,5 +579,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_pay_period', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_summary', 'summary_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_allotment', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');

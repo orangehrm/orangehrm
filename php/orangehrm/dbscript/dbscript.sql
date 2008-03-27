@@ -760,17 +760,9 @@ create table `hs_hr_custom_import` (
   key `emp_number` (`import_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_hsp_allotment` (
-	`id` int not null ,
-	`name` varchar(100) default null ,
-	`description` varchar(250) default null ,
-	primary key (`id`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_hsp` (
 	`id` int not null ,
 	`employee_id` int not null ,
-	`allotment_id` int not null ,
 	`benefit_year` date default null ,
 	`hsp_value` decimal(10,2) not null ,
 	`total_acrued` decimal(10,2) not null ,
@@ -782,15 +774,13 @@ create table `hs_hr_hsp` (
 	`halted_date` date default null ,
 	`terminated` tinyint default 0 ,
 	primary key (`id`),
-	key `employee_id` (`employee_id`),
-	key `allotment_id` (`allotment_id`)
+	key `employee_id` (`employee_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_hsp_payment_request` (
 	`id` int not null ,
 	`hsp_id` int not null ,
 	`employee_id` int not null ,
-	`allotment_id` int not null ,
 	`date_incurred` date not null ,
 	`provider_name` varchar(100) default null ,
 	`person_incurring_expense` varchar(100) default null ,
@@ -806,7 +796,6 @@ create table `hs_hr_hsp_payment_request` (
 	`hr_notes` varchar(250) default null ,
 	primary key (`id`),
 	key `employee_id` (`employee_id`),
-	key `allotment_id` (`allotment_id`),
 	key `hsp_id` (`hsp_id`)
 ) engine=innodb default charset=utf8;
 
@@ -1120,7 +1109,6 @@ alter table `hs_hr_employee_workshift`
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_hsp`
-  add constraint foreign key (`allotment_id`) references `hs_hr_hsp_allotment` (`id`) on delete restrict,
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_hsp_payment_request`
@@ -1667,14 +1655,6 @@ INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(3, 'Semi Mo
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(4, 'Monthly');
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES(5, 'Monthly on first pay of month.');
 
-INSERT INTO `hs_hr_hsp_allotment`
-	(`id`, `name`, `description`)
-	VALUES (1, 'Medical Allotment', 'Medical expense reimbursement');
-
-INSERT INTO `hs_hr_hsp_allotment`
-	(`id`, `name`, `description`)
-	VALUES (2, 'Childcare Allotment', 'Childcare expense reimbursement');
-
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_customer', 'customer_id');
@@ -1709,7 +1689,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_custom_import', 'import_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_pay_period', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp', 'id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_allotment', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');
 
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');

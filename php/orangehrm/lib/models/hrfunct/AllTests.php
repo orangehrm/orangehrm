@@ -43,7 +43,7 @@ class models_hrfunct_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_hrfunct');
         $suite->addTestSuite('EmpTaxTest');
-		$suite->addTestSuite('EmpInfo');
+	$suite->addTestSuite('EmpInfoTest');
         return $suite;
     }
 }

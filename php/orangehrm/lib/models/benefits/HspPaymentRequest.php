@@ -28,7 +28,6 @@ class HspPaymentRequest {
 	const DB_FIELD_ID = 'id';
 	const DB_FIELD_HSP_ID = 'hsp_id';
 	const DB_FIELD_EMPLOYEE_ID = 'employee_id';
-	const DB_FIELD_ALLOTMENT_ID = 'allotment_id';
 	const DB_FIELD_DATE_INCURRED = 'date_incurred';
 	const DB_FIELD_PROVIDER_NAME = 'provider_name';
 	const DB_FIELD_PERSON_INCURRING_EXPENSE = 'person_incurring_expense';
@@ -57,7 +56,6 @@ class HspPaymentRequest {
 	private $id;
 	private $hspId;
 	private $employeeId;
-	private $allotmentId;
 	private $dateIncurred;
 	private $providerName;
 	private $personIncurringExpense;
@@ -95,14 +93,6 @@ class HspPaymentRequest {
 
 	public function setEmployeeId($employeeId) {
 		$this->employeeId=$employeeId;
-	}
-
-	public function getAllotmentId() {
-		return $this->allotmentId;
-	}
-
-	public function setAllotmentId($allotmentId) {
-		$this->allotmentId=$allotmentId;
 	}
 
 	public function getDateIncurred() {
@@ -229,7 +219,6 @@ class HspPaymentRequest {
 		$selectFields[] = "`".self::DB_FIELD_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_HSP_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_ALLOTMENT_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_DATE_INCURRED."`";
 		$selectFields[] = "`".self::DB_FIELD_PROVIDER_NAME."`";
 		$selectFields[] = "`".self::DB_FIELD_PERSON_INCURRING_EXPENSE."`";
@@ -267,42 +256,39 @@ class HspPaymentRequest {
 	}
 
 	public function addHspRequest() {
-		//$this->_getHsp();
 
 		$this->id = UniqueIDGenerator::getInstance()->getNextID(self::HSP_PAYMENT_REQUEST_DB_TABLE, self::DB_FIELD_ID);
 
 		$arrTable = '`'.self::HSP_PAYMENT_REQUEST_DB_TABLE.'`';
 
-		$insertFields[0] = '`'.self::DB_FIELD_ID.'`';
-		$insertFields[1] = '`'.self::DB_FIELD_HSP_ID.'`';
-		$insertFields[2] = '`'.self::DB_FIELD_EMPLOYEE_ID.'`';
-		$insertFields[3] = '`'.self::DB_FIELD_ALLOTMENT_ID.'`';
-		$insertFields[4] = '`'.self::DB_FIELD_DATE_INCURRED.'`';
-		$insertFields[5] = '`'.self::DB_FIELD_PROVIDER_NAME.'`';
-		$insertFields[6] = '`'.self::DB_FIELD_PERSON_INCURRING_EXPENSE.'`';
-		$insertFields[7] = '`'.self::DB_FIELD_EXPENSE_DESCRIPTION.'`';
-		$insertFields[8] = '`'.self::DB_FIELD_EXPENSE_AMOUNT.'`';
-		$insertFields[9] = '`'.self::DB_FIELD_PAYMENT_MADE_TO.'`';
-		$insertFields[10] = '`'.self::DB_FIELD_THIRD_PARTY_ACCOUNT_NUMBER.'`';
-		$insertFields[11] = '`'.self::DB_FIELD_MAIL_ADDRESS.'`';
-		$insertFields[12] = '`'.self::DB_FIELD_COMMENTS.'`';
-		$insertFields[13] = '`'.self::DB_FIELD_STATUS.'`';
+		$insertFields[] = '`'.self::DB_FIELD_ID.'`';
+		$insertFields[] = '`'.self::DB_FIELD_HSP_ID.'`';
+		$insertFields[] = '`'.self::DB_FIELD_EMPLOYEE_ID.'`';
+		$insertFields[] = '`'.self::DB_FIELD_DATE_INCURRED.'`';
+		$insertFields[] = '`'.self::DB_FIELD_PROVIDER_NAME.'`';
+		$insertFields[] = '`'.self::DB_FIELD_PERSON_INCURRING_EXPENSE.'`';
+		$insertFields[] = '`'.self::DB_FIELD_EXPENSE_DESCRIPTION.'`';
+		$insertFields[] = '`'.self::DB_FIELD_EXPENSE_AMOUNT.'`';
+		$insertFields[] = '`'.self::DB_FIELD_PAYMENT_MADE_TO.'`';
+		$insertFields[] = '`'.self::DB_FIELD_THIRD_PARTY_ACCOUNT_NUMBER.'`';
+		$insertFields[] = '`'.self::DB_FIELD_MAIL_ADDRESS.'`';
+		$insertFields[] = '`'.self::DB_FIELD_COMMENTS.'`';
+		$insertFields[] = '`'.self::DB_FIELD_STATUS.'`';
 
-		$arrRecordsList[0] = $this->id;
-		$arrRecordsList[1] = "'". $this->hspId."'";
-		$arrRecordsList[2] = "'". $this->employeeId."'";
-		//$arrRecordsList[3] = "'". $this->allotmentId."'";
-		$arrRecordsList[3] = 1;
-		$arrRecordsList[4] = "'".$this->dateIncurred."'";
-		$arrRecordsList[5] = "'".$this->providerName."'";
-		$arrRecordsList[6] = "'". $this->personIncurringExpense."'";
-		$arrRecordsList[7] = "'". $this->expenseDescription."'";
-		$arrRecordsList[8] = "'". $this->expenseAmount."'";
-		$arrRecordsList[9] = "'".$this->paymentMadeTo."'";
-		$arrRecordsList[10] = "'".$this->thirdPartyAccountNumber."'";
-		$arrRecordsList[11] = "'".$this->mailAddress."'";
-		$arrRecordsList[12] = "'". $this->comments."'";
-		$arrRecordsList[13] = "'". $this->status."'";
+		$arrRecordsList[] = $this->id;
+		$arrRecordsList[] = "'". $this->hspId."'";
+		$arrRecordsList[] = "'". $this->employeeId."'";
+		$arrRecordsList[] = 1;
+		$arrRecordsList[] = "'".$this->dateIncurred."'";
+		$arrRecordsList[] = "'".$this->providerName."'";
+		$arrRecordsList[] = "'". $this->personIncurringExpense."'";
+		$arrRecordsList[] = "'". $this->expenseDescription."'";
+		$arrRecordsList[] = "'". $this->expenseAmount."'";
+		$arrRecordsList[] = "'".$this->paymentMadeTo."'";
+		$arrRecordsList[] = "'".$this->thirdPartyAccountNumber."'";
+		$arrRecordsList[] = "'".$this->mailAddress."'";
+		$arrRecordsList[] = "'". $this->comments."'";
+		$arrRecordsList[] = "'". $this->status."'";
 
 		if ($this->datePaid != null) {
 			$insertFields[] = '`'.self::DB_FIELD_DATE_PAID.'`';
@@ -362,7 +348,6 @@ class HspPaymentRequest {
 		$selectFields[] = "`".self::DB_FIELD_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_HSP_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_ALLOTMENT_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_DATE_INCURRED."`";
 		$selectFields[] = "`".self::DB_FIELD_PROVIDER_NAME."`";
 		$selectFields[] = "`".self::DB_FIELD_PERSON_INCURRING_EXPENSE."`";
@@ -409,7 +394,6 @@ class HspPaymentRequest {
 		$selectFields[] = "`".self::DB_FIELD_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_HSP_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_ALLOTMENT_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_DATE_INCURRED."`";
 		$selectFields[] = "`".self::DB_FIELD_PROVIDER_NAME."`";
 		$selectFields[] = "`".self::DB_FIELD_PERSON_INCURRING_EXPENSE."`";
@@ -464,7 +448,6 @@ class HspPaymentRequest {
 		$selectFields[] = "`".self::DB_FIELD_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_HSP_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
-		$selectFields[] = "`".self::DB_FIELD_ALLOTMENT_ID."`";
 		$selectFields[] = "`".self::DB_FIELD_DATE_INCURRED."`";
 		$selectFields[] = "`".self::DB_FIELD_PROVIDER_NAME."`";
 		$selectFields[] = "`".self::DB_FIELD_PERSON_INCURRING_EXPENSE."`";
@@ -686,7 +669,6 @@ class HspPaymentRequest {
 			$tmpArr->setId($row[self::DB_FIELD_ID]);
 			$tmpArr->setHspId($row[self::DB_FIELD_HSP_ID]);
 			$tmpArr->setEmployeeId($row[self::DB_FIELD_EMPLOYEE_ID]);
-			$tmpArr->setAllotmentId($row[self::DB_FIELD_ALLOTMENT_ID]);
 			$tmpArr->setDateIncurred($row[self::DB_FIELD_DATE_INCURRED]);
 			$tmpArr->setProviderName($row[self::DB_FIELD_PROVIDER_NAME]);
 			$tmpArr->setPersonIncurringExpense($row[self::DB_FIELD_PERSON_INCURRING_EXPENSE]);
@@ -816,10 +798,6 @@ class HspPaymentRequest {
 		if(!isset($dateInqTemp)) {
 			return $isChanged;
 		}
-		/*if($this->allotmentId != $hspRequest->getAllotmentId()) {
-			$isChanged = true;
-			$msg = $msg . "\r\nAllotment Id: " . $this->allotmentId . " -> " . $hspRequest->getAllotmentId();
-		}*/
 		if($this->dateIncurred != $hspRequest->getDateIncurred()) {
 			$isChanged = true;
 			$msg = $msg . "'\r\nDate Incurred: " . $this->dateIncurred . " -> " . $hspRequest->getDateIncurred();

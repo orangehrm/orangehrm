@@ -108,22 +108,6 @@ if (isset($errorFlag)) {
 
 	function save() {
 
-		/*for (var i; i < document.txtAnnualLimit.length; i++) {
-
-		var annualLimit = document.txtAnnualLimit[i].value;
-		var employerAmount = document.txtEmployerAmount[i].value;
-		var employeeAmount = document.txtEmployeeAmount[i].value;
-		var totalAccrued = document.txtTotalAccrued[i].value;
-		var totalUsed = document.txtTotalUsed[i].value;
-
-			if ((!numeric(document.txtAnnualLimit[i].value))||(!numeric(document.txtEmployerAmount[i].value))||(!numeric(document.txtEmployeeAmount[i].value))||(!numeric(document.txtTotalAccrued[i].value))||(!numeric(document.txtTotalUsed[i].value))) {
-				alert('Contains a non numeric field(s)');
-				//elements[i].focus();
-				return false;
-			}
-
-		}*/
-
 		document.hspFullSummary.action = "?benefitcode=Benefits&action=Save_Hsp_Summary&year=<?php echo $year; ?><?php echo (isset($oneEmployee) && $oneEmployee)?"&empId=".$hspSummary[0]->getEmployeeId():""; ?>";
 		document.hspFullSummary.submit();
 	}
@@ -146,6 +130,7 @@ if (isset($errorFlag)) {
 	   		}
 		}
 		return flag;
+
 	}
 
     function haltResumeHsp(hspId, empId, newHspStatus) {

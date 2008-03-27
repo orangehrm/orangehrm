@@ -48,32 +48,32 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
     	$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (11, '011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
         $this->assertNotNull(mysql_query("INSERT INTO ".HspAllotment::HSP_ALLOTMENT_DB_TABLE." (".HspAllotment::HSP_ALLOTMENT_DB_FIELD_ID.", ".HspAllotment::HSP_ALLOTMENT_DB_FIELD_NAME.", ".HspAllotment::HSP_ALLOTMENT_DB_FIELD_DESCRIPTION.") " .
         							  "VALUES(10, 'Test', 'For testing purposes')"), mysql_error());
-        $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`allotment_id`,`hsp_value`,`total_acrued`," .
+        $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`," .
         							  "`termination_date`,`halted`,`halted_date`,`terminated`) " .
-        							  "VALUES(10, 11, 10, 1000, 500, NULL, false, NULL, false)"));
+        							  "VALUES(10, 11, 1000, 500, NULL, false, NULL, false)"));
 
-	    $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+	    $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (10, 10, 11, 10, '".date('Y-m-d', time()-3600*24)."', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
+	    							  "VALUES (10, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y-m-d')."',  '123552-55821-ff25', 1)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (11, 10, 11, 10, '".date('Y-m-d', time()-3600*24)."', 'Test provider 1', 'Tester 1', 'Just testing 1', '100', 'TestX 1', '12345GD', " .
+	    							  "VALUES (11, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 1', 'Tester 1', 'Just testing 1', '100', 'TestX 1', '12345GD', " .
 	    							  "'1231, Test Grove, Test City 1', 'Test 1', NULL,  NULL, 0)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (12, 10, 11, 10, '".date('Y-m-d', time()-3600*24)."', 'Test provider 2', 'Tester 2', 'Just testing 2', '100', 'TestX 2', '12345GD', " .
+	    							  "VALUES (12, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 2', 'Tester 2', 'Just testing 2', '100', 'TestX 2', '12345GD', " .
 	    							  "'1231, Test Grove, Test City 2', 'Test 2', NULL,  NULL, 2)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (13, 10, 11, 10, '".date('Y-m-d', time()-3600*24)."', 'Test provider 3', 'Tester 3', 'Just testing 3', '100', 'TestX 3', '12345GD', " .
+	    							  "VALUES (13, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 3', 'Tester 3', 'Just testing 3', '100', 'TestX 3', '12345GD', " .
 	    							  "'1231, Test Grove, Test City 3', 'Test 3', NULL,  NULL, 3)"), mysql_error());
 
 		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_emp_children` (`emp_number`, `ec_name`, `ec_seqno`) VALUES(11, 'saman', 1)"), mysql_error());
@@ -387,22 +387,22 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
      	$this->assertNotNull(mysql_query("TRUNCATE `hs_hr_hsp_payment_request`;", $this->connection), mysql_error());
 
 		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (1, 1, 1, 10, '".date('Y')."-02-01', 'Test provider', 'Tester', 'Just testing', '150', 'TestX', '12345GD', " .
+	    							  "VALUES (1, 1, 1, '".date('Y')."-02-01', 'Test provider', 'Tester', 'Just testing', '150', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-02',  '123552-55821-ff25', 1)"), mysql_error());
 
-	    $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+	    $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (2, 1, 1, 10, '".date('Y')."-02-10', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
+	    							  "VALUES (2, 1, 1, '".date('Y')."-02-10', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-11',  '123552-55821-ff25', 1)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `allotment_id`, `date_incurred`," .
+		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
 	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
 	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (3, 1, 1, 10, '".date('Y')."-02-20', 'Test provider', 'Tester', 'Just testing', '127', 'TestX', '12345GD', " .
+	    							  "VALUES (3, 1, 1, '".date('Y')."-02-20', 'Test provider', 'Tester', 'Just testing', '127', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-21',  '123552-55821-ff25', 1)"), mysql_error());
 
 	    $lastUpdated = date('Y')."-02-05";

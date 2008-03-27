@@ -157,11 +157,9 @@ if ($_SESSION['printBenefits'] == "enabled") {
 				<tr>
 					<td class="tableMiddleLeft"></td>
 					<td class="<?php echo $rowStyle; ?>">
-						<?php echo $summary[$i]['allotment_name']; ?>
 						<input  type="hidden" value="<?php echo $summary[$i]['hsp_id']; ?>"
 								id="txtHspId[<?php echo $i; ?>]" name="txtHspId[]" />
-						<input  type="hidden" value="<?php echo $summary[$i]['allotment_id']; ?>"
-								id="txtAllotmentId[<?php echo $i; ?>]" name="txtAllotmentId[]" />
+		
 						<input  type="hidden" value="<?php echo $summary[$i]['emp_number']; ?>"
 								id="txtEmployeeId[<?php echo $i; ?>]" name="txtEmployeeId[]" />
 					</td>

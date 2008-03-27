@@ -33,7 +33,6 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
-    	$this->assertNotNull(mysql_query("TRUNCATE `hs_hr_employee`;", $this->connection), mysql_error());
     }
 
     /**
@@ -43,7 +42,6 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
-    	$this->assertNotNull(mysql_query("TRUNCATE `hs_hr_employee`;", $this->connection), mysql_error());
     }
 
 
