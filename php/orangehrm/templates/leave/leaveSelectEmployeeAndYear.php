@@ -65,7 +65,7 @@
 
 	function view() {
 
-		if(document.frmSelectEmployee.cmbEmpID.value == ""){
+		if(undefined===window.cmbEmpID){
 			document.frmSelectEmployee.searchBy.value = "employee";
 		} else {
 		    document.frmSelectEmployee.searchBy.value = "leaveType";

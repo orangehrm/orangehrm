@@ -54,7 +54,7 @@ class EXTRACTOR_HspPayPeriod {
 		$payPeriods = array();
 		if (is_array($postArr['chkPayPeriodId'])) {
 			for ($i=0; $i<count($postArr['chkPayPeriodId']); $i++) {
-				$tmpObj = new PayPeriod();
+				$tmpObj = new HspPayPeriod();
 				$tmpObj->setId($postArr['chkPayPeriodId'][$i]);
 
 				$payPeriods[] = $tmpObj;
