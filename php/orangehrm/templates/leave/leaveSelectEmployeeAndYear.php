@@ -96,7 +96,7 @@
 	}
 </script>
 <form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="validate(); return false;">
-<input type="hidden" name="searchBy" value="leaveType"/>
+<input type="hidden" name="searchBy" value="<?php echo ($_GET['action'] == 'Leave_Select_Employee_Leave_Summary') ? 'employee' : 'leaveType' ?>" />
 <table border="0" cellpadding="2" cellspacing="0">
   <tbody>
   	<tr>
