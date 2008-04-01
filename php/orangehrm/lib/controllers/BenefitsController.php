@@ -687,17 +687,51 @@ class BenefitsController {
 					$log->info($mssg);
 				}
 
-			}catch(Exception $e) {
+			} catch (Exception $e) {
 
 			}
+
 			$hspReqestTemp = $hspReqest->getHspRequest($hspReqest->getId());
-			$hspSummary = new HspSummary();
-			$empId = $hspReqestTemp->getEmployeeId();
-			$year = date('Y', strtotime($hspReqestTemp->getDateIncurred()));
+			$hspSummary    = new HspSummary();
+			$empId 	       = $hspReqestTemp->getEmployeeId();
+			$year 	       = date('Y', strtotime($hspReqestTemp->getDateIncurred()));
+
 			$hspReqestTemp->setDatePaid($hspReqest->getDatePaid());
 			$hspRecordArr = array();
 
-			$amount = $hspReqestTemp -> getExpenseAmount();
+			$amount = $hspReqestTemp->getExpenseAmount();
+			$hspId  = $hspReqestTemp->getHspId();
+
+			switch ($hspId) {
+				case 1 : 
+					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+					$amountLimit = $personalHspSummary[0]->getTotalAccrued() - $personalHspSummary[0]->getTotalUsed();
+					break;
+				case 2 :
+					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+					if (count($personalHspSummary) == 2) {
+						$index = ($personalHspSummary[0]->getHspPlanName() == 'HRA') ? 0 : 1;
+					} else {
+						$index = 0;
+					}
+					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed(); 
+					break;
+				case 3 :
+					$reqError = BenefitsController::_validateFSARequest($year);
+					if (is_null($reqError)) {
+						$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+						$index = (count($personalHspSummary) == 2) ? 1 : 0;
+
+						$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
+					}
+					else
+						throw $reqError;
+					break;
+			}
+
+			if ($amount > $amountLimit) {
+				throw new HspPaymentRequestException('Request amount cannot exceed the annual limit', HspPaymentRequestException::EXCEED_LIMIT);
+			}
 
 			$server = $_SERVER['HTTP_HOST'];
 			$path = str_replace(__FILE__, '', $_SERVER['REQUEST_URI']);
@@ -718,10 +752,21 @@ class BenefitsController {
 
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
-				case HspException::INVALID_ROW_COUNT : $msg = 'SAVE_FAILURE';
-													  		 break;
-				default : $msg = 'UNKNOWN_ERROR_FAILURE';
-						  break;
+				case HspPaymentRequestException::INVALID_ROW_COUNT : 
+					$msg = 'SAVE_FAILURE';
+				  	break;
+				case HspPaymentRequestException::EXCEED_LIMIT :
+					$msg = 'SAVE_REQUEST_LIMIT_EXCEED_FAILURE';
+					break;
+				case HspPaymentRequestException::INVALID_YEAR :
+					$msg = 'SAVE_REQUEST_INVALID_YEAR_FAILURE';
+					break;
+				case HspPaymentRequestException::INVALID_DATE :
+					$msg = 'SAVE_REQUEST_INVALID_DATE_FAILURE';
+					break;
+				default :
+					$msg = 'UNKNOWN_ERROR_FAILURE';
+					break;
 			}
 		}
 
