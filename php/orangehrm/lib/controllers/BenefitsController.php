@@ -717,15 +717,10 @@ class BenefitsController {
 					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed(); 
 					break;
 				case 3 :
-					$reqError = BenefitsController::_validateFSARequest($year);
-					if (is_null($reqError)) {
-						$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
-						$index = (count($personalHspSummary) == 2) ? 1 : 0;
+					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+					$index = (count($personalHspSummary) == 2) ? 1 : 0;
 
-						$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
-					}
-					else
-						throw $reqError;
+					$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
 					break;
 			}
 
@@ -757,12 +752,6 @@ class BenefitsController {
 				  	break;
 				case HspPaymentRequestException::EXCEED_LIMIT :
 					$msg = 'SAVE_REQUEST_LIMIT_EXCEED_FAILURE';
-					break;
-				case HspPaymentRequestException::INVALID_YEAR :
-					$msg = 'SAVE_REQUEST_INVALID_YEAR_FAILURE';
-					break;
-				case HspPaymentRequestException::INVALID_DATE :
-					$msg = 'SAVE_REQUEST_INVALID_DATE_FAILURE';
 					break;
 				default :
 					$msg = 'UNKNOWN_ERROR_FAILURE';
