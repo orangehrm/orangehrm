@@ -1159,19 +1159,7 @@ class EmpInfo {
         return $message2;
     }
 
-    /*function getSalGrdCodes() {
-
-    	$sql_builder = new SQLQBuilder();
-    	$tableName = 'HS_PR_SALARY_GRADE';
-    	$arrFieldList[0] = 'SAL_GRD_CODE';
-    	$arrFieldList[1] = 'SAL_GRD_NAME';
-
-    	$sql_builder->table_name = $tableName;
-    	$sql_builder->flg_select = 'true';
-    	$sql_builder->arr_select = $arrFieldList;
-
-<<<<<<< .working
-	function updateEmpCustomInfo() {
+    function updateEmpCustomInfo() {
 
 		$arrRecordsList[0] = "'". $this->getEmpId() . "'";
 		$arrRecordsList[1] = isset($this->custom1) ? "'" . $this->custom1 . "'" : 'null';
@@ -1212,12 +1200,20 @@ class EmpInfo {
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
 		return $message2;
-	}
+    }
 
-	/*function getSalGrdCodes() {
-=======
+    /*function getSalGrdCodes() {
+
+    	$sql_builder = new SQLQBuilder();
+    	$tableName = 'HS_PR_SALARY_GRADE';
+    	$arrFieldList[0] = 'SAL_GRD_CODE';
+    	$arrFieldList[1] = 'SAL_GRD_NAME';
+
+    	$sql_builder->table_name = $tableName;
+    	$sql_builder->flg_select = 'true';
+    	$sql_builder->arr_select = $arrFieldList;
+
     	$sqlQString = $sql_builder->passResultSetMessage();
->>>>>>> .merge-right.r1792
 
     	$dbConnection = new DMLFunctions();
        		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
