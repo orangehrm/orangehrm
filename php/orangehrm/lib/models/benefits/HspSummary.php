@@ -283,6 +283,7 @@ class HspSummary extends Hsp {
     private static function _buildSummaryObjects($result) {
 
         $dbConnection = new DMLFunctions();
+        $hspObjArr = null;
 
         while ($row = $dbConnection->dbObject->getArray($result)) {
 

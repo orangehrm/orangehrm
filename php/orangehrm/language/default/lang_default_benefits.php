@@ -59,6 +59,7 @@ $lang_Benefits_Errors_SAVE_LOWBALANCE_FAILURE = "Failed to save - Your HSP acoun
 $lang_Benefits_Errors_SAVE_REQUEST_LIMIT_EXCEED_FAILURE = "Request amount cannot exceed the limit";
 $lang_Benefits_Errors_SAVE_REQUEST_INVALID_DATE_FAILURE = "Requests for the previous year should be made before 15th of March this year";
 $lang_Benefits_Errors_SAVE_REQUEST_INVALID_YEAR_FAILURE = "Requests are allowed only for this year and the previous year";
+$lang_Benefits_Errors_SAVE_REQUEST_NO_HSP_SUMMARY_DEFINED_FAILURE = "HSP details are not defined. Please contact HR Admins";
 $lang_Benefits_Errors_NO_PAY_PERIODS = "No Pay Periods";
 $lang_Benefits_Errors_UNKNOWN_ERROR_FAILURE = "Encountered An Error";
 $lang_Benefits_Errors_DENY_SUCCESS = "Successfully Denied";

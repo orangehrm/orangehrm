@@ -595,10 +595,18 @@ class BenefitsController {
 			switch ($hspId) {
 				case 1 : 
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+
+					if (is_null($personalHspSummary))
+						throw new HspPaymentRequestException('HSP Summary details not defined by HR Admins', HspPaymentRequestException::NO_HSP);
+
 					$amountLimit = $personalHspSummary[0]->getTotalAccrued();
 					break;
 				case 2 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+
+					if (is_null($personalHspSummary))
+						throw new HspPaymentRequestException('HSP Summary details not defined by HR Admins', HspPaymentRequestException::NO_HSP);
+
 					if (count($personalHspSummary) == 2) {
 						$index = ($personalHspSummary[0]->getHspPlanName() == 'HRA') ? 0 : 1;
 					} else {
@@ -610,6 +618,9 @@ class BenefitsController {
 					$reqError = BenefitsController::_validateFSARequest($year);
 					if (is_null($reqError)) {
 						$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
+						if (is_null($personalHspSummary))
+							throw new HspPaymentRequestException('HSP Summary details not defined by HR Admins', HspPaymentRequestException::NO_HSP);
+
 						$index = (count($personalHspSummary) == 2) ? 1 : 0;
 
 						$amountLimit = $personalHspSummary[$index]->getAnnualLimit();
@@ -652,6 +663,9 @@ class BenefitsController {
 					break;
 				case HspPaymentRequestException::INVALID_DATE :
 					$msg = 'SAVE_REQUEST_INVALID_DATE_FAILURE';
+					break;
+				case HspPaymentRequestException::NO_HSP :
+					$msg = 'SAVE_REQUEST_NO_HSP_SUMMARY_DEFINED_FAILURE';
 					break;
 				default :
 					$msg = 'UNKNOWN_ERROR_FAILURE';
