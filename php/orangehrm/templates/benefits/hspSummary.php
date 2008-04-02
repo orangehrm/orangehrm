@@ -136,79 +136,79 @@ if (isset($errorFlag)) {
     function haltResumeHsp(hspId, empId, newHspStatus) {
     	xmlHTTPObject = null;
 
-	try {
-		xmlHTTPObject = new XMLHttpRequest();
-	} catch (e) {
 		try {
-			xmlHTTPObject = new ActiveXObject("Msxml2.XMLHTTP");
+  			xmlHTTPObject = new XMLHttpRequest();
 		} catch (e) {
 			try {
-				xmlHTTPObject = new ActiveXObject("Microsoft.XMLHTTP");
+			    xmlHTTPObject = new ActiveXObject("Msxml2.XMLHTTP");
 			} catch (e) {
-				alert("Your browser does not support AJAX!");
+				xmlHTTPObject = new ActiveXObject("Microsoft.XMLHTTP");
 			}
 		}
-	}
+
+		if (xmlHTTPObject == null)
+			alert("Your browser does not support AJAX!");
 
         xmlHTTPObject.onreadystatechange = function() {
             if (xmlHTTPObject.readyState == 4){
 
-		completed = (xmlHTTPObject.responseText.trim().substr(0, 4) == 'done');
-		serverMsg = xmlHTTPObject.responseText.trim().substr(5);
+				completed = (xmlHTTPObject.responseText.trim().substr(0, 4) == 'done');
+				serverMsg = xmlHTTPObject.responseText.trim().substr(5);
 
                 if(completed) {
-		   successMsg = parseInt(xmlHTTPObject.responseText.trim().substr(5));
+		   			successMsg = parseInt(xmlHTTPObject.responseText.trim().substr(5));
 
-		   switch (successMsg) {
-			case <?php echo Hsp::HSP_STATUS_HALTED; ?> :
-				statusLabel = 'Halted';
-				buttonLabel = 'Resume';
-				buttonWidth = '56px';
-				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
-				break;
+		   			switch (successMsg) {
+						case <?php echo Hsp::HSP_STATUS_HALTED; ?> :
+							statusLabel = 'Halted';
+							buttonLabel = 'Resume';
+							buttonWidth = '56px';
+							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+							break;
 
-			case <?php echo Hsp::HSP_STATUS_ACTIVE; ?> :
-				statusLabel = 'Active';
-				<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
-					buttonLabel = 'Halt';
-					buttonWidth = '56px';
-					hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
-				<?php } else { ?>
-					buttonLabel = 'Request Halt';
-					buttonWidth = '75px';
-					hspReverseStatus = <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?>;
-				<?php } ?>
-				break;
+						case <?php echo Hsp::HSP_STATUS_ACTIVE; ?> :
+							statusLabel = 'Active';
+							<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+								buttonLabel = 'Halt';
+								buttonWidth = '56px';
+								hspReverseStatus = <?php echo Hsp::HSP_STATUS_HALTED; ?>;
+							<?php } else { ?>
+								buttonLabel = 'Request Halt';
+								buttonWidth = '75px';
+								hspReverseStatus = <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?>;
+							<?php } ?>
+							break;
 
-			case <?php echo Hsp::HSP_STATUS_ESS_HALTED; ?> :
-				statusLabel = 'Halted';
-				buttonLabel = 'Resume';
-				buttonWidth = '56px';
-				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
-				break;
+						case <?php echo Hsp::HSP_STATUS_ESS_HALTED; ?> :
+							statusLabel = 'Halted';
+							buttonLabel = 'Resume';
+							buttonWidth = '56px';
+							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+							break;
 
-			case <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?> :
-				statusLabel = 'Pending Halt';
-				buttonLabel = 'Cancel Halt Request';
-				buttonWidth = '110px';
-				hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
-				break;
+						case <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?> :
+							statusLabel = 'Pending Halt';
+							buttonLabel = 'Cancel Halt Request';
+							buttonWidth = '110px';
+							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
+							break;
 
-		   }
-                   with(document.getElementById('btnHspStatus' + hspId)) {
-                        setAttribute("value", buttonLabel);
-			setAttribute("style", "width: " + buttonWidth);
+		   			}
+
+                    with(document.getElementById('btnHspStatus' + hspId)) {
+                    	setAttribute("value", buttonLabel);
+						setAttribute("style", "width: " + buttonWidth);
                         setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
-                   }
+                    }
 
                    document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
-		} else {
-			alert('Error: ' + serverMsg);
-		}
+				} else {
+					alert('Error: ' + serverMsg);
+				}
             }
         }
 
-        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, false);
+        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, true);
         xmlHTTPObject.send(null);
     }
 
@@ -235,9 +235,9 @@ if (isset($saveSuccess) && $saveSuccess) {
 <!-- Search form begins -->
 <form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
-<table width="600" border="0" cellspacing="0" cellpadding="5">
+<table width="670" border="0" cellspacing="0" cellpadding="5">
   <tr>
-    <td width="470">
+    <td width="450">
     <?php if ($adminUser) { ?>
     Employee <input type="text" name="txtEmployeeSearchName" id="txtEmployeeSearch" size="20" onchange="" />
     <?php } ?>
@@ -252,9 +252,9 @@ if (isset($saveSuccess) && $saveSuccess) {
 	<?php } ?>
 	</select>&nbsp;&nbsp;&nbsp;<input type="submit" name="search" id="search" value="Search" />
     </td>
-    <td width="20">
+    <td width="0">
 	</td>
-    <td width="250">
+    <td width="230">
     <?php if ($adminUser) { ?>
  	<img id="btnAdd" title="Add" onClick="edit();"
  		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
