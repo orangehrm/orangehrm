@@ -262,7 +262,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
         float: left;
         margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
     }
-    input[type=checkbox] {
+    #containsHeader {
 		width: 15px;
 		background-color: transparent;
 		vertical-align: bottom;

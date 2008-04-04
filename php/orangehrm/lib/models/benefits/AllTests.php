@@ -19,7 +19,7 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'models_time_AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'models_benefits_AllTests::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
 
@@ -31,7 +31,6 @@ require_once 'HspTest.php';
 require_once 'HspPaymentRequestTest.php';
 require_once 'HspSummaryTest.php';
 require_once 'DefineHspTest.php';
-
 
 class models_benefits_AllTests
 {

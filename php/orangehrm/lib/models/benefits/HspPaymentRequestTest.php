@@ -45,7 +45,7 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
         mysql_select_db($conf->dbname);
 
     	$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (11, '011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"));
-        							  "VALUES(10, 'Test', 'For testing purposes')"), mysql_error());
+
         $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`," .
         							  "`termination_date`,`halted`,`halted_date`,`terminated`) " .
         							  "VALUES(10, 11, 1000, 500, NULL, false, NULL, false)"));

@@ -34,7 +34,6 @@ require_once 'LeaveTest.php';
 require_once 'LeaveTypeTest.php';
 require_once 'WeekendsTest.php';
 
-
 class models_leave_AllTests
 {
     public static function main()
