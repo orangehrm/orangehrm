@@ -91,7 +91,7 @@ function Footer()
 {
 	$this->SetTextColor(190, 190, 190);
 	$this->Text(150, 274, 'Powered by');
-	$this->Image('../../themes/beyondT/pictures/orange_new_02.png', 150, 275, 34, 8);
+	$this->Image('../../themes/'. $_SESSION['styleSheet'] .'/pictures/pdf_footer_img.png', 150, 275, 34, 8);
 }
 
 function OpenTag($tag,$attr)
