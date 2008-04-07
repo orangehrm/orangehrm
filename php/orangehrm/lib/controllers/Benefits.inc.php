@@ -69,7 +69,11 @@ while (true) {
 		    								  	  BenefitsController::viewHspSummary($_POST['year']);
 											  } elseif (isset($_POST['txtEmployeeSearchName']) && isset($_POST['year'])) {
 											      $empId = EXTRACTOR_HspSummary::parseSearchData($_POST);
-											      BenefitsController::searchHspSummary($empId, $_POST['year']);
+											      if ($empId == "") {
+											      	BenefitsController::viewHspSummary($_POST['year'], "leftNull");
+											      } else {
+											        BenefitsController::searchHspSummary($empId, $_POST['year']);
+											      }
 											  } elseif (isset($_GET['empId']) && isset($_GET['year'])) {
 											      BenefitsController::searchHspSummary($_GET['empId'], $_GET['year']);
 											  }

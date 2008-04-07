@@ -22,7 +22,6 @@ if(! defined('ROOT_PATH'))
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
-
 require_once ROOT_PATH . '/lib/models/benefits/HspPayPeriod.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
@@ -30,7 +29,6 @@ require_once ROOT_PATH . '/lib/models/benefits/mail/HspMailNotification.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspPaymentRequest.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/benefits/DefineHsp.php';
-
 require_once ROOT_PATH . '/lib/logger/Logger.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 
@@ -237,7 +235,11 @@ class BenefitsController {
 		}
 
 		if (Config::getHspCurrentPlan() == 0) { // Check whether the HSP plan has been defined
-		    $error['hspPlanNotDefined'] = "HSP plan hasn't been defined. You should first define it at Define HSP";
+		    $error['hspPlanNotDefined'] = true;
+		}
+
+		if ($employeeId == "leftNull") {
+		    $error['nonExistedEmployeeSearch'] = true;
 		}
 
 		if (isset($error)) { // If errors found
@@ -293,7 +295,7 @@ class BenefitsController {
 				$tmpOb[7]=HspPayPeriod::getYears();
 
 			} catch(Exception $e) {
-					$error['noEmployeeRecords'] = "No employee has been defined yet. First define employees at PIM";
+					$error['noEmployeeRecords'] = true;
 			}
 
 			// Setting template paths
@@ -610,7 +612,7 @@ class BenefitsController {
 			$hspId = $hspReqest->getHspId();
 
 			switch ($hspId) {
-				case 1 : 
+				case 1 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
 
 					if (is_null($personalHspSummary))
@@ -734,7 +736,7 @@ class BenefitsController {
 			$hspId  = $hspReqestTemp->getHspId();
 
 			switch ($hspId) {
-				case 1 : 
+				case 1 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
 					$amountLimit = $personalHspSummary[0]->getTotalAccrued() - $personalHspSummary[0]->getTotalUsed();
 					break;
@@ -745,7 +747,7 @@ class BenefitsController {
 					} else {
 						$index = 0;
 					}
-					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed(); 
+					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed();
 					break;
 				case 3 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
@@ -778,7 +780,7 @@ class BenefitsController {
 
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
-				case HspPaymentRequestException::INVALID_ROW_COUNT : 
+				case HspPaymentRequestException::INVALID_ROW_COUNT :
 					$msg = 'SAVE_FAILURE';
 				  	break;
 				case HspPaymentRequestException::EXCEED_LIMIT :

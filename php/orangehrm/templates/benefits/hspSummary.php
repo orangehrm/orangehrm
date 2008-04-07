@@ -22,9 +22,18 @@ require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
 
 if (isset($errorFlag)) {
 
-	foreach ($records as $error) {
-	    echo "<h5>".$error."</h5>";
+	if (isset($records['hspPlanNotDefined'])) {
+	    echo "<h5>".$lang_Benefits_Summary_Plan_Not_Defined."</h5>";
 	}
+
+	if (isset($records['noEmployeeRecords'])) {
+	    echo "<h5>".$lang_Benefits_Summary_No_Employee_Records."</h5>";
+	}
+
+	if (isset($records['nonExistedEmployeeSearch'])) {
+	    echo "<h5>".$lang_Benefits_Summary_Search_EmpId_Not_Set."</h5>";
+	}
+
 
 } else { // HSP defined and Employees exist
     $hspSummary = $records[1];
