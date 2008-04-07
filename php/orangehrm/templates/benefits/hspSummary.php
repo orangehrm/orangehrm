@@ -34,7 +34,6 @@ if (isset($errorFlag)) {
 	    echo "<h5>".$lang_Benefits_Summary_Search_EmpId_Not_Set."</h5>";
 	}
 
-
 } else { // HSP defined and Employees exist
     $hspSummary = $records[1];
     $year = $records[2];
@@ -347,7 +346,7 @@ if (($i%2) == 0) {
   <tr>
     <td class="tableMiddleLeft"></td>
     <?php if (!isset($oneEmployee) || $adminUser) { ?>
-    <td class="<?php echo $rowStyle; ?>"><a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getSummaryId(); ?>"><?php echo $hspSummary[$i]->getEmployeeName(); ?></a>
+    <td class="<?php echo $rowStyle; ?>"><a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getEmployeeId(); ?>"><?php echo $hspSummary[$i]->getEmployeeName(); ?></a>
     <?php } ?>
     <input type="hidden" name="hidSummaryId[]" id="" value="<?php echo $hspSummary[$i]->getSummaryId(); ?>" />
     <input type="hidden" name="hidEmployeeId[]" id="" value="<?php echo $hspSummary[$i]->getEmployeeId(); ?>" />
