@@ -310,6 +310,45 @@ class HspSummary extends Hsp {
 
 	}
 
+	public function isHspValueChangedByAdmin($existing) {
+		$isChanged = false;
+
+                $msg = 'HR Admin Changing HSP Value (Emp ID - '. $existing->getEmployeeId() .', Summary ID -'.$existing->getSummaryId().')';
+		
+
+                if($this->getAnnualLimit() != $existing->getAnnualLimit()) {
+                        $isChanged = true;
+                        $msg = $msg . "\r\n[Annual Limit] " . $existing->getAnnualLimit() . " -> " . $this->getAnnualLimit();
+                }
+
+                if($this->getEmployerAmount() != $existing->getEmployerAmount()) {
+                        $isChanged = true;
+                        $msg = $msg . "\r\n[Employer Amount] " . $existing->getEmployerAmount() . " -> " . $this->getEmployerAmount();
+                }
+
+                if($this->getEmployeeAmount() != $existing->getEmployeeAmount()) {
+                        $isChanged = true;
+                        $msg = $msg . "\r\n[Employee Amount] " . $existing->getEmployeeAmount() . " -> " . $this->getEmployeeAmount();
+                }
+
+                if($this->getTotalAccrued() != $existing->getTotalAccrued()) {
+                        $isChanged = true;
+                        $msg = $msg . "\r\n[Total Accrued] " . $existing->getTotalAccrued() . " -> " . $this->getTotalAccrued();
+                }
+
+                if($this->getTotalUsed() != $existing->getTotalUsed()) {
+                        $isChanged = true;
+                        $msg = $msg . "\r\n[Total Used] " . $existing->getTotalUsed() . " -> " . $this->getTotalUsed();
+                }
+
+                if (!$isChanged) {
+                        return $isChanged;
+                }else {
+                        return $msg;
+                }
+
+	}
+
 }
 
 

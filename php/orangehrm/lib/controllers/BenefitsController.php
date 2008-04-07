@@ -345,6 +345,23 @@ class BenefitsController {
 
 	public static function saveHspSummary($summaryObjArr, $year, $empId=null) {
 
+		for ($i = 0; $i < count($summaryObjArr); $i++) {
+
+			try {
+				$log = Logger::getInstance();
+
+				$exsisting = HspSummary::fetchHspSummary($year, 1, $summaryObjArr[$i]->getEmployeeId());
+
+				$mssg = $summaryObjArr[$i]->isHspValueChangedByAdmin($exsisting[0]);
+
+				if ($mssg != false) {
+					$log->info($mssg);
+				}
+
+			} catch (Exception $e) {}
+
+		}
+
 		$saveSuccess = HspSummary::saveHspSummary($summaryObjArr);
 
 		if (isset($empId)) {

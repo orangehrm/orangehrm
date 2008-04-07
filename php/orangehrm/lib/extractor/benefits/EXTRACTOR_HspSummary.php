@@ -29,6 +29,12 @@ class EXTRACTOR_HspSummary {
 
 			$hspSummaryObj->setSummaryId($postArr['hidSummaryId'][$i]);
 
+			if (!empty($postArr['hidEmployeeId'][$i]) && is_numeric($postArr['hidEmployeeId'][$i])) {
+				$hspSummaryObj->setEmployeeId($postArr['hidEmployeeId'][$i]);
+			} else {
+				$hspSummaryObj->setEmployeeId(null);
+			}
+
 			if (!empty($postArr['txtAnnualLimit'][$i]) && is_numeric($postArr['txtAnnualLimit'][$i])) {
 				$hspSummaryObj->setAnnualLimit($postArr['txtAnnualLimit'][$i]);
 			} else {
