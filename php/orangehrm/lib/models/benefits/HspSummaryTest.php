@@ -238,6 +238,38 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSaveInitialSummaryForOneEmployee() {
+
+    	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
+
+    	// Add 2 records to `hs_hr_hsp_summary`
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (1, 1, 1, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 1, 3, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+
+		HspSummary::saveInitialSummaryForOneEmployee(date('Y'), 2);
+
+		$result = mysql_query("SELECT `employee_id`, `hsp_plan_id` FROM `hs_hr_hsp_summary` WHERE `summary_id` = '3' OR `summary_id` = '4'");
+
+		$empIds[0] = 2;
+		$empIds[1] = 2;
+
+		$hspIds[0] = 1;
+		$hspIds[1] = 3;
+
+		$i = 0;
+
+		while ($row = mysql_fetch_array($result)) {
+
+		    $this->assertEquals($empIds[$i], $row['employee_id']);
+			$this->assertEquals($hspIds[$i], $row['hsp_plan_id']);
+
+			$i++;
+
+		}
+
+    }
+
+
 }
 
 // Call HspSummaryTest::main() if this source file is executed directly.

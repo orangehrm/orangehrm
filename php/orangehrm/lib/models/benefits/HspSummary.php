@@ -120,64 +120,56 @@ class HspSummary extends Hsp {
 
 	}
 
-	public static function saveInitialSummaryForOneEmployee($year, $hspPlanId, $empId) {
+	/**
+	 * This function is to save initial summary data for one employee. Used when a new
+	 * employee is added at PIM module.
+	 */
 
-		switch ($hspPlanId) {
+	public static function saveInitialSummaryForOneEmployee($year, $empId) {
 
-		    case 4:
-		    	$hspPlanId = 1;
-		    	$hspPlanId2 = 3;
-		    	break;
+		// For getting available HSP Plan Ids
 
-		    case 5:
-		    	$hspPlanId = 2;
-		    	$hspPlanId2 = 3;
-		    	break;
-
-		    case 6:
-		    	$hspPlanId = 1;
-		    	$hspPlanId2 = 2;
-		    	break;
-
-		}
-
-		$insertTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
-
-		$insertFields[0] = "`".parent::DB_FIELD_SUMMARY_ID."`";
-		$insertFields[1] = "`".parent::DB_FIELD_EMPLOYEE_ID."`";
-		$insertFields[2] = "`".parent::DB_FIELD_HSP_PLAN_ID."`";
-		$insertFields[3] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."`";
-		$insertFields[4] = "`".parent::DB_FIELD_HSP_PLAN_STATUS."`";
-		$insertFields[5] = "`".parent::DB_FIELD_ANNUAL_LIMIT."`";
-		$insertFields[6] = "`".parent::DB_FIELD_EMPLOYER_AMOUNT."`";
-		$insertFields[7] = "`".parent::DB_FIELD_EMPLOYEE_AMOUNT."`";
-		$insertFields[8] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
-		$insertFields[9] = "`".parent::DB_FIELD_TOTAL_USED."`";
-
-		$insertValues[0] = UniqueIDGenerator::getInstance()->getNextID(parent::DB_TABLE_HSP_SUMMARY, parent::DB_FIELD_SUMMARY_ID);
-		$insertValues[1] = $empId;
-		$insertValues[2] = $hspPlanId;
-		$insertValues[3] = $year;
-		$insertValues[4] = 1;
-		$insertValues[5] = 0;
-		$insertValues[6] = 0;
-		$insertValues[7] = 0;
-		$insertValues[8] = 0;
-		$insertValues[9] = 0;
+		$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
+		$selectFields[0] = "DISTINCT `".parent::DB_FIELD_HSP_PLAN_ID."`";
+		$selectConditions[0] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '".$year."'";
 
 		$sqlBuilder = new SQLQBuilder();
-		$query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
 
 		$dbConnection = new DMLFunctions();
-		$dbConnection->executeQuery($query);
+		$result = $dbConnection->executeQuery($query);
 
-		if (isset($hspPlanId2)) {
+		while ($row = $dbConnection->dbObject->getArray($result)) {
 
-		    $insertValues[0] = UniqueIDGenerator::getInstance()->getNextID(parent::DB_TABLE_HSP_SUMMARY, parent::DB_FIELD_SUMMARY_ID);
-		    $insertValues[2] = $hspPlanId2;
+			$insertTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
 
-		    $query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
-		    $dbConnection->executeQuery($query);
+			$insertFields[0] = "`".parent::DB_FIELD_SUMMARY_ID."`";
+			$insertFields[1] = "`".parent::DB_FIELD_EMPLOYEE_ID."`";
+			$insertFields[2] = "`".parent::DB_FIELD_HSP_PLAN_ID."`";
+			$insertFields[3] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."`";
+			$insertFields[4] = "`".parent::DB_FIELD_HSP_PLAN_STATUS."`";
+			$insertFields[5] = "`".parent::DB_FIELD_ANNUAL_LIMIT."`";
+			$insertFields[6] = "`".parent::DB_FIELD_EMPLOYER_AMOUNT."`";
+			$insertFields[7] = "`".parent::DB_FIELD_EMPLOYEE_AMOUNT."`";
+			$insertFields[8] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+			$insertFields[9] = "`".parent::DB_FIELD_TOTAL_USED."`";
+
+			$insertValues[0] = UniqueIDGenerator::getInstance()->getNextID(parent::DB_TABLE_HSP_SUMMARY, parent::DB_FIELD_SUMMARY_ID);
+			$insertValues[1] = $empId;
+			$insertValues[2] = $row[0];
+			$insertValues[3] = $year;
+			$insertValues[4] = 1;
+			$insertValues[5] = 0;
+			$insertValues[6] = 0;
+			$insertValues[7] = 0;
+			$insertValues[8] = 0;
+			$insertValues[9] = 0;
+
+			$sqlBuilder2 = new SQLQBuilder();
+			$query2 = $sqlBuilder2->simpleInsert($insertTable, $insertValues, $insertFields);
+
+			$dbConnection2 = new DMLFunctions();
+			$dbConnection2->executeQuery($query2);
 
 		}
 
@@ -314,7 +306,7 @@ class HspSummary extends Hsp {
 		$isChanged = false;
 
                 $msg = 'HR Admin Changing HSP Value (Emp ID - '. $existing->getEmployeeId() .', Summary ID -'.$existing->getSummaryId().')';
-		
+
 
                 if($this->getAnnualLimit() != $existing->getAnnualLimit()) {
                         $isChanged = true;

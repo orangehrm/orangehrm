@@ -1934,12 +1934,11 @@ class EmpViewController {
 				$hspPlanId = Config::getHspCurrentPlan();
 
 				if (HspSummary::recordsExist(date('Y'))) {
-				    HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $hspPlanId, $empinfo->getEmpId());
+				    HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
 				} else {
 					HspSummary::saveInitialSummary(date('Y'), $hspPlanId);
-					HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $hspPlanId, $empinfo->getEmpId());
+					HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
 				}
-
 
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
 
