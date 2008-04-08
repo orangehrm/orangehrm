@@ -118,6 +118,9 @@ class LeaveSummary extends LeaveQuota {
 		if ( $searchBy == "leaveType" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
 			$selectConditions[] = "b.`leave_type_id` = '{$leaveTypeId}'";
 		}
+		if ( $searchBy == "both" && !empty($leaveTypeId) && ($leaveTypeId != self::LEAVESUMMARY_CRITERIA_ALL)) {
+			$selectConditions[] = "a.`emp_number` = {$employeeId} AND b.`leave_type_id` = '{$leaveTypeId}'";
+		}
 		
 		$selectConditions[]  = "a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000'" ;
 

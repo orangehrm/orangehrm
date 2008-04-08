@@ -65,11 +65,20 @@
 
 	function view() {
 
-		if(undefined===window.cmbEmpID){
-			document.frmSelectEmployee.searchBy.value = "employee";
-		} else {
-		    document.frmSelectEmployee.searchBy.value = "leaveType";
+		with (document.frmSelectEmployee) {
+		    if (cmbId.selectedIndex > 0) {
+			searchMode = 'employee';
+		    }
+		    if (leaveTypeId.selectedIndex > 0) {
+			searchMode = 'leaveType';
+		    }
+		    if (cmbId.selectedIndex > 0 && leaveTypeId.selectedIndex > 0) {
+			searchMode = 'both';
+		    }
+
+		    searchBy.value = searchMode;
 		}
+
 
 	}
 
