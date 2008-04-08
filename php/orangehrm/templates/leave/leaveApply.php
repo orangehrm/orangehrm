@@ -357,20 +357,7 @@ require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 <?php
 	}
 }
-if (isset($previousLeave) && (($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_TAKEN) || ($previousLeave->getLeaveStatus() == Leave::LEAVE_STATUS_LEAVE_APPROVED)) && !$_SESSION['isAdmin']=='Yes') {
- ?>
- <div id="revertLeave" class="confirmBox">
- 	<div class="confirmInnerBox">
-	<?php echo $lang_Leave_DoYouWantToCancelTheLeaveYouJustAssigned; ?> <span id="msgResponseYes" class="selectable"><?php echo $lang_Common_Yes; ?></span> <span id="msgResponseNo" class="selectable" ><?php echo $lang_Common_No; ?></a>
-	</div>
-</div>
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="?leavecode=Leave&action=Leave_Request_ChangeStatus">
-	<input type="hidden" name="id[]" id="idC" value="<?php echo $previousLeave->getLeaveRequestId(); ?>" />
-	<input type="hidden" name="cmbStatus[]" id="cmbStatusC" value="<?php echo Leave::LEAVE_STATUS_LEAVE_CANCELLED; ?>"/>
-	<input type="hidden" name="txtComment[]" id="txtCommentC" value="" />
-</form>
-<?php } ?>
-<?php
+
 if (isset($exception)) {
 	if ($exception->isWarning()) {
 		$confirmDate = true;
