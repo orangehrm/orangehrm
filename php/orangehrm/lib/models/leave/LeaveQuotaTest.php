@@ -82,6 +82,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY012', 'Personal', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY013', 'Annual', 1)");
+		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY014', 'Special', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY010', '012', 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY011', '012', 20);");
@@ -89,6 +90,7 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('".date('Y')."', 'LTY011', '011', 20);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('2009', 'LTY012', '016', 20, 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('2010', 'LTY012', '016', 20, 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('2010', 'LTY014', '016', 20, 10, 5);");
 		$previousYear = date('Y') - 1;
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('".$previousYear."', 'LTY013', '017', 20, 10, 5);");
 
@@ -117,11 +119,12 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '020'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '015'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '016'", $this->connection);
-		mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '017'", $this->connection);
+	mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE `Employee_ID` = '017'", $this->connection);
 
-		mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
-		mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
-		mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY013'", $this->connection);
+	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY010'", $this->connection);
+	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
+	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY013'", $this->connection);
+	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY014'", $this->connection);
 
 
     	$this->connection = null;
@@ -268,6 +271,19 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		$broughtForward = new LeaveQuota();
 		$year = date('Y') - 1;
 		$this->assertTrue($broughtForward->checkBroughtForward($year));
+	}
+
+	public function testIsLeaveQuotaDeleted() {
+		$quota = $this->classLeaveQuota->fetchLeaveQuota(16);
+
+		$result = $quota[0]->isLeaveQuotaDeleted();
+		$this->assertFalse($result);
+
+		$result = $quota[1]->isLeaveQuotaDeleted();
+		$this->assertTrue($result);
+
+		$result = $quota[2]->isLeaveQuotaDeleted();
+		$this->assertFalse($result);
 	}
 
 }

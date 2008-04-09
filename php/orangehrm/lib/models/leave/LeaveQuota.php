@@ -20,6 +20,7 @@
 
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
 
 class LeaveQuota {
 
@@ -434,6 +435,14 @@ class LeaveQuota {
 			return false;
 		}
 
+	}
+
+	public function isLeaveQuotaDeleted() {
+
+		$leaveTypeObj = new LeaveType();
+		$leaveType = $leaveTypeObj->retriveLeaveType($this->leaveTypeId);
+
+		return (($leaveType[0]->getLeaveTypeAvailable() == $leaveType[0]->availableStatusFlag) ? false : true);
 	}
 
 	protected function _buildObjArr($result) {

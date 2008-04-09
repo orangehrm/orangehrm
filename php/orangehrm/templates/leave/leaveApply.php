@@ -527,10 +527,18 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_Leave_Common_LeaveType; ?></td>
         <td width="25px">&nbsp;</td>
-        <td><select name="sltLeaveType" id="sltLeaveType">
-            <?php
-	  	if (is_array($records[1])) {
+        <td>
+	    <select name="sltLeaveType" id="sltLeaveType">
+            <?php if (is_array($records[1])) {
 	  	 	foreach ($records[1] as $record) {
+				$className = get_class($record);
+
+				if ($className == 'LeaveQuota') {
+				    if ($record->isLeaveQuotaDeleted()) {
+					continue;
+				    }
+				} 
+
 	  	 		$selected = ($record->getLeaveTypeID() == $prevLeaveType) ? "selected" : "";
 	  ?>
             <option <?php echo $selected;?> value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option>
