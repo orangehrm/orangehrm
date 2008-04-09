@@ -291,7 +291,7 @@
 
  	$lang_Leave_Leave_list_Title1 			= "Approve Leave";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
-	$lang_Leave_Leave_list_Title2 			= "Leaves Taken by #employeeName in #dispYear";
+	$lang_Leave_Leave_list_Title2 			= "Leave Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";

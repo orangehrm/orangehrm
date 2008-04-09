@@ -318,7 +318,7 @@
  	$lang_Leave_all_emplyee_taken_leaves	= "Taken Leaves";
 	$lang_Leave_Leave_Requestlist_Title1 	= "Approve Leave Request for #employeeName";
 	$lang_Leave_Leave_Requestlist_Title2 	= "Change Leave Request for #employeeName";
-	$lang_Leave_Leave_list_Title2 			= "Leaves Taken by #employeeName in #dispYear";
+	$lang_Leave_Leave_list_Title2 			= "Leave Taken by #employeeName in #dispYear";
 	$lang_Leave_Leave_list_Title3 			= "Leave List";
 	$lang_Leave_Leave_list_Title4 			= "Scheduled Leaves";
 	$lang_Leave_Leave_list_TitleAllEmployees= "Leave List (All Employees)";
