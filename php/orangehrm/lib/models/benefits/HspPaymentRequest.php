@@ -906,5 +906,6 @@ class HspPaymentRequestException extends Exception {
 	const EXCEED_LIMIT = 12;
 	const INVALID_YEAR = 13;
 	const INVALID_DATE = 14;
+	const INVALID_DATE_PREVIOUS_YEAR = 15;
 }
 ?>

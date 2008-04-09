@@ -613,6 +613,10 @@ class BenefitsController {
 
 			switch ($hspId) {
 				case 1 :
+					if ($year != date('Y')) {
+						throw new HspPaymentRequestException('Requests for the previous year are not allowed under the current health savings plan', HspPaymentRequestException::INVALID_DATE_PREVIOUS_YEAR);
+					}
+
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
 
 					if (is_null($personalHspSummary))
@@ -621,6 +625,10 @@ class BenefitsController {
 					$amountLimit = $personalHspSummary[0]->getTotalAccrued();
 					break;
 				case 2 :
+					if ($year != date('Y')) {
+						throw new HspPaymentRequestException('Requests for the previous year are not allowed under the current health savings plan', HspPaymentRequestException::INVALID_DATE_PREVIOUS_YEAR);
+					}
+
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
 
 					if (is_null($personalHspSummary))
@@ -685,6 +693,9 @@ class BenefitsController {
 					break;
 				case HspPaymentRequestException::NO_HSP :
 					$msg = 'SAVE_REQUEST_NO_HSP_SUMMARY_DEFINED_FAILURE';
+					break;
+				case HspPaymentRequestException::INVALID_DATE_PREVIOUS_YEAR :
+					$msg = 'SAVE_REQUEST_INVALID_DATE_PREVIOUS_YEAR_FAILURE';
 					break;
 				default :
 					$msg = 'UNKNOWN_ERROR_FAILURE';
