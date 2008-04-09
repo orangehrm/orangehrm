@@ -434,7 +434,7 @@ if (($i%2) == 0) {
 		case Hsp::HSP_STATUS_ACTIVE :
 			if ($_SESSION['isAdmin'] == 'Yes') {
 				$buttonLabel = 'Halt';
-				$newStatusId = Hsp::HSP_STATUS_ESS_HALTED;
+				$newStatusId = Hsp::HSP_STATUS_HALTED;
 			} else {
 				$buttonLabel = 'Request Halt';
 				$buttonWidth = '75px';
