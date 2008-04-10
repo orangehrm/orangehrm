@@ -78,6 +78,33 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @todo Implement testFetchSummary().
+     */
+    public function testFetchPersonalSummary() {
+
+    	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
+
+    	// Add 3 records to `hs_hr_hsp_summary`
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (1, 1, 1, ".date('Y').", 0, 1200.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 2, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (3, 3, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+
+		$hspSummary = new HspSummary();
+
+		$summary = $hspSummary->fetchPersonalHspSummary(date('Y'), 1);
+
+		$this->assertTrue(is_array($summary));
+		$this->assertTrue(is_object($summary[0]));
+		$this->assertEquals(count($summary), 1);
+		$this->assertEquals($summary[0]->getAnnualLimit(), 1200);
+
+		$summary = $hspSummary->fetchPersonalHspSummary(date('Y'), 5);
+
+		$this->assertTrue(is_array($summary));
+		$this->assertEquals(count($summary), 0);
+    }
+
     public function testSaveInitialSummary() {
 
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());

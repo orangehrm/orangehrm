@@ -303,7 +303,11 @@ class BenefitsController {
 				if ($_GET['pdfName'] == "All-Employees-HSP-Summary") {
 					$path = "/plugins/printBenefits/pdfHspSummary.php";
 				} elseif ($_GET['pdfName'] == "Personal-HSP-Summary") {
-					$tmpOb[1]=HspSummary::fetchEmployeeHspSummary($year, $employeeId);
+					if (!isset($employeeId)) {
+						$empId = $_GET['empId'];
+					}
+
+					$tmpOb[1]=HspSummary::fetchPersonalHspSummary($year, $empId);
 					$path = "/plugins/printBenefits/pdfPersonalHspSummary.php";
 				}
 			} else {

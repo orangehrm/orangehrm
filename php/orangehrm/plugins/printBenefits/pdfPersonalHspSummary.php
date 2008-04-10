@@ -20,63 +20,83 @@
  *
  */
 
-$year = $records[0];
+$year = $records[2];
 $summary = $records[1];
 
-$_SESSION['cellHeight'] = 10;
-$_SESSION['colunmWidths'] = array(25, 30, 25, 25, 25, 25, 25);
-$_SESSION['recordsPerPage'] = 20;
-?>
+$_SESSION['cellHeight'] = 15;
+$_SESSION['colunmWidths'] = array(20, 25, 28, 28, 28, 28, 28);
+$_SESSION['recordsPerPage'] = 14;
 
-<h2><?php echo "$lang_Benefits_PersonalHspSummary : $year";?></h2>
+?>
+<h2><?php echo "$lang_Benefits_EmployeeHspSummary : $year";?></h2>
 <?php
 if (isset($summary[0])) {
-	echo "<h2>   {$summary[0]['employee_name']}</h2>";
+        echo "<h2>   {$summary[0]->getEmployeeName()}</h2>";
 }
 ?>
-<hr/>
+<hr />
+<?php if (isset($_GET['message'])) {
 
+		$expString  = $_GET['message'];
+		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$expString = 'lang_Benefits_Errors_' . $expString;
+}	?>
 <?php if (count($summary) == 0) { ?>
-	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
+	<?php echo $lang_Error_NoRecordsFound; ?>
 <?php } else { ?>
 
 <?php
 $count = count($summary);
-
 ?>
 
 <table border="0" cellpadding="5" cellspacing="0" width="580" align="center" class="tableMain">
 		<thead>
 			<tr>
-			<th>&nbsp;</th>
-		    	<th><?php echo $lang_Benefits_HspValue; ?></th>
-		    	<th><?php echo $lang_Benefits_AmountPerDay; ?></th>
-		    	<th><?php echo $lang_Benefits_TotalAcrued; ?></th>
-		    	<th><?php echo $lang_Benefits_TotalDue; ?></th>
-		    	<th><?php echo $lang_Benefits_BalanceAvailable; ?></th>
-		    	<th><?php echo $lang_Benefits_TotalUsed; ?></th>
+			<th><?php echo $lang_Benefits_Summary_Plan; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Status; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Annual_Limit . "<br />" . $lang_Benefits_US_Dollars; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Employer . "<br />" . $lang_Benefits_US_Dollars; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Employee . "<br />" . $lang_Benefits_US_Dollars; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Total_Accrued . "<br />" . $lang_Benefits_US_Dollars; ?></th>
+		    	<th><?php echo $lang_Benefits_Summary_Total_Used; ?></th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php if (count($summary) > 0) { ?>
 			<?php
-				for ($i=0; $i<count($summary); $i++) {
+
+				for ($i=0; $i<$count; $i++) {
 			?>
 				<tr>
-					<td></td>
-					<td><?php if ($summary[$i]['hsp_value'] > 0) {
-						echo number_format($summary[$i]['hsp_value'], 2, ".", "");
-					} else {
-						echo number_format(0, 2, ".", "");
-					} ?></td>
-					<td><?php echo number_format($summary[$i]['amount_per_day'], 2, ".", ""); ?></td>
-					<td><?php echo number_format($summary[$i]['total_acrued'], 2, ".", ""); ?></td>
-					<td><?php echo number_format($summary[$i]['total_due'], 2, ".", ""); ?></td>
-					<td><?php echo number_format($summary[$i]['balance_available'], 2, ".", ""); ?></td>
-					<td><?php echo number_format($summary[$i]['total_used'], 2, ".", ""); ?></td>
+					<td><?php echo $summary[$i]->getHspPlanName(); ?></td>
+					<td><?php echo $summary[$i]->getHspPlanStatusName(); ?></td>
+					<td><?php if ($summary[$i]->getAnnualLimit() > 0) {
+						echo number_format($summary[$i]->getAnnualLimit(), 2, ".", "");
+					 } else {
+						echo '0.00';
+					 } ?></td>
+					<td><?php if ($summary[$i]->getEmployerAmount() > 0) {
+						echo number_format($summary[$i]->getEmployerAmount(), 2, ".", "");
+					 } else {
+						echo '0.00';
+					 } ?></td>
+					<td><?php if ($summary[$i]->getEmployeeAmount() > 0) {
+						echo number_format($summary[$i]->getEmployeeAmount(), 2, ".", "");
+					 } else {
+						echo '0.00';
+					 } ?></td>
+					<td><?php if ($summary[$i]->getTotalAccrued() > 0) {
+						echo number_format($summary[$i]->getTotalAccrued(), 2, ".", "");
+					 } else {
+						echo '0.00';
+					 } ?></td>
+					<td><?php if ($summary[$i]->getTotalUsed() > 0) {
+						echo number_format($summary[$i]->getTotalUsed(), 2, ".", "");
+					 } else {
+						echo '0.00';
+					 } ?></td>
 				</tr>
 			<?php } ?>
-		<?php }?>
 		</tbody>
 		<tfoot>
 		  	<tr>
@@ -90,5 +110,6 @@ $count = count($summary);
 			</tr>
 	  	</tfoot>
 	</table>
+<?php } ?>
 
 <?php }?>

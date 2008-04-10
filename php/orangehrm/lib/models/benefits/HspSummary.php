@@ -63,6 +63,31 @@ class HspSummary extends Hsp {
 
    }
 
+    public static function fetchPersonalHspSummary($year, $empId) {
+
+		parent::updateAccrued($year); // Update 'total_accrued' for $year
+		//parent::updateUsed($year); // Update 'total_used' for $year
+
+		$selectTable = parent::DB_TABLE_HSP_SUMMARY;
+		$selectFields[0] = "*";
+		$selectConditions[0] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = ".$year;
+		$hspPlanId = Config::getHspCurrentPlan();
+		$selectConditions[1] = parent::_twoHspPlansCondition($hspPlanId);
+		$selectConditions[2] = "`".parent::DB_FIELD_EMPLOYEE_ID."` = ". $empId;
+		$selectOrderBy = "`".parent::DB_FIELD_HSP_PLAN_ID."`";
+		$selectOrder = "ASC";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$hsbObjArr = self::_buildSummaryObjects($result);
+
+		return $hsbObjArr;
+    }
+
     /**
      * This function stores initial data for a given year
      */

@@ -275,8 +275,17 @@ if (isset($saveSuccess) && $saveSuccess) {
  		 src="../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
  	<?php } ?>
-	<?php if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { ?>
-		<a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=All-Employees-HSP-Summary"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
+	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { 
+		
+		if (isset($oneEmployee) && $oneEmployee) {
+			$pdfName = 'Personal-HSP-Summary';
+			$empNoQueryStr = '&empId=' . $_POST['hidEmpNo'];
+		} else {
+			$pdfName = 'All-Employees-HSP-Summary';
+			$empNoQueryStr = '';
+		}
+	?>
+		<a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=<?php echo $pdfName . $empNoQueryStr; ?>"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
 	<?php } ?>
     </td>
   </tr>
