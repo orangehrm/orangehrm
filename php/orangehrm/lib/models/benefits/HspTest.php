@@ -312,6 +312,7 @@ class HspTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($resultArray[0], 1); // should be 1 (Active)
 
     }
+
 }
 
 // Call HspTest::main() if this source file is executed directly.

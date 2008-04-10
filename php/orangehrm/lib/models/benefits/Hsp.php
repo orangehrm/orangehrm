@@ -21,6 +21,9 @@
 require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/common/Config.php';
+require_once ROOT_PATH.'/lib/common/Config.php';
+require_once ROOT_PATH.'/lib/models/eimadmin/EmployStat.php';
+require_once ROOT_PATH.'/lib/models/hrfunct/EmpInfo.php';
 
 class Hsp {
 
@@ -198,6 +201,7 @@ class Hsp {
 				$selectFields[2] = "`".self::DB_FIELD_EMPLOYER_AMOUNT."`";
 				$selectFields[3] = "`".self::DB_FIELD_EMPLOYEE_AMOUNT."`";
 				$selectFields[4] = "`".self::DB_FIELD_TOTAL_ACCRUED."`";
+				$selectFields[5] = "`".self::DB_FIELD_EMPLOYEE_ID."`";
 				$selectConditions[0] = self::_twoHspPlansCondition(Config::getHspCurrentPlan());
 				$selectConditions[1] = "`".self::DB_FIELD_HSP_PLAN_YEAR."`= '".$year."'";
 
@@ -214,9 +218,16 @@ class Hsp {
 				for ($i=0; $i<$rowCount; $i++) {
 
 					$row = $dbConnection->dbObject->getArray($result);
-					if ($row[1] == Hsp::HSP_STATUS_ACTIVE || $row[1] == Hsp::HSP_STATUS_PENDING_HALT) {
-					    $updatedArray[$i][0] = $row[0];
-					    $updatedArray[$i][1] = $row[4]+($checkDates*($row[2]+$row[3]));
+
+					if (!Hsp::_isEmployeeTerminated($row[5])) {
+
+					    if ($row[1] == Hsp::HSP_STATUS_ACTIVE || $row[1] == Hsp::HSP_STATUS_PENDING_HALT) {
+					        $updatedArray[$i][0] = $row[0];
+					        $updatedArray[$i][1] = $row[4]+($checkDates*($row[2]+$row[3]));
+					    } else {
+					        $updatedArray[$i][0] = $row[0];
+					        $updatedArray[$i][1] = $row[4];
+					    }
 					} else {
 					    $updatedArray[$i][0] = $row[0];
 					    $updatedArray[$i][1] = $row[4];
@@ -360,6 +371,31 @@ class Hsp {
 
 	}
 
+	/**
+	 * Used to check whether the employee's status is terminated
+	 */
+	
+	private static function _isEmployeeTerminated($employeeId) {
+
+		$selectTable = "`hs_hr_employee` a";
+
+		$selectFields[0] = "a.`emp_status`";
+
+		$selectConditions[0] = "a.`employee_id`= $employeeId";
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+
+		$result = $dbConnection->executeQuery($query);
+
+		$employeeStatus = mysql_fetch_array($result, MYSQL_NUM);
+
+		return ($employeeStatus[0] === EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED);
+	
+	}
 
 }
 
