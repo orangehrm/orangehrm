@@ -550,7 +550,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 
                         if ($skippedLeaveTypesCount == count($records[1])) { ?>
                                 <option value="-1">-- <?php echo $lang_Error_NoLeaveTypes; ?> --</option>
-                        <? }
+                        <?php }
                 } else { ?>
             <option value="-1">-- <?php echo $lang_Error_NoLeaveTypes; ?> --</option>
             <?php } ?>
