@@ -96,6 +96,8 @@ class CSVImport {
 	 */
 	 public function importData() {
 
+		set_time_limit(300); // For handling time out
+
 /*		$ir = array();
 		$ir[] = new ImportResult(self::IMPORT_ERROR, "A comment");
 		$ir[] = new ImportResult(self::INCORRECT_COLUMN_NUMBER, "Another comment");
@@ -120,6 +122,7 @@ class CSVImport {
 		$handle = fopen($this->fileName, "r");
 
 		while (($data = fgetcsv($handle)) !== FALSE) {
+
 			if ($row >= $rowsToSkip) {
 				if (count($data) == $numColumns) {
 					array_walk($data, array('CSVImport', 'trimValue'));
@@ -175,6 +178,7 @@ class CSVImport {
 
 		return $result;
 	 }
+
 
 	 /**
 	  * Get list of available csv import plugins
