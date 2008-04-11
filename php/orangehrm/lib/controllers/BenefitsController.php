@@ -747,7 +747,7 @@ class BenefitsController {
 			$hspReqestTemp->setDatePaid($hspReqest->getDatePaid());
 			$hspRecordArr = array();
 
-			$amount = $hspReqestTemp->getExpenseAmount();
+			$amount = $hspReqest->getExpenseAmount();
 			$hspId  = $hspReqestTemp->getHspId();
 
 			switch ($hspId) {
