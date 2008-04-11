@@ -51,6 +51,7 @@ class HspTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"));
+    	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"));
     	$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '0' WHERE `key` = 'hsp_current_plan'"));
     }
 
