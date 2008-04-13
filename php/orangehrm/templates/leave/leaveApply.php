@@ -19,6 +19,7 @@
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/time/Workshift.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php'; 
 
  $employees = null;
 
@@ -170,6 +171,65 @@ require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 		if (err) {
 			alert(msg);
 		} else {
+			<?php
+				$mailConfig 	 = new EmailConfiguration();
+				$mailType	 = $mailConfig->getMailType();
+				$mailConfigError = false;
+				$mailConfigErrorMsg = '';
+
+				if ($mailType == 'sendmail') {
+
+					$sendmailPath = $mailConfig->getSendmailPath();
+					$sendmailPath = substr($sendmailPath, 0, strpos($sendmailPath, ' '));
+					if (is_file($sendmailPath)) {
+						if (!is_executable($sendmailPath)) {
+							$mailConfigError = true; 
+							$mailConfigErrorMsg = $lang_Error_EmailConfigError_SendmailNotExecutable;
+						}
+					} elseif (is_link($sendmailPath)) {
+						$sendmailPath = readlink($sendmailPath);
+						if (is_executable($sendmailPath)) {
+							$mailConfigError = true;
+							$mailConfigErrorMsg = $lang_Error_EmailConfigError_SendmailNotExecutable;
+						}
+					} else {
+						$mailConfigErrorMsg = $lang_Error_EmailConfigError_SendmailNotFound;
+						$mailConfigError = true;
+					}
+
+					if ($_SESSION['isAdmin'] == 'Yes') {
+						$mailConfigErrorMsg = "$lang_Error_EmailConfigConfirm\\n - $mailConfigErrorMsg\\n   ($sendmailPath)";
+					} else {
+						$mailConfigErrorMsg = $lang_Error_EmailConfigConfirm;
+					}
+
+				} elseif ($mailType == 'smtp') {
+					$smtpHost = $mailConfig->getSmtpHost();
+
+					if ($smtpHost == '') {
+						$mailConfigError = true;
+						$mailConfigErrorMsg = $lang_Error_EmailConfigError_SmtpHostNotDefined;
+					}
+
+					/*
+					 * TODO: Need to add more SMTP configuration validations here
+					 */
+
+					if ($_SESSION['isAdmin'] == 'Yes') {
+						$mailConfigErrorMsg = "$lang_Error_EmailConfigConfirm\\n - $mailConfigErrorMsg";
+					} else {
+						$mailConfigErrorMsg = $lang_Error_EmailConfigConfirm;
+					}
+				} else {
+					$mailConfigError = true;
+				}
+
+			?>
+			<?php if ($mailConfigError) { ?>
+				if (!confirm('<?php echo $mailConfigErrorMsg; ?>')) {
+					return;
+				}
+			<?php } ?>
 			document.frmLeaveApp.submit();
 		}
 	}

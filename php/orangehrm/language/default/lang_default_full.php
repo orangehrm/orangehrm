@@ -54,7 +54,10 @@
 	$lang_Error_InvalidDate 						= "Invalid date";
 
 	$lang_Error_NonNumericHours						= "Number of hours should be numeric";
-
+	$lang_Error_EmailConfigConfirm						= "Email configuration is not set or invalid. Do you want to continue ? ";
+	$lang_Error_EmailConfigError_SendmailNotFound				= "No file is found under the given Sendmail path";
+	$lang_Error_EmailConfigError_SendmailNotExecutable			= "File under the given Sendmail path is not executable";
+	$lang_Error_EmailConfigError_SmtpHostNotDefined				= "SMTP host is not defined";
 	//PIM
 	$lang_Error_LastNameNumbers						= "Last Name contains numbers. Do you want to continue?";
 	$lang_Error_FirstNameNumbers					= "First Name contains numbers. Do you want to continue?";
