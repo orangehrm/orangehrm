@@ -20,7 +20,8 @@
 
 require_once($lan->getLangPath("full.php"));
 
-$locRights=$_SESSION['localRights'];
+$locRights  = $_SESSION['localRights'];
+$styleSheet = $_SESSION['styleSheet'];
 
 $editArr = $this->popArr['editArr'];
 ?>
@@ -62,6 +63,25 @@ $editArr = $this->popArr['editArr'];
  		}
 	}
 
+	function edit() {
+		btnEdit = $('btnEdit');
+
+		if (btnEdit.title == 'Edit') {
+
+			btnEdit.title = 'Save';
+			btnEdit.src = '../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif';
+
+			emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass');
+
+			for (i in emailConfigControls) {
+				$(emailConfigControls[i]).disabled = false;
+			}
+
+		} else {
+			validate();
+		}
+	}
+
 	function validate() {
 		var errors = new Array();
 		var error = false;
@@ -101,18 +121,18 @@ $editArr = $this->popArr['editArr'];
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif';
 }
 
 function mover() {
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save_02.gif';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit_02.gif';
 }
 </script>
 <body>
@@ -139,11 +159,11 @@ function mover() {
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_MailFrom; ?></td>
         <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $editArr->getMailAddress();?>"/></td>
+        <td><input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $editArr->getMailAddress();?>" disabled /></td>
         <td width="25px">&nbsp;</td>
 		<td><?php echo $lang_MailSendingMethod; ?></td>
 		<td width="25px">&nbsp;</td>
-		<td><select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();">
+		<td><select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();" disabled>
 				<option value="0">-- Select --</option>
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected': ''?> ><?php echo $lang_MailTypes_Sendmailer; ?></option>
 				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected': ''?> ><?php echo $lang_MailTypes_Smtp; ?></option>
@@ -156,7 +176,7 @@ function mover() {
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_SendmailPath; ?></td>
         <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSendmailPath" id="txtSendmailPath" value="<?php echo $editArr->getSendmailPath();?>" /></td>
+        <td><input type="text" name="txtSendmailPath" id="txtSendmailPath" value="<?php echo $editArr->getSendmailPath();?>" disabled /></td>
         <td width="25px">&nbsp;</td>
 		<td>&nbsp;</td>
 		<td width="25px">&nbsp;</td>
@@ -169,11 +189,11 @@ function mover() {
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_SmtpHost; ?></td>
         <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSmtpHost" id="txtSmtpHost" value="<?php echo $editArr->getSmtpHost();?>" /></td>
+        <td><input type="text" name="txtSmtpHost" id="txtSmtpHost" value="<?php echo $editArr->getSmtpHost();?>" disabled /></td>
         <td width="25px">&nbsp;</td>
 		<td><?php echo $lang_SmtpPort; ?></td>
 		<td width="25px">&nbsp;</td>
-		<td><input type="text" name="txtSmtpPort" id="txtSmtpPort" value="<?php echo $editArr->getSmtpPort();?>" size="4"/></td>
+		<td><input type="text" name="txtSmtpPort" id="txtSmtpPort" value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled /></td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
@@ -181,11 +201,11 @@ function mover() {
         <td class="tableMiddleLeft"></td>
         <td><?php echo $lang_SmtpUser; ?></td>
         <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSmtpUser" id="txtSmtpUser" value="<?php echo $editArr->getSmtpUser();?>" /></td>
+        <td><input type="text" name="txtSmtpUser" id="txtSmtpUser" value="<?php echo $editArr->getSmtpUser();?>" disabled /></td>
         <td width="25px">&nbsp;</td>
 		<td><?php echo $lang_SmtpPassword; ?></td>
 		<td width="25px">&nbsp;</td>
-		<td><input type="password" name="txtSmtpPass" id="txtSmtpPass" value="<?php echo $editArr->getSmtpPass();?>"/></td>
+		<td><input type="password" name="txtSmtpPass" id="txtSmtpPass" value="<?php echo $editArr->getSmtpPass();?>" disabled /></td>
         <td width="25px">&nbsp;</td>
         <td class="tableMiddleRight"></td>
       </tr>
@@ -201,9 +221,9 @@ function mover() {
         <td width="25px">
 			<?php
 			   if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onMouseOut="mout();" onMouseOver="mover();" name="Save" />
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onclick="edit(); return false;" />
 <?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" />
+			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" />
 <?php			}  ?></td>
         <td class="tableMiddleRight"></td>
       </tr>
