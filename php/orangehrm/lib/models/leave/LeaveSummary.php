@@ -122,7 +122,7 @@ class LeaveSummary extends LeaveQuota {
 			$selectConditions[] = "a.`emp_number` = {$employeeId} AND b.`leave_type_id` = '{$leaveTypeId}'";
 		}
 		
-		$selectConditions[]  = "a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000'" ;
+		$selectConditions[]  = "(a.`emp_status` IS  NULL OR a.`emp_status` != 'EST000')" ;
 
 		if ($sortField == null) {
 			$sortField = 0;
