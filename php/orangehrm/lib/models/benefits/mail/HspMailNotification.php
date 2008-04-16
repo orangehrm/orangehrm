@@ -61,6 +61,7 @@ class HspMailNotification {
 	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_EMPLOYEE = 'employee';
 	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_HALTED_DATE = 'haltedDate';
 	const HSP_ESS_HALT_PLAN_NOTIFICATION_EMPLOYEE = 'employee';
+	const HSP_ESS_HALT_PLAN_NOTIFICATION_LINK = 'link';
 	const HSP_ESS_HALT_PLAN_NOTIFICATION_HALTED_DATE = 'haltedDate';
 
 	private $mailer;
@@ -283,7 +284,7 @@ class HspMailNotification {
 		return $success;
 	}
 
-	 public function sendHspPlanHaltRequestedByESSNotification($hsp) {
+	 public function sendHspPlanHaltRequestedByESSNotification($hsp, $link = '') {
 	 	$empId = $hsp -> getEmployeeId();
 	 	$empName = $this -> _getEmployeeName($empId);
 	 	$toCC = $this -> getEmployeeAddress($empId);
@@ -294,7 +295,7 @@ class HspMailNotification {
 		$toAdd = $this -> _getNotificationAddress($emailNotificationTypeId);
 
 		$subject = $this -> _getEssHaltePlanSubject();
-		$msg = $this -> _getEssHaltedPlanMsg($empName, $haltedDate);
+		$msg = $this -> _getEssHaltedPlanMsg($empName, $haltedDate, $link);
 
 		$success = $this -> _sendEmail($msg, $subject, $toAdd, $toCC);
 
@@ -569,20 +570,13 @@ class HspMailNotification {
 		return trim($msg, "\n \t\r");
 	}
 
-	private function _getEssHaltedPlanMsg($empName, $haltedDate) {
+	private function _getEssHaltedPlanMsg($empName, $haltedDate, $link) {
 		$msgTemp = file_get_contents(ROOT_PATH . self::HSP_ESS_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE);
 
  		$pattern = array('/#'.self::HSP_ESS_HALT_PLAN_NOTIFICATION_EMPLOYEE.'/',
-		 '/#'.self::HSP_ESS_HALT_PLAN_NOTIFICATION_HALTED_DATE.'/');
+		 '/#'.self::HSP_ESS_HALT_PLAN_NOTIFICATION_HALTED_DATE.'/', '/#'.self::HSP_ESS_HALT_PLAN_NOTIFICATION_LINK.'/');
 
-		$empNameAry = explode(' ', $empName);
-		if(isset($empNameAry) && is_array($empNameAry)) {
-			$firstName = $empNameAry[0];
-		}else {
-			$firstName = $empName;
-		}
-
-		$replace = array($firstName, $haltedDate);
+		$replace = array($empName, $haltedDate, $link);
 
 		$msg = preg_replace($pattern, $replace, $msgTemp);
 

@@ -1,6 +1,8 @@
-Hi,
+Human Resources,
 
-You are hereby notified that #employee has halted his/her Health Saving Plan on #haltedDate.
+#employee has made a request to halt his/her Health Saving Plan on #haltedDate. 
+
+#link
 
 Thanks,
 

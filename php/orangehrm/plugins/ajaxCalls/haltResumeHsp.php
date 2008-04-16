@@ -51,7 +51,7 @@ try {
 				$hspMailNotification -> sendHspPlanHaltedByHRAdminOnRequestNotification($hsp);
 				break;
 			case Hsp::HSP_STATUS_PENDING_HALT :
-				//$hspMailNotification->sendHspPlanHaltRequestedByESSNotification($hsp);
+				$hspMailNotification->sendHspPlanHaltRequestedByESSNotification($hsp);
 				break;
 		}
 		echo 'done:'. $newHspStatus;

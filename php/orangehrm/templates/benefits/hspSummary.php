@@ -204,8 +204,9 @@ if (isset($errorFlag)) {
 		   			}
 
                     with(document.getElementById('btnHspStatus' + hspId)) {
+			disabled = false;
                     	setAttribute("value", buttonLabel);
-						setAttribute("style", "width: " + buttonWidth);
+			setAttribute("style", "width: " + buttonWidth);
                         setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
                     }
 
@@ -213,7 +214,11 @@ if (isset($errorFlag)) {
 				} else {
 					alert('Error: ' + serverMsg);
 				}
-            }
+            } else {
+
+		document.getElementById('btnHspStatus' + hspId).disabled = true;
+	
+	    }
         }
 
         xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, true);
