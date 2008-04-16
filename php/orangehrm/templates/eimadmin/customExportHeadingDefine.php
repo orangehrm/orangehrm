@@ -35,13 +35,6 @@ $numFields = count($assignedFields);
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
 
-	origHeadings = new Array();
-<?php
-   	for($i = 0; $i < $numFields; $i++) {
-		print "\torigHeadings.push(\"{$headings[$i]}\");\n";
-   	}
-
-?>
     function goBack() {
         location.href = "./CentralController.php?uniqcode=CEX&id=<?php echo $this->getArr['id'];?>&capturemode=updatemode";
     }
@@ -101,7 +94,7 @@ $numFields = count($assignedFields);
 		var headerValues = document.frmCustomExport.elements["headerValues[]"];
 
 		for (var i = 0; i < headerValues.length; i++) {
-			headerValues[i].value = origHeadings[i];
+			headerValues[i].value = '';
 		}
 	}
 
