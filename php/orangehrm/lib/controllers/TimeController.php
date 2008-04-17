@@ -271,10 +271,13 @@ class TimeController {
 		$tmpObj->setEmployeeId($_SESSION['empID']);
 		$tmpObj->setProjectId(TimeEvent::TIME_EVENT_PUNCH_PROJECT_ID);
 		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
+		$date = LocaleUtil::getInstance()->convertToStandardDateFormat(date('Y-m-d'));
+		$date = "".date('Y-m-d')." 00:00:00";
+		$tmpObj->setReportedDate($date);
 
 		$tmpTimeObj=$tmpObj->pendingTimeEvents(true);
 
-		if (!$tmpTimeObj) {
+		if (isset($tmpTimeObj) && !$tmpTimeObj) {
 			$tmpTimeObj=$tmpObj->fetchTimeEvents(true);
 		}
 
@@ -789,7 +792,7 @@ class TimeController {
 
 		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
         $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
         $timeEventObj->setStartTime($timesheet->getStartDate());
         $timeEventObj->setEndTime($timesheet->getEndDate());
@@ -797,7 +800,6 @@ class TimeController {
 		$timeEvents = $timeEventObj->fetchTimeEvents();
 
 		$path="/templates/time/timesheetDetailedView.php";
-
 
 		$employeeObj = new EmpInfo();
 		$employee = $employeeObj->filterEmpMain($timesheet->getEmployeeId());
