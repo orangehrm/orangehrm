@@ -1000,17 +1000,17 @@ class EmpInfo {
     function updateEmpPers() {
 
         $arrRecordsList[0] = "'" . $this->getEmpId() . "'";
-        $arrRecordsList[1] = "'" . $this->getEmpsmoker() . "'";
+        $arrRecordsList[1] = (trim($this->getEmpsmoker()) != '') ? "'". $this->getEmpsmoker() . "'" : "'0'";
         $arrRecordsList[2] = ($this->getEmpEthnicRace() == '0') ? 'null' : "'" . $this->getEmpEthnicRace() . "'";
-        $arrRecordsList[3] = "'" . $this->getEmpDOB() . "'";
+        $arrRecordsList[3] = (trim($this->getEmpDOB()) != '') ? "'" . $this->getEmpDOB() . "'" : "'0000-00-00'";
         $arrRecordsList[4] = ($this->getEmpNation() == '0') ? 'null' : "'" . $this->getEmpNation() . "'";
-        $arrRecordsList[5] = "'" . $this->getEmpGender() . "'";
+        $arrRecordsList[5] = (trim($this->getEmpGender()) != '') ? "'" . $this->getEmpGender() . "'" : 'null';
         $arrRecordsList[6] = "'" . $this->getEmpMarital() . "'";
         $arrRecordsList[7] = "'" . $this->getEmpSSNNo() . "'";
         $arrRecordsList[8] = "'" . $this->getEmpSINNo() . "'";
         $arrRecordsList[9] = "'" . $this->getEmpOthID() . "'";
         $arrRecordsList[10] = "'" . $this->getEmpDriLicNo() . "'";
-        $arrRecordsList[11] = "'" . $this->empDriLicExpDat . "'";
+        $arrRecordsList[11] = (trim($this->empDriLicExpDat) != '') ? "'" . $this->empDriLicExpDat . "'" : "'0000-00-00'";
         $arrRecordsList[12] = "'" . $this->getEmpMilitary() . "'";
 
         $tableName = 'HS_HR_EMPLOYEE';
@@ -1133,7 +1133,7 @@ class EmpInfo {
         $arrRecordsList[2] = $this->getEmpJobTitle() != '0' ? "'" . $this->getEmpJobTitle() . "'" : 'null';
         $arrRecordsList[3] = $this->getEmpEEOCat() != '0' ? "'" . $this->getEmpEEOCat() . "'" : 'null';
         $arrRecordsList[4] = $this->getEmpLocation() != '' ? "'" . $this->getEmpLocation() . "'" : 'null';
-        $arrRecordsList[5] = "'" . $this->getEmpJoinedDate() . "'";
+        $arrRecordsList[5] = (trim($this->getEmpJoinedDate()) != '') ? "'" . $this->getEmpJoinedDate() . "'" : 'null';
 
         $tableName = 'HS_HR_EMPLOYEE';
 

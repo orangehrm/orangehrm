@@ -168,10 +168,10 @@ class EmpTax {
 
 		$arrRecordsList[0] = "'" . $this->getEmpNumber() . "'";
 		$arrRecordsList[1] = "'" . $this->getFederalTaxStatus() . "'";
-		$arrRecordsList[2] = "'" . $this->getFederalTaxExceptions() . "'";
+		$arrRecordsList[2] = (trim($this->getFederalTaxExceptions()) != '') ? "'" . $this->getFederalTaxExceptions() . "'" : "'0'";
 		$arrRecordsList[3] = "'" . $this->getTaxState() . "'";
 		$arrRecordsList[4] = "'" . $this->getStateTaxStatus() . "'";
-		$arrRecordsList[5] = "'" . $this->getStateTaxExceptions() . "'";
+		$arrRecordsList[5] = (trim($this->getStateTaxExceptions()) != '') ? "'" . $this->getStateTaxExceptions() . "'" : "'0'";
 		$arrRecordsList[6] = "'" . $this->getTaxUnemploymentState() . "'";
 		$arrRecordsList[7] = "'" . $this->getTaxWorkState() . "'";
 
