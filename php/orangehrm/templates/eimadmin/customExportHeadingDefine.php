@@ -90,12 +90,14 @@ $numFields = count($assignedFields);
 	/**
 	 * Reset form, undoing any changes done
 	 */
-	function reset() {
+	function resetFields() {
+
 		var headerValues = document.frmCustomExport.elements["headerValues[]"];
 
 		for (var i = 0; i < headerValues.length; i++) {
 			headerValues[i].value = '';
 		}
+
 	}
 
 </script>
@@ -159,7 +161,7 @@ $numFields = count($assignedFields);
 	<input type="hidden" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" />
     <div align="left">
         <img onClick="<?php echo $btnAction; ?>;" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save_02.gif';" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif">
-		<img src="../../themes/<?php echo $styleSheet;?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset_o.gif';" onClick="reset();" >
+		<img src="../../themes/<?php echo $styleSheet;?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/icons/reset_o.gif';" onClick="resetFields();" >
     </div>
     <?php echo $lang_DataExport_EditColumnHeadings; ?><br /><br />
 	<table class="simpleList" >
