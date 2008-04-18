@@ -1,3 +1,25 @@
+New & Changed Features for OrangeHRM ver 2.3-alpha.8
+
+	Bug Fixes
+	---------
+	Fixed the IE7 related issues for the bug 1923726 - Plan halted by user,its not
+	halted when the user, admin logg
+	Removed the back button for navigation in templates/leave/leaveList.php to avoid 
+	the IE specific error (1945552 - Taken Leave link -> back button lead to expired page)
+
+	Note: 
+		The removal of the navigation button is only for this release. 
+		A seperate fix need to be done to correct the navigation path
+
+New & Changed Features for OrangeHRM ver 2.3-alpha.7
+
+	Bug Fixes
+	---------
+	1927748 - HSP_Remain balance of FSA not added to total accrued
+        nextyear
+        1937394 - HSP -Import export serch dropdown is empty (Search was
+        removed from UI)
+
 New & Changed Features for OrangeHRM ver 2.3-alpha.6
 
 	Bug Fixes
