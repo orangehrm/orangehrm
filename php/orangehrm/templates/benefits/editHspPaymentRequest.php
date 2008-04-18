@@ -290,7 +290,7 @@ YAHOO.OrangeHRM.container.init();
 				echo $plans;
 			?>
 			<input type="hidden" name="hidPlanName" value="<?php echo $plans; ?>" />
-			<?
+			<?php
 			} ?></td>
 			<td><?php echo $lang_Benefits_MailingAddress; ?></td>
 			<td class="tableMiddleRight"></td>
