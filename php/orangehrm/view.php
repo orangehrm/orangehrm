@@ -222,6 +222,13 @@ if($headingInfo[2]==1) {
   </tr>
 </table>
 <p>
+<?php 
+/*
+ *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
+ */
+
+if ($this->getArr['uniqcode'] != 'CIM' && $this->getArr['uniqcode'] != 'CEX' && $this->getArr['uniqcode'] != 'CTM') {
+?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3><?php echo $search?></h3></td>
@@ -291,6 +298,12 @@ if($headingInfo[2]==1) {
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
               </table>
+<?php
+/*
+ *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
+ */
+ }
+?>
 			  <table border="0" width="100%">
 			  <tr>
 			  <td height="40" valign="bottom" align="right">
