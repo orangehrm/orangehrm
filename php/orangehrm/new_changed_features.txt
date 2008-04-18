@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 2.3-alpha.6
+
+	Bug Fixes
+	---------
+	1939205 - HSP-alpha.5:Admin can edit the HSAamount greater than acrued
+	1931162 - Email configuration not set or incorrect need a warning
+	1937400 - HSP: Admin -> Email configuration ->Save
+	1932045 - HSP-In Define Custom Export, Reset button doesnt give blank
+	1927227 - HSP Leave Summary -> leave Type not filtered : Improved the code to
+	fix the error caused by the query condition when filtering leave summary.
+	1939264 - HSP-alpha.5:Ess click 'Request Halt' doesnt generate email
+	1929961 - Time Module ->Punch IN Punch OUT gives an error and [1] - 1926819 -
+	SSS-My Time Sheet Data Not display for each ESS users
+
+
 New & Changed Features for OrangeHRM ver 2.3-alpha.1
 
 	Bug Fixes
