@@ -686,7 +686,7 @@ function preloadAllImages() {
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 		                <TD valign="top" width=158>
 		                    <ul id="menu">
-		  						<li id="viewemprep"><a href="http://www.orangehrm.com/home/index.php?option=com_content&task=section&id=13&Itemid=73" target="_blank"><?php echo $lang_Menu_Home_Support; ?></a></li>
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/subscribe-support.shtml" target="_blank"><?php echo $lang_Menu_Home_Support; ?></a></li>
 		  						<li id="viewemprep"><a href="http://www.orangehrm.com/forum/" target="_blank"><?php echo $lang_Menu_Home_Forum; ?></a></li>
 		  						<li id="viewemprep"><a href="http://orangehrm.blogspot.com/" target="_blank"><?php echo $lang_Menu_Home_Blog; ?></a></li>
 		  				    </ul>

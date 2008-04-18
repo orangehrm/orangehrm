@@ -56,9 +56,6 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '34'"),mysql_error());
     }
 
-    /**
-     * @todo Implement testFetchSummary().
-     */
     public function testFetchSummary() {
 
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
@@ -79,9 +76,6 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @todo Implement testFetchSummary().
-     */
     public function testFetchPersonalSummary() {
 
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());

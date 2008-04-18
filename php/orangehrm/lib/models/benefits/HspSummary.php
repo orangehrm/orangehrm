@@ -57,7 +57,14 @@ class HspSummary extends Hsp {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
-		$hsbObjArr = self::_buildSummaryObjects($result);
+		$yearStart = $year."-01-01";
+		$currentDate = date('Y-m-d');
+
+		if ($currentDate >= $yearStart && self::recordsExist($year-1)) {
+			$hsbObjArr = self::_buildSummaryObjects($result, true);
+		} else {
+		    $hsbObjArr = self::_buildSummaryObjects($result);
+		}
 
 		return $hsbObjArr;
 
@@ -297,7 +304,7 @@ class HspSummary extends Hsp {
      * containing the data of the resource.
      */
 
-    private static function _buildSummaryObjects($result) {
+    private static function _buildSummaryObjects($result, $accrued = false) {
 
         $dbConnection = new DMLFunctions();
         $hspObjArr = null;
@@ -316,7 +323,13 @@ class HspSummary extends Hsp {
             $hspObj->setAnnualLimit($row[5]);
             $hspObj->setEmployerAmount($row[6]);
             $hspObj->setEmployeeAmount($row[7]);
-            $hspObj->setTotalAccrued($row[8]);
+            if ($accrued) {
+            	$total = $row[8] + self::_fetchLastYearAccrued($row[1], $row[2], ($row[3]-1));
+                $hspObj->setTotalAccrued($total);
+            } else {
+                $hspObj->setTotalAccrued($row[8]);
+            }
+
             $hspObj->setTotalUsed($row[9]);
 
             $hspObjArr[] = $hspObj;
@@ -363,6 +376,43 @@ class HspSummary extends Hsp {
                 }else {
                         return $msg;
                 }
+
+	}
+
+	/**
+	 * This function returns `total_accrued` of last year if conditions are passed.
+	 */
+
+	private static function _fetchLastYearAccrued($empId, $hspPlanId, $year) {
+
+		$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
+		$selectFields[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+		$selectConditions[0] = "`".parent::DB_FIELD_EMPLOYEE_ID."` = '$empId'";
+		$selectConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` = '$hspPlanId'";
+		$selectConditions[2] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '$year'";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		if ($dbConnection->dbObject->numberOfRows($result) == 1) {
+			$row = $dbConnection->dbObject->getArray($result);
+			if ($hspPlanId == 3) { // For FSA
+				$fsaEndDate = date('Y')."-03-15";
+				$currentDate = date('Y-m-d');
+				if ($currentDate <= $fsaEndDate) {
+				    return $row[0];
+				} else {
+				    return 0;
+				}
+			} else { // For HSA and HRA
+			    return $row[0];
+			}
+		} else {
+		    return 0;
+		}
 
 	}
 
