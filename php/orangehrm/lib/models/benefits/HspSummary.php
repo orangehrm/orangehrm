@@ -324,7 +324,7 @@ class HspSummary extends Hsp {
             $hspObj->setEmployerAmount($row[6]);
             $hspObj->setEmployeeAmount($row[7]);
             if ($accrued) {
-            	$total = $row[8] + self::_fetchLastYearAccrued($row[1], $row[2], ($row[3]-1));
+            	$total = $row[8] + self::fetchLastYearAccrued($row[1], $row[2], ($row[3]-1));
                 $hspObj->setTotalAccrued($total);
             } else {
                 $hspObj->setTotalAccrued($row[8]);
@@ -383,7 +383,7 @@ class HspSummary extends Hsp {
 	 * This function returns `total_accrued` of last year if conditions are passed.
 	 */
 
-	private static function _fetchLastYearAccrued($empId, $hspPlanId, $year) {
+	public static function fetchLastYearAccrued($empId, $hspPlanId, $year) {
 
 		$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
 		$selectFields[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";

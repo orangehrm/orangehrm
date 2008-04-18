@@ -1695,5 +1695,6 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_server', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_domain_name', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_port', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_current_plan', '0');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');
