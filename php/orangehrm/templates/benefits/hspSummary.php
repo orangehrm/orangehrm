@@ -158,6 +158,7 @@ if (isset($errorFlag)) {
 			alert("Your browser does not support AJAX!");
 
         xmlHTTPObject.onreadystatechange = function() {
+
             if (xmlHTTPObject.readyState == 4){
 
 				completed = (xmlHTTPObject.responseText.trim().substr(0, 4) == 'done');
@@ -203,14 +204,30 @@ if (isset($errorFlag)) {
 
 		   			}
 
-                    with(document.getElementById('btnHspStatus' + hspId)) {
-			disabled = false;
-                    	setAttribute("value", buttonLabel);
-			setAttribute("style", "width: " + buttonWidth);
-                        setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
-                    }
+					with(document.getElementById('btnHspStatus' + hspId)) {
 
-                   document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
+						disabled = false;
+
+						if (navigator.appVersion.indexOf("MSIE") != -1) {
+
+							setAttribute("value", buttonLabel);
+							style.width = buttonWidth;
+
+							f = function(){
+								haltResumeHsp(hspId,empId, hspReverseStatus);
+							}
+
+							setAttribute("onclick", f);
+
+						} else {
+							setAttribute("value", buttonLabel);
+							setAttribute("style", "width: " + buttonWidth);
+							setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
+
+						}
+					}
+
+			                document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
 				} else {
 					alert('Error: ' + serverMsg);
 				}
