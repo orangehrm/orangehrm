@@ -397,10 +397,10 @@ class TimeEvent {
 		if ($this->getTimeEventId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
 		}
-		if ($this->getProjectId() != null && !$punch) {
+		if ($this->getProjectId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
 		}
-		if ($this->getActivityId() != null && !$punch) {
+		if ($this->getActivityId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = {$this->getActivityId()}";
 		}
 		if ($this->getEmployeeId() != null) {
@@ -409,30 +409,17 @@ class TimeEvent {
 		if ($this->getTimesheetId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 		}
-		if ($this->getReportedDate() != null) {
-			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` = '{$this->getReportedDate()}'";
-		}
+
+		$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."` IS NULL";
 
 		if ($punch) {
 			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[5], 'DESC', 1);
 		} else {
-			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."` IS NULL";
 			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
 		}
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
-		$rowCount = $dbConnection->dbObject->numberOfRows($result);
-
-		if ($punch && $rowCount == 1) {
-			$row = $dbConnection->dbObject->getArray($result);
-			if ($row['duration'] != null || $row['project_id'] != 0 || $row['activity_id'] != 0) {
-			    return null;
-			} else { // Initialize $result again because above getArray() has moved the resource pointer
-			    $result = $dbConnection -> executeQuery($query);
-			}
-		}
-
 		$eventArr = $this->_buildObjArr($result);
 
 		return $eventArr;
@@ -482,9 +469,9 @@ class TimeEvent {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 		}
 
-		/*if (($this->getStartTime() != null) && ($this->getEndTime() != null)){
+		if (($this->getStartTime() != null) && ($this->getEndTime() != null)){
 			$selectConditions[]  = "`" . self::TIME_EVENT_DB_FIELD_START_TIME . "`>= " . "'{$this->getStartTime()}'" . "  AND `" . self::TIME_EVENT_DB_FIELD_END_TIME . "`<= " . "'{$this->getEndTime()}'" ;
-		}*/
+		}
 
 		if ($punch) {
 			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[5], 'DESC', 1);

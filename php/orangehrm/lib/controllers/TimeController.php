@@ -271,12 +271,10 @@ class TimeController {
 		$tmpObj->setEmployeeId($_SESSION['empID']);
 		$tmpObj->setProjectId(TimeEvent::TIME_EVENT_PUNCH_PROJECT_ID);
 		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
-		$date = "".date('Y-m-d')." 00:00:00";
-		$tmpObj->setReportedDate($date);
 
 		$tmpTimeObj=$tmpObj->pendingTimeEvents(true);
 
-		if (isset($tmpTimeObj) && !$tmpTimeObj) {
+		if (!$tmpTimeObj) {
 			$tmpTimeObj=$tmpObj->fetchTimeEvents(true);
 		}
 
@@ -822,8 +820,6 @@ class TimeController {
 
 		$timesheetObj = $this->objTime;
 
-
-
 		if ($timesheetObj->getTimesheetId() != null) {
 			$timesheetObj->setEmployeeId(null);
 		}
@@ -880,8 +876,6 @@ class TimeController {
 
 		$next=$this->nextEmployeeTimesheet(false);
 		$prev=$this->previousEmployeeTimesheet(false);
-
-
 
 		$dataArr[0]=$durationArr;
 		$dataArr[1]=$timesheet;

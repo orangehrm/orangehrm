@@ -1508,9 +1508,7 @@ switch ($moduletype) {
 													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
 																					if (isset($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
-
 																					}
-
 																					$timeController->setObjTime($obj);
 																					$timeController->viewTimesheet($current);
 																					break;
