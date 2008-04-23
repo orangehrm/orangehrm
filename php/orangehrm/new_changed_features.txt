@@ -24,6 +24,12 @@ New & Changed Features for OrangeHRM ver 2.3-alpha.6
 
 	Bug Fixes
 	---------
+	1948543 - 2.3 alpha.8-For Admin,Timesheet total for a week is wrong
+
+New & Changed Features for OrangeHRM ver 2.3-alpha.6
+
+	Bug Fixes
+	---------
 	1939205 - HSP-alpha.5:Admin can edit the HSAamount greater than acrued
 	1931162 - Email configuration not set or incorrect need a warning
 	1937400 - HSP: Admin -> Email configuration ->Save
