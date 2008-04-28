@@ -111,8 +111,7 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Bond', 'James', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"),mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES (3, '003', 'Owen', 'David', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"),mysql_error());
 
-		$hspSummary = new HspSummary();
-		$hspSummary->saveInitialSummary(date('Y'), 1);
+		HspSummary::saveInitialSummary(date('Y'), 1);
 
 		$result = mysql_query("SELECT COUNT(*) FROM `hs_hr_hsp_summary`");
 		$row = mysql_fetch_array($result);
@@ -169,6 +168,39 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '8'"),mysql_error());
 
     }
+
+	/**
+	 * This test is to check whether the function accepts zero for HSP Plan ID
+	 */
+
+    public function testSaveInitialSummary2() {
+
+        try {
+            HspSummary::saveInitialSummary(date('Y'), 0);
+            $this->fail("Zero is accepted for HSP Plan ID");
+        } catch (HspSummaryException $e) {
+            $this->assertEquals(HspSummaryException::HSP_PLAN_NOT_DEFINED, $e->getCode());
+        }
+
+    }
+
+	/**
+	 * This test is to check whether the function throws an excpetion when no employee has been defined.
+	 */
+
+    public function testSaveInitialSummary3() {
+
+        try {
+        	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
+            HspSummary::saveInitialSummary(date('Y'), 1);
+            $this->fail("No exception is thrown when no employee exists");
+        } catch (HspSummaryException $e) {
+            $this->assertEquals(HspSummaryException::NO_EMPLOYEE_EXISTS, $e->getCode());
+        }
+
+    }
+
+
 
     public function testRecordsExist() {
 

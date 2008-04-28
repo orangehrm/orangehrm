@@ -197,6 +197,7 @@ $lang_Benefits_Summary_Could_Not_Save = "Could not save data";
 $lang_Benefits_Summary_Plan_Not_Defined = "HSP plan hasn't been defined. You should first define it at Define HSP";
 $lang_Benefits_Summary_No_Employee_Records = "No employee has been defined yet. First define employees at PIM";
 $lang_Benefits_Summary_Search_EmpId_Not_Set = "Searched employee is not in the summery list";
+$lang_Benefits_HSP_Plan_Not_Defined_ESS = "No HSP Plan has been defined yet. Please contact ontact your HR Admin";
 
 
 

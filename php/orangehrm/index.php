@@ -663,9 +663,13 @@ function preloadAllImages() {
 	            	<li id="projectInfo">
 					<?php if ($_SESSION['isAdmin'] == "Yes") { ?>
 	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
-					<?php } else { ?>
-						<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
-					<?php } ?>
+					<?php } else {
+								if (Config::getHspCurrentPlan() > 0) {
+					?>
+									<a href="<?php echo $personalHspSummary; ?>" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
+						  <?php } else { ?>
+									<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Not_Defined" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
+					<?php } } ?>
 	            	</li>
 	            	<li id="projectInfo">
 	            		<?php if ($_SESSION['isAdmin'] == "Yes") { ?>

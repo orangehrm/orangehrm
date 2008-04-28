@@ -338,6 +338,19 @@ class BenefitsController {
 	}
 
 	/**
+	 * Used when HSP plan has not been set and ESS user tries to view his/her Personal HSP Summary
+	 */
+
+	public static function HspNotDefined() {
+	    $path = "/templates/benefits/hspSummary.php";
+	    $error['hspNotDefined'] = true;
+	    $template = new TemplateMerger($error, $path);
+		$template->setError(true);
+	    $template->display();
+	}
+
+
+	/**
 	 * Used in viewHspSummary()
 	 */
 
@@ -384,37 +397,56 @@ class BenefitsController {
 
 	public static function searchHspSummary($empId, $year, $saveSuccess=null) {
 
+		$errorFlag = false;
+
 		//Checking whether records exist for $year
-		if (!HspSummary::recordsExist($year)) {
-		    HspSummary::saveInitialSummary($year, Config::getHspCurrentPlan());
+		try {
+			if (!HspSummary::recordsExist($year)) {
+			    HspSummary::saveInitialSummary($year, Config::getHspCurrentPlan());
+			}
+		} catch (HspSummaryException $e) {
+		    if ($e->getCode() == HspSummaryException::HSP_PLAN_NOT_DEFINED) {
+		        $errorFlag = true;
+		    }
 		}
-
-		// Setting the Page No
-		if (isset($_POST['pageNo'])) {
-	    	$pageNo = $_POST['pageNo'];
-		} else {
-	    	$pageNo = 1;
-		}
-
-		// Setting records that are used in /templates/benefits/hspSummary.php
-		$tmpOb[0]="searchHspSummary";
-		$tmpOb[1]=HspSummary::fetchHspSummary($year, 1, $empId);
-		$tmpOb[2]=$year;
-		$tmpOb[3]=$pageNo;
-		$tmpOb[4]=HspSummary::recordsCount($year, Config::getHspCurrentPlan());
-		if (isset($saveSuccess)) {
-			$tmpOb[5] = $saveSuccess;
-		} else {
-		    $tmpOb[5] = null;
-		}
-		$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
-		$tmpOb[7]=HspPayPeriod::getYears();
 
 		// Setting template path
 		$path = "/templates/benefits/hspSummary.php";
 
+		if ($errorFlag) {
+
+			$error['hspNotDefinedESS'] = true;
+			$template = new TemplateMerger($error, $path);
+			$template->setError(true);
+
+		} else {
+
+			// Setting the Page No
+			if (isset($_POST['pageNo'])) {
+		    	$pageNo = $_POST['pageNo'];
+			} else {
+		    	$pageNo = 1;
+			}
+
+			// Setting records that are used in /templates/benefits/hspSummary.php
+			$tmpOb[0]="searchHspSummary";
+			$tmpOb[1]=HspSummary::fetchHspSummary($year, 1, $empId);
+			$tmpOb[2]=$year;
+			$tmpOb[3]=$pageNo;
+			$tmpOb[4]=HspSummary::recordsCount($year, Config::getHspCurrentPlan());
+			if (isset($saveSuccess)) {
+				$tmpOb[5] = $saveSuccess;
+			} else {
+			    $tmpOb[5] = null;
+			}
+			$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
+			$tmpOb[7]=HspPayPeriod::getYears();
+
+
+
+		}
+
 		// Displaying
-		$template = new TemplateMerger($tmpOb, $path);
 		$template->display();
 
 	}

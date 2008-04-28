@@ -101,6 +101,10 @@ class HspSummary extends Hsp {
 
 	public static function saveInitialSummary($year, $hspPlanId) {
 
+		if ($hspPlanId == 0) {
+		    throw new HspSummaryException("Given HSP Plan ID is zero", HspSummaryException::HSP_PLAN_NOT_DEFINED);
+		}
+
 		$selectTable = "`".self::DB_TABLE_EMPLOYEE."`";
 		$selectFields[0] = "`".self::DB_FIELD_EMP_NUMBER."`";
 
@@ -111,7 +115,7 @@ class HspSummary extends Hsp {
 		$result = $dbConnection->executeQuery($query);
 
 		if ($dbConnection->dbObject->numberOfRows($result) < 1) {
-		    throw new Exception("No employee has been defiened");
+		    throw new HspSummaryException("No employee has been defiened", HspSummaryException::NO_EMPLOYEE_EXISTS);
 		}
 
 		for ($i=0; $i<$dbConnection->dbObject->numberOfRows($result); $i++) {
@@ -418,6 +422,15 @@ class HspSummary extends Hsp {
 
 }
 
+/**
+ * Exception class
+ */
 
+class HspSummaryException extends Exception {
+
+    const HSP_PLAN_NOT_DEFINED = 1;
+    const NO_EMPLOYEE_EXISTS = 2;
+
+}
 
 ?>

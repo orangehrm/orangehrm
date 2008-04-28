@@ -78,6 +78,8 @@ while (true) {
 											      BenefitsController::searchHspSummary($_GET['empId'], $_GET['year']);
 											  }
 											  break;
+		case 'Hsp_Not_Defined'				: BenefitsController::HspNotDefined();
+											  break;
 		case 'Save_Hsp_Values_Employee'		: $hspArr = EXTRACTOR_Hsp::parseSaveData($_POST);
 											  BenefitsController::saveHspValues($hspArr, $_GET['year'], true);
 											  break;

@@ -402,6 +402,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     		}
     	}
     }
+
 }
 
 // Call TimeEventTest::main() if this source file is executed directly.

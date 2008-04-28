@@ -162,7 +162,6 @@ class TimeEvent {
 	 *
 	 */
 	private function _isOverlapping() {
-		$sqlBuilder = new SQLQBuilder();
 
 		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
 
@@ -178,6 +177,7 @@ class TimeEvent {
 			}
 
 			$selectConditions[] = "({$tmpQuery})";
+
 		} else {
 			return false;
 		}
@@ -190,12 +190,13 @@ class TimeEvent {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
 		}
 
+		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection -> executeQuery($query);
 
-		if (mysql_num_rows($result) == 0) {
+		if ($dbConnection->dbObject->numberOfRows($result) == 0) {
 			return false;
 		}
 
@@ -214,8 +215,6 @@ class TimeEvent {
 
 		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIME_EVENT_DB_TABLE_TIME_EVENT, self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID);
 		$this->setTimeEventId($newId);
-
-		$sqlBuilder = new SQLQBuilder();
 
 		$insertTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
 
@@ -256,6 +255,7 @@ class TimeEvent {
 			$insertValues[] = "'".$this->getDescription()."'";
 		}
 
+		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleInsert($insertTable, $insertValues, $insertFields);
 
 		$dbConnection = new DMLFunctions();

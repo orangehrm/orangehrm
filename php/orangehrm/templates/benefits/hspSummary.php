@@ -34,6 +34,14 @@ if (isset($errorFlag)) {
 	    echo "<h5>".$lang_Benefits_Summary_Search_EmpId_Not_Set."</h5>";
 	}
 
+	if (isset($records['hspNotDefined'])) {
+	    echo "<h5>".$lang_empview_norecorddisplay."</h5>";
+	}
+
+	if (isset($records['hspNotDefinedESS'])) {
+	    echo "<h5>".$lang_Benefits_HSP_Plan_Not_Defined_ESS."</h5>";
+	}
+
 } else { // HSP defined and Employees exist
     $hspSummary = $records[1];
     $year = $records[2];
@@ -234,7 +242,7 @@ if (isset($errorFlag)) {
             } else {
 
 		document.getElementById('btnHspStatus' + hspId).disabled = true;
-	
+
 	    }
         }
 
@@ -297,8 +305,8 @@ if (isset($saveSuccess) && $saveSuccess) {
  		 src="../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
  	<?php } ?>
-	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { 
-		
+	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
+
 		if (isset($oneEmployee) && $oneEmployee) {
 			$pdfName = 'Personal-HSP-Summary';
 			$empNoQueryStr = '&empId=' . $_POST['hidEmpNo'];
