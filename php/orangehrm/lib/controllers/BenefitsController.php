@@ -442,7 +442,7 @@ class BenefitsController {
 			$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
 			$tmpOb[7]=HspPayPeriod::getYears();
 
-
+			$template = new TemplateMerger($tmpOb, $path);
 
 		}
 
