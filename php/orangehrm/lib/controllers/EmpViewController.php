@@ -1935,7 +1935,7 @@ class EmpViewController {
 
 				if (HspSummary::recordsExist(date('Y'))) {
 				    HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
-				} else {
+				} elseif ($hspPlanId > 0) {
 					HspSummary::saveInitialSummary(date('Y'), $hspPlanId);
 					HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
 				}
