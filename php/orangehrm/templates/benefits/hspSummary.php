@@ -179,7 +179,7 @@ if (isset($errorFlag)) {
 						case <?php echo Hsp::HSP_STATUS_HALTED; ?> :
 							statusLabel = 'Halted';
 							buttonLabel = 'Resume';
-							buttonWidth = '56px';
+							buttonWidth = '76px';
 							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
 							break;
 
@@ -187,11 +187,11 @@ if (isset($errorFlag)) {
 							statusLabel = 'Active';
 							<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 								buttonLabel = 'Halt';
-								buttonWidth = '56px';
+								buttonWidth = '76px';
 								hspReverseStatus = <?php echo Hsp::HSP_STATUS_HALTED; ?>;
 							<?php } else { ?>
 								buttonLabel = 'Request Halt';
-								buttonWidth = '75px';
+								buttonWidth = '95px';
 								hspReverseStatus = <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?>;
 							<?php } ?>
 							break;
@@ -199,50 +199,49 @@ if (isset($errorFlag)) {
 						case <?php echo Hsp::HSP_STATUS_ESS_HALTED; ?> :
 							statusLabel = 'Halted';
 							buttonLabel = 'Resume';
-							buttonWidth = '56px';
+							buttonWidth = '76px';
 							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
 							break;
 
 						case <?php echo Hsp::HSP_STATUS_PENDING_HALT; ?> :
 							statusLabel = 'Pending Halt';
 							buttonLabel = 'Cancel Halt Request';
-							buttonWidth = '110px';
+							buttonWidth = '130px';
 							hspReverseStatus = <?php echo Hsp::HSP_STATUS_ACTIVE; ?>;
 							break;
 
 		   			}
-
-					with(document.getElementById('btnHspStatus' + hspId)) {
-
-						disabled = false;
-
-						if (navigator.appVersion.indexOf("MSIE") != -1) {
-
+					
+					if (navigator.appVersion.indexOf("MSIE") != -1) {
+						iH = document.getElementById('buttonSlot').innerHTML;
+						with(document.getElementById('btnHspStatus' + hspId)) {
+							disabled = false;
 							setAttribute("value", buttonLabel);
 							style.width = buttonWidth;
-
 							f = function(){
 								haltResumeHsp(hspId,empId, hspReverseStatus);
 							}
-
-							setAttribute("onclick", f);
-
-						} else {
+							setAttribute("onclick", f)
+						}
+					} else {
+						with(document.getElementById('btnHspStatus' + hspId)) {
+							
+							disabled = false;
 							setAttribute("value", buttonLabel);
 							setAttribute("style", "width: " + buttonWidth);
 							setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
-
+							
 						}
 					}
 
-			                document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
+                   document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
 				} else {
 					alert('Error: ' + serverMsg);
 				}
             } else {
 
 		document.getElementById('btnHspStatus' + hspId).disabled = true;
-
+	
 	    }
         }
 
@@ -305,7 +304,7 @@ if (isset($saveSuccess) && $saveSuccess) {
  		 src="../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
  	<?php } ?>
-	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
+	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { 
 
 		if (isset($oneEmployee) && $oneEmployee) {
 			$pdfName = 'Personal-HSP-Summary';
@@ -447,14 +446,14 @@ if (($i%2) == 0) {
     }
     ?>
     </td>
-    <td>
+    <td id="buttonSlot">
     <?php
 	$summaryId = $hspSummary[$i]->getSummaryId();
 	$statusId  = $hspSummary[$i]->getHspPlanStatus();
 	$empId	   = $hspSummary[$i]->getEmployeeId();
 
 	$buttonDisabled = '';
-	$buttonWidth = '56px';
+	$buttonWidth = '76px';
 
 	switch ($statusId) {
 
