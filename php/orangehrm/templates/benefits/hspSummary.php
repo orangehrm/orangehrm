@@ -476,7 +476,7 @@ if (($i%2) == 0) {
 				$newStatusId = Hsp::HSP_STATUS_HALTED;
 			} else {
 				$buttonLabel = 'Request Halt';
-				$buttonWidth = '75px';
+				$buttonWidth = '95px';
 				$newStatusId = Hsp::HSP_STATUS_PENDING_HALT;
 			}
 
@@ -494,7 +494,7 @@ if (($i%2) == 0) {
 				$newStatusId = Hsp::HSP_STATUS_ESS_HALTED;
 			} else {
 				$buttonLabel = 'Cancel Halt Request';
-				$buttonWidth = '110px';
+				$buttonWidth = '130px';
 				$newStatusId = Hsp::HSP_STATUS_ACTIVE;
 			}
 

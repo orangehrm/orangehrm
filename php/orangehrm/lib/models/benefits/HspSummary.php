@@ -90,7 +90,14 @@ class HspSummary extends Hsp {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
-		$hsbObjArr = self::_buildSummaryObjects($result);
+		$yearStart = $year."-01-01";
+		$currentDate = date('Y-m-d');
+
+		if ($currentDate >= $yearStart && self::recordsExist($year-1)) {
+			$hsbObjArr = self::_buildSummaryObjects($result, true);
+		} else {
+		    $hsbObjArr = self::_buildSummaryObjects($result);
+		}
 
 		return $hsbObjArr;
     }
@@ -328,7 +335,7 @@ class HspSummary extends Hsp {
             $hspObj->setEmployerAmount($row[6]);
             $hspObj->setEmployeeAmount($row[7]);
             if ($accrued) {
-            	$total = $row[8] + self::fetchLastYearAccrued($row[1], $row[2], ($row[3]-1));
+            	$total = $row[8] + self::_fetchLastYearHspBalance($row[1], $row[2], ($row[3]-1));
                 $hspObj->setTotalAccrued($total);
             } else {
                 $hspObj->setTotalAccrued($row[8]);
@@ -384,13 +391,14 @@ class HspSummary extends Hsp {
 	}
 
 	/**
-	 * This function returns `total_accrued` of last year if conditions are passed.
+	 * This function returns HSP balance of last year if conditions are passed.
 	 */
 
-	public static function fetchLastYearAccrued($empId, $hspPlanId, $year) {
+	private static function _fetchLastYearHspBalance($empId, $hspPlanId, $year) {
 
 		$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
 		$selectFields[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+		$selectFields[1] = "`".parent::DB_FIELD_TOTAL_USED."`";
 		$selectConditions[0] = "`".parent::DB_FIELD_EMPLOYEE_ID."` = '$empId'";
 		$selectConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` = '$hspPlanId'";
 		$selectConditions[2] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '$year'";
@@ -407,12 +415,12 @@ class HspSummary extends Hsp {
 				$fsaEndDate = date('Y')."-03-15";
 				$currentDate = date('Y-m-d');
 				if ($currentDate <= $fsaEndDate) {
-				    return $row[0];
+				    return ($row[0] - $row[1]);
 				} else {
 				    return 0;
 				}
 			} else { // For HSA and HRA
-			    return $row[0];
+			    return ($row[0] - $row[1]);
 			}
 		} else {
 		    return 0;
