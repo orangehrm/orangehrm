@@ -658,7 +658,7 @@ class BenefitsController {
 					if (is_null($personalHspSummary))
 						throw new HspPaymentRequestException('HSP Summary details not defined by HR Admins', HspPaymentRequestException::NO_HSP);
 
-					$amountLimit = $personalHspSummary[0]->getTotalAccrued();
+					$amountLimit = ($personalHspSummary[0]->getTotalAccrued() + HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year)) - $personalHspSummary[0]->getTotalUsed();
 					break;
 				case 2 :
 					if ($year != date('Y')) {
@@ -675,7 +675,7 @@ class BenefitsController {
 					} else {
 						$index = 0;
 					}
-					$amountLimit = $personalHspSummary[$index]->getTotalAccrued();
+					$amountLimit = ($personalHspSummary[$index]->getTotalAccrued() + HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year)) - $personalHspSummary[0]->getTotalUsed();
 					break;
 				case 3 :
 					$reqError = BenefitsController::_validateFSARequest($year);
@@ -686,7 +686,7 @@ class BenefitsController {
 
 						$index = (count($personalHspSummary) == 2) ? 1 : 0;
 
-						$amountLimit = $personalHspSummary[$index]->getAnnualLimit();
+						$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
 					}
 					else
 						throw $reqError;
@@ -785,7 +785,7 @@ class BenefitsController {
 			switch ($hspId) {
 				case 1 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
-					$amountLimit = $personalHspSummary[0]->getTotalAccrued() - $personalHspSummary[0]->getTotalUsed();
+					$amountLimit = (HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year) + $personalHspSummary[0]->getTotalAccrued()) - $personalHspSummary[0]->getTotalUsed();
 					break;
 				case 2 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
@@ -794,7 +794,7 @@ class BenefitsController {
 					} else {
 						$index = 0;
 					}
-					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed();
+					$amountLimit = (HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year) + $personalHspSummary[$index]->getTotalAccrued()) - $personalHspSummary[$index]->getTotalUsed();
 					break;
 				case 3 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
