@@ -213,7 +213,7 @@ if (isset($errorFlag)) {
 		   			}
 					
 					if (navigator.appVersion.indexOf("MSIE") != -1) {
-						iH = document.getElementById('buttonSlot').innerHTML;
+
 						with(document.getElementById('btnHspStatus' + hspId)) {
 							disabled = false;
 							setAttribute("value", buttonLabel);

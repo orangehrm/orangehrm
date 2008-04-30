@@ -49,7 +49,12 @@ class HspSummary extends Hsp {
 		}
 		$selectOrderBy = "`".parent::DB_FIELD_EMPLOYEE_ID."` , `".parent::DB_FIELD_HSP_PLAN_ID."`";
 		$selectOrder = "ASC";
-		$selectLimit = ($page*50-50).",".(50);
+
+		if ($page == -1) {
+			$selectLimit = null;
+		} else {
+			$selectLimit = ($page*50-50).",".(50);
+		}
 
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectOrderBy, $selectOrder, $selectLimit);

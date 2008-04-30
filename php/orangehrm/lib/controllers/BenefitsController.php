@@ -300,6 +300,7 @@ class BenefitsController {
 
 			// Setting template paths
 			if (isset($_GET['printPdf']) && $_GET['printPdf'] == 1) {
+				$tmpOb[1]=HspSummary::fetchHspSummary($year, -1);
 				if ($_GET['pdfName'] == "All-Employees-HSP-Summary") {
 					$path = "/plugins/printBenefits/pdfHspSummary.php";
 				} elseif ($_GET['pdfName'] == "Personal-HSP-Summary") {

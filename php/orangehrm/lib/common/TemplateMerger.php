@@ -118,12 +118,11 @@ class TemplateMerger {
                                 $html = stripslashes($html);
 
                         $pdf->WriteHTML($html);
-                        $pdf->Output('doc.pdf', 'F');
-                        //echo "<pre>" . htmlentities($html) . "</pre>";
+                        $pdf->Output($_GET['pdfName'] . '.pdf', 'F');
 
                         echo "<img onclick=\"history.back();\" src=\"" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif\" onmouseover=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back_02.gif';\" onmouseout=\"this.src='" . $_SESSION['WPATH'] . "/themes/beyondT/pictures/btn_back.gif';\" title=\"Back\" />";
 
-                        echo "<script>window.open('".$_SESSION['WPATH']."/lib/controllers/doc.pdf');</script>";
+                        echo "<script>window.open('".$_SESSION['WPATH']."/lib/controllers/{$_GET['pdfName']}.pdf');</script>";
                 }
 
 	}
