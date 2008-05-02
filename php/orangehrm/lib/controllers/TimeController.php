@@ -715,8 +715,7 @@ class TimeController {
 		$timesheetSubmissionPeriodObj->setTimesheetPeriodId($timesheet->getTimesheetPeriodId());
 		$timesheetSubmissionPeriod = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
-
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
         $timeEventObj->setEmployeeId($timesheet->getEmployeeId());
         $timeEventObj->setStartTime($timesheet->getStartDate());
         $timeEventObj->setEndTime($timesheet->getEndDate());
@@ -1202,15 +1201,11 @@ class TimeController {
 
 		$timeEventObj = new TimeEvent();
 
-		//$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
-
+		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());
 		$timeEventObj->setEmployeeId($timesheet->getEmployeeId());
 		$timeEventObj->setStartTime($timesheet->getStartDate());
 		$timeEventObj->setEndTime($timesheet->getEndDate()) ;
 		$timeEvents = $timeEventObj->fetchTimeEvents();
-
-
-		//$timeEvents = $timeEventObj->fetchTimeEvents();
 
 		$durationArr = null;
 		$dailySum = null;

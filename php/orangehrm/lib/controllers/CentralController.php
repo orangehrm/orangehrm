@@ -1670,6 +1670,4 @@ switch ($moduletype) {
 
 }
 
-
-
 ob_end_flush();  ?>

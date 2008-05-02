@@ -39,7 +39,7 @@ class EXTRACTOR_Timesheet {
 		}
 
 		if (isset($postArr['txtEndDate'])) {
-			$this->parent_Timesheet->setEndDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEndDate']));
+			$this->parent_Timesheet->setEndDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEndDate'])." 23:59:59");
 		}
 
 		if (isset($postArr['txtTimesheetPeriodId'])) {

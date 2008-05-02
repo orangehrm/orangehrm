@@ -32,9 +32,6 @@ $self=$records[5];
 $next=$records[6];
 $prev=$records[7];
 $role=$records[8];
-
-
-
 $activitySum=$records[9];
 $totalTime=$records[10];
 
@@ -84,12 +81,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-
 function actionNav(nav) {
-
-
-
-
 
 <?php if ($self) { ?>
 	switch (nav) {
@@ -114,10 +106,7 @@ function actionNav(nav) {
 
 	$("frmTimesheet").submit();
 
-
-
 }
-
 
 function actionSubmit() {
 	$("frmTimesheet").action= initialAction+"Submit_Timesheet";

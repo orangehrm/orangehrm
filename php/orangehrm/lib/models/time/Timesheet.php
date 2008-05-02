@@ -155,23 +155,31 @@ class Timesheet {
 		$timesheetSubmissionPeriods = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
 		if ($this->getStartDate() == null) {
-			$day=date('w');
+
+			/**
+			 * Here days should be in following values
+			 * Mo=1, Tu=2, We=3, Th=4, Fr=5, Sa=6, Su=7
+			 */
+			if (date('w') == 0) { // If it is Sunday
+				$day = 7;
+			} else {
+				$day = date('w');
+			}
 
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
 			if ($diff > 0) {
 				$diff-=7;
 			}
+
 			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
-
-
 
 			$diff1=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 
-			if (6 >= ($diff1-$diff)) {
+			if (($diff1-$diff) <= 6) {
 				$diff1+=6-($diff1-$diff);
 			}
 
-			$this->setEndDate(date('Y-m-d', time()+($diff1*3600*24)));
+			$this->setEndDate(date('Y-m-d', time()+($diff1*3600*24))." 23:59:59");
 
 			$this->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 		}
@@ -522,7 +530,6 @@ class Timesheet {
 		}
 
 		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
-
 
 		$dbConnection = new DMLFunctions();
 

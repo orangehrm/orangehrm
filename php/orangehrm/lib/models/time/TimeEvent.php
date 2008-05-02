@@ -469,9 +469,9 @@ class TimeEvent {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = {$this->getTimesheetId()}";
 		}
 
-		if (($this->getStartTime() != null) && ($this->getEndTime() != null)){
+		/*if (($this->getStartTime() != null) && ($this->getEndTime() != null)){
 			$selectConditions[]  = "`" . self::TIME_EVENT_DB_FIELD_START_TIME . "`>= " . "'{$this->getStartTime()}'" . "  AND `" . self::TIME_EVENT_DB_FIELD_END_TIME . "`<= " . "'{$this->getEndTime()}'" ;
-		}
+		}*/
 
 		if ($punch) {
 			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[5], 'DESC', 1);
