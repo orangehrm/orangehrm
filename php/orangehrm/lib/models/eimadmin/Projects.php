@@ -287,8 +287,6 @@ class Projects {
 
 		$sql_builder = new SQLQBuilder();
 
-		$arrSelectConditions=null;
-
 		$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` != '".self::PROJECT_ATTENDANCE_ID."'";
 
 		if ($this->getProjectId() != null) {
