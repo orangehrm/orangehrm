@@ -1,7 +1,7 @@
 <?php
 
 	/*
-	 * Create a file named myconfs.php in the same
+	 * Create a file named myconf.php in the same
 	 * directory and set the following to match
 	 * your environment.
 	 *

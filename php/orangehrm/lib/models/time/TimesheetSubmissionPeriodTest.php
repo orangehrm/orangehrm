@@ -27,6 +27,9 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
+require_once "testConf.php";
+require_once ROOT_PATH."/lib/confs/Conf.php";
+
 require_once 'TimesheetSubmissionPeriod.php';
 
 /**
@@ -57,6 +60,10 @@ class TimesheetSubmissionPeriodTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
 		$this->classTimesheetSubmissionPeriod = new TimesheetSubmissionPeriod();
+
+		$conf = new Conf();
+    	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+    	mysql_select_db($conf->dbname);
     }
 
     /**
