@@ -710,7 +710,17 @@ class LeaveController {
 		}
 
 		if ($res) {
-			$this->redirect("LEAVE_QUOTA_COPY_SUCCESS", null, null, "&year=$currYear&id=0");
+                        /*       
+                         * This part was changed to fix the bug 1927022 - Supervisor approve leave and apply 
+                         * leave, in same screen
+                         *
+                         * In case of broken functionality, this need to be changed. The old code was:
+                         *
+                         * $this->redirect("LEAVE_QUOTA_COPY_SUCCESS", null, null, "&year=$currYear&id=0");
+                         *
+                         */
+                        $this->redirect(null, array("?leavecode=Leave&action=Leave_Summary&year=$currYear&id=0&message=LEAVE_QUOTA_COPY_SUCCESS"));
+
 		} else {
 			$this->redirect("LEAVE_QUOTA_COPY_FAILURE", null, null, "&year=$currYear&id=0");
 		}
