@@ -31,7 +31,6 @@ class ProjectActivity {
 	const DB_FIELD_PROJECT_ID  = 'project_id';
 	const DB_FIELD_ACTIVITY_ID = 'activity_id';
 	const DB_FIELD_DELETED     = 'deleted';
-	const ACTIVITY_ATTENDANCE  = 0;
 
 	/**
 	 * Class Attributes
@@ -170,7 +169,6 @@ class ProjectActivity {
 		}
 
 		$selectCondition[] = self::DB_FIELD_PROJECT_ID . " = $projectId";
-		$selectCondition[] = "`".self::DB_FIELD_ACTIVITY_ID."` != '".self::ACTIVITY_ATTENDANCE."'";
 
 		if (!$includeDeleted) {
 			$selectCondition[] = self::DB_FIELD_DELETED . " = 0";
@@ -195,7 +193,6 @@ class ProjectActivity {
 		}
 
 		$selectCondition[] = self::DB_FIELD_ACTIVITY_ID . " = $activityId";
-		$selectCondition[] = "`".self::DB_FIELD_ACTIVITY_ID."` != '".self::ACTIVITY_ATTENDANCE."'";
 
 		$actList = self::_getList($selectCondition);
 		$obj = count($actList) == 0 ? null : $actList[0];

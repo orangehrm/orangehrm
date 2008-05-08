@@ -39,7 +39,6 @@ class Projects {
 	 */
 	const PROJECT_NOT_DELETED = 0;
 	const PROJECT_DELETED = 1;
-	const PROJECT_ATTENDANCE_ID = 0;
 
 	const PROJECT_DB_TABLE = 'hs_hr_project';
 	const PROJECT_DB_FIELD_PROJECT_ID = 'project_id';
@@ -287,7 +286,7 @@ class Projects {
 
 		$sql_builder = new SQLQBuilder();
 
-		$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` != '".self::PROJECT_ATTENDANCE_ID."'";
+		$arrSelectConditions = null;
 
 		if ($this->getProjectId() != null) {
 			$arrSelectConditions[] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."`= '".$this->getProjectId()."'";
@@ -339,7 +338,6 @@ class Projects {
 		$sql_builder = new SQLQBuilder();
 
 		$arrSelectConditions[0] = "a.`".self::PROJECT_DB_FIELD_DELETED."`= ".self::PROJECT_NOT_DELETED."";
-		$arrSelectConditions[1] = "a.`".self::PROJECT_DB_FIELD_PROJECT_ID."` != '".self::PROJECT_ATTENDANCE_ID."'";
 
 		if ($schField != -1) {
 			$arrSelectConditions[2] = "".$arrFieldList[$schField]." LIKE '%".$schStr."%'";

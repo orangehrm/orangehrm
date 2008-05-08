@@ -271,7 +271,6 @@ class ProjectAdminGateway {
 		$tables[1] = "`" . Projects::PROJECT_DB_TABLE."` b ";
 
 		$selectConditions[] = "a.`" . self::PROJECT_ADMIN_FIELD_EMP_NUMBER . "`= $empNumber ";
-		$selectConditions[] = "b.`" . Projects::PROJECT_DB_FIELD_PROJECT_ID . "` != '" . Projects::PROJECT_ATTENDANCE_ID."'";
 
 		if (!$includeDeleted) {
 			$selectConditions[] = "b.`" . Projects::PROJECT_DB_FIELD_DELETED . "`= " . Projects::PROJECT_NOT_DELETED;
