@@ -27,13 +27,12 @@ function welcomeSubmit() {
 	<div id="content">
 		<h2>Welcome to the OrangeHRM Web Upgrader Wizard</h2>
 
-		<p>This upgrader upgrades your exsisting OrangeHRM database to run OrangeHRM 2.3-alpha.8 and set the configuration files that you need to start using OrangeHRM 2.3-alpha.8</p>
+		<p>This upgrader upgrades your exsisting OrangeHRM database to run OrangeHRM 2.3-alpha.14 and set the configuration files that you need to start using OrangeHRM 2.3-alpha.14</p>
 
-        <p><b>N.B.</b><br/>If you don't have previous versions of OrangeHRM running already you should install OrangeHRM 2.3-alpha.8, please click <a href="../install.php">here</a> to do so.</p>
+        <p><b>N.B.</b><br/>If you don't have previous versions of OrangeHRM running already you should install OrangeHRM 2.3-alpha.14, please click <a href="../install.php">here</a> to do so.</p>
         <p>
 	  Click <b>[Next]</b> to Start the Wizard.</p>
         <input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
 		<input type="button" name="next" value="Next" onclick="welcomeSubmit();" id="next" tabindex="1">
 </div>
-		<h4 id="welcomeLink"><a href="http://www.orangehrm.com" target="_blank" tabindex="36">OrangeHRM.com</a></h4>
-
+		<h4 id="welcomeLink"><a href="http://www.orangehrm.com" target="_blank" tabindex="36">OrangeHRM.com</a></h4>

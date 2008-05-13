@@ -62,7 +62,7 @@ document.frmInstall.btnRegister.disabled = true;
 <div id="content">
 	<h2>Step 7: Registration</h2>
 
-        <p>You have sucessfully upgraded to OrangeHRM 2.3-alpha.8, please take a moment to register.</p>
+        <p>You have sucessfully upgraded to OrangeHRM 2.3-alpha.14, please take a moment to register.</p>
         <p>By registering you will be kept Up to Date and receive information on OrangeHRM (releases, updates, etc.).</p>
 
 
@@ -109,4 +109,4 @@ document.frmInstall.btnRegister.disabled = true;
         <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="9"/>
         <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
         <?php } ?>
-</div>
+</div>

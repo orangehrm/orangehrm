@@ -120,7 +120,7 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$ohrmVersion = "2.3-alpha.8";
+$ohrmVersion = "2.3-alpha.14";
 
 if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
 	$conf = new Conf();
@@ -241,4 +241,4 @@ function reload() {
 		<input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="3">
 </div>
 <div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> SysInfo ver 0.1 &copy; OrangeHRM Inc 2005 - 2008 All rights reserved. </div>
-</div>
+</div>

@@ -192,7 +192,7 @@
 
         <div class="roundbox">
 
-            <label for="dummy1"><?php echo $lang_bugtracker_FoundInRelease; ?></label><div class="version_label">2.3-alpha.8</div></br>
+            <label for="dummy1"><?php echo $lang_bugtracker_FoundInRelease; ?></label><div class="version_label">2.3-alpha.14</div></br>
             <input type="hidden" readonly name="artifact_group_id" value="786061">
 
             <label for="category_id"><span class="error">*</span><?php echo $lang_bugtracker_Category; ?></label>
@@ -256,4 +256,4 @@
     </form>
 	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </body>
-</html>
+</html>

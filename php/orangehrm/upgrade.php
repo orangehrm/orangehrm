@@ -21,7 +21,7 @@
 
 function needToUpgrade() {
 
-	$currentVersion = '2.3-alpha.8';
+	$currentVersion = '2.3-alpha.14';
 
 	if (is_file(ROOT_PATH . '/lib/confs/Conf.php') && !isset($_SESSION['RESTORING'])) {
 
@@ -335,4 +335,4 @@ if (isset($_SESSION['RESTORING'])) {
 }
 
 header('Location: upgrader/upgraderUI.php');
-?>
+?>
