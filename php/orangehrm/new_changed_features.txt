@@ -1,14 +1,15 @@
+
 New & Changed Features for OrangeHRM ver 2.3-alpha.8
 
 	Bug Fixes
 	---------
 	Fixed the IE7 related issues for the bug 1923726 - Plan halted by user,its not
 	halted when the user, admin logg
-	Removed the back button for navigation in templates/leave/leaveList.php to avoid 
+	Removed the back button for navigation in templates/leave/leaveList.php to avoid
 	the IE specific error (1945552 - Taken Leave link -> back button lead to expired page)
 
-	Note: 
-		The removal of the navigation button is only for this release. 
+	Note:
+		The removal of the navigation button is only for this release.
 		A seperate fix need to be done to correct the navigation path
 
 New & Changed Features for OrangeHRM ver 2.3-alpha.7

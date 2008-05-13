@@ -200,8 +200,6 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
-
-
     public function testRecordsExist() {
 
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());

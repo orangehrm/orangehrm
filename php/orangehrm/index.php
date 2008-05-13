@@ -662,7 +662,7 @@ function preloadAllImages() {
 	            <ul id="menu">
 	            	<li id="projectInfo">
 					<?php if ($_SESSION['isAdmin'] == "Yes") { ?>
-	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
+	            		<a href="lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo date('Y'); ?>" onMouseOver="ypSlideOutMenu.showMenu('menu19');" onMouseOut="ypSlideOutMenu.hideMenu('menu19');" target="rightMenu"><?php echo $lang_Menu_Benefits_HealthSavingsPlan; ?></a>
 					<?php } else {
 								if (Config::getHspCurrentPlan() > 0) {
 					?>
