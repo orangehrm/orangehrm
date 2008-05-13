@@ -1,3 +1,14 @@
+New & Changed Features for OrangeHRM ver 2.3-alpha.14
+
+	Introduced mktime() for _customFormatStringToTimeStamp at lib/common/LocaleUtil.php for handling Punch In/Out. For others it still uses strtotime()
+
+	Bug Fixes
+	---------
+	1947697 - 2.3-alpha.8:For next year balance should be brought forward
+	1947612 - 2.3alpha.8- ESS clicks benefits->HealthSavingPlan,wrong page
+	1929961 - Time Module ->Punch IN Punch OUT gives an error
+	1958428 - Time Module: Project Time , Timesheet period not validated
+	1961072 - HSP - Changing the employment status leads to a warning
 
 New & Changed Features for OrangeHRM ver 2.3-alpha.8
 
