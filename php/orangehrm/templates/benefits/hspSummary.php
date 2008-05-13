@@ -58,6 +58,18 @@ if (isset($errorFlag)) {
     } else {
         $adminUser = false;
     }
+
+    // If FSA is avilabe and date is belwo March 15th
+    $showFsaBalance=false;
+   	$currentHspPlan = Config::getHspCurrentPlan();
+   	if ($currentHspPlan == 3 || $currentHspPlan == 4 || $currentHspPlan == 5) { // If FSA is avaialbe in current plan
+		$fsaEndDate = date('Y')."-03-15";
+		$currentDate = date('Y-m-d');
+		if ($currentDate <= $fsaEndDate) {
+			$showFsaBalance=true;
+		}
+   	}
+
 ?>
 <style>
 @import url("../../themes/<?php echo $styleSheet; ?>/css/suggestions.css");
@@ -211,37 +223,38 @@ if (isset($errorFlag)) {
 							break;
 
 		   			}
-					
-					if (navigator.appVersion.indexOf("MSIE") != -1) {
 
-						with(document.getElementById('btnHspStatus' + hspId)) {
-							disabled = false;
+					with(document.getElementById('btnHspStatus' + hspId)) {
+
+						disabled = false;
+
+						if (navigator.appVersion.indexOf("MSIE") != -1) {
+
 							setAttribute("value", buttonLabel);
 							style.width = buttonWidth;
+
 							f = function(){
 								haltResumeHsp(hspId,empId, hspReverseStatus);
 							}
-							setAttribute("onclick", f)
-						}
-					} else {
-						with(document.getElementById('btnHspStatus' + hspId)) {
-							
-							disabled = false;
+
+							setAttribute("onclick", f);
+
+						} else {
 							setAttribute("value", buttonLabel);
 							setAttribute("style", "width: " + buttonWidth);
 							setAttribute("onclick", "haltResumeHsp('" + hspId + "', '" + empId + "', '" + hspReverseStatus + "');");
-							
+
 						}
 					}
 
-                   document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
+			                document.getElementById('lblHspStatus' + hspId).innerHTML = statusLabel;
 				} else {
 					alert('Error: ' + serverMsg);
 				}
             } else {
 
 		document.getElementById('btnHspStatus' + hspId).disabled = true;
-	
+
 	    }
         }
 
@@ -304,7 +317,7 @@ if (isset($saveSuccess) && $saveSuccess) {
  		 src="../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
  	<?php } ?>
-	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') { 
+	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
 
 		if (isset($oneEmployee) && $oneEmployee) {
 			$pdfName = 'Personal-HSP-Summary';
@@ -344,7 +357,10 @@ if (isset($saveSuccess) && $saveSuccess) {
 		    	<th class="tableTopMiddle" width="90"></th>
 		    	<th class="tableTopMiddle" width="90"></th>
 		    	<th class="tableTopMiddle" width="90"></th>
-			<th class="tableTopMiddle" width="90"></th>
+				<th class="tableTopMiddle" width="90"></th>
+				<?php if ($showFsaBalance) { ?>
+				<th class="tableTopMiddle" width="90"></th>
+    			<?php } ?>
 		    	<th class="tableTopMiddle" width="50"></th>
 		    	<th class="tableTopRight"></th>
 			</tr>
@@ -352,7 +368,7 @@ if (isset($saveSuccess) && $saveSuccess) {
     <th class="tableMiddleLeft"></th>
     <th colspan="<?php echo (!isset($oneEmployee) || $adminUser)?"4":"3"; ?>" scope="col">&nbsp;</th>
     <th colspan="2" align="center" scope="col"><?php echo $lang_Benefits_Summary_Contribution; ?></th>
-    <th colspan="3" scope="col">&nbsp;</th>
+    <th colspan="<?php echo ($showFsaBalance)?"4":"3"; ?>" scope="col">&nbsp;</th>
 	<th class="tableMiddleRight"></th>
   </tr>
   <tr>
@@ -367,6 +383,9 @@ if (isset($saveSuccess) && $saveSuccess) {
     <th><?php echo $lang_Benefits_Summary_Employee; ?> <br />($) </th>
     <th><?php echo $lang_Benefits_Summary_Total_Accrued; ?> <br />($) </th>
     <th><?php echo $lang_Benefits_Summary_Total_Used; ?> <br />($) </th>
+    <?php if ($showFsaBalance) { ?>
+	<th><?php echo $lang_Benefits_Summary_Last_Year_FSA_Balance; ?> <br />($) </th>
+    <?php } ?>
     <th>&nbsp;</th>
 	<th class="tableMiddleRight"></th>
   </tr>
@@ -446,6 +465,9 @@ if (($i%2) == 0) {
     }
     ?>
     </td>
+    <?php if ($showFsaBalance) { ?>
+	<td><?php if ($showFsaBalance) { echo $hspSummary[$i]->getFsaBalance(); } ?></td>
+    <?php } ?>
     <td id="buttonSlot">
     <?php
 	$summaryId = $hspSummary[$i]->getSummaryId();
@@ -526,6 +548,9 @@ if (($i%2) == 0) {
 				<td class="tableBottomMiddle"></td>
 				<td class="tableBottomMiddle"></td>
 				<td class="tableBottomMiddle"></td>
+				<?php if ($showFsaBalance) { ?>
+				<td class="tableBottomMiddle"></td>
+    			<?php } ?>
 				<td class="tableBottomMiddle"></td>
 				<td class="tableBottomRight"></td>
 			</tr>

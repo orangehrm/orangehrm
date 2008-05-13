@@ -1263,6 +1263,7 @@
 	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Invalid timesheet period.";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
+	$lang_Time_Errors_EncounteredFollowingProblems = "Encountered following problems";
 	$lang_Time_Errors_ReportedDateNotSpecified_ERROR = "Reported date not specified";
 	$lang_Time_Errors_ProjectNotSpecified_ERROR = "Project not specified";
 	$lang_Time_Errors_CustomerNotSpecified_ERROR = "Customer not specified";

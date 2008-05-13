@@ -81,7 +81,7 @@ switch ($status) {
 }
 
 $startDate = strtotime($timesheet->getStartDate() . " 00:00:00");
-$endDate = strtotime($timesheet->getEndDate() . " 23:59:00");
+$endDate = strtotime($timesheet->getEndDate() . " 23:59:59");
 $startDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $startDate));
 $endDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $endDate));
 $row=0;
@@ -148,6 +148,7 @@ function checkDateWithinPeriod(dateToCheck) {
 
 		periodStart = strToTime("<?php echo $startDatePrint; ?>", dateTimeFormat);
 		periodEnd = strToTime("<?php echo $endDatePrint; ?>", dateTimeFormat);
+
 		if ((dateToCheck < periodStart) || (dateToCheck > periodEnd)) {
 			return false;
 		}

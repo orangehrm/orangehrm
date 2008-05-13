@@ -318,9 +318,23 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 			$i++;
 
 		}
-
     }
 
+    public function testGetYears() { 
+    	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
+
+    	// Add 2 records to `hs_hr_hsp_summary`
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 1, 1, ". (date('Y') - 2) .", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (3, 1, 1, ". (date('Y') + 5) .", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (6, 1, 1, ". (date('Y') + 2) .", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+
+	$year = (int) date('Y');
+	$expected = array($year -2, $year - 1, $year, $year + 1, $year + 2, $year + 5);
+
+	$result = HspSummary::getYears();
+
+	$this->assertEquals($expected, $result);
+    }
 
 }
 

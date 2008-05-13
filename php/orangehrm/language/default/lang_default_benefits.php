@@ -190,6 +190,7 @@ $lang_Benefits_Summary_Employer = "Employer";
 $lang_Benefits_Summary_Employee = "Employee";
 $lang_Benefits_Summary_Total_Accrued = "Total Accrued";
 $lang_Benefits_Summary_Total_Used = "Total Used";
+$lang_Benefits_Summary_Last_Year_FSA_Balance = "Last Year FSA Balance";
 
 $lang_Benefits_Summary_Saved_Successfully = "Saved successfully";
 $lang_Benefits_Summary_Could_Not_Save = "Could not save data";
@@ -198,7 +199,5 @@ $lang_Benefits_Summary_Plan_Not_Defined = "HSP plan hasn't been defined. You sho
 $lang_Benefits_Summary_No_Employee_Records = "No employee has been defined yet. First define employees at PIM";
 $lang_Benefits_Summary_Search_EmpId_Not_Set = "Searched employee is not in the summery list";
 $lang_Benefits_HSP_Plan_Not_Defined_ESS = "No HSP Plan has been defined yet. Please contact ontact your HR Admin";
-
-
 
 ?>

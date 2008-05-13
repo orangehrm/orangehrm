@@ -99,7 +99,7 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj->setEmployeeId($_SESSION['empID']);
 
 		$txtDate = LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtDate']);
-		$txtTime = LocaleUtil::getInstance()->convertToStandardTimeFormat($postArr['txtTime']);
+		$txtTime = LocaleUtil::getInstance()->convertToStandardTimeFormat($postArr['txtTime'], null, true);
 
 		if ($punchIn) {
 			$tmpObj->setStartTime("{$txtDate} {$txtTime}");

@@ -163,23 +163,49 @@ class TimeEvent {
 	 */
 	private function _isOverlapping() {
 
-		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
+		$punch = false;
+		if ($this->getProjectId() == self::TIME_EVENT_PUNCH_PROJECT_ID && $this->getActivityId() == self::TIME_EVENT_PUNCH_ACTIVITY_ID) {
+		    $punch = true;
+		}
 
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
 		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
 
 		if ($this->getStartTime() != null) {
+			// This Start Time = 09:00		DB Time = 08:30-09:30
 			$tmpQuery = "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getStartTime()}' AND ";
-			$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` > '{$this->getStartTime()}'))";
+			$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getStartTime()}'))";
 
 			if ($this->getEndTime() != null) {
-				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` < '{$this->getEndTime()}' AND ";
+				// This End Time = 10:00	DB Time = 09:30-10:30
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getEndTime()}' AND ";
 				$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getEndTime()}'))";
+
+				// This Time = 09:00-10:00	DB Time = 08:30-10:30
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getStartTime()}' AND ";
+				$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` >= '{$this->getEndTime()}'))";
+
+				// This Time = 09:00-10:00	DB Time = 09:15-09:45
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$this->getStartTime()}' AND ";
+				$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` <= '{$this->getEndTime()}'))";
+
+				// This Time = 09:00-10:00	DB Start Time = 09:30
+				$tmpQuery .= " OR (a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$this->getStartTime()}' AND ";
+				$tmpQuery .= "(a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$this->getEndTime()}'))";
 			}
 
 			$selectConditions[] = "({$tmpQuery})";
 
 		} else {
 			return false;
+		}
+
+		// Overlapping is allowed between default project and others because default project can be used for Punch In/Out
+		// So that overlapping should be checked either among default project events or other project events
+		if ($punch) {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = '".self::TIME_EVENT_PUNCH_PROJECT_ID."' AND a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = '".self::TIME_EVENT_PUNCH_ACTIVITY_ID."'";
+		} else {
+			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` != '".self::TIME_EVENT_PUNCH_PROJECT_ID."' AND a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` != '".self::TIME_EVENT_PUNCH_ACTIVITY_ID."'";
 		}
 
 		if ($this->getTimeEventId() != null) {
@@ -456,10 +482,10 @@ class TimeEvent {
 		if ($this->getTimeEventId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."` = {$this->getTimeEventId()}";
 		}
-		if ($this->getProjectId() != null) {
+		if ($this->getProjectId() !== null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
 		}
-		if ($this->getActivityId() != null) {
+		if ($this->getActivityId() !== null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."` = {$this->getActivityId()}";
 		}
 		if ($this->getEmployeeId() != null) {
@@ -536,13 +562,15 @@ class TimeEvent {
 			if ($diff > 0) {
 				$diff=$diff-7;
 			}
+
 			$timesheetObj->setStartDate(date('Y-m-d', $currTime+($diff*3600*24)));
 
 			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 			if (0 > $diff) {
 				$diff=$diff+7;
 			}
-			$timesheetObj->setEndDate(date('Y-m-d', $currTime+($diff*3600*24)));
+
+			$timesheetObj->setEndDate(date('Y-m-d', $currTime+($diff*3600*24))." 23:59:59");
 
 			$timesheetObj->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 			$timesheetObj->setEmployeeId($this->getEmployeeId());

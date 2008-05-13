@@ -74,6 +74,25 @@ if (isset($records[1])) {
 	$description = $records[1]->getDescription();
 }
 
+/* For getting current timesheet's start date and end date */
+
+$currentTimesheet = $records[2];
+
+if (isset($currentTimesheet)) {
+
+	$startDate = strtotime($currentTimesheet->getStartDate() . " 00:00:00");
+	$endDate = strtotime($currentTimesheet->getEndDate() . " 23:59:59");
+	$startDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $startDate));
+	$endDatePrint = LocaleUtil::getInstance()->formatDateTime(date("Y-m-d H:i", $endDate));
+
+} else {
+
+	$startDatePrint = 0;
+	$endDatePrint = 0;
+
+}
+/* For getting current timesheet's start date and end date */
+
 $customerObj = new Customer();
 $projectObj = new Projects();
 $projectActivityObj = new ProjectActivity();
@@ -89,10 +108,32 @@ function goBack() {
 	window.location = initialAction+"Time_Event_Home";
 }
 
+function $(id) {
+	return document.getElementById(id);
+}
+
+function validateDuration(value) {
+
+	if (value != "") {
+		regExp = /^[0-9]+\.*[0-9]*/;
+
+		if (!regExp.test(value)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function isEmpty(value) {
+	value = trim(value);
+	return (value == "");
+}
+
 function validate() {
 	startTime = strToTime($("txtStartTime").value, dateTimeFormat);
 	endTime = strToTime($("txtEndTime").value, dateTimeFormat);
 	duration = $("txtDuration").value;
+	reportedDate = $("txtReportedDate").value;
 
 	errFlag=false;
 	errors = new Array();
@@ -106,8 +147,6 @@ function validate() {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_ProjectNotSpecified_ERROR; ?>";
 		errFlag=true;
 	}
-
-
 
 	if (startTime && (($("txtEndTime").value != "") || ($("txtDuration").value != ""))) {
 		if (!startTime || !endTime || (startTime > endTime) || (0 >= duration)) {
@@ -131,8 +170,30 @@ function validate() {
 		}
 	}
 
+	<?php if (isset($currentTimesheet)) { ?>
+	/* Timesheet period validation conditions begins */
+
+	if ($('txtStartTime').value != "" && $('txtEndTime').value == "") {
+
+		if (!checkDateAndDuration(startTime, duration)) {
+			errors[errors.length] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+			errFlag=true;
+	    }
+
+	} else if ($('txtStartTime').value != "" && $('txtEndTime').value != "") {
+
+	    if ((!checkDateAndDuration(startTime, duration)) || (!checkDateAndDuration(endTime, duration))) {
+			errors[errors.length] = "<?php echo $lang_Time_Errors_EVENT_OUTSIDE_PERIOD_FAILURE; ?>";
+			errFlag=true;
+	    }
+
+	}
+
+	/* Timesheet period validation conditions ends */
+	<?php } ?>
+
 	if (errFlag) {
-		errStr="<?php echo $lang_Time_Errors_EncounteredTheFollowingProblems; ?>\n";
+		errStr="<?php echo $lang_Time_Errors_EncounteredFollowingProblems; ?>\n";
 		for (i in errors) {
 			errStr+=" - "+errors[i]+"\n";
 		}
@@ -211,6 +272,34 @@ function init() {
 
 YAHOO.OrangeHRM.container.init();
 YAHOO.util.Event.addListener(window, "load", init);
+
+/* Timesheet duration validation Function Begins */
+
+function checkDateAndDuration(dateValue, duration) {
+
+	periodStart = strToTime("<?php echo $startDatePrint; ?>", dateTimeFormat);
+	periodEnd = strToTime("<?php echo $endDatePrint; ?>", dateTimeFormat);
+
+	// ignore invalid dates and durations since those are checked separately
+	if (dateValue && validateDuration(duration)) {
+
+		if ((dateValue < periodStart) || (dateValue > periodEnd)) {
+			return false;
+		}
+
+		endTime = new Date();
+		endTime.setTime(dateValue + (3600000 * duration));
+
+		if ((endTime < periodStart) || (endTime > periodEnd)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/* Timesheet duration validation Function Ends */
+
 
 </script>
 <?php $objAjax->printJavascript(); ?>

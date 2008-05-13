@@ -20,6 +20,7 @@
 
 require_once ROOT_PATH.'/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH.'/lib/models/benefits/DefineHsp.php';
+require_once ROOT_PATH.'/lib/common/Config.php';
 require_once 'Hsp.php';
 
 class HspSummary extends Hsp {
@@ -38,6 +39,7 @@ class HspSummary extends Hsp {
 
 		parent::updateAccrued($year); // Update 'total_accrued' for $year
 		//parent::updateUsed($year); // Update 'total_used' for $year
+		self::_broughtForwardHspBalance();
 
 		$selectTable = parent::DB_TABLE_HSP_SUMMARY;
 		$selectFields[0] = "*";
@@ -62,14 +64,7 @@ class HspSummary extends Hsp {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
-		$yearStart = $year."-01-01";
-		$currentDate = date('Y-m-d');
-
-		if ($currentDate >= $yearStart && self::recordsExist($year-1)) {
-			$hsbObjArr = self::_buildSummaryObjects($result, true);
-		} else {
-		    $hsbObjArr = self::_buildSummaryObjects($result);
-		}
+		$hsbObjArr = self::_buildSummaryObjects($result);
 
 		return $hsbObjArr;
 
@@ -79,6 +74,7 @@ class HspSummary extends Hsp {
 
 		parent::updateAccrued($year); // Update 'total_accrued' for $year
 		//parent::updateUsed($year); // Update 'total_used' for $year
+		self::_broughtForwardHspBalance();
 
 		$selectTable = parent::DB_TABLE_HSP_SUMMARY;
 		$selectFields[0] = "*";
@@ -95,14 +91,7 @@ class HspSummary extends Hsp {
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
-		$yearStart = $year."-01-01";
-		$currentDate = date('Y-m-d');
-
-		if ($currentDate >= $yearStart && self::recordsExist($year-1)) {
-			$hsbObjArr = self::_buildSummaryObjects($result, true);
-		} else {
-		    $hsbObjArr = self::_buildSummaryObjects($result);
-		}
+		$hsbObjArr = self::_buildSummaryObjects($result);
 
 		return $hsbObjArr;
     }
@@ -320,7 +309,7 @@ class HspSummary extends Hsp {
      * containing the data of the resource.
      */
 
-    private static function _buildSummaryObjects($result, $accrued = false) {
+    private static function _buildSummaryObjects($result) {
 
         $dbConnection = new DMLFunctions();
         $hspObjArr = null;
@@ -339,14 +328,17 @@ class HspSummary extends Hsp {
             $hspObj->setAnnualLimit($row[5]);
             $hspObj->setEmployerAmount($row[6]);
             $hspObj->setEmployeeAmount($row[7]);
-            if ($accrued) {
-            	$total = $row[8] + self::_fetchLastYearHspBalance($row[1], $row[2], ($row[3]-1));
-                $hspObj->setTotalAccrued($total);
-            } else {
-                $hspObj->setTotalAccrued($row[8]);
-            }
-
+            $hspObj->setTotalAccrued($row[8]);
             $hspObj->setTotalUsed($row[9]);
+
+           	$currentHspPlan = Config::getHspCurrentPlan();
+           	if ($currentHspPlan == 3 || $currentHspPlan == 4 || $currentHspPlan == 5) { // If FSA is avaialbe in current plan
+				if($row[2] == 3) {
+					$hspObj->setFsaBalance(self::_fetchLastYearFsaBalance($row[1], ($row[3]-1)));
+				} else {
+					$hspObj->setFsaBalance("NA");
+				}
+           	}
 
             $hspObjArr[] = $hspObj;
 
@@ -396,16 +388,16 @@ class HspSummary extends Hsp {
 	}
 
 	/**
-	 * This function returns HSP balance of last year if conditions are passed.
+	 * This function returns FSA balance of last year if conditions are passed.
 	 */
 
-	private static function _fetchLastYearHspBalance($empId, $hspPlanId, $year) {
+	public static function _fetchLastYearFsaBalance($empId, $year) {
 
 		$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
 		$selectFields[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
 		$selectFields[1] = "`".parent::DB_FIELD_TOTAL_USED."`";
 		$selectConditions[0] = "`".parent::DB_FIELD_EMPLOYEE_ID."` = '$empId'";
-		$selectConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` = '$hspPlanId'";
+		$selectConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` = '3'";
 		$selectConditions[2] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '$year'";
 
 		$sqlBuilder = new SQLQBuilder();
@@ -416,21 +408,100 @@ class HspSummary extends Hsp {
 
 		if ($dbConnection->dbObject->numberOfRows($result) == 1) {
 			$row = $dbConnection->dbObject->getArray($result);
-			if ($hspPlanId == 3) { // For FSA
-				$fsaEndDate = date('Y')."-03-15";
-				$currentDate = date('Y-m-d');
-				if ($currentDate <= $fsaEndDate) {
-				    return ($row[0] - $row[1]);
-				} else {
-				    return 0;
-				}
-			} else { // For HSA and HRA
+			$fsaEndDate = date('Y')."-03-15";
+			$currentDate = date('Y-m-d');
+			if ($currentDate <= $fsaEndDate) {
 			    return ($row[0] - $row[1]);
+			} else {
+			    return 0;
 			}
 		} else {
 		    return 0;
 		}
 
+	}
+
+	/**
+	 * This functions brings forward last year balance for HSA and HRA
+	 */
+
+	private static function _broughtForwardHspBalance() {
+
+		$yearStart = date('Y')."-01-01";
+		$currentDate = date('Y-m-d');
+
+		if ($currentDate >= $yearStart && self::recordsExist(date('Y')-1) && !Config::getHspBroughtForwadYear("HspBroughtForward".date('Y'))) {
+
+			$selectTable = "`".parent::DB_TABLE_HSP_SUMMARY."`";
+			$selectFields[0] = "`".parent::DB_FIELD_EMPLOYEE_ID."`";
+			$selectFields[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."`";
+			$selectFields[2] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+			$selectFields[3] = "`".parent::DB_FIELD_TOTAL_USED."`";
+			$year = date('Y')-1;
+			$selectConditions[0] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '$year'";
+			$selectConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` != '3'";
+
+			$sqlBuilder = new SQLQBuilder();
+			$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+			$dbConnection = new DMLFunctions();
+			$result = $dbConnection->executeQuery($query);
+
+			if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+
+				while ($row = $dbConnection->dbObject->getArray($result)) {
+
+					$updateTable = "`".self::DB_TABLE_HSP_SUMMARY."`";
+					$updateFields[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`";
+					$updateValues[0] = "`".parent::DB_FIELD_TOTAL_ACCRUED."`"+($row[2]-$row[3]);
+
+					$updateConditions[0] = "`".parent::DB_FIELD_EMPLOYEE_ID."` = '".$row[0]."'";
+					$updateConditions[1] = "`".parent::DB_FIELD_HSP_PLAN_ID."` = '".$row[1]."'";
+					$updateConditions[2] = "`".parent::DB_FIELD_HSP_PLAN_YEAR."` = '".date('Y')."'";
+
+					$sqlBuilder2 = new SQLQBuilder();
+					$query2 = $sqlBuilder2->simpleUpdate($updateTable, $updateFields, $updateValues, $updateConditions);
+
+					$dbConnection2 = new DMLFunctions();
+					$dbConnection2->executeQuery($query2);
+
+				}
+
+			}
+
+			Config::setHspBroughtForwadYear("set", "HspBroughtForward".date('Y'));
+
+		}
+
+	}
+
+	public static function getYears() {
+
+                $sqlBuilder = new SQLQBuilder();
+
+                $selectTable = "`".self::DB_TABLE_HSP_SUMMARY."`";
+                $selectFields[] = "DISTINCT(`".self::DB_FIELD_HSP_PLAN_YEAR."`)";
+                $query = $sqlBuilder->simpleSelect($selectTable, $selectFields);
+
+                $dbConnection = new DMLFunctions();
+                $result = $dbConnection->executeQuery($query);
+
+                if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+                        while ($row = $dbConnection->dbObject->getArray($result)) {
+                                $years[] = (int)($row[0]);
+                        }
+                }
+
+                $years[] = date('Y') - 1;
+                $years[] = date('Y');
+                $years[] = date('Y') + 1;
+
+                $years = array_unique($years);
+
+                sort($years); 
+
+	        return $years;
+	
 	}
 
 }
@@ -445,5 +516,4 @@ class HspSummaryException extends Exception {
     const NO_EMPLOYEE_EXISTS = 2;
 
 }
-
 ?>

@@ -292,7 +292,8 @@ class BenefitsController {
 				    $tmpOb[5] = null;
 				}
 				$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
-				$tmpOb[7]=HspPayPeriod::getYears();
+				$tmpOb[7]=HspSummary::getYears();
+
 
 			} catch(Exception $e) {
 					$error['noEmployeeRecords'] = true;
@@ -441,7 +442,7 @@ class BenefitsController {
 			    $tmpOb[5] = null;
 			}
 			$tmpOb[6]=EmpInfo::getEmployeeMainDetails();
-			$tmpOb[7]=HspPayPeriod::getYears();
+			$tmpOb[7]=HspSummary::getYears();
 
 			$template = new TemplateMerger($tmpOb, $path);
 
@@ -659,7 +660,7 @@ class BenefitsController {
 					if (is_null($personalHspSummary))
 						throw new HspPaymentRequestException('HSP Summary details not defined by HR Admins', HspPaymentRequestException::NO_HSP);
 
-					$amountLimit = ($personalHspSummary[0]->getTotalAccrued() + HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year)) - $personalHspSummary[0]->getTotalUsed();
+					$amountLimit = $personalHspSummary[0]->getTotalAccrued() - $personalHspSummary[0]->getTotalUsed();
 					break;
 				case 2 :
 					if ($year != date('Y')) {
@@ -676,7 +677,7 @@ class BenefitsController {
 					} else {
 						$index = 0;
 					}
-					$amountLimit = ($personalHspSummary[$index]->getTotalAccrued() + HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year)) - $personalHspSummary[0]->getTotalUsed();
+					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed();
 					break;
 				case 3 :
 					$reqError = BenefitsController::_validateFSARequest($year);
@@ -687,10 +688,15 @@ class BenefitsController {
 
 						$index = (count($personalHspSummary) == 2) ? 1 : 0;
 
-						$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
-					}
-					else
+						if ($year == date('Y') - 1) {
+							$amountLimit = HspSummary::_fetchLastYearFsaBalance($empId, $year);
+
+						} else {
+							$amountLimit = $personalHspSummary[$index]->getAnnualLimit() - $personalHspSummary[$index]->getTotalUsed();
+						}
+					} else {
 						throw $reqError;
+					}
 					break;
 			}
 
@@ -786,7 +792,7 @@ class BenefitsController {
 			switch ($hspId) {
 				case 1 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
-					$amountLimit = (HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year) + $personalHspSummary[0]->getTotalAccrued()) - $personalHspSummary[0]->getTotalUsed();
+					$amountLimit = $personalHspSummary[0]->getTotalAccrued() - $personalHspSummary[0]->getTotalUsed();
 					break;
 				case 2 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);
@@ -795,7 +801,7 @@ class BenefitsController {
 					} else {
 						$index = 0;
 					}
-					$amountLimit = (HspSummary::_fetchLastYearHspBalance($empId, $hspId, $year) + $personalHspSummary[$index]->getTotalAccrued()) - $personalHspSummary[$index]->getTotalUsed();
+					$amountLimit = $personalHspSummary[$index]->getTotalAccrued() - $personalHspSummary[$index]->getTotalUsed();
 					break;
 				case 3 :
 					$personalHspSummary = HspSummary::fetchHspSummary($year, 1, $empId);

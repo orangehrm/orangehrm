@@ -254,7 +254,20 @@ class TimeController {
 			$timeEvents = $timeEventObj->fetchTimeEvents();
 
 			$dataArr[1] = $timeEvents[0];
+		} else {
+		    $dataArr[1] = null;
 		}
+
+		/* For setting current timesheet: Begins */
+		$timesheetObj = new Timesheet();
+		$timesheets = $timesheetObj->fetchTimesheets(true);
+
+		if (isset($timesheets[0])) {
+			$dataArr[2] = $timesheets[0];
+		} else {
+		    $dataArr[2] = null;
+		}
+		/* For setting current timesheet: Ends */
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();

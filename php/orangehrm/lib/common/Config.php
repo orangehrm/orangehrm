@@ -90,7 +90,7 @@ class Config {
 
 		$result = $dbConnection->executeQuery($query);
 
-		if (!$result) {
+		if ($dbConnection->dbObject->numberOfRows($result) != 1) {
 		    throw new Exception("Value corresponding to $key could not be selected");
 		}
 
@@ -187,10 +187,22 @@ class Config {
      */
 
     public static function getHspCurrentPlan() {
-
     	return self::_selectValue(self::KEY_NAME_HSP_CURRENT_PLAN);
-
     }
+
+    public static function setHspBroughtForwadYear($value, $key) {
+    	self::_setValue($key, $value);
+    }
+
+    public static function getHspBroughtForwadYear($key) {
+    	try {
+    		self::_selectValue($key);
+    		return true;
+    	} catch (Exception $e) {
+    		return false;
+    	}
+    }
+
 
 }
 

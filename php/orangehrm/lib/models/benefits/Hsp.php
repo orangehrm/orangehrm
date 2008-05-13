@@ -56,6 +56,7 @@ class Hsp {
 	private $employeeAmount;
 	private $totalAccrued;
 	private $totalUsed;
+	private $fsaBalance;
 
 	public function setSummaryId($summaryId) {
 	    $this->summaryId = $summaryId;
@@ -151,6 +152,14 @@ class Hsp {
 
 	public function getTotalUsed() {
 	    return $this->totalUsed;
+	}
+
+	public function setFsaBalance($fsaBalance) {
+	    $this->fsaBalance = $fsaBalance;
+	}
+
+	public function getFsaBalance() {
+	    return $this->fsaBalance;
 	}
 
 	public function getHspPlanStatusName() {

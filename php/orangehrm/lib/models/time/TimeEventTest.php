@@ -81,9 +81,9 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	mysql_query("INSERT INTO `hs_hr_timesheet_submission_period` (`timesheet_period_id`, `name`, `frequency`, `period`, `start_day`, `end_day`, `description`) ".
     				"VALUES (10, 'Permanent', 7, 1, ".date('N').", ".date('N', time()+3600*24*6).", 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*6)."', 0)");
+    				"VALUES (10, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*6)." 23:59:59', 0)");
 		mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
-    				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*13)."', 0)");
+    				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*13)." 23:59:59', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i')."', '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
@@ -358,7 +358,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
      public function testResolveTimesheet2() {
     	$eventObj = $this->classTimeEvent;
 
-    	$expected[0] = array(11, 10, 10, 10, 12, date('Y-m-d H:i', time()+3600*24*15), date('Y-m-d H:i', (time()+3600*24*15)+1800), date('Y-m-d'), 30, "Testing12");
+    	$expected[0] = array(11, 10, 10, 10, 12, date('Y-m-d H:i', time()+3600*24*15), date('Y-m-d H:i', (time()+3600*24*15)+1800)." 23:59:59", date('Y-m-d'), 30, "Testing12");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setEmployeeId($expected[0][3]);

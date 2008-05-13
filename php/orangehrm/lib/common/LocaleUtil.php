@@ -26,6 +26,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
  */
  class LocaleUtil {
 
+    const STANDARD_DATE_FORMAT = 'Y-m-d';
+    const STANDARD_TIME_FORMAT = 'H:i';
+    const STANDARD_DATETIME_FORMAT = 'Y-m-d H:i';
+    const STANDARD_TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
+
 	/** This singleton instance */
 	private static $instance;
 
@@ -198,7 +203,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 		return null;
 	 	}
 
-	 	$standardDate = date('Y-m-d', $timeStamp);
+	 	$standardDate = date(self::STANDARD_DATE_FORMAT, $timeStamp);
 
 	 	return $standardDate;
 	 }
@@ -212,19 +217,24 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  * @param String customFormat(Optional)
 	  * @return String standardDate
 	  */
-	 public function convertToStandardTimeFormat($time, $customFormat=null) {
+	 public function convertToStandardTimeFormat($time, $customFormat=null, $punchInOut=false) {
 	 	if ($customFormat == null) {
 	 		$format = LocaleUtil::convertToXpDateFormat($this->sysConf->getTimeFormat());
 	 	} else {
 	 		$format = LocaleUtil::convertToXpDateFormat($customFormat);
 	 	}
 
-	 	$timeStamp=$this->_customFormatStringToTimeStamp($time, $format);
+		if ($punchInOut) {
+		    $timeStamp=$this->_customFormatStringToTimeStamp($time, $format, $punchInOut);
+		} else {
+		    $timeStamp=$this->_customFormatStringToTimeStamp($time, $format);
+		}
+
 	 	if (!$timeStamp) {
 	 		return null;
 	 	}
 
-	 	$standardDate = date('H:i', $timeStamp);
+	 	$standardDate = date(self::STANDARD_TIME_FORMAT, $timeStamp);
 
 	 	return $standardDate;
 	 }
@@ -251,7 +261,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	 		return null;
 	 	}
 
-	 	$standardDate = date('Y-m-d H:i', $timeStamp);
+	 	$standardDate = date(self::STANDARD_DATETIME_FORMAT, $timeStamp);
 
 	 	return $standardDate;
 	 }
@@ -263,7 +273,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	  * @param String format
 	  * @return Integer timestamp
 	  */
-	 private function _customFormatStringToTimeStamp($time, $format) {
+	 private function _customFormatStringToTimeStamp($time, $format, $punchInOut=false) {
 		$yearVal = '';
 		$monthVal = '';
 		$dateVal = '';
@@ -336,7 +346,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 			$minuteVal="00";
 		}
 
-		$timeStamp = strtotime("$yearVal-$monthVal-$dateVal $hourVal:$minuteVal");
+		if ($punchInOut) {
+		    $timeStamp = mktime((int)$hourVal , (int)$minuteVal , 0 , (int)$monthVal , (int)$dateVal , (int)$yearVal);
+		} else {
+		    $timeStamp = strtotime("$yearVal-$monthVal-$dateVal $hourVal:$minuteVal");
+		}
 
 		return $timeStamp;
 	 }
