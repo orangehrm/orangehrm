@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.3-alpha.14
+New & Changed Features for OrangeHRM ver 2.3-alpha.14 (Beta.1)
 
 	Introduced mktime() for _customFormatStringToTimeStamp at lib/common/LocaleUtil.php for handling Punch In/Out. For others it still uses strtotime()
 

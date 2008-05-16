@@ -354,7 +354,7 @@ body {
 <!-- End ImageReady Slices -->
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.3-alpha.14 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.3-Beta.1 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
 </tr>
 </table>
 
