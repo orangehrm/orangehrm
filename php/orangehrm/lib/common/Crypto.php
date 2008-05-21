@@ -17,25 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
+define('CRYPT_BLOWFISH_NOMCRYPT', true);
+
+require_once ROOT_PATH . '/lib/common/cryptoinc/Blowfish.php';
+require_once ROOT_PATH . '/lib/common/cryptoinc/CBC.php';
+require_once ROOT_PATH . '/lib/common/cryptoinc/ECB.php';
+require_once ROOT_PATH . '/lib/common/cryptoinc/DefaultKey.php';
+require_once ROOT_PATH . '/lib/common/cryptoinc/MCrypt.php';
+require_once ROOT_PATH . '/lib/common/cryptoinc/PHP.php';
+
 class Crypto {
 
     private static $instance;
     private static $key;
     private static $iv;
+	private static $bf;
     private static $keyFilesDontExist = false;
 
     private function __construct() {
 
-        $keyLocation = ROOT_PATH.'/lib/cryptoinc/key.ohrm';
-        $ivLocation = ROOT_PATH.'/lib/cryptoinc/iv.ohrm';
+        $keyLocation = ROOT_PATH.'/lib/common/cryptoinc/key.ohrm';
+        $ivLocation = ROOT_PATH.'/lib/common/cryptoinc/iv.ohrm';
 
         if (file_exists($keyLocation) && file_exists($ivLocation)) {
 
 			$this->_readKey($keyLocation);
        		$this->_readIv($ivLocation);
+			
+			self::$bf = new Crypt_Blowfish_CBC(self::$key, self::$iv);
 
         } else {
+		
             self::$keyFilesDontExist = true;
+
         }
 
 
@@ -53,11 +67,15 @@ class Crypto {
 
 
     private function _readKey($keyFile) {
-        // read $keyFile and set self::$key
+        
+		self::$key = trim(file_get_contents($keyFile));
+		
     }
 
     private function _readIv($ivFile) {
-        // read $ivFile and set self::$iv
+	
+        self::$iv = trim(file_get_contents($ivFile)); 
+		
     }
 
     public function encode($input) {
@@ -66,6 +84,11 @@ class Crypto {
         // Do MySQL escaping so that output is ready to be saved in the database
         // if $keyFilesDontExist is set to 'true', return $input without any encoding
         // return null on failure
+	
+	$encrypted = self::$bf->encrypt((string)$input);
+	
+	return base64_encode($encrypted);
+
     }
 
     public function decode($input) {
@@ -73,6 +96,12 @@ class Crypto {
         // if needed validate input
         // if $keyFilesDontExist is set to 'true', return $input without any decoding
         // return null on failure
+		
+			$input = base64_decode($input);
+		
+			$decrypted =  self::$bf->decrypt($input);
+			
+			return trim($decrypted);
     }
 
 }

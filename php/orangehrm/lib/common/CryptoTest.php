@@ -4,6 +4,12 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'CryptoTest::main');
 }
 
+if(!defined('ROOT_PATH')) {
+
+	define('ROOT_PATH', '/var/www/html/orangehrm-2.3');
+
+}
+
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Crypto.php';
@@ -18,7 +24,6 @@ class CryptoTest extends PHPUnit_Framework_TestCase
      * @var    Crypto
      * @access protected
      */
-    protected $object;
 
     /**
      * Runs the test methods of this class.
@@ -42,7 +47,7 @@ class CryptoTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Crypto;
+       
     }
 
     /**
@@ -54,6 +59,32 @@ class CryptoTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
+	
+	public function testEncryptDecrypt() {
+	
+		$values[] = "abcd";
+		$values[] = 1234;
+		$values[] = 1234.25;
+		$values[] = 1234.3165434654;
+		$values[] = "1234";
+		$values[] = "abcd1234";
+		$values[] = "!@#$%^&*()_+|";
+		$values[] = "!@#abcs$%^&*()_+|";
+		$values[] = "!@#$%^12345&*()_+|";
+		
+		$crypt = Crypto::getInstance();
+		$i = 1;
+		
+		foreach($values as $value) {
+		
+			$expected = $value;
+			$result = $crypt->decode($crypt ->encode($value));
+			
+			$this->assertEquals($expected, $result, "Failed at " . $i++);
+		
+		}
+	
+	}
 
 }
 
