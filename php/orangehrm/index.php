@@ -550,6 +550,7 @@ function preloadAllImages() {
 						<li id="notifications"><a href="#" onMouseOver="ypSlideOutMenu.showMenu('menu15');" onMouseOut="ypSlideOutMenu.hideMenu('menu15');"><?php echo $lang_Menu_Admin_EmailNotifications; ?></a></li>
 						<li id="projectInfo"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu17');" onMouseOut="ypSlideOutMenu.hideMenu('menu17');"><?php echo $lang_Menu_Admin_ProjectInfo; ?></a></li>
 						<li id="dataexport"><a href="#"  onMouseOver="ypSlideOutMenu.showMenu('menu18');" onMouseOut="ypSlideOutMenu.hideMenu('menu18');"><?php echo $lang_Menu_Admin_DataImportExport; ?></a></li>
+						<li id="dataencrypt"><a href="index.php?uniqcode=ENC&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_DataEncryption; ?></a></li>
 						<li id="dataexport"><a href="index.php?uniqcode=CTM&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CustomFields; ?> </a></li>
 					  	<?php
 					  	if ($_SESSION['ldap'] == "enabled") {

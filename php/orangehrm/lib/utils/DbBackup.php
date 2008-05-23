@@ -15,38 +15,23 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'utils_AllTests::main');
+class DbBackup {
+
+
+	public static function backup($table, $fields = '*', $path = null, $encrypted = false) {
+	
+	
+	
+	}
+	
+	public static function restore($table, $fields = '*', $path = null, $decrypted = false) {
+	
+	
+	
+	}
+
 }
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
- 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
- 
-require_once 'InstallUtilTest.php';
-require_once 'ConstraintHandlerTest.php';
-require_once 'DbBackupTest.php';
- 
-class utils_AllTests
-{
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
- 
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM utils');
-        $suite->addTestSuite('InstallUtilTest');
-        $suite->addTestSuite('ConstraintHandlerTest');
-        return $suite;
-    }
-}
- 
-if (PHPUnit_MAIN_METHOD == 'utils_AllTests::main') {
-    utils_AllTests::main();
-}
+
 ?>

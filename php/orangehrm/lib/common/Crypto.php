@@ -19,12 +19,7 @@
 
 define('CRYPT_BLOWFISH_NOMCRYPT', true);
 
-require_once ROOT_PATH . '/lib/common/cryptoinc/Blowfish.php';
 require_once ROOT_PATH . '/lib/common/cryptoinc/CBC.php';
-require_once ROOT_PATH . '/lib/common/cryptoinc/ECB.php';
-require_once ROOT_PATH . '/lib/common/cryptoinc/DefaultKey.php';
-require_once ROOT_PATH . '/lib/common/cryptoinc/MCrypt.php';
-require_once ROOT_PATH . '/lib/common/cryptoinc/PHP.php';
 
 class Crypto {
 
@@ -36,8 +31,8 @@ class Crypto {
 
     private function __construct() {
 
-        $keyLocation = ROOT_PATH.'/lib/common/cryptoinc/key.ohrm';
-        $ivLocation = ROOT_PATH.'/lib/common/cryptoinc/iv.ohrm';
+        $keyLocation = ROOT_PATH.'/lib/confs/cryptokeys/key.ohrm';
+        $ivLocation = ROOT_PATH.'/lib/confs/cryptokeys/iv.ohrm';
 
         if (file_exists($keyLocation) && file_exists($ivLocation)) {
 
@@ -84,7 +79,12 @@ class Crypto {
         // Do MySQL escaping so that output is ready to be saved in the database
         // if $keyFilesDontExist is set to 'true', return $input without any encoding
         // return null on failure
-	
+		if (is_null($input)) {
+			return null;
+		} elseif ($input == "") {
+			return "";
+		}
+		
 	$encrypted = self::$bf->encrypt((string)$input);
 	
 	return base64_encode($encrypted);
@@ -96,6 +96,11 @@ class Crypto {
         // if needed validate input
         // if $keyFilesDontExist is set to 'true', return $input without any decoding
         // return null on failure
+			if (is_null($input)) {
+				return null;
+			} elseif ($input == "") {
+				return "";
+			}
 		
 			$input = base64_decode($input);
 		

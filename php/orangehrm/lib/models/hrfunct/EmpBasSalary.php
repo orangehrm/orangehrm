@@ -263,7 +263,7 @@ class EmpBasSalary {
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 
-			for($c=0;count($arrFieldList)>$c;$c++)
+			for($c=0;count($arrFieldList)>$c;$c++) 
 			   $arrayDispList[$i][$c] = $line[$c];
 
 	    	$i++;
@@ -330,7 +330,7 @@ class EmpBasSalary {
 
 		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 
-			for($c=0;count($arrFieldList)>$c;$c++)
+			for($c=0;count($arrFieldList)>$c;$c++) 
 			   $arrayDispList[$i][$c] = $line[$c];
 
 	    	$i++;

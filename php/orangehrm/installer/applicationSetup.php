@@ -222,6 +222,9 @@ function writeConfFile() {
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
 
+	$cryptKey = substr(md5(rand(10000000, 99999999)) . md5(rand(10000000, 99999999)), rand(0, 8), 56);
+	$cryptIv	= substr(md5(rand(10000000, 99999999)), rand(0, 24), 8);
+
     $confContent = <<< CONFCONT
 <?php
 class Conf {
@@ -254,6 +257,20 @@ CONFCONT;
 	fwrite($handle, $confContent);
 
     fclose($handle);
+
+	$filename = ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm';	
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $cryptKey);
+
+    fclose($handle);
+
+	$filename = ROOT_PATH . '/lib/confs/cryptokeys/iv.ohrm';
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $cryptIv);
+
+    fclose($handle);
+	
+	
 
 }
 
@@ -361,4 +378,4 @@ function writeLog() {
 
 	}
   }
-?>
+?>

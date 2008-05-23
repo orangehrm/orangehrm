@@ -154,11 +154,18 @@
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
 	$lang_Menu_Admin_DataImportExport = "Data Import/Export";
+	$lang_Menu_Admin_DataEncryption = "Data Encryption";
 	$lang_Menu_Admin_DataExport = "Export";
 	$lang_Menu_Admin_DataExportDefine = "Define Custom Export";
 	$lang_Menu_Admin_DataImport = "Import";
 	$lang_Menu_Admin_DataImportDefine = "Define Custom Import";
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
+
+	// Data Encryption
+	$lang_dataEncryption_heading 		= "Data Encryption";
+	$lang_dataEncryption_description 	= "Some small description";
+	$lang_dataEncryption_step			= "Step";
+	$lang_dataEncryption_createKeys		= "Create Keys";
 
 	// LDAP Module
 	$lang_LDAP_Configuration 	= "LDAP Configuration";

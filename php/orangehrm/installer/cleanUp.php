@@ -66,7 +66,8 @@ function cleanUp() {
 	}
 
 	$sucExec[] = delConf();
-
+	$sucExec[] = delCryptoKeys();
+	
 return $sucExec;
 }
 
@@ -89,6 +90,16 @@ function delConf() {
 	$filename = ROOT_PATH . '/lib/confs/Conf.php';
 
 return @unlink($filename);
+}
+
+function delCryptoKeys() {
+	$keyFile = ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm';
+	$ivFile = ROOT_PATH . '/lib/confs/cryptokeys/iv.ohrm';
+
+	$delKeySuccess = @unlink($keyFile);
+	$delIvSuccess = @unlink($ivFile);
+
+return ($delKeySuccess && $delIvSuccess);
 }
 
 

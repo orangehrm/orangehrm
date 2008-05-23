@@ -223,6 +223,9 @@ class ViewController {
 			case 'LDAP':
 						$this->reDirect($getArr);
 						break;
+			case 'ENC':
+						$this->reDirect($getArr);
+						break;
 			default:
 						$form_creator = new FormCreator($getArr,$postArr);
 						$form_creator ->formPath ='/view.php';
@@ -3017,6 +3020,14 @@ class ViewController {
 							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
 							}
+							break;
+							
+			case 'ENC' :	$form_creator->formPath = '/templates/eimadmin/dataEncryption.php';
+
+							/*$form_creator ->popArr['available'] = CustomFields::getAvailableFieldNumbers();
+							if($getArr['capturemode'] == 'updatemode') {
+								$form_creator ->popArr['editArr'] = CustomFields::getCustomField($getArr['id']);
+							}*/
 							break;
 
 			case 'CTM' :	$form_creator->formPath = '/templates/eimadmin/customFields.php';
