@@ -73,7 +73,7 @@ class DbBackupTest extends PHPUnit_Framework_TestCase {
 		
 		
 		$this->assertTrue(is_writable($path));
-		$this->assertTrue(mysql_query("SELECT * INTO OUTFILE '$path/test.tbak' FROM `test_table2`;"), mysql_error());
+		$this->assertTrue(mysql_query("SELECT * INTO OUTFILE '$path/test.tbak' FROM `test_table1`;"), mysql_error());
 
     }
 
@@ -97,6 +97,7 @@ class DbBackupTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("DROP TABLE `test_table2`;"));
 		
 		$this->assertTrue(unlink("$path/test.tbak"));
+		@unlink("$path/backup1.tbak");
 		
     }
 
@@ -104,10 +105,90 @@ class DbBackupTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testBackup().
      */
     public function testBackup() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+	
+		$filePath = ROOT_PATH . '/backup/backup1.tbak';
+	
+		$lines[] = array("1", "ABC", "123");
+		$lines[] = array("2", "DEF", "456");
+		$lines[] = array("3", "GHI", "789");
+		$lines[] = array("4", "JLK", "123");
+		$lines[] = array("5", "MNO", "456");
+		$lines[] = array("6", "PQR", "789");
+		$lines[] = array("7", "STU", "123");
+		$lines[] = array("8", "VWX", "456");
+		
+		//DbBackup::backup($table, $fields = '*', $path = null, $encrypted = false);
+		
+		/**
+		  * Checks for the backup method with only the mandatory parameters
+		  **/
+		$this->assertTrue(DbBackup::backup($filePath, 'test_table1'));
+		
+		$fileContent = file($filePath);
+		$i = 0;		
+		
+		foreach($lines as $expected) {
+		
+			$this->assertEquals($expected, explode("\t", trim($fileContent[$i++])));
+		
+		}
+		
+		$this->assertTrue(unlink($filePath));
+		
+		/**
+		  * Checks for the backing up process without encryption
+		  **/
+		
+		$this->assertTrue(DbBackup::backup($filePath, 'test_table1', array('test_field_pk', 'test_field_value1')));
+		
+		$fileContent = file($filePath);
+		$i = 0;		
+		
+		foreach($lines as $expected) {
+		
+			$lineContent = explode("\t", trim($fileContent[$i++]));
+		
+			$this->assertEquals($expected[0], $lineContent[0]);
+			$this->assertEquals($expected[1], $lineContent[1]);
+		
+		}
+		
+		$this->assertTrue(unlink($filePath));
+
+		/**
+		  * Checks for the backing up process with encryption
+		  **/	
+		  
+		$this->assertTrue(DbBackup::backup($filePath, 'test_table1', array('test_field_pk', 'test_field_value1'), true));
+		
+		$fileContent = file($filePath);
+		$i = 0;
+		
+		foreach($lines as $expected) {
+		
+			$lineContent = explode("\t", trim($fileContent[$i++]));
+		
+			$this->assertEquals($expected[0], $lineContent[0]);
+			$this->assertNotEquals($expected[1], $lineContent[0]);
+		
+		}
+		
+		$this->assertTrue(unlink($filePath));
+		
+		/**
+		  * Checks for the no encryption fields defined error
+		  **/		
+		try {
+		
+			$this->assertTrue(DbBackup::backup($filePath, 'test_table1', 'test_field_pk', true));
+			
+		} catch (DbBackupException $e) {
+		
+			$this->assertEquals(DbBackupException::ENCRYPTION_FIELDS_NOT_DEFINED, $e->getCode());
+		
+		}
+
+				
     }
 
     /**
