@@ -31,7 +31,6 @@ require_once 'CommonFunctionsTest.php';
 require_once 'LocaleUtilTest.php';
 require_once 'UniqueIDGeneratorTest.php';
 require_once 'ConfigTest.php';
-require_once 'CryptoTest.php';
 
 class common_AllTests
 {

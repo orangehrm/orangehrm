@@ -26,7 +26,6 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
-require_once ROOT_PATH . '/lib/common/Crypto.php';
 
 class EmpInfo {
 
@@ -981,11 +980,6 @@ class EmpInfo {
 
             for ($c = 0; count($arrFieldList) > $c; $c++) {
                 $arrayDispList[$i][$c] = $line[$c];
-				
-				if ($c == 7) {
-					$arrayDispList[$i][$c] = Crypto::getInstance()->decode($arrayDispList[$i][$c]);
-				}
-				
 			}
 
             $i++;
@@ -1013,7 +1007,7 @@ class EmpInfo {
         $arrRecordsList[4] = ($this->getEmpNation() == '0') ? 'null' : "'" . $this->getEmpNation() . "'";
         $arrRecordsList[5] = (trim($this->getEmpGender()) != '') ? "'" . $this->getEmpGender() . "'" : 'null';
         $arrRecordsList[6] = "'" . $this->getEmpMarital() . "'";
-        $arrRecordsList[7] = "'" . Crypto::getInstance()->encode($this->getEmpSSNNo()) . "'";
+        $arrRecordsList[7] = "'" . $this->getEmpSSNNo() . "'";
         $arrRecordsList[8] = "'" . $this->getEmpSINNo() . "'";
         $arrRecordsList[9] = "'" . $this->getEmpOthID() . "'";
         $arrRecordsList[10] = "'" . $this->getEmpDriLicNo() . "'";
