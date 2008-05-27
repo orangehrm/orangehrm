@@ -28,7 +28,6 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
  
 require_once 'InstallUtilTest.php';
 require_once 'ConstraintHandlerTest.php';
-require_once 'DbBackupTest.php';
  
 class utils_AllTests
 {
