@@ -68,6 +68,18 @@ function confirm() {
 			<td class="tdComponent">OrangeHRM Admin User Name</td>
 			<td class="tdValues"><?php echo $_SESSION['defUser']['AdminUserName']?></td>
 		</tr>
+<?php if ($_SESSION['ENCRYPTION'] == "Active") {  ?>
+		<tr>
+			<td class="tdComponent">Data Encryption</td>
+			<td class="tdValues">Data Encryption is on. Employee Social Security Number and Employee Basic Salary would be encrypted.
+			<br>Please backup encryption key located at lib/confs/cryptokeys/</td>
+		</tr>
+<?php } elseif ($_SESSION['ENCRYPTION'] == "Failed") { ?>
+		<tr>
+			<td class="tdComponent">Data Encryption</td>
+			<td class="tdValues">Data Encryption configuration failed. Data Encryption would not be enabled.</td>
+		</tr>
+<?php } ?>
 </table>
 		<br />
 		<input class="button" type="button" value="Back" onclick="back();" tabindex="3"/>

@@ -36,6 +36,7 @@ class Config {
     const KEY_NAME_HSP_ACCRUED_LAST_UPDATED = "hsp_accrued_last_updated";
     const KEY_NAME_HSP_USED_LAST_UPDATED = "hsp_used_last_updated";
     const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
+    const KEY_NAME_ENC_KEY_DEFINED = "enc_key_defined";
 
     /**
      * Sets the 'value' corresponding to 'key'
@@ -202,7 +203,6 @@ class Config {
     		return false;
     	}
     }
-
 
 }
 

@@ -1510,8 +1510,7 @@ class EmpViewController {
 							break;
 
 			case 'ESS' :
-			case 'EMP' :
-							$form_creator->formPath = '/templates/hrfunct/hrEmpMain.php';     //hremp.php';
+			case 'EMP' :	$form_creator->formPath = '/templates/hrfunct/hrEmpMain.php';     //hremp.php';
 
 							$form_creator->popArr['arrMStat'] = array ('Unmarried','Married','Divorced','Others');
 

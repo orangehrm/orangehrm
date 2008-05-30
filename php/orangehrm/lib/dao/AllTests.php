@@ -19,47 +19,34 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'models_eimadmin_AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'dao_AllTests::main');
 }
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
- 
+set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
-require_once 'CustomerTest.php';
-require_once 'EmailNotificationConfigurationTest.php';
-require_once 'ProjectsTest.php';
-require_once 'ProjectActivityTest.php';
-require_once 'ProjectAdminGatewayTest.php';
-require_once 'ProjectAdminTest.php';
-require_once 'CustomExportTest.php';
-require_once 'CustomImportTest.php';
-require_once 'encryption/BackupHandlerTest.php';
-require_once 'encryption/KeyHandlerTest.php';
 
-class models_eimadmin_AllTests
+require_once 'CryptoQueryTest.php';
+
+require_once 'myconf.php';
+
+class dao_AllTests
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
-	$suite->addTestSuite('CustomerTest');
-	$suite->addTestSuite('EmailNotificationConfigurationTest');
-	$suite->addTestSuite('ProjectTest');
-	$suite->addTestSuite('ProjectActivityTest');
-	$suite->addTestSuite('ProjectAdminTest');
-	$suite->addTestSuite('ProjectAdminGatewayTest');
-	$suite->addTestSuite('CustomExportTest');
-	$suite->addTestSuite('CustomImportTest');
-        return $suite;
+        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM dao');
+	$suite->addTestSuite('CryptoQueryTest');
+
+    return $suite;
     }
 }
- 
-if (PHPUnit_MAIN_METHOD == 'models_eimadmin_AllTests::main') {
-    models_eimadmin_AllTests::main();
+
+if (PHPUnit_MAIN_METHOD == 'dao_AllTests::main') {
+    dao_AllTests::main();
 }
 ?>

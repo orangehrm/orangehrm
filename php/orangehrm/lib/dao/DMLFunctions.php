@@ -43,6 +43,8 @@ class DMLFunctions {
 	 */
 	function executeQuery($SQL){
 
+		$SQL = $this->_formatQuery($SQL);
+
 		if ( $this -> dbObject -> dbConnect()) {
 			$result = $this->dbObject->sqlQuery($SQL);
 			return $result;
@@ -50,5 +52,17 @@ class DMLFunctions {
 
 		return false;
 	}
+	
+	function _formatQuery($query) {
+		
+		if (preg_match('/\'AES_[ED][NE]CRYPT\(/', $query)) {
+			
+			$query = preg_replace(array("/^'AES_ENCRYPT\(/", "/\)'/"), array('AES_ENCRYPT(', ')'), $query);
+			
+		}
+		
+		return $query;
+		
+	} 
 }
 ?>

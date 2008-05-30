@@ -684,7 +684,6 @@ switch ($moduletype) {
 											$extractor = new EXTRACTOR_LdapDetails();
 										}
 										break;
-
 					}
 
 										if(isset($_POST['sqlState']) && $_POST['sqlState']=='delete' && $locRights['delete']) {

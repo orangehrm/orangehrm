@@ -18,7 +18,6 @@
  *
  */
 
-
 function sockComm($postArr) {
 
 	$host = 'www.orangehrm.com';
@@ -139,6 +138,33 @@ if(isset($_POST['actionResponse']))
 						} else $error = 'WRONGDBINFO';
 							$errorMsg = mysql_error();
 							$mysqlErrNo = mysql_errno();
+
+						/* For Data Encryption: Begins */
+
+						$_SESSION['ENCRYPTION'] = "Inactive";
+						if (isset($_POST['chkEncryption'])) {
+							$filePath = 'lib/confs/cryptokeys/key.ohrm';
+							if (is_writable('lib/confs/cryptokeys')) {
+								$cryptKey = '';
+								for($i = 0; $i < 4; $i++) {
+									$cryptKey .= md5(rand(10000000, 99999999));
+								}
+								$cryptKey = str_shuffle($cryptKey);
+								$handle = fopen($filePath, 'w');
+								if ($handle) {
+									fwrite($handle, $cryptKey, 128);
+									$_SESSION['ENCRYPTION'] = "Active";
+								} else {
+								    $_SESSION['ENCRYPTION'] = "Failed";
+								}
+							    fclose($handle);
+							} else {
+							    $_SESSION['ENCRYPTION'] = "Failed";
+							}
+						}
+
+						/* For Data Encryption: Begins */
+
 						break;
 
 		case 'DEFUSERINFO' :

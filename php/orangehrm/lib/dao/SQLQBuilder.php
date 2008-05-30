@@ -21,6 +21,8 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php';
+require_once ROOT_PATH . '/lib/dao/CryptoQuery.php';
 
 class SQLQBuilder {
 
@@ -77,7 +79,7 @@ class SQLQBuilder {
 			foreach ($arr as $value) {
 				if ($value != 'null') {
 
-					$tempArr[] = $this->quoteCorrectString($value);;
+					$tempArr[] = $this->quoteCorrectString($value);
 
 				} else {
 					$tempArr[] = $value;
@@ -110,9 +112,9 @@ class SQLQBuilder {
 		$temp = mysql_real_escape_string(trim($temp));
 
 		if ($quote) {
-			$temp = "'$temp'";
+				$temp = "'$temp'";			
 		}
-
+		
 		return $temp;
 	}
 
@@ -124,11 +126,9 @@ class SQLQBuilder {
 */
 
 	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
-/*
-		$arrComp = $this->quoteCorrect($arrComp);
-		$arrFlt = $this->quoteCorrect($arrFlt);*/
-
+		
 		$arrayFieldList = $this->arr_select;
+
 		$countArrSize = count($arrayFieldList);
 		$SQL1 = 'SELECT ';
 		for ($i=0;$i<count($arrayFieldList); $i++)
@@ -246,6 +246,7 @@ class SQLQBuilder {
 
 
 	function passResultFilter($page,$str='',$mode=0) {
+		
 			$arrayFieldList = $this->arr_select;
 			$countArrSize = count($arrayFieldList);
 
@@ -274,7 +275,7 @@ class SQLQBuilder {
             }
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
+		
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 
@@ -309,7 +310,14 @@ class SQLQBuilder {
 */
 
 	function addNewRecordFeature1($quoteCorrect = true) {
-
+		
+		/* For Encryption : Begins */
+		$encOn = KeyHandler::KeyExists();
+		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+    		$this->arr_insert = CryptoQuery::prepareEncryptFields($this->arr_insertfield, $this->arr_insert);
+		}
+		/* For Encryption : Ends */
+		
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 
 			$arrayFieldList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
@@ -338,7 +346,7 @@ class SQLQBuilder {
 
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
+	  	 	
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
 
@@ -354,6 +362,7 @@ class SQLQBuilder {
 	}
 
 	function addNewRecordFeature2($quoteCorrect = true, $duplicateInsert = false) {
+		
 
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 
@@ -361,9 +370,17 @@ class SQLQBuilder {
 			$arrayRecordList = $this->arr_insert; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$countArrSize = count($arrayFieldList); // check the array size
 
-			if($quoteCorrect)
+			if($quoteCorrect) {
 				$arrayRecordList = $this->quoteCorrect($arrayRecordList);
+			}
 
+			/* For Encryption : Begins */
+			$encOn = KeyHandler::KeyExists();
+			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+				$arrayRecordList = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordList);
+			}
+			/* For Encryption : Ends */
+					
 			$SQL1 = 'INSERT INTO ' . strtolower($this->table_name) . ' ( ';
 
 			for ($i=0;$i<count($arrayRecordList); $i++) {
@@ -401,7 +418,7 @@ class SQLQBuilder {
 
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-
+		
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
 		} else {
@@ -476,7 +493,6 @@ class SQLQBuilder {
 				//echo $SQL1;
 				//exit;
 
-
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
 		} else {
@@ -496,6 +512,14 @@ class SQLQBuilder {
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'
 
 			$arrayFieldList = $this->arr_select; //assign the sql_format->arr_select instance variable to arrayFieldList
+			
+			/* For Encryption : Begins */
+			$encOn = KeyHandler::KeyExists();
+			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+				$arrayFieldList = CryptoQuery::prepareDecryptFields($arrayFieldList);
+			}
+			/* For Encryption : Ends */	
+			
 			$countArrSize = count($arrayFieldList); // check the array size
 			$SQL1 = 'SELECT ';
 			for ($i=0;$i<count($arrayFieldList); $i++) {
@@ -613,17 +637,27 @@ function filterNotEqualRecordSet($filID) {
 	}
 
 	function addUpdateRecord1($num = 0, $quoteCorrect = true) {
-
+		
 		if ($this->flg_update == 'true') { // check whether the flg_insert is 'True'
 
 			$arrayFieldList = $this->arr_update; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$arrayRecordSet = $this->arr_updateRecList;
+			
+	
+			//$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
 
 			if ($quoteCorrect) {
 				$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
 			}
-
+			
+			/* For Encryption : Begins */
+			$encOn = KeyHandler::KeyExists();
+			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+				$arrayRecordSet = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordSet);
+			}
+			/* For Encryption : Ends */	
+				
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 
 			for ($i = $num + 1; $i<count($arrayFieldList); $i++) {
@@ -644,11 +678,10 @@ function filterNotEqualRecordSet($filID) {
 			for($c=1; $c <= $num ; $c++)
                 $SQL1 = $SQL1 . ' AND ' . $arrayFieldList[$c] . '=' . $arrayRecordSet[$c];
 
-			//$exception_handler = new ExceptionHandler();
-	  	 	//$exception_handler->logW($SQL1);
+			$exception_handler = new ExceptionHandler();
+	  	 	$exception_handler->logW($SQL1);
 
 			return $SQL1; //returning the SQL1 which has the SQL Query
-
 
 		} else {
 
@@ -1128,12 +1161,12 @@ function getCurrencyAssigned($salgrd) {
 
 
 	function simpleInsert($insertTable, $insertValues, $insertFields=false, $onDuplicateUpdate=null) {
-
+		
 		if (is_array($insertValues)) {
 			$this->flg_insert = true;
 
 			$this->table_name = $insertTable;
-			$this->arr_insert = $insertValues;
+		   	$this->arr_insert = $insertValues;
 
 			if ($insertFields) {
 				$this->arr_insertfield = $insertFields;
@@ -1142,6 +1175,12 @@ function getCurrencyAssigned($salgrd) {
 				$query = $this->addNewRecordFeature1('true');
 			}
 		} else {
+			/* For Encryption : Begins */
+			$encOn = KeyHandler::KeyExists();
+			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+	    		$insertFields = CryptoQuery::prepareEncryptFields($insertFields, $insertValues);
+			}
+			/* For Encryption : Ends */		
 			$query = "INSERT INTO $insertTable ";
 			if ($insertFields) {
 				$query .= "({$this->_buildList($insertFields, " , ")}) ";
@@ -1162,13 +1201,28 @@ function getCurrencyAssigned($salgrd) {
 			$changeValues = $this->quoteCorrect($changeValues);
 		}
 
-		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
+		/* For Encryption : Begins */
+		$encOn = KeyHandler::KeyExists();
+		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+	    	$changeValues = CryptoQuery::prepareEncryptFields($changeFields, $changeValues);
+		}
+		/* For Encryption : Ends */	
 
+		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
+		
 		return $query;
 	}
 
 	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
-		$query=$this->_buildSelect($selectFields)." FROM $selectTable ";
+
+		/* For Encryption : Begins */
+		$encOn = KeyHandler::KeyExists();
+		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
+	    	$selectFields = CryptoQuery::prepareDecryptFields($selectFields);
+		}
+		/* For Encryption : Ends */	
+
+	    $query=$this->_buildSelect($selectFields)." FROM $selectTable ";
 
 		if (isset($selectConditions)) {
 			$query .= $this->_buildWhere($selectConditions);
@@ -1181,7 +1235,7 @@ function getCurrencyAssigned($salgrd) {
 		if (isset($selectLimit)) {
 			$query .= " LIMIT $selectLimit";
 		}
-
+		
 		return $query;
 	}
 
@@ -1279,7 +1333,6 @@ function getCurrencyAssigned($salgrd) {
 
 		return $str;
 	}
-
-
+	
 }
 ?>

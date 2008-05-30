@@ -114,7 +114,7 @@ create table `hs_hr_emp_basicsalary` (
   `emp_number` int(7) not null default 0,
   `sal_grd_code` varchar(13) not null default '',
   `currency_id` varchar(6) not null default '',
-  `ebsal_basic_salary` double default null,
+  `ebsal_basic_salary` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT null,
   `payperiod_code` varchar(13) default null,
   primary key  (`emp_number`,`sal_grd_code`,`currency_id`)
 ) engine=innodb default charset=utf8;
@@ -306,7 +306,7 @@ create table `hs_hr_employee` (
   `nation_code` varchar(13) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,
-  `emp_ssn_num` varchar(100) default '',
+  `emp_ssn_num` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT '',
   `emp_sin_num` varchar(100) default '',
   `emp_other_id` varchar(100) default '',
   `emp_dri_lice_num` varchar(100) default '',
@@ -1698,3 +1698,4 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_current_plan', '0');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('enc_key_defined', 'No');
