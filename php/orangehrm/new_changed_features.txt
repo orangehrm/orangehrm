@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.3-beta.1
+	New features added
+	------------------
+	Implemented field level database 128-bit AES encryption for selected
+	fields (Social Security No. & Basic Salary)
+
 New & Changed Features for OrangeHRM ver 2.3-alpha.14 (Beta.1)
 
 	Introduced mktime() for _customFormatStringToTimeStamp at lib/common/LocaleUtil.php for handling Punch In/Out. For others it still uses strtotime()
