@@ -112,9 +112,9 @@ class SQLQBuilder {
 		$temp = mysql_real_escape_string(trim($temp));
 
 		if ($quote) {
-				$temp = "'$temp'";			
+			$temp = "'$temp'";
 		}
-		
+
 		return $temp;
 	}
 
@@ -126,9 +126,8 @@ class SQLQBuilder {
 */
 
 	function selectFilter($arrComp='',$arrFlt='', $sortField=0) {
-		
-		$arrayFieldList = $this->arr_select;
 
+		$arrayFieldList = $this->arr_select;
 		$countArrSize = count($arrayFieldList);
 		$SQL1 = 'SELECT ';
 		for ($i=0;$i<count($arrayFieldList); $i++)
@@ -275,7 +274,7 @@ class SQLQBuilder {
             }
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-		
+
 		return $SQL1; //returning the SQL1 which has the SQL Query
 	}
 
@@ -346,7 +345,7 @@ class SQLQBuilder {
 
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-	  	 	
+
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
 
@@ -362,7 +361,6 @@ class SQLQBuilder {
 	}
 
 	function addNewRecordFeature2($quoteCorrect = true, $duplicateInsert = false) {
-		
 
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 
@@ -418,7 +416,7 @@ class SQLQBuilder {
 
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
-		
+
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
 		} else {
@@ -504,8 +502,6 @@ class SQLQBuilder {
 
 		}
 	}
-
-///////////////////
 
 	function selectOneRecordFiltered($filID, $num=0, $orderBy=false, $order='ASC') {
 
@@ -637,14 +633,11 @@ function filterNotEqualRecordSet($filID) {
 	}
 
 	function addUpdateRecord1($num = 0, $quoteCorrect = true) {
-		
+
 		if ($this->flg_update == 'true') { // check whether the flg_insert is 'True'
 
 			$arrayFieldList = $this->arr_update; //assign the sql_format->arr_select instance variable to arrayFieldList
 			$arrayRecordSet = $this->arr_updateRecList;
-			
-	
-			//$arrayRecordSet = $this->arr_updateRecList;
 			$countArrSize = count($arrayFieldList); // check the array size
 
 			if ($quoteCorrect) {
@@ -678,8 +671,8 @@ function filterNotEqualRecordSet($filID) {
 			for($c=1; $c <= $num ; $c++)
                 $SQL1 = $SQL1 . ' AND ' . $arrayFieldList[$c] . '=' . $arrayRecordSet[$c];
 
-			$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->logW($SQL1);
+			//$exception_handler = new ExceptionHandler();
+	  	 	//$exception_handler->logW($SQL1);
 
 			return $SQL1; //returning the SQL1 which has the SQL Query
 
@@ -694,7 +687,6 @@ function filterNotEqualRecordSet($filID) {
 
 	}
 
-/////////////////////////
 	function deleteRecord($arrID) {
 
 		if ($this->flg_delete == 'true') { // check whether the flg_select is 'True'
@@ -1161,7 +1153,7 @@ function getCurrencyAssigned($salgrd) {
 
 
 	function simpleInsert($insertTable, $insertValues, $insertFields=false, $onDuplicateUpdate=null) {
-		
+
 		if (is_array($insertValues)) {
 			$this->flg_insert = true;
 
@@ -1180,7 +1172,8 @@ function getCurrencyAssigned($salgrd) {
 			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 	    		$insertFields = CryptoQuery::prepareEncryptFields($insertFields, $insertValues);
 			}
-			/* For Encryption : Ends */		
+			/* For Encryption : Ends */
+
 			$query = "INSERT INTO $insertTable ";
 			if ($insertFields) {
 				$query .= "({$this->_buildList($insertFields, " , ")}) ";
@@ -1209,7 +1202,7 @@ function getCurrencyAssigned($salgrd) {
 		/* For Encryption : Ends */	
 
 		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
-		
+
 		return $query;
 	}
 
@@ -1220,9 +1213,9 @@ function getCurrencyAssigned($salgrd) {
 		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
 	    	$selectFields = CryptoQuery::prepareDecryptFields($selectFields);
 		}
-		/* For Encryption : Ends */	
+		/* For Encryption : Ends */
 
-	    $query=$this->_buildSelect($selectFields)." FROM $selectTable ";
+		$query=$this->_buildSelect($selectFields)." FROM $selectTable ";
 
 		if (isset($selectConditions)) {
 			$query .= $this->_buildWhere($selectConditions);

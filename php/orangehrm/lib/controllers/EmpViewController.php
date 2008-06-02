@@ -1576,11 +1576,9 @@ class EmpViewController {
 									$form_creator->popArr['ethRace'] = $ethnicrace->getEthnicRaceCodes($object->cmbEthnicRace);
 								}
 
-
 							} elseif($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editTaxInfo'] = $empTax->getEmployeeTaxInfo($getArr['id']);
 								$form_creator ->popArr['usStateList'] = $porinfo->getProvinceCodes('US');
-
 								$form_creator->popArr['empDDAss'] = $ddebit->getEmployeeDirectDebit($getArr['id']);
 								if(isset($getArr['DDSEQ'])) {
 									$form_creator->popArr['editDDForm'] = $ddebit->getDirectDebit($getArr['id'], $getArr['DDSEQ']);

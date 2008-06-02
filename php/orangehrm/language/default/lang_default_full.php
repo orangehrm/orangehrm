@@ -154,30 +154,11 @@
 	$lang_Menu_Admin_Customers = "Customers";
 	$lang_Menu_Admin_Projects = "Projects";
 	$lang_Menu_Admin_DataImportExport = "Data Import/Export";
-	$lang_Menu_Admin_DataEncryption = "Data Encryption";
 	$lang_Menu_Admin_DataExport = "Export";
 	$lang_Menu_Admin_DataExportDefine = "Define Custom Export";
 	$lang_Menu_Admin_DataImport = "Import";
 	$lang_Menu_Admin_DataImportDefine = "Define Custom Import";
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
-
-	// Data Encryption
-	$lang_dataEncryption_heading 		= "Data Encryption";
-	$lang_dataEncryption_description 	= "By default OrangeHRM encrypts user passwords before saving in the database for high security. Here you can choose to encrypt some more sensitive information. You can start the process by creating the encryption key. Encryption Key is generated randomly and stored under /lib/confs/cryptokeys/. You are highly advised to backup this folder after proceeding with encryption process.";
-	$lang_dataEncryption_createKeys		= "Create Keys";
-	$lang_dataEncryption_fieldSelection_description = "Encryption key was successfully created at /lib/confs/cryptokeys/. Please remember to backup this directory. Following database fields would be encrypted.";
-	$lang_encField_emp_ssNo = "Employee Social Security Number";
-	$lang_encField_emp_basic_salary = "Employee Basic Salary";
-	$lang_dataEncryption_proceed_encryption = "Proceed Encryption";
-
-	$lang_dataEncryption_MSG_KEY_LOST = "Warning! Encryption key is not available at /lib/confs/cryptokeys/. Please restore your backed up key.";
-	$lang_dataEncryption_MSG_ENCRYPTION_ON = "Encryption is on. Employee Social Security Number and Employee Basic Salary are being encrypted";
-	$lang_dataEncryption_MSG_ENCRYPTION_ON_FIELDS = " and following database fields are being encrypted.";
-	$lang_dataEncryption_MSG_ENCRYPTION_ON_EMPTY_FIELDS = " . But currently no database field is being encrypted.";
-	$lang_dataEncryption_MSG_KEY_NOT_CREATED = "Failure! Encryption key could not be created. Encryption would not be active.";
-	$lang_dataEncryption_MSG_TABLES_NOT_BACKED_UP = "Failure! Relevant database tables could not be backed up. Encryption would not be active.";
-	$lang_dataEncryption_MSG_ENCRYPTION_FAILED = "Failure! Initial encryption of chosen database fields failed. Encryption would not be active.";
-	$lang_dataEncryption_MSG_RESTORE_FAILED = "Warning! Restoring relevant database tables failed. Please refer backup files at /lib/confs/cryptobackup/ and restore manually.";
 
 	// LDAP Module
 	$lang_LDAP_Configuration 	= "LDAP Configuration";

@@ -34,7 +34,6 @@ require_once 'ProjectAdminGatewayTest.php';
 require_once 'ProjectAdminTest.php';
 require_once 'CustomExportTest.php';
 require_once 'CustomImportTest.php';
-require_once 'encryption/BackupHandlerTest.php';
 require_once 'encryption/KeyHandlerTest.php';
 
 class models_eimadmin_AllTests
@@ -46,7 +45,7 @@ class models_eimadmin_AllTests
  
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
+    $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
 	$suite->addTestSuite('CustomerTest');
 	$suite->addTestSuite('EmailNotificationConfigurationTest');
 	$suite->addTestSuite('ProjectTest');

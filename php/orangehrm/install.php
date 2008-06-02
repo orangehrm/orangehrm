@@ -163,7 +163,7 @@ if(isset($_POST['actionResponse']))
 							}
 						}
 
-						/* For Data Encryption: Begins */
+						/* For Data Encryption: Ends */
 
 						break;
 

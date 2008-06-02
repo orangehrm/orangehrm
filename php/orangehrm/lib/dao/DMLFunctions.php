@@ -41,7 +41,7 @@ class DMLFunctions {
 	 * String as the Input Parameter and execute the
 	 * SQLQuery Function
 	 */
-	function executeQuery($SQL){
+	function executeQuery($SQL) {
 
 		$SQL = $this->_formatQuery($SQL);
 
@@ -63,6 +63,7 @@ class DMLFunctions {
 		
 		return $query;
 		
-	} 
+	}
+
 }
 ?>
