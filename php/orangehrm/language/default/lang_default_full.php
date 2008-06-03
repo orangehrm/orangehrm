@@ -1256,6 +1256,8 @@
 	$lang_Time_Errors_DELETE_SUCCESS = "Successfully deleted";
 	$lang_Time_Errors_DELETE_FAILURE = "Failed to delete";
 	$lang_Time_Errors_UNAUTHORIZED_FAILURE = "Unauthorized action";
+	$lang_Time_Errors_APPROVED_TIMESHEET_FAILURE = "Time event can not be added to an approved timesheet";
+	$lang_Time_Errors_REJECTED_TIMESHEET_FAILURE = "Time event can not be added to a rejected timesheet";
 
 	$lang_Time_Errors_NO_TIMESHEET_FAILURE = "No timesheet found";
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Invalid time specified";

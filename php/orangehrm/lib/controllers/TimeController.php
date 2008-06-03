@@ -513,7 +513,6 @@ class TimeController {
 			}
 		}
 
-
 		$dataArr[0] = $role;
 		$dataArr[1] = $employees;
 		$dataArr[2] = $pendingTimesheets;
@@ -595,6 +594,18 @@ class TimeController {
 		}
 
 		$timeEvent->resolveTimesheet();
+
+		/* Check whether the timesheet is an approved or rejected one: Begins */
+
+		$timesheetId = $timeEvent->getTimesheetId();
+
+		if (Timesheet::checkTimesheetStatus($timesheetId, Timesheet::TIMESHEET_STATUS_APPROVED)) {
+			$_GET['message'] = 'APPROVED_TIMESHEET_FAILURE';
+			$this->redirect($_GET['message'], "?timecode=Time&action=Time_Event_Home");
+			return;
+		}
+
+		/* Check whether the timesheet is an approved or rejected one: Ends */
 
 		try {
 			if ($timeEvent->getTimeEventId() == null) {

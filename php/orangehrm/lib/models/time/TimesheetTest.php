@@ -441,6 +441,18 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(11, $res, 'Invalid id returned');
     }
 
+    public function testCheckTimesheetStatus() {
+
+		$statusResult = Timesheet::checkTimesheetStatus(12, Timesheet::TIMESHEET_STATUS_APPROVED);
+		$this->assertTrue($statusResult);
+
+		$statusResult = Timesheet::checkTimesheetStatus(13, Timesheet::TIMESHEET_STATUS_REJECTED);
+		$this->assertTrue($statusResult);
+
+		$statusResult = Timesheet::checkTimesheetStatus(10, Timesheet::TIMESHEET_STATUS_REJECTED);
+		$this->assertFalse($statusResult);
+    }
+
 }
 
 // Call TimesheetTest::main() if this source file is executed directly.

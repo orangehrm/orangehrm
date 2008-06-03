@@ -541,6 +541,32 @@ class Timesheet {
 	}
 
 	/**
+	 * This function checks whether the given timesheet is in
+	 * given status
+	 */
+
+	public static function checkTimesheetStatus($timesheetId, $status) {
+
+		$selectTable = "`".self::TIMESHEET_DB_TABLE_TIMESHEET."`";
+		$selectFields[0] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`";
+		$selectConditions[0] = "`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` = '".$timesheetId."'";
+		$selectConditions[1] = "`".self::TIMESHEET_DB_FIELD_STATUS."` = '".$status."'";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		if ($dbConnection->dbObject->numberOfRows($result) == 1) {
+		    return true;
+		} else {
+		    return false;
+		}
+
+	}
+
+	/**
 	 * Build the object with fetched records
 	 *
 	 * @access private
