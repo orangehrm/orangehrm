@@ -46,6 +46,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
         document.frmCustomer.sqlState.value = "NewRecord";
         document.frmCustomer.submit();
+        return true;
     }
 
   function addUpdate() {
@@ -168,7 +169,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             }
    ?>
    </font>
-  <form name="frmCustomer" method="post" action="<?php echo $formAction;?>">
+  <form name="frmCustomer" method="post" action="<?php echo $formAction;?>" onSubmit="return addSave()">
         <input type="hidden" name="sqlState" value="">
         <div class="roundbox">
       <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
