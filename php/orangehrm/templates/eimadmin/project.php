@@ -80,7 +80,10 @@ if ($locRights['edit']) {
 
         	document.frmProject.sqlState.value = "NewRecord";
         	document.frmProject.submit();
+        	return true;
 		}
+
+		return false;
     }
 
    /**
@@ -92,7 +95,10 @@ if ($locRights['edit']) {
 
 			document.frmProject.sqlState.value  = "UpdateRecord";
 			document.frmProject.submit();
+			return true;
 		}
+
+		return false;
 	}
 
    /**
@@ -306,7 +312,7 @@ if ($locRights['edit']) {
 	<br/>
 
     <div class="roundbox">
-      <form name="frmProject" method="post" action="<?php echo $formAction;?>">
+      <form name="frmProject" method="post" action="<?php echo $formAction;?>" onSubmit="return <?php echo $saveBtnAction; ?>;">
         <input type="hidden" name="sqlState" value="">
             <input type="hidden" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>" />
             <br/>
