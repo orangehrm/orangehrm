@@ -36,13 +36,7 @@ class EXTRACTOR_EmpPhoto {
 					$fileType = $_FILES['photofile']['type'];
 
 					//file read
-					$fp = fopen($tmpName,'r');
-					$contents = fread($fp,filesize($tmpName));
-					//$contents = addslashes($contents);
-					fclose($fp);
-
-					if(!get_magic_quotes_gpc())
-						$fileName=addslashes($fileName);
+					$contents = file_get_contents($tmpName);
 
 					$this->photo->setEmpPicture($contents);
 					$this->photo->setEmpFilename($fileName);

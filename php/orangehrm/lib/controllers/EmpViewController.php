@@ -1917,9 +1917,8 @@ class EmpViewController {
 									$id = $empinfo->getPaddedEmpId();
 
 									if(isset($object['EmpPhoto']) && $res) {
-										$empphoto = new EmpPicture();
-
 										$empphoto = $object['EmpPhoto'];
+                                        $empphoto -> setEmpId($empinfo->getEmpId());
 										$empphoto -> addEmpPic();
 									}
 							break;

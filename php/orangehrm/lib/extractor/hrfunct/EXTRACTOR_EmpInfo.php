@@ -25,6 +25,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpAttach.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpPhoto.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpTax.php';
+require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpPhoto.php';
 
 class EXTRACTOR_EmpInfo {
 
@@ -85,34 +86,14 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpMiddleName(trim($postArr['txtEmpMiddleName']));
 
 		$objectArr['EmpInfo'] =  $this->parent_empinfo;
+           
+        $photoExtractor = new EXTRACTOR_EmpPhoto();
+        $photo = $photoExtractor->parseData();
+        if (!empty($photo)) {     
+                $objectArr['EmpPhoto'] = $photo;                       
+        }
 
-		if($_FILES['photofile']['size']>0 && stristr($_FILES['photofile']['type'],'image') != false) {
-
-				$photo = new EmpPicture();
-
-					//file info
-					$fileName = $_FILES['photofile']['name'];
-					$tmpName  = $_FILES['photofile']['tmp_name'];
-					$fileSize = $_FILES['photofile']['size'];
-					$fileType = $_FILES['photofile']['type'];
-
-					//file read
-					$fp = fopen($tmpName,'r');
-					$contents = fread($fp,filesize($tmpName));
-					fclose($fp);
-
-					if(!get_magic_quotes_gpc())
-						$fileName=addslashes($fileName);
-
-				$photo->setEmpId($postArr['txtEmployeeId']);
-				$photo->setEmpPicture($contents);
-				$photo->setEmpFilename($fileName);
-				$photo->setEmpPicType($fileType);
-				$photo->setEmpPicSize($fileSize);
-
-				$objectArr['EmpPhoto'] = $photo;
-		}
-	return isset($objectArr)? $objectArr : false;
+        return isset($objectArr)? $objectArr : false;
 	}
 
 
