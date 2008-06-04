@@ -47,6 +47,7 @@ require_once($lan->getLangPath("full.php"));
 
 		document.frmSkills.sqlState.value = "NewRecord";
 		document.frmSkills.submit();
+		return true;
 	}
 
 	function clearAll() {
@@ -68,7 +69,7 @@ require_once($lan->getLangPath("full.php"));
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmSkills" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
+<form name="frmSkills" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="return addSave()">
 
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
