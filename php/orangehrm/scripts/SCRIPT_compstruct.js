@@ -1,4 +1,4 @@
-<!--
+
 
 	function addNewLocation () {
 
@@ -230,6 +230,3 @@
 	function resetx() {
 		document.getElementById('lrState').innerHTML = '<input type="text" name="txtState" id="txtState" value="">';
 	}
-
-
--->
