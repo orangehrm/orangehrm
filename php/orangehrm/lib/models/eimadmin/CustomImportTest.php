@@ -46,6 +46,7 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
 		$this->_runQuery("INSERT INTO hs_hr_custom_import(import_id, name, fields, has_heading) VALUES (2, 'Import 2', 'empId,lastName,firstName,city', 1)");
 		$this->_runQuery("INSERT INTO hs_hr_custom_import(import_id, name, fields, has_heading) VALUES (3, 'Import 3', 'empId,firstName,lastName,street1,street2,city', 1)");
 
+		$this->_runQuery("TRUNCATE TABLE hs_hr_custom_fields");
 		$this->_runQuery("INSERT INTO hs_hr_custom_fields(field_num, name, type, extra_data) VALUES ('1', 'Blood Group', '0', '')");
 
 		UniqueIDGenerator::getInstance()->resetIDs();

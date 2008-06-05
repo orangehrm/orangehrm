@@ -46,6 +46,7 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
 		$this->_runQuery("INSERT INTO hs_hr_custom_export(export_id, name, fields, headings) VALUES (2, 'Export 2', 'empId,lastName,firstName,city', 'Employee Id,Last Name,First Name,City')");
 		$this->_runQuery("INSERT INTO hs_hr_custom_export(export_id, name, fields, headings) VALUES (3, 'Export 3', 'empId,street1,street2,city', 'Employee Id,Address1, Address2, City')");
 
+		$this->_runQuery("TRUNCATE TABLE hs_hr_custom_fields");
 		$this->_runQuery("INSERT INTO hs_hr_custom_fields(field_num, name, type, extra_data) VALUES ('1', 'Blood Group', '0', '')");
 
 		UniqueIDGenerator::getInstance()->resetIDs();
