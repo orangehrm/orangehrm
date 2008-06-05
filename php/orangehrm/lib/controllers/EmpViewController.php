@@ -312,7 +312,16 @@ class EmpViewController {
 		if (($this->indexCode) == 'EMP') {
 
 			$this-> empinfo = new EmpInfo();
-			$message = $this->empinfo->countEmployee($schStr,$mode);
+
+			$message = 0;
+
+			if ($_SESSION['isAdmin'] == 'Yes') {
+				$message = $this->empinfo->countEmployee($schStr,$mode);
+			} elseif ($_SESSION['isSupervisor'] == 'Yes') {
+				$supervisorID = $_SESSION['empID'];
+				$message = $this->empinfo->countSubordinates($supervisorID);
+			}
+
 			return $message;
 
 		} else if(($this->indexCode) == 'BNK') {

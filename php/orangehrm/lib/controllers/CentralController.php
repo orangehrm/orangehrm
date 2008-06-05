@@ -757,7 +757,6 @@ switch ($moduletype) {
 
 						if(isset($_GET['VIEW']) && $_GET['VIEW'] == 'MAIN' && $locRights['view']) {
 
-
 							$view_controller ->viewList($_GET,$_POST);
 							break;
 						}

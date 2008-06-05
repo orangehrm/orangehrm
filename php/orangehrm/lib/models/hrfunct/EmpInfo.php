@@ -2707,6 +2707,22 @@ class EmpInfo {
         return $line[0];
     }
 
+	function countSubordinates($supervisorID) {
+		$tableName = 'hs_hr_emp_reportto';
+        $arrFieldList[0] = 'COUNT(*)';
+        $selectConditions[0] = " `erep_sup_emp_number` = '$supervisorID'";
+
+		$sql_builder = new SQLQBuilder();
+		$query = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectConditions);
+
+        $dbConnection = new DMLFunctions();
+        $result = $dbConnection->executeQuery($query); //Calling the addData() function
+		$row = mysql_fetch_array($result);
+
+		return (int)$row[0];
+
+	}
+
     function getListofEmpRepTo($pageNO, $schStr, $mode) {
 
         $tableName = 'HS_HR_EMPLOYEE';
