@@ -46,6 +46,8 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
 		$this->_runQuery("INSERT INTO hs_hr_custom_export(export_id, name, fields, headings) VALUES (2, 'Export 2', 'empId,lastName,firstName,city', 'Employee Id,Last Name,First Name,City')");
 		$this->_runQuery("INSERT INTO hs_hr_custom_export(export_id, name, fields, headings) VALUES (3, 'Export 3', 'empId,street1,street2,city', 'Employee Id,Address1, Address2, City')");
 
+		$this->_runQuery("INSERT INTO hs_hr_custom_fields(field_num, name, type, extra_data) VALUES ('1', 'Blood Group', '0', '')");
+
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -57,6 +59,7 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	$this->_runQuery("TRUNCATE TABLE hs_hr_custom_export");
+    	$this->_runQuery("TRUNCATE TABLE hs_hr_custom_fields");
 
     	UniqueIDGenerator::getInstance()->resetIDs();
     }
@@ -125,8 +128,8 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
 
 		// compare arrays considering order
 		$expected = array("empId", "lastName",  "firstName", "middleName", "street1", "street2", "city",
-                           "state", "zip", "gender", "birthDate", "ssn", "empStatus", "joinedDate", "workStation", "location", "custom1", "custom2",
-                           "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "custom10",
+                           "state", "zip", "gender", "birthDate", "ssn", "empStatus", "joinedDate", "workStation", "location",
+                           "custom1",
                            "workState", "salary", "payFrequency",
 		                   "FITWStatus", "FITWExemptions", "SITWState", "SITWStatus", "SITWExemptions",
                            "SUIState", "DD1Routing", "DD1Account", "DD1Amount",
@@ -134,6 +137,7 @@ class CustomExportTest extends PHPUnit_Framework_TestCase {
 		                   "DD2Account", "DD2Amount", "DD2AmountCode", "DD2Checking");
 
 		$diff = array_diff_assoc($expected, $allFields);
+		$this->assertEquals($expected, $allFields);
 		$this->assertEquals(0, count($diff), "Incorrect fields returned");
 
 		// verify that there are no duplicates

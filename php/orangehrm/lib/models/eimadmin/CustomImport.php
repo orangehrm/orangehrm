@@ -23,6 +23,7 @@ require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
 
 class CustomImport {
 
@@ -161,19 +162,29 @@ class CustomImport {
 	}
 
 	public static function getAllFields() {
-		$allFields = array(self::FIELD_EMPID, self::FIELD_LASTNAME, self::FIELD_FIRSTNAME, self::FIELD_MIDDLENAME,
+			$allFields = array(self::FIELD_EMPID, self::FIELD_LASTNAME, self::FIELD_FIRSTNAME, self::FIELD_MIDDLENAME,
 			self::FIELD_HOME_PHONE, self::FIELD_MOBILE_PHONE, self::FIELD_WORK_PHONE, self::FIELD_WORK_EMAIL,
 			self::FIELD_OTHER_EMAIL, self::FIELD_DRIVING_LIC,
 			self::FIELD_STREET1, self::FIELD_STREET2, self::FIELD_CITY, self::FIELD_STATE,
 			self::FIELD_ZIP, self::FIELD_GENDER, self::FIELD_BIRTHDATE, self::FIELD_SSN,
-			self::FIELD_JOINEDDATE, self::FIELD_WORKSTATION, self::FIELD_CUSTOM1, self::FIELD_CUSTOM2,
-			self::FIELD_CUSTOM3, self::FIELD_CUSTOM4, self::FIELD_CUSTOM5, self::FIELD_CUSTOM6,
-			self::FIELD_CUSTOM7, self::FIELD_CUSTOM8, self::FIELD_CUSTOM9, self::FIELD_CUSTOM10,
-			self::FIELD_WORKSTATE, self::FIELD_FITWSTATUS,
+			self::FIELD_JOINEDDATE, self::FIELD_WORKSTATION);
+
+			$restOfAllFields = array(self::FIELD_WORKSTATE, self::FIELD_FITWSTATUS,
 			self::FIELD_FITWEXCEMPTIONS, self::FIELD_SITWSTATE, self::FIELD_SITWSTATUS, self::FIELD_SITWEXCEMPTIONS,
 			self::FIELD_SUISTATE, self::FIELD_DD1ROUTING, self::FIELD_DD1ACCOUNT, self::FIELD_DD1AMOUNT,
 			self::FIELD_DD1AMOUNTCODE, self::FIELD_DD1CHECKING, self::FIELD_DD2ROUTING, self::FIELD_DD2ACCOUNT,
 			self::FIELD_DD2AMOUNT, self::FIELD_DD2AMOUNTCODE, self::FIELD_DD2CHECKING);
+
+			$availableCustomFields = CustomFields::getCustomFieldList();
+
+			$customFields = array();
+
+			foreach($availableCustomFields as $fieldObj) {
+			    $customFields[] = 'custom' . $fieldObj->getFieldNumber();
+			}
+
+			$allFields = array_merge($allFields, $customFields, $restOfAllFields);
+
 		return $allFields;
 	}
 

@@ -46,6 +46,8 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
 		$this->_runQuery("INSERT INTO hs_hr_custom_import(import_id, name, fields, has_heading) VALUES (2, 'Import 2', 'empId,lastName,firstName,city', 1)");
 		$this->_runQuery("INSERT INTO hs_hr_custom_import(import_id, name, fields, has_heading) VALUES (3, 'Import 3', 'empId,firstName,lastName,street1,street2,city', 1)");
 
+		$this->_runQuery("INSERT INTO hs_hr_custom_fields(field_num, name, type, extra_data) VALUES ('1', 'Blood Group', '0', '')");
+
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -57,6 +59,7 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
     	$this->_runQuery("TRUNCATE TABLE hs_hr_custom_import");
+		$this->_runQuery("TRUNCATE TABLE hs_hr_custom_fields");
 
     	UniqueIDGenerator::getInstance()->resetIDs();
     }
@@ -120,8 +123,7 @@ class CustomImportTest extends PHPUnit_Framework_TestCase {
 		$expected = array("empId", "lastName",  "firstName", "middleName",
 						  'HomePhone','MobilePhone', 'WorkPhone', 'WorkEmail','OtherEmail', 'DrivingLic',
 						  "street1", "street2", "city",
-                           "state", "zip", "gender", "birthDate", "ssn", "joinedDate", "workStation", "custom1", "custom2",
-                           "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "custom10",
+                           "state", "zip", "gender", "birthDate", "ssn", "joinedDate", "workStation", "custom1",
                            "workState",
 		                   "FITWStatus", "FITWExemptions", "SITWState", "SITWStatus", "SITWExemptions",
                            "SUIState", "DD1Routing", "DD1Account", "DD1Amount",
