@@ -57,6 +57,14 @@ require_once ROOT_PATH . '/lib/common/Config.php';
 
 $_SESSION['path'] = ROOT_PATH;
 
+/* For checking TimesheetPeriodStartDaySet status : Begins */
+if (Config::getTimePeriodSet()) {
+	$_SESSION['timePeriodSet'] = 'Yes';
+} else {
+    $_SESSION['timePeriodSet'] = 'No';
+}
+/* For checking TimesheetPeriodStartDaySet status : Ends */
+
 if($_SESSION['isAdmin']=='Yes') {
 	$rights = new Rights();
 
@@ -133,10 +141,20 @@ if ($authorizeObj->isSupervisor()) {
 
 // Time module default pages
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
-	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
+	if ($_SESSION['timePeriodSet'] == 'Yes') {
+	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
+	} else {
+		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
+	}
+
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
+
 } else {
-	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
+	if ($_SESSION['timePeriodSet'] == 'Yes') {
+	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
+	} else {
+		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
+	}
 
 	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
@@ -152,7 +170,11 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 }
 
 if ($authorizeObj->isESS()) {
-	$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time';
+	if ($_SESSION['timePeriodSet'] == 'Yes') {
+	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time';
+	} else {
+		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
+	}
 }
 
 // Default page in admin module is the Company general info page.
@@ -625,6 +647,7 @@ function preloadAllImages() {
 <?php			}
 
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time" )) { ?>
+			<?php if ($_SESSION['timePeriodSet'] == "Yes") { // For checking Time period setting: Begins ?>
            	<TD width=158>
 	            <ul id="menu">
 	            	<li id="timesheets"><a href="<?php echo $timesheetPage; ?>" target="rightMenu" onMouseOver="ypSlideOutMenu.showMenu('menu16');" onMouseOut="ypSlideOutMenu.hideMenu('menu16');"><?php echo $lang_Menu_Time_Timesheets; ?></a></li>
@@ -654,7 +677,7 @@ function preloadAllImages() {
 	            	<?php } ?>
   				</ul>
 			</TD>
-
+			<?php } // For checking Time period setting: Ends ?>
 <?php			}
 
 				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits" )) { ?>
@@ -924,15 +947,6 @@ function preloadAllImages() {
                         </TD>
 					 </TR>
 					<?php
-                    	}
-                    	if ($authorizeObj->isAdmin()) {
-                    ?>
-                     <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
-                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View" target="rightMenu"><?php echo $lang_Menu_Time_DefineTimesheetPeriod; ?></A>
-                        </TD>
-					 </TR>
-					 <?php
                     	}
                     	if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
                     ?>

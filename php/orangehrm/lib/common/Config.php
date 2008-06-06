@@ -36,6 +36,7 @@ class Config {
     const KEY_NAME_HSP_ACCRUED_LAST_UPDATED = "hsp_accrued_last_updated";
     const KEY_NAME_HSP_USED_LAST_UPDATED = "hsp_used_last_updated";
     const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
+    const KEY_NAME_TIMESHEET_PERIOD_SET = "timesheet_period_set";
 
     /**
      * Sets the 'value' corresponding to 'key'
@@ -203,6 +204,28 @@ class Config {
     	}
     }
 
+	/**
+	 * Method to set Week Starting Day of Timesheets
+	 */
+	 public static function setTimePeriodSet($value) {
+	 	if ($value != 'Yes' && $value != 'No') {
+			throw new Exception("Given value for TimeSheetPeriodSet should be 'Yes' or 'No'");
+	 	}
+
+    	self::_setValue(self::KEY_NAME_TIMESHEET_PERIOD_SET, $value);
+	 }
+
+	 /**
+	 * Method to get Week Starting Day of Timesheets
+	 */
+	 public static function getTimePeriodSet() {
+	 	try {
+			$value = self::_selectValue(self::KEY_NAME_TIMESHEET_PERIOD_SET);
+			return ($value == 'Yes');
+	 	} catch (Exception $e) {
+	 	    return false;
+	 	}
+	 }
 }
 
 ?>

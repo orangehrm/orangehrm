@@ -664,6 +664,7 @@ class TimeController {
 
     	if ($res) {
     		$_GET['message'] = 'UPDATE_SUCCESS';
+    		Config::setTimePeriodSet('Yes');
     	} else {
     		$_GET['message'] = 'UPDATE_FAILURE';
     	}

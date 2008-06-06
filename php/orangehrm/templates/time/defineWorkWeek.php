@@ -28,12 +28,36 @@ $daysOfTheWeek = array( 1 => $lang_Common_Monday,
 
 $submissionPeriod = $records[0];
 ?>
+
+<script language="JavaScript" type="text/javascript">
+
+function validate() {
+
+	with (document.frmWorkWeek.cmbStartDay) {
+	    if (selectedIndex == 0) {
+	    	alert("<?php echo $lang_Time_SelectWeekStartDay; ?>");
+	    	focus();
+	        return false;
+	    }
+	}
+
+    return true;
+}
+
+</script>
+
 <h2>
 	<?php echo $lang_Time_DefineTimesheetPeriodTitle; ?>
   <hr/>
 </h2>
-<?php if (isset($_GET['message'])) {
 
+<?php
+// For Admin User
+if ($_SESSION['isAdmin'] == 'Yes') {
+
+	if (isset($_GET['message'])) {
+
+	if ($_GET['message'] == 'UPDATE_FAILIURE') {
 		$expString  = $_GET['message'];
 		$col_def = CommonFunctions::getCssClassForMessage($expString);
 		$expString = 'lang_Time_Errors_' . $expString;
@@ -43,8 +67,19 @@ $submissionPeriod = $records[0];
 <?php echo $$expString; ?>
 			</font>
 		</div>
-<?php }	?>
-<form id="frmWorkWeek" name="frmWorkWeek" method="post" action="?timecode=Time&action=Work_Week_Save">
+<?php
+	} elseif ($_GET['message'] == 'UPDATE_SUCCESS') {
+		$_SESSION['timePeriodSet'] = 'Yes';
+?>
+		<h5><?php echo $lang_Time_ContactAdminForTimesheetPeriodSetComplete; ?></h5>
+		<a href="../../index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=time" target="_parent"><?php echo $lang_Time_ProceedWithTimeModule; ?></a>
+<?php
+	}
+}
+
+if (!isset($_GET['message']) || $_GET['message'] != 'UPDATE_SUCCESS') {
+?>
+<form id="frmWorkWeek" name="frmWorkWeek" method="post" action="?timecode=Time&action=Work_Week_Save" onSubmit="return validate()">
 <input type="hidden" name="txtTimeshetPeriodId" id="txtTimeshetPeriodId" value="<?php echo $submissionPeriod->getTimesheetPeriodId(); ?>"/>
 
 <table border="0" cellpadding="0" cellspacing="0">
@@ -64,13 +99,9 @@ $submissionPeriod = $records[0];
 			<td></td>
         	<td>
 	        	<select id="cmbStartDay" name="cmbStartDay">
-				<?php foreach ($daysOfTheWeek as $dayNo=>$dayName) {
-					$selected="";
-					if ($dayNo == $submissionPeriod->getStartDay())	{
-						$selected="selected";
-					}
-				?>
-				<option value="<?php echo $dayNo; ?>" <?php echo $selected; ?> ><?php echo $dayName; ?></option>
+	        	<option value="0" selected><?php echo "--".$lang_Common_Select."--"; ?></option>
+				<?php foreach ($daysOfTheWeek as $dayNo=>$dayName) { ?>
+				<option value="<?php echo $dayNo; ?>" ><?php echo $dayName; ?></option>
 				<?php } ?>
 				</select>
         	</td>
@@ -89,8 +120,6 @@ $submissionPeriod = $records[0];
         	<td></td>
         	<td class="tableMiddleRight"></td>
   		</tr>
-
-
 	<tfoot>
 	  	<tr>
 			<td class="tableBottomLeft"></td>
@@ -102,3 +131,9 @@ $submissionPeriod = $records[0];
   	</tfoot>
 </table>
 </form>
+<?php } ?>
+<?php // For ESS Users and Supervisors
+} else {
+	echo "<h5>".$lang_Time_ContactAdminForTimesheetPeriodSet."</h5>";
+}
+?>
