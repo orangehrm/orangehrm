@@ -1,22 +1,20 @@
 <?php
 /**
- * OrangeHRM Enterprise is a closed sourced comprehensive Human Resource Management (HRM)
- * System that captures all the essential functionalities required for any enterprise.
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * OrangeHRM Inc is the owner of the patent, copyright, trade secrets, trademarks and any
- * other intellectual property rights which subsist in the Licensed Materials. OrangeHRM Inc
- * is the owner of the media / downloaded OrangeHRM Enterprise software files on which the
- * Licensed Materials are received. Title to the Licensed Materials and media shall remain
- * vested in OrangeHRM Inc. For the avoidance of doubt title and all intellectual property
- * rights to any design, new software, new protocol, new interface, enhancement, update,
- * derivative works, revised screen text or any other items that OrangeHRM Inc creates for
- * Customer shall remain vested in OrangeHRM Inc. Any rights not expressly granted herein are
- * reserved to OrangeHRM Inc.
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
  *
- * You should have received a copy of the OrangeHRM Enterprise  proprietary license file along
- * with this program; if not, write to the OrangeHRM Inc. 538 Teal Plaza, Secaucus , NJ 0709
- * to get the file.
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  *
  */
 
@@ -86,11 +84,11 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (11, 10, 10, '".date('Y-m-d', time()+3600*24*7)."', '".date('Y-m-d', time()+3600*24*13)." 23:59:59', 0)");
 
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d 11:30')."', '".date('Y-m-d 11:30', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
+    				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i')."', '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing')");
     	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d 13:00', time()+3600)."', '".date('Y-m-d 13:00', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
+    				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600)."', '".date('Y-m-d H:i', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
-    				"VALUES (12, 10, 10, 10, 10, '".date('Y-m-d 14:30', time()+3600*2)."', NULL, '".date('Y-m-d')."', NULL, 'Testing2')");
+    				"VALUES (12, 10, 10, 10, 10, '".date('Y-m-d H:i', time()+3600*2)."', NULL, '".date('Y-m-d')."', NULL, 'Testing2')");
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -131,9 +129,9 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	$res = $eventObj->fetchTimeEvents();
 
-		$expected[0] = array(10, 10, 10, 10, 10, date('Y-m-d 11:30'), date('Y-m-d 11:30', time()+3600), date('Y-m-d'), 60, 'Testing');
-		$expected[1] = array(11, 10, 10, 10, 10, date('Y-m-d 13:00', time()+3600), date('Y-m-d 13:00', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
-		$expected[2] = array(12, 10, 10, 10, 10, date('Y-m-d 14:30', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+		$expected[0] = array(10, 10, 10, 10, 10, date('Y-m-d H:i'), date('Y-m-d H:i', time()+3600), date('Y-m-d'), 60, 'Testing');
+		$expected[1] = array(11, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*2), date('Y-m-d'), 60, 'Testing1');
+		$expected[2] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
 
 		$this->assertNotNull($res, "Returned nothing");
 
@@ -160,7 +158,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	$res = $eventObj->fetchTimeEvents(true);
 
-		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d 14:30', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
 
 		$this->assertNotNull($res, "Returned nothing");
 
@@ -226,7 +224,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     public function testEditTimeEvent() {
 		$eventObj = $this->classTimeEvent;
 
-		$expected[0] = array(11, 10, 10, 10, 10, date('Y-m-d 13:00', time()-3600), date('Y-m-d 13:00', time()-3600*0.5), date('Y-m-d'), 30, "Testing12");
+		$expected[0] = array(11, 10, 10, 10, 10, date('Y-m-d H:i', time()-3600), date('Y-m-d H:i', time()-3600*0.5), date('Y-m-d'), 30, "Testing12");
 
 		$eventObj->setTimeEventId($expected[0][0]);
 		$eventObj->setProjectId($expected[0][1]);
@@ -280,7 +278,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	$res = $eventObj->pendingTimeEvents();
 
-		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d 14:30', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
 
 		$this->assertNotNull($res, "Returned nothing");
 
@@ -304,7 +302,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
 		$eventObj = $this->classTimeEvent;
 		$res = $eventObj->pendingTimeEvents();
-		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d 14:30', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
+		$expected[0] = array(12, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600*2), null, date('Y-m-d'), null, 'Testing2');
 		$this->assertNotNull($res, "Returned nothing when no id was specified");
 		$this->assertEquals(count($res), count($expected), "Didn't return the expected number of records");
 
@@ -342,7 +340,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 
     	$eventObj = $this->classTimeEvent;
 
-    	$expected[0] = array(11, 10, 10, 10, 10, date('Y-m-d 13:00', time()+3600), date('Y-m-d 13:00', time()+3600*1.5), date('Y-m-d'), 30, "Testing12");
+    	$expected[0] = array(11, 10, 10, 10, 10, date('Y-m-d H:i', time()+3600), date('Y-m-d H:i', time()+3600*1.5), date('Y-m-d'), 30, "Testing12");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setEmployeeId($expected[0][3]);
@@ -358,7 +356,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
      public function testResolveTimesheet2() {
     	$eventObj = $this->classTimeEvent;
 
-    	$expected[0] = array(11, 10, 10, 10, 12, date('Y-m-d 13:00', time()+3600*24*15), date('Y-m-d 13:00', (time()+3600*24*15)+1800)." 23:59:59", date('Y-m-d'), 30, "Testing12");
+    	$expected[0] = array(11, 10, 10, 10, 12, date('Y-m-d H:i', time()+3600*24*15), date('Y-m-d H:i', (time()+3600*24*15)+1800)." 23:59:59", date('Y-m-d'), 30, "Testing12");
 
 		$eventObj->setProjectId($expected[0][1]);
 		$eventObj->setEmployeeId($expected[0][3]);
