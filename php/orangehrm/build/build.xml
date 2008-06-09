@@ -65,6 +65,8 @@
             <exclude name="lib/logs/notification_mails.log"/>
             <exclude name="upgrade.php"/>
             <exclude name="upgrader/**"/>
+            <exclude name="EmployeeDataGenerator.php"/>
+            <exclude name="change-version-numbers.php"/>
         </fileset>
     </copy>
   </target>
