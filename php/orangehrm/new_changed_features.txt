@@ -1,4 +1,29 @@
+New & Changed Features for OrangeHRM ver 2.3-beta.2
+
+	Bug Fixes
+	---------
+	1880039 - Error in printing timesheet
+	1898569 - Timesheets created with overlapping time periods
+	1943799 - 2.3-alpha.5-Under PIM, cannot add more than 1000 records
+	1953189 - Time Module: Ess view on sunday displays 14 days
+	1872677 - Rejected leaves shown in 'pending approval' list
+	1874111 - Leave approve/deny emails do not have information
+	1883065 - It is possible to submit time to an approved timesheet
+	1910904 - Company structure cannot be entered in IE
+	1930775 - Employees Uploaded image is corrupted
+	1936463 - Custom data doesn’t display in Exported File
+	1949399 - Restrict week starting day feature.
+	1950563 - Status is wrong in Leave List
+	1953179 - Time Module: missing day between two time sheets
+	1953962 - Admin add pay grades, and press enter moves to notice page
+	1953965 - Admin add skills, and press enter moves to notice page
+	1953987 - Admin add AdminUserGroup, & press enter moves to notice page
+	1953990 - Admin add customer, and press enter moves to notice page
+	1953999 - Admin add project, and press enter moves to notice page
+	1957848 - After ading 1000users,Supervisor can see links to many pages
+
 New & Changed Features for OrangeHRM ver 2.3-beta.1
+
 	New features added
 	------------------
 	Implemented field level database 128-bit AES encryption for selected
