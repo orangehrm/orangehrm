@@ -526,6 +526,17 @@ class Leave {
 
 		if ($this->getLeaveLengthHours() != null) {
 			$hours = $this->getLeaveLengthHours() - ($timeOff * $shift);
+			/* For handling leaves applied in half days: Begins
+			 * This assumes that employee request the leave in available working time
+			 * */
+			if ($timeOff > 0 && $timeOff < 1) {
+				if($hours <= 0) {
+			    	$hours = $this->getLeaveLengthHours();
+				} else {
+				    $hours = ($timeOff * $shift);
+				}
+			}
+			/* For handling leaves applied in half days: Ends */
 			$days = round(($hours/$shift), 2);
 		} else if ($this->getLeaveLengthDays() != null) {
 			$hours = ($this->getLeaveLengthDays() - $timeOff) * $shift;
@@ -541,6 +552,7 @@ class Leave {
 
 		$this->setLeaveLengthHours($hours);
 		$this->setLeaveLengthDays($days);
+
 	}
 
 	/**
