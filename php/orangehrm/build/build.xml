@@ -60,11 +60,13 @@
             <exclude name="devTools/**"/>
             <exclude name="lib/**/testConf.php"/>
             <exclude name="lib/confs/Conf.php"/>
+            <exclude name="lib/confs/mailConf.php"/>
             <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
             <exclude name="lib/logs/notification_mails.log"/>
             <exclude name="upgrade.php"/>
             <exclude name="upgrader/**"/>
+            <exclude name="**/test.bat"/>
             <exclude name="EmployeeDataGenerator.php"/>
             <exclude name="change-version-numbers.php"/>
         </fileset>
@@ -270,4 +272,4 @@
   </target>
 
 
-</project>
+</project>
