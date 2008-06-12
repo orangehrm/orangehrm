@@ -1537,7 +1537,7 @@ switch ($moduletype) {
 
 													case 'View_Timesheet' 		:	
 																					if ($current && $useClientTime) {
-																						$obj = $timesheetExtractor->parseViewDataNew($clientStartDate, $clientEndDate, $timesheetSubmissionDay);
+																						$obj = $timesheetExtractor->parseViewDataWithTimezoneDiff($clientStartDate, $clientEndDate, $timesheetSubmissionDay);
 																					} else {
 																						$obj = $timesheetExtractor->parseViewData($_POST);
 																					}

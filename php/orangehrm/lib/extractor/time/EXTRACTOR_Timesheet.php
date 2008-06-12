@@ -61,7 +61,7 @@ class EXTRACTOR_Timesheet {
 		return $this->parent_Timesheet;
 	}
 	
-	public function parseViewDataNew($clientStartDate, $clientEndDate, $timesheetSubmissionDay) {
+	public function parseViewDataWithTimezoneDiff($clientStartDate, $clientEndDate, $timesheetSubmissionDay) {
 		$this->parent_Timesheet = new Timesheet();
 		
 		$this->parent_Timesheet->setStartDate(LocaleUtil::getInstance()->convertToStandardDateFormat($clientStartDate));
