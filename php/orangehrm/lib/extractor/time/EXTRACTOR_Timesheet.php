@@ -60,7 +60,21 @@ class EXTRACTOR_Timesheet {
 
 		return $this->parent_Timesheet;
 	}
+	
+	public function parseViewDataNew($clientStartDate, $clientEndDate, $timesheetSubmissionDay) {
+		$this->parent_Timesheet = new Timesheet();
+		
+		$this->parent_Timesheet->setStartDate(LocaleUtil::getInstance()->convertToStandardDateFormat($clientStartDate));
+				
+		$this->parent_Timesheet->setEndDate(LocaleUtil::getInstance()->convertToStandardDateFormat($clientEndDate)." 23:59:59");
+		
+		$this->parent_Timesheet->setTimesheetPeriodId($timesheetSubmissionDay);
+		
+		$this->parent_Timesheet->setEmployeeId($_SESSION['empID']);
 
+		return $this->parent_Timesheet;
+	}
+	
 	public function parseChangeStatusData($postArr) {
 		$this->parent_Timesheet = new Timesheet();
 

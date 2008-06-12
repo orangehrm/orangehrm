@@ -1495,15 +1495,53 @@ switch ($moduletype) {
 												$workShiftExtractor = new EXTRACTOR_Workshift();
 
 												$current=false;
+												$useClientTime = false;
+												$clientTime = null;
 												$punchIn=false;
 												$new=false;
 												$return=null;
 
 												switch ($_GET['action']) {
 													case 'View_Current_Timesheet':	$current=true;
+																					
+																					$clientTimezoneOffset = @$_GET['clientTimezoneOffset'];
 
+																					settype($clientTimezoneOffset, 'integer');
+																					
+																					$serverTimezoneOffset = ((int) date('Z')) / 60;
+																					$timeZoneDiff = $clientTimezoneOffset - $serverTimezoneOffset;
+													
+																					if ($clientTimezoneOffset != $serverTimezoneOffset) {
+																						$useClientTime = true;
+																						$clientTimestamp = time() + $timeZoneDiff * 60;
+																					
+																						$day = date('w', $clientTimestamp);
+																						$day = ($day == 0) ? 7 : $day;
+																						
+																						$objSubmissionPeriods = new TimesheetSubmissionPeriod();
+						   $timesheetSubmissionPeriods = $objSubmissionPeriods->fetchTimesheetSubmissionPeriods();
+																						$timesheetSubmissionDay = $timesheetSubmissionPeriods[0]->getStartDay();
+																						$dayDiff = $timesheetSubmissionDay - $day;
+																						
+																						if ($dayDiff > 0) {
+																							$dayDiff -= 7;
+																						}																					
+																					
+																						$clientStartDateTimestamp = time() + $timeZoneDiff * 60 + (($dayDiff) * 3600 * 24);
+																					
+																						$clientStartDate = date('Y-m-d', $clientStartDateTimestamp); 
+																						$clientEndDate = date('Y-m-d', $clientStartDateTimestamp + (6 * 3600 * 24));
+																					
+																					}
+																					
 
-													case 'View_Timesheet' 		:	$obj = $timesheetExtractor->parseViewData($_POST);
+													case 'View_Timesheet' 		:	
+																					if ($current && $useClientTime) {
+																						$obj = $timesheetExtractor->parseViewDataNew($clientStartDate, $clientEndDate, $timesheetSubmissionDay);
+																					} else {
+																						$obj = $timesheetExtractor->parseViewData($_POST);
+																					}
+																					
 																					if (isset($_GET['id'])) {
 																						$obj->setTimesheetId($_GET['id']);
 																					}

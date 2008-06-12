@@ -195,7 +195,9 @@ class Timesheet {
 		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIMESHEET_DB_TABLE_TIMESHEET, self::TIMESHEET_DB_FIELD_TIMESHEET_ID);
 		$this->setTimesheetId($newId);
 
-		$this->_getNewDates();
+		if ($this->getStartDate() == '' || $this->getEndDate() == '') {
+			$this->_getNewDates();
+		}
 
 		$this->setStatus(self::TIMESHEET_STATUS_NOT_SUBMITTED);
 
@@ -493,7 +495,9 @@ class Timesheet {
 		$sql_builder = new SQLQBuilder();
 
 		if ($current) {
-			$this->_getNewDates();
+			if ($this->getStartDate() == '' || $this->getEndDate() == '') {
+				$this->_getNewDates();
+			}
 		}
 
 		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";

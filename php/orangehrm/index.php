@@ -147,7 +147,7 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
 	}
 
-	$timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet';
+	$timesheetPage = 'javascript: location.href = \'../../lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
 
 } else {
 	if ($_SESSION['timePeriodSet'] == 'Yes') {
@@ -943,7 +943,7 @@ function preloadAllImages() {
                     ?>
                       <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu16')" onMouseOut="ypSlideOutMenu.hideMenu('menu16')" onClick="ypSlideOutMenu.hideMenu('menu16')" vAlign=center align=left width=142 height=17>
-                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet" target="rightMenu"><?php echo $lang_Menu_Time_PersonalTimesheet; ?></A>
+                        	<A class=rollmenu href="lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=" target="rightMenu"><?php echo $lang_Menu_Time_PersonalTimesheet; ?></A>
                         </TD>
 					 </TR>
 					<?php
