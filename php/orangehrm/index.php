@@ -757,6 +757,9 @@ function preloadAllImages() {
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=JOB&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_JobTitles; ?></A></TD>
                       </TR>
                       <TR>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SPC&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_JobSpecs; ?></A></TD>
+                      </TR>
+                      <TR>
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu2');ypSlideOutMenu.showMenu('menu2')" onMouseOut="ypSlideOutMenu.hideMenu('menu2');ypSlideOutMenu.hideMenu('menu2')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=SGR&menu_no=2&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Job_PayGrades; ?></A></TD>
                       </TR>
                       <TR>

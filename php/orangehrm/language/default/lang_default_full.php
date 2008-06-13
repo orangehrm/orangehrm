@@ -122,6 +122,7 @@
 
 	$lang_Menu_Admin_Job 						= "Job";
 	$lang_Menu_Admin_Job_JobTitles 				= "Job Titles";
+	$lang_Menu_Admin_Job_JobSpecs               = "Job Specifications";
 	$lang_Menu_Admin_Job_PayGrades 				= "Pay Grades";
 	$lang_Menu_Admin_Job_EmpStatus 				= "Employment Status";
 	$lang_Menu_Admin_Job_EEO 					= "EEO Job Categories";
@@ -754,6 +755,14 @@
     $lang_jobtitle_NoSelection              = "No Selection!";
     $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employement status";
     $lang_jobtitle_EnterEmploymentStatus    = "Please enter a value for Employment Status.";
+ 	$lang_jobspec_heading 					= "Job : Job Specifications";
+ 	$lang_jobspec_id 				        = "ID";
+	$lang_jobspec_name 				        = "Name";
+	$lang_jobspec_desc 				        = "Description";
+	$lang_jobspec_duties 			        = "Duties";
+	$lang_jobspec_PleaseSpecifyJobSpecName  = "Please specify Job Specification name";
+	$lang_jobspec_NameInUse_Error           = "This name is in use";
+
 
  	$lang_languageinformation_heading 		= "Skills : Language";
 

@@ -34,6 +34,14 @@ create table `hs_hr_job_title` (
 	primary key(`jobtit_code`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_job_spec` (
+	`jobspec_id` int(11) not null default 0,
+	`jobspec_name` varchar(50) default null,
+	`jobspec_desc` text default null,
+	`jobspec_duties` text default null,
+	primary key(`jobspec_id`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_empstat` (
 	`estat_code` varchar(13) not null default '',
 	`estat_name` varchar(50) default null,
@@ -1698,3 +1706,4 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_current_plan', '0');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_spec', 'jobspec_id');

@@ -35,6 +35,7 @@ require_once 'ProjectAdminTest.php';
 require_once 'CustomExportTest.php';
 require_once 'CustomImportTest.php';
 require_once 'encryption/KeyHandlerTest.php';
+require_once 'JobSpecTest.php';
 
 class models_eimadmin_AllTests
 {
@@ -54,6 +55,7 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('ProjectAdminGatewayTest');
 	$suite->addTestSuite('CustomExportTest');
 	$suite->addTestSuite('CustomImportTest');
+	$suite->addTestSuite('JobSpecTest');
         return $suite;
     }
 }

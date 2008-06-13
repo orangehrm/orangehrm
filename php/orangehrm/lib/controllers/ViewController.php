@@ -42,6 +42,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobSpec.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/Customer.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/Projects.php';
@@ -70,7 +71,6 @@ class ViewController {
 	var $indexCode;
 	var $message;
 	var $pageID;
-	var $headingInfo;
 
 
 	function ViewController() {
@@ -227,12 +227,6 @@ class ViewController {
 						$form_creator = new FormCreator($getArr,$postArr);
 						$form_creator ->formPath ='/view.php';
 
-						if ((isset($getArr['uniqcode'])) && ($getArr['uniqcode'] != '')) {
-
-							$form_creator ->popArr['headinginfo'] = $this ->getHeadingInfo(trim($getArr['uniqcode']));
-
-						}
-
 						$form_creator ->popArr['currentPage'] = $currentPage =(isset($postArr['pageNO'])) ? (int)$postArr['pageNO'] : 1;
 
 						if (isset($postArr['captureState'])&& ($postArr['captureState']=="SearchMode"))
@@ -279,6 +273,17 @@ class ViewController {
 
         		$this->jobtit = new JobTitle();
         		$res = $this->jobtit ->delJobTitles($arrList);
+        		break;
+
+        	case 'SPC' :
+
+				if (isset($arrList[0])) {
+					try {
+        				$res = JobSpec::delete($arrList[0]);
+					} catch (JobSpecException $e) {
+						$res = false;
+					}
+				}
         		break;
 
         	case 'CST' :
@@ -455,6 +460,9 @@ class ViewController {
 			$message = $this->jobtit->getListofJobTitles($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
+		case 'SPC' :
+			return JobSpec::getListForView($pageNO,$schStr,$mode, $sortField, $sortOrder);
+
 		case 'LOC' :
 
 			$this-> location = new Location();
@@ -585,7 +593,7 @@ class ViewController {
 			return $message;
 		}
 	}
-
+/*
 	function getHeadingInfo($indexCode) {
 
 		$this->indexCode = $indexCode;
@@ -732,10 +740,10 @@ class ViewController {
 			$this->headingInfo = array ('Bank ID','Bank Name',1,'Banks','Deletion might affect Employee Banks, Branches');
 			return $this->headingInfo;
 
-		/*case 'LAN' :
+		//case 'LAN' :
 
-			$this->headingInfo = array ('Language ID','Language Name',1,'Languages','Deletion might affect Employee Language');
-			return $this->headingInfo;*/
+		//	$this->headingInfo = array ('Language ID','Language Name',1,'Languages','Deletion might affect Employee Language');
+		//	return $this->headingInfo;
 
 		case 'MME' :
 
@@ -829,6 +837,7 @@ class ViewController {
         }
 	}
 
+*/
 	function getInfo($indexCode,$pageNO,$schStr='',$schField=-1, $sortField=0, $sortOrder='ASC', $esp = false) {
 
 		$this->indexCode = $indexCode;
@@ -854,6 +863,10 @@ class ViewController {
 			$this->jobtit = new JobTitle();
 			$message = $this->jobtit->countJobTitles($schStr,$mode);
 			return $message;
+
+		case 'SPC' :
+
+			return JobSpec::getCount($schStr,$mode);
 
 		case 'LOC' :
 
@@ -1228,6 +1241,14 @@ class ViewController {
 									$jobtit = $object;
 									$res = $jobtit ->addJobTitles();
 									$id = $jobtit->getJobId();
+									break;
+
+				case 'SPC'  :		$jobSpec = $object;
+									try {
+										$res = $jobSpec->save();
+									} catch(JobSpecException $e) {
+										$res = false;
+									}
 									break;
 
 				case 'CST'  :
@@ -1688,6 +1709,14 @@ class ViewController {
 				case 'JOB'  :		$jobtit = new JobTitle();
 									$jobtit = $object;
 									$res = $jobtit -> updateJobTitles();
+									break;
+
+				case 'SPC'  :		$jobSpec = $object;
+									try {
+										$res = $jobSpec->save();
+									} catch(JobSpecException $e) {
+										$res = false;
+									}
 									break;
 
 				case 'CST'  :		$compstruct = new CompStruct();
@@ -2971,6 +3000,19 @@ class ViewController {
 								$form_creator ->popArr['editArr'] = $jobtitle->filterJobTitles($getArr['id']);
 								$form_creator ->popArr['assEmploymentStat'] = $jobtit_empstat->getAssEmpStat($getArr['id']);
 								$form_creator ->popArr['unAssEmploymentStat'] = $jobtit_empstat->getUnAssEmpStat($getArr['id']);
+							}
+
+							break;
+
+			case 'SPC' :	$form_creator->formPath = '/templates/eimadmin/jobSpec.php';
+
+							// Here we fetch all job specs for easier validation of duplicate names
+							// Assuming it's unlikely that very large number of job specs will be defined.
+							$form_creator->popArr['jobSpecList'] = JobSpec::getAll();
+							if($getArr['capturemode'] == 'updatemode') {
+								$form_creator->popArr['jobSpec'] = JobSpec::getJobSpec($getArr['id']);
+							} else {
+								$form_creator->popArr['jobSpec'] = new JobSpec();
 							}
 
 							break;

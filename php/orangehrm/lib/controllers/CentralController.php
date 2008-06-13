@@ -48,6 +48,7 @@ require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 require_once ROOT_PATH . '/lib/controllers/BenefitsController.php';
 
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitle.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobSpec.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitEmpStat.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmpStat.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_GenInfo.php';
@@ -231,6 +232,13 @@ switch ($moduletype) {
 						case 'JOB'	:
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_JobTitle();
+										}
+
+										break;
+
+						case 'SPC'	:
+										if(isset($_POST['sqlState'])) {
+											$extractor = new EXTRACTOR_JobSpec();
 										}
 
 										break;
