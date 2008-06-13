@@ -105,6 +105,8 @@ class GenInfo {
 
 		$sqlQString = $sql_builder->selectOneRecordFiltered('001');
 
+
+
 		//echo $sqlQString;
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
@@ -118,6 +120,23 @@ class GenInfo {
 	    	$i++;
 
 	     }
+
+		//Finding the numer of  employees
+		$sql_builder = new SQLQBuilder();
+
+		$sql_builder->table_name = 'hs_hr_employee';
+		$sql_builder->flg_select = 'true';
+
+		$sqlQString = $sql_builder->selectToCountEmps();
+		$res = $dbConnection -> executeQuery($sqlQString);
+
+		$numEmps = mysql_num_rows($res);
+
+
+    	$arrayDispList[0][0] .= "|NUMEMPS"; //To pass values to the view
+    	$arrayDispList[0][1] .= "|$numEmps";
+
+
 
 	     if (isset($arrayDispList)) {
 

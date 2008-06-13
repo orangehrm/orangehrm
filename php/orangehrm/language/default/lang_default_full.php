@@ -487,6 +487,7 @@
 
  	$lang_geninfo_heading 					= "Company Info : General";
 	$lang_geninfo_compname 					= "Company Name";
+	$lang_geninfo_numEmployees				= "Number of Employees";
 	$lang_geninfo_taxID 					= "Tax ID";
 	$lang_geninfo_naics 					= "NAICS";
 	$lang_geninfo_err_CompanyName 			= "Company name cannot be blank";
