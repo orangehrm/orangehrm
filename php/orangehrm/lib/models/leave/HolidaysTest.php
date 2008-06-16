@@ -112,6 +112,51 @@ class HolidaysTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($res, 'Unexpected behavior');
     }
 
+    public function testGetHolidayForDate() {
+    	// exact day for recurring holiday
+    	$holiday = Holidays::getHolidayForDate(date('Y').'-07-04');
+    	$this->assertNotNull($holiday);
+    	$this->assertEquals('Independence', $holiday->getDescription());
+    	$this->assertEquals(10, $holiday->getHolidayId());
+    	$this->assertEquals(date('Y').'-07-04', $holiday->getDate());
+    	$this->assertEquals(Holidays::HOLIDAYS_RECURRING, $holiday->getRecurring());
+    	$this->assertEquals(8, $holiday->getLength());
+
+    	// next year for recurring holiday
+    	$holiday = Holidays::getHolidayForDate((date('Y') + 1) .'-07-04', true);
+		$this->assertNotNull($holiday);
+    	$this->assertEquals('Independence', $holiday->getDescription());
+    	$this->assertEquals(10, $holiday->getHolidayId());
+    	$this->assertEquals(date('Y').'-07-04', $holiday->getDate());
+    	$this->assertEquals(Holidays::HOLIDAYS_RECURRING, $holiday->getRecurring());
+    	$this->assertEquals(8, $holiday->getLength());
+
+    	// previous year for recurring holiday
+    	$holiday = Holidays::getHolidayForDate((date('Y') - 1) .'-07-04', true);
+		$this->assertNull($holiday);
+
+    	// exact day for non-recurring holiday
+    	$holiday = Holidays::getHolidayForDate(date('Y').'-01-04');
+		$this->assertNotNull($holiday);
+    	$this->assertEquals('Poya', $holiday->getDescription());
+    	$this->assertEquals(11, $holiday->getHolidayId());
+    	$this->assertEquals(date('Y').'-01-04', $holiday->getDate());
+    	$this->assertEquals(Holidays::HOLIDAYS_NOT_RECURRING, $holiday->getRecurring());
+    	$this->assertEquals(4, $holiday->getLength());
+
+    	// next year for non-recurring holiday
+    	$holiday = Holidays::getHolidayForDate((date('Y') + 1).'-01-04', true);
+		$this->assertNull($holiday);
+
+		// random non-holiday
+    	$holiday = Holidays::getHolidayForDate((date('Y') + 1).'-03-04');
+		$this->assertNull($holiday);
+
+    	$holiday = Holidays::getHolidayForDate((date('Y') + 1).'-03-04', true);
+		$this->assertNull($holiday);
+
+    }
+
 	/**
 	 * Test that for a recurring holiday, the holiday is only considered from the starting date.
 	 */

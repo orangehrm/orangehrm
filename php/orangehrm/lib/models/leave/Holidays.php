@@ -124,11 +124,11 @@ class Holidays {
 	public function isHoliday($date) {
 		$this->setDate($date);
 
-		if ($res = $this->_isHoliday()) {
+		if ($res = $this->_isHoliday($date)) {
 			return $res;
 		}
 
-		if ($res = $this->_isHoliday(true)) {
+		if ($res = $this->_isHoliday($date, true)) {
 			return $res;
 		}
 
@@ -136,23 +136,22 @@ class Holidays {
 	}
 
 	/**
-	 * Checks whether the date in the object is a holiday.
+	 * Checks whether the given date is a holiday and returns information about that holiday.
 	 *
-	 * If $recurring is set check whether the date is a recurring holiday
-	 * else a specific holiday.
-	 *
-	 * @access private
+	 * @param string $date Date to check
 	 * @param boolean $recurring
-	 * @return mixed $length;
+	 * @return Holidays Holidays object if found for that day or null if not.
 	 */
-	private function _isHoliday($recurring=false) {
-
-		$date = $this->getDate();
+	public static function getHolidayForDate($date, $recurring = false) {
 
 		$sqlBuilder = new SQLQBuilder();
 
 		$selectTable = "`".self::HOLIDAYS_TABLE."`";
 		$selectFields[0] = "`".self::HOLIDAYS_TABLE_LENGTH."`";
+		$selectFields[1] = "`".self::HOLIDAYS_TABLE_HOLIDAY_ID."`";
+		$selectFields[2] = "`".self::HOLIDAYS_TABLE_DATE."`";
+		$selectFields[3] = "`".self::HOLIDAYS_TABLE_RECURRING."`";
+		$selectFields[4] = "`".self::HOLIDAYS_TABLE_DESCRIPTION."`";
 
 		if ($recurring) {
 			list($year, $month, $day) = explode('-', $date);
@@ -173,10 +172,34 @@ class Holidays {
 
 		$result = $dbConnection -> executeQuery($query);
 
+		$holidays = self::_buildObjArr($result);
+
+		if (is_array($holidays)) {
+			return $holidays[0];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Checks whether the date in the object is a holiday.
+	 *
+	 * If $recurring is set check whether the date is a recurring holiday
+	 * else a specific holiday.
+	 *
+	 * @access private
+	 * @param string $date Date to check
+	 * @param boolean $recurring
+	 * @return mixed $length;
+	 */
+	private function _isHoliday($date, $recurring=false) {
+
+		$holiday = self::getHolidayForDate($date, $recurring);
+
 		$length = null;
 
-		if ($result && ($row = mysql_fetch_row($result))) {
-			$length = $row[0];
+		if (!empty($holiday)) {
+			$length = $holiday->getLength();
 		}
 
 		return $length;
@@ -213,7 +236,7 @@ class Holidays {
 
 		$result = $dbConnection -> executeQuery($query);
 
-		return $this->_buildObjArr($result);
+		return self::_buildObjArr($result);
 	}
 
 	public function fetchHoliday($holidayId) {
@@ -235,7 +258,7 @@ class Holidays {
 
 		$result = $dbConnection -> executeQuery($query);
 
-		return $this->_buildObjArr($result);
+		return self::_buildObjArr($result);
 	}
 
 	/**
@@ -245,7 +268,7 @@ class Holidays {
 	 * @param resource $result
 	 * @return Holidays $objArr
 	 */
-	private function _buildObjArr($result) {
+	private static function _buildObjArr($result) {
 		$objArr = null;
 
 		if ($result) {

@@ -179,8 +179,16 @@ if ($modifier === "SUP") {
                           }
   					?>
   				</select>
-  			<?php } else { ?>
-  				<?php echo $lang_Leave_Holiday; ?> <input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
+  			<?php } else {
+  						$holiday = Holidays::getHolidayForDate($record->getLeaveDate());
+  						if (!empty($holiday) && is_a($holiday, 'Holidays')) {
+  							echo $holiday->getDescription();
+  						} else {
+  							echo $lang_Leave_Closed;
+  						}
+  			?>
+
+  				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
   			<?php }?>
     	<?php
     		} else {
