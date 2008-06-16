@@ -25,7 +25,8 @@ require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
 class JobTitle {
 
-	var $tableName = 'HS_HR_JOB_TITLE';
+	const TABLE_NAME = 'HS_HR_JOB_TITLE';
+	var $tableName = self::TABLE_NAME;
 
 	var $jobId;
 	var $jobName;

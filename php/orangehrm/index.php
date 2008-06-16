@@ -40,6 +40,7 @@ define('Report', 'MOD004');
 define('Leave', 'MOD005');
 define('TimeM', 'MOD006');
 define('Benefits', 'MOD007');
+define('Recruit', 'MOD008');
 
 $arrRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
 $arrAllRights=array(Admin => $arrRights,
@@ -48,7 +49,8 @@ $arrAllRights=array(Admin => $arrRights,
 					Report => $arrRights,
 					Leave => $arrRights,
 					TimeM => $arrRights,
-					Benefits => $arrRights);
+					Benefits => $arrRights,
+					Recruit => $arrRights);
 
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
@@ -109,6 +111,9 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
 
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits"))
 	$arrRights=$arrAllRights[Benefits];
+
+if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="recruit"))
+	$arrRights=$arrAllRights[Recruit];
 
 
 $_SESSION['localRights']=$arrRights;
@@ -176,6 +181,8 @@ if ($authorizeObj->isESS()) {
 		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
 	}
 }
+
+$recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
 
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
@@ -450,6 +457,29 @@ function preloadAllImages() {
                       </tr>
                   </table></td>
                   <?php }
+                  if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="recruit") && $arrAllRights[Recruit]['view']) {
+					?>
+                  <td />
+                  <td class="tabSeparator"></td>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                      <tr height="20">
+                        <td class="currentTabLeft" ></td>
+                        <td  class="currentTab" nowrap><a class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=RecruitModule&menu_no_top=recruit" ><?php echo $lang_Menu_Recruit; ?></a></td>
+                        <td class="currentTabRight"><img src="" width="8" height="1" border="0" alt=""></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php } else if ($arrAllRights[Recruit]['view']) { ?>
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                      <tr height="20">
+                        <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt=""></td>
+                        <td class="otherTab" nowrap><a   class="otherTab"  href="index.php?module=Home&menu_no=3&menu_no_top=recruit"><?php echo $lang_Menu_Recruit; ?></a></td>
+                        <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt=""></td>
+                        <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
+                      </tr>
+                  </table></td>
+                  <?php }
+
                   if($_SESSION['isAdmin']=='Yes') {
 						if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep") && $arrAllRights[Report]['view']) {
 					?>
@@ -680,7 +710,26 @@ function preloadAllImages() {
 			<?php } // For checking Time period setting: Ends ?>
 <?php			}
 
-				if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits" )) { ?>
+			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="recruit" )) { // For checnig the recruitment settings : Begins  ?>
+           	<TD width=158>
+	            <ul id="menu">
+	            	<?php if ($_SESSION['isAdmin']=='Yes') { ?>
+	            	<li id="jobVacancies">
+	            		<a href="lib/controllers/CentralController.php?recruitcode=Vacancy&action=List" target="rightMenu">
+	            			<?php echo $lang_Menu_Recruit_JobVacancies; ?>
+	            		</a>
+	            	</li>
+	            	<li id="jobApplicants">
+	            		<a href="lib/controllers/CentralController.php?recruitcode=APP&action=View_Applicants" target="rightMenu">
+	            			<?php echo $lang_Menu_Recruit_JobApplicants; ?>
+	            		</a>
+	            	</li>
+	            	<?php } ?>
+  				</ul>
+			</TD>
+			<?php } // For checnig the recruitment settings : Ends  ?>
+
+			<?php if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits" )) { ?>
            	<TD width=158>
 	            <ul id="menu">
 	            	<li id="projectInfo">
@@ -1175,6 +1224,8 @@ function preloadAllImages() {
               <iframe src="<?php echo $timeHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php 		}  elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits")) {  ?>
               <iframe src="<?php echo $beneftisHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+<?php 		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="recruit")) {  ?>
+              <iframe src="<?php echo $recruitHomePage; ?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php 		} ?>
 
             </td>

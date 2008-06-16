@@ -46,6 +46,7 @@ require_once ROOT_PATH . '/lib/controllers/RepViewController.php';
 require_once ROOT_PATH . '/lib/controllers/LeaveController.php';
 require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 require_once ROOT_PATH . '/lib/controllers/BenefitsController.php';
+require_once ROOT_PATH . '/lib/controllers/RecruitmentController.php';
 
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobTitle.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_JobSpec.php';
@@ -139,6 +140,8 @@ if(isset($_GET['uniqcode'])) {
 	$moduletype = 'timeMod';
 } elseif (isset($_GET['benefitcode'])) {
 	$moduletype = 'benefits';
+} elseif (isset($_GET['recruitcode'])) {
+	$moduletype = 'recruitMod';
 }
 
 //authentication
@@ -155,6 +158,7 @@ define('MT', 'MOD003');
 define('REP', 'MOD004');
 define('LEAVE', 'MOD005');
 define('TIMEMOD', 'MOD006');
+define('RECRUITMOD', 'MOD008');
 
 
 
@@ -165,6 +169,7 @@ switch ($moduletype) {
 	case 'leave'	:	$locRights = $rights->getRights($_SESSION['userGroup'],LEAVE); break;
 	case 'timeMod'	:	$locRights = $rights->getRights($_SESSION['userGroup'],TIMEMOD); break;
 	case 'benefits' : include ROOT_PATH.'/lib/controllers/Benefits.inc.php'; break;
+	case 'recruitMod' :	$locRights = $rights->getRights($_SESSION['userGroup'],RECRUITMOD); break;
 }
 
 if(!is_array($locRights) && $locRights == false)
@@ -1710,6 +1715,11 @@ switch ($moduletype) {
 											  break;
 							default		: trigger_error("Invalid Action ".$_GET['action'], E_USER_NOTICE);
 						}
+						break;
+
+	case 'recruitMod'	:
+						$recruitController = new RecruitmentController();
+						$recruitController->handleRequest($_GET['recruitcode']);
 						break;
 
 }

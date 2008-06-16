@@ -753,6 +753,17 @@ create table `hs_hr_custom_import` (
   key `emp_number` (`import_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_job_vacancy` (
+  `vacancy_id` int(11) not null,
+  `jobtit_code` varchar(13) default null,
+  `manager_id` int(7) default null,
+  `active` tinyint(1) not null default 0,
+  `description` text,
+  primary key  (`vacancy_id`),
+  key `jobtit_code` (`jobtit_code`),
+  key `manager_id` (`manager_id`),
+) engine=innodb default charset=utf8;
+
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")

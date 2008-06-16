@@ -208,6 +208,11 @@
 	$lang_Menu_Time_PersonalTimesheet = "My timesheet";
 	$lang_Menu_Time_EmployeeTimesheets = "Employee timesheets";
 
+    // Recruitment module
+	$lang_Menu_Recruit = "Recruitment";
+	$lang_Menu_Recruit_JobVacancies = "Job Vacancies";
+	$lang_Menu_Recruit_JobApplicants = "Applicants";
+
 	/**
 	 * Common
 	 */
@@ -1420,6 +1425,22 @@
 	$lang_Leave_LEAVE_BROUGHT_FORWARD_COPY_SUCCESS = "Successfully copied leave brought forward";
 	$lang_Leave_LEAVE_BROUGHT_FORWARD_COPY_FAILURE = "Failed to copy leave brought forward";
 
+	// Recruitment module
+ 	$lang_Recruit_VacancyID = 'Vacancy ID';
+ 	$lang_Recruit_JobTitleName = 'Job Title';
+ 	$lang_Recruit_HiringManager = 'Hiring Manager';
+ 	$lang_Recruit_VacancyStatus = 'Status';
+ 	$lang_Recruit_JobVacancyDeletionMessage = 'Deletion may affect Job applications';
+ 	$lang_Recruit_JobVacancyListHeading = 'Job Vacancies';
+ 	$lang_Recruit_JobVacancy_Active = 'Active';
+ 	$lang_Recruit_JobVacancy_InActive = 'Inactive';
+ 	$lang_Recruit_JobVacancy_Add_Heading = 'Add Job Vacancy';
+ 	$lang_Recruit_JobVacancy_Edit_Heading = 'Edit Job Vacancy';
+ 	$lang_Recruit_JobVacancy_JobTitleSelect = 'Select';
+ 	$lang_Recruit_JobVacancy_HiringManagerSelect = 'Select';
+ 	$lang_Recruit_JobVacancy_PleaseSpecifyJobTitle = 'Please specify Job Title';
+ 	$lang_Recruit_JobVacancy_PleaseSpecifyHiringManager = 'Please specify Hiring Manager';
+ 	$lang_Recruit_AllowedValuesAre = 'Allowed Values are: ';
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";

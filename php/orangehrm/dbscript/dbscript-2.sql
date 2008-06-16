@@ -492,14 +492,16 @@ INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','Koshika','koshika@beyondm.n
 								  ('MOD004','Report','Koshika','koshika@beyondm.net','VER001','Reporting'),
 								  ('MOD005', 'Leave', 'Mohanjith', 'mohanjith@beyondm.net', 'VER001', 'Leave Tracking'),
 								  ('MOD006', 'Time', 'Mohanjith', 'mohanjith@orangehrm.com', 'VER001', 'Time Tracking'),
-								  ('MOD007', 'Benefits', 'Gayanath', 'gayanath@orangehrm.com', 'VER001', 'Benefits Tracking');
+								  ('MOD007', 'Benefits', 'Gayanath', 'gayanath@orangehrm.com', 'VER001', 'Benefits Tracking'),
+ 	 							('MOD008', 'Recruitment', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Recruitment');
 INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
 VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
 		('USG001', 'MOD002', '1', '1', '1', '1'),
 		('USG001', 'MOD004', '1', '1', '1', '1'),
 		('USG001', 'MOD005', '1', '1', '1', '1'),
 		('USG001', 'MOD006', '1', '1', '1', '1'),
-		('USG001', 'MOD007', '1', '1', '1', '1');
+		('USG001', 'MOD007', '1', '1', '1', '1'),
+ 	 	('USG001', 'MOD008', '1', '1', '1', '1');
 INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
@@ -581,3 +583,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_summary', 'summary_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_spec', 'jobspec_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_vacancy', 'vacancy_id');

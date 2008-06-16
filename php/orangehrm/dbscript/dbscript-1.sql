@@ -741,6 +741,17 @@ create table `hs_hr_custom_fields` (
   key `emp_number` (`field_num`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_job_vacancy` (
+  `vacancy_id` int(11) not null,
+  `jobtit_code` varchar(13) default null,
+  `manager_id` int(7) default null,
+  `active` tinyint(1) not null default 0,
+  `description` text,
+  primary key  (`vacancy_id`),
+  key `jobtit_code` (`jobtit_code`),
+  key `manager_id` (`manager_id`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_pay_period` (
 	`id` int not null ,
 	`start_date` date not null ,
@@ -1123,3 +1134,7 @@ alter table `hs_hr_hsp`
 
 alter table `hs_hr_hsp_payment_request`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
+
+alter table `hs_hr_job_vacancy` 
+  add constraint foreign key (`manager_id`) references `hs_hr_employee` (`emp_number`) on delete set null,
+  add constraint foreign key (jobtit_code) references hs_hr_job_title(jobtit_code) on delete set null;
