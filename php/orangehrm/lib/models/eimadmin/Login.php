@@ -47,6 +47,7 @@ function filterUser($userName) {
 			$arrFieldList[5] = 'a.STATUS';
 			$arrFieldList[6] = 'LPAD(a.`EMP_NUMBER`, '.$this->employeeIdLength.', 0)';
 			$arrFieldList[7] = 'a.IS_ADMIN';
+			$arrFieldList[8] = 'b.EMP_STATUS';
 
 			$sql_builder->table_name = $tableName;
 			$sql_builder->flg_select = 'true';
@@ -69,6 +70,7 @@ function filterUser($userName) {
 					$arrayDispList[$i][5] = $line[5];
 					$arrayDispList[$i][6] = $line[6];
 					$arrayDispList[$i][7] = $line[7];
+					$arrayDispList[$i][8] = $line[8];
 					$i++;
 				}
 			return $arrayDispList;

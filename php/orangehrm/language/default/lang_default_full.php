@@ -1455,6 +1455,7 @@
 	$lang_login_Clear = "Clear";
 	$lang_login_InvalidLogin = "Invalid Login";
 	$lang_login_UserDisabled = "User Disabled";
+	$lang_login_EmployeeTerminated = "Login denied";
 	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
 	$lang_login_temporarily_unavailable = "Service Temporarily Unavailable";
 	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
