@@ -107,8 +107,8 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 		$fields[]		= 'ebsal_basic_salary';
 		$fields[]		= 'hs_hr_emp_language';
         
-    	$expected[] = "AES_ENCRYPT('123456', '$key')";
-		$expected[] = "AES_ENCRYPT('abcd', '$key')";
+    	$expected[] = "AES_ENCRYPT(123456, '$key')";
+		$expected[] = "AES_ENCRYPT(abcd, '$key')";
 		$expected[] = "pqr";
     
     	$result = CryptoQuery::prepareEncryptFields($fields, $values);
@@ -150,7 +150,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 			if ($value == null)
 				$expected[] = null; 
 			elseif ($value == 125)
-				$expected[] = "AES_ENCRYPT('$value', '$key')"; 
+				$expected[] = "AES_ENCRYPT($value, '$key')"; 
 			else
 				$expected[] = $value; 
 		}
