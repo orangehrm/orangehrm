@@ -723,7 +723,7 @@ class EmpInfo {
         $joinConditions[2] = "a.`work_station` = d.`id`";
         $joinConditions[3] = "a.`emp_status` = e.`estat_code`";
 
-        $selectConditions = null;
+		$selectConditions = array("a.`emp_status` <> 'EST000' OR a.`emp_status` IS NULL");
 
         if (($mode != -1) && !empty ($schStr)) {
 

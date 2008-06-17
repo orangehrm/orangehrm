@@ -503,27 +503,6 @@ class SQLQBuilder {
 		}
 	}
 
-/*
- * This function is selects all employees in the employee details table
- * It is a tempory function until the termination date part is done
- */
-	function selectToCountEmps()
-	{
-		if ($this->flg_select == 'true')
-		{
-			$SQL1 = 'SELECT ';
-			$SQL1 .= '* FROM ' . strtolower($this->table_name);
-			return $SQL1;
-		}
-		else
-		{
-			$exception_handler = new ExceptionHandler();
-	  	 	$exception_handler->dbexInvalidSQL();
-			echo "ERROR"; // put Exception Handling
-			exit;
-		}
-	}
-
 	function selectOneRecordFiltered($filID, $num=0, $orderBy=false, $order='ASC') {
 
 		if ($this->flg_select == 'true') { // check whether the flg_select is 'True'

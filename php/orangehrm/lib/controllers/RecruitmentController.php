@@ -177,8 +177,8 @@ class RecruitmentController {
 			$jobTitles = $jobTitle->getJobTit();
 
 			$objs['vacancy'] = $vacancy;
-			$objs['managers'] = is_null($managers) ? array() : $managers;
-			$objs['jobTitles'] = is_null($jobTitles) ? array() : $jobTitles;
+			$objs['managers'] = is_array($managers) ? $managers : array();
+			$objs['jobTitles'] = is_array($jobTitles) ? $jobTitles : array();
 
 			$template = new TemplateMerger($objs, $path);
 			$template->display();

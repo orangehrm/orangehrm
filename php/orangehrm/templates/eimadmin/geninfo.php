@@ -205,8 +205,8 @@ function edit()
                   			  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_geninfo_compname; ?></td>
 							    <td><input type="text" disabled name="txtCompanyName" value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
-							    <td><?php echo $lang_geninfo_numEmployees; ?></td>
-								<td><input type="text" disabled name="txtNumEmps" value="<?php echo isset($editArr['NUMEMPS']) ? $editArr['NUMEMPS'] : ''?>"></td>
+							    <td><?php echo $lang_geninfo_numEmployees. " :"; ?></td>
+								<td><?php echo $this->popArr['empcount'];?></td>
 				   			  </tr>
 				   			  <tr>
 				   			  	<td><?php echo $lang_geninfo_taxID; ?></td>

@@ -3051,6 +3051,10 @@ class ViewController {
 							if(isset($editArr['STATE']))
 								$form_creator ->popArr['districtlist'] = $district->getDistrictCodes($editArr['STATE']);
 
+
+                            //Finding the numer of  employees
+                            $empInfo = new EmpInfo();
+                            $form_creator->popArr['empcount']= $empInfo->countEmployee();
 							break;
 
 			case 'CUS' :	$form_creator->formPath = '/templates/eimadmin/customer.php';

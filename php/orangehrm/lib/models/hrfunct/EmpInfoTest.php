@@ -64,6 +64,16 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"));
     }
 
+    public function testCountEmployee()
+    {
+    	$empinfo = new EmpInfo();
+        $this->assertEquals($empinfo->countEmployee(),7, 'Counting employees is wrong...');
+
+		mysql_query("UPDATE `hs_hr_employee` SET `emp_status` = 'EST000' WHERE `emp_number`=1", $this->connection);
+
+        $this->assertEquals($empinfo->countEmployee(),6, 'Counting employees is wrong...');
+    }
+
 
 
     public function testGetFullName() {

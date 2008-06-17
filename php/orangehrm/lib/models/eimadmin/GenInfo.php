@@ -23,6 +23,7 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 class GenInfo {
 
@@ -120,23 +121,6 @@ class GenInfo {
 	    	$i++;
 
 	     }
-
-		//Finding the numer of  employees
-		$sql_builder = new SQLQBuilder();
-
-		$sql_builder->table_name = 'hs_hr_employee';
-		$sql_builder->flg_select = 'true';
-
-		$sqlQString = $sql_builder->selectToCountEmps();
-		$res = $dbConnection -> executeQuery($sqlQString);
-
-		$numEmps = mysql_num_rows($res);
-
-
-    	$arrayDispList[0][0] .= "|NUMEMPS"; //To pass values to the view
-    	$arrayDispList[0][1] .= "|$numEmps";
-
-
 
 	     if (isset($arrayDispList)) {
 
