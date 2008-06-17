@@ -56,6 +56,7 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('CustomExportTest');
 	$suite->addTestSuite('CustomImportTest');
 	$suite->addTestSuite('JobSpecTest');
+	$suite->addTestSuite('KeyHandlerTest');
         return $suite;
     }
 }

@@ -21,9 +21,6 @@ require_once ROOT_PATH . '/lib/common/Config.php';
 
 class KeyHandler {
 
-	const ENC_KEY_DEFINED_YES  = 'Yes';
-	const ENC_KEY_DEFINED_NO  = 'No';
-
 	private static $filePath = '/lib/confs/cryptokeys/key.ohrm';
 	private static $key;
 	private static $keySet = false;
@@ -57,7 +54,6 @@ class KeyHandler {
 		}
 
 		if (self::keyExists()) {
-			Config::setEncKeyDefined(self::ENC_KEY_DEFINED_YES);
 			return true;
 		} else {
 		    return false;
@@ -102,7 +98,6 @@ class KeyHandler {
 		}
 
 		if (!self::keyExists()) {
-			Config::setEncKeyDefined(self::ENC_KEY_DEFINED_NO);
 			return true;
 		} else {
 		    return false;

@@ -91,15 +91,10 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 		// Checking function when key does not exitst 
 		 $this->assertTrue(KeyHandler::createKey());
 		 
-		$result = mysql_query("SELECT `value` FROM `hs_hr_config` WHERE `key` = 'enc_key_defined'");
-		$row = mysql_fetch_array($result, MYSQL_NUM);
-		$actual = $row[0];
-		
 		$keyLength = strlen(trim(file_get_contents($filePath)));
 		
 		$this->assertTrue(file_exists($filePath));
 		$this->assertTrue(is_readable($filePath));
-		$this->assertEquals('Yes', $actual);
 		$this->assertEquals(128, $keyLength);
 		
 		// Checking function when key already exitst
@@ -112,7 +107,6 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals(KeyHandlerException::KEY_ALREADY_EXISTS, $e->getCode());
 			$this->assertTrue(file_exists($filePath));
 			$this->assertTrue(is_readable($filePath));
-			$this->assertEquals('Yes', $actual);
 			$this->assertEquals(128, $keyLength);
 			
 		}
@@ -191,12 +185,8 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(KeyHandler::createKey());
 		 
 		$this->assertTrue(KeyHandler::deleteKey());
-		$result = mysql_query("SELECT `value` FROM `hs_hr_config` WHERE `key` = 'enc_key_defined'");
-		$row = mysql_fetch_array($result, MYSQL_NUM);
-		$actual = $row[0];
 		
 		$this->assertFalse(file_exists($filePath));
-		$this->assertEquals('No', $actual);
 
 		// When key is existing, but cannot be deleted
 		$this->assertTrue(KeyHandler::createKey());
