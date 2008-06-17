@@ -69,7 +69,7 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
     	$empinfo = new EmpInfo();
         $this->assertEquals($empinfo->countEmployee(),7, 'Counting employees is wrong...');
 
-		mysql_query("UPDATE `hs_hr_employee` SET `emp_status` = 'EST000' WHERE `emp_number`=1", $this->connection);
+		mysql_query("UPDATE `hs_hr_employee` SET `emp_status` = 'EST000' WHERE `emp_number`=1");
 
         $this->assertEquals($empinfo->countEmployee(),6, 'Counting employees is wrong...');
     }

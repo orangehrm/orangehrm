@@ -26,9 +26,9 @@ set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'CryptoQueryTest.php';
+require_once 'testConf.php';
 
-require_once 'myconf.php';
+require_once 'CryptoQueryTest.php';
 
 class dao_AllTests
 {

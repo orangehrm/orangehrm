@@ -41,10 +41,8 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 		$filePath = ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm';
 	
 		if (file_exists($filePath)) {
-		
-			$this->assertTrue(copy($filePath,  ROOT_PATH . "$filePath.bak"));	
-			$this->assertTrue(@unlink($filePath));
-			
+			$this->assertTrue(copy($filePath,  "$filePath.bak"));		
+			$this->assertTrue(@unlink($filePath));						
 		}
 		 
 		$dbConnection = new DMLFunctions();

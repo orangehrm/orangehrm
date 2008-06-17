@@ -17,7 +17,7 @@ class PropertyReaderTest extends PHPUnit_Framework_TestCase {
 	private $filePath;
 
 	public function setUp() {
-		$this->filePath ='testdata/mypro.properties';
+		$this->filePath = ROOT_PATH . '/lib/logger/testdata/mypro.properties';
 		$this -> propertyReader = new PropertyReader($this->filePath);
 	}
 

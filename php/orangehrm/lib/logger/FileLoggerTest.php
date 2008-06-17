@@ -17,7 +17,7 @@ class FileLoggerTest extends PHPUnit_Framework_TestCase {
 	private $logger3;
 
 	public function setUp() {
-		$propertyReader = new PropertyReader('testdata/logger.properties');
+		$propertyReader = new PropertyReader(ROOT_PATH . '/lib/logger/testdata/logger.properties');
 		$this->logger1 = new FileLogger('logger1', $propertyReader);
 		$this->logger2 = new FileLogger('logger2', $propertyReader);
 		$this->logger3 = new FileLogger('logger3', $propertyReader);

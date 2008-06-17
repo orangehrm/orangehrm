@@ -11,7 +11,6 @@ if(!defined('ROOT_PATH')) {
 require_once 'PHPUnit/Framework.php';
 
 require_once 'CryptoQuery.php';
-require_once '../../lib/confs/Conf.php';
 
 require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandler.php'; 
 
@@ -88,7 +87,7 @@ class CryptoQueryTest extends PHPUnit_Framework_TestCase
 		$expected[] = "AES_DECRYPT(`ebsal_basic_salary`, '$key')";
 		$expected[] = "hs_hr_emp_language";
 				
-		mysql_connect('localhost', 'root', '');
+		mysql_connect('localhost', 'root', MYSQL_ROOT_PASSWORD);
 		mysql_select_db('orangehrm');
 
 		$result = CryptoQuery::prepareDecryptFields($fields);
