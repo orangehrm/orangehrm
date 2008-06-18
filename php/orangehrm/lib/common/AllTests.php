@@ -45,6 +45,8 @@ class common_AllTests
         $suite->addTestSuite('authorizeTest');
         $suite->addTestSuite('CommonFunctionsTest');
 	$suite->addTestSuite('UniqueIDGeneratorTest');
+        $suite->addTestSuite('LocaleUtilTest');
+        $suite->addTestSuite('ConfigTest');
         return $suite;
     }
 }

@@ -141,7 +141,7 @@ class HspMailNotificationTest extends PHPUnit_Framework_TestCase {
 	*
 	*/
 	public function testGetPaymentAcceptMsg() {
-		$result = $this -> hspMailNotification -> _getPaymentAcceptMsg("dimuthu", '2007-01-01', 'flu', 'person inquire', 150, '2007-02-01');
+		$result = $this -> hspMailNotification -> _getPaymentAcceptMsg("dimuthu", '2007-01-01', 'flu', 'person inquire', 150, '2007-02-01', 'http://www.example.com');
 		$this->assertEquals(preg_match("/#firstName/", $result), 0);
 		$this->assertEquals(preg_match("/##dateInquired/", $result), 0);
 		$this->assertEquals(preg_match("/#employee/", $result), 0);
@@ -149,6 +149,7 @@ class HspMailNotificationTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(preg_match("/#personInquiring/", $result), 0);
 		$this->assertEquals(preg_match("/#amount/", $result), 0);
 		$this->assertEquals(preg_match("/#paidDate/", $result), 0);
+		$this->assertEquals(preg_match("/#link/", $result), 0);
 	 }
 
 	/**

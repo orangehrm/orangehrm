@@ -31,6 +31,7 @@ require_once 'HspTest.php';
 require_once 'HspPaymentRequestTest.php';
 require_once 'HspSummaryTest.php';
 require_once 'DefineHspTest.php';
+require_once 'mail/AllTests.php';
 
 class models_benefits_AllTests
 {
@@ -47,12 +48,13 @@ class models_benefits_AllTests
 		$suite->addTestSuite('HspSummaryTest');
 		$suite->addTestSuite('HspPaymentRequestTest');
 		$suite->addTestSuite('DefineHspTest');
+		$suite->addTestSuite('models_benefits_mail_AllTests');
 
         return $suite;
     }
 }
 
 if (PHPUnit_MAIN_METHOD == 'models_benefits_AllTests::main') {
-    models_time_AllTests::main();
+    models_benefits_AllTests::main();
 }
 ?>

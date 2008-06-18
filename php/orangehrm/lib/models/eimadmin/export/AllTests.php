@@ -42,7 +42,7 @@ class models_eimadmin_export_AllTests
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
 	$suite->addTestSuite('CSVFieldTest');
 	$suite->addTestSuite('CustomizableCSVExportTest');
-	$suite->addTestSuite('plugins_MilleniumPayrollExportTest');
+	$suite->addTestSuite('MilleniumPayrollExportTest');
 	return $suite;
     }
 }

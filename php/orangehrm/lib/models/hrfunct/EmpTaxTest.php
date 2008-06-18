@@ -41,6 +41,17 @@ class EmpTaxTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
+    	$conf = new Conf();
+    	mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
+        mysql_select_db($conf->dbname);
+    	$this->_deleteTables();
+    	
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name) " .
+				"VALUES (11, 'Arnold', 'Subasinghe', 'Arnold')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name) " .
+				"VALUES (10, 'John', 'Subasinghe', 'Arnold')");    									    					
+		$this->_runQuery("INSERT INTO hs_hr_emp_us_tax(emp_number, tax_federal_status, tax_federal_exceptions, tax_state_status, tax_state_exceptions, " .
+				"tax_state, tax_unemp_state, tax_work_state) VALUES(11, 'M', 1, 'NA', 2, 'TX', 'NY', 'CA')");					
     }
 
     /**
@@ -50,26 +61,77 @@ class EmpTaxTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+    	$this->_deleteTables();
     }
 
+    private function _deleteTables() {
+    	$this->_runQuery("TRUNCATE hs_hr_emp_us_tax");
+    	$this->_runQuery("DELETE FROM hs_hr_employee WHERE `emp_number` IN (10, 11, 101)");
+    }
+
+	private function _runQuery($sql) {	
+		$this->assertTrue(mysql_query($sql), mysql_error());	
+	}
     /**
      * @todo Implement testGetEmployeeTaxInfo().
      */
     public function testGetEmployeeTaxInfo() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	
+    	$empTaxObj = new EmpTax();
+    	   	        
+    	// Employee without tax info
+    	$expected = array(EmpTax::EMP_TAX_TABLE_EMP_NUMBER=>10, EmpTax::EMP_TAX_FEDERAL_STATUS => null,
+					EmpTax::EMP_TAX_FEDERAL_EXCEPTIONS => null, EmpTax::EMP_TAX_STATE => null,
+					EmpTax::EMP_TAX_STATE_STATUS => null, EmpTax::EMP_TAX_STATE_EXCEPTIONS => null,
+					EmpTax::EMP_TAX_UNEMP_STATE => null, EmpTax::EMP_TAX_WORK_STATE => null);					    	
+    	$empTaxInfo = $empTaxObj->getEmployeeTaxInfo(10);
+    	$this->assertEquals($expected, $empTaxInfo);    	    	
+
+    	// Employee with tax info
+    	$expected = array(EmpTax::EMP_TAX_TABLE_EMP_NUMBER=>11, EmpTax::EMP_TAX_FEDERAL_STATUS => 'M',
+					EmpTax::EMP_TAX_FEDERAL_EXCEPTIONS => 1, EmpTax::EMP_TAX_STATE => 'TX',
+					EmpTax::EMP_TAX_STATE_STATUS => 'NA', EmpTax::EMP_TAX_STATE_EXCEPTIONS => 2,
+					EmpTax::EMP_TAX_UNEMP_STATE => 'NY', EmpTax::EMP_TAX_WORK_STATE => 'CA');					
+    	$empTaxInfo = $empTaxObj->getEmployeeTaxInfo(11);
+    	$this->assertEquals($expected, $empTaxInfo);    	
     }
 
     /**
      * @todo Implement testUpdateEmpTax().
      */
     public function testUpdateEmpTax() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+		$taxInfo = new EmpTax();
+		$taxInfo->setFederalTaxStatus('S');
+		$taxInfo->setFederalTaxExceptions(5);
+		$taxInfo->setTaxState('NM');
+		$taxInfo->setStateTaxStatus('NRA');
+		$taxInfo->setStateTaxExceptions(6);
+		$taxInfo->setTaxUnemploymentState('NJ');
+		$taxInfo->setTaxWorkState('SC');
+    	
+		$empTaxObj = new EmpTax();
+		    	    	
+    	// Employee with no existing tax info
+		$taxInfo->setEmpNumber(10);
+		$taxInfo->updateEmpTax();
+		
+		$empTax1 = $empTaxObj->getEmployeeTaxInfo(10);
+    	$expected = array(EmpTax::EMP_TAX_TABLE_EMP_NUMBER=>10, EmpTax::EMP_TAX_FEDERAL_STATUS => 'S',
+					EmpTax::EMP_TAX_FEDERAL_EXCEPTIONS => 5, EmpTax::EMP_TAX_STATE => 'NM',
+					EmpTax::EMP_TAX_STATE_STATUS => 'NRA', EmpTax::EMP_TAX_STATE_EXCEPTIONS => 6,
+					EmpTax::EMP_TAX_UNEMP_STATE => 'NJ', EmpTax::EMP_TAX_WORK_STATE => 'SC');					
+		$this->assertEquals($expected, $empTax1);    			
+		    	
+    	// Employee with tax information
+		$taxInfo->setEmpNumber(11);
+		$taxInfo->updateEmpTax();    	
+		$empTax2 = $empTaxObj->getEmployeeTaxInfo(11);
+    	$expected = array(EmpTax::EMP_TAX_TABLE_EMP_NUMBER=>11, EmpTax::EMP_TAX_FEDERAL_STATUS => 'S',
+					EmpTax::EMP_TAX_FEDERAL_EXCEPTIONS => 5, EmpTax::EMP_TAX_STATE => 'NM',
+					EmpTax::EMP_TAX_STATE_STATUS => 'NRA', EmpTax::EMP_TAX_STATE_EXCEPTIONS => 6,
+					EmpTax::EMP_TAX_UNEMP_STATE => 'NJ', EmpTax::EMP_TAX_WORK_STATE => 'SC');					
+		$this->assertEquals($expected, $empTax2);    			
     }
 }
 

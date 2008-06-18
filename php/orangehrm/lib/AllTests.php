@@ -33,6 +33,7 @@ require_once 'models/AllTests.php';
 require_once 'controllers/AllTests.php';
 require_once 'logger/AllTests.php';
 require_once 'dao/AllTests.php';
+require_once 'extractor/AllTests.php';
  
 class AllTests
 {
@@ -51,6 +52,7 @@ class AllTests
         $suite->addTest(controllers_AllTests::suite());
         $suite->addTest(logger_AllTests::suite());
         $suite->addTest(dao_AllTests::suite());
+        $suite->addTest(extractor_AllTests::suite());
  
         return $suite;
     }

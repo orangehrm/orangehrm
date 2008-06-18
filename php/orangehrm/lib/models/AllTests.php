@@ -32,6 +32,7 @@ require_once 'leave/AllTests.php';
 require_once 'eimadmin/AllTests.php';
 require_once 'hrfunct/AllTests.php';
 require_once 'recruitment/AllTests.php';
+require_once 'benefits/AllTests.php';
 
 class models_AllTests
 {
@@ -49,6 +50,7 @@ class models_AllTests
         $suite->addTest(models_eimadmin_AllTests::suite());
         $suite->addTest(models_hrfunct_AllTests::suite());
         $suite->addTest(models_recruitment_AllTests::suite());
+        $suite->addTest(models_benefits_AllTests::suite());
 
         return $suite;
     }
