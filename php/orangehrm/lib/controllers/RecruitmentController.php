@@ -675,6 +675,10 @@ class RecruitmentController {
                 $application->setEmpNumber($empId);
                 $application->save();
 
+                // Send email informing approval to hiring manager
+                $notifier = new RecruitmentMailNotifier();
+                $mailResult = $notifier->sendApprovalToHiringManager($application, $event);
+
                 $message = 'UPDATE_SUCCESS';
             } catch (Exception $e) {
                 $message = 'UPDATE_FAILURE';

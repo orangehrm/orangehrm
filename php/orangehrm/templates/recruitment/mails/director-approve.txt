@@ -1,0 +1,5 @@
+#from# has approved hiring of #firstname# #lastname# for the position of #jobtitle#.
+
+Notes: #approve-notes#
+
+OrangeHRM

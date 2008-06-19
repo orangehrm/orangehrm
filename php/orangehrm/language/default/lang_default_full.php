@@ -1166,6 +1166,7 @@
 	$lang_Admin_ENS_HspNotifications = "HSP Notifications";
     $lang_Admin_ENS_SeekHireApproval = "New employee hire approval requests";
     $lang_Admin_ENS_HiringTasks = "Tasks sent on hiring of employee";
+    $lang_Admin_ENS_HiringApproved = "Notifications of hiring new employees";
 
 	//Users
 	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast four characters long";
