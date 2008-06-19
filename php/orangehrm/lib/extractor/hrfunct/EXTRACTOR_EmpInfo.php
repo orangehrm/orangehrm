@@ -55,6 +55,8 @@ class EXTRACTOR_EmpInfo {
 	var	$txtJobTitle;
 	var $cmbType;
 	var $txtJoinedDate;
+	var $txtTerminatedDate;
+	var $txtTerminationRes;
 
 	var $cmbCountry;
 	var $txtStreet1;
@@ -143,6 +145,7 @@ class EXTRACTOR_EmpInfo {
 	if ($postArr['jobFlag']=='1' && !(isset($this->isESS) && $this->isESS)) {
 
 		$postArr['txtJoinedDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtJoinedDate']);
+		$postArr['txtTermDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtTermDate']);
 
 		$this->parent_empinfo -> setEmpId(trim($postArr['txtEmpID']));
 		$this->parent_empinfo -> setEmpJobTitle(trim($postArr['cmbJobTitle']));
@@ -150,6 +153,8 @@ class EXTRACTOR_EmpInfo {
 		$this->parent_empinfo -> setEmpEEOCat(trim($postArr['cmbEEOCat']));
 		$this->parent_empinfo -> setEmpLocation(($postArr['cmbLocation']));
 		$this->parent_empinfo -> setEmpJoinedDate(($postArr['txtJoinedDate']));
+		$this->parent_empinfo ->setEmpTerminatedDate(($postArr['txtTermDate']));
+		$this->parent_empinfo ->setEmpTerminationReason(($postArr['txtTermReason']));
 
 		$objectArr['EmpJobInfo'] = $this->parent_empinfo;
 	}

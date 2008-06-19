@@ -48,6 +48,35 @@
 			oLink.className = "hide";
 		}
 	}
+
+	function cmbTypeChanged()
+	{
+		empStatusCmb = document.getElementById("cmbType");
+
+		if(empStatusCmb.value!='EST000')
+		{
+			obj = document.getElementById("tdTermDateDisc");
+			obj.style['visibility']='hidden';
+			obj = document.getElementById("tdTermDateValue");
+			obj.style['visibility']='hidden';
+			obj = document.getElementById("tdTermReasonDisc");
+			obj.style['visibility']='hidden';
+			obj = document.getElementById("tdTermReasonValue");
+			obj.style['visibility']='hidden';
+		}
+		else
+		{
+			obj = document.getElementById("tdTermReasonDisc");
+			obj.style['visibility']='visible';
+			obj = document.getElementById("tdTermReasonValue");
+			obj.style['visibility']='visible';
+			obj = document.getElementById("tdTermDateDisc");
+			obj.style['visibility']='visible';
+			obj = document.getElementById("tdTermDateValue");
+			obj.style['visibility']='visible';
+
+		}
+	}
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
@@ -127,7 +156,7 @@
 
 			  <td width="50">&nbsp;</td>
 			  <td><?php echo $lang_hremp_EmpStatus; ?></td>
-			  <td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbType">
+			  <td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbType" id="cmbType" onChange="javascript: cmbTypeChanged();">
 			  		<option value="0">-- <?php echo $lang_hremp_selempstat?> --</option>
 <?php						$arrEmpType = $this->popArr['empstatlist'];
 						for($c=0;count($arrEmpType)>$c;$c++)
@@ -168,17 +197,33 @@
 			  </select></td>
 
 			  <td width="50">&nbsp;</td>
-			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
-			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly />
-			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly />
-			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
-			  </tr>
-			  <tr>
+
 			  <td><?php echo $lang_hremp_joindate; ?></td>
 				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtJoinedDate" id="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):LocaleUtil::getInstance()->formatDate($edit1[0][5]); ?>" size="10" />
 					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" /></td>
 
 
+			  </tr>
+			  <tr>
+
+			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
+			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly />
+			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly />
+			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
+
+			  <td width="50">&nbsp;</td>
+
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateDisc' id='tdTermDateDisc'><?php echo $lang_hremp_termination_date; ?></td>
+				<td   <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateValue' id='tdTermDateValue'><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtTermDate" id="txtTermDate" value="<?php echo (isset($this->postArr['txtTermDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtTermDate']):LocaleUtil::getInstance()->formatDate($edit1[0][7]); ?>" size="10"/>
+					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" name='calTermDate' id='calTermDate'/></td>
+
+			  </tr>
+			  <tr>
+			  <td nowrap></td>
+			  <td nowrap></td>
+			  <td width="50">&nbsp;</td>
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonDisc' id='tdTermReasonDisc'><?php echo $lang_hremp_termination_reason; ?> </td>
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonValue' id='tdTermReasonValue'><textarea <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?>  name="txtTermReason" id="txtTermReason" ><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea></td>
 			  </tr>
 			  </table>
 <?php } ?>

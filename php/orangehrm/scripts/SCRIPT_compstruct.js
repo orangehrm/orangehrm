@@ -93,6 +93,21 @@
 			flag = false;
 		};
 
+		if(document.getElementById("txtDeptId").value!='')
+		{
+			exist=0;
+			for(i=0;i<allChildDepIds.length;i++)
+			{
+				if(allChildDepIds[i]==document.getElementById("txtDeptId").value)
+					exist=1;
+			}
+
+			if (exist==1) {
+				errs+="- <?php echo $lang_Error_CompStruct_Dept_Id_Invalid; ?>.\n";
+				flag = false;
+			}
+		}
+
 		if(!flag) {
 			alert(errs);
 			errs="return false;";
@@ -115,7 +130,7 @@
 		document.getElementById("layerForm").style.visibility="visible";
 	}
 
-	function edit(id, txt, desc, loc){
+	function edit(deptid, id, txt, desc, loc){
 	<?php if (!(isset($_GET['esp']) && ($_GET['esp'] == 1))) { ?>
 		var words = txt.split(" ");
 		var found =false;
@@ -155,6 +170,7 @@
 		words.splice(words.length-1,1);
 		document.getElementById("txtTitle").value=words.join(" ");
 		document.getElementById("txtDesc").value=desc;
+		document.getElementById("txtDeptId").value=deptid
 		document.getElementById("layerForm").style.visibility="visible";
 	<?php } else { ?>
 		opener.document.frmEmp.txtLocation.value=txt;

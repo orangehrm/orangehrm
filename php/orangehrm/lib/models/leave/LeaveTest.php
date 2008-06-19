@@ -70,14 +70,24 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
         mysql_select_db($conf->dbname);
 
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (11, '011', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (12, '012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (13, '013', 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (14, '014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (15, '015', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
+		$this->_deleteTestData();
+
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .
+				"VALUES (11, '011', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (12, '012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (13, '013', 'Mohanjithx', 'Sudirikkux', 'Hannadigex', 'MOHAx')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (14, '014', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (15, '015', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1')");
+
 		// For testStoreLeaveTaken
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('018', NULL, 'Gayanath', 'Wageeshwara', 'Jayarathne', 'GAYA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (19, 'A19', 'Gamalath', 'Kamalra', 'JKD', 'ABC', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (18, NULL, 'Gayanath', 'Wageeshwara', 'Jayarathne', 'GAYA')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES (19, 'A19', 'Gamalath', 'Kamalra', 'JKD', 'ABC')");
 
 		mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('012', '011', 1);");
 
@@ -166,6 +176,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+    	$this->_deleteTestData();
+    }
+
+	/**
+	 * Deletes test data created during test
+	 */
+	private function _deleteTestData() {
     	mysql_query("DELETE FROM `hs_hr_emp_reportto` WHERE `erep_sup_emp_number` = '012' AND `erep_sub_emp_number` = '011'", $this->connection);
 
     	mysql_query("TRUNCATE TABLE `hs_hr_leave`", $this->connection);
@@ -185,6 +202,13 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 		// For testStoreLeaveTaken
 		mysql_query("DELETE FROM `hs_hr_employee_leave_quota` WHERE employee_id = '018'");
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '018'", $this->connection);
+	}
+
+	/**
+	 * Run given sql query
+	 */
+	private function _runQuery($sql) {
+	    $this->assertTrue(mysql_query($sql), mysql_error());
     }
 
     public function testRetrieveTakenLeaveAccuracy1() {

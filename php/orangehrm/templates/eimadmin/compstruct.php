@@ -125,6 +125,7 @@
 ?>
 <script language="JavaScript" type="text/javascript">
 <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
+var allChildDepIds= new Array();
 </script>
 <body style="padding-left:5px;">
 
@@ -143,6 +144,19 @@
 		unset($indentor);
 
 	if ($treeHierarchy) {
+?>
+<script language="JavaScript" type="text/javascript">
+<?php
+		$cnt=0;
+		foreach ($treeHierarchy as $child)
+		{
+			$dept_id=$child[0]['dept_id']==''?"'';\n":'\''.$child[0]['dept_id']."';\n";
+			echo("allChildDepIds[$cnt]=".$dept_id);
+			$cnt++;
+		}
+?>
+</script>
+<?php
 		foreach ($treeHierarchy as $child) {
 	?>
 		<tr>
@@ -169,18 +183,18 @@
 
 					echo "<image src='../../themes/beyondT/icons/arrow.gif'>";
 			?>
-			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
+			<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo $child[0]['dept_id']." ".preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '',$child[0]['title']); ?></a>
 			<?php
 
 				} else {
 					// If in the popup window, allow top level (company) to be selected as well.
 					if (isset($_GET['esp']) && $_GET['esp'] == 1) {
                                         ?>
-						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
+						<a class="title" href="#layerForm" onClick="edit(<?php echo $child[0]['dept_id']==''?'\'\'':'\''.$child[0]['dept_id'].'\''?>,<?php echo $child[0]['id']?>, '<?php echo escapeshellcmd($child[0]['title'])?>', '<?php echo escapeshellcmd($child[0]['description'])?>', '<?php echo $child[0]['loc_code']?>');"><?php echo preg_replace('/'.$lang_compstruct_Other.'$|Other$/', '', $child[0]['title']); ?></a>
 
                                         <?php
 					} else {
-						echo $child[0]['title'];
+						echo  $child[0]['dept_id']." ".$child[0]['title'];
 					}
 
 				}
@@ -232,7 +246,15 @@
 		<table>
 			<tr>
 				<td valign="top">
-					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></LABEL>
+					<LABEL id="lblDeptId" for="txtDeptId"><?php echo $lang_compstruct_Dept_Id; ?></LABEL>
+				</td>
+				<td>
+					<input type="text" value="" id="txtDeptId" name="txtDeptId" >
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<LABEL id="lblSubDivision" for="txtTitle"><span class="error">*</span><?php echo $lang_compstruct_Name; ?></LABEL>
 				</td>
 				<td>
 					<input type="text" value="" id="txtTitle" name="txtTitle" >

@@ -15,39 +15,23 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'models_recruitment_AllTests::main');
-}
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
+define('ROOT_PATH', dirname(__FILE__));
 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once ROOT_PATH . '/lib/common/Language.php';
+$lan = new Language();
+require_once ROOT_PATH . '/language/default/lang_default_full.php';
+require_once($lan->getLangPath("full.php"));
 
-require_once 'JobVacancyTest.php';
-require_once 'JobApplicationTest.php';
-require_once 'RecruitmentMailNotifierTest.php';
-
-class models_recruitment_AllTests
-{
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_recruitment');
-	$suite->addTestSuite('JobVacancyTest');
-	$suite->addTestSuite('JobApplicationTest');
-	$suite->addTestSuite('RecruitmentMailNotifierTest');
-        return $suite;
-    }
-}
-
-if (PHPUnit_MAIN_METHOD == 'models_recruitment_AllTests::main') {
-    models_recruitment_AllTests::main();
-}
+$url = 'lib/controllers/PublicController.php?recruitcode=ApplicantViewJobs';
 ?>
+<html>
+<head>
+<title><?php echo $lang_Recruit_ApplicantVacancyList_Title; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<iframe align="center" src="<?php echo $url; ?>" id="rightMenu" name="rightMenu" width="100%" height="100%" frameborder="0"></iframe>
+</body>
+</html>

@@ -39,6 +39,7 @@ $DELETE_SUCCESS = $lang_empview_DELETE_SUCCESS;
 $ADD_FAILURE = $lang_empview_ADD_FAILURE;
 $UPDATE_FAILURE = $lang_empview_UPDATE_FAILURE;
 $DELETE_FAILURE = $lang_empview_DELETE_FAILURE;
+$UNKNOWN_FAILURE = $lang_Common_UNKNOWN_FAILURE;
 
 switch ($_GET['recruitcode']) {
 

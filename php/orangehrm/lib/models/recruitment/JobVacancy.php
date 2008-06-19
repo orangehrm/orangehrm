@@ -294,6 +294,16 @@ class JobVacancy {
 	}
 
 	/**
+	 * Get active job vacancies available in the system
+	 *
+	 * @return array Array of active JobVacancy objects
+	 */
+	public static function getActive() {
+		$selectCondition[] = self::DB_FIELD_ACTIVE . ' = ' . self::STATUS_ACTIVE;
+		return self::_getList($selectCondition);
+	}
+
+	/**
 	 * Get job vacancy with given ID
 	 * @param int $id The job vacancy ID
 	 * @return JobVacancy Job Vacancy object with given id or null if not found

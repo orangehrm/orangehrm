@@ -502,7 +502,7 @@ VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
 		('USG001', 'MOD006', '1', '1', '1', '1'),
 		('USG001', 'MOD007', '1', '1', '1', '1'),
  	 	('USG001', 'MOD008', '1', '1', '1', '1');
-INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
+INSERT INTO `hs_hr_compstructtree`(`title`, `description`, `loc_code`, `lft`, `rgt`, `id`, `parnt`, `dept_id`) VALUES ('', 'Parent Company', null , 1, 2, 1, 0, null);
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
@@ -584,3 +584,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_hsp_payment_request', 'id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_spec', 'jobspec_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_vacancy', 'vacancy_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_application', 'application_id');

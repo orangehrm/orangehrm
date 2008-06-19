@@ -48,7 +48,7 @@ class JobVacancyTest extends PHPUnit_Framework_TestCase {
     public static function main() {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
-        $suite  = new PHPUnit_Framework_TestSuite("ProjectVacancyTest");
+        $suite  = new PHPUnit_Framework_TestSuite("JobVacancyTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
 
@@ -451,6 +451,32 @@ class JobVacancyTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, count($list));
 	}
 
+	/**
+	 * test the getActive function
+	 */
+	public function testGetActive() {
+
+		// Get all active
+		$list = JobVacancy::getActive();
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(2, count($list));
+		$expected = array(1=>$this->jobVacancies[1], 4=>$this->jobVacancies[4]);
+		$this->_compareVacancys($expected, $list);
+
+		// Mark all as inactive and get all
+		$sql = 'UPDATE hs_hr_job_vacancy SET active = ' . JobVacancy::STATUS_INACTIVE;
+		$this->_runQuery($sql);
+		$list = JobVacancy::getActive();
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(0, count($list));
+
+		// when no job vacancies available
+		$this->_runQuery('DELETE from hs_hr_job_vacancy');
+		$list = JobVacancy::getActive();
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(0, count($list));
+	}
+
     /**
      * Returns the number of rows in the hs_hr_job_vacancy table
      *
@@ -512,19 +538,6 @@ class JobVacancyTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Checks that the attributes of the Job Vacancy object and the database row match.
-     *
-     * @param JobVacancy $vacancy
-     * @param array  $row
-     */
-    private function _checkRow($vacancy, $row) {
-		$this->assertEquals($vacancy->getName(), $row['jobvacancy_name'], "Name not correct");
-		$this->assertEquals($vacancy->getDescription(), $row['jobvacancy_desc'], "Description not correct");
-		$this->assertEquals($vacancy->getId(), $row['jobvacancy_id'], "ID not correct");
-		$this->assertEquals($vacancy->getDuties(), $row['jobvacancy_duties'], "Duties not correct");
-    }
-
-    /**
      * Create a JobVacancy object with the passed parameters
      */
     private function _getJobVacancy($id, $jobTitleCode, $managerId, $active, $description) {
@@ -550,8 +563,8 @@ class JobVacancyTest extends PHPUnit_Framework_TestCase {
                            $vacancy->getId(), $vacancy->getJobTitleCode(), $vacancy->getManagerId(),
                            $active, $vacancy->getDescription());
             $this->assertTrue(mysql_query($sql), mysql_error());
-			UniqueIDGenerator::getInstance()->initTable();
 		}
+		UniqueIDGenerator::getInstance()->initTable();
     }
 
     private function _runQuery($sql) {

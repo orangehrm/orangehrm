@@ -63,6 +63,8 @@ class EmpInfo {
     var $empEEOCat;
     var $empLocation;
     var $empjoindat;
+	var $emptermdat;
+	var $emptermres;
 
     //permanent contacts
     var $empStreet1;
@@ -278,10 +280,18 @@ class EmpInfo {
         $this->empjoindat = $empjoindat;
     }
 
-    //permanent contacts
-    function setEmpStreet1($empStreet1) {
-        $this->empStreet1 = $empStreet1;
-    }
+	function setEmpTerminatedDate($emptermdat) {
+	$this->emptermdat=$emptermdat;
+	}
+
+	function setEmpTerminationReason($emptermres) {
+	$this->emptermres=$emptermres;
+	}
+
+	//permanent contacts
+	function setEmpStreet1($empStreet1) {
+		$this->empStreet1 = $empStreet1;
+	}
 
     function setEmpStreet2($empStreet2) {
         $this->empStreet2 = $empStreet2;
@@ -425,6 +435,14 @@ class EmpInfo {
     function getEmpJoinedDate() {
         return $this->empjoindat;
     }
+
+	function getEmpTerminatedDate() {
+	return $this->emptermdat;
+	}
+
+	function getEmpTerminationRes() {
+	return $this->emptermres;
+	}
 
     //permanent contacts
     function getEmpStreet1() {
@@ -1093,6 +1111,8 @@ class EmpInfo {
 		$arrFieldList[4] = 'b.TITLE';
 		$arrFieldList[5] = 'a.JOINED_DATE';
 		$arrFieldList[6] = 'a.WORK_STATION';
+		$arrFieldList[7] = 'a.TERMINATED_DATE';
+		$arrFieldList[8] = 'a.TERMINATION_REASON';
 
 		$sql_builder = new SQLQBuilder();
 
@@ -1173,6 +1193,8 @@ class EmpInfo {
 		$arrRecordsList[8] = isset($this->custom8) ? "'" . $this->custom8 . "'" : 'null';
 		$arrRecordsList[9] = isset($this->custom9) ? "'" . $this->custom9 . "'" : 'null';
 		$arrRecordsList[10] = isset($this->custom10) ? "'" . $this->custom10 . "'" : 'null';
+		$arrRecordsList[6] = "'". $this->getEmpTerminatedDate() . "'";
+		$arrRecordsList[7] = $this->getEmpTerminationRes()!= '' ? "'" . $this->getEmpTerminationRes() . "'" : 'null' ;
 
 		$tableName = 'HS_HR_EMPLOYEE';
 
@@ -1187,6 +1209,8 @@ class EmpInfo {
 		$arrFieldList[8] = 'custom8';
 		$arrFieldList[9] = 'custom9';
 		$arrFieldList[10] = 'custom10';
+		$arrFieldList[6] = 'TERMINATED_DATE';
+		$arrFieldList[7] = 'TERMINATION_REASON';
 
 		$sql_builder = new SQLQBuilder();
 

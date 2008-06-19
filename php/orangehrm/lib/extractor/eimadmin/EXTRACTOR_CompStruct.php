@@ -33,7 +33,8 @@ class EXTRACTOR_CompStruct {
 			$this->compstruct -> setstrDesc(trim($postArr['txtDesc']));
 			$this->compstruct -> setaddParnt(trim($postArr['txtParnt']));
 			$this->compstruct -> setlocation(trim($postArr['cmbLocation']));
-			
+			$this->compstruct -> setDeptId(trim($postArr['txtDeptId']));
+
 			return $this->compstruct;
 	}
 			
@@ -43,7 +44,8 @@ class EXTRACTOR_CompStruct {
 			$this->compstruct -> setaddStr(trim($postArr['txtTitle']." ".$postArr['cmbType']));
 			$this->compstruct -> setstrDesc(trim($postArr['txtDesc']));
 			$this->compstruct -> setlocation(trim($postArr['cmbLocation']));
-			
+			$this->compstruct -> setDeptId(trim($postArr['txtDeptId']));
+
 			return $this->compstruct;
 	}
 	

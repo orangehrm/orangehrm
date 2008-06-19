@@ -8,6 +8,7 @@ create table `hs_hr_geninfo` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_compstructtree` (
+  `dept_id` varchar(32) null,
   `title` tinytext not null,
   `description` text not null,
   `loc_code` varchar(13) default NULL,
@@ -332,6 +333,8 @@ create table `hs_hr_employee` (
   `sal_grd_code` varchar(13) default null,
   `joined_date` date default '0000-00-00',
   `emp_oth_email` varchar(50) default null,
+  `terminated_date` DATE null,
+  `termination_reason` varchar(256) default null,
   `custom1` varchar(250) default null,
   `custom2` varchar(250) default null,
   `custom3` varchar(250) default null,
@@ -762,6 +765,26 @@ create table `hs_hr_job_vacancy` (
   primary key  (`vacancy_id`),
   key `jobtit_code` (`jobtit_code`),
   key `manager_id` (`manager_id`),
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_job_application` (
+  `application_id` int(11) not null,
+  `vacancy_id` int(11) not null,
+  `lastname` varchar(100) default '' not null,
+  `firstname` varchar(100) default '' not null,
+  `middlename` varchar(100) default '' not null,
+  `street1` varchar(100) default '',
+  `street2` varchar(100) default '',
+  `city` varchar(100) default '',
+  `country_code` varchar(100) default '',
+  `province` varchar(100) default '',
+  `zip` varchar(20) default null,
+  `phone` varchar(50) default null,
+  `mobile` varchar(50) default null,
+  `email` varchar(50) default null,
+  `qualifications` text default '',
+  primary key  (`application_id`),
+  key `vacancy_id` (`vacancy_id`)
 ) engine=innodb default charset=utf8;
 
 INSERT INTO `hs_hr_customer`

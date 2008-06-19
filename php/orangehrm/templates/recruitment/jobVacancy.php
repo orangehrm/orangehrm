@@ -171,7 +171,8 @@ $locRights=$_SESSION['localRights'];
     }
 
     textarea {
-        width: 250px;
+        width: 330px;
+        height: 150px;
     }
 
     form {
@@ -181,15 +182,6 @@ $locRights=$_SESSION['localRights'];
 
     br {
         clear: left;
-    }
-
-    .version_label {
-        display: block;
-        float: left;
-        width: 150px;
-        font-weight: bold;
-        margin-left: 10px;
-        margin-top: 10px;
     }
 
     .roundbox {
@@ -208,6 +200,14 @@ $locRights=$_SESSION['localRights'];
 
 	.display-block {
 		display: block;
+	}
+
+	#nomanagers {
+		font-style: italic;
+		color: red;
+        padding-left: 10px;
+        width: 400px;
+        border: 1px;
 	}
     -->
 </style>
@@ -244,7 +244,7 @@ $locRights=$_SESSION['localRights'];
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br/>
 		<label for="cmbJobTitle"><span class="error">*</span> <?php echo $lang_Recruit_JobTitleName; ?></label>
         <select id="cmbJobTitle" name="cmbJobTitle" tabindex="1" <?php echo $disabled;?>>
-	        <option value="-1"><?php echo $lang_Recruit_JobVacancy_JobTitleSelect;?></option>
+	        <option value="-1">-- <?php echo $lang_Recruit_JobVacancy_JobTitleSelect;?> --</option>
                 <?php
                 $prevTitleCode = isset($this->postArr['cmbJobTitle']) ? $this->postArr['cmbJobTitle'] : $vacancy->getJobTitleCode();
                 foreach ($jobTitles as $jobTitle) {
@@ -256,7 +256,7 @@ $locRights=$_SESSION['localRights'];
         </select><br/>
 		<label for="cmbHiringManager"><span class="error">*</span> <?php echo $lang_Recruit_HiringManager; ?></label>
         <select id="cmbHiringManager" name="cmbHiringManager" tabindex="2" <?php echo $disabled;?>>
-	        <option value="-1"><?php echo $lang_Recruit_JobVacancy_HiringManagerSelect;?></option>
+	        <option value="-1">-- <?php echo $lang_Recruit_JobVacancy_HiringManagerSelect;?> --</option>
                 <?php
                 $prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
                 foreach ($managers as $manager) {
@@ -269,10 +269,18 @@ $locRights=$_SESSION['localRights'];
                 }
                 ?>
         </select><br/>
-
+		<?php
+				if (count($managers) == 0) {
+		?>
+			<div id="nomanagers">
+				<?php echo $lang_Recruit_NoManagersNotice; ?>
+			</div>
+		<?php
+				}
+		?>
 		<label for="txtDesc"><?php echo $lang_Commn_description; ?></label>
         <textarea id="txtDesc" name="txtDesc" tabindex="3"
-        	<?php echo $disabled;?>><?php echo $vacancy->getDescription(); ?></textarea><br/>
+        	<?php echo $disabled;?>><?php echo htmlspecialchars($vacancy->getDescription()); ?></textarea><br/>
 		<label for="active"><?php echo $lang_Recruit_JobVacancy_Active; ?></label>
         <input type="checkbox" id="active" name="active" tabindex="4" <?php echo $disabled;?>
         	<?php echo $vacancy->isActive() ? 'checked="1"':"";?> />

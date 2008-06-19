@@ -37,7 +37,7 @@ class CompStruct {
 	 *
 	 */
 
-	var $id, $rgt, $lft, $addStr, $strDesc, $addParnt, $location;
+	var $id, $rgt, $lft, $addStr, $strDesc, $addParnt, $location , $deptId;
 	var $hierachyStrings, $hierachyArr;
 
 	function setid ($val) {
@@ -68,6 +68,10 @@ class CompStruct {
 		$this->location = $val;
 	}
 
+	function setDeptId ($val){
+		$this->deptId =$val;
+	}
+
 	function addCompStruct () {
 
 		/*
@@ -88,7 +92,7 @@ class CompStruct {
 		$locCode = $this->_getEscapedLocation();
 
 		$nextId = UniqueIDGenerator::getInstance()->getNextID("hs_hr_compstructtree", 'id');
-		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET id=%d, lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code=%s", $nextId, $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $locCode);
+		$sqlString3=sprintf("INSERT INTO hs_hr_compstructtree SET id=%d, lft=%d, rgt=%d, title='%s', Description='%s', parnt=%d, loc_code=%s , dept_id='%s'" , $nextId, $this->rgt, $this->rgt+1, mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), mysql_real_escape_string($this->addParnt), $locCode , mysql_real_escape_string($this->deptId));
 
 		/*
 		 *
@@ -145,8 +149,8 @@ class CompStruct {
 
 		$locCode = $this->_getEscapedLocation();
 
-		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s WHERE ID = %d",
-                                  mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, $this->id);
+		$sqlString1 = sprintf("UPDATE hs_hr_compstructtree SET title='%s', Description='%s', loc_code=%s, dept_id='%s' WHERE ID = %d",
+                                  mysql_real_escape_string($this->addStr), mysql_real_escape_string($this->strDesc), $locCode, mysql_real_escape_string($this->deptId), $this->id );
 
 		$dbConnection = new DMLFunctions();
 

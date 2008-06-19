@@ -20,14 +20,25 @@
 
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
+require_once ROOT_PATH . '/lib/common/authorize.php';
+require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProvinceInfo.php';
 require_once ROOT_PATH . '/lib/models/recruitment/JobVacancy.php';
+require_once ROOT_PATH . '/lib/models/recruitment/JobApplication.php';
+require_once ROOT_PATH . '/lib/models/recruitment/RecruitmentMailNotifier.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_ViewList.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobVacancy.php';
+require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobApplication.php';
 
+
+/**
+ * Controller for recruitment module
+ */
 class RecruitmentController {
 
 	private $authorizeObj;
@@ -36,11 +47,9 @@ class RecruitmentController {
      * Constructor
      */
     public function __construct() {
-        if (!isset ($_SESSION)) {
-            header("Location: ../../login.php");
-            exit ();
+        if (isset($_SESSION) && isset($_SESSION['fname']) ) {
+			$this->authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
         }
-		$this->authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
     }
 
     /**
@@ -183,7 +192,8 @@ class RecruitmentController {
 			$template = new TemplateMerger($objs, $path);
 			$template->display();
 		} catch (JobVacancyException $e) {
-
+			$message = 'UNKNOWN_FAILURE';
+            $this->redirect($message);
 		}
     }
 
@@ -226,6 +236,79 @@ class RecruitmentController {
 		}
     }
 
+	/**
+	 * Shows a list of active job vacancies to job applicant.
+	 */
+	public function showVacanciesToApplicant() {
+		$path = '/templates/recruitment/applicant/viewVacancies.php';
+		$objs['vacancies'] = JobVacancy::getActive();
+		$template = new TemplateMerger($objs, $path);
+		$template->display();
+	}
+
+	/**
+	 * Display job application form to applicant
+	 *
+	 * @param int $id Job Vacancy ID
+	 */
+	public function showJobApplication($id) {
+		$path = '/templates/recruitment/applicant/viewJobApplication.php';
+
+		$objs['vacancy'] = JobVacancy::getJobVacancy($id);
+
+		$countryinfo = new CountryInfo();
+		$objs['countryList'] = $countryinfo->getCountryCodes();
+
+		$template = new TemplateMerger($objs, $path);
+		$template->display();
+	}
+
+	/**
+	 * Handle job application by applicant
+	 */
+	public function applyForJob() {
+		$extractor = new EXTRACTOR_JobApplication();
+		$jobApplication = $extractor->parseData($_POST);
+		try {
+		    $jobApplication->save();
+		    $result = true;
+		} catch (JobApplicationException $e) {
+			$result = false;
+		}
+
+		// Send mail notifications
+		$notifier = new RecruitmentMailNotifier();
+		$notifier->sendApplicationReceivedEmailToManager($jobApplication);
+
+		// We only need to display result of email sent to applicant
+		$mailResult = $notifier->sendApplicationReceivedEmailToApplicant($jobApplication);
+
+		$path = '/templates/recruitment/applicant/jobApplicationStatus.php';
+		$objs['application'] = $jobApplication;
+		$objs['vacancy'] = JobVacancy::getJobVacancy($jobApplication->getVacancyId());
+		$objs['result'] = $result;
+		$objs['mailResult'] = $mailResult;
+		$template = new TemplateMerger($objs, $path);
+		$template->display();
+	}
+
+	/**
+	 * Return the province codes for the given country.
+	 * Used by xajax calls.
+	 * @param String $countryCode The country code
+	 * @return Array 2D Array of Province Codes and Province Names
+	 */
+	public static function getProvinceList($countryCode) {
+		$province = new ProvinceInfo();
+		return $province->getProvinceCodes($countryCode);
+	}
+
+	/**
+	 * Redirect to given url or current page while displaying optional message
+	 *
+	 * @param String $message Message to display
+	 * @param String $url URL
+	 */
 	public function redirect($message=null, $url = null) {
 
 		if (isset($url)) {

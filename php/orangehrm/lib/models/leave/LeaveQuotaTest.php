@@ -70,13 +70,19 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
 
         mysql_select_db($conf->dbname);
-
-        mysql_query("INSERT INTO `hs_hr_employee` VALUES ('011', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('012', NULL, 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('020', NULL, 'MohanjithX', 'SudirikkuX', 'HannadigeX', 'MOHAX', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('015', NULL, 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('016', NULL, 'Gayanath', 'Wageeshwara', 'Jayarathne', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES ('017', NULL, 'Ajith', 'Kumara', 'Bandara', 'MOHA1', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
+		$this->_deleteTestData();
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .
+				"VALUES ('011', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES ('012', 'Mohanjith', 'Sudirikku', 'Hannadige', 'MOHA')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES ('020', 'Mohanjithx', 'Sudirikkux', 'Hannadigex', 'MOHAx')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES ('015', 'Mohanjith1', 'Sudirikku1', 'Hannadige1', 'MOHA1')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES ('016', 'Gayanath', 'Wageeshwara', 'Jayarathne', 'MOHA1')");
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_middle_name, emp_nick_name) " .
+				"VALUES ('017', 'Ajith', 'Kumara', 'Bandara', 'MOHA1')");
 
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY010', 'Medical', 1)");
 		mysql_query("INSERT INTO `hs_hr_leavetype` VALUES ('LTY011', 'Casual', 1)");
@@ -104,7 +110,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+		$this->_deleteTestData();
+    	$this->connection = null;
+    }
 
+	/**
+	 * Deletes test data created during test
+	 */
+	private function _deleteTestData() {
     	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY011'", $this->connection);
 
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = '011'", $this->connection);
@@ -125,10 +138,14 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY012'", $this->connection);
 	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY013'", $this->connection);
 	mysql_query("DELETE FROM `hs_hr_leavetype` WHERE `Leave_Type_ID` = 'LTY014'", $this->connection);
-
-
-    	$this->connection = null;
     }
+
+	/**
+	 * Run given sql query
+	 */
+	private function _runQuery($sql) {
+	    $this->assertTrue(mysql_query($sql), mysql_error());
+	}
 
     public function testAddLeaveQuotaAccuracy1() {
 		$expected[] = array(date('Y'), "LTY011", "Casual", "20");

@@ -28,6 +28,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'ExtractorViewListTest.php';
 require_once 'ExtractorJobVacancyTest.php';
+require_once 'ExtractorJobApplicationTest.php';
 
 
 class extractor_recruitment_AllTests {
@@ -39,6 +40,7 @@ class extractor_recruitment_AllTests {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM extractor_recruitment');
 		$suite->addTestSuite('ExtractorViewListTest');
 		$suite->addTestSuite('ExtractorJobVacancyTest');
+		$suite->addTestSuite('ExtractorJobApplicationTest');
         return $suite;
     }
 }

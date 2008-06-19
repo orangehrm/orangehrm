@@ -65,8 +65,10 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	$conf = new Conf();
 
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
-    	mysql_select_db($conf->dbname);
-    	mysql_query("INSERT INTO `hs_hr_employee` VALUES ('010', NULL, 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)");
+        $this->assertTrue(mysql_select_db($conf->dbname));
+
+    	$this->_deleteTestData();
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) VALUES ('010', 'Arnold', 'Subasinghe', 'Arnold', 'AF')");
 
     	mysql_query("INSERT INTO `hs_hr_customer` (`customer_id`, `name`, `description`, `deleted`) ".
     				"VALUES (10, 'OrangeHRM', 'Implement OrangeHRM', 0)");
@@ -97,6 +99,14 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function tearDown() {
+    	$this->_deleteTestData();
+		UniqueIDGenerator::getInstance()->resetIDs();
+    }
+
+	/**
+	 * Deletes test data created during test
+	 */
+	private function _deleteTestData() {
     	mysql_query("DELETE FROM `hs_hr_time_event` WHERE `time_event_id` IN (10, 11, 12, 13)", $this->connection);
 
     	mysql_query("DELETE FROM `hs_hr_timesheet` WHERE `timesheet_id` IN (10, 11, 12)", $this->connection);
@@ -107,8 +117,15 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     	mysql_query("DELETE FROM `hs_hr_project` WHERE `project_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_customer` WHERE `customer_id` = 10", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_employee` WHERE `emp_number` = 10", $this->connection);
-		UniqueIDGenerator::getInstance()->resetIDs();
     }
+
+	/**
+	 * Run given sql query
+	 */
+	private function _runQuery($sql) {
+	    $this->assertTrue(mysql_query($sql), mysql_error());
+	}
+
 
     public function testFetchTimeEvents() {
     	$eventObj = $this->classTimeEvent;

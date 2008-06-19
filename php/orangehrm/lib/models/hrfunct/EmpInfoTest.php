@@ -38,13 +38,20 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"), mysql_error());
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_emp_reportto`"));
 
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('001', NULL, 'Perera', 'Nihal', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('002', NULL, 'Udawatte', 'Kamal', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('003', NULL, 'Kulasekara', 'Amal', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('004', NULL, 'Anuradha', 'Saman', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('005', NULL, 'Surendra', 'Tharindu', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('006', NULL, 'Nayeem', 'Fazly', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` VALUES ('007', NULL, 'Mahesan', 'Sanjeewan', '', '', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .
+				"VALUES ('001', 'Perera', 'Nihal', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .						
+			"VALUES ('002', 'Udawatte', 'Kamal', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .		
+			"VALUES ('003', 'Kulasekara', 'Amal', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .		
+			"VALUES ('004', 'Anuradha', 'Saman', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .		
+			"VALUES ('005', 'Surendra', 'Tharindu', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .		
+			"VALUES ('006', 'Nayeem', 'Fazly', '', 'AF')"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name, coun_code) " .		
+			"VALUES ('007', 'Mahesan', 'Sanjeewan', '', 'AF')"));
 
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('2', '4', '1')"));
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_emp_reportto` VALUES ('3', '5', '1')"));
