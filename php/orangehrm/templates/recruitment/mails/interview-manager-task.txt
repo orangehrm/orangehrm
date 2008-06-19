@@ -1,0 +1,15 @@
+You have been scheduled to interview #firstname# #lastname# for the position of #jobtitle#.
+
+#interview-notes#
+
+Application details are below:
+
+Position Applied for: #jobtitle#
+Name: #firstname# #middlename# #lastname#
+Address: #street1# #street2# #city# #province# #zip# #country#
+Phone: #phone#
+Mobile: #mobile#
+Email: #email#
+Qualifications/Experience: #qualifications#
+
+Please log in to OrangeHRM to view more details

@@ -41,12 +41,17 @@ class authorize {
 	public $roleESS = "ESS";
 	public $roleProjectAdmin = "ProjectAdmin";
     public $roleManager = "Manager";
+    public $roleDirector = "Director";
 
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
 	const AUTHORIZE_ROLE_ESS = 'ESS';
 	const AUTHORIZE_ROLE_PROJECT_ADMIN = "ProjectAdmin";
     const AUTHORIZE_ROLE_MANAGER = 'Manager';
+    const AUTHORIZE_ROLE_DIRECTOR = 'Director';
+
+    const YES = 'Yes';
+    const NO = 'No';
 
 	/**
 	 * class atributes
@@ -104,7 +109,7 @@ class authorize {
 		$isAdmin = $this->getIsAdmin();
 		$empId = $this->getEmployeeId();
 
-		if ($isAdmin === "Yes") {
+		if ($isAdmin === authorize::YES) {
 			$roles[$this->roleAdmin] = true;
 		} else {
 			$roles[$this->roleAdmin] = false;
@@ -113,6 +118,7 @@ class authorize {
 		$roles[$this->roleSupervisor] = $this->_checkIsSupervisor();
 		$roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
         $roles[$this->roleManager] = $this->_checkIsManager();
+        $roles[$this->roleDirector] = $this->_checkIsDirector();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -179,6 +185,23 @@ class authorize {
         return $isManager;
     }
 
+    /**
+     * Check whether the user is a Director
+     *
+     * @return boolean True if a director, false otherwise
+     */
+    private function _checkIsDirector() {
+
+        $isDirector = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isDirector = $empInfo->isDirector($id);
+        }
+        return $isDirector;
+    }
+
 	/**
 	 * Checks whether an admin
 	 *
@@ -213,6 +236,15 @@ class authorize {
      */
     public function isManager() {
         return $this->_chkRole($this->roleManager);
+    }
+
+    /**
+     * Checks whether a Director
+     *
+     * @return boolean true if a Director. False otherwise
+     */
+    public function isDirector() {
+        return $this->_chkRole($this->roleDirector);
     }
 
 	/**

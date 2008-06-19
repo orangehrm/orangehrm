@@ -55,12 +55,23 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 				"VALUES('JOB001', 'Manager', 'Manager job title', 'no comments', null)");
 		$this->_runQuery("INSERT INTO hs_hr_job_title(jobtit_code, jobtit_name, jobtit_desc, jobtit_comm, sal_grd_code) " .
 				"VALUES('JOB002', 'Driver', 'Driver job title', 'no comments', null)");
+        $this->_runQuery("INSERT INTO hs_hr_job_title(jobtit_code, jobtit_name, jobtit_desc, jobtit_comm, sal_grd_code) " .
+                "VALUES('JOB003', 'Director', 'Director job title', 'no comments', null)");
 
 		// Insert employees (managers)
         $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code, emp_work_email) " .
         			"VALUES(11, '0011', 'Rajasinghe', 'Saman', 'Marlon', 'JOB001', 'aruna@company.com')");
+
         $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code, emp_work_email) " .
-        			"VALUES(12, '0022', 'Jayasinghe', 'Aruna', 'Shantha', 'JOB001', 'aruna@company.com')");
+        			"VALUES(12, '0022', 'Jayasinghe', 'Aruna', 'Shantha', 'JOB001', 'arnold@mydomain.com')");
+
+
+        // Insert director
+        $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code, emp_work_email) " .
+                    "VALUES(13, '0032', 'Samuel', 'John', 'A', 'JOB003', 'mohanjith@mydomain.com')");
+
+        // Insert to hs_hr_users table
+        $this->_runQuery("INSERT INTO `hs_hr_users`(id, user_name, emp_number) VALUES ('USR111','demo', 11)");
 
 		// Insert Job Vacancies
 		$this->_runQuery("INSERT INTO hs_hr_job_vacancy(vacancy_id, jobtit_code, manager_id, active, description) " .
@@ -72,9 +83,30 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 		$application = $this->_getJobApplication(1, 1, 'Janaka', 'T', 'Kulathunga', '111 Main Street', 'Apt X2',
 				'Colombo', 'Western', '2222', 'Sri Lanka', '01121111121', '077282828282', 'janaka@example.com',
 				'aaa bbb');
+
 		$this->jobApplications[1] = $application;
+        $application = $this->_getJobApplication(2, 2, 'Kamal', 'S', 'Thilakarathne', '33 Main Street', 'Apt A1',
+                'Badulla', 'Uwa', '112', 'England', '01121133333', '07711112', 'kamal@example.com',
+                'some comments');
+        $this->jobApplications[2] = $application;
 
 		$this->_createJobApplications($this->jobApplications);
+
+        // Create Job Application Event
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT);
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+5 days"));
+
+        $this->_runQuery("INSERT INTO `hs_hr_job_application_events`(`id`,`application_id`,`created_time`," .
+             "`created_by`, `owner`, `event_time`, `event_type`, `status`, `notes`) VALUES (" .
+             "1, 1, '". $createdTime ."', 'USR111', 12, '".$eventTime."', " . JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW . "," .
+             JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED . "," . "'Interview notes are here')");
+
+        // seek approval event for job application 2
+        $this->_runQuery("INSERT INTO `hs_hr_job_application_events`(`id`,`application_id`,`created_time`," .
+             "`created_by`, `owner`, `event_time`, `event_type`, `status`, `notes`) VALUES (" .
+             "2, 2, '". $createdTime ."', 'USR111', 13, '".$eventTime."', " . JobApplicationEvent::EVENT_SEEK_APPROVAL . "," .
+             "null," . "'Please approve hire of this person')");
+
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -89,11 +121,13 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
     }
 
 	private function _deleteTables() {
+        $this->_runQuery("DELETE FROM `hs_hr_users` WHERE id = 'USR111'");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_application`");
+        $this->_runQuery("TRUNCATE TABLE `hs_hr_job_application_events`");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_vacancy`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_job_title`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_employee`");
-    	$this->_runQuery("DELETE FROM `hs_hr_mailnotifications` WHERE `notification_type_id` = " . EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_JOB_APPLIED);
+    	$this->_runQuery("DELETE FROM `hs_hr_mailnotifications`");
 	}
 
 	/**
@@ -214,6 +248,97 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Test case for sendSeekApprovalToDirector().
+     */
+    public function testSendSeekApprovalToDirector() {
+        $jobApplication = JobApplication::getJobApplication(2);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SEEK_APPROVAL);
+
+        $notifier = new RecruitmentMailNotifier();
+        $mockMailer = new MockMailer();
+        $notifier->setMailer($mockMailer);
+
+        // Check successfull email
+        $result = $notifier->sendSeekApprovalToDirector($jobApplication, $event);
+        $this->assertTrue($result);
+        $notifier->setMailer($mockMailer);
+        $to = $mockMailer->getTo();
+        $this->assertEquals(1, count($to));
+        $this->assertEquals('mohanjith@mydomain.com', $to[0]);
+
+        $subject = $this->_getTemplateFile(RecruitmentMailNotifier::SUBJECT_SEEK_APPROVAL_DIRECTOR);
+        $body = $this->_getTemplateFile(RecruitmentMailNotifier::TEMPLATE_SEEK_APPROVAL_DIRECTOR);
+
+        $search = array(RecruitmentMailNotifier::VARIABLE_JOB_TITLE, RecruitmentMailNotifier::VARIABLE_TO,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_FIRSTNAME,  RecruitmentMailNotifier::VARIABLE_APPLICANT_MIDDLENAME,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_LASTNAME, RecruitmentMailNotifier::VARIABLE_APPLICANT_STREET1,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_STREET2, RecruitmentMailNotifier::VARIABLE_APPLICANT_CITY,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_PROVINCE, RecruitmentMailNotifier::VARIABLE_APPLICANT_ZIP,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_COUNTRY, RecruitmentMailNotifier::VARIABLE_APPLICANT_PHONE,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_MOBILE, RecruitmentMailNotifier::VARIABLE_APPLICANT_EMAIL,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_QUALIFICATIONS,
+            RecruitmentMailNotifier::VARIABLE_SEEK_NOTES, RecruitmentMailNotifier::VARIABLE_FROM
+            );
+
+        $replace = array('Driver', 'John',
+            $jobApplication->getFirstName(), $jobApplication->getMiddleName(),
+            $jobApplication->getLastName(), $jobApplication->getStreet1(),
+            $jobApplication->getStreet2(), $jobApplication->getCity(),
+            $jobApplication->getProvince(), $jobApplication->getZip(),
+            'England', $jobApplication->getPhone(),
+            $jobApplication->getMobile(), $jobApplication->getEmail(),
+            $jobApplication->getQualifications(),
+            $event->getNotes(), 'Saman Rajasinghe'
+            );
+
+        $body = str_replace($search, $replace, $body);
+        $subject = str_replace($search, $replace, $subject);
+        $subject = str_replace(array("\r", "\n"), array("", ""), $subject);
+
+        $this->assertEquals($subject, $mockMailer->getSubject());
+        $this->assertEquals($body, $mockMailer->getText());
+
+        // Force failure
+        $mockMailer = new MockMailer();
+        $mockMailer->setResult(false);
+        $notifier->setMailer($mockMailer);
+        $result = $notifier->sendSeekApprovalToDirector($jobApplication, $event);
+        $this->assertFalse($result);
+
+        // without to email address - should fail
+        $this->_runQuery("UPDATE hs_hr_employee SET emp_work_email=NULL where emp_number = 13");
+        $mockMailer = new MockMailer();
+        $notifier->setMailer($mockMailer);
+
+        $result = $notifier->sendSeekApprovalToDirector($jobApplication, $event);
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test the sendInterviewTaskToManager function
+     */
+    public function testSendInterviewTaskToManager() {
+        $jobApplication = $this->jobApplications[1];
+        $jobApplication->setStatus(JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
+        $jobApplication->save();
+
+        $jobAppEvent = JobApplicationEvent::getJobApplicationEvent(1);
+
+        $notifier = new RecruitmentMailNotifier();
+        $mockMailer = new MockMailer();
+        $notifier->setMailer($mockMailer);
+        $notifier->sendInterviewTaskToManager($jobAppEvent);
+
+        $attachments = $mockMailer->getAttachments();
+
+        $this->assertEquals(1, count($attachments));
+
+        $taskData = $attachments[0]->data;
+        $this->assertNotNull($taskData);
+        $this->assertEquals(1, preg_match('/aruna@company.com/', $taskData));
+    }
+
+    /**
      * Create a JobApplication object with the passed parameters
      */
     private function _getJobApplication($id, $vacancyId, $firstName, $middleName, $lastName, $street1, $street2,
@@ -278,6 +403,7 @@ class MockMailer {
 	private $cc;
 	private $to;
 	private $mailType;
+    private $attachments = array();
 
 	/* result of send method*/
 	private $result = true;
@@ -319,6 +445,14 @@ class MockMailer {
 	public function setResult($result) {
 	    $this->result = $result;
 	}
+
+    public function addAttachment($attachment) {
+        $this->attachments[] = $attachment;
+    }
+
+    public function getAttachments() {
+        return $this->attachments;
+    }
 
 	public function send($to, $mailType) {
 		$this->to = $to;

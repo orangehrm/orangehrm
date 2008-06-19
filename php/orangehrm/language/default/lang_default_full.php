@@ -1164,6 +1164,8 @@
 	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
 	$lang_Admin_ENS_JobApplications = "Job Applications";
 	$lang_Admin_ENS_HspNotifications = "HSP Notifications";
+    $lang_Admin_ENS_SeekHireApproval = "New employee hire approval requests";
+    $lang_Admin_ENS_HiringTasks = "Tasks sent on hiring of employee";
 
 	//Users
 	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast four characters long";
@@ -1484,7 +1486,15 @@
     $lang_Recruit_JobApplicationHistory_NoEvents = 'No Events available';
     $lang_Recruit_JobApplicationHistory_FirstInterview = '1st Interview';
     $lang_Recruit_JobApplicationHistory_SecondInterview = '2nd Interview';
-    $lang_Recruit_JobApplicationHistory_Date = 'Date';
+    $lang_Recruit_JobApplicationHistory_Rejected = 'Rejected';
+    $lang_Recruit_JobApplicationHistory_OfferedJob = 'Offered Job';
+    $lang_Recruit_JobApplicationHistory_OfferMarkedAsDeclined = 'Offer marked as declined';
+    $lang_Recruit_JobApplicationHistory_SeekApproval = 'Seek Approval';
+    $lang_Recruit_JobApplicationHistory_Approved = 'Approved';
+    $lang_Recruit_JobApplicationHistory_By = 'By';
+    $lang_Recruit_JobApplicationHistory_ScheduledBy = 'Scheduled By';
+    $lang_Recruit_JobApplicationHistory_At = 'At';
+    $lang_Recruit_JobApplicationHistory_InterviewTime = 'Interview Time';
     $lang_Recruit_JobApplicationHistory_Interviewer = 'Interviewer';
     $lang_Recruit_JobApplicationHistory_Status = 'Status';
     $lang_Recruit_JobApplicationHistory_Notes = 'Notes';
@@ -1503,6 +1513,28 @@
     $lang_Recruit_JobApplication_PleaseSpecifyValidDate = 'Date should be in the format: ';
     $lang_Recruit_JobApplication_PleaseSpecifyValidTime = 'Time should be in the format: ';
     $lang_Recruit_JobApplication_SecondInterviewShouldBeAfterFirst = 'Second interview date should be after the first interview date ';
+
+    $lang_Recruit_JobApplicationConfirm_Heading = 'Confirm Action: ';
+    $lang_Recruit_JobApplicationConfirm_ApplicantName = 'Applicant Name';
+    $lang_Recruit_JobApplicationConfirm_Position = 'Position Applying for';
+
+    $lang_Recruit_JobApplicationConfirm_ConfirmReject = 'Confirm Reject of above application';
+    $lang_Recruit_JobApplicationConfirm_ConfirmRejectDesc = 'This will send an email to the applicant informing of the rejection';
+    $lang_Recruit_JobApplicationConfirm_ConfirmOfferJob = 'Confirm Job Offer to above applicant.';
+    $lang_Recruit_JobApplicationConfirm_ConfirmOfferJobDesc = 'No emails will be sent by the system to the applicant. The applicant will have to be contacted and offered the job.';
+    $lang_Recruit_JobApplicationConfirm_ConfirmMarkDeclined = 'Mark Offer Declined';
+    $lang_Recruit_JobApplicationConfirm_ConfirmMarkDeclinedDesc = 'Indicates that the applicant has declined the Job Offer.';
+    $lang_Recruit_JobApplicationConfirm_ConfirmSeekApproval = 'Seek Approval';
+    $lang_Recruit_JobApplicationConfirm_ConfirmApprove = 'Confirm Approval of above applicant';
+    $lang_Recruit_JobApplicationConfirm_ConfirmApproveDesc = 'This will mark the applicant as hired and create an employee entry in the system for the applicant. No emails will be sent.';
+
+    $lang_Recruit_JobApplication_SeekApproval_Heading = 'Seek Approval to Hire ';
+    $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy = 'Get approved by ';
+    $lang_Recruit_NoDirectorsNotice = 'No directors found. You need to create a job title named \'Director\' and assign to employees who are directors.';
+    $lang_Recruit_JobApplication_SeekApproval_Notes = 'Notes';
+    $lang_Recruit_JobApplication_SeekApproval_Desc = 'An email will be sent to the chosen director, asking for approval to hire.';
+    $lang_Recruit_JobApplication_PleaseSpecifyDirector = 'Please specify a director to get approved by';
+    $lang_Recruit_JobApplication_PleaseSpecifyNotes = 'Please provide some notes';
 
 	$lang_Recruit_ApplicantVacancyList_Heading = 'Job Vacancies';
 	$lang_Recruit_ApplicantVacancyList_Title = 'Job Vacancies';

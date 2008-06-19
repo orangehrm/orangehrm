@@ -39,6 +39,16 @@ $eventStatusList = array(
     JobApplicationEvent::STATUS_INTERVIEW_FINISHED => $lang_Recruit_JobApplicationHistory_StatusFinished
 );
 
+$eventTitles = array(
+    JobApplicationEvent::EVENT_REJECT => $lang_Recruit_JobApplicationHistory_Rejected,
+    JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW => $lang_Recruit_JobApplicationHistory_FirstInterview,
+    JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW => $lang_Recruit_JobApplicationHistory_SecondInterview,
+    JobApplicationEvent::EVENT_OFFER_JOB => $lang_Recruit_JobApplicationHistory_OfferedJob,
+    JobApplicationEvent::EVENT_MARK_OFFER_DECLINED => $lang_Recruit_JobApplicationHistory_OfferMarkedAsDeclined,
+    JobApplicationEvent::EVENT_SEEK_APPROVAL => $lang_Recruit_JobApplicationHistory_SeekApproval,
+    JobApplicationEvent::EVENT_APPROVE => $lang_Recruit_JobApplicationHistory_Approved,
+);
+
 $picDir = "../../themes/{$styleSheet}/pictures/";
 $iconDir = "../../themes/{$styleSheet}/icons/";
 
@@ -115,12 +125,12 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 
     .txtName, .eventTitle {
         text-align: left;
-        width: 150px;
+        width: 100px;
         padding-left: 10px;
     }
 
     .txtValue {
-        width: 110px;
+        width: auto;
     }
 
     .txtName, .txtBox, .eventTitle {
@@ -129,20 +139,31 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         padding-right: 4px;
     }
 
+    .col2 {
+        text-align: right;
+        padding-right: 10px;
+    }
+
     label {
         text-align: left;
-        width: 110px;
+        width: 100px;
         padding-left: 4px;
+        padding-right: 4px;
     }
 
     textarea {
         width: 300px;
         height: 50px;
+        padding-right: 0px;
+        color: #444444;
     }
 
     .eventTitle {
         width: 95%;
         background-color: #EEEEEE;
+        border-style: solid;
+        border-width: 0px 0px 1px 0px;
+        border-color: #888888;
     }
 
     .txtBox {
@@ -210,37 +231,45 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	<?php }	?>
   <div class="roundbox">
   		<div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
-        <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div>
-        <!-- <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
+        <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div><br />
+        <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
         <div class="txtValue" style="white-space:nowrap;">
-            <?php echo $statusList[$application->getStatus()]; ?></div> --><br/>
+            <?php echo $statusList[$application->getStatus()]; ?></div><br/>
 
         <?php
+            $authManager = new RecruitmentAuthManager();
+            $auth = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+            $role = $authManager->getRoleForApplication($auth, $application);
             $eventCount = 0;
             foreach ($events as $event) {
 
-                $allowStatusChange = false;
+                $allowEdit = $authManager->isAllowedToEditEvent($auth, $event);
+                $allowStatusChange = $authManager->isAllowedToChangeEventStatus($auth, $event);
 
-                if ($event->getEventType() == JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW) {
-                    $title = $lang_Recruit_JobApplicationHistory_FirstInterview;
+                $title = $eventTitles[$event->getEventType()];
 
-                    if ($application->getStatus() == JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED) {
-                        $allowStatusChange = true;
-                    }
-                } else if ($event->getEventType() == JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW) {
-                    $title = $lang_Recruit_JobApplicationHistory_SecondInterview;
+                if (($event->getEventType() == JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW) ||
+                        ($event->getEventType() == JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW)) {
 
-                    if ($application->getStatus() == JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED) {
-                        $allowStatusChange = true;
-                    }
-
+                    $showEventDate = true;
+                    $evenDateLabel = $lang_Recruit_JobApplicationHistory_InterviewTime;
+                    $showStatus = true;
+                    $showOwner = true;
+                    $creatorLabel = $lang_Recruit_JobApplicationHistory_ScheduledBy;
                 } else {
-                    continue;
+                    $eventDateLabel = '';
+                    $showEventDate = false;
+                    $showStatus = false;
+                    $showOwner = false;
+                    $creatorLabel = $lang_Recruit_JobApplicationHistory_By;
                 }
+
                 $eventCount++;
 
-                $date = LocaleUtil::getInstance()->formatDate($event->getEventTime());
-                $interviewer = CommonFunctions::escapeHtml($event->getOwnerName());
+                $createdBy = $event->getCreatorName();
+                $createdDate = LocaleUtil::getInstance()->formatDateTime($event->getCreatedTime());
+                $eventDate = LocaleUtil::getInstance()->formatDateTime($event->getEventTime());
+                $owner = CommonFunctions::escapeHtml($event->getOwnerName());
                 $notes = CommonFunctions::escapeHtml($event->getNotes());
 
                 $formId = 'frmEvent' . $event->getId();
@@ -250,10 +279,21 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
             method="post" action="<?php echo $editEventURL;?>">
 
             <input type="hidden" id="txId" name="txtId" value="<?php echo $event->getId();?>"/>
-            <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_Date; ?></div>
-            <div class="txtValue"><?php echo $date; ?></div><br/>
+            <div class="txtName"><?php echo $creatorLabel; ?></div>
+            <div class="txtValue"><?php echo $createdBy; ?></div>
+            <div class="txtName col2" ><?php echo $lang_Recruit_JobApplicationHistory_At; ?></div>
+            <div class="txtValue"><?php echo $createdDate; ?></div>
+            <br/>
+
+<?php if ($showEventDate) { ?>
+            <div class="txtName"><?php echo $evenDateLabel; ?></div>
+            <div class="txtValue"><?php echo $eventDate; ?></div><br/>
+<?php } ?>
+<?php if ($showOwner) { ?>
             <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_Interviewer; ?></div>
-            <div class="txtValue"><?php echo $interviewer; ?></div><br/>
+            <div class="txtValue"><?php echo $owner; ?></div><br/>
+<?php } ?>
+<?php if ($showStatus) { ?>
             <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_Status; ?></div>
             <?php if ($allowStatusChange) { ?>
                 <select name="cmbStatus" disabled="true" >
@@ -265,7 +305,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
                     ?>
                 </select>
             <?php } else { ?>
-                <div class="txtName">
+                <div class="txtValue">
                 <?php
                     if (isset($eventStatusList[$event->getStatus()])) {
                         echo $eventStatusList[$event->getStatus()];
@@ -274,11 +314,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
                 </div>
             <?php } ?>
             <br />
+<?php } ?>
             <label for="txtNotes"><?php echo $lang_Recruit_JobApplicationHistory_Notes; ?></label>
             <textarea name="txtNotes" disabled="true"><?php echo $notes; ?></textarea>
+            <?php if ($allowEdit) { ?>
             <img onClick="edit(this, '<?php echo $formId; ?>');" name="editBtn"
                 onMouseOut="mout(this);" onMouseOver="mover(this);"
                 src="<?php echo $picDir;?>/btn_edit.gif">
+            <?php } ?>
             <br/><br/>
 
         </form>

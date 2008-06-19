@@ -28,7 +28,9 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'JobVacancyTest.php';
 require_once 'JobApplicationTest.php';
+require_once 'JobApplicationEventTest.php';
 require_once 'RecruitmentMailNotifierTest.php';
+require_once 'RecruitmentAuthManagerTest.php';
 
 class models_recruitment_AllTests
 {
@@ -40,9 +42,11 @@ class models_recruitment_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_recruitment');
-	$suite->addTestSuite('JobVacancyTest');
-	$suite->addTestSuite('JobApplicationTest');
-	$suite->addTestSuite('RecruitmentMailNotifierTest');
+        $suite->addTestSuite('JobVacancyTest');
+        $suite->addTestSuite('JobApplicationTest');
+        $suite->addTestSuite('RecruitmentMailNotifierTest');
+        $suite->addTestSuite('RecruitmentAuthManagerTest');
+        $suite->addTestSuite('JobApplicationTest');
         return $suite;
     }
 }

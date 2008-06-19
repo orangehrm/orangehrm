@@ -77,6 +77,12 @@ class JobApplicationEvent {
 	private $notes;
     private $ownerName;
 
+    /**
+     * Creator details, lazily fetched on first call of get method
+     */
+    private $creatorName;
+    private $creatorEmail;
+
 	/**
 	 * Constructor
 	 *
@@ -236,6 +242,72 @@ class JobApplicationEvent {
 
     public function getOwnerName() {
         return $this->ownerName;
+    }
+
+    /**
+     * Retrieves name of creator. (Logged in user who initiated this event)
+     * If the user has a corresponding employee, the name from the employee is fetched.
+     * Otherwise the user name from the users table is returned.
+     *
+     * @return String Creator name
+     */
+    public function getCreatorName() {
+        if (!isset($this->creatorName)) {
+            $this->_fetchCreatorDetails();
+        }
+        return $this->creatorName;
+    }
+
+    /**
+     * Fetches the creator details.
+     */
+    private function _fetchCreatorDetails() {
+
+        /* No creator set */
+        if (empty($this->createdBy)) {
+            return;
+        }
+
+        $firstName = '';
+        $lastName = '';
+        $email = '';
+
+        $users = new Users();
+        $userDetails = $users->filterUsers($this->createdBy);
+        if (!empty($userDetails)) {
+
+            /* If an employee id is found, this means the user is mapped to
+             * an employee. Therefore, get the employee details
+             */
+            if (!empty($userDetails[0][11])) {
+
+                $firstName = $userDetails[0][10];
+                $lastName =  $userDetails[0][12];
+                $email = $userDetails[0][13];
+            } else {
+
+                /*
+                 * Otherwise, just get the user name
+                 */
+                $firstName = $userDetails[0][1];
+            }
+        }
+
+        $this->creatorName = trim($firstName . ' ' . $lastName);
+        $this->creatorEmail = $email;
+    }
+
+    /**
+     * Retrieves the email of the creator. (Logged in user who initiated this event)
+     * If the user has a corresponding employee, the work email of the employee is fetched.
+     * If the employee does not have a work email, an empty string is returned.
+     * @return String Creator name
+     */
+    public function getCreatorEmail() {
+        if (!isset($this->creatorEmail)) {
+            $this->_fetchCreatorDetails();
+        }
+        return $this->creatorEmail;
     }
 
 	/**

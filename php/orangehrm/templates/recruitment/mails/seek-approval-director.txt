@@ -1,0 +1,18 @@
+
+#from# seeks approval to hire #firstname# #lastname# for the position of #jobtitle#.
+
+Notes: #seek-approval-notes#
+
+Application details are below:
+
+Position Applied for: #jobtitle#
+Name: #firstname# #middlename# #lastname#
+Address: #street1# #street2# #city# #province# #zip# #country#
+Phone: #phone#
+Mobile: #mobile#
+Email: #email#
+Qualifications/Experience: #qualifications#
+
+Please log in to OrangeHRM to view more details.
+
+OrangeHRM

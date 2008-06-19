@@ -30,13 +30,62 @@
         $id = $postArr['txtId'];
 		$event = JobApplicationEvent::getJobApplicationEvent($id);
 
-        $status = $postArr['cmbStatus'];
-        $event->setStatus($status);
+        if (isset($postArr['cmbStatus'])) {
+            $status = $postArr['cmbStatus'];
+            $event->setStatus($status);
+        }
+
+        if (isset($postArr['txtNotes'])) {
+            $notes = $postArr['txtNotes'];
+            $event->setNotes($notes);
+        }
+        return $event;
+	}
+
+    /**
+     * Parse data from seek approval request and return JobApplicationEvent
+     * object
+     * @param Array $postArr Array containing POST values
+     * @return JobApplicationEvent Job Application Event object
+     */
+    public function parseSeekApprovalData($postArr) {
+
+        $event = new JobApplicationEvent();
+
+        $id = $postArr['txtId'];
+        $event->setApplicationId($id);
+
+        $interviewer = $postArr['cmbDirector'];
+        $event->setOwner($interviewer);
 
         $notes = $postArr['txtNotes'];
         $event->setNotes($notes);
+
         return $event;
-	}
+    }
+
+    /**
+     * Parse data from interface and return JobApplicationEvent Object
+     * @param Array $postArr Array containing POST values
+     * @return JobApplicationEvent Job Application Event object
+     */
+    public function parseAddData($postArr) {
+
+        $event = new JobApplicationEvent();
+
+        // Application ID
+        $id = $postArr['appId'];
+        $event->setApplicationId($id);
+
+        if (isset($postArr['txtOwner'])) {
+            $event->setOwner($postArr['txtOwner']);
+        }
+
+        if (isset($postArr['txtNotes'])) {
+            $event->setNotes($postArr['txtNotes']);
+        }
+        return $event;
+    }
 
 }
 ?>

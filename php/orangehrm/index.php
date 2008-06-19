@@ -93,7 +93,7 @@ if($_SESSION['isAdmin']=='Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-    if ($_SESSION['isManager']) {
+    if ($_SESSION['isManager'] || $_SESSION['isDirector']) {
             $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
     }
 }
@@ -191,7 +191,7 @@ if ($authorizeObj->isESS()) {
 
 if ($authorizeObj->isAdmin()) {
     $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
-} else if ($authorizeObj->isManager()) {
+} else if ($authorizeObj->isManager() || $authorizeObj->isDirector()) {
     $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
 }
 
@@ -731,7 +731,7 @@ function preloadAllImages() {
 	            		</a>
 	            	</li>
                     <?php }
-                    if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager']) {
+                    if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector']) {
                     ?>
 	            	<li id="jobApplicants">
 	            		<a href="lib/controllers/CentralController.php?recruitcode=Application&action=List" target="rightMenu">

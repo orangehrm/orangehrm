@@ -28,6 +28,8 @@ $allNotifications = array(	EmailNotificationConfiguration::EMAILNOTIFICATIONCONF
 							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_CANCELLED => $lang_Admin_ENS_LeaveCancellations,
 							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_LEAVE_REJECTED => $lang_Admin_ENS_LeaveRejections,
 							EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_JOB_APPLIED => $lang_Admin_ENS_JobApplications,
+                            EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_SEEK_HIRE_APPROVAL => $lang_Admin_ENS_SeekHireApproval,
+                            EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HIRE_TASKS => $lang_Admin_ENS_HiringTasks,
 EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HSP => $lang_Admin_ENS_HspNotifications);
 
 $statusArr = null;

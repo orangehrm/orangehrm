@@ -82,6 +82,15 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
         			"VALUES(11, '0011', 'Rajasinghe', 'Saman', 'Marlon', 'JOB001')");
         $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code) " .
         			"VALUES(12, '0022', 'Jayasinghe', 'Aruna', 'Shantha', 'JOB001')");
+        $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code) " .
+                    "VALUES(13, '0042', 'Jayaweera', 'Nimal', 'T', 'JOB001')");
+        $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code) " .
+                    "VALUES(14, '0044', 'Karunarathne', 'Jaya', 'S', 'JOB001')");
+        $this->_runQuery("INSERT INTO hs_hr_employee(emp_number, employee_id, emp_lastname, emp_firstname, emp_middle_name, job_title_code) " .
+                    "VALUES(15, '0054', 'Ranasinghe', 'Kamal', 'Z', 'JOB001')");
+
+        // Insert to hs_hr_users table
+        $this->_runQuery("INSERT INTO `hs_hr_users`(id, user_name, emp_number) VALUES ('USR111','demo', 11)");
 
 		// Insert Job Vacancies
 		$this->_runQuery("INSERT INTO hs_hr_job_vacancy(vacancy_id, jobtit_code, manager_id, active, description) " .
@@ -94,14 +103,14 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 		// Insert Job Applications
 		$application = $this->_getJobApplication(1, 1, 'Janaka', 'T', 'Kulathunga', '111 Main Street', 'Apt X2',
 				'Colombo', 'Western', '2222', 'Sri Lanka', '01121111121', '077282828282', 'janaka@example.com',
-				'aaa bbb', JobApplication::STATUS_SUBMITTED);
+				'aaa bbb', JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED);
         $application->setHiringManagerName('Saman Rajasinghe');
         $application->setJobTitleName('Manager');
 		$this->jobApplications[1] = $application;
 
         $application = $this->_getJobApplication(2, 2, 'Kamal', 'S', 'Manawarathne', '222 Sea Street', 'Suite B2',
                 'Kandy', 'Central', '111111', 'England', '33211121', '079982828282', 'kamal@etst.com',
-                'asdfasdf', JobApplication::STATUS_SUBMITTED);
+                'asdfasdf', JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
         $application->setHiringManagerName('Saman Rajasinghe');
         $application->setJobTitleName('Driver');
         $this->jobApplications[2] = $application;
@@ -114,6 +123,27 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
         $this->jobApplications[3] = $application;
 
 		$this->_createJobApplications($this->jobApplications);
+
+        // Create job application events
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("-1 hours"));
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+5 days"));
+
+        // Events for first job application
+        $this->_createEvent(1, 1, $createdTime, 'USR111', 13, $eventTime,
+            JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW, JobApplicationEvent::STATUS_INTERVIEW_FINISHED,
+            "1st Interview notes, here");
+
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("-0.6 hours"));
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+6 days"));
+        $this->_createEvent(2, 1, $createdTime, 'USR111', 14, $eventTime,
+            JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW, JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED,
+            "2nd Interview notes, here");
+
+        // Events for second job application
+        $this->_createEvent(3, 2, $createdTime, 'USR111', 14, $eventTime,
+            JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW, JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED,
+            "3rd Interview notes, here");
+
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -128,6 +158,8 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
     }
 
 	private function _deleteTables() {
+        $this->_runQuery("DELETE FROM `hs_hr_users` WHERE id = 'USR111'");
+        $this->_runQuery("TRUNCATE TABLE `hs_hr_job_application_events`");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_application`");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_vacancy`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_job_title`");
@@ -227,100 +259,86 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
         $list = JobApplication::getList();
         $this->_compareApplications($this->jobApplications, $list);
 
-        // get list for a manager with related applications
+        // get list for hiring manager with 2 related applications
         $list = JobApplication::getList(11);
         $expected = array(1=>$this->jobApplications[1], 2=>$this->jobApplications[2]);
         $this->_compareApplications($expected, $list);
 
-        // get list for a manager without any applications
+        // get list for hiring manager with 1 related applications
         $list = JobApplication::getList(12);
         $expected = array(3=>$this->jobApplications[3]);
+        $this->_compareApplications($expected, $list);
+
+        // get list for hiring manager without any related applications
+        $list = JobApplication::getList(15);
+        $expected = array();
+        $this->_compareApplications($expected, $list);
+
+        // Get list for manager scheduled to interview applicant
+        $list = JobApplication::getList(13);
+        $expected = array(1=>$this->jobApplications[1]);
+        $this->_compareApplications($expected, $list);
+
+        // Get list for manager scheduled to interview applicant
+        $list = JobApplication::getList(14);
+        $expected = array(1=>$this->jobApplications[1], 2=>$this->jobApplications[2]);
         $this->_compareApplications($expected, $list);
 
     }
 
     /**
-     * Test function getPossibleActions
+     * Test the getEventOfType() function
      */
-    public function testGetPossibleActions() {
-        $app = $this->jobApplications[1];
+    public function testGetEventOfType() {
 
-        /* SUBMITTED */
-        $app->setStatus(JobApplication::STATUS_SUBMITTED);
-        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
+        $jobApplication = JobApplication::GetJobApplication(1);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+        $this->assertNotNull($event);
+        $this->assertEquals(1, $event->getId());
+        $this->assertEquals("1st Interview notes, here", $event->getNotes());
 
-        /* FIRST INTERVIEW SCHEDULED */
-        $app->setStatus(JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
+        $jobApplication = JobApplication::GetJobApplication(1);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+        $this->assertNotNull($event);
+        $this->assertEquals(2, $event->getId());
+        $this->assertEquals("2nd Interview notes, here", $event->getNotes());
 
-        $event = new JobApplicationEvent(1);
-        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
-        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
-        $app->setEvents(array($event));
+        // Unavailable event type
+        $jobApplication = JobApplication::GetJobApplication(1);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_REJECT);
+        $this->assertNull($event);
 
-        // Interview status is scheduled
-        $expected = array(JobApplication::ACTION_REJECT);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
+        $jobApplication = JobApplication::GetJobApplication(2);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+        $this->assertNotNull($event);
+        $this->assertEquals(3, $event->getId());
+        $this->assertEquals("3rd Interview notes, here", $event->getNotes());
 
-        $event = new JobApplicationEvent(1);
-        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
-        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_FINISHED);
-        $app->setEvents(array($event));
+        $jobApplication = JobApplication::GetJobApplication(3);
+        $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+        $this->assertNull($event);
+    }
 
-        // Interview status is finished
-        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
+    /**
+     * Test the getLatestEvent() function
+     */
+    public function testGetLatestEvent() {
 
-        /* SECOND INTERVIEW SCHEDULED */
-        $app->setStatus(JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED);
+        $jobApplication = JobApplication::GetJobApplication(1);
+        $event = $jobApplication->getLatestEvent();
+        $this->assertNotNull($event);
+        $this->assertEquals(2, $event->getId());
+        $this->assertEquals("2nd Interview notes, here", $event->getNotes());
 
-        $event = new JobApplicationEvent(1);
-        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
-        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
-        $app->setEvents(array($event));
+        $jobApplication = JobApplication::GetJobApplication(2);
+        $event = $jobApplication->getLatestEvent();
+        $this->assertNotNull($event);
+        $this->assertEquals(3, $event->getId());
+        $this->assertEquals("3rd Interview notes, here", $event->getNotes());
 
-        // Interview status is scheduled
-        $expected = array(JobApplication::ACTION_REJECT);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-        $event = new JobApplicationEvent(1);
-        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
-        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_FINISHED);
-        $app->setEvents(array($event));
-
-        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-
-        $app->setStatus(JobApplication::STATUS_JOB_OFFERED);
-        $expected = array(JobApplication::ACTION_MARK_OFFER_DECLINED, JobApplication::ACTION_SEEK_APPROVAL);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-        $app->setStatus(JobApplication::STATUS_OFFER_DECLINED);
-        $expected = array();
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-        $app->setStatus(JobApplication::STATUS_PENDING_APPROVAL);
-        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_APPROVE);
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-        $app->setStatus(JobApplication::STATUS_HIRED);
-        $expected = array();
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
-
-        $app->setStatus(JobApplication::STATUS_REJECTED);
-        $expected = array();
-        $actions = $app->getPossibleActions();
-        $this->assertEquals($expected, $actions);
+        $jobApplication = JobApplication::GetJobApplication(3);
+        $event = $jobApplication->getLatestEvent();
+        $this->assertNull($event);
     }
 
 	/**
@@ -415,7 +433,6 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 		$application->setQualifications($qualifications);
         $application->setStatus($status);
         $application->setAppliedDateTime(date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT));
-        $application->setEvents(array());
     	return $application;
     }
 
@@ -459,6 +476,31 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue(mysql_query($sql), mysql_error());
 		}
 		UniqueIDGenerator::getInstance()->initTable();
+    }
+
+    /**
+     * Create job application event with the passed parameters
+     *
+     * @param int $id
+     * @param int $applicationId
+     * @param String $createdTime
+     * @param String $createdBy
+     * @param int $ownerId
+     * @param String $eventTime
+     * @param int $eventType
+     * @param int $eventStatus
+     * @param String $notes
+     */
+    private function _createEvent($id, $applicationId, $createdTime, $createdBy, $ownerId, $eventTime,
+        $eventType, $eventStatus, $notes) {
+
+        $sql = sprintf("INSERT INTO `hs_hr_job_application_events`(`id`,`application_id`,`created_time`," .
+                        "`created_by`, `owner`, `event_time`, `event_type`, `status`, `notes`) " .
+                        "VALUES (%d, %d, '%s', '%s', %d, '%s', %d, %d, '%s')",
+                        $id, $applicationId, $createdTime, $createdBy, $ownerId, $eventTime,
+                        $eventType, $eventStatus, $notes);
+        $this->assertTrue(mysql_query($sql), mysql_error());
+        UniqueIDGenerator::getInstance()->initTable();
     }
 
 	/**

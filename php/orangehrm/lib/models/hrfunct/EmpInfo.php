@@ -2958,7 +2958,30 @@ class EmpInfo {
      */
     public function isManager($empNumber) {
 
-        $isManager = false;
+        return $this->checkEmpJobTitle($empNumber, JobTitle::MANAGER_JOB_TITLE_NAME);
+    }
+
+    /**
+     * Check if given employee is a 'Director'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if a director, false otherwise
+     */
+    public function isDirector($empNumber) {
+
+        return $this->checkEmpJobTitle($empNumber, JobTitle::DIRECTOR_JOB_TITLE_NAME);
+    }
+
+    /**
+     * Check if given employees job title matches the given title name.
+     *
+     * @param int $empNum Employee number
+     * @param String $jobTitleName The job title name to check
+     * @return boolean True if employee has given job title, false otherwise
+     */
+    public function checkEmpJobTitle($empNumber, $jobTitleName) {
+
+        $titleMatches = false;
 
         $tables[0] = '`hs_hr_employee` a';
         $tables[1] = '`hs_hr_job_title` b';
@@ -2966,7 +2989,7 @@ class EmpInfo {
         $joinConditions[1] = 'a.`job_title_code` = b.`jobtit_code`';
 
         $selectConditions[] = "a.`emp_number` = " . $empNumber;
-        $selectConditions[] = "b.`jobtit_name` = '" . JobTitle::MANAGER_JOB_TITLE_NAME . "'";
+        $selectConditions[] = "b.`jobtit_name` = '" . $jobTitleName . "'";
 
         $sqlBuilder = new SQLQBuilder();
         $sql = $sqlBuilder->countFromMultipleTables($tables, $joinConditions, $selectConditions);
@@ -2977,12 +3000,13 @@ class EmpInfo {
             $row = mysql_fetch_array($result, MYSQL_NUM);
             $count = $row[0];
             if ($count == 1) {
-                $isManager = true;
+                $titleMatches = true;
             }
         }
 
-        return $isManager;
+        return $titleMatches;
     }
+
 
     /**
      * Searches for supervisors with name matching the search string and

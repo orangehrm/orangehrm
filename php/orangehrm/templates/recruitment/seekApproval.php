@@ -17,13 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-$managers = $records['managers'];
+$directors = $records['directors'];
 $application = $records['application'];
-$num = $records['interview'];
 $locRights=$_SESSION['localRights'];
 
 $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
-$action = ($num == 1) ? JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW : JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW;
+$action = JobApplication::ACTION_SEEK_APPROVAL;
 $formAction = $baseURL . '&action=' . $action;
 
 $picDir = "../../themes/{$styleSheet}/pictures/";
@@ -38,47 +37,11 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+
 <script>
-
-    var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
-    var firstInterviewDate = false;
-
-<?php
-    if ($num == 2) {
-        $event = $application->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
-        if ($event) {
-            $eventTime = $event->getEventTime();
-            if (!empty($eventTime)) {
-                echo "\tfirstInterviewDate = '" . LocaleUtil::getInstance()->formatDateTime($eventTime) . "';";
-           }
-        }
-    }
-?>
-
 
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
-    }
-
-    /**
-     * Check if second interview date is after the first interview date
-     */
-    function secondInterviewAfterFirst() {
-
-        if (firstInterviewDate) {
-
-            timeVal = strToTime(firstInterviewDate, dateTimeFormat);
-            if (timeVal) {
-                newTime = $('txtDate').value.trim() + " " + $('txtTime').value.trim();
-                newTimeVal = strToTime(newTime, dateTimeFormat);
-
-                if (newTimeVal && newTimeVal < timeVal) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
 	function validate() {
@@ -86,43 +49,15 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		err = false;
 		msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
-        if ($('txtDate').value.trim() == '') {
-            err = true;
-            msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyDate; ?>\n";
-        } else {
-            dateVal = strToDate($("txtDate").value, YAHOO.OrangeHRM.calendar.format);
-            if (!dateVal) {
-                err = true;
-                msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyValidDate; ?>" + YAHOO.OrangeHRM.calendar.format + "\n";
-            }
-        }
-
-        timeVal = $('txtTime').value.trim();
-        if (timeVal == '') {
-            err = true;
-            msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyTime; ?>\n";
-        } else {
-            dateNow = formatDate(new Date(), YAHOO.OrangeHRM.calendar.format);
-            timeVal = strToTime(dateNow + " " + timeVal, dateTimeFormat);
-            if (!timeVal) {
-                err = true;
-                msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyValidTime; ?>" + YAHOO.OrangeHRM.time.format + "\n";
-            }
-        }
-
-        if (!err) {
-            if (secondInterviewAfterFirst()) {
-                err = true;
-                msg += "\t- <?php echo $lang_Recruit_JobApplication_SecondInterviewShouldBeAfterFirst; ?>(" + firstInterviewDate + ")\n";
-            }
-        }
-
 		errors = new Array();
-        if ($('cmbInterviewer').value == -1) {
+        if ($('cmbDirector').value == -1) {
 			err = true;
-			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyInterviewer; ?>\n";
+			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyDirector; ?>\n";
         }
-
+        if ($('txtNotes').value.trim() == '') {
+            err = true;
+            msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyNotes; ?>\n";
+        }
 		if (err) {
 			alert(msg);
 			return false;
@@ -134,16 +69,16 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     function save() {
 
 		if (validate()) {
-        	$('frmInterview').submit();
+        	$('frmSeekApproval').submit();
 		} else {
 			return false;
 		}
     }
 
 	function reset() {
-		$('frmInterview').reset();
+		$('frmSeekApproval').reset();
 	}
-YAHOO.OrangeHRM.container.init();
+
 </script>
 
     <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
@@ -228,13 +163,18 @@ YAHOO.OrangeHRM.container.init();
         width: 100px;
     }
 
-	#nomanagers {
+	#nodirectors {
 		font-style: italic;
 		color: red;
         padding-left: 10px;
         width: 400px;
         border: 1px;
 	}
+    .desc {
+        padding-left: 15px;
+        font-style: italic;
+        padding-bottom: 20px;
+    }
     -->
 </style>
 </head>
@@ -247,12 +187,7 @@ YAHOO.OrangeHRM.container.init();
 
 <?php
 $applicantName = $application->getFirstName() . ' ' . $application->getLastName();
-    if ($num == 1) {
-        $heading = $lang_Recruit_JobApplication_ScheduleFirstInterview;
-    } else {
-        $heading = $lang_Recruit_JobApplication_ScheduleSecondInterview;
-    }
-    echo $heading . ' ' . $applicantName;
+    echo $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunctions::escapeHtml($applicantName);
 ?>
                     </h2>
 		  		</td>
@@ -278,42 +213,35 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 	<?php }	?>
   <div class="roundbox">
 
-  <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
+  <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>">
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 
-        <label for="txtDate"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Date; ?></label>
-        <input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
-        <input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/><br/>
-
-        <label for="txtTime"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Time; ?></label>
-        <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
-
-		<label for="cmbInterviewer"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
-        <select id="cmbInterviewer" name="cmbInterviewer" tabindex="3">
+		<label for="cmbDirector"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
+        <select id="cmbDirector" name="cmbDirector" tabindex="3">
 	        <option value="-1">-- <?php echo $lang_Recruit_JobApplication_Select;?> --</option>
                 <?php
-                foreach ($managers as $manager) {
+                foreach ($directors as $director) {
 
                 	// Ugly, but this is how EmpInfo returns employees
-                	$empNum = $manager[2];
-                	$empName = CommonFunctions::escapeHtml($manager[1]);
+                	$empNum = $director[2];
+                	$empName = CommonFunctions::escapeHtml($director[1]);
 	                echo "<option value=". $empNum . ">" . $empName . "</option>";
                 }
                 ?>
         </select><br/>
 		<?php
-				if (count($managers) == 0) {
+				if (count($directors) == 0) {
 		?>
-			<div id="nomanagers">
-				<?php echo $lang_Recruit_NoManagersNotice; ?>
+			<div id="nodirectors">
+				<?php echo $lang_Recruit_NoDirectorsNotice; ?>
 			</div>
 		<?php
 				}
 		?>
-		<label for="txtNotes">&nbsp;<?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
+		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
 		<br/><br/>
-
+        <div class="desc"><?php echo $lang_Recruit_JobApplication_SeekApproval_Desc; ?></div>
         <div align="left">
             <img onClick="save();" id="saveBtn"
             	onMouseOut="this.src='<?php echo $picDir;?>btn_save.gif';"
@@ -331,6 +259,5 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
     </script>
 
     <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-    <div id="cal1Container" style="position:absolute;" ></div>
 </body>
 </html>

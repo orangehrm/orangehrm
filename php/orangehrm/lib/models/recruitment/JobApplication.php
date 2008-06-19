@@ -52,6 +52,7 @@ class JobApplication {
 	const DB_FIELD_QUALIFICATIONS = 'qualifications';
     const DB_FIELD_STATUS = 'status';
     const DB_FIELD_APPLIED_DATETIME = 'applied_datetime';
+    const DB_FIELD_EMP_NUMBER = 'emp_number';
 
     /**
      * Job application status
@@ -76,14 +77,6 @@ class JobApplication {
     const ACTION_SEEK_APPROVAL = 'SeekApproval';
     const ACTION_APPROVE = 'Approve';
 
-    /**
-     * Manager roles
-     */
-    const ROLE_HR_ADMIN = 0;
-    const ROLE_HIRING_MANAGER = 1;
-    const ROLE_INTERVIEWING_MANAGER = 2;
-    const ROLE_DIRECTOR = 3;
-
     /** Fields retrieved from other tables */
     const JOB_TITLE_NAME = 'job_title_name';
     const HIRING_MANAGER_NAME = 'hiring_manager_name';
@@ -92,7 +85,7 @@ class JobApplication {
 		self::DB_FIELD_MIDDLENAME, self::DB_FIELD_LASTNAME,	self::DB_FIELD_STREET1,	self::DB_FIELD_STREET2,
 		self::DB_FIELD_CITY, self::DB_FIELD_COUNTRY_CODE, self::DB_FIELD_PROVINCE, self::DB_FIELD_ZIP,
 		self::DB_FIELD_PHONE, self::DB_FIELD_MOBILE, self::DB_FIELD_EMAIL, self::DB_FIELD_QUALIFICATIONS,
-        self::DB_FIELD_STATUS, self::DB_FIELD_APPLIED_DATETIME);
+        self::DB_FIELD_STATUS, self::DB_FIELD_APPLIED_DATETIME, self::DB_FIELD_EMP_NUMBER);
 
 	private $id;
 	private $vacancyId;
@@ -111,6 +104,8 @@ class JobApplication {
 	private $qualifications;
     private $status = self::STATUS_SUBMITTED;
     private $appliedDateTime;
+    private $empNumber;
+
     private $events;
 
     /**
@@ -257,6 +252,13 @@ class JobApplication {
     }
 
     public function getEvents() {
+
+        if (!isset($this->events) && isset($this->id)) {
+
+            // Get application events
+            $events = JobApplicationEvent::getEvents($this->id);
+            $this->events = $events;
+        }
         return $this->events;
     }
 
@@ -311,58 +313,19 @@ class JobApplication {
     }
 
     /**
-     * Get possible actions on this application
-     * @return Array Array of possible actions
+     * Set the employee number of employee created after hiring
+     * @param int $empNumber The employee number
      */
-    public function getPossibleActions() {
+    public function setEmpNumber($empNumber) {
+        $this->empNumber = $empNumber;
+    }
 
-        $actions = array();
-
-        switch ($this->status) {
-
-            case self::STATUS_SUBMITTED:
-                $actions = array(self::ACTION_REJECT, self::ACTION_SCHEDULE_FIRST_INTERVIEW);
-                break;
-            case self::STATUS_FIRST_INTERVIEW_SCHEDULED:
-                $event = $this->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
-
-                if ($event && ($event->getStatus() == JobApplicationEvent::STATUS_INTERVIEW_FINISHED)) {
-                    $actions = array(self::ACTION_REJECT, self::ACTION_SCHEDULE_SECOND_INTERVIEW);
-                } else {
-                    $actions = array(self::ACTION_REJECT);
-                }
-                break;
-            case self::STATUS_SECOND_INTERVIEW_SCHEDULED:
-                $event = $this->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
-
-                if ($event && ($event->getStatus() == JobApplicationEvent::STATUS_INTERVIEW_FINISHED)) {
-                    $actions = array(self::ACTION_REJECT, self::ACTION_OFFER_JOB);
-                } else {
-                    $actions = array(self::ACTION_REJECT);
-                }
-
-                break;
-            case self::STATUS_JOB_OFFERED:
-                $actions = array(self::ACTION_MARK_OFFER_DECLINED, self::ACTION_SEEK_APPROVAL);
-                break;
-            case self::STATUS_OFFER_DECLINED:
-                $actions = array();
-                break;
-            case self::STATUS_PENDING_APPROVAL:
-                $actions = array(self::ACTION_REJECT, self::ACTION_APPROVE);
-                break;
-            case self::STATUS_HIRED:
-                $actions = array();
-                break;
-            case self::STATUS_REJECTED:
-                $actions = array();
-                break;
-            default:
-                throw new JobApplicationException("Invalid status", JobApplicationException::INVALID_STATUS);
-
-        }
-
-        return $actions;
+    /**
+     * Get the employee number of employee created after hiring
+     * @return int The employee number of the employee created or null
+     */
+    public function getEmpNumber($empNumber) {
+        return $this->empNumber;
     }
 
     /**
@@ -372,9 +335,9 @@ class JobApplication {
     public function getLatestEvent() {
 
         $latestEvent = null;
-
-        if (!empty($this->events)) {
-            $latestEvent = $this->events[count($this->events) - 1];
+        $events = $this->getEvents();
+        if (!empty($events)) {
+            $latestEvent = $events[count($events) - 1];
         }
 
         return $latestEvent;
@@ -388,11 +351,12 @@ class JobApplication {
     public function getEventOfType($eventType) {
         $event = null;
 
-        if (!empty($this->events)) {
+        $events = $this->getEvents();
+        if (!empty($events)) {
 
-            for($i = count($this->events) - 1; $i >= 0; $i--) {
-                if ($this->events[$i]->getEventType() == $eventType) {
-                    $event = $this->events[$i];
+            for($i = count($events) - 1; $i >= 0; $i--) {
+                if ($events[$i]->getEventType() == $eventType) {
+                    $event = $events[$i];
                     break;
                 }
             }
@@ -459,12 +423,11 @@ class JobApplication {
      */
     public static function getList($managerEmpNum = null) {
 
-        $selectConditions = null;
-        if (CommonFunctions::isValidId($managerEmpNum)) {
-            $selectConditions[] = 'b.' . JobVacancy::DB_FIELD_MANAGER_ID . ' = ' . $managerEmpNum;
+        if (!empty($managerEmpNum) && !CommonFunctions::isValidId($managerEmpNum)) {
+            throw new JobApplicationException("Invalid id", JobApplicationException::INVALID_PARAMETER);
         }
 
-        return self::_getList($selectConditions);
+        return self::_getList(null, $managerEmpNum);
     }
 
 	/**
@@ -523,10 +486,11 @@ class JobApplication {
     /**
      * Get a list of jobs applications with the given conditions.
      *
-     * @param array   $selectCondition Array of select conditions to use.
-     * @return array  Array of JobApplication objects. Returns an empty (length zero) array if none found.
+     * @param array  $selectCondition Array of select conditions to use.
+     * @param String $filterForManagerId Filter by the given manager
+     * @return array Array of JobApplication objects. Returns an empty (length zero) array if none found.
      */
-    private static function _getList($selectCondition = null) {
+    private static function _getList($selectCondition = null, $filterForManagerId = null) {
 
         $fields[0] = 'a.' . self::DB_FIELD_ID;
         $fields[1] = 'a.' . self::DB_FIELD_VACANCY_ID;
@@ -545,21 +509,31 @@ class JobApplication {
         $fields[14] = 'a.' . self::DB_FIELD_QUALIFICATIONS;
         $fields[15] = 'a.' . self::DB_FIELD_STATUS;
         $fields[16] = 'a.' . self::DB_FIELD_APPLIED_DATETIME;
-        $fields[17] = 'c.jobtit_name AS ' . self::JOB_TITLE_NAME;
-        $fields[18] = "CONCAT(d.`emp_firstname`, ' ', d.`emp_lastname`) AS " . self::HIRING_MANAGER_NAME;
+        $fields[17] = 'a.' . self::DB_FIELD_EMP_NUMBER;
+        $fields[18] = 'c.jobtit_name AS ' . self::JOB_TITLE_NAME;
+        $fields[19] = "CONCAT(d.`emp_firstname`, ' ', d.`emp_lastname`) AS " . self::HIRING_MANAGER_NAME;
 
         $tables[0] = self::TABLE_NAME . ' a';
         $tables[1] = JobVacancy::TABLE_NAME .' b';
         $tables[2] = 'hs_hr_job_title c';
         $tables[3] = 'hs_hr_employee d';
-        //$tables[4] = JobApplicationEvent::TABLE_NAME . ' e';
 
         $joinConditions[1] = 'a.' . self::DB_FIELD_VACANCY_ID . ' = b.' . JobVacancy::DB_FIELD_VACANCY_ID;
         $joinConditions[2] = 'b.jobtit_code = c.jobtit_code';
         $joinConditions[3] = 'b.' . JobVacancy::DB_FIELD_MANAGER_ID . ' = d.emp_number';
 
+        $groupBy = null;
+
+        if (!empty($filterForManagerId)) {
+            $tables[4] = JobApplicationEvent::TABLE_NAME . ' e';
+            $joinConditions[4] = 'a.' . self::DB_FIELD_ID . ' = e.' . JobApplicationEvent::DB_FIELD_APPLICATION_ID;
+            $selectCondition[] = '((b.' . JobVacancy::DB_FIELD_MANAGER_ID . ' = ' . $filterForManagerId . ') OR ' .
+                    '(e.' . JobApplicationEvent::DB_FIELD_OWNER . ' = '.$filterForManagerId.'))' ;
+            $groupBy = 'a.' . self::DB_FIELD_ID;
+        }
+
         $sqlBuilder = new SQLQBuilder();
-        $sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectCondition);
+        $sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectCondition, null, null, null, null, $groupBy);
 
         $actList = array();
 
@@ -597,6 +571,7 @@ class JobApplication {
 		$values[14] = $this->qualifications;
         $values[15] = is_null($this->status) ? self::STATUS_SUBMITTED : $this->status;
         $values[16] = is_null($this->appliedDateTime) ? 'null' : $this->appliedDateTime;
+        $values[17] = empty($this->empNumber) ? 'null' : $this->empNumber;
 
 		return $values;
 	}
@@ -626,6 +601,7 @@ class JobApplication {
         $application->setQualifications($row[self::DB_FIELD_QUALIFICATIONS]);
         $application->setStatus($row[self::DB_FIELD_STATUS]);
         $application->setAppliedDateTime($row[self::DB_FIELD_APPLIED_DATETIME]);
+        $application->setEmpNumber($row[self::DB_FIELD_EMP_NUMBER]);
 
         if (isset($row[self::JOB_TITLE_NAME])) {
             $application->setJobTitleName($row[self::JOB_TITLE_NAME]);
@@ -634,10 +610,6 @@ class JobApplication {
         if (isset($row[self::HIRING_MANAGER_NAME])) {
             $application->setHiringManagerName($row[self::HIRING_MANAGER_NAME]);
         }
-
-        // Get application events
-        $events = JobApplicationEvent::getEvents($application->getId());
-        $application->setEvents($events);
 
         return $application;
     }

@@ -853,6 +853,7 @@ create table `hs_hr_job_application` (
   `qualifications` text default '',
   `status` smallint(2) default 0,
   `applied_datetime` datetime default null,
+  `emp_number` int(7) default null,
   primary key  (`application_id`),
   key `vacancy_id` (`vacancy_id`)
 ) engine=innodb default charset=utf8;
