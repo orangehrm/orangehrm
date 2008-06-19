@@ -221,6 +221,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 						$mailConfigErrorMsg = $lang_Error_EmailConfigConfirm;
 					}
 				} else {
+					$mailConfigErrorMsg = $lang_Error_EmailConfigConfirm;
 					$mailConfigError = true;
 				}
 
