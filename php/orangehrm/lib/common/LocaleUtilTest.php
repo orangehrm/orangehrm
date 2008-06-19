@@ -278,6 +278,17 @@ class LocaleUtilTest extends PHPUnit_Framework_TestCase {
     	$this->assertEquals($xpFormatStr, LocaleUtil::convertToXpDateFormat($formatStr));
 
     }
+
+    public function testFormatMoney() {
+        $localeUtil = LocaleUtil::getInstance();
+        $this->assertEquals('1121.12', $localeUtil->formatMoney(1121.12121));
+        $this->assertEquals('0.12', $localeUtil->formatMoney(0.12121));
+        $this->assertEquals('1212121212.00', $localeUtil->formatMoney(1212121212));
+        $this->assertEquals('0.00', $localeUtil->formatMoney(0));
+        $this->assertEquals('0.00', $localeUtil->formatMoney('abc'));
+        $this->assertEquals('0.00', $localeUtil->formatMoney(''));
+        $this->assertEquals('0.00', $localeUtil->formatMoney(null));
+    }
 }
 
 // Call LocaleUtilTest::main() if this source file is executed directly.

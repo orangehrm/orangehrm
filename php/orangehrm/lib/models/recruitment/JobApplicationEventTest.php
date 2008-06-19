@@ -122,6 +122,9 @@ class JobApplicationEventTest extends PHPUnit_Framework_TestCase {
             "2nd Interview notes, here");
 
         // Events for second job application
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("-0.3 hours"));
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+7 days"));
+
         $this->_createEvent(3, 2, $createdTime, 'USR113', 14, $eventTime,
             JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW, JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED,
             "3rd Interview notes, here");
@@ -182,33 +185,118 @@ class JobApplicationEventTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testSave().
+     * Test save() method
      */
     public function testSave() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+        // New event
+        $before = $this->_getNumRows();
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("-1 hours"));
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+5 days"));
+
+        $event = $this->_getEvent(null, 1, $createdTime, 'USR111', 11,
+            $eventTime, JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW,
+            JobApplicationEvent::STATUS_INTERVIEW_FINISHED, 'Notes aa');
+        $id = $event->save();
+
+        $after = $this->_getNumRows();
+        $this->assertEquals(1, $after - $before);
+        $this->_checkExistsInDb($event);
+
+
+        // Update
+        $before = $this->_getNumRows();
+
+        $event = JobApplicationEvent::getJobApplicationEvent(1);
+        $event->setNotes('New Notes');
+        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_FINISHED);
+        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+        $event->save();
+
+        $after = $this->_getNumRows();
+        $this->assertEquals($before, $after);
+        $this->_checkExistsInDb($event);
+
+        // invalid id
+        $before = $this->_getNumRows();
+        $event->setId('A1k');
+        try {
+            $event->save();
+        } catch (JobApplicationEventException $e) {
+            $this->assertEquals(JobApplicationEventException::INVALID_PARAMETER, $e->getCode());
+        }
+
+        $after = $this->_getNumRows();
+        $this->assertEquals($before, $after);
     }
 
     /**
-     * @todo Implement testGetEvents().
+     * Test getEvents() method
      */
     public function testGetEvents() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+        $event1 = JobApplicationEvent::getJobApplicationEvent(1);
+        $event2 = JobApplicationEvent::getJobApplicationEvent(2);
+        $event3 = JobApplicationEvent::getJobApplicationEvent(3);
+
+        // Invalid app id
+        try {
+            $events = JobApplicationEvent::getEvents('12A');
+        } catch (JobApplicationEventException $e) {
+            $this->assertEquals(JobApplicationEventException::INVALID_PARAMETER, $e->getCode());
+        }
+
+        // app id with no events
+        $events = JobApplicationEvent::getEvents(3);
+        $this->assertTrue(is_array($events));
+        $this->assertEquals(0, count($events));
+
+        // app id with events
+        $events = JobApplicationEvent::getEvents(1);
+        $this->assertTrue(is_array($events));
+        $this->assertEquals(2, count($events));
+        $expected = array($event1, $event2);
+
+        $this->_compareEventsWithOrder($expected, $events);
+
+        $events = JobApplicationEvent::getEvents(2);
+        $expected = array($event3);
+        $this->assertTrue(is_array($events));
+        $this->assertEquals(1, count($events));
+        $this->_compareEventsWithOrder($expected, $events);
+
     }
 
     /**
-     * @todo Implement testGetJobApplicationEvent().
+     * Test case for getJobApplicationEvent().
      */
     public function testGetJobApplicationEvent() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+
+        $createdTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("-1 hours"));
+        $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, strtotime("+5 days"));
+
+        // invalid id
+        try {
+            $event = JobApplicationEvent::getJobApplicationEvent('12A');
+            $this->fail("Exception expected");
+        } catch (JobApplicationEventException $e) {
+            $this->assertEquals(JobApplicationEventException::INVALID_PARAMETER, $e->getCode());
+        }
+
+        // valid id but not available
+        $event = JobApplicationEvent::getJobApplicationEvent(121);
+        $this->assertNull($event);
+
+        // valid available id
+        $event = JobApplicationEvent::getJobApplicationEvent(1);
+        $this->assertNotNull($event);
+        $this->assertEquals(1, $event->getApplicationId());
+        $this->assertEquals('USR111', $event->getCreatedBy());
+        $this->assertEquals(13, $event->getOwner());
+        $this->assertEquals(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW, $event->getEventType());
+        $this->assertEquals(JobApplicationEvent::STATUS_INTERVIEW_FINISHED, $event->getStatus());
+        $this->assertEquals("1st Interview notes, here", $event->getNotes());
+
     }
 
     /**
@@ -286,6 +374,94 @@ class JobApplicationEventTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Check's that the passed appliation event exists in the database
+     *
+     * @param JobApplicationEvent Job Application Event to check
+     */
+    private function _checkExistsInDb($application) {
+
+        $id = $application->getId();
+        $appId = $application->getApplicationId();
+        $createdBy = $application->getCreatedBy();
+        $owner = $application->getOwner();
+        $eventType = $application->getEventType();
+        $status = $application->getStatus();
+        $status = is_null($status) ? 'null' : $status;
+        $notes = $application->getNotes();
+        $notes = is_null($notes) ? 'null' : "'{$notes}'";
+
+        $where = "id = {$id} AND application_id = {$appId} AND created_by = '{$createdBy}' AND owner = {$owner}" .
+                " AND notes = {$notes} AND status = {$status}";
+
+        $this->assertEquals(1, $this->_getNumRows($where));
+    }
+
+    /**
+     * Returns the number of rows in the hs_hr_job_application_events table
+     *
+     * @param  string $where where clause
+     * @return int number of rows
+     */
+    private function _getNumRows($where = null) {
+
+        $sql = "SELECT COUNT(*) FROM hs_hr_job_application_events";
+        if (!empty($where)) {
+            $sql .= " WHERE " . $where;
+        }
+
+        $result = mysql_query($sql);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        $count = $row[0];
+        return $count;
+    }
+
+    /**
+     * Get Job Application Event with the passed parameters
+     *
+     * @param int $id Job Application Event Id
+     * @param int $appId Job Application Event Id
+     * @param string $createdTime
+     * @param string $createdBy
+     * @param int $owner
+     * @param string $eventTime
+     * @param int $eventType
+     * @param int $status
+     * @param string $notes
+     */
+    private function _getEvent($id, $appId, $createdTime, $createdBy, $owner,
+            $eventTime, $eventType, $status, $notes) {
+
+        $event = new JobApplicationEvent();
+        $event->setId($id);
+        $event->setApplicationId($appId);
+        $event->setCreatedTime($createdTime);
+        $event->setCreatedBy($createdBy);
+        $event->setOwner($owner);
+        $event->setEventTime($eventTime);
+        $event->setEventType($eventType);
+        $event->setStatus($status);
+        $event->setNotes($notes);
+
+        return $event;
+    }
+
+    /**
+     * Compares two array of JobApplicationEvent objects verifing they contain the same
+     * objects and considering the order
+     *
+     * @param array $expected Expected
+     * @param array $result Result
+     */
+    private function _compareEventsWithOrder($expected, $result) {
+        $this->assertEquals(count($expected), count($result));
+        $i = 0;
+        foreach ($expected as $application) {
+            $this->assertEquals($application, $result[$i]);
+            $i++;
+        }
+
+    }
+    /**
      * Run given sql query, checking the return value
      */
     private function _runQuery($sql) {
@@ -299,3 +475,4 @@ if (PHPUnit_MAIN_METHOD == "JobApplicationEventTest::main") {
     JobApplicationEventTest::main();
 }
 ?>
+

@@ -158,8 +158,8 @@ class JobSpec {
 	}
 
 	/**
-	 * Delete given job titles
-	 * @param array $ids Array of job titles to delete
+	 * Delete given job specs
+	 * @param array $ids Array of job specs to delete
 	 */
 	public static function delete($ids) {
 

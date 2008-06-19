@@ -460,8 +460,8 @@ class JobSpecTest extends PHPUnit_Framework_TestCase {
                            $spec->getId(), $spec->getName(), $spec->getDesc(),
                            $spec->getDuties());
             $this->assertTrue(mysql_query($sql), mysql_error());
-			UniqueIDGenerator::getInstance()->initTable();
 		}
+        UniqueIDGenerator::getInstance()->initTable();
     }
 }
 

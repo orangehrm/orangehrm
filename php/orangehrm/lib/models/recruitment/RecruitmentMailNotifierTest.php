@@ -72,6 +72,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 
         // Insert to hs_hr_users table
         $this->_runQuery("INSERT INTO `hs_hr_users`(id, user_name, emp_number) VALUES ('USR111','demo', 11)");
+        $this->_runQuery("INSERT INTO `hs_hr_users`(id, user_name, emp_number) VALUES ('USR113','director', 13)");
 
 		// Insert Job Vacancies
 		$this->_runQuery("INSERT INTO hs_hr_job_vacancy(vacancy_id, jobtit_code, manager_id, active, description) " .
@@ -121,7 +122,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
     }
 
 	private function _deleteTables() {
-        $this->_runQuery("DELETE FROM `hs_hr_users` WHERE id = 'USR111'");
+        $this->_runQuery("DELETE FROM `hs_hr_users` WHERE id in ('USR111', 'USR113') ");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_application`");
         $this->_runQuery("TRUNCATE TABLE `hs_hr_job_application_events`");
 		$this->_runQuery("TRUNCATE TABLE `hs_hr_job_vacancy`");
@@ -245,6 +246,75 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 
     	$result = $notifier->sendApplicationReceivedEmailToManager($jobApplication);
     	$this->assertFalse($result);
+    }
+
+    /**
+     * Test case for sendApprovalToHiringManager().
+     */
+    public function testSendApprovalToHiringManager() {
+        $jobApplication = $this->jobApplications[1];
+
+        $notifier = new RecruitmentMailNotifier();
+        $mockMailer = new MockMailer();
+        $notifier->setMailer($mockMailer);
+
+        $event = JobApplicationEvent::getJobApplicationEvent(1);
+        $event->setStatus(JobApplicationEvent::EVENT_APPROVE);
+        $event->setNotes('Notes created for unit testing');
+        $event->setCreatedBy('USR113');
+        $event->save();
+
+        // Check successfull email
+        $result = $notifier->sendApprovalToHiringManager($jobApplication, $event);
+        $this->assertTrue($result);
+
+        $to = $mockMailer->getTo();
+        $this->assertEquals(1, count($to));
+        $this->assertEquals('aruna@company.com', $to[0]);
+
+        $subject = $this->_getTemplateFile(RecruitmentMailNotifier::SUBJECT_DIRECTOR_APPROVE);
+        $body = $this->_getTemplateFile(RecruitmentMailNotifier::TEMPLATE_DIRECTOR_APPROVE);
+
+        $search = array(RecruitmentMailNotifier::VARIABLE_JOB_TITLE, RecruitmentMailNotifier::VARIABLE_TO,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_FIRSTNAME,  RecruitmentMailNotifier::VARIABLE_APPLICANT_MIDDLENAME,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_LASTNAME, RecruitmentMailNotifier::VARIABLE_APPLICANT_STREET1,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_STREET2, RecruitmentMailNotifier::VARIABLE_APPLICANT_CITY,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_PROVINCE, RecruitmentMailNotifier::VARIABLE_APPLICANT_ZIP,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_COUNTRY, RecruitmentMailNotifier::VARIABLE_APPLICANT_PHONE,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_MOBILE, RecruitmentMailNotifier::VARIABLE_APPLICANT_EMAIL,
+            RecruitmentMailNotifier::VARIABLE_APPLICANT_QUALIFICATIONS, RecruitmentMailNotifier::VARIABLE_APPROVE_NOTES,
+            RecruitmentMailNotifier::VARIABLE_FROM);
+
+        $replace = array('Manager', 'Saman',
+            $jobApplication->getFirstName(), $jobApplication->getMiddleName(),
+            $jobApplication->getLastName(), $jobApplication->getStreet1(),
+            $jobApplication->getStreet2(), $jobApplication->getCity(),
+            $jobApplication->getProvince(), $jobApplication->getZip(),
+            'Sri Lanka', $jobApplication->getPhone(),
+            $jobApplication->getMobile(), $jobApplication->getEmail(),
+            $jobApplication->getQualifications(), $event->getNotes(), 'John Samuel');
+
+        $body = str_replace($search, $replace, $body);
+        $subject = str_replace($search, $replace, $subject);
+        $subject = str_replace(array("\r", "\n"), array("", ""), $subject);
+
+        $this->assertEquals($subject, $mockMailer->getSubject());
+        $this->assertEquals($body, $mockMailer->getText());
+
+        // Force failure
+        $mockMailer = new MockMailer();
+        $mockMailer->setResult(false);
+        $notifier->setMailer($mockMailer);
+        $result = $notifier->sendApplicationReceivedEmailToManager($jobApplication, $event);
+        $this->assertFalse($result);
+
+        // without to email address - should fail
+        $this->_runQuery("UPDATE hs_hr_employee SET emp_work_email=NULL where emp_number = 11");
+        $mockMailer = new MockMailer();
+        $notifier->setMailer($mockMailer);
+
+        $result = $notifier->sendApprovalToHiringManager($jobApplication, $event);
+        $this->assertFalse($result);
     }
 
     /**

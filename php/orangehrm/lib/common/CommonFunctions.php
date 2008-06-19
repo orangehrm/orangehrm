@@ -209,11 +209,24 @@ class CommonFunctions {
 	 *
 	 * NOTE: Considers negative numbers as invalid id's. Valid Id's
 	 * should be positive integers.
-	 *
+     *
+     * With the optional prefix parameter, id's like LOC001 can also be
+     * tested.
+     *
 	 * @param mixed id
+     * @param String $prefix (Optional prefix)
 	 * @return bool true if a valid id, false otherwise
 	 */
-	public static function isValidId($id) {
+	public static function isValidId($id, $prefix = null) {
+
+        /* Check for prefix and remove it */
+        if (!empty($prefix)) {
+            if (strpos($id, $prefix) === 0) {
+                $id = substr($id, strlen($prefix));
+            } else {
+                return false;
+            }
+        }
 
 		if (is_int($id) && (intVal($id) >= 0)) {
 			return true;
@@ -384,6 +397,30 @@ class CommonFunctions {
      */
     public static function escapeHtml($value) {
         return htmlspecialchars($value, ENT_QUOTES);
+    }
+
+    /**
+     * Get's the first N characters of the given string, optionally appending the given suffix.
+     *
+     * Eg: if $text = 'This is a test' and $n = 7 and $suffix = '...'
+     * gives: 'This is...'
+     *
+     * @param String $text to format
+     * @param int $n Number of characters
+     * @param String $suffix Optional suffix
+     *
+     * @return String formatted string
+     */
+    public static function getFirstNChars($text, $n, $suffix = '') {
+
+        if (strlen($text) > $n) {
+            $text = substr($text, 0, $n);
+            if (!empty($suffix)) {
+                $text .= $suffix;
+            }
+        }
+
+        return $text;
     }
 }
 ?>

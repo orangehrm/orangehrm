@@ -77,6 +77,18 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		return self::$instance;
 	 }
 
+     /**
+      * Formats the given amount as a currency amount
+      *
+      * @param mixed $amount Amount to be formatted.
+      *
+      * @return String formatted amount
+      */
+     public function formatMoney($amount) {
+        $fmtAmount = number_format($amount, 2, '.', '');
+         return $fmtAmount;
+     }
+
 	 /**
 	  * Converts the date format to the format configured in the system
 	  *

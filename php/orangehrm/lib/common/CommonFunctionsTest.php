@@ -128,6 +128,13 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(CommonFunctions::IsValidId("03"));
 		$this->assertTrue(CommonFunctions::IsValidId("031"));
 
+        // With Prefixes
+        $this->assertTrue(CommonFunctions::IsValidId('LOC101', 'LOC'));
+        $this->assertFalse(CommonFunctions::IsValidId('LOC101', 'EMP'));
+        $this->assertFalse(CommonFunctions::IsValidId('101', 'LOC'));
+        $this->assertFalse(CommonFunctions::IsValidId('LOCA1', 'LOC'));
+        $this->assertFalse(CommonFunctions::IsValidId('LOC', 'LOC'));
+        $this->assertTrue(CommonFunctions::IsValidId('EMP010', 'EMP'));
     }
 
     /**
@@ -233,6 +240,14 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertFalse(CommonFunctions::isInt("abc"));
 	}
+
+    public function testGetFirstNChars() {
+        $this->assertEquals('A des..', CommonFunctions::getFirstNChars("A description", 5, '..'));
+        $this->assertEquals('A des', CommonFunctions::getFirstNChars("A description", 5, ''));
+        $this->assertEquals('A des', CommonFunctions::getFirstNChars("A description", 5));
+        $this->assertEquals('A description', CommonFunctions::getFirstNChars("A description", 25));
+        $this->assertEquals('A description', CommonFunctions::getFirstNChars("A description", 25, '...'));
+    }
 }
 
 // Call CommonFunctionsTest::main() if this source file is executed directly.
