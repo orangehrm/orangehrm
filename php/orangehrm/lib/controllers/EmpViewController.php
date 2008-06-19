@@ -1950,7 +1950,18 @@ class EmpViewController {
 				$reqcode = $index;
 				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
 			} else {
-				$showMsg = "ADD_FAILURE";
+				
+				$errCode = mysql_errno();
+				
+				switch ($errCode) {
+					case 1062 :
+						$showMsg = "DUPLICATE_EMPCODE_FAILURE";
+						break;
+						
+					default :
+						$showMsg = "ADD_FAILURE";
+						break;
+				}
 
 				$reqcode = $index;
 				header("Location: ./CentralController.php?message=$showMsg&capturemode=addmode&reqcode=$reqcode"); //if Adding Data to DB not succeed set msg with showMsg

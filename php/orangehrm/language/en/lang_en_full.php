@@ -418,6 +418,7 @@
 	$lang_empview_UPDATE_SUCCESS 			= "Successfully Updated";
 	$lang_empview_DELETE_SUCCESS 			= "Successfully Deleted";
 	$lang_empview_ADD_FAILURE 				= "Failed to Add";
+	$lang_empview_DUPLICATE_EMPCODE_FAILURE	= "Failed to Add. Duplicate Employee Code Entered.";
 	$lang_empview_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_empview_DELETE_FAILURE 			= "Failed to Delete";
 	$lang_empview_Language 					= "Language";
