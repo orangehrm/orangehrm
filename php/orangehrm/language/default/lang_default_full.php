@@ -119,6 +119,7 @@
 	$lang_Menu_Admin_CompanyInfo 				= "Company Info";
 	$lang_Menu_Admin_CompanyInfo_Gen 			= "General";
 	$lang_Menu_Admin_CompanyInfo_CompStruct 	= "Company Structure";
+    $lang_Menu_Admin_Company_Property           = "Company Property";
 	$lang_Menu_Admin_CompanyInfo_Locations 		= "Locations";
 
 	$lang_Menu_Admin_Job 						= "Job";
@@ -1244,6 +1245,17 @@
 	$lang_Admin_Project_Error_NoProjects = "No projects found.";
 	$lang_Admin_Project_NoActivitiesDefined = "No Activities defined.";
 	$lang_Admin_Project_Activity_Error_NameAlreadyDefined = "An Activity with that name already exists in this project. Please select a different name.";
+
+    //Company Property
+    $lang_Admin_Company_Property = "Company Property";
+    $lang_Admin_Company_Property_Title = "Company Info: Company Property";
+    $lang_Admin_Property_Name = "Property Name";
+    $lang_Admin_Prop_Emp_Name = "Employee";
+    $lang_Admin_Company_Property_Err_Del_Not_Sel = "Please select a property to delete!";
+    $lang_Admin_Company_Property_Err_Name_Empty = "Property name is empty!";
+    $lang_Admin_Company_Property_Err_Name_Exists = "Property name is already exists!";
+    $lang_Admin_Company_Property_Warn_Delete = "Do you want to delete selected items?";
+    $lang_Admin_Property_Please_Select = "Not Assigned";
 
 	//timesheet
 	$lang_Time_Module_Title = "OrangeHRM - Time and Attendance Module";

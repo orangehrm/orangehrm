@@ -55,6 +55,7 @@ require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_EmpStat.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_GenInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CompStruct.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_Location.php';
+require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_CompProperty.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_MembershipType.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_MembershipInfo.php';
 require_once ROOT_PATH . '/lib/extractor/eimadmin/EXTRACTOR_NationalityInfo.php';
@@ -352,6 +353,11 @@ switch ($moduletype) {
 										}
 
 										break;
+                        case 'TCP'  :
+                                        if(isset($_POST['sqlState'])) {
+                                            $extractor = new EXTRACTOR_CompProperty();
+                                        }
+                                        break;
 
 						case 'MEM'	:
 										if(isset($_POST['sqlState'])) {

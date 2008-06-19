@@ -22,10 +22,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'models_eimadmin_AllTests::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
- 
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
 require_once 'CustomerTest.php';
 require_once 'EmailNotificationConfigurationTest.php';
 require_once 'ProjectsTest.php';
@@ -38,13 +36,15 @@ require_once 'encryption/KeyHandlerTest.php';
 require_once 'JobSpecTest.php';
 require_once 'export/AllTests.php';
 
+require_once 'CompPropertyTest.php';
+
 class models_eimadmin_AllTests
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
     $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_eimadmin');
@@ -59,10 +59,13 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('JobSpecTest');
 	$suite->addTestSuite('KeyHandlerTest');
 	$suite->addTestSuite('models_eimadmin_export_AllTests');
+
+    $suite->addTestSuite('CompPropertyTest');
+
         return $suite;
     }
 }
- 
+
 if (PHPUnit_MAIN_METHOD == 'models_eimadmin_AllTests::main') {
     models_eimadmin_AllTests::main();
 }
