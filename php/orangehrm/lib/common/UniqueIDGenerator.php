@@ -216,6 +216,7 @@ if(file_exists($confPHP)) {
 						new IDField("hs_hr_job_spec", "jobspec_id"),
 						new IDField("hs_hr_job_vacancy", "vacancy_id"),
 						new IDField("hs_hr_job_application", "application_id"),
+                        new IDField("hs_hr_job_application_events", "id"),
 
 						/* Not used yet. Uncomment when we start using these
 						new IDField("hs_hr_employee_timesheet_period", "timesheet_period_id"),

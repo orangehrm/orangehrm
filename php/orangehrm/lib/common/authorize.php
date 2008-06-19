@@ -20,6 +20,8 @@
  */
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 
 /**
@@ -38,11 +40,13 @@ class authorize {
 	public $roleSupervisor = "Supervisor";
 	public $roleESS = "ESS";
 	public $roleProjectAdmin = "ProjectAdmin";
+    public $roleManager = "Manager";
 
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
 	const AUTHORIZE_ROLE_ESS = 'ESS';
 	const AUTHORIZE_ROLE_PROJECT_ADMIN = "ProjectAdmin";
+    const AUTHORIZE_ROLE_MANAGER = 'Manager';
 
 	/**
 	 * class atributes
@@ -108,6 +112,7 @@ class authorize {
 
 		$roles[$this->roleSupervisor] = $this->_checkIsSupervisor();
 		$roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
+        $roles[$this->roleManager] = $this->_checkIsManager();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -157,6 +162,23 @@ class authorize {
 		return $projectAdmin;
 	}
 
+    /**
+     * Check whether the user is a Manager
+     *
+     * @return boolean
+     */
+    private function _checkIsManager() {
+
+        $isManager = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isManager = $empInfo->isManager($id);
+        }
+        return $isManager;
+    }
+
 	/**
 	 * Checks whether an admin
 	 *
@@ -183,6 +205,15 @@ class authorize {
 	public function isProjectAdmin() {
 		return $this->_chkRole($this->roleProjectAdmin);
 	}
+
+    /**
+     * Checks whether a Manager
+     *
+     * @return boolean true if a Manager. False otherwise
+     */
+    public function isManager() {
+        return $this->_chkRole($this->roleManager);
+    }
 
 	/**
 	 * Checks whether an admin

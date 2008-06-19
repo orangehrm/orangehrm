@@ -14,7 +14,6 @@ create table `hs_hr_config` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_compstructtree` (
-  `dept_id` varchar(32) null,
   `title` tinytext not null,
   `description` text not null,
   `loc_code` varchar(13) default NULL,
@@ -22,6 +21,7 @@ create table `hs_hr_compstructtree` (
   `rgt` tinyint(4) not null default '0',
   `id` int(6) not null,
   `parnt` int(6) not null default '0',
+  `dept_id` varchar(32) null,
   primary key  (`id`),
   key loc_code (`loc_code`)
 ) engine=innodb default charset=utf8;
@@ -852,10 +852,27 @@ create table `hs_hr_job_application` (
   `mobile` varchar(50) default null,
   `email` varchar(50) default null,
   `qualifications` text default '',
+  `status` smallint(2) default 0,
+  `applied_datetime` datetime default null,
   primary key  (`application_id`),
   key `vacancy_id` (`vacancy_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_job_application_events` (
+  `id` int(11) not null,
+  `application_id` int(11) not null,
+  `created_time` datetime default null,
+  `created_by` varchar(36) default null,
+  `owner` int(7) default null,
+  `event_time` datetime default null,
+  `event_type` smallint(2) default null,
+  `status` smallint(2) default 0,
+  `notes` text default '',
+  primary key  (`id`),
+  key `application_id` (`application_id`),
+  key `created_by` (`created_by`),
+  key `owner` (`owner`)
+) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
@@ -1164,4 +1181,9 @@ alter table `hs_hr_job_vacancy`
 
 alter table `hs_hr_job_application`
   add constraint foreign key (`vacancy_id`) references `hs_hr_job_vacancy` (`vacancy_id`) on delete cascade;
+
+alter table `hs_hr_job_application_events`
+  add constraint foreign key (`application_id`) references `hs_hr_job_application` (`application_id`) on delete cascade,
+  add constraint foreign key (`created_by`) references `hs_hr_users` (`id`) on delete set null,
+  add constraint foreign key (`owner`) references `hs_hr_employee` (`emp_number`) on delete set null;
 

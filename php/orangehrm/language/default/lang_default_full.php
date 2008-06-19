@@ -1450,6 +1450,60 @@
  	$lang_Recruit_AllowedValuesAre = 'Allowed Values are: ';
 	$lang_Recruit_NoManagersNotice = 'No managers found. You need to create a job title named \'Manager\' and assign to employees who are managers.';
 
+    $lang_Recruit_JobApplicationList_Heading = 'Applicants';
+    $lang_Recruit_JobApplicationList_Name = 'Name';
+    $lang_Recruit_JobApplicationList_PositionApplied = 'Position Applied';
+    $lang_Recruit_JobApplicationList_Actions = 'Actions';
+    $lang_Recruit_JobApplicationList_EventHistory = 'Event History';
+    $lang_Recruit_JobApplicationList_Details = 'Details';
+    $lang_Recruit_JobApplicationList_NoApplications = 'No Applicants found';
+
+    $lang_Recruit_JobApplicationStatus_Submitted = 'Application Submitted';
+    $lang_Recruit_JobApplicationStatus_FirstInterview = '1st Interview';
+    $lang_Recruit_JobApplicationStatus_SecondInterview = '2nd Interview';
+    $lang_Recruit_JobApplicationStatus_JobOffered = 'Job Offered';
+    $lang_Recruit_JobApplicationStatus_OfferDeclined = 'Offer Declined';
+    $lang_Recruit_JobApplicationStatus_PendingApproval = 'Pending Approval';
+    $lang_Recruit_JobApplicationStatus_Hired = 'Hired';
+    $lang_Recruit_JobApplicationStatus_Rejected = 'Rejected';
+
+    $lang_Recruit_JobApplicationAction_Reject = 'Reject';
+    $lang_Recruit_JobApplicationAction_FirstInterview = 'Schedule 1st Interview';
+    $lang_Recruit_JobApplicationAction_SecondInterview = 'Schedule 2nd Interview';
+    $lang_Recruit_JobApplicationAction_OfferJob = 'Offer Job';
+    $lang_Recruit_JobApplicationAction_MarkDeclined = 'Mark Offer Declined';
+    $lang_Recruit_JobApplicationAction_SeekApproval = 'Seek Approval';
+    $lang_Recruit_JobApplicationAction_Approve = 'Approve';
+
+    $lang_Recruit_JobApplicationDetails_Heading = 'Application Details';
+    $lang_Recruit_JobApplicationDetails_Status = 'Application Status';
+    $lang_Recruit_JobApplicationDetails_Actions = 'Actions';
+    $lang_Recruit_JobApplicationHistory_EventHistory = 'Event History';
+    $lang_Recruit_JobApplicationHistory_ApplicationForThePositionOf = 'Application for the position of';
+    $lang_Recruit_JobApplicationHistory_DateApplied = 'Date Applied';
+    $lang_Recruit_JobApplicationHistory_NoEvents = 'No Events available';
+    $lang_Recruit_JobApplicationHistory_FirstInterview = '1st Interview';
+    $lang_Recruit_JobApplicationHistory_SecondInterview = '2nd Interview';
+    $lang_Recruit_JobApplicationHistory_Date = 'Date';
+    $lang_Recruit_JobApplicationHistory_Interviewer = 'Interviewer';
+    $lang_Recruit_JobApplicationHistory_Status = 'Status';
+    $lang_Recruit_JobApplicationHistory_Notes = 'Notes';
+    $lang_Recruit_JobApplicationHistory_StatusInterviewScheduled = 'Scheduled';
+    $lang_Recruit_JobApplicationHistory_StatusFinished = 'Finished';
+    $lang_Recruit_JobApplication_ScheduleFirstInterview = 'Schedule 1st Interview for';
+    $lang_Recruit_JobApplication_ScheduleSecondInterview = 'Schedule 2nd Interview for';
+    $lang_Recruit_JobApplication_Schedule_Date = 'Date';
+    $lang_Recruit_JobApplication_Schedule_Time = 'Time';
+    $lang_Recruit_JobApplication_Schedule_Interviewer = 'Interviewer';
+    $lang_Recruit_JobApplication_Schedule_Notes = 'Notes';
+    $lang_Recruit_JobApplication_Select = 'Select';
+    $lang_Recruit_JobApplication_PleaseSpecifyDate = 'Please specify interview Date';
+    $lang_Recruit_JobApplication_PleaseSpecifyTime = 'Please specify interview Time';
+    $lang_Recruit_JobApplication_PleaseSpecifyInterviewer = 'Please specify Interviewer';
+    $lang_Recruit_JobApplication_PleaseSpecifyValidDate = 'Date should be in the format: ';
+    $lang_Recruit_JobApplication_PleaseSpecifyValidTime = 'Time should be in the format: ';
+    $lang_Recruit_JobApplication_SecondInterviewShouldBeAfterFirst = 'Second interview date should be after the first interview date ';
+
 	$lang_Recruit_ApplicantVacancyList_Heading = 'Job Vacancies';
 	$lang_Recruit_ApplicantVacancyList_Title = 'Job Vacancies';
 	$lang_Recruit_ApplicationForm_Heading = 'Application Form for a position with The ORS Group';

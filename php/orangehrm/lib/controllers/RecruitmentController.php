@@ -28,13 +28,16 @@ require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProvinceInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 require_once ROOT_PATH . '/lib/models/recruitment/JobVacancy.php';
 require_once ROOT_PATH . '/lib/models/recruitment/JobApplication.php';
+require_once ROOT_PATH . '/lib/models/recruitment/JobApplicationEvent.php';
 require_once ROOT_PATH . '/lib/models/recruitment/RecruitmentMailNotifier.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_ViewList.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobVacancy.php';
 require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobApplication.php';
-
+require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_JobApplicationEvent.php';
+require_once ROOT_PATH . '/lib/extractor/recruitment/EXTRACTOR_ScheduleInterview.php';
 
 /**
  * Controller for recruitment module
@@ -101,6 +104,60 @@ class RecruitmentController {
 	                    $this->_deleteVacancies($ids);
 	                	break;
 	            }
+                break;
+
+            case 'Application' :
+                $id = isset($_GET['id']) ? $_GET['id'] : null;
+
+                switch ($_GET['action']) {
+
+                    case 'List' :
+                        $this->_viewApplicationList();
+                        break;
+                    case 'Reject' :
+                        $this->_rejectApplication($id);
+                        break;
+                    case 'FirstInterview' :
+                        $this->_scheduleFirstInterview($id);
+                        break;
+                    case 'SecondInterview' :
+                        $this->_scheduleSecondInterview($id);
+                        break;
+                    case 'OfferJob' :
+                        $this->_offerJob($id);
+                        break;
+                    case 'MarkDeclined' :
+                        $this->_markDeclined($id);
+                        break;
+                    case 'SeekApproval' :
+                        $this->_seekApproval($id);
+                        break;
+                    case 'Approve' :
+                        $this->_approve($id);
+                        break;
+                    case 'ViewDetails' :
+                        $this->_viewApplicationDetails($id);
+                        break;
+                    case 'ViewHistory' :
+                        $this->_viewApplicationHistory($id);
+                        break;
+                    case 'EditEvent' :
+                        $eventExtractor = new EXTRACTOR_JobApplicationEvent();
+                        $object = $eventExtractor->parseUpdateData($_POST);
+                        $this->_editEvent($object);
+                        break;
+                    case 'SaveFirstInterview' :
+                        $interviewExtractor = new EXTRACTOR_ScheduleInterview();
+                        $event = $interviewExtractor->parseAddData($_POST);
+                        $this->_saveFirstInterview($event);
+                        break;
+                    case 'SaveSecondInterview' :
+                        $interviewExtractor = new EXTRACTOR_ScheduleInterview();
+                        $event = $interviewExtractor->parseAddData($_POST);
+                        $this->_saveSecondInterview($event);
+                        break;
+                }
+
 	            break;
 	    }
     }
@@ -132,7 +189,7 @@ class RecruitmentController {
         	$count = Jobvacancy::getCount($searchObject->getSearchString(), $searchObject->getSearchField());
         	$this->_viewList($searchObject->getPageNumber(), $count, $list);
 		} else {
-		    trigger_error("Not Authorized!", E_USER_NOTICE);
+            $this->_notAuthorized();
 		}
     }
 
@@ -150,7 +207,7 @@ class RecruitmentController {
 			}
             $this->redirect($message, '?recruitcode=Vacancy&action=List');
 		} else {
-		    trigger_error("Not Authorized!", E_USER_NOTICE);
+            $this->_notAuthorized();
 		}
     }
 
@@ -161,7 +218,7 @@ class RecruitmentController {
 		if ($this->authorizeObj->isAdmin()) {
 	    	$this->_viewVacancy();
 	    } else {
-		    trigger_error("Not Authorized!", E_USER_NOTICE);
+            $this->_notAuthorized();
 		}
 	}
 
@@ -181,7 +238,7 @@ class RecruitmentController {
 			}
 
 			$empInfo = new EmpInfo;
-			$managers = $empInfo->getListofEmployee(0, 'Manager', 6);
+			$managers = $empInfo->getListofEmployee(0, JobTitle::MANAGER_JOB_TITLE_NAME, 6);
 			$jobTitle = new JobTitle();
 			$jobTitles = $jobTitle->getJobTit();
 
@@ -212,7 +269,7 @@ class RecruitmentController {
 	        	$this->redirect($message);
 			}
 		} else {
-		    trigger_error("Not Authorized!", E_USER_NOTICE);
+            $this->_notAuthorized();
 		}
 
     }
@@ -232,7 +289,7 @@ class RecruitmentController {
 	        	$this->redirect($message);
 			}
 		} else {
-		    trigger_error("Not Authorized!", E_USER_NOTICE);
+            $this->_notAuthorized();
 		}
     }
 
@@ -303,6 +360,277 @@ class RecruitmentController {
 		return $province->getProvinceCodes($countryCode);
 	}
 
+    /**
+     * Display list of job applications to HR admin or manager
+     */
+    private function _viewApplicationList() {
+
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+            $managerId = $this->authorizeObj->isAdmin()? null : $this->authorizeObj->getEmployeeId();
+            $applications = JobApplication::getList($managerId);
+
+            $path = '/templates/recruitment/applicationList.php';
+            $objs['applications'] = $applications;
+            $template = new TemplateMerger($objs, $path);
+            $template->display();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    /**
+     * View application details
+     * @param int $id Application ID
+     */
+    private function _viewApplicationDetails($id) {
+        $path = '/templates/recruitment/viewApplicationDetails.php';
+
+        $objs['application'] = JobApplication::getJobApplication($id);
+
+        $template = new TemplateMerger($objs, $path);
+        $template->display();
+    }
+
+    /**
+     * View application history
+     * @param int $id Application ID
+     */
+    private function _viewApplicationHistory($id) {
+        $path = '/templates/recruitment/viewApplicationHistory.php';
+        $objs['application'] = JobApplication::getJobApplication($id);
+
+        $template = new TemplateMerger($objs, $path);
+        $template->display();
+    }
+
+    /**
+     * Reject the given application
+     */
+    private function _rejectApplication($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $application = JobApplication::getJobApplication($id);
+            $application->setStatus(JobApplication::STATUS_REJECTED);
+            try {
+                $application->save();
+
+                // Send notification to Applicant
+                $notifier = new RecruitmentMailNotifier();
+                $notifier->sendApplicationRejectedEmailToApplicant($application);
+
+                $this->_addApplicationEvent($id, JobApplicationEvent::EVENT_REJECT);
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    private function _saveFirstInterview($event) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $applicationId = $event->getApplicationId();
+            $application = JobApplication::getJobApplication($applicationId);
+            $application->setStatus(JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
+            try {
+                $application->save();
+                $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+                $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
+                $event->setCreatedBy($_SESSION['user']);
+
+                $event->save();
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    private function _saveSecondInterview($event) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $applicationId = $event->getApplicationId();
+            $application = JobApplication::getJobApplication($applicationId);
+            $application->setStatus(JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED);
+
+            try {
+                $application->save();
+                $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+                $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
+                $event->setCreatedBy($_SESSION['user']);
+
+                $event->save();
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    private function _scheduleFirstInterview($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+            $this->_scheduleInterview($id, 1);
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    private function _scheduleSecondInterview($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+            $this->_scheduleInterview($id, 2);
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+
+    private function _scheduleInterview($id, $num) {
+        $path = '/templates/recruitment/scheduleInterview.php';
+
+        $empInfo = new EmpInfo();
+        $managers = $empInfo->getListofEmployee(0, JobTitle::MANAGER_JOB_TITLE_NAME, 6);
+        $objs['managers'] = is_array($managers) ? $managers : array();
+        $objs['application'] = JobApplication::getJobApplication($id);
+        $objs['interview'] = $num;
+
+        $template = new TemplateMerger($objs, $path);
+        $template->display();
+    }
+
+    private function _offerJob($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $application = JobApplication::getJobApplication($id);
+            $application->setStatus(JobApplication::STATUS_JOB_OFFERED);
+
+            try {
+                $application->save();
+                $this->_addApplicationEvent($id, JobApplicationEvent::EVENT_OFFER_JOB);
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+    private function _markDeclined($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $application = JobApplication::getJobApplication($id);
+            $application->setStatus(JobApplication::STATUS_OFFER_DECLINED);
+
+            try {
+                $application->save();
+                $this->_addApplicationEvent($id, JobApplicationEvent::EVENT_MARK_OFFER_DECLINED);
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+    private function _seekApproval($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $application = JobApplication::getJobApplication($id);
+            $application->setStatus(JobApplication::STATUS_PENDING_APPROVAL);
+
+            try {
+                $application->save();
+                $this->_addApplicationEvent($id, JobApplicationEvent::EVENT_SEEK_APPROVE);
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+    }
+    private function _approve($id) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager()) {
+
+            // TODO: Validate if Hiring manager or interview manager and in correct status
+            $application = JobApplication::getJobApplication($id);
+            $application->setStatus(JobApplication::STATUS_HIRED);
+
+            try {
+                $application->save();
+                $this->_addApplicationEvent($id, JobApplicationEvent::EVENT_APPROVE);
+                $message = 'UPDATE_SUCCESS';
+            } catch (Exception $e) {
+                $message = 'UPDATE_FAILURE';
+            }
+
+            $this->redirect($message, '?recruitcode=Application&action=List');
+            //$this->_viewApplicationList();
+        } else {
+            $this->_notAuthorized();
+        }
+
+    }
+
+    /**
+     * Add given event to application
+     */
+    private function _addApplicationEvent($applicationId, $eventType, $owner = null, $eventTime = null, $notes = null, $status = null) {
+        $event = new JobApplicationEvent();
+        $event->setApplicationId($applicationId);
+        $event->setEventType($eventType);
+
+        $createdTime = date(LocaleUtil::STANDARD_DATETIME_FORMAT);
+        $event->setCreatedTime($createdTime);
+        $event->setCreatedBy($_SESSION['user']);
+        $event->setOwner($owner);
+        $event->setEventTime($eventTime);
+        $event->setStatus($status);
+        $event->setNotes($notes);
+
+        $event->save();
+    }
+
+    /**
+     * Save the new values of passed Job Application Event
+     */
+    private function _editEvent($jobApplicationEvent) {
+        try {
+            $jobApplicationEvent->save();
+            $message = 'UPDATE_SUCCESS';
+        } catch (JobApplicationEventException $e) {
+            $message = 'UPDATE_FAILURE';
+        }
+        $this->redirect($message);
+    }
+
 	/**
 	 * Redirect to given url or current page while displaying optional message
 	 *
@@ -346,5 +674,11 @@ class RecruitmentController {
 		header("Location: ".$url[0].$message.$id);
 	}
 
+    /**
+     * Show not authorized message
+     */
+    private function _notAuthorized() {
+        trigger_error("Not Authorized!", E_USER_NOTICE);
+    }
 }
 ?>

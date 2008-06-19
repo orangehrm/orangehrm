@@ -32,6 +32,7 @@ require_once ROOT_PATH."/lib/confs/sysConf.php";
 require_once ROOT_PATH."/lib/models/recruitment/JobApplication.php";
 require_once ROOT_PATH."/lib/models/recruitment/JobVacancy.php";
 require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
+require_once ROOT_PATH."/lib/common/LocaleUtil.php";
 
 /**
  * Test class for JobApplication
@@ -93,8 +94,24 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 		// Insert Job Applications
 		$application = $this->_getJobApplication(1, 1, 'Janaka', 'T', 'Kulathunga', '111 Main Street', 'Apt X2',
 				'Colombo', 'Western', '2222', 'Sri Lanka', '01121111121', '077282828282', 'janaka@example.com',
-				'aaa bbb');
+				'aaa bbb', JobApplication::STATUS_SUBMITTED);
+        $application->setHiringManagerName('Saman Rajasinghe');
+        $application->setJobTitleName('Manager');
 		$this->jobApplications[1] = $application;
+
+        $application = $this->_getJobApplication(2, 2, 'Kamal', 'S', 'Manawarathne', '222 Sea Street', 'Suite B2',
+                'Kandy', 'Central', '111111', 'England', '33211121', '079982828282', 'kamal@etst.com',
+                'asdfasdf', JobApplication::STATUS_SUBMITTED);
+        $application->setHiringManagerName('Saman Rajasinghe');
+        $application->setJobTitleName('Driver');
+        $this->jobApplications[2] = $application;
+
+        $application = $this->_getJobApplication(3, 3, 'Ruwan', 'S', 'Nawarathne', '393 Hill Street', '#2',
+                'Nuwaraeliya', 'Central', '2333', 'Sri Lanka', '05121111121', '072282828282', 'rywab@sfmple.com',
+                'aaa sdf bbb', JobApplication::STATUS_SUBMITTED);
+        $application->setHiringManagerName('Aruna Jayasinghe');
+        $application->setJobTitleName('Typist');
+        $this->jobApplications[3] = $application;
 
 		$this->_createJobApplications($this->jobApplications);
 		UniqueIDGenerator::getInstance()->resetIDs();
@@ -201,6 +218,111 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+    /**
+     * Test for function getList()
+     */
+    public function testGetList() {
+
+        // get list
+        $list = JobApplication::getList();
+        $this->_compareApplications($this->jobApplications, $list);
+
+        // get list for a manager with related applications
+        $list = JobApplication::getList(11);
+        $expected = array(1=>$this->jobApplications[1], 2=>$this->jobApplications[2]);
+        $this->_compareApplications($expected, $list);
+
+        // get list for a manager without any applications
+        $list = JobApplication::getList(12);
+        $expected = array(3=>$this->jobApplications[3]);
+        $this->_compareApplications($expected, $list);
+
+    }
+
+    /**
+     * Test function getPossibleActions
+     */
+    public function testGetPossibleActions() {
+        $app = $this->jobApplications[1];
+
+        /* SUBMITTED */
+        $app->setStatus(JobApplication::STATUS_SUBMITTED);
+        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        /* FIRST INTERVIEW SCHEDULED */
+        $app->setStatus(JobApplication::STATUS_FIRST_INTERVIEW_SCHEDULED);
+
+        $event = new JobApplicationEvent(1);
+        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
+        $app->setEvents(array($event));
+
+        // Interview status is scheduled
+        $expected = array(JobApplication::ACTION_REJECT);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $event = new JobApplicationEvent(1);
+        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_FINISHED);
+        $app->setEvents(array($event));
+
+        // Interview status is finished
+        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        /* SECOND INTERVIEW SCHEDULED */
+        $app->setStatus(JobApplication::STATUS_SECOND_INTERVIEW_SCHEDULED);
+
+        $event = new JobApplicationEvent(1);
+        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_SCHEDULED);
+        $app->setEvents(array($event));
+
+        // Interview status is scheduled
+        $expected = array(JobApplication::ACTION_REJECT);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $event = new JobApplicationEvent(1);
+        $event->setEventType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+        $event->setStatus(JobApplicationEvent::STATUS_INTERVIEW_FINISHED);
+        $app->setEvents(array($event));
+
+        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_OFFER_JOB);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+
+        $app->setStatus(JobApplication::STATUS_JOB_OFFERED);
+        $expected = array(JobApplication::ACTION_MARK_OFFER_DECLINED, JobApplication::ACTION_SEEK_APPROVAL);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $app->setStatus(JobApplication::STATUS_OFFER_DECLINED);
+        $expected = array();
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $app->setStatus(JobApplication::STATUS_PENDING_APPROVAL);
+        $expected = array(JobApplication::ACTION_REJECT, JobApplication::ACTION_APPROVE);
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $app->setStatus(JobApplication::STATUS_HIRED);
+        $expected = array();
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+
+        $app->setStatus(JobApplication::STATUS_REJECTED);
+        $expected = array();
+        $actions = $app->getPossibleActions();
+        $this->assertEquals($expected, $actions);
+    }
+
 	/**
 	 * Check's that the passed appliation exists in the database
 	 *
@@ -275,7 +397,7 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
      * Create a JobApplication object with the passed parameters
      */
     private function _getJobApplication($id, $vacancyId, $firstName, $middleName, $lastName, $street1, $street2,
-    		$city, $province, $zip, $country, $mobile, $phone, $email, $qualifications) {
+    		$city, $province, $zip, $country, $mobile, $phone, $email, $qualifications, $status = JobApplication::STATUS_SUBMITTED) {
     	$application = new JobApplication($id);
 		$application->setVacancyId($vacancyId);
 		$application->setFirstName($firstName);
@@ -291,7 +413,28 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 		$application->setPhone($phone);
 		$application->setEmail($email);
 		$application->setQualifications($qualifications);
+        $application->setStatus($status);
+        $application->setAppliedDateTime(date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT));
+        $application->setEvents(array());
     	return $application;
+    }
+
+    /**
+     * Compares two array of JobApplication objects verifing they contain the same
+     * objects and considering the order
+     *
+     *
+     * @param array $expected Expected
+     * @param array $result Result
+     */
+    private function _compareApplicationsWithOrder($expected, $result) {
+        $this->assertEquals(count($expected), count($result));
+        $i = 0;
+        foreach ($expected as $application) {
+            $this->assertEquals($application, $result[$i]);
+            $i++;
+        }
+
     }
 
     /**
@@ -304,14 +447,15 @@ class JobApplicationTest extends PHPUnit_Framework_TestCase {
 
 			$sql = sprintf("INSERT INTO hs_hr_job_application(application_id, vacancy_id, firstname, middlename, ".
 						"lastname, street1, street2, city, country_code, province, zip, " .
-						"phone, mobile, email, qualifications) " .
-                        "VALUES(%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+						"phone, mobile, email, qualifications, status, applied_datetime) " .
+                        "VALUES(%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %d, '%s')",
                         $application->getId(), $application->getVacancyId(), $application->getFirstName(),
                         $application->getMiddleName(), $application->getLastName(), $application->getStreet1(),
                         $application->getStreet2(), $application->getCity(), $application->getCountry(),
                         $application->getProvince(), $application->getZip(), $application->getPhone(),
                         $application->getMobile(), $application->getEmail(),
-                        $application->getQualifications());
+                        $application->getQualifications(), $application->getStatus(),
+                        $application->getAppliedDateTime());
             $this->assertTrue(mysql_query($sql), mysql_error());
 		}
 		UniqueIDGenerator::getInstance()->initTable();

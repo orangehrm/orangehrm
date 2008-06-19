@@ -78,6 +78,10 @@ function strToTime(str, format) {
 	minuteVal = '';
 	aVal = '';
 
+	if (str.length != format.length) {
+		return false;
+	}
+
 	j=0;
 	for (i=0; i<format.length; i++) {
 
@@ -127,6 +131,9 @@ function strToDate(str, format) {
 	yearVal = '';
 	monthVal = '';
 	dateVal = '';
+	if (str.length != format.length) {
+		return false;
+	}
 
 	for (i=0; i<format.length; i++) {
 

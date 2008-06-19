@@ -53,7 +53,8 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 							array("hs_hr_workshift", "workshift_id", null),
 							array("hs_hr_job_spec", "jobspec_id", null),
 							array("hs_hr_job_vacancy", "vacancy_id", null),
-							array("hs_hr_job_application", "application_id", null));
+							array("hs_hr_job_application", "application_id", null),
+                            array("hs_hr_job_application_events", "id", null));
 
     /**
      * Runs the test methods of this class.

@@ -89,6 +89,13 @@ if($_SESSION['isAdmin']=='Yes') {
 	if ($_SESSION['isSupervisor']) {
 			$arrAllRights[PIM]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
 	}
+
+    /*
+     * Assign Manager's access to recruitment module
+     */
+    if ($_SESSION['isManager']) {
+            $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
+    }
 }
 
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim"))
@@ -182,7 +189,11 @@ if ($authorizeObj->isESS()) {
 	}
 }
 
-$recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
+if ($authorizeObj->isAdmin()) {
+    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
+} else if ($authorizeObj->isManager()) {
+    $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
+}
 
 // Default page in admin module is the Company general info page.
 $defaultAdminView = "GEN";
@@ -719,8 +730,11 @@ function preloadAllImages() {
 	            			<?php echo $lang_Menu_Recruit_JobVacancies; ?>
 	            		</a>
 	            	</li>
+                    <?php }
+                    if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager']) {
+                    ?>
 	            	<li id="jobApplicants">
-	            		<a href="lib/controllers/CentralController.php?recruitcode=APP&action=View_Applicants" target="rightMenu">
+	            		<a href="lib/controllers/CentralController.php?recruitcode=Application&action=List" target="rightMenu">
 	            			<?php echo $lang_Menu_Recruit_JobApplicants; ?>
 	            		</a>
 	            	</li>

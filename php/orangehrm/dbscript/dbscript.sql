@@ -14,7 +14,6 @@ create table `hs_hr_config` (
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_compstructtree` (
-  `dept_id` varchar(32) null,
   `title` tinytext not null,
   `description` text not null,
   `loc_code` varchar(13) default NULL,
@@ -22,6 +21,7 @@ create table `hs_hr_compstructtree` (
   `rgt` tinyint(4) not null default '0',
   `id` int(6) not null,
   `parnt` int(6) not null default '0',
+  `dept_id` varchar(32) null,
   primary key  (`id`),
   key loc_code (`loc_code`)
 ) engine=innodb default charset=utf8;
@@ -851,8 +851,26 @@ create table `hs_hr_job_application` (
   `mobile` varchar(50) default null,
   `email` varchar(50) default null,
   `qualifications` text default '',
+  `status` smallint(2) default 0,
+  `applied_datetime` datetime default null,
   primary key  (`application_id`),
   key `vacancy_id` (`vacancy_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_job_application_events` (
+  `id` int(11) not null,
+  `application_id` int(11) not null,
+  `created_time` datetime default null,
+  `created_by` varchar(36) default null,
+  `owner` int(7) default null,
+  `event_time` datetime default null,
+  `event_type` smallint(2) default null,
+  `status` smallint(2) default 0,
+  `notes` text default '',
+  primary key  (`id`),
+  key `application_id` (`application_id`),
+  key `created_by` (`created_by`),
+  key `owner` (`owner`)
 ) engine=innodb default charset=utf8;
 
 alter table hs_hr_compstructtree
@@ -1162,6 +1180,11 @@ alter table `hs_hr_job_vacancy`
 
 alter table `hs_hr_job_application`
   add constraint foreign key (`vacancy_id`) references `hs_hr_job_vacancy` (`vacancy_id`) on delete cascade;
+
+alter table `hs_hr_job_application_events`
+  add constraint foreign key (`application_id`) references `hs_hr_job_application` (`application_id`) on delete cascade,
+  add constraint foreign key (`created_by`) references `hs_hr_users` (`id`) on delete set null,
+  add constraint foreign key (`owner`) references `hs_hr_employee` (`emp_number`) on delete set null;
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);
@@ -1668,7 +1691,7 @@ VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
 		('USG001', 'MOD006', '1', '1', '1', '1'),
 		('USG001', 'MOD007', '1', '1', '1', '1'),
 		('USG001', 'MOD008', '1', '1', '1', '1');
-INSERT INTO `hs_hr_compstructtree` VALUES ('', 'Parent Company', null , 1, 2, 1, 0);
+INSERT INTO `hs_hr_compstructtree`(`title`, `description`, `loc_code`, `lft`, `rgt`, `id`, `parnt`, `dept_id`) VALUES ('', 'Parent Company', null , 1, 2, 1, 0, null);
 INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e229','Admin','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001');
 
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
@@ -1752,3 +1775,4 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_spec', 'jobspec_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_vacancy', 'vacancy_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_application', 'application_id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_application_events', 'id');

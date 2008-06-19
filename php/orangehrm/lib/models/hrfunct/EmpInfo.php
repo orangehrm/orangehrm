@@ -2951,6 +2951,40 @@ class EmpInfo {
     }
 
     /**
+     * Check if given employee is a 'Manager'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if a manager, false otherwise
+     */
+    public function isManager($empNumber) {
+
+        $isManager = false;
+
+        $tables[0] = '`hs_hr_employee` a';
+        $tables[1] = '`hs_hr_job_title` b';
+
+        $joinConditions[1] = 'a.`job_title_code` = b.`jobtit_code`';
+
+        $selectConditions[] = "a.`emp_number` = " . $empNumber;
+        $selectConditions[] = "b.`jobtit_name` = '" . JobTitle::MANAGER_JOB_TITLE_NAME . "'";
+
+        $sqlBuilder = new SQLQBuilder();
+        $sql = $sqlBuilder->countFromMultipleTables($tables, $joinConditions, $selectConditions);
+        $conn = new DMLFunctions();
+        $result = $conn->executeQuery($sql);
+
+        if ($result) {
+            $row = mysql_fetch_array($result, MYSQL_NUM);
+            $count = $row[0];
+            if ($count == 1) {
+                $isManager = true;
+            }
+        }
+
+        return $isManager;
+    }
+
+    /**
      * Searches for supervisors with name matching the search string and
      * returns a comma separated list of employee numbers of their
      * subordinates.

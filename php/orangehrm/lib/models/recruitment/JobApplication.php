@@ -21,8 +21,11 @@ require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
+require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 require_once ROOT_PATH . '/lib/common/SearchObject.php';
+require_once ROOT_PATH . '/lib/models/recruitment/JobVacancy.php';
+require_once ROOT_PATH . '/lib/models/recruitment/JobApplicationEvent.php';
 
 /**
  * Class representing a Job Application
@@ -47,11 +50,49 @@ class JobApplication {
 	const DB_FIELD_MOBILE = 'mobile';
 	const DB_FIELD_EMAIL = 'email';
 	const DB_FIELD_QUALIFICATIONS = 'qualifications';
+    const DB_FIELD_STATUS = 'status';
+    const DB_FIELD_APPLIED_DATETIME = 'applied_datetime';
+
+    /**
+     * Job application status
+     */
+    const STATUS_SUBMITTED = 0;
+    const STATUS_FIRST_INTERVIEW_SCHEDULED = 1;
+    const STATUS_SECOND_INTERVIEW_SCHEDULED = 2;
+    const STATUS_JOB_OFFERED = 3;
+    const STATUS_OFFER_DECLINED = 4;
+    const STATUS_PENDING_APPROVAL = 5;
+    const STATUS_HIRED = 6;
+    const STATUS_REJECTED = 7;
+
+    /**
+     * Actions that can be performed on Job Application
+     */
+    const ACTION_REJECT = 'Reject';
+    const ACTION_SCHEDULE_FIRST_INTERVIEW = 'FirstInterview';
+    const ACTION_SCHEDULE_SECOND_INTERVIEW = 'SecondInterview';
+    const ACTION_OFFER_JOB = 'OfferJob';
+    const ACTION_MARK_OFFER_DECLINED = 'MarkDeclined';
+    const ACTION_SEEK_APPROVAL = 'SeekApproval';
+    const ACTION_APPROVE = 'Approve';
+
+    /**
+     * Manager roles
+     */
+    const ROLE_HR_ADMIN = 0;
+    const ROLE_HIRING_MANAGER = 1;
+    const ROLE_INTERVIEWING_MANAGER = 2;
+    const ROLE_DIRECTOR = 3;
+
+    /** Fields retrieved from other tables */
+    const JOB_TITLE_NAME = 'job_title_name';
+    const HIRING_MANAGER_NAME = 'hiring_manager_name';
 
 	private $dbFields = array(self::DB_FIELD_ID, self::DB_FIELD_VACANCY_ID, self::DB_FIELD_FIRSTNAME,
 		self::DB_FIELD_MIDDLENAME, self::DB_FIELD_LASTNAME,	self::DB_FIELD_STREET1,	self::DB_FIELD_STREET2,
 		self::DB_FIELD_CITY, self::DB_FIELD_COUNTRY_CODE, self::DB_FIELD_PROVINCE, self::DB_FIELD_ZIP,
-		self::DB_FIELD_PHONE, self::DB_FIELD_MOBILE, self::DB_FIELD_EMAIL, self::DB_FIELD_QUALIFICATIONS);
+		self::DB_FIELD_PHONE, self::DB_FIELD_MOBILE, self::DB_FIELD_EMAIL, self::DB_FIELD_QUALIFICATIONS,
+        self::DB_FIELD_STATUS, self::DB_FIELD_APPLIED_DATETIME);
 
 	private $id;
 	private $vacancyId;
@@ -68,6 +109,15 @@ class JobApplication {
 	private $mobile;
 	private $email;
 	private $qualifications;
+    private $status = self::STATUS_SUBMITTED;
+    private $appliedDateTime;
+    private $events;
+
+    /**
+     * Attributes retrieved from other objects
+     */
+    private $hiringManagerName;
+    private $jobTitleName;
 
 	/**
 	 * Constructor
@@ -198,6 +248,159 @@ class JobApplication {
 	    return $this->qualifications;
 	}
 
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function getEvents() {
+        return $this->events;
+    }
+
+    public function setEvents($events) {
+        $this->events = $events;
+    }
+
+    /**
+     * Retrieves the value of hiringManagerName.
+     * @return hiringManagerName
+     */
+    public function getHiringManagerName() {
+        return $this->hiringManagerName;
+    }
+
+    /**
+     * Sets the value of hiringManagerName.
+     * @param hiringManagerName
+     */
+    public function setHiringManagerName($hiringManagerName) {
+        $this->hiringManagerName = $hiringManagerName;
+    }
+
+    /**
+     * Retrieves the value of jobTitleName.
+     * @return jobTitleName
+     */
+    public function getJobTitleName() {
+        return $this->jobTitleName;
+    }
+
+    /**
+     * Sets the value of jobTitleName.
+     * @param jobTitleName
+     */
+    public function setJobTitleName($jobTitleName) {
+        $this->jobTitleName = $jobTitleName;
+    }
+
+    /**
+     * Get the applied date and time
+     */
+    public function getAppliedDateTime() {
+        return $this->appliedDateTime;
+    }
+
+    /**
+     * Set the applied date and time
+     */
+    public function setAppliedDateTime($date) {
+        $this->appliedDateTime = $date;
+    }
+
+    /**
+     * Get possible actions on this application
+     * @return Array Array of possible actions
+     */
+    public function getPossibleActions() {
+
+        $actions = array();
+
+        switch ($this->status) {
+
+            case self::STATUS_SUBMITTED:
+                $actions = array(self::ACTION_REJECT, self::ACTION_SCHEDULE_FIRST_INTERVIEW);
+                break;
+            case self::STATUS_FIRST_INTERVIEW_SCHEDULED:
+                $event = $this->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_FIRST_INTERVIEW);
+
+                if ($event && ($event->getStatus() == JobApplicationEvent::STATUS_INTERVIEW_FINISHED)) {
+                    $actions = array(self::ACTION_REJECT, self::ACTION_SCHEDULE_SECOND_INTERVIEW);
+                } else {
+                    $actions = array(self::ACTION_REJECT);
+                }
+                break;
+            case self::STATUS_SECOND_INTERVIEW_SCHEDULED:
+                $event = $this->getEventOfType(JobApplicationEvent::EVENT_SCHEDULE_SECOND_INTERVIEW);
+
+                if ($event && ($event->getStatus() == JobApplicationEvent::STATUS_INTERVIEW_FINISHED)) {
+                    $actions = array(self::ACTION_REJECT, self::ACTION_OFFER_JOB);
+                } else {
+                    $actions = array(self::ACTION_REJECT);
+                }
+
+                break;
+            case self::STATUS_JOB_OFFERED:
+                $actions = array(self::ACTION_MARK_OFFER_DECLINED, self::ACTION_SEEK_APPROVAL);
+                break;
+            case self::STATUS_OFFER_DECLINED:
+                $actions = array();
+                break;
+            case self::STATUS_PENDING_APPROVAL:
+                $actions = array(self::ACTION_REJECT, self::ACTION_APPROVE);
+                break;
+            case self::STATUS_HIRED:
+                $actions = array();
+                break;
+            case self::STATUS_REJECTED:
+                $actions = array();
+                break;
+            default:
+                throw new JobApplicationException("Invalid status", JobApplicationException::INVALID_STATUS);
+
+        }
+
+        return $actions;
+    }
+
+    /**
+     * Returns the latest event
+     * @return JobApplicationEvent The latest event, or null if no events
+     */
+    public function getLatestEvent() {
+
+        $latestEvent = null;
+
+        if (!empty($this->events)) {
+            $latestEvent = $this->events[count($this->events) - 1];
+        }
+
+        return $latestEvent;
+    }
+
+    /**
+     * Returns event of given type
+     * @param $eventType The event type
+     * @return JobApplicationEvent The latest event of given type or null if not found
+     */
+    public function getEventOfType($eventType) {
+        $event = null;
+
+        if (!empty($this->events)) {
+
+            for($i = count($this->events) - 1; $i >= 0; $i--) {
+                if ($this->events[$i]->getEventType() == $eventType) {
+                    $event = $this->events[$i];
+                    break;
+                }
+            }
+        }
+
+        return $event;
+    }
+
 	/**
 	 * Save JobApplication object to database
 	 *
@@ -227,12 +430,52 @@ class JobApplication {
     }
 
 
+    /**
+     * Get job application with given id
+     *
+     * @param int $id Job Application ID
+     * @return JobApplication JobApplication object
+     */
+    public static function getJobApplication($id) {
+
+        if (!CommonFunctions::isValidId($id)) {
+            throw new JobApplicationException("Invalid id", JobApplicationException::INVALID_PARAMETER);
+        }
+
+        $conditions[] = 'a.' . self::DB_FIELD_ID . ' = ' . $id;
+        $list = self::_getList($conditions);
+        $application = (count($list) == 1) ? $list[0] : null;
+
+        return $application;
+    }
+
+    /**
+     * Get list of job applications.
+     * If optional emp number is given, only job applications associated with given manager
+     * are returned.
+     *
+     * @param int $managerEmpNum Employee number of manager.
+     * @return Array Array of JobApplication objects.
+     */
+    public static function getList($managerEmpNum = null) {
+
+        $selectConditions = null;
+        if (CommonFunctions::isValidId($managerEmpNum)) {
+            $selectConditions[] = 'b.' . JobVacancy::DB_FIELD_MANAGER_ID . ' = ' . $managerEmpNum;
+        }
+
+        return self::_getList($selectConditions);
+    }
+
 	/**
 	 * Insert new object to database
 	 */
 	private function _insert() {
 
 		$this->id = UniqueIDGenerator::getInstance()->getNextID(self::TABLE_NAME, self::DB_FIELD_ID);
+        if (empty($this->appliedDateTime)) {
+            $this->appliedDateTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT);
+        }
 
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
@@ -277,6 +520,59 @@ class JobApplication {
 		return $this->id;
 	}
 
+    /**
+     * Get a list of jobs applications with the given conditions.
+     *
+     * @param array   $selectCondition Array of select conditions to use.
+     * @return array  Array of JobApplication objects. Returns an empty (length zero) array if none found.
+     */
+    private static function _getList($selectCondition = null) {
+
+        $fields[0] = 'a.' . self::DB_FIELD_ID;
+        $fields[1] = 'a.' . self::DB_FIELD_VACANCY_ID;
+        $fields[2] = 'a.' . self::DB_FIELD_FIRSTNAME;
+        $fields[3] = 'a.' . self::DB_FIELD_MIDDLENAME;
+        $fields[4] = 'a.' . self::DB_FIELD_LASTNAME;
+        $fields[5] = 'a.' . self::DB_FIELD_STREET1;
+        $fields[6] = 'a.' . self::DB_FIELD_STREET2;
+        $fields[7] = 'a.' . self::DB_FIELD_CITY;
+        $fields[8] = 'a.' . self::DB_FIELD_COUNTRY_CODE;
+        $fields[9] = 'a.' . self::DB_FIELD_PROVINCE;
+        $fields[10] = 'a.' . self::DB_FIELD_ZIP;
+        $fields[11] = 'a.' . self::DB_FIELD_PHONE;
+        $fields[12] = 'a.' . self::DB_FIELD_MOBILE;
+        $fields[13] = 'a.' . self::DB_FIELD_EMAIL;
+        $fields[14] = 'a.' . self::DB_FIELD_QUALIFICATIONS;
+        $fields[15] = 'a.' . self::DB_FIELD_STATUS;
+        $fields[16] = 'a.' . self::DB_FIELD_APPLIED_DATETIME;
+        $fields[17] = 'c.jobtit_name AS ' . self::JOB_TITLE_NAME;
+        $fields[18] = "CONCAT(d.`emp_firstname`, ' ', d.`emp_lastname`) AS " . self::HIRING_MANAGER_NAME;
+
+        $tables[0] = self::TABLE_NAME . ' a';
+        $tables[1] = JobVacancy::TABLE_NAME .' b';
+        $tables[2] = 'hs_hr_job_title c';
+        $tables[3] = 'hs_hr_employee d';
+        //$tables[4] = JobApplicationEvent::TABLE_NAME . ' e';
+
+        $joinConditions[1] = 'a.' . self::DB_FIELD_VACANCY_ID . ' = b.' . JobVacancy::DB_FIELD_VACANCY_ID;
+        $joinConditions[2] = 'b.jobtit_code = c.jobtit_code';
+        $joinConditions[3] = 'b.' . JobVacancy::DB_FIELD_MANAGER_ID . ' = d.emp_number';
+
+        $sqlBuilder = new SQLQBuilder();
+        $sql = $sqlBuilder->selectFromMultipleTable($fields, $tables, $joinConditions, $selectCondition);
+
+        $actList = array();
+
+        $conn = new DMLFunctions();
+        $result = $conn->executeQuery($sql);
+
+        while ($result && ($row = mysql_fetch_assoc($result))) {
+            $actList[] = self::_createFromRow($row);
+        }
+
+        return $actList;
+    }
+
 	/**
 	 * Returns the db field values as an array
 	 *
@@ -299,16 +595,60 @@ class JobApplication {
 		$values[12] = $this->mobile;
 		$values[13] = $this->email;
 		$values[14] = $this->qualifications;
+        $values[15] = is_null($this->status) ? self::STATUS_SUBMITTED : $this->status;
+        $values[16] = is_null($this->appliedDateTime) ? 'null' : $this->appliedDateTime;
 
 		return $values;
 	}
 
+    /**
+     * Creates a JobApplication object from a resultset row
+     *
+     * @param array $row Resultset row from the database.
+     * @return JobApplication JobApplication object.
+     */
+    private static function _createFromRow($row) {
+
+        $application = new JobApplication($row[self::DB_FIELD_ID]);
+        $application->setVacancyId($row[self::DB_FIELD_VACANCY_ID]);
+        $application->setFirstName($row[self::DB_FIELD_FIRSTNAME]);
+        $application->setMiddleName($row[self::DB_FIELD_MIDDLENAME]);
+        $application->setLastName($row[self::DB_FIELD_LASTNAME]);
+        $application->setStreet1($row[self::DB_FIELD_STREET1]);
+        $application->setStreet2($row[self::DB_FIELD_STREET2]);
+        $application->setCity($row[self::DB_FIELD_CITY]);
+        $application->setCountry($row[self::DB_FIELD_COUNTRY_CODE]);
+        $application->setProvince($row[self::DB_FIELD_PROVINCE]);
+        $application->setZip($row[self::DB_FIELD_ZIP]);
+        $application->setPhone($row[self::DB_FIELD_PHONE]);
+        $application->setMobile($row[self::DB_FIELD_MOBILE]);
+        $application->setEmail($row[self::DB_FIELD_EMAIL]);
+        $application->setQualifications($row[self::DB_FIELD_QUALIFICATIONS]);
+        $application->setStatus($row[self::DB_FIELD_STATUS]);
+        $application->setAppliedDateTime($row[self::DB_FIELD_APPLIED_DATETIME]);
+
+        if (isset($row[self::JOB_TITLE_NAME])) {
+            $application->setJobTitleName($row[self::JOB_TITLE_NAME]);
+        }
+
+        if (isset($row[self::HIRING_MANAGER_NAME])) {
+            $application->setHiringManagerName($row[self::HIRING_MANAGER_NAME]);
+        }
+
+        // Get application events
+        $events = JobApplicationEvent::getEvents($application->getId());
+        $application->setEvents($events);
+
+        return $application;
+    }
 }
 
 class JobApplicationException extends Exception {
 	const INVALID_PARAMETER = 0;
 	const MISSING_PARAMETERS = 1;
 	const DB_ERROR = 2;
+    const INVALID_STATUS = 3;
 }
 
 ?>
+

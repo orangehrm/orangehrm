@@ -44,12 +44,14 @@ class RecruitmentMailNotifier {
 	 */
 	const TEMPLATE_RECEIVED_APPLICANT = 'applicant-received.txt';
 	const TEMPLATE_RECEIVED_HIRING_MANAGER = 'hiringmanager-received.txt';
+    const TEMPLATE_REJECTED_APPLICANT = 'applicant-rejected.txt';
 
 	/**
 	 * Mail subject templates
 	 */
 	const SUBJECT_RECEIVED_APPLICANT = 'applicant-received-subject.txt';
 	const SUBJECT_RECEIVED_HIRING_MANAGER = 'hiringmanager-received-subject.txt';
+    const SUBJECT_REJECTED_APPLICANT = 'applicant-rejected-subject.txt';
 
 	/**
 	 * Template variable constants
@@ -158,6 +160,33 @@ class RecruitmentMailNotifier {
 
 		 return $this->_sendMail($email, $subject, $body, $notificationType);
 	 }
+
+    /**
+     * Send application rejected email to Applicant
+     *
+     * @param JobApplication $jobApplication Job Application object
+     *
+     * @return boolean True if mail sent, false otherwise
+     */
+     public function sendApplicationRejectedEmailToApplicant($jobApplication) {
+
+         $email = $jobApplication->getEmail();
+         $name = $jobApplication->getFirstName() . ' ' . $jobApplication->getLastName();
+         $vacancy = JobVacancy::getJobVacancy($jobApplication->getVacancyId());
+
+         $subject = $this->_getTemplate(self::SUBJECT_REJECTED_APPLICANT);
+         $body = $this->_getTemplate(self::TEMPLATE_REJECTED_APPLICANT);
+
+         $search = array(self::VARIABLE_JOB_TITLE, self::VARIABLE_TO);
+         $replace = array($vacancy->getJobTitleName(), $name);
+
+         $subject = str_replace($search, $replace, $subject);
+         $body = str_replace($search, $replace, $body);
+
+         $notificationType = null;
+
+         return $this->_sendMail($email, $subject, $body, $notificationType);
+     }
 
 	/**
 	 * Send application received email to Manager

@@ -90,14 +90,17 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 						/* If not an admin user, check if a supervisor and/or project admin */
 						$isSupervisor = false;
 						$isProjectAdmin = false;
+                		$isManager = false;
 						if ($_SESSION['isAdmin'] == 'No') {
 
 						$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 						$isSupervisor = $authorizeObj->isSupervisor();
 						$isProjectAdmin = $authorizeObj->isProjectAdmin();
+                    	$isManager = $authorizeObj->isManager();
 					}
 					$_SESSION['isSupervisor'] = $isSupervisor;
 					$_SESSION['isProjectAdmin'] = $isProjectAdmin;
+                	$_SESSION['isManager'] = $isManager;
 
 					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 					$_SESSION['WPATH']= $wpath[0];
