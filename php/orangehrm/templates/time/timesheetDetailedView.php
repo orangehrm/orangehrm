@@ -59,7 +59,7 @@ function actionEdit() {
 </script>
 <h2><?php 	$headingStr = $lang_Time_Timesheet_TimesheetNameForEditTitle;
 			if ($self) {
-				$headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
+				$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 			}
 			echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
 							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
