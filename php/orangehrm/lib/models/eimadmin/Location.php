@@ -24,7 +24,7 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
-class Location {
+class models_eimadmin_Location {
 
 	var $tableName = 'HS_HR_LOCATION';
 
@@ -42,10 +42,6 @@ class Location {
 	var $arrayDispList;
 	var $singleField;
 
-
-	function Location() {
-
-	}
 
 	function setLocationId($locationID) {
 

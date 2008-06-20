@@ -34,8 +34,13 @@ class TemplateMerger {
 
 		$this->setObj($obj);
 		$this->setTemplatePath($templatePath);
-		$this->setTemplateHeader($baseDir."/".$templateHeader);
-		$this->setTemplateFooter($baseDir."/".$templateFooter);
+        
+        if (!empty($templateHeader)) {
+            $this->setTemplateHeader($baseDir."/".$templateHeader);
+        }
+        if (!empty($templateFooter)) {        
+            $this->setTemplateFooter($baseDir."/".$templateFooter);
+        }
 
 	}
 
@@ -103,9 +108,13 @@ class TemplateMerger {
 
 		$styleSheet = CommonFunctions::getTheme();
 
-		require_once ROOT_PATH.$this->getTemplateHeader();
+        if (!empty($this->templateHeader)) {
+            require_once ROOT_PATH.$this->getTemplateHeader();
+        }
 		require_once ROOT_PATH.$this->getTemplatePath();
-		require_once ROOT_PATH.$this->getTemplateFooter();
+        if (!empty($this->templateFooter)) {
+            require_once ROOT_PATH.$this->getTemplateFooter();
+        }
 
                 if ($printPdf) {
                         $html = ob_get_clean();

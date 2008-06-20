@@ -1570,7 +1570,7 @@ class EmpViewController {
 							$countryinfo = new CountryInfo();
 							$porinfo = new ProvinceInfo();
 							$nationinfo = new NationalityInfo();
-							$location = new Location();
+							$location = new models_eimadmin_Location();
 							$distric = new DistrictInfo();
 							$jobtit = new JobTitle();
 

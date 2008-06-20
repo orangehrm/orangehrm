@@ -115,13 +115,13 @@ class ViewController {
 
 							if($cntrl == 'addLocation') {
 
-								$location = new Location();
+								$location = new models_eimadmin_Location();
 								return $location->addLocation();
 							}
 
 							if($cntrl == 'getLocCodes') {
 
-								$location = new Location();
+								$location = new models_eimadmin_Location();
 								return $location->getLocCodes();
 							}
 							break;
@@ -296,7 +296,7 @@ class ViewController {
 
         	case 'LOC' :
 
-	            $this->location = new Location();
+	            $this->location = new models_eimadmin_Location();
 	            $res = $this->location->delLocation($arrList);
 	            break;
 
@@ -467,7 +467,7 @@ class ViewController {
 
 		case 'LOC' :
 
-			$this-> location = new Location();
+			$this-> location = new models_eimadmin_Location();
 			$message = $this-> location -> getListofLocations($pageNO,$schStr,$mode, $sortField, $sortOrder);
 			return $message;
 
@@ -872,7 +872,7 @@ class ViewController {
 
 		case 'LOC' :
 
-			$this-> location = new Location();
+			$this-> location = new models_eimadmin_Location();
 			$message = $this-> location -> countLocations($schStr,$mode);
 			return $message;
 
@@ -1329,7 +1329,7 @@ class ViewController {
 									$res = $jdcat -> addJDCategory();
 									break;
 
-				case 'LOC'  :		$loc = new Location();
+				case 'LOC'  :		$loc = new models_eimadmin_Location();
 									$loc = $object;
 									$res = $loc -> addLocation();
 									break;
@@ -1804,7 +1804,7 @@ class ViewController {
 									$res = $jdcat -> updateJDCategory();
 									break;
 
-				case 'LOC'  :		$loc = new Location();
+				case 'LOC'  :		$loc = new models_eimadmin_Location();
 									$loc = $object;
 									$res = $loc -> updateLocation();
 									break;
@@ -2480,7 +2480,7 @@ class ViewController {
 			case 'CHI' :	$form_creator ->formPath = '/templates/eimadmin/comphier.php';
 							$cmphier = new CompHierachy();
 							$hidef = new HierarchyDefInfo();
-							$loc = new Location();
+							$loc = new models_eimadmin_Location();
 							$empinfo = new EmpInfo();
 
 							if($getArr['capturemode'] == 'addmode') {
@@ -2501,7 +2501,7 @@ class ViewController {
 							break;
 
 			case 'LOC' :	$form_creator ->formPath = '/templates/eimadmin/locations.php';
-							$loc = new Location();
+							$loc = new models_eimadmin_Location();
 							$country = new CountryInfo();
 
 							$form_creator->popArr['cntlist'] = $country->getCountryCodes();
@@ -3004,7 +3004,7 @@ class ViewController {
 							$form_creator->popArr['unAssCompStruct'] = $compstruct->getUnAssCompStruct('',1);
 							*/
 
-							$locations = new Location();
+							$locations = new models_eimadmin_Location();
 							$countries = new CountryInfo();
 
 							$form_creator->popArr['locations'] = $locations->getLocCodes();

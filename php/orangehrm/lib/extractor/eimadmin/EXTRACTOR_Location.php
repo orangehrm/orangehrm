@@ -23,7 +23,7 @@ class EXTRACTOR_Location {
 
 	function EXTRACTOR_Location() {
 
-		$this->parent_location = new Location();
+		$this->parent_location = new models_eimadmin_Location();
 	}
 
 	function parseAddData($postArr) {
