@@ -24,6 +24,31 @@
         if(!popup.opener) popup.opener=self;
 	}
 
+    function toggleEmployeeJobHistory() {
+        oLayer = document.getElementById("employeeJobHistoryLayer");
+        oLink = document.getElementById("toggleJobHistoryLayerLink");
+
+        if (oLayer.style.display == 'none') {
+            oLayer.style.display = 'block';
+        } else {
+            oLayer.style.display = 'none';
+        }
+        toggleEmployeeJobHistoryText();
+    }
+
+    function toggleEmployeeJobHistoryText() {
+        oLayer = document.getElementById("employeeJobHistoryLayer");
+        oLink = document.getElementById("toggleJobHistoryLayerLink");
+
+        if (oLayer.style.display == 'none') {
+            oLink.innerHTML = "<?php echo $lang_hremp_ShowEmployeeJobHistory; ?>";
+            oLink.className = "show";
+        } else {
+            oLink.innerHTML = "<?php echo $lang_hremp_HideEmployeeJobHistory; ?>";
+            oLink.className = "hide";
+        }
+    }
+
 	function toggleEmployeeContracts() {
 		oLayer = document.getElementById("employeeContractLayer");
 		oLink = document.getElementById("toogleContractLayerLink");
@@ -228,4 +253,5 @@
 			  </table>
 <?php } ?>
 <hr/>
-<a href="javascript:toggleEmployeeContracts();" id="toogleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a>
+<a href="javascript:toggleEmployeeContracts();" id="toogleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a><br />
+<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>

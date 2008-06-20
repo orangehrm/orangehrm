@@ -806,6 +806,47 @@ create table `hs_hr_job_application_events` (
   key `owner` (`owner`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_jobtitle_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_emp_subdivision_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_emp_location_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_comp_property` (
+  `prop_id` int(11) not null auto_increment,
+  `prop_name` varchar(250) not null,
+  `emp_id` int(7) not null,
+  primary key  (`prop_id`),
+  key  `emp_id` (`emp_id`)
+) engine=innodb default charset=utf8;
+
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")

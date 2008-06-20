@@ -88,6 +88,7 @@ require_once ROOT_PATH . '/lib/extractor/maintenance/EXTRACTOR_ChangeUsers.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpInfo.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpLanguage.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpConExt.php';
+require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpJobHistory.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpBasSalary.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpEducation.php';
 require_once ROOT_PATH . '/lib/extractor/hrfunct/EXTRACTOR_EmpMembership.php';
@@ -873,6 +874,10 @@ switch ($moduletype) {
 						$extractorForm = new EXTRACTOR_EmpConExt();
 					}
 
+                    if(isset($_POST['empjobHistorySTAT']) && $_POST['empjobHistorySTAT']!= '' && isset($_GET['reqcode']) && ($_GET['reqcode'] !== "ESS")) {
+                        $extractorForm = new EXTRACTOR_EmpJobHistory();
+                    }
+
 					switch ($_GET['reqcode']) {
 						case 'ESS'	:	if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmpInfo();
@@ -1016,6 +1021,18 @@ switch ($moduletype) {
 										} elseif(isset($_POST['conextSTAT']) && $_POST['conextSTAT'] == 'DEL' && $locRights['delete']) {
 												$view_controller->delEmpFormData($_GET,$_POST);
 										}
+
+                                        if(isset($_POST['empjobHistorySTAT'])) {
+                                            if(($_POST['empjobHistorySTAT'] == 'ADD') && $locRights['add']) {
+                                                $parsedObject = $extractorForm->parseAddData($_POST);
+                                                $view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['empjobHistorySTAT']);
+                                            } elseif(($_POST['empjobHistorySTAT'] == 'EDIT') && $locRights['edit']) {
+                                                $parsedObject = $extractorForm->parseEditData($_POST);
+                                                $view_controller->assignEmpFormData($_POST,$parsedObject,$_POST['empjobHistorySTAT']);
+                                            } elseif($_POST['empjobHistorySTAT'] == 'DEL' && $locRights['delete']) {
+                                                $view_controller->delEmpFormData($_GET,$_POST);
+                                            }
+                                        }
 
 										if(isset($_POST['brchSTAT']) && (($_POST['brchSTAT'] == 'ADD' && $locRights['add']) || ($_POST['brchSTAT'] == 'EDIT' && $locRights['edit']))) {
 												$parsedObject = $extractorForm->parseData($_POST);

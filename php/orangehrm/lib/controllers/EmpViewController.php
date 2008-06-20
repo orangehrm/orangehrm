@@ -36,6 +36,11 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpEmergencyCon.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpDirectDebit.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/PayPeriod.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CustomFields.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/Location.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/LocationHistory.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/JobTitleHistory.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/SubDivisionHistory.php';
+
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/common/Config.php';
@@ -865,6 +870,17 @@ class EmpViewController {
 		return;
 		}
 
+        if (isset($postArr['empjobHistorySTAT'])) {
+            if ($action == 'ADD') {
+                $object->save();
+            } else if (($action == 'EDIT') && is_array($object)) {
+                foreach ($object as $historyItem) {
+                    $historyItem->save();
+                }
+            }
+            return;
+        }
+
 		if(isset($postArr['childrenSTAT']) && ($postArr['childrenSTAT'] == 'ADD' || $postArr['childrenSTAT'] == 'EDIT')) {
 			$empchi = new EmpChildren();
 			$empchi = $object;
@@ -1101,6 +1117,27 @@ class EmpViewController {
 
 			$conext -> delConExt($arr);
 		}
+
+         if (isset ($postArr['empjobHistorySTAT']) && $postArr['empjobHistorySTAT'] == 'DEL') {
+
+             // Job title history
+             if (isset($postArr['chkjobtitHistory'])) {
+                $jobTitleHistory = new JobTitleHistory();
+                $jobTitleHistory->delete($postArr['chkjobtitHistory']);
+             }
+
+             // Sub division history
+             if (isset($postArr['chksubdivisionHistory'])) {
+                $empDivisionHistory = new SubDivisionHistory();
+                $empDivisionHistory->delete($postArr['chksubdivisionHistory']);
+             }
+
+             // Location history
+             if (isset($postArr['chklocationHistory'])) {
+                $locationHistory = new LocationHistory();
+                $locationHistory->delete($postArr['chklocationHistory']);
+             }
+         }
 
 		if(isset($postArr['childrenSTAT']) && $postArr['childrenSTAT'] =='DEL') {
 
@@ -1604,6 +1641,14 @@ class EmpViewController {
 								if(isset($postArr['cmbJobTitle'])){
 									$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($postArr['cmbJobTitle'],'JOB','allEmpStat');
 								}
+
+                                $jobTitleHistory = new JobTitleHistory();
+                                $form_creator->popArr['jobTitleHistory'] = $jobTitleHistory->getHistory($getArr['id']);
+                                $empDivisionHistory = new SubDivisionHistory();
+                                $form_creator->popArr['subDivisionHistory'] = $empDivisionHistory->getHistory($getArr['id']);
+
+                                $locationHistory = new LocationHistory();
+                                $form_creator->popArr['locationHistory'] = $locationHistory->getHistory($getArr['id']);
 
 								$form_creator->popArr['editPermResArr'] = $edit = $editPermRes = $empinfo->filterEmpContact($getArr['id']);
 								$form_creator->popArr['provlist'] = $porinfo ->getProvinceCodes($edit[0][4]);
@@ -2404,5 +2449,6 @@ class EmpViewController {
 			   							break;
 			}
   	   }
+
 }
 ?>

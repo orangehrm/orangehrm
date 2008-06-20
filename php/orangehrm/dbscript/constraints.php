@@ -94,7 +94,10 @@ array("hs_hr_job_vacancy", array("jobtit_code"), "hs_hr_job_title",   array("job
 array("hs_hr_job_application", array("vacancy_id"), "hs_hr_job_vacancy",   array("vacancy_id"), "cascade"),
 array("hs_hr_job_application_events", array("application_id"), "hs_hr_job_application",   array("application_id"), "cascade"),
 array("hs_hr_job_application_events", array("created_by"), "hs_hr_users",   array("id"), "null"),
-array("hs_hr_job_application_events", array("owner"), "hs_hr_employee",   array("emp_number"), "null")
+array("hs_hr_job_application_events", array("owner"), "hs_hr_employee",   array("emp_number"), "null"),
+array("hs_hr_emp_jobtitle_history", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_emp_location_history", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade"),
+array("hs_hr_emp_subdivision_history", array("emp_number"), "hs_hr_employee",   array("emp_number"), "cascade")
 );
 
 ?>

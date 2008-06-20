@@ -30,6 +30,9 @@ require_once "testConf.php";
 
 require_once 'EmpTaxTest.php';
 require_once 'EmpInfoTest.php';
+require_once 'JobTitleHistoryTest.php';
+require_once 'SubDivisionHistoryTest.php';
+require_once 'LocationHistoryTest.php';
 
 
 class models_hrfunct_AllTests
@@ -44,6 +47,9 @@ class models_hrfunct_AllTests
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM models_hrfunct');
         $suite->addTestSuite('EmpTaxTest');
 	$suite->addTestSuite('EmpInfoTest');
+	    $suite->addTestSuite('JobTitleHistoryTest');
+	    $suite->addTestSuite('SubDivisionHistoryTest');
+	    $suite->addTestSuite('LocationHistoryTest');
         return $suite;
     }
 }

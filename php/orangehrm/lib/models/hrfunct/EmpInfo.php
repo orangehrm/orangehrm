@@ -26,6 +26,8 @@ require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/JobTitleHistory.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/SubDivisionHistory.php';
 
 class EmpInfo {
 
@@ -1176,6 +1178,21 @@ class EmpInfo {
 
         $dbConnection = new DMLFunctions();
         $message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
+
+        // Update job history
+        if ($message2) {
+
+            $empJobTitleHistory = new JobTitleHistory();
+            if (!empty($this->empJobTitle)) {
+                $empJobTitleHistory->updateHistory($this->getEmpId(), $this->empJobTitle);
+            }
+
+            $empDivisionHistory = new SubDivisionHistory();
+            if (!empty($this->empLocation)) {
+                $empDivisionHistory->updateHistory($this->getEmpId(), $this->empLocation);
+            }
+
+        }
 
         return $message2;
     }

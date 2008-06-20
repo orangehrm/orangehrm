@@ -314,7 +314,9 @@ function editEmpMain() {
 		      /* If admin or supervisor in EMP page */
 			  if ((isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) || $supervisorEMPMode ) { ?>
 
-		frm.elements[i].disabled=false;
+        if (frm.elements[i].className.indexOf('noDefaultEdit') == -1) {
+		  frm.elements[i].disabled=false;
+        }
 
 		<?php } ?>
 	}
@@ -638,7 +640,24 @@ tableDisplayStyle = "table";
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/hrEmpMain.css"); </style>
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/essMenu.css"); </style>
+<style type="text/css">
+    <!--
 
+    table.historyTable th {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+    table.historyTable td {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+
+    -->
+</style>
+
+</head>
 <body onLoad="hideLoad();">
 <script type="text/javascript">
   YAHOO.OrangeHRM.container.init();
@@ -1005,6 +1024,7 @@ tableDisplayStyle = "table";
 
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); ?>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
+          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjobhistory.php"); ?>
 
 			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
         </tr>

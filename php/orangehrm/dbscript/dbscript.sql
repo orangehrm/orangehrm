@@ -874,6 +874,47 @@ create table `hs_hr_job_application_events` (
   key `owner` (`owner`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_jobtitle_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_emp_subdivision_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_emp_location_history` (
+  `id` int(11) not null auto_increment,
+  `emp_number` int(7) not null,
+  `code` varchar(15) not null,
+  `name` varchar(250) default null,
+  `start_date` datetime default null,
+  `end_date` datetime default null,
+  primary key  (`id`),
+  key  `emp_number` (`emp_number`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_comp_property` (
+  `prop_id` int(11) not null auto_increment,
+  `prop_name` varchar(250) not null,
+  `emp_id` int(7) not null,
+  primary key  (`prop_id`),
+  key  `emp_id` (`emp_id`)
+) engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -1186,6 +1227,18 @@ alter table `hs_hr_job_application_events`
   add constraint foreign key (`application_id`) references `hs_hr_job_application` (`application_id`) on delete cascade,
   add constraint foreign key (`created_by`) references `hs_hr_users` (`id`) on delete set null,
   add constraint foreign key (`owner`) references `hs_hr_employee` (`emp_number`) on delete set null;
+
+alter table `hs_hr_emp_jobtitle_history`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;
+
+alter table `hs_hr_emp_subdivision_history`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;
+
+alter table `hs_hr_emp_location_history`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;
 
 INSERT INTO `hs_hr_country` VALUES ('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4);
 INSERT INTO `hs_hr_country` VALUES ('AL', 'ALBANIA', 'Albania', 'ALB', 8);

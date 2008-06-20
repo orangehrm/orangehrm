@@ -173,8 +173,14 @@
 		document.getElementById("txtDeptId").value=deptid
 		document.getElementById("layerForm").style.visibility="visible";
 	<?php } else { ?>
-		opener.document.frmEmp.txtLocation.value=txt;
-		opener.document.frmEmp.cmbLocation.value=id;
+
+		<?php if (isset($_GET['locInput'])) { ?>
+			opener.document.frmEmp.txt<?php echo $_GET['locInput'];?>.value=txt;
+			opener.document.frmEmp.cmb<?php echo $_GET['locInput'];?>.value=id;
+		<?php } else { ?>
+			opener.document.frmEmp.txtLocation.value=txt;
+			opener.document.frmEmp.cmbLocation.value=id;
+		<?php } ?>
 		window.close(0);
 	<?php } ?>
 	}
