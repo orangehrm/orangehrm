@@ -265,49 +265,8 @@ if (!isset($this->getArr['action']))
                 <td width="50" NOWRAP class="listViewThS1" scope="col">
                                     <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
                                 </td>
-
-
-                                <?php
-                                    $imgF1='null.png';
-                                    $imgF2='null.png';
-
-                                    $sortOrderF1='ASC';
-                                    $sortOrderF2='ASC';
-
-                                    if(isset($this->getArr['sortField']))
-                                    {
-                                        if($this->getArr['sortField']==0)
-                                        {
-                                            if($this->getArr['sortOrder0']=='ASC')
-                                            {
-                                                $imgF1 = 'ASC.png';
-                                                $sortOrderF1='DESC';
-                                            }
-                                            else if($this->getArr['sortOrder0']=='DESC')
-                                            {
-                                                $imgF1 = 'DESC.png';
-                                                $sortOrderF1='ASC';
-                                            }
-                                        }
-                                        else if($this->getArr['sortField']==1)
-                                        {
-                                            if($this->getArr['sortOrder0']=='ASC')
-                                            {
-                                                $imgF2 = 'ASC.png';
-                                                $sortOrderF2='DESC';
-                                            }
-                                            else if($this->getArr['sortOrder0']=='DESC')
-                                            {
-                                                $imgF2 = 'DESC.png';
-                                                $sortOrderF2='ASC';
-                                            }
-                                        }
-                                    }
-
-                                ?>
-
-                                <td scope="col" width="250" class="listViewThS1"><a href='./CentralController.php?uniqcode=TCP&sortField=0&sortOrder0=<?php echo $sortOrderF1?>'><?php echo $lang_Admin_Property_Name ; ?></a> <img src="../../themes/beyondT/icons/<?php echo $imgF1?>"></td>
-                                <td scope="col" width="250" class="listViewThS1"><a href='./CentralController.php?uniqcode=TCP&sortField=1&sortOrder0=<?php echo $sortOrderF2?>'><?php echo $lang_Admin_Prop_Emp_Name ; ?></a> <img src="../../themes/beyondT/icons/<?php echo $imgF2?>"></td>
+                                <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Property_Name ; ?> </td>
+                                <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Prop_Emp_Name; ?>  </td>
 
 
 

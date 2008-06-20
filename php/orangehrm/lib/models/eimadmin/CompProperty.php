@@ -133,61 +133,25 @@ class CompProperty {
 /*
  * Returns two dimentional array of list of properties
  */
-    public function getPropertyList($sortField, $sortOrder)
+    public function getPropertyList()
     {
         $dbConnection = new DMLFunctions();
+        $sql = "SELECT * FROM ".$this->TABLE_NAME;
 
-        if($sortField==0)
+        $res = $dbConnection->executeQuery($sql);
+
+        $cnt=0;
+        $list=null;//The two dimentional array of the list
+
+        while($row=mysql_fetch_array($res))
         {
-            $sql = "SELECT * FROM ".$this->TABLE_NAME . " ORDER by prop_name $sortOrder";
-
-            $res = $dbConnection->executeQuery($sql);
-
-            $cnt=0;
-            $list=null;//The two dimentional array of the list
-
-            while($row=mysql_fetch_array($res))
-            {
-                $list[$cnt]=$row;
-                $cnt++;
-            }
+            $list[$cnt]=$row;
+            $cnt++;
         }
-        else if($sortField==1)
-        {
-            //Here we get only properties list of assigned properties only ordered by $sortOrder field
-            $sql = "SELECT hs_hr_comp_property.prop_id,hs_hr_comp_property.prop_name,hs_hr_comp_property.emp_id FROM hs_hr_comp_property, hs_hr_employee WHERE (hs_hr_comp_property.emp_id=hs_hr_employee.employee_id) ORDER by hs_hr_employee.emp_firstname $sortOrder";
-
-            $res = $dbConnection->executeQuery($sql);
-
-            $cnt=0;
-            $list=null;//The two dimentional array of the list
-
-            while($row=mysql_fetch_array($res))
-            {
-                $list[$cnt]=$row;
-                $cnt++;
-            }
-
-            $sql = "SELECT hs_hr_comp_property.prop_id,hs_hr_comp_property.prop_name,hs_hr_comp_property.emp_id FROM hs_hr_comp_property WHERE (hs_hr_comp_property.emp_id=0)";
-            $res = $dbConnection->executeQuery($sql);
-            while($row=mysql_fetch_array($res))
-            {
-                $list[$cnt]=$row;
-                $cnt++;
-            }
-        }
-
-
 
         return $list;
     }
 
- /*
- * This function can be used to edit array of properties
- *
- * Before call this editEmpIds should be set with array of emp_id s which should be set to each
- * Item in the property list table
- */
     public function editPropertyList()
     {
         $sql_builder = new SQLQBuilder();

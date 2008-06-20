@@ -86,6 +86,26 @@ class RecruitmentMailNotifier {
 
     const VCALENDAR_DATETIME_FORMAT = 'Ymd\\THis\\Z';
 
+    /** TODO: Extract to templates */
+    private $onHireTasks = array('Make contract', 
+        'Send contract to manager',
+        'Receive response from manager', 
+        'Send contract', 
+        'Review contract', 
+        'Get director\'s signature',
+        'Lodge contract',
+        'Photocopy contract',
+        'Send contract to payroll',
+        'Scan NEO',
+        'Scan Resume',
+        'Scan Qualifications',
+        'Scan Job Description',
+        'Scan Police Clearance',
+        'Pre Interview Questionnaire',
+        'Signed Induction Manual',
+        'Copy of Drivers License',
+        'Reference Check');     
+    
 	/*
 	 * Class atributes
 	 **/
@@ -340,10 +360,36 @@ class RecruitmentMailNotifier {
 
          $subject = str_replace($search, $replace, $subject);
          $body = str_replace($search, $replace, $body);
+         
+         /* Add tasks */
+         $attachments = array();
+         
+         $creatorName = $fromName; 
+         $creatorEmail = $jobApplicationEvent->getCreatorEmail();         
+         $applicantName = $jobApplication->getFirstName() . ' ' . $jobApplication->getLastName();
+         $applicantEmail = $jobApplication->getEmail();
+         
+         // Event time in 5 days
+         $startTime = time() + (5 * 24 * 60 * 60);
+
+         foreach ($this->onHireTasks as $task) {
+            
+            /* Create task */
+            $summary = $task . "({$applicantName})";
+            $description = $summary;
+            $eventTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT, $startTime);
+
+            // Next event in 1 hour
+            $startTime = $startTime + 3600;
+            
+            $message = $this->_getTask($task, $description, $creatorName, $creatorEmail, $applicantName, $applicantEmail, $eventTime);
+            $attachment = new stringAttachment($message, "{$task}.ics", 'text/calendar');             
+            $attachments[] = $attachment;
+         }
 
          $notificationType = EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HIRE_APPROVED;
 
-         return $this->_sendMail($email, $subject, $body, $notificationType);
+         return $this->_sendMail($email, $subject, $body, $notificationType, $attachments);
      }
 
     /**
@@ -448,6 +494,12 @@ class RecruitmentMailNotifier {
         // convert newlines to \n in description
         $description = $this->_escapeNewLines($description);
 
+        // Only request RSVP for organizer if he has an email adress.
+        $organizerLine = "";
+        if (!empty($organizerEmail)) {
+            $organizerLine .= "\nORGANIZER;CN=\"$organizerName\";RSVP=TRUE;ROLE=NON-PARTICIPANT:mailto:$organizerEmail";
+        }
+
         $message = <<<EOT
 BEGIN:VCALENDAR
 PRODID:-//OrangeHRM/Recruitment//EN
@@ -459,8 +511,7 @@ DTSTAMP:$sentTime
 DTSTART:$startTime
 DUE:$startTime
 SUMMARY:$summary
-DESCRIPTION:$description
-ORGANIZER;CN="$organizerName";RSVP=TRUE;ROLE=NON-PARTICIPANT:mailto:$organizerEmail
+DESCRIPTION:$description$organizerLine
 ATTENDEE;CN="$attendeeName";ROLE=REQ-PARTICIPANT:mailto:$attendeeEmail
 CLASS:CONFIDENTIAL
 CATEGORIES:INTERVIEW
@@ -478,7 +529,7 @@ EOT;
      */
     private function _generateUID() {
         $host = 'orangehrm';
-        $uid = $host . '-' . time();
+        $uid = $host . '-' . time() . mt_rand();
         return $uid;
     }
 

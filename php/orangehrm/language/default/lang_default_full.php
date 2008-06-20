@@ -1568,7 +1568,7 @@
     $lang_Recruit_JobApplicationConfirm_ConfirmMarkDeclinedDesc = 'Indicates that the applicant has declined the Job Offer.';
     $lang_Recruit_JobApplicationConfirm_ConfirmSeekApproval = 'Seek Approval';
     $lang_Recruit_JobApplicationConfirm_ConfirmApprove = 'Confirm Approval of above applicant';
-    $lang_Recruit_JobApplicationConfirm_ConfirmApproveDesc = 'This will mark the applicant as hired and create an employee entry in the system for the applicant. No emails will be sent.';
+    $lang_Recruit_JobApplicationConfirm_ConfirmApproveDesc = 'This will mark the applicant as hired and create an employee entry in the system for the applicant. The hiring manager will be notified, but no emails will be sent to the applicant.';
 
     $lang_Recruit_JobApplication_SeekApproval_Heading = 'Seek Approval to Hire ';
     $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy = 'Get approved by ';
