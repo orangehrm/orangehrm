@@ -111,15 +111,15 @@ class CompPropertyTest extends PHPUnit_Framework_TestCase
     public function testGetPropertyList() {
         mysql_query("TRUNCATE TABLE `hs_hr_comp_property`", $this->connection);
 
-        mysql_query("INSERT INTO `hs_hr_comp_property` (`prop_name`,`emp_id`) VALUES ('new Item','1')", $this->connection);
+        mysql_query("INSERT INTO `hs_hr_comp_property` (`prop_name`,`emp_id`) VALUES ('new Item 1','1')", $this->connection);
         mysql_query("INSERT INTO `hs_hr_comp_property` (`prop_name`,`emp_id`) VALUES ('new Item 2','10')", $this->connection);
 
         $prop = new CompProperty();
         $prop->setPropName('new Item Edited');
-        $rows=$prop->getPropertyList();
+        $rows=$prop->getPropertyList(0,'ASC');
 
 
-        $this->assertEquals($rows[0]['prop_name'],'new Item');
+        $this->assertEquals($rows[0]['prop_name'],'new Item 1');
         $this->assertEquals($rows[0]['emp_id'],'1');
         $this->assertEquals($rows[0]['prop_id'],'1');
 
@@ -127,6 +127,18 @@ class CompPropertyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($rows[1]['prop_name'],'new Item 2');
         $this->assertEquals($rows[1]['emp_id'],'10');
         $this->assertEquals($rows[1]['prop_id'],'2');
+
+        $rows=$prop->getPropertyList(0,'DESC');
+
+
+        $this->assertEquals($rows[0]['prop_name'],'new Item 2');
+        $this->assertEquals($rows[0]['emp_id'],'10');
+        $this->assertEquals($rows[0]['prop_id'],'2');
+
+
+        $this->assertEquals($rows[1]['prop_name'],'new Item 1');
+        $this->assertEquals($rows[1]['emp_id'],'1');
+        $this->assertEquals($rows[1]['prop_id'],'1');
     }
 
     /**

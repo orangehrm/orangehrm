@@ -41,8 +41,19 @@ class EXTRACTOR_CompProperty {
             $this->compProperty->setEditPropIds($postArr['propId']);
 
         if(isset($postArr['cmbUserEmpID']))
-            $this->compProperty->setEditEmpIds($postArr['cmbUserEmpID']);
+        {
+            $temp=$postArr['cmbUserEmpID'];
 
+            for($i=0; $i<count($temp); $i++)
+            {
+                if($temp[$i]=='-1')
+                {
+                    $temp[$i]='';
+                }
+            }
+
+            $this->compProperty->setEditEmpIds($temp);
+        }
         if(isset($postArr['id']))
             $this->compProperty->setEditPropIds($postArr['id']);
 

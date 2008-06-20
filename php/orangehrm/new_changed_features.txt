@@ -24,6 +24,7 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     1910952   Click on the “Reject” button ,nothing happens
     1910944   “Position applying for: Sales manager” only the bottom half
     1910947   Zip Code needs an asterisk
+    1919770   Clicking Reject Submits form even if validation fails
 
 
 New & Changed Features for OrangeHRM ver 2.3-beta.1
