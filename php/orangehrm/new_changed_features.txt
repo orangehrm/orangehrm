@@ -27,6 +27,18 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     1919770   Clicking Reject Submits form even if validation fails
     1924151   Interview event doesn't open when user has no email
 
+    New features:
+    ------------
+    HR Admin defines department id      
+    Previous Positions, Divisions, and Locations
+    Recruitment: Applicant views and applies for job vacancies
+    Recruitment: HR Admin defines job specification and duties
+    Recruitment: HR Admin manages job vacancies
+    Recruitment: Hiring of an employee
+    Recruitment: Manager manages application process
+    System displays number of employees
+    Termination Date
+    Track company property
 
 New & Changed Features for OrangeHRM ver 2.3-beta.1
 
