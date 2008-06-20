@@ -17,6 +17,7 @@ require_once 'UniqueIDGenerator.php';
  */
 class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 
+	private $oldValues;
 	private $connection;
 
 	private $tableInfo = array(array("hs_hr_compstructtree", "id", null),
@@ -83,6 +84,16 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue($this->connection !== false);
         $this->assertTrue(mysql_select_db($conf->dbname));
 
+		$result = mysql_query("SELECT `last_id`, `table_name`, `field_name` FROM `hs_hr_unique_id`;");
+		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$this->oldValues['AUTO_INC_PK_TABLE']['hs_hr_unique_id'][] = $row;
+		}
+		mysql_free_result($result);
+
+		$tableList = array('hs_hr_language', 'hs_hr_project', 'hs_hr_customer');
+		$this->_backupTables($tableList);
+		
+
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_unique_id`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_language`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_project`"));
@@ -100,6 +111,12 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_language`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_project`"));
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_customer`"));
+
+		foreach($this->oldValues['AUTO_INC_PK_TABLE']['hs_hr_unique_id'] as $row) {
+			$this->assertTrue(mysql_query("INSERT INTO `hs_hr_unique_id` VALUES (NULL, '" . implode("', '", $row) . "')"), mysql_error());
+		}
+
+		$this->_restoreTables();
 
 		/* Restore the unique id table */
         UniqueIDGenerator::getInstance()->initTable();
@@ -420,6 +437,29 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue(isset($row[$field]));
 
     	return $row[$field];
+    }
+    
+    private function _backupTables($arrTableList) {
+    	
+    	foreach ($arrTableList as $table) {
+	    	$result = mysql_query("SELECT * FROM `$table`");
+			while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+				$this->oldValues["$table"][] = $row;
+			}
+			mysql_free_result($result);
+    	}
+    }
+    
+    private function _restoreTables() {
+    	
+    	$arrTableList = array_keys($this->oldValues);
+    	
+    	foreach ($arrTableList as $table) {
+    		if ($table == 'AUTO_INC_PK_TABLE') {
+    			continue;
+    		}
+    		$this->assertTrue(mysql_query("INSERT INTO `$table` VALUES ('" . implode("', '", $this->oldValues["$table"]) . "')"), mysql_error());
+    	}
     }
 }
 

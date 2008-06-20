@@ -40,41 +40,40 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
+    	$paymentRequestFields = 	"`id`, `hsp_id`, `employee_id`, `date_incurred`, `provider_name`, `person_incurring_expense`, " .
+									"`expense_description`, `expense_amount`, `payment_made_to`, `third_party_account_number`, `mail_address`, " .
+									"`comments`, `date_paid`, `check_number`,	`status`";
+    	
     	$conf = new Conf();
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
     	$this->_deleteTables();
     	
-		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname, emp_nick_name) " .
-				"VALUES (11, 'Arnold', 'Subasinghe', 'Arnold')");
+    	$today = date('Y-m-d');
+    	$yesterday = date('Y-m-d', time()-3600*24);
+    	
+		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname) " .
+						" VALUES (11, 'Arnold', 'Subasinghe')");
 
         $this->_runQuery("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`," .
-        							  "`termination_date`,`halted`,`halted_date`,`terminated`) " .
-        							  "VALUES(10, 11, 1000, 500, NULL, false, NULL, false)");
+						"`termination_date`,`halted`,`halted_date`,`terminated`) " .
+        				"VALUES(10, 11, 1000, 500, NULL, false, NULL, false)");
 
-	    $this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (10, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
-	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y-m-d')."',  '123552-55821-ff25', 1)");
+	    $this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` ($paymentRequestFields) " .
+	    				"VALUES (10, 10, 11, '$yesterday', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
+	    				"'1231, Test Grove, Test City', 'Test', '$today',  '123552-55821-ff25', 1)");
 
-		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (11, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 1', 'Tester 1', 'Just testing 1', '100', 'TestX 1', '12345GD', " .
-	    							  "'1231, Test Grove, Test City 1', 'Test 1', NULL,  NULL, 0)");
+		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` ($paymentRequestFields) " .
+	    				"VALUES (11, 10, 11, '$yesterday', 'Test provider 1', 'Tester 1', 'Just testing 1', '100', 'TestX 1', '12345GD', " .
+	    				"'1231, Test Grove, Test City 1', 'Test 1', NULL,  NULL, 0)");
 
-		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (12, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 2', 'Tester 2', 'Just testing 2', '100', 'TestX 2', '12345GD', " .
-	    							  "'1231, Test Grove, Test City 2', 'Test 2', NULL,  NULL, 2)");
+		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` ($paymentRequestFields) " .
+	    				"VALUES (12, 10, 11, '$yesterday', 'Test provider 2', 'Tester 2', 'Just testing 2', '100', 'TestX 2', '12345GD', " .
+	    				"'1231, Test Grove, Test City 2', 'Test 2', NULL,  NULL, 2)");
 
-		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
-	    							  "VALUES (13, 10, 11, '".date('Y-m-d', time()-3600*24)."', 'Test provider 3', 'Tester 3', 'Just testing 3', '100', 'TestX 3', '12345GD', " .
-	    							  "'1231, Test Grove, Test City 3', 'Test 3', NULL,  NULL, 3)");
+		$this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` ($paymentRequestFields) " .
+	    				"VALUES (13, 10, 11, '$yesterday', 'Test provider 3', 'Tester 3', 'Just testing 3', '100', 'TestX 3', '12345GD', " .
+	    				"'1231, Test Grove, Test City 3', 'Test 3', NULL,  NULL, 3)");
 
 		$this->_runQuery("INSERT INTO `hs_hr_emp_children` (`emp_number`, `ec_name`, `ec_seqno`) VALUES(11, 'saman', 1)");
     	$this->_runQuery("INSERT INTO `hs_hr_emp_children` (`emp_number`, `ec_name`, `ec_seqno`) VALUES(11, 'saman2', 2)");
@@ -303,7 +302,7 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 	    // Adding correct Data
 
 	    $paymentRequest->setHspId(0);
-	    $paymentRequest->setEmployeeId(1);
+	    $paymentRequest->setEmployeeId(11);
 	    $paymentRequest->setDateIncurred(date('Y-m-d', time()-3600*24));
 	    $paymentRequest->setProviderName('Jack');
 	    $paymentRequest->setPersonIncurringExpense('Bauer');
