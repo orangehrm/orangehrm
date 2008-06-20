@@ -21,6 +21,10 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
 	1953990 - Admin add customer, and press enter moves to notice page
 	1953999 - Admin add project, and press enter moves to notice page
 	1957848 - After ading 1000users,Supervisor can see links to many pages
+    1910952   Click on the “Reject” button ,nothing happens
+    1910944   “Position applying for: Sales manager” only the bottom half
+    1910947   Zip Code needs an asterisk
+
 
 New & Changed Features for OrangeHRM ver 2.3-beta.1
 

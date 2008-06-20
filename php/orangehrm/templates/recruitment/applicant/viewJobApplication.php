@@ -289,6 +289,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 
 	.positionApplyingFor {
         padding-left: 17px;
+        padding-top: 10px;
 	}
     -->
 </style>
@@ -354,7 +355,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 		<label for="txtProvince"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_StateProvince; ?></label>
         <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" ></div>
 
-		<label for="txtZip"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_Zip; ?></label>
+		<label for="txtZip"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Zip; ?></label>
         <input type="text" id="txtZip" name="txtZip" tabindex="9" ></br>
 
 		<label for="txtPhone"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_Phone; ?></label>

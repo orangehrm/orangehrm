@@ -79,6 +79,12 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         }
     }
 
+    function doAction() {
+        if (validate()) {
+            $('frmConfirm').submit();
+        }
+    }
+
 </script>
 
     <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
@@ -184,7 +190,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	</div>
 	<?php }	?>
   <div class="roundbox">
-    <form id="frmConfirm" name="frmConfirm" method="post" action="<?php echo $actionURL; ?>" onsubmit="return validate();" >
+    <form id="frmConfirm" name="frmConfirm" method="post" action="<?php echo $actionURL; ?>" >
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationConfirm_ApplicantName; ?></div>
         <div class="txtValue">
             <?php echo CommonFunctions::escapeHtml($application->getFirstName() . ' ' . $application->getLastName());?>
@@ -226,7 +232,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <textarea id="txtNotes" name="txtNotes" tabindex="1"></textarea><br/>
 
         <div class="buttonSec">
-            <button id="actionBtn"><?php echo $actionName;?></button>
+            <button id="actionBtn" onClick="doAction();"><?php echo $actionName;?></button>
             <button id="cancelBtn" onClick="goBack();"><?php echo $lang_Leave_Common_Cancel;?></button>
         </div>
        </form>
