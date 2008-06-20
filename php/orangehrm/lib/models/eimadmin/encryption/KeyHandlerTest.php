@@ -15,8 +15,6 @@ require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
  */
 class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 
-	private $oldValue;
-
     /**
      * Runs the test methods of this class.
      *
@@ -44,15 +42,6 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(copy($filePath,  "$filePath.bak"));		
 			$this->assertTrue(@unlink($filePath));						
 		}
-		 
-		$dbConnection = new DMLFunctions();
-		$result = $dbConnection->executeQuery("SELECT `value` FROM `hs_hr_config` WHERE `key` = 'enc_key_defined'");
-		$row = mysql_fetch_array($result, MYSQL_NUM);
-		$this->oldValue = $row[0];
-
-		$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = 'No' WHERE `key` = 'enc_key_defined'"));
-		
-		
 
     }
 
@@ -76,8 +65,6 @@ class KeyHandlerTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(@unlink("$filePath.bak"));
 			
 		}
-		
-		$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '$this->oldValue' WHERE `key` = 'enc_key_defined'"));
 
     }
 
