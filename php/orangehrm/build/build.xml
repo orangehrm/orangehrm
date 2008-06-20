@@ -147,14 +147,6 @@
           <batchtest>
               <fileset dir="${project.dir}/lib">
                   <include name="**/*Test.php"/>
-                  <exclude name="**/CustomizableCSVExportTest.php"/>
-                  <exclude name="**/MilleniumPayrollExportTest.php" />
-                  <exclude name="**/HspSummaryTest.php" />
-                  <exclude name="**/HspPaymentRequestTest.php" />
-                  <exclude name="**/DefineHspTest.php" />
-                  <exclude name="**/HspMailNotificationTest.php" />
-                  <exclude name="**/HspPayPeriodTest.php" />
-                  <exclude name="**/HspTest.php" />
               </fileset>
           </batchtest>
       </phpunit2>
