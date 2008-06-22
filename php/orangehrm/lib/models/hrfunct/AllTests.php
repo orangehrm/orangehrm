@@ -33,6 +33,7 @@ require_once 'EmpInfoTest.php';
 require_once 'JobTitleHistoryTest.php';
 require_once 'SubDivisionHistoryTest.php';
 require_once 'LocationHistoryTest.php';
+require_once 'EmpLocationTest.php';
 
 
 class models_hrfunct_AllTests
@@ -50,6 +51,7 @@ class models_hrfunct_AllTests
 	    $suite->addTestSuite('JobTitleHistoryTest');
 	    $suite->addTestSuite('SubDivisionHistoryTest');
 	    $suite->addTestSuite('LocationHistoryTest');
+	    $suite->addTestSuite('EmpLocationTest');
         return $suite;
     }
 }

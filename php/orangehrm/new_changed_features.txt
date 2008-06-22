@@ -39,6 +39,7 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     System displays number of employees
     Termination Date
     Track company property
+    Employee works in multiple locations
 
 New & Changed Features for OrangeHRM ver 2.3-beta.1
 

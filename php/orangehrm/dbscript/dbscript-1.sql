@@ -916,6 +916,12 @@ create table `hs_hr_comp_property` (
   key  `emp_id` (`emp_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_locations` (
+  `emp_number` int(7) not null,
+  `loc_code` varchar(13) not null,
+  primary key  (`emp_number`, `loc_code`)
+) engine=innodb default charset=utf8;
+
 alter table hs_hr_compstructtree
        add constraint foreign key (loc_code)
                              references hs_hr_location(loc_code) on delete restrict;
@@ -1238,6 +1244,12 @@ alter table `hs_hr_emp_subdivision_history`
         references hs_hr_employee(`emp_number`) on delete cascade;
 
 alter table `hs_hr_emp_location_history`
+    add constraint foreign key (`emp_number`)
+        references hs_hr_employee(`emp_number`) on delete cascade;
+
+alter table `hs_hr_emp_locations`
+    add constraint foreign key (`loc_code`)
+        references hs_hr_location(`loc_code`) on delete cascade,
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
 

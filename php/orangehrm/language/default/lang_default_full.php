@@ -540,6 +540,7 @@
 	$lang_hremp_EmpStatus					= "Employment Status";
 	$lang_hremp_Workstation					= "Workstation";
 	$lang_hremp_Subdivision					= "Sub-division";
+    $lang_hremp_Locations                   = "Locations";
 
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
@@ -620,7 +621,11 @@
     $lang_hremp_EmployeeHistory_ExpectedDateFormat = "Expected date format: ";
     $lang_hremp_EmployeeHistory_DatesWithErrorsHighlighted = "Dates with errors are highlighted in red ";
 
+    $lang_hremp_AddLocation                 = "Add Location";
     $lang_hremp_SelectLocation              = "Select Location";
+    $lang_hremp_PleaseSelectALocationFirst  = "Please select a location first";
+    $lang_hremp_ErrorAssigningLocation      = "Error assigning location";
+    $lang_hremp_ErrorRemovingLocation      = "Error removing location";
 
 	$lang_hremp_SalaryShouldBeWithinMinAndMa= "Salary should be within min and max";
 

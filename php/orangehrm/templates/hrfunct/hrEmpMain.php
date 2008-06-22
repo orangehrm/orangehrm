@@ -137,6 +137,55 @@ function getUnAssignedCurrencyList($payGrade) {
 }
 
 
+$GLOBALS['lang_Common_Select'] = $lang_Common_Select;
+$GLOBALS['lang_hremp_ErrorAssigningLocation'] = $lang_hremp_ErrorAssigningLocation;
+
+/**
+ * Assign location to employee
+ * @param string $locCode Location code
+ */
+function assignLocation($locCode) {
+
+    $empViewController = new EmpViewController();
+    $result = $empViewController->assignLocation($_GET['id'], $locCode);
+
+    $response = new xajaxResponse();
+    if ($result) {
+        $response->addScript('onLocationAssign("' . $locCode. '");');
+    } else {
+        $response->addScript('alert("' . $GLOBALS['lang_hremp_ErrorAssigningLocation'] .'");');
+    }
+
+    $xajaxFiller = new xajaxElementFiller();
+    $response->addAssign('status','style','display:none;');
+    $response->addScript('enableLocationLinks();');
+
+    return $response->getXML();
+}
+
+/**
+ * Remove location from employee
+ * @param string $locCode Location code
+ */
+function removeLocation($locCode) {
+
+    $empViewController = new EmpViewController();
+    $result = $empViewController->removeLocation($_GET['id'], $locCode);
+
+    $response = new xajaxResponse();
+    if ($result) {
+       $response->addScript('onLocationRemove("' . $locCode. '");');
+    } else {
+        $response->addScript('alert("' . $GLOBALS['lang_hremp_ErrorAssigningLocation'] .'");');
+    }
+
+    $xajaxFiller = new xajaxElementFiller();
+    $response->addAssign('status','style','display:none;');
+    $response->addScript('enableLocationLinks();');
+
+    return $response->getXML();
+}
+
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->registerFunction('populateDistrict');
@@ -144,6 +193,8 @@ $objAjax->registerFunction('populateDistrict');
 $objAjax->registerFunction('getUnAssMemberships');
 $objAjax->registerFunction('getMinMaxCurrency');
 $objAjax->registerFunction('getUnAssignedCurrencyList');
+$objAjax->registerFunction('assignLocation');
+$objAjax->registerFunction('removeLocation');
 
 $objAjax->processRequests();
 ?>
@@ -320,6 +371,39 @@ function editEmpMain() {
 
 		<?php } ?>
 	}
+
+        <?php
+
+          $allowLocationDelete = false;
+          $allowLocationEdit = false;
+          if ($supervisorEMPMode) {
+              $allowLocationDelete = true;
+              $allowLocationEdit = true;
+          } else if (isset($_SESSION['isAdmin']) && ($_SESSION['isAdmin'] == 'Yes')) {
+              $allowLocationDelete = $locRights['delete'];
+              $allowLocationEdit = $locRights['edit'];
+          }
+
+          // display location modifying link
+          if ($allowLocationEdit) {
+         ?>
+            var addLocationLayer = document.getElementById("addLocationLayer");
+            if (addLocationLayer) {
+                addLocationLayer.style.display = 'block';
+            }
+        <?php } ?>
+        <?php
+          // Show deletion check boxes
+          if ($allowLocationDelete) {
+         ?>
+            var elms = YAHOO.util.Dom.getElementsByClassName('locationDeleteChkBox');
+            // loop over all the elements
+            for(var i=0,j=elms.length;i<j;i++){
+                elms[i].style.display = 'block';
+            }
+
+        <?php } ?>
+
 		<?php
 		/* form elements disabled only for supervisor mode */
 		if ($supervisorEMPMode) { ?>
@@ -652,6 +736,13 @@ tableDisplayStyle = "table";
         border-width: 0px;
         padding: 3px 3px 3px 5px;
         text-align: left;
+    }
+
+    .locationDeleteChkBox {
+        padding:2px 4px 2px 4px;
+        border-style: solid;
+        border-width: thin;
+        display:block;
     }
 
     -->

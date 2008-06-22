@@ -40,10 +40,12 @@ require_once ROOT_PATH . '/lib/models/eimadmin/Location.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/LocationHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/JobTitleHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/SubDivisionHistory.php';
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpLocation.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/common/Config.php';
+require_once ROOT_PATH . '/lib/common/authorize.php';
 
 class EmpViewController {
 
@@ -1650,6 +1652,9 @@ class EmpViewController {
                                 $locationHistory = new LocationHistory();
                                 $form_creator->popArr['locationHistory'] = $locationHistory->getHistory($getArr['id']);
 
+                                $form_creator ->popArr['assignedlocationList'] = EmpLocation::getEmpLocations($getArr['id']);
+                                $form_creator ->popArr['availablelocationList'] = EmpLocation::getUnassignedLocations($getArr['id']);
+
 								$form_creator->popArr['editPermResArr'] = $edit = $editPermRes = $empinfo->filterEmpContact($getArr['id']);
 								$form_creator->popArr['provlist'] = $porinfo ->getProvinceCodes($edit[0][4]);
 								$form_creator->popArr['citylist'] = $distric ->getDistrictCodes($edit[0][5]);
@@ -2450,5 +2455,65 @@ class EmpViewController {
 			}
   	   }
 
+
+       /**
+        * Assign given location to given employee
+        *
+        * @param int $empNumber Employee number
+        * @param string $locationCode Location code to assign
+        *
+        * @return boolean true if successfully assigned, false otherwise
+        */
+       public function assignLocation($empNumber, $locationCode) {
+
+            $result = false;
+            $auth = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
+            /* Only allow admins and supervisors of the given employee to assign locations */
+            if ($auth->isAdmin() || ($auth->isSupervisor() && $auth->isTheSupervisor($empNumber))) {
+                $empLocation = new EmpLocation($empNumber, $locationCode);
+
+                try {
+                    $empLocation->save();
+                    $result = true;
+                    $history = new LocationHistory();
+                    $history->updateHistory($empNumber, $locationCode);
+                } catch (EmpLocationException $e) {
+
+                }
+            }
+
+            return $result;
+       }
+
+       /**
+        * Remove given location from employee
+        *
+        * @param int $empNumber Employee number
+        * @param string $locationCode Location code to remove
+        *
+        * @return boolean true if successfully assigned, false otherwise
+        */
+       public function removeLocation($empNumber, $locationCode) {
+
+            $result = false;
+            $auth = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+
+            /* Only allow admins and supervisors of the given employee to assign locations */
+            if ($auth->isAdmin() || ($auth->isSupervisor() && $auth->isTheSupervisor($empNumber))) {
+                $empLocation = new EmpLocation($empNumber, $locationCode);
+
+                try {
+                    $empLocation->delete();
+                    $result = true;
+                    $history = new LocationHistory();
+                    $history->updateHistory($empNumber, $locationCode, true);
+                } catch (EmpLocationException $e) {
+
+                }
+            }
+
+            return $result;
+       }
 }
 ?>

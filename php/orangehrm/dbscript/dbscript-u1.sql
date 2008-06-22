@@ -847,6 +847,12 @@ create table `hs_hr_comp_property` (
   key  `emp_id` (`emp_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_emp_locations` (
+  `emp_number` int(7) not null,
+  `loc_code` varchar(13) not null,
+  primary key  (`emp_number`, `loc_code`)
+) engine=innodb default charset=utf8;
+
 INSERT INTO `hs_hr_customer`
   (`customer_id`, `name`, `description`)
   VALUES (0, 'Internal', "Internal time tracker")
