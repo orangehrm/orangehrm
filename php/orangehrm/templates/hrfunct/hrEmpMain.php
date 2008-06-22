@@ -71,6 +71,25 @@ return $response->getXML();
 //return $response->getXML();
 //}
 
+function fetchJobSpecInfo($value) {
+	$view_controller = new ViewController();   
+	$response = new xajaxResponse();
+    $jobSpec = $view_controller->getJobSpecForJob($value);    
+    if (empty($jobSpec)) {
+        $jobSpecName = '';
+        $jobSpecDuties = '';
+    } else {
+        $jobSpecName = CommonFunctions::escapeHtml($jobSpec->getName());
+        $jobSpecDuties = nl2br(CommonFunctions::escapeHtml($jobSpec->getDuties()));
+    }
+
+    $response->addAssign('jobSpecName','innerHTML', $jobSpecName);
+    $response->addAssign('jobSpecDuties','innerHTML', $jobSpecDuties);
+
+    $response->addAssign('status','innerHTML','');
+return $response->getXML();
+}
+
 function getUnAssMemberships($mtype) {
 
 	$emp_view_controller = new EmpViewController();
@@ -190,6 +209,7 @@ $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->registerFunction('populateDistrict');
 //$objAjax->registerFunction('assEmpStat');
+$objAjax->registerFunction('fetchJobSpecInfo');
 $objAjax->registerFunction('getUnAssMemberships');
 $objAjax->registerFunction('getMinMaxCurrency');
 $objAjax->registerFunction('getUnAssignedCurrencyList');

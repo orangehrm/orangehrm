@@ -33,6 +33,7 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     Previous Positions, Divisions, and Locations
     Recruitment: Applicant views and applies for job vacancies
     Recruitment: HR Admin defines job specification and duties
+    Recruitment: HR Admin assigns job specification and duties
     Recruitment: HR Admin manages job vacancies
     Recruitment: Hiring of an employee
     Recruitment: Manager manages application process

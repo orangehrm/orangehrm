@@ -27,6 +27,7 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
  
 require_once 'TimeControllerTest.php';
+require_once 'ViewControllerTest.php';
 require_once 'RecruitmentControllerTest.php';
 
  
@@ -41,6 +42,7 @@ class controllers_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM controllers');
         $suite->addTestSuite('TimeControllerTest');
+        $suite->addTestSuite('ViewControllerTest');
         $suite->addTestSuite('RecruitmentControllerTest');
         return $suite;
     }

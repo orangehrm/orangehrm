@@ -22,30 +22,36 @@ require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
 class EXTRACTOR_JobTitle {
 
 	function EXTRACTOR_JobTitle() {
-
-		$this->parent_jobtit = new JobTitle();
 	}
 
 	function parseAddData($postArr) {
-
-			$this->parent_jobtit -> setJobName(trim($postArr['txtJobTitleName']));
-			$this->parent_jobtit -> setJobDesc(trim($postArr['txtJobTitleDesc']));
-			$this->parent_jobtit -> setJobComm(trim($postArr['txtJobTitleComments']));
-			$this->parent_jobtit -> setJobSalGrd(trim($postArr['cmbPayGrade']));
-
-			return $this->parent_jobtit;
+        return $this->_parseCommonData($postArr);
 	}
 
 	function parseEditData($postArr) {
-
-			$this->parent_jobtit -> setJobId($postArr['txtJobTitleID']);
-			$this->parent_jobtit -> setJobName(trim($postArr['txtJobTitleName']));
-			$this->parent_jobtit -> setJobDesc(trim($postArr['txtJobTitleDesc']));
-			$this->parent_jobtit -> setJobComm(trim($postArr['txtJobTitleComments']));
-			$this->parent_jobtit -> setJobSalGrd(trim($postArr['cmbPayGrade']));
-
-			return $this->parent_jobtit;
+        $jobTitle = $this->_parseCommonData($postArr);
+        $jobTitle->setJobId($postArr['txtJobTitleID']);
+		return $jobTitle;
 	}
+    
+    /**
+     * Parse common data for edit and update
+     * @return JobTitle object
+     */
+    private function _parseCommonData($postArr) {
+        $jobTitle = new JobTitle();
+        $jobTitle->setJobName(trim($postArr['txtJobTitleName']));
+        $jobTitle->setJobDesc(trim($postArr['txtJobTitleDesc']));
+        $jobTitle->setJobComm(trim($postArr['txtJobTitleComments']));
+        $jobTitle->setJobSalGrd(trim($postArr['cmbPayGrade']));
+        
+        $jobSpecId = trim($postArr['cmbJobSpecId']);
+        if (CommonFunctions::isValidId($jobSpecId)) {
+            $jobTitle->setJobSpecId($jobSpecId);
+        }
+        
+        return $jobTitle;
+    }
 
 }
 ?>

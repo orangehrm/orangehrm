@@ -304,6 +304,15 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
         btn.attributes["onMouseOver"].value ="this.src='<?php echo $iconDir;?>assign_o.gif';";
         btn.attributes["src"].value = "<?php echo $iconDir;?>assign.gif";
     }
+    
+    /**
+     * Function run when job title selection is changed.
+     */
+     function onJobTitleChange(value) {
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; 
+		//xajax_assEmpStat(value);
+		xajax_fetchJobSpecInfo(value);     	
+     }
 
 </script>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
@@ -332,6 +341,13 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 					}
 ?>
 			  </select></td>
+              </tr>
+              <tr>
+                <td><?php echo $lang_hremp_jobspec; ?></td>
+                <td id='jobSpecName'></td>              
+                <td width="50">&nbsp;</td>
+                <td><?php echo $lang_hremp_jobspecduties; ?></td>
+                <td id='jobSpecDuties'></td>
               </tr>
 			  <tr>
 			  <td><?php echo $lang_hremp_eeocategory; ?> </td>
@@ -362,11 +378,19 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 
 <?php
-		  $edit1 = $this->popArr['editJobInfoArr'];
+    $edit1 = $this->popArr['editJobInfoArr'];
+    $jobSpec = $this->popArr['jobSpec'];    
+    if (empty($jobSpec)) {
+        $jobSpecName = '';
+        $jobSpecDuties = '';
+    } else {
+        $jobSpecName = CommonFunctions::escapeHtml($jobSpec->getName());
+        $jobSpecDuties = nl2br(CommonFunctions::escapeHtml($jobSpec->getDuties()));
+    }                  
 ?>
 <tr>
 			   <td><?php echo $lang_hremp_jobtitle; ?></td>
-			  <td><select name="cmbJobTitle" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> onchange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; xajax_assEmpStat(this.value);">
+			  <td><select name="cmbJobTitle" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> onchange="onJobTitleChange(this.value);">
 			  		<option value="0">-- <?php echo $lang_hremp_SelectJobTitle; ?> --</option>
 			  		<?php $jobtit = $this->popArr['jobtit'];
 			  			for ($c=0; $jobtit && count($jobtit)>$c ; $c++)
@@ -405,6 +429,13 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 						}
 ?>
 			  </select></td>
+              </tr>
+              <tr>
+                <td><?php echo $lang_hremp_jobspec; ?></td>
+                <td id='jobSpecName'><?php echo $jobSpecName;?></td>              
+                <td width="50">&nbsp;</td>
+                <td><?php echo $lang_hremp_jobspecduties; ?></td>
+                <td id='jobSpecDuties'><?php echo $jobSpecDuties;?></td>
               </tr>
 			  <tr>
 			  <td><?php echo $lang_hremp_eeocategory; ?></td>

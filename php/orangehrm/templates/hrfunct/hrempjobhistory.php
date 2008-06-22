@@ -281,8 +281,10 @@ function moverHistoryEditBtn() {
                 <option value='0'> -- <?php echo $lang_hremp_SelectLocation;?> -- </option>
             <?php
                 $locationList = $this->popArr['loc'];
-                foreach($locationList as $loc) {
-                    echo "<option value='" . $loc[0] . "'>" .$loc[1]. "</option>";
+                if (is_array($locationList)) {
+	                foreach($locationList as $loc) {
+	                    echo "<option value='" . $loc[0] . "'>" .$loc[1]. "</option>";
+	                }
                 }
             ?>
             </select>

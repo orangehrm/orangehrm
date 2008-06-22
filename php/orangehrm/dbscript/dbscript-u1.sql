@@ -20,21 +20,24 @@ create table `hs_hr_compstructtree` (
   key loc_code (`loc_code`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_job_title` (
-	`jobtit_code` varchar(13) not null default '',
-	`jobtit_name` varchar(50) default null,
-	`jobtit_desc` varchar(200) default null,
-	`jobtit_comm` varchar(400) default null,
-	`sal_grd_code` varchar(13) default null,
-	primary key(`jobtit_code`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_job_spec` (
 	`jobspec_id` int(11) not null default 0,
 	`jobspec_name` varchar(50) default null,
 	`jobspec_desc` text default null,
 	`jobspec_duties` text default null,
 	primary key(`jobspec_id`)
+) engine=innodb default charset=utf8;
+
+create table `hs_hr_job_title` (
+	`jobtit_code` varchar(13) not null default '',
+	`jobtit_name` varchar(50) default null,
+	`jobtit_desc` varchar(200) default null,
+	`jobtit_comm` varchar(400) default null,
+	`sal_grd_code` varchar(13) default null,
+	`jobspec_id` int(11) default null,
+	primary key(`jobtit_code`),
+    key sal_grd_code (`sal_grd_code`),
+    key jobspec_id (`jobspec_id`)
 ) engine=innodb default charset=utf8;
 
 create table `hs_hr_empstat` (

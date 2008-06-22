@@ -192,6 +192,7 @@ return $objResponse->getXML();
   setcookie('txtJobTitleName', 'null', time()-3600, '/');
   setcookie('txtJobTitleDesc', 'null', time()-3600, '/');
   setcookie('txtJobTitleComments', 'null', time()-3600, '/');
+  setcookie('cmbJobSpecId', 'null', time()-3600, '/');
   setcookie('cmbPayGrade', 'null', time()-3600, '/');
   setcookie('txtJobTitleID', 'null', time()-3600, '/');
 
@@ -565,6 +566,9 @@ function preserveData() {
 		id="txtJobTitleComments";
 		writeCookie(id,document.getElementById('txtJobTitleComments').value);
 
+        id="cmbJobSpecId";
+        writeCookie(id, document.getElementById(id).value);
+
 		id="cmbPayGrade";
 		writeCookie(id,document.getElementById('cmbPayGrade').value);
 	}
@@ -605,6 +609,7 @@ function clearAll() {
 	document.frmJobTitle.txtJobTitleName.value = '';
 	document.frmJobTitle.txtJobTitleDesc.value = '';
 	document.frmJobTitle.txtJobTitleComments.value = '';
+    document.frmJobTitle.cmbJobSpecId.value = -1;
 	document.frmJobTitle.cmbPayGrade.value = 0;
 }
 </script>
@@ -696,6 +701,21 @@ function clearAll() {
 				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
 
 				                  </tr>
+                                  <tr>
+                                        <td><?php echo $lang_jobtitle_jobspec; ?></td>
+                                        <td><select name="cmbJobSpecId" id="cmbJobSpecId">
+                                            <option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+                                       <?php    $jobSpecs = $this->popArr['jobSpecList'];
+                                                $selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
+                                                
+                                                foreach($jobSpecs as $jobSpec) {
+                                                    
+                                                    $selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+                                       ?>
+                                                    <option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
+                                        <?php   } ?>
+                                            </select></td>
+                                  </tr>
 
 				                  <tr>
 
@@ -839,7 +859,21 @@ function clearAll() {
 				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
 
 				                  </tr>
-
+                                 <tr>
+                                        <td><?php echo $lang_jobtitle_jobspec; ?></td>
+                                        <td><select disabled name="cmbJobSpecId" id="cmbJobSpecId">
+                                            <option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+                                       <?php    $jobSpecs = $this->popArr['jobSpecList'];
+                                                $selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : $editArr[0][5];                                       
+                                                
+                                                foreach($jobSpecs as $jobSpec) {
+                                                    
+                                                    $selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+                                       ?>
+                                                    <option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
+                                        <?php   } ?>
+                                            </select></td>
+                                  </tr>
 				                  <tr>
 
 				                  		<td><span class="error">*</span><?php echo $lang_hrEmpMain_paygrade; ?></td>

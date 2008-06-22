@@ -19,36 +19,28 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'extractor_AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'extractor_eimadmin_AllTests::main');
 }
- 
+set_include_path(get_include_path() . PATH_SEPARATOR . "../../../build");
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
-set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
 
-require_once 'recruitment/AllTests.php';
-require_once 'eimadmin/AllTests.php';
- 
-class extractor_AllTests
-{
-    public static function main()
-    {
+require_once 'ExtractorJobTitleTest.php';
+
+class extractor_eimadmin_AllTests {
+    public static function main() {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM extractor unit tests');
- 
-        $suite->addTest(extractor_recruitment_AllTests::suite());
-        $suite->addTest(extractor_eimadmin_AllTests::suite());
- 
+
+    public static function suite() {
+        $suite = new PHPUnit_Framework_TestSuite('OrangeHRM extractor_eimadmin');
+		$suite->addTestSuite('ExtractorJobTitleTest');
         return $suite;
     }
 }
- 
-if (PHPUnit_MAIN_METHOD == 'extractor_AllTests::main') {
-    extractor_AllTests::main();
+
+if (PHPUnit_MAIN_METHOD == 'extractor_eimadmin_AllTests::main') {
+    extractor_eimadmin_AllTests::main();
 }
 ?>

@@ -20,6 +20,8 @@
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobTitEmpStat.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
@@ -29,6 +31,9 @@ class JobTitle {
     const DIRECTOR_JOB_TITLE_NAME = 'Director';
 
 	const TABLE_NAME = 'HS_HR_JOB_TITLE';
+    
+    const DB_FIELD_JOBSPEC_ID = 'jobspec_id';
+    
 	var $tableName = self::TABLE_NAME;
 
 	var $jobId;
@@ -38,6 +43,7 @@ class JobTitle {
     var $jobSalGrd;
 	var $arrayDispList;
 	var $singleField;
+    private $jobSpecId;
 
 	function JobTitle() {
 
@@ -67,6 +73,10 @@ class JobTitle {
     	$this->jobSalGrd = $jobSalGrd;
     }
 
+    public function setJobSpecId($jobSpecId) {
+        $this->jobSpecId = $jobSpecId;
+    }
+
 	function getJobId() {
 
 		return $this->jobId;
@@ -89,6 +99,10 @@ class JobTitle {
 	function getJobSalGrd() {
 		return $this->jobSalGrd;
 	}
+    
+    public function getJobSpecId() {
+        return $this->jobSpecId;
+    }
 
 	function getListofJobTitles($pageNO,$schStr,$mode, $sortField = 0, $sortOrder = 'ASC') {
 
@@ -175,23 +189,31 @@ class JobTitle {
 
 		$this->jobId = UniqueIDGenerator::getInstance()->getNextID($tableName, 'JOBTIT_CODE', 'JOB');
 
-		$arrFieldList[0] = "'". $this->getJobId() . "'";
-		$arrFieldList[1] = "'". $this->getJobName() . "'";
-		$arrFieldList[2] = "'". $this->getJobDesc() . "'";
-		$arrFieldList[3] = "'". $this->getJobComm() . "'";
-		$arrFieldList[4] = "'". $this->getJobSalGrd() . "'";
+		$arrRecordsList[0] = "'". $this->getJobId() . "'";
+		$arrRecordsList[1] = "'". $this->getJobName() . "'";
+		$arrRecordsList[2] = "'". $this->getJobDesc() . "'";
+		$arrRecordsList[3] = "'". $this->getJobComm() . "'";
+		$arrRecordsList[4] = "'". $this->getJobSalGrd() . "'";
+        $arrRecordsList[5] = isset($this->jobSpecId) ? $this->jobSpecId : 'null';
+
+        $arrFieldList[0] = 'JOBTIT_CODE';
+        $arrFieldList[1] = 'JOBTIT_NAME';
+        $arrFieldList[2] = 'JOBTIT_DESC';
+        $arrFieldList[3] = 'JOBTIT_COMM';
+        $arrFieldList[4] = 'SAL_GRD_CODE';
+        $arrFieldList[5] = self::DB_FIELD_JOBSPEC_ID;
 
 		$sql_builder = new SQLQBuilder();
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_insert = 'true';
-		$sql_builder->arr_insert = $arrFieldList;
+		$sql_builder->arr_insert = $arrRecordsList;
+        $sql_builder->arr_insertfield = $arrFieldList;
 
-
-		$sqlQString = $sql_builder->addNewRecordFeature1();
+		$sqlQString = $sql_builder->addNewRecordFeature2();
 
 		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection->executeQuery($sqlQString); //Calling the addData() function
+		$message2 = $dbConnection->executeQuery($sqlQString);
 
 		$jobTitleEmpStat = new JobTitEmpStat();
 
@@ -247,13 +269,15 @@ class JobTitle {
 		$arrRecordsList[2] = "'". $this->getJobDesc() . "'";
 		$arrRecordsList[3] = "'". $this->getJobComm() . "'";
 		$arrRecordsList[4] = "'". $this->getJobSalGrd() . "'";
-
+        $arrRecordsList[5] = isset($this->jobSpecId) ? $this->jobSpecId : 'null';
+        
 		$arrFieldList[0] = 'JOBTIT_CODE';
 		$arrFieldList[1] = 'JOBTIT_NAME';
 		$arrFieldList[2] = 'JOBTIT_DESC';
 		$arrFieldList[3] = 'JOBTIT_COMM';
 		$arrFieldList[4] = 'SAL_GRD_CODE';
-
+        $arrFieldList[5] = self::DB_FIELD_JOBSPEC_ID;
+        
 		$tableName = 'HS_HR_JOB_TITLE';
 
 		$sql_builder = new SQLQBuilder();
@@ -279,6 +303,7 @@ class JobTitle {
 		$arrFieldList[2] = 'JOBTIT_DESC';
 		$arrFieldList[3] = 'JOBTIT_COMM';
 		$arrFieldList[4] = 'SAL_GRD_CODE';
+        $arrFieldList[5] = self::DB_FIELD_JOBSPEC_ID;
 
 		$tableName = 'HS_HR_JOB_TITLE';
 
@@ -303,6 +328,7 @@ class JobTitle {
 	    	$arrayDispList[$i][2] = $line[2];
 	    	$arrayDispList[$i][3] = $line[3];
 	    	$arrayDispList[$i][4] = $line[4];
+            $arrayDispList[$i][5] = $line[5];
 	    	$i++;
 
 	     }

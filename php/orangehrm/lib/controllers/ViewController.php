@@ -3032,6 +3032,7 @@ class ViewController {
 							$jobtit_empstat = new JobTitEmpStat();
 
 							$form_creator ->popArr['paygrade'] = $paygrade->getSalGrades();
+                            $form_creator->popArr['jobSpecList'] = JobSpec::getAll();
 
 							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $jobtitle->filterJobTitles($getArr['id']);
@@ -3280,5 +3281,30 @@ class ViewController {
 
 	}
 
+    /**
+     * Get the job spec for the given job title
+     * @param String $jobTitleCode The job title code
+     * @return JobSpec JobSpec object or null if no job spec assigned for given job title
+     */
+    public function getJobSpecForJob($jobTitleCode) {
+        
+        $jobSpec = null;
+        
+        if (CommonFunctions::isValidId($jobTitleCode, 'JOB')) {
+ 
+            $jobTitle = new JobTitle();
+            $jobTitles = $jobTitle->filterJobTitles($jobTitleCode);
+            if (is_array($jobTitles) && (count($jobTitles) == 1)) {
+                $jobSpecId = $jobTitles[0][5];
+                
+                try {
+                    $jobSpec = JobSpec::getJobSpec($jobSpecId);                    
+                } catch (JobSpecException $ex) {
+                    // ignore, we will be returning null                    
+                }
+            }
+        }
+        return $jobSpec;
+    }
 }
 ?>

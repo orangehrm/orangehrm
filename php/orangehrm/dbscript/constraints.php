@@ -13,6 +13,7 @@ array("hs_pr_salary_currency_detail", array("currency_id"),  "hs_hr_currency_typ
 array("hs_pr_salary_currency_detail", array("sal_grd_code"), "hs_pr_salary_grade",  array("sal_grd_code"), "cascade"),
 array("hs_hr_location",               array("loc_country"),  "hs_hr_country",       array("cou_code"),     "cascade"),
 array("hs_hr_job_title",              array("sal_grd_code"), "hs_pr_salary_grade",  array("sal_grd_code"), "null"),
+array("hs_hr_job_title",              array("jobspec_id"),   "hs_hr_job_spec",      array("jobspec_id"), "null"),
 array("hs_hr_jobtit_empstat",         array("jobtit_code"),  "hs_hr_job_title",     array("jobtit_code"),  "cascade"),
 array("hs_hr_jobtit_empstat",         array("estat_code"),   "hs_hr_empstat",       array("estat_code"),   "cascade"),
 array("hs_hr_membership",             array("membtype_code"),"hs_hr_membership_type", array("membtype_code"),  "cascade"),

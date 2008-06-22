@@ -1640,9 +1640,18 @@ class EmpViewController {
 								$view_controller = new ViewController();
 								$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($empJobInfo[0][2],'JOB','allEmpStat');
 
-								if(isset($postArr['cmbJobTitle'])){
+                                $empJobTitle = $empJobInfo[0][2];
+								if (isset($postArr['cmbJobTitle'])) {
 									$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($postArr['cmbJobTitle'],'JOB','allEmpStat');
+                                    $empJobTitle = $postArr['cmbJobTitle'];                                     
 								}
+
+                                if (CommonFunctions::isValidId($empJobTitle, 'JOB')) {
+                                    $empJobSpec = $view_controller->getJobSpecForJob($empJobTitle);                                     
+                                } else {
+                                    $empJobSpec = null;
+                                }
+                                $form_creator ->popArr['jobSpec'] = $empJobSpec;
 
                                 $jobTitleHistory = new JobTitleHistory();
                                 $form_creator->popArr['jobTitleHistory'] = $jobTitleHistory->getHistory($getArr['id']);
