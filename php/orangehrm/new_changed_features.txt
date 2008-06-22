@@ -26,6 +26,14 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     1910947   Zip Code needs an asterisk
     1919770   Clicking Reject Submits form even if validation fails
     1924151   Interview event doesn't open when user has no email
+    1941291   When you apply for a job vacancies top title bar should have
+    1919420   Editing locations for nested divisions/depts. error message
+    1979629   Error in creating database tables by the installer
+    1969515   Performance: some tabs not clearly visible to user (not specific to performance module)
+    1969516   Display Unexpected Error page in Job Specification
+    1910903   Selecting a user as terminated , termination date not appea
+    1919409   Ess user can see termination reason
+    1919189   Supervisor cannot define company property
 
     New features:
     ------------

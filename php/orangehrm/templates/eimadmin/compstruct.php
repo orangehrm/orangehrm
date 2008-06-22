@@ -126,6 +126,7 @@
 <script language="JavaScript" type="text/javascript">
 <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
 var allChildDepIds= new Array();
+var allChildIds = new Array();
 </script>
 <body style="padding-left:5px;">
 
@@ -151,7 +152,9 @@ var allChildDepIds= new Array();
 		foreach ($treeHierarchy as $child)
 		{
 			$dept_id=$child[0]['dept_id']==''?"'';\n":'\''.$child[0]['dept_id']."';\n";
+			$id = $child[0]['id'];
 			echo("allChildDepIds[$cnt]=".$dept_id);
+			echo("allChildIds[$cnt] = " . $id . "\n");
 			$cnt++;
 		}
 ?>
@@ -226,7 +229,7 @@ var allChildDepIds= new Array();
     </div>
     <!-- Delete Subdivision -->
     <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="validate(); return false;">
-		<input type="hidden" value="" id="rgt" name="rgt">
+		<input type="hidden" value="" id="del_rgt" name="rgt">
 		<input type="hidden" value="" id="lft" name="lft">
 		<input type="hidden" value="" id="sqlState" name="sqlState">
 	</form>
@@ -238,7 +241,7 @@ var allChildDepIds= new Array();
 
 		<form name="frmAddNode" id="frmAddNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
 
-		<input type="hidden" value="" id="rgt" name="rgt">
+		<input type="hidden" value="" id="add_rgt" name="rgt">
 		<input type="hidden" value="" id="sqlState" name="sqlState">
 
 		<input type="hidden" value="" id="txtParnt" name="txtParnt">

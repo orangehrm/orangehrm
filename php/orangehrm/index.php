@@ -116,11 +116,9 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="leave"))
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="time"))
 	$arrRights=$arrAllRights[TimeM];
 
-if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="benefits"))
-	$arrRights=$arrAllRights[Benefits];
-
-if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="recruit"))
+if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="recruit")) {
 	$arrRights=$arrAllRights[Recruit];
+}
 
 
 $_SESSION['localRights']=$arrRights;
@@ -199,7 +197,8 @@ if ($authorizeObj->isAdmin()) {
 $defaultAdminView = "GEN";
 $allowAdminView = false;
 
-if (($_SESSION['isAdmin']=='No') && $_SESSION['isProjectAdmin']) {
+if ($_SESSION['isAdmin']=='No') {
+    if($_SESSION['isProjectAdmin']) {
 
 	// Default page for project admins is the Project Activity page
 	$defaultAdminView = "PAC";
@@ -208,6 +207,19 @@ if (($_SESSION['isAdmin']=='No') && $_SESSION['isProjectAdmin']) {
 	// If uniqcode is not set, the default view is Project activity
 	if ((!isset($_GET['uniqcode'])) || ($_GET['uniqcode'] == 'PAC')) {
 		$allowAdminView = true;
+    }
+    }
+
+    if($_SESSION['isSupervisor']) {
+
+        // Default page for supervisors is the Company property page
+        $defaultAdminView = "TCP";
+
+        // Allow supervisors to view TCP (Company property) page only (in the admin module)
+        // If uniqcode is not set, the default view is Company Property
+        if ((!isset($_GET['uniqcode'])) || ($_GET['uniqcode'] == 'TCP')) {
+            $allowAdminView = true;
+        }
 	}
 }
 
@@ -349,8 +361,8 @@ function preloadAllImages() {
                   </table></td>
                   <?php } ?>
                   <?php
-                  if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) {
-						if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="eim") && ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'])) {
+                  if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin'] || $_SESSION['isSupervisor']) {
+						if (isset($_GET['menu_no_top']) && ($_GET['menu_no_top']=="eim") && ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'] || $_SESSION['isSupervisor'])) {
 
 					?>
                   <td />
@@ -363,7 +375,7 @@ function preloadAllImages() {
                         <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
                   </table></td>
-                  <?php } else if ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin']) { ?>
+                  <?php } else if ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'] || $_SESSION['isSupervisor']) { ?>
                   <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
                         <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
@@ -622,12 +634,20 @@ function preloadAllImages() {
 					  	}
 					  	?>
 					  </ul></TD>
-<?php				} else if ($_SESSION['isProjectAdmin']) { ?>
+<?php				} else if (($_SESSION['isProjectAdmin']) || ($_SESSION['isSupervisor'])) { ?>
                     <TD width=158>
-                      <ul id="menu">
+                      <ul id="menu">                      
+	 
+<?php				if ($_SESSION['isProjectAdmin']) { ?>
 						<li id="projectInfo">
 							<a href="index.php?uniqcode=PAC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">
 							<?php echo $lang_Admin_ProjectActivities; ?></a></li>
+<?php               }
+					if ($_SESSION['isSupervisor']) { ?>
+						<li id="compinfo">						
+							<a href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim">
+							<?php echo $lang_Menu_Admin_Company_Property; ?></a></li>                      
+<?php 				} ?>
 					  </ul></TD>
 <?php 				}
 				} else if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="rep")) { ?>

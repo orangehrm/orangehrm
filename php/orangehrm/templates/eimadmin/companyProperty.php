@@ -37,7 +37,7 @@ $saveBtnAction = 'saveList()'
         width: 12px;
         vertical-align: bottom;
     }
-
+    
     .message {
         float:left;
         width:400px;
@@ -55,11 +55,15 @@ var properties=new Array();
 
 if(isset($this->getArr['action']) && (count($this->popArr['properties'])!=0))
 {
+	$thisProperty = ($this->getArr['action'] == 'edit') ? $this->getArr['name'] : '';
+	
     $i=0;
     foreach($this->popArr['properties'] as $property)
     {
-        echo("properties[$i]='{$property['prop_name']}';");
-        $i++;
+    	if ($property['prop_name'] != $thisProperty) {
+        	echo("properties[$i]='{$property['prop_name']}';");
+			$i++;
+    	}
     }
 }
 
@@ -237,15 +241,19 @@ if (!isset($this->getArr['action']))
 
     <input type="hidden" name="sqlState" id='listSqlState' value="delete"/>
 
-
 <table border="0" width="100%">
-              <tr>
+<?php
+	$properties = $this->popArr['properties'];
+    if (empty($properties)) {
+?>
+	<tr nowrap>
+    	<td colspan="3" align="right"><?php echo $lang_empview_norecorddisplay;?>!
+    	</td>
+    </tr>
+<?php        
+    }
+?>
 
-              <td height="40" valign="bottom" align="right">
-
-        </td>
-        <td width="25"></td>
-        </tr>
         </table>
         <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
         <thead>
@@ -259,11 +267,12 @@ if (!isset($this->getArr['action']))
           <td class="tableTopRight"></td>
          </tr>
          </thead>
-
             <tr nowrap>
                 <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 <td width="50" NOWRAP class="listViewThS1" scope="col">
+<?php if (!empty($properties)) { ?>                
                                     <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
+<?php } ?>                                    
                                 </td>
                                 <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Property_Name ; ?> </td>
                                 <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Prop_Emp_Name; ?>  </td>
@@ -275,7 +284,6 @@ if (!isset($this->getArr['action']))
 
 
             <?php
-            $properties = $this->popArr['properties'];
 
             if(sizeof($properties)!=0)
             {
@@ -327,11 +335,13 @@ if (!isset($this->getArr['action']))
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td align='right'>
+<?php       if (!empty($properties)) { ?>            
                                 <img onClick="<?php echo $saveBtnAction; ?>;"
                         style="margin-top:10px;"
                         onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
                         onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
                         src="../../themes/beyondT/pictures/btn_save.gif">
+<?php } ?>                        
             </td>
             <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
 

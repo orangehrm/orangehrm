@@ -1589,7 +1589,8 @@
 
 	$lang_Recruit_ApplicantVacancyList_Heading = 'Job Vacancies';
 	$lang_Recruit_ApplicantVacancyList_Title = 'Job Vacancies';
-	$lang_Recruit_ApplicationForm_Heading = 'Application Form for a position with The ORS Group';
+	$lang_Recruit_ApplicationForm_Heading = 'Application Form for a position with ';
+	$lang_Recruit_Application_CompanyNameNotSet = 'Company Name not set';
 	$lang_Recruit_ApplicationForm_Position = 'Position Applying for';
 	$lang_Recruit_Applicant_NoVacanciesFound = 'No Job Vacancies found. Please check back later.';
 

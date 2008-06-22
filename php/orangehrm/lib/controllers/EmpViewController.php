@@ -41,6 +41,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/LocationHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/JobTitleHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/SubDivisionHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpLocation.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
@@ -2050,6 +2051,14 @@ class EmpViewController {
 
 									if(isset($object['EmpJobInfo'])) {
 										$empinfo = $object['EmpJobInfo'];
+										/* 
+										 * Check if employment status is not terminated and if so
+										 * empty the fields terminated date and terminated reason
+										 */
+										 if ($empinfo->getEmpStatus() != EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
+										 	$empinfo->setEmpTerminatedDate(null);
+										 	$empinfo->setEmpTerminationReason('');
+										 }
 										$empinfo -> updateEmpJobInfo();
 									}
 

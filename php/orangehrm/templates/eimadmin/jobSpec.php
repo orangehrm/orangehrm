@@ -20,10 +20,8 @@
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $new = true;
 $disabled = '';
-$btnAction="addSave()";
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
-	$btnAction="addUpdate()";
 	$new = false;
 	$disabled = "disabled='true'";
 }
@@ -80,16 +78,6 @@ $locRights=$_SESSION['localRights'];
 		}
 	}
 
-    function save() {
-
-		if (validate()) {
-        	$('frmJobSpec').sqlState.value = "<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>";
-        	$('frmJobSpec').submit();
-		} else {
-			return false;
-		}
-    }
-
 	function reset() {
 		$('frmJobSpec').reset();
 	}
@@ -136,7 +124,9 @@ $locRights=$_SESSION['localRights'];
 
 <?php if($locRights['edit']) { ?>
 		if (editMode) {
-			save();
+			if (validate()) {
+				$('frmJobSpec').submit();
+			}
 			return;
 		}
 		editMode = true;
@@ -265,8 +255,8 @@ $locRights=$_SESSION['localRights'];
 	</div>
 	<?php }	?>
   <div class="roundbox">
-  <form name="frmJobSpec" id="frmJobSpec" method="post" action="<?php echo $formAction;?>">
-        <input type="hidden" name="sqlState" value="">
+  <form name="frmJobSpec" id="frmJobSpec" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">        	  
+        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>">
 		<?php if ($new) { ?>
 			<label for="txtId"><?php echo $jobSpec->getId(); ?></label>
 		<?php } ?>

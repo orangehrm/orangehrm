@@ -133,5 +133,28 @@ class GenInfo {
 
 		}
 	}
+	
+	/**
+	 * Get value for given key from general info
+	 * @param $key Key
+	 * @return Value for the given key
+	 */
+	public function getValue($key) {
+		$tabArr = $this->filterGenInfo();
+		
+		$genInfoKeys = explode('|',$tabArr[0][0]);
+		$genInfoValues = explode('|',$tabArr[0][1]);
+		
+		/* Look for the key */
+		$index = array_search($key, $genInfoKeys);
+		
+		if (($index !== false) && isset($genInfoValues[$index])) {
+			$value = $genInfoValues[$index];			
+		} else {
+			$value = null;
+		}
+		
+		return $value;	
+	}
 }
 ?>

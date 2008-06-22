@@ -192,6 +192,13 @@ if ($_SESSION['isProjectAdmin'] && ($moduletype == 'admin') && ($_GET['uniqcode'
 	$locRights = array('add'=> true , 'edit'=> true , 'delete'=> true, 'view'=> true);
 }
 
+/*
+ * Allow Supervisors to view/edit company property page
+ */
+if ($_SESSION['isSupervisor'] && ($moduletype == 'admin') && ($_GET['uniqcode'] == 'TCP') ) {
+    $locRights = array('add'=> true , 'edit'=> true , 'delete'=> true, 'view'=> true);
+}
+
 $ugroup = new UserGroups();
 $ugDet = $ugroup ->filterUserGroups($_SESSION['userGroup']);
 

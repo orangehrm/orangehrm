@@ -29,6 +29,7 @@ require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/ProvinceInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/GenInfo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/recruitment/JobVacancy.php';
 require_once ROOT_PATH . '/lib/models/recruitment/JobApplication.php';
@@ -342,6 +343,9 @@ class RecruitmentController {
 
 		$countryinfo = new CountryInfo();
 		$objs['countryList'] = $countryinfo->getCountryCodes();
+		
+		$genInfo = new GenInfo();
+		$objs['company'] = $genInfo->getValue('COMPANY');
 
 		$template = new TemplateMerger($objs, $path);
 		$template->display();

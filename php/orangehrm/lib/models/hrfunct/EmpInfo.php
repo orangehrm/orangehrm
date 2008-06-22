@@ -1156,7 +1156,9 @@ class EmpInfo {
         $arrRecordsList[2] = $this->getEmpJobTitle() != '0' ? "'" . $this->getEmpJobTitle() . "'" : 'null';
         $arrRecordsList[3] = $this->getEmpEEOCat() != '0' ? "'" . $this->getEmpEEOCat() . "'" : 'null';
         $arrRecordsList[4] = $this->getEmpLocation() != '' ? "'" . $this->getEmpLocation() . "'" : 'null';
-        $arrRecordsList[5] = (trim($this->getEmpJoinedDate()) != '') ? "'" . $this->getEmpJoinedDate() . "'" : 'null';
+		$arrRecordsList[5] = "'". $this->getEmpJoinedDate() . "'";
+		$arrRecordsList[6] = "'". $this->getEmpTerminatedDate() . "'";
+		$arrRecordsList[7] = $this->getEmpTerminationRes()!= '' ? "'" . $this->getEmpTerminationRes() . "'" : 'null' ;
 
         $tableName = 'HS_HR_EMPLOYEE';
 
@@ -1166,6 +1168,8 @@ class EmpInfo {
         $arrFieldList[3] = 'EEO_CAT_CODE';
         $arrFieldList[4] = 'WORK_STATION';
         $arrFieldList[5] = 'JOINED_DATE';
+		$arrFieldList[6] = 'TERMINATED_DATE';
+		$arrFieldList[7] = 'TERMINATION_REASON';
 
         $sql_builder = new SQLQBuilder();
 
@@ -1210,8 +1214,6 @@ class EmpInfo {
 		$arrRecordsList[8] = isset($this->custom8) ? "'" . $this->custom8 . "'" : 'null';
 		$arrRecordsList[9] = isset($this->custom9) ? "'" . $this->custom9 . "'" : 'null';
 		$arrRecordsList[10] = isset($this->custom10) ? "'" . $this->custom10 . "'" : 'null';
-		$arrRecordsList[6] = "'". $this->getEmpTerminatedDate() . "'";
-		$arrRecordsList[7] = $this->getEmpTerminationRes()!= '' ? "'" . $this->getEmpTerminationRes() . "'" : 'null' ;
 
 		$tableName = 'HS_HR_EMPLOYEE';
 
@@ -1226,8 +1228,6 @@ class EmpInfo {
 		$arrFieldList[8] = 'custom8';
 		$arrFieldList[9] = 'custom9';
 		$arrFieldList[10] = 'custom10';
-		$arrFieldList[6] = 'TERMINATED_DATE';
-		$arrFieldList[7] = 'TERMINATION_REASON';
 
 		$sql_builder = new SQLQBuilder();
 

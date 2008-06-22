@@ -98,8 +98,11 @@
 			exist=0;
 			for(i=0;i<allChildDepIds.length;i++)
 			{
-				if(allChildDepIds[i]==document.getElementById("txtDeptId").value)
+				/* Find if department id exist, excluding department id of element being edited */
+				if ((allChildDepIds[i]==document.getElementById("txtDeptId").value) &&
+						(allChildIds[i] != document.getElementById("add_rgt").value)) {
 					exist=1;
+				}
 			}
 
 			if (exist==1) {

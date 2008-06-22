@@ -40,7 +40,7 @@
 	padding-left: 30px;
 	cursor:pointer;
     vertical-align:middle;
-    overflow: hidden;
+    white-space: nowrap;
 }
 
 #menu a:hover {

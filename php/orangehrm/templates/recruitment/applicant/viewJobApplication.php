@@ -53,6 +53,7 @@ $objAjax->processRequests();
 
 $vacancy = $records['vacancy'];
 $countryList = $records['countryList'];
+$company = $records['company'];
 
 $formAction = $_SERVER['PHP_SELF'] . '?recruitcode=ApplicantApply';
 
@@ -295,7 +296,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 </style>
 </head>
 <body>
-	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_ApplicationForm_Heading; ?></h2></p>
+	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_ApplicationForm_Heading; echo empty($company) ? "({$lang_Recruit_Application_CompanyNameNotSet})" : $company; ?></h2></p>
 	<div id="status" style="float:right;display:none;">
 		<image src='<?php echo $iconDir; ?>/loading.gif' width='20' height='20' style="vertical-align: bottom;">
 		<?php echo $lang_Commn_PleaseWait;?>

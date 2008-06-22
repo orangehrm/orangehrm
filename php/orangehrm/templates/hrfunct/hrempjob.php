@@ -124,6 +124,13 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 			obj.style['visibility']='visible';
 			obj = document.getElementById("tdTermDateValue");
 			obj.style['visibility']='visible';
+			
+			// Set terminated date to today (if empty)
+			var termDate = document.getElementById("txtTermDate");
+			if (termDate.value == YAHOO.OrangeHRM.calendar.formatHint.format) {
+				today = new Date(); 				
+				termDate.value = formatDate(today, YAHOO.OrangeHRM.calendar.format);				
+			}
 
 		}
 	}
@@ -471,11 +478,13 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
 
 			  <td width="50">&nbsp;</td>
-
+<?php if($_GET['reqcode'] === "ESS") { ?>
+		<td colspan="2"></td>
+<?php } else { ?>
 			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateDisc' id='tdTermDateDisc'><?php echo $lang_hremp_termination_date; ?></td>
 				<td   <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateValue' id='tdTermDateValue'><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtTermDate" id="txtTermDate" value="<?php echo (isset($this->postArr['txtTermDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtTermDate']):LocaleUtil::getInstance()->formatDate($edit1[0][7]); ?>" size="10"/>
 					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" name='calTermDate' id='calTermDate'/></td>
-
+<?php } ?>
 			  </tr>
 			  <tr>
 			  <td nowrap><?php echo $lang_hremp_Locations; ?></td>
@@ -513,8 +522,12 @@ if ($locRights['add']) {
 ?>
               </td>
 			  <td width="50">&nbsp;</td>
+<?php if($_GET['reqcode'] === "ESS") { ?>
+		<td colspan="2"></td>
+<?php } else { ?>			  
 			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonDisc' id='tdTermReasonDisc'><?php echo $lang_hremp_termination_reason; ?> </td>
 			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonValue' id='tdTermReasonValue'><textarea <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?>  name="txtTermReason" id="txtTermReason" ><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea></td>
+<?php } ?>			  
 			  </tr>
 			  </table>
 <?php } ?>
