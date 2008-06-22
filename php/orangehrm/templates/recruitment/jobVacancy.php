@@ -148,6 +148,13 @@ $locRights=$_SESSION['localRights'];
 		vertical-align: bottom;
     }
 
+    #active {
+        width: 15px;
+        height: 15px;
+        background-color: transparent;
+        vertical-align: bottom;
+    }
+
     /* this is needed because otherwise, hidden fields break the alignment of the other fields */
     input[type=hidden] {
         display: none;

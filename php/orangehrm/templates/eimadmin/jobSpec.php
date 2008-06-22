@@ -46,6 +46,7 @@ $locRights=$_SESSION['localRights'];
 	foreach($jobSpecs as $spec) {
 		$name = $spec->getName();
 		if ($name != $nameOfThisSpec) {
+			$name = strtolower($name);
 	   		print "\tnames.push(\"{$name}\");\n";
 		}
 	}
@@ -84,9 +85,10 @@ $locRights=$_SESSION['localRights'];
 
 
 	function isNameInUse(name) {
+		var lowerCaseName = name.toLowerCase(); 
 		n = names.length;
 		for (var i=0; i<n; i++) {
-			if (names[i] == name) {
+			if (names[i] == lowerCaseName) {
 				return true;
 			}
 		}

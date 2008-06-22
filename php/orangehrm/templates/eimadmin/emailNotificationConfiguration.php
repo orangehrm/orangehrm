@@ -107,6 +107,18 @@ input[type=checkbox] {
 </head>
 <body>
 <h2><?php echo $lang_Admin_SubscribeToMailNotifications; ?><hr/></h2>
+<?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+	if (isset($message)) {
+		$col_def = CommonFunctions::getCssClassForMessage($message);
+		$message = "lang_Common_" . $message;
+?>
+<div class="message">
+	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+		<?php echo (isset($$message)) ? $$message: ""; ?>
+	</font>
+</div>
+<?php }	?>
+	
 <form name="mailSubscription" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=ENS&capturemode=updatemode&id=1" method="post" onsubmit="validate(); return false;" >
 <input type="hidden" name="sqlState" id="sqlState" />
   <table border="0" cellpadding="0" cellspacing="0">
