@@ -37,7 +37,7 @@ class Conf {
 		$this->dbuser	= 'root';
 		$this->dbpass	= 'orangehrm';
 		$this->smtphost = 'localhost';
-		$this->version = '2.3-beta.2';
+		$this->version = '2.3-beta.3';
 		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
 		$this->logPath =  realpath(dirname(__FILE__).'/../logs/').'/';
 
