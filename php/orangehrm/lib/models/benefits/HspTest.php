@@ -234,35 +234,27 @@ class HspTest extends PHPUnit_Framework_TestCase {
 
     public function testUpdateUsedForTwoPlans() {
 
-		$this->assertNotNull(mysql_query("TRUNCATE `hs_hr_employee`;", $this->connection), mysql_error());
+		$this->assertTrue(mysql_query("TRUNCATE `hs_hr_employee`;", $this->connection), mysql_error());
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_payment_request`"), mysql_error());
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_employee` VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '', Null, Null, Null, Null, Null, Null, Null, Null, Null, Null)"));
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (2, '002', 'Kalum', 'Kumara', '', 'Kal', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"), mysql_error());
 
 		// For employee1
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    							  "VALUES (1, 1, 1, '".date('Y')."-02-01', 'Test provider', 'Tester', 'Just testing', '150', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-02',  '123552-55821-ff25', 1)"), mysql_error());
 
-	    $this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
+	    $this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    							  "VALUES (2, 3, 1, '".date('Y')."-02-10', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-11',  '123552-55821-ff25', 1)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    							  "VALUES (3, 1, 1, '".date('Y')."-02-20', 'Test provider', 'Tester', 'Just testing', '150', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-21',  '123552-55821-ff25', 1)"), mysql_error());
 
-		$this->assertNotNull(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` (`id`, `hsp_id`, `employee_id`, `date_incurred`," .
-	    							  "`provider_name`, `person_incurring_expense`, `expense_description`, `expense_amount`, `payment_made_to`," .
-	    							  "`third_party_account_number`, `mail_address`, `comments`, `date_paid`, `check_number`,	`status`) " .
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    							  "VALUES (4, 3, 1, '".date('Y')."-02-20', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-21',  '123552-55821-ff25', 1)"), mysql_error());
 
