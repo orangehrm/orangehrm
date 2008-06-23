@@ -47,7 +47,7 @@ class models_eimadmin_export_AllTests
     }
 }
  
-if (PHPUnit_MAIN_METHOD == 'models_eimadmin_::main') {
+if (PHPUnit_MAIN_METHOD == 'models_eimadmin_export_AllTests::main') {
     models_eimadmin_AllTests::main();
 }
 ?>

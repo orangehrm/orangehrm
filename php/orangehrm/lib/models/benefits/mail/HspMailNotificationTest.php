@@ -19,8 +19,16 @@ class HspMailNotificationTest extends PHPUnit_Framework_TestCase {
 	private $hspMailNotification;
 	private $hspPaymentRequest;
 	private $connection;
+	private $employeeFields;
 
 	protected function setUp() {
+		$this->employeeFields = "`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`, `emp_middle_name`, `emp_nick_name`, " .
+								"`emp_smoker`, `ethnic_race_code`, `emp_birthday`, `nation_code`, `emp_gender`, `emp_marital_status`, " .
+								"`emp_ssn_num`, `emp_sin_num`, `emp_other_id`, `emp_dri_lice_num`, `emp_dri_lice_exp_date`, `emp_military_service`, " .
+								"`emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, " .
+								"`city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, " .
+								"`emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`";
+		
 		$this -> hspMailNotification = new HspMailNotification();
 		$this -> hspPaymentRequest = new HspPaymentRequest();
 
@@ -28,7 +36,7 @@ class HspMailNotificationTest extends PHPUnit_Framework_TestCase {
     		$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         	mysql_select_db($conf->dbname);
 
-		mysql_query("INSERT INTO `hs_hr_employee` VALUES (11, '011', 'Subasinghe', 'Arnold', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, '0000-00-00', 'dsamarasekara@gmail.com')");
+		mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (11, '011', 'Subasinghe', 'Arnold', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, '0000-00-00', 'dsamarasekara@gmail.com')");
 
 		mysql_query("INSERT INTO `hs_hr_users` (`id`, `email1`) VALUES ('USR011', 'dimuthu@beyondm.net')");
 
