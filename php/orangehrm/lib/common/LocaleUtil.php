@@ -338,6 +338,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		    $j++;
 		}
 
+		if (preg_match("/--\ ([01][0-9]|[2][0-3]).[0-5][0-9]/", "$yearVal-$monthVal-$dateVal $hourVal:$minuteVal")) {
+			$yearVal = date('Y');
+			$monthVal = 0;
+			$dateVal = 0;
+		}
+		
 		if (($monthVal < 0) || ($monthVal > 12) || ($dateVal < 0) || ($dateVal > 31) || ($hourVal < 0) || ($hourVal > 24) || ($minuteVal < 0) || ($minuteVal > 59)) {
 			return false;
 		}
