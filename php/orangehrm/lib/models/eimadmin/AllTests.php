@@ -34,7 +34,6 @@ require_once 'CustomExportTest.php';
 require_once 'CustomImportTest.php';
 require_once 'encryption/KeyHandlerTest.php';
 require_once 'JobSpecTest.php';
-require_once 'export/AllTests.php';
 require_once 'CompPropertyTest.php';
 require_once 'JobTitleTest.php';
 
@@ -58,7 +57,6 @@ class models_eimadmin_AllTests
 	$suite->addTestSuite('CustomImportTest');
 	$suite->addTestSuite('JobSpecTest');
 	$suite->addTestSuite('KeyHandlerTest');
-	$suite->addTestSuite('models_eimadmin_export_AllTests');
     $suite->addTestSuite('CompPropertyTest');
 	$suite->addTestSuite('JobTitleTest');
         return $suite;

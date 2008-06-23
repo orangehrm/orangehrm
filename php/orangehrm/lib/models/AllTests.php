@@ -30,9 +30,11 @@ set_include_path(get_include_path() . PATH_SEPARATOR . "../../build");
 require_once 'time/AllTests.php';
 require_once 'leave/AllTests.php';
 require_once 'eimadmin/AllTests.php';
+require_once 'eimadmin/export/AllTests.php';
 require_once 'hrfunct/AllTests.php';
 require_once 'recruitment/AllTests.php';
 require_once 'benefits/AllTests.php';
+require_once 'benefits/mail/AllTests.php';
 
 class models_AllTests
 {
@@ -48,9 +50,11 @@ class models_AllTests
         $suite->addTest(models_time_AllTests::suite());
         $suite->addTest(models_leave_AllTests::suite());
         $suite->addTest(models_eimadmin_AllTests::suite());
+        $suite->addTest(models_eimadmin_export_AllTests::suite());
         $suite->addTest(models_hrfunct_AllTests::suite());
         $suite->addTest(models_recruitment_AllTests::suite());
         $suite->addTest(models_benefits_AllTests::suite());
+        $suite->addTest(models_benefits_mail_AllTests::suite());
 
         return $suite;
     }
