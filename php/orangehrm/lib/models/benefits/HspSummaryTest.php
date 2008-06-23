@@ -118,9 +118,8 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($summary[0]->getAnnualLimit(), 1200);
 
 		$summary = $hspSummary->fetchPersonalHspSummary(date('Y'), 5);
+		$this->assertNull($summary);
 
-		$this->assertTrue(is_array($summary));
-		$this->assertEquals(count($summary), 0);
     }
 
     public function testSaveInitialSummary() {
