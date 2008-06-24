@@ -23,11 +23,24 @@ require_once($lan->getLangPath("full.php"));
 $locRights=$_SESSION['localRights'];
 
 $editArr = $this->popArr['editArr'];
+
+if(LdapDetails::LDAP_TYPE=='Open LDAP'){
+
+	$ldapPortEx = '(Ex: 389)';
+	$ldapDomainNameDisc = $lang_LDAP_Suffix;
+	$ldapDomainNameEx = '(Ex: u=orangehrm,dc=orangehrm,dc=com)';
+}
+elseif(LdapDetails::LDAP_TYPE=='Windows AD'){
+
+	$ldapPortEx = '(Ex: 3128)';
+	$ldapDomainNameDisc = $lang_LDAP_Domain_Name;
+	$ldapDomainNameEx = '(Ex: orangehrm.com)';
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?php echo $lang_LDAP_Configuration; ?></title>
+<title><?php echo str_replace('#ldapType', LdapDetails::LDAP_TYPE=="Open LDAP"?"LDAP":LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration) ; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
@@ -143,7 +156,14 @@ function clearAll() {
 
 </script>
 <body>
-<h2><?php echo $lang_LDAP_Configuration; ?><hr/></h2>
+<h2><?php echo str_replace('#ldapType', LdapDetails::LDAP_TYPE=="Open LDAP"?"LDAP":LdapDetails::LDAP_TYPE, $lang_LDAP_Configuration) ; ?><hr/></h2>
+<?php
+if (!extension_loaded("ldap")){ //To check whether the pluging is installed or not
+
+	echo("<span class='Error'>$lang_LDAP__Error_Extension_Disabled</span>");
+}
+else{
+?>
 <form id="frmLDAPConfig" name="frmLDAPConfig" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=LDAP&id=1">
 <input type="hidden" name="sqlState" id="sqlState" />
 <font face="Verdana, Arial, Helvetica, sans-serif">
@@ -176,23 +196,23 @@ if (isset($_GET['message']) && $_GET['message'] == "UPDATE_SUCCESS") {
         <td valign="top"><span class="error">*</span> <?php echo $lang_LDAP_Server; ?></td>
         <td width="25">&nbsp;</td>
         <td valign="top"><input type="text" disabled name="txtLDAPServer" id="txtLDAPServer" value="<?php echo $editArr->getLdapServer();?>"/>
-		<br>(Ex: comp1)<br><br>
+		<br>(Ex: 192.0.2.201)<br><br>
 		</td>
         <td width="25">&nbsp;</td>
 		<td valign="top"><?php echo $lang_LDAP_Port; ?></td>
 		<td width="25">&nbsp;</td>
 		<td valign="top"><input type="text" disabled name="txtLDAPPort" id="txtLDAPPort" value="<?php echo $editArr->getLdapPort();?>"/>
-		<br>(Ex: 3128)<br><br>		
+		<br><?php echo $ldapPortEx; ?><br><br>
 		</td>
 		<td class="tableMiddleRight"></td>
       </tr>
 
 	  <tr>
         <td class="tableMiddleLeft"></td>
-        <td valign="top"><span class="error">*</span> <?php echo $lang_LDAP_Domain_Name; ?></td>
+        <td valign="top"><span class="error">*</span> <?php echo $ldapDomainNameDisc; ?></td>
         <td width="25">&nbsp;</td>
         <td valign="top"><input type="text" disabled name="txtLDAPDomainName" id="txtLDAPDomainName" value="<?php echo $editArr->getLdapDomainName();?>" />
-		<br>(Ex: orangehrm.com)<br><br>
+		<br><?php echo $ldapDomainNameEx;?><br><br>
 		</td>
         <td width="25">&nbsp;</td>
 		<td valign="top"><?php echo $lang_LDAP_Enable; ?></td>
@@ -233,5 +253,8 @@ if (isset($_GET['message']) && $_GET['message'] == "UPDATE_SUCCESS") {
   </table>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 </form>
+<?php
+}
+?>
 </body>
 </html>

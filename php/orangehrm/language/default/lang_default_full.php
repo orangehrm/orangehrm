@@ -164,13 +164,17 @@
 	$lang_Menu_Admin_CustomFields = "Custom Fields";
 
 	// LDAP Module
-	$lang_LDAP_Configuration 	= "LDAP Configuration";
+	$lang_LDAP_Configuration 	= "#ldapType Configuration";
+	$lang_Menu_LDAP_Configuration = "LDAP Configuration";
 	$lang_LDAP_Server			= "LDAP Server";
 	$lang_LDAP_Port				= "LDAP Port";
 	$lang_LDAP_Domain_Name		= "LDAP Domain Name";
+	$lang_LDAP_Suffix			= "LDAP User Suffix";
+	$lang_LDAP_Type				= "LDAP Type";
 	$lang_LDAP_Enable			= "Enable LDAP Authentication";
 	$lang_LDAP_Error_Server_Empty	= "Please enter LDAP server name";
 	$lang_LDAP_Error_Domain_Empty	= "Please enter LDAP domain name";
+	$lang_LDAP__Error_Extension_Disabled = "You haven't enabled the LDAP extension in PHP. Please go through the OrangeHRM LDAP Guide sent with the plugin for more information.";
 	$lang_LDAP_Invalid_Port			= "Invalid LDAP Port";
 
 	// Leave Module

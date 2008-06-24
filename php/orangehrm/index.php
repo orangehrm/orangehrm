@@ -629,7 +629,7 @@ function preloadAllImages() {
 					  	<?php
 					  	if ($_SESSION['ldap'] == "enabled") {
 					  	?>
-					  		<li id="projectInfo"><a href="index.php?uniqcode=LDAP&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_LDAP_Configuration; ?></a></li>
+					  		<li id="projectInfo"><a href="index.php?uniqcode=LDAP&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_LDAP_Configuration; ?></a></li>
 					  	<?php
 					  	}
 					  	?>
