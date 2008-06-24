@@ -37,8 +37,15 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-
+<script type="text/javascript" src="../../scripts/enhancedSearchBox.js"></script>
 <script>
+	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
+	table = "`hs_hr_employee` AS em";
+	valueField = "em.`emp_number`";
+	labelField = "CONCAT(em.`emp_firstname`, ' ', em.`emp_lastname`)";
+	descField = "jt.`jobtit_name`";
+	joinTable = "`hs_hr_job_title` AS jt";
+	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
 
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
@@ -86,6 +93,31 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 
     <style type="text/css">
     <!--
+	.items {
+		display: block;
+		border-top: solid 1px #CCCCCC;
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
+		padding: 4px;
+		display: none;
+	}
+
+	#dropdownPane {
+		display: block;
+		border-top: none;
+		border-left: solid 1px #000000;
+		border-right: solid 1px #000000;
+		border-bottom: solid 1px #000000;
+	}
+
+	#txtEmployee {
+		display: block;
+		border-top: solid 1px #000000;
+		border-left: solid 1px #000000;
+		border-right: solid 1px #000000;
+		border-bottom: none;
+	}
 
     label,select,input,textarea {
         display: block;  /* block float the labels to left column, set a width */
@@ -217,6 +249,13 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 
 		<label for="cmbDirector"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
+		<span style="width: 250px">
+			<input type="text" name="txtEmployee" id="txtEmployee" style="width: 250px" onkeyup="refreshList(this, event);" />
+			<input type="hidden" name="cmbDirector" id="hidEmployee" value="" /><span id="tdis"></span>
+			<span id="dropdownPane" style="width: 250px">
+			</span>
+		</span><br />
+		<!--
         <select id="cmbDirector" name="cmbDirector" tabindex="3">
 	        <option value="-1">-- <?php echo $lang_Recruit_JobApplication_Select;?> --</option>
                 <?php
@@ -237,7 +276,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 			</div>
 		<?php
 				}
-		?>
+		?>-->
 		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
 		<br/><br/>

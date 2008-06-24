@@ -22,6 +22,7 @@ require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
+require_once ROOT_PATH . '/lib/common/AjaxCalls.php';
 
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/models/maintenance/Users.php';
@@ -187,6 +188,16 @@ class RecruitmentController {
                 }
 
 	            break;
+
+			case 'AJAXCalls':
+				switch ($_GET['action']) {
+					case 'LoadApproverList':
+						self::getEmployeeSearchList();
+						break;
+				}
+
+				break;
+
 	    }
     }
 
@@ -343,7 +354,7 @@ class RecruitmentController {
 
 		$countryinfo = new CountryInfo();
 		$objs['countryList'] = $countryinfo->getCountryCodes();
-		
+
 		$genInfo = new GenInfo();
 		$objs['company'] = $genInfo->getValue('COMPANY');
 
@@ -389,6 +400,19 @@ class RecruitmentController {
 	public static function getProvinceList($countryCode) {
 		$province = new ProvinceInfo();
 		return $province->getProvinceCodes($countryCode);
+	}
+
+	public static function getEmployeeSearchList() {
+		$table = $_GET['table'];
+		$valueField 	= $_GET['valueField'];
+		$labelField 	= $_GET['labelFields'];
+		$descField		= $_GET['descFields'];
+		$filterKey		= $_GET['filterKey'];
+
+		$joinTable = @$_GET['joinTable'];
+		$joinCondition = @$_GET['joinCondition'];
+
+		AjaxCalls::fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable, $joinCondition);
 	}
 
     /**
