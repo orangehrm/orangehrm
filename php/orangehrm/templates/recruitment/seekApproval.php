@@ -249,7 +249,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 
 		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
-		<span id="container" style="width: 250px; display: compact;"><input type="text" id="txtEnhancedSearchBox" style="width: 250px" onKeyUp="refreshList(this, event);" onBlur="" /><input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" /><div id="dropdownPane" style="width: 248px; position: fixed; top: 118px; left: 145px;"></div></span>
+		<span id="container" style="width: 250px; display: compact;"><input type="text" style="width: 250px" onKeyUp="refreshList(this, event);" onBlur="" /><input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" /><div id="dropdownPane" style="width: 248px; position: fixed; top: 118px; left: 145px;"></div></span>
 		<br />
 		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>

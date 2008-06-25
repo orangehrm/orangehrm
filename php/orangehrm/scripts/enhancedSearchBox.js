@@ -29,6 +29,8 @@ var joinTable = null;
 var joinConditions = null;
 var focusNext = null;
 
+var txtEnhancedSearchBox = null;
+
 function focusNextControl() {
 	if (focusNext != null) {
 		focusNext.focus();
@@ -43,6 +45,7 @@ function refreshList(obj, evt) {
 		return;
 	}
 
+	txtEnhancedSearchBox = obj;
 	key = evt.keyCode;
 
 	switch(key) {
@@ -78,13 +81,13 @@ function refreshList(obj, evt) {
 }
 
 function _select() {
-	$('txtEnhancedSearchBox').value = list[pointer].label;
+	txtEnhancedSearchBox.value = list[pointer].label;
 	$('hidEnhancedSearchBox').value = list[pointer].value;
 	pointer = null;
 }
 
 function _deSelect() {
-	$('txtEnhancedSearchBox').value = '';
+	txtEnhancedSearchBox.value = '';
 	$('hidEnhancedSearchBox').value = '-1';
 	pointer = null;
 }
