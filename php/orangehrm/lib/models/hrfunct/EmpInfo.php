@@ -3024,6 +3024,34 @@ class EmpInfo {
         return $titleMatches;
     }
 
+    /**
+     * Check if given employee is a 'Acceptor'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if a acceptor, false otherwise
+     */
+    public function isAcceptor($empNumber) {
+
+	   	$selectTable = "`hs_hr_job_application_events`";
+    	$selectFields[0] = "COUNT(`owner`)";
+    	$selectConditions[0] = "`owner` = $empNumber";
+
+    	$sqlBuilder = new SQLQBuilder();
+    	$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+    	$dbConnection = new DMLFunctions();
+    	$result = $dbConnection->executeQuery($query);
+
+    	$row = $dbConnection->dbObject->getArray($result);
+
+    	if ($row[0] > 0) {
+			return true;
+    	} else {
+    	    return false;
+    	}
+
+    }
+
 
     /**
      * Searches for supervisors with name matching the search string and

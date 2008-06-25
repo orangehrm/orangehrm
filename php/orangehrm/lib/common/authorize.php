@@ -42,6 +42,7 @@ class authorize {
 	public $roleProjectAdmin = "ProjectAdmin";
     public $roleManager = "Manager";
     public $roleDirector = "Director";
+    public $roleAcceptor = "Acceptor";
 
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
@@ -119,6 +120,7 @@ class authorize {
 		$roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
         $roles[$this->roleManager] = $this->_checkIsManager();
         $roles[$this->roleDirector] = $this->_checkIsDirector();
+        $roles[$this->roleAcceptor] = $this->_checkIsAcceptor();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -202,6 +204,25 @@ class authorize {
         return $isDirector;
     }
 
+    /**
+     * Check whether the user is an Acceptor that can approve job offers
+     *
+     * @return boolean True if an acceptor, false otherwise
+     */
+    private function _checkIsAcceptor() {
+
+        $isAcceptor = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isAcceptor = $empInfo->isAcceptor($id);
+        }
+
+        return $isAcceptor;
+
+    }
+
 	/**
 	 * Checks whether an admin
 	 *
@@ -247,8 +268,17 @@ class authorize {
         return $this->_chkRole($this->roleDirector);
     }
 
+    /**
+     * Checks whether an Acceptor
+     *
+     * @return boolean true if an Acceptor. False otherwise
+     */
+    public function isAcceptor() {
+        return $this->_chkRole($this->roleAcceptor);
+    }
+
 	/**
-	 * Checks whether an admin
+	 * Checks whether an ESS
 	 *
 	 * @return boolean
 	 */

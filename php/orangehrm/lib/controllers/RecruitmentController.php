@@ -420,7 +420,7 @@ class RecruitmentController {
      */
     private function _viewApplicationList() {
 
-        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager() || $this->authorizeObj->isDirector()) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager() || $this->authorizeObj->isDirector() || $this->authorizeObj->isAcceptor()) {
             $managerId = $this->authorizeObj->isAdmin()? null : $this->authorizeObj->getEmployeeId();
             $applications = JobApplication::getList($managerId);
 
@@ -463,7 +463,7 @@ class RecruitmentController {
      * @param JobApplicationEvent Job Application event with the details
      */
     private function _rejectApplication($event) {
-        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager() || $this->authorizeObj->isDirector()) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isManager() || $this->authorizeObj->isDirector() || $this->authorizeObj->isAcceptor()) {
 
             // TODO: Validate if Hiring manager or interview manager and in correct status
             $application = JobApplication::getJobApplication($event->getApplicationId());
@@ -686,7 +686,7 @@ class RecruitmentController {
         }
     }
     private function _approve($event) {
-        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isDirector() ) {
+        if ($this->authorizeObj->isAdmin() || $this->authorizeObj->isDirector() || $this->authorizeObj->isAcceptor()) {
 
             // TODO: Validate if Hiring manager or interview manager and in correct status
             $application = JobApplication::getJobApplication($event->getApplicationId());

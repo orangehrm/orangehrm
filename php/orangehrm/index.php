@@ -136,6 +136,13 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
+/*
+ * Assign Acceptor's access to recruitment module
+ */
+if ($authorizeObj->isAcceptor()) {
+        $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
+}
+
 // Default leave home page
 if ($authorizeObj->isSupervisor()) {
 	if ($authorizeObj->isAdmin()){
@@ -189,7 +196,7 @@ if ($authorizeObj->isESS()) {
 
 if ($authorizeObj->isAdmin()) {
     $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Vacancy&action=List';
-} else if ($authorizeObj->isManager() || $authorizeObj->isDirector()) {
+} else if ($authorizeObj->isManager() || $authorizeObj->isDirector() || $authorizeObj->isAcceptor()) {
     $recruitHomePage = 'lib/controllers/CentralController.php?recruitcode=Application&action=List';
 }
 
@@ -636,17 +643,17 @@ function preloadAllImages() {
 					  </ul></TD>
 <?php				} else if (($_SESSION['isProjectAdmin']) || ($_SESSION['isSupervisor'])) { ?>
                     <TD width=158>
-                      <ul id="menu">                      
-	 
+                      <ul id="menu">
+
 <?php				if ($_SESSION['isProjectAdmin']) { ?>
 						<li id="projectInfo">
 							<a href="index.php?uniqcode=PAC&menu_no=2&submenutop=EIMModule&menu_no_top=eim">
 							<?php echo $lang_Admin_ProjectActivities; ?></a></li>
 <?php               }
 					if ($_SESSION['isSupervisor']) { ?>
-						<li id="compinfo">						
+						<li id="compinfo">
 							<a href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim">
-							<?php echo $lang_Menu_Admin_Company_Property; ?></a></li>                      
+							<?php echo $lang_Menu_Admin_Company_Property; ?></a></li>
 <?php 				} ?>
 					  </ul></TD>
 <?php 				}
