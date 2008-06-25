@@ -42,7 +42,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
 	table = "`hs_hr_employee` AS em";
 	valueField = "em.`emp_number`";
-	labelField = "CONCAT(em.`emp_firstname`, ' ', em.`emp_lastname`)";
+	labelField = "CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)";
 	descField = "jt.`jobtit_name`";
 	joinTable = "`hs_hr_job_title` AS jt";
 	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
@@ -57,7 +57,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
 		errors = new Array();
-        if ($('cmbDirector').value == -1) {
+        if ($('hidEnhancedSearchBox').value == -1) {
 			err = true;
 			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyDirector; ?>\n";
         }
@@ -111,7 +111,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		border-bottom: solid 1px #000000;
 	}
 
-	#txtEmployee {
+	#txtEnhancedSearchBox {
 		display: block;
 		border-top: solid 1px #000000;
 		border-left: solid 1px #000000;
@@ -245,38 +245,12 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 	<?php }	?>
   <div class="roundbox">
 
-  <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>">
+  <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 
-		<label for="cmbDirector"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
-		<span style="width: 250px">
-			<input type="text" name="txtEmployee" id="txtEmployee" style="width: 250px" onkeyup="refreshList(this, event);" />
-			<input type="hidden" name="cmbDirector" id="hidEmployee" value="" /><span id="tdis"></span>
-			<span id="dropdownPane" style="width: 250px">
-			</span>
-		</span><br />
-		<!--
-        <select id="cmbDirector" name="cmbDirector" tabindex="3">
-	        <option value="-1">-- <?php echo $lang_Recruit_JobApplication_Select;?> --</option>
-                <?php
-                foreach ($directors as $director) {
-
-                	// Ugly, but this is how EmpInfo returns employees
-                	$empNum = $director[2];
-                	$empName = CommonFunctions::escapeHtml($director[1]);
-	                echo "<option value=". $empNum . ">" . $empName . "</option>";
-                }
-                ?>
-        </select><br/>
-		<?php
-				if (count($directors) == 0) {
-		?>
-			<div id="nodirectors">
-				<?php echo $lang_Recruit_NoDirectorsNotice; ?>
-			</div>
-		<?php
-				}
-		?>-->
+		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
+		<span id="container" style="width: 250px; display: compact;"><input type="text" id="txtEnhancedSearchBox" style="width: 250px" onKeyUp="refreshList(this, event);" onBlur="" /><input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" /><div id="dropdownPane" style="width: 248px; position: fixed; top: 118px; left: 145px;"></div></span>
+		<br />
 		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
 		<br/><br/>
@@ -294,6 +268,8 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
+			
+			focusNext = $('txtNotes');
         -->
     </script>
 

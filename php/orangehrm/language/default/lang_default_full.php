@@ -1587,7 +1587,7 @@
     $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy = 'Get approved by ';
     $lang_Recruit_NoDirectorsNotice = 'No directors found. You need to create a job title named \'Director\' and assign to employees who are directors.';
     $lang_Recruit_JobApplication_SeekApproval_Notes = 'Notes';
-    $lang_Recruit_JobApplication_SeekApproval_Desc = 'An email will be sent to the chosen director, asking for approval to hire.';
+    $lang_Recruit_JobApplication_SeekApproval_Desc = 'An email will be sent to the chosen person, asking for approval to hire.';
     $lang_Recruit_JobApplication_PleaseSpecifyDirector = 'Please specify a director to get approved by';
     $lang_Recruit_JobApplication_PleaseSpecifyNotes = 'Please provide some notes';
 

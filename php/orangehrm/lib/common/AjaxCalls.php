@@ -17,22 +17,42 @@
  * Boston, MA  02110-1301, USA
  *
  */
-/*
+
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
-*/
+
 class AjaxCalls {
 
 	public static function fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable = null, $joinCondition = null) {
-		$query = "SELECT $valueField, $labelField, $descField FROM $table ";
+		/*$query = "SELECT $valueField, $labelField, $descField FROM $table ";
 
 		if ($joinTable) {
 			$query .= "LEFT OUTER JOIN $joinTable ON $joinCondition";
 		}
 
-		$query .= "WHERE $labelField LIKE '$filterKey%'";
+		$query .= "WHERE $labelField LIKE '$filterKey%'";*/
+		
+		$selecteFields[] = $valueField;
+		$selecteFields[] = $labelField;
+		$selecteFields[] = $descField;
+		
+		$selectTables[] = $table;
+		$selectTables[] = $joinTable; 
+		
+		$joinConditions[1] = $joinCondition;
+		
+		$selectConditions[] = "$labelField LIKE '$filterKey%'";
+		
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, $selectConditions);
+
+		$query = self::_formatQuery($query);
 
 		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		
+		if (mysql_error()) { echo mysql_error() + "\n" + $query; die;}
+		
 		$result = $dbConnection->executeQuery($query);
 
 		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
@@ -41,6 +61,12 @@ class AjaxCalls {
 			$description = ($row[2] == '') ? '&nbsp;' : trim($row[2]);
 			echo "$value,$label,$description\n";
 		}
+	}
+	
+	private static function _formatQuery($query) {
+		$query = preg_replace("/\\\'/", "'", $query);
+		
+		return $query;
 	}
 
 }
