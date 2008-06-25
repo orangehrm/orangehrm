@@ -177,7 +177,7 @@ class RecruitmentAuthManager {
             return self::ROLE_OTHER_MANAGER;
         }
 
-        if ($authObj->isDirector()) {
+        if ($authObj->isDirector() || $authObj->isAcceptor()) {
 
             // Check if director
             $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SEEK_APPROVAL);

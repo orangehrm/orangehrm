@@ -93,7 +93,7 @@ if($_SESSION['isAdmin']=='Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-    if ($_SESSION['isManager'] || $_SESSION['isDirector']) {
+    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor']) {
             $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
     }
 }
@@ -135,13 +135,6 @@ if(isset($_GET['ACT']) && $_GET['ACT']=='logout') {
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-
-/*
- * Assign Acceptor's access to recruitment module
- */
-if ($authorizeObj->isAcceptor()) {
-        $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
-}
 
 // Default leave home page
 if ($authorizeObj->isSupervisor()) {
@@ -758,7 +751,7 @@ function preloadAllImages() {
 	            		</a>
 	            	</li>
                     <?php }
-                    if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector']) {
+                    if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor']) {
                     ?>
 	            	<li id="jobApplicants">
 	            		<a href="lib/controllers/CentralController.php?recruitcode=Application&action=List" target="rightMenu">
