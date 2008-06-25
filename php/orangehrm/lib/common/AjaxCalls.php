@@ -43,8 +43,10 @@ class AjaxCalls {
 		
 		$selectConditions[] = "$labelField LIKE '$filterKey%'";
 		
+		$orderCondition = $labelField;
+		
 		$sqlBuilder = new SQLQBuilder();
-		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, $selectConditions);
+		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, $selectConditions, null, $orderCondition);
 
 		$query = self::_formatQuery($query);
 

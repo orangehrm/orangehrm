@@ -81,10 +81,8 @@ function refreshList(obj, evt) {
 }
 
 function _select() {
-	index = (pointer == 0 || pointer == (length - 1)) ? pointer : (pointer - 1);
-	
-	txtEnhancedSearchBox.value = list[index].label;
-	$('hidEnhancedSearchBox').value = list[index].value;
+	txtEnhancedSearchBox.value = list[pointer].label;
+	$('hidEnhancedSearchBox').value = list[pointer].value;
 	pointer = null;
 }
 
