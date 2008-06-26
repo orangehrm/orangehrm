@@ -94,21 +94,23 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     <style type="text/css">
     <!--
 	.items {
-		display: block;
-		border-top: solid 1px #CCCCCC;
-		border-left: none;
-		border-right: none;
-		border-bottom: none;
+		border-top: none;
+		border-left: solid 1px #999999;
+		border-right: solid 1px #999999;
+		border-bottom: solid 1px #999999;
 		padding: 4px;
 		display: none;
+		width: 240px;
 	}
 
+	#container {
+		 display: table-row !important;
+	}
+	
 	#dropdownPane {
-		display: block;
-		border-top: none;
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-bottom: solid 1px #000000;
+		display: table-cell;
+		border: none !important;
+		text-align: left !important;
 	}
 
 	#txtEnhancedSearchBox {
@@ -116,7 +118,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		border-top: solid 1px #000000;
 		border-left: solid 1px #000000;
 		border-right: solid 1px #000000;
-		border-bottom: none;
+		border-bottom: solid 1px #000000;
 	}
 
     label,select,input,textarea {
@@ -249,7 +251,16 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 
 		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
-		<span id="container" style="width: 250px; display: compact;"><input type="text" style="width: 250px" onKeyUp="refreshList(this, event);" onBlur="" /><input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" /><div id="dropdownPane" style="width: 248px; position: fixed; top: 118px; left: 145px;"></div></span>
+		<span id="container" style="width: 250px;">
+			<span style="display: table-row !important;">
+				<span style="display: table-cell !important;">
+					<input type="text" style="width: 250px; " onKeyUp="refreshList(this, event);" onBlur="" />
+					<input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" />
+				</span>
+			</span><span style="display: table-row !important;">
+				<span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span>
+			</span>
+		</span>
 		<br />
 		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
