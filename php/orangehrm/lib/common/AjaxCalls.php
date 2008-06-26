@@ -23,15 +23,11 @@ require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class AjaxCalls {
 
-	public static function fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable = null, $joinCondition = null) {
-		/*$query = "SELECT $valueField, $labelField, $descField FROM $table ";
+	const COMPARE_LEFT = 1;
+	const COMPARE_RIGHT = 2;
+	const COMPARE_MID = 3;
 
-		if ($joinTable) {
-			$query .= "LEFT OUTER JOIN $joinTable ON $joinCondition";
-		}
-
-		$query .= "WHERE $labelField LIKE '$filterKey%'";*/
-		
+	public static function fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable = null, $joinCondition = null, $compareMethod = self::COMPARE_LEFT, $caseSensitive = false) {
 		$selecteFields[] = $valueField;
 		$selecteFields[] = $labelField;
 		$selecteFields[] = $descField;
@@ -41,7 +37,24 @@ class AjaxCalls {
 		
 		$joinConditions[1] = $joinCondition;
 		
-		$selectConditions[] = "$labelField LIKE '$filterKey%'";
+		if (!$caseSensitive) {
+				$labelField = "LOWER($labelField)";
+				$filterKey = strtolower($filterKey);
+		}
+
+		switch ($compareMethod) {
+			case self::COMPARE_LEFT :
+				$selectConditions[] = "$labelField LIKE '$filterKey%'";
+				break;
+			
+			case self::COMPARE_RIGHT :
+				$selectConditions[] = "$labelField LIKE '%$filterKey'";
+				break;
+				
+			case self::COMPARE_MID :
+				$selectConditions[] = "$labelField LIKE '%$filterKey%'";
+				break;
+		}
 		
 		$orderCondition = $labelField;
 		

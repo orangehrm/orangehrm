@@ -145,11 +145,17 @@ function _match(str) {
 
 }
 
-function _inList(obj) {
-	for (i in list) {
+function _inList(obj, omit) {
+	for (i = 0; i < length; i++) {
+		
+		if (i == omit) {
+			continue;
+		}
+		
 		if (list[i].equals(obj)) {
 			return true;
 		}
+		
 	}
 	
 	return false;
@@ -162,8 +168,15 @@ function _handleResponse(response)  {
 		params = rows[i].split(',');
 		obj = new ESBOption(params[0], params[1], params[2]);
 		
-		list[i] = obj;
-		$('dropdownPane').innerHTML += '<span class="items" id="item' + i + '" onmouseover="pointer = ' + i + '; _mark(this)" onmouseout="_unmarkAll()" onclick="_hideAll(); _select();"></span>\n';
+		if (true) {
+			list[i] = obj;
+			$('dropdownPane').innerHTML += '<span class="items" id="item' + i + '" onmouseover="pointer = ' + i + '; _mark(this)" onmouseout="_unmarkAll()" onclick="_hideAll(); _select();"></span>\n';
+		}
+		
+		if (_inList(list[i], i)) {
+			list[i] = null;
+		}
+
 	}
 	
 	length = list.length;
