@@ -43,6 +43,7 @@ class authorize {
     public $roleManager = "Manager";
     public $roleDirector = "Director";
     public $roleAcceptor = "Acceptor";
+    public $roleOfferer = "Offerer";
 
 	const AUTHORIZE_ROLE_ADMIN = 'Admin';
 	const AUTHORIZE_ROLE_SUPERVISOR = 'Supervisor';
@@ -121,6 +122,7 @@ class authorize {
         $roles[$this->roleManager] = $this->_checkIsManager();
         $roles[$this->roleDirector] = $this->_checkIsDirector();
         $roles[$this->roleAcceptor] = $this->_checkIsAcceptor();
+        $roles[$this->roleOfferer] = $this->_checkIsOfferer();
 
 		if (!empty($empId)) {
 			$roles[$this->roleESS] = true;
@@ -223,6 +225,26 @@ class authorize {
 
     }
 
+    /**
+     * Check whether the user is an Offerer that can approve job offers
+     *
+     * @return boolean True if an offerer, false otherwise
+     */
+    private function _checkIsOfferer() {
+
+        $isOfferer = false;
+        $id = $this->getEmployeeId();
+
+        if (!empty($id)) {
+            $empInfo = new EmpInfo();
+            $isOfferer = $empInfo->isOfferer($id);
+        }
+
+        return $isOfferer;
+
+    }
+
+
 	/**
 	 * Checks whether an admin
 	 *
@@ -275,6 +297,15 @@ class authorize {
      */
     public function isAcceptor() {
         return $this->_chkRole($this->roleAcceptor);
+    }
+
+    /**
+     * Checks whether an Offerer
+     *
+     * @return boolean true if an Offerer. False otherwise
+     */
+    public function isOfferer() {
+        return $this->_chkRole($this->roleOfferer);
     }
 
 	/**

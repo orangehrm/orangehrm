@@ -154,7 +154,7 @@ class RecruitmentAuthManager {
             return self::ROLE_ADMIN;
         }
 
-        if ($authObj->isManager()) {
+        if ($authObj->isManager() || $authObj->isOfferer()) {
 
             // Check if hiring manager
             $vacancy = JobVacancy::getJobVacancy($jobApplication->getVacancyId());

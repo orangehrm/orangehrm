@@ -118,7 +118,7 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testIsAcceptor () {
+    public function testIsAcceptor() {
 
 		$empInfo = new EmpInfo();
 		$this->assertTrue($empInfo->isAcceptor(5));
@@ -126,6 +126,16 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($empInfo->isAcceptor(2));
 
     }
+
+    public function testIsOfferer() {
+
+    	$empInfo = new EmpInfo();
+    	$this->assertTrue($empInfo->isOfferer(1));
+    	$this->assertTrue($empInfo->isOfferer(001));
+    	$this->assertFalse($empInfo->isOfferer(4));
+
+    }
+
 }
 
 // Call EmpInfoTest::main() if this source file is executed directly.

@@ -3028,7 +3028,7 @@ class EmpInfo {
      * Check if given employee is a 'Acceptor'
      *
      * @param int $empNum Employee number
-     * @return boolean True if a acceptor, false otherwise
+     * @return boolean True if an acceptor, false otherwise
      */
     public function isAcceptor($empNumber) {
 
@@ -3052,6 +3052,34 @@ class EmpInfo {
 
     }
 
+    /**
+     * Check if given employee is a 'Offerer'
+     *
+     * @param int $empNum Employee number
+     * @return boolean True if an offerer, false otherwise
+     */
+
+	public function isOfferer($empNumber) {
+
+	   	$selectTable = "`hs_hr_job_vacancy`";
+    	$selectFields[0] = "COUNT(`manager_id`)";
+    	$selectConditions[0] = "`manager_id` = $empNumber";
+
+    	$sqlBuilder = new SQLQBuilder();
+    	$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+    	$dbConnection = new DMLFunctions();
+    	$result = $dbConnection->executeQuery($query);
+
+    	$row = $dbConnection->dbObject->getArray($result);
+
+    	if ($row[0] > 0) {
+			return true;
+    	} else {
+    	    return false;
+    	}
+
+	}
 
     /**
      * Searches for supervisors with name matching the search string and
