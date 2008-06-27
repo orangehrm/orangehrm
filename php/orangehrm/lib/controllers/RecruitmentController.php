@@ -277,12 +277,12 @@ class RecruitmentController {
 			}
 
 			$empInfo = new EmpInfo;
-			$managers = $empInfo->getListofEmployee(0, JobTitle::MANAGER_JOB_TITLE_NAME, 6);
 			$jobTitle = new JobTitle();
 			$jobTitles = $jobTitle->getJobTit();
 
 			$objs['vacancy'] = $vacancy;
-			$objs['managers'] = is_array($managers) ? $managers : array();
+			$objs['manager'] = $vacancy->getManagerName();
+			$objs['noOfEmployees'] = $empInfo->countEmployee();
 			$objs['jobTitles'] = is_array($jobTitles) ? $jobTitles : array();
 
 			$template = new TemplateMerger($objs, $path);

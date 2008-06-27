@@ -34,7 +34,8 @@ if ($action == 'ViewAdd') {
 	$disabled = "disabled='true'";
 }
 
-$managers = $records['managers'];
+$noOfEmployees = $records['noOfEmployees'];
+$manager = $records['manager']; 
 $jobTitles = $records['jobTitles'];
 $vacancy = $records['vacancy'];
 $locRights=$_SESSION['localRights'];
@@ -45,8 +46,15 @@ $locRights=$_SESSION['localRights'];
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
+<script type="text/javascript" src="../../scripts/enhancedSearchBox.js"></script>
 <script>
-
+	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
+	table = "`hs_hr_employee` AS em";
+	valueField = "em.`emp_number`";
+	labelField = "CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)";
+	descField = "jt.`jobtit_name`";
+	joinTable = "`hs_hr_job_title` AS jt";
+	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
 	var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
 
@@ -59,7 +67,7 @@ $locRights=$_SESSION['localRights'];
 		msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
 		errors = new Array();
-        if ($('cmbHiringManager').value == -1) {
+        if ($('hidEnhancedSearchBox').value == -1) {
 			err = true;
 			msg += "\t- <?php echo $lang_Recruit_JobVacancy_PleaseSpecifyHiringManager; ?>\n";
         }
@@ -136,6 +144,34 @@ $locRights=$_SESSION['localRights'];
     <style type="text/css">
     <!--
 
+	.items {
+		border-top: none;
+		border-left: solid 1px #999999;
+		border-right: solid 1px #999999;
+		border-bottom: solid 1px #999999;
+		padding: 4px;
+		display: none;
+		width: 240px;
+	}
+
+	#container {
+		 display: table-row !important;
+	}
+	
+	#dropdownPane {
+		display: table-cell;
+		border: none !important;
+		text-align: left !important;
+	}
+
+	#txtEnhancedSearchBox {
+		display: block;
+		border-top: solid 1px #000000;
+		border-left: solid 1px #000000;
+		border-right: solid 1px #000000;
+		border-bottom: solid 1px #000000;
+	}
+
     label,select,input,textarea {
         display: block;  /* block float the labels to left column, set a width */
         width: 150px;
@@ -209,7 +245,7 @@ $locRights=$_SESSION['localRights'];
 		display: block;
 	}
 
-	#nomanagers {
+	#nohiringmanagers {
 		font-style: italic;
 		color: red;
         padding-left: 10px;
@@ -247,7 +283,7 @@ $locRights=$_SESSION['localRights'];
 	</div>
 	<?php }	?>
   <div class="roundbox">
-  <form name="frmJobVacancy" id="frmJobVacancy" method="post" action="<?php echo $formAction;?>">
+  <form name="frmJobVacancy" id="frmJobVacancy" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br/>
 		<label for="cmbJobTitle"><span class="error">*</span> <?php echo $lang_Recruit_JobTitleName; ?></label>
         <select id="cmbJobTitle" name="cmbJobTitle" tabindex="1" <?php echo $disabled;?>>
@@ -261,26 +297,31 @@ $locRights=$_SESSION['localRights'];
                 }
                 ?>
         </select><br/>
-		<label for="cmbHiringManager"><span class="error">*</span> <?php echo $lang_Recruit_HiringManager; ?></label>
-        <select id="cmbHiringManager" name="cmbHiringManager" tabindex="2" <?php echo $disabled;?>>
-	        <option value="-1">-- <?php echo $lang_Recruit_JobVacancy_HiringManagerSelect;?> --</option>
-                <?php
-                $prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
-                foreach ($managers as $manager) {
-
-                	// Ugly, but this is how EmpInfo returns employees
-                	$empNum = $manager[2];
-                	$empName = $manager[1];
-                    $selected = ($prevEmpNum == $empNum) ? 'selected' : '';
-	                echo "<option " . $selected . " value=". $empNum . ">" . $empName . "</option>";
-                }
-                ?>
-        </select><br/>
 		<?php
-				if (count($managers) == 0) {
+			$prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
+			if ($prevEmpNum == '') {
+				$prevEmpNum = '-1';
+				$empName = '';
+			} else {
+				$empName = $manager;
+			}
 		?>
-			<div id="nomanagers">
-				<?php echo $lang_Recruit_NoManagersNotice; ?>
+		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_HiringManager; ?></label>
+       	<span id="container" style="width: 250px;">
+			<span style="display: table-row !important;">
+				<span style="display: table-cell !important;">
+					<input type="text" style="width: 250px; " onKeyUp="refreshList(this, event);" value="<?php echo $empName ?>" onBlur="" <?php echo $disabled; ?> />
+					<input type="hidden" name="cmbHiringManager" id="hidEnhancedSearchBox" value="<?php echo $prevEmpNum ?>" />
+				</span>
+			</span><span style="display: table-row !important;">
+				<span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span>
+			</span>
+		</span><br/>
+		<?php
+				if ($noOfEmployees == 0) {
+		?>
+			<div id="nohiringmanagers">
+				<?php echo $lang_Recruit_NoHiringManagersNotice; ?>
 			</div>
 		<?php
 				}

@@ -1506,6 +1506,7 @@
  	$lang_Recruit_JobVacancy_PleaseSpecifyHiringManager = 'Please specify Hiring Manager';
  	$lang_Recruit_AllowedValuesAre = 'Allowed Values are: ';
 	$lang_Recruit_NoManagersNotice = 'No managers found. You need to create a job title named \'Manager\' and assign to employees who are managers.';
+	$lang_Recruit_NoHiringManagersNotice = 'No employees found to be assigned as Hiring Managers. You need to add employees\' data to the system.';
 
     $lang_Recruit_JobApplicationList_Heading = 'Applicants';
     $lang_Recruit_JobApplicationList_Name = 'Name';
