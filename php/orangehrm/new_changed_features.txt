@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.4-beta.1
+
+	Bug Fixes
+	---------
+    2005429 - Birth dates before 1970 not imported
+
 New & Changed Features for OrangeHRM ver 2.3-beta.2
 
 	Bug Fixes

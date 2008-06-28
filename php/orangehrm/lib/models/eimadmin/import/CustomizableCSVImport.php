@@ -408,7 +408,7 @@ class CustomizableCSVImport implements CSVImportPlugin {
 		$fmt = str_replace(' ', '/', $date);
 		$fmt = str_replace('-', '/', $date);
 		$dateStamp = strtotime($fmt);
-		if ($dateStamp > 0) {
+		if ($dateStamp !== FALSE) {
 			$formattedDate = date("Y-m-d", $dateStamp);
 		}
 		return $formattedDate;
