@@ -404,7 +404,29 @@ class BenefitsController {
 		//Checking whether records exist for $year
 		try {
 			if (!HspSummary::recordsExist($year)) {
-			    HspSummary::saveInitialSummary($year, Config::getHspCurrentPlan());
+				switch (Config::getHspCurrentPlan()) {
+					case 1:
+						self::_saveInitialRecords($year, 1);
+						break;
+					case 2:
+						self::_saveInitialRecords($year, 2);
+						break;
+					case 3:
+						self::_saveInitialRecords($year, 3);
+						break;
+					case 4:
+						self::_saveInitialRecords($year, 1);
+						self::_saveInitialRecords($year, 3);
+						break;
+					case 5:
+						self::_saveInitialRecords($year, 2);
+						self::_saveInitialRecords($year, 3);
+						break;
+					case 6:
+						self::_saveInitialRecords($year, 1);
+						self::_saveInitialRecords($year, 2);
+						break;
+				}
 			}
 		} catch (HspSummaryException $e) {
 		    if ($e->getCode() == HspSummaryException::HSP_PLAN_NOT_DEFINED) {
