@@ -1,3 +1,17 @@
+New & Changed Features for OrangeHRM ver 2.4-beta.2
+
+	New features
+	------------
+	HR Admin - Select Job Approver
+	It should be possible to select any employee as hiring manager
+
+	Bug Fixes
+	---------
+	1995996 - 2.3.7b2Benefits:HSA+FSAselect,ESSlog 1sttime cant viewHSPsum
+	1962815 - HSP alpha.14:Admin select checkbox in companyProperty,notice
+	1988591 - Time Module :Problem in time entry with differnet time zones
+	1995721 - Admin Module: Company Structure get corrupted
+
 New & Changed Features for OrangeHRM ver 2.4-beta.1
 
 	Bug Fixes
@@ -43,11 +57,11 @@ New & Changed Features for OrangeHRM ver 2.3-beta.2
     1925824   System accept job specs of same name differed by casesensiti
     1922115   After you Subscribe to E-mail Notifications does not say whether the data was saved
     1926772   Whentrying to Attach a file under PIM moves to error page
-    1956040   Additional text box in Job Vacancies    
+    1956040   Additional text box in Job Vacancies
 
     New features:
     ------------
-    HR Admin defines department id      
+    HR Admin defines department id
     Previous Positions, Divisions, and Locations
     Recruitment: Applicant views and applies for job vacancies
     Recruitment: HR Admin defines job specification and duties
