@@ -72,12 +72,17 @@ if (isset($errorFlag)) {
 
 ?>
 <style>
-@import url("../../themes/<?php echo $styleSheet; ?>/css/suggestions.css");
+#employeeSearchAC {
+    width:15em; /* set width here */
+    padding-bottom:2em;
+}
+#employeeSearchAC {
+    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+}
+#txtEmployeeSearch {
+    _position:absolute; /* abs pos needed for ie quirks */
+}
 </style>
-<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
-<script src="../../scripts/autoSuggest.js"></script>
-<script src="../../scripts/suggestions.js"></script>
-<?php } ?>
 <script>
 	function nextPage() {
 		i=document.hspFullSummary.pageNo.value;
@@ -263,6 +268,9 @@ if (isset($errorFlag)) {
     }
 
 </script>
+
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
+
 <?php if (isset($oneEmployee)) {  ?>
 <h2><?php echo $lang_Benefits_Summary_Employee_Heading." "; echo $hspSummary[0]->getEmployeeName(); ?> - <?php echo $year; ?></h2>
 <?php } else { ?>
@@ -285,26 +293,47 @@ if (isset($saveSuccess) && $saveSuccess) {
 <!-- Search form begins -->
 <form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
-<table width="670" border="0" cellspacing="0" cellpadding="5">
+<table width="715" border="0" cellspacing="0" cellpadding="5">
   <tr>
-    <td width="450">
-    <?php if ($adminUser) { ?>
-    Employee <input type="text" name="txtEmployeeSearchName" id="txtEmployeeSearch" size="20" onchange="" />
-    <?php } ?>
-    &nbsp;&nbsp;&nbsp;
-    Year
-	<select name="year" id="">
-	<?php
+  	<?php if ($adminUser) { ?>
+    <td width="80">Employee&nbsp;&nbsp;</td>
+    <td width="200">
+	<div class="yui-ac" id="employeeSearchAC">
+      <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" />
+      <div class="yui-ac-container" id="employeeSearchACContainer">
+        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
+          <div style="display: none;" class="yui-ac-hd"></div>
+          <div class="yui-ac-bd">
+            <ul>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+              <li style="display: none;"></li>
+            </ul>
+          </div>
+          <div style="display: none;" class="yui-ac-ft"></div>
+        </div>
+        <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
+      </div>
+    </div>
+	</td>
+	<?php } ?>
+    <td width="180"><select name="year" id="select">
+      <?php
 	$years = $records[7];
 	foreach ($years as $val) {
 	?>
-	<option value="<?php echo $val; ?>" <?php echo ($val==date('Y'))?"selected":""; ?>><?php echo $val; ?></option>
-	<?php } ?>
-	</select>&nbsp;&nbsp;&nbsp;<input type="submit" name="search" id="search" value="Search" />
-    </td>
-    <td width="0">
-	</td>
-    <td width="230">
+      <option value="<?php echo $val; ?>" <?php echo ($val==date('Y'))?"selected":""; ?>><?php echo $val; ?></option>
+      <?php } ?>
+    </select>
+      <input type="submit" name="search" id="search" value="Search" /></td>
+    <td width="209">	
     <?php if ($adminUser) { ?>
  	<img id="btnAdd" title="Add" onClick="edit();"
  		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
@@ -328,16 +357,10 @@ if (isset($saveSuccess) && $saveSuccess) {
 		}
 	?>
 		<a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=<?php echo $pdfName . $empNoQueryStr; ?>"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
-	<?php } ?>
-    </td>
-  </tr>
+	    <?php } ?>    </td>
+    </tr>
 </table>
 </form>
-<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
-<script language="javascript">
-	var oTextbox = new AutoSuggestControl(document.getElementById("txtEmployeeSearch"), new StateSuggestions(employees));
-</script>
-<?php } ?>
 <br />
 <!-- Search form ends -->
 
@@ -575,5 +598,26 @@ if (!isset($oneEmployee)) {
 </tr>
 <!-- Paging ends -->
 </table>
+<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
+<script type="text/javascript">
+YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+   	// Instantiate first JS Array DataSource
+   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
 
+   	// Instantiate AutoComplete for txtEmployeeSearch
+   	this.oAutoComp = new YAHOO.widget.AutoComplete('txtEmployeeSearch','employeeSearchACContainer', this.oACDS);
+   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+   	this.oAutoComp.typeAhead = false;
+   	this.oAutoComp.useShadow = true;
+   	this.oAutoComp.minQueryLength = 1;
+   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
+   	    var sInputValue = YAHOO.util.Dom.get('txtEmployeeSearch').value;
+   	    if(sInputValue.length === 0) {
+   	        var oSelf = this;
+   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
+   	    }
+   	});
+};
+</script>
+<?php } ?>
 <?php } // HSP defined and Employees exist ?>
