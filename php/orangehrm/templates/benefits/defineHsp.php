@@ -47,7 +47,7 @@
 				echo "<font color='#006600'><b>{$plans[$hspDefined]}</b> $lang_Defined_Hsp.</font>";
 			else
 				echo "<font color='#FF0000'>$lang_Hsp_No_HSP_defined.</font>";
-	} else { 
+	} else {
 		if($_REQUEST['message']=="SAVE_SUCCESS"){
 			echo "<font color ='#006600'>$lang_Hsp_Succesfully_Saved. $lang_Hsp_Current_HSP_is <b>{$plans[$hspDefined]}</b></font>";
 		}
@@ -59,8 +59,28 @@
 	}
 ?>
 
+<script language="JavaScript" type="text/javascript">
+
+function isset(varname){
+	return(typeof(varname)!='undefined');
+}
+
+function validate() {
+
+	if (!document.frmHelthSavingPlan.HspType.checked) {
+	    alert('<?php echo $lang_HSP_Plan_Not_Selected ?>');
+		return false;
+	} else {
+		return true;
+	}
+
+}
+
+
+</script>
+
 <h2><?php echo $lang_Define_Health_Savings_Plans; ?></h2>
-<form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan">
+<form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan" onSubmit="return validate()">
 <table width="141" border="0" cellpadding="0" cellspacing="0">
     <tr>
       <td width="94">&nbsp;<?php echo $lang_Hsp_Key_Hsa; ?></td>

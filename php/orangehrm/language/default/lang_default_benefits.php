@@ -177,6 +177,7 @@ $lang_Hsp_Key_Hsa_Hra="HSA+HRA";
 $lang_Defined_Hsp="Already Defined ";
 $lang_Hsp_Current_HSP_is = "Current HSP is";
 $lang_Hsp_No_HSP_defined = "No HSP is defined";
+$lang_HSP_Plan_Not_Selected = "Please select a HSP plan before saving";
 
 //For HSP Summary
 $lang_Benefits_Summary_Employee_Heading = "Health Savings Plan Summary for";
