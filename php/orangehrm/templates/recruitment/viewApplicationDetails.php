@@ -82,7 +82,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     }
 
     .txtBox {
-        width: 100px;
+        width: 300px;
     }
 
     br {
