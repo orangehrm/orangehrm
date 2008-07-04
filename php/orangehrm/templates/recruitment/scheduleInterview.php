@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-$managers = $records['managers'];
+$noOfEmployees = $records['noOfEmployees'];
 $application = $records['application'];
 $num = $records['interview'];
 $locRights=$_SESSION['localRights'];
@@ -38,8 +38,16 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
+<script type="text/javascript" src="../../scripts/enhancedSearchBox.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script>
+	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
+	table = "`hs_hr_employee` AS em";
+	valueField = "em.`emp_number`";
+	labelField = "CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)";
+	descField = "jt.`jobtit_name`";
+	joinTable = "`hs_hr_job_title` AS jt";
+	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
 
     var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
     var firstInterviewDate = false;
@@ -118,7 +126,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         }
 
 		errors = new Array();
-        if ($('cmbInterviewer').value == -1) {
+        if ($('hidEnhancedSearchBox').value == -1) {
 			err = true;
 			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyInterviewer; ?>\n";
         }
@@ -152,6 +160,34 @@ YAHOO.OrangeHRM.container.init();
     <style type="text/css">
     <!--
 
+	.items {
+		border-top: none;
+		border-left: solid 1px #999999;
+		border-right: solid 1px #999999;
+		border-bottom: solid 1px #999999;
+		padding: 4px;
+		display: none;
+		width: 240px;
+	}
+
+	#container {
+		 display: table-row !important;
+	}
+	
+	#dropdownPane {
+		display: table-cell;
+		border: none !important;
+		text-align: left !important;
+	}
+
+	#txtEnhancedSearchBox {
+		display: block;
+		border-top: solid 1px #000000;
+		border-left: solid 1px #000000;
+		border-right: solid 1px #000000;
+		border-bottom: solid 1px #000000;
+	}
+	
     label,select,input,textarea {
         display: block;  /* block float the labels to left column, set a width */
         width: 150px;
@@ -228,15 +264,25 @@ YAHOO.OrangeHRM.container.init();
         width: 100px;
     }
 
-	#nomanagers {
+	#nohiringmanagers {
 		font-style: italic;
 		color: red;
         padding-left: 10px;
         width: 400px;
         border: 1px;
 	}
+
+	#container {
+		display: table-row !important;
+	}
+
+	#dropdownPane {
+		display: table-cell;
+		border: none !important;
+		text-align: left !important;
+	}
     -->
-</style>
+	</style>
 </head>
 <body>
 	<p>
@@ -287,25 +333,20 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 
         <label for="txtTime"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Time; ?></label>
         <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
-
-		<label for="cmbInterviewer"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
-        <select id="cmbInterviewer" name="cmbInterviewer" tabindex="3">
-	        <option value="-1">-- <?php echo $lang_Recruit_JobApplication_Select;?> --</option>
-                <?php
-                foreach ($managers as $manager) {
-
-                	// Ugly, but this is how EmpInfo returns employees
-                	$empNum = $manager[2];
-                	$empName = CommonFunctions::escapeHtml($manager[1]);
-	                echo "<option value=". $empNum . ">" . $empName . "</option>";
-                }
-                ?>
-        </select><br/>
 		<?php
-				if (count($managers) == 0) {
+			$prevEmpNum = '-1';
+			$empName = '';
 		?>
-			<div id="nomanagers">
-				<?php echo $lang_Recruit_NoManagersNotice; ?>
+		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
+		<span id="container" style="width: 250px;"> <span style="display: table-row !important;"> <span style="display: table-cell !important;">
+        <input type="text" style="width: 250px; " onBlur="" onKeyUp="refreshList(this, event);" value="<?php echo $empName ?>" />
+        <input type="hidden" name="cmbInterviewer" id="hidEnhancedSearchBox" value="<?php echo $prevEmpNum ?>" />
+        </span> </span><span style="display: table-row !important;"> <span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span> </span> </span><br/>
+		<?php
+				if ($noOfEmployees == 0) {
+		?>
+			<div id="nohiringmanagers">
+				<?php echo $lang_Recruit_NoHiringManagersNotice; ?>
 			</div>
 		<?php
 				}

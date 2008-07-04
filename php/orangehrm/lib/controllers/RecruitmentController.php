@@ -586,6 +586,7 @@ class RecruitmentController {
 
         $empInfo = new EmpInfo();
         $managers = $empInfo->getListofEmployee(0, JobTitle::MANAGER_JOB_TITLE_NAME, 6);
+        $objs['noOfEmployees'] = $empInfo->countEmployee();
         $objs['managers'] = is_array($managers) ? $managers : array();
         $objs['application'] = JobApplication::getJobApplication($id);
         $objs['interview'] = $num;
