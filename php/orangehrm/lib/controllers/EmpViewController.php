@@ -1996,8 +1996,6 @@ class EmpViewController {
 			if($res) {
 
 				// For adding a new record to `hs_hr_hsp_summary` table.
-				$hspPlanId = Config::getHspCurrentPlan();
-
 				HspSummary::saveInitialSummaryForOneEmployee($empinfo->getEmpId());
 
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
