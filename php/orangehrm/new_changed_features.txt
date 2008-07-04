@@ -2,6 +2,20 @@ New & Changed Features for OrangeHRM ver 2.4-beta.2
 
 	New features
 	------------
+	Introduced YUI auto-completion & re-designed auto-completion feature at HSP
+	Summary Search
+
+	Bug Fixes
+	---------
+	2010091 - Qualifications and Experience field is too small to display
+	1934305 - HSP-New employee added after chekdate,not appear next year.
+	2009934 - Can not look at the applicants with out a manager job title
+	1984309 - HSP: Admin click Save without selecting a plan, Notice page
+
+New & Changed Features for OrangeHRM ver 2.4-beta.2
+
+	New features
+	------------
 	HR Admin - Select Job Approver
 	It should be possible to select any employee as hiring manager
 
