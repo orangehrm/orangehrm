@@ -59,10 +59,23 @@
 	}
 ?>
 
+<script type="text/javascript">
+	<!--
+	function validate() {
+
+		if (!document.frmHelthSavingPlan.HspType.checked) {
+		    alert('<?php echo $lang_HSP_Plan_Not_Selected ?>');
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+	-->
 </script>
 
 <h2><?php echo $lang_Define_Health_Savings_Plans; ?></h2>
-<form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan">
+<form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan" onSubmit="return validate()">
 <table width="141" border="0" cellpadding="0" cellspacing="0">
     <tr>
       <td width="94">&nbsp;<?php echo $lang_Hsp_Key_Hsa; ?></td>
