@@ -63,7 +63,18 @@
 	<!--
 	function validate() {
 
-		if (!document.frmHelthSavingPlan.HspType.checked) {
+		valid = false;
+
+		with (document.frmHelthSavingPlan) {
+			for(i in elements) {
+				if (elements[i].type == 'radio' && elements[i].checked) {
+					valid = true;
+					break;
+				}
+			}
+		}
+
+		if (!valid) {
 		    alert('<?php echo $lang_HSP_Plan_Not_Selected ?>');
 			return false;
 		} else {
