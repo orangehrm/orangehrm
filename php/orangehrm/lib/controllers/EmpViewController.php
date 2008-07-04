@@ -1644,11 +1644,11 @@ class EmpViewController {
                                 $empJobTitle = $empJobInfo[0][2];
 								if (isset($postArr['cmbJobTitle'])) {
 									$form_creator ->popArr['empstatlist'] = $view_controller->xajaxObjCall($postArr['cmbJobTitle'],'JOB','allEmpStat');
-                                    $empJobTitle = $postArr['cmbJobTitle'];                                     
+                                    $empJobTitle = $postArr['cmbJobTitle'];
 								}
 
                                 if (CommonFunctions::isValidId($empJobTitle, 'JOB')) {
-                                    $empJobSpec = $view_controller->getJobSpecForJob($empJobTitle);                                     
+                                    $empJobSpec = $view_controller->getJobSpecForJob($empJobTitle);
                                 } else {
                                     $empJobSpec = null;
                                 }
@@ -1998,26 +1998,21 @@ class EmpViewController {
 				// For adding a new record to `hs_hr_hsp_summary` table.
 				$hspPlanId = Config::getHspCurrentPlan();
 
-				if (HspSummary::recordsExist(date('Y'))) {
-				    HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
-				} elseif ($hspPlanId > 0) {
-					HspSummary::saveInitialSummary(date('Y'), $hspPlanId);
-					HspSummary::saveInitialSummaryForOneEmployee(date('Y'), $empinfo->getEmpId());
-				}
+				HspSummary::saveInitialSummaryForOneEmployee($empinfo->getEmpId());
 
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
 
 				$reqcode = $index;
 				header("Location: ./CentralController.php?reqcode=EMP&id=$id&capturemode=updatemode");
 			} else {
-				
+
 				$errCode = mysql_errno();
-				
+
 				switch ($errCode) {
 					case 1062 :
 						$showMsg = "DUPLICATE_EMPCODE_FAILURE";
 						break;
-						
+
 					default :
 						$showMsg = "ADD_FAILURE";
 						break;
@@ -2051,7 +2046,7 @@ class EmpViewController {
 
 									if(isset($object['EmpJobInfo'])) {
 										$empinfo = $object['EmpJobInfo'];
-										/* 
+										/*
 										 * Check if employment status is not terminated and if so
 										 * empty the fields terminated date and terminated reason
 										 */

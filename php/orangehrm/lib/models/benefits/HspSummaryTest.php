@@ -20,7 +20,7 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 	private $oldValues = array();
 	private $oldHspValue = null;
 	private $employeeFields = null;
-	
+
     /**
      * Runs the test methods of this class.
      *
@@ -54,14 +54,28 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
 		$tableList = array('hs_hr_hsp_summary','hs_hr_employee');
 		$this->_backupTables($tableList);
-		
+
 		$result = mysql_query("SELECT `value` FROM `hs_hr_config` WHERE `key` = 'hsp_current_plan';");
 		$row = mysql_fetch_array($result, MYSQL_NUM);
 		$this->oldHspValue = $row[0];
 
+		$result = mysql_query("SELECT `last_id`, `table_name`, `field_name` FROM `hs_hr_unique_id`;");
+		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$this->oldValues['AUTO_INC_PK_TABLE']['hs_hr_unique_id'][] = $row;
+		}
+
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
     	$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '1' WHERE `key` = 'hsp_current_plan';"),mysql_error());
+    	$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `table_name` = 'hs_hr_hsp_summary' AND `field_name` = 'summary_id'"),mysql_error());
+
+    	// Used in testSaveInitialSummaryForOneEmployee()
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (1, 1, 1, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 1, 3, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (3, 1, 1, ".(date('Y')+1).", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (4, 1, 3, ".(date('Y')+1).", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '4' WHERE `table_name` = 'hs_hr_hsp_summary' AND `field_name` = 'summary_id'"),mysql_error());
+
     }
 
     /**
@@ -73,10 +87,18 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
-		
+		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_unique_id`"),mysql_error());
+
+		foreach($this->oldValues['AUTO_INC_PK_TABLE']['hs_hr_unique_id'] as $row) {
+			$this->assertTrue(mysql_query("INSERT INTO `hs_hr_unique_id` VALUES (NULL, '" . implode("', '", $row) . "')"), mysql_error());
+		}
+
 		$this->_restoreTables();
+
 		UniqueIDGenerator::getInstance()->resetIDs();
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '$this->oldHspValue' WHERE `key` = 'hsp_current_plan';"),mysql_error());
+
+
     }
 
     public function testFetchSummary() {
@@ -184,10 +206,10 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
 		// Cleaning the database
         $this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
-        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '34'"),mysql_error());
+        $this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `table_name` = 'hs_hr_hsp_summary' AND `field_name` = 'summary_id'"),mysql_error());
 
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"),mysql_error());
-		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `id` = '8'"),mysql_error());
+		$this->assertTrue(mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '0' WHERE `table_name` = 'hs_hr_employee' AND `field_name` = 'emp_number'"),mysql_error());
 
     }
 
@@ -312,37 +334,50 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSaveInitialSummaryForOneEmployee() {
+	public function testSaveInitialSummaryForOneEmployee1() {
 
-    	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
+		HspSummary::saveInitialSummaryForOneEmployee(2);
 
-    	// Add 2 records to `hs_hr_hsp_summary`
-    	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (1, 1, 1, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 1, 3, ".date('Y').", 1, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+		$result = mysql_query("SELECT COUNT(`employee_id`) FROM `hs_hr_hsp_summary` WHERE `employee_id` = '2'");
+		$row = mysql_fetch_array($result, MYSQL_NUM);
 
-		HspSummary::saveInitialSummaryForOneEmployee(date('Y'), 2);
+		// There should be 4 records for employee 2
+		$this->assertEquals(4, $row[0]);
 
-		$result = mysql_query("SELECT `employee_id`, `hsp_plan_id` FROM `hs_hr_hsp_summary` WHERE `summary_id` = '3' OR `summary_id` = '4'");
+	}
 
-		$empIds[0] = 2;
-		$empIds[1] = 2;
+	public function testSaveInitialSummaryForOneEmployee2() {
 
-		$hspIds[0] = 1;
-		$hspIds[1] = 3;
+		// Four records for employee-1 are added at setup
 
-		$i = 0;
+		HspSummary::saveInitialSummaryForOneEmployee(2);
 
-		while ($row = mysql_fetch_array($result)) {
+		$result = mysql_query("SELECT `hsp_plan_id`, `hsp_plan_year` FROM `hs_hr_hsp_summary` WHERE `employee_id` = '2'");
 
-		    $this->assertEquals($empIds[$i], $row['employee_id']);
-			$this->assertEquals($hspIds[$i], $row['hsp_plan_id']);
-
-			$i++;
-
+		$k = 0;
+		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+		    $actual[$k][0] = $row[0];
+			$actual[$k][1] = $row[1];
+			$k++;
 		}
-    }
 
-    public function testGetYears() { 
+		$expected[0][0] = 1;
+		$expected[0][1] = date('Y');
+		$expected[1][0] = 3;
+		$expected[1][1] = date('Y');
+		$expected[2][0] = 1;
+		$expected[2][1] = date('Y')+1;
+		$expected[3][0] = 3;
+		$expected[3][1] = date('Y')+1;
+
+		for ($i=0; $i<4; $i++) {
+		    $this->assertEquals($expected[$i][0], $actual[$i][0]);
+			$this->assertEquals($expected[$i][1], $actual[$i][1]);
+		}
+
+	}
+
+    public function testGetYears() {
     	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_hsp_summary`"),mysql_error());
 
     	// Add 2 records to `hs_hr_hsp_summary`
@@ -357,9 +392,40 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 
 	$this->assertEquals($expected, $result);
     }
-    
+
+    public function testGetYearsAndPlans() {
+
+    	/* DB values are as follows
+    	 * hsp_plan_id	hsp_plan_year
+    	 * 1			date('Y')
+    	 * 3			date('Y')
+    	 * 1			date('Y')+1
+    	 * 3			date('Y')+1
+    	 */
+
+    	/* Expected array should be as follows
+    	 * $both[0]['year'] = date('Y');
+    	 * $both[0]['plan'][0] = 1;
+    	 * $both[0]['plan'][1] = 3;
+    	 * $both[1]['year'] = date('Y')+1;
+    	 * $both[1]['plan'][0] = 1;
+    	 * $both[1]['plan'][1] = 3;
+    	 */
+
+		$both = HspSummary::getYearsAndPlans();
+
+        $this->assertEquals(date('Y'), $both[0]['year']);
+        $this->assertEquals(date('Y')+1, $both[1]['year']);
+
+        $this->assertEquals(1, $both[0]['plan'][0]);
+        $this->assertEquals(3, $both[0]['plan'][1]);
+        $this->assertEquals(1, $both[1]['plan'][0]);
+        $this->assertEquals(3, $both[1]['plan'][1]);
+
+    }
+
     private function _backupTables($arrTableList) {
-    	
+
     	foreach ($arrTableList as $table) {
 	    	$result = mysql_query("SELECT * FROM `$table`");
 			while($row = mysql_fetch_array($result, MYSQL_NUM)) {
@@ -368,16 +434,19 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 			mysql_free_result($result);
     	}
     }
-    
+
     private function _restoreTables() {
-    	
+
     	$arrTableList = array_keys($this->oldValues);
-    	
+    	if (count($arrTableList) == 0) {
+    	    return;
+    	}
+
     	foreach ($arrTableList as $table) {
     		if ($table == 'AUTO_INC_PK_TABLE') {
     			continue;
     		}
-    		
+
     		$this->assertTrue(mysql_query("INSERT INTO `$table` VALUES ('" . implode("', '", $this->oldValues["$table"]) . "')"), mysql_error());
     	}
     }
