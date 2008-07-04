@@ -339,7 +339,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		?>
 		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
 		<span id="container" style="width: 250px;"> <span style="display: table-row !important;"> <span style="display: table-cell !important;">
-        <input type="text" style="width: 250px; " onBlur="" onKeyUp="refreshList(this, event);" value="<?php echo $empName ?>" />
+        <input type="text" style="width: 250px; " onBlur="" onKeyUp="refreshList(this, event);" value="<?php echo $empName ?>"  tabindex="3" />
         <input type="hidden" name="cmbInterviewer" id="hidEnhancedSearchBox" value="<?php echo $prevEmpNum ?>" />
         </span> </span><span style="display: table-row !important;"> <span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span> </span> </span><br/>
 		<?php
