@@ -1,4 +1,10 @@
-New & Changed Features for OrangeHRM ver 2.4-beta.2
+New & Changed Features for OrangeHRM ver 2.4-beta.4
+
+	New features
+	------------
+	2010999 - Error when trying to create a user in PIM
+
+New & Changed Features for OrangeHRM ver 2.4-beta.3
 
 	New features
 	------------
