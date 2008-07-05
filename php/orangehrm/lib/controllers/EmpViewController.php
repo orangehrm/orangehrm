@@ -1996,7 +1996,9 @@ class EmpViewController {
 			if($res) {
 
 				// For adding a new record to `hs_hr_hsp_summary` table.
-				HspSummary::saveInitialSummaryForOneEmployee($empinfo->getEmpId());
+				if (HspSummary::recordsExist(date('Y'))) {
+					HspSummary::saveInitialSummaryForOneEmployee($empinfo->getEmpId());
+				}
 
 				$showMsg = "Addition%Successful!"; //If $message is 1 setting up the
 
