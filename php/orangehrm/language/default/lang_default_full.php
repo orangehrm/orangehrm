@@ -689,7 +689,7 @@
 	$lang_hrEmpMain_subownership 			= "Subscription Ownership";
 	$lang_hrEmpMain_subamount 				= "Subscription Amount";
 	$lang_hrEmpMain_subcomdate 				= "Subscription Commence Date";
-	$lang_hrEmpMain_subredate 				= "Subscription Renwal Date";
+	$lang_hrEmpMain_subredate 				= "Subscription Renewal Date";
 	$lang_hrEmpMain_selmemtype 				= "Select Membership Type";
 	$lang_hrEmpMain_selmemship 				= "Select Membership";
 	$lang_hrEmpMain_selownership 			= "Select Ownership";
