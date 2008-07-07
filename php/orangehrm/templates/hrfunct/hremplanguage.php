@@ -236,7 +236,7 @@ if(isset($this->getArr['lanSEQ'])) {
                       	<td></td>
 						 <td><strong><?php echo $lang_hremp_Language?></strong></td>
 						 <td><strong><?php echo $lang_hremplan_fluency?></strong></td>
-						 <td><strong><?php echo $lang_hremplan_ratinggarde?></strong></td>
+						 <td><strong><?php echo $lang_hrEmpMain_ratinggarde?></strong></td>
 					</tr>
 <?php
     for($c=0; $rset && $c < count($rset); $c++) {
