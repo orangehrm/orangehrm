@@ -1668,6 +1668,7 @@
 
 	$lang_Time_Error_SpecifyWorkShiftName = "Specify work shift name";
 	$lang_Time_Error_SpecifyHoursPerDay = "Specify hours per day";
+	$lang_Time_Error_DecimalNotAllowed = "Decimal numbers are not allowed";
 	$lang_Time_Error_HoursPerDayShouldBePositiveNumber = "Hours per day should be a positive number";
 	$lang_Time_Error_HoursPerDayShouldBeLessThan24 = "Hours per day should be less than 24";
 	$lang_Time_Error_NoEmployeeSelected = "No employee selected";

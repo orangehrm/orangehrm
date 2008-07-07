@@ -83,6 +83,9 @@ function addShift() {
 	if ( hoursPerDay == '') {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_SpecifyHoursPerDay; ?>\n";
+	} else if (!isNaN(hoursPerDay) && hoursPerDay.indexOf('.') != -1) {
+		err=true;
+		msg+="\t- <?php echo $lang_Time_Error_DecimalNotAllowed; ?>\n";
 	} else if (!numbers($('txtHoursPerDay')) || (0 >= hoursPerDay)) {
 		err=true;
 		msg+="\t- <?php echo $lang_Time_Error_HoursPerDayShouldBePositiveNumber; ?>\n";
