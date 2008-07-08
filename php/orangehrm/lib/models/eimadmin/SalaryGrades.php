@@ -336,13 +336,28 @@ class SalaryGrades {
 		$sql_builder->flg_insert = 'true';
 		$sql_builder->arr_insert = $arrFieldList;
 
-
 		$sqlQString = $sql_builder->addNewRecordFeature1();
 
-		$dbConnection = new DMLFunctions();
-		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
+		$dbConnection = new DMLFunctions();		
+		$message = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		return $message2;
+		if ($message) {
+			return $message;
+		} else {
+			$errCode = mysql_errno();
+			
+			switch ($errCode) {
+				case 1062 :
+					$e = new SalaryGradesException('Pay Grades cannot have duplicate names', SalaryGradesException::DUPLICATE_SALARY_GRADE);
+					break;
+					
+				default :
+					$e = new SalaryGradesException('Unknown error in when adding Pay Grades', SalaryGradesException::UNKNOWN_EXCEPTION);
+					break;
+			}
+			
+			throw $e;
+		}
 	}
 
 	function updateSalaryGrades() {
@@ -588,5 +603,12 @@ class SalaryGrades {
 
 		}
 	}
+}
+
+class SalaryGradesException extends Exception {
+	
+	const UNKNOWN_EXCEPTION			= 1;
+	const DUPLICATE_SALARY_GRADE	= 2;
+
 }
 ?>

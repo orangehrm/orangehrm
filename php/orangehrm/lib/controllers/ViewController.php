@@ -1372,7 +1372,18 @@ class ViewController {
 
 				case 'SGR'  :		$salgread = new SalaryGrades();
 									$salgread = $object;
-									$res = $salgread -> addSalaryGrades();
+									
+									try {
+										$salgread -> addSalaryGrades();
+										$res = true;
+									} catch (SalaryGradesException $e) {
+										if ($e->getCode() == SalaryGradesException::DUPLICATE_SALARY_GRADE){
+											$showMsg = "DUPLICATE_NAME_FAILURE";
+										} elseif ($e->getCode() == SalaryGradesException::UNKNOWN_EXCEPTION) {
+											$showMsg = "ADD_FAILURE";
+										}
+										$res = false;
+									}
 									$id = $salgread->getSalGrdId();
 									break;
 

@@ -119,21 +119,18 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		<input type="hidden" name="backtype" value="<?php echo isset($backtype) ? $backtype : 0?>">
 		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']?>">
       </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      <?php
-		if (isset($this->getArr['msg'])) {
-			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
-		}
-		?>
-      </font> </td>
+    <td width="254" align='left' valign='bottom'>&nbsp;</td>
   </tr><td width="177">
 </table>
-
+				<font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
+		      	<?php
+				if (isset($this->getArr['msg'])) {
+					$expString  = $this->getArr['msg'];
+					$errorMsg = "lang_Error_salarygrades_$expString";
+					echo $$errorMsg;
+				}
+				?>
+		      </font>
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
