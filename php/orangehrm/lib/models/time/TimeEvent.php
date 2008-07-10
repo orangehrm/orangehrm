@@ -555,7 +555,11 @@ class TimeEvent {
 
 			$timesheetSubmissionPeriods = $timesheetSubmissionPeriodObj->fetchTimesheetSubmissionPeriods();
 
-			$currTime = strtotime($this->getStartTime());
+			$startTime = $this->getStartTime();
+			if (!isset($startTime)) {
+				$startTime = $this->getReportedDate();
+			}
+			$currTime = strtotime($startTime);
 			$day=date('N', $currTime);
 
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;

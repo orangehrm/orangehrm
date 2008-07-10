@@ -148,13 +148,12 @@ function validate() {
 		errFlag=true;
 	}
 
-	if (startTime && (($("txtEndTime").value != "") || ($("txtDuration").value != ""))) {
+	if (startTime && (($("txtEndTime").value != "") || (duration != ""))) {
 		if (!startTime || !endTime || (startTime > endTime) || (0 >= duration)) {
 			errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 			errFlag=true;
 		}
-
-	} else if (!startTime) {
+	} else if (!startTime && duration == "") {
 		errors[errors.length] = "<?php echo $lang_Time_Errors_InvalidTimeOrZeroOrNegativeIntervalSpecified_ERROR; ?>";
 		errFlag=true;
 	}
