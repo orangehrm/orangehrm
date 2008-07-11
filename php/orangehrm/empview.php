@@ -64,6 +64,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 <link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet; ?>/css/style.css"); </style>
 <style type="text/css">
+
     .roundbox {
         margin-top: 10px;
         margin-left: 0px;
@@ -228,7 +229,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 				  <tr>
 					<td width="22%" nowrap="nowrap"><h3><?php echo $search?></h3></td>
-					<td width="78%" align="right"><img height="1" width="1" src="../../pictures/blank.gif" alt=''>
+					<td width="78%" align="right">
 					<?php
 						if (isset($this->getArr['message'])) {
 				
