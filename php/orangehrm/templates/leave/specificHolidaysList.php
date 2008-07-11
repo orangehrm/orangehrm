@@ -134,8 +134,17 @@ if ($modifier === "SUP") {
 <p class="navigation">
 
 	  <input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
+      <?php /* Show delete button only if records are available: Begins */
+      if (count($records) > 0) {
+      ?>
       <input type="image" onclick="actionDelete(); return false;" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif" name="btnDel" id="btnDel"/>
-</p>
+      <?php /* Show delete button only if records are available: Ends */
+      }
+      ?>
+</p> 
+<?php /* Show table only if records are available: Begins */
+if (count($records) > 0) {
+?>
 <table border="0" cellpadding="0" cellspacing="0">
   <thead>
   	<tr>
@@ -207,6 +216,9 @@ if ($modifier === "SUP") {
 	</tr>
   </tfoot>
 </table>
+<?php /* Show table only if records are available: Ends */
+}
+?>
 <?php 	if ($modifier !== "Taken") { ?>
 
 </form>

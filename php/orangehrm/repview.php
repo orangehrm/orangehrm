@@ -29,7 +29,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	$currentPage = $this->popArr['currentPage'];
 
 	$message= $this->popArr['message'];
-
+	
 //$headingInfo = $heading;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -156,7 +156,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <?php	if($locRights['add'] && $headingInfo[2] == 1) { ?>
         <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
 <?php	}
-		if($locRights['delete'] && $headingInfo[2] == 1) { ?>
+		if($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') { ?>
        <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
 <?php } ?>
 
@@ -165,6 +165,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
   </tr>
 </table>
 <p>
+<?php /* Show tables only if records are available: Begins */
+if (isset($message) && $message != '') {
+?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td width="22%" nowrap><h3><?php echo $search; ?></h3></td>
@@ -354,9 +357,13 @@ else
                   <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
                   <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
                 </tr>
-
+				</table>
 <!--  newtable -->
-
+<?php /* Show tables only if records are available: Ends */
+} else {
+	echo "<h5>$lang_empview_norecorddisplay</h5>";
+}
+?>
 </form>
 </body>
 </html>

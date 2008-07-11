@@ -28,11 +28,30 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	$expString='lang_Leave_'.$_GET['message'];
 
 	$message = isset($$expString) ? $$expString : CommonFunctions::escapeHtml($_GET['message']);
+
 ?>
 	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
 <?php echo $message; ?>
 	</font>
 <?php }	?>
+
+<?php 
+	/* To check whether active leave types are available: Begins */
+	$sum = 0;
+	foreach ($records as $record) {
+		$flag = $record->getLeaveTypeAvailable();
+		if ($flag == 1) {
+			$sum++;
+		}
+	}
+	
+	$activeTypesAvailable = false;
+	if ($sum > 0) {
+		$activeTypesAvailable = true;
+	}
+	/* To check whether active leave types are available: Ends */
+?>
+
 <script>
 
 	var deletedLeaveTypes = new Array();
@@ -244,10 +263,18 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
 <p class="navigation">
 	<input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
+	<?php /* Show edit & delete buttons only if records are available: Begins */
+    if ($activeTypesAvailable) {
+    ?>
 	<input type="image" src="../../themes/beyondT/pictures/btn_edit.gif" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';" name="btnEdit" id="btnEdit"/>
 	<input type="image" onclick="actionDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif" name="btnDel" id="btnDel"/>
+    <?php /* Show edit & delete buttons only if records are available: Ends */
+    }
+    ?>
 </p>
-
+<?php /* Show table only if records are available: Begins */
+if ($activeTypesAvailable) {
+?>
   <table width="516" border="0" cellpadding="0" cellspacing="0">
   <thead>
     <tr>
@@ -304,6 +331,9 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
     </tr>
   </tfoot>
 </table>
+<?php /* Show table only if records are available: Ends */
+}
+?>
 <div><span class="error" id="messageLayer1"></span></div>
 <div><span class="error" id="messageLayer2"></span></div>
 </div>
