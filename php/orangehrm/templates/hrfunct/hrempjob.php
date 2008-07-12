@@ -45,7 +45,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 ?>
 
 	function returnLocDet(){
-		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,width=400,resizable=1,scrollbars=1');
+		var popup=window.open('CentralController.php?uniqcode=CST&VIEW=MAIN&esp=1','Locations','height=450,resizable=1,scrollbars=1');
         if(!popup.opener) popup.opener=self;
 	}
 
@@ -124,12 +124,12 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 			obj.style['visibility']='visible';
 			obj = document.getElementById("tdTermDateValue");
 			obj.style['visibility']='visible';
-			
+
 			// Set terminated date to today (if empty)
 			var termDate = document.getElementById("txtTermDate");
 			if (termDate.value == YAHOO.OrangeHRM.calendar.formatHint.format) {
-				today = new Date(); 				
-				termDate.value = formatDate(today, YAHOO.OrangeHRM.calendar.format);				
+				today = new Date();
+				termDate.value = formatDate(today, YAHOO.OrangeHRM.calendar.format);
 			}
 
 		}
@@ -311,14 +311,14 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
         btn.attributes["onMouseOver"].value ="this.src='<?php echo $iconDir;?>assign_o.gif';";
         btn.attributes["src"].value = "<?php echo $iconDir;?>assign.gif";
     }
-    
+
     /**
      * Function run when job title selection is changed.
      */
      function onJobTitleChange(value) {
-		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; 
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 		//xajax_assEmpStat(value);
-		xajax_fetchJobSpecInfo(value);     	
+		xajax_fetchJobSpecInfo(value);
      }
 
 </script>
@@ -351,7 +351,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
               </tr>
               <tr>
                 <td><?php echo $lang_hremp_jobspec; ?></td>
-                <td id='jobSpecName'></td>              
+                <td id='jobSpecName'></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_jobspecduties; ?></td>
                 <td id='jobSpecDuties'></td>
@@ -386,14 +386,14 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 <?php
     $edit1 = $this->popArr['editJobInfoArr'];
-    $jobSpec = $this->popArr['jobSpec'];    
+    $jobSpec = $this->popArr['jobSpec'];
     if (empty($jobSpec)) {
         $jobSpecName = '';
         $jobSpecDuties = '';
     } else {
         $jobSpecName = CommonFunctions::escapeHtml($jobSpec->getName());
         $jobSpecDuties = nl2br(CommonFunctions::escapeHtml($jobSpec->getDuties()));
-    }                  
+    }
 ?>
 <tr>
 			   <td><?php echo $lang_hremp_jobtitle; ?></td>
@@ -439,7 +439,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
               </tr>
               <tr>
                 <td><?php echo $lang_hremp_jobspec; ?></td>
-                <td id='jobSpecName'><?php echo $jobSpecName;?></td>              
+                <td id='jobSpecName'><?php echo $jobSpecName;?></td>
                 <td width="50">&nbsp;</td>
                 <td><?php echo $lang_hremp_jobspecduties; ?></td>
                 <td id='jobSpecDuties'><?php echo $jobSpecDuties;?></td>
@@ -524,10 +524,10 @@ if ($locRights['add']) {
 			  <td width="50">&nbsp;</td>
 <?php if($_GET['reqcode'] === "ESS") { ?>
 		<td colspan="2"></td>
-<?php } else { ?>			  
+<?php } else { ?>
 			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonDisc' id='tdTermReasonDisc'><?php echo $lang_hremp_termination_reason; ?> </td>
 			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonValue' id='tdTermReasonValue'><textarea <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?>  name="txtTermReason" id="txtTermReason" ><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea></td>
-<?php } ?>			  
+<?php } ?>
 			  </tr>
 			  </table>
 <?php } ?>
