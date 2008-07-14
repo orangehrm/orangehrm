@@ -30,15 +30,30 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
 	$message= $this->popArr['message'];
 	
-//$headingInfo = $heading;
+
+	$themeDir = '../../themes/' . $styleSheet;
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet; ?>/css/style.css"); </style>
+<style type="text/css">
+
+    .roundbox {
+        margin-top: 10px;
+        margin-left: 0px;
+        width: 98%;
+    }
+
+    .roundbox_content {
+        padding:15px;
+    }
+
+</style>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="../../scripts/octopus.js"></script>
 </head>
 <script>
 
@@ -134,236 +149,195 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 </script>
 <body>
-<p>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
 <form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN">
-  </td>
-  <td width='100%'><h2>
-      <?php echo $heading[3]?>
-    </h2></td>
-  <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
-</table></p>
-</p>
-<p>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr>
-    <td width="22%" nowrap><h3>
-        <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
-        <input type="hidden" name="delState" value="">
+	<div class="moduleTitle" style="padding: 6px;"><h2><?php echo $heading[3]; ?></h2></div>
+	<div>
+		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
+		<input type="hidden" name="delState" value="">
+		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
 
-        <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
+		<div style="padding: 6px;">
+			<?php	
+				if($locRights['add'] && $headingInfo[2] == 1) { ?>
+		        <img 
+					title="Add" 
+					alt="Add" 
+					src="<?php echo $themeDir; ?>/pictures/btn_add.gif"
+					style="border: none;"
+					onclick="returnAdd();" 
+					onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_add.gif';" 
+					onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_add_02.gif';" />
+			<?php	
+				}
+				if($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') { 
+			?>
+       			<img 
+					title="Delete"
+					alt="Delete" 
+					src="<?php echo $themeDir; ?>/pictures/btn_delete.gif"
+					style="border: none" 
+					onclick="returnDelete();" 
+					onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_delete.gif';" 
+					onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_delete_02.gif';" />
+			<?php } ?>
+		</div>
+	</div>
 
-<?php	if($locRights['add'] && $headingInfo[2] == 1) { ?>
-        <img border="0" title="Add" onClick="returnAdd();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
-<?php	}
-		if($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') { ?>
-       <img title="Delete" onClick="returnDelete();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-<?php } ?>
-
-      </h3></td>
-    <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
-  </tr>
-</table>
-<p>
-<?php /* Show tables only if records are available: Begins */
-if (isset($message) && $message != '') {
-?>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr>
-    <td width="22%" nowrap><h3><?php echo $search; ?></h3></td>
-    <td width='78%' align="right"><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''>
-     <?php
-		if (isset($this->getArr['message'])) {
-
-			$expString  = $this->getArr['message'];
-			$col_def = CommonFunctions::getCssClassForMessage($expString);
+	<?php 
+	/* Show tables only if records are available: Begins */
+	if (isset($message) && $message != '') {
 	?>
-			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-	<?php
-				echo $$expString;
-	?>
-			</font>
-	<?php
-		}
-		?>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-  </tr>
-</table>
-
-<!--  newtable -->
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table  border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td width="200" class="dataLabel"><slot><?php echo $searchby?></slot>&nbsp;&nbsp;<slot>
-                        <select style="z-index: 99;" name="loc_code">
-<?php                        for($c=0;count($srchlist[0])>$c;$c++)
-								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c])
-								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-								else
-								   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-?>
-                        </select>
-                      </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot><?php echo $searchfor; ?></slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>">
-                     </slot></td>
-                    <td align="right" width="180" class="dataLabel"><img title="Search" onClick="returnSearch();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.gif';" src="../../themes/beyondT/pictures/btn_search.gif">&nbsp;&nbsp;<img title="Clear" onClick="clear_form();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td>
-
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table  border="0" cellpadding="5" cellspacing="0" class="">
-
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-			  <table border="0" width="100%">
-			  <tr>
-			  <td height="40" valign="bottom" align="right">
-
-<?php
-$temp = $this->popArr['temp'];
-if($temp)
-    $recCount=$temp;
-else
-	$recCount=0;
-
-	$noPages=(int)($recCount/$sysConst->itemsPerPage);
-
-	if($recCount%$sysConst->itemsPerPage)
-	   $noPages++;
-
-	if ($noPages > 1) {
-
-
-		if ($currentPage==1)
-			echo "<font color='Gray'>$Previous</font>";
-		else
-    		echo "<a href='#' onClick='prevPage()'>$Previous</a>";
-
-    	echo "  ";
-
-		for( $c = 1 ; $noPages >= $c ; $c++) {
-	    	if($c == $currentPage)
-				echo "<font color='Gray'>" .$c. "</font>";
-			else
-	    		echo "<a href='#' onClick='chgPage(" .$c. ")'>" .$c. "</a>";
-
-	    	echo "  ";
-		}
-
-		if($currentPage == $noPages)
-			echo "<font color='Gray'>$Next</font>";
-		else
-    		echo "<a href='#' onClick='nextPage()'>$Next</a>";
-
-	} else  if ((isset($message)) && ($message =='')) {
-    	$dispMessage = $dispMessage;
-    	echo '<span style="text-align:right;">';
-   		echo $dispMessage;
-    	echo '</span';
-   }
-?>
-		</td>
-		<td width="25"></td>
+		<div style="width: 98%">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td width="22%" nowrap><h3><?php echo $search; ?></h3></td>
+					<td width='78%' align="right">
+						<?php
+							if (isset($this->getArr['message'])) {
+							
+								$expString  = $this->getArr['message'];
+								$col_def = CommonFunctions::getCssClassForMessage($expString);
+						?>
+								<span class="<?php echo $col_def?>" style="font-family: Verdana, Arial, Helvetica, sans-serif;"><?php echo $$expString; ?></span>
+						<?php
+							}
+						?>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
 		</tr>
+	</table>
+	</div>
+	
+	<div class="roundbox">
+		<table  border="0" cellpadding="5" cellspacing="0" class="">
+			<tr>
+				<td width="200" class="dataLabel">
+					<label for="loc_code" style="float: left; padding-right: 10px;"><?php echo $searchby?></label>
+					<select style="z-index: 99;" name="loc_code">
+					<?php 
+						for($c=0;count($srchlist[0])>$c;$c++) {
+							if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c]) {
+								echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
+							} else {
+								echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
+							}
+						}
+					?>
+					</select>
+				</td>
+				<td width="200" class="dataLabel" nowrap="nowrap">
+					<label for="loc_name" ><?php echo $searchfor; ?></label>
+					<input type="text" size="20" name="loc_name" class="dataField"  value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
+				</td>
+				<td align="right" width="180" class="dataLabel">
+					<img 
+						title="Search" 
+						alt="Search" 
+						src="<?php echo $themeDir; ?>/pictures/btn_search.gif" 
+						onclick="returnSearch();" 
+						onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_search_02.gif';" 
+						onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_search.gif';" />
+						
+					<img 
+						title="Clear" 
+						alt="Clear" 
+						src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
+						onclick="clear_form();" 
+						onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
+						onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" />
+				</td>
+			</tr>
 		</table>
-              <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <td width="50" NOWRAP class="listViewThS1" scope="col">
-<?php				if($headingInfo[2]==1) { ?>
-						  <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-<?php				}	?>
-						  </td>
-						  <td scope="col" width="250" class="listViewThS1"><?php echo $heading[0]?></td>
-						  <td scope="col" width="400" class="listViewThS1"><?php echo $heading[1]?></td>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
+	</div>
 
-        <?php
-			if ((isset($message)) && ($message !='')) {
-
-			 for ($j=0; $j<count($message);$j++) {
-
-			 	$descField=$message[$j][1];
-
-			 	if($sysConst->viewDescLen <= strlen($descField)) {
-			 	   $descField = substr($descField,0,$sysConst->viewDescLen);
-			 	   $descField .= "....";
-			 	}
-
+	<div style="padding-top: 4px; width: 98%">
+		<span id="messageDisplay">
+			<?php
+			if (empty($message)) { 
+					echo $dispMessage; 
+			} 
+			?>&nbsp;
+		</span>
+	</div>
+	
+	<div style="text-align: right; padding-top: 4px; width: 98%">
+		<?php
+		$temp = $this->popArr['temp'];
+		$commonFunc = new CommonFunctions();
+		$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+		
+		echo $pageStr;
+		?>&nbsp;
+	</div>
+	
+	<div class="roundbox">
+		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+			<tr>
+				<td width="50" NOWRAP class="listViewThS1" scope="col">
+				<?php if($headingInfo[2]==1) { ?>
+					<input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();">
+				<?php	} else {	?>
+					&nbsp;
+				<?php }?>
+				</td>
+				<td scope="col" width="250" class="listViewThS1"><?php echo $heading[0]?></td>
+				<td scope="col" width="400" class="listViewThS1"><?php echo $heading[1]?></td>
+			</tr>
+		<?php
+		if ((isset($message)) && ($message !='')) {
+		
+			for ($j=0; $j<count($message);$j++) {
+			
+				$descField=$message[$j][1];
+			
+				if($sysConst->viewDescLen <= strlen($descField)) {
+					$descField = substr($descField,0,$sysConst->viewDescLen);
+					$descField .= "....";
+				}
+				
+				$cssClass = ($j%2) ? 'odd' : 'even';
 		?>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-		<?php	if(!($j%2)) {
-				if($headingInfo[2]==1) { ?>
-                  <td class="odd" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
-		<?php 		} else { ?>
-                  <td class="odd" width="50"></td>
-		<?php 		}  ?>
-
-				  <td class="odd" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
-		  		  <td class="odd" width="400" ><?php echo $descField?></td>
-		 <?php } else {
-				if($headingInfo[2]==1) { ?>
-                  <td class="even" width="50"><input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>'></td>
-		<?php 		} else { ?>
-                  <td class="even" width="50"></td>
-		<?php 		}  ?>
-				  <td class="even" width="250"><a href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
-		  		  <td class="even" width="400" ><?php echo $descField?></td>
-		 <?php } ?>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-
-         <?php }
-        	  } ?>
-
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-				</table>
-<!--  newtable -->
-<?php /* Show tables only if records are available: Ends */
-} else {
-	echo "<h5>$lang_empview_norecorddisplay</h5>";
-}
-?>
+				<tr>
+					<td class="<?php echo $cssClass; ?>" width="50">
+					<?php if($headingInfo[2]==1) { ?>
+						<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' />
+					<?php } else { ?>
+						&nbsp;
+					<?php } ?>
+					</td>
+					<td class="<?php echo $cssClass; ?>" width="250">
+						<a 
+							href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" 
+							class="listViewTdLinkS1">
+								<?php echo $message[$j][0]?>
+						</a>
+					</td>
+					<td class="<?php echo $cssClass; ?>" width="400" >
+						<?php echo $descField?>
+					</td>
+				</tr>
+		<?php 
+			}
+		} 
+		?>
+		</table>
+	</div>
+	
+	<?php /* Show tables only if records are available: Ends */
+	} else {
+		echo "<h5>$lang_empview_norecorddisplay</h5>";
+	}
+	?>
 </form>
+
+<script type="text/javascript">
+<!--
+   	if (document.getElementById && document.createElement) {
+		initOctopus();
+	}
+-->
+</script>
+
 </body>
 </html>
