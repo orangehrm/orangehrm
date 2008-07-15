@@ -67,8 +67,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 </table>
 <p>
 <p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="return addSave()">
+<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
@@ -211,8 +211,8 @@ function edit()
 </table>
 <p>
 <p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmUserGroup" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['uniqcode']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
+<table width="431" border="0" cellspacing="0" cellpadding="0" >
 
   <tr>
     <td height="27" valign='top'><p><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';" src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
@@ -257,7 +257,7 @@ function edit()
 						    <td> <input type="checkbox" disabled <?php echo $message[0][2] == '1' ? 'checked' : ''?> name='chkRepDef' value="1"></td>
 						  </tr>
 						  -->
-					  <tr><td><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR"><?php echo $rightsLabel; ?></a></td>
+					  <tr><td nowrap="nowrap"><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=UGR"><?php echo $rightsLabel; ?></a></td>
 					  <td align="right" width="100%">
 <?php			if($locRights['edit']) { ?>
 			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
@@ -282,7 +282,7 @@ function edit()
 
 
 </form>
-</body>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+</body>
 </html>
 <?php } ?>
