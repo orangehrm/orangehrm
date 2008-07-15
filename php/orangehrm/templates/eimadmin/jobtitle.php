@@ -79,7 +79,7 @@ function showAddEmpStatForm() {
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 	//$parent::
 	$objResponse->addAssign('layerEmpStat','style','visibility:hidden;');
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onClick='addFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onclick='addFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
@@ -98,7 +98,7 @@ function showEditEmpStatForm($estatCode) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
 
-	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onClick='editFormData();'>");
+	$objResponse->addAssign('buttonLayer','innerHTML',"<input type='button' value='".$GLOBALS['lang_Common_Save']."' onclick='editFormData();'>");
 	$objResponse->addAssign('status','innerHTML','');
 
 return $objResponse->getXML();
@@ -195,423 +195,268 @@ return $objResponse->getXML();
   setcookie('cmbJobSpecId', 'null', time()-3600, '/');
   setcookie('cmbPayGrade', 'null', time()-3600, '/');
   setcookie('txtJobTitleID', 'null', time()-3600, '/');
+  
+  $themeDir = '../../themes/' . $styleSheet;
 
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
 <title></title>
 <?php $objAjax->printJavascript(); ?>
-<script language="JavaScript">
-
-
+<script type="text/javascript" src="../../scripts/octopus.js"></script>
+<script type="text/javascript">
 
 	function addSave() {
-
-
-
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
-
 			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
-
 			document.frmJobTitle.txtJobTitleName.focus();
-
 			return;
-
-			}
-
-
+		}
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
-
 			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
-
 			document.frmJobTitle.txtJobTitleDesc.focus();
-
 			return;
-
-			}
-
-
+		}
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
-
 			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
-
 			document.frmJobTitle.cmbPayGrade.focus();
-
 			return;
-
-			}
-
-
+		}
 
 		document.frmJobTitle.sqlState.value = "NewRecord";
 
 		document.frmJobTitle.submit();
-
 	}
 
-
-
-function goBack() {
-
-
-
+	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-
 	}
 
-
-
-function mout() {
-
-	if(document.Edit.title=='Save')
-
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-
-	else
-
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-
-}
-
-
-
-function mover() {
-
-	if(document.Edit.title=='Save')
-
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-
-	else
-
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-
-}
-
-
-
-function edit() {
-
-	if(document.Edit.title=='Save') {
-
-		addUpdate();
-
-		return;
-
+	function mout() {
+		if(document.Edit.title=='Save') {
+			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_save.gif';
+		} else {
+			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_edit.gif';
+		}
 	}
 
+	function mover() {
+		if(document.Edit.title=='Save') {
+			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_save_02.gif';
+		} else {
+			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_edit_02.gif';
+		}
+	}
 
-
-	var frm=document.frmJobTitle;
-
-
-	for (var i=0; i < frm.elements.length; i++)
-
-		frm.elements[i].disabled = false;
-
-	frm.txtEmpStatDesc.disabled=true;
-
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-
-	document.Edit.title="Save";
-
-}
-
-
+	function edit() {
+		if(document.Edit.title=='Save') {
+			addUpdate();
+			return;
+		}
+	
+		var frm=document.frmJobTitle;
+	
+		for (var i=0; i < frm.elements.length; i++) {
+			frm.elements[i].disabled = false;
+		}
+	
+		frm.txtEmpStatDesc.disabled=true;
+	
+		document.Edit.src="<?php echo $themeDir; ?>/pictures/btn_save.gif";
+		document.Edit.title="Save";
+	}
 
 	function addUpdate() {
-
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
-
 			alert ('<?php echo $lang_jobtitle_NameShouldBeSpecified; ?>');
-
 			document.frmJobTitle.txtJobTitleName.focus();
 
 			return;
-
-			}
-
-
+		}
 
 		if(document.frmJobTitle.txtJobTitleDesc.value == '') {
-
 			alert ('<?php echo $lang_jobtitle_DescriptionShouldBeSpecified; ?>');
-
 			document.frmJobTitle.txtJobTitleDesc.focus();
 
 			return;
-
-			}
-
-
+		}
 
 		if(document.frmJobTitle.cmbPayGrade.value == '0') {
-
 			alert ('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
-
 			document.frmJobTitle.cmbPayGrade.focus();
 
 			return;
-
-			}
-
-
+		}
 
 		document.frmJobTitle.sqlState.value = "UpdateRecord";
 
 		document.frmJobTitle.submit();
-
 	}
 
 
 
-function assignEmploymentStatus() {
+	function assignEmploymentStatus() {	
+		if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
+			alert('<?php echo $lang_jobtitle_NoSelection; ?>');
+			return;
+		}
+	
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
+	
+		xajax_assignEmploymentStatus(xajax.getFormValues('frmJobTitle'));
+	}
 
+	function unAssignEmploymentStatus() {	
+		if(document.frmJobTitle.cmbAssEmploymentStatus.selectedIndex == -1) {
+			alert('<?php echo $lang_jobtitle_NoSelection; ?>');
+			return;
+		}
 
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
 
-	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
+		xajax_unAssignEmploymentStatus(document.frmJobTitle.txtJobTitleID.value, document.frmJobTitle.cmbAssEmploymentStatus.value);
+	}
 
-		alert('<?php echo $lang_jobtitle_NoSelection; ?>');
-
-		return;
-
+	function numeric(txt) {
+		var flag = true;
+		var i, code;
+		
+		if (txt.value=="") {
+		   return false;
+		 }
+		
+		for (i=0;txt.value.length>i;i++) {
+			code=txt.value.charCodeAt(i);
+			
+			if(code>=48 && code<=57 || code==46) {
+			   flag=true;
+			} else {
+			   flag=false;
+			   break;
+			}
+		}
+		
+		return flag;	
 	}
 
 
 
-	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-
-
-
-	xajax_assignEmploymentStatus(xajax.getFormValues('frmJobTitle'));
-
-}
-
-
-
-function unAssignEmploymentStatus() {
-
-
-
-	if(document.frmJobTitle.cmbAssEmploymentStatus.selectedIndex == -1) {
-
-		alert('<?php echo $lang_jobtitle_NoSelection; ?>');
-
-		return;
-
+	function editPayGrade() {	
+		paygrade = document.frmJobTitle.cmbPayGrade.value;
+	
+		if(paygrade == '0') {
+			alert('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
+			document.frmJobTitle.cmbPayGrade.focus();
+			return;
+		}
+	
+		document.gotoPayGrade.action = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
+	
+		document.gotoPayGrade.submit();
+	
 	}
 
-
-
-	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-
-
-
-	xajax_unAssignEmploymentStatus(document.frmJobTitle.txtJobTitleID.value, document.frmJobTitle.cmbAssEmploymentStatus.value);
-
-}
-
-
-
-function numeric(txt) {
-
-
-
-var flag=true;
-
-var i,code;
-
-
-
-if(txt.value=="")
-
-   return false;
-
-
-
-for(i=0;txt.value.length>i;i++)
-
-	{
-
-	code=txt.value.charCodeAt(i);
-
-    if(code>=48 && code<=57 || code==46)
-
-	   flag=true;
-
-	else
-
-	   {
-
-	   flag=false;
-
-	   break;
-
-	   }
-
+	function showEditForm() {	
+		empstat = document.frmJobTitle.cmbUnAssEmploymentStatus.value;
+	
+		if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
+			alert('<?php echo $lang_jobtitle_PleaseSelectEmploymentStatus; ?>');
+			document.frmJobTitle.cmbUnAssEmploymentStatus.focus();
+	
+			return;
+		}
+	
+		xajax_showEditEmpStatForm(document.frmJobTitle.cmbUnAssEmploymentStatus.value);
 	}
 
-return flag;
-
-}
-
-
-
-function editPayGrade() {
-
-	paygrade = document.frmJobTitle.cmbPayGrade.value;
-
-	if(paygrade == '0') {
-		alert('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
-		document.frmJobTitle.cmbPayGrade.focus();
-		return;
+	function addFormData() {
+		if(document.frmJobTitle.txtEmpStatDesc.value == '') {
+			alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
+			document.frmJobTitle.txtEmpStatDesc.focus();
+	
+			return;
+		}
+	
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
+	
+		xajax_addExt(xajax.getFormValues('frmJobTitle'));
 	}
 
-	document.gotoPayGrade.action = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
-
-	document.gotoPayGrade.submit();
-
-
-}
-
-
-
-function showEditForm() {
-
-	empstat = document.frmJobTitle.cmbUnAssEmploymentStatus.value;
-
-
-	if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
-
-		alert('<?php echo $lang_jobtitle_PleaseSelectEmploymentStatus; ?>');
-
-		document.frmJobTitle.cmbUnAssEmploymentStatus.focus();
-
-		return;
-
+	function editFormData() {
+		if(document.frmJobTitle.txtEmpStatDesc.value == '') {
+			alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
+			document.frmJobTitle.txtEmpStatDesc.focus();
+	
+			return;	
+		}
+	
+		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
+	
+		xajax_editExt(xajax.getFormValues('frmJobTitle'));
 	}
 
-
-
-	xajax_showEditEmpStatForm(document.frmJobTitle.cmbUnAssEmploymentStatus.value);
-
-}
-
-
-
-function addFormData() {
-
-
-
-	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
-
-		alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
-
-		document.frmJobTitle.txtEmpStatDesc.focus();
-
-		return;
-
+	function preserveData() {
+		if (!(document.getElementById('txtJobTitleName').disabled)) {
+			id="txtJobTitleID";
+			writeCookie(id,document.getElementById('txtJobTitleID').value);
+	
+			id="txtJobTitleName";
+			writeCookie(id,document.getElementById('txtJobTitleName').value);
+	
+			id="txtJobTitleDesc";
+			writeCookie(id,document.getElementById('txtJobTitleDesc').value);
+	
+			id="txtJobTitleComments";
+			writeCookie(id,document.getElementById('txtJobTitleComments').value);
+	
+			id="cmbJobSpecId";
+			writeCookie(id, document.getElementById(id).value);
+	
+			id="cmbPayGrade";
+			writeCookie(id,document.getElementById('cmbPayGrade').value);
+		}	
 	}
 
-
-
-	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-
-	xajax_addExt(xajax.getFormValues('frmJobTitle'));
-
-}
-
-
-
-function editFormData() {
-
-
-
-	if(document.frmJobTitle.txtEmpStatDesc.value == '') {
-
-		alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
-
-		document.frmJobTitle.txtEmpStatDesc.focus();
-
-		return;
-
+	function writeCookie(name, value, expire) {
+		if (!expire) {
+			expire = 3600000;
+		}
+	
+		var date = new Date();
+		date.setTime(date.getTime()+expire);
+		var expires = date.toGMTString();
+	
+		document.cookie = name+"="+value+"; expires="+expires+"; path=/";
 	}
 
-
-
-	document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-
-	xajax_editExt(xajax.getFormValues('frmJobTitle'));
-
-}
-
-function preserveData() {
-
-	if (!(document.getElementById('txtJobTitleName').disabled)) {
-		id="txtJobTitleID";
-		writeCookie(id,document.getElementById('txtJobTitleID').value);
-
-		id="txtJobTitleName";
-		writeCookie(id,document.getElementById('txtJobTitleName').value);
-
-		id="txtJobTitleDesc";
-		writeCookie(id,document.getElementById('txtJobTitleDesc').value);
-
-		id="txtJobTitleComments";
-		writeCookie(id,document.getElementById('txtJobTitleComments').value);
-
-        id="cmbJobSpecId";
-        writeCookie(id, document.getElementById(id).value);
-
-		id="cmbPayGrade";
-		writeCookie(id,document.getElementById('cmbPayGrade').value);
+	function promptUseCookieValues() {
+		if (!confirm('<?php echo $lang_jobtitle_ShowingSavedValues . "\\n" . $lang_Error_DoYouWantToContinue; ?>')) {
+			history.go();
+		}
 	}
 
-}
-
-function writeCookie(name, value, expire) {
-
-	if (!expire) {
-		expire = 3600000;
+	function addSalaryGrade() {
+		document.gotoPayGrade.action =  '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
+	
+		document.gotoPayGrade.submit();
 	}
 
-	var date = new Date();
-	date.setTime(date.getTime()+expire);
-	var expires = date.toGMTString();
-
-	document.cookie = name+"="+value+"; expires="+expires+"; path=/";
-
-}
-
-function promptUseCookieValues() {
-	if (!confirm('<?php echo $lang_jobtitle_ShowingSavedValues . "\\n" . $lang_Error_DoYouWantToContinue; ?>')) {
-		history.go();
+	function editSalaryGrade() {
+		editPayGrade(document.frmJobTitle.cmbPayGrade.value);
 	}
-}
 
-function addSalaryGrade() {
-	document.gotoPayGrade.action =  '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
-
-	document.gotoPayGrade.submit();
-}
-
-function editSalaryGrade() {
-	editPayGrade(document.frmJobTitle.cmbPayGrade.value);
-}
-
-function clearAll() {
-	document.frmJobTitle.txtJobTitleName.value = '';
-	document.frmJobTitle.txtJobTitleDesc.value = '';
-	document.frmJobTitle.txtJobTitleComments.value = '';
-    document.frmJobTitle.cmbJobSpecId.value = -1;
-	document.frmJobTitle.cmbPayGrade.value = 0;
-}
+	function clearAll() {
+		document.frmJobTitle.txtJobTitleName.value = '';
+		document.frmJobTitle.txtJobTitleDesc.value = '';
+		document.frmJobTitle.txtJobTitleComments.value = '';
+		document.frmJobTitle.cmbJobSpecId.value = -1;
+		document.frmJobTitle.cmbPayGrade.value = 0;
+	}
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -619,458 +464,263 @@ function clearAll() {
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
+<style type="text/css">
+
+    .roundbox {
+        margin-top: 10px;
+        margin-left: 0px;
+        width: 625px;
+    }
+
+    .roundbox_content {
+        padding:15px;
+    }
+	
+	.controlLabel {
+		width: 135px; 
+		float: left; 
+		padding-right: 10px;
+		padding-left: 15px;
+	}
+
+	.controlContainer {
+		padding-top: 4px;
+		padding-bottom: 4px;
+		vertical-align: top;
+	}
+
+</style>
 
 </head>
 
-<body onLoad="<?php echo (isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?php echo isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
+<body onload="<?php echo (isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?php echo isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
 <form id="gotoPayGrade" name="gotoPayGrade" action="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" method="post">
-<input type="hidden" name="referer" value="<?php echo $_SERVER['REQUEST_URI'];?>">
+	<input type="hidden" name="referer" value="<?php echo $_SERVER['REQUEST_URI'];?>" />
 </form>
+
+<div class="moduleTitle" style="padding: 6px; ">	<h2><?php echo $lang_jobtitle_heading; ?></h2></div>
+<div id="status" style="width: 20%; text-align: right; position: absolute; right: 0px; top: 5px;"></div>
+
+<div style="padding: 6px">
+	<img 
+		title="Back" 
+		alt="Back"
+		src="<?php echo $themeDir; ?>/pictures/btn_back.gif"
+		style="border: none;" 
+		onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_back.gif';" 
+		onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_back_02.gif';"  
+		onclick="goBack();" />
+</div>
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-
-  <tr>
-
-    <td valign='top'></td>
-
-    <td width='100%'><h2><?php echo $lang_jobtitle_heading; ?></h2></td>
-
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
-
-  </tr>
-
-</table>
-
-<br>
-
-<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-
-<br>
-
+<div class="roundbox">
 		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
-		<input type="hidden" name="sqlState">
-
-           <table border="0" cellpadding="0" cellspacing="0">
-
-                <tr>
-
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-
-                </tr>
-
-                <tr>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-				                  <tr>
-				                  		<td><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value=""></td>
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><span class="error">*</span><?php echo $lang_jobtitle_jobtitname;?></td>
-
-				                  		<td><input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><span class="error">*</span><?php echo $lang_jobtitle_jobtitdesc;?></td>
-
-				                  		<td><textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><?php echo $lang_jobtitle_jobtitcomments; ?></td>
-
-				                  		<td><textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea></td>
-
-				                  </tr>
-                                  <tr>
-                                        <td><?php echo $lang_jobtitle_jobspec; ?></td>
-                                        <td><select name="cmbJobSpecId" id="cmbJobSpecId">
-                                            <option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-                                       <?php    $jobSpecs = $this->popArr['jobSpecList'];
-                                                $selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
+		<input type="hidden" name="sqlState" />
+		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
+		<div class="controlContainer">
+			<label for="txtJobTitleName" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitname;?></label>
+			<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>" />
+		</div>
+		<div class="controlContainer">
+			<label for="txtJobTitleDesc" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitdesc;?></label>
+			<textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea>
+		</div>
+		<div class="controlContainer">
+			<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
+			<textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea>
+		</div>
+		<div class="controlContainer">
+			<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
+			<select name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;">
+				<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+				<?php 
+					$jobSpecs = $this->popArr['jobSpecList'];
+					$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
                                                 
-                                                foreach($jobSpecs as $jobSpec) {
-                                                    
-                                                    $selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
-                                       ?>
-                                                    <option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
-                                        <?php   } ?>
-                                            </select></td>
-                                  </tr>
+					foreach($jobSpecs as $jobSpec) {                                                    
+						$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+				?>
+						<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
+				<?php   } ?>
+			</select>
+		</div>
+		<div class="controlContainer">
+			<label for="cmbPayGrade" class="controlLabel"><span class="error">*</span> <?php echo $lang_hrEmpMain_paygrade; ?></label>
+			<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;">
+				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+				<?php 
+					$paygrade = $this->popArr['paygrade'];
 
-				                  <tr>
+					for($c=0;$paygrade && count($paygrade)>$c;$c++) { ?>
+						<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>">
+							<?php echo $paygrade[$c][1]?>
+						</option>
+				<?php	} ?>
+			</select>
+			<span style=" padding-left: 10px;">
+				<input type="button" onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" style="display: inline;" />
+			</span>
+			<span>
+				<input type="button" onclick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  style="display: inline;" />
+			</span>
+		</div>
+		<div class="controlContainer" style="padding-top: 25px;">
+			<img 
+				src="<?php echo $themeDir; ?>/pictures/btn_save.gif" 
+				alt="Save" onclick="addSave();" 
+				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_save_02.gif';" 
+				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_save.gif';" /> 
+				
+			<img 
+				src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
+				alt="Clear" onclick="clearAll();" 
+				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
+				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" />
+		</div>
+	</form>
+</div>
 
-				                  		<td><span class="error">*</span> <?php echo $lang_hrEmpMain_paygrade; ?></td>
+<div  style="padding-top: 10px;">
+	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+</div>
 
-				                  		<td><select name="cmbPayGrade" id="cmbPayGrade">
+<?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-				               				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+<div class="roundbox">
+	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
+		<input type="hidden" name="sqlState" />
+		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>" />
+		<div class="controlContainer">
+			<span class="controlLabel"><?php echo $lang_jobtitle_jobtitid; ?></span>
+			<span style="font-weight: bold"><?php echo $editArr[0][0]?></span>
+		</div>
+		<div class="controlContainer">
+			<label for="txtJobTitleName" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitname;?></label>
+			<input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>" />
+		</div>
+		<div class="controlContainer">
+			<label for="txtJobTitleDesc" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitdesc;?></label>
+			<textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea>
+		</div>
+		<div class="controlContainer">
+			<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
+			<textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea>
+		</div>
+		<div class="controlContainer">
+			<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
+			<select disabled name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;">
+            	<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+                <?php 
+					$jobSpecs = $this->popArr['jobSpecList'];
+					$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : $editArr[0][5];                                       
 
-				               			<?php $paygrade = $this->popArr['paygrade'];
+					foreach($jobSpecs as $jobSpec) {
+						$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+				?>
+						<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
+				<?php   } ?>
+			</select>
+		</div>
+		<div class="controlContainer" style="padding-top: 20px;">
+			<label for="cmbPayGrade" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_hrEmpMain_paygrade; ?></label>
+			<select disabled name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;">
+				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+				<?php 
+					$paygrade = $this->popArr['paygrade'];
 
-				               				for($c=0;$paygrade && count($paygrade)>$c;$c++) {?>
+				    for($c=0;$paygrade && count($paygrade)>$c;$c++)
+				    	if ((isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) || ((!isset($cookie['cmbPayGrade'])) && ($paygrade[$c][0] == $editArr[0][4]))) {
+							echo "<option selected value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
+						} else { 
+							echo "<option value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
+						} 
+					?>
+			</select>
+			<span style=" padding-left: 10px;">
+				<input type="button" onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" disabled="disabled" style="display: inline;" />
+			</span>
+			<span style=" padding-left: 10px;">
+				<input type="button" onclick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  disabled="disabled" style="display: inline;" />
+			</span>
+		</div>
+		<div class="controlContainer" style="padding-top: 20px;">
+			<div style="float: left;">
+				<label for="cmbAssEmploymentStatus" class="controlLabel"><span class="success">#</span>&nbsp;<?php echo $lang_jobtitle_empstat; ?></label>
+				<select disabled="disabled" size="3" name="cmbAssEmploymentStatus" id="cmbAssEmploymentStatus" style="width:150px; height: 50px;">
+				<?php 
+					$assEmploymentStat = $this->popArr['assEmploymentStat'];
+					
+					for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++) {
+						echo "<option value='" .$assEmploymentStat[$c][0]. "'>" .$assEmploymentStat[$c][1]. "</option>";
+					}
+				?>
+				</select>
+			</div>
+			<div style="padding-left: 10px; padding-right: 10px; float: left;">
+				<input type="button" disabled="disabled" name="butAssEmploymentStatus" onclick="assignEmploymentStatus();" value="< <?php echo $lang_compstruct_add; ?>" style="width: 90px;" />
+				<br /><br />
+				<input type="button" disabled name="butUnAssEmploymentStatus" onclick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> >" style="width: 90px;" />
+			</div>
+			<div style="float: none;">
+				<select disabled="disabled" size="3" name="cmbUnAssEmploymentStatus" id="cmbUnAssEmploymentStatus" style="width:150px; height: 50px;">
+				<?php 
+					$unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
 
-				               					<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>"><?php echo $paygrade[$c][1]?></option>
-
-										<?php	} ?>
-
-
-
-				                  		</select></td>
-
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" />
-
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  /></td>
-
-				                  </tr>
-
-					  <tr><td></td><td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-
-        				<img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td></tr>
-
-                  </table></td>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                </tr>
-
-                <tr>
-
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-
-                </tr>
-
-              </table>
-
-
-
+				    for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++) {
+						echo "<option value='" .$unAssEmploymentStat[$c][0]. "'>" .$unAssEmploymentStat[$c][1]. "</option>";
+					}
+				?>
+				</select>
+			</div>
+		</div>  
+		<div class="controlContainer" style="padding-top: 20px; padding-left: 10px;">
+			<input type="button" disabled value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();" />
+			<br /><br />
+			<input type="button" disabled value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();" />
+		</div>
+		<div id="layerEmpStat" class="roundbox" style="visibility: hidden; width: 400px; height: 80px;">
+			<input type="hidden" name="txtEmpStatID" />
+			<div>
+				<label for="txtEmpStatDesc" class="controlLabel" style="padding-left: 0px"><?php echo $lang_jobtitle_empstat; ?></label>
+				<input type="text" name="txtEmpStatDesc" id="txtEmpStatDesc" disabled="disabled" style="width: 200px" />
+			</div>
+			<div id="buttonLayer" style="text-align: right; padding-right: 10px; padding-top: 10px;"></div>
+		</div>
+		<div class="controlContainer" style="padding-top: 20px;">
+			<img 
+				src="<?php echo $themeDir; ?>/pictures/btn_edit.gif" 
+				title="Edit" 
+				onmouseout="mout();" 
+				onmouseover="mover();" 
+				name="Edit" 
+				onclick="<?php	if($locRights['edit']) { ?>edit();<?php	} else { ?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php	}  ?>" />
+		
+			<img 
+				src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
+				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" 
+				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
+				onclick="" />
+		</div>
+	</form>
+</div>
+<div style="padding-top: 10px;">
+	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+	<br />
+	<span id="notice"><span class="success">#</span> = <?php echo $lang_jobtitle_emstatExpl; ?></span>
+</div>
 </form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</body>
-
-</html>
-
-
-
-<?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') {
-
-
-?>
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-
-  <tr>
-
-    <td valign='top'></td>
-
-    <td width='100%'><h2><?php echo $lang_jobtitle_heading; ?></h2></td>
-
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><b><div id="status"></div></b></td>
-
-  </tr>
-
-</table>
-
-           <table border="0" cellpadding="0" cellspacing="0">
-
-                <tr>
-
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-
-                  <td width="500" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-
-                </tr>
-
-                <tr>
-
-                	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
-
-						<input type="hidden" name="sqlState">
-
-						<br>
-
-						<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-
-						<br>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-				                  <tr>
-
-				                  		<td><?php echo $lang_jobtitle_jobtitid; ?></td>
-
-				                  		<td><strong><?php echo $editArr[0][0]?></strong></td>
-
-				                  </tr>
-
-				                  <tr><input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>">
-
-				                  		<td><span class="error">*</span> <?php echo $lang_jobtitle_jobtitname;?></td>
-
-				                  		<td><input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>"></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><span class="error">*</span> <?php echo $lang_jobtitle_jobtitdesc;?></td>
-
-				                  		<td><textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea></td>
-
-				                  </tr>
-
-				                  <tr>
-
-				                  		<td><?php echo $lang_jobtitle_jobtitcomments; ?></td>
-
-				                  		<td><textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea></td>
-
-				                  </tr>
-                                 <tr>
-                                        <td><?php echo $lang_jobtitle_jobspec; ?></td>
-                                        <td><select disabled name="cmbJobSpecId" id="cmbJobSpecId">
-                                            <option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-                                       <?php    $jobSpecs = $this->popArr['jobSpecList'];
-                                                $selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : $editArr[0][5];                                       
-                                                
-                                                foreach($jobSpecs as $jobSpec) {
-                                                    
-                                                    $selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
-                                       ?>
-                                                    <option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
-                                        <?php   } ?>
-                                            </select></td>
-                                  </tr>
-				                  <tr>
-
-				                  		<td><span class="error">*</span><?php echo $lang_hrEmpMain_paygrade; ?></td>
-
-				                  		<td><table border="0">
-
-				                  			<tr><td width="100">
-
-				                  		<select disabled name="cmbPayGrade" id="cmbPayGrade">
-
-				               				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-
-				               			<?php $paygrade = $this->popArr['paygrade'];
-
-				               				for($c=0;$paygrade && count($paygrade)>$c;$c++)
-
-				               					if ((isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) || ((!isset($cookie['cmbPayGrade'])) && ($paygrade[$c][0] == $editArr[0][4])))
-
-					               					echo "<option selected value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
-
-					               				else
-
-					               					echo "<option value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
-
-				               			?>
-
-				                  		</select></td>
-
-				                  		<td><input type="button" onClick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" disabled="disabled"/>
-
-				                  		<input type="button" onClick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  disabled="disabled" /></td>
-
-				                  		</tr></table></td>
-
-				                  </tr>
-
-				                  <tr>
-
-										<td valign="top">
-										<span class="success">#</span> <?php echo $lang_jobtitle_empstat; ?><br>
-
-										</td>
-
-										<td><table border="0">
-
-										<tr><td width="100">
-
-										<select disabled size="3" name="cmbAssEmploymentStatus" style="width:125px;">
-
-				               			<?php $assEmploymentStat = $this->popArr['assEmploymentStat'];
-
-				               				for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++)
-
-					               				echo "<option value='" .$assEmploymentStat[$c][0]. "'>" .$assEmploymentStat[$c][1]. "</option>";
-
-										?>
-
-										</select></td>
-
-										<td align="center" width="100"><input type="button" disabled name="butAssEmploymentStatus" onClick="assignEmploymentStatus();" value="< <?php echo $lang_compstruct_add; ?>" style="width:80%"><br><br><input type="button" disabled name="butUnAssEmploymentStatus" onClick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> >" style="width:80%"></td>
-
-										<td><select disabled size="3" name="cmbUnAssEmploymentStatus" style="width:125px;">
-
-				               			<?php $unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
-
-				               				for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++)
-
-					               				echo "<option value='" .$unAssEmploymentStat[$c][0]. "'>" .$unAssEmploymentStat[$c][1]. "</option>";
-
-										?>
-
-										</select></td></tr>
-
-										</table>
-
-										</td>
-
-								</tr>
-
-								<tr>
-
-									<td><!--<a href="../../lib/controllers/CentralController.php?uniqcode=EST&capturemode=addmode"><?php echo $lang_jobtitle_addempstat?></a><br>
-
-				                  		<a href="javascript:editEmpStat();"><?php echo $lang_jobtitle_editempstat?></a>-->
-
-									<input type="button" disabled value="<?php echo $lang_jobtitle_addempstat; ?>" onClick="xajax_showAddEmpStatForm();"><br><br>
-
-									<input type="button" disabled value="<?php echo $lang_jobtitle_editempstat; ?>" onClick="showEditForm();">
-
-
-									</td>
-
-									<td>
-
-						  <!-- form fits here -->
-
-	<div id="layerEmpStat" name="layerEmpStat" style="visibility:hidden;">
-
-	<table border='0' cellpadding='0' cellspacing='0'>
-
-    <tr><td width='13'><img name='table_r1_c1' src='../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif' width='13' height='12' border='0' alt=''></td>
-
-    <td width='220' background='../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif'><img name='table_r1_c2' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-
-    <td width='13'><img name='table_r1_c3' src='../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif' width='13' height='12' border='0' alt=''></td>
-
-    <td width='11'><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='12' border='0' alt=''></td></tr>
-
-    <tr><td background='../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif'><img name='table_r2_c1' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-
-    <td><table width='100%' border='0' cellpadding='5' cellspacing='0' class=''>
-
-	<tr>
-
-		<td><?php echo $lang_jobtitle_empstat; ?></td>
-
-		<td><input type="hidden" name="txtEmpStatID"><input type="text" name="txtEmpStatDesc" disabled></td>
-
-	</tr>
-
-	<tr>
-
-		<td></td>
-
-		<td align="right"><div id='buttonLayer'></div></td>
-
-	</tr>
-
-    </table></td><td background='../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif'><img name='table_r2_c3' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-
-    <td><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td></tr>
-
-    <tr><td><img name='table_r3_c1' src='../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif' width='13' height='16' border='0' alt=''></td>
-
-    <td background='../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif'><img name='table_r3_c2' src='../../themes/beyondT/pictures/spacer.gif' width='1' height='1' border='0' alt=''></td>
-
-    <td><img name='table_r3_c3' src='../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif' width='13' height='16' border='0' alt=''></td>
-
-    <td><img src='../../themes/beyondT/pictures/spacer.gif' width='1' height='16' border='0' alt=''></td></tr></table>
-
-	</div>
-
-						  <!-- form ends here -->
-
-									</td>
-
-								</tr>
-
-					  <tr><td></td><td align="right">
-
-<?php			if($locRights['edit']) { ?>
-
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-
-<?php			} else { ?>
-
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
-
-<?php			}  ?>
-
-					  <img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="" >
-
-</td>
-
-					  </tr>
-
-                  </table></td>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                </tr>
-
-                <tr>
-
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-
-                </tr>
-
-              </table>
-
-</form>
-<span id="notice">
-<?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-<br>
-<span id="notice">
-<span class="success">#</span> = <?php echo $lang_jobtitle_emstatExpl; ?>
-</span>
-</body>
-
-</html>
-
 <?php } ?>
+
+<script type="text/javascript">
+<!--
+   	if (document.getElementById && document.createElement) {
+		initOctopus();
+	}
+-->
+</script>
+
+</body>
+</html>
