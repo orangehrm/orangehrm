@@ -599,19 +599,19 @@ return $objResponse->getXML();
 		</div>
 		<div class="controlContainer">
 			<label for="txtJobTitleName" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitname;?></label>
-			<input type="text" disabled name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>" />
+			<input type="text" disabled="disabled" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>" />
 		</div>
 		<div class="controlContainer">
 			<label for="txtJobTitleDesc" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitdesc;?></label>
-			<textarea disabled name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea>
+			<textarea disabled="disabled" name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea>
 		</div>
 		<div class="controlContainer">
 			<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
-			<textarea disabled name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea>
+			<textarea disabled="disabled" name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea>
 		</div>
 		<div class="controlContainer">
 			<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
-			<select disabled name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;">
+			<select disabled="disabled" name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;">
             	<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
                 <?php 
 					$jobSpecs = $this->popArr['jobSpecList'];
@@ -626,7 +626,7 @@ return $objResponse->getXML();
 		</div>
 		<div class="controlContainer" style="padding-top: 20px;">
 			<label for="cmbPayGrade" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_hrEmpMain_paygrade; ?></label>
-			<select disabled name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;">
+			<select disabled="disabled" name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;">
 				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 				<?php 
 					$paygrade = $this->popArr['paygrade'];
@@ -662,7 +662,7 @@ return $objResponse->getXML();
 			<div style="padding-left: 10px; padding-right: 10px; float: left;">
 				<input type="button" disabled="disabled" name="butAssEmploymentStatus" onclick="assignEmploymentStatus();" value="< <?php echo $lang_compstruct_add; ?>" style="width: 90px;" />
 				<br /><br />
-				<input type="button" disabled name="butUnAssEmploymentStatus" onclick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> >" style="width: 90px;" />
+				<input type="button" disabled="disabled" name="butUnAssEmploymentStatus" onclick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> >" style="width: 90px;" />
 			</div>
 			<div style="float: none;">
 				<select disabled="disabled" size="3" name="cmbUnAssEmploymentStatus" id="cmbUnAssEmploymentStatus" style="width:150px; height: 50px;">
@@ -677,9 +677,9 @@ return $objResponse->getXML();
 			</div>
 		</div>  
 		<div class="controlContainer" style="padding-top: 20px; padding-left: 10px;">
-			<input type="button" disabled value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();" />
+			<input type="button" disabled="disabled" value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();" />
 			<br /><br />
-			<input type="button" disabled value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();" />
+			<input type="button" disabled="disabled" value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();" />
 		</div>
 		<div id="layerEmpStat" class="roundbox" style="visibility: hidden; width: 400px; height: 80px;">
 			<input type="hidden" name="txtEmpStatID" />
