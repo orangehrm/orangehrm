@@ -108,8 +108,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 </table>
 <p>
 <p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onSubmit="return addSave()">
+<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
@@ -142,12 +142,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                   <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 						  <tr>
-						    <td nowrap><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
+						    <td width="16%" nowrap><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 						    <td><input type="text" name="txtSalGrdDesc" size="40" tabindex="3">
 						    </td>
 						  </tr>
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td></tr>
+					  <tr><td></td><td align="right" width="84%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td>
+					  </tr>
 
                   </table></td>
                   <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
@@ -519,7 +520,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 							    <td>&nbsp;</td>
 							  </tr>
 							  <tr>
-							    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
+							    <td width="16%" nowrap="nowrap"><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
 							  	  <td><input type="text" name="txtSalGrdDesc" size="40" tabindex="3" disabled value="<?php echo $message[0][1]?>">
 							    </td>
 							  </tr>
