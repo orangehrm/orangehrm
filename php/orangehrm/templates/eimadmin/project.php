@@ -280,6 +280,11 @@ if ($locRights['edit']) {
 		font-family: Verdana, Arial, Helvetica, sans-serif;
     }
 
+    label {
+		white-space:nowrap;
+		width:100px;
+    }
+
     -->
  </style>
 </head>
