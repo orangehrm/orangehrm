@@ -214,6 +214,7 @@ class ViewController {
 						$this->reDirect($getArr);
 						break;
 			case 'IMP' :
+			case 'IMPAJAX' :
 						$this->reDirect($getArr);
 						break;
 			case 'ENS' :
@@ -1545,7 +1546,7 @@ class ViewController {
 										$csvImport = $object;
 
 										try {
-											$res = $csvImport->importData();
+											$res = $csvImport->handleUpload();
 										} catch (CSVImportException $e) {
 											if ($e->getCode() == CSVImportException::IMPORT_DATA_NOT_RECEIVED) {
 												$showMsg = "IMPORT_FAILURE";
@@ -2136,6 +2137,32 @@ class ViewController {
 			$csvExport->exportData($exportType);
 		}
 	}
+	
+	public function importData($fileName, $importType) {
+		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
+		
+		if ($authorizeObj->isAdmin()) {
+			$csvImport = new CSVImport();
+			$csvImport->setImportType($importType);
+
+			try {
+				$res = $csvImport->importData($fileName);
+			} catch (CSVImportException $e) { 
+				if ($e->getCode() == CSVImportException::IMPORT_DATA_NOT_RECEIVED) {
+					$showMsg = "IMPORT_FAILURE";
+				}
+				$res = false;
+			}
+			
+			if ($res != false) {
+				echo $res->getNumImported() . ',', $res->getNumFailed();
+			} else {
+				
+			}
+
+		}
+		
+	} 
 
 	function assignData($index,$object,$action) {
 
@@ -2557,14 +2584,23 @@ class ViewController {
 							$form_creator ->popArr['exportTypes'] = $csvExport->getDefinedExportTypes();
 							break;
 			case 'IMP' :    if (isset($getArr['upload']) && $getArr['upload'] == 1) {
-								$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
-								$form_creator ->popArr['importStatus'] = $object;
+								/*$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
+								$form_creator ->popArr['importStatus'] = $object;*/
+								$form_creator ->formPath = '/templates/eimadmin/dataUploadStatus.php';
+								$form_creator ->popArr['uploadStatus'] = $object;
+								
 							} else {
 								$form_creator ->formPath = '/templates/eimadmin/dataImport.php';
 								$csvImport = new CSVImport();
 								$form_creator ->popArr['importTypes'] = $csvImport->getDefinedImportTypes();
 							}
 							break;
+							
+			case 'IMPAJAX' :
+							$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
+							$form_creator ->popArr['importStatus'] = $object;
+							break;
+			
 			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
 							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
 							$form_creator ->popArr['editArr'] =$emailNotificationConfObj->fetchNotifcationStatus();

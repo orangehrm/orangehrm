@@ -24,6 +24,7 @@ require_once ROOT_PATH.'/lib/confs/sysConf.php';
 require_once ROOT_PATH.'/lib/common/CommonFunctions.php';
 require_once ROOT_PATH.'/lib/models/eimadmin/import/CSVImportPlugin.php';
 require_once ROOT_PATH.'/lib/models/eimadmin/import/CustomizableCSVImport.php';
+require_once ROOT_PATH.'/lib/models/eimadmin/import/CSVSplitter.php';
 
 class CSVImport {
 
@@ -94,9 +95,29 @@ class CSVImport {
 	 *
 	 * @return array Array containing results of import
 	 */
-	 public function importData() {
+	 
+	 public function handleUpload() {
+	 	
+	 	$csvSplitter = new CSVSplitter();
+	 	$success = $csvSplitter->split($this->fileName);
+	 	
+	 	if ($success) {
+	 		
+	 		$noOfRecords = $csvSplitter->getNoOfRecords();
+	 		$tempFileList = $csvSplitter->getTempFileList();
+	 		
+	 		$result = new CSVSplitStatus('success', $this->importType, $noOfRecords, $tempFileList);
+	 	
+	 	} else {
+	 		$result = new CSVSplitStatus('failure', $this->importType);
+	 	}
+	 	
+	 	return $result;
+	 }
+	 
+	 public function importData($fileName) {
 
-		set_time_limit(300); // For handling time out
+		set_time_limit(0); // For handling time out
 
 /*		$ir = array();
 		$ir[] = new ImportResult(self::IMPORT_ERROR, "A comment");
@@ -105,7 +126,7 @@ class CSVImport {
 		$xx = new CSVImportStatus($ir, 3, 1, 1);
 		return $xx;
 */
-		if (empty($this->importType) || empty($this->fileName)) {
+		if (empty($this->importType) || empty($fileName)) {
 			throw new CSVImportException("Import data not received", CSVImportException::IMPORT_DATA_NOT_RECEIVED);
 		}
 		$importPlugin = $this->_getPlugin($this->importType);
@@ -119,7 +140,7 @@ class CSVImport {
 		$rowsSkipped = 0;
 		$importResults = array();
 
-		$handle = fopen($this->fileName, "r");
+		$handle = fopen($fileName, "r");
 
 		while (($data = fgetcsv($handle)) !== FALSE) {
 

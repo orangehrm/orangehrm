@@ -649,7 +649,7 @@ switch ($moduletype) {
 
 										break;
 
-			 			case 'IMP'	:
+			 			case 'IMP'	: 
 										if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_CSVImport();
 										}
@@ -727,6 +727,9 @@ switch ($moduletype) {
 												break;
 										} elseif (($_GET['uniqcode'] == 'CSE') && isset($_GET['download'])) {
 											$view_controller->exportCSV($_GET['cmbExportType']);
+											break;
+										} elseif ($_GET['uniqcode'] == 'IMPAJAX' && isset($_GET['file'])) {
+											$view_controller->importData(base64_decode($_GET['file']), trim($_GET['importType']));
 											break;
 										}
 
