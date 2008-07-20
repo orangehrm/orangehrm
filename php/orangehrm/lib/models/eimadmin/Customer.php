@@ -49,6 +49,7 @@ class Customer {
 	private $customerId ;
 	private $customerName;
 	private $customerDescrption;
+	private $customerStatus;
 
 	/**
 	 * Automatic id genaration
@@ -82,6 +83,14 @@ class Customer {
 
 	public function getCustomerDescription () {
 		return $this->customerDescrption;
+	}
+
+	public function setCustomerStatus ($customerStatus) {
+		$this->customerStatus = $customerStatus ;
+	}
+
+	public function getCustomerStatus () {
+		return $this->customerStatus;
 	}
 
 	/**
@@ -256,6 +265,7 @@ class Customer {
 		$arrFieldList[0] = self::CUSTOMER_DB_FIELDS_ID;
 		$arrFieldList[1] = self::CUSTOMER_DB_FIELDS_NAME;
 		$arrFieldList[2] = self::CUSTOMER_DB_FIELDS_DESCRIPTION;
+		$arrFieldList[3] = self::CUSTOMER_DB_FIELDS_DELETED;
 
 		$arrSelectConditions[0] = "`".self::CUSTOMER_DB_FIELDS_ID."` = $cusId";
 
@@ -319,6 +329,7 @@ class Customer {
 			$tmpcusArr->setCustomerId($row[self::CUSTOMER_DB_FIELDS_ID]);
 			$tmpcusArr->setCustomerName($row[self::CUSTOMER_DB_FIELDS_NAME]);
 			$tmpcusArr->setCustomerDescription($row[self::CUSTOMER_DB_FIELDS_DESCRIPTION]);
+			$tmpcusArr->setCustomerStatus($row[self::CUSTOMER_DB_FIELDS_DELETED]);
 
 			$objArr[] = $tmpcusArr;
 		}

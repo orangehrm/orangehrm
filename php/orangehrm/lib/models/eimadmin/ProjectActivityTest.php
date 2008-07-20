@@ -73,6 +73,7 @@ class ProjectActivityTest extends PHPUnit_Framework_TestCase {
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(0, 0, 'Internal project', 'Internal project', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(1, 1, 'Test project 1', 'a test proj 1', 0)");
         mysql_query("INSERT INTO hs_hr_project(project_id, customer_id, name, description, deleted) VALUES(2, 1, 'Test project 2', 'a test proj 2', 0)");
+        
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 

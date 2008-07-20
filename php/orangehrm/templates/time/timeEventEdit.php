@@ -18,7 +18,7 @@
  *
  */
 
-function populateActivities($projectId) {
+function populateActivities($projectId, $activityId=-1) {
 
 	ob_clean();
 
@@ -37,6 +37,26 @@ function populateActivities($projectId) {
 
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
 	} else {
+		if ($activityId != -1) {
+			$projectActivityObject = new ProjectActivity();
+		    if ($projectId == $projectActivityObject->retrieveActivityProjectId($activityId)) {
+				$activityExists = false;
+				$i = 0;
+				foreach ($projectActivities as $activity) {
+					if ($activity[$i][0] == $activityId) {
+					    $activityExists = true;
+					}
+					$i++;
+				}
+
+				if (!$activityExists) {
+					$count = count($projectActivities);
+					$projectActivities[$count][0] = $activityId;
+					$projectActivities[$count][1] = $projectActivityObject->retrieveActivityName($activityId);
+				}
+		    }
+
+		}
 		$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
 	 	$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- $lang_Common_Select -','-1');");
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 1);
@@ -74,7 +94,7 @@ if (isset($records[1])) {
 	$description = $records[1]->getDescription();
 }
 
-/* For getting current timesheet's start date and end date */
+/* For getting current timesheet's start date and end date: Begins */
 
 $currentTimesheet = $records[2];
 
@@ -91,7 +111,7 @@ if (isset($currentTimesheet)) {
 	$endDatePrint = 0;
 
 }
-/* For getting current timesheet's start date and end date */
+/* For getting current timesheet's start date and end date: Ends */
 
 $customerObj = new Customer();
 $projectObj = new Projects();
@@ -327,22 +347,45 @@ function checkDateAndDuration(dateValue, duration) {
 			<td ><?php echo $lang_Time_Timesheet_Project; ?></td>
 			<td ></td>
 			<td >
-				<select id="cmbProject" name="cmbProject" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value);" >
-				<?php if (is_array($projects)) { ?>
-						<option value="-1">- <?php echo $lang_Leave_Common_Select;?> -</option>
-				<?php	foreach ($projects as $project) {
-							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+				<select id="cmbProject" name="cmbProject" onchange="$('status').innerHTML='Loading...'; xajax_populateActivities(this.value, <?php echo (isset($activityId))?$activityId:"-1"; ?>);" >
+				<?php
 
-							$selected = "";
-							if (isset($projectId) && ($projectId == $project->getProjectId())) {
-								$selected = "selected";
-							}
+					if (!isset($projectId) && !is_array($projects)) {
+					    echo "<option value=\"-1\">- {$lang_Time_Timesheet_NoProjects} -</option>";
+					} else {
+					    echo "<option value=\"-1\">- {$lang_Leave_Common_Select} -</option>";
+					}
+
+					if (isset($projectId)) {
+					    $projectName = $projectObj->retrieveProjectName($projectId);
+						$customerName = $projectObj->retrieveCustomerName($projectId);
+						echo "<option selected value=\"{$projectId}\">{$customerName} - {$projectName}</option>";
+					}
+
+					if (is_array($projects)) {
+
+						if (isset($projectId)) {
+						    foreach ($projects as $project) {
+						        if ($projectId != $project->getProjectId()) {
+						        	$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+						        	$customerStatus = $customerDet->getCustomerStatus();
+						        	if ($customerStatus == 0) {
+										echo "<option value=\"{$project->getProjectId()}\">{$customerDet->getCustomerName()} - {$project->getProjectName()}</option>";
+						        	}
+						        }
+						    }
+						} else {
+						    foreach ($projects as $project) {
+					        	$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+					        	$customerStatus = $customerDet->getCustomerStatus();
+					        	if ($customerStatus == 0) {
+									echo "<option value=\"{$project->getProjectId()}\">{$customerDet->getCustomerName()} - {$project->getProjectName()}</option>";
+					        	}
+						    }
+
+						}
+					}
 				?>
-						<option value="<?php echo $project->getProjectId(); ?>" <?php echo $selected; ?> ><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
-				<?php 	}
-					} else { ?>
-						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
-				<?php } ?>
 				</select>
 			</td>
 			<td class="tableMiddleRight"></td>
@@ -352,25 +395,37 @@ function checkDateAndDuration(dateValue, duration) {
 			<td ><?php echo $lang_Time_Timesheet_Activity; ?></td>
 			<td ></td>
 			<td >
-				<select id="cmbActivity" name="cmbActivity" >
-					<?php
-						if (isset($projectId)) {
-							$projectActivities = $projectActivityObj->getActivityList($projectId);
-					?>
-					<option value="-1">- <?php echo $lang_Leave_Common_Select;?> -</option>
-					<?php	foreach ($projectActivities as $projectActivity) {
-								$selected="";
-								if ($activityId == $projectActivity->getId()) {
-									$selected="selected";
-								}
-					?>
-					<option <?php echo $selected; ?> value="<?php echo $projectActivity->getId(); ?>"><?php echo $projectActivity->getName(); ?></option>
-					<?php
-							}
-						} else {
-					?>
-					<option value="-1">- <?php echo $lang_Time_Timesheet_SelectProject; ?> -</option>
-					<?php } ?>
+			<select id="cmbActivity" name="cmbActivity" >
+			<?php
+
+				if (!isset($activityId) && !isset($projectId)) {
+				    echo "<option value=\"-1\">- {$lang_Time_Timesheet_SelectProject} -</option>";
+				} else {
+				    echo "<option value=\"-1\">- {$lang_Leave_Common_Select} -</option>";
+				}
+
+				if (isset($activityId)) {
+					$activityName = $projectActivityObj->retrieveActivityName($activityId);
+				    echo "<option selected value=\"{$activityId}\">{$activityName}</option>";
+				}
+
+				if (isset($projectId)) {
+				    $projectActivities = $projectActivityObj->getActivityList($projectId);
+				    if (isset($activityId)) {
+				        foreach ($projectActivities as $projectActivity) {
+				            if ($activityId != $projectActivity->getId()) {
+				                echo "<option value=\"{$projectActivity->getId()}\">{$projectActivity->getName()}</option>";
+				            }
+				        }
+				    } else {
+				        foreach ($projectActivities as $projectActivity) {
+			                echo "<option value=\"{$projectActivity->getId()}\">{$projectActivity->getName()}</option>";
+				        }
+
+				    }
+				}
+
+				?>
 				</select>
 			</td>
 			<td class="tableMiddleRight"></td>

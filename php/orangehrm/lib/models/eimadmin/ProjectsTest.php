@@ -247,6 +247,26 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 	   	$this->assertEquals($res->getProjectDescription(),'w','Invalid description');
 	   	$this->assertEquals($res->getDeleted(), Projects::PROJECT_DELETED,'Invalid description');
 	}
+	
+	public function testRetrieveProjectName() {
+		
+		$actual = $this->classProject->retrieveProjectName(1001);
+		$this->assertEquals('p1', $actual);
+		
+		$actual = $this->classProject->retrieveProjectName(1009);
+		$this->assertEquals('', $actual);
+				
+	}
+	
+	public function testRetrieveCustomerName() {
+		
+		$actual = $this->classProject->retrieveCustomerName(1001);
+		$this->assertEquals('zanfer1', $actual);
+		
+		$actual = $this->classProject->retrieveCustomerName(1009);
+		$this->assertEquals('', $actual);
+
+	}
 
 }
 

@@ -311,6 +311,62 @@ class ProjectActivity {
 		return $tmp;
 	}
 
+	/**
+	 * Retrieve Activity Name of a given Activity Id.
+	 * @param integer $activityId
+	 * @return string Activity Name of given Activity Id
+	 */
+
+	public function retrieveActivityName($activityId) {
+
+		$selectTable = "`".self::TABLE_NAME."`";
+		$selectFields[0] = "`".self::DB_FIELD_NAME."`";
+		$selectConditions[0] = "`".self::DB_FIELD_ACTIVITY_ID."` = $activityId";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			return $row[0];
+		} else {
+			return '';
+		}
+
+	}
+
+	/**
+	 * Retrieves Project Id of a given Activity Id.
+	 * @param integer $activityId
+	 * @return integer Returns Project Id on success, Null on failiure
+	 */
+
+	public function retrieveActivityProjectId($activityId) {
+
+		$selectTable = "`".self::TABLE_NAME."`";
+		$selectFields[0] = "`".self::DB_FIELD_PROJECT_ID."`";
+		$selectConditions[0] = "`".self::DB_FIELD_ACTIVITY_ID."` = $activityId";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			return $row[0];
+		} else {
+			return null;
+		}
+
+	}
+
 }
 
 class ProjectActivityException extends Exception {

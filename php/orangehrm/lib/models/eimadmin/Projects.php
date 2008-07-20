@@ -369,6 +369,57 @@ class Projects {
 	}
 
 	/**
+	 * Retrieves Project Name for a given project ID.
+	 * @param integer $projectId
+	 * @return string Project Name of $projectId
+	 */
+
+	public function retrieveProjectName($projectId) {
+
+		$selectTable = "`".self::PROJECT_DB_TABLE."`";
+		$selectFields[0] = "`".self::PROJECT_DB_FIELD_NAME."`";
+		$selectConditions[0] = "`".self::PROJECT_DB_FIELD_PROJECT_ID."` = $projectId";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			return $row[0];
+		} else {
+			return '';
+		}
+
+	}
+
+	/**
+	 * Retrieves Customer Name for a given project ID.
+	 * @param integer $projectId
+	 * @return string Customer Name of $projectId
+	 */
+
+	public function retrieveCustomerName($projectId) {
+
+		$query = "SELECT `name` from `hs_hr_customer` WHERE `customer_id` = (SELECT `customer_id` FROM `hs_hr_project` WHERE `project_id` = $projectId)";
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (isset($row[0])) {
+			return $row[0];
+		} else {
+			return '';
+		}
+
+	}
+
+	/**
 	 * Build the project object array from the given result set
 	 *
 	 * @param resource $result Result set from the database

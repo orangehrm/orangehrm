@@ -22,7 +22,7 @@ require_once ROOT_PATH . '/lib/controllers/TimeController.php';
 
 $GLOBALS['lang_Common_Select'] = $lang_Common_Select;
 
-function populateActivities($projectId, $row) {
+function populateActivities($projectId, $row, $activityId=null, $activityName=null) {
 
 	ob_clean();
 
@@ -42,6 +42,27 @@ function populateActivities($projectId, $row) {
 
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 0);
 	} else {
+
+		if ($activityId != null) {
+			$projectActivityObject = new ProjectActivity();
+		    if ($projectId == $projectActivityObject->retrieveActivityProjectId($activityId)) {
+				$activityExists = false;
+				$i = 0;
+				foreach ($projectActivities as $activity) {
+					if ($activity[$i][0] == $activityId) {
+					    $activityExists = true;
+					}
+					$i++;
+				}
+
+				if (!$activityExists) {
+					$count = count($projectActivities);
+					$projectActivities[$count][0] = $activityId;
+					$projectActivities[$count][1] = $activityName;
+				}
+		    }
+		}
+
 		$objResponse->addScript("document.getElementById('".$element."').options.length = 0;");
 	 	$objResponse->addScript("document.getElementById('".$element."').options[0] = new Option('- $lang_Common_Select -','-1');");
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$projectActivities, 0,'frmTimesheet',$element, 1);
@@ -481,6 +502,10 @@ function goBack() {
 
 			foreach ($timeExpenses as $timeExpense) {
 				$projectId = $timeExpense->getProjectId();
+				$projectName = $projectObj->retrieveProjectName($projectId);
+				$customerName = $projectObj->retrieveCustomerName($projectId);
+				$activityId = $timeExpense->getActivityId();
+				$activityName = $projectActivityObj->retrieveActivityName($activityId);
 
 				$projectDet = $projectObj->fetchProject($projectId);
 				$projectActivities = $projectActivityObj->getActivityList($projectId);
@@ -488,17 +513,21 @@ function goBack() {
 			<tr id="row[<?php echo $row; ?>]">
 				<td class="tableMiddleLeft"></td>
 				<td ><input type="checkbox" id="deleteEvent[]" name="deleteEvent[]" value="<?php echo $timeExpense->getTimeEventId(); ?>" /></td>
-				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo $row; ?>);">
+				<td ><select id="cmbProject[<?php echo $row; ?>]" name="cmbProject[]" onfocus="looseCurrFocus();" onchange="$('status').innerHTML='<?php echo $lang_Common_Loading;?>...'; xajax_populateActivities(this.value, <?php echo "$row, $activityId, '$activityName'"; ?>);">
+				<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
+				<option selected value="<?php echo $projectId; ?>"><?php echo "{$customerName} - {$projectName}"; ?></option>
 				<?php if (is_array($projects)) { ?>
-						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
+
 				<?php	foreach ($projects as $project) {
-							$selected="";
 							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
-							if ($projectId == $project->getProjectId()) {
-								$selected="selected";
+							$customerStatus = $customerDet->getCustomerStatus();
+							if ($projectId != $project->getProjectId() && $customerStatus == 0) {
+				?>
+				<option value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
+				<?php
 							}
 				?>
-						<option <?php echo $selected; ?> value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
+
 				<?php 	}
 					} else { ?>
 						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
@@ -508,13 +537,14 @@ function goBack() {
 				<td ><select id="cmbActivity[<?php echo $row; ?>]" name="cmbActivity[]" onfocus="looseCurrFocus();">
 				<?php if (is_array($projectActivities)) { ?>
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
+						<option selected value="<?php echo $activityId; ?>"><?php echo $activityName; ?></option>
 				<?php	foreach ($projectActivities as $projectActivity) {
-							$selected="";
-							if ($timeExpense->getActivityId() == $projectActivity->getId()) {
-								$selected="selected";
+							if ($activityId != $projectActivity->getId()) {
+				?>
+						<option value="<?php echo $projectActivity->getId(); ?>"><?php echo $projectActivity->getName(); ?></option>
+				<?php
 							}
 				?>
-						<option <?php echo $selected; ?> value="<?php echo $projectActivity->getId(); ?>"><?php echo $projectActivity->getName(); ?></option>
 				<?php 	}
 					} else { ?>
 						<option value="-1">- <?php echo $lang_Time_Timesheet_NoCustomers;?> -</option>
@@ -542,9 +572,12 @@ function goBack() {
 						<option value="-1">--<?php echo $lang_Leave_Common_Select;?>--</option>
 				<?php	foreach ($projects as $project) {
 							$customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
+							$customerStatus = $customerDet->getCustomerStatus();
+
+							if ($customerStatus == 0) {
 				?>
 						<option value="<?php echo $project->getProjectId(); ?>"><?php echo "{$customerDet->getCustomerName()} - {$project->getProjectName()}"; ?></option>
-				<?php 	}
+				<?php 	}  }
 					} else { ?>
 						<option value="-1">- <?php echo $lang_Time_Timesheet_NoProjects;?> -</option>
 				<?php } ?>
