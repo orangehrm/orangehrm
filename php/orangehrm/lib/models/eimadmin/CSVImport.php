@@ -97,7 +97,8 @@ class CSVImport {
 	 */
 	 
 	 public function handleUpload() {
-	 	
+
+		CSVSplitter::setRecordLimit(50);
 	 	$csvSplitter = new CSVSplitter();
 	 	$success = $csvSplitter->split($this->fileName);
 	 	

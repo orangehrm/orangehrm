@@ -3,10 +3,11 @@
 class CSVSplitter {
 	
 	private $tempDir 		= '.';
-	private $recordLimit 	= 50;
 	private $noOfRecords 	= null;
 	private $header			= null;
 	private $tempFileList	= null;
+
+	private static $recordLimit 	= 100;
 	
 	private static function _discoverTempDir() {
 		
@@ -43,7 +44,6 @@ class CSVSplitter {
 	
 	public function __construct() {
 		$this->tempDir 		= CSVSplitter::_discoverTempDir();
-		$this->recordLimit 	= 50;
 		$this->noOfRecords 	= null;
 		$this->tempFileList	= array();
 	}
@@ -52,16 +52,16 @@ class CSVSplitter {
 		$this->tempDir = $path;
 	}
 	
-	public function setRecordLimit($limit) {
-		$this->recordLimit = $limit;
+	public static function setRecordLimit($limit) {
+		self::$recordLimit = $limit;
 	}
 
 	public function getTempDir() {
 		return $this->tempDir;
 	}
 
-	public function getRecordLimit() {
-		return $this->recordLimit;
+	public static function getRecordLimit() {
+		return self::$recordLimit;
 	}
 	
 	public function getNoOfRecords() {
@@ -134,7 +134,7 @@ class CSVSplitter {
 			$rowIndex++;
 			$this->noOfRecords++;
 			
-			if ($rowIndex > $this->recordLimit && !feof($fpRead)) {
+			if ($rowIndex > self::$recordLimit && !feof($fpRead)) {
 				$rowIndex = 1;
 				
 				fclose($fpWrite);

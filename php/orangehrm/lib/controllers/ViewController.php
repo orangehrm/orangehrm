@@ -2155,7 +2155,32 @@ class ViewController {
 			}
 			
 			if ($res != false) {
-				echo $res->getNumImported() . ',', $res->getNumFailed();
+				$response[] = $res->getNumImported();
+				$response[] = $res->getNumFailed();
+				$response[] = $res->getNumSkipped();
+
+				$results = $res->getImportResults();
+				$failures = array();
+
+				$i = 1;
+
+				foreach ($results as $result) {
+					$status = $result->getStatus();
+					if ($status != CSVImport::IMPORTED && $status != CSVImport::SKIPPED_HEADER) {
+						$failures[] = array($i, $status, $result->getComments());
+					}
+
+					if ($status != CSVImport::SKIPPED_HEADER) {
+						$i++;
+					}
+				}
+
+				if (count($failures) > 0) {
+					$response[] = $failures;
+				} 
+
+				AjaxCalls::sendResponse($response, false, AjaxCalls::NON_XML_MULTI_LEVEL_MODE);
+
 			} else {
 				
 			}
@@ -2584,10 +2609,10 @@ class ViewController {
 							$form_creator ->popArr['exportTypes'] = $csvExport->getDefinedExportTypes();
 							break;
 			case 'IMP' :    if (isset($getArr['upload']) && $getArr['upload'] == 1) {
-								/*$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
-								$form_creator ->popArr['importStatus'] = $object;*/
 								$form_creator ->formPath = '/templates/eimadmin/dataUploadStatus.php';
 								$form_creator ->popArr['uploadStatus'] = $object;
+								$form_creator ->popArr['recordLimit'] = CSVSplitter::getRecordLimit();
+								$form_creator ->popArr['delimiterLevels'] = AjaxCalls::getDelimiterLevelsArray(3);
 								
 							} else {
 								$form_creator ->formPath = '/templates/eimadmin/dataImport.php';
@@ -2596,11 +2621,6 @@ class ViewController {
 							}
 							break;
 							
-			case 'IMPAJAX' :
-							$form_creator ->formPath = '/templates/eimadmin/dataImportStatus.php';
-							$form_creator ->popArr['importStatus'] = $object;
-							break;
-			
 			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
 							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
 							$form_creator ->popArr['editArr'] =$emailNotificationConfObj->fetchNotifcationStatus();

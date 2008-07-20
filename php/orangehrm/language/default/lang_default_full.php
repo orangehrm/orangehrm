@@ -1028,15 +1028,22 @@
 
 	// Data Import Status
 	$lang_DataImportStatus_Title = "Data Import Status";
+	$lang_DataImportStatus_ContinuingDataImport = "Upload Successful. Continuing with Data Import";
 	$lang_DataImportStatus_Summary = "Summary";
 	$lang_DataImportStatus_Details = "Details of failed rows";
 	$lang_DataImportStatus_NothingImported = "No rows were imported";
 	$lang_DataImportStatus_ImportSuccess = "Import successful";
 	$lang_DataImportStatus_ImportFailed = "Import failed, no rows imported";
 	$lang_DataImportStatus_ImportSomeFailed = "Some rows failed to import";
-	$lang_DataImportStatus_NumImported = "Number of rows imported";
-	$lang_DataImportStatus_NumFailed = "Number of rows which failed to import";
-	$lang_DataImportStatus_NumSkipped = "Number of header rows skipped";
+	$lang_DataImportStatus_NumImported = "No. of rows imported";
+	$lang_DataImportStatus_NumFailed = "No. of rows which failed to import";
+	$lang_DataImportStatus_NumSkipped = "No. of header rows skipped";
+	$lang_DataImportStatus_TimeRemainingSeconds = "seconds";
+	$lang_DataImportStatus_FinalResult = "Final result";
+	$lang_DataImportStatus_ImportInProgress = "Import in progress...";
+	$lang_DataImportStatus_ImportCompleted = "Import completed";
+	$lang_DataImportStatus_Progress = "Progress";
+	$lang_DataImportStatus_ETA = "ETA";
 	$lang_DataImportStatus_Heading_Row = "Row";
 	$lang_DataImportStatus_Heading_Error = "Error";
 	$lang_DataImportStatus_Heading_Comments = "Comments";

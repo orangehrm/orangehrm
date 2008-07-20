@@ -27,6 +27,27 @@ class AjaxCalls {
 	const COMPARE_RIGHT = 2;
 	const COMPARE_MID = 3;
 
+	const NON_XML_DEFAULT_MODE_DELIMITER = ',';
+	const NON_XML_MULTI_LEVEL_MODE_DELIMITER = ':';
+	const NON_XML_MULTI_LEVEL_MODE_LEFT_ENCASEMENT = '[';
+	const NON_XML_MULTI_LEVEL_MODE_RIGHT_ENCASEMENT = ']';
+
+	const NON_XML_DEFAULT_MODE = 1;
+	const NON_XML_MULTI_LEVEL_MODE  = 2;
+
+	private static $levels = 1;
+
+	public static function sendResponse($values, $responseXML = true, $nonXMLMode = self::NON_XML_DEFAULT_MODE) {
+
+		if ($responseXML) {
+			$response = self::_fetchXMLResponse($value);
+		} else {
+			$response = self::_fetchNonXMLResponse($values, $nonXMLMode);
+		}
+
+		echo $response;
+	}
+
 	public static function fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable = null, $joinCondition = null, $compareMethod = self::COMPARE_LEFT, $caseSensitive = false) {
 		$selecteFields[] = $valueField;
 		$selecteFields[] = $labelField;
@@ -84,5 +105,74 @@ class AjaxCalls {
 		return $query;
 	}
 
+	private static function _fetchXMLResponse($values) {
+
+	}
+
+	private static function _fetchNonXMLResponse($values, $mode) {
+
+		switch ($mode) {
+			case self::NON_XML_DEFAULT_MODE :
+				$response = implode(self::NON_XML_DEFAULT_MODE_DELIMITER, $values);
+				break;
+
+			case self::NON_XML_MULTI_LEVEL_MODE :
+
+				$response = self::_getMultiLevelResponseString($values);
+				break;
+		}
+
+		return $response;
+
+	}
+
+	private static function _getMultiLevelResponseString($arrayElements) {
+
+		static $level = 1;
+
+		$str = '';
+		$delimiter = self::getMultiLevelDelimiter($level);
+
+		foreach ($arrayElements as $element) {
+			
+			if (is_array($element)) {
+				$level++;
+				$str .= self::_getMultiLevelResponseString($element);
+				$level--;
+			} else {
+				$str .= $element;
+			}
+
+			$str .= $delimiter; 
+
+		}
+
+		$str = substr($str, 0, strlen($str) - strlen($delimiter));
+
+		return $str;
+
+	}
+
+	public static function getMultiLevelDelimiter($level) {
+
+		$str = self::NON_XML_MULTI_LEVEL_MODE_LEFT_ENCASEMENT;
+		$str .= str_repeat(self::NON_XML_MULTI_LEVEL_MODE_DELIMITER, $level);
+		$str .= self::NON_XML_MULTI_LEVEL_MODE_RIGHT_ENCASEMENT;
+
+		return $str;
+
+	}
+
+	public static function getDelimiterLevelsArray($level) {
+
+		$arrLevels = array();
+
+		for($i = 0; $i < $level; $i++) {
+			$arrLevels[$i] = self::getMultiLevelDelimiter($i + 1);
+		}
+
+		return $arrLevels;
+
+	}
 }
 ?>
