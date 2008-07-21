@@ -50,7 +50,7 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 		float: left;
 		font-weight: bold;
 	}
-	
+
 	.statusData {
 		width: 150px;
 		text-align: left;
@@ -67,16 +67,16 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 </style>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script language="javascript">
-		
+
 	<?php
 		$tempFiles = $uploadStatus->getTempFileList();
 		$importType = $uploadStatus->getImportType();
 	?>
-	
+
 	var requestLinkPrefix = "./CentralController.php?uniqcode=IMPAJAX&importType=<?php echo $importType; ?>&file=";
 	var requestFiles = new Array();
 	var fileIndex = 0;
-	
+
 	var totalNoOfRecords = <?php echo $uploadStatus->getNoOfRecords(); ?>;
 	var noOfRecordsProcessed = 0;
 	var noOfRecordsImported	 = 0;
@@ -130,19 +130,19 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 			alert("Your browser does not support AJAX!");
 
 	        xmlHTTPObject.onreadystatechange = function() {
-        	
+
         	if (xmlHTTPObject.readyState == 4){
         		response = xmlHTTPObject.responseText;
         		results = response.split(delimiterLevels[0]);
-        		
+
         		results[0] = parseInt(results[0]);
         		results[1] = parseInt(results[1]);
         		results[2] = parseInt(results[2]);
-        		
-        		completedRecords = results[0] + results[1]; 
+
+        		completedRecords = results[0] + results[1];
         		noOfRecordsProcessed += completedRecords;
         		noOfRecordsImported += results[0];
-			noOfRecordsFailed += results[1];
+				noOfRecordsFailed += results[1];
 
 			if (results[3] && results[3] != '') {
 				errors = results[3].split(delimiterLevels[1]);
@@ -153,31 +153,31 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 					displayErrors(error);
 				}
 			}
-        	
-			if (totalNoOfRecords > 0) {	
-	        		progressPercentage = Math.ceil((noOfRecordsProcessed / totalNoOfRecords) * 100);
+
+			if (totalNoOfRecords > 0) {
+	        	progressPercentage = Math.ceil((noOfRecordsProcessed / totalNoOfRecords) * 100);
 			} else {
 				progressPercentage = 0;
 			}
-        		
+
         		changeProgressBar(progressPercentage);
-        		
-        		$('noOfRecordsImported').innerHTML = noOfRecordsImported + '/' + totalNoOfRecords;
-        		$('noOfRecordsFailed').innerHTML = noOfRecordsFailed;
-        	
+
+        		$('divNoOfRecordsImported').innerHTML = noOfRecordsImported + '/' + totalNoOfRecords;
+        		$('divNoOfRecordsFailed').innerHTML = noOfRecordsFailed;
+
         		if (startTime == null) {
         			startTime = new Date();
         		} else {
         			timeElasped = new Date() - startTime;
-        			
         			timeRemaining = ((timeElasped / progressPercentage) * (100 - progressPercentage)) / 1000;
-				if (timeRemaining != 0) {
-	        			$('ETA').innerHTML = Math.ceil(timeRemaining) + ' <?php echo $lang_DataImportStatus_TimeRemainingSeconds; ?>';
-				} else {
-	        			$('ETA').innerHTML = '<?php echo $lang_DataImportStatus_ImportCompleted; ?>'; 
-				}
+
+					if (timeRemaining != 0) {
+	        			$('divETA').innerHTML = Math.ceil(timeRemaining) + ' <?php echo $lang_DataImportStatus_TimeRemainingSeconds; ?>';
+					} else {
+	        			$('divETA').innerHTML = '<?php echo $lang_DataImportStatus_ImportCompleted; ?>';
+					}
         		}
-        		
+
         		if (fileIndex < requestFiles.length - 1) {
         			fileIndex++;
         			initImport(fileIndex);
@@ -200,7 +200,7 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 		tbody = $('importStatusResults');
 
 		var tableRow = document.createElement('tr');
-		tableData = new Array(); 
+		tableData = new Array();
 
 		for (i in error) {
 			tableData[i] = document.createElement('td');
@@ -212,7 +212,7 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 		tbody.appendChild(tableRow);
 
 		rowStyleEven = !rowStyleEven;
-		
+
 	}
 
 	function showFinalResults() {
@@ -239,14 +239,14 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 			}
 		}
 
-		$('finalResult').className = style;
-		$('finalResult').innerHTML = finalResult;
-	       	$('ETA').innerHTML = '<?php echo $lang_DataImportStatus_ImportCompleted; ?>';
+		$('divFinalResult').className = style;
+		$('divFinalResult').innerHTML = finalResult;
+	       	$('divETA').innerHTML = '<?php echo $lang_DataImportStatus_ImportCompleted; ?>';
 	}
-	
+
 	function changeProgressBar(pecentage) {
 		$('progressBar').style.width = pecentage + '%';
-		$('progressPercentage').innerHTML = pecentage + '%';
+		$('spanProgressPercentage').innerHTML = pecentage + '%';
 	}
 
 </script>
@@ -256,25 +256,25 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 <h3><?php echo $lang_DataImportStatus_Summary; ?></h3>
 <div class="roundbox" style="width: 500px;">
 	<div class="statusLabel"><?php echo $lang_DataImportStatus_ETA; ?></div>
-	<div id="ETA" class="statusValue"><?php echo 'Estimating...'; ?></div>
+	<div id="divETA" class="statusValue"><?php echo 'Estimating...'; ?></div>
 	<br />
 	<div class="statusLabel"><?php echo $lang_DataImportStatus_Progress; ?></div>
-	<div id="progressBarContainer" class="statusValue">
+	<div id="divProgressBarContainer" class="statusValue">
 		<span style="width:200px; display: block; float: left; height: 10px; border: solid 1px #000000;">
 			<span id="progressBar" style="width: 0%;">&nbsp;</span>
 		</span>
 		&nbsp;
-		<span id="progressPercentage">0%</span>
+		<span id="spanProgressPercentage">0%</span>
 	</div>
 	<br />
 	<div class="statusLabel"><?php echo $lang_DataImportStatus_NumImported; ?></div>
-	<div id="noOfRecordsImported" class="statusValue">-</div>
+	<div id="divNoOfRecordsImported" class="statusValue">-</div>
 	<br/>
 	<div class="statusLabel"><?php echo $lang_DataImportStatus_NumFailed; ?></div>
-	<div id="noOfRecordsFailed" class="statusValue">-</div>
+	<div id="divNoOfRecordsFailed" class="statusValue">-</div>
 	<br/>
 	<div class="statusLabel"><?php echo $lang_DataImportStatus_FinalResult; ?></div>
-	<div id="finalResult" class="statusValue"><?php echo $lang_DataImportStatus_ImportInProgress; ?></div>
+	<div id="divFinalResult" class="statusValue"><?php echo $lang_DataImportStatus_ImportInProgress; ?></div>
 </div>
 
 <div id="failureDetails" style="display: none">

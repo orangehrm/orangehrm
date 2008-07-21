@@ -1373,7 +1373,7 @@ class ViewController {
 
 				case 'SGR'  :		$salgread = new SalaryGrades();
 									$salgread = $object;
-									
+
 									try {
 										$salgread -> addSalaryGrades();
 										$res = true;
@@ -2137,24 +2137,26 @@ class ViewController {
 			$csvExport->exportData($exportType);
 		}
 	}
-	
+
 	public function importData($fileName, $importType) {
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
-		
+
 		if ($authorizeObj->isAdmin()) {
 			$csvImport = new CSVImport();
 			$csvImport->setImportType($importType);
 
 			try {
 				$res = $csvImport->importData($fileName);
-			} catch (CSVImportException $e) { 
+			} catch (CSVImportException $e) {
 				if ($e->getCode() == CSVImportException::IMPORT_DATA_NOT_RECEIVED) {
 					$showMsg = "IMPORT_FAILURE";
 				}
 				$res = false;
 			}
-			
+
 			if ($res != false) {
+				CSVSplitter::deleteTempFile($fileName);
+
 				$response[] = $res->getNumImported();
 				$response[] = $res->getNumFailed();
 				$response[] = $res->getNumSkipped();
@@ -2177,17 +2179,17 @@ class ViewController {
 
 				if (count($failures) > 0) {
 					$response[] = $failures;
-				} 
+				}
 
 				AjaxCalls::sendResponse($response, false, AjaxCalls::NON_XML_MULTI_LEVEL_MODE);
 
 			} else {
-				
+
 			}
 
 		}
-		
-	} 
+
+	}
 
 	function assignData($index,$object,$action) {
 
@@ -2613,14 +2615,14 @@ class ViewController {
 								$form_creator ->popArr['uploadStatus'] = $object;
 								$form_creator ->popArr['recordLimit'] = CSVSplitter::getRecordLimit();
 								$form_creator ->popArr['delimiterLevels'] = AjaxCalls::getDelimiterLevelsArray(3);
-								
+
 							} else {
 								$form_creator ->formPath = '/templates/eimadmin/dataImport.php';
 								$csvImport = new CSVImport();
 								$form_creator ->popArr['importTypes'] = $csvImport->getDefinedImportTypes();
 							}
 							break;
-							
+
 			case 'ENS' :	$form_creator->formPath = '/templates/eimadmin/emailNotificationConfiguration.php';
 							$emailNotificationConfObj = new EmailNotificationConfiguration($_SESSION['user']);
 							$form_creator ->popArr['editArr'] =$emailNotificationConfObj->fetchNotifcationStatus();
@@ -3354,20 +3356,20 @@ class ViewController {
      * @return JobSpec JobSpec object or null if no job spec assigned for given job title
      */
     public function getJobSpecForJob($jobTitleCode) {
-        
+
         $jobSpec = null;
-        
+
         if (CommonFunctions::isValidId($jobTitleCode, 'JOB')) {
- 
+
             $jobTitle = new JobTitle();
             $jobTitles = $jobTitle->filterJobTitles($jobTitleCode);
             if (is_array($jobTitles) && (count($jobTitles) == 1)) {
                 $jobSpecId = $jobTitles[0][5];
-                
+
                 try {
-                    $jobSpec = JobSpec::getJobSpec($jobSpecId);                    
+                    $jobSpec = JobSpec::getJobSpec($jobSpecId);
                 } catch (JobSpecException $ex) {
-                    // ignore, we will be returning null                    
+                    // ignore, we will be returning null
                 }
             }
         }

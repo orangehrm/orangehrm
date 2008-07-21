@@ -95,27 +95,28 @@ class CSVImport {
 	 *
 	 * @return array Array containing results of import
 	 */
-	 
+
 	 public function handleUpload() {
 
 		CSVSplitter::setRecordLimit(50);
 	 	$csvSplitter = new CSVSplitter();
+	 	$csvSplitter->setTempDir(ROOT_PATH . '/lib/confs/temp');
 	 	$success = $csvSplitter->split($this->fileName);
-	 	
+
 	 	if ($success) {
-	 		
+
 	 		$noOfRecords = $csvSplitter->getNoOfRecords();
 	 		$tempFileList = $csvSplitter->getTempFileList();
-	 		
+
 	 		$result = new CSVSplitStatus('success', $this->importType, $noOfRecords, $tempFileList);
-	 	
+
 	 	} else {
 	 		$result = new CSVSplitStatus('failure', $this->importType);
 	 	}
-	 	
+
 	 	return $result;
 	 }
-	 
+
 	 public function importData($fileName) {
 
 		set_time_limit(0); // For handling time out
