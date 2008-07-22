@@ -40,7 +40,7 @@ class AjaxCalls {
 	public static function sendResponse($values, $responseXML = true, $nonXMLMode = self::NON_XML_DEFAULT_MODE) {
 
 		if ($responseXML) {
-			$response = self::_fetchXMLResponse($value);
+			$response = self::_fetchXMLResponse($values);
 		} else {
 			$response = self::_fetchNonXMLResponse($values, $nonXMLMode);
 		}
