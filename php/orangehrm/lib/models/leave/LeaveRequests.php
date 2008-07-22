@@ -374,13 +374,21 @@ class LeaveRequests extends Leave {
 				}
 
 				if (isset($toDate) && !$skip) {
+
 					$endDate = $tmpLeaveRequestArr->getLeaveToDate();
 					if (empty($endDate)) {
 						$endDate = $tmpLeaveRequestArr->getLeaveFromDate();
 					}
+
 					if (strtotime($endDate) > strtotime($toDate)) {
 						$skip = true;
+
+						// Starting day falls within the range
+						if (strtotime($tmpLeaveRequestArr->getLeaveFromDate()) >= strtotime($fromDate) && strtotime($tmpLeaveRequestArr->getLeaveFromDate()) <= strtotime($toDate)) {
+				    		$skip = false;
+						}
 					}
+
 				}
 
 				if (!$skip) {
