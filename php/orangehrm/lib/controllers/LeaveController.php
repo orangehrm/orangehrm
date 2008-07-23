@@ -1104,10 +1104,9 @@ class LeaveController {
 		$this->_authenticateViewHoliday();
 
 		$objLeave = $this->getObjLeave();
-
 		$objLeave->add();
 
-		Leave::deleteLeavesForDate($objLeave->getDate());
+		Leave::updateLeavesForDate($objLeave->getDate(), $objLeave->getLength());
 	}
 
 	/**
@@ -1121,7 +1120,7 @@ class LeaveController {
 		switch ($modifier) {
 			case "specific" : $objLeave = $this->getObjLeave();
 							  $this->getObjLeave()->edit();
-							  Leave::deleteLeavesForDate($objLeave->getDate());
+							  Leave::updateLeavesForDate($objLeave->getDate(), $objLeave->getLength());
 							  break;
 			case "weekend" 	: $this->getObjLeave()->editDay();
 							  break;

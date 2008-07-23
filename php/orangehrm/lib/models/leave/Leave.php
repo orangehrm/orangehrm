@@ -933,18 +933,24 @@ class Leave {
 	 * This function will delete leave records for the given date. This will only for leave status other than 'taken'
 	 * @param $date - string date for delete records
 	 */
-	public static function deleteLeavesForDate($date) {
+	public static function updateLeavesForDate($date, $length) {
 
 		$sql_builder = new SQLQBuilder();
 
-		$deleteTable = "`hs_hr_leave`";
+		$updateTable = "`hs_hr_leave`";
 
-		$deleteConditions[] = "`leave_date` = '" . $date . "'";
-		$deleteConditions[] = "`leave_status` <> '" . self::LEAVE_STATUS_LEAVE_TAKEN . "'";
+		$changeFields[] = "`leave_length_days`";
+		$changeFields[] = "`leave_length_hours`";
+		
+		$changeValues[] = "CONVERT((`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . ")), UNSIGNED)";
+		$changeValues[] = "CONVERT(`leave_length_hours` - $length, UNSIGNED)";
 
-		$query = $sql_builder->simpleDelete($deleteTable, $deleteConditions);
+		$updateConditions[] = "`leave_date` = '" . $date . "'";
+		$updateConditions[] = "`leave_status` <> '" . self::LEAVE_STATUS_LEAVE_TAKEN . "'";
 
-		//echo $query."\n";
+		$query = $sql_builder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions, false);
+
+		//echo $query."\n"; 
 
 		$dbConnection = new DMLFunctions();
 
