@@ -103,7 +103,7 @@ if ((isset($_POST['actionID'])) && $_POST['actionID'] == 'chkAuthentication') {
 					$_SESSION['isSupervisor'] = $isSupervisor;
 					$_SESSION['isProjectAdmin'] = $isProjectAdmin;
                 	$_SESSION['isManager'] = $isManager;
-					$_SESSION['isDirector'] = $isDirector;var_dump($_SESSION);die;
+					$_SESSION['isDirector'] = $isDirector;
 
 					$wpath = explode('/login.php', $_SERVER['REQUEST_URI']);
 					$_SESSION['WPATH']= $wpath[0];
