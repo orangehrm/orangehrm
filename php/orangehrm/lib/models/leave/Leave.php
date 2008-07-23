@@ -943,7 +943,7 @@ class Leave {
 		$changeFields[] = "`leave_length_hours`";
 		
 		$changeValues[] = "(`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . "))";
-		$changeValues[] = "CONVERT(`leave_length_hours` - $length, UNSIGNED)";
+		$changeValues[] = "`leave_length_hours` - $length";
 
 		$updateConditions[] = "`leave_date` = '" . $date . "'";
 		$updateConditions[] = "`leave_status` <> '" . self::LEAVE_STATUS_LEAVE_TAKEN . "'";
