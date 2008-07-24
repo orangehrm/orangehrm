@@ -181,6 +181,33 @@ class Weekends {
 	}
 
 	/**
+	 * Check whether the given date is a weekend.
+	 * @param date $date
+	 * @return bool true on success and false on failiure
+	 */
+	public static function isWeekend($date) {
+
+		$dayNumber = date('N', strtotime($date));
+
+		$selectTable = "`".self::WEEKENDS_TABLE."`";
+		$selectFields[0] = "`".self::WEEKENDS_TABLE_LENGTH."`";
+		$selectConditions[0] = "`".self::WEEKENDS_TABLE_DAY."` = $dayNumber";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if ($row[0] == self::WEEKENDS_LENGTH_WEEKEND) {
+		    return true;
+		} else {
+		    return false;
+		}
+
+	}
+
+	/**
 	 * Builds an array of Weekend objects
 	 *
 	 * @access private

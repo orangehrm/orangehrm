@@ -587,7 +587,13 @@ class Leave {
 		$arrRecordsList[1] = "'". $this->getLeaveDate()."'";
 		$arrRecordsList[2] = "'". $this->getLeaveLengthHours()."'";
 		$arrRecordsList[3] = "'". $this->getLeaveLengthDays()."'";
-		$arrRecordsList[4] = $this->statusLeavePendingApproval;
+		$hours = $this->getLeaveLengthHours();
+		$days = $this->getLeaveLengthDays();
+		if ($hours == 0 && $days == 0) {
+		    $arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_CANCELLED;
+		} else {
+		    $arrRecordsList[4] = $this->statusLeavePendingApproval;
+		}
 		$arrRecordsList[5] = "'".$this->getLeaveComments()."'";
 		$arrRecordsList[6] = "'". $this->getLeaveRequestId(). "'";
 		$arrRecordsList[7] = "'".$this->getLeaveTypeId()."'";
@@ -945,7 +951,7 @@ class Leave {
 
 		$changeFields[] = "`leave_length_days`";
 		$changeFields[] = "`leave_length_hours`";
-		
+
 		$changeValues[] = "(`leave_length_days` - ($length / " . self::LEAVE_LENGTH_FULL_DAY . "))";
 		$changeValues[] = "`leave_length_hours` - $length";
 
@@ -954,7 +960,7 @@ class Leave {
 
 		$query = $sql_builder->simpleUpdate($updateTable, $changeFields, $changeValues, $updateConditions, false);
 
-		//echo $query."\n"; 
+		//echo $query."\n";
 
 		$dbConnection = new DMLFunctions();
 

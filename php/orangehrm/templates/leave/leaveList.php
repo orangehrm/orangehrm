@@ -192,9 +192,12 @@ if ($modifier === "SUP") {
   			<?php }?>
     	<?php
     		} else {
-    			echo $statusArr[$record->getLeaveStatus()];
+    			if (Weekends::isWeekend($record->getLeaveDate())) {
+    			    echo $lang_Leave_Closed;
+    			} else {
+    				echo $statusArr[$record->getLeaveStatus()];
+    			}
     		}
-
 
     		?></td>
     <td class="<?php echo $cssClass; ?>"><?php

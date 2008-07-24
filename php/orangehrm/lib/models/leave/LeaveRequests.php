@@ -246,7 +246,7 @@ class LeaveRequests extends Leave {
 		return $this->changeLeaveStatus($id);
 	}
 
-	public function changeLeaveStatus($id = null) {
+	public function changeLeaveStatus($id = null, $adminApproval = false) {
 		if (isset($id)) {
 			$this->setLeaveRequestId($id);
 		}
@@ -258,13 +258,14 @@ class LeaveRequests extends Leave {
 
 		$ok = true;
 
-
 		if(! is_null($tmpLeaveArr)){
 			foreach ($tmpLeaveArr as $leave) {
-				$leave->setLeaveStatus($newStatus);
-				$res = $leave->changeLeaveStatus();
-				if (!$res) {
-					$ok = false;
+				if (!$adminApproval || $leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+					$leave->setLeaveStatus($newStatus);
+					$res = $leave->changeLeaveStatus();
+					if (!$res) {
+						$ok = false;
+					}
 				}
 			}
 		}

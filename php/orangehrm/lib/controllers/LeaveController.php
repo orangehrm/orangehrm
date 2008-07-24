@@ -186,7 +186,7 @@ class LeaveController {
 	public function changeStatus($modifier="cancel") {
 
 		switch ($modifier) {
-			case "cancel": 
+			case "cancel":
 						$res = $this->_cancelLeave();
 						break;
 			case "change":
@@ -615,7 +615,7 @@ class LeaveController {
 	public function adminApproveLeave() {
 		$tmpObj = $this->getObjLeave();
 		$tmpObj->setLeaveStatus(Leave::LEAVE_STATUS_LEAVE_APPROVED);
-		$res = $tmpObj->changeLeaveStatus();
+		$res = $tmpObj->changeLeaveStatus(null, true);
 		$message = ($res) ? "APPROVE_SUCCESS" : "APPROVE_FAILURE";
 		return $message;
 	}
@@ -712,8 +712,8 @@ class LeaveController {
 		}
 
 		if ($res) {
-			/*       
-			 * This part was changed to fix the bug 1927022 - Supervisor approve leave and apply 
+			/*
+			 * This part was changed to fix the bug 1927022 - Supervisor approve leave and apply
 			 * leave, in same screen
 			 *
 			 * In case of broken functionality, this need to be changed. The old code was:

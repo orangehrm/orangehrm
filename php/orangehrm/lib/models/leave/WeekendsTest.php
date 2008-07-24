@@ -143,6 +143,12 @@ class WeekendsTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLength(), $expected[$i][1], 'Invalid length');
         }
     }
+
+    public function testIsWeekend() {
+		$this->assertTrue(Weekends::isWeekend("2008-07-27"));
+		$this->assertFalse(Weekends::isWeekend("2008-07-26"));
+		$this->assertFalse(Weekends::isWeekend("2008-07-25"));
+    }
 }
 
 // Call WeekendsTest::main() if this source file is executed directly.
