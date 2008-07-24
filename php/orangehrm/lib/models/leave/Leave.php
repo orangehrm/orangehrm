@@ -433,9 +433,13 @@ class Leave {
 		return $this->changeLeaveStatus($id);
 	}
 
-	public function changeLeaveStatus($id = null) {
+	public function changeLeaveStatus($id = null, $comments = '') {
 		if (isset($id)) {
 			$this->setLeaveId($id);
+		}
+		
+		if (isset($comment)) {
+			$this->setLeaveComments($comments);
 		}
 
 		$leaveObjs = $this->retrieveIndividualLeave($this->leaveId);
@@ -448,7 +452,7 @@ class Leave {
 		$newStatus = $this->getLeaveStatus();
 
 		/** Check if no change */
-		if ($newStatus == $leave->getLeaveStatus()) {
+		if ($newStatus == $leave->getLeaveStatus() && $comments == $leave->getLeaveComments()) {
 			return false;
 		}
 

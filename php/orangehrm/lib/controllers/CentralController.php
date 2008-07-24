@@ -1354,7 +1354,7 @@ switch ($moduletype) {
 																								$leaveController->setObjLeave($obj);
 																								$leaveController->setId($obj->getLeaveId());
 																								$mes=$leaveController->changeStatus("change");
-																					if ($mes) {
+																								if ($mes) {
 																									$numChanged++;
 																									$objx[] = $obj;
 																								}

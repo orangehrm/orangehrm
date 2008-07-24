@@ -186,10 +186,12 @@ class LeaveController {
 	public function changeStatus($modifier="cancel") {
 
 		switch ($modifier) {
-			case "cancel": $res = $this->_cancelLeave();
-						   break;
-			case "change": $res = $this->_changeLeaveStatus();
-						   break;
+			case "cancel": 
+						$res = $this->_cancelLeave();
+						break;
+			case "change":
+						$res = $this->_changeLeaveStatus();
+						break;
 		}
 
 		if ($res) {
@@ -206,7 +208,7 @@ class LeaveController {
 
 		$tmpObj = $this->getObjLeave();
 
-		return $tmpObj->changeLeaveStatus($this->getId());
+		return $tmpObj->changeLeaveStatus($this->getId(), $this->getObjLeave()->getLeaveComments());
 	}
 
 	/**
