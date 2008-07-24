@@ -117,8 +117,8 @@ function backToDefineProjectReport() {
     	<input type="hidden" name="activityId" value="">
     	<input type="hidden" name="time" value="">
 		<div class="left"><?php echo $lang_Time_Timesheet_Project; ?></div><?php echo $customerDet->getCustomerName() . " - " . $project->getProjectName();?><br/>
-		<div class="left"><?php echo $lang_Time_Report_To; ?></div><?php echo $startDate; ?><br/>
-		<div class="left"><?php echo $lang_Time_Report_From; ?></div><?php echo $endDate; ?><br/>
+		<div class="left"><?php echo $lang_Time_Report_From; ?></div><?php echo $startDate; ?><br/>
+		<div class="left"><?php echo $lang_Time_Report_To; ?></div><?php echo $endDate; ?><br/>
 
 		<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/></br>
   <?php if (empty($activityTimeArray)) { ?>
