@@ -349,11 +349,11 @@ class Timesheet {
         $order = "ASC" ;
 		switch ($direction) {
 			case self::TIMESHEET_DIRECTION_NEXT :
-                                                    $order = "DESC" ;
+                                                    $order = "ASC" ;
 													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` > '{$this->getEndDate()}'";
 													break;
 			case self::TIMESHEET_DIRECTION_PREV :
-                                                    $order = "ASC" ;
+                                                    $order = "DESC" ;
 													$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."` < '{$this->getStartDate()}'";
 													break;
 		}
@@ -364,7 +364,7 @@ class Timesheet {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0],  $order , 1);
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, self::TIMESHEET_DB_FIELD_START_DATE,  $order , 1);
 
 		$dbConnection = new DMLFunctions();
 
