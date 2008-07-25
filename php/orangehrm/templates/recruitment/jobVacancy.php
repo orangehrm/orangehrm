@@ -372,8 +372,6 @@ $locRights=$_SESSION['localRights'];
         </div>
 	</form>
     </div>
-    <script type="text/javascript">
-    </script>
 
     <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
 	<script type="text/javascript">
