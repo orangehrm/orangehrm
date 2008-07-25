@@ -354,7 +354,7 @@ if ($rset != null && $empname != null){ ?>
 <td>
 	<h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3>
 	<div><?php echo $lang_hremp_ie_CurrentSubordinates; ?></div>
-<?php if($locRights['add']) { ?>
+<?php if($locRights['add'] && $_SESSION['isAdmin'] == 'Yes') { ?>
 	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
