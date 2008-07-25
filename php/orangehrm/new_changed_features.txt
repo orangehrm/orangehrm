@@ -1,7 +1,39 @@
-New & Changed Features for OrangeHRM ver 2.4-beta.4
+New & Changed Features for OrangeHRM ver 2.4-beta.5
 
 	New features
 	------------
+	Introduced segmented CSV import with progress bar & status indicators (related to bug 1924888)
+	Improvements of auto-suggest features in Recruitment module using YUI libarary 
+	Improved UI for Firefox 3 Competability 
+
+	Bug fixes
+	---------
+	2013969 - Recruitment : Hiring manager list loding issue
+	1989557 - Language table last column header is incorrect in PIM module
+	1828910 - Decimal number of hours for the workshift. 
+	1989570 - ‘Subscription Renwal Date’ should be ‘Subscription Renewal
+	1974577 - Sub division page doesn't have a scroll bar
+	1998423 - Admin : Job :Same Pay Grade Name can be defined
+	2012682 - Can't enter ONLY the duration in project time
+	1999139 - Firefox 3 compatability
+	2013150 - Admin: Saving PayGrade changes by [Enter] key -> Warning Pg
+	2014847 - Leave:Specific holiday delition gives a notice page
+	2016524 - Company structure is not properly shown in pop-up
+	1986268 - Time Module :Cannot insert time entries when delete activity. Also fixed in "Project Time".
+	1922834 - Installation: Hypens in database name are not checked
+	2023269 - [CRB] Leave list for a month not filtered properly
+	1996023 - 2.3.7b2:Leave:Half Day Specific Holidays Update as Full Day
+	1930077 - HSP-ESS users edit leave comment, isn't reflect after saving
+	1994986 - Unable to apply leave for a range which includes a holiday
+	1949624 - Time Module: Projects Report -> View : From and To Incorrect
+	1998500 - Leave Module: Leave Brought forward funtion not working
+	1962983 - ESS - > PIM : Non stop loading animation display
+	1903690 - Next button in timesheet doesn't jump to the next timesheet
+
+New & Changed Features for OrangeHRM ver 2.4-beta.4
+
+	Bug fixes
+	---------
 	2010999 - Error when trying to create a user in PIM
 
 New & Changed Features for OrangeHRM ver 2.4-beta.3
