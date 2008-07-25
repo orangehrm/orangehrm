@@ -18,6 +18,9 @@ require_once 'Config.php';
 class ConfigTest extends PHPUnit_Framework_TestCase {
 
 	private $oldTimesheetSetValue;
+	private $leaveBroughtForwardSet;
+	private $leaveBroughtForwardGet;
+
     /**
      * Runs the test methods of this class.
      *
@@ -54,6 +57,25 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 			$row = mysql_fetch_array($result, MYSQL_NUM);
 			$oldValue = $row[0];
 		}
+
+		// For LeaveBroughtForward Setter
+		$result = mysql_query("SELECT `key` FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".date('Y')."'");
+		if (mysql_num_rows($result) == 0) {
+			$this->leaveBroughtForwardSet = false;
+		} else {
+			$this->assertTrue(mysql_query("DELETE FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".date('Y')."'"), mysql_error());
+		    $this->leaveBroughtForwardSet = true;
+		}
+
+		// For Leave BroughtForward Getter
+		$result = mysql_query("SELECT `key` FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".(date('Y')+1)."'");
+		if (mysql_num_rows($result) == 0) {
+		    $this->assertTrue(mysql_query("INSERT INTO `hs_hr_config` (`key`, `value`) VALUES('LeaveBroughtForward".(date('Y')+1)."', 'set')"), mysql_error());
+			$this->leaveBroughtForwardGet = false;
+		} else {
+		    $this->leaveBroughtForwardGet = true;
+		}
+
     }
 
     /**
@@ -73,6 +95,20 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		    $this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = '$this->oldTimesheetSetValue' WHERE `key` = 'timesheet_period_set'"));
 		}
 
+		// For LeaveBroghtForward Setter
+		if ($this->leaveBroughtForwardSet === false) {
+		    $this->assertTrue(mysql_query("DELETE FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".date('Y')."'"), mysql_error());
+		} else {
+			$result = mysql_query("SELECT `key` FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".date('Y')."'");
+			if (mysql_num_rows($result) == 0) {
+			    $this->assertTrue(mysql_query("INSERT INTO `hs_hr_config` (`key`, `value`) VALUES('LeaveBroughtForward".date('Y')."', 'set')"), mysql_error());
+			}
+ 		}
+
+		// For LeaveBroughtForward Getter
+		if ($this->leaveBroughtForwardGet === false) {
+		    $this->assertTrue(mysql_query("DELETE FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".(date('Y')+1)."'"), mysql_error());
+		}
     }
 
     public function testSetHspAccruedLastUpdated() {
@@ -192,6 +228,25 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_config` SET `value` = 'No' WHERE `key` = 'timesheet_period_set'"));
 		$this->assertFalse(Config::getTimePeriodSet());
 
+	}
+
+	public function testSetLeaveBroughtForward() {
+		Config::setLeaveBroughtForward(date('Y'));
+		$result = mysql_query("SELECT `key`, `value` FROM `hs_hr_config` WHERE `key` = 'LeaveBroughtForward".date('Y')."'");
+		$row = mysql_fetch_array($result);
+		$this->assertEquals("LeaveBroughtForward".date('Y'), $row['key'], "Key is incorrect");
+		$this->assertEquals("set", $row['value'], "Value is incorrect");
+
+		// Setting LeaveBroughtForward should not be allowed more than once
+		try {
+		    Config::setLeaveBroughtForward(date('Y'));
+		    $this->fail("Setting LeaveBroughtForward is allowed more than once");
+		} catch (Exception $e) {}
+	}
+
+	public function testGetLeaveBroughtForward() {
+	    $this->assertTrue(Config::getLeaveBroughtForward((date('Y')+1)));
+	    $this->assertFalse(Config::getLeaveBroughtForward('4000'));
 	}
 
 }

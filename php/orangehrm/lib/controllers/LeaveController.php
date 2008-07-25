@@ -35,6 +35,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
+require_once ROOT_PATH . '/lib/common/Config.php';
 
 class LeaveController {
 
@@ -771,12 +772,9 @@ class LeaveController {
 			return false;
 		}
 
-		$thisYear = date('Y');
-		$previousYear = $thisYear - 1;
-
 		$broughtForward = new LeaveQuota();
 
-		if ($broughtForward->checkBroughtForward($previousYear) && !$broughtForward->checkBroughtForward($thisYear)) {
+		if ($broughtForward->checkBroughtForward(date('Y')-1) && !Config::getLeaveBroughtForward(date('Y'))) {
 			return true;
 		} else {
 			return false;

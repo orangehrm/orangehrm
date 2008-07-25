@@ -21,6 +21,7 @@
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH . '/lib/models/leave/LeaveType.php';
+require_once ROOT_PATH . '/lib/common/Config.php';
 
 class LeaveQuota {
 
@@ -162,7 +163,7 @@ class LeaveQuota {
 		$currentDate = strtotime(date('Y-m-d'));
 		$CurrentJanuaryFirst = date('Y-m-d', strtotime(date('Y') . "-01-01"));
 
-		if (date('Y') >= $toYear) {
+		if (date('Y') > $toYear) {
 			throw new LeaveQuotaException("Leave can only be brought forward to years upto current year", LeaveQuotaException::CANNOT_CARRY_LEAVE_FORWARD_YEAR_IN_THE_FUTURE);
 		} else if ($fromYear !== $toYear-1) {
 			throw new LeaveQuotaException("Leave can only be carried forward from the immediately preceeding year", LeaveQuotaException::CANNOT_CARRY_LEAVE_FORWARD_NON_CONSECUTIVE_YEARS);
@@ -207,11 +208,9 @@ class LeaveQuota {
 					$dbConnection->executeQuery($updateQuery);
 				}
 
-				if ($dbConnection->dbObject->numberOfAffectedRows() > 0) {
-					return true;
-				} else {
-					throw new LeaveQuotaException("Update did not work", LeaveQuotaException::ERROR_IN_DB_QUERY);
-				}
+				Config::setLeaveBroughtForward(date('Y'));
+				return true;
+
 			} else {
 				throw new LeaveQuotaException("No record to update", LeaveQuotaException::NOTHING_TO_UPDATE);
 			}
@@ -417,7 +416,7 @@ class LeaveQuota {
 
 		$selectTable = "`".self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA."`";
 
-		$selectFields[0] = "SUM(".self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD.")";
+		$selectFields[0] = "SUM(".self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED.")";
 
 		$selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '".$year."'";
 
@@ -429,7 +428,7 @@ class LeaveQuota {
 
 		$row = $dbConnection->dbObject->getArray($result);
 
-		if ($row['SUM(leave_brought_forward)'] > 0) {
+		if ($row['SUM(no_of_days_allotted)'] > 0) {
 			return true;
 		} else {
 			return false;

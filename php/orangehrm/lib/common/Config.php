@@ -37,6 +37,7 @@ class Config {
     const KEY_NAME_HSP_USED_LAST_UPDATED = "hsp_used_last_updated";
     const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
     const KEY_NAME_TIMESHEET_PERIOD_SET = "timesheet_period_set";
+    const KEY_NAME_LEAVE_BROUGHT_FORWARD = "LeaveBroughtForward";
 
     /**
      * Sets the 'value' corresponding to 'key'
@@ -225,6 +226,37 @@ class Config {
 	 	} catch (Exception $e) {
 	 	    return false;
 	 	}
+	 }
+
+	 /**
+	  * Sets LeaveBroughtForward for given year
+	  * @param year $year
+	  */
+	 public static function setLeaveBroughtForward($year) {
+
+	 	try {
+	 	    self::_selectValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year);
+	 	    throw new Exception("LeaveBroughtForward has been already set");
+	 	} catch (Exception $e) {}
+
+		self::_setValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year, "set");
+
+	 }
+
+	 /**
+	  * Check whether LeaveBroughtForward has been set for given year
+	  * @param year $year
+	  * @return boolean Returns true if LeaveBroughtForward is set, false other wise
+	  */
+	 public static function getLeaveBroughtForward($year) {
+
+	 	try {
+			self::_selectValue(self::KEY_NAME_LEAVE_BROUGHT_FORWARD.$year);
+	 	    return true;
+	 	} catch (Exception $e) {
+	 	    return false;
+	 	}
+
 	 }
 }
 
