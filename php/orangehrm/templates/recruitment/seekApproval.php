@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-$directors = $records['directors'];
+$employeeSearchList = $records['employeeSearchList'];
 $application = $records['application'];
 $locRights=$_SESSION['localRights'];
 
@@ -37,15 +37,18 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script type="text/javascript" src="../../scripts/enhancedSearchBox.js"></script>
 <script>
-	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
-	table = "`hs_hr_employee` AS em";
-	valueField = "em.`emp_number`";
-	labelField = "CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)";
-	descField = "jt.`jobtit_name`";
-	joinTable = "`hs_hr_job_title` AS jt";
-	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
+	var employeeSearchList = new Array();
+	
+	<?php 
+		$i = 0; 
+		
+		foreach ($employeeSearchList as $record) {
+	?>
+		employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+	<?php 
+		}
+	?>
 
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
@@ -57,7 +60,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
 		errors = new Array();
-        if ($('hidEnhancedSearchBox').value == -1) {
+        if ($('cmbDirector').value == -1) {
 			err = true;
 			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyDirector; ?>\n";
         }
@@ -74,6 +77,15 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	}
 
     function save() {
+
+		$('cmbDirector').value = '-1';
+    	
+    	for (i in employeeSearchList) {
+    		if ($('txtApproverSearch').value == employeeSearchList[i][0]) {
+    			$('cmbDirector').value = employeeSearchList[i][2];
+    			break;
+    		}
+    	}
 
 		if (validate()) {
         	$('frmSeekApproval').submit();
@@ -103,24 +115,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		width: 240px;
 	}
 
-	#container {
-		 display: table-row !important;
-	}
-	
-	#dropdownPane {
-		display: table-cell;
-		border: none !important;
-		text-align: left !important;
-	}
-
-	#txtEnhancedSearchBox {
-		display: block;
-		border-top: solid 1px #000000;
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-bottom: solid 1px #000000;
-	}
-
     label,select,input,textarea {
         display: block;  /* block float the labels to left column, set a width */
         width: 150px;
@@ -142,7 +136,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 
     label {
         text-align: left;
-        width: 110px;
+        width: 130px;
         padding-left: 10px;
     }
 
@@ -172,7 +166,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     .roundbox {
         margin-top: 10px;
         margin-left: 0px;
-        width: 500px;
+        width: 550px;
     }
 
     .roundbox_content {
@@ -204,15 +198,26 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         width: 400px;
         border: 1px;
 	}
+	
     .desc {
         padding-left: 15px;
         font-style: italic;
         padding-bottom: 20px;
     }
+    
+    	#employeeSearchAC {
+ 	    width:15em; /* set width here */
+ 	    padding-bottom:2em;
+ 	}
+	
+ 	#employeeSearchAC {
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+ 	}
     -->
 </style>
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
-<body>
+<body class="yui-skin-sam">
 	<p>
 		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 			<tr>
@@ -248,22 +253,38 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
   <div class="roundbox">
 
   <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
-		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
-
-		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
-		<span id="container" style="width: 250px;">
-			<span style="display: table-row !important;">
-				<span style="display: table-cell !important;">
-					<input type="text" style="width: 250px; " onKeyUp="refreshList(this, event);" onBlur="" />
-					<input type="hidden" name="cmbDirector" id="hidEnhancedSearchBox" value="-1" />
-				</span>
-			</span><span style="display: table-row !important;">
-				<span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span>
-			</span>
-		</span>
+  		<input type="hidden" name="cmbDirector" id="cmbDirector" value="-1" />
+		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br />	
+		<div>
+		<label for="txtApproverSearch"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
+		<div class="yui-ac" id="employeeSearchAC" style="float: left">
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtApproverSearch" type="text" value="" tabindex="1" />
+ 	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
+ 	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
+ 	 		          <div style="display: none;" class="yui-ac-hd"></div>
+ 	 		          <div class="yui-ac-bd">
+ 	 		            <ul>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		            </ul>
+ 	 		          </div>
+ 	 		          <div style="display: none;" class="yui-ac-ft"></div>
+ 	 		        </div>
+ 	 		        <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
+ 	 	      </div>
+    	</div>
+    	</div>
 		<br />
-		<label for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
-        <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
+		<label for="txtNotes"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
+        <textarea id="txtNotes" name="txtNotes" tabindex="2"></textarea><br/>
 		<br/><br/>
         <div class="desc"><?php echo $lang_Recruit_JobApplication_SeekApproval_Desc; ?></div>
         <div align="left">
@@ -280,7 +301,25 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
    	 			initOctopus();
 			}
 			
-			focusNext = $('txtNotes');
+		YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+				
+			// Instantiate second JS Array DataSource 
+		    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList); 
+		 
+		    // Instantiate second AutoComplete 
+		    this.oAutoComp = new YAHOO.widget.AutoComplete('txtApproverSearch','employeeSearchACContainer', this.oACDS); 
+		    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight"; 
+		    this.oAutoComp.typeAhead = false; 
+		    this.oAutoComp.useShadow = true; 
+		    this.oAutoComp.forceSelection = true; 
+		    this.oAutoComp.formatResult = function(oResultItem, sQuery) { 
+		        var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
+		        return (sMarkup);
+		    };
+		    
+ 	 	};
+			
+			
         -->
     </script>
 

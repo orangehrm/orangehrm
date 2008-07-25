@@ -18,6 +18,7 @@
  */
 
 $noOfEmployees = $records['noOfEmployees'];
+$employeeSearchList = $records['employeeSearchList'];
 $application = $records['application'];
 $num = $records['interview'];
 $locRights=$_SESSION['localRights'];
@@ -38,16 +39,19 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script type="text/javascript" src="../../scripts/enhancedSearchBox.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script>
-	url = "../../lib/controllers/CentralController.php?recruitcode=AJAXCalls&action=LoadApproverList";
-	table = "`hs_hr_employee` AS em";
-	valueField = "em.`emp_number`";
-	labelField = "CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)";
-	descField = "jt.`jobtit_name`";
-	joinTable = "`hs_hr_job_title` AS jt";
-	joinConditions = "jt.`jobtit_code` = em.`job_title_code`";
+	var employeeSearchList = new Array();
+	
+	<?php 
+		$i = 0; 
+		
+		foreach ($employeeSearchList as $record) {
+	?>
+		employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+	<?php 
+		}
+	?>
 
     var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
     var firstInterviewDate = false;
@@ -126,7 +130,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         }
 
 		errors = new Array();
-        if ($('hidEnhancedSearchBox').value == -1) {
+        if ($('cmbInterviewer').value == -1) {
 			err = true;
 			msg += "\t- <?php echo $lang_Recruit_JobApplication_PleaseSpecifyInterviewer; ?>\n";
         }
@@ -140,6 +144,15 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	}
 
     function save() {
+    
+    	$('cmbInterviewer').value = '-1';
+    	
+    	for (i in employeeSearchList) {
+    		if ($('txtInterviewerSearch').value == employeeSearchList[i][0]) {
+    			$('cmbInterviewer').value = employeeSearchList[i][2];
+    			break;
+    		}
+    	}
 
 		if (validate()) {
         	$('frmInterview').submit();
@@ -281,10 +294,21 @@ YAHOO.OrangeHRM.container.init();
 		border: none !important;
 		text-align: left !important;
 	}
+	
+	#employeeSearchAC {
+ 	    width:15em; /* set width here */
+ 	    padding-bottom:2em;
+ 	}
+	
+ 	#employeeSearchAC {
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+ 	}
+	
     -->
 	</style>
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
-<body>
+<body class="yui-skin-sam">
 	<p>
 		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 			<tr>
@@ -325,7 +349,12 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
   <div class="roundbox">
 
   <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
+		<?php
+			$prevEmpNum = '-1';
+			$empName = '';
+		?>
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
+		<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
 
         <label for="txtDate"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Date; ?></label>
         <input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
@@ -333,15 +362,36 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 
         <label for="txtTime"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Time; ?></label>
         <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
-		<?php
-			$prevEmpNum = '-1';
-			$empName = '';
-		?>
+
+        <div>
 		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
-		<span id="container" style="width: 250px;"> <span style="display: table-row !important;"> <span style="display: table-cell !important;">
-        <input type="text" style="width: 250px; " onBlur="" onKeyUp="refreshList(this, event);" value="<?php echo $empName ?>"  tabindex="3" />
-        <input type="hidden" name="cmbInterviewer" id="hidEnhancedSearchBox" value="<?php echo $prevEmpNum ?>" />
-        </span> </span><span style="display: table-row !important;"> <span id="dropdownPane" style="display: table-cell !important; padding-left: 10px"></span> </span> </span><br/>
+		<div class="yui-ac" id="employeeSearchAC" style="float: left">
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3" />
+ 	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
+ 	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
+ 	 		          <div style="display: none;" class="yui-ac-hd"></div>
+ 	 		          <div class="yui-ac-bd">
+ 	 		            <ul>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		              <li style="display: none;"></li>
+ 	 		            </ul>
+ 	 		          </div>
+ 	 		          <div style="display: none;" class="yui-ac-ft"></div>
+ 	 		        </div>
+ 	 		        <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
+ 	 	      </div>
+    	</div>
+    	</div>
+        
+        <br/>
 		<?php
 				if ($noOfEmployees == 0) {
 		?>
@@ -368,6 +418,24 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
+			
+			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+					
+				// Instantiate second JS Array DataSource 
+			    this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList); 
+			 
+			    // Instantiate second AutoComplete 
+			    this.oAutoComp = new YAHOO.widget.AutoComplete('txtInterviewerSearch','employeeSearchACContainer', this.oACDS); 
+			    this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight"; 
+			    this.oAutoComp.typeAhead = false; 
+			    this.oAutoComp.useShadow = true; 
+			    this.oAutoComp.forceSelection = true; 
+			    this.oAutoComp.formatResult = function(oResultItem, sQuery) { 
+			        var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
+			        return (sMarkup);
+			    };
+		    
+ 	 		};
         -->
     </script>
 

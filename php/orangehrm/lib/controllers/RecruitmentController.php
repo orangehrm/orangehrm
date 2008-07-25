@@ -189,15 +189,6 @@ class RecruitmentController {
 
 	            break;
 
-			case 'AJAXCalls':
-				switch ($_GET['action']) {
-					case 'LoadApproverList':
-						self::getEmployeeSearchList();
-						break;
-				}
-
-				break;
-
 	    }
     }
 
@@ -283,6 +274,7 @@ class RecruitmentController {
 			$objs['vacancy'] = $vacancy;
 			$objs['manager'] = $vacancy->getManagerName();
 			$objs['noOfEmployees'] = $empInfo->countEmployee();
+			$objs['employeeSearchList'] = $this->_getEmployeeSearchList();
 			$objs['jobTitles'] = is_array($jobTitles) ? $jobTitles : array();
 
 			$template = new TemplateMerger($objs, $path);
@@ -402,17 +394,35 @@ class RecruitmentController {
 		return $province->getProvinceCodes($countryCode);
 	}
 
-	public static function getEmployeeSearchList() {
-		$table = $_GET['table'];
-		$valueField 	= $_GET['valueField'];
-		$labelField 	= $_GET['labelFields'];
-		$descField		= $_GET['descFields'];
-		$filterKey		= $_GET['filterKey'];
+	private static function _getEmployeeSearchList() {
+		$employeeSearchList = array();
+	
+		$selecteFields[] = 'CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)';
+		$selecteFields[] = 'jt.`jobtit_name`';
+		$selecteFields[] = 'em.`emp_number`';
+		
+		$selectTables[] = '`hs_hr_employee` AS em';
+		$selectTables[] = '`hs_hr_job_title` AS jt'; 
+		
+		$joinConditions[1] = 'jt.`jobtit_code` = em.`job_title_code`';
+		
+		$orderCondition = $selecteFields[1];
+		
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, null, null, $orderCondition);
 
-		$joinTable = @$_GET['joinTable'];
-		$joinCondition = @$_GET['joinCondition'];
+		$query = preg_replace("/\\\'/", "'", $query);
 
-		AjaxCalls::fetchOptions($table, $valueField, $labelField, $descField, $filterKey, $joinTable, $joinCondition);
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		
+		$result = $dbConnection->executeQuery($query);
+
+		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$employeeSearchList[] = $row;
+		}
+
+		return $employeeSearchList;
 	}
 
     /**
@@ -585,9 +595,8 @@ class RecruitmentController {
         $path = '/templates/recruitment/scheduleInterview.php';
 
         $empInfo = new EmpInfo();
-        $managers = $empInfo->getListofEmployee(0, JobTitle::MANAGER_JOB_TITLE_NAME, 6);
         $objs['noOfEmployees'] = $empInfo->countEmployee();
-        $objs['managers'] = is_array($managers) ? $managers : array();
+        $objs['employeeSearchList'] = $this->_getEmployeeSearchList();
         $objs['application'] = JobApplication::getJobApplication($id);
         $objs['interview'] = $num;
 
@@ -649,8 +658,7 @@ class RecruitmentController {
         $path = '/templates/recruitment/seekApproval.php';
 
         $empInfo = new EmpInfo();
-        $directors = $empInfo->getListofEmployee(0, JobTitle::DIRECTOR_JOB_TITLE_NAME, 6);
-        $objs['directors'] = is_array($directors) ? $directors : array();
+        $objs['employeeSearchList'] = $this->_getEmployeeSearchList();
         $objs['application'] = JobApplication::getJobApplication($id);
 
         $template = new TemplateMerger($objs, $path);
