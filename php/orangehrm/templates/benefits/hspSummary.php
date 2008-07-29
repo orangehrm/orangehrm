@@ -122,8 +122,8 @@ if (isset($errorFlag)) {
 	<?php
 	$employees = $records[6];
 	for ($i=0;$i<count($employees);$i++) {
-		echo "employees[" . $i . "] = \"" . $employees[$i][1]." ". $employees[$i][2] . "\";";
-		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";";
+		echo "employees[" . $i . "] = '" . addslashes($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
+		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
 	}
 	?>
 

@@ -419,6 +419,7 @@ class RecruitmentController {
 		$result = $dbConnection->executeQuery($query);
 
 		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$row[0] = addslashes($row[0]);
 			$employeeSearchList[] = $row;
 		}
 
