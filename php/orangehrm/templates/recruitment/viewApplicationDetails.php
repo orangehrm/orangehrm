@@ -138,7 +138,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		</font>
 	</div>
 	<?php }	?>
-  <div class="roundbox" style="width: 650px;">
+  <div class="roundbox" style="width: 680px;">
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
         <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div><br/>
   		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Position; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getJobTitleName()); ?></div><br/>
@@ -154,7 +154,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getPhone()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMobile()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Email; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getEmail()); ?></div><br/>
-        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div><div class="txtBox" style="white-space: pre;"><?php echo wordwrap(CommonFunctions::escapeHtml($application->getQualifications())); ?></div><br/>
+        <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div><div class="txtBox"><pre style="font-family: Arial, Helvetica, sans-serif"><?php echo nl2br(wordwrap(trim(CommonFunctions::escapeHtml($application->getQualifications())), 65)); ?></pre></div><br/>
         <br />
 
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
