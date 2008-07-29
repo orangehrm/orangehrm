@@ -501,7 +501,7 @@ class EmpInfo {
      */
     public function getEmployeeIdsFilterMultiParams($filterValues) {
         //$tableName = 'HS_HR_EMPLOYEE';
-        $arrFieldList[0] = "a.`employee_id`";
+        $arrFieldList[0] = "a.`emp_number`";
 
         $filterFields[0] = "LPAD(a.`emp_number`, " . $this->employeeIdLength . ", 0)";
         $filterFields[1] = "a.`work_station`";
