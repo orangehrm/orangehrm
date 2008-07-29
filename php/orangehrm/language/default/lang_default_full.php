@@ -239,6 +239,7 @@
 	$lang_Common_NotApplicable                      = "N/A";
 	$lang_Common_Male                      		= "Male";
 	$lang_Common_Female                    		= "Female";
+	$lang_Common_TypeHereForHints 		= "Start Typing for Hints...";
 
 	$lang_Common_Edit = "Edit";
 	$lang_Common_New = "New";

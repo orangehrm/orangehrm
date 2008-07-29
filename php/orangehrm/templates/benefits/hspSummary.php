@@ -267,6 +267,13 @@ if (isset($errorFlag)) {
         xmlHTTPObject.send(null);
     }
 
+	function showAutoSuggestTip(obj) {
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			obj.value = '';
+			obj.style.color = '#000000';
+		}
+	}
+
 </script>
 
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
@@ -299,7 +306,7 @@ if (isset($saveSuccess) && $saveSuccess) {
     <td width="80">Employee&nbsp;&nbsp;</td>
     <td width="200">
 	<div class="yui-ac" id="employeeSearchAC">
-      <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" />
+      <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
       <div class="yui-ac-container" id="employeeSearchACContainer">
         <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
           <div style="display: none;" class="yui-ac-hd"></div>

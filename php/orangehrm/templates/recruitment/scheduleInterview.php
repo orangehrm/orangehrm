@@ -43,16 +43,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <script>
 	var employeeSearchList = new Array();
 	
-	<?php 
-		$i = 0; 
-		
-		foreach ($employeeSearchList as $record) {
-	?>
-		employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-	<?php 
-		}
-	?>
-
     var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
     var firstInterviewDate = false;
 
@@ -164,6 +154,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	function reset() {
 		$('frmInterview').reset();
 	}
+	
+	function showAutoSuggestTip(obj) {
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			obj.value = '';
+			obj.style.color = '#000000';
+		}
+	}	
+	
 YAHOO.OrangeHRM.container.init();
 </script>
 
@@ -351,7 +349,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
   <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
 		<?php
 			$prevEmpNum = '-1';
-			$empName = '';
+			$empName = $lang_Common_TypeHereForHints;
 		?>
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 		<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
@@ -366,7 +364,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         <div>
 		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3" />
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>
@@ -418,6 +416,16 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
+
+			<?php 
+				$i = 0; 
+				
+				foreach ($employeeSearchList as $record) {
+			?>
+				employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+			<?php 
+				}
+			?>
 			
 			YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 					

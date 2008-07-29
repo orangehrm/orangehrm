@@ -40,16 +40,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 <script>
 	var employeeSearchList = new Array();
 	
-	<?php 
-		$i = 0; 
-		
-		foreach ($employeeSearchList as $record) {
-	?>
-		employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-	<?php 
-		}
-	?>
-
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
     }
@@ -97,7 +87,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	function reset() {
 		$('frmSeekApproval').reset();
 	}
-
+	
+	function showAutoSuggestTip(obj) {
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			obj.value = '';
+			obj.style.color = '#000000';
+		}
+	}
+	
 </script>
 
     <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
@@ -258,7 +255,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<div>
 		<label for="txtApproverSearch"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_GetApprovedBy; ?></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input autocomplete="off" class="yui-ac-input" id="txtApproverSearch" type="text" value="" tabindex="1" />
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtApproverSearch" type="text" value="<?php echo $lang_Common_TypeHereForHints; ?>" tabindex="1"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>
@@ -300,6 +297,16 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
+
+		<?php 
+			$i = 0; 
+			
+			foreach ($employeeSearchList as $record) {
+		?>
+			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+		<?php 
+			}
+		?>
 			
 		YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 				

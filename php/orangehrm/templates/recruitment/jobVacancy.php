@@ -52,16 +52,6 @@ $locRights=$_SESSION['localRights'];
 
 	var employeeSearchList = new Array();
 	
-	<?php 
-		$i = 0; 
-		
-		foreach ($employeeSearchList as $record) {
-	?>
-		employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
-	<?php 
-		}
-	?>
-
     function goBack() {
         location.href = "<?php echo $baseURL; ?>&action=List";
     }
@@ -147,6 +137,13 @@ $locRights=$_SESSION['localRights'];
 <?php } else {?>
 		alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
+	}
+	
+	function showAutoSuggestTip(obj) {
+		if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+			obj.value = '';
+			obj.style.color = '#000000';
+		}
 	}
 
 </script>
@@ -297,7 +294,7 @@ $locRights=$_SESSION['localRights'];
 			$prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
 			if ($prevEmpNum == '') {
 				$prevEmpNum = '-1';
-				$empName = '';
+				$empName = $lang_Common_TypeHereForHints;
 			} else {
 				$empName = $manager;
 			}
@@ -320,7 +317,7 @@ $locRights=$_SESSION['localRights'];
 		<div>
 		<label for="txtHiringManagerSearch"><span class="error">*</span> <?php echo $lang_Recruit_HiringManager; ?></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
- 	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo $empName ?>" <?php echo $disabled; ?> tabindex="2" />
+ 	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo $empName ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
  	 		        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
  	 		          <div style="display: none;" class="yui-ac-hd"></div>
@@ -379,6 +376,17 @@ $locRights=$_SESSION['localRights'];
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
 			}
+
+		<?php 
+			$i = 0; 
+			
+			foreach ($employeeSearchList as $record) {
+		?>
+			employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+		<?php 
+			}
+		?>
+
 
  	 	YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 				
