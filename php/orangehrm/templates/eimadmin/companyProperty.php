@@ -149,7 +149,11 @@ function deleteProperties()
     with (document.propertyList) {
         for (var i=0; i < elements.length; i++) {
             if ((elements[i].type == 'checkbox') && (elements[i].checked == true)) {
-                oneChecked=true;
+            	if (elements[i].name == 'allCheck') {
+            		continue;
+            	}
+            	
+                oneChecked = true;
             }
         }
     }
@@ -167,6 +171,21 @@ function deleteProperties()
         var form = document.getElementById('propertyList');
         form.submit();
     }
+}
+
+function checkIfAllChecked() {
+
+    with (document.propertyList) {
+        for (var i=0; i < elements.length; i++) {
+            if ((elements[i].type == 'checkbox') && (elements[i].checked == false) && (elements[i].name != 'allCheck')) {
+                elements['allCheck'].checked = false;
+                return;
+            }
+        }
+        
+        elements['allCheck'].checked = true;
+    }
+	
 }
 
 function doCheckAll() {
@@ -298,7 +317,7 @@ if (!isset($this->getArr['action']))
             <tr>
             <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
-                        <td class="<?php echo $classBg ?>" width="50"> <input type='checkbox' class='checkbox' name='chkPropId[]' value='<?php echo $property['prop_id']?>' /></td>
+                        <td class="<?php echo $classBg ?>" width="50"> <input type='checkbox' class='checkbox' name='chkPropId[]' value='<?php echo $property['prop_id']?>' onchange='checkIfAllChecked()' /></td>
                         <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
                         <td class="<?php echo $classBg ?>" width="400" nowrap="nowrap">
                         <input readonly="readonly" name="propId[]" type="hidden" value='<?php echo $property['prop_id']==0?'':$property['prop_id']?>'>
