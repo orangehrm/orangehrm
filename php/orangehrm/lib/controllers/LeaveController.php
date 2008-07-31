@@ -458,7 +458,7 @@ class LeaveController {
 	private function _cancelLeave() {
 		$tmpObj = $this->getObjLeave();
 
-		return $tmpObj->cancelLeave($this->getId());
+		return $tmpObj->cancelLeave($this->getId(), $tmpObj->getLeaveComments());
 	}
 
 	public function redirectToLeaveApplyPage($admin, $message = null, $id = null) {

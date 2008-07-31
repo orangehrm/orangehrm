@@ -429,8 +429,8 @@ class Leave {
 		$this->_addLeave();
 	}
 
-	public function cancelLeave($id = null) {
-		return $this->changeLeaveStatus($id);
+	public function cancelLeave($id = null, $comments = '') {
+		return $this->changeLeaveStatus($id, $comments);
 	}
 
 	public function changeLeaveStatus($id = null, $comments = '') {

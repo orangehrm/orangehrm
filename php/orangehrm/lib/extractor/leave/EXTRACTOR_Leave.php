@@ -94,17 +94,14 @@ class EXTRACTOR_Leave {
 
 		if (isset($postArr['cmbStatus'])) {
 			for ($i=0; $i < count($postArr['cmbStatus']); $i++) {
-				if ($postArr['cmbStatus'][$i] == 0) {
-					$tmpObj = new Leave();
-					$tmpObj->setLeaveId($postArr['id'][$i]);
-					$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
+				$tmpObj = new Leave();
+				$tmpObj->setLeaveId($postArr['id'][$i]);
+				$tmpObj->setLeaveComments($postArr['txtComment'][$i]);
+				$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
+				$tmpObj->setLeaveStatus($postArr['cmbStatus'][$i]);
+				$tmpObj->setLeaveRequestId($postArr['txtLeaveRequestId'][$i]);
 
-					$tmpObj->setEmployeeId($postArr['txtEmployeeId'][$i]);
-
-					$tmpObj->setLeaveRequestId($postArr['txtLeaveRequestId'][$i]);
-
-					$objLeave[] = $tmpObj;
-				}
+				$objLeave[] = $tmpObj;
 			}
 		}
 

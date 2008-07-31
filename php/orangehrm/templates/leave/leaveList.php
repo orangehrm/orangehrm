@@ -187,7 +187,6 @@ if ($modifier === "SUP") {
   							echo $lang_Leave_Closed;
   						}
   			?>
-
   				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
   			<?php }?>
     	<?php
@@ -197,9 +196,11 @@ if ($modifier === "SUP") {
     			} else {
     				echo $statusArr[$record->getLeaveStatus()];
     			}
-    		}
-
-    		?></td>
+    			?>
+    			<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
+    			<input type="hidden" name="id[]" value="<?php echo $record->getLeaveId(); ?>" />
+    	<?php } ?>
+    </td>
     <td class="<?php echo $cssClass; ?>"><?php
     		echo (($record->getLeaveLengthHours() == null) || ($record->getLeaveLengthHours() == 0))?"----":$record->getLeaveLengthHours();
     ?></td>
@@ -213,10 +214,14 @@ if ($modifier === "SUP") {
 		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<?php } else if (($modifier == "MY") || ($modifier == "Taken")) {
 			echo $record->getLeaveComments(); ?>
+		<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
 		<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<?php } else {
 			echo $record->getLeaveComments();
-		}?>
+		?>
+			<input type="hidden" name="txtEmployeeId[]" value="<?php echo $record->getEmployeeId(); ?>" />
+			<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
+		<?php } ?>
 	</td>
 	<td class="tableMiddleRight"></td>
   </tr>
