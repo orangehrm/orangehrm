@@ -20,27 +20,12 @@
 ?>
 
 <?php
+
 	$plans = array(null, $lang_Hsp_Key_Hsa, $lang_Hsp_Key_Hra, $lang_Hsp_Key_Fsa, $lang_Hsp_Key_Hsa_Fsa, $lang_Hsp_Key_Hra_Fsa, $lang_Hsp_Key_Hsa_Hra);
 	$checked = array(null, '', '', '', '', '', '');
 
-	$checkTable = "hs_hr_config";
-	$selectFields[0] = "`value`";
-	$checkHspSelected[0]="`key` = 'hsp_current_plan'";
-
-	$sqlBuilder = new SQLQBuilder();
-
-	$query = $sqlBuilder->simpleSelect($checkTable, $selectFields, $checkHspSelected);
-	$dbConnection = new DMLFunctions();
-
-	$result = $dbConnection->executeQuery($query);
-
-	if($result) {
-		$row = mysql_fetch_array($result);
-		$hspDefined = $row['value'];
-		$checked["$hspDefined"] = 'checked';
-	}
-
-	mysql_free_result($result);
+	$hspDefined = Config::getHspCurrentPlan();
+	$checked["$hspDefined"] = 'checked';
 
 	if((!isset($_REQUEST['message']))){
 			if ($hspDefined != '0')
@@ -65,13 +50,8 @@
 
 		valid = false;
 
-		with (document.frmHelthSavingPlan) {
-			for(i in elements) {
-				if (elements[i].type == 'radio' && elements[i].checked) {
-					valid = true;
-					break;
-				}
-			}
+		for (i = 1; i <= 6; i++) {
+			valid |= (document.getElementById('HspType' + i).checked);
 		}
 
 		if (!valid) {
@@ -87,50 +67,47 @@
 
 <h2><?php echo $lang_Define_Health_Savings_Plans; ?></h2>
 <form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan" onSubmit="return validate()">
-<table width="141" border="0" cellpadding="0" cellspacing="0">
+<table width="141" border="0" cellpadding="4" cellspacing="0">
     <tr>
       <td width="94">&nbsp;<?php echo $lang_Hsp_Key_Hsa; ?></td>
-      <td width="47"><label for="inputhsa">
-	<?php ?>
-        <input name="HspType" type="radio" value="1" <?php echo $checked[1]; ?>>
-      </label></td>
+      <td width="47">
+        <input name="HspType" id="HspType1" type="radio" value="1" <?php echo $checked[1]; ?> />
+      </td>
     </tr>
     <tr>
       <td>&nbsp;<?php echo $lang_Hsp_Key_Hra; ?></td>
-      <td><label for="inputhra">
-        <input name="HspType" type="radio" value="2" <?php echo $checked[2]; ?>>
-      </label></td>
+      <td>
+        <input name="HspType" id="HspType2" type="radio" value="2" <?php echo $checked[2]; ?> />
+      </td>
     </tr>
     <tr>
       <td>&nbsp;<?php echo $lang_Hsp_Key_Fsa; ?></td>
-      <td><label for="inputfsa">
-        <input name="HspType" type="radio" value="3" <?php echo $checked[3]; ?>>
-      </label></td>
+      <td>
+        <input name="HspType" id="HspType3" type="radio" value="3" <?php echo $checked[3]; ?> />
+      </td>
     </tr>
     <tr>
       <td>&nbsp;<?php echo $lang_Hsp_Key_Hsa_Fsa; ?></td>
-      <td><label for="inputhsa+fsa">
-        <input name="HspType" type="radio" value="4" <?php echo $checked[4]; ?>>
-      </label></td>
+      <td>
+        <input name="HspType" id="HspType4" type="radio" value="4" <?php echo $checked[4]; ?> />
+      </td>
     </tr>
     <tr>
       <td>&nbsp;<?php echo $lang_Hsp_Key_Hra_Fsa; ?></td>
-      <td><label for="inputhra+fsa">
-        <input name="HspType" type="radio" value="5" <?php echo $checked[5]; ?>>
-      </label></td>
+      <td>
+        <input name="HspType" id="HspType5" type="radio" value="5" <?php echo $checked[5]; ?> />
+      </td>
     </tr>
     <tr>
       <td>&nbsp;<?php echo $lang_Hsp_Key_Hsa_Hra; ?></td>
-      <td><label for="inputhsa+hra">
-        <input name="HspType" type="radio" value="6" <?php echo $checked[6]; ?>>
-      </label></td>
+      <td>
+        <input name="HspType" id="HspType6" type="radio" value="6" <?php echo $checked[6]; ?> />
+      </td>
     </tr>
   </table>
 
   <br>
-  <label for="inputsave">
   <input type="submit" name="save" value="<?php echo $lang_Common_Save;?>">
-  </label>
 </form>
 
 
