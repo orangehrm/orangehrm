@@ -367,7 +367,7 @@ function preloadAllImages() {
 					?>
                   <td />
                   <td class="tabSeparator"></td>
-                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer">
                       <tr height="20">
                         <td class="currentTabLeft" ></td>
                         <td  class="currentTab" nowrap><a   class="currentTab"  href="./index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim" ><?php echo $lang_Menu_Admin; ?></a></td>
@@ -376,7 +376,7 @@ function preloadAllImages() {
                       </tr>
                   </table></td>
                   <?php } else if ($arrAllRights[Admin]['view'] || $_SESSION['isProjectAdmin'] || $_SESSION['isSupervisor']) { ?>
-                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
+                  <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer">
                       <tr height="20">
                         <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td  class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim&pageNo=1"><?php echo $lang_Menu_Admin; ?></a></td>
