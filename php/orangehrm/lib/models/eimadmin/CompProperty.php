@@ -133,10 +133,16 @@ class CompProperty {
 /*
  * Returns two dimentional array of list of properties
  */
-    public function getPropertyList()
+    public function getPropertyList($pageNo=null)
     {
         $dbConnection = new DMLFunctions();
-        $sql = "SELECT * FROM ".$this->TABLE_NAME;
+
+        if (isset($pageNo)) {
+	        $selectLimit = ($pageNo*10-10).",".(10);
+	        $sql = "SELECT * FROM ".$this->TABLE_NAME." LIMIT $selectLimit";
+        } else {
+            $sql = "SELECT * FROM ".$this->TABLE_NAME;
+        }
 
         $res = $dbConnection->executeQuery($sql);
 

@@ -2101,11 +2101,13 @@ class ViewController {
 
 					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the
 
+								$pageNoQueryString = isset($_REQUEST['pageNo']) ? '&pageNo=' . $_REQUEST['pageNo'] : '';
+
 								$uniqcode = $index;
 
 								$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 
-								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp{$extraParams}");
+								header("Location: ./CentralController.php?message=$showMsg&uniqcode=$uniqcode&VIEW=MAIN$esp{$extraParams}$pageNoQueryString");
 				}
 
 			} else {
@@ -3090,7 +3092,20 @@ class ViewController {
                             }
 
                             $compProp = new CompProperty();
-                            $form_creator->popArr['properties'] = $compProp->getPropertyList();
+
+                            $propertyCount = count($compProp->getPropertyList());
+                            $pageNo = 1;
+
+                            if (isset($_REQUEST['pageNo'])) {
+                                $pageNo = $_REQUEST['pageNo'];
+                            } else {
+                                $pageNo = ceil($propertyCount/10);
+                            }
+
+                            $form_creator->popArr['properties'] = $compProp->getPropertyList($pageNo);
+                            $form_creator->popArr['allProperties'] = $compProp->getPropertyList();
+                            $form_creator->popArr['pageNo'] = $pageNo;
+                            $form_creator->popArr['recordCount'] = $propertyCount;
 
                             break;
 

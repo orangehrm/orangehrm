@@ -53,12 +53,12 @@ $saveBtnAction = 'saveList()'
 var properties=new Array();
 <?php
 
-if(isset($this->getArr['action']) && (count($this->popArr['properties'])!=0))
+if(isset($this->getArr['action']) && (count($this->popArr['allProperties'])!=0))
 {
 	$thisProperty = ($this->getArr['action'] == 'edit') ? $this->getArr['name'] : '';
 	
     $i=0;
-    foreach($this->popArr['properties'] as $property)
+    foreach($this->popArr['allProperties'] as $property)
     {
     	if ($property['prop_name'] != $thisProperty) {
         	echo("properties[$i]='{$property['prop_name']}';");
@@ -71,7 +71,7 @@ if(isset($this->getArr['action']) && (count($this->popArr['properties'])!=0))
 
 function add()
 {
-    window.location = "./CentralController.php?uniqcode=TCP&action=add";
+    window.location = "./CentralController.php?uniqcode=TCP&action=add&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>";
 }
 
 function save()
@@ -152,7 +152,7 @@ function deleteProperties()
             	if (elements[i].name == 'allCheck') {
             		continue;
             	}
-            	
+
                 oneChecked = true;
             }
         }
@@ -182,10 +182,10 @@ function checkIfAllChecked() {
                 return;
             }
         }
-        
+
         elements['allCheck'].checked = true;
     }
-	
+
 }
 
 function doCheckAll() {
@@ -200,7 +200,7 @@ function doCheckAll() {
 
 function back()
 {
-    window.location = "./CentralController.php?uniqcode=TCP";
+    window.location = "./CentralController.php?uniqcode=TCP&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>";
 }
 
 function popEmpList()
@@ -210,6 +210,28 @@ function popEmpList()
     popup.focus();
 }
 
+function nextPage() {
+	i=document.propertyList.pageNo.value;
+	i++;
+	document.propertyList.pageNo.value=i;
+	document.propertyList.action = "./CentralController.php?uniqcode=TCP&VIEW=MAIN&pageNo="+i;
+	document.propertyList.submit();
+}
+
+function prevPage() {
+	var i=document.propertyList.pageNo.value;
+	i--;
+	document.propertyList.pageNo.value=i;
+	document.propertyList.action = "./CentralController.php?uniqcode=TCP&VIEW=MAIN&pageNo="+i;
+	document.propertyList.submit();
+}
+
+function chgPage(pNo) {
+	document.propertyList.pageNo.value=pNo;
+	document.propertyList.action = "./CentralController.php?uniqcode=TCP&VIEW=MAIN&pageNo="+pNo;
+	document.propertyList.submit();
+}
+
 </script>
 
 
@@ -217,7 +239,6 @@ function popEmpList()
 
 
 <body bgcolor="#FFFFFF" text="#000000" link="#FF9966" vlink="#FF9966" alink="#FFCC99">
-
 
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
   <tr>
@@ -234,6 +255,9 @@ function popEmpList()
 if (!isset($this->getArr['action']))
 {
     ?>
+<table width="700">
+<tr>
+<td>
 <div name="addDelButton" id="addDelButton">
     <img onClick="<?php echo $addBtnAction; ?>;"
         onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
@@ -244,8 +268,18 @@ if (!isset($this->getArr['action']))
         src="../../themes/beyondT/pictures/btn_delete.gif"
         onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
         onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
-    </body>
 </div>
+</td><td>
+<?php
+	$commonFunc = new CommonFunctions();
+	$pageStr = $commonFunc->printPageLinks($this->popArr['recordCount'], $this->popArr['pageNo'], 10);
+	$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+
+	echo $pageStr;
+?>
+</td>
+</tr>
+</table>
 <?php
 }
 ?>
@@ -259,6 +293,7 @@ if (!isset($this->getArr['action']))
   <form action="./CentralController.php?uniqcode=TCP&id=0" method="post" name='propertyList' id = 'propertyList'>
 
     <input type="hidden" name="sqlState" id='listSqlState' value="delete"/>
+    <input type="hidden" name="pageNo" value="<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>">
 
 <table border="0" width="100%">
 <?php
@@ -269,7 +304,7 @@ if (!isset($this->getArr['action']))
     	<td colspan="3" align="right"><?php echo $lang_empview_norecorddisplay;?>!
     	</td>
     </tr>
-<?php        
+<?php
     }
 ?>
 
@@ -289,9 +324,9 @@ if (!isset($this->getArr['action']))
             <tr nowrap>
                 <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
                 <td width="50" NOWRAP class="listViewThS1" scope="col">
-<?php if (!empty($properties)) { ?>                
+<?php if (!empty($properties)) { ?>
                                     <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-<?php } ?>                                    
+<?php } ?>
                                 </td>
                                 <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Property_Name ; ?> </td>
                                 <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Prop_Emp_Name; ?>  </td>
@@ -318,7 +353,7 @@ if (!isset($this->getArr['action']))
             <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
                         <td class="<?php echo $classBg ?>" width="50"> <input type='checkbox' class='checkbox' name='chkPropId[]' value='<?php echo $property['prop_id']?>' onchange='checkIfAllChecked()' /></td>
-                        <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
+                        <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
                         <td class="<?php echo $classBg ?>" width="400" nowrap="nowrap">
                         <input readonly="readonly" name="propId[]" type="hidden" value='<?php echo $property['prop_id']==0?'':$property['prop_id']?>'>
                         <select name='cmbUserEmpID[]'>
@@ -354,13 +389,13 @@ if (!isset($this->getArr['action']))
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td align='right'>
-<?php       if (!empty($properties)) { ?>            
+<?php       if (!empty($properties)) { ?>
                                 <img onClick="<?php echo $saveBtnAction; ?>;"
                         style="margin-top:10px;"
                         onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
                         onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
                         src="../../themes/beyondT/pictures/btn_save.gif">
-<?php } ?>                        
+<?php } ?>
             </td>
             <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
 
@@ -387,7 +422,7 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
     ?>
 <div id="addProperty">
 
-<form action="./CentralController.php?capturemode=editprop&uniqcode=TCP<?php echo $this->getArr['action']=='edit'?"&id={$this->getArr['id']}":''; ?>" method="post" name="propertyForm" id="propertyForm" onSubmit="return validateFrom();">
+<form action="./CentralController.php?capturemode=editprop&uniqcode=TCP<?php echo $this->getArr['action']=='edit'?"&id={$this->getArr['id']}":''; ?>&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" method="post" name="propertyForm" id="propertyForm" onSubmit="return validateFrom();">
 
   <table cellpadding='0' cellspacing='0'>
 

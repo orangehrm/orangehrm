@@ -379,7 +379,7 @@ function preloadAllImages() {
                   <td><table cellspacing="0" cellpadding="0" border="0" class="tabContainer"">
                       <tr height="20">
                         <td class="otherTabLeft" ><img src="" width="8" height="1" border="0" alt="My Portal"></td>
-                        <td  class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin; ?></a></td>
+                        <td  class="otherTab" nowrap><a class="otherTab" href="index.php?module=Home&menu_no=1&submenutop=EIMModule&menu_no_top=eim&pageNo=1"><?php echo $lang_Menu_Admin; ?></a></td>
                         <td class="otherTabRight"><img src="" width="8" height="1" border="0" alt="My Portal"></td>
                         <td class="tabSpace"><img src="" width="1" height="1" border="0" alt=""></td>
                       </tr>
@@ -645,7 +645,7 @@ function preloadAllImages() {
 <?php               }
 					if ($_SESSION['isSupervisor']) { ?>
 						<li id="compinfo">
-							<a href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim">
+							<a href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim&pageNo=1">
 							<?php echo $lang_Menu_Admin_Company_Property; ?></a></li>
 <?php 				} ?>
 					  </ul></TD>
@@ -827,7 +827,7 @@ function preloadAllImages() {
                         <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=LOC&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_CompanyInfo_Locations; ?></A></TD>
                       </TR>
                       <TR>
-                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim"><?php echo $lang_Menu_Admin_Company_Property; ?></A></TD>
+                        <TD onMouseOver="ypSlideOutMenu.showMenu('menu1')" onMouseOut="ypSlideOutMenu.hideMenu('menu1')" vAlign=center align=left width=142 height=17><A class="rollmenu" href="index.php?uniqcode=TCP&menu_no=1&submenutop=EIMModule&menu_no_top=eim&pageNo=1"><?php echo $lang_Menu_Admin_Company_Property; ?></A></TD>
                       </TR>
                     </TBODY>
                   </TABLE>
@@ -1239,7 +1239,7 @@ function preloadAllImages() {
 			if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="home")) {  ?>
 			  <iframe src="home.php" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"></iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {  ?>
-              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : $defaultAdminView;?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
+              <iframe src="./lib/controllers/CentralController.php?uniqcode=<?php echo (isset($_GET['uniqcode'])) ? $_GET['uniqcode'] : $defaultAdminView;?>&VIEW=MAIN<?php echo isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : ''; echo isset($_GET['pageNo'])? '&pageNo=1' : ''?>" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 <?php		} elseif ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top']=="hr") && $arrRights['view']) {  ?>
               <iframe src="./lib/controllers/CentralController.php?reqcode=<?php echo (isset($_GET['reqcode'])) ? $_GET['reqcode'] : 'EMP'?>&VIEW=MAIN" id="rightMenu" name="rightMenu" width="100%" height="400" frameborder="0"> </iframe>
 
