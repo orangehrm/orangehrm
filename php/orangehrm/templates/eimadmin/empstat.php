@@ -32,19 +32,23 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script>
-function goBack() {
+<script type="text/javascript">
+	function goBack() {
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
-function addSave() {
-		var txt=document.frmEmpStat.txtEmpStatDesc;
+
+	function addSave() {
+		txt = document.frmEmpStat.txtEmpStatDesc;
+
 		if (txt.value == '') {
-				alert ('<?php echo $lang_empstatus_PleaseEnterEmploymentStatus; ?>');
-				txt.focus();
-				return;
-			}
+			alert ('<?php echo $lang_empstatus_PleaseEnterEmploymentStatus; ?>');
+			txt.focus();
+			return false;
+		}
+
 		document.frmEmpStat.sqlState.value = "NewRecord";
 		document.frmEmpStat.submit();
+		return true;
 	}
 
 	function clearAll() {
@@ -66,7 +70,7 @@ function addSave() {
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
+<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addSave()">
   <tr>
     <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';" src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
        <input type="hidden" name="sqlState" value="">
@@ -198,14 +202,17 @@ function edit() {
 	document.Edit.title="Save";
 }
 function addUpdate() {
-	var txt=document.frmEmpStat.txtEmpStatDesc;
+	txt=document.frmEmpStat.txtEmpStatDesc;
+
 	if (txt.value == '') {
 		alert ('<?php echo $lang_empstatus_PleaseEnterEmploymentStatus; ?>');
-		return;
+		return false;
 	}
+
 	document.frmEmpStat.sqlState.value = "UpdateRecord";
 	document.frmEmpStat.submit();
-	}
+	return true;
+}
 function clearAll() {
 		if(document.Edit.title!='Save')
 			return;
@@ -226,7 +233,7 @@ function clearAll() {
 <p>
 <p>
 <table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
+<form name="frmEmpStat" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode" onsubmit="return addUpdate();">
 
   <tr>
     <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';" src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
