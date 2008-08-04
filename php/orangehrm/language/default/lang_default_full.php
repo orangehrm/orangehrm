@@ -511,6 +511,7 @@
 	$lang_geninfo_naics 					= "NAICS";
 	$lang_geninfo_err_CompanyName 			= "Company name cannot be blank";
 	$lang_geninfo_err_Phone 				= "Not a valid phone/fax number";
+	$lang_geninfo_err_CommentLengthWarning	= "Length of comments exceeds the limit. Text at the end of the comment will be lost.";
 
  	$lang_hierarchydef_heading 				= "Hierarchy Information : Company Information";
 

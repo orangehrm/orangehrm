@@ -150,6 +150,35 @@ function edit()
 
 		xajax_populateStates(newValue, oldVal);
 	}
+	
+	function showCommentLengthExceedWarning() {
+		totalFieldLength = 800;
+		marginOffset = 35;
+		usedLength = 0;
+	
+		with (document.forms['frmGenInfo']) {
+			usedLength += txtCompanyName.value.length; 
+			usedLength += txtTaxID.value.length; 
+			usedLength += txtNAICS.value.length; 
+			usedLength += txtPhone.value.length; 
+			usedLength += txtFax.value.length; 
+			usedLength += cmbCountry.options[cmbCountry.selectedIndex].value.length; 
+			usedLength += txtStreet1.value.length; 
+			usedLength += txtStreet2.value.length; 
+			usedLength += cmbCity.value.length; 
+			usedLength += (txtState.type == 'text') ? txtState.value.length : txtState.options[txtState.selectedIndex].value.length; 
+			usedLength += txtZIP.value.length;
+			
+			availableLength = totalFieldLength - (usedLength + marginOffset);
+			commentLengthWarning = document.getElementById('commentLengthWarningLabel');
+			
+			if (txtComments.value.length > availableLength) {
+				commentLengthWarning.style.display = 'block';
+			} else {
+				commentLengthWarning.style.display = 'none';
+			}
+		}
+	}
 
 </script>
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
@@ -168,8 +197,8 @@ function edit()
 <p>
 <p>
 <?php $editArr = $this->popArr['editArr']; ?>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
+<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
 
   <tr>
     <td height="27" valign='top'> <p>
@@ -204,21 +233,21 @@ function edit()
                   <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                   			  <tr>
 							    <td><span class="error">*</span> <?php echo $lang_geninfo_compname; ?></td>
-							    <td><input type="text" disabled name="txtCompanyName" value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>"></td>
+							    <td><input name="txtCompanyName" type="text" disabled value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>" maxlength="250"></td>
 							    <td><?php echo $lang_geninfo_numEmployees. " :"; ?></td>
 								<td><?php echo $this->popArr['empcount'];?></td>
 				   			  </tr>
 				   			  <tr>
 				   			  	<td><?php echo $lang_geninfo_taxID; ?></td>
-							    <td><input type="text" disabled name='txtTaxID'value="<?php echo isset($editArr['TAX']) ? $editArr['TAX'] : ''?>"></td>
+							    <td><input name='txtTaxID' type="text" disabled value="<?php echo isset($editArr['TAX']) ? $editArr['TAX'] : ''?>" maxlength="25"></td>
 				   			  	<td><?php echo $lang_geninfo_naics; ?></td>
-							    <td><input type="text" disabled name='txtNAICS' value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>"></td>
+							    <td><input name='txtNAICS' type="text" disabled value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>" maxlength="15"></td>
 							  </tr>
 							  <tr>
 							    <td><?php echo $lang_compstruct_Phone; ?></td>
-							    <td><input type="text" disabled name='txtPhone' value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>"></td>
+							    <td><input name='txtPhone' type="text" disabled value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>" maxlength="20"></td>
 							  	<td><?php echo $lang_comphire_fax; ?></td>
-							    <td><input type="text" disabled name="txtFax" value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>"></td>
+							    <td><input name="txtFax" type="text" disabled value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>" maxlength="20"></td>
 							  </tr>
 							  <tr>
 							    <td><?php echo $lang_compstruct_country; ?></td>
@@ -235,13 +264,13 @@ function edit()
 							  </tr>
 							  <tr>
 							    <td><?php echo $lang_compstruct_Address; ?>1</td>
-							    <td><input type="text" disabled name='txtStreet1' value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>"></td>
+							    <td><input name='txtStreet1' type="text" disabled value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>" maxlength="40"></td>
 							    <td><?php echo $lang_compstruct_Address; ?>2</td>
-							    <td><input type="text" disabled name='txtStreet2' value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>"></td>
+							    <td><input name='txtStreet2' type="text" disabled value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>" maxlength="40"></td>
 							  </tr>
 							  <tr valign="top">
 							  	<td><?php echo $lang_compstruct_city; ?></td>
-							    <td><input type="text" disabled name="cmbCity" value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>"></td>
+							    <td><input name="cmbCity" type="text" disabled value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>" maxlength="30"></td>
 							    <td><?php echo $lang_compstruct_state?></td>
 							    <td><div id="lrState" name="lrState">
 							    <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
@@ -256,7 +285,7 @@ function edit()
 							    	?>
 							    	</select>
 							    	<?php } else { ?>
-							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
+							    	<input name="txtState" type="text" disabled id="txtState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>" maxlength="30">
 							    	<?php } ?>
 							    	</div>
 							    	<input type="hidden" name="cmbState" id="cmbState" value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>">
@@ -264,11 +293,16 @@ function edit()
 							  </tr>
 							  <tr valign="top">
 							  	<td><?php echo $lang_compstruct_ZIP_Code; ?></td>
-							    <td><input type="text" disabled name='txtZIP' value="<?php echo isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>"></td>
+							    <td><input name='txtZIP' type="text" disabled value="<?php echo isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>" maxlength="20"></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
 							  </tr>
 							  <tr valign="top">
 							    <td><?php echo $lang_Leave_Common_Comments; ?></td>
-							    <td><textarea disabled name='txtComments'><?php echo isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea></td>
+							    <td colspan="3">
+									<span id="commentLengthWarningLabel" style="display: none" class="style1"><?php echo $lang_geninfo_err_CommentLengthWarning; ?></span>
+									<textarea disabled name='txtComments' onKeyUp="showCommentLengthExceedWarning()"><?php echo isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea>
+									</td>
 							  </tr>
 							  <tr><td></td><td></td><td></td><td align="right">
 <?php			if($locRights['edit']) { ?>
@@ -276,7 +310,7 @@ function edit()
 <?php			} else { ?>
 			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;">
 <?php			}  ?>
-					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/<?php echo $styleSheet; ?>/icons/reset.gif" onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset.gif';" onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset_o.gif';" onClick="clearAll(); return false;" />
+					  <input type="image" class="button1" id="btnClear" disabled src="../../themes/<?php echo $styleSheet; ?>/icons/reset.gif" onMouseOut="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset.gif';" onMouseOver="this.src='../../themes/<?php echo $styleSheet; ?>/icons/reset_o.gif';" onClick="clearAll(); return false;" />
 							</td> </tr>
                   </table></td>
                   <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>

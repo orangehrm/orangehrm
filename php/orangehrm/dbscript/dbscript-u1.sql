@@ -3,7 +3,7 @@ SHOW INNODB STATUS;
 create table `hs_hr_geninfo` (
 	`code` varchar(13) not null default '',
 	`geninfo_keys` varchar(200) default null,
-	`geninfo_values` varchar(200) default null,
+	`geninfo_values` varchar(800) default null,
 	primary key (`code`)
 ) engine=innodb default charset=utf8;
 
