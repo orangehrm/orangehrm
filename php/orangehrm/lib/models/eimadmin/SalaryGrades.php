@@ -195,34 +195,40 @@ class SalaryGrades {
 	    	return $line[0];
 	}
 
-	function getSalGrades() {
+	function getSalGrades($fetchDetailedSalGradesOnly = false) {
 
 		$sql_builder = new SQLQBuilder();
-		$tableName = 'HS_PR_SALARY_GRADE';
-		$arrFieldList[0] = 'SAL_GRD_CODE';
-		$arrFieldList[1] = 'SAL_GRD_NAME';
+
+		$tableName = "`hs_pr_salary_grade`";
+		$arrFieldList[0] = "`sal_grd_code`";
+		$arrFieldList[1] = "`sal_grd_name`";
 
 		$sql_builder->table_name = $tableName;
 		$sql_builder->flg_select = 'true';
 		$sql_builder->arr_select = $arrFieldList;
 
+		if ($fetchDetailedSalGradesOnly) {
+			$subQueryTable = "`hs_pr_salary_currency_detail`";
+			$subQueryFields[0] = "DISTINCT(`sal_grd_code`)";
+			$subQuery = $sql_builder->simpleSelect($subQueryTable, $subQueryFields);
+			$selectConditions[0] = "{$arrFieldList[0]} IN ($subQuery)";
+
+			$sqlQString = $sql_builder->simpleSelect($tableName, $arrFieldList, $selectConditions);
+		} else {
 		$sqlQString = $sql_builder->passResultSetMessage();
+		}
 
 		$dbConnection = new DMLFunctions();
        		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
 
-		$common_func = new CommonFunctions();
-
 		$i=0;
 
-		 while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+		while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
 
 	    	$arrayDispList[$i][0] = $line[0];
 	    	$arrayDispList[$i][1] = $line[1];
 
-
 	    	$i++;
-
 	     }
 
 	     if (isset($arrayDispList)) {

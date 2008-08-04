@@ -3115,7 +3115,7 @@ class ViewController {
 							$paygrade = new SalaryGrades();
 							$jobtit_empstat = new JobTitEmpStat();
 
-							$form_creator ->popArr['paygrade'] = $paygrade->getSalGrades();
+							$form_creator ->popArr['paygrade'] = $paygrade->getSalGrades(true);
                             $form_creator->popArr['jobSpecList'] = JobSpec::getAll();
 
 							if($getArr['capturemode'] == 'updatemode') {

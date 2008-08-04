@@ -1760,7 +1760,7 @@ class EmpViewController {
 					    	$jobtit = new JobTitle();
 					    	$salgradelist = new SalaryGrades();
 
-					    	$form_creator->popArr['salgradelist'] = $salgradelist->getSalGrades();
+					    	$form_creator->popArr['salgradelist'] = $salgradelist->getSalGrades(true);
 							$empdet = $empinfo->filterEmpJobInfo($getArr['id']);
 							$jt = $jobtit->filterJobTitles($empdet[0][2]);
 
