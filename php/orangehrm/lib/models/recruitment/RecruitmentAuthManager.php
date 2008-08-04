@@ -156,6 +156,12 @@ class RecruitmentAuthManager {
 
         if ($authObj->isManager() || $authObj->isOfferer()) {
 
+            // Check if director
+            $event = $jobApplication->getEventOfType(JobApplicationEvent::EVENT_SEEK_APPROVAL);
+            if (!empty($event) && $event->getOwner() == $authObj->getEmployeeId()) {
+                return self::ROLE_DIRECTOR;
+            }
+
             // Check if hiring manager
             $vacancy = JobVacancy::getJobVacancy($jobApplication->getVacancyId());
             if ($authObj->getEmployeeId() == $vacancy->getManagerId()) {
