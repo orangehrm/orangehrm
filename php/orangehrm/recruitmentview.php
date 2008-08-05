@@ -175,15 +175,17 @@ for ($i = 0; $i < count($valueMap); $i++) {
 
 	function returnSearch() {
 
-		if ($('loc_code').value == -1) {
+		searchBy = $('loc_code');
+
+		if (searchBy.options[searchBy.selectedIndex].value == -1) {
 			alert("<?php echo $lang_Common_SelectField; ?>");
-			$('loc_code').Focus();
+			searchBy.focus();
 			return;
 		};
-		var searchNdx = $('loc_code').value;
+		searchNdx = searchBy.options[searchBy.selectedIndex].value;
 		var searchVal = $('loc_name').value;
 
-		if (searchNdx in maps) {
+		if (searchNdx == 3) {
 		    map = maps[searchNdx];
 		    if (searchVal in map) {
 		        $('loc_name').value = map[searchVal];
@@ -251,24 +253,24 @@ for ($i = 0; $i < count($valueMap); $i++) {
 		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
 		<div style="padding: 6px;">
 		<?php	if($allowAdd) { ?>
-		<img 
-			style="border: none" 
-			title="Add" 
-			alt="Add" 
-			src="<?php echo $themeDir;?>/pictures/btn_add.gif" 
-			onclick="returnAdd();" 
-			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_add.gif';" 
+		<img
+			style="border: none"
+			title="Add"
+			alt="Add"
+			src="<?php echo $themeDir;?>/pictures/btn_add.gif"
+			onclick="returnAdd();"
+			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_add.gif';"
 			onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_add_02.gif';" />
 		<?php	} ?>
 
 		<?php if($allowDelete) { ?>
-		<img 
-			style="border: none" 
-	   		title="Delete" 
-	   		alt="Delete" 
+		<img
+			style="border: none"
+	   		title="Delete"
+	   		alt="Delete"
 			src="<?php echo $themeDir;?>/pictures/btn_delete.gif"
-			onclick="returnDelete();" 
-			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_delete.gif';" 
+			onclick="returnDelete();"
+			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_delete.gif';"
 			onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_delete_02.gif';" />
 		<?php } ?>
 		</div>
@@ -281,7 +283,7 @@ for ($i = 0; $i < count($valueMap); $i++) {
 				<td width='78%' align="right">
 				<?php
 					if (isset($this->getArr['message'])) {
-					
+
 						$expString  = $this->getArr['message'];
 						$col_def = CommonFunctions::getCssClassForMessage($expString);
 				?>
@@ -294,14 +296,14 @@ for ($i = 0; $i < count($valueMap); $i++) {
 			</tr>
 		</table>
 	</div>
-	
+
 	<div class="roundbox">
 		<table  border="0" cellpadding="5" cellspacing="0" class="">
 			<tr>
 				<td width="200" class="dataLabel">
 					<label for="loc_code" style="float: left; padding-right: 10px;"><?php echo $SearchBy?></label>
 					<select style="z-index: 99;" name="loc_code" id="loc_code">
-					<?php 
+					<?php
 						for($c=-1;count($srchlist)-1>$c;$c++) {
 							if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$c) {
 								echo "<option selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
@@ -317,42 +319,42 @@ for ($i = 0; $i < count($valueMap); $i++) {
 					<input type="text" size="20" name="loc_name" id="loc_name" class="dataField"  value="<?php echo $searchStr;?>" />
 				</td>
 				<td align="right" width="180" class="dataLabel">
-					<img 
-						title="Search" 
-						alt="Search" 
-						src="<?php echo $themeDir;?>/pictures/btn_search.gif" 
-						onclick="returnSearch();" 
-						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_search_02.gif';" 
+					<img
+						title="Search"
+						alt="Search"
+						src="<?php echo $themeDir;?>/pictures/btn_search.gif"
+						onclick="returnSearch();"
+						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_search_02.gif';"
 						onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_search.gif';" />
-					<img 
-						title="Clear" 
-						alt="Clear" 
-						src="<?php echo $themeDir;?>/pictures/btn_clear.gif" 
-						onclick="clear_form();" 
-						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_clear_02.gif';" 
+					<img
+						title="Clear"
+						alt="Clear"
+						src="<?php echo $themeDir;?>/pictures/btn_clear.gif"
+						onclick="clear_form();"
+						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_clear_02.gif';"
 						onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_clear.gif';" />
 				</td>
 			</tr>
 		</table>
 	</div>
-	
+
 	<div style="padding-top: 4px; width: 98%">
 		<span id="messageDisplay">
 			<?php
-			if (empty($list)) { 
-					echo $dispMessage; 
-			} 
+			if (empty($list)) {
+					echo $dispMessage;
+			}
 			?>&nbsp;
 		</span>
 	</div>
-	
+
 	<div style="text-align: right; padding-top: 4px; width: 98%">
 		<?php
 		$temp = $this->popArr['count'];
 		$commonFunc = new CommonFunctions();
 		$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
 		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-		
+
 		echo $pageStr;
 		?>&nbsp;
 	</div>
@@ -376,18 +378,18 @@ for ($i = 0; $i < count($valueMap); $i++) {
 					$nextSortInWords = getSortOrderInWords($nextSortOrder);
 			?>
 					<td scope="col" width="250" class="listViewThS1">
-						<a 
-							href="#" 
-							onclick="sortAndSearch(<?php echo $j?>, '<?php echo $nextSortOrder;?>');" 
+						<a
+							href="#"
+							onclick="sortAndSearch(<?php echo $j?>, '<?php echo $nextSortOrder;?>');"
 							title="Sort in <?php echo $nextSortInWords; ?> order">
 								<?php echo $headings[$j]?>
-						</a> 
-						<img 
-							src="<?php echo $themeDir;?>/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" 
+						</a>
+						<img
+							src="<?php echo $themeDir;?>/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png"
 							style="width: 8px; height:10px; border: none; vertical-align: middle" />
 					</td>
-			<?php 
-				} 
+			<?php
+				}
 			?>
 			</tr>
 			<?php
@@ -397,12 +399,12 @@ for ($i = 0; $i < count($valueMap); $i++) {
 			?>
 						<tr>
 							<td class="<?php echo $cssClass?>" width="50">
-							<?php 
-								if($allowDelete) { 
-									if (CommonFunctions::extractNumericId($list[$j][0]) > 0) { 
+							<?php
+								if($allowDelete) {
+									if (CommonFunctions::extractNumericId($list[$j][0]) > 0) {
 							?>
 										<input type='checkbox' class='checkbox' name='chkID[]' value='<?php echo $list[$j][0]?>' />
-							<?php 	} 
+							<?php 	}
 								} else {  ?>
 									&nbsp;
 							<?php 	}  ?>
