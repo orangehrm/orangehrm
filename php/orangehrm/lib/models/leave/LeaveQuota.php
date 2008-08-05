@@ -136,13 +136,16 @@ class LeaveQuota {
 		$selectFields[3] = "`".self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED."`";
 
 		$selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '{$fromYear}'";
-
 		$selectQuery = $sqlBuilder->simpleSelect($table, $selectFields, $selectConditions);
+
+		$deleteConditions[0] = "`" . self::LEAVEQUOTA_DB_FIELD_YEAR . "` = '{$toYear}'";
+		$deleteQuery = $sqlBuilder->simpleDelete($table, $deleteConditions);
 
 		$query = $sqlBuilder->simpleInsert($table, $selectQuery, $insertFields);
 
 		$dbConnection = new DMLFunctions();
 
+		$dbConnection->executeQuery($deleteQuery);
 		$result = $dbConnection->executeQuery($query);
 
 		if ($result) {

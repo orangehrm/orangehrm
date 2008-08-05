@@ -724,7 +724,16 @@ class LeaveController {
 			 */
 			$this->redirect(null, array("?leavecode=Leave&action=Leave_Summary&year=$currYear&id=0&message=LEAVE_QUOTA_COPY_SUCCESS"));
 		} else {
-			$this->redirect("LEAVE_QUOTA_COPY_FAILURE", null, null, "&year=$currYear&id=0");
+			/*
+			 * This part was changed to fix the bug 2030001 - Leave:Copy leave quota misbehaves
+			 * Seems like the redirect method of this controller is not working properly
+			 * when called as in the earlier statement, causing errors in IE
+			 *
+			 * Earlier statement was:
+			 * $this->redirect("LEAVE_QUOTA_COPY_FAILURE", null, null, "&year=$currYear&id=0");
+			 *
+			 */
+			$this->redirect(null, array("?leavecode=Leave&action=Leave_Summary&year=$currYear&id=0&message=LEAVE_QUOTA_COPY_FAILURE"));
 		}
 	}
 
@@ -737,10 +746,11 @@ class LeaveController {
 
 		$result = $leaveQuotaObj->copyLeaveBroughtForward($currYear-1, $currYear);
 
+		$redirectionPrefix = "?leavecode=Leave&action=Leave_Summary&year=$currYear&id=0&message=";
 		if ($result) {
-			$this->redirect("LEAVE_BROUGHT_FORWARD_COPY_SUCCESS", null, null, "&year=$currYear&id=0");
+			$this->redirect(null, array($redirectionPrefix . "LEAVE_BROUGHT_FORWARD_COPY_SUCCESS"));
 		} else {
-			$this->redirect("LEAVE_BROUGHT_FORWARD_COPY_FAILURE", null, null, "&year=$currYear&id=0");
+			$this->redirect(null, array($redirectionPrefix . "LEAVE_BROUGHT_FORWARD_COPY_FAILURE"));
 		}
 
 	}
