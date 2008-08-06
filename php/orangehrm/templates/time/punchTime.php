@@ -33,10 +33,10 @@ $note = "";
 if ($timeEvent != null) {
 	switch ($records[0]) {
 		case TimeEvent::TIME_EVENT_PUNCH_IN  : $lastPunch = LocaleUtil::getInstance()->formatDateTime($timeEvent->getEndTime());
-											   $puchInfo = "$lang_Time_LastPunchOut {$lastPunch}";
+											   $puchInfo = ($lastPunch != "") ? "$lang_Time_LastPunchOut {$lastPunch}" : "";
 											   break;
 		case TimeEvent::TIME_EVENT_PUNCH_OUT : $lastPunch = LocaleUtil::getInstance()->formatDateTime($timeEvent->getStartTime());
-											   $puchInfo = "$lang_Time_LastPunchIn {$lastPunch}";
+											   $puchInfo = ($lastPunch != "") ? "$lang_Time_LastPunchIn {$lastPunch}" : "";
 											   $timeEventId = $timeEvent->getTimeEventId();
 											   $note = $timeEvent->getDescription();
 											   break;

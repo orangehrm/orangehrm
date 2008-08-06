@@ -295,7 +295,7 @@ class TimeController {
 			$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
 			$dataArr[1]=null;
 		} else {
-			if ($tmpTimeObj[0]->getEndTime() != null) {
+			if ($tmpTimeObj[0]->getEndTime() != null || $tmpTimeObj[0]->getDuration() != null) {
 				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
 			} else {
 				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_OUT;
