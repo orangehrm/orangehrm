@@ -1,16 +1,40 @@
+New & Changed Features for OrangeHRM ver 2.4-beta.6
+
+	New features
+	------------
+	Made improvements to auto-complete functionality
+
+	Bug fixes
+	---------
+	2029606 - After 1,000 employees in PIM can not select hiring manager.
+	2030052 - Print time sheets are not displaying after changed the empID
+	2025726 - Formatting not done on resumes.
+	1962815 - HSP alpha.14:Admin select checkbox in companyProperty,notice (Improved)
+	1930077 - HSP-ESS users edit leave comment, isn't reflect after saving (Improved)
+	1984309 - HSP: Admin click Save without selecting a plan, Notice page (Improved for IE7)
+	1990730 - No proper paging for company properties
+	2030132 - Admin:Employment status:notice page
+	2026720 - Admin:Pay grade without Currency gives stopper
+	2032483 - Recruitment:Seek approval can't approve a job
+	2026706 - Admin:Company info:gives stopper to 189 charas for the name
+	2030001 - Leave:Copy leave quota misbehaves; Changed code to prevent the same error in Leave brought forward functionality.
+	1964338 - Seach fuction not properly work in Recruitment Module
+	2038784 - Time: Time sheet period defining issue: stopper
+	2038547 - Time:Punch out can be done without In >> gives stopper
+
 New & Changed Features for OrangeHRM ver 2.4-beta.5
 
 	New features
 	------------
 	Introduced segmented CSV import with progress bar & status indicators (related to bug 1924888)
-	Improvements of auto-suggest features in Recruitment module using YUI libarary 
-	Improved UI for Firefox 3 Competability 
+	Improvements of auto-suggest features in Recruitment module using YUI libarary
+	Improved UI for Firefox 3 Competability
 
 	Bug fixes
 	---------
 	2013969 - Recruitment : Hiring manager list loding issue
 	1989557 - Language table last column header is incorrect in PIM module
-	1828910 - Decimal number of hours for the workshift. 
+	1828910 - Decimal number of hours for the workshift.
 	1989570 - ‘Subscription Renwal Date’ should be ‘Subscription Renewal
 	1974577 - Sub division page doesn't have a scroll bar
 	1998423 - Admin : Job :Same Pay Grade Name can be defined
