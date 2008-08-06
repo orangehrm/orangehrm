@@ -1565,7 +1565,7 @@ switch ($moduletype) {
 																						$day = ($day == 0) ? 7 : $day;
 
 																						$objSubmissionPeriods = new TimesheetSubmissionPeriod();
-						   $timesheetSubmissionPeriods = $objSubmissionPeriods->fetchTimesheetSubmissionPeriods();
+						   																$timesheetSubmissionPeriods = $objSubmissionPeriods->fetchTimesheetSubmissionPeriods();
 																						$timesheetSubmissionDay = $timesheetSubmissionPeriods[0]->getStartDay();
 																						$dayDiff = $timesheetSubmissionDay - $day;
 
@@ -1583,7 +1583,8 @@ switch ($moduletype) {
 
 													case 'View_Timesheet' 		:
 																					if ($current && $useClientTime) {
-																						$obj = $timesheetExtractor->parseViewDataWithTimezoneDiff($clientStartDate, $clientEndDate, $timesheetSubmissionDay);
+																						$timesheetPeriodId = $timesheetSubmissionPeriods[0]->getTimesheetPeriodId();
+																						$obj = $timesheetExtractor->parseViewDataWithTimezoneDiff($clientStartDate, $clientEndDate, $timesheetPeriodId);
 																					} else {
 																						$obj = $timesheetExtractor->parseViewData($_POST);
 																					}
