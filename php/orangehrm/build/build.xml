@@ -69,6 +69,7 @@
             <exclude name="**/test.bat"/>
             <exclude name="EmployeeDataGenerator.php"/>
             <exclude name="change-version-numbers.php"/>
+            <exclude name="reset-installation.php"/>
         </fileset>
     </copy>
   </target>
