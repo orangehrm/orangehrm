@@ -80,7 +80,7 @@ function actionEdit() {
 <?php echo $$expString; ?>
 		</font>
 <?php }	?>
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
 	<thead>
 		<tr>
 			<th class="tableTopLeft"></th>
@@ -94,15 +94,15 @@ function actionEdit() {
 			<th class="tableTopRight"></th>
 		</tr>
 		<tr>
-			<th class="tableMiddleLeft"></th>
-			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
-			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
-			<th class="tableMiddleRight"></th>
+			<th style="width: 1%" class="tableMiddleLeft">&nbsp;</th>
+			<th style="width: 18%; text-align: left" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
+			<th style="width: 18%; text-align: left" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
+			<th style="width: 14%; text-align: center" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
+			<th style="width: 14%; text-align: center" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
+			<th style="width: 10%; text-align: center" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
+			<th style="width: 10%; text-align: center" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?><br /><?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
+			<th style="width: 20%; text-align: left" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
+			<th style="width: 1%" class="tableMiddleRight"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -121,15 +121,15 @@ function actionEdit() {
 				$customerDet = $customerObj->fetchCustomer($projectDet->getCustomerId(), true);
 			?>
 			<tr>
-				<td class="tableMiddleLeft"></td>
+				<td class="tableMiddleLeft">&nbsp;</td>
 				<td><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 				<td><?php echo $projectActivity->getName(); ?></td>
-				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?></td>
-				<td><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?></td>
-				<td><?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?></td>
-				<td><?php echo round($timeExpense->getDuration()/36)/100; ?></td>
+				<td style="text-align: center;"><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getStartTime()); ?></td>
+				<td style="text-align: center;"><?php echo LocaleUtil::getInstance()->formatDateTime($timeExpense->getEndTime()); ?></td>
+				<td style="text-align: center;"><?php echo LocaleUtil::getInstance()->formatDate($timeExpense->getReportedDate()); ?></td>
+				<td style="text-align: center;"><?php echo round($timeExpense->getDuration()/36)/100; ?></td>
 				<td><?php echo $timeExpense->getDescription(); ?></td>
-				<td class="tableMiddleRight"></td>
+				<td class="tableMiddleRight">&nbsp;</td>
 			</tr>
 		<?php }
 		} else { ?>
