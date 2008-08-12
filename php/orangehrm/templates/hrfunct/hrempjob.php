@@ -34,12 +34,12 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 <?php
     $assignedList = $this->popArr['assignedlocationList'];
     foreach($assignedList as $empLoc) {
-        print "\tlocationNames['{$empLoc->getLocation()}'] = '{$empLoc->getLocationName()}';\n";
+        print "\tlocationNames['{$empLoc->getLocation()}'] = \"" . stripslashes($empLoc->getLocationName()) . "\";\n";
     }
 
     $availableList = $this->popArr['availablelocationList'];
     foreach($availableList as $loc) {
-        print "\tlocationNames['{$loc[0]}'] = '{$loc[1]}';\n";
+        print "\tlocationNames['{$loc[0]}'] = \"" . stripslashes($loc[1]) . "\";\n";
     }
 
 ?>
