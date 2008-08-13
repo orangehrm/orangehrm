@@ -39,9 +39,25 @@ function delDependent() {
 	qCombo(3);
 }
 
+function validateDependants() {
+	if(document.frmEmp.txtDepName.value == '') {
+		alert('<?php echo $lang_Error_DependantNameEmpty; ?>');
+		document.frmEmp.txtDepName.focus();
+		return false;
+	}
+	
+	return true;
+}
+
 function addDependent() {
+
+	if (! validateDependants()) {
+		return false;
+	}
+
 	document.frmEmp.dependentSTAT.value="ADD";
 	qCombo(3);
+	return true;
 }
 
 function viewDependent(pSeq) {
@@ -51,8 +67,13 @@ function viewDependent(pSeq) {
 }
 
 function editDependent() {
+	if (! validateDependants()) {
+		return false;
+	}
+
 	document.frmEmp.dependentSTAT.value="EDIT";
 	qCombo(3);
+	return true;
 }
 
 </script>
@@ -67,12 +88,14 @@ function editDependent() {
 	<div id="editPaneDependents" >
 		<table height="100" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td><?php echo $lang_hremp_name; ?>
-                	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>"></td>
+                <td>
+                	<?php echo $lang_hremp_name; ?> <span class="error">*</span> 
+                	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>">
+                </td>
                 <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"></td>
                </tr>
               <tr>
-                <td><?php echo $lang_hremp_relationship; ?></td>
+                <td><?php echo $lang_hremp_relationship; ?>&nbsp;</td>
                 <td><input name="txtRelShip" type="text" value="<?php echo $edit[0][3]?>">
                </tr>
 
@@ -89,12 +112,12 @@ function editDependent() {
 	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>" >
 		<table height="100" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td><?php echo $lang_hremp_name; ?>
+                <td><?php echo $lang_hremp_name; ?> <span class="error">*</span>
                 	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>"></td>
                 <td><input name="txtDepName" type="text">
                 </tr>
                 <tr>
-                <td><?php echo $lang_hremp_relationship ; ?></td>
+                <td><?php echo $lang_hremp_relationship ; ?>&nbsp;</td>
                 <td><input type="text" name="txtRelShip"></td>
               </tr>
 

@@ -70,6 +70,8 @@
 	$lang_Error_UploadFailed						= "Upload failed!";
 	$lang_Errro_WorkEmailIsNotValid                 = "The work email is not valid";
 	$lang_Errro_OtherEmailIsNotValid                = "The other email is not valid";
+	
+	$lang_Error_DependantNameEmpty					= "Dependent name is empty";
 
 	// Company Structure
 	$lang_Error_Company_General_Undefined 				= "Please define Company General Information first!";
