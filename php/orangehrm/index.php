@@ -655,7 +655,7 @@ function preloadAllImages() {
                     <ul id="menu">
   						<li id="viewemprep"><A href="index.php?repcode=EMPVIEW&menu_no=1&submenutop=HR&menu_no_top=rep"><?php echo $lang_Menu_Reports_ViewReports; ?></A></li>
 
-<?php               if($arrAllRights[Report]['add']) {?>
+<?php               if($arrAllRights[Report]['add'] || $arrAllRights[Report]['edit'] || $arrAllRights[Report]['delete']) {?>
 						<li id="defemprep"><A href="index.php?repcode=EMPDEF&menu_no=1&submenutop=HR&menu_no_top=rep"><?php echo $lang_Menu_Reports_DefineReports; ?></A></li>
 <?php					}
 					} else ?>
