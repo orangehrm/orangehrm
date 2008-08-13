@@ -143,7 +143,10 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 				fromTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveFromTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
 				toTime = strToTime($('txtLeaveFromDate').value+" "+$('sltLeaveToTime').value, YAHOO.OrangeHRM.calendar.format+" "+YAHOO.OrangeHRM.time.format);
 
-				if (fromTime > toTime) {
+				if (fromTime == toTime) {
+					err = true;
+					msg += " - <?php echo $lang_Leave_Error_ZeroLengthHours; ?>\n"					
+				} else if (fromTime > toTime) {
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
 				} else if (($('txtLeaveTotalTime').value != '') && (extractTimeFromHours($('txtLeaveTotalTime').value) > shiftLength*60*60*1000) ) {

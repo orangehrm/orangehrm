@@ -1659,6 +1659,7 @@
 	$lang_Leave_Common_ToTime = "To time";
 	$lang_Leave_Common_TotalHours = "Total hours";
 	$lang_Leave_Error_ToTimeBeforeFromTime = "To time before from time";
+	$lang_Leave_Error_ZeroLengthHours = "Length of the leave is zero hours";
 	$lang_Leave_Error_TotalTimeMoreThanADay = "Total time is greater than the shift length";
 	$lang_Leave_Common_WorkshiftLengthIs = "Workshift length is ";
 	$lang_Leave_Error_PleaseSpecifyEitherTotalTimeOrTheTimePeriod = "Please specify either total time or the time period";
