@@ -142,7 +142,7 @@
 input[type=text] {
 	border: solid 1px #000000;
 	padding: 2px;
-	width: 10px;
+	width: 35px;
 }
 
 -->
