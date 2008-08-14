@@ -30,6 +30,12 @@ $arrEmpType = $this->popArr['arrEmpType'];
 $arrSerPer = $this->popArr['arrSerPer'];
 $arrJoiDat = $this->popArr['arrJoiDat'];
 
+if (isset($this->getArr['msg'])) {
+	$msg = $this->getArr['msg'];
+	$displayMsg = "lang_rep_Error_{$msg}";
+	$displayMsg = $$displayMsg;
+}
+
 $empInfoObj = new EmpInfo();
 
 $headingInfo = array (
@@ -611,6 +617,10 @@ function disableJoiDatField() {
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
+<?php if (isset($displayMsg)) { ?>
+	<br />
+	<span class="error" style="margin-top: 10px;"><?php echo $displayMsg; ?></span>
+<?php } ?>
 <table border="0" >
   <tr>
   <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
@@ -1023,6 +1033,10 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
     <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
   </tr>
 </table>
+<?php if (isset($displayMsg)) { ?>
+	<br />
+	<span class="error" style="margin-top: 10px;"><?php echo $displayMsg; ?></span>
+<?php } ?>
 <table border="0" >
   <tr>
   <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>

@@ -179,14 +179,19 @@ class RepViewController {
 
 				case 'EMPDEF'  :		$report = new EmpReport();
 										$report = $object;
+										
 										$res = $report -> addReport();
-										$id = $report -> getRepID();
-
-										$repusg = new EmpRepUserGroup();
-
-										$repusg -> setRepCode($id);
-										$repusg -> setUserGroupID($_SESSION['userGroup']);
-										$repusg -> addRepUserGroup();
+										
+										if ($res){
+											$id = $report -> getRepID();
+		
+											$repusg = new EmpRepUserGroup();
+		
+											$repusg -> setRepCode($id);
+											$repusg -> setUserGroupID($_SESSION['userGroup']);
+											$repusg -> addRepUserGroup();
+										}
+										
 										break;
 			}
 
@@ -208,8 +213,17 @@ class RepViewController {
 				}
 
 			} else {
+				$errorCode = mysql_errno();
+											
+				switch ($errorCode) {
+					case 1062:
+						$showMsg = 'DUPLICATE_NAME_ADDED';
+						break;
 
-				$showMsg = "ADD_FAILURE";
+					default:
+						$showMsg = 'ADD_FAILURE';
+						break;
+				}
 
 				$repcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&capturemode=addmode&repcode=$repcode");
@@ -236,7 +250,17 @@ class RepViewController {
 				header("Location: ./CentralController.php?message=$showMsg&repcode=$repcode&VIEW=MAIN");
 			} else {
 
-				$showMsg = "UPDATE_FAILURE";
+				$errorCode = mysql_errno();
+				
+				switch ($errorCode) {
+					case 1062:
+						$showMsg = 'UPDATED_TO_DUPLICATE_NAME';
+						break;
+
+					default:
+						$showMsg = 'UPDATE_FAILURE';
+						break;
+				}
 
 				$repcode = $index;
 				header("Location: ./CentralController.php?msg=$showMsg&id=$id&capturemode=updatemode&repcode=$repcode");

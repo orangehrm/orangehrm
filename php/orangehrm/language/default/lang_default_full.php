@@ -1212,6 +1212,11 @@
 	$lang_rep_NoGroupSelected = "Please select a user group to assign";
 	$lang_rep_ReportNameEmpty = "Report Name Empty";
 
+	$lang_rep_Error_DUPLICATE_NAME_ADDED = "Report name already exists.";
+	$lang_rep_Error_ADD_FAILURE = "Report could not be added.";
+	$lang_rep_Error_UPDATED_TO_DUPLICATE_NAME = "Changes to the report could not be updated. Report name already exists.";
+	$lang_rep_Error_UPDATE_FAILURE = "Changes to the report could not be updated";
+
 	// Skills
 	$lang_Admin_Skill_Errors_NameCannotBeBlank = "Name cannot be a blank value!";
 
