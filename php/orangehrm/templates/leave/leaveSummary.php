@@ -129,17 +129,93 @@
 	}
 ?>
 <?php include ROOT_PATH."/lib/common/yui.php"; ?>
+
+<style type="text/css">
+<!--
+
+.leaveQuotaLabel {
+	padding-left: 2px;
+	color: #FF0000;
+	font-size: 11px;	
+}
+
+input[type=text] {
+	border: solid 1px #000000;
+	padding: 2px;
+	width: 10px;
+}
+
+-->
+</style>
+
 <script language="javascript">
 
 	function init() {
 	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
 	}
+	
+	function validateLeaveQuotaAmount(strValue) {
+		if (isNaN(strValue)) {
+			return "<?php echo $lang_Leave_Summary_Error_NonNumericValue; ?>";
+		} else {
+			amount = new Number(strValue);
+			if (amount < 0 || amount > 365) {
+				return "<?php echo $lang_Leave_Summary_Error_InvalidValue; ?>";
+			}
+		}
+		
+		return '';
+	}
+	
+	function markFields(obj, msg) {
+		if (msg != '') {
+			obj.style.backgroundColor = '#FFCCCC';
+		} else {
+			obj.style.backgroundColor = '#FFFFFF';
+		}
+		
+		labelIndex = obj.getAttribute('id');
+		document.getElementById('leaveQuotaLabel_' + labelIndex).innerHTML = msg;
+	}
+	
+	function validateLeaveSummary() {
+		
+		isValid = true;
+		
+		with (document.frmSummary) {
+			for (i in elements) {
+				if (elements[i].type == 'text') {
+					msg = validateLeaveQuotaAmount(elements[i].value);
+					markFields(elements[i], msg);
+					
+					if (msg != '') {
+						isValid = false;
+					}
+				}
+			}
+		}
+		
+		return isValid;
+
+	}
+	
+	function validateIndividualLeaveQuota(obj) {
+		msg = validateLeaveQuotaAmount(obj.value);
+		markFields(obj, msg);
+	}
 
 	YAHOO.util.Event.addListener(window, "load", init);
 
 	function actForm() {
-		document.frmSummary.action = '<?php echo $frmAction; ?>';
-		document.frmSummary.submit();
+		if (validateLeaveSummary()) {
+		
+			document.frmSummary.action = '<?php echo $frmAction; ?>';
+			document.frmSummary.submit();
+			return true;
+		} else {
+			alert("<?php echo $lang_Leave_Summary_Error_CorrectLeaveSummary; ?>");
+			return false;
+		}
 	}
 
 	function goBack() {
@@ -199,7 +275,7 @@
 <?php
 	} else {
 ?>
-	<form method="post" onsubmit="actForm(); return false;" name="frmSummary" id="frmSummary">
+	<form method="post" onsubmit="return actForm(); return false;" name="frmSummary" id="frmSummary">
 		<input type="hidden" name="id" value="<?php echo isset($_REQUEST['id'])?$_REQUEST['id']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>"/>
 		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
 		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
@@ -349,13 +425,20 @@
     <td class="<?php echo $cssClass; ?>"><?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?></td>
     <?php } else if (($auth === 'admin') && ($modifier === 'edit')) {
 
-				$readOnly = ($deletedLeaveType) ? "readonly" : "";
+				$readOnly = ($deletedLeaveType) ? 'readonly="readonly"' : '';
     ?>
     <td class="<?php echo $cssClass; ?>">
     <input type="hidden" name="txtLeaveTypeId[]" value="<?php echo $record['leave_type_id']; ?>"/>
     <input type="hidden" name="txtEmployeeId[]" value="<?php echo $record['emp_number']; ?>"/>
-
-    <input type="text" name="txtLeaveEntitled[]" value="<?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?>" size="3" <?php echo $readOnly; ?>/></td>
+    <input 
+    	type="text" 
+    	name="txtLeaveEntitled[]" 
+    	id="<?php echo $j; ?>" 
+    	value="<?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?>" 
+    	onblur="validateIndividualLeaveQuota(this)"  
+    	<?php echo $readOnly; ?> />
+    <span id="leaveQuotaLabel_<?php echo $j; ?>" class="leaveQuotaLabel"></span>
+    </td>
     <?php } ?>
 		<td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_taken'])) {
 													  echo number_format(round($record['leave_taken'], 2), 2);
