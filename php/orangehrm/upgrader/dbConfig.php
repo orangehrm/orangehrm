@@ -93,7 +93,7 @@ document.frmInstall.submit();
 	    <?php if($error == 'WRONGDBINFO') {
 	    		echo "Wrong DB Information";
 	       } elseif ($error == 'WRONGDBVER') {
-	       	 	echo "You need atleast MySQL 4.1.x, Detected MySQL ver " . $mysqlHost;
+	       	 	echo "You need at least MySQL 4.1.x, Detected MySQL ver " . $mysqlHost;
 	       } elseif ($error == 'DBEXISTS') {
 	       	 	echo "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
 	       } elseif ($error == 'DBUSEREXISTS') {

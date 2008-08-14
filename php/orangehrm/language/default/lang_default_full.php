@@ -98,7 +98,7 @@
 	$lang_Error_FieldShouldBeNumeric					= "Field should be numeric";
 
 	$lang_Error_FieldShouldBeSelected					= "Field should be selected";
-	$lang_Error_SelectAtLeastOneCheckBox 				= "Select atleast one check box";
+	$lang_Error_SelectAtLeastOneCheckBox 				= "Select at least one check box";
 
 	/**
 	 * Menu Items
@@ -428,7 +428,7 @@
 	$lang_compstruct_no_root 						= "Root not found! Please define the root.";
 
  	$lang_corptit_heading 							= "Corporate Titles : Job Information";
-	$lang_corptit_topinhierachy 					= "Top In Hierachy";
+	$lang_corptit_topinhierachy 					= "Top In Hierarchy";
 	$lang_corptit_multipleheads 					= "Multiple Heads";
 	$lang_corptit_headcount 						= "Head Count";
 	$lang_corptit_nextlevelupgrade 					= "Next Level Upgrade";
@@ -815,7 +815,7 @@
 	$lang_jobtitle_PayGradeNotSelected      = "Pay Grade not selected";
     $lang_jobtitle_ShowingSavedValues       = "Currently showing the values saved in session when you last edited this record.";
     $lang_jobtitle_NoSelection              = "No Selection!";
-    $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employement status";
+    $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employment status";
     $lang_jobtitle_EnterEmploymentStatus    = "Please enter a value for Employment Status.";
  	$lang_jobspec_heading 					= "Job : Job Specifications";
  	$lang_jobspec_id 				        = "ID";
@@ -845,7 +845,7 @@
 	$lang_membershipinfo_MembershipShouldBeSpecified = "Membership Name should be specified";
 	$lang_membershipinfo_MembershipTypeShouldBeSelected = "Membership Type should be selected";
 
- 	$lang_membershiptypes_heading 			= "Memeberships : Membership Type";
+ 	$lang_membershiptypes_heading 			= "Memberships : Membership Type";
  	$lang_membershiptypes_NameShouldBeSpecified = "Membership Type name should be specified";
 
  	$lang_nationalityinformation_heading 	= "Nationality & Race : Nationality";
@@ -923,7 +923,7 @@
 	$lang_view_message17 					= "Deletion might affect employee information";
 	$lang_view_HierarchyDefinition 			= "Hierarchy Definition";
 	$lang_view_HierarchyDefinitionName 		= "Hierarchy Definition Name";
-	$lang_view_message18 					= "Deletion might affect Company Hierachy";
+	$lang_view_message18 					= "Deletion might affect Company Hierarchy";
 	$lang_view_StateProvinceName 			= "State/Province Name";
 	$lang_view_message19 					= "Deletion might affect employee information";
 	$lang_view_CityName 					= "City Name";
@@ -1230,8 +1230,8 @@
     $lang_Admin_ENS_HiringApproved = "Notifications of hiring new employees";
 
 	//Users
-	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast four characters long";
-	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be atleast four characters long";
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be at least four characters long";
+	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be at least four characters long";
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
@@ -1295,7 +1295,7 @@
 	$lang_Admin_Project_Error_PleaseSelectACustomer = "Please select a customer";
 	$lang_Admin_Project_Error_PleaseSpecifyTheName = "Please specify the name";
 
-	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Please specify the custormer Id";
+	$lang_Admin_Customer_PleaseSpecifyTheCustormerId = "Please specify the customer Id";
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Please specify the name";
 
 	$lang_Admin_ProjectActivities = "Project Activities";
@@ -1657,7 +1657,7 @@
 	$lang_login_EmployeeTerminated = "Login denied";
 	$lang_login_NoEmployeeAssigned = "No Employee assigned to the ESS user account";
 	$lang_login_temporarily_unavailable = "Service Temporarily Unavailable";
-	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
+	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vast range of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
 
 	$lang_Leave_Common_FromTime = "From time";
 	$lang_Leave_Common_ToTime = "To time";

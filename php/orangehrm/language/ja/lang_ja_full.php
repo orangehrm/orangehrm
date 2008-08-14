@@ -669,7 +669,7 @@
 	$lang_jobtitle_PayGradeNotSelected      = "Pay Grade not selected";
     $lang_jobtitle_ShowingSavedValues       = "Currently showing the values saved in session when you last edited this record.";
     $lang_jobtitle_NoSelection              = "No Selection!";
-    $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employement status";
+    $lang_jobtitle_PleaseSelectEmploymentStatus = "Please select employment status";
     $lang_jobtitle_EnterEmploymentStatus    = "Please enter a value for 仕事ステータスEmployment Status.";
 
  	$lang_languageinformation_heading 		= "Skills技能 : Language";
@@ -691,7 +691,7 @@
 	$lang_membershipinfo_MembershipShouldBeSpecified = "Membership Name should be specified";
 	$lang_membershipinfo_MembershipTypeShouldBeSelected = "Membership Type should be selected";
 
- 	$lang_membershiptypes_heading 			= "Memeberships : Membership Type";
+ 	$lang_membershiptypes_heading 			= "Memberships : Membership Type";
  	$lang_membershiptypes_NameShouldBeSpecified = "Membership Type name should be specified";
 
  	$lang_nationalityinformation_heading 	= "Nationality & Race : Nationality国籍と人種";
@@ -765,7 +765,7 @@
 	$lang_view_message17 					= "Deletion might affect employee information";
 	$lang_view_HierarchyDefinition 			= "Hierarchy Definition";
 	$lang_view_HierarchyDefinitionName 		= "Hierarchy Definition Name";
-	$lang_view_message18 					= "Deletion might affect Company Hierachy";
+	$lang_view_message18 					= "Deletion might affect Company Hierarchy";
 	$lang_view_StateProvinceName 			= "State/Province Name";
 	$lang_view_message19 					= "Deletion might affect employee information";
 	$lang_view_CityName 					= "City Name";
@@ -949,8 +949,8 @@
 	$lang_Admin_ENS_LeaveRejections = "Leave Rejections";
 
 	//Users
-	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be atleast five characters long";
-	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be atleast four characters long";
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be at least five characters long";
+	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be at least four characters long";
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
@@ -1215,7 +1215,7 @@
 	$lang_login_InvalidLogin = "無効なログイン";
 	$lang_login_UserDisabled = "User ";
 	$lang_login_NoEmployeeAssigned = "ESSユーサーアカウントには従業員が割り当てていません";
-	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
+	$lang_login_OrangeHRMDescription = " comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vast range of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.";
 
 	$lang_Leave_Common_FromTime = "時　から";
 	$lang_Leave_Common_ToTime = "時　まで";

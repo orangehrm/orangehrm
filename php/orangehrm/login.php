@@ -347,7 +347,7 @@ body {
         <td><img src="themes/<?php echo $styleSheet; ?>/pictures/orange_newMain_09.gif" width="23" height="169" alt=""></td>
         <td colspan="3" valign="top"><table width="80%"  border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="bodyTXT"><!--<strong>Orange<span class="style2">HRM</span></strong> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vastrange of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.-->
+            <td class="bodyTXT"><!--<strong>Orange<span class="style2">HRM</span></strong> comes as a comprehensive solution for the efficient management and development of your Human Resource. It will assist you in the complex and strategic process of managing this crucial resource of your enterprise. Based on modular architecture, it facilitates a vast range of HR activities, with features that reflect the main HR management activities. It comes as a web-enabled application and considering the available flexibility, OrangeHRM is a perfect platform for reengineering your HR processes and achieving a new level of HR Management.-->
             <font color="#6C7E89" size="2" face="Tahoma">Orange</font>
 	<font size="2" face="Tahoma" color="#FF9933">HRM</font></b>
 	<font color="#6C7E89" size="3" face="tahoma" style="line-height: 18px; font-size: 11.8px; font-family: tahoma;">

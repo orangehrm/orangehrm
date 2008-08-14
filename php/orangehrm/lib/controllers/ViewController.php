@@ -715,7 +715,7 @@ class ViewController {
 
 		case 'DEF' :
 
-			$this->headingInfo = array ('Hierarchy Definitiion ID','Hierarchy Definition Name',1,'Hierarchy Definition','Deletion might affect Company Hierachy!');
+			$this->headingInfo = array ('Hierarchy Definitiion ID','Hierarchy Definition Name',1,'Hierarchy Definition','Deletion might affect Company Hierarchy!');
 			return $this->headingInfo;
 
 		case 'TAX' :
