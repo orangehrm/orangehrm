@@ -28,10 +28,10 @@
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/dom/dom-min.js" ></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/container/container-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/element/element-beta.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/element/element-beta-min.js"></script>
 
-<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/calendar/calendar.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/calendar/calendar-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/button/button-beta-min.js"></script>
 
-<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/animation/animation.js"></script>
-<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/autocomplete/autocomplete.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/animation/animation-min.js"></script>
+<script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/autocomplete/autocomplete-min.js"></script>
