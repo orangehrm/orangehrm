@@ -1,3 +1,19 @@
+New & Changed Features for OrangeHRM ver 2.4-beta.7
+
+	Bug fixes
+	---------
+	1965051 - Error massege Gives bottom of the CSV File
+	1950539 - Time Module -> Time sheet details alignment not correct
+	2044110 - Strings with ' results java scripts to not to work
+	1989466 - Dependent can be saved without Name and Relationship : PIM, with some minor UI improvements
+	1995669 - Leave Module: Zero Time Duration Can be Assigned as a Leave
+	2006032 - Custom fields can not take in comments with double quotes
+	2021159 - Report:Admin user with Edit privilege can't edit Reports
+	1950679 - Leave -> Leave quota text box is not validate
+	2015722 - lang_en_full.php file contains some spelling mistakes. Corrected spelling in several other places as well
+	2032713 - Use compressed versions of javascript libraries
+	1989653 - Duplicate Report names
+
 New & Changed Features for OrangeHRM ver 2.4-beta.6
 
 	New features
