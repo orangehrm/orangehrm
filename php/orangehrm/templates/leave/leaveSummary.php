@@ -136,10 +136,10 @@
 .leaveQuotaLabel {
 	padding-left: 2px;
 	color: #FF0000;
-	font-size: 11px;	
+	font-size: 11px;
 }
 
-input[type=text] {
+.leaveQuotaBox {
 	border: solid 1px #000000;
 	padding: 2px;
 	width: 40px;
@@ -153,7 +153,7 @@ input[type=text] {
 	function init() {
 	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
 	}
-	
+
 	function validateLeaveQuotaAmount(strValue) {
 		if (isNaN(strValue)) {
 			return "<?php echo $lang_Leave_Summary_Error_NonNumericValue; ?>";
@@ -163,42 +163,42 @@ input[type=text] {
 				return "<?php echo $lang_Leave_Summary_Error_InvalidValue; ?>";
 			}
 		}
-		
+
 		return '';
 	}
-	
+
 	function markFields(obj, msg) {
 		if (msg != '') {
 			obj.style.backgroundColor = '#FFCCCC';
 		} else {
 			obj.style.backgroundColor = '#FFFFFF';
 		}
-		
+
 		labelIndex = obj.getAttribute('id');
 		document.getElementById('leaveQuotaLabel_' + labelIndex).innerHTML = msg;
 	}
-	
+
 	function validateLeaveSummary() {
-		
+
 		isValid = true;
-		
+
 		with (document.frmSummary) {
 			for (i in elements) {
-				if (elements[i].type == 'text') {
+				if (elements[i] && elements[i].type == 'text') {
 					msg = validateLeaveQuotaAmount(elements[i].value);
 					markFields(elements[i], msg);
-					
+
 					if (msg != '') {
 						isValid = false;
 					}
 				}
 			}
 		}
-		
+
 		return isValid;
 
 	}
-	
+
 	function validateIndividualLeaveQuota(obj) {
 		msg = validateLeaveQuotaAmount(obj.value);
 		markFields(obj, msg);
@@ -208,7 +208,7 @@ input[type=text] {
 
 	function actForm() {
 		if (validateLeaveSummary()) {
-		
+
 			document.frmSummary.action = '<?php echo $frmAction; ?>';
 			document.frmSummary.submit();
 			return true;
@@ -430,12 +430,13 @@ input[type=text] {
     <td class="<?php echo $cssClass; ?>">
     <input type="hidden" name="txtLeaveTypeId[]" value="<?php echo $record['leave_type_id']; ?>"/>
     <input type="hidden" name="txtEmployeeId[]" value="<?php echo $record['emp_number']; ?>"/>
-    <input 
-    	type="text" 
-    	name="txtLeaveEntitled[]" 
-    	id="<?php echo $j; ?>" 
-    	value="<?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?>" 
-    	onblur="validateIndividualLeaveQuota(this)"  
+    <input
+    	type="text"
+    	name="txtLeaveEntitled[]"
+    	class="leaveQuotaBox"
+    	id="<?php echo $j; ?>"
+    	value="<?php echo number_format(round($record['no_of_days_allotted'], 2), 2); ?>"
+    	onblur="validateIndividualLeaveQuota(this)"
     	<?php echo $readOnly; ?> />
     <span id="leaveQuotaLabel_<?php echo $j; ?>" class="leaveQuotaLabel"></span>
     </td>
