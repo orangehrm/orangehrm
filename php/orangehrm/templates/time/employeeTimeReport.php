@@ -33,6 +33,15 @@ function goBack() {
 	window.location = initialAction+"Employee_Report_Define";
 }
 </script>
+
+<style type="text/css">
+td {
+	vertical-align: top;
+	padding: 5px;
+	text-align:center;
+}
+</style>
+
 <h2>
 <?php echo "{$lang_Time_EmployeeTimeReportTitle} : {$employee[2]} {$employee[1]}"; ?>
 <hr/>

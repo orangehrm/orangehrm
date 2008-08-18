@@ -34,6 +34,15 @@ if (is_array($records[0])) {
 		$startDate = strtotime($timesheet->getStartDate());
 		$endDate = strtotime($timesheet->getEndDate());
 ?>
+
+<style type="text/css">
+td {
+	vertical-align: top;
+	padding: 5px;
+	text-align:center;
+}
+</style>
+
 <h3><?php
 	$headingStr = $lang_Time_Timesheet_TimesheetNameForViewTitle;
 	echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),

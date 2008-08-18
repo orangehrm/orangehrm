@@ -147,6 +147,15 @@ function actionDetails() {
 }
 -->
 </script>
+
+<style type="text/css">
+td {
+	vertical-align: top;
+	padding: 5px;
+	text-align:center;
+}
+</style>
+
 <h2>
 	<?php if ($prev) { ?>
 	<input src="../../themes/beyondT/icons/resultset_previous.png"
