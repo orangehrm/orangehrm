@@ -368,30 +368,21 @@ class LeaveRequests extends Leave {
 					$skip = true;
 				}
 
-				if (isset($fromDate) && !$skip) {
-					if (strtotime($tmpLeaveRequestArr->getLeaveFromDate()) < strtotime($fromDate)) {
+				
+				$inputStartDate=$fromDate;
+				$inputEndDate=$toDate;
+				$requestStartDate= $tmpLeaveRequestArr->getLeaveFromDate();
+				$requestEndDate=$tmpLeaveRequestArr->getLeaveToDate();
+					
+				if (isset($fromDate) && !$skip) {	
+					if(strtotime($requestEndDate)>strtotime($inputStartDate) && strtotime($requestStartDate)<=strtotime($inputEndDate)){
+						$skip = false;
+					}else{
 						$skip = true;
 					}
 				}
 
-				if (isset($toDate) && !$skip) {
-
-					$endDate = $tmpLeaveRequestArr->getLeaveToDate();
-					if (empty($endDate)) {
-						$endDate = $tmpLeaveRequestArr->getLeaveFromDate();
-					}
-
-					if (strtotime($endDate) > strtotime($toDate)) {
-						$skip = true;
-
-						// Starting day falls within the range
-						if (strtotime($tmpLeaveRequestArr->getLeaveFromDate()) >= strtotime($fromDate) && strtotime($tmpLeaveRequestArr->getLeaveFromDate()) <= strtotime($toDate)) {
-				    		$skip = false;
-						}
-					}
-
-				}
-
+				
 				if (!$skip) {
 					if ($supervisor) {
 						$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");

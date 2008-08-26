@@ -1,4 +1,8 @@
 New & Changed Features for OrangeHRM ver 2.4-beta.7
+	
+	Bug fixes
+	---------
+	2067151 - Leave:Ess Apply leave,doesnt filter properly
 
 	Bug fixes
 	---------
