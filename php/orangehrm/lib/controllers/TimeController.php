@@ -316,6 +316,13 @@ class TimeController {
 	public function submitTimesheet() {
 		$timesheetObj = $this->objTime;
 
+		/* For checking unfinished timesheets */
+		if (TimeEvent::isUnfinishedTimesheet($timesheetObj->getTimesheetId())) {
+			$_GET['message'] = 'UNFINISHED_TIMESHEET_FAILURE';
+		    $this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
+		    return false;
+		}
+
 		$timesheets = $timesheetObj->fetchTimesheets();
 		if (isset($timesheets) && isset($timesheets[0])) {
 			$timesheet = $timesheets[0];

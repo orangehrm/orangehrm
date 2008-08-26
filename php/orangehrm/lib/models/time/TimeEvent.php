@@ -635,6 +635,28 @@ class TimeEvent {
 
 		return $arrData;
 	}
+
+	public static function isUnfinishedTimesheet($timesheetId) {
+
+	    $selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."`";
+	    $selectFields[0] = "`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+	    $selectConditions[0] = "`".self::TIME_EVENT_DB_FIELD_DURATION."` IS NULL";
+		$selectConditions[1] = "`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."` = $timesheetId";
+
+	    $sqlBuilder = new SQLQBuilder();
+	    $query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+	    $dbConnection = new DMLFunctions();
+	    $result = $dbConnection->executeQuery($query);
+
+	    if ($dbConnection->dbObject->numberOfRows($result) > 0) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+
+	}
+
 }
 
 class TimeEventException extends Exception {

@@ -89,6 +89,10 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     				"VALUES (11, 10, 10, 10, 10, '".date('Y-m-d 13:00', time()+3600)."', '".date('Y-m-d 13:00', time()+3600*2)."', '".date('Y-m-d')."', 60, 'Testing1')");
 		mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (12, 10, 10, 10, 10, '".date('Y-m-d 14:30', time()+3600*2)."', NULL, '".date('Y-m-d')."', NULL, 'Testing2')");
+    	mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
+    				"VALUES (13, 10, 10, 10, 11, '".date('Y-m-d H:i:s', time()+3600*3)."', '".date('Y-m-d H:i:s', time()+3600*4)."', '".date('Y-m-d')."', 60, 'Testing unfinished activities')");
+    	$result = mysql_query("SELECT `duration` FROM `hs_hr_time_event` WHERE `timesheet_id` = 10");
+
 		UniqueIDGenerator::getInstance()->resetIDs();
     }
 
@@ -397,7 +401,7 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     public function testTimeReport2() {
 		$eventObj = $this->classTimeEvent;
 
-    	$expected[10][10] = array(120);
+    	$expected[10][10] = array(180);
 
     	$eventObj->setEmployeeId(10);
 
@@ -414,6 +418,11 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
 				$this->assertEquals($expected[$projectId][$activityId][0], $timeSpent, "Timespent wrong");
     		}
     	}
+    }
+
+    public function testIsUnfinishedTimesheet() {
+		$this->assertTrue(TimeEvent::isUnfinishedTimesheet(10));
+		$this->assertFalse(TimeEvent::isUnfinishedTimesheet(11));
     }
 
 }

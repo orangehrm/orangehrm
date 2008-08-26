@@ -70,7 +70,7 @@
 	$lang_Error_UploadFailed						= "Upload failed!";
 	$lang_Errro_WorkEmailIsNotValid                 = "The work email is not valid";
 	$lang_Errro_OtherEmailIsNotValid                = "The other email is not valid";
-	
+
 	$lang_Error_DependantNameEmpty					= "Dependent name is empty";
 
 	// Company Structure
@@ -381,7 +381,7 @@
 	$lang_Leave_LEAVE_TYPE_EDIT_SUCCESS     = "Changes saved successfully";
 	$lang_Leave_NO_CHANGES_TO_SAVE_WARNING  = "No changes to save";
 	$lang_Leave_Undelete			= "Undelete";
-	
+
 	$lang_Leave_Summary_Error_CorrectLeaveSummary	= "Error(s) in the Leave Summary!\\nPlease correct the highlighted leave quota values.";
 	$lang_Leave_Summary_Error_NonNumericValue		= "Non-numeric";
 	$lang_Leave_Summary_Error_InvalidValue			= "Invalid value";
@@ -873,7 +873,7 @@
 	$lang_salarygrades_stepPlusMinGreaterThanMax = "Step Salary plus Minimum Salary should be less than Maximum salary";
 	$lang_salarygrades_stepGreaterThanMax = "Step Salary should be less than Maximum salary";
 	$lang_salarygrades_NameCannotBeBlank = "Pay Grade Name cannot be blank!";
-	
+
 	$lang_Error_salarygrades_DUPLICATE_NAME_FAILURE		= "Failed to add Pay Grades. Cannot have duplicate names";
 	$lang_Error_salarygrades_ADD_FAILURE				= "Failed to add Pay Grades";
 
@@ -1365,6 +1365,7 @@
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Invalid time specified";
 	$lang_Time_Errors_EVENT_START_AFTER_END_ERROR = "Event start time after end time.";
 	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Invalid timesheet period.";
+	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "Timesheet contains unfinished activities";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "Encountered the following problems. Rows with errors are highlighted.";
 	$lang_Time_Errors_EncounteredFollowingProblems = "Encountered following problems";
