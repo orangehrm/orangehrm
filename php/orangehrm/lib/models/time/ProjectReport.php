@@ -64,25 +64,20 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
 
 		$sql = "SELECT  a.activity_id as activity_id, " .
                        "a.name as activity_name, " .
-                       "a.project_id as project_id, " .
-			           "if(start_time < '$dayStart', '$dayStart', start_time) AS start, " .
-                       "if(end_time > '$dayEnd', '$dayEnd', end_time) AS end " .
+                       "a.project_id as project_id ," .
+                        "e.duration as duration " .
                "FROM hs_hr_project_activity a LEFT JOIN hs_hr_time_event e on " .
-                        "(a.activity_id = e.activity_id) AND " .
-                        "(" .
-                           "(start_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
-                           "(end_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
-                           "('$dayStart' BETWEEN start_time AND end_time) " .
-                         ")" .
-               "WHERE   a.project_id = '$projectId' AND " .
-                       "(a.deleted <> 1 OR e.activity_id IS NOT NULL)";
-
-
+                        "(a.activity_id = e.activity_id) WHERE ".
+                           "start_time >='$dayStart' AND end_time <='$dayEnd' 
+							AND a.project_id = '$projectId'
+		 					OR (start_time IS NUll AND end_time IS NULL AND reported_date BETWEEN '$dayStart' AND '$dayEnd'" .
+               " AND   a.project_id = '$projectId' AND " .
+                       "(a.deleted <> 1 OR e.activity_id IS NOT NULL)
+                  )";
 		$sql = "SELECT activity_id, activity_name, project_id, " .
-                       "COALESCE(sum(time_to_sec(timediff(end, start))), 0) AS duration " .
-               "FROM (" . $sql . ") AS s GROUP BY activity_id";
-
-		$conn = new DMLFunctions();
+                      "COALESCE(sum(duration), 0) AS duration " .
+              "FROM (" . $sql . ") AS s GROUP BY activity_id";				
+		$conn = new DMLFunctions();	
 		$result = $conn->executeQuery($sql);
 
 		$activityTimeList = array();

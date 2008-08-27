@@ -605,8 +605,8 @@ class TimeEvent {
 		$selectFields[1] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
 		$selectFields[2] = "SUM(a.`".self::TIME_EVENT_DB_FIELD_DURATION."`) as ".self::TIME_EVENT_DB_FIELD_DURATION;
 
-		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$startDate} 00:00:00'";
-		$selectConditions[1] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` <= '{$endDate} 23:59:59'";
+		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` >= '{$startDate} 00:00:00'";
+		$selectConditions[1] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` <= '{$endDate} 23:59:59'";
 
 		if ($this->getProjectId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
