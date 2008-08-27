@@ -208,7 +208,7 @@ function saveRequest() {
 	if (err) {
 		alert(msg);
 	} else {
-		document.frmHspRequest.action = action+'Hsp_Request_Save<?php echo "&id=" . $id; ?>';
+		document.frmHspRequest.action = action+'Hsp_Request_Save<?php echo "&id=" . htmlspecialchars($id, ENT_QUOTES); ?>';
 		document.frmHspRequest.submit();
 	}
 }
