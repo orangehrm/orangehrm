@@ -65,18 +65,32 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
 		$sql = "SELECT  a.activity_id as activity_id, " .
                        "a.name as activity_name, " .
                        "a.project_id as project_id ," .
-                        "e.duration as duration " .
-               "FROM hs_hr_project_activity a LEFT JOIN hs_hr_time_event e on " .
-                        "(a.activity_id = e.activity_id) WHERE ".
-                           "start_time >='$dayStart' AND end_time <='$dayEnd' 
-							AND a.project_id = '$projectId'
-		 					OR (start_time IS NUll AND end_time IS NULL AND reported_date BETWEEN '$dayStart' AND '$dayEnd'" .
-               " AND   a.project_id = '$projectId' AND " .
-                       "(a.deleted <> 1 OR e.activity_id IS NOT NULL)
-                  )";
+                       
+					   // If start and end time available, use part of time in the report period
+					   // Else use e.duration 
+                       "COALESCE(" .
+                       		"time_to_sec(timediff( if(end_time > '$dayEnd', '$dayEnd', end_time), if(start_time < '$dayStart', '$dayStart', start_time) )),  " .
+                       		"e.duration) as duration " .                      
+
+               "FROM hs_hr_project_activity a LEFT JOIN hs_hr_time_event e ON " .
+                        "(a.activity_id = e.activity_id) AND " .
+                        
+                        "(" .
+							"(" .
+                               "(start_time BETWEEN '$dayStart' AND '$dayEnd') OR " .  // Some part of event in given period
+                               "(end_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
+                               "('$dayStart' BETWEEN start_time AND end_time) " .
+							")" .                        
+                        	" OR (start_time IS NUll AND end_time IS NULL AND reported_date BETWEEN '$dayStart' AND '$dayEnd' )" . // Only event duration given and reported date is in given period	
+                        ")" .
+               "WHERE " .                            
+						"a.project_id = '$projectId' AND " .
+	                    "(a.deleted <> 1 OR e.activity_id IS NOT NULL)";
+                  
 		$sql = "SELECT activity_id, activity_name, project_id, " .
                       "COALESCE(sum(duration), 0) AS duration " .
               "FROM (" . $sql . ") AS s GROUP BY activity_id";				
+
 		$conn = new DMLFunctions();	
 		$result = $conn->executeQuery($sql);
 
@@ -125,19 +139,27 @@ require_once ROOT_PATH.'/lib/models/time/EmployeeActivityTime.php';
                        "e.emp_number as emp_number, " .
                        "e.emp_firstname as firstname, " .
                        "e.emp_lastname as lastname, " .
-			           "if(start_time < '$dayStart', '$dayStart', start_time) AS start, " .
-                       "if(end_time > '$dayEnd', '$dayEnd', end_time) AS end " .
+					   // If start and end time available, use part of time in the report period
+					   // Else use te.duration 
+                       "COALESCE(" .
+                       		"time_to_sec(timediff( if(end_time > '$dayEnd', '$dayEnd', end_time), if(start_time < '$dayStart', '$dayStart', start_time) )),  " .
+                       		"te.duration) as duration " . 
                "FROM hs_hr_time_event te LEFT JOIN hs_hr_project_activity a on (a.activity_id = te.activity_id) " .
                "     LEFT JOIN hs_hr_employee e on (te.employee_id = e.emp_number) " .
                "WHERE " .
-                      " te.activity_id = $activityId AND (" .
-                           "(start_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
-                           "(end_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
-                           "('$dayStart' BETWEEN start_time AND end_time) )";
-
+                      " te.activity_id = $activityId AND " .
+                        "(" .
+							"(" .
+                               "(start_time BETWEEN '$dayStart' AND '$dayEnd') OR " .  // Some part of event in given period
+                               "(end_time BETWEEN '$dayStart' AND '$dayEnd') OR " .
+                               "('$dayStart' BETWEEN start_time AND end_time) " .
+							")" .                        
+                        	" OR (start_time IS NUll AND end_time IS NULL AND reported_date BETWEEN '$dayStart' AND '$dayEnd' )" . // Only event duration given and reported date is in given period	
+                        ")";
+                                              
 
 		$sql = "SELECT activity_id, activity_name, emp_number, firstname, lastname, " .
-                       "COALESCE(sum(time_to_sec(timediff(end, start))), 0) AS duration " .
+		               "COALESCE(sum(duration), 0) AS duration " .
                "FROM (" . $sql . ") AS s GROUP BY emp_number $limit";
 
 		$conn = new DMLFunctions();
