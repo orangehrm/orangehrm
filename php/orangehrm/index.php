@@ -798,7 +798,7 @@ function preloadAllImages() {
 		                    <ul id="menu">
 		  						<li id="viewemprep"><a href="http://www.orangehrm.com/subscribe-support.shtml" target="_blank"><?php echo $lang_Menu_Home_Support; ?></a></li>
 		  						<li id="viewemprep"><a href="http://www.orangehrm.com/forum/" target="_blank"><?php echo $lang_Menu_Home_Forum; ?></a></li>
-		  						<li id="viewemprep"><a href="http://orangehrm.blogspot.com/" target="_blank"><?php echo $lang_Menu_Home_Blog; ?></a></li>
+		  						<li id="viewemprep"><a href="http://www.orangehrm.com/blog/" target="_blank"><?php echo $lang_Menu_Home_Blog; ?></a></li>
 		  				    </ul>
 		  				</td>
 
