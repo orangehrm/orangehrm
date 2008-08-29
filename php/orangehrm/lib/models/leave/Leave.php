@@ -242,10 +242,10 @@ class Leave {
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_employee` d";
-		$arrTables[2] = "`hs_hr_leave_requests` b";
+		$arrTables[2] = "`hs_hr_leavetype` b";
 
 		$joinConditions[1] = "a.`employee_id` = d.`emp_number`";
-		$joinConditions[2] = "a.`leave_request_id` = b.`leave_request_id`";
+		$joinConditions[2] = "a.`leave_type_id` = b.`leave_type_id`";
 
 		$selectConditions[1] = "a.`employee_id` = '".$employeeId."'";
 		$selectConditions[2] = "a.`leave_status` = ".$this->statusLeaveTaken;
@@ -274,7 +274,7 @@ class Leave {
 		$arrFields[3] = 'a.`leave_length_days` as leave_length_days';
 		$arrFields[4] = 'a.`leave_comments` as leave_comments';
 		$arrFields[5] = 'a.`leave_id` as leave_id';
-		$arrFields[6] = 'b.`leave_type_name` as leave_type_name';
+		$arrFields[6] = 'd.`leave_type_name` as leave_type_name';
 		$arrFields[7] = 'c.`emp_firstname` as emp_firstname';
 		$arrFields[8] = 'c.`emp_lastname` as emp_lastname';
 		$arrFields[9] = 'a.`employee_id` as employee_id';
@@ -285,11 +285,13 @@ class Leave {
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leave_requests` b";
 		$arrTables[2] = "`hs_hr_employee` c";
+		$arrTables[3] = "`hs_hr_leavetype` d";
 
 		$selectConditions[1] = "a.`leave_request_id` = '".$requestId."'";
 
 		$joinConditions[1] = "a.`leave_request_id` = b.`leave_request_id`";
 		$joinConditions[2] = "a.`employee_id` = c.`emp_number`";
+		$joinConditions[3] = "b.`leave_type_id` = d.`leave_type_id`";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
@@ -351,7 +353,7 @@ class Leave {
 		$arrFields[8] = '`leave_request_id`';
 		$arrFields[9] = 'a.`leave_type_id`';
 		$arrFields[10] = '`employee_id`';
-		$arrFields[11] = '`leave_type_name`';
+		$arrFields[11] = 'b.`leave_type_name`';
 
 		$arrTables[0] = "`hs_hr_leave` a";
 		$arrTables[1] = "`hs_hr_leavetype` b";
@@ -437,7 +439,7 @@ class Leave {
 		if (isset($id)) {
 			$this->setLeaveId($id);
 		}
-		
+
 		if (isset($comment)) {
 			$this->setLeaveComments($comments);
 		}

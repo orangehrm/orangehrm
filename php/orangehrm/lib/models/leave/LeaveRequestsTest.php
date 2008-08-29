@@ -102,11 +102,11 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (10, 10, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 0.12, 1, 1, 'Leave 1')");
 
 		//Leave 2
-		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Hospital', '".date('Y-m-d', time()+3600*24)."', '011')");
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (11, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '011')");
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (11, 11, '011', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 0.12, 1, 1, 'Leave 2-1')");
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_request_id`, `leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_days`, `leave_length_hours`, `leave_status`, `leave_comments`) VALUES (11, 13, '011', 'LTY010', '".date('Y-m-d', time()+3600*24*2)."', 0.12, 1, 1, 'Leave 2-2')");
 
-		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (12, 'LTY010', 'Hospital', '".date('Y-m-d', time()+3600*24)."', '015')");
+		mysql_query("INSERT INTO `hs_hr_leave_requests` (`leave_request_id`, `leave_type_id`, `leave_type_name`, `date_applied`, `employee_id`) VALUES (12, 'LTY010', 'Medical', '".date('Y-m-d', time()+3600*24)."', '015')");
 
         UniqueIDGenerator::getInstance()->initTable();
     }
@@ -166,7 +166,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->assertSame(2, count($res), 'Wrong number of records found');
 
     	$expected[0] = array('10', 'Medical', date('Y-m-d', time()+3600*24), null);
-    	$expected[1] = array('11', 'Hospital', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*2));
+    	$expected[1] = array('11', 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*2));
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');
@@ -195,7 +195,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->assertSame(2, count($res), 'Wrong number of records found');
 
     	$expected[0] = array('10', 'Medical', date('Y-m-d', time()+3600*24), null);
-    	$expected[1] = array('11', 'Hospital', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*2));
+    	$expected[1] = array('11', 'Medical', date('Y-m-d', time()+3600*24), date('Y-m-d', time()+3600*24*2));
 
     	for ($i=0; $i<count($res); $i++) {
     		$this->assertSame($expected[$i][0], $res[$i]->getLeaveRequestId(), 'Wrong Leave Request Id');

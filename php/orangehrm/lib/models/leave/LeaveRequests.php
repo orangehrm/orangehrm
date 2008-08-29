@@ -25,14 +25,6 @@ require_once ROOT_PATH . '/lib/models/leave/Holidays.php';
 require_once ROOT_PATH . '/lib/models/leave/Weekends.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 
-/**
- * Leave Request Class
- *
- * Mainly involved in displaying leave and populating leave of
- * multiple days
- *
- * @author S.H.Mohanjith <mohanjith@orangehrm.com>, <moha@mohanjith.net>
- */
 class LeaveRequests extends Leave {
 
 	const LEAVEREQUESTS_LEAVELENGTH_RANGE = 9;
@@ -94,14 +86,17 @@ class LeaveRequests extends Leave {
 
 		$sqlBuilder = new SQLQBuilder();
 
-		$arrFields[0] = '`leave_type_name`';
-		$arrFields[1] = '`leave_request_id`';
+		$arrFields[0] = 'b.`leave_type_name`';
+		$arrFields[1] = 'a.`leave_request_id`';
 
-		$arrTable = "`hs_hr_leave_requests`";
+		$arrTables[0] = "`hs_hr_leave_requests` a";
+		$arrTables[1] = "`hs_hr_leavetype` b";
 
-		$selectConditions[1] = "`employee_id` = '".$employeeId."'";
+		$joinConditions[1] = "a.`leave_type_id` = b.`leave_type_id`";
 
-		$query = $sqlBuilder->simpleSelect($arrTable, $arrFields, $selectConditions, $arrFields[1], 'ASC');
+		$selectConditions[1] = "a.`employee_id` = '".$employeeId."'";
+
+		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, null, $arrFields[1], 'ASC');
 
 		$dbConnection = new DMLFunctions();
 
@@ -124,7 +119,7 @@ class LeaveRequests extends Leave {
 
 		$sqlBuilder = new SQLQBuilder();
 
-		$arrFields[0] = 'a.`leave_type_name`';
+		$arrFields[0] = 'c.`leave_type_name`';
 		$arrFields[1] = 'a.`leave_request_id`';
 		$arrFields[2] = 'b.`emp_firstname`';
 		$arrFields[3] = 'a.`employee_id`';
@@ -132,10 +127,12 @@ class LeaveRequests extends Leave {
 
 		$arrTables[0] = "`hs_hr_leave_requests` a";
 		$arrTables[1] = "`hs_hr_employee` b";
+		$arrTables[2] = "`hs_hr_leavetype` c";
 
-                $selectConditions[]  = "b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000'" ;
+        $selectConditions[0]  = "b.`emp_status` IS  NULL OR b.`emp_status` != 'EST000'" ;
 
 		$joinConditions[1] = "a.`employee_id` = b.`emp_number`";
+		$joinConditions[2] = "a.`leave_type_id` = c.`leave_type_id`";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions);
 
@@ -158,7 +155,7 @@ class LeaveRequests extends Leave {
 
 		$sqlBuilder = new SQLQBuilder();
 
-		$arrFields[0] = 'a.`leave_type_name`';
+		$arrFields[0] = 'e.`leave_type_name`';
 		$arrFields[1] = 'a.`leave_request_id`';
 		$arrFields[2] = 'd.`emp_firstname`';
 		$arrFields[3] = 'a.`employee_id`';
@@ -167,9 +164,11 @@ class LeaveRequests extends Leave {
 		$arrTables[0] = "`hs_hr_leave_requests` a";
 		$arrTables[1] = "`hs_hr_emp_reportto` c";
 		$arrTables[2] = "`hs_hr_employee` d";
+		$arrTables[3] = "`hs_hr_leavetype` e";
 
 		$joinConditions[1] = "a.`employee_id` = c.`erep_sub_emp_number`";
 		$joinConditions[2] = "a.`employee_id` = d.`emp_number`";
+		$joinConditions[3] = "a.`leave_type_id` = e.`leave_type_id`";
 
 		$selectConditions[1] = "c.`erep_sup_emp_number` = '".$supervisorId."'";
 
@@ -368,13 +367,13 @@ class LeaveRequests extends Leave {
 					$skip = true;
 				}
 
-				
+
 				$inputStartDate=$fromDate;
 				$inputEndDate=$toDate;
 				$requestStartDate= $tmpLeaveRequestArr->getLeaveFromDate();
 				$requestEndDate=$tmpLeaveRequestArr->getLeaveToDate();
-					
-				if (isset($fromDate) && !$skip) {	
+
+				if (isset($fromDate) && !$skip) {
 					if(strtotime($requestEndDate)>strtotime($inputStartDate) && strtotime($requestStartDate)<=strtotime($inputEndDate)){
 						$skip = false;
 					}else{
@@ -382,7 +381,7 @@ class LeaveRequests extends Leave {
 					}
 				}
 
-				
+
 				if (!$skip) {
 					if ($supervisor) {
 						$tmpLeaveRequestArr->setEmployeeName("{$row[2]} {$row[4]}");
