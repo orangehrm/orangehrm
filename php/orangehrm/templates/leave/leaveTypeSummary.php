@@ -35,7 +35,7 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	</font>
 <?php }	?>
 
-<?php 
+<?php
 	/* To check whether active leave types are available: Begins */
 	$sum = 0;
 	foreach ($records as $record) {
@@ -44,7 +44,7 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 			$sum++;
 		}
 	}
-	
+
 	$activeTypesAvailable = false;
 	if ($sum > 0) {
 		$activeTypesAvailable = true;
@@ -299,7 +299,7 @@ if ($activeTypesAvailable) {
 	if (is_array($records))
 		foreach ($records as $record) {
 			if ($record->getLeaveTypeAvailable() != $record->availableStatusFlag) {
-				echo "<script>deletedLeaveTypes.push('{$record->getLeaveTypeName()}');</script>";
+				echo "<script>deletedLeaveTypes.push(\"{$record->getLeaveTypeName()}\");</script>";
 				continue;
 			}
 			if(!($j%2)) {
