@@ -33,23 +33,23 @@ class EXTRACTOR_JobTitle {
         $jobTitle->setJobId($postArr['txtJobTitleID']);
 		return $jobTitle;
 	}
-    
+
     /**
      * Parse common data for edit and update
      * @return JobTitle object
      */
     private function _parseCommonData($postArr) {
         $jobTitle = new JobTitle();
-        $jobTitle->setJobName(trim($postArr['txtJobTitleName']));
-        $jobTitle->setJobDesc(trim($postArr['txtJobTitleDesc']));
-        $jobTitle->setJobComm(trim($postArr['txtJobTitleComments']));
+        $jobTitle->setJobName(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleName'])));
+        $jobTitle->setJobDesc(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleDesc'])));
+        $jobTitle->setJobComm(CommonFunctions::escapeHtml(trim($postArr['txtJobTitleComments'])));
         $jobTitle->setJobSalGrd(trim($postArr['cmbPayGrade']));
-        
+
         $jobSpecId = trim($postArr['cmbJobSpecId']);
         if (CommonFunctions::isValidId($jobSpecId)) {
             $jobTitle->setJobSpecId($jobSpecId);
         }
-        
+
         return $jobTitle;
     }
 
