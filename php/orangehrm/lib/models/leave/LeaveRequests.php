@@ -368,15 +368,19 @@ class LeaveRequests extends Leave {
 				}
 
 
-				$inputStartDate=$fromDate;
-				$inputEndDate=$toDate;
-				$requestStartDate= $tmpLeaveRequestArr->getLeaveFromDate();
-				$requestEndDate=$tmpLeaveRequestArr->getLeaveToDate();
+				// Find the leave requets for the given data range
+				if (isset ($toDate) && !$skip) {
 
-				if (isset($fromDate) && !$skip) {
-					if(strtotime($requestEndDate)>strtotime($inputStartDate) && strtotime($requestStartDate)<=strtotime($inputEndDate)){
+					$endDate = $tmpLeaveRequestArr->getLeaveToDate();
+					if (empty ($endDate)) {
+						$endDate = $tmpLeaveRequestArr->getLeaveFromDate();
+					} else {
+						$endDate = $tmpLeaveRequestArr->getLeaveToDate();
+					}
+
+					if (strtotime($endDate) >= strtotime($fromDate) && strtotime($tmpLeaveRequestArr->getLeaveFromDate()) <= strtotime($toDate)) {
 						$skip = false;
-					}else{
+					} else {
 						$skip = true;
 					}
 				}
