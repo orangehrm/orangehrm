@@ -49,7 +49,9 @@ class EXTRACTOR_GenInfo {
 		for($c=0; count($arrGenInfo) > $c; $c++) {
 			$arrGenInfoValues[$c] = $postArr[$arrGenInfoUI[$c]];
 		}
-		
+
+		$arrGenInfoValues[0] = CommonFunctions::escapeHtml($arrGenInfoValues[0]);
+
 		$genInfoValues = implode('|',$arrGenInfoValues);
 		
 		$this->parent_geninfo -> setGenInfoValues($genInfoValues);

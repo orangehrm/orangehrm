@@ -70,15 +70,11 @@ class GenInfo {
 		$sql_builder->arr_updateRecList = $arrRecordsList;
 
 		$sqlQString = $sql_builder->addUpdateRecord1();
-		//$compStruct_newTitle = explode("'",$arrRecordsList[2]);
 		$compStruct_newTitle = explode("|",$arrRecordsList[2]);
 		$compStruct_newTitle = substr($compStruct_newTitle[0], 1);
 
-		$sqlQString1 = sprintf("UPDATE `hs_hr_compstructtree` SET `title` = '%s' WHERE `lft`=1 LIMIT 1", mysql_real_escape_string($compStruct_newTitle));
-
 		$dbConnection = new DMLFunctions();
 		$message2 = $dbConnection -> executeQuery($sqlQString); //Calling the addData() function
-		//$message3 = $dbConnection -> executeQuery($sqlQString1);
 
 		$compStructObj = new CompStruct();
 
@@ -133,7 +129,7 @@ class GenInfo {
 
 		}
 	}
-	
+
 	/**
 	 * Get value for given key from general info
 	 * @param $key Key
@@ -141,20 +137,20 @@ class GenInfo {
 	 */
 	public function getValue($key) {
 		$tabArr = $this->filterGenInfo();
-		
+
 		$genInfoKeys = explode('|',$tabArr[0][0]);
 		$genInfoValues = explode('|',$tabArr[0][1]);
-		
+
 		/* Look for the key */
 		$index = array_search($key, $genInfoKeys);
-		
+
 		if (($index !== false) && isset($genInfoValues[$index])) {
-			$value = $genInfoValues[$index];			
+			$value = $genInfoValues[$index];
 		} else {
 			$value = null;
 		}
-		
-		return $value;	
+
+		return $value;
 	}
 }
 ?>
