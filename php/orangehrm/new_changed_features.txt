@@ -1,8 +1,17 @@
-New & Changed Features for OrangeHRM ver 2.4-beta.7
-	
+New & Changed Features for OrangeHRM ver 2.4-beta.8
+
 	Bug fixes
 	---------
 	2067151 - Leave:Ess Apply leave,doesnt filter properly
+	2040006 - Time: Approved timesheets can be edited
+	2057167 - Leave:Entering for some text boxes, gives Stoper
+	2041376 - 2.4b6:Benefits:ESSuser having(') in his name,cant submit req
+	2037561 - TIME:It gives an incorrect report if the user add time event
+	2059239 - Renaming Leave Type leads for incorrect displaying of data
+	2023269 - [CRB] Leave list for a month not filtered properly
+	2056846 - Admin: Entering ‘ for some text boxes, gives Stoper
+
+New & Changed Features for OrangeHRM ver 2.4-beta.7
 
 	Bug fixes
 	---------
