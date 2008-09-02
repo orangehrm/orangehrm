@@ -30,7 +30,7 @@ class EXTRACTOR_CompProperty {
 
     function parseAddData($postArr) {
 
-        $this->compProperty->setPropName($postArr['txtPropertyName']);
+        $this->compProperty->setPropName(CommonFunctions::escapeHtml($postArr['txtPropertyName']));
 
         return $this->compProperty;
     }
@@ -47,7 +47,7 @@ class EXTRACTOR_CompProperty {
             $this->compProperty->setEditPropIds($postArr['id']);
 
         if(isset($postArr['txtPropertyName']))
-            $this->compProperty->setPropName($postArr['txtPropertyName']);
+            $this->compProperty->setPropName(CommonFunctions::escapeHtml($postArr['txtPropertyName']));
 
         if(isset($postArr['capturemode'])=='propedit')
             $this->compProperty->setEditPropFlag(true);

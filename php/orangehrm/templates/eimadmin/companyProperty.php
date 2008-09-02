@@ -37,7 +37,7 @@ $saveBtnAction = 'saveList()'
         width: 12px;
         vertical-align: bottom;
     }
-    
+
     .message {
         float:left;
         width:400px;
@@ -56,12 +56,12 @@ var properties=new Array();
 if(isset($this->getArr['action']) && (count($this->popArr['allProperties'])!=0))
 {
 	$thisProperty = ($this->getArr['action'] == 'edit') ? $this->getArr['name'] : '';
-	
+
     $i=0;
     foreach($this->popArr['allProperties'] as $property)
     {
     	if ($property['prop_name'] != $thisProperty) {
-        	echo("properties[$i]='{$property['prop_name']}';");
+        	echo("properties[$i]=\"".stripslashes($property['prop_name'])."\";");
 			$i++;
     	}
     }
@@ -439,7 +439,7 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
       <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
       <td><?php echo $lang_Admin_Property_Name;?></td>
       <td width="20"></td>
-      <td><input type="text" name="txtPropertyName" id ="txtPropertyName"  value="<?php echo $this->getArr['action']=='edit'?$this->getArr['name']:''; ?>" size="40" maxlength="256"/></td>
+      <td><input type="text" name="txtPropertyName" id ="txtPropertyName"  value="<?php echo $this->getArr['action']=='edit'?stripslashes($this->getArr['name']):''; ?>" size="40" maxlength="256"/></td>
         <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
     </tr>
     <tr>
