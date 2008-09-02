@@ -78,6 +78,12 @@ function goBack() {
 			return false;
 		}
 
+		if (frm.txtUserName.value.search(/['\"\*\+\-]/) != -1) {
+			alert("<?php echo $lang_Admin_Users_Errors_SpecialCharacters; ?>!");
+			frm.txtUserName.focus();
+			return false;
+		}
+
 		<?php if ($_SESSION['ldap'] == "enabled") {} else {?>
 
 		if(frm.txtUserPassword.value.length < 4) {

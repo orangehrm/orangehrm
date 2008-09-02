@@ -1242,6 +1242,7 @@
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Field should be selected";
 	$lang_Admin_Users_Errors_ViewShouldBeSelected = "View should be selected";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
+	$lang_Admin_Users_Errors_SpecialCharacters = "The username should not contain special characters";
 	$lang_Admin_Users_WrongPassword = "Mismatch with your old password";
 
 	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Do you want to clear Rights";
