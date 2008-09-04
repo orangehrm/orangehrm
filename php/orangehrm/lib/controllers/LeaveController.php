@@ -1070,7 +1070,7 @@ class LeaveController {
 		$authorizeObj  = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 
-		if ($authorizeObj->isAdmin()) {
+		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
 
 			$employeeId = $this->getId();
 			$tmpObj = $this->getObjLeave();

@@ -16,7 +16,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
  $empInfo = null;
  if (isset($records[count($records)-1][0])) {
  	$empInfo = $records[count($records)-1][0];
@@ -248,6 +247,15 @@
 	}
 
 <?php	} ?>
+
+<?php	if ($auth === 'supervisor') { ?>
+
+	function actTakenLeave() {
+		document.frmSummary.action = '?leavecode=Leave&action=Leave_List_Taken';
+		document.frmSummary.submit();
+	}
+	
+<?php }  ?>	
 </script>
 <h2><?php echo $lang_Title; ?><hr/></h2>
 <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -282,7 +290,7 @@
 		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
 
 	<?php
-		if ($auth === 'admin') {
+		if ($auth === 'admin' ) {
 	?>
 
 	<p class="controls">
@@ -299,6 +307,15 @@
 
 	</p>
 <?php
+		}else if($auth === 'supervisor'){
+?>		
+	<p class="controls">
+		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
+		<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
+		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
+	<?php } ?>
+	</p>
+<?php		
 		}
 ?>
 <table border="0" cellpadding="0" cellspacing="0">
