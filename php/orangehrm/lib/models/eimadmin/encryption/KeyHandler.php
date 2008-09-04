@@ -18,13 +18,18 @@
  */
 
 require_once ROOT_PATH . '/lib/common/Config.php';
+require_once ROOT_PATH . '/lib/confs/Conf.php';
 
 class KeyHandler {
 
-	private static $filePath = '/lib/confs/cryptokeys/key.ohrm';
+	private static $filePath;
 	private static $key;
 	private static $keySet = false;
 
+	public function __construct() {
+	    $confObj = new Conf();
+	    self::$filePath = $confObj->encryptionKey;
+	}
 
     public static function createKey() {
 

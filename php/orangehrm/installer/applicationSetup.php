@@ -243,6 +243,7 @@ class Conf {
 		\$this->version = '2.4-beta.8';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
+		\$this->encryptionKey = dirname(__FILE__).'/cryptokeys/key.ohrm';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
 	}
 }
