@@ -157,7 +157,7 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
 	}
 
-	$timesheetPage = 'javascript: location.href = \'../../lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
+	$timesheetPage = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
 
 } else {
 	if ($_SESSION['timePeriodSet'] == 'Yes') {
