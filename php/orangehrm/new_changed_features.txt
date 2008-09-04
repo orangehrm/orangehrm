@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.4
+
+	Bug fixes
+	---------
+	2090618 - TimeModule: Page not found when click Page before page load
+
 New & Changed Features for OrangeHRM ver 2.4-beta.8
 
 	Bug fixes
