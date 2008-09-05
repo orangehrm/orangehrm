@@ -389,4 +389,4 @@ FunctionEnd
 
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDemoData} $(DESC_SecDemoData)
 
-  !insertmacro MUI_FUNCTION_DESCRIPTION_EN
+  !insertmacro MUI_FUNCTION_DESCRIPTION_END
