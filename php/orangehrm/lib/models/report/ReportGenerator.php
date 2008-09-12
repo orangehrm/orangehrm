@@ -18,6 +18,8 @@
 */
 
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
+require_once ROOT_PATH . '/lib/dao/SQLQBuilder.php';
 
 class ReportGenerator {
 
@@ -27,6 +29,7 @@ class ReportGenerator {
 	var $repName;
 	var $headName;
 	var $employeeIdLength;
+	private static $dbCon;
 
 	function ReportGenerator() {
 		$this->criteria=array();
@@ -661,5 +664,23 @@ class ReportGenerator {
 			$rows	 = count($repDetails);
 
 			require_once(ROOT_PATH . '/templates/report/report.php');
+		}
+		
+		
+		public function fetchArray($sql){
+			$arrayDispList = NULL ;
+			if(!is_object(ReportGenerator::$dbCon) && !ReportGenerator::$dbCon instanceof DMLFunctions ){
+				ReportGenerator::$dbCon = new DMLFunctions();
+			}
+			
+			$message2 = ReportGenerator::$dbCon->executeQuery($sql);
+			$i=0;
+			while ($line = mysql_fetch_array($message2, MYSQL_NUM)) {
+				for ($c=0;count($this->field)*2>$c;$c+=2) {
+					$arrayDispList[$line[0]][$c/2][$line[$c]] = $line[$c+1];
+				}
+				$i++;
+			}
+			return $arrayDispList ;
 		}
 }

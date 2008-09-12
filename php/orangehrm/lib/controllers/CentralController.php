@@ -146,7 +146,6 @@ if(isset($_GET['uniqcode'])) {
 } elseif (isset($_GET['recruitcode'])) {
 	$moduletype = 'recruitMod';
 }
-
 //authentication
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';

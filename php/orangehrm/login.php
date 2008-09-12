@@ -46,11 +46,17 @@ $_SESSION['ldap'] = "disabled";
 $_SESSION['ldapStatus'] = "disabled";
 
 if (file_exists($ldapFile)) {
+	require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+	require_once ROOT_PATH . '/plugins/PlugInFactory.php';
 	$_SESSION['ldap'] = "enabled";
 	require_once $ldapFile;
-	$ldap = new LDapLogin();
-	$ldapStatus = $ldap->retrieveLdapStatus();
-	$_SESSION['ldapStatus'] = $ldapStatus;
+	$ldap = PlugInFactory::factory("LDAP");
+	if($ldap->checkAuthorizeLoginUser("Admin") && $ldap->checkAuthorizeModule("Admin")){
+		$ldapStatus = $ldap->retrieveLdapStatus();
+		$_SESSION['ldapStatus'] = $ldapStatus;
+	}else{
+		throw new PlugInFactoryException(PlugInFactoryException::PLUGIN_INSTALL_ERROR);
+	}
 }
 
 /* LDAP Module */

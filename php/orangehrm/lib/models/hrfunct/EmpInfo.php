@@ -28,6 +28,8 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/common/UniqueIDGenerator.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/JobTitleHistory.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/SubDivisionHistory.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
+
 
 class EmpInfo {
 

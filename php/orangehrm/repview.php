@@ -18,7 +18,22 @@ Boston, MA  02110-1301, USA
 */
 
 
+$_SESSION['moduleType'] = 'rep';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
+require_once ROOT_PATH . '/plugins/PlugInFactoryException.php';
+require_once ROOT_PATH . '/plugins/PlugInFactory.php';
+$sysConst = new sysConf();
+$locRights=$_SESSION['localRights'];
+$headingInfo=$this->popArr['headinginfo'];
+$currentPage = $this->popArr['currentPage'];
+$message= $this->popArr['message'];
+$themeDir = '../../themes/' . $styleSheet;
+// Check csv plugin available 
+$PlugInObj = PlugInFactory::factory("CSVREPORT");
+ 
+if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHORIZE_ROLE_ADMIN) && $PlugInObj->checkAuthorizeModule( $_SESSION['moduleType'])){
+	$csvExportRepotsPluginAvailable = true;
+}
 
 
 	$sysConst = new sysConf();
@@ -55,7 +70,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 </head>
-<script>
+<script  language="javascript" type="text/javascript">
 
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
@@ -146,6 +161,11 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
+	}
+	
+	function exportData(repcode) {
+		var url = "../../plugins/csv/CSVController.php?uniqcode=CSE&download=1&path=<?php echo addslashes(ROOT_PATH) ?>&moduleType=<?php echo  $_SESSION['moduleType'] ?>&repcode=" +  repcode + "&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
+	  window.location = url;
 	}
 </script>
 <body>
@@ -283,6 +303,7 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 				</td>
 				<td scope="col" width="250" class="listViewThS1"><?php echo $heading[0]?></td>
 				<td scope="col" width="400" class="listViewThS1"><?php echo $heading[1]?></td>
+			    <td scope="col" width="400" class="listViewThS1">&nbsp;</td>
 			</tr>
 		<?php
 		if ((isset($message)) && ($message !='')) {
@@ -310,12 +331,13 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						<a 
 							href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" 
 							class="listViewTdLinkS1">
-								<?php echo $message[$j][0]?>
-						</a>
-					</td>
+								<?php echo $message[$j][0]?>						</a>					</td>
 					<td class="<?php echo $cssClass; ?>" width="400" >
-						<?php echo $descField?>
-					</td>
+						<?php echo $descField?>					</td>
+				    <td class="<?php echo $cssClass; ?>" width="400" ><?php if(trim($_GET['repcode'])  == 'EMPVIEW'   && isset($csvExportRepotsPluginAvailable))  {?><input type="button" class="button" id="btnExport" value="<?php echo $lang_DataExport_Export?>"
+	        	title="<?php echo $lang_DataExport_Export?>" name="btnExport" onclick="exportData('<?php echo $message[$j][0]?>')" />
+				<?php } ?>
+				</td>
 				</tr>
 		<?php 
 			}

@@ -93,7 +93,7 @@ if($_SESSION['isAdmin']=='Yes') {
     /*
      * Assign Manager's access to recruitment module
      */
-    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
+    if ($_SESSION['isManager'] || $_SESSION['isDirector'] || (isset($_SESSION['isAcceptor'])  && $_SESSION['isAcceptor']) ||  (isset($_SESSION['isOfferer']) && $_SESSION['isOfferer'])){
             $arrAllRights[Recruit]=array('add'=> false , 'edit'=> true , 'delete'=> false, 'view'=> true);
     }
 }
