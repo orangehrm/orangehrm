@@ -21,10 +21,10 @@
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'AllTests::main');
 }
- 
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
- 
+
 set_include_path(get_include_path() . PATH_SEPARATOR . "../build");
 
 require_once 'common/AllTests.php';
@@ -34,19 +34,18 @@ require_once 'controllers/AllTests.php';
 require_once 'logger/AllTests.php';
 require_once 'dao/AllTests.php';
 require_once 'extractor/AllTests.php';
-require_once '../plugins/AllTests.php';
- 
+
 class AllTests
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('OrangeHRM');
- 
+
         $suite->addTest(common_AllTests::suite());
         $suite->addTest(utils_AllTests::suite());
         $suite->addTest(models_AllTests::suite());
@@ -54,12 +53,11 @@ class AllTests
         $suite->addTest(logger_AllTests::suite());
         $suite->addTest(dao_AllTests::suite());
         $suite->addTest(extractor_AllTests::suite());
-        $suite->addTest(plugin_AllTests::suite());
- 
+
         return $suite;
     }
 }
- 
+
 if (PHPUnit_MAIN_METHOD == 'AllTests::main') {
     AllTests::main();
 }
