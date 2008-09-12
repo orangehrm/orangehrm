@@ -1275,7 +1275,7 @@ function preloadAllImages() {
 <?php } ?>
 <table width="100%">
 <tr>
-<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.4 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
+<td align="center"><a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.4.0.1 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.</td>
 </tr>
 </table>
 <script language="javascript">
