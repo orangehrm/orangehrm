@@ -117,7 +117,7 @@ YAHOO.OrangeHRM.container.init();
 				<input type="button" id="popEmp" name="popEmp" value="..." onclick="returnEmpDetail();" />
 			<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
 			<input type="hidden" name="txtUserEmpID" id="txtUserEmpID" value="">
-			<select name="cmbUserEmpID">
+			<select name="cmbUserEmpID" id="cmbUserEmpID">
 			<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
 			<?php
 		   	if (is_array($subList)) {
