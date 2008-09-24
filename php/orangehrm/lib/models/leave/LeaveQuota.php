@@ -465,6 +465,39 @@ class LeaveQuota {
 
 		return $objArr;
 	}
+        
+        /**
+         * Check whether leave balance is zero 
+         * @param $employeeId String Employee Id
+         * @param $leaveTypeId String Leave Type Id
+         * @return bool true if balnace is zero, false other wise  
+         */
+        
+    public function isBalanceZero(){
+        	
+        $selectTable = "`".self::LEAVEQUOTA_DB_TABLE_EMPLOYEE_LEAVE_QUOTA."`";
+        $selectFields[0] = "`".self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED."`"; 
+        $selectFields[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN."`"; 
+        $selectFields[2] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD."`"; 
+            
+        $selectConditions[0] = "`".self::LEAVEQUOTA_DB_FIELD_YEAR."` = '".$this->getYear()."'";
+		$selectConditions[1] = "`".self::LEAVEQUOTA_DB_FIELD_LEAVE_TYPE_ID."` = '".$this->getLeaveTypeId()."'";
+		$selectConditions[2] = "`".self::LEAVEQUOTA_DB_FIELD_EMPLOYEE_ID."` = '".$this->getEmployeeId()."'";
+			
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions , NULL , NULL , 1);
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		$row = $dbConnection->dbObject->getArray($result);
+			 	
+		if($row[self::LEAVEQUOTA_DB_FIELD_NO_OF_DAYS_ALLOTED] + $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_BROUGHT_FORWARD]  ==  $row[self::LEAVEQUOTA_DB_FIELD_LEAVE_TAKEN]){
+			return true;
+		}else{
+			return false;
+		}
+		          
+   }
+   
 }
 
 class LeaveQuotaException extends Exception {

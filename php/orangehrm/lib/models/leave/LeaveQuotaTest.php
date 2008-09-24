@@ -97,6 +97,8 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('2009', 'LTY012', '016', 20, 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken) VALUES ('2010', 'LTY012', '016', 20, 10);");
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('2010', 'LTY014', '016', 20, 10, 5);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('2011', 'LTY012', '016', 10, 20 , 10);");
+		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('2012', 'LTY012', '016', 10, 10 , 5);");
 		$previousYear = date('Y') - 1;
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted, leave_taken, leave_brought_forward) VALUES ('".$previousYear."', 'LTY013', '017', 20, 10, 5);");
 
@@ -302,6 +304,26 @@ class LeaveQuotaTest extends PHPUnit_Framework_TestCase {
 		$result = $quota[2]->isLeaveQuotaDeleted();
 		$this->assertFalse($result);
 	}
+        
+    public function testIsBalanceZero1(){
+       	       		       		        		
+       	$this->classLeaveQuota->setYear("2011");
+    	$this->classLeaveQuota->setLeaveTypeId("LTY012");
+    	$this->classLeaveQuota->setEmployeeId("016");
+        $res = $this->classLeaveQuota->isBalanceZero();
+        $this->assertTrue($res);
+                     	              
+    }
+    
+	public function testIsBalanceZero2(){
+ 		
+       	$this->classLeaveQuota->setYear("2012");
+    	$this->classLeaveQuota->setLeaveTypeId("LTY012");
+    	$this->classLeaveQuota->setEmployeeId("016");
+        $res = $this->classLeaveQuota->isBalanceZero();
+        $this->assertFalse($res);
+                     	              
+    }
 
 }
 

@@ -517,11 +517,49 @@ class LeaveController {
 	}
 
 	public function addLeave() {
+		
 		$tmpObj = $this->getObjLeave();
-
 		$fromDate = $tmpObj->getLeaveFromDate();
 		$toDate = $tmpObj->getLeaveToDate();
+		$authorizeObj = $this->authorize;
+		
+		if($authorizeObj->isESS()){
+			
+			$fromDateArray = explode("-" , $fromDate)  ;
+			$toDateArray = explode("-" , $toDate);
+						 
+			if($fromDateArray[0] == $toDateArray[0]){
+				
+				$tmpLeaveQuota = new LeaveQuota();
+				$tmpLeaveQuota->setEmployeeId($tmpObj->getEmployeeId());
+				$tmpLeaveQuota->setYear($fromDateArray[0]);
+				$tmpLeaveQuota->setLeaveTypeId($tmpObj->getLeaveTypeId());
+				
+				if($tmpLeaveQuota->isBalanceZero()){
+					$message = "BALANCE_ZERO";
+					return $message;
+				}
 
+			}else{
+
+				$tmpLeaveQuota = new LeaveQuota();
+				$tmpLeaveQuota->setEmployeeId($tmpObj->getEmployeeId());
+				$tmpLeaveQuota->setYear($fromDateArray[0]);
+				$tmpLeaveQuota->setLeaveTypeId($tmpObj->getLeaveTypeId());
+				
+				$tmpLeaveQuota1 = new LeaveQuota();
+				$tmpLeaveQuota1->setEmployeeId($tmpObj->getEmployeeId());
+				$tmpLeaveQuota1->setYear($toDateArray[0]);
+				$tmpLeaveQuota1->setLeaveTypeId($tmpObj->getLeaveTypeId());
+				
+				if($tmpLeaveQuota->isBalanceZero() && $tmpLeaveQuota1->isBalanceZero()){
+					$message = "BALANCE_ZERO";
+					return $message;
+				}
+				
+			}
+		}
+	 		
 		$tmpLeave = new Leave();
 		$duplicateList = $tmpLeave->retrieveDuplicateLeave($tmpObj->getEmployeeId(), $fromDate, $toDate);
 

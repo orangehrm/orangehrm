@@ -204,6 +204,7 @@
 	$lang_Leave_CANCEL_SUCCESS = "Successfully cancelled";
 	$lang_Leave_CANCEL_FAILURE = "Cancellation failed";
 	$lang_Leave_CHANGE_STATUS_SUCCESS = "Successfully changed the leave status";
+	$lang_Leave_BALANCE_ZERO = "Your leave balance is zero";
 
 	// Report
 	$lang_Menu_Reports = "Reports";
