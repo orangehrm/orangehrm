@@ -98,7 +98,6 @@ body {
         <!--
         	if (document.getElementById && document.createElement) {
    	 			initOctopus();
-   	 			$('txtFirstName').focus();
 			}
         -->
     </script>
