@@ -208,6 +208,7 @@
 	$lang_Leave_CANCEL_SUCCESS = "Succesvol geannuleerd";
 	$lang_Leave_CANCEL_FAILURE = "Annuleren mislukt";
 	$lang_Leave_CHANGE_STATUS_SUCCESS = "Succesvol de verlof status aangepast";
+	$lang_Leave_BALANCE_ZERO = "Uw verlofsaldo is nul";
 
 	// Report
 	$lang_Menu_Reports = "Rapporten";
@@ -1247,6 +1248,7 @@
 	$lang_Admin_Users_Errors_FieldShouldBeSelected = "Veld moet geselecteerd zijn";
 	$lang_Admin_Users_Errors_ViewShouldBeSelected = "Weergave moet geselecteerd zijn";
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Wachtwoorden komen niet overeen, geef wachtwoorden opnieuw op";
+	$lang_Admin_Users_Errors_SpecialCharacters = "De inlognaam mag geen speciale tekens bevatten";
 	$lang_Admin_Users_WrongPassword = "Komt niet overeen met uw oude wachtwoord";
 
 	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Wilt u de rechten verwijderen";
@@ -1370,6 +1372,7 @@
 	$lang_Time_Errors_INVALID_TIME_FAILURE = "Ongeldige tijd gespecificeerd";
 	$lang_Time_Errors_EVENT_START_AFTER_END_ERROR = "Evenement start tijd na eind tijd.";
 	$lang_Time_Errors_INVALID_TIMESHEET_PERIOD_ERROR = "Ongeldige urenstaat periode.";
+	$lang_Time_Errors_UNFINISHED_TIMESHEET_FAILURE = "De urenstaat bevat niet beeindigde activiteiten";
 
 	$lang_Time_Errors_EncounteredTheFollowingProblems = "De volgende problemen zijn gevonden";
 	$lang_Time_Errors_EncounteredFollowingProblems = "De volgende problemen deden zich voor";
@@ -1711,5 +1714,5 @@
 
 	include 'lang_default_benefits.php';
 
-	$lang_Common_To = "to";
+	$lang_Common_To = "tot";
 ?>
