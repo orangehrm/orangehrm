@@ -1712,7 +1712,7 @@
 
 	$lang_Menu_Time_WorkShifts = "Werk shifts";
 
-	include 'lang_default_benefits.php';
+	include 'lang_nl_benefits.php';
 
 	$lang_Common_To = "tot";
 ?>
