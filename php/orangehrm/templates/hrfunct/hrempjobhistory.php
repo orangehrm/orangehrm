@@ -30,7 +30,7 @@ $picDir = '../../themes/'.$styleSheet.'/pictures/';
 $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 
 function deleteJobHistory() {
     var check = false;
@@ -206,16 +206,11 @@ function validateEditAndSubmit() {
 function editJobHistory() {
 
     var btn = $('editSaveHistoryBtn');
-    if(btn.title=='<?php echo $lang_Common_Save;?>') {
+
+    if(btn.title == '<?php echo $lang_Common_Save;?>') {
         validateEditAndSubmit();
         return;
     }
-
-    // Show all date edit buttons
-    /*var elms = YAHOO.util.Dom.getElementsByClassName('jobHistDateBtn');
-    for(var i=0,j=elms.length;i<j;i++){
-        elms[i].style.display = 'block';
-    }*/
 
     // Enable all date entry input boxes
     var elms = YAHOO.util.Dom.getElementsByClassName('jobHistEditBox');
@@ -226,47 +221,29 @@ function editJobHistory() {
     var frm=document.frmEmp;
     for (var i=0; i < frm.elements.length; i++)
         frm.elements[i].disabled = false;
-
-    btn.src = "<?php echo $picDir;?>btn_save.gif";
+    
+    btn.className = 'savebutton';
+	btn.value= '<?php echo $lang_Common_Save;?>';
     btn.title = '<?php echo $lang_Common_Save;?>';
 }
 
-
-function moutHistoryEditBtn() {
-    var btn = $('editSaveHistoryBtn');
-    if(btn.title=='<?php echo $lang_Common_Save;?>') {
-        btn.src='<?php echo $picDir;?>btn_save.gif';
-    } else {
-        btn.src='<?php echo $picDir;?>btn_edit.gif';
-    }
-}
-
-function moverHistoryEditBtn() {
-    var btn = $('editSaveHistoryBtn');
-    if(btn.title=='<?php echo $lang_Common_Save;?>') {
-        btn.src='<?php echo $picDir;?>btn_save_02.gif';
-    } else {
-        btn.src='<?php echo $picDir;?>btn_edit_02.gif';
-    }
-}
-
-</script>
+//--><!]]></script>
 <div id="employeeJobHistoryLayer" style="display:none;">
 
 <div id="addPaneJobHistory" style="display:none">
 <?php   if($locRights['add']) { ?>
-    <h3><?php echo $lang_hremp_EmployeeAddHistoryItem; ?></h3>
+    <div class="subHeading"><h3><?php echo $lang_hremp_EmployeeAddHistoryItem; ?></h3></div>
 
-    <table height="80" border="0" cellpadding="0" cellspacing="0">
+    <table style="height:80px" border="0" cellpadding="0" cellspacing="0">
         <tr>
-          <td width="80"><?php echo $lang_Common_Add; ?></td>
+          <td width="60"><?php echo $lang_Common_Add; ?></td>
           <td width="300">
-            <select id="cmbHistoryItemType" name="cmbHistoryItemType" onchange="selectHistoryType(this.value);">
-                <option value="JOB" selected ><?php echo $lang_hremp_EmployeeJobTitleOption;?></option>
+            <select class="formSelect" id="cmbHistoryItemType" name="cmbHistoryItemType" onchange="selectHistoryType(this.value);">
+                <option value="JOB" selected="selected" ><?php echo $lang_hremp_EmployeeJobTitleOption;?></option>
                 <option value="SUB"><?php echo $lang_hremp_EmployeeSubDivisionOption;?></option>
                 <option value="LOC"><?php echo $lang_hremp_EmployeeLocationOption;?></option>
             </select>
-            <select id="cmbJobTitleHistory" name="cmbJobTitleHistory" style="display:block;">
+            <select class="formSelect" id="cmbJobTitleHistory" name="cmbJobTitleHistory" style="display:block;">
                 <option value="0">-- <?php echo $lang_hremp_SelectJobTitle; ?> --</option>
             <?php
                 $jobtit = $this->popArr['jobtit'];
@@ -277,7 +254,7 @@ function moverHistoryEditBtn() {
                 }
             ?>
             </select>
-            <select id="cmbLocationHistory" name="cmbLocationHistory" style="display:none;">
+            <select class="formSelect" id="cmbLocationHistory" name="cmbLocationHistory" style="display:none;">
                 <option value='0'> -- <?php echo $lang_hremp_SelectLocation;?> -- </option>
             <?php
                 $locationList = $this->popArr['loc'];
@@ -289,62 +266,60 @@ function moverHistoryEditBtn() {
             ?>
             </select>
             <span id="selectHistorySubDiv" style="display:none;">
-                <input type="text"  name="txtHistorySubDiv"  id="txtHistorySubDiv" value="" readonly />
-                <input type="hidden"  name="cmbHistorySubDiv" id="cmbHistorySubDiv" value="" readonly />
+                <input class="formInputText" type="text"  name="txtHistorySubDiv"  id="txtHistorySubDiv" value="" readonly="readonly" />
+                <input type="hidden"  name="cmbHistorySubDiv" id="cmbHistorySubDiv" value="" readonly="readonly" />
                 <input type="button" value="..." onclick="selectHistSubDiv()" class="button" />
             </span>
+            </td>
         </tr>
 
         <tr>
           <td width="80"><?php echo $lang_hremp_EmployeeHistoryFrom; ?></td>
           <td>
-            <input type="text" value="" name="txtEmpHistoryItemFrom" id="txtEmpHistoryItemFrom" size="12" />
+            <input class="formDateInput" type="text" value="" name="txtEmpHistoryItemFrom" id="txtEmpHistoryItemFrom" size="12" />
             <input type="button" value="   " class="calendarBtn" /></td>
         </tr>
       <tr>
         <td valign="top"><?php echo $lang_hremp_EmployeeHistoryTo; ?></td>
         <td align="left" valign="top">
-            <input type="text" value="" name="txtEmpHistoryItemTo" id="txtEmpHistoryItemTo" size="12" />
+            <input class="formDateInput" type="text" value="" name="txtEmpHistoryItemTo" id="txtEmpHistoryItemTo" size="12" />
             <input type="button" value="   " class="calendarBtn" /></td>
       </tr>
-      <tr>
-        <td valign="top"></td>
-        <td align="left" valign="top">
-           <img border="0" title="<?php echo $lang_Common_Save;?>" onClick="addJobHistoryItem();"
-               onmouseout="this.src='<?php echo $picDir;?>btn_save.gif';"
-               onmouseover="this.src='<?php echo $picDir;?>btn_save_02.gif';"
-               src="<?php echo $picDir;?>btn_save.gif">
-        </td>
-      </tr>
     </table>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnSaveJobHist" id="btnSaveJobHist" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addJobHistoryItem(); return false;"/>
+</div>	    
 <?php  } ?>
 </div>
-    <h3><?php echo $lang_hremp_EmployeeJobHistory; ?></h3>
-    <input type="hidden" name="empjobHistorySTAT" value="">
-
+	<div class="subHeading"><h3><?php echo $lang_hremp_EmployeeJobHistory; ?></h3></div>
+    <input type="hidden" name="empjobHistorySTAT" value=""/>
+	<div class="actionbar">
+		<div class="actionbuttons">	
 <?php if($locRights['add']) { ?>
-        <img border="0" title="<?php echo $lang_Common_Add;?>" onClick="showAddPane('JobHistory');"
-            onMouseOut="this.src='<?php echo $picDir;?>btn_add.gif';"
-            onMouseOver="this.src='<?php echo $picDir;?>btn_add_02.gif';"
-            src="<?php echo $picDir;?>btn_add.gif" />
+		<input type="button" class="addbutton"
+			onclick="showAddPane('JobHistory');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 <?php } ?>
 <?php if ($allItems > 0) { ?>
 <?php   if($locRights['delete']) { ?>
-        <img title="<?php echo $lang_Common_Delete;?>" onclick="deleteJobHistory();"
-            onmouseout="this.src='<?php echo $picDir;?>btn_delete.gif';"
-            onmouseover="this.src='<?php echo $picDir;?>btn_delete_02.gif';"
-            src="<?php echo $picDir;?>btn_delete.gif">
+		<input type="button" class="delbutton"
+			onclick="deleteJobHistory();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>	
 <?php   } ?>
 
 <?php   if($locRights['edit']) { ?>
-        <img id="editSaveHistoryBtn" name="editSaveHistoryBtn"
-            title="<?php echo $lang_Common_Edit;?>" onclick="editJobHistory();"
-            onmouseout="moutHistoryEditBtn();"
-            onmouseover="moverHistoryEditBtn();"
-            src="<?php echo $picDir;?>btn_edit.gif">
+		<input type="button" class="editbutton" id="editSaveHistoryBtn"
+			onclick="editJobHistory();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+			value="<?php echo $lang_Common_Edit;?>" title="<?php echo $lang_Common_Edit;?>"/>			
 <?php   } ?>
 <?php } ?>
-<!-------------- Start previous job titles ---------------------->
+		</div>
+	</div>
+<!--  Start previous job titles -->
 <table id="jobTitleHistoryTable" width="100%" class="historyTable">
 <thead>
     <tr><th width="10"></th>
@@ -353,12 +328,11 @@ function moverHistoryEditBtn() {
     <th><?php echo $lang_hremp_EmployeeHistoryTo;?></th>
     </tr>
 </thead>
-<tfoot>
+<tbody>
 <?php if (empty($jobTitleHistory)) { ?>
         <tr><td colspan="4"><?php echo $lang_hremp_EmployeeHistoryNoItemsFound; ?></td></tr>
-<?php } ?>
-    </tfoot>
-    <tbody>
+<?php } else {?>
+
 <?php
     foreach ($jobTitleHistory as $jobTitleItem) {
         $id = $jobTitleItem->getId();
@@ -373,21 +347,22 @@ function moverHistoryEditBtn() {
     <td><?php echo $name;?>
         <input type='hidden' name='jobTitleHisId[]' value="<?php echo $id;?>"/>
         <input type='hidden' name='jobTitleHisCode[]' value="<?php echo $code;?>"/></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $from;?>" name="jobTitleHisFromDate[]"
+    <td nowrap="nowrap">
+        <input disabled="disabled" type="text" value="<?php echo $from;?>" name="jobTitleHisFromDate[]"
             class="jobHistEditBox noDefaultEdit jobTitleHisFromDate" size="12"/>
         <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;" />?></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $to;?>" name="jobTitleHisToDate[]"
+    <td nowrap="nowrap">
+        <input disabled="disabled" type="text" value="<?php echo $to;?>" name="jobTitleHisToDate[]"
             class="jobHistEditBox noDefaultEdit jobTitleHisToDate" size="12"/>
         <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;" />?></td>
     </tr>
 <?php
     }
+}
 ?>
-    </tbody>
+    </tbody>   
     </table>
-<!-------------- Start previous sub units ---------------------->
+<!-- Start previous sub units -->
 <table id="subDivisionHistoryTable" width="100%" class="historyTable">
 <thead>
     <tr><th width="10"></th>
@@ -396,12 +371,11 @@ function moverHistoryEditBtn() {
     <th><?php echo $lang_hremp_EmployeeHistoryTo;?></th>
     </tr>
 </thead>
-<tfoot>
+<tbody>
 <?php if (empty($subDivisionHistory)) { ?>
-        <tr><td colspan="4"><?php echo $lang_hremp_EmployeeHistoryNoItemsFound; ?></td></tr>
-<?php } ?>
-    </tfoot>
-    <tbody>
+        <tr><td colspan="4"><?php echo $lang_hremp_EmployeeHistoryNoItemsFound; ?></td></tr>       
+<?php } else { ?>
+	
 <?php
     foreach ($subDivisionHistory as $subItem) {
         $id = $subItem->getId();
@@ -411,28 +385,28 @@ function moverHistoryEditBtn() {
         $to = LocaleUtil::getInstance()->formatDate($subItem->getEndDate());
 ?>
     <tr id="subDivisionHistoryRow<?php echo $id;?>">
-    <td width="10"><input type='checkbox' class='checkbox' name='chksubdivisionHistory[]' value="<?php echo $id;?>">
+    <td width="10"><input type='checkbox' class='checkbox' name='chksubdivisionHistory[]' value="<?php echo $id;?>"/>
     </td>
     <td><?php echo $name;?>
         <input type='hidden' name='subDivHisId[]' value="<?php echo $id;?>"/>
         <input type='hidden' name='subDivHisCode[]' value="<?php echo $code;?>"/></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $from;?>" name="subDivHisFromDate[]"
+    <td nowrap="nowrap">
+        <input disabled="disabled" type="text" value="<?php echo $from;?>" name="subDivHisFromDate[]"
             class="jobHistEditBox noDefaultEdit subDivHisFromDate" size="12"/>
-        <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;"/>?></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $to;?>" name="subDivHisToDate[]"
-            class="jobHistEditBox noDefaultEdit subDivHisToDate" size="12"/>
-        <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;"/>?></td>
+    </td>
+    <td nowrap="nowrap">
+        <input disabled="disabled" type="text" value="<?php echo $to;?>" name="subDivHisToDate[]"
+            class="jobHistEditBox noDefaultEdit subDivHisToDate" size="12"/>        
     </td>
     </tr>
 <?php
     }
+}
 ?>
 </tbody>
 </table>
 
-<!-------------- Start previous locations ---------------------->
+<!-- Start previous locations -->
 <table id="locationHistoryTable" width="100%" class="historyTable">
 <thead>
     <tr><th width="10"></th>
@@ -441,12 +415,11 @@ function moverHistoryEditBtn() {
     <th><?php echo $lang_hremp_EmployeeHistoryTo;?></th>
     </tr>
 </thead>
-<tfoot>
+<tbody>
 <?php if (empty($locationHistory)) { ?>
     <tr><td colspan="4"><?php echo $lang_hremp_EmployeeHistoryNoItemsFound; ?></td></tr>
-<?php } ?>
-</tfoot>
-<tbody>
+<?php } else { ?>
+
 <?php
     foreach ($locationHistory as $locItem) {
         $id = $locItem->getId();
@@ -456,22 +429,23 @@ function moverHistoryEditBtn() {
         $to = LocaleUtil::getInstance()->formatDate($locItem->getEndDate());
 ?>
     <tr id="locationHistoryRow<?php echo $id;?>">
-    <td width="10"><input type='checkbox' class='checkbox' name='chklocationHistory[]' value="<?php echo $id;?>">
-    </td>
-    <td><?php echo $name;?>
-        <input type='hidden' name='locHisId[]' value="<?php echo $id;?>"/>
-        <input type='hidden' name='locHisCode[]' value="<?php echo $code;?>"/></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $from;?>" name="locHisFromDate[]"
-            class="jobHistEditBox noDefaultEdit locHisFromDate" size="12"/>
-        <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;"/>?></td>
-    <td nowrap>
-        <input disabled type="text" value="<?php echo $to;?>" name="locHisToDate[]"
-            class="jobHistEditBox noDefaultEdit locHisToDate" size="12"/>
-        <?php //<input type="button" value="   " class="calendarBtn jobHistDateBtn" style="display:none;"/>?></td>
+	    <td width="10"><input type='checkbox' class='checkbox' name='chklocationHistory[]' value="<?php echo $id;?>"/>
+	    </td>
+	    <td><?php echo $name;?>
+	        <input type='hidden' name='locHisId[]' value="<?php echo $id;?>"/>
+	        <input type='hidden' name='locHisCode[]' value="<?php echo $code;?>"/></td>
+	    <td nowrap="nowrap">
+	        <input disabled="disabled" type="text" value="<?php echo $from;?>" name="locHisFromDate[]"
+	            class="jobHistEditBox noDefaultEdit locHisFromDate" size="12"/>
+	    </td>
+	    <td nowrap="nowrap">
+	        <input disabled="disabled" type="text" value="<?php echo $to;?>" name="locHisToDate[]"
+	            class="jobHistEditBox noDefaultEdit locHisToDate" size="12"/>
+	    </td>
     </tr>
 <?php
     }
+}
 ?>
 </tbody>
 </table>

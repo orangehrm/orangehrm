@@ -19,7 +19,7 @@
 
  $subown = array($lang_hrEmpMain_subown_Company,	$lang_hrEmpMain_subown_Individual);
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editMembership() {
 	if(document.EditMembership.title=='Save') {
 		editEXTMembership();
@@ -146,8 +146,8 @@ function viewMembership(mem,mtp) {
 	document.frmEmp.submit();
 }
 
-</script>
-<span id="parentPaneMemberships" >
+//--><!]]></script>
+<div id="parentPaneMemberships" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
      <input type="hidden" name="membershipSTAT" value="" />
 <?php
@@ -159,7 +159,7 @@ if(isset($this->popArr['editMembershipArr'])) {
                     <tr>
                       <td><?php echo $lang_hrEmpMain_membershiptype; ?></td>
     				  <td><strong>
-					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>">
+					  <input type="hidden" name="cmbMemTypeCode" value="<?php echo $edit[0][2]?>"/>
 <?php
 						$typlist = $this->popArr['typlist'];
 						for($c=0;count($typlist)>$c;$c++)
@@ -171,7 +171,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_membership; ?></td>
 						<td align="left" valign="top"><strong>
-						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>">
+						<input type="hidden" name="cmbMemCode" value="<?php echo $edit[0][1]?>"/>
 <?php
 						$mship = $this->popArr['mship'];
 						for($c=0;count($mship)>$c;$c++)
@@ -186,7 +186,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 <?php
 						for($c=0;count($subown)>$c;$c++)
 						    if($edit[0][3]==$subown[$c])
-							    echo "<option selected value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
+							    echo "<option selected=\"selected\" value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
 							else
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
 ?>
@@ -194,7 +194,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>">
+						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" id="etxtMemSubAmount" value="<?php echo $edit[0][4]?>"/>
 						</td>
 					  </tr>
 					  <tr>
@@ -215,7 +215,7 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onClick="editEXTMembership();">
+						        <img alt="" src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutMembership();" onmouseover="moverMembership();" name="EditMembership" onclick="editEXTMembership();">
 						</td>
 					  </tr>
        </table>
@@ -226,38 +226,38 @@ if(isset($this->popArr['editMembershipArr'])) {
                     <tr>
                       <td><?php echo $lang_hrEmpMain_membershiptype?></td>
     				  <td>
-					  <select onChange="xajax_getUnAssMemberships(this.value);" name="cmbMemTypeCode">
-					  <option value=0>-- <?php echo $lang_hrEmpMain_selmemtype?> --</option>
+					  <select class="formSelect" onchange="xajax_getUnAssMemberships(this.value);" name="cmbMemTypeCode">
+					  <option value="0">-- <?php echo $lang_hrEmpMain_selmemtype?> --</option>
 
 <?php					  	$typlist= $this->popArr['typlist'];
 							for($c=0;$typlist && count($typlist)>$c;$c++)
 							if(isset($this->popArr['cmbMemTypeCode']) && $this->popArr['cmbMemTypeCode']==$typlist[$c][0])
 
-							   echo "<option selected value=" . $typlist[$c][0] . ">" . $typlist[$c][1] . "</option>";
+							   echo "<option selected=\"selected\" value='" . $typlist[$c][0] . "'>" . $typlist[$c][1] . "</option>";
 							else
-							   echo "<option value=" . $typlist[$c][0] . ">" . $typlist[$c][1] . "</option>";
+							   echo "<option value='" . $typlist[$c][0] . "'>" . $typlist[$c][1] . "</option>";
 
 ?>
 					  </select></td>
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_membership?></td>
-						<td align="left" valign="top"><select name='cmbMemCode'>
-						   		<option value=0>-- <?php echo $lang_hrEmpMain_selmemship?> --</option>
+						<td align="left" valign="top"><select class="formSelect" name='cmbMemCode'>
+						   		<option value="0">-- <?php echo $lang_hrEmpMain_selmemship?> --</option>
 <?php
 					if(isset($this->popArr['cmbMemTypeCode'])) {
 
 						$mship=$this->popArr['mship'];
 						for($c=0;$mship && count($mship)>$c;$c++)
-						    echo "<option value=" . $mship[$c][0] . ">" . $mship[$c][1] . "</option>";
+						    echo "<option value='" . $mship[$c][0] . "'>" . $mship[$c][1] . "</option>";
 						}
 ?>
 						</select></td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subownership?></td>
-						<td align="left" valign="top"><select name="cmbMemSubOwn">
-						   		<option value=0>-- <?php echo $lang_hrEmpMain_selownership?> --</option>
+						<td align="left" valign="top"><select class="formSelect" name="cmbMemSubOwn">
+						   		<option value="0">-- <?php echo $lang_hrEmpMain_selownership?> --</option>
 <?php
 						for($c=0;count($subown)>$c;$c++)
 							    echo "<option value='" . $subown[$c] . "'>" . $subown[$c] . "</option>";
@@ -267,30 +267,37 @@ if(isset($this->popArr['editMembershipArr'])) {
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subamount?></td>
-						<td align="left" valign="top"><input type="text" name="txtMemSubAmount" name="atxtMemSubAmount" >
+						<td align="left" valign="top"><input class="formInputText" type="text" name="txtMemSubAmount" id="atxtMemSubAmount" />
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subcomdate?></td>
 						<td align="left" valign="top">
-							<input type="text" name="txtMemCommDat" id="atxtMemCommDat" value="" size="12" />
+							<input class="formDateInput" type="text" name="txtMemCommDat" id="atxtMemCommDat" value="" size="12" />
 							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_subredate?></td>
 						<td align="left" valign="top">
-							<input type="text" name="txtMemRenDat" id="atxtMemRenDat" value="" size="12" />
+							<input class="formDateInput" type="text" name="txtMemRenDat" id="atxtMemRenDat" value="" size="12" />
 							<input class="calendarBtn" type="button" value="   " />
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-        <img border="0" title="Save" onClick="addEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
 						</td>
 					  </tr>
                   </table>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddMembership" id="btnAddMembership" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEXTMembership(); return false;"/>    	
+</div>	
+                  
 	</div>
 <?php } ?>
 <?php
@@ -305,22 +312,34 @@ if(isset($this->popArr['editMembershipArr'])) {
     }
 ?>
 <?php if($assignedMemberships){ ?>
-	<h3><?php echo $lang_hrEmpMain_assignmemship?></h3>
-	<img border="0" title="Add" onClick="showAddPane('Memberships');;" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
-        <img title="Delete" onclick="delEXTMembership();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_hrEmpMain_membership?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_membershiptype?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_subownership?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_subcomdate?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_subredate?></strong></td>
-					</tr>
+	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignmemship?></h3></div>
+	<div class="actionbar">
+		<div class="actionbuttons">					
+			<input type="button" class="addbutton"
+				onclick="showAddPane('Memberships');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+			<input type="button" class="delbutton"
+				onclick="delEXTMembership();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+		</div>
+	</div>
+	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+		  <tr>
+          	<td></td>
+			 <td><?php echo $lang_hrEmpMain_membership?></td>
+			 <td><?php echo $lang_hrEmpMain_membershiptype?></td>
+			 <td><?php echo $lang_hrEmpMain_subownership?></td>
+			 <td><?php echo $lang_hrEmpMain_subcomdate?></td>
+			 <td><?php echo $lang_hrEmpMain_subredate?></td>
+		</tr>
+		</thead>				
+		<tbody>	
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
+			$cssClass = ($c%2) ? 'even' : 'odd';			
+	    	echo '<tr class="' . $cssClass . '">';  
+            echo "<td><input type='checkbox' class='checkbox' name='chkmemdel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($mship)>$a;$a++)
 			    if($mship[$a][1]==$rset[$c][1])
 				   $fname=$mship[$a][2];
@@ -339,7 +358,8 @@ if(isset($this->popArr['editMembershipArr'])) {
         echo '</tr>';
         }
 ?>
+	</tbody>
 	</table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

@@ -18,10 +18,10 @@
  *
  */
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/fonts/fonts.css">
-<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/container/assets/container.css">
-<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/calendar/assets/calendar.css">
-<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/button/assets/button.css">
+<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/fonts/fonts.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/container/assets/container.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/calendar/assets/calendar.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/button/assets/button.css" />
 
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/yahoo/yahoo-min.js"></script>
 <script type="text/javascript" src="<?php echo $_SESSION['WPATH']; ?>/scripts/yui/event/event-min.js" ></script>

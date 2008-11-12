@@ -186,70 +186,21 @@ textarea {
 		text-decoration: underline; */
 		}
 
-	/*for the main screen navigation tabs*/
-	.currentTab {
-		color: #333333;
-		font-size: 12px;
-		font-weight: bold;
-		padding-top: 1px;
-		background : url(../pictures/nCurrentTab_middle.gif);
-		}
-	a.currentTab:link, a.currentTab:visited {
-		color: #333333;
-		text-decoration: none;
-		}
-	a.currentTab:hover {
-		color: #666666;
-		text-decoration: none;
-		}
-	.currentTabLeft {
-		background : url(../pictures/nCurrentTab_left.gif);
-		}
-	.currentTabRight {
-		background : url(../pictures/nCurrentTab_right.gif);
-		}
-	.tabSpace {
-		background : url(../pictures/emptyTabSpace.gif);
-		}
-
-	.otherTab {
-		font-size: 12px;
-		font-weight: bold;
-		}
-	td.otherTab {
-		background-image : url(../pictures/otherTab_middle.png);
-		}
-	a.otherTab:link, a.otherTab:visited {
-		color: #6e6e6e;
-		text-decoration: none;
-		}
-	a.otherTab:hover {
-		color: #3C3C3C;
-		text-decoration: none;
-		}
-	.otherTabLeft {
-		background : url(../pictures/otherTab_left.png);
-		}
-	.otherTabRight {
-		background : url(../pictures/otherTab_right.png);
-		}
-	.tabSeparator {
-		padding-left:7px;
-		background-image :url(../pictures/nCurrentTab_left.gif);
+	#companyLogoHeader{
+		background : url(../pictures/orange3.png) no-repeat 10px 1px;	
+		width: 264px;
+		height: 62px;
+		margin-left: 10px;
+		border-width: 0px;
+		float:left;
+		display:block;
 	}
-	.tabRow {
-		background-color: white;
-	}
-	.tabContainer {
-		width: 100%;
-		background-color: #E5E5E5;
-/*		border-width: 0px;
-		border-collapse: collapse;
-		border-spacing: 0px;
-		margin: 0px;
-		padding: 0px;*/
-	}
-	.tabLeftSpace {
+	#rightHeaderImage {
+		background : url(../pictures/top_img.jpg) no-repeat top right;
+		width: 300px;
+		height: 62px;
+		float:right;	
+		display:block;	
 	}
 	.companyLogoHeader {
 		background : url(../pictures/orange3.png) no-repeat 10px 1px;

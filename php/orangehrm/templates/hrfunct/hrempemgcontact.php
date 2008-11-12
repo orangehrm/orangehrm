@@ -18,7 +18,7 @@
  *
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function delEContact() {
 
 	var check = false;
@@ -105,97 +105,118 @@ function editEContact() {
 	}
 }
 
-</script>
-<span id="parentPaneEmgContact" >
+//--><!]]></script>
+<div id="parentPaneEmgContact" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-    <input type="hidden" name="econtactSTAT" value="">
+    <input type="hidden" name="econtactSTAT" value=""/>
 <?php if(isset($this->getArr['ECSEQ'])) {
 		$edit = $this->popArr['editECForm'];
 ?>
 	<div id="editPaneEmgContact">
-		<table id="editPaneEmgContact" height="120" border="0" cellpadding="0" cellspacing="0">
+		<table id="editPaneEmgContact" style="height:120px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
           <tr>
-			 <td><font color=#ff0000>*</font><?php echo $lang_hremp_name; ?><input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>"></td>
-			 <td><input type="text" name="txtEConName" value="<?php echo $edit[0][2]?>"></td>
+			 <td><font color="#ff0000">*</font><?php echo $lang_hremp_name; ?><input type="hidden" name="txtECSeqNo" value="<?php echo $edit[0][1]?>"></td>
+			 <td><input type="text" name="txtEConName" value="<?php echo $edit[0][2]?>"/></td>
 			 <td width="50">&nbsp;</td>
-			<td><font color=#ff0000>*</font><?php echo $lang_hremp_relationship; ?></td>
-			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"></td>
+			<td><font color="#ff0000">*</font><?php echo $lang_hremp_relationship; ?></td>
+			 <td><input type="text" name="txtEConRel" value="<?php echo $edit[0][3]?>"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_hmtele; ?></td>
-			 <td><input type="text"  name="txtEConHmTel" value="<?php echo $edit[0][4]?>"></td>
+			 <td><input type="text"  name="txtEConHmTel" value="<?php echo $edit[0][4]?>"/></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?></td>
-			 <td><input type="text" name="txtEConMobile" value="<?php echo $edit[0][5]?>"></td>
+			 <td><input type="text" name="txtEConMobile" value="<?php echo $edit[0][5]?>"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_worktele; ?></td>
-			 <td><input type="text" name="txtEConWorkTel" value="<?php echo $edit[0][6]?>"></td>
+			 <td><input type="text" name="txtEConWorkTel" value="<?php echo $edit[0][6]?>"/></td>
 			 </tr>
-				<td>
-					<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")){ ?>
-					<img border="0" title="Save" onClick="editEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-					<?php	} ?>
-				</td>
-			</tr>
-
 		</table>
+<?php	if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>		
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditEContact" id="btnEditEContact" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEContact(); return false;"/>    	
+</div>
+<?php	} ?>			
+		
 	</div>
 <?php  } else { ?>
 	<div id="addPaneEmgContact" class="<?php echo ($this->popArr['empECAss'] != null)?"addPane":""; ?>" >
-		<table height="120" border="0" cellpadding="0" cellspacing="0">
+		<table style="height:120px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
 			 <tr>
-			 <td><font color=#ff0000>*</font><?php echo $lang_hremp_name; ?>
+			 <td><font color="#ff0000">*</font><?php echo $lang_hremp_name; ?>
 			 	<input type="hidden" name="txtECSeqNo" value="<?php echo $this->popArr['newECID']?>" /></td>
-			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"></td>
+			  <td><input name="txtEConName" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 <td width="50">&nbsp;</td>
-			<td><font color=#ff0000>*</font><?php echo $lang_hremp_relationship; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
+			<td><font color="#ff0000">*</font><?php echo $lang_hremp_relationship; ?>&nbsp;&nbsp;</td>
+			 <td><input name="txtEConRel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_hmtele; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
+			 <td><input name="txtEConHmTel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 <td width="50">&nbsp;</td>
 			 <td><?php echo $lang_hremp_mobile; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConMobile" <?php echo $locRights['add'] ? '':''?> type="text"></td>
+			 <td><input name="txtEConMobile" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
 			 <tr>
 			 <td><?php echo $lang_hremp_worktele; ?>&nbsp;&nbsp;</td>
-			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':''?> type="text"></td>
+			 <td><input name="txtEConWorkTel" <?php echo $locRights['add'] ? '':''?> type="text"/></td>
 			 </tr>
-				<td>
-<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
-        <img border="0" title="Save" onClick="addEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php	} ?>
-				</td>
-			</tr>
 		</table>
+<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>		
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddEContact" id="btnAddEContact" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEContact(); return false;"/>    	
+</div>
+<?php	} ?>			
 	</div>
 <?php } ?>
 <?php
 $rset = $this->popArr['empECAss'];
-		if ($rset != null){ //checking for a records if exsist view the the table and delete btn else no ?>
+		if (!empty($rset)) {  ?>
+		<div class="subHeading"><h3><?php echo $lang_hremp_AssignedEmergencyContacts;?></h3></div>			
+		
+			<div class="actionbar">
+				<div class="actionbuttons">
+				
+		
 		<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('EmgContact');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
+					<input type="button" class="addbutton"
+						onclick="showAddPane('EmgContact');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 		<?php } ?>
-		<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { //checking for the privilege?>
-		<img title="Delete" onclick="delEContact();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-		<?php 	} //view the delete btn?>
-		<table width="550" align="center" border="0" class="tabForm">
-			<tr>
-                <td width="50">&nbsp;</td>
-				<td><strong><?php echo $lang_hremp_name; ?></strong></td>
-				<td><strong><?php echo $lang_hremp_relationship; ?></strong></td>
-				<td><strong><?php echo $lang_hremp_hmtele; ?></strong></td>
-				<td><strong><?php echo $lang_hremp_mobile; ?></strong></td>
-				<td><strong><?php echo $lang_hremp_worktele; ?></strong></td>
-			</td>
-		</tr>
-		</tr>
+		<?php	if (($locRights['delete']) || ($_GET['reqcode'] === "ESS"))  { ?>
+					<input type="button" class="delbutton"
+						onclick="delEContact();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
+		<?php 	} ?>
+			</div>
+		</div>					
+		<table width="550" cellspacing="0" cellpadding="0" class="data-table">
+			<thead>
+				<tr>		
+	                <td width="50">&nbsp;</td>
+					<td><?php echo $lang_hremp_name; ?></td>
+					<td><?php echo $lang_hremp_relationship; ?></td>
+					<td><?php echo $lang_hremp_hmtele; ?></td>
+					<td><?php echo $lang_hremp_mobile; ?></td>
+					<td><?php echo $lang_hremp_worktele; ?></td>
+				</tr>
+			</thead>				
+			<tbody>
 <?php
-		for($c=0;$rset && $c < count($rset); $c++) {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $rset[$c][1] ."'></td>";
+		for ($c=0; $c < count($rset); $c++) {
+			$cssClass = ($c%2) ? 'even' : 'odd'; 			
+        echo '<tr class="' . $cssClass . '">';
+            echo "<td><input type='checkbox' class='checkbox' name='chkecontactdel[]' value='" . $rset[$c][1] ."'/></td>";
 
             ?> <td><a href="javascript:viewEContact('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][2]?></a></td> <?php
             echo '<td>' . $rset[$c][3] .'</td>';
@@ -205,8 +226,8 @@ $rset = $this->popArr['empECAss'];
 
         echo '</tr>';
    		} ?>
-
+			</tbody>
    	</table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

@@ -425,3 +425,27 @@
 			this.style = document.layers[name];
 		}
 }
+
+/**
+ * Get window dimentions
+ * @return window dimentions as an array [x,y]
+ */
+function windowDimensions() {
+    var x = 0, y = 0;
+    if ( typeof(window.innerWidth) == 'number' ) {
+        /* Not IE */
+        x = window.innerWidth;
+        y = window.innerHeight;
+    } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+
+        /* IE 6 or greater in 'standards complient mode' */
+        x = document.documentElement.clientWidth;
+        y = document.documentElement.clientHeight;
+    } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+
+        /* IE 4 compatible */
+        x = document.body.clientWidth;
+        y = document.body.clientHeight;
+    }
+       return [x,y];
+}	

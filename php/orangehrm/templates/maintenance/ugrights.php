@@ -114,7 +114,6 @@ function edit()
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style1.css"); </style>
 </head>
 <body>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>

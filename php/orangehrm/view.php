@@ -279,20 +279,12 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						<input type=text size="20" name="loc_name" class="dataField" value="<?php echo isset($this->postArr['loc_name']) ? stripslashes($this->postArr['loc_name']):''?>" />
 					</td>
 					<td align="right" width="180" class="dataLabel">
-						<img 
-							title="Search" 
-							alt="Search" 
-							src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_search.gif" 
-							onclick="returnSearch();" 
-							onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_search.gif';" 
-							onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_search_02.gif';" />&nbsp;&nbsp;
-						<img 
-							title="Clear" 
-							alt="Clear"
-							src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear.gif"
-							onclick="clear_form();" 
-							onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear.gif';" 
-							onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear_02.gif';" />
+							<input type="button" class="plainbtn" onclick="returnSearch();"
+								onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"							 
+								value="<?php echo $lang_Common_Search;?>" />
+							<input type="button" class="plainbtn" onclick="clear_form();" 
+								onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+								 value="<?php echo $lang_Common_Clear;?>" />
 					</td>
 				</tr>
 			</table>

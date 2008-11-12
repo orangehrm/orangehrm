@@ -20,7 +20,7 @@
 $arrRepType = array ($lang_hrEmpMain_arrRepType_Supervisor, $lang_hrEmpMain_arrRepType_Subordinate);
 $arrRepMethod = array ($lang_hrEmpMain_arrRepMethod_Direct => 1, $lang_hrEmpMain_arrRepMethod_Indirect => 2);
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editReportTo() {
 
 	if(document.EditReportTo.title=='Save') {
@@ -153,8 +153,8 @@ function viewSup(sup,rep) {
 	document.frmEmp.pane.value = 15;
 	document.frmEmp.submit();
 }
-</script>
-<span id="parentPaneReportTo" >
+//--><!]]></script>
+<div id="parentPaneReportTo" >
 <?php
 	$supervisorEMPMode = false;
 	if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
@@ -164,35 +164,35 @@ function viewSup(sup,rep) {
 	$empInfoObj = new EmpInfo();
 
 	if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-        <input type="hidden" name="reporttoSTAT" value="">
+        <input type="hidden" name="reporttoSTAT" value=""/>
 <?php	if(isset($this->getArr['editIDSup'])) {	?>
 <div id="editPaneReportTo" >
-    <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>">
-    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>">
-    <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
+    <input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['editIDSup']?>"/>
+    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['id']?>"/>
+    <input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>"/>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[0]?>">
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[0]?>"/>
     				 <strong><?php echo $arrRepType[0]?></strong></td>
 					</tr>
 					<tr>
 						<td valign="top"><?php echo $lang_empview_employeeid?></td>
 <?php						$empsupid =$this->getArr['editIDSup']; ?>
-						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"><strong>
+						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $this->getArr['editIDSup']?>"/><strong>
 						<?php echo $empInfoObj->fetchEmployeeId($this->getArr['editIDSup']);?>
 						</strong></td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
-						<td align="left" valign="top"><select disabled name='cmbRepMethod'><strong>
+						<td align="left" valign="top"><select disabled="disabled" name='cmbRepMethod'><strong>
 <?php					$keys = array_keys($arrRepMethod);
 						$values = array_values($arrRepMethod);
 						for($c=0;count($arrRepMethod)>$c;$c++)
 							if($this->getArr['RepMethod']==$values[$c]) {
-								echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
+								echo "<option selected=\"selected\" value='". $values[$c] . "'>" . $keys[$c] . "</option>";
 							} else {
-								echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
+								echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 							}
 ?>
 					</tr>
@@ -200,7 +200,7 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-							        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
+							        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onclick="editReportTo();">
 			<?php			}  ?>
 						</td>
 					  </tr>
@@ -208,34 +208,34 @@ function viewSup(sup,rep) {
 </div>
 <?php } else if (isset($this->getArr['editIDSub'])) { ?>
 <div id="editPaneReportTo" >
-	<input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>">
-    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>">
-  	<input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>">
+	<input type="hidden" name="txtSupEmpID" value="<?php echo $this->getArr['id']?>"/>
+    <input type="hidden" name="txtSubEmpID" value="<?php echo $this->getArr['editIDSub']?>"/>
+  	<input type="hidden" name="oldRepMethod" value="<?php echo $this->getArr['RepMethod']?>"/>
 	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
-    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[1]?>">
+    				 <td align="left" valign="top"><input type="hidden" name="cmbRepType" value="<?php echo $arrRepType[1]?>"/>
     				 <strong><?php echo $arrRepType[1]?></strong></td>
 					</tr>
 					<tr>
 						<td valign="top"><?php echo $lang_empview_employeeid; ?></td>
 						<?php	$empsubid = $this->getArr['editIDSub'];  ?>
-						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"><strong>
+						<td align="left" valign="top"><input type="hidden" name="txtRepEmpID" value="<?php echo $empsubid?>"/><strong>
 						<?php echo  $empInfoObj->fetchEmployeeId($empsubid); ?>
 						</strong></td>
 					  </tr>
 
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
-						<td align="left" valign="top"><select disabled name="cmbRepMethod"><strong>
+						<td align="left" valign="top"><select disabled="disabled" name="cmbRepMethod"><strong>
 <?php
 						$keys = array_keys($arrRepMethod);
 						$values = array_values($arrRepMethod);
 						for($c=0;count($arrRepMethod)>$c;$c++)
 							if($this->getArr['RepMethod']==$values[$c]) {
-								echo "<option selected value=". $values[$c] . ">" . $keys[$c] . "</option>";
+								echo "<option selected=\"selected\" value='". $values[$c] . "'>" . $keys[$c] . "</option>";
 							} else {
-								echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
+								echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 							}
 ?>
 					</tr>
@@ -243,7 +243,7 @@ function viewSup(sup,rep) {
 						<td valign="top"></td>
 						<td align="left" valign="top">
 		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-				        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onClick="editReportTo();">
+				        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutReportTo();" onmouseover="moverReportTo();" name="EditReportTo" onclick="editReportTo();">
 		<?php			}  ?>
 						</td>
 					  </tr>
@@ -251,14 +251,14 @@ function viewSup(sup,rep) {
 </div>
 <?php } else if (!$supervisorEMPMode && $locRights['add']) { ?>
 	<div id="addPaneReportTo" class="<?php echo (($this->popArr['suprset'] != null) && ($this->popArr['subrset'] != null))?"addPane":""; ?>" >
-		<input type="hidden" name="txtSupEmpID">
-     	<input type="hidden" name="txtSubEmpID">
+		<input type="hidden" name="txtSupEmpID"/>
+     	<input type="hidden" name="txtSubEmpID"/>
 
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_supervisorsubordinator?></td>
     				  <td>
-					  <select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled'?> name="cmbRepType">
+					  <select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled="disabled"'?> name="cmbRepType">
 					  <option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 
 <?php
@@ -267,34 +267,41 @@ function viewSup(sup,rep) {
 ?>
 					  </select></td>
 					</tr>
-					<tr><td><?php echo $lang_Leave_Common_EmployeeName; ?><td align="left" valign="top"><input type="text" disabled name="cmbRepEmpID" value="" readonly><input type="hidden" disabled name="txtRepEmpID" value="">&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();">
+					<tr><td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
+						<td align="left" valign="top"><input type="text" disabled="disabled" name="cmbRepEmpID" value="" readonly="readonly"/><input type="hidden" disabled="disabled" name="txtRepEmpID" value=""/>&nbsp;<input class="button" type="button" value="..." onclick="returnEmpDetail();"/>
 						</td></tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_reportingmethod?></td>
-						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled'?> name='cmbRepMethod'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled="disabled"'?> name='cmbRepMethod'>
 						   		<option value="0"><?php echo $lang_hrEmpMain_SelectMethod; ?></option>
 <?php
 									$keys = array_keys($arrRepMethod);
 									$values = array_values($arrRepMethod);
 									for($c=0;count($arrRepMethod)>$c;$c++)
-										echo "<option value=" . $values[$c] . ">" . $keys[$c] . "</option>";
+										echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 ?>						</select></td>
 					  </tr>
 					  <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php	} ?>
 						</td>
 					  </tr>
                  </table>
+<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>                 
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddRepTo" id="btnAddRepTo" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEXTReportTo(); return false;"/>    	
+</div>
+<?php	} ?>		                 
       </div>
 <?php } ?>
 <?php if (($this->popArr['suprset'] != null) || ($this->popArr['subrset'] != null)) { ?>
-<input type="hidden" name="delSupSub">
-<table>
-  <tr>
+<input type="hidden" name="delSupSub"/>
+<table width="100%" cellspacing="0" cellpadding="0" >
+  <tr style="vertical-align:top;">
 <?php
 $rset = $this->popArr['suprset'];
 $empname = $this ->popArr['empname'];
@@ -304,29 +311,43 @@ $values = array_values($arrRepMethod);
 
 // checking for a records if exsist view the the table and delete btn else no
 if ($rset != null && $empname != null){ ?>
-<td>
-	<h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3>
+<td class="leftList">
+	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_supervisorinfomation?></h3></div>
 	<div><?php echo $lang_hremp_ie_CurrentSupervisors; ?></div>
+	
+	<div class="actionbar">
+		<div class="actionbuttons">					
 <?php if (!$supervisorEMPMode && $locRights['add']) { ?>
-	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
+					<input type="button" class="addbutton"
+						onclick="showAddPane('ReportTo');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	<img title="Delete" onclick="delSupEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
+					<input type="button" class="delbutton"
+						onclick="delSupEXTReportTo();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
 <?php 	} ?>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
-						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
-					</tr>
-
-
+			</div>
+		</div>	
+			
+		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+			<tr>
+              	<td></td>
+				 <td><?php echo $lang_hrEmpMain_ReportToId?></td>
+				 <td><?php echo $lang_hrEmpMain_ReportToName?></td>
+				 <td><?php echo $lang_hrEmpMain_reportingmethod?></td>
+			</tr>
+		</thead>				
+		<tbody>	
+			
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
-        echo '<tr>';
-             echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
+			$cssClass = ($c%2) ? 'even' : 'odd';			
+	    	echo '<tr class="' . $cssClass . '">';  
+             echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
 
 
 				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
@@ -341,6 +362,7 @@ if ($rset != null && $empname != null){ ?>
         echo '</tr>';
         }
 ?>
+		</tbody>
 	</table>
 </td>
 <?php } ?>
@@ -351,27 +373,43 @@ $empname = $this -> popArr['empname'];
 <?php
 // checking for a records if exsist view the the table and delete btn else no
 if ($rset != null && $empname != null){ ?>
-<td>
-	<h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3>
+<td class="rightList">
+	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_subordinateinfomation?></h3></div>
 	<div><?php echo $lang_hremp_ie_CurrentSubordinates; ?></div>
+	
+	<div class="actionbar">
+		<div class="actionbuttons">					
 <?php if($locRights['add'] && $_SESSION['isAdmin'] == 'Yes') { ?>
-	<img border="0" title="Add" onClick="showAddPane('ReportTo');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
+					<input type="button" class="addbutton"
+						onclick="showAddPane('ReportTo');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	<img title="Delete" onclick="delSubEXTReportTo();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
+					<input type="button" class="delbutton"
+						onclick="delSubEXTReportTo();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
 <?php 	} ?>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	<td></td>
-						 <td><strong><?php echo $lang_empview_employeeid?></strong></td>
-						 <td><strong><?php echo $lang_empview_employeename?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_reportingmethod?></strong></td>
-					</tr>
+			</div>
+		</div>	
+			
+		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+			<tr>
+              	<td></td>
+				 <td><?php echo $lang_hrEmpMain_ReportToId?></td>
+				 <td><?php echo $lang_hrEmpMain_ReportToName?></td>
+				 <td><?php echo $lang_hrEmpMain_reportingmethod?></td>
+			</tr>
+		</thead>				
+		<tbody>		
+
 <?php
     for($c=0;$rset && $c < count($rset); $c++) {
 
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'></td>";
+			$cssClass = ($c%2) ? 'even' : 'odd';			
+	    	echo '<tr class="' . $cssClass . '">';  
+            echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
 
 				   $subid=$rset[$c][1];
 				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
@@ -385,6 +423,7 @@ if ($rset != null && $empname != null){ ?>
         }
 
 ?>
+	</tbody>
    </table>
 </td>
 <?php } ?>
@@ -392,4 +431,4 @@ if ($rset != null && $empname != null){ ?>
 </table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

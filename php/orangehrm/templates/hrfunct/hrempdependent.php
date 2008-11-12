@@ -18,7 +18,7 @@
  *
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function delDependent() {
 
 	var check = false;
@@ -76,88 +76,108 @@ function editDependent() {
 	return true;
 }
 
-</script>
-<span id="parentPaneDependents" >
+//--><!]]></script>
+<div id="parentPaneDependents" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 	<h3><?php echo $lang_hremp_dependents; ?></h3>
-    <input type="hidden" name="dependentSTAT">
+    <input type="hidden" name="dependentSTAT"/>
 
 <?php if(isset($this->getArr['depSEQ'])) {
 		$edit = $this->popArr['editDepForm'];
 ?>
 	<div id="editPaneDependents" >
-		<table height="100" border="0" cellpadding="0" cellspacing="0">
+		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td>
                 	<?php echo $lang_hremp_name; ?> <span class="error">*</span> 
-                	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>">
+                	<input type="hidden" name="txtDSeqNo" value="<?php echo $edit[0][1]?>" />
                 </td>
-                <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"></td>
+                <td><input type="text" name="txtDepName" value="<?php echo $edit[0][2]?>"/></td>
                </tr>
               <tr>
                 <td><?php echo $lang_hremp_relationship; ?>&nbsp;</td>
                 <td><input name="txtRelShip" type="text" value="<?php echo $edit[0][3]?>">
                </tr>
-
-
-				  <td>
-					<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
-					        <img border="0" title="Save" onClick="editDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-					<?php	} ?>
-				  </td>
-				</tr>
 		</table>
+<?php	if($locRights['edit'] || ($_GET['reqcode'] === "ESS")) { ?>
+	<div class="formbuttons">
+	    <input type="button" class="savebutton" name="btnEditDependent" id="btnEditDependent" 
+	    	value="<?php echo $lang_Common_Save;?>" 
+	    	title="<?php echo $lang_Common_Save;?>"
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+	    	onclick="editDependent(); return false;"/>
+	</div>		
+<?php	} ?>
 	</div>
 	<?php } else { ?>
 	<div id="addPaneDependents" class="<?php echo ($this->popArr['empDepAss'] != null)?"addPane":""; ?>" >
-		<table height="100" border="0" cellpadding="0" cellspacing="0">
+		<table style="height:100px" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td><?php echo $lang_hremp_name; ?> <span class="error">*</span>
-                	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>"></td>
-                <td><input name="txtDepName" type="text">
+                	<input type="hidden" name="txtDSeqNo" value="<?php echo $this->popArr['newDepID']?>"/></td>
+                <td><input name="txtDepName" type="text"/></td>
                 </tr>
                 <tr>
                 <td><?php echo $lang_hremp_relationship ; ?>&nbsp;</td>
-                <td><input type="text" name="txtRelShip"></td>
+                <td><input type="text" name="txtRelShip" /></td>
               </tr>
-
-				  <td>
-<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
-        <img border="0" title="Save" onClick="addDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php	} ?>
-				  </td>
-				</tr>
 		</table>
+<?php	if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
+	<div class="formbuttons">
+	    <input type="button" class="savebutton" name="btnAddDependent" id="btnAddDependent" 
+	    	value="<?php echo $lang_Common_Save;?>" 
+	    	title="<?php echo $lang_Common_Save;?>"
+	    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+	    	onclick="addDependent(); return false;"/>
+	</div>		
+<?php	} ?>		
 	</div>
 <?php } ?>
 <?php
 //checking for the records if exsists show the dependents table and the delete btn else hide
 $rset = $this->popArr['empDepAss'];
 if ($rset != null) { ?>
+	<div class="subHeading"><h3><?php echo $lang_hremp_AssignedDependents; ?></h3></div>
+	
+	<div class="actionbar">
+		<div class="actionbuttons">					
 	<?php if($locRights['add'] || ($_GET['reqcode'] === "ESS")) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Dependents');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
-	<?php } ?>
+					<input type="button" class="addbutton"
+						onclick="showAddPane('Dependents');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+<?php } ?>
 	<?php	if($locRights['delete'] || ($_GET['reqcode'] === "ESS")) { ?>
-        <img title="Delete" onclick="delDependent();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-	<?php 	} ?>
-			<table width="275" align="center" border="0" class="tabForm">
-			<tr>
-                <td width="50">&nbsp;</td>
-				<td><strong><?php echo $lang_hremp_name; ?></strong></td>
-				<td><strong><?php echo $lang_hremp_relationship; ?></strong></td>
+					<input type="button" class="delbutton"
+						onclick="delDependent();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
+<?php 	} ?>
+			</div>
+		</div>
+	
+	
+	<table style="width:100%;" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+			<tr>		
+                <td></td>
+				<td><?php echo $lang_hremp_name; ?></td>
+				<td><?php echo $lang_hremp_relationship; ?></td>
 			</tr>
-
+		</thead>				
+		<tbody>			
 <?php
     for($c=0;$rset && $c < count($rset); $c++)
         {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkdepdel[]' value='" . $rset[$c][1] ."'></td>";
+		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+        echo '<tr class="' . $cssClass . '">';
+            echo "<td><input type='checkbox' class='checkbox' name='chkdepdel[]' value='" . $rset[$c][1] ."'/></td>";
 
             ?> <td><a href="javascript:viewDependent(<?php echo $rset[$c][1]?>)"><?php echo $rset[$c][2]?></a></td> <?php
             echo '<td>' . $rset[$c][3] .'</td>';
             echo '</tr>';
         }?>
-      	</table>
+		</tbody>
+  	</table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

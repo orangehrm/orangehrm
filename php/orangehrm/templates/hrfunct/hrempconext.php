@@ -18,7 +18,7 @@
  *
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function delConExt() {
       var check = false;
 		with (document.frmEmp) {
@@ -74,72 +74,74 @@ function viewConExt(pSeq) {
 	document.frmEmp.pane.value = 2;
 	document.frmEmp.submit();
 }
-</script>
+//--><!]]></script>
 <div id="employeeContractLayer" <?php echo (!isset($this->popArr['rsetConExt']) || ($this->popArr['rsetConExt'] == null))?'style="display:none;"':''; ?> >
-<script type="text/javascript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 	toggleEmployeeContractsText();
-</script>
-<span id="parentPaneContracts" >
+//--><!]]></script>
+<div id="parentPaneContracts" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<input type="hidden" name="conextSTAT" value="">
+	<input type="hidden" name="conextSTAT" value=""/>
 <?php if(isset($this->popArr['editConExtArr'])) {
         $edit = $this -> popArr['editConExtArr'];
 ?>
 	<div id="editPaneContracts" >
-	  <h3><?php echo $lang_hremp_EmployeeContracts; ?></h3>
-      <table height="80" border="0" cellpadding="0" cellspacing="0">
+	  <div class="subHeading"><h3><?php echo $lang_hremp_EmployeeContracts; ?></h3></div>
+      <table style="height:80px" border="0" cellpadding="0" cellspacing="0">
       <tr>
           <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?>
-          	<input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>">
+          	<input type="hidden" name="txtEmpConExtID" value="<?php echo $this->getArr['CONEXT']?>"/>
           </td>
     	  <td>
-    	  	<input type="text" name="txtEmpConExtStartDat" id="etxtEmpConExtStartDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
+    	  	<input class="formDateInput" type="text" name="txtEmpConExtStartDat" id="etxtEmpConExtStartDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][2]); ?>" size="10" />
     	  	<input type="button" value="  " class="calendarBtn" /></td>
 	  </tr>
 	  <tr>
 		<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 		<td align="left" valign="top">
-			<input type="text" name="txtEmpConExtEndDat" id="etxtEmpConExtEndDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+			<input class="formDateInput" type="text" name="txtEmpConExtEndDat" id="etxtEmpConExtEndDat" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
 			<input type="button" value="  " class="calendarBtn" /></td>
 	  </tr>
-	  <tr>
-		<td valign="top"></td>
-		<td align="left" valign="top">
-		<?php			if($locRights['edit']) { ?>
-					        <img border="0" title="Save" onClick="editConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-		<?php			}  ?>
-		</td>
-	  </tr>
 	 </table>
+<?php	if($locRights['edit']) { ?>		
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditContract" id="btnEditContract" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editConExt(); return false;"/>    	
+</div>
+<?php } ?>		 
    </div>
 <?php } else { ?>
 	<div id="addPaneContracts" class="<?php echo ($this->popArr['rsetConExt'] != null)?"addPane":""; ?>" >
-		<h3><?php echo $lang_hremp_EmployeeContracts; ?></h3>
-	    <table height="80" border="0" cellpadding="0" cellspacing="0">
+		<div class="subHeading"><h3><?php echo $lang_hremp_EmployeeContracts; ?></h3></div>
+	    <table style="height:80px" border="0" cellpadding="0" cellspacing="0">
 	         <tr>
 	          <td width="200"><?php echo $lang_hremp_ContractExtensionStartDate; ?>
-	          	<input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>">
+	          	<input type="hidden" name="txtEmpConExtID"  value="<?php echo $this->popArr['newConExtID']?>"/>
 	          </td>
 			  <td>
-			  	<input type="text" value="" name="txtEmpConExtStartDat" id="atxtEmpConExtStartDat" size="12" />
-			  	<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" /></td>
+			  	<input class="formDateInput" type="text" value="" name="txtEmpConExtStartDat" id="atxtEmpConExtStartDat" size="12" />
+			  	<input <?php echo $locRights['add'] ? '':'disabled="disabled"'?> type="button" value="   " class="calendarBtn" /></td>
 			</tr>
 	  	  <tr>
 			<td valign="top"><?php echo $lang_hremp_ContractExtensionEndDate; ?></td>
 			<td align="left" valign="top">
-				<input type="text" value="" name="txtEmpConExtEndDat" id="atxtEmpConExtEndDat" size="12" />
-				<input <?php echo $locRights['add'] ? '':'disabled'?> type="button" value="   " class="calendarBtn" /></td>
-		  </tr>
-		  <tr>
-			<td valign="top"></td>
-			<td align="left" valign="top">
-				<?php	if($locRights['add']) { ?>
-				        <img border="0" title="Save" onClick="addConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-				<?php	} ?>
-			</td>
+				<input class="formDateInput" type="text" value="" name="txtEmpConExtEndDat" id="atxtEmpConExtEndDat" size="12" />
+				<input <?php echo $locRights['add'] ? '':'disabled="disabled"'?> type="button" value="   " class="calendarBtn" /></td>
 		  </tr>
 		</table>
+<?php	if($locRights['add']) { ?>		
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddContract" id="btnAddContract" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addConExt(); return false;"/>    	
+</div>
+<?php	} ?>		
 	</div>
 <?php } ?>
 
@@ -154,24 +156,38 @@ function viewConExt(pSeq) {
     }
 ?>
 <?php if($assignedContracts) { ?>
-	<h3><?php echo $lang_hremp_AssignedContracts; ?></h3>
+	<div class="subHeading"><h3><?php echo $lang_hremp_AssignedContracts; ?></h3></div>
+		<div class="actionbar">
+			<div class="actionbuttons">						
 <?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Contracts');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
+				<input type="button" class="addbutton"
+					onclick="showAddPane('Contracts');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+					value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 <?php } ?>
 <?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delConExt();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
+				<input type="button" class="delbutton"
+					onclick="delConExt();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+					value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
 <?php 	} ?>
-<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
+			</div>
+		</div>	
+			
+<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+	<thead>
 	<tr>
 		<td></td>
-		<td><strong><?php echo $lang_hremp_ContractExtensionId; ?></strong></td>
-		<td><strong><?php echo $lang_hremp_ContractStartDate; ?></strong></td>
-		<td><strong><?php echo $lang_hremp_ContractEndDate; ?></strong></td>
+		<td><?php echo $lang_hremp_ContractExtensionId; ?></td>
+		<td><?php echo $lang_hremp_ContractStartDate; ?></td>
+		<td><?php echo $lang_hremp_ContractEndDate; ?></td>
 	</tr>
+	</thead>
+	<tbody>
 <?php
     for($c=0; $rset && $c < count($rset); $c++) {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkconextdel[]' value='" . $rset[$c][1] ."'></td>";
+		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+		echo '<tr class="' . $cssClass . '">';
+            echo "<td><input type='checkbox' class='checkbox' name='chkconextdel[]' value='" . $rset[$c][1] ."'/></td>";
             ?> <td><a href="#" onmousedown="viewConExt(<?php echo $rset[$c][1]?>)" ><?php echo $rset[$c][1]?></a></td> <?php
             $dtfield = explode(" ",$rset[$c][2]);
             echo '<td>' . LocaleUtil::getInstance()->formatDate($dtfield[0]) .'</td>';
@@ -181,9 +197,10 @@ function viewConExt(pSeq) {
     }
 
 ?>
+	</tbody>
 	</table>
 <?php } //if( $assignedContracts ) ?>
 
 <?php } ?>
-</span>
+</div>
 </div>

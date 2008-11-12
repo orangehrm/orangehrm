@@ -33,6 +33,7 @@
  *
  * 1. Function getJavascriptInclude().
  *    Default URI and file paths were changed to match OrangeHRM needs.
+ *    Changed to validate as XHTML 
  * 2. Fixed a bug in buffer cleaning - 2007/06/30
  * 3. Enabled buffer cleaning - 2007/06/30
  */
@@ -579,7 +580,7 @@ class xajax
 	// up the xajax runtime
 	function getJavascriptConfig()
 	{
-		$html  = "\t<script type=\"text/javascript\">\n";
+		$html  = "\t<script type=\"text/javascript\"><!--//--><![CDATA[//><!--\n";
 		$html .= "var xajaxRequestUri=\"".$this->sRequestURI."\";\n";
 		$html .= "var xajaxDebug=".($this->bDebug?"true":"false").";\n";
 		$html .= "var xajaxStatusMessages=".($this->bStatusMessages?"true":"false").";\n";
@@ -592,7 +593,7 @@ class xajax
 			$html .= $this->_wrap($sFunction,$this->aFunctionRequestTypes[$sFunction]);
 		}
 
-		$html .= "\t</script>\n";
+		$html .= "\t//--><!]]></script>\n";
 		return $html;
 	}
 
@@ -606,9 +607,9 @@ class xajax
 
 		//$html = "\t<script type=\"text/javascript\" src=\"" . $sJsURI . $sJsFile . "\"></script>\n";
 		$html = "\t<script type=\"text/javascript\" src=\"../../lib/common/xajax/xajax_js/xajax.js\"></script>\n";
-		$html .= "\t<script type=\"text/javascript\">\n";
+		$html .= "\t<script type=\"text/javascript\"><!--//--><![CDATA[//><!--\n";
 		$html .= "window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\\nURL: {$sJsURI}{$sJsFile}'); } }, 4000);\n";
-		$html .= "\t</script>\n";
+		$html .= "\t//--><!]]></script>\n";
 		return $html;
 	}
 

@@ -107,7 +107,8 @@
 
 	// Home
 	$lang_Menu_Home 							= "Home";
-
+	$lang_Menu_Help								= 'Help';
+	$lang_Menu_HelpContents						= 'Help Contents';
 	$lang_Menu_Home_Support 					= "Support";
 	$lang_Menu_Home_Forum 						= "Forum";
 	$lang_Menu_Home_Blog 						= "Blog";
@@ -250,6 +251,12 @@
 	$lang_Common_Back = "Back";
     $lang_Common_Add = "Add";
     $lang_Common_Delete = "Delete";
+    $lang_Common_Search = "Search";
+    $lang_Common_Clear = "Clear";
+    $lang_Common_Reset = "Reset";
+	$lang_Common_SortAscending = "Sort in ascending order";
+	$lang_Common_SortDescending = "Sort in descending order";
+    
 
 	$lang_Common_Time = "Time";
 	$lang_Common_Note = "Note";
@@ -560,6 +567,10 @@
  	$lang_hremp_dependents 					= "Dependents";
 	$lang_hremp_children 					= "Children";
 	$lang_hremp_relationship 				= "Relationship";
+	$lang_hremp_AssignedDependents			= "Assigned Dependents";
+	$lang_hremp_AssignedChildren			= "Assigned Children";
+	
+	$lang_hremp_AssignedEmergencyContacts   = "Assigned Emergency Contacts";
 
 	$lang_hremp_street1						= "Street 1";
 	$lang_hremp_street2 					= "Street 2";
@@ -578,6 +589,7 @@
 	$lang_hremp_i9status 					= "I9 Status";
 	$lang_hremp_dateofexp 					= "Date of Expiry";
 	$lang_hremp_i9reviewdate 				= "I9 Review Date";
+	$lang_hremp_AssignedPassportVisas		= "Assigned Passport/Visa";
 	$lang_hremp_path 						= "Path";
 	$lang_hremp_filename 					= "File Name";
 	$lang_hremp_size 						= "Size";
@@ -719,6 +731,8 @@
 	$lang_hrEmpMain_selecttype 				= "Select Method";
 	$lang_hrEmpMain_Direct 					= "Direct";
 	$lang_hrEmpMain_Indirect 				= "Indirect";
+	$lang_hrEmpMain_ReportToId 				= "Id";
+	$lang_hrEmpMain_ReportToName 			= "Name";
 	$lang_hrEmpMain_employeeskill 			= "Employee Skills";
 	$lang_hrEmpMain_yearofex 				= "Years of Experience";
 	$lang_hrEmpMain_assignskills 			= "Assigned Skills";
@@ -1114,8 +1128,14 @@
 	$lang_pim_CustomFields_NoCustomFieldsDefined = "No custom fields defined.";
 
 	// PIM tab labels
+	$lang_pim_PersonalDetails = 'Personal Details';
+	$lang_pim_Employment = 'Employment';
+	$lang_pim_Qualifications = 'Qualifications';
+	$lang_pim_EmployeeList = 'Employee List';
+	$lang_pim_AddEmployee = 'Add Employee';
+	
 	$lang_pim_tabs_Personal = "Personal";
-	$lang_pim_tabs_Contact = "Contact";
+	$lang_pim_tabs_Contact = "Contact Details";
 	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
 	$lang_pim_tabs_Dependents = "Dependents";
 	$lang_pim_tabs_Immigration = "Immigration";
@@ -1133,6 +1153,8 @@
 	$lang_pim_tabs_Tax = "Tax Exemptions";
 	$lang_pim_tabs_DirectDebit = "Direct Deposit";
 	$lang_pim_tabs_Custom = "Custom";
+	
+	$lang_pim_ClickToEditPhoto = "Click to edit photo";
 
 	// Report module
 	$lang_rep_SelectionCriteria = "Selection Criteria";

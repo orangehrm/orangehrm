@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 
 function editWrkExp() {
 
@@ -151,93 +151,100 @@ function viewWrkExp(wrkexp) {
 	document.frmEmp.submit();
 }
 
-</script>
-<span id="parentPaneWorkExperience" >
+//--><!]]></script>
+<div id="parentPaneWorkExperience" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-    <input type="hidden" name="wrkexpSTAT" value="">
+    <input type="hidden" name="wrkexpSTAT" value=""/>
 <?php
 if(isset($this->popArr['editWrkExpArr'])) {
     $edit = $this->popArr['editWrkExpArr'];
 ?>
 <div id="editPaneWorkExperience" >
-      <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>">
+      <input type="hidden" name="txtEmpExpID" value="<?php echo $this->getArr['WRKEXP']?>"/>
       <table border="0" cellpadding="5" cellspacing="0">
                     <tr>
                       <td><?php echo $lang_hrEmpMain_employer?></td>
-    				  <td><input type="text" name="txtEmpExpEmployer" value="<?php echo $edit[0][2]?>"></td>
+    				  <td><input type="text" name="txtEmpExpEmployer" value="<?php echo $edit[0][2]?>"/></td>
     				  <td width="50">&nbsp;</td>
-					  <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
-					  <td nowrap>
-					  	<input type="text" name="txtEmpExpFromDate" id="etxtEmpExpFromDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][4]); ?>" size="10" />
+					  <td nowrap="nowrap"><?php echo $lang_hrEmpMain_startdate?></td>
+					  <td nowrap="nowrap">
+					  	<input class="formDateInput" type="text" name="txtEmpExpFromDate" id="etxtEmpExpFromDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][4]); ?>" size="10" />
 					  	<input type="button" class="calendarBtn" value="   " /></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_empview_JobTitle?></td>
-						<td> <input type="text" name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"></td>
+						<td> <input type="text" name="txtEmpExpJobTitle" value="<?php echo $edit[0][3]?>"/></td>
     				  <td width="50">&nbsp;</td>
-						<td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
-						<td nowrap>
-							<input type="text" name="txtEmpExpToDate" id="etxtEmpExpToDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
+						<td nowrap="nowrap"><?php echo $lang_hrEmpMain_enddate?></td>
+						<td nowrap="nowrap">
+							<input class="formDateInput" type="text" name="txtEmpExpToDate" id="etxtEmpExpToDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
 							<input type="button" class="calendarBtn" value="   " /></td>
 					  </tr>
 					  <tr valign="top">
 						<td><?php echo $lang_Leave_Common_Comments; ?></td>
-						<td> <textarea name="txtEmpExpComments"><?php echo $edit[0][6]?></textarea></td>
+						<td> <textarea name="txtEmpExpComments"  rows="3" cols="25" ><?php echo $edit[0][6]?></textarea></td>
     				  	<td width="50">&nbsp;</td>
 						<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
-						<td width="50"><input type="checkbox" name="chkEmpExpInternal" value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked' : '' ?>/></td>
+						<td width="50"><input type="checkbox" name="chkEmpExpInternal" value="1" <?php echo (isset($edit[0][7]) && ($edit[0][7] == 1)) ? 'checked="checked"' : '' ?>/></td>
 						<td width="50">&nbsp;</td>
 					 </tr>
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-		<?php		if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutWrkExp();" onmouseover="moverWrkExp();" name="EditWrkExp" onClick="editEXTWrkExp();">
-		<?php		} 	 ?>
 						</td>
 	    </tr>
 	</table>
+<?php	if($locRights['edit']) { ?>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditWrkExp" id="btnEditWrkExp" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEXTWrkExp(); return false;"/>    	
+</div>			                
+<?php	} ?>        
+	
 </div>
 <?php } else { ?>
 <div id="addPaneWorkExperience" class="<?php echo ($this->popArr['rsetWrkExp'] != null)?"addPane":""; ?>" >
-    	<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>">
+    	<input type="hidden" name="txtEmpExpID"  value="<?php echo $this->popArr['newWrkExpID']?>"/>
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
           <tr>
             <td><?php echo $lang_hrEmpMain_employer?></td>
-            <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
-            <td width="50">&nbsp;</td>
-            <td nowrap><?php echo $lang_hrEmpMain_startdate?></td>
-            <td nowrap>
-            	<input type="text" name="txtEmpExpFromDate" id="atxtEmpExpFromDate" value="" size="10" />
-           		<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
+            <td><input type="text" name="txtEmpExpEmployer" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
+            <td width="20">&nbsp;</td>
+            <td nowrap="nowrap"><?php echo $lang_hrEmpMain_startdate?></td>
+            <td nowrap="nowrap">
+            	<input class="formDateInput" type="text" name="txtEmpExpFromDate" id="atxtEmpExpFromDate" value="" size="10" />
+           		<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
           </tr>
           <tr>
             <td><?php echo $lang_empview_JobTitle?></td>
-            <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled'?> /></td>
-            <td width="50">&nbsp;</td>
-            <td nowrap><?php echo $lang_hrEmpMain_enddate?></td>
-            <td nowrap>
-            	<input type="text" name="txtEmpExpToDate" id="atxtEmpExpToDate" value="" size="10" />
-              	<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled'?> /></td>
-            <td width="50">&nbsp;</td>
+            <td><input type="text" name="txtEmpExpJobTitle" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
+            <td width="20">&nbsp;</td>
+            <td nowrap="nowrap"><?php echo $lang_hrEmpMain_enddate?></td>
+            <td nowrap="nowrap">
+            	<input class="formDateInput" type="text" name="txtEmpExpToDate" id="atxtEmpExpToDate" value="" size="10" />
+              	<input name="button" type="button" class="calendarBtn" value="   " <?php echo $locRights['add'] ? '':'disabled="disabled"'?> /></td>
           </tr>
           <tr valign="top">
             <td><?php echo $lang_Leave_Common_Comments; ?></td>
-            <td><textarea <?php echo $locRights['add'] ? '':'disabled'?> name="txtEmpExpComments"></textarea></td>
-            <td width="50">&nbsp;</td>
-			<td width="50"><?php echo $lang_hrEmpMain_internal?></td>
-			<td width="50"><input type="checkbox" name="chkEmpExpInternal" <?php echo $locRights['add'] ? '':'disabled'?> value="1"/></td>
-			<td width="50">&nbsp;</td>
-          </tr>
-          <tr>
-            <td valign="top"></td>
-            <td align="left" valign="top"><?php	if($locRights['add']) { ?>
-                <img border="0" title="Save" onclick="addEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
-                <?php	} ?>
-            </td>
+            <td><textarea <?php echo $locRights['add'] ? '':'disabled="disabled"'?>  rows="3" cols="25" name="txtEmpExpComments"></textarea></td>
+            <td width="20">&nbsp;</td>
+			<td><?php echo $lang_hrEmpMain_internal?></td>
+			<td><input type="checkbox" name="chkEmpExpInternal" <?php echo $locRights['add'] ? '':'disabled="disabled"'?> value="1"/></td>
           </tr>
         </table>
+<?php	if($locRights['add']) { ?>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddWrkExp" id="btnAddWrkExp" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEXTWrkExp(); return false;"/>    	
+</div>			                
+<?php	} ?>        
 </div>
 <?php } ?>
 <?php
@@ -252,28 +259,41 @@ if(isset($this->popArr['editWrkExpArr'])) {
 ?>
 <?php if($assignedExperiences) { ?>
 
-<h3><?php echo $lang_hrEmpMain_assignworkex?></h3>
-<?php	if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('WorkExperience');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
+<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignworkex?></h3></div>
+	<div class="actionbar">
+		<div class="actionbuttons">					
+<?php if ($locRights['add']) { ?>
+					<input type="button" class="addbutton"
+						onclick="showAddPane('WorkExperience');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
 <?php } ?>
-<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delEXTWrkExp();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
+<?php	if ($locRights['delete']) { ?>
+					<input type="button" class="delbutton"
+						onclick="delEXTWrkExp();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
 <?php 	} ?>
-<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-
-                  <tr>
-                      	<td></td>
-						 <td width="125"><strong><?php echo $lang_hrEmpMain_workexid?></strong></td>
-						 <td width="110"><strong><?php echo $lang_hrEmpMain_employer; ?></strong></td>
-						 <td width="100"><strong><?php echo $lang_hremp_jobtitle; ?></strong></td>
-						 <td width="65"><strong><?php echo $lang_hrEmpMain_startdate; ?></strong></td>
-						 <td width="65"><strong><?php echo $lang_hrEmpMain_enddate; ?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_internal; ?></strong></td>
-				</tr>
+			</div>
+		</div>	
+		
+	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+	<thead>
+	  <tr>
+	  	<td></td>
+		 <td width="125"><?php echo $lang_hrEmpMain_workexid?></td>
+		 <td width="110"><?php echo $lang_hrEmpMain_employer; ?></td>
+		 <td width="100"><?php echo $lang_hremp_jobtitle; ?></td>
+		 <td width="65"><?php echo $lang_hrEmpMain_startdate; ?></td>
+		 <td width="65"><?php echo $lang_hrEmpMain_enddate; ?></td>
+		 <td><?php echo $lang_hrEmpMain_internal; ?></td>
+	</tr>
+	</thead>				
+	<tbody>		
 <?php
     for($c=0; $rset && $c < count($rset); $c++) {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'></td>";
+			$cssClass = ($c%2) ? 'even' : 'odd';			
+	    	echo '<tr class="' . $cssClass . '">';    	
+            echo "<td><input type='checkbox' class='checkbox' name='chkwrkexpdel[]' value='" . $rset[$c][1] ."'/></td>";
             ?><td><a href="javascript:viewWrkExp('<?php echo $rset[$c][1]?>')"><?php echo $rset[$c][1]?></a></td><?php
             echo '<td>' . $rset[$c][2] .'</td>';
             echo '<td>' . $rset[$c][3] .'</td>';
@@ -286,7 +306,8 @@ if(isset($this->popArr['editWrkExpArr'])) {
         echo '</tr>';
         }
 ?>
+	</tbody>
 </table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

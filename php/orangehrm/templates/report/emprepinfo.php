@@ -606,7 +606,6 @@ function disableJoiDatField() {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style1.css"); </style>
 </head>
 <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
 <body>

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function editLicense() {
 	if(document.EditLicense.title=='Save') {
 		editEXTLicense();
@@ -105,10 +105,10 @@ function viewLicense(lic) {
 	document.frmEmp.pane.value=12;
 	document.frmEmp.submit();
 }
-</script>
-<span id="parentPaneLicenses" >
+//--><!]]></script>
+<div id="parentPaneLicenses" >
 <?php  if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-    <input type="hidden" name="licenseSTAT" value="">
+    <input type="hidden" name="licenseSTAT" value=""/>
 <?php
 if(isset($this->getArr['LIC'])) {
     $edit = $this->popArr['editLicenseArr'];
@@ -117,7 +117,7 @@ if(isset($this->getArr['LIC'])) {
 		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 				 <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
-    				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"><strong>
+    				  <td><input type="hidden" name="cmbLicCode" value="<?php echo $edit[0][1]?>"/><strong>
 <?php						$allLicenlist = $this->popArr['allLicenlist'];
 						for($c=0;count($allLicenlist)>$c;$c++)
 							if($this->getArr['LIC']==$allLicenlist[$c][0])
@@ -141,18 +141,25 @@ if(isset($this->getArr['LIC'])) {
 					 <tr>
 						<td valign="top"></td>
 						<td align="left" valign="top">
-						        <img src="../../themes/beyondT/pictures/btn_save.gif" title="Save" onmouseout="moutLicense();" onmouseover="moverLicense();" name="EditLicense" onClick="editEXTLicense();">
 						</td>
 					  </tr>
 			</table>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditLicense" id="btnEditLicense" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEXTLicense(); return false;"/>    	
+</div>				
+			
 		</div>
 <?php } else { ?>
 	<div id="addPaneLicenses" class="<?php echo ($this->popArr['rsetLicense'] != null)?"addPane":""; ?>" >
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
 					  <tr>
                       <td width="200"><?php echo $lang_hremplicenses_licentype?></td>
-    				  <td><select name="cmbLicCode">
-    				  		<option selected value="0">--<?php echo $lang_hremplicenses_SelectLicenseType; ?>--</option>
+    				  <td><select name="cmbLicCode" class="formSelect">
+    				  		<option selected="selected" value="0">--<?php echo $lang_hremplicenses_SelectLicenseType; ?>--</option>
 <?php						$unassLicenlist= $this->popArr['unassLicenlist'];
 
 						for($c=0;$unassLicenlist && count($unassLicenlist)>$c;$c++)
@@ -166,22 +173,29 @@ if(isset($this->getArr['LIC'])) {
                     <tr>
                     <td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpLicDat" id="atxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):''?>" size="10" />
+							<input class="formDateInput" type="text" name="txtEmpLicDat" id="atxtEmpLicDat" value="<?php echo isset($this->popArr['txtEmpLicDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpLicDat']):''?>" size="10" />
 							<input type="button" name="btnEmpLicDat" value="  " class="calendarBtn" /></td>
     				  </tr>
     				  <tr>
                        <td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpreDat" id="atxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):''?>" size="10" />
+							<input class="formDateInput" type="text" name="txtEmpreDat" id="atxtEmpreDat" value="<?php echo isset($this->popArr['txtEmpreDat'])?LocaleUtil::getInstance()->formatDate($this->popArr['txtEmpreDat']):''?>" size="10" />
 							<input type="button" name="btnEmpreDat" value="  " class="calendarBtn" /></td>
 					</tr>
 
 					  <tr>
 						<td valign="top"></td>
-						<td align="left" valign="top">
-        <img border="0" title="Save" onClick="addEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+						<td align="left" valign="top">        
+        				</td>
 					  </tr>
                   </table>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddLicense" id="btnAddLicense" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEXTLicense(); return false;"/>    	
+</div>	                  
 	</div>
 <?php } ?>
 <?php
@@ -195,32 +209,41 @@ if(isset($this->getArr['LIC'])) {
     }
 ?>
 <?php if($assignedLicenses){ ?>
-	 <h3><?php echo $lang_hremplicenses_assignlicen?></h3>
-
-	 <img border="0" title="Add" onClick="showAddPane('Licenses');" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif">
-     <img title="Delete" onclick="delEXTLicense();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	 <td ></td>
-						 <td ><strong><?php echo $lang_hremplicenses_licentype?></strong></td>
-						 <td ><strong><?php echo $lang_hrEmpMain_startdate?></strong></td>
-						 <td ><strong><?php echo $lang_hrEmpMain_enddate?></strong></td>
-
-					</tr>
+	 <div class="subHeading"><h3><?php echo $lang_hremplicenses_assignlicen?></h3></div>
+	<div class="actionbar">
+		<div class="actionbuttons">					
+			<input type="button" class="addbutton"
+				onclick="showAddPane('Licenses');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+			<input type="button" class="delbutton"
+				onclick="delEXTLicense();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+				value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>					
+		</div>
+	</div>
+	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+		  <tr>
+	      	 <td ></td>
+			 <td ><?php echo $lang_hremplicenses_licentype?></td>
+			 <td ><?php echo $lang_hrEmpMain_startdate?></td>
+			 <td ><?php echo $lang_hrEmpMain_enddate?></td>
+		</tr>
+		</thead>				
+		<tbody>	
 <?php
 $allLicenlist = $this -> popArr['allLicenlist'];
 
     for($c=0; $rset && $c < count($rset); $c++)
         {
+			$cssClass = ($c%2) ? 'even' : 'odd';			         	
 ?>
-        <tr>
-            <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?php echo $rset[$c][1]?>'></td>
+		<tr class="<?php echo $cssClass;?>">
+            <td ><input type='checkbox' class='checkbox' name='chklicdel[]' value='<?php echo $rset[$c][1]?>'/></td>
 <?php
 			for($a=0;count($allLicenlist)>$a;$a++)
 				if($rset[$c][1] == $allLicenlist[$a][0])
 				   $lname=$allLicenlist[$a][1];
-			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo $lname?></td><?php
+			?><td><a href="javascript:viewLicense('<?php echo $rset[$c][1]?>')"><?php echo $lname?></a></td><?php
             $str = explode(" ",$rset[$c][2]);
             echo '<td>' . LocaleUtil::getInstance()->formatDate($str[0]) .'</td>';
             $str = explode(" ",$rset[$c][3]);
@@ -229,7 +252,8 @@ $allLicenlist = $this -> popArr['allLicenlist'];
         }
 
 ?>
+		</tbody>
 	</table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

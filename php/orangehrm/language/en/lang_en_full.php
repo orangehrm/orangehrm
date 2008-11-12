@@ -843,7 +843,7 @@
 
 	// PIM tab labels
 	$lang_pim_tabs_Personal = "Personal";
-	$lang_pim_tabs_Contact = "Contact";
+	$lang_pim_tabs_Contact = "Contact Details";
 	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
 	$lang_pim_tabs_Dependents = "Dependents";
 	$lang_pim_tabs_Immigration = "Immigration";

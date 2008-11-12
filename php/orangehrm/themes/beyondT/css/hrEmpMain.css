@@ -542,38 +542,6 @@ textarea {
 	color: #333333;
 }
 
-#toogleContractLayerLink {
-	background-position: left;
-	background-image: url(../icons/contract_show.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	outline: none;
-}
-
-#toogleContractLayerLink.show {
-	background-image: url(../icons/contract_show.png);
-}
-
-#toogleContractLayerLink.hide {
-	background-image: url(../icons/contract_hide.gif);
-}
-
-#toggleJobHistoryLayerLink {
-	background-position: left;
-	background-image: url(../icons/contract_show.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	outline: none;
-}
-
-#toggleJobHistoryLayerLink.show {
-	background-image: url(../icons/contract_show.png);
-}
-
-#toggleJobHistoryLayerLink.hide {
-	background-image: url(../icons/contract_hide.gif);
-}
-
 table.historyTable th {
     border-width: 0px;
     padding: 3px 3px 3px 5px;

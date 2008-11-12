@@ -445,5 +445,4 @@ class Projects {
 		return $objArr;
 	}
 }
-
 ?>

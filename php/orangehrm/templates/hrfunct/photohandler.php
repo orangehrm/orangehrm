@@ -103,7 +103,7 @@ $styleSheet = CommonFunctions::getTheme();
 <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
 <title><?php echo $lang_hremp_SelectAPhoto; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function addPic() {
 	document.frmPhoto.STAT.value = 'ADD';
 	document.frmPhoto.submit();
@@ -135,14 +135,14 @@ function windowClose() {
 	windowClose();
 <?php } ?>
 
-</script>
+//--><!]]></script>
 </head>
 <body>
 <p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
 <tr>
   <td width='100%'><h2><?php echo $lang_hremp_SelectAPhoto; ?></h2></td>
-  <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
+  <td valign='top' align='right' nowrap="nowrap" style='padding-top:3px; padding-left: 5px;'></td></tr>
 </table></p>
 </p>
 <p>
@@ -152,13 +152,13 @@ function windowClose() {
 <input type="hidden" name="STAT">
       <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt="" /></td>
+                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt="" /></td>
+                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                   <td><table border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
                     <td align="center" width="100%"><img width="100" height="120" src="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']?>&action=VIEW"></td>
@@ -173,22 +173,22 @@ function windowClose() {
                     <tr>
                     <td align="center" width="100%">
                     <?php if($edit) { ?>
-					        <img border="0" title="Save" onClick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-					        <img border="0" title="Delete" onClick="deletePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
+					        <img border="0" alt="" title="Save" onclick="updatePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
+					        <img border="0" title="Delete" onclick="deletePic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
                     <?php } else { ?>
-					        <img border="0" title="Save" onClick="addPic();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
+					        <img border="0" title="Save" onclick="addPic();" alt="" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
                     <?php } ?>
                     </td>
 					</tr>
                   </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                 </tr>
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt="" /></td>
+                  <td><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt="" /></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt="" /></td>
                 </tr>
               </table>
 </td><td></td></tr>

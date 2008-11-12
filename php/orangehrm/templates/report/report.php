@@ -58,7 +58,6 @@ function goBack() {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-@import url("../../themes/<?php echo $styleSheet;?>/css/style1.css");
 ul {
 	margin: 0px;
 	left: -6px;

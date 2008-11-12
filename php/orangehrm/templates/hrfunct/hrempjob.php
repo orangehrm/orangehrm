@@ -28,7 +28,7 @@ $picDir = '../../themes/'.$styleSheet.'/pictures/';
 $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 ?>
-<script language="javascript">
+<script type="text/javascript"><!--//--><![CDATA[//><!--
 
    var locationNames = new Array();
 <?php
@@ -76,7 +76,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 	function toggleEmployeeContracts() {
 		oLayer = document.getElementById("employeeContractLayer");
-		oLink = document.getElementById("toogleContractLayerLink");
+		oLink = document.getElementById("toggleContractLayerLink");
 
 		if (oLayer.style.display == 'none') {
 			oLayer.style.display = 'block';
@@ -88,7 +88,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 
 	function toggleEmployeeContractsText() {
 		oLayer = document.getElementById("employeeContractLayer");
-		oLink = document.getElementById("toogleContractLayerLink");
+		oLink = document.getElementById("toggleContractLayerLink");
 
 		if (oLayer.style.display == 'none') {
 			oLink.innerHTML = "<?php echo $lang_hremp_ShowEmployeeContracts; ?>";
@@ -295,9 +295,9 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
      */
     function disableAssignLocationBtn() {
         var btn = $('assignLocationButton');
-        btn.attributes["onClick"].value  = "";
-        btn.attributes["onMouseOut"].value ="";
-        btn.attributes["onMouseOver"].value ="";
+        btn.attributes["onclick"].value  = "";
+        btn.attributes["onmouseout"].value ="";
+        btn.attributes["onmouseover"].value ="";
         btn.attributes["src"].value = "<?php echo $iconDir;?>assign.gif";
     }
 
@@ -306,9 +306,9 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
      */
     function enableAssignLocationBtn() {
         var btn = $('assignLocationButton');
-        btn.attributes["onClick"].value  = "<?php echo $saveLocBtnAction; ?>;";
-        btn.attributes["onMouseOut"].value ="this.src='<?php echo $iconDir;?>assign.gif';";
-        btn.attributes["onMouseOver"].value ="this.src='<?php echo $iconDir;?>assign_o.gif';";
+        btn.attributes["onclick"].value  = "<?php echo $saveLocBtnAction; ?>;";
+        btn.attributes["onmouseout"].value ="this.src='<?php echo $iconDir;?>assign.gif';";
+        btn.attributes["onmouseover"].value ="this.src='<?php echo $iconDir;?>assign_o.gif';";
         btn.attributes["src"].value = "<?php echo $iconDir;?>assign.gif";
     }
 
@@ -321,69 +321,7 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 		xajax_fetchJobSpecInfo(value);
      }
 
-</script>
-<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
-
-	<table height="150" border="0" cellpadding="5" cellspacing="0">
-	<tr>
-			   <td><?php echo $lang_hremp_jobtitle; ?></td>
-			  <td><select name="cmbJobTitle" <?php echo $locRights['add'] ? '':'disabled' ?> >
-			  		<option value="0">-- <?php echo $lang_hremp_SelectJobTitle; ?> --</option>
-			  		<?php $jobtit = $this->popArr['jobtit'];
-			  			for ($c=0; $jobtit && count($jobtit)>$c ; $c++) {
-			  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
-			  			} ?>
-			  </select> </td>
-			  <td width="50">&nbsp;</td>
-			  <td><?php echo $lang_hremp_empstatus; ?></td>
-	  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbType">
-			  		<option value="0">-- <?php echo $lang_hremp_selempstat; ?> --</option>
-<?php				if(isset($this->postArr['cmbType'])) {
-						$arrEmpType = $this->popArr['empstatlist'];
-						for($c=0;count($arrEmpType)>$c;$c++)
-							if($this->postArr['cmbType']==$arrEmpType[$c][0])
-								echo "<option selected value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-							else
-								echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
-					}
-?>
-			  </select></td>
-              </tr>
-              <tr>
-                <td><?php echo $lang_hremp_jobspec; ?></td>
-                <td id='jobSpecName'></td>
-                <td width="50">&nbsp;</td>
-                <td><?php echo $lang_hremp_jobspecduties; ?></td>
-                <td id='jobSpecDuties'></td>
-              </tr>
-			  <tr>
-			  <td><?php echo $lang_hremp_eeocategory; ?> </td>
-			  <td><select <?php echo $locRights['add'] ? '':'disabled'?> name="cmbEEOCat">
-			  		<option value="0">-- <?php echo $lang_hremp_seleeocat?> --</option>
-<?php  			    	$eeojobcat = $this->popArr['eeojobcat'];
-						      for($c=0;$eeojobcat && $c < count($eeojobcat);$c++)
-						            echo '<option value=' . $eeojobcat[$c][0] . '>' . $eeojobcat[$c][1] .'</option>';
-						    ?>
-					</select></td>
-			   <td width="50">&nbsp;</td>
-			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
-			  <td nowrap><input type="text"  name="txtLocation" value="" readonly />
-			  			 <input type="hidden"  name="cmbLocation" value="" readonly />
-			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo $locRights['add'] ? '':'disabled'?> class="button" />
-			  </td>
-			  </tr>
-			  <tr>
-			  <td><?php echo $lang_hremp_joindate?></td>
-				<td><input type="text" name="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):''?>" size="10" />
-					<input type="button" <?php echo $locRights['add'] ? '':'disabled'?> value="  " class="calendarBtn" /></td>
-			  </tr>
-			  </table>
-
-<?php } if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-
-	<table onclick="setUpdate(2)" onkeypress="setUpdate(2)" height="150" border="0" cellpadding="5" cellspacing="0">
-
-
+//--><!]]></script>
 <?php
     $edit1 = $this->popArr['editJobInfoArr'];
     $jobSpec = $this->popArr['jobSpec'];
@@ -394,40 +332,43 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
         $jobSpecName = CommonFunctions::escapeHtml($jobSpec->getName());
         $jobSpecDuties = nl2br(CommonFunctions::escapeHtml($jobSpec->getDuties()));
     }
-?>
-<tr>
+
+if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
+
+<table onclick="setUpdate(2)" onkeypress="setUpdate(2)" border="0" cellpadding="5" cellspacing="0">
+	<tr>
 			   <td><?php echo $lang_hremp_jobtitle; ?></td>
-			  <td><select name="cmbJobTitle" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> onchange="onJobTitleChange(this.value);">
+			  <td><select name="cmbJobTitle" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> onchange="onJobTitleChange(this.value);">
 			  		<option value="0">-- <?php echo $lang_hremp_SelectJobTitle; ?> --</option>
 			  		<?php $jobtit = $this->popArr['jobtit'];
 			  			for ($c=0; $jobtit && count($jobtit)>$c ; $c++)
 			  				if(isset($this->postArr['cmbJobTitle'])) {
 			  					if($this->postArr['cmbJobTitle'] == $jobtit[$c][0])
-					  				echo "<option selected value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+					  				echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 					  			else
 					  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 			  				} elseif($edit1[0][2] == $jobtit[$c][0])
-					  				echo "<option selected value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
+					  				echo "<option selected=\"selected\" value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 					  			else
 					  				echo "<option value='" . $jobtit[$c][0] . "'>" .$jobtit[$c][1]. "</option>";
 			  		?>
 
-
+					</select></td>
 			  <td width="50">&nbsp;</td>
 			  <td><?php echo $lang_hremp_EmpStatus; ?></td>
-			  <td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbType" id="cmbType" onChange="javascript: cmbTypeChanged();">
+			  <td><select class="formSelect" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="cmbType" id="cmbType" onchange="javascript: cmbTypeChanged();">
 			  		<option value="0">-- <?php echo $lang_hremp_selempstat?> --</option>
 <?php						$arrEmpType = $this->popArr['empstatlist'];
 						for($c=0;count($arrEmpType)>$c;$c++)
 							if(isset($this->postArr['cmbType'])) {
 								if($this->postArr['cmbType']==$arrEmpType[$c][0])
-										echo "<option selected value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+										echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 									else
-										echo "<option value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 							} elseif($edit1[0][1]==$arrEmpType[$c][0])
-										echo "<option selected value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+										echo "<option selected=\"selected\" value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 									else
-										echo "<option value=".$arrEmpType[$c][0].">" .$arrEmpType[$c][1]. "</option>";
+										echo "<option value='".$arrEmpType[$c][0]."'>" .$arrEmpType[$c][1]. "</option>";
 
 							if(count($arrEmpType) == 0) {
 								$empStatDefault = new  EmploymentStatus();
@@ -446,17 +387,17 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
               </tr>
 			  <tr>
 			  <td><?php echo $lang_hremp_eeocategory; ?></td>
-			  <td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="cmbEEOCat">
+			  <td><select <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="cmbEEOCat">
 			  		<option value="0">-- <?php echo $lang_hremp_seleeocat?> --</option>
 <?php				  		$eeojobcat = $this->popArr['eeojobcat'];
 				for($c=0;$eeojobcat && count($eeojobcat)>$c;$c++)
 							if(isset($this->postArr['cmbEEOCat'])) {
 							   if($this->postArr['cmbEEOCat']==$eeojobcat[$c][0])
-								    echo "<option selected value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+								    echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
 								else
 								    echo "<option value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
 							} elseif($edit1[0][3]==$eeojobcat[$c][0])
-								    echo "<option selected value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
+								    echo "<option selected=\"selected\" value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
 								else
 								    echo "<option value='".$eeojobcat[$c][0]. "'>" . $eeojobcat[$c][1] ."</option>";
 ?>
@@ -465,35 +406,39 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 			  <td width="50">&nbsp;</td>
 
 			  <td><?php echo $lang_hremp_joindate; ?></td>
-				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtJoinedDate" id="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):LocaleUtil::getInstance()->formatDate($edit1[0][5]); ?>" size="10" />
-					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" /></td>
+				<td><input class="formDateInput" type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtJoinedDate" id="txtJoinedDate" value="<?php echo (isset($this->postArr['txtJoinedDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtJoinedDate']):LocaleUtil::getInstance()->formatDate($edit1[0][5]); ?>" size="10" />
+					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> value="  " class="calendarBtn" /></td>
 
 
 			  </tr>
 			  <tr>
 
-			  <td nowrap><?php echo $lang_hremp_Subdivision; ?></td>
-			  <td nowrap><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly />
-			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly />
-			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> class="button" /></td>
+			  <td nowrap="nowrap"><?php echo $lang_hremp_Subdivision; ?></td>
+			  <td nowrap="nowrap"><input type="text"  name="txtLocation" value="<?php echo isset($this->postArr['txtLocation']) ? $this->postArr['txtLocation'] : $edit1[0][4]?>" readonly="readonly" />
+			  			 <input type="hidden"  name="cmbLocation" value="<?php echo isset($this->postArr['cmbLocation']) ? $this->postArr['cmbLocation'] : $edit1[0][6]?>" readonly="readonly" />
+			  <input type="button" name="popLoc" value="..." onclick="returnLocDet()" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> class="button" /></td>
 
 			  <td width="50">&nbsp;</td>
 <?php if($_GET['reqcode'] === "ESS") { ?>
 		<td colspan="2"></td>
 <?php } else { ?>
-			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateDisc' id='tdTermDateDisc'><?php echo $lang_hremp_termination_date; ?></td>
-				<td   <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermDateValue' id='tdTermDateValue'><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtTermDate" id="txtTermDate" value="<?php echo (isset($this->postArr['txtTermDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtTermDate']):LocaleUtil::getInstance()->formatDate($edit1[0][7]); ?>" size="10"/>
-					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> value="  " class="calendarBtn" name='calTermDate' id='calTermDate'/></td>
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style="visibility:hidden"') ?>  id='tdTermDateDisc'><?php echo $lang_hremp_termination_date; ?></td>
+				<td   <?php echo($edit1[0][1]=='EST000'?'':'style="visibility:hidden"') ?> id='tdTermDateValue'><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> name="txtTermDate" id="txtTermDate" value="<?php echo (isset($this->postArr['txtTermDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtTermDate']):LocaleUtil::getInstance()->formatDate($edit1[0][7]); ?>" size="10"/>
+					<input type="button" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?> value="  " class="calendarBtn" name='calTermDate' id='calTermDate'/></td>
 <?php } ?>
 			  </tr>
 			  <tr>
-			  <td nowrap><?php echo $lang_hremp_Locations; ?></td>
-			  <td nowrap>
+			  <td nowrap="nowrap"><?php echo $lang_hremp_Locations; ?></td>
+			  <td nowrap="nowrap">
 <!-- start of list of assigned locations -->
-              <table id="assignedLocationsTable">
+
 <?php
     $assignedList = $this->popArr['assignedlocationList'];
     $availableList = $this->popArr['availablelocationList'];
+?>
+<?php if (!empty($assignedList)) { ?>
+	<table id="assignedLocationsTable">	
+<?php	    
     foreach($assignedList as $empLoc) {
         $locId = $empLoc->getLocation();
 ?>
@@ -509,7 +454,10 @@ $iconDir = '../../themes/'.$styleSheet.'/icons/';
 <?php
     }
 ?>
-              </table>
+	</table>
+<?php 
+	}
+?>
 <!-- end of list of assigned locations -->
 <?php
 if ($locRights['add']) {
@@ -525,13 +473,15 @@ if ($locRights['add']) {
 <?php if($_GET['reqcode'] === "ESS") { ?>
 		<td colspan="2"></td>
 <?php } else { ?>
-			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonDisc' id='tdTermReasonDisc'><?php echo $lang_hremp_termination_reason; ?> </td>
-			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style=visibility:hidden') ?> name='tdTermReasonValue' id='tdTermReasonValue'><textarea <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?>  name="txtTermReason" id="txtTermReason" ><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea></td>
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style="visibility:hidden"') ?> id='tdTermReasonDisc'><?php echo $lang_hremp_termination_reason; ?> </td>
+			  <td  <?php echo($edit1[0][1]=='EST000'?'':'style="visibility:hidden"') ?> id='tdTermReasonValue'><textarea rows="3" cols="24" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"'?>  name="txtTermReason" id="txtTermReason" ><?php echo (isset($this->postArr['txtTermReason'])?$this->postArr['txtTermReason']:$edit1[0][8]);?></textarea></td>
 <?php } ?>
 			  </tr>
-			  </table>
-<?php } ?>
-<div id ="addLocationLayer" style="display:none;height:50px;">
+</table>
+<?php 
+} 
+?>
+<div id ="addLocationLayer" style="display:none;height:50px;padding-left:5px;">
     <select name="cmbNewLocationId" id="cmbNewLocationId" style="margin-top:10px;">
         <?php
          echo "<option value='0'> -- {$lang_hremp_SelectLocation} -- </option>";
@@ -541,14 +491,24 @@ if ($locRights['add']) {
         ?>
     </select>
 
-    <img onClick="<?php echo $saveLocBtnAction; ?>;"
+    <img onclick="<?php echo $saveLocBtnAction; ?>;"
         id="assignLocationButton"
         style="margin-top:10px;"
-        onMouseOut="this.src='<?php echo $iconDir;?>assign.gif';"
-        onMouseOver="this.src='<?php echo $iconDir;?>assign_o.gif';"
+        alt=""
+        onmouseout="this.src='<?php echo $iconDir;?>assign.gif';"
+        onmouseover="this.src='<?php echo $iconDir;?>assign_o.gif';"
         src="<?php echo $iconDir;?>assign.gif" />
 </div>
+<div class="formbuttons">
+    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditJob" 
+    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>" 
+    	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEmpMain(); return false;"/>
+	<input type="button" class="clearbutton" id="btnClearJob" onclick="reLoad();  return false;" tabindex="5"
+		onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
+		 value="<?php echo $lang_Common_Clear;?>" />
+	<a href="javascript:toggleEmployeeContracts();" id="toggleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a>
+	<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>
 
-<hr/>
-<a href="javascript:toggleEmployeeContracts();" id="toogleContractLayerLink"><?php echo $lang_hremp_ShowEmployeeContracts; ?></a><br />
-<a href="javascript:toggleEmployeeJobHistory();" id="toggleJobHistoryLayerLink"><?php echo $lang_hremp_ShowEmployeeJobHistory; ?></a>
+</div>	

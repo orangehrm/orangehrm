@@ -21,40 +21,13 @@
 $common_func = new CommonFunctions();
 $payPeriodList = $this->popArr['payPeriodList'];
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function decimalCurr(txt) {
 	regExp = /^[0-9]+(\.[0-9]+)*$/;
 
 	return regExp.test(txt.value);
 }
 
-function editPayment() {
-
-	if(document.EditPayment.title=='Save') {
-		editEXTPayment();
-		return;
-	}
-
-	var frm=document.frmEmp;
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
-	document.EditPayment.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.EditPayment.title="Save";
-}
-
-function moutPayment() {
-	if(document.EditPayment.title=='Save')
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function moverPayment() {
-	if(document.EditPayment.title=='Save')
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.EditPayment.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
 
 function addEXTPayment() {
 
@@ -132,15 +105,15 @@ function viewPayment(pay,curr) {
 	document.frmEmp.pane.value = 14;
 	document.frmEmp.submit();
 }
-</script>
+//--><!]]></script>
 <?php
 $supervisorEMPMode = false;
 if ((isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) && (isset($_GET['reqcode']) && ($_GET['reqcode'] === "EMP")) ) {
 	$supervisorEMPMode = true;
 }
 if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-<span id="parentPanePayments" >
-        <input type="hidden" name="paymentSTAT" value="">
+<div id="parentPanePayments" >
+        <input type="hidden" name="paymentSTAT" value=""/>
 <?php
 	$salGrd = $this->popArr['salGrd'];
 //	if($salGrd === null) {
@@ -162,8 +135,8 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  	echo $lang_Common_NotApplicable;
     				  } else {
     				  	if(isset($salGrd)) {
-    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'>
-    				  		</input><?php
+    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'/>
+    				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
     				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
     				    			 echo $salgradelist[$c][1];
@@ -178,7 +151,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_currency?></td>
-						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][2]?>">
+						<td align="left" valign="top"><input type="hidden" name="cmbCurrCode" value="<?php echo $edit[0][2]?>" />
 						<strong>
 <?php
 						$currlist=$this -> popArr['currlist'];
@@ -194,7 +167,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'>";
+						    	echo "<input type='hidden' name='txtMinCurrency' value='" .$currlist[$c][3]. "'/>";
 						    	echo $common_func->formatSciNo($currlist[$c][3]);
 						    }
 ?>
@@ -206,7 +179,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 <?php
 						for($c=0;count($currlist)>$c;$c++)
 						    if($currlist[$c][2]==$edit[0][2]) {
-						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'>";
+						    	echo "<input type='hidden' name='txtMaxCurrency' value='" .$currlist[$c][5]. "'/>";
 						    	echo $common_func->formatSciNo($currlist[$c][5]);
 						    }
 ?>
@@ -214,14 +187,14 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" disabled name="txtBasSal" id="etxtBasSal" value="<?php echo $common_func->formatSciNo($edit[0][3]);?>">
+						<td align="left" valign="top"><input type="text" name="txtBasSal" id="etxtBasSal" value="<?php echo $common_func->formatSciNo($edit[0][3]);?>"/>
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_payfrequency; ?></td>
 						<td align="left" valign="top">
-							<select disabled name="cmbPayPeriod" id="cmbPayPeriod">
-					              	<option selected value="0">-- <?php echo $lang_Common_Select?> --</option>
+							<select name="cmbPayPeriod" id="cmbPayPeriod">
+					              	<option selected="selected" value="0">-- <?php echo $lang_Common_Select?> --</option>
 							<?php
 								foreach ($payPeriodList as $period) {
 									$selected = ($period->getCode() == $edit[0][4])? "selected" : "";
@@ -231,16 +204,16 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 							</select>
 						</td>
 					  </tr>
-
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-		<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
-						        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onmouseout="moutPayment();" onmouseover="moverPayment();" name="EditPayment" onClick="editPayment();">
-		<?php			}  ?>
-						</td>
-					  </tr>
                   </table>
+<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>                  
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnEditPayment" id="btnEditPayment" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEXTPayment(); return false;"/>    	
+</div>	                   
+<?php			}  ?>                  
        </div>
 <?php } else { ?>
 	<div id="addPanePayments" class="<?php echo ($this->popArr['rsetPayment'] != null)?"addPane":""; ?>" >
@@ -253,8 +226,8 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  	echo $lang_Common_NotApplicable;
     				  } else {
     				  	if(isset($salGrd)) {
-    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'>
-    				  		</input><?php
+    				  		?><input type='hidden' name='cmbSalaryGrade' id='cmbSalaryGrade' value='<?php echo $this->popArr['salGrd'];?>'/>
+    				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
     				    		if($this->popArr['salGrd'] == $salgradelist[$c][0]) {
     				    			 echo $salgradelist[$c][1];
@@ -262,7 +235,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  		}
     				  	}else {
     				  		?>
-    				  		<select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getUnAssignedCurrencyList(this.value)" name='cmbSalaryGrade'>
+    				  		<select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onchange="xajax_getUnAssignedCurrencyList(this.value)" name='cmbSalaryGrade'>
     				  		<option value="0">-- <?php echo $lang_hremp_SelectPayGrade; ?> --</option>
     				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
@@ -279,7 +252,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_currency; ?></td>
-						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null))? '':'disabled'?> onChange="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value)" name='cmbCurrCode'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onchange="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value)" name='cmbCurrCode'>
                        						<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
 <?php
 						$curlist= $this->popArr['unAssCurrList'];
@@ -290,29 +263,29 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_minpoint?></td>
-						<td align="left" valign="top"><strong>
-							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency'>
-							<div id='divMinCurrency'>-<?php echo $lang_Common_NotApplicable;?>-</div>
-						</strong></td>
+						<td align="left" valign="top">
+							<input type='hidden' name='txtMinCurrency' id='txtMinCurrency' />
+							<div id='divMinCurrency'><strong>-<?php echo $lang_Common_NotApplicable;?>-</strong></div>
+						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_maxpoint?></td>
-						<td align="left" valign="top"><strong>
-							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency'>
-							<div id='divMaxCurrency'>-<?php echo $lang_Common_NotApplicable;?>-</div>
-						</strong></td>
+						<td align="left" valign="top">
+							<input type='hidden' name='txtMaxCurrency' id='txtMaxCurrency' />
+							<div id='divMaxCurrency'><strong>-<?php echo $lang_Common_NotApplicable;?>-</strong></div>
+						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_bassalary?></td>
-						<td align="left" valign="top"><input type="text" <?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null)) ? '':'disabled'?> name="txtBasSal">
+						<td align="left" valign="top"><input type="text" <?php echo (!$supervisorEMPMode && $locRights['add']) ? '':'disabled="disabled"'?> name="txtBasSal"/>
 						</td>
 					  </tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_payfrequency;?></td>
 						<td align="left" valign="top">
 						<select name="cmbPayPeriod" id="cmbPayPeriod"
-							<?php echo (!$supervisorEMPMode && ($locRights['add'] && $salGrd !== null)) ? '':'disabled'?> >
-					              	<option selected value="0">-- <?php echo $lang_Common_Select?> --</option>
+							<?php echo (!$supervisorEMPMode && $locRights['add'] ) ? '':'disabled="disabled"'?> >
+					              	<option selected="selected" value="0">-- <?php echo $lang_Common_Select?> --</option>
 							<?php
 								foreach ($payPeriodList as $period) {
 							    	echo "<option value='" . $period->getCode() . "'>" . $period->getName() . "</option>";
@@ -321,15 +294,16 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 							</select>
 						</td>
 					  </tr>
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-					<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
-					        <img border="0" title="Save" onClick="addEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-					<?php	} ?>
-						</td>
-					  </tr>
                    </table>
+<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>                   
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddPayment" id="btnAddPayment" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addEXTPayment(); return false;"/>    	
+</div>	                   
+<?php	} ?>
 	</div>
 <?php } ?>
 <?php
@@ -338,27 +312,41 @@ $currlist=$this->popArr['currAlllist'];
 
 //Handling the table View
 if (($rset != null) && ($currlist != null)) { ?>
-	<h3><?php echo $lang_hrEmpMain_assignedsalary; ?></h3>
-	<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('Payments');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
-	<?php } ?>
-	<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
-	     <img title="Delete" onclick="delEXTPayment();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-	<?php 	} ?>
-	<table width="100%" border="0" cellpadding="5" cellspacing="0" class="tabForm">
-                    <tr>
-                      	 <td></td>
-						 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
-						 <td><strong><?php echo $lang_hrEmpMain_payfrequency?></strong></td>
-					</tr>
-
+	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignedsalary; ?></h3></div>
+	
+	<div class="actionbar">
+		<div class="actionbuttons">					
+<?php if($locRights['add']) { ?>
+					<input type="button" class="addbutton"
+						onclick="showAddPane('Payments');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+<?php } ?>
+<?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
+					<input type="button" class="delbutton"
+						onclick="delEXTPayment();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
+<?php 	} ?>
+			</div>
+		</div>					
+	
+	
+	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
+			<tr>		
+              	 <td></td>
+				 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
+				 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
+				 <td><strong><?php echo $lang_hrEmpMain_payfrequency?></strong></td>
+			</tr>
+		</thead>				
+		<tbody>
 <?php
 
-    for($c=0; $rset && $c < count($rset); $c++)
-        {
-        echo '<tr>';
-            echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'></td>";
+    for($c=0; $rset && $c < count($rset); $c++) {
+		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+        echo '<tr class="' . $cssClass . '">';
+            echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($currlist)>$a;$a++)
 			    if($currlist[$a][0]==$rset[$c][2])
 				   $fname=$currlist[$a][1];
@@ -378,7 +366,8 @@ if (($rset != null) && ($currlist != null)) { ?>
         }
 
 ?>
+	</tbody>
 </table>
 <?php } ?>
 <?php } ?>
-</span>
+</div>

@@ -38,7 +38,7 @@ class sysConf {
 
   function sysConf() {
 
-    $this->itemsPerPage=10;
+    $this->itemsPerPage=50;
 
     /* $accessDenied is depreciated and no longer in use
      *  Please use the language files to change the access denied message.
@@ -52,7 +52,7 @@ class sysConf {
     $this->dateInputHint = "YYYY-mm-DD";
     $this->timeFormat = "H:i";
     $this->timeInputHint = "HH:MM";
-    $this->styleSheet = "beyondT";
+    $this->styleSheet = "orange";
   }
 
   function getEmployeeIdLength() {

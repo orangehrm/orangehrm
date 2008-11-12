@@ -19,7 +19,7 @@
  *
  */
 ?>
-<script language="JavaScript">
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 function delDirectDebit() {
 
 	var check = false;
@@ -106,58 +106,58 @@ function editDirectDebit() {
 	}
 }
 
-</script>
+//--><!]]></script>
 <?php
 	$transactionTypes = array(EmpDirectDebit::TRANSACTION_TYPE_BLANK => $lang_hrEmpMain_DirectDebitTransactionTypeBlank,
 					EmpDirectDebit::TRANSACTION_TYPE_PERCENTAGE => $lang_hrEmpMain_DirectDebitTransactionTypePercentage,
 					EmpDirectDebit::TRANSACTION_TYPE_FLAT => $lang_hrEmpMain_DirectDebitTransactionTypeFlat,
 					EmpDirectDebit::TRANSACTION_TYPE_FLAT_MINUS => $lang_hrEmpMain_DirectDebitTransactionTypeFlatMinus);
 ?>
-<span id="parentPaneDirectDebit" >
+<div id="parentPaneDirectDebit" >
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
-	<input type="hidden" name="directDebitSTAT" value="">
+	<input type="hidden" name="directDebitSTAT" value=""/>
 <?php
 if (isset ($this->getArr['DDSEQ'])) {
 	$edit = $this->popArr['editDDForm'];
 	$disabled = "";
 ?>
 	<div id="editPaneDirectDebit" >
-		<table height="170" border="0" cellpadding="0" cellspacing="0">
+		<table style="height:170px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
               <td width="30">&nbsp;</td>
               <td><input type="text" <?php echo $disabled;?> name="DDAccount"
-              		value="<?php echo $edit->getAccount();?>"></td>
+              		value="<?php echo $edit->getAccount();?>"/></td>
           </tr>
           <tr>
-			  <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAccountType; ?></td>
+			  <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccountType; ?></td>
 			  <td width="30">&nbsp;</td>
 			  <td>
-			  	<input type="hidden" name="DDSeqNo" value="<?php echo $edit->getDDSeqNo(); ?>">
+			  	<input type="hidden" name="DDSeqNo" value="<?php echo $edit->getDDSeqNo(); ?>"/>
 			  	<?php echo $lang_hrEmpMain_DirectDebitAccountTypeChecking; ?>
 			  	<input type="radio" <?php echo $disabled;?>
-			  		<?php echo $edit->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_CHECKING ? "checked" : "";?>
-			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_CHECKING;?>">
+			  		<?php echo $edit->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_CHECKING ? 'checked="checked"' : "";?>
+			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_CHECKING;?>"/>
 			  	<?php echo $lang_hrEmpMain_DirectDebitAccountTypeSavings; ?>
 			  	<input type="radio" <?php echo $disabled;?>
-			  		<?php echo $edit->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_SAVINGS ? "checked" : "";?>
-			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_SAVINGS;?>">
+			  		<?php echo $edit->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_SAVINGS ? 'checked="checked"' : "";?>
+			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_SAVINGS;?>"/>
 			  </td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber; ?></td>
               <td width="30">&nbsp;</td>
               <td><input type="text" <?php echo $disabled;?> name="DDRoutingNumber"
-              	value="<?php echo $edit->getRoutingNumber(); ?>"></td>
+              	value="<?php echo $edit->getRoutingNumber(); ?>"/></td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
               <td width="30">&nbsp;</td>
               <td><input type="text" <?php echo $disabled;?> name="DDAmount"
-              	value="<?php echo $edit->getAmount(); ?>"></td>
+              	value="<?php echo $edit->getAmount(); ?>"/></td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
               <td width="30">&nbsp;</td>
               <td>
               <select <?php echo $disabled;?> name="cmbTransactionType" id="cmbTransactionType">
@@ -174,12 +174,19 @@ if (isset ($this->getArr['DDSEQ'])) {
 
 		  <tr>
 			  <td>
-				<?php	if($locRights['edit']) { ?>
-				        <img border="0" title="Save" onClick="editDirectDebit();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-				<?php	} ?>
 			  </td>
 		  </tr>
 		</table>
+<?php	if($locRights['edit']) { ?>
+<div class="formbuttons">	
+    <input type="button" class="savebutton" name="btnEditDirectDebit" id="btnEditDirectDebit" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editDirectDebit(); return false;"/>    	
+</div>	
+<?php	} ?>
+
 	</div>
 	<?php
 
@@ -188,42 +195,42 @@ if (isset ($this->getArr['DDSEQ'])) {
 	$disabled = '';
 ?>
 	<div id="addPaneDirectDebit" class="<?php echo ($this->popArr['empDDAss'] != null)?"addPane":""; ?>" >
-		<table height="170" border="0" cellpadding="0" cellspacing="0">
+		<table style="height:170px;padding:0 5px 0 5px;" border="0" cellpadding="0" cellspacing="0">
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
               <td width="30">&nbsp;</td>
-              <td><input type="text" <?php echo $disabled;?> name="DDAccount" value=""></td>
+              <td><input type="text" <?php echo $disabled;?> name="DDAccount" value=""/></td>
           </tr>
           <tr>
-			  <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAccountType; ?></td>
+			  <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAccountType; ?></td>
 			  <td width="30">&nbsp;</td>
 			  <td>
-			  	<input type="hidden" name="DDSeqNo" value="">
+			  	<input type="hidden" name="DDSeqNo" value=""/>
 			  	<?php echo $lang_hrEmpMain_DirectDebitAccountTypeChecking; ?>
-			  	<input type="radio" <?php echo $disabled;?> checked
-			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_CHECKING;?>">
+			  	<input type="radio" <?php echo $disabled;?> checked="checked"
+			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_CHECKING;?>"/>
 
 			  	<?php echo $lang_hrEmpMain_DirectDebitAccountTypeSavings; ?>
 			  	<input type="radio" <?php echo $disabled;?>
-			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_SAVINGS;?>">
+			  		name="DDAccountType" value="<?php echo EmpDirectDebit::ACCOUNT_TYPE_SAVINGS;?>"/>
 			  </td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber; ?></td>
               <td width="30">&nbsp;</td>
-              <td><input type="text" <?php echo $disabled;?> name="DDRoutingNumber" value=""></td>
+              <td><input type="text" <?php echo $disabled;?> name="DDRoutingNumber" value=""/></td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
               <td width="30">&nbsp;</td>
-              <td><input type="text" <?php echo $disabled;?> name="DDAmount" value=""></td>
+              <td><input type="text" <?php echo $disabled;?> name="DDAmount" value=""/></td>
           </tr>
           <tr>
-              <td nowrap><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
+              <td nowrap="nowrap"><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
               <td width="30">&nbsp;</td>
               <td>
               <select <?php echo $disabled;?> name="cmbTransactionType" id="cmbTransactionType">
-              	<option selected value="0"><?php echo $lang_hrEmpMain_DirectDebitSelectTransactionType?></option>
+              	<option selected="selected" value="0"><?php echo $lang_hrEmpMain_DirectDebitSelectTransactionType?></option>
 		<?php
 
 			foreach ($transactionTypes as $key=>$type) {
@@ -235,12 +242,19 @@ if (isset ($this->getArr['DDSEQ'])) {
           </tr>
           <tr>
 				  <td>
-<?php	if($locRights['add']) { ?>
-        <img border="0" title="Save" onClick="addDirectDebit();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php	} ?>
 				  </td>
 				</tr>
 		</table>
+<?php	if($locRights['add']) { ?>
+<div class="formbuttons">
+    <input type="button" class="savebutton" name="btnAddDirectDebit" id="btnAddDirectDebit" 
+    	value="<?php echo $lang_Common_Save;?>" 
+    	title="<?php echo $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="addDirectDebit(); return false;"/>    	
+</div>		
+ <?php	} ?>
+		
 	</div>
 <?php } ?>
 <div id="tableDirectDebit">
@@ -250,27 +264,44 @@ if (isset ($this->getArr['DDSEQ'])) {
 	$rset = $this->popArr['empDDAss'];
 	if (!empty($rset)) {
 ?>
-	<?php if($locRights['add']) { ?>
-		<img border="0" title="Add" onClick="showAddPane('DirectDebit');" onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" />
-	<?php } ?>
-	<?php	if($locRights['delete']) { ?>
-        <img title="Delete" onclick="delDirectDebit();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-	<?php 	} ?>
-		<table width="550" align="center" border="0" class="tabForm">
+	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_DirectDebitAssigned; ?></h3></div>
+	
+	<div class="actionbar">
+		<div class="actionbuttons">					
+<?php if ($locRights['add']) { ?>
+					<input type="button" class="addbutton"
+						onclick="showAddPane('DirectDebit');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+<?php } ?>
+<?php	if ($locRights['delete']) { ?>
+					<input type="button" class="delbutton"
+						onclick="delDirectDebit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
+		
+<?php 	} ?>
+			</div>
+		</div>	
+			
+		<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
+		<thead>
 			<tr>
             	<td width="50">&nbsp;</td>
-				<td><strong><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></strong></td>
-				<td><strong><?php echo $lang_hrEmpMain_DirectDebitAccountType;?></strong></td>
-				<td><strong><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber;?></strong></td>
-				<td><strong><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></strong></td>
-				<td><strong><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></strong></td>
+				<td><?php echo $lang_hrEmpMain_DirectDebitAccount; ?></td>
+				<td><?php echo $lang_hrEmpMain_DirectDebitAccountType;?></td>
+				<td><?php echo $lang_hrEmpMain_DirectDebitRoutingNumber;?></td>
+				<td><?php echo $lang_hrEmpMain_DirectDebitAmount; ?></td>
+				<td><?php echo $lang_hrEmpMain_DirectDebitTransactionType; ?></td>
 			</tr>
+		</thead>				
+		<tbody>		
 <?php
 
-
+		$row = 0;
 		foreach ($rset as $ddinfo) {
-			echo '<tr>';
-			echo "<td><input type='checkbox' class='checkbox' name='chkdebitdel[]' value='" . $ddinfo->getDDSeqNo() . "'></td>";
+			$cssClass = ($row%2) ? 'even' : 'odd';
+			$row++; 			
+        	echo '<tr class="' . $cssClass . '">';
+			echo "<td><input type='checkbox' class='checkbox' name='chkdebitdel[]' value='" . $ddinfo->getDDSeqNo() . "'/></td>";
 			if ($ddinfo->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_CHECKING) {
 				$type =  $lang_hrEmpMain_DirectDebitAccountTypeChecking;
 			} else if ($ddinfo->getAccountType() == EmpDirectDebit::ACCOUNT_TYPE_SAVINGS) {
@@ -285,8 +316,9 @@ if (isset ($this->getArr['DDSEQ'])) {
 			echo '</tr>';
 		}
 ?>
+		</tbody>
     </table>
 <?php } ?>
 </div>
 <?php } ?>
-</span>
+</div>

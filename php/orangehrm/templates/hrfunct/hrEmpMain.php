@@ -218,23 +218,16 @@ $objAjax->registerFunction('removeLocation');
 
 $objAjax->processRequests();
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>OrangeHRM - Employee Details</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php
 $objAjax->printJavascript();
 include ROOT_PATH."/lib/common/calendar.php"; ?>
-<script language="JavaScript">
-function MM_reloadPage(init) {  //reloads the window if Nav4 resized
-  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
-    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
-  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
-}
-
-MM_reloadPage(true);
+<script type="text/javascript"><!--//--><![CDATA[//><!--
 
 function MM_findObj(n, d) { //v4.01
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -257,50 +250,8 @@ function MM_preloadImages() { //v3.0
     if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 }
 
-function alpha(txt)
-{
-	var flag=true;
-    var i,code;
 
-    if(txt.value=='')
-    	return false;
-
-	for(i=0;txt.value.length>i;i++)
-	{
-		code=txt.value.charCodeAt(i);
-
-		if (code>=48 && code<=57) {
-			flag=false;
-			break;
-		} else {
-	       flag=true;
-		}
-
-	}
-
-  return flag;
-}
-
-function numeric(txt) {
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
+<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
 function addEmpMain() {
 
 	var cnt = document.frmEmp.txtEmpLastName;
@@ -335,35 +286,25 @@ function addEmpMain() {
 	document.frmEmp.sqlState.value = "NewRecord";
 	document.frmEmp.submit();
 }
+<?php } else { ?>
 
-	function goBack() {
+function addEmpMain() {
+	alert('<?php echo $lang_Common_AccessDenied;?>');
+}	
+<?php } ?>	
 
-		location.href ="./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
-	}
 
-function mout() {
-	var Edit = document.getElementById("btnEdit");
-	if(document.frmEmp.EditMode.value=='1')
-		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function mover() {
-	var Edit = document.getElementById("btnEdit");
-	if(document.frmEmp.EditMode.value=='1')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+function goBack() {
+	location.href ="./CentralController.php?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN";
 }
 
 function editEmpMain() {
+<?php if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) {?>
 
 	var lockedEl = Array(100);
 	var lockEmpCont = false;
 
-	var Edit = document.getElementById("btnEdit");
-
+	
 	if(document.frmEmp.EditMode.value=='1') {
 		updateEmpMain();
 		return;
@@ -491,10 +432,25 @@ function editEmpMain() {
 
 		<?php } ?>
 
-	document.getElementById("btnClear").disabled = false;
-	Edit.src="../../themes/beyondT/pictures/btn_save_02.gif";
-	Edit.title="Save";
+    /* Enable clear buttons */
+    var clearButtons = YAHOO.util.Dom.getElementsByClassName('clearbutton');
+    for(var i=0; i < clearButtons.length; i++) {
+        clearButtons[i].disabled = false;
+    }
+	
+    /* Convert edit buttons to save buttons */
+    var editButtons = YAHOO.util.Dom.getElementsByClassName('editbutton');
+    for(var i=0; i < editButtons.length; i++) {
+        editButtons[i].value="<?php echo $lang_Common_Save; ?>";
+        editButtons[i].title="<?php echo $lang_Common_Save; ?>";		
+        editButtons[i].className = "savebutton";			
+    }
+	
 	document.frmEmp.EditMode.value='1';
+	
+<?php } else { ?>
+	alert('<?php echo $lang_Common_AccessDenied;?>');  
+<?php } ?>	
 }
 
 function updateEmpMain() {
@@ -597,9 +553,6 @@ function updateEmpMain() {
 	document.frmEmp.submit();
 }
 
-function hideLoad() {
-	document.getElementById("status").innerHTML = '';
-}
 
 <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) { 	?>
 		function reLoad() {
@@ -608,81 +561,83 @@ function hideLoad() {
 <?php } ?>
 
  function qCombo(lblPane) {
-
 	document.frmEmp.pane.value=lblPane;
 	document.frmEmp.submit();
 }
 
-function chgPane(lblPane) {
-
-	document.frmEmp.pane.value=lblPane;
-}
-
-function qshowpane() {
-
-	var opt=eval(document.frmEmp.pane.value);
-	displayLayer(opt);
-}
-
 function displayLayer(panelNo) {
 
-          	if((panelNo != 1 && document.frmEmp.personalFlag.value == '1') || (panelNo != 2 && document.frmEmp.jobFlag.value == '1') || (panelNo != 4 && document.frmEmp.contactFlag.value == '1') || (panelNo != 18 && document.frmEmp.taxFlag.value == '1') || (panelNo != 20 && document.frmEmp.customFlag.value == '1')) {
+  	if((panelNo != 1 && document.frmEmp.personalFlag.value == '1') || (panelNo != 2 && document.frmEmp.jobFlag.value == '1') || (panelNo != 4 && document.frmEmp.contactFlag.value == '1') || (panelNo != 18 && document.frmEmp.taxFlag.value == '1') || (panelNo != 20 && document.frmEmp.customFlag.value == '1')) {
 
-          		if(confirm("<?php echo $lang_Error_ChangePane?>")) {
-          			editEmpMain();
-          			if( !updateEmpMain() ){
-                        return;
-                    }
-          		} else {
-          			document.frmEmp.personalFlag.value=0;
-          			document.frmEmp.jobFlag.value=0;
-          			document.frmEmp.contactFlag.value=0;
-          			document.frmEmp.taxFlag.value=0;
-          			document.frmEmp.customFlag.value=0;
-          		}
-          	}
+  		if(confirm("<?php echo $lang_Error_ChangePane?>")) {
+  			editEmpMain();
+  			if( !updateEmpMain() ){
+                return;
+            }
+  		} else {
+  			document.frmEmp.personalFlag.value=0;
+  			document.frmEmp.jobFlag.value=0;
+  			document.frmEmp.contactFlag.value=0;
+  			document.frmEmp.taxFlag.value=0;
+  			document.frmEmp.customFlag.value=0;
+  		}
+  	}
 
-	      // styles of sub menu items
-              var IconStyles = new Array("personalLink", "jobLink", "dependantsLink", "contactLink", "emergency_contactLink", "attachmentsLink", "cash_benefitsLink", "non_cash_benefitsLink", "educationLink", "immigrationLink", "languagesLink", "licenseLink", "membershipLink", "paymentLink", "report-toLink", "skillsLink", "work_experienceLink", "taxLink", "directDebitLink", "customLink");
-
-
-	      // highlight the current selected item
-          for (i=0; i<IconStyles.length; i++){
-              var Style = IconStyles[i];
-              obj=MM_findObj(Style);
-              if (obj && obj.style ){
-                  if (i == panelNo - 1){
-                      obj.style.fontWeight="bold";
-                  } else {
-                      obj.style.fontWeight="normal";
-                  }
-              }
-          }
-
-	switch(panelNo) {
-          	case 1 : MM_showHideLayers('hidebg','','hide','personal','','show','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //personal
-          	case 2 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','show','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //job
-          	case 3 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','show','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //dependents
-          	case 4 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','show','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //contacts
-          	case 5 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','show','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //emg-contacts
-          	case 6 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','show','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //attachements
-          	case 7 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','show','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //cash-benefits
-          	case 8 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','show','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //noncash-benefits
-          	case 9 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','show','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //education
-          	case 10 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','show','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //immigration
-          	case 11 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','show','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //languages
-          	case 12 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','show','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //licenses
-          	case 13 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','show','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //memberships
-          	case 14 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','show','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //payments
-          	case 15 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','show','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //report-to
-          	case 16 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','show','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //skills
-          	case 17 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','show', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //work-experiance
-          	case 18 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'show', 'direct-debit', '', 'hide', 'custom', '', 'hide'); break; //tax
-          	case 19 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'show', 'custom', '', 'hide'); break; //direct-debit
-          	case 20 : MM_showHideLayers('hidebg','','hide','personal','','hide','job','','hide','dependents','','hide','contacts','','hide','emgcontacts','','hide','attachments','','hide','cash-benefits','','hide','noncash-benefits','','hide','education','','hide','immigration','','hide','languages','','hide','licenses','','hide','memberships','','hide','payments','','hide','report-to','','hide','skills','','hide','work-experiance','','hide', 'tax', '', 'hide', 'direct-debit', '', 'hide', 'custom', '', 'show'); break; //custom
+	switch(panelNo) {	
+          	case 1 : showPane('personal');break;
+          	case 2 : showPane('job');break;
+          	case 3 : showPane('dependents');break;
+          	case 4 : showPane('contacts'); break;
+          	case 5 : showPane('emgcontacts'); break;
+          	case 6 : showPane('attachments'); break;
+          	case 7 : break;
+          	case 8 : break;
+          	case 9 : showPane('education'); break;
+          	case 10 : showPane('immigration'); break;
+          	case 11 : showPane('languages'); break;
+          	case 12 : showPane('licenses'); break;
+          	case 13 : showPane('memberships'); break;
+          	case 14 : showPane('payments'); break;
+          	case 15 : showPane('report-to'); break;
+          	case 16 : showPane('skills'); break;
+          	case 17 : showPane('work-experiance'); break;
+          	case 18 : showPane('tax'); break;
+          	case 19 : showPane('direct-debit'); break;
+          	case 20 : showPane('custom'); break;
 	}
 
 	document.frmEmp.pane.value = panelNo;
+}
+
+function showPane(paneId) {
+	var allPanes = new Array('personal','job','dependents','contacts','emgcontacts','attachments','education','immigration','languages','licenses',
+				'memberships','payments','report-to','skills','work-experiance', 'tax', 'direct-debit','custom');
+	var numPanes = allPanes.length;
+	for (i=0; i< numPanes; i++) {
+	    pane = allPanes[i];
+	    if (pane != paneId) {
+	    	var paneDiv = $(pane);
+	    	if (paneDiv.className.indexOf('currentpanel') > -1) {
+	    		paneDiv.className = paneDiv.className.replace(/\scurrentpanel\b/,'');
+	    	}    
+	    	
+	    	// style link
+	    	var link = $(pane + 'Link');
+	    	if (link && (link.className.indexOf('current') > -1)) {
+	    	    link.className = '';
+	    	}
+	    }
+	}	    
+	
+	var currentPanel = $(paneId);
+	if (currentPanel.className.indexOf('currentpanel') == -1) {
+		currentPanel.className += ' currentpanel';
+	}
+	var currentLink = $(paneId + 'Link');
+	if (currentLink && (currentLink.className.indexOf('current') == -1)) {
+	    currentLink.className = 'current';
+	}
+	
 }
 
 function setUpdate(opt) {
@@ -722,6 +677,7 @@ function showAddPane(paneName) {
 	if (addPane && addPane.style) {
 		addPane.style.display = tableDisplayStyle;
 	} else {
+		
 		resetAdd(document.frmEmp.pane.value, paneName);
 		return;
 	}
@@ -733,19 +689,60 @@ function showAddPane(paneName) {
 	YAHOO.OrangeHRM.container.wait.hide();
 }
 
+function showHideSubMenu(link) {
+
+    var uldisplay;
+	var newClass;
+	
+	if (link.className == 'expanded') {
+	
+		// Need to hide
+	    uldisplay = 'none';
+	    newClass = 'collapsed';
+	    
+	} else {
+	
+		// Need to show
+	    uldisplay = 'block';
+	    newClass = 'expanded';	    
+	}
+
+    var parent = link.parentNode;
+    uls = parent.getElementsByTagName('ul');
+	for(var i=0; i<uls.length; i++) {
+	    ul = uls[i].style.display = uldisplay;
+	}     
+	
+	link.className = newClass;
+}
+
 tableDisplayStyle = "table";
-</script>
+//--><!]]></script>
 <!--[if IE]>
-<script type="text/javascript">
+<script type="text/javaScript">
 	tableDisplayStyle = "block";
 </script>
 <![endif]-->
 
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/hrEmpMain.css"); </style>
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/essMenu.css"); </style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 <style type="text/css">
     <!--
+
+	:disabled:not([type="image"]) {
+		background-color:#FFFFFF;
+		color:#444444;
+	}
+	
+	input[type=text] {
+		border-top: 0px;
+		border-left: 0px;
+		border-right: 0px;
+		border-bottom: 1px solid #888888;
+	}
 
     table.historyTable th {
         border-width: 0px;
@@ -765,14 +762,220 @@ tableDisplayStyle = "table";
         display:block;
     }
 
+	.pimpanel {
+	    position:absolute;
+	    left:-9999px;
+	}
+	.currentpanel {
+		margin-top: 10px;
+<?php if ($_SESSION['PIM_MENU_TYPE'] == 'left') { ?>
+	    left:190px;
+<?php } else { ?>
+	    left:130px;
+<?php } ?> 	
+
+	}
+	#photodiv {
+		margin-top:19px;
+	    float:left;
+	    text-align:center;
+	    margin-left: 650px;
+	    padding: 2px;
+	    border: 1px solid #FAD163;
+	}
+	#photodiv span {
+	    color: black;
+	    font-weight: bold;
+	}
+	
+	#empname {
+	    display:block;
+	    color: black;
+	}
+	
+	#personalIcons,
+	#employmentIcons,
+	#qualificationIcons {
+	    display:block;
+	    position:absolute;
+	    left:-999px;
+	   	width:400px;
+	   	text-align:center;
+	   	padding-left:100px;
+	   	padding-right:100px;
+	}
+	
+	#icons div a {
+	    display:block;
+	    float:left;
+		height: 50px;
+		width: 54px;
+	    text-decoration:none;
+		text-align:center;
+	    vertial-align:bottom;
+		padding-top: 45px;		
+		outline: 0;
+		background-position: top center;
+		margin-left:8px;
+		margin-right:8px;
+	}
+	
+	#icons div a:hover {
+	    color: black;
+	    text-decoration: underline;
+	}
+	
+	#icons div a.current {
+	    font-weight: bold;
+	    color:black;
+	    cursor:default;
+	}
+	
+	#icons div a.current:hover {
+	    color:black;
+	    text-decoration:none;
+	}
+	
+	#icons {
+	    display:block;
+	    clear:both;
+	    margin-left: 130px;
+	    margin-top: 5px;
+	    margin-bottom: 2px;#FAD163
+	    width:500px;
+		height: 60px;	    
+	}
+	#pimleftmenu {
+	    display:block;
+	    float: left;
+	    background: #FFFBED;
+	    padding: 2px 2px 2px 2px;
+	    margin: 10px 0px 0px 5px;
+	} 
+	#pimleftmenu ul {		
+	    list-style-type: none;
+	    padding-left: 0;
+	    margin-left: 0;
+	    width: 12em;
+	}
+	
+	#pimleftmenu ul.pimleftmenu li {
+	    list-style-type:none;
+	    margin-left: 0;
+	    margin-bottom: 1px;
+		padding-left:5px;
+	}
+
+	#pimleftmenu ul li.parent {
+	    padding-left: 0px;
+	    padding-top:4px;
+	    font-weight: bold;
+	}
+	
+	#pimleftmenu ul.pimleftmenu li a {
+	    display:block;
+	    outline: 0;
+		padding: 2px 2px 2px 4px;
+		text-decoration: none;	    
+		background:#FAD163 none repeat scroll 0 0;
+		border-color:#CD8500 #8B5A00 #8B5A00 #CD8500;
+		border-style:solid;
+		border-width:1px;
+		color:#d87415;
+		font-size: 11px;
+		font-weight:bold;	
+		text-align: left;	    			
+	}
+	#pimleftmenu ul.pimleftmenu li a:hover {
+		color: #FFFBED;
+		background-color: #e88d1e;
+	}
+	
+	#pimleftmenu ul.pimleftmenu li a.current {
+		color: #FFFBED;
+		background-color: #e88d1e;
+	}
+
+	#pimleftmenu ul.pimleftmenu li a.collapsed,
+	#pimleftmenu ul.pimleftmenu li a.expanded {
+	    display:block;
+	    outline: 0;
+		padding: 2px 2px 2px 4px;
+		text-decoration: none;	    
+		border: 0 ;
+		color: #CC6600;
+		font-size: 11px;
+		font-weight:bold;	
+		text-align: left;	    			
+	}
+
+	#pimleftmenu ul.pimleftmenu li a.expanded {
+		background: #FFFBED url(../../themes/orange/icons/expanded.gif) no-repeat center right;
+	}
+
+	#pimleftmenu ul.pimleftmenu li a.collapsed {
+		background: #FFFBED url(../../themes/orange/icons/collapsed.gif) no-repeat center right;
+		border-bottom: 1px solid #d87415;
+	}
+	
+	#pimleftmenu ul.pimleftmenu li a.collapsed:hover span,
+	#pimleftmenu ul.pimleftmenu li a.expanded:hover span {
+		color: #8d4700;
+	}
+	
+	
+	#pimleftmenu ul span {		
+	    display:block;	 
+	}
+	
+	#pimleftmenu li.parent span.parent {
+		color: #CC6600;	    
+	}
+	
+	#pimleftmenu ul span span {
+	    display:inline;
+	    text-decoration:underline;
+	}
+
+	div.requirednotice {
+	    margin-left: 15px;
+	}
+	
+	#parentPaneDependents {
+	    float:left;
+		width: 50%;
+	}
+	
+	#parentPaneChildren {
+	    float:left;
+	    width: 50%;
+	}
     -->
 </style>
+<!--[if IE]>
+<style type="text/css">
+	#pimleftmenu ul.pimleftmenu li {
+	    display:inline;
+	}
+
+	/* following style may not be needed */
+	#pimleftmenu ul.pimleftmenu {
+	    height:auto;
+	}
+	
+	/* Give layout in IE (hasLayout) */
+	#pimleftmenu a {
+	    zoom: 1;
+	}	
+
+</style>
+<![endif]-->
 
 </head>
-<body onLoad="hideLoad();">
-<script type="text/javascript">
+<body>
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
   YAHOO.OrangeHRM.container.init();
-</script>
+//--><!]]></script>
 <?php
  if (!isset($this->getArr['pane'])) {
  	$this->getArr['pane'] = 1;
@@ -782,52 +985,54 @@ tableDisplayStyle = "table";
  };
  ?>
 <div id="cal1Container"></div>
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2 align="center"><?php echo $lang_empview_EmployeeInformation; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div></b></td>
-  </tr>
-</table>
+<?php
+	 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+	 	$first = $this->popArr['editMainArr'][0][2];
+	 	$last = $this->popArr['editMainArr'][0][1];
+	 	$middle = $this->popArr['editMainArr'][0][3];
+	 	$currentEmployeeName = $first . ' ' . $middle . ' ' . $last;
+	 }
+	 
+?>
+<div align="right" id="status" style="display: none;"><img src="../../themes/beyondT/icons/loading.gif" alt="" width="20" height="20" style="vertical-align:bottom;"/> <span style="vertical-align:text-top"><?php echo $lang_Common_LoadingPage; ?>...</span></div>
 
 <?php	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
 <?php
 	} elseif ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
 	$edit = $this->popArr['editMainArr'];
 ?>
-<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&reqcode=<?php echo $this->getArr['reqcode']?>&capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
+<form name="frmEmp" id="frmEmp" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;reqcode=<?php echo $this->getArr['reqcode']?>&amp;capturemode=<?php echo $this->getArr['capturemode']?>" enctype="multipart/form-data">
 <?php } ?>
 
-<input type="hidden" name="sqlState">
-<input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>">
-<input type="hidden" name="txtShowAddPane" >
+<input type="hidden" name="sqlState" />
+<input type="hidden" name="pane" value="<?php echo (isset($this->postArr['pane']) && $this->postArr['pane']!='')?$this->postArr['pane']:''?>" />
+<input type="hidden" name="txtShowAddPane" />
 
-<input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>">
-<input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>">
-<input type="hidden" name="jobFlag" value="<?php echo isset($this->postArr['jobFlag'])? $this->postArr['jobFlag'] : '0'?>">
+<input type="hidden" name="main" value="<?php echo isset($this->postArr['main'])? $this->postArr['main'] : '0'?>" />
+<input type="hidden" name="personalFlag" value="<?php echo isset($this->postArr['personalFlag'])? $this->postArr['personalFlag'] : '0'?>" />
+<input type="hidden" name="jobFlag" value="<?php echo isset($this->postArr['jobFlag'])? $this->postArr['jobFlag'] : '0'?>" />
 
-<input type="hidden" name="dependentFlag" value="<?php echo isset($this->postArr['dependentFlag'])? $this->postArr['dependentFlag'] : '0'?>">
-<input type="hidden" name="childrenFlag" value="<?php echo isset($this->postArr['childrenFlag'])? $this->postArr['childrenFlag'] : '0'?>">
-<input type="hidden" name="contactFlag" value="<?php echo isset($this->postArr['contactFlag'])? $this->postArr['contactFlag'] : '0'?>">
-<input type="hidden" name="econtactFlag" value="<?php echo isset($this->postArr['econtactFlag'])? $this->postArr['econtactFlag'] : '0'?>">
-<input type="hidden" name="cash-benefitsFlag" value="<?php echo isset($this->postArr['cash-benefitsFlag'])? $this->postArr['cash-benefitsFlag'] : '0'?>">
-<input type="hidden" name="noncash-benefitsFlag" value="<?php echo isset($this->postArr['noncash-benefitsFlag'])? $this->postArr['noncash-benefitsFlag'] : '0'?>">
-<input type="hidden" name="educationFlag" value="<?php echo isset($this->postArr['educationFlag'])? $this->postArr['educationFlag'] : '0'?>">
-<input type="hidden" name="immigrationFlag" value="<?php echo isset($this->postArr['immigrationFlag'])? $this->postArr['immigrationFlag'] : '0'?>">
-<input type="hidden" name="languageFlag" value="<?php echo isset($this->postArr['languageFlag'])? $this->postArr['languageFlag'] : '0'?>">
-<input type="hidden" name="licenseFlag" value="<?php echo isset($this->postArr['licenseFlag'])? $this->postArr['licenseFlag'] : '0'?>">
-<input type="hidden" name="membershipFlag" value="<?php echo isset($this->postArr['membershipFlag'])? $this->postArr['membershipFlag'] : '0'?>">
-<input type="hidden" name="paymentFlag" value="<?php echo isset($this->postArr['paymentFlag'])? $this->postArr['paymentFlag'] : '0'?>">
-<input type="hidden" name="report-toFlag" value="<?php echo isset($this->postArr['report-toFlag'])? $this->postArr['report-toFlag'] : '0'?>">
-<input type="hidden" name="skillsFlag" value="<?php echo isset($this->postArr['skillsFlag'])? $this->postArr['skillsFlag'] : '0'?>">
-<input type="hidden" name="work-experianceFlag" value="<?php echo isset($this->postArr['work-experianceFlag'])? $this->postArr['work-experianceFlag'] : '0'?>">
-<input type="hidden" name="taxFlag" value="<?php echo isset($this->postArr['taxFlag'])? $this->postArr['taxFlag'] : '0'?>">
-<input type="hidden" name="direct-debitFlag" value="<?php echo isset($this->postArr['direct-debitFlag'])? $this->postArr['direct-debitFlag'] : '0'?>">
-<input type="hidden" name="customFlag" value="<?php echo isset($this->postArr['customFlag'])? $this->postArr['customFlag'] : '0'?>">
-<input type="hidden" name="attSTAT" value="">
-<input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>">
+<input type="hidden" name="dependentFlag" value="<?php echo isset($this->postArr['dependentFlag'])? $this->postArr['dependentFlag'] : '0'?>" />
+<input type="hidden" name="childrenFlag" value="<?php echo isset($this->postArr['childrenFlag'])? $this->postArr['childrenFlag'] : '0'?>" />
+<input type="hidden" name="contactFlag" value="<?php echo isset($this->postArr['contactFlag'])? $this->postArr['contactFlag'] : '0'?>" />
+<input type="hidden" name="econtactFlag" value="<?php echo isset($this->postArr['econtactFlag'])? $this->postArr['econtactFlag'] : '0'?>" />
+<input type="hidden" name="cash-benefitsFlag" value="<?php echo isset($this->postArr['cash-benefitsFlag'])? $this->postArr['cash-benefitsFlag'] : '0'?>" />
+<input type="hidden" name="noncash-benefitsFlag" value="<?php echo isset($this->postArr['noncash-benefitsFlag'])? $this->postArr['noncash-benefitsFlag'] : '0'?>" />
+<input type="hidden" name="educationFlag" value="<?php echo isset($this->postArr['educationFlag'])? $this->postArr['educationFlag'] : '0'?>" />
+<input type="hidden" name="immigrationFlag" value="<?php echo isset($this->postArr['immigrationFlag'])? $this->postArr['immigrationFlag'] : '0'?>" />
+<input type="hidden" name="languageFlag" value="<?php echo isset($this->postArr['languageFlag'])? $this->postArr['languageFlag'] : '0'?>" />
+<input type="hidden" name="licenseFlag" value="<?php echo isset($this->postArr['licenseFlag'])? $this->postArr['licenseFlag'] : '0'?>" />
+<input type="hidden" name="membershipFlag" value="<?php echo isset($this->postArr['membershipFlag'])? $this->postArr['membershipFlag'] : '0'?>" />
+<input type="hidden" name="paymentFlag" value="<?php echo isset($this->postArr['paymentFlag'])? $this->postArr['paymentFlag'] : '0'?>" />
+<input type="hidden" name="report-toFlag" value="<?php echo isset($this->postArr['report-toFlag'])? $this->postArr['report-toFlag'] : '0'?>" />
+<input type="hidden" name="skillsFlag" value="<?php echo isset($this->postArr['skillsFlag'])? $this->postArr['skillsFlag'] : '0'?>" />
+<input type="hidden" name="work-experianceFlag" value="<?php echo isset($this->postArr['work-experianceFlag'])? $this->postArr['work-experianceFlag'] : '0'?>" />
+<input type="hidden" name="taxFlag" value="<?php echo isset($this->postArr['taxFlag'])? $this->postArr['taxFlag'] : '0'?>" />
+<input type="hidden" name="direct-debitFlag" value="<?php echo isset($this->postArr['direct-debitFlag'])? $this->postArr['direct-debitFlag'] : '0'?>" />
+<input type="hidden" name="customFlag" value="<?php echo isset($this->postArr['customFlag'])? $this->postArr['customFlag'] : '0'?>" />
+<input type="hidden" name="attSTAT" value="" />
+<input type="hidden" name="EditMode" value="<?php echo isset($this->postArr['EditMode'])? $this->postArr['EditMode'] : '0'?>" />
 
 <?php
 	if (isset($this->getArr['message'])) {
@@ -842,745 +1047,315 @@ tableDisplayStyle = "table";
 	</p>
 <?php } ?>
 
-<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
+<?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { 
+	$disabled = $locRights['add'] ? '':'disabled="disabled"';		
+?>
 
-<table width="550" align="center" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="tableTopLeft"></td>
-                  <td class="tableTopMiddle"></td>
-                  <td class="tableTopRight"></td>
-                </tr>
-                <tr>
-                  <td class="tableMiddleLeft"></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-			  <tr>
+<div class="formpage2col">
 
-				<td><?php echo $lang_Commn_code; ?></td>
-				<td>
-					<input name="txtEmployeeId" type="text" value="<?php echo $this->popArr['newID']?>" maxlength="50">
-					</td>
-			  </tr>
-			  <tr>
-				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpLastName?></td>
-				<td> <input type="text" name="txtEmpLastName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:''?>"></td>
-				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpFirstName?></td>
-				<td> <input type="text" name="txtEmpFirstName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>"></td>
-			  </tr>
-			  <tr>
-				<td><?php echo $lang_hremp_EmpMiddleName?></td>
-				<td> <input type="text" name="txtEmpMiddleName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"></td>
-				<td>&nbsp;</td>
-			  <td><?php echo $lang_hremp_nickname?></td>
-				<td> <input type="text" name="txtEmpNickName" <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"></td>
-			  </tr>
-			 <tr>
-				<td><?php echo $lang_hremp_photo?></td>
-				<td>
-					<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
-					<input type="file" name='photofile' <?php echo $locRights['add'] ? '':'disabled'?> value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>" />
-				</td>
-			  </tr>
-                  </table></td>
-                  <td class="tableMiddleRight"></td>
-                </tr>
-                <tr>
-                  <td class="tableBottomLeft"></td>
-                  <td class="tableBottomMiddle"></td>
-                  <td class="tableBottomRight"></td>
-                </tr>
-              </table>
-             	<p align="center"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</p>
-
-    <table border="0" align="center" >
-                <tr>
-                </tr>
-    <tr>
-    <td><?php if($_GET['reqcode'] !== "ESS") {?><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"><?php }?></td>
-    <td>
-					<?php	if (($locRights['add']) || ($_GET['reqcode'] === "ESS")) { ?>
-					        <input type="image" class="button1" id="btnEdit" border="0" title="Save" onClick="addEmpMain(); return false;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-
-					<?php 	} else { ?>
-					        <input type="image" class="button1" id="btnEdit" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" src="../../themes/beyondT/pictures/btn_save.gif">
-
-					<?php	} ?>
-    </td>
-    <td>&nbsp;</td>
-    <td><input type="image" class="button1" id="btnClear" onClick="document.frmEmp.reset(); return false;" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" src="../../themes/beyondT/icons/reset.gif"></td>
-    </tr>
-    </table>
-
+	<div class="outerbox">
+		<div class="mainHeading"><h2><?php echo $lang_Menu_Pim . ' : ' . $lang_pim_AddEmployee;?></h2></div>
+		<label for="txtEmployeeId"><?php echo $lang_Commn_code; ?></label>
+		<input name="txtEmployeeId" id="txtEmployeeId" class="formInputText" type="text" value="<?php echo $this->popArr['newID']?>" maxlength="50"/>
+		<br class="clear"/>
+			
+		<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?> <span class="required">*</span></label>
+		<input type="text" name="txtEmpLastName" id="txtEmpLastName" class="formInputText" <?php echo $disabled;?> 
+			value="<?php echo isset($this->postArr['txtEmpLastName']) ? $this->postArr['txtEmpLastName']:'';?>"/>
+	
+		<label for="txtEmpFirstName" id="txtEmpFirstName"><?php echo $lang_hremp_EmpFirstName?> <span class="required">*</span></label>
+		<input type="text" name="txtEmpFirstName" id="txtEmpFirstName" class="formInputText" <?php echo $disabled;?> 
+			value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>" />
+		<br class="clear" />
+		
+		<label for="txtEmpMiddleName"><?php echo $lang_hremp_EmpMiddleName; ?></label>
+		<input type="text" name="txtEmpMiddleName" id="txtEmpMiddleName" class="formInputText" 
+						<?php echo $disabled; ?> value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:''?>"/>
+		<label for="txtEmpNickName"><?php echo $lang_hremp_nickname; ?></label>
+		<input type="text" name="txtEmpNickName" id="txtEmpNickName" class="formInputText" <?php echo $disabled;?> 
+			value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:''?>"/>
+		<label for="photofile" ><?php echo $lang_hremp_photo; ?></label>
+		<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+		<input type="file" name='photofile' id="photofile" class="fileselect" <?php echo $disabled;?> 
+			value="<?php echo (isset($this->postArr['photofile']))?$this->postArr['photofile']:''?>" />
+		<br class="clear"/>
+        <div class="formbuttons">
+			<input type="button" class="savebutton" id="btnEdit" onclick="addEmpMain(); return false;" 
+				onmouseover="moverButton(this);" onmouseout="moutButton(this);"							 
+				value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>" />
+			<input type="button" class="resetbutton" onclick="document.frmEmp.reset(); return false;"
+				onmouseover="moverButton(this);" onmouseout="moutButton(this);"	
+				 value="<?php echo $lang_Common_Reset;?>" />
+        </div>			
+	</div>
+	<div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+</div>
 <?php } elseif(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-<table width="100%">
-<tr>
-<td>
-			<table width="550" align="center" border="0" cellpadding="0" cellspacing="0"><tr><td><br>&nbsp;</td></tr>
-                <tr>
-                  <td class="tableTopLeft"></td>
-                  <td class="tableTopMiddle"></td>
-                  <td class="tableTopRight"></td>
-                </tr>
-                <tr>
-                  <td class="tableMiddleLeft"></td>
-                  <td><table onClick="setUpdate(0)" onKeyPress="setUpdate(0)" width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-			  <tr>
-				<td><?php echo $lang_Commn_code?></td>
-				<td><input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>">
-					<input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmployeeId" value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$edit[0][5]?>" maxlength="50">
-				</td>
-			  </tr>
-			  <tr>
-				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpLastName?></td>
-				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpLastName" value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$edit[0][1]?>"></td>
-				<td>&nbsp;</td>
-				<td><font color=#ff0000>*</font> <?php echo $lang_hremp_EmpFirstName?></td>
-				<td><input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpFirstName" value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$edit[0][2]?>"></td>
-			  </tr>
-			  <tr>
-				<td><?php echo $lang_hremp_EmpMiddleName?></td>
-				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpMiddleName" value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$edit[0][3]?>"></td>
-				<td>&nbsp;</td>
-			  <td><?php echo $lang_hremp_nickname?></td>
-				<td> <input type="text" <?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled'?> name="txtEmpNickName" value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"></td>
-			  </tr><tr><td><br>&nbsp;</td></tr>
-			    </table></td>
-                  <td class="tableMiddleRight"></td>
-                </tr>
-                <tr>
-                  <td class="tableBottomLeft"></td>
-                  <td class="tableBottomMiddle"></td>
-                  <td class="tableBottomRight"></td>
-                </tr>
-              </table>
-</td>
-<td>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="200" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                    <td width="100%" align="center"><img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $this->getArr['id']?>&action=VIEW"></td>
-                    </tr>
-                    <tr>
-                    <td width="100%" align="center"><input type="button" value="<?php echo $lang_hremp_browse; ?>" name="btnBrowser" onClick="popPhotoHandler()"></td>
-					</tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</td>
-</tr>
-</table>
-    <table border="0" align="center" >
-    <tr>
-    <td><?php if($_GET['reqcode'] !== "ESS") {?>      <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-      <?php }?></td>
-    <td>
-<?php			if (($locRights['edit']) || ($_GET['reqcode'] === "ESS")) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="<?php echo (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '../../themes/beyondT/pictures/btn_save.gif' : '../../themes/beyondT/pictures/btn_edit.gif'?>" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="EditMain" onClick="editEmpMain(); return false;">
-<?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');  return false;">
-<?php			}  ?>
-    </td>
-    <td><input type="image" class="button1" id="btnClear" disabled src="../../themes/beyondT/icons/reset.gif" onMouseOut="this.src='../../themes/beyondT/icons/reset.gif';" onMouseOver="this.src='../../themes/beyondT/icons/reset_o.gif';" onClick="reLoad();  return false;" ></td>
-    </tr>
-    </table>
-<br>
+<?php if ($_SESSION['PIM_MENU_TYPE']=='left') { ?>
+<div id="pimleftmenu">
+	<ul class="pimleftmenu">	
+		<li class="l1 parent">
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent personal">Personal</span></a>
+			<ul class="l2">
+				<li class="l2">
+					<a href="javascript:displayLayer(1)" id="personalLink" class="personal" accesskey="p">
+						<span><span class="shortcut">P</span>ersonal Details</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(4)" id="contactsLink" class="personal" accesskey="c">
+						<span><span class="shortcut">C</span>ontact</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(5)" id="emgcontactsLink" class="personal"  accesskey="e">
+						<span><span class="shortcut">E</span>mergency Contact(s)</span></a></li>
+	
+				<li class="l2">
+					<a href="javascript:displayLayer(3)" id="dependentsLink" class="personal"  accesskey="d">
+						<span><span class="shortcut">D</span>ependents</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(10)" id="immigrationLink" class="personal" accesskey="i" >
+						<span><span class="shortcut">I</span>mmigration</span></a></li>
+			</ul>
+		</li>
+		<li class="l1 parent">
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">Employment</span></a>
+			<ul class="l2">
+				<li class="l2">
+					<a href="javascript:displayLayer(2)" id="jobLink" accesskey="j" class="employment"  >
+		
+						<span><span class="shortcut">J</span>ob</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(14)" id="paymentsLink" class="employment" accesskey="s" >
+						<span><span class="shortcut">S</span>alary</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(18)" id="taxLink" class="employment" accesskey="t" >
+						<span><span class="shortcut">T</span>ax Exemptions</span></a></li>
+		
+				<li class="l2">
+					<a href="javascript:displayLayer(19)" id="direct-debitLink" class="employment" accesskey="o" >
+						<span>Direct Dep<span class="shortcut">o</span>sit</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(15)" id="report-toLink" class="employment" accesskey="r" >
+						<span><span class="shortcut">R</span>eport-to</span></a></li>	
+			</ul>
+		</li>
+		<li class="l1 parent">
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent pimqualifications">Qualifications</span></a>
+			<ul class="l2">
+				<li class="l2">
+					<a href="javascript:displayLayer(17)" id="work_experienceLink" class="pimqualifications" accesskey="w" >
+		
+						<span><span class="shortcut">W</span>ork experience</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(9)" id="educationLink" class="pimqualifications" accesskey="n" >
+						<span>Educatio<span class="shortcut">n</span></span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(16)" id="skillsLink" class="pimqualifications" accesskey="k" >
+						<span>S<span class="shortcut">k</span>ills</span></a></li>
+		
+				<li class="l2">
+					<a href="javascript:displayLayer(11)" id="languagesLink" class="pimqualifications" accesskey="g" >
+						<span>Langua<span class="shortcut">g</span>es</span></a></li>
+				<li class="l2">
+					<a href="javascript:displayLayer(12)" id="licensesLink" class="pimqualifications" accesskey="l" >
+						<span><span class="shortcut">L</span>icense</span></a></li>
+				</ul>
+		</li>
+		<li class="l1 parent">
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other">Other</span></a>
+			<ul class="l2">
+				<li class="l2">
+					<a href="javascript:displayLayer(13)" id="membershipsLink" class="pimmemberships" accesskey="m">
+						<span><span class="shortcut">M</span>embership</span>
+					</a>
+				</li>
+				<li class="l2">
+					<a href="javascript:displayLayer(6)" id="attachmentsLink" class="attachments" accesskey="a">
+						<span><span class="shortcut">A</span>ttachments</span>
+					</a>
+				</li>
+				<li class="l1">
+					<a href="javascript:displayLayer(20)" id="customLink" class="l1_link custom" accesskey="u">
+						<span>C<span class="shortcut">u</span>stom</span>
+					</a>
+				</li>
+			</ul>
+		</li>
+	</ul>				
+</div>
+<?php } 			
+	$requiredNotice = preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); 
+?>	
+    <div id="personal" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '1') ? ' currentpanel' :'';?>">
 
-
-
-	<table border="0">
-		<tr>
-			<td>
-			<table border="0" align="center" cellpadding="1" cellspacing="1">
-				<tr class="mnuPIM">
-
-          <td id="personalLink"><a href="javascript:displayLayer(1)">
-            <?php echo $lang_pim_tabs_Personal; ?>
-            </a></td>
-
-          <td id="contactLink"><a href="javascript:displayLayer(4)">
-            <?php echo $lang_pim_tabs_Contact; ?>
-            </a></td>
-
-          <td id="emergency_contactLink"><a href="javascript:displayLayer(5)">
-            <?php echo $lang_pim_tabs_EmergencyContacts; ?>
-            </a></td>
-
-          <td id="dependantsLink"><a href="javascript:displayLayer(3)">
-            <?php echo $lang_pim_tabs_Dependents; ?>
-            </a></td>
-
-          <td id="immigrationLink"><a href="javascript:displayLayer(10)">
-            <?php echo $lang_pim_tabs_Immigration; ?>
-            </a></td>
-
-
-          <td id="jobLink"><a href="javascript:displayLayer(2)">
-            <?php echo $lang_pim_tabs_Job; ?>
-            </a></td>
-
-          <td id="paymentLink"><a href="javascript:displayLayer(14)">
-            <?php echo $lang_pim_tabs_Payments; ?>
-            </a></td>
-
-          <td id="taxLink"><a href="javascript:displayLayer(18)">
-            <?php echo $lang_pim_tabs_Tax; ?>
-            </a></td>
-
-          <td id="directDebitLink"><a href="javascript:displayLayer(19)">
-            <?php echo $lang_pim_tabs_DirectDebit; ?>
-            </a></td>
-
-          <td id="customLink"><a href="javascript:displayLayer(20)">
-            <?php echo $lang_pim_tabs_Custom; ?>
-            </a></td>
-
-          <td id="report-toLink"><a href="javascript:displayLayer(15)">
-            <?php echo $lang_pim_tabs_ReportTo; ?>
-            </a></td>
-
-
-          <td id="work_experienceLink"><a href="javascript:displayLayer(17)">
-            <?php echo $lang_pim_tabs_WorkExperience; ?>
-            </a></td>
-
-          <td id="educationLink"><a href="javascript:displayLayer(9)">
-            <?php echo $lang_pim_tabs_Education; ?>
-            </a></td>
-
-          <td id="skillsLink"><a href="javascript:displayLayer(16)">
-            <?php echo $lang_pim_tabs_Skills; ?>
-            </a></td>
-
-          <td id="languagesLink"><a href="javascript:displayLayer(11)">
-            <?php echo $lang_pim_tabs_Languages; ?>
-            </a></td>
-
-          <td id="licenseLink"><a href="javascript:displayLayer(12)">
-            <?php echo $lang_pim_tabs_License; ?>
-            </a></td>
-
-
-          <td id="membershipLink"><a href="javascript:displayLayer(13)">
-            <?php echo $lang_pim_tabs_Membership; ?>
-            </a></td>
-
-          <td id="attachmentsLink"><a href="javascript:displayLayer(6)">
-            <?php echo $lang_pim_tabs_Attachments; ?>
-            </a></td>
-					<!--<td id="cash_benefitsLink"><a href="javascript:displayLayer(7)">Cash Benefits</a></td>
-					<td id="non_cash_benefitsLink"><a href="javascript:displayLayer(8)">Non cash benefits</a></td>	-->
-				</tr>
-			</table>
-			</td>
-		</tr>
-		<tr>
-    		<td align="center">
-
-    <div id="personal" style="position:absolute; z-index:3; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] != '1') ? 'hidden' : 'visible'?>; left: 200px; top: 360px;">
-	  <table  border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
-          <?php require(ROOT_PATH . "/templates/hrfunct/hremppers.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-
-      <table border="0" align="center" >
-    <tr>
-    <td><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</td>
-    </tr>
-    </table>
+	    <div onclick="setUpdate(1)" onkeypress="setUpdate(1)" class="outerbox">
+	    	<div class="mainHeading"><h2><?php echo $lang_pim_PersonalDetails;?></h2></div>
+	    	<?php require(ROOT_PATH . "/templates/hrfunct/hremppers.php"); ?>
+	    </div>
+	    <br class="clear"/>
+	    <div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
+	</div>
+	
+    <div id="job" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '2') ? ' currentpanel' :'';?>">
+	    <div onclick="setUpdate(2)" onkeypress="setUpdate(2)" class="outerbox">
+	    	<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Job;?></h2></div>
+<?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); ?>
+<?php require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
+<?php require(ROOT_PATH . "/templates/hrfunct/hrempjobhistory.php"); ?>
+	    </div>
+	    <br class="clear"/>
+	    <div class="requirednotice"><?php echo $requiredNotice; ?>.</div>
+	</div>
+	    
+    <div id="dependents" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '3') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_hremp_dependents;?></h2></div>
+<?php require(ROOT_PATH . "/templates/hrfunct/hrempdependent.php"); ?>
+<?php require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
+			<br class="clear"/>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>              	
     </div>
-
-    <div id="job" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '2') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjob.php"); ?>
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempconext.php"); ?>
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempjobhistory.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-    </div>
-    <div id="dependents" style="position:absolute; z-index:2; width: 590px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '3') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-    <table border="0" align="center">
-     <tr><td valign="top">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempdependent.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-      </td>
-     <td valign="top">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
-          <?php require(ROOT_PATH . "/templates/hrfunct/hrempchildren.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-      </td></tr>
-      </table>
-    </div>
-    <div id="contacts" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '4') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    
+    <div id="contacts" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '4') ? ' currentpanel' :'';?>">
+    	<div class="outerbox" onclick="setUpdate(4)" onkeypress="setUpdate(4)">
+    		<div class="mainHeading"><h2><?php echo  $lang_pim_tabs_Contact; ?></h2></div>    
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempcontact.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                    
     </div>
-    <div id="emgcontacts" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '5') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    
+    <div id="emgcontacts" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '5') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo  $lang_pim_tabs_EmergencyContacts; ?></h2></div>    
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempemgcontact.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="attachments" style="position:absolute; z-index:3; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '6') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="attachments" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '6') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Attachments;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempattachment.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="cash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '7') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
- 			Cash Benefits
-          <?php /*require(ROOT_PATH . "/templates/hrfunct/EmpCashBenefits.php");*/ ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-    </div>
-    <div id="noncash-benefits" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '8') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-          Non-cash benefits
-          <?php /*require(ROOT_PATH . "/templates/hrfunct/EmpNonCashBenefits.php");*/ ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
-    </div>
-    <div id="education" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '9') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="education" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '9') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Education;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempeducation.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="immigration" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '10') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="immigration" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '10') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Immigration;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempimmigration.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="languages" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '11') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="languages" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '11') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Languages;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremplanguage.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="licenses" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '12') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="licenses" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '12') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_License;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremplicenses.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="memberships" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '13') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="memberships" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '13') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Membership;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempmembership.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="payments" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '14') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="payments" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '14') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Payments;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremppayment.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="report-to" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '15') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="report-to" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '15') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_ReportTo;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempreportto.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="skills" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '16') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="skills" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '16') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Skills;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempskill.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="work-experiance" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '17') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="work-experiance" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '17') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_WorkExperience;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempwrkexp.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="tax" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '18') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="tax" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '18') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Tax;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hremptax.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="direct-debit" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '19') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="direct-debit" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '19') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_DirectDebit;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempdirectdebit.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-    <div id="custom" style="position:absolute; z-index:2; width: 540px; visibility: <?php echo (isset($this->postArr['pane']) && $this->postArr['pane'] == '20') ? 'visible' : 'hidden'?>; left: 200px; top: 360px;">
-	  <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-          <td width="514" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td>
-
+    <div id="custom" class="pimpanel formpage2col<?php echo ($this->postArr['pane'] == '20') ? ' currentpanel' :'';?>">
+    	<div class="outerbox">
+    		<div class="mainHeading"><h2><?php echo $lang_pim_tabs_Custom;?></h2></div>
           <?php require(ROOT_PATH . "/templates/hrfunct/hrempcustom.php"); ?>
-
-			</td><td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-        </tr>
-        <tr>
-          <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-          <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-          <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-        </tr>
-      </table>
+       	</div>
+    	<br class="clear"/>
+    	<div class="requirednotice"><?php echo $requiredNotice; ?>.</div>                              
     </div>
-
-			</td>
-		</tr>
-	<table>
-
+	<div id="photodiv">
+		<img width="100" height="120" src="../../templates/hrfunct/photohandler.php?id=<?php echo $this->getArr['id']?>&amp;action=VIEW"
+        	onclick="popPhotoHandler()" alt="<?php echo $lang_pim_ClickToEditPhoto;?>" title="<?php echo $lang_pim_ClickToEditPhoto;?>"/>
+        <a href="#" onclick="popPhotoHandler()" title="<?php echo $lang_pim_ClickToEditPhoto;?>">
+        	<span id="empname"><?php echo $currentEmployeeName;?></span>
+        </a>				
+	</div>
 <?php } ?>
 
-		</form>
+	</form>
+	<script type="text/javaScript"><!--//--><![CDATA[//><!--
+    	if (document.getElementById && document.createElement) {
+ 			roundBorder('outerbox');  	 			
+		}
+	displayLayer(<?php echo $this->postArr['pane']; ?>);
+	<?php if (isset($this->postArr['txtShowAddPane']) && !empty($this->postArr['txtShowAddPane'])) { ?>
+	showAddPane('<?php echo $this->postArr['txtShowAddPane']; ?>');
+	<?php } ?>	    
+	//--><!]]></script>
 	</body>
-	<script language="JavaScript" type="text/javascript">
-  		displayLayer(<?php echo $this->postArr['pane']; ?>);
-  		<?php if (isset($this->postArr['txtShowAddPane']) && !empty($this->postArr['txtShowAddPane'])) { ?>
-  		showAddPane('<?php echo $this->postArr['txtShowAddPane']; ?>');
-  		<?php } ?>
-	</script>
 </html>

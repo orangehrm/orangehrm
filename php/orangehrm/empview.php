@@ -16,15 +16,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-
-
+ 
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<?
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 	$sysConst = new sysConf();
 	$locRights = $_SESSION['localRights'];
-
+	
 	//$headingInfo =$this->popArr['headinginfo'];
 
     $currentPage = $this->popArr['currentPage'];
@@ -50,37 +52,24 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 	}
 
-	function SortOrderInWords($SortOrder) {
-		if ($SortOrder == 'ASC') {
-			return 'Ascending';
-		} else {
-			return 'Descending';
-		}
+	$GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
+	$GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
+	
+	function nextSortOrderInWords($sortOrder) {		
+		return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet; ?>/css/style.css"); </style>
-<style type="text/css">
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 98%;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-</style>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script type="text/javascript">
+//<![CDATA[
 	function nextPage() {
 		i=document.standardView.pageNO.value;
 		i++;
@@ -100,8 +89,9 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 		document.standardView.submit();
 	}
 	
-	function sortAndSearch(action) {
-		document.standardView.action = action;
+	function sortAndSearch(sortField, sortOrder) {
+		var uri = "<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=" + sortField + "&sortOrder" + sortField + "=" + sortOrder;
+		document.standardView.action = uri;
 		document.standardView.submit();
 	}
 	
@@ -162,7 +152,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 	}
 
 	function doCheckAll()
-	{
+	{$lang_jobspec_heading
 		with (document.standardView) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
@@ -189,118 +179,89 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 	}
 
 	parent.scrollTo(0, 0);
+//]]>	
 </script>
-<body style="padding-left:14px; padding-right: 14px;" onfocus="document.getElementById('content').focus()">
-<div id="content">
-	<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&VIEW=MAIN&sortField=<?php echo $this->getArr['sortField']; ?>&sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>">
-		<div class="moduleTitle" style="padding: 6px;"><h2><?php echo $headingInfo[0]?></h2></div>
-		<div>
-			<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
-			<input type="hidden" name="delState" value="" />
-			<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
-			<input type="hidden" name="empID" value="" />
-			<div style="padding: 6px;">
-				<img 
-					title="Add" 
-					alt="Add"
-					src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_add.gif" 
-					style="border: none;"
-					onclick="<?php 
-						if($locRights['add']) { 
-							?>returnAdd();<?php 
-						} else { 
-							?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php 
-						} ?>"
-					onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_add.gif';" 
-					onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_add_02.gif';" />	
-				<?php if($this->getArr['reqcode']=='EMP') { ?>
-					<img 
-						title="Delete" 
-						alt="Delete" 
-						src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete.gif" 
-						onclick="<?php if($locRights['delete']) { ?>returnDelete();<?php } else { ?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php } ?>" 
-						onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete.gif';"
-						onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete_02.gif';" />
-				<?php } ?>
-			</div>
+<!--[if IE]>
+<style type="text/css">
+	div.mainHeading {
+	    zoom: 1;
+	}
+</style>
+<![endif]-->
+</head>
+<body>
+<div class="outerbox">
+
+	<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']; ?>&amp;sortOrder<?php echo $this->getArr['sortField']; ?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']]?>">
+	
+		<div class="mainHeading"><h2><?php echo $headingInfo[0]?></h2></div>
+		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
+		<input type="hidden" name="delState" value="" />
+		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
+		<input type="hidden" name="empID" value="" />
+
+		
+		<?php 
+		if (isset($this->getArr['message'])) {	
+			$expString  = $this->getArr['message'];
+			$messageType = CommonFunctions::getCssClassForMessage($expString);
+			$messageType = 'failure';
+		?>		
+		<div class="messagebar">
+			<span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
 		</div>
-		<div>
-			<div>
-				<table width="100%" cellpadding="0" cellspacing="0" border="0">
-				  <tr>
-					<td width="22%" nowrap="nowrap"><h3><?php echo $search?></h3></td>
-					<td width="78%" align="right">
-					<?php
-						if (isset($this->getArr['message'])) {
-				
-							$expString  = $this->getArr['message'];
-							$col_def = CommonFunctions::getCssClassForMessage($expString);
-					?>
-							<span class="<?php echo $col_def?>" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: smaller"><?php echo $$expString; ?></span>
-					<?php
+		<?php
+		}
+		?>
+					
+		<div class="searchbox">
+			<label for="loc_code"><?php echo $searchby?></label>
+			<select name="loc_code" id="loc_code">
+				<?php
+					 $optionCount = count($srchlist[0]);
+		
+					 /* Don't show the last option (search by supervisor) if user is a supervisor */
+					 if ($_SESSION['isSupervisor']) {
+						$optionCount--;
+					 }
+		
+					 for ($c = 0; $optionCount > $c; $c++) {
+						if (isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c]) {
+						   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
+						} else {
+						   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 						}
-					?>
-					  &nbsp;&nbsp;&nbsp;&nbsp;</td>
-				  </tr>
-				</table>
-			</div>
-			<div class="roundbox">
-				<table  border="0" cellpadding="5" cellspacing="0" class="">
-					<tr style="white-space: nowrap">
-						<td width="250" class="dataLabel" nowrap="nowrap">
-							<label for="loc_code" style="float: left"><?php echo $searchby?></label>&nbsp;&nbsp;
-							<select name="loc_code" id="loc_code">
-							<?php
-								 $optionCount = count($srchlist[0]);
+					}
+				?>
+			</select>
+			<label for="loc_name"><?php echo $description?></label>
+			<input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
+			<input type="button" class="plainbtn" onclick="returnSearch();"
+				onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"							 
+				value="<?php echo $lang_Common_Search;?>" />
+			<input type="button" class="plainbtn" onclick="clear_form();" 
+				onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+				 value="<?php echo $lang_Common_Clear;?>" />
+			<br class="clear"/>
+		</div>
+			
+			<div class="actionbar">
+				<div class="actionbuttons">
+					<input type="button" class="plainbtn"
+					<?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
+						onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+						value="Add" />			
 	
-								 /* Don't show the last option (search by supervisor) if user is a supervisor */
-								 if ($_SESSION['isSupervisor']) {
-									$optionCount--;
-								 }
+					<?php if($this->getArr['reqcode']=='EMP') { ?>
+						<input type="button" class="plainbtn"
+						<?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
+							onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+							value="Delete" />			
 	
-								 for ($c = 0; $optionCount > $c; $c++) {
-									if (isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c]) {
-									   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-									} else {
-									   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-									}
-								}
-							?>
-							</select>
-						</td>
-						<td width="230" class="dataLabel" nowrap="nowrap">
-							<label for="loc_name" style="float: left"><?php echo $description?></label>&nbsp;&nbsp;
-							<input type=text size="20" name="loc_name" class="dataField" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
-						</td>
-						<td align="right" width="180" class="dataLabel">
-							<img 
-								title="Search" 
-								alt="Search"
-								src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_search.gif"
-								onclick="returnSearch();" 
-								onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_search.gif';" 
-								onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_search_02.gif';" />
-							&nbsp;&nbsp;
-							<img 
-								title="Clear" 
-								alt="Clear" 
-								src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear.gif"
-								onclick="clear_form();" 
-								onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear.gif';" 
-								onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_clear_02.gif';" />
-						</td>
-					</table>
-				</div>
-				<div style="padding-top: 4px; width: 98%">
-					 <span id="messageDisplay">
-					<?php 
-						if ((isset($emplist)) && ($emplist =='')) { 
-							echo $norecorddisplay; 
-						}
-					?>&nbsp;
-					</span>
-				</div>
-				<div style="text-align: right; padding-top: 4px; width: 98%">
+					<?php } ?>
+				</div>				
+				<div class="noresultsbar"><?php echo (empty($emplist)) ? $norecorddisplay : '';?></div>
+				<div class="pagingbar">
 				<?php
 					$temp = $this->popArr['temp'];
 					$commonFunc = new CommonFunctions();
@@ -314,44 +275,68 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
 					}					
-				?>
+				?>			
+				</div>
+			<br class="clear" />
 			</div>
-			<div class="roundbox">
-				<table cellpadding="5" cellspacing="0" class="" style="width: 100%; border: none;">
+			<br class="clear" />
+				<table cellspacing="0" cellpadding="0" class="data-table">
+					<thead>
 					<tr>
 						<td width="50">&nbsp;&nbsp;&nbsp;</td>
-						<?php $j = 0; ?>
-						<td scope="col" width="200" class="listViewThS1">
-							<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+						<?php $j = 0; 
+							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+						?>						
+						<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+								title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $employeeid; ?>
+							</a>
 						</td>
-						<?php $j = 7; ?>
-						<td scope="col" width="400" class="listViewThS1">
-							<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+						<?php $j = 7; 
+							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+						?>						
+						<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $employeename; ?> </a>
 						</td>
-						<?php $j = 6; ?>
-						<td scope="col" width="140" class="listViewThS1">
-							<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_JobTitle; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+						<?php $j = 6; 
+							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+						?>						
+						<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_JobTitle; ?></a>
 						</td>
-						<?php $j = 9; ?>
-						<td scope="col" width="250" class="listViewThS1">
-							<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_EmploymentStatus; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+						<?php $j = 9; 
+							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+						?>						
+						<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_EmploymentStatus; ?></a>
 						</td>
-						<?php $j = 8; ?>
-						<td scope="col" width="250" class="listViewThS1">
-							<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_SubDivision; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+						<?php $j = 8;
+							  $sortOrder = $this->getArr['sortOrder' . $j]; 
+						?>
+						<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+							title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_SubDivision; ?></a>
 						</td>
 						<?php
 							/* Show supervisor only for admin users, not for supervisors */
 							if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
 								$j = 10;
+								$sortOrder = $this->getArr['sortOrder' . $j]; 
 						?>
-							<td scope="col" width="250" class="listViewThS1">
-								<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?reqcode=<?php echo $this->getArr['reqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $j; ?>&amp;sortOrder<?php echo $j; ?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j])?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $lang_empview_Supervisor; ?></a> <img src="../../themes/beyondT/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="img" style="vertical-align: middle" />
+							<td scope="col">
+							<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+								title="<?php echo nextSortOrderInWords($sortOrder);?>" class="<?php echo $sortOrder;?>"><?php echo $lang_empview_Supervisor; ?></a>
 							</td>
 						<?php
 							}
 						?>
 					</tr>
+					</thead>
+
+					<tbody>
 					<?php
 						if ((isset($emplist)) && ($emplist !='')) {
 							$compStructObj = new CompStruct();
@@ -369,32 +354,29 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 									$descField = substr($descField,0,$sysConst->viewDescLen);
 									$descField .= "....";
 								}
-					?>
-								<tr valign="top">
-								<?php
-								if (!($j%2)) {
-									$cssClass = 'odd';
-								} else {
-									$cssClass = 'even';
-								}
 								
+								$cssClass = ($j%2) ? 'even' : 'odd'; 
+					?>
+								<tr class="<?php echo $cssClass;?>">
+								<?php								
 								if($_GET['reqcode']=='EMP') {
 					?>
-									<td width="50" class="<?php echo $cssClass?>"><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>" /></td>
+									<td ><input type="checkbox" class="checkbox" name="chkLocID[]" value="<?php echo $emplist[$j][2]?>" /></td>
 								<?php } else { ?>
-									<td width="50" class="<?php echo $cssClass?>"></td>
+									<td ></td>
 								<?php } ?>
-									<td width="200" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
-									<td width="400" class="<?php echo $cssClass?>" ><a href="./CentralController.php?id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>"
-									 class="listViewTdLinkS1"><?php echo $descField?></a> </td>
-									<td width="120" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
-									<td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][6]))?$emplist[$j][6]:"-"; ?></td>
-									<td width="250" class="<?php echo $cssClass?>"><?php echo $subDivision; ?></td>
+									<td ><?php echo (!empty($emplist[$j][0]))?$emplist[$j][0]:$emplist[$j][2]?></td>
+									
+									<td ><a target="_parent" href="../../index.php?menu_no_top=hr&amp;id=<?php echo $emplist[$j][2]?>&amp;capturemode=updatemode&amp;reqcode=<?php echo $this->getArr['reqcode']?>"
+									 ><?php echo $descField?></a> </td>
+									<td ><?php echo (!empty($emplist[$j][4]))?$emplist[$j][4]:"-"; ?></td>
+									<td ><?php echo (!empty($emplist[$j][6]))?$emplist[$j][6]:"-"; ?></td>
+									<td ><?php echo $subDivision; ?></td>
 									<?php
 									/* Show supervisor only for admin users, not for supervisors */
 									if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
 									?>
-										<td width="250" class="<?php echo $cssClass?>"><?php echo (!empty($emplist[$j][5]))?$emplist[$j][5]:"-";?></td>
+										<td ><?php echo (!empty($emplist[$j][5]))?$emplist[$j][5]:"-";?></td>
 									<?php
 									}
 									?>
@@ -402,19 +384,16 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 						<?php }
 					  }
 					?>
+					</tbody>					
 				</table>
-			</div>
-		</div>
 	</form>
 </div>
-
 <script type="text/javascript">
-<!--
-   	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+    <!--
+    	if (document.getElementById && document.createElement) {
+ 			roundBorder('outerbox');   	 			
+		}
+    -->
 </script>
-
 </body>
 </html>

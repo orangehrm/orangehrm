@@ -100,7 +100,7 @@ else
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script>
+<script type="text/javaScript"><!--//--><![CDATA[//><!--
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
@@ -189,7 +189,7 @@ else
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
-</script>
+//--><!]]></script>
 <body style="padding-left:4; padding-right:4;">
 <p>
 <table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
@@ -197,7 +197,7 @@ else
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3>
+    <td width="22%" nowrap="nowrap"><h3>
         <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>">
         <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
         <input type="hidden" name="empID" value="">
@@ -209,7 +209,7 @@ else
 <p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td width="22%" nowrap><h3><?php echo $lang_empview_search; ?></h3></td>
+    <td width="22%" nowrap="nowrap"><h3><?php echo $lang_empview_search; ?></h3></td>
     <td width='78%' align="right"><img height='1' width='1' src='../../pictures/blank.gif' alt=''>
      <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
       &nbsp;&nbsp;&nbsp;&nbsp; </font> </td>
@@ -219,20 +219,20 @@ else
 <!--  newtable -->
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt="" /></td>
+                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt="" /></td>
+                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="" width="100%">
                     <tr>
                       <td width="200" class="dataLabel"><slot><?php echo $lang_empview_searchby; ?></slot>&nbsp;&nbsp;<slot>
                         <select name="loc_code">
 <?php                        for($c=0;count($srchlist[0])>$c;$c++)
 								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
-								   echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
+								   echo "<option selected=\"selected\" value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 								else
 								   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
 ?>
@@ -243,26 +243,26 @@ else
                      </slot></td>
 
                   </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                 </tr>
                 <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                   <td><table  border="0" cellpadding="5" cellspacing="0" class="">
                     <tr>
-                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="<?php echo $lang_empview_search; ?>" onClick="Search();"/>
-                          <input title="Clear [Alt+K]" accessKey="K" onClick="clear_form();" class="button" type="button" name="clear" value="<?php echo $lang_compstruct_clear; ?>"/></td>
+                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="<?php echo $lang_empview_search; ?>" onclick="Search();"/>
+                          <input title="Clear [Alt+K]" accessKey="K" onclick="clear_form();" class="button" type="button" name="clear" value="<?php echo $lang_compstruct_clear; ?>"/></td>
 
                   </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                 </tr>
 
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt="" /></td>
+                  <td><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt="" /></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt="" /></td>
                 </tr>
               </table>
 			  <table border="0" width="100%">
@@ -290,20 +290,20 @@ echo $pageStr;
 
               <table bordeir="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td ><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td ><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt="" /></td>
+                  <td></td>
+                  <td></td>
+                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
                 </tr>
                 <tr  valign="top" height="25">
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt="" /></td>
 						  <?php
 						  	$j=0;
 						  	if (!isset($_GET['sortOrder'.$j])) {
 								$_GET['sortOrder'.$j]='null';
 							};
 						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt=""></td>
+						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" /></td>
 						  <?php
 						  	$j=1;
 							if (!isset($_GET['sortOrder'.$j])) {
@@ -311,7 +311,7 @@ echo $pageStr;
 							};
 						  ?>
 						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
                 </tr>
 
         <?php
@@ -321,16 +321,16 @@ echo $pageStr;
 
 		?>
                 <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
+                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
          <?php		if(!($j%2)) { ?>
-				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
+				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onclick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		} else { ?>
-				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onClick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
+				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onclick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
 		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
 		<?php		}	?>
 
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
+                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
 
                 </tr>
 
@@ -351,10 +351,10 @@ echo $pageStr;
 		 		</td>
 			</tr>
                 <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"></td>
-                  <td ><img src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" border="0" alt=""></td>
+                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt="" /></td>
+                  <td><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                  <td></td>
+                  <td ><img src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" border="0" alt="" /></td>
                 </tr>
       </table>
 <!--  newtable -->

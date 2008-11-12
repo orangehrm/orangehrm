@@ -25,9 +25,10 @@ $customValues = $this->popArr['editCustomInfoArr'];
 ?>
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-	<table onclick="setUpdate(20)" onkeypress="setUpdate(20)" border="0" cellpadding="0" cellspacing="2">
+	<table onclick="setUpdate(20)" onkeypress="setUpdate(20)" style="margin:0 5px 0 5px;padding-top:5px;"
+		border="0" cellpadding="0" cellspacing="2">
 <?php
-	$disabled = (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled';
+	$disabled = (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') ? '' : 'disabled="disabled"';
 	foreach ($customFieldList as $customField) {
 		$fieldName = "custom" . $customField->getFieldNumber();
 		$value = (isset($customValues[$fieldName])) ? $customValues[$fieldName] : "";
@@ -54,7 +55,7 @@ $customValues = $this->popArr['editCustomInfoArr'];
 		} else {
 ?>
 		<input type="text" size="20" <?php echo $disabled;?> name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>"
-  				value="<?php echo $value;?>">
+  				value="<?php echo $value;?>"/>
 <?php
 		}
 ?>
@@ -75,5 +76,17 @@ $customValues = $this->popArr['editCustomInfoArr'];
 ?>
 
 </table>
-
-<?php } ?>
+<?php if (count($customFieldList) > 0) { ?>
+<div class="formbuttons">
+    <input type="button" class="<?php echo $editMode ? 'editbutton' : 'savebutton';?>" name="EditMain" id="btnEditCustom" 
+    	value="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>" 
+    	title="<?php echo $editMode ? $lang_Common_Edit : $lang_Common_Save;?>"
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+    	onclick="editEmpMain(); return false;"/>
+	<input type="button" class="clearbutton" id="btnClearCustom" onclick="reLoad();  return false;" tabindex="5"
+		onmouseover="moverButton(this);" onmouseout="moutButton(this);"	disabled="disabled"
+		 value="<?php echo $lang_Common_Clear;?>" />
+</div>	
+<?php }
+	} 
+?>
