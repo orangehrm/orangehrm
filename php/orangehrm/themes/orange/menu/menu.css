@@ -1,0 +1,476 @@
+/* Top bar with change password and logout links */
+#option-menu-bar {
+	clear: both;
+}
+
+#option-menu,#option-menu ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 11px;
+	text-align: right;
+}
+
+#option-menu li {
+	display: inline;
+	color: #444444;
+	font-weight: bold;
+	padding-right: 5px;
+	margin: 0px;
+}
+
+#option-menu li a {
+	color: #444444;
+}
+
+/* menu bar */
+#top-menu {
+	clear: both;
+}
+
+#top-menu {
+	height: 25px;
+	min-width: 75em;
+	position: relative;
+	background: #FCB334;
+	padding-left: 20px;
+	border: 0;
+}
+
+
+/* RTA: remove padding, list style, margins from li - set in style.css */
+#nav li {
+	display: block;
+	list-style-type: none;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+
+#nav,#nav ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1;
+	font-family: Arial, sans-serif, Verdana;
+	font-size: 11px;
+	font-variant: small-caps;
+}
+
+#nav a {
+	display: block;
+	text-decoration: none;
+	text-transform: capitalize;
+	color: #000000;
+	padding-left: 25px;
+	/* Disable link outline from clicked links. works only in firefox 
+	 * For ie, need: onclick="this.blur();return true" or onfocus="if (this.blur) this.blur();"
+	*/
+	outline: 0;
+}
+
+#nav ul.l2 li:hover a.l2_link span, #nav ul.l2 li.hover a.l2_link span {
+	color: #FFFFFF;
+}
+
+#nav ul.l3 li:hover a span, #nav ul.l3 li.hover a span {
+	color: #FFFFFF;
+}
+
+/* TODO: check and change if needed to set text width to auto - eg: to fit other language menu's. */
+#nav li.l2 a {
+	width: 10em;
+}
+
+#nav li.l1 {
+	margin: 0 0px;
+	padding-left: 5px;
+}
+
+#nav li {
+	float: left;
+	line-height: 25px;
+}
+
+#nav ul, #nav li, #nav a, #nav a span {
+	cursor: pointer;
+}
+#nav li ul {
+	position: absolute;
+	width: 10em;
+	left: -999em;
+}
+
+#nav li:hover ul ul,#nav li.hover ul ul {
+	left: -999em;
+}
+
+#nav li.l1:hover a.l1_link { /*font-weight: bold;*/
+	
+}
+
+#nav li ul ul {
+	margin: -2em 0 0 10em;
+}
+
+#nav li ul.l2 {
+	margin-left: -0.5em;
+}
+#nav li ul.l3 {
+	margin-left: 12.5em;
+}
+
+/* Adjust PIM drop down margins */
+#nav li#pim ul.l3 {
+	margin-left: 10em;
+}
+#nav li#time ul.l3 {
+	margin-left: 11.6em;
+}
+#nav li#benefits ul.l3 {
+	margin-left: 13.6em;
+}
+
+#nav li:hover ul,#nav li li:hover ul,#nav li.hover ul,#nav li li.hover ul
+	{
+	left: auto;
+}
+
+#nav li.l1 span.current {
+	font-weight: bold;
+}
+
+#nav li a span {
+	height: 25px;
+	/*width:auto;*/
+	padding-right: 25px;
+	display: block;
+}
+
+#nav li.l1:hover a.l1_link span,  #nav li.hover a.l1_link span {
+	background: url(images/tophov.gif) top right;
+}
+
+#nav li.l1 a.l1_link span.drop {
+	background: url(images/topdrop.gif) top right;
+}
+
+#nav li.l1:hover a.l1_link span.drop, #nav li.hover a.l1_link span.drop {
+	background: url(images/topdrophov.gif) top right;
+}
+
+
+/* TODO: Problem with having dual classes to use hover */
+#nav li.l1:hover, #nav li.hover {
+	background: url(images/tophov.gif) top left;
+}
+
+/* Drop down styling */
+#nav ul.l2 li {
+	background: url(images/dropitem.gif) top left;
+}
+#nav ul.l2 li.l2:hover, #nav ul.l2 li.hover {
+	background: url(images/dropitemhov.gif) top left;
+}
+#nav ul.l3 li.l3:hover, #nav ul.l3 li.hover {
+	background: url(images/dropitemhov.gif) top left;
+}
+/* Drop down styling */
+#nav ul.l2 li span {
+	background: url(images/dropitem.gif) top right;
+	padding-left: 3px;
+}
+#nav ul.l2 li.l2:hover a.l2_link span, #nav ul.l2 li.hover a.l2_link span {
+	background: url(images/dropitemhov.gif) top right;
+	padding-left: 3px;
+}
+#nav ul.l3 li.l3:hover  span, #nav ul.l3 li.hover span {
+	background: url(images/dropitemhov.gif) top right;
+	padding-left: 3px;
+}
+#nav ul.l2 li a.parent span {
+	background: url(images/dropparent.gif) top right;
+	padding-left: 3px;
+}
+#nav ul.l2 li:hover a.parent span, #nav ul.l2 li.hover a.parent span {
+	background: url(images/dropparenthov.gif) top right;
+	padding-left: 3px;
+}
+
+/* Icons - top level */
+#nav li#admin a.l1_link {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li#pim a.l1_link {
+	background: transparent url(icons/users.gif) no-repeat center left;
+}
+
+#nav li#leave a.l1_link {
+	background: transparent url(icons/leaveList.gif) no-repeat center left;
+}
+
+#nav li#time a.l1_link {
+	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+}
+
+#nav li#benefits a.l1_link {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li#recruit a.l1_link {
+	background: transparent url(icons/customers.gif) no-repeat center left;
+}
+
+#nav li#report a.l1_link {
+	background: transparent url(icons/defemprep.gif) no-repeat center left;
+}
+
+#nav li#ess a.l1_link {
+	background: transparent url(icons/users.gif) no-repeat center left;
+}
+
+#nav li#bug a.l1_link {
+	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+}
+
+#nav li#help a.l1_link {
+	background: transparent url(icons/natandrace.gif) no-repeat center left;
+}
+
+/* Drop down menu widths */ 
+/* TODO: Try to set widths automatically */
+#nav li#admin ul li.l2 span {
+	width: 10em;
+}
+#nav li#admin ul li.l3 a.importexport span {
+	width: 11.2em;
+}
+#nav li#pim ul {
+	width: 12em;
+}
+#nav li#pim ul li.l3 span {
+	width: 12em;
+}
+
+#nav li#leave ul li.l2 span {
+	width: 10em;
+}
+#nav li#leave ul li.l3 a.leavesummary span {
+	width: 13em;
+}
+
+#nav li#time ul li.l2 span {
+	width: 9em;
+}
+
+#nav li#time ul li.l3 a.timesheets span {
+	width: 11em;
+}
+#nav li#benefits ul li.l2 span{
+	width: 11em;
+}
+#nav li#benefits ul li.l3 a.hsp span{
+	width: 13em;
+}
+#nav li#benefits ul li.l3 a.payrollschedule span{
+	width: 12em;
+}
+#nav li#recruit ul {
+	width: 12em;
+}
+
+#nav li#report ul li.l2 span {
+	width: 8em;
+}
+
+#nav li#ess ul {
+	width: 12em;
+}
+
+#nav li#bug aul {
+	width: 12em;
+}
+
+#nav li#help ul {
+	width: 12em;
+}
+
+/* help menu icons */
+#nav li.l2 a.help {
+	background: transparent url(icons/natandrace.gif) no-repeat center left;
+}
+
+#nav li.l2 a.support {
+	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+}
+
+#nav li.l2 a.forum {
+	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+}
+
+#nav li.l2 a.blog {
+	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+}
+
+/* Admin menu icons */
+#nav li.l2 a.companyinfo {
+	background: transparent url(icons/compinfo.gif) no-repeat center left;
+}
+
+#nav li.l2 a.job {
+	background: transparent url(icons/job.gif) no-repeat center left;
+}
+
+#nav li.l2 a.qualifications {
+	background: transparent url(icons/qualification.gif) no-repeat center left;
+}
+
+#nav li.l2 a.skills {
+	background: transparent url(icons/skills.gif) no-repeat center left;
+}
+
+#nav li.l2 a.memberships {
+	background: transparent url(icons/memberships.gif) no-repeat center left;
+}
+
+#nav li.l2 a.natandrace {
+	background: transparent url(icons/natandrace.gif) no-repeat center left;
+}
+
+#nav li.l2 a.users {
+	background: transparent url(icons/users.gif) no-repeat center left;
+}
+
+#nav li.l2 a.email {
+	background: transparent url(icons/email_notifications.gif) no-repeat center left;
+}
+
+#nav li.l2 a.project {
+	background: transparent url(icons/projects-dd.gif) no-repeat center left;
+}
+
+#nav li.l2 a.importexport {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+#nav li.l2 a.customfields {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+#nav li.l2 a.ldap {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+#nav li.l2 a.companyproperty {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+/* PIM menu icons */
+#nav li.l2 a.emplist {
+	background: transparent url(icons/compinfo.gif) no-repeat center left;
+}
+#nav li.l2 a.empadd {
+	background: transparent url(icons/empadd.gif) no-repeat center left;
+}
+
+#nav li.l2 a.personal {
+	background: transparent url(icons/customers.gif) no-repeat center left;
+}
+
+#nav li.l2 a.employment {
+	background: transparent url(icons/job.gif) no-repeat center left;
+}
+
+#nav li.l2 a.pimqualifications {
+	background: transparent url(icons/qualification.gif) no-repeat center left;
+}
+
+#nav li.l2 a.pimmemberships {
+	background: transparent url(icons/memberships.gif) no-repeat center left;
+}
+
+#nav li.l2 a.attachments {
+	background: transparent url(icons/qualification.gif) no-repeat center left;
+}
+
+#nav li.l2 a.custom {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+/* Leave menu icons */
+#nav li.l2 a.leavesummary {
+	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+}
+
+#nav li.l2 a.daysoff {
+	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+}
+
+#nav li.l2 a.leavetypes {
+	background: transparent url(icons/defineLeaveType.gif) no-repeat center left;
+}
+
+#nav li.l2 a.assignleave {
+	background: transparent url(icons/applyLeave.gif) no-repeat center left;
+}
+
+#nav li.l2 a.applyLeave {
+	background: transparent url(icons/applyLeave.gif) no-repeat center left;
+}
+
+#nav li.l2 a.leavelist {
+	background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
+/* Time menu icons */
+#nav li.l2 a.timesheets {
+	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+}
+
+#nav li.l2 a.employeereports {
+	background: transparent url(icons/leaveSummary.gif) no-repeat center left;
+}
+
+#nav li.l2 a.projectreports {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li.l2 a.workshifts {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li.l2 a.punchTime {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li.l2 a.projectTime {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+/* Benefits menu icons */
+#nav li.l2 a.hsp {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+#nav li.l2 a.payrollschedule {
+	background: transparent url(icons/projects.gif) no-repeat center left;
+}
+
+/* Recruitment menu icons */
+#nav li.l2 a.vacancies {
+	background: transparent url(icons/vacancies.gif) no-repeat center left;
+}
+
+#nav li.l2 a.applications {
+	background: transparent url(icons/vacancies.gif) no-repeat center left;
+}
+
+/* Reports menu icons */
+#nav li.l2 a.viewreports {
+	background: transparent url(icons/viewemprep.gif) no-repeat center left;
+}
+
+#nav li.l2 a.definereports {
+	background: transparent url(icons/defemprep.gif) no-repeat center left;
+}

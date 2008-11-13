@@ -1,0 +1,160 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+.mnuPIM {
+/*Remove all spacings from the list items*/
+	margin: 0;
+	padding: 0;
+	cursor: default;
+	list-style-type: none;
+	display: inline;
+}
+
+
+.mnuPIM td{
+	display: table-cell;
+	position: relative;
+	padding: 4px 4px;
+	background-position: center top;
+	background-repeat: no-repeat;
+
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+/*** Menu colors (customizable) ***/
+
+.mnuPIM a{
+	text-decoration: none;
+	display: block;
+	vertical-align: bottom;
+	padding-top: 40px;
+
+	width:52px;
+
+	text-align:center;
+}
+
+.mnuPIM td{
+	height: 50px;
+	width: 54px;
+	vertical-align: top;
+	text-align:center;
+}
+
+#jobLink {
+	background-image: url(../icons/job.gif);
+	background-repeat: no-repeat;
+}
+
+#personalLink {
+	background-image: url(../icons/personal.gif);
+	background-repeat: no-repeat;	
+}
+
+#dependentsLink {
+	background-image: url(../icons/dependants.gif);
+	background-repeat: no-repeat;	
+}
+
+#contactsLink {
+	background-image: url(../icons/contact.gif);
+	background-repeat: no-repeat;	
+}
+
+#emgcontactsLink {
+	background-image: url(../icons/emergency_contact.gif);
+	background-repeat: no-repeat;	
+}
+
+#attachmentsLink {
+	background-image: url(../icons/attachments.gif);
+	background-repeat: no-repeat;	
+}
+
+#cash_benefitsLink {
+	background-image: url(../icons/cash_benefits.gif);
+	background-repeat: no-repeat;	
+}
+
+#educationLink {
+	background-image: url(../icons/education.gif);
+	background-repeat: no-repeat;	
+}
+
+#immigrationLink {
+	background-image: url(../icons/immigration.gif);
+	background-repeat: no-repeat;	
+}
+
+#languagesLink {
+	background-image: url(../icons/languages.gif);
+	background-repeat: no-repeat;	
+}
+
+#licensesLink {
+	background-image: url(../icons/license.gif);
+	background-repeat: no-repeat;	
+}
+
+#membershipLink {
+	background-image: url(../icons/membership.gif);
+	background-repeat: no-repeat;	
+}
+
+#non_cash_benefitsLink {
+	background-image: url(../icons/non_cash_benefits.gif);
+	background-repeat: no-repeat;	
+}
+
+#paymentsLink {
+	background-image: url(../icons/payment.gif);
+	background-repeat: no-repeat;	
+}
+
+#report-toLink {
+	background-image: url(../icons/report-to.gif);
+	background-repeat: no-repeat;	
+}
+
+#skillsLink {
+	background-image: url(../icons/skills.gif);
+	background-repeat: no-repeat;	
+}
+
+#work-experianceLink {
+	background-image: url(../icons/work_experience.gif);
+	background-repeat: no-repeat;	
+}
+
+#taxLink {
+	background-image: url(../icons/tax.gif);
+	background-repeat: no-repeat;	
+}
+
+#direct-debitLink {
+	background-image: url(../icons/direct_debit.gif);
+	background-repeat: no-repeat;	
+}
+
+#customLink {
+	background-image: url(../icons/custom.gif);
+	background-repeat: no-repeat;	
+}
+
