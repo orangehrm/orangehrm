@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.5
+
+	Bug fixes
+	---------
+	1951522 - PIM->Unwanted check box in ESS user's ESS interface
+    2003423 - Rename leave status "Status Differ" to "Partly Approved"
+
 New & Changed Features for OrangeHRM ver 2.4.0.1
 
 	New features

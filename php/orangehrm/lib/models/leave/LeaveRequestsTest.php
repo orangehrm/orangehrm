@@ -237,7 +237,7 @@ class LeaveRequestsTest extends PHPUnit_Framework_TestCase {
     	$this->assertNotNull($res, 'Record not found');
     	$this->assertSame(2, count($res), 'Wrong number of records found');
 
-		// Change one leave request's status to 'Status Differ'11, 13
+		// Change one leave request's status to 'Partly Approved'11, 13
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_APPROVED." WHERE leave_id = 11"), mysql_error());
 		$this->assertTrue(mysql_query("UPDATE `hs_hr_leave` SET `leave_status`=". Leave::LEAVE_STATUS_LEAVE_REJECTED." WHERE leave_id = 13"), mysql_error());
     	$res = $leaveObj->retriveLeaveRequestsSupervisor($supervisorId);

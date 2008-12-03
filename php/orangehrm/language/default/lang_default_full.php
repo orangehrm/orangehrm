@@ -318,7 +318,7 @@
 	$lang_Leave_Common_Rejected 			= "Rejected";
 	$lang_Leave_Common_Taken 				= "Taken";
 	$lang_Leave_Common_InvalidStatus 		= "Invalid Status";
-	$lang_Leave_Common_StatusDiffer 		= "Status Differ";
+	$lang_Leave_Common_StatusDiffer 		= "Partly Approved";
 	$lang_Leave_Common_FullDay 				= "Full Day";
 	$lang_Leave_Common_HalfDayMorning 		= "Half Day / Morning";
 	$lang_Leave_Common_HalfDayAfternoon 	= "Half Day / Afternoon";
