@@ -347,8 +347,12 @@ if ($rset != null && $empname != null){ ?>
 
 			$cssClass = ($c%2) ? 'even' : 'odd';			
 	    	echo '<tr class="' . $cssClass . '">';  
-             echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
-
+	    	if ($_SESSION['isAdmin'] == 'No') {
+	    		echo "<td>";
+               echo "</td>";
+	    	} else {
+            	echo "<td><input type='checkbox' class='checkbox' name='chksupdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
+           }
 
 				   ?><td><a href="javascript:viewSup('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				   for($a=0; $empname && $a < count($empname); $a++)
@@ -409,8 +413,12 @@ if ($rset != null && $empname != null){ ?>
 
 			$cssClass = ($c%2) ? 'even' : 'odd';			
 	    	echo '<tr class="' . $cssClass . '">';  
-            echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
-
+	    	if ($_SESSION['isAdmin'] == 'No') {
+	    		echo "<td>";
+               echo "</td>";
+	    	} else {
+            	echo "<td><input type='checkbox' class='checkbox' name='chksubdel[]' value='" . $rset[$c][1] ."|".$rset[$c][2]. "'/></td>";
+           }
 				   $subid=$rset[$c][1];
 				   ?><td><a href="javascript:viewSub('<?php echo $rset[$c][1]?>','<?php echo $rset[$c][2]?>')"><?php echo $rset[$c][4]?></a></td><?php
 				    for($a=0; $empname && $a < count($empname); $a++)
