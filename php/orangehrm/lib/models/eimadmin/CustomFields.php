@@ -45,7 +45,7 @@ class CustomFields {
 	 */
 	private $fieldNumber;
 	private $name;
-	private $fieldType;
+	private $fieldType = self::FIELD_TYPE_STRING;
 	private $extraData;
 
 	/**

@@ -51,27 +51,16 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet; ?>/css/style.css"); </style>
-<style type="text/css">
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 98%;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-</style>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-</head>
 <script  language="javascript" type="text/javascript">
-
+//<![CDATA[
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
 		document.standardView.pageNO.value=i+1;
@@ -167,148 +156,108 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 		var url = "../../plugins/csv/CSVController.php?uniqcode=CSE&download=1&path=<?php echo addslashes(ROOT_PATH) ?>&moduleType=<?php echo  $_SESSION['moduleType'] ?>&repcode=" +  repcode + "&obj=<?php  echo   base64_encode(serialize($PlugInObj))?>";
 	  window.location = url;
 	}
+//]]>    
 </script>
+</head>
 <body>
-<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN">
-	<div class="moduleTitle" style="padding: 6px;"><h2><?php echo $heading[3]; ?></h2></div>
-	<div>
-		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>">
-		<input type="hidden" name="delState" value="">
-		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>">
+<div class="outerbox">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&amp;VIEW=MAIN">
+	<div class="mainHeading"><h2><?php echo $heading[3]; ?></h2></div>
+    <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>"/>
+    <input type="hidden" name="delState" value=""/>
+    <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>"/>
 
-		<div style="padding: 6px;">
-			<?php	
-				if($locRights['add'] && $headingInfo[2] == 1) { ?>
-		        <img 
-					title="Add" 
-					alt="Add" 
-					src="<?php echo $themeDir; ?>/pictures/btn_add.gif"
-					style="border: none;"
-					onclick="returnAdd();" 
-					onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_add.gif';" 
-					onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_add_02.gif';" />
-			<?php	
-				}
-				if($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') { 
-			?>
-       			<img 
-					title="Delete"
-					alt="Delete" 
-					src="<?php echo $themeDir; ?>/pictures/btn_delete.gif"
-					style="border: none" 
-					onclick="returnDelete();" 
-					onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_delete.gif';" 
-					onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_delete_02.gif';" />
-			<?php } ?>
-		</div>
-	</div>
+    <?php 
+    if (isset($this->getArr['message'])) {  
+        $expString  = $this->getArr['message'];
+        $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
+    ?>      
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+    </div>
+    <?php
+    }
+    ?>
+    
+    <div class="searchbox">
+        <label for="loc_code"><?php echo $searchby?></label>
+        <select name="loc_code" id="loc_code">
+            <?php
+            $optionCount = count($srchlist[0]); 
+            for ($c = 0; $optionCount > $c; $c++) {
+                $selected = "";
+                if (isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $srchlist[0][$c]) {
+                    $selected = 'selected="selected"';
+                }
+                echo "<option $selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";                
+            }
+            ?>
+        </select>
+        
+        <label for="loc_name"><?php echo $searchfor; ?></label>
+        <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
+        <input type="button" class="plainbtn" onclick="returnSearch();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();" 
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Clear;?>" />
+        <br class="clear"/>
+    </div>
+        
+    <div class="actionbar">
+        <div class="actionbuttons">
+        <?php if($locRights['add'] && $headingInfo[2] == 1) { ?>
+            <input type="button" class="plainbtn" onclick="returnAdd();"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                value="<?php echo $lang_Common_Add;?>" />          
+            <?php 
+              } 
+              if ($locRights['delete'] && $headingInfo[2] == 1 && isset($message) && $message != '') {                
+            ?>
+                <input type="button" class="plainbtn" onclick="returnDelete();"
+                    onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                    value="<?php echo $lang_Common_Delete;?>" />
+        <?php  } ?>
+        </div>              
+        <div class="noresultsbar"><?php echo (empty($message)) ? $norecorddisplay : '';?></div>
+        <div class="pagingbar">
+        <?php
+            $temp = $this->popArr['temp'];
+            $commonFunc = new CommonFunctions();
+            $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+            $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+    
+            echo $pageStr;
 
-	<?php 
-	/* Show tables only if records are available: Begins */
-	if (isset($message) && $message != '') {
-	?>
-		<div style="width: 98%">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0">
-				<tr>
-					<td width="22%" nowrap><h3><?php echo $search; ?></h3></td>
-					<td width='78%' align="right">
-						<?php
-							if (isset($this->getArr['message'])) {
-							
-								$expString  = $this->getArr['message'];
-								$col_def = CommonFunctions::getCssClassForMessage($expString);
-						?>
-								<span class="<?php echo $col_def?>" style="font-family: Verdana, Arial, Helvetica, sans-serif;"><?php echo $$expString; ?></span>
-						<?php
-							}
-						?>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-				</td>
-		</tr>
-	</table>
-	</div>
-	
-	<div class="roundbox">
-		<table  border="0" cellpadding="5" cellspacing="0" class="">
-			<tr>
-				<td width="200" class="dataLabel">
-					<label for="loc_code" style="float: left; padding-right: 10px;"><?php echo $searchby?></label>
-					<select style="z-index: 99;" name="loc_code">
-					<?php 
-						for($c=0;count($srchlist[0])>$c;$c++) {
-							if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$srchlist[0][$c]) {
-								echo "<option selected value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-							} else {
-								echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-							}
-						}
-					?>
-					</select>
-				</td>
-				<td width="200" class="dataLabel" nowrap="nowrap">
-					<label for="loc_name" ><?php echo $searchfor; ?></label>
-					<input type="text" size="20" name="loc_name" class="dataField"  value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
-				</td>
-				<td align="right" width="180" class="dataLabel">
-					<img 
-						title="Search" 
-						alt="Search" 
-						src="<?php echo $themeDir; ?>/pictures/btn_search.gif" 
-						onclick="returnSearch();" 
-						onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_search_02.gif';" 
-						onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_search.gif';" />
-						
-					<img 
-						title="Clear" 
-						alt="Clear" 
-						src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
-						onclick="clear_form();" 
-						onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
-						onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" />
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div style="padding-top: 4px; width: 98%">
-		<span id="messageDisplay">
-			<?php
-			if (empty($message)) { 
-					echo $dispMessage; 
-			} 
-			?>&nbsp;
-		</span>
-	</div>
-	
-	<div style="text-align: right; padding-top: 4px; width: 98%">
-		<?php
-		$temp = $this->popArr['temp'];
-		$commonFunc = new CommonFunctions();
-		$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
-		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+            for ($j = 0; $j < 11; $j++) {
+                if (!isset($this->getArr['sortOrder'.$j])) {
+                    $this->getArr['sortOrder'.$j] = 'null';
+                }
+            }                   
+        ?>          
+        </div>
+    <br class="clear" />
+    </div>
 		
-		echo $pageStr;
-		?>&nbsp;
-	</div>
-	
-	<div class="roundbox">
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+    <table cellpadding="0" cellspacing="0" class="data-table">
+        <thead>        
 			<tr>
-				<td width="50" NOWRAP class="listViewThS1" scope="col">
+				<td width="50">
 				<?php if($headingInfo[2]==1) { ?>
-					<input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();">
-				<?php	} else {	?>
-					&nbsp;
+					<input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();"/>
 				<?php }?>
 				</td>
-				<td scope="col" width="250" class="listViewThS1"><?php echo $heading[0]?></td>
-				<td scope="col" width="400" class="listViewThS1"><?php echo $heading[1]?></td>
-			    <td scope="col" width="400" class="listViewThS1">&nbsp;</td>
+				<td scope="col"><?php echo $heading[0]?></td>
+				<td scope="col"><?php echo $heading[1]?></td>
+                <td></td>
 			</tr>
+        </thead>
+        <tbody>
 		<?php
 		if ((isset($message)) && ($message !='')) {
 		
-			for ($j=0; $j<count($message);$j++) {
+			for ($j = 0; $j < count($message); $j++) {
 			
 				$descField=$message[$j][1];
 			
@@ -317,7 +266,7 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 					$descField .= "....";
 				}
 				
-				$cssClass = ($j%2) ? 'odd' : 'even';
+				$cssClass = ($j%2) ? 'even' : 'odd';
 		?>
 				<tr>
 					<td class="<?php echo $cssClass; ?>" width="50">
@@ -327,39 +276,34 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 						&nbsp;
 					<?php } ?>
 					</td>
-					<td class="<?php echo $cssClass; ?>" width="250">
-						<a 
-							href="./CentralController.php?id=<?php echo $message[$j][0]?>&repcode=<?php echo $this->getArr['repcode']?>&capturemode=updatemode" 
-							class="listViewTdLinkS1">
-								<?php echo $message[$j][0]?>						</a>					</td>
-					<td class="<?php echo $cssClass; ?>" width="400" >
-						<?php echo $descField?>					</td>
-				    <td class="<?php echo $cssClass; ?>" width="400" ><?php if(trim($_GET['repcode'])  == 'EMPVIEW'   && isset($csvExportRepotsPluginAvailable))  {?><input type="button" class="button" id="btnExport" value="<?php echo $lang_DataExport_Export?>"
-	        	title="<?php echo $lang_DataExport_Export?>" name="btnExport" onclick="exportData('<?php echo $message[$j][0]?>')" />
-				<?php } ?>
-				</td>
+					<td class="<?php echo $cssClass; ?>">
+						<a href="./CentralController.php?id=<?php echo $message[$j][0]?>&amp;repcode=<?php echo $this->getArr['repcode']?>&amp;capturemode=updatemode" 
+							class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
+                    </td>
+					<td class="<?php echo $cssClass; ?>"><?php echo $descField?></td>
+				    <td class="<?php echo $cssClass; ?>">
+                    <?php if(trim($_GET['repcode'])  == 'EMPVIEW' && isset($csvExportRepotsPluginAvailable))  { ?>
+                        <input type="button" class="button" id="btnExport" value="<?php echo $lang_DataExport_Export;?>"
+	        	              title="<?php echo $lang_DataExport_Export?>" name="btnExport" 
+                              onclick="exportData('<?php echo $message[$j][0]?>')" />
+				    <?php } ?>
+				    </td>
 				</tr>
 		<?php 
 			}
 		} 
 		?>
+        </tbody>
 		</table>
-	</div>
-	
-	<?php /* Show tables only if records are available: Ends */
-	} else {
-		echo "<h5>$lang_empview_norecorddisplay</h5>";
-	}
-	?>
+	</div>	
 </form>
-
+</div>
 <script type="text/javascript">
-<!--
-   	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
 </script>
-
 </body>
 </html>

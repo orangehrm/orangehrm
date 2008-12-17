@@ -17,6 +17,8 @@
 * Boston, MA  02110-1301, USA
 */
 
+/*TODO: This file seems to be not in use. TO BE REMOVED */
+
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 

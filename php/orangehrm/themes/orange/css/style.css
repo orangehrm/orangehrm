@@ -332,6 +332,9 @@ div.pimpanel div.actionbar div.actionbuttons {
 /* Start form page styling */
 
 /* Main div for page */
+div.formpageNarrow {
+    width: 350px;
+}
 div.formpage {
 	width: 500px;
 }
@@ -362,9 +365,16 @@ div.requirednotice {
 	float:left;
 }
 
+div.fieldHint {
+	display:block;
+	float:left;
+    margin-left: 10px;
+    font-style: italic;        
+}
+
 /* Form elements */
 label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput, 
-input.fileselect {
+input.fileselect, span.formValue, span.formLabel {
     display: block;
     float: left;
     margin: 10px 0px 2px 0px;
@@ -382,7 +392,7 @@ span.formFieldContainer {
 	margin-left: 10px;
 }
 
-label {
+label, span.formLabel {
     text-align: left;
     width: 110px;
     padding-left: 10px;
@@ -392,18 +402,33 @@ label.optionlabel {
 	margin-right:2px;
 }
 
-select.formSelect, input.formInputText,textarea.formTextArea  {
+select.formSelect, input.formInputText,textarea.formTextArea, span.formValue  {
     margin-left: 10px;
     width: 150px;        
 }
 
-input.formInputText, textarea.formTextArea {
+input.formInputText, textarea.formTextArea, span.formValue {
     padding-left: 4px;
     padding-right: 4px;
 }
 
 textarea.formTextArea {
     width: 250px;
+}
+
+input.longField {
+	width: 300px;
+}
+
+input.empPopupButton, input[type=button].empPopupButton {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;  
+}
+
+select.countrySelect {
+	width:auto;
 }
 
 /* Date input*/
@@ -440,6 +465,17 @@ div.formbuttons {
 	float:none;
 	border-top: 1px solid #FAD163;
 }
+
+div.loading {
+	display: none;
+    text-align:right;
+    background-position: right;
+    background-image: url(../icons/loading.gif);
+    background-repeat: no-repeat;    
+}
+div.loading span {
+    vertical-align:text-top;
+}	
 
 /* End form page styling */
 
@@ -498,6 +534,15 @@ td.rightList {
 	border: 0;
 }
 /* End PIM specific styling */
+
+/* Start generic styling */
+.hide {
+    display:none;
+}
+
+.show {
+    display: block;
+}
 	
 /*------------------------------------------------------------------ End confirmed styles -----------------------------------------------------*/
 	    

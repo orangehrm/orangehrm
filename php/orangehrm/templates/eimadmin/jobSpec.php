@@ -21,9 +21,9 @@ $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $new = true;
 $disabled = '';
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	$formAction="{$formAction}&id={$this->getArr['id']}&capturemode=updatemode";
+	$formAction="{$formAction}&amp;id={$this->getArr['id']}&amp;capturemode=updatemode";
 	$new = false;
-	$disabled = "disabled='true'";
+	$disabled = "disabled='disabled'";
 }
 
 $jobSpec = $this->popArr['jobSpec'];
@@ -34,7 +34,7 @@ $locRights=$_SESSION['localRights'];
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
 //<![CDATA[
@@ -133,7 +133,7 @@ $locRights=$_SESSION['localRights'];
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
 <!--[if lte IE 6]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
@@ -161,7 +161,7 @@ $locRights=$_SESSION['localRights'];
 	 
             <form name="frmJobSpec" id="frmJobSpec" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">    		      	  
 
-		        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>">
+		        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
 				<input type="hidden" id="txtId" name="txtId" value="<?php echo $jobSpec->getId();?>"/><br class="clear"/>
 				<label for="txtFieldName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
 

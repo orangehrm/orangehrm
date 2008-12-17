@@ -44,139 +44,160 @@ if (isset($editArr) && is_array($editArr)) {
 		$notificationObjs[$notificationObj->getNotifcationTypeId()] = $notificationObj;
 	}
 }
+
+$formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&amp;id=1";
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $lang_Admin_SubscribeToMailNotifications; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script language="JavaScript" type="text/javascript">
-  function validate() {
-		error = false;
-		mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z])$/;
-		obj = $('txtMailAddress');
+<script type="text/javascript">
+//<![CDATA[
 
-		if (!checkEmail(obj.value)) {
-			error = true;
-			alert('<?php echo $lang_Error_InvalidEmail; ?>')
-		}
+    var editMode = false;
+       
+    function validate() {
+        error = false;
+        mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z])$/;
+        obj = $('txtMailAddress');
 
-		if (!error) {
-			$('sqlState').value = 'UpdateRecord';
-			$('mailSubscription').submit();
-		}
-	}
+        if (!checkEmail(obj.value)) {
+            error = true;
+            alert('<?php echo $lang_Error_InvalidEmail; ?>')
+        }
 
-	function $(id) {
-		return document.getElementById(id);
-	}
+        if (!error) {
+            $('sqlState').value = 'UpdateRecord';
+            $('mailSubscription').submit();
+        }
+    }
+
+       
+    function validate() {
+        var err = false;
+        var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
+
+        var mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z])$/;
+        obj = $('txtMailAddress');
+
+        if (!checkEmail(obj.value)) {
+            err = true;
+            msg += "\t- <?php echo $lang_Error_InvalidEmail; ?>\n";
+        }
+
+        if (err) {
+            alert(msg);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function reset() {
+        $('mailSubscription').reset();
+    }
+
+    function edit() {
+
+<?php if($locRights['edit']) { ?>
+        if (editMode) {
+            if (validate()) {
+                $('mailSubscription').submit();
+            }
+            return;
+        }
+        editMode = true;
+        var frm = $('mailSubscription');
+
+        for (var i=0; i < frm.elements.length; i++) {
+            frm.elements[i].disabled = false;
+        }
+        $('editBtn').value="<?php echo $lang_Common_Save; ?>";
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').className = "savebutton";
+
+<?php } else {?>
+        alert('<?php echo $lang_Common_AccessDenied;?>');
+<?php } ?>
+    }
+    
+//]]>
 </script>
-
-<style type="text/css">
-@import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
-
-.style1 {color: #FF0000}
-
-.hide {
-	display:none;
-}
-
-.show {
-	display: table-row;
-}
-
-.roundbox {
-	margin-top: 50px;
-	margin-left: 0px;
-	padding: 0 10px;
-
-}
-
-.roundbox_content {
-	padding:15px;
-}
-
-input[type=checkbox] {
-	border:none;
-}
-</style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
 <body>
-<h2><?php echo $lang_Admin_SubscribeToMailNotifications; ?><hr/></h2>
-<?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
-	if (isset($message)) {
-		$col_def = CommonFunctions::getCssClassForMessage($message);
-		$message = "lang_Common_" . $message;
-?>
-<div class="message">
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-		<?php echo (isset($$message)) ? $$message: ""; ?>
-	</font>
-</div>
-<?php }	?>
-	
-<form name="mailSubscription" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=ENS&capturemode=updatemode&id=1" method="post" onsubmit="validate(); return false;" >
-<input type="hidden" name="sqlState" id="sqlState" />
-  <table border="0" cellpadding="0" cellspacing="0">
-  	<thead>
-      <tr>
-        <th class="tableTopLeft"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopRight"></th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr>
-    	<td class="tableMiddleLeft"></td>
-        <td>
-        	<label><?php echo $lang_Commn_Email; ?>
-  				<input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $notificationEmail; ?>"/>
-  			</label>
-  		</td>
-  		<td class="tableMiddleRight"></td>
-      </tr>
-      <?php
-      	$i=0;
-      	foreach ($allNotifications as $notificationType=>$notificationName) {
-      		$checked = "checked='checked'";
-      		if (isset($notificationObjs[$notificationType])) {
-      			$notificationStatus = $notificationObjs[$notificationType]->getNotificationStatus();
+   <div class="formpageNarrow">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Admin_SubscribeToMailNotifications;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+     
+            <form name="mailSubscription" id="mailSubscription" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
 
-      			if ($notificationStatus == 0) {
-      				$checked = "";
-      			}
-      		}
-      ?>
-      <tr>
-      	<td class="tableMiddleLeft"></td>
-        <td>
-        	<label>
-			<input type="hidden" name="notificationMessageId[<?php echo $i; ?>]" value="<?php echo $notificationType; ?>" />
-			<input type="hidden" name="notificationMessageStatus[<?php echo $i; ?>]" value="0" />
-			<input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]" value="1" />
-				<?php echo $notificationName; ?></label>
-		</td>
-      	<td class="tableMiddleRight"></td>
-      </tr>
+                <input type="hidden" name="sqlState" value="UpdateRecord"/> 
+                <label for="txtMailAddress"><?php echo $lang_Commn_Email; ?></label>
+                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText" 
+                    value="<?php echo $notificationEmail; ?>" disabled="disabled"/>                                          
+                <br class="clear"/>
+                    
       <?php
-      	$i++;
-      	}
+        $i=0;
+        foreach ($allNotifications as $notificationType=>$notificationName) {
+            $checked = "checked='checked'";
+            if (isset($notificationObjs[$notificationType])) {
+                $notificationStatus = $notificationObjs[$notificationType]->getNotificationStatus();
+
+                if ($notificationStatus == 0) {
+                    $checked = "";
+                }
+            }
       ?>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="tableBottomLeft"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomRight"></td>
-      </tr>
-    </tfoot>
-  </table>
-<input type="image" name="btnAct" src="../../themes/beyondT/pictures/btn_save.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-style="border:none;"/>
-</form>
+            <label for="txtSkillName"><?php echo $notificationName; ?></label>            
+            <input type="hidden" name="notificationMessageId[<?php echo $i; ?>]" value="<?php echo $notificationType; ?>" />
+            <input type="hidden" name="notificationMessageStatus[<?php echo $i; ?>]" value="0" />
+            <input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]" 
+                value="1" class="formCheckbox" disabled="disabled"/>
+            <br class="clear"/>            
+      <?php
+        $i++;
+        }
+      ?>
+
+
+                <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                    <input type="button" class="editbutton" id="editBtn" 
+                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Edit;?>" />
+                    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>                         
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
+        <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    </div>
 </body>
 </html>

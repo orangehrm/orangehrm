@@ -50,6 +50,13 @@ function getNextSortOrder($curSortOrder) {
 	}
 }
 
+$GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
+$GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
+
+function nextSortOrderInWords($sortOrder) {
+    return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
+}
+    
 function getSortOrderInWords($SortOrder) {
 	if ($SortOrder == 'ASC') {
 		return 'Ascending';
@@ -84,28 +91,17 @@ $themeDir = '../../themes/' . $styleSheet;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="<?php echo $themeDir;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("<?php echo $themeDir;?>/css/style.css"); </style>
-<style type="text/css">
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 98%;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-</style>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script type="text/javascript" src="../../scripts/archive.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-</head>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
-
+//<![CDATA[
 	// Maps to allow searching of mapped values
     var maps = new Array();
 <?php
@@ -244,126 +240,93 @@ for ($i = 0; $i < count($valueMap); $i++) {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
+//]]>     
 </script>
+</head>
 <body>
-<form name="standardView" id="standardView" method="post" action="<?php echo $baseURL;?>&action=<?php echo $this->getArr['action'];?>&sortField=<?php echo $this->getArr['sortField']?>&sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']];?>">
-	<div class="moduleTitle" style="padding: 6px;"><h2><?php echo$title; ?></h2></div>
-	<div>
-		<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
-		<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
-		<div style="padding: 6px;">
-		<?php	if($allowAdd) { ?>
-		<img
-			style="border: none"
-			title="Add"
-			alt="Add"
-			src="<?php echo $themeDir;?>/pictures/btn_add.gif"
-			onclick="returnAdd();"
-			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_add.gif';"
-			onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_add_02.gif';" />
-		<?php	} ?>
+<div class="outerbox">
+<form name="standardView" id="standardView" method="post" action="<?php echo $baseURL;?>&amp;action=<?php echo $this->getArr['action'];?>&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']];?>">
+	<div class="mainHeading" style="padding: 6px;"><h2><?php echo $title; ?></h2></div>
+    <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
+    <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
 
-		<?php if($allowDelete) { ?>
-		<img
-			style="border: none"
-	   		title="Delete"
-	   		alt="Delete"
-			src="<?php echo $themeDir;?>/pictures/btn_delete.gif"
-			onclick="returnDelete();"
-			onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_delete.gif';"
-			onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_delete_02.gif';" />
-		<?php } ?>
-		</div>
-	</div>
+    <?php 
+    if (isset($this->getArr['message'])) {  
+        $expString  = $this->getArr['message'];
+        $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
+    ?>      
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+    </div>
+    <?php
+    }
+    ?>
+    
+    <div class="searchbox">
+        <label for="loc_code"><?php echo $searchby?></label>
+        <select name="loc_code" id="loc_code">
+            <?php
+            $optionCount = count($srchlist); 
+            for ($c = -1; $optionCount - 1 > $c; $c++) {
+                $selected = "";
+                if(isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $c) {
+                    $selected = 'selected="selected"';
+                }
+                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";                
+            }
+            ?>
+        </select>
+        
+        <label for="loc_name"><?php echo $description?></label>
+        <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo $searchStr;?>" />
+        <input type="button" class="plainbtn" onclick="returnSearch();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();" 
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Clear;?>" />
+        <br class="clear"/>
+    </div>
+    
+    <div class="actionbar">
+        <div class="actionbuttons">
+        <?php if ($allowAdd) { ?>
+            <input type="button" class="plainbtn" onclick="returnAdd();"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                value="<?php echo $lang_Common_Add;?>" />          
+        <?php   } ?>
+            <?php if ($allowDelete) { ?>
+                <input type="button" class="plainbtn" onclick="returnDelete();"
+                    onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                    value="<?php echo $lang_Common_Delete;?>" />
+        <?php   } ?>                    
+        </div>              
+        <div class="noresultsbar"><?php echo (empty($list)) ? $norecorddisplay : '';?></div>
+        <div class="pagingbar">
+        <?php
+            $temp = $this->popArr['count'];
+            $commonFunc = new CommonFunctions();
+            $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+            $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+    
+            echo $pageStr;
 
-	<div style="width: 98%">
-		<table width="100%" cellpadding="0" cellspacing="0" border="0">
-			<tr>
-				<td width="22%" style="white-space: nowrap"><h3><?php echo $search?></h3></td>
-				<td width='78%' align="right">
-				<?php
-					if (isset($this->getArr['message'])) {
+            /*for ($j = 0; $j < 11; $j++) {
+                if (!isset($this->getArr['sortOrder'.$j])) {
+                    $this->getArr['sortOrder'.$j] = 'null';
+                }
+            } */                  
+        ?>          
+        </div>
+    <br class="clear" />
+    </div>    
 
-						$expString  = $this->getArr['message'];
-						$col_def = CommonFunctions::getCssClassForMessage($expString);
-				?>
-						<span class="<?php echo $col_def?>" style="font-family: Verdana, Arial, Helvetica, sans-serif;"><?php echo $$expString; ?></span>
-				<?php
-					}
-				?>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div class="roundbox">
-		<table  border="0" cellpadding="5" cellspacing="0" class="">
-			<tr>
-				<td width="200" class="dataLabel">
-					<label for="loc_code" style="float: left; padding-right: 10px;"><?php echo $SearchBy?></label>
-					<select style="z-index: 99;" name="loc_code" id="loc_code">
-					<?php
-						for($c=-1;count($srchlist)-1>$c;$c++) {
-							if(isset($this->postArr['loc_code']) && $this->postArr['loc_code']==$c) {
-								echo "<option selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
-							} else {
-								echo "<option value='" . $c ."'>".$srchlist[$c+1] ."</option>";
-							}
-						}
-					?>
-					</select>
-				</td>
-				<td width="300" class="dataLabel" style="white-space: nowrap">
-					<label for="loc_name" style="float: left; padding-right: 10px;"><?php echo $description?></label>
-					<input type="text" size="20" name="loc_name" id="loc_name" class="dataField"  value="<?php echo $searchStr;?>" />
-				</td>
-				<td align="right" width="180" class="dataLabel">
-					<img
-						title="Search"
-						alt="Search"
-						src="<?php echo $themeDir;?>/pictures/btn_search.gif"
-						onclick="returnSearch();"
-						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_search_02.gif';"
-						onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_search.gif';" />
-					<img
-						title="Clear"
-						alt="Clear"
-						src="<?php echo $themeDir;?>/pictures/btn_clear.gif"
-						onclick="clear_form();"
-						onmouseover="this.src='<?php echo $themeDir;?>/pictures/btn_clear_02.gif';"
-						onmouseout="this.src='<?php echo $themeDir;?>/pictures/btn_clear.gif';" />
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div style="padding-top: 4px; width: 98%">
-		<span id="messageDisplay">
-			<?php
-			if (empty($list)) {
-					echo $dispMessage;
-			}
-			?>&nbsp;
-		</span>
-	</div>
-
-	<div style="text-align: right; padding-top: 4px; width: 98%">
-		<?php
-		$temp = $this->popArr['count'];
-		$commonFunc = new CommonFunctions();
-		$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
-		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-
-		echo $pageStr;
-		?>&nbsp;
-	</div>
-
-	<div class="roundbox">
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-		  <tr style="white-space: nowrap">
-			<td width="50" nowrap="nowrap" class="listViewThS1" scope="col">
-				<?php	if($allowDelete) { ?>
+    <br class="clear" />                               
+    <table cellpadding="0" cellspacing="0" class="data-table">
+        <thead>
+        <tr>
+			<td width="50">
+				<?php if ($allowDelete) { ?>
 					<input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
 				<?php	} else {	?>
 					&nbsp;
@@ -374,33 +337,33 @@ for ($i = 0; $i < count($valueMap); $i++) {
 					if (!isset($this->getArr['sortOrder'.$j])) {
 						$this->getArr['sortOrder'.$j] = 'null';
 					}
-					$nextSortOrder = getNextSortOrder($this->getArr['sortOrder'.$j]);
-					$nextSortInWords = getSortOrderInWords($nextSortOrder);
+                    $sortOrder = $this->getArr['sortOrder'.$j];
+					$nextSortOrder = getNextSortOrder($sortOrder);
+					$nextSortInWords = nextSortOrderInWords($sortOrder);
 			?>
-					<td scope="col" width="250" class="listViewThS1">
-						<a
-							href="#"
+					<td scope="col">
+						<a	href="#" class="<?php echo $sortOrder;?>"
 							onclick="sortAndSearch(<?php echo $j?>, '<?php echo $nextSortOrder;?>');"
-							title="Sort in <?php echo $nextSortInWords; ?> order">
+							title="<?php echo $nextSortInWords; ?>">
 								<?php echo $headings[$j]?>
 						</a>
-						<img
-							src="<?php echo $themeDir;?>/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png"
-							style="width: 8px; height:10px; border: none; vertical-align: middle" />
 					</td>
 			<?php
 				}
 			?>
 			</tr>
+        </thead>
+        <tbody>
 			<?php
 				if ((isset($list)) && ($list !='')) {
 					for ($j=0; $j < count($list);$j++) {
 						$cssClass = ($j%2) ? 'even' : 'odd';
+                        $detailsUrl = $baseURL . '&amp;id='. $list[$j][0] . '&amp;action=View';                        
 			?>
 						<tr>
-							<td class="<?php echo $cssClass?>" width="50">
+							<td class="<?php echo $cssClass?>">
 							<?php
-								if($allowDelete) {
+								if ($allowDelete) {
 									if (CommonFunctions::extractNumericId($list[$j][0]) > 0) {
 							?>
 										<input type='checkbox' class='checkbox' name='chkID[]' value='<?php echo $list[$j][0]?>' />
@@ -409,40 +372,36 @@ for ($i = 0; $i < count($valueMap); $i++) {
 									&nbsp;
 							<?php 	}  ?>
 							</td>
-						<td class="<?php echo $cssClass?>" width="250">
-							<a href="<?php echo $baseURL . '&id='. $list[$j][0];?>&amp;action=View" class="listViewTdLinkS1"><?php echo $list[$j][0]?></a>
+						<td class="<?php echo $cssClass?>">
+							<a href="<?php echo $detailsUrl;?>"><?php echo $list[$j][0]?></a>
 						</td>
 						<?php
-							$k =	1;
-							if ($k < count($headings)) {
-								$descField = getDisplayValue($list[$j][$k], $valueMap[$k], $maxDispLen);
-							}
-						?>
-						<td class="<?php echo $cssClass?>" width="400" >
-							<a href="<?php echo $baseURL . '&id='. $list[$j][0];?>&amp;action=View" class="listViewTdLinkS1"><?php echo $descField?></a>
-						</td>
-						<?php
-							for ($k=2; $k < count($headings); $k++) {
+							for ($k = 1; $k < count($headings); $k++) {
 								$descField = getDisplayValue($list[$j][$k], $valueMap[$k], $maxDispLen);
 						?>
-							<td class="<?php echo $cssClass?>" width="400" ><?php echo $descField?></td>
+							<td class="<?php echo $cssClass?>">
+                            <?php if ($k == 1) { 
+                                      echo "<a href='{$detailsUrl}'>{$descField}</a>";
+                                  } else {
+                                      echo $descField;
+                                  } ?>                                                          
+                            </td>
 						<?php } ?>
 						</tr>
 					<?php
 					}
 				}
 			?>
+            </tbody>
 		</table>
-	</div>
 </form>
-
+</div>
 <script type="text/javascript">
-<!--
-   	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
 </script>
-
 </body>
 </html>

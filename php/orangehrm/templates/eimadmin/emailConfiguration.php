@@ -21,231 +21,186 @@
 require_once($lan->getLangPath("full.php"));
 
 $locRights  = $_SESSION['localRights'];
-$styleSheet = $_SESSION['styleSheet'];
-
 $editArr = $this->popArr['editArr'];
+$formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $lang_Admin_EMX_MailConfiguration; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); .style1 {color: #FF0000}
-
-.hide {
-	display:none;
-}
-
-.show {
-	display: table-row;
-}
-</style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" >
-	function changeMailType() {
- 		value = $('txtMailType').value;
- 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2'];
+<script type="text/javascript">
+//<![CDATA[
 
- 		for (i=0; i<panels.length; i++) {
- 			$(panels[i]).className = 'hide';
- 		}
+    var editMode = false;
 
- 		switch (value) {
- 			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
- 																					 break;
- 			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
- 																					 $(panels[2]).className = 'show';
- 																					 break;
- 		}
-	}
+    function validate() {
+        var errors = new Array();
+        var error = false;
 
-	function edit() {
-		btnEdit = $('btnEdit');
+        var email = $('txtMailAddress');
+        if (!checkEmail(email.value)) {
+            error = true;
+            errors.push('<?php echo $lang_Error_InvalidEmail; ?>');
+        }
 
-		if (btnEdit.title == 'Edit') {
+        var port = $('txtSmtpPort');
+        if ( !numbers(port) || ((port <= 0) || (port > 65535))) {
+            error = true;
+            errors.push('<?php echo $lang_Error_Invalid_Port; ?>');
+        }
 
-			btnEdit.title = 'Save';
-			btnEdit.src = '../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif';
+        if (error) {
+            errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
+            for (i in errors) {
+                errStr += " - "+errors[i]+"\n";
+            }
+            alert(errStr);
+            return false;
 
-			emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass');
+        } else  {
+            return true;
+        }
+    } 
 
-			for (i in emailConfigControls) {
-				$(emailConfigControls[i]).disabled = false;
-			}
+    function reset() {
+        $('frmEmailConfig').reset();
+    }
 
-		} else {
-			validate();
-		}
-	}
+    function edit() {
 
-	function validate() {
-		var errors = new Array();
-		var error = false;
+<?php if($locRights['edit']) { ?>
+        if (editMode) {
+            if (validate()) {
+                $('frmEmailConfig').submit();
+            }
+            return;
+        }
+        editMode = true;
 
-		var email = $('txtMailAddress');
-		if (!checkEmail(email.value)) {
-			error = true;
-			errors.push('<?php echo $lang_Error_InvalidEmail; ?>');
-		}
+        var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass');
 
-		var port = $('txtSmtpPort');
-		if ( !numbers(port) || ((port <= 0) || (port > 65535))) {
-			error = true;
-			errors.push('<?php echo $lang_Error_Invalid_Port; ?>');
-		}
+        for (i in emailConfigControls) {
+            $(emailConfigControls[i]).disabled = false;
+        }
+            
+        $('editBtn').value="<?php echo $lang_Common_Save; ?>";
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').className = "savebutton";
 
-		if (error) {
-			errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
-			for (i in errors) {
-				errStr += " - "+errors[i]+"\n";
-			}
-			alert(errStr);
-			return false;
+<?php } else {?>
+        alert('<?php echo $lang_Common_AccessDenied;?>');
+<?php } ?>
+    }
 
-		} else  {
-			$('sqlState').value = 'UpdateRecord';
-			$('frmEmailConfig').submit();
-			return true;
-		}
-	}
+    function changeMailType() {
+        value = $('txtMailType').value;
+        panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2'];
 
-	function $(id) {
-		return document.getElementById(id);
-	}
+        for (i=0; i<panels.length; i++) {
+            $(panels[i]).className = 'hide';
+        }
 
-	function mout() {
-	var Edit = $("btnEdit");
-
-	if(Edit.title=='Save')
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save.gif';
-	else
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif';
-}
-
-function mover() {
-	var Edit = $("btnEdit");
-
-	if(Edit.title=='Save')
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_save_02.gif';
-	else
-		Edit.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit_02.gif';
-}
+        switch (value) {
+            case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
+                                                                                     break;
+            case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
+                                                                                     $(panels[2]).className = 'show';
+                                                                                     break;
+        }
+    }
+//]]>
 </script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+</head>
 <body>
-<h2><?php echo $lang_Admin_EMX_MailConfiguration; ?><hr/></h2>
-<form id="frmEmailConfig" name="frmEmailConfig" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?uniqcode=EMX&id=1" onsubmit="validate(); return false;">
-<input type="hidden" name="sqlState" id="sqlState" />
-  <table border="0" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th class="tableTopLeft"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-        <th class="tableTopRight"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="tableMiddleLeft"></td>
-        <td><?php echo $lang_MailFrom; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtMailAddress" id="txtMailAddress" value="<?php echo $editArr->getMailAddress();?>" disabled /></td>
-        <td width="25px">&nbsp;</td>
-		<td><?php echo $lang_MailSendingMethod; ?></td>
-		<td width="25px">&nbsp;</td>
-		<td><select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();" disabled>
-				<option value="0">-- Select --</option>
-				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected': ''?> ><?php echo $lang_MailTypes_Sendmailer; ?></option>
-				<option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected': ''?> ><?php echo $lang_MailTypes_Smtp; ?></option>
-		  </select></td>
-        <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-	  <!-- Sendmail -->
-	  <tr id="sendmailDetails">
-        <td class="tableMiddleLeft"></td>
-        <td><?php echo $lang_SendmailPath; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSendmailPath" id="txtSendmailPath" value="<?php echo $editArr->getSendmailPath();?>" disabled /></td>
-        <td width="25px">&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="25px">&nbsp;</td>
-		<td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-	  <!-- SMTP -->
-	  <tr id="smtpDetails1">
-        <td class="tableMiddleLeft"></td>
-        <td><?php echo $lang_SmtpHost; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSmtpHost" id="txtSmtpHost" value="<?php echo $editArr->getSmtpHost();?>" disabled /></td>
-        <td width="25px">&nbsp;</td>
-		<td><?php echo $lang_SmtpPort; ?></td>
-		<td width="25px">&nbsp;</td>
-		<td><input type="text" name="txtSmtpPort" id="txtSmtpPort" value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled /></td>
-        <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-	  <tr id="smtpDetails2">
-        <td class="tableMiddleLeft"></td>
-        <td><?php echo $lang_SmtpUser; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td><input type="text" name="txtSmtpUser" id="txtSmtpUser" value="<?php echo $editArr->getSmtpUser();?>" disabled /></td>
-        <td width="25px">&nbsp;</td>
-		<td><?php echo $lang_SmtpPassword; ?></td>
-		<td width="25px">&nbsp;</td>
-		<td><input type="password" name="txtSmtpPass" id="txtSmtpPass" value="<?php echo $editArr->getSmtpPass();?>" disabled /></td>
-        <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-	  <tr>
-        <td class="tableMiddleLeft"></td>
-        <td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-		<td>&nbsp;</td>
-		<td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td width="25px">
-			<?php
-			   if($locRights['edit']) { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onclick="edit(); return false;" />
-<?php			} else { ?>
-			        <input type="image" class="button1" id="btnEdit" src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>'); return false;" />
-<?php			}  ?></td>
-        <td class="tableMiddleRight"></td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="tableBottomLeft"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomRight"></td>
-      </tr>
-    </tfoot>
-  </table>
-  <script type="text/javascript">
-  	changeMailType();
-  </script>
-</form>
+    <div class="formpage2col">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Admin_EMX_MailConfiguration;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+     
+            <form name="frmEmailConfig" id="frmEmailConfig" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
+                <input type="hidden" name="sqlState" id="sqlState" value="UpdateRecord"/>
+                <label for="txtMailAddress"><?php echo $lang_MailFrom; ?></label>                     
+                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText" 
+                    value="<?php echo $editArr->getMailAddress();?>" disabled="disabled" />
+        
+                <label for="txtMailType"><?php echo $lang_MailSendingMethod; ?></label>
+                <select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();" 
+                         class="formSelect" disabled="disabled">
+                    <option value="0">-- <?php echo $lang_Common_Select;?> --</option>
+                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" 
+                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected="selected"': ''?> 
+                        ><?php echo $lang_MailTypes_Sendmailer; ?></option>
+                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" 
+                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected="selected"': ''?> 
+                        ><?php echo $lang_MailTypes_Smtp; ?></option>
+                </select>
+                <br class="clear"/>
+                      
+                <!-- Sendmail -->
+                <div id="sendmailDetails">
+                    <label for="txtSendmailPath"><?php echo $lang_SendmailPath; ?></label>                     
+                    <input type="text" name="txtSendmailPath" id="txtSendmailPath" class="formInputText" 
+                        value="<?php echo $editArr->getSendmailPath();?>" disabled="disabled" />
+                    <br class="clear"/>                        
+                </div>
+                
+                <!-- SMTP -->
+                <div id="smtpDetails1">
+                    <label for="txtSmtpHost"><?php echo $lang_SmtpHost; ?></label>
+                    <input type="text" name="txtSmtpHost" id="txtSmtpHost"  class="formInputText"
+                        value="<?php echo $editArr->getSmtpHost();?>" disabled="disabled" />
+                    <label for="txtSmtpPort"><?php echo $lang_SmtpPort; ?></label>
+                    <input type="text" name="txtSmtpPort" id="txtSmtpPort" class="formInputText"
+                        value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled="disabled" />
+                    <br class="clear"/>                        
+                </div>
+                
+                <div id="smtpDetails2">
+                    <label for="txtSmtpUser"><?php echo $lang_SmtpUser; ?></label>
+                    <input type="text" name="txtSmtpUser" id="txtSmtpUser" class="formInputText"
+                        value="<?php echo $editArr->getSmtpUser();?>" disabled="disabled" />
+                        
+                    <label for="txtSmtpPass"><?php echo $lang_SmtpPassword; ?></label>
+                    <input type="password" name="txtSmtpPass" id="txtSmtpPass" class="formInputText"
+                        value="<?php echo $editArr->getSmtpPass();?>" disabled="disabled" />
+                    <br class="clear"/>
+                </div>                  
+
+                <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                    <input type="button" class="editbutton" id="editBtn" 
+                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Edit;?>" />
+<?php } ?>                         
+                </div>
+            </form>
+        </div>
+        
+        <script type="text/javascript">
+        //<![CDATA[
+            changeMailType();
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
+        <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    </div>
 </body>
 </html>

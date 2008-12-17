@@ -159,14 +159,14 @@ class CommonFunctions {
 	 * @param string $message The message
 	 * @return string css class
 	 */
-	public static function getCssClassForMessage($message) {
+	public static function getCssClassForMessage($message, $default='') {
 		$class = null;
 
 		if (!empty($message)) {
 			$expString = explode("_", $message);
 			$class = array_pop($expString);
 		}
-		return empty($class) ? "" : strtolower($class);
+		return empty($class) ? $default : strtolower($class);
 	}
 
 	/**

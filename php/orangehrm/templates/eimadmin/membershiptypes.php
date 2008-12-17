@@ -17,285 +17,152 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA  02110-1301, USA
 */
 
-
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
 
-	$sysConst = new sysConf();
-	$locRights=$_SESSION['localRights'];
+$locRights=$_SESSION['localRights'];   
+   
+$formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
+$new = true;
+$disabled = '';
+$membershipTypeId = '';
+$membershipTypeName = '';    
 
-
-	if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+    $formAction="{$formAction}&amp;id={$this->getArr['id']}&amp;capturemode=updatemode";
+    $new = false;
+    $disabled = "disabled='disabled'";
+    $editData = $this->popArr['editArr'];
+    $membershipTypeId = $editData[0][0];
+    $membershipTypeName = $editData[0][1];    
+}
 
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript">
+//<![CDATA[
 
-	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-	}
+    var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
-	function addSave() {
+    function goBack() {
+        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+    }
+      
+    function validate() {
+        var err = false;
+        var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
+        var errors = new Array();
 
-		if (document.frmMembershipTypes.txtMemTypeDescription.value == '') {
-			alert ('<?php echo $lang_membershiptypes_NameShouldBeSpecified; ?>');
-			return false;
-		}
+        var desc = trim($('txtMemTypeDescription').value);
 
-		document.frmMembershipTypes.sqlState.value = "NewRecord";
-		document.frmMembershipTypes.submit();
-	}
+        if (desc == '') {
+            err = true;
+            msg += "\t- <?php echo $lang_membershiptypes_NameShouldBeSpecified; ?>\n";
+        }
 
-	function clearAll() {
-		document.frmMembershipTypes.txtMemTypeDescription.value = '';
-	}
-</script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'></td>
-    <td width='100%'><h2><?php echo $lang_membershiptypes_heading; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmMembershipTypes" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
- <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="sqlState" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
+        if (err) {
+            alert(msg);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
+    function reset() {
+        $('frmMembershipTypes').reset();
+    }
 
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr>
-						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
-						    <td><textarea name='txtMemTypeDescription' rows="3" tabindex='3' cols="30"></textarea></td>
-						  </tr>
-					  <tr><td></td><td align="right" width="100%"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td></tr>
+    function edit() {
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</form>
-</form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</body>
-</html>
-<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	$message = $this->popArr['editArr'];
-?>
+<?php if($locRights['edit']) { ?>
+        if (editMode) {
+            if (validate()) {
+                $('frmMembershipTypes').submit();
+            }
+            return;
+        }
+        editMode = true;
+        var frm = $('frmMembershipTypes');
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script>
-function alpha(txt)
-{
-var flag=true;
-var i,code;
+        for (var i=0; i < frm.elements.length; i++) {
+            frm.elements[i].disabled = false;
+        }
+        $('editBtn').value="<?php echo $lang_Common_Save; ?>";
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').className = "savebutton";
 
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if((code>=65 && code<=122) || code==32 || code==46)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-function numeric(txt)
-{
-var flag=true;
-var i,code;
-
-if(txt.value=="")
-   return false;
-
-for(i=0;txt.value.length>i;i++)
-	{
-	code=txt.value.charCodeAt(i);
-    if(code>=48 && code<=57)
-	   flag=true;
-	else
-	   {
-	   flag=false;
-	   break;
-	   }
-	}
-return flag;
-}
-
-	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-	}
-
-function mout() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function mover() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		addUpdate();
-		return;
-	}
-
-	var frm=document.frmMembershipTypes;
-
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.Edit.title="Save";
-}
-
-
-	function addUpdate() {
-
-		if (document.frmMembershipTypes.txtMemTypeDescription.value == '') {
-			alert ('<?php echo $lang_membershiptypes_NameShouldBeSpecified; ?>');
-			return false;
-		}
-
-		document.frmMembershipTypes.sqlState.value = "UpdateRecord";
-		document.frmMembershipTypes.submit();
-	}
-
-	function clearAll() {
-		if(document.Edit.title!='Save')
-			return;
-
-			document.frmMembershipTypes.txtMemTypeDescription.value = '';
-	}
-</script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'></td>
-    <td width='100%'><h2><?php echo $lang_membershiptypes_heading; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmMembershipTypes" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
-
-  <tr>
-    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';" src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="sqlState" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      <?php
-
-      	if ((isset($message)) && ($message != '')) {
-
-      		if ($message == 1) {
-
-      			$message = "Successfully Added ! ";
-      			echo $message;
-      		}
-      	}
-	 ?>
-      </font> </td>
-  </tr><td width="177">
-</table>
-
-           <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr>
-							    <td><?php echo $lang_Commn_code; ?></td>
-							    <td> <input type="hidden" name="txtMemTypeID" value=<?php echo $message[0][0]?>> <strong><?php echo $message[0][0]?></strong> </td>
-							  </tr>
-						  <tr>
-						    <td nowrap valign="top"><span class="error">*</span> <?php echo $lang_Commn_name; ?></td>
-						  	<td> <textarea name='txtMemTypeDescription' disabled rows="3" tabindex='3' cols="30"><?php echo $message[0][1]?></textarea></td>
-						  </tr>
-  					  <tr><td></td><td align="right" width="100%">
-<?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
-<?php			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
-</td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</form>
-</form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</body>
-</html>
+<?php } else {?>
+        alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
+    }
+    
+//]]>
+</script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+</head>
+
+<body>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_membershiptypes_heading;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+     
+            <form name="frmMembershipTypes" id="frmMembershipTypes" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
+
+                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>                
+                <?php if (!$new) { ?>
+                    <label for="txtMemTypeID"><?php echo $lang_Commn_code; ?></label>
+                    <input type="hidden" id="txtMemTypeID" name="txtMemTypeID" value="<?php echo $membershipTypeId;?>"/>
+                    <span class="formValue"><?php echo $membershipTypeId;?></span><br class="clear"/>
+                <?php } ?>
+                
+                <label for="txtMemTypeDescription"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <textarea id="txtMemTypeDescription" name="txtMemTypeDescription" tabindex="1" rows="3" cols="30" 
+                    class="formTextArea" <?php echo $disabled;?>><?php echo $membershipTypeName; ?></textarea>
+                <br class="clear"/>
+
+                <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
+                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
+                    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>                         
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
+        <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    </div>
+</body>
+</html>

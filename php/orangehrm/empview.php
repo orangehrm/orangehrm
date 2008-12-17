@@ -250,13 +250,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 					<input type="button" class="plainbtn"
 					<?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
 						onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-						value="Add" />			
+						value="<?php echo $lang_Common_Add;?>" />			
 	
 					<?php if($this->getArr['reqcode']=='EMP') { ?>
 						<input type="button" class="plainbtn"
 						<?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
 							onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-							value="Delete" />			
+							value="<?php echo $lang_Common_Delete;?>" />			
 	
 					<?php } ?>
 				</div>				

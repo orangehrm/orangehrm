@@ -450,7 +450,8 @@
 	$lang_geninfo_taxID 					= "Tax ID";
 	$lang_geninfo_naics 					= "NAICS";
 	$lang_geninfo_err_CompanyName 			= "Company name cannot be blank";
-	$lang_geninfo_err_Phone 				= "Not a valid phone/fax number";
+    $lang_geninfo_err_Phone                 = "Not a valid phone number";
+    $lang_geninfo_err_Fax                   = "Not a valid fax number";
 
  	$lang_hierarchydef_heading 				= "Hierarchy Information : Company Information";
 

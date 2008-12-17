@@ -27,8 +27,8 @@ require_once($lan->getLangPath("full.php"));
 
 $Previous = $lang_empview_previous;
 $Next     = $lang_empview_next;
-$dispMessage = "$lang_empview_norecorddisplay!";
-$SearchBy = $lang_empview_searchby;
+$norecorddisplay = "$lang_empview_norecorddisplay!";
+$searchby = $lang_empview_searchby;
 $description = $lang_empview_description;
 $search = $lang_empview_search;
 $ADD_SUCCESS = $lang_empview_ADD_SUCCESS;

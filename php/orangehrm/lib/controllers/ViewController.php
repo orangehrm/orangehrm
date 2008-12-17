@@ -3190,8 +3190,10 @@ class ViewController {
 			case 'CTM' :	$form_creator->formPath = '/templates/eimadmin/customFields.php';
 
 							$form_creator ->popArr['available'] = CustomFields::getAvailableFieldNumbers();
-							if($getArr['capturemode'] == 'updatemode') {
+							if ($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = CustomFields::getCustomField($getArr['id']);
+							} else {
+							    $form_creator ->popArr['editArr'] = new CustomFields();
 							}
 							break;
 

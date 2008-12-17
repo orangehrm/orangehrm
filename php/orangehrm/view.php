@@ -32,7 +32,8 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 	}
 
 	$readOnlyView = (isset($this->popArr['readOnlyView'])) && ($this->popArr['readOnlyView'] === true);
-
+    $esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
+        
 	function getNextSortOrder($curSortOrder) {
 		switch ($curSortOrder) {
 			case 'null' :
@@ -47,39 +48,27 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		}
 	}
 
-	function SortOrderInWords($SortOrder) {
-		if ($SortOrder == 'ASC') {
-			return 'Ascending';
-		} else {
-			return 'Descending';
-		}
+    $GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
+    $GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
+    
+	function nextSortOrderInWords($sortOrder) {
+        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
 	}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-<style type="text/css">
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 98%;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-</style>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script type="text/javascript">
-
+//<![CDATA[
 	function nextPage() {
 		var i=eval(document.standardView.pageNO.value);
 		document.standardView.pageNO.value=i+1;
@@ -97,14 +86,14 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.standardView.submit();
 	}
 
-	function sortAndSearch(action) {
-		document.standardView.action = action;
-		document.standardView.submit();
+	function sortAndSearch(sortField, sortOrder) {    
+        var uri = "<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=" + sortField + "&sortOrder" + sortField + "=" + sortOrder + "<?php echo $esp;?>";
+        document.standardView.action = uri;
+        document.standardView.submit();                                    
 	}
 
 	function returnAdd() {
 	<?php
-		$esp = isset($_GET['isAdmin'])? ('&isAdmin='.$_GET['isAdmin']) : '';
 
 		switch($headingInfo[2]) {
 			case 1 : 
@@ -190,134 +179,106 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
 	}
-	
+//]]>	
 </script>
-
+</head>
 <body>
-<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $this->getArr['sortField']?>&sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
-	<div class="moduleTitle" style="padding: 6px;"><h2><?php echo $headingInfo[3]; ?></h2></div>
-		<div>
-			<input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
-			<input type="hidden" name="delState" value="" />
-			<input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
-			<div style="padding: 6px;">
-				<?php if (!$readOnlyView) { ?>
-					<img 
-						title="Add" 
-						alt="Add" 
-						src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_add.gif" 
-						style="border: none"
-						onclick="<?php	
-							if($locRights['add']) { 
-								?>returnAdd();<?php 
-							} else { 
-								?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php 
-							} ?>" 
-						onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_add.gif';" 
-						onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_add_02.gif';" />
-					<?php	if($headingInfo[2]==1) { ?>
-						<img 
-							title="Delete" 
-							alt="Delete" 
-							style="border: none;" 
-							src="../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete.gif"
-							onclick="<?php 
-								if($locRights['delete']) { 
-									?>returnDelete();<?php } 
-								else { 
-									?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php 
-								} ?>" 
-							onmouseout="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete.gif';" 
-							onmouseover="this.src='../../themes/<?php echo $styleSheet; ?>/pictures/btn_delete_02.gif';" />
-					<?php } ?>
-				<?php } ?>
-			</div>
-		</div>
-		<div style="width: 98%;">
-		<?php 
-		/*
-		 *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
-		 */
-		
-		if ($this->getArr['uniqcode'] != 'CIM' && $this->getArr['uniqcode'] != 'CEX' && $this->getArr['uniqcode'] != 'CTM') {
-		?>
-			<table width="100%" cellpadding="0" cellspacing="0" border="0">
-			<tr>
-				<td width="22%" style="white-space: nowrap;"><h3><?php echo $search?></h3></td>
-				<td width='78%' align="right">
-				<?php
-				if (isset($this->getArr['message'])) {
-		
-				$expString  = $this->getArr['message'];
-				$col_def = CommonFunctions::getCssClassForMessage($expString);
-				?>
-					<span class="<?php echo $col_def?>" style="font-family: Verdana, Arial, Helvetica, sans-serif;"><?php echo $$expString; ?></span>
-				<?php
-				}
-				?>
-				&nbsp;&nbsp;&nbsp;&nbsp;</td>
-			</tr>
-			</table>
-		</div>
-		<div class="roundbox">
-			<table  border="0" cellpadding="5" cellspacing="0" class="">
-				<tr>
-					<td width="200" class="dataLabel">
-						<label for="loc_code" style="float: left; padding-right: 10px;"><?php echo $SearchBy?></label>
-						<select style="z-index: 99;" name="loc_code">
-							<?php for($c=-1;count($srchlist)-1>$c;$c++)
-								if(isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $c) {
-									echo "<option selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";
-								} else {
-									echo "<option value='" . $c ."'>".$srchlist[$c+1] ."</option>";
-								}
-							?>
-						</select>
-					</td>
-					<td width="300" class="dataLabel" style="white-space: nowrap;">
-						<label for="loc_name" style="float: left; padding-right: 10px;"><?php echo $description?></label>
-						<input type=text size="20" name="loc_name" class="dataField" value="<?php echo isset($this->postArr['loc_name']) ? stripslashes($this->postArr['loc_name']):''?>" />
-					</td>
-					<td align="right" width="180" class="dataLabel">
-							<input type="button" class="plainbtn" onclick="returnSearch();"
-								onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"							 
-								value="<?php echo $lang_Common_Search;?>" />
-							<input type="button" class="plainbtn" onclick="clear_form();" 
-								onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-								 value="<?php echo $lang_Common_Clear;?>" />
-					</td>
-				</tr>
-			</table>
-	</div>
-	<?php
-	/*
-	 *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
-	 */
-	 }
-	?>
-	<div style="padding-top: 4px; width: 98%">
-		<span id="messageDisplay">
-			<?php
-			if ($message == '') { 
-					echo $dispMessage; 
-			} 
-			?>
-		</span>
-	</div>
-	<div style="text-align: right; padding-top: 4px; width: 98%">
-		<?php
-		$temp = $this->popArr['temp'];
-		$commonFunc = new CommonFunctions();
-		$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
-		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-		
-		echo $pageStr;
-		?>
-	</div>
-	<div class="roundbox">
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-			<tr style="white-space: nowrap">
-				<td width="50" class="listViewThS1" scope="col" style="white-space: nowrap;">
+<div class="outerbox">
+<form name="standardView" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&amp;VIEW=MAIN&amp;sortField=<?php echo $this->getArr['sortField']?>&amp;sortOrder<?php echo $this->getArr['sortField']?>=<?php echo $this->getArr['sortOrder'.$this->getArr['sortField']].$esp?>">
+	<div class="mainHeading"><h2><?php echo $headingInfo[3]; ?></h2></div>
+    <input type="hidden" name="captureState" value="<?php echo isset($this->postArr['captureState'])?$this->postArr['captureState']:''?>" />
+    <input type="hidden" name="delState" value="" />
+    <input type="hidden" name="pageNO" value="<?php echo isset($this->postArr['pageNO'])?$this->postArr['pageNO']:'1'?>" />
+           
+    <?php 
+    if (isset($this->getArr['message'])) {  
+        $expString  = $this->getArr['message'];
+        $messageType = CommonFunctions::getCssClassForMessage($expString, 'failure');
+    ?>      
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+    </div>
+    <?php
+    }
+    ?>
+
+    <?php 
+    /*
+     *  TODO: This need to be remove when search functionality is implemented for Import/Export and Custom fields
+     */    
+    if ($this->getArr['uniqcode'] != 'CIM' && $this->getArr['uniqcode'] != 'CEX' && $this->getArr['uniqcode'] != 'CTM') {
+    ?>        
+    <div class="searchbox">
+        <label for="loc_code"><?php echo $searchby?></label>
+        <select name="loc_code" id="loc_code">
+            <?php
+            $optionCount = count($srchlist); 
+            for ($c = -1; $optionCount - 1 > $c; $c++) {
+                $selected = "";
+                if(isset($this->postArr['loc_code']) && $this->postArr['loc_code'] == $c) {
+                    $selected = 'selected="selected"';
+                }
+                echo "<option $selected value='" . $c ."'>".$srchlist[$c+1] ."</option>";                
+            }
+            ?>
+        </select>
+        
+        <label for="loc_name"><?php echo $description?></label>
+        <input type="text" size="20" name="loc_name" id="loc_name" value="<?php echo isset($this->postArr['loc_name'])? stripslashes($this->postArr['loc_name']):''?>" />
+        <input type="button" class="plainbtn" onclick="returnSearch();"
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+            value="<?php echo $lang_Common_Search;?>" />
+        <input type="button" class="plainbtn" onclick="clear_form();" 
+            onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+             value="<?php echo $lang_Common_Clear;?>" />
+        <br class="clear"/>
+    </div>
+    <?php
+     }
+    ?>                
+    
+    <div class="actionbar">
+        <div class="actionbuttons">
+        <?php if (!$readOnlyView) { ?>
+            <input type="button" class="plainbtn"
+            <?php echo ($locRights['add']) ? 'onclick="returnAdd();"' : 'disabled'; ?>
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                value="<?php echo $lang_Common_Add;?>" />          
+
+            <?php if($headingInfo[2]==1) { ?>
+                <input type="button" class="plainbtn"
+                <?php echo ($locRights['delete']) ? 'onclick="returnDelete();"' : 'disabled'; ?>
+                    onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                    value="<?php echo $lang_Common_Delete;?>" />
+        <?php     }
+            } 
+        ?>
+        </div>              
+        <div class="noresultsbar"><?php echo (empty($message)) ? $norecorddisplay : '';?></div>
+        <div class="pagingbar">
+        <?php
+            $temp = $this->popArr['temp'];
+            $commonFunc = new CommonFunctions();
+            $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+            $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+    
+            echo $pageStr;
+
+            for ($j = 0; $j < 11; $j++) {
+                if (!isset($this->getArr['sortOrder'.$j])) {
+                    $this->getArr['sortOrder'.$j] = 'null';
+                }
+            }                   
+        ?>          
+        </div>
+    <br class="clear" />
+    </div>
+
+    <br class="clear" />                               
+    	<table cellpadding="0" cellspacing="0" class="data-table">
+			<thead>
+            <tr>
+				<td width="50">
 				<?php	if (($headingInfo[2]==1) && (!$readOnlyView)) { ?>
 					<input type="checkbox" class="checkbox" name="allCheck" value="" onclick="doHandleAll();" />
 				<?php	}	?>
@@ -327,25 +288,28 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						if (!isset($this->getArr['sortOrder'.$j])) {
 							$this->getArr['sortOrder'.$j] = 'null';
 						}
+                        $sortOrder = $this->getArr['sortOrder'.$j];
 				?>
-					<td scope="col" width="250" class="listViewThS1">
-						<a href="#" onclick="sortAndSearch('<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($this->getArr['sortOrder'.$j]).$esp?>');" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($this->getArr['sortOrder'.$j]))?> order"><?php echo $headings[$j]?></a> <img src="../../themes/<?php echo $styleSheet; ?>/icons/<?php echo $this->getArr['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" style="vertical-align: middle">
+					<td scope="col">                     
+						<a href="#" onclick="sortAndSearch(<?php echo $j; ?>, '<?php echo getNextSortOrder($sortOrder);?>');" 
+                            title="<?php echo nextSortOrderInWords($sortOrder);?>"
+                            class="<?php echo $sortOrder;?>"><?php echo $headings[$j]?>
+                        </a>
 					</td>
 				<?php } ?>
-      			<td class="listViewThS1">&nbsp;</td>
-    		</tr>
+            </tr>
+    		</thead>
+            
+            <tbody>
     		<?php
 				if ((isset($message)) && ($message !='')) {
 					for ($j = 0; $j < count($message); $j++) {
-					
-						if(!($j%2)) {
-							$cssClass = 'odd';
-						} else {
-							$cssClass = 'even';
-						}
+					                    
+                        $cssClass = ($j%2) ? 'even' : 'odd';   
+                        $detailsUrl = "./CentralController.php?id=" . $message[$j][0] . "&amp;uniqcode=" . $this->getArr['uniqcode'] . "&amp;capturemode=updatemode" . $esp;                 
 	 		?>
 				<tr>
-       				<td class="<?php echo $cssClass?>" width="50">
+       				<td class="<?php echo $cssClass?>">
 					<?php if($headingInfo[2] == 1) { ?>
 						<?php if ((!$readOnlyView) && (CommonFunctions::extractNumericId($message[$j][0]) > 0)) { ?>
 							<input type='checkbox' class='checkbox' name='chkLocID[]' value='<?php echo $message[$j][0]?>' />
@@ -354,53 +318,42 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 						&nbsp;
 					<?php 	}  ?>
 					</td>
-		 			<td class="<?php echo $cssClass?>" width="250">
-		 				<a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $message[$j][0]?></a>
+		 			<td class="<?php echo $cssClass?>">
+		 				<a href="<?php echo $detailsUrl;?>"><?php echo $message[$j][0]?></a>
 		 			</td>
 					<?php
-						$k=1;
-						if ($k < count($headings)) {
-							$descField=$message[$j][$k];
-	
-							if($sysConst->viewDescLen <= strlen($descField)) {
-	
-								$descField = substr($descField,0,$sysConst->viewDescLen);
-								$descField .= "....";
-							}
-						}
-					?>
-					<td class="<?php echo $cssClass?>" width="400" >
-						<a href="./CentralController.php?id=<?php echo $message[$j][0]?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode<?php echo $esp?>" class="listViewTdLinkS1"><?php echo $descField?></a>
-					</td>
-					<?php
-		 				for ($k=2; $k < count($headings); $k++) {
+		 				for ($k = 1; $k < count($headings); $k++) {
 
-							$descField=$message[$j][$k];
+							$descField = $message[$j][$k];
 
 		  	 				if($sysConst->viewDescLen <= strlen($descField)) {
 			 	   				$descField = substr($descField,0,$sysConst->viewDescLen);
 			 	   				$descField .= "....";
 			 				}
 		 			?>
-		 			<td class="<?php echo $cssClass?>" width="400" ><?php echo $descField?></td>
+		 			<td class="<?php echo $cssClass?>">
+                        <?php if ($k == 1) { 
+                                  echo "<a href='{$detailsUrl}'>{$descField}</a>";
+                              } else {
+                                  echo $descField;
+                              } ?>
+                    </td>
 				<?php } ?>
-				<td class="<?php echo $cssClass?>" width="400" >&nbsp;</td>
 		 	</tr>
 		 	<?php 
 				}
 		 	}
 			?>
+            </tbody>
  		</table>
-	</div>
 </form>
-
+</div>
 <script type="text/javascript">
-<!--
-   	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
 </script>
-
 </body>
 </html>

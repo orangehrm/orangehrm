@@ -524,7 +524,9 @@
 	$lang_geninfo_taxID 					= "Tax ID";
 	$lang_geninfo_naics 					= "NAICS";
 	$lang_geninfo_err_CompanyName 			= "Company name cannot be blank";
-	$lang_geninfo_err_Phone 				= "Not a valid phone/fax number";
+	$lang_geninfo_err_Phone 				= "Not a valid phone number";
+    $lang_geninfo_err_Fax                   = "Not a valid fax number";
+        
 	$lang_geninfo_err_CommentLengthWarning	= "Length of comments exceeds the limit. Text at the end of the comment will be lost.";
 
  	$lang_hierarchydef_heading 				= "Hierarchy Information : Company Information";
@@ -1258,7 +1260,7 @@
     $lang_Admin_ENS_HiringApproved = "Notifications of hiring new employees";
 
 	//Users
-	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be at least four characters long";
+	$lang_Admin_Users_Errors_UsernameShouldBeAtleastFiveCharactersLong = "UserName should be at least five characters long";
 	$lang_Admin_Users_Errors_PasswordShouldBeAtleastFourCharactersLong = "Password should be at least four characters long";
 	$lang_Admin_Users_ErrorsPasswordMismatch = "Password Mismatch";
 	$lang_Admin_Users_Errors_EmployeeIdShouldBeDefined = "Employee ID should be defined";
@@ -1267,6 +1269,7 @@
 	$lang_Admin_Users_Errors_PasswordsAreNotMatchingRetypeYourNewPassword = "Passwords Are Not Matching.Retype Your New Password";
 	$lang_Admin_Users_Errors_SpecialCharacters = "The username should not contain special characters";
 	$lang_Admin_Users_WrongPassword = "Mismatch with your old password";
+    $lang_Admin_Users_Errors_AdminUserGroupShouldBeSelected = "Admin User Group should be selected";
 
 	$lang_Admin_Users_Errors_DoYouWantToClearRights = "Do you want to clear Rights";
 	$lang_Admin_Users_Errors_SameGroup = "Your login account belongs to the same User Group, you are not allowed change rights to this group";
