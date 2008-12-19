@@ -40,19 +40,9 @@ if ($modifier === "SUP") {
  $lang_Title = $lang_Leave_Leave_list_Title3;
 }
 
- if (isset($_GET['message'])) {
 ?>
-<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
-<?php } ?>
-<h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title; ?><hr/></h2>
-<?php
-	if (!is_array($records)) {
-?>
-	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
-<?php
-	}
-?>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
 	function actionAdd() {
 		document.frmDeleteHolidays.action = '?leavecode=Leave&action=Holiday_Specific_View_Add';
@@ -128,42 +118,56 @@ if ($modifier === "SUP") {
  		document.DefineLeaveType.submit();
 	}
 
-
+//]]> 
 </script>
+<div class="outerbox">
 <form id="frmDeleteHolidays" name="frmDeleteHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=">
-<p class="navigation">
+    <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title; ?></h2></div>
 
-	  <input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
-      <?php /* Show delete button only if records are available: Begins */
-      if (count($records) > 0) {
-      ?>
-      <input type="image" onclick="actionDelete(); return false;" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif" name="btnDel" id="btnDel"/>
-      <?php /* Show delete button only if records are available: Ends */
-      }
-      ?>
-</p> 
+<?php
+ if (isset($_GET['message']) &&!empty($_GET['message'])) {
+?>
+    <div class="messagebar">
+        <span><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></span>
+    </div>
+<?php } ?>
+
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <input type="button" class="addbutton"
+                name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Add;?>" />          
+    
+              <?php /* Show delete button only if records are available: Begins */
+              if (count($records) > 0) {
+              ?>    
+                <input type="button" class="delbutton" onclick="actionDelete(); return false;"
+                    name="btnDel" id="btnDel"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                    
+                    value="<?php echo $lang_Common_Delete;?>" />
+              <?php /* Show delete button only if records are available: Ends */
+              }
+              ?>                    
+        </div>              
+        <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" />
+
+    
 <?php /* Show table only if records are available: Begins */
 if (count($records) > 0) {
 ?>
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
 	<tr>
-		<th class="tableMiddleLeft"></th>
-		<th width="30px" class="tableMiddleMiddle"><input type="checkbox" name='allCheck' value='' onclick="doHandleAll();" /></th>
-    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_NameOfHoliday;?></th>
-    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
-    	<th width="125px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Length;?></th>
-    	<th width="110px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Recurring;?></th>
-		<th class="tableMiddleRight"></th>
+		<td width="50px"><input type="checkbox" name='allCheck' value='' onclick="doHandleAll();" /></td>
+    	<td scope="col"><?php echo $lang_Leave_Common_NameOfHoliday;?></td>
+    	<td scope="col"><?php echo $lang_Leave_Common_Date;?></td>
+    	<td scope="col"><?php echo $lang_Leave_Common_Length;?></td>
+    	<td scope="col"><?php echo $lang_Leave_Common_Recurring;?></td>
 	</tr>
   </thead>
   <tbody>
@@ -180,7 +184,6 @@ if (count($records) > 0) {
 
 ?>
   <tr>
-  	<td class="tableMiddleLeft"></td>
   	<td class="<?php echo $cssClass; ?>"><input type="checkbox" name="deletHoliday[]" value="<?php echo $record->getHolidayId(); ?>"/></th>
     <td class="<?php echo $cssClass; ?>" style="padding-right: 20px;"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_View_Edit&id=<?php echo $record->getHolidayId(); ?>"><?php echo $record->getDescription(); ?></a></td>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getDate()); ?></td>
@@ -197,24 +200,12 @@ if (count($records) > 0) {
     ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo ($record->getRecurring() == Holidays::HOLIDAYS_RECURRING) ? $lang_Common_Yes: $lang_Common_No;?>
     </td>
-	<td class="tableMiddleRight"></td>
   </tr>
 
 <?php
 		}
 ?>
   </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
 </table>
 <?php /* Show table only if records are available: Ends */
 }
@@ -224,3 +215,11 @@ if (count($records) > 0) {
 </form>
 <?php   }
 	  ?>
+</div>      
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>

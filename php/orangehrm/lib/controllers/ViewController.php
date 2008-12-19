@@ -1552,7 +1552,13 @@ class ViewController {
 												$showMsg = "IMPORT_FAILURE";
 											}
 											$res = false;
-										}
+										} catch (CSVSplitterException $e) {
+                                            if (($e->getCode() == CSVSplitterException::DIRECTORY_NOT_WRITABLE) ||
+                                                    ($e->getCode() == CSVSplitterException::FILES_NOT_WRITABLE)) {                                            
+                                                $showMsg = "IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE";
+                                                $res = false;
+    										}
+                                        }
 									}
 									break;
 
@@ -3184,6 +3190,8 @@ class ViewController {
 
 							if($getArr['capturemode'] == 'updatemode') {
 								$form_creator ->popArr['editArr'] = $customer->fetchCustomer($getArr['id']);
+							} else {
+							    $form_creator ->popArr['editArr'] = new Customer();
 							}
 							break;
 

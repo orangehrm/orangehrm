@@ -48,13 +48,14 @@ if (!empty($projectId)) {
 	$formAction .= "&projectId={$projectId}";
 }
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $lang_Admin_ProjectActivities; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
 	/** Global edit mode of form */
 	var addMode = true;
@@ -135,6 +136,7 @@ if (!empty($projectId)) {
 	 */
 	function displayAddLayer() {
 		document.getElementById("addActivityLayer").style.display = 'block';
+        document.getElementById("addActivityLayer").style.float = 'left';
 	}
 
 	/**
@@ -221,97 +223,54 @@ if (!empty($projectId)) {
 		}
 		displayAddLayer();
 	}
-
+//]]>
 </script>
-
-<style type="text/css">
-    <!--
-    @import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
-    @import url("../../themes/beyondT/css/octopus.css");
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width:500px;
-    }
-
-    .roundbox_content {
-        padding:15px 15px 25px 35px;
-    }
-
-    input[type=checkbox] {
-		border:0px;
-		background-color: transparent;
-		margin: 0px;
-		width: 12px;
-		vertical-align: bottom;
-    }
-
-    .notice {
-    	font-family: Verdana, Arial, Helvetica, sans-serif;
-    	font-size: -1;
-    }
-
-    .message {
-		float:left;
-		width:500px;
-		text-align:right;
-		font-family: Verdana, Arial, Helvetica, sans-serif;
-    }
-
-    -->
-</style>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
+
 <body>
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2><?php echo $lang_Admin_ProjectActivities; ?></h2>
-		  		</td>
-	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
-		</table>
-	</p>
+    <div class="formpage">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Admin_ProjectActivities;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
 
 <?php if (empty($projects)) { ?>
 	<div class="notice"><?php echo $lang_Admin_Project_Error_NoProjects; ?></div>
 <?php
 	  } else {
 ?>
-
-    <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php
-		}
-	?>
-	<br/>
-
-    <div class="roundbox">
 		<form name="frmActivity" method="post" action="<?php echo $formAction;?>">
-        	<input type="hidden" name="sqlState" value="">
-        	<input type="hidden" name="delState" value="">
-        	<input type="hidden" name="activityId" value="">
+        	<input type="hidden" name="sqlState" value=""/>
+        	<input type="hidden" name="delState" value=""/>
+        	<input type="hidden" name="activityId" value=""/>
             <label for="cmbProjectId"><?php echo $lang_Admin_Project; ?></label>
-            <select name="cmbProjectId" onchange="<?php echo $selectProjectAction; ?>;">
+            <select id="cmbProjectId" name="cmbProjectId" onchange="<?php echo $selectProjectAction; ?>;"
+                class="formSelect">
 				<?php
 				  foreach ($projects as $project) {
-					  $selected = ($project->getProjectId() == $projectId) ? 'selected' : '';
+					  $selected = ($project->getProjectId() == $projectId) ? 'selected="selected"' : '';
 					  $projectName = htmlspecialchars($project->getProjectName());
 					  echo "<option $selected value=\"{$project->getProjectId()}\">{$projectName}</option>";
 				  }
    				?>
    			</select>
-            <br/>
-			<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/></br>
+            <br class="clear"/>
+            
+			<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/>
+            <br class="clear"/>
       <?php if (empty($activities)) { ?>
 			<div class="notice"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
 	  <?php } else { ?>
@@ -319,9 +278,9 @@ if (!empty($projectId)) {
 			<table width="250" class="simpleList" >
 				<thead>
 					<tr>
-					<th class="listViewThS1" align="center">
+					<th class="listViewThS1">
 						<input type='checkbox' class='checkbox' name='allCheck' value=''
-							<?php echo $disableEdit; ?> onClick="checkUncheckAll();">
+							<?php echo $disableEdit; ?> onclick="checkUncheckAll();"/>
 					</th>
 					<th class="listViewThS1"><?php echo $lang_Admin_Activity; ?></th>
 					</tr>
@@ -333,9 +292,9 @@ if (!empty($projectId)) {
 		 	 	 		$odd = !$odd;
 		 		?>
 	    		<tr>
-	       			<td class="<?php echo $cssClass?>" align="center">
+	       			<td class="<?php echo $cssClass?>">
 	       				<input type='checkbox' class='checkbox' name='chkLocID[]'
-	       					<?php echo $disableEdit; ?> value='<?php echo $activity->getId();?>' onClick="setFormAction();">
+	       					<?php echo $disableEdit; ?> value='<?php echo $activity->getId();?>' onclick="setFormAction();"/>
 	       			</td>
 			 		<td class="<?php echo $cssClass?>">
 			 		<?php
@@ -358,57 +317,63 @@ if (!empty($projectId)) {
 			 }
 		  	?>
 
-			</br>
-            <div align="left">
-	            <img onClick="<?php echo $addBtnAction; ?>;"
-	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
-	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
-	            	src="../../themes/beyondT/pictures/btn_add.gif">
-	        <?php
-	        	if (!empty($activities)) {
-			?>
-				<img
-					onClick="<?php echo $delBtnAction; ?>"
-				    src="../../themes/beyondT/pictures/btn_delete.gif"
-					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
-			<?php
-				}
-	        ?>
+            <br class="clear"/>
+             <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                <input type="button" class="savebutton" id="saveBtn" 
+                    onclick="<?php echo $addBtnAction; ?>;" tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Add;?>" />
+            <?php
+                if (!empty($activities)) {
+            ?>
+                <input type="button" class="clearbutton" onclick="<?php echo $delBtnAction;?>" tabindex="5"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                     value="<?php echo $lang_Common_Delete;?>" />
+            <?php
+                }
+            ?>
+<?php } ?>                         
             </div>
-			<div id ="addActivityLayer" style="display:none;height:20px;">
+            <br class="clear"/>
+                        
+			<div id ="addActivityLayer" style="display:none;">
 		    	<label for="activityName"><?php echo $lang_Admin_Activity; ?></label>
-	            <input type="text" name="activityName" value="" >
-	            	<img onClick="<?php echo $saveBtnAction; ?>;"
-	            		style="margin-top:10px;"
-	            		onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-	            		onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-	            		src="../../themes/beyondT/pictures/btn_save.gif">
-	            	<img onClick="<?php echo $cancelBtnAction; ?>;"
-	            		style="margin-top:10px;"
-	            		onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
-	            		onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-	            		src="../../themes/beyondT/icons/cancel.gif">
+	            <input type="text" name="activityName" id="activityName" value="" class="formInputText"/>
+                <br class="clear"/>
+                                
+                 <div class="formbuttons">
+    <?php if($locRights['edit']) { ?>                
+                    <input type="button" class="savebutton" id="adminSaveBtn" 
+                        onclick="<?php echo $saveBtnAction; ?>;" tabindex="7" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Save;?>" />
+                    <input type="button" class="clearbutton" onclick="<?php echo $cancelBtnAction;?>" tabindex="8"
+                        id="adminCancelBtn"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Cancel;?>" />
+    <?php } ?>                         
+                </div>                
+    <?php                
+    ?>                
 			</div>
+            <br class="clear"/>            
       </form>
     </div>
 
-    <script type="text/javascript">
-    <!--
-    	if (document.getElementById && document.createElement) {
- 			initOctopus();
-		}
-    -->
-    </script>
-
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
 <?php
 	  }
-	  if (!empty($activities)) {
+      if (!empty($activities)) {
 ?>
     <div id="notice"><?php echo $lang_Admin_Project_Activity_ClickOnActivityToEdit; ?>.</div>
 <?php
-	  }
+      }
 ?>
-
+</div>
 </body>
 </html>

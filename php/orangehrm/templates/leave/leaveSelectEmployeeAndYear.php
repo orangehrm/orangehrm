@@ -19,7 +19,7 @@
 
  if (isset($modifier)) {
  	switch ($modifier) {
- 		case "summary" : $action = "?leavecode=Leave&action=Leave_Summary";
+ 		case "summary" : $action = "?leavecode=Leave&amp;action=Leave_Summary";
  						 break;
  		default 		: $action = "";
  						  break;
@@ -35,93 +35,102 @@
  if (isset($records[3])) {
  	$role = $records[3];
  }
-
-	if (isset($_GET['message'])) {
 ?>
-<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
-<?php } ?>
-<h2><?php echo $lang_Leave_Select_Employee_Title; ?><hr/></h2>
 <script type="text/javascript">
-	function validate() {
-		err = false;
-		errors = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
+//<![CDATA[
+    function validate() {
+        err = false;
+        errors = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
 
-		if (document.frmSelectEmployee.year.value == -1) {
-			errors += "-  <?php echo $lang_Error_PleaseSelectAYear; ?>\n";
-			err = true;
-		}
-		if (document.frmSelectEmployee.id.value == -1) {
-			errors += "-  <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n";
-			err = true;
-		}
+        if (document.frmSelectEmployee.year.value == -1) {
+            errors += "-  <?php echo $lang_Error_PleaseSelectAYear; ?>\n";
+            err = true;
+        }
+        if (document.frmSelectEmployee.id.value == -1) {
+            errors += "-  <?php echo $lang_Error_PleaseSelectAnEmployee; ?>\n";
+            err = true;
+        }
 
-		if (err) {
-			errors = errors+"\n";
-			alert(errors);
-		} else {
-			document.frmSelectEmployee.submit();
-		}
-	}
+        if (err) {
+            errors = errors+"\n";
+            alert(errors);
+            return false;
+        } else {
+            with (document.frmSelectEmployee) {
+                 var searchMode = searchBy.value;
+                
+                if (cmbId.selectedIndex > 0) {
+                    searchMode = 'employee';
+                }
 
-	function view() {
+                if (leaveTypeId.selectedIndex > 0) {
+                    searchMode = 'leaveType';
+                }
+                if (cmbId.selectedIndex > 0 && leaveTypeId.selectedIndex > 0) {
+                    searchMode = 'both';
+                }
+    
+                searchBy.value = searchMode;
 
-		with (document.frmSelectEmployee) {
-		    if (cmbId.selectedIndex > 0) {
-			searchMode = 'employee';
-		    }
-		    if (leaveTypeId.selectedIndex > 0) {
-			searchMode = 'leaveType';
-		    }
-		    if (cmbId.selectedIndex > 0 && leaveTypeId.selectedIndex > 0) {
-			searchMode = 'both';
-		    }
+            }        
+            return true;            
+        }
+    }
 
-		    searchBy.value = searchMode;
-		}
+    function view() {
+        if (validate()) {
+            document.frmSelectEmployee.submit();
+        }
+    }
 
+    function changeEmployeeSelection() {
 
-	}
+        objCmbId = document.frmSelectEmployee.cmbId;
+        objRow = document.getElementById("idSelectRow");
+        objId = document.frmSelectEmployee.id;
 
-	function changeEmployeeSelection() {
+        switch (objCmbId.value) {
+            case '0' : objRow.className = 'hide';
+                     objId.value = 0;
+                     break;
+            case '1' : objRow.className = 'show';
+                     objId.value = -1;
+                     break;
+        }
+    }
 
-		objCmbId = document.frmSelectEmployee.cmbId;
-		objRow = document.getElementById("idSelectRow");
-		objId = document.frmSelectEmployee.id;
-
-		switch (objCmbId.value) {
-			case '0' : objRow.className = 'hide';
-					 objId.value = 0;
-					 break;
-			case '1' : objRow.className = 'show';
-					 objId.value = -1;
-					 break;
-		}
-	}
-
-	function returnEmpDetail(){
-		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=SUMMARY','Employees','height=450,width=400');
+    function returnEmpDetail(){
+        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=SUMMARY','Employees','height=450,width=400');
         if(!popup.opener) popup.opener=self;
-		popup.focus();
-	}
+        popup.focus();
+    }
+//]]>    
 </script>
-<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="validate(); return false;">
-<input type="hidden" name="searchBy" value="<?php echo ($_GET['action'] == 'Leave_Select_Employee_Leave_Summary') ? 'employee' : 'leaveType' ?>" />
-<table border="0" cellpadding="2" cellspacing="0">
-  <tbody>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
-	<tr>
-		<th class="tableMiddleLeft"></th>
-    	<th width="70px" class="odd"><?php echo $lang_Leave_Common_Year;?></th>
 
-    	<th width="130px" class="odd">
+<div class="formpage3col">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Leave_Select_Employee_Title;?></h2></div>
+    
+    <?php $message =  isset($_GET['msg']) ? $_GET['msg'] : (isset($_GET['message']) ? $_GET['message'] : null);
+        if (isset($message)) {
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Common_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
+
+
+<form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="return validate();">
+<input type="hidden" name="searchBy" value="<?php echo ($_GET['action'] == 'Leave_Select_Employee_Leave_Summary') ? 'employee' : 'leaveType' ?>" />
+<table border="0" cellpadding="2" cellspacing="0" style="margin:10px 0 0 10px;">
+  <tbody>
+	<tr>
+		<td></td>
+    	<td width="70px" class="odd"><?php echo $lang_Leave_Common_Year;?></td>
+
+    	<td width="130px" class="odd">
 		    	  <select name="year">
 		    	    <option value="-1"> - <?php echo $lang_Leave_Common_Select;?> - </option>
 		   <?php
@@ -133,11 +142,11 @@
 		   		}
 		 ?>
   	    		  </select>
-   	    </th>
+   	    </td>
 
-    	<th width="180px" class="odd"><?php echo $lang_Leave_Common_EmployeeName;?></th>
+    	<td width="180px" class="odd"><?php echo $lang_Leave_Common_EmployeeName;?></td>
 
-    	<th width="180px" class="odd">
+    	<td width="180px" class="odd">
     	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
     		<select name="cmbId" onchange="changeEmployeeSelection();">
 				<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
@@ -154,37 +163,44 @@
 		 		<option value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
 		  <?php 		}
 		   			}
+         ?>
+                </select>         
+         <?php                              
     		}
 		 ?>
-  	    		</select>
-		</th>
-    	<th width="100px" class="odd"><input type="image" name="btnView" onclick="view();" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></th>
-		<th class="tableMiddleRight"></th>
+
+		</td>
+    	<td width="100px" class="odd">
+            <input type="button" class="viewbutton" id="btnView" 
+                onclick="view();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_View;?>" />
+        </td>
+		<td></td>
 	</tr>
 	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
 	<tr class="hide" id="idSelectRow">
-		<th class="tableMiddleLeft"></th>
-    	<th>&nbsp;</th>
-    	<th>&nbsp;</th>
-    	<th>&nbsp;</th>
-		<th>
-			<input type="text" name="cmbEmpID" id="cmbEmpID" value="" disabled />
+		<td></td>
+    	<td>&nbsp;</td>
+    	<td>&nbsp;</td>
+    	<td>&nbsp;</td>
+		<td>
+			<input type="text" name="cmbEmpID" id="cmbEmpID" value="" disabled="disabled" />
 			<input type="hidden" name="id" id="id" value="0" />
 			<input type="button" value="..." onclick="returnEmpDetail();" />
-		</th>
-		<th>&nbsp;</th>
-		<th class="tableMiddleRight"></th>
+		</td>
+		<td>&nbsp;</td>
+		<td></td>
 	</tr>
 	<tr>
-		<th class="tableMiddleLeft"></th>
-    	<th width="70px" class="odd"></th>
+		<td></td>
+    	<td width="70px" class="odd"></td>
 
-    	<th width="130px" class="odd">
-   	    </th>
+    	<td width="130px" class="odd">
+   	    </td>
 
-    	<th width="180px" class="odd"><?php echo $lang_Leave_Common_LeaveType;?></th>
+    	<td width="180px" class="odd"><?php echo $lang_Leave_Common_LeaveType;?></td>
 
-    	<th width="150px" class="odd">
+    	<td width="150px" class="odd">
 				<select name="leaveTypeId">
 					<option value="0"><?php echo $lang_Leave_Common_All;?></option>
 					<?php
@@ -196,36 +212,34 @@
 		   				}
 		 ?>
   	    		</select>
-		</th>
-    	<th width="100px" class="odd"></th>
-		<th class="tableMiddleRight"></th>
+		</td>
+    	<td width="100px" class="odd"></td>
+		<td></td>
 	</tr>
 	<?php } ?>
 	<tr>
-		<th class="tableMiddleLeft"></th>
-    	<th width="70px" class="odd"></th>
+		<td></td>
+    	<td width="70px" class="odd"></td>
 
-    	<th width="130px" class="odd">
-   	    </th>
+    	<td width="130px" class="odd">
+   	    </td>
 
-    	<th width="180px" class="odd"></th>
+    	<td width="180px" class="odd"></td>
 
-    	<th width="150px" class="odd">
-		</th>
-    	<th width="100px" class="odd"></th>
-		<th class="tableMiddleRight"></th>
+    	<td width="150px" class="odd">
+		</td>
+    	<td width="100px" class="odd"></td>
+		<td></td>
 	</tr>
   </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
 </table>
 </form>
+</div>
+    <script type="text/javascript">
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
+    </script>
+</div>

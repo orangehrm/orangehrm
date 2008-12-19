@@ -16,31 +16,28 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
- if (isset($_GET['message'])) {
 ?>
-<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
-<?php } ?>
-<h2><?php echo $lang_Leave_Leave_Holiday_Weeked_Title; ?><hr/></h2>
-
-<script>
-	function editSave() {
-		document.frmDefineWeekends.submit();
-	}
+<script type="text/javascript">
+//<![CDATA[
+    function editSave() {
+        document.frmDefineWeekends.submit();
+    }
+//]]>    
 </script>
-<form id="frmDefineWeekends" name="frmDefineWeekends" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Weekend_Edit">
-<table border="0" cellpadding="0" cellspacing="0">
-  <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
-  </thead>
-  <tbody>
+<div class="formpage">
+<div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Weeked_Title;?></h2></div>
+
+<?php
+ if (isset($_GET['message']) && !empty($_GET['message'])) {
+?>
+    <div class="messagebar">
+        <span><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></span>
+    </div>  
+<?php } ?>
+
+<form id="frmDefineWeekends" name="frmDefineWeekends" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Holiday_Weekend_Edit">
+
   <?php
   	$daysOfTheWeek = array(
   							Weekends::WEEKENDS_MONDAY => $lang_Common_Monday,
@@ -63,40 +60,29 @@
   			$length = $results[$key]->getLength();
   		}
   ?>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td width="90px"><?php echo $dayOfTheWeek;?><input type="hidden" name="txtDay[]" value="<?php echo $key; ?>" /></td>
-  	<td >&nbsp;</td>
-    <td width="150px"><select name="sltLeaveLength[]" style="width:100px;">
-            <option value="<?php echo Weekends::WEEKENDS_LENGTH_FULL_DAY; ?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_FULL_DAY)?"selected":""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
-            <option value="<?php echo Weekends::WEEKENDS_LENGTH_HALF_DAY;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_HALF_DAY)?"selected":""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
-            <option value="<?php echo Weekends::WEEKENDS_LENGTH_WEEKEND;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_WEEKEND)?"selected":""; ?>><?php echo $lang_Leave_Common_Weekend; ?></option>
-         </select>
-    </td>
-    <td >&nbsp;</td>
-	<td class="tableMiddleRight"></td>
-  </tr>
+    <input type="hidden" name="txtDay[]" value="<?php echo $key; ?>" />  
+    <span class="formLabel"><?php echo $dayOfTheWeek;?></span>
+    <select name="sltLeaveLength[]" style="width:100px;" class="formSelect">
+            <option value="<?php echo Weekends::WEEKENDS_LENGTH_FULL_DAY; ?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_FULL_DAY)? 'selected="selected"':""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
+            <option value="<?php echo Weekends::WEEKENDS_LENGTH_HALF_DAY;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_HALF_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
+            <option value="<?php echo Weekends::WEEKENDS_LENGTH_WEEKEND;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_WEEKEND)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_Weekend; ?></option>
+    </select>
+    <br class="clear"/>         
   <?php
   	}
   ?>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td >&nbsp;</td>
-  	<td >&nbsp;</td>
-    <td >&nbsp;</td>
-    <td ><img border="0" title="Add" onclick="editSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" /></td>
-	<td class="tableMiddleRight"></td>
-  </tr>
-  </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
-</table>
+<div class="formbuttons">               
+    <input type="button" class="savebutton" id="saveBtn" 
+        onclick="editSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_Save;?>" />
+</div>
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>

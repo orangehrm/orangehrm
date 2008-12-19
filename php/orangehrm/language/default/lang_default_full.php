@@ -254,6 +254,9 @@
     $lang_Common_Search = "Search";
     $lang_Common_Clear = "Clear";
     $lang_Common_Reset = "Reset";
+    $lang_Common_Assign = "Assign";
+    $lang_Common_Cancel = "Cancel";
+    $lang_Common_View = "View";        
 	$lang_Common_SortAscending = "Sort in ascending order";
 	$lang_Common_SortDescending = "Sort in descending order";
     
@@ -286,6 +289,7 @@
 	$lang_Common_DUPLICATE_NAME_FAILURE     = "Name is already in use";
 	$lang_Common_COMPULSARY_FIELDS_NOT_ASSIGNED_FAILURE = "Compulsary fields not assigned";
 	$lang_Common_IMPORT_FAILURE = "Import failed";
+    $lang_Common_IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE = "Import failed. No write permission to temporary directory";
 
 	$lang_Leave_Common_Weekend 				= "Weekend";
 
@@ -1331,6 +1335,7 @@
 	$lang_Admin_Customer_Error_PleaseSpecifyTheName = "Please specify the name";
 
 	$lang_Admin_ProjectActivities = "Project Activities";
+    $lang_Admin_AssignedActivities = "Assigned Activities";
 	$lang_Admin_Activity = "Activity";
 	$lang_Admin_Project_Activity_ClickOnActivityToEdit = "Click on an existing activity to rename";
 	$lang_Admin_Project_Activity_Error_PleaseSpecifyTheActivityName = "Please specify the activity name";

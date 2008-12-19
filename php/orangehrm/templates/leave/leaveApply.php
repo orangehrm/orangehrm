@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php'; 
 
@@ -52,9 +51,9 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 ?>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script src="../../scripts/time.js"></script>
-<script>
-
+<script type="text/javascript" src="../../scripts/time.js"></script>
+<script type="text/javascript">
+//<![CDATA[
 	var shiftLength = <?php echo $shiftLength; ?>;
 	var empShifts = new Array();
 <?php
@@ -390,37 +389,20 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 	return flag;
 	}
 
-
+//]]>
 </script>
-<h2>
-	<?php
-      if (isset($employees) && is_array($employees)) {
-		 echo $lang_Leave_Title_Assign_Leave;
-		 $modifier = "Leave_Admin_Apply";
-		 $btnApply = "assign.gif";
-		 $btnApplyMO = "assign_o.gif";
-      } else {
-      	 echo $lang_Leave_Title_Apply_Leave;
-      	 $modifier = "Leave_Apply";
-      	 $btnApply = "apply.gif";
-		 $btnApplyMO = "apply_o.gif";
-      }
-     ?>
-  <hr/>
-</h2>
-<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
-
-	$expString  = $_GET['message'];
-	$col_def = CommonFunctions::getCssClassForMessage($expString);
-	$expString = 'lang_Leave_' . $expString;
-	if (isset($$expString)) {
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-	</font>
 <?php
-	}
-}
+  if (isset($employees) && is_array($employees)) {
+     $heading = $lang_Leave_Title_Assign_Leave;
+     $modifier = "Leave_Admin_Apply";
+     $btnApply = "assign.gif";
+     $btnApplyMO = "assign_o.gif";
+  } else {
+     $heading = $lang_Leave_Title_Apply_Leave;
+     $modifier = "Leave_Apply";
+     $btnApply = "apply.gif";
+     $btnApplyMO = "apply_o.gif";
+  }
 
 if (isset($exception)) {
 	if ($exception->isWarning()) {
@@ -461,14 +443,14 @@ if (!empty($duplicateLeaves) && count($duplicateLeaves) > 0) {
 </tr>
 
 <tr>
-<th class="tableMiddleLeft"></th>
+<th ></th>
 <th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date; ?></th>
 <th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfHours; ?></th>
 <th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period; ?></th>
 <th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType; ?></th>
 <th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status; ?></th>
 <th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments; ?></th>
-<th class="tableMiddleRight"></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -500,14 +482,14 @@ if (is_array($duplicateLeaves)) {
 ?>
 
 <tr>
-<td class="tableMiddleLeft"></td>
+<td ></td>
 <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($dup->getLeaveDate()); ?></td>
 <td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveLengthHours(); ?></td>
 <td class="<?php echo $cssClass; ?>"><?php echo $leaveTime; ?></td>
 <td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveTypeName(); ?></td>
 <td class="<?php echo $cssClass; ?>"><?php echo $statusArr[$dup->getLeaveStatus()]; ?></td>
 <td class="<?php echo $cssClass; ?>"><?php echo $dup->getLeaveComments(); ?></td>
-<td class="tableMiddleRight"></td>
+<td></td>
 </tr>
 
 <?php } } ?>
@@ -543,26 +525,31 @@ $prevComments = (isset($_POST['txtComments'])) ? $_POST['txtComments'] : "";
 $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevLeaveToDate)) ?
 						"display-table-row" : "hidden";
 ?>
-<form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $modifier; ?>">
+
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
+        
+        <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {        
+                $message =  $_GET['message'];
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $messageStr = "lang_Leave_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
+            </div>  
+        <?php } ?>
+
+<form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $modifier; ?>">
 
 <?php if (isset($confirmDate)) { ?>
 	<input type="hidden" name="confirmDate" value="<?php echo $prevLeaveFromDate; ?>"/>
 <?php } ?>
-  <table border="0" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th class="tableTopLeft"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopRight"></th>
-      </tr>
-    </thead>
+  <table border="0" cellpadding="3" cellspacing="0">
     <tbody>
     <?php if (isset($role)) { ?>
       <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
         <td width="25px">&nbsp;</td>
 		<td>
@@ -584,11 +571,11 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 		<?php } ?>
 		</td>
 	  	<td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
     <?php } ?>
       <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><?php echo $lang_Leave_Common_LeaveType; ?></td>
         <td width="25px">&nbsp;</td>
         <td>
@@ -622,28 +609,28 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 
         </td>
         <td width="50px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
      </tr>
      <?php
 	  	if (!(is_array($records[1])) && ($modifier == 'Leave_Apply')) {  ?>
 	    <tr>
-     	<td class="tableMiddleLeft"></td>
+     	<td ></td>
      	<td width="75px">&nbsp;</td>
         <td width="25px">&nbsp;</td>
       	<td><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?></td>
     	<td width="25px">&nbsp;</td>
-    	<td class="tableMiddleRight"></td>
+    	<td></td>
      </tr> <?php } ?>
      <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><?php echo $lang_Leave_Common_FromDate;?></td>
         <td width="25px">&nbsp;</td>
         <td><?php echo $lang_Leave_Common_ToDate;?></td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
         	value="<?php echo $prevLeaveFromDate; ?>"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
@@ -654,18 +641,18 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
           <input type="button" name="Submit" value="  " class="calendarBtn" />
         </td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr id="trTime1" class="<?php echo $timeElementClass;?>">
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><?php echo $lang_Leave_Common_FromTime;?></td>
         <td width="25px">&nbsp;</td>
         <td><?php echo $lang_Leave_Common_TotalHours;?></td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr id="trTime2" class="<?php echo $timeElementClass;?>">
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><select name="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" >
         	<option value="" selected ></option>
         	<?php
@@ -681,18 +668,18 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         <td><input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();"
         		value="<?php echo $prevTotalTime; ?>"/></td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr id="trTime3" class="<?php echo $timeElementClass;?>">
-      	<td class="tableMiddleLeft"></td>
+      	<td ></td>
         <td><?php echo $lang_Leave_Common_ToTime;?></td>
       	<td width="25px">&nbsp;</td>
       	<td>&nbsp;</td>
       	<td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr id="trTime4" class="<?php echo $timeElementClass;?>">
-     	<td class="tableMiddleLeft"></td>
+     	<td ></td>
         <td><select name="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" >
         	<option value="" selected ></option>
         	<?php
@@ -708,43 +695,42 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
       	<td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><?php echo $lang_Leave_Common_Comment; ?></td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr valign="top">
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><textarea name="txtComments" id="txtComments"><?php echo $prevComments;?></textarea></td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
       <tr>
-        <td class="tableMiddleLeft"></td>
+        <td ></td>
         <td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/icons/<?php echo $btnApply; ?>';" onmouseover="this.src='../../themes/beyondT/icons/<?php echo $btnApplyMO; ?>';" src="../../themes/beyondT/icons/<?php echo $btnApply; ?>" /></td>
         <td width="25px">&nbsp;</td>
         <td>&nbsp;</td>
         <td width="25px">&nbsp;</td>
-        <td class="tableMiddleRight"></td>
+        <td></td>
       </tr>
     </tbody>
-    <tfoot>
-      <tr>
-        <td class="tableBottomLeft"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomRight"></td>
-      </tr>
-    </tfoot>
   </table>
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>

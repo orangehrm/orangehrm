@@ -27,6 +27,9 @@ input.clearbutton,
 input.resetbutton,
 input.addbutton,
 input.delbutton,
+input.exportbutton,
+input.assignbutton,
+input.viewbutton,
 input.plainbtn {
 	background:#999966 none repeat scroll 0 0 !important;
 	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
@@ -46,6 +49,9 @@ input.clearbuttonhov,
 input.resetbuttonhov,
 input.addbuttonhov,
 input.delbuttonhov,
+input.exportbuttonhov,
+input.assignbuttonhov,
+input.viewbuttonhov,
 input.plainbtnhov {
 	border-color: #c63 #c63 #930 #930 !important;		
 }
@@ -342,6 +348,10 @@ div.formpage2col {
 	width: 600px;
 }
 
+div.formpage3col {
+    width: 700px;
+}
+
 /* div with back button */
 div.navigation {
 	margin-top:5px;
@@ -374,7 +384,8 @@ div.fieldHint {
 
 /* Form elements */
 label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput, 
-input.fileselect, span.formValue, span.formLabel {
+input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
+div.wideFormValue {
     display: block;
     float: left;
     margin: 10px 0px 2px 0px;
@@ -385,6 +396,12 @@ input.formRadio, input.formCheckbox {
 	float: left;
 	margin: 10px 0 2px 0;
 }
+
+input.formCheckboxWide {
+    display: block;
+    float: left;    
+    margin: 10px 100px 0 0;		
+}
 span.formFieldContainer {
 	display:block;
 	float:left;
@@ -392,7 +409,7 @@ span.formFieldContainer {
 	margin-left: 10px;
 }
 
-label, span.formLabel {
+label, span.formLabel, span.wideFormLabel {
     text-align: left;
     width: 110px;
     padding-left: 10px;
@@ -402,7 +419,7 @@ label.optionlabel {
 	margin-right:2px;
 }
 
-select.formSelect, input.formInputText,textarea.formTextArea, span.formValue  {
+select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, span.wideFormValue, div.wideFormValue {
     margin-left: 10px;
     width: 150px;        
 }
@@ -429,6 +446,13 @@ input.empPopupButton, input[type=button].empPopupButton {
 
 select.countrySelect {
 	width:auto;
+}
+
+span.wideFormLabel {
+    width:200px;
+}
+span.wideFormValue, div.wideFormValue {
+    width:250px;
 }
 
 /* Date input*/
@@ -543,7 +567,11 @@ td.rightList {
 .show {
     display: block;
 }
-	
+
+tr.show {
+    display: table-row;
+}
+
 /*------------------------------------------------------------------ End confirmed styles -----------------------------------------------------*/
 	    
 /* Default Styles */
@@ -1289,6 +1317,7 @@ table.simpleList {
         border-collapse: collapse;
         border-style: solid;
         border-color: gray;
+        margin:5px 0 0 5px;
 }
 table.simpleList th {
         border-width: 0px 0px 1px 0px;

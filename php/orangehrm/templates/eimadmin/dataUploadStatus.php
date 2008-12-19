@@ -22,51 +22,14 @@ $uploadStatus = $this->popArr['uploadStatus'];
 $recordLimit = $this->popArr['recordLimit'];
 $delimiterLevels = $this->popArr['delimiterLevels'];
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $lang_DataImportStatus_ContinuingDataImport; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-@import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
-</style>
-<style type="text/css">
-<!--
-	.roundbox {
-		margin-top: 10px;
-		margin-left: 0px;
-		width: 700px;
-	}
-
-	.roundbox_content {
-		padding:15px;
-	}
-
-	.statusLabel {
-		width: 200px;
-		text-align: left;
-		float: left;
-		font-weight: bold;
-	}
-
-	.statusData {
-		width: 150px;
-		text-align: left;
-		font-weight: normal;
-		float: left;
-	}
-
-	#progressBar {
-		background-color: #FFCC00;
-		display: block;
-		height: 10px;
-	}
--->
-</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script language="javascript">
+<script type="text/javascript">
 
 	<?php
 		$tempFiles = $uploadStatus->getTempFileList();
@@ -239,7 +202,7 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 			}
 		}
 
-		$('divFinalResult').className = style;
+		$('divFinalResult').className = $('divFinalResult').className + " " + style;
 		$('divFinalResult').innerHTML = finalResult;
 	       	$('divETA').innerHTML = '<?php echo $lang_DataImportStatus_ImportCompleted; ?>';
 	}
@@ -250,36 +213,58 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 	}
 
 </script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<style type="text/css">
+<!--
+    #progressBar {
+        background-color: #FFCC00;
+        display: block;
+        height: 10px;
+    }
+-->
+</style>
 </head>
+
 <body>
-<h2><?php echo $lang_DataImportStatus_ContinuingDataImport; ?><hr/></h2>
-<h3><?php echo $lang_DataImportStatus_Summary; ?></h3>
-<div class="roundbox" style="width: 500px;">
-	<div class="statusLabel"><?php echo $lang_DataImportStatus_ETA; ?></div>
-	<div id="divETA" class="statusValue"><?php echo 'Estimating...'; ?></div>
-	<br />
-	<div class="statusLabel"><?php echo $lang_DataImportStatus_Progress; ?></div>
-	<div id="divProgressBarContainer" class="statusValue">
-		<span style="width:200px; display: block; float: left; height: 10px; border: solid 1px #000000;">
+<div class="formpage">
+<div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_DataImportStatus_ContinuingDataImport;?></h2></div>
+    <h3><?php echo $lang_DataImportStatus_Summary; ?></h3>
+
+	<span class="wideFormLabel"><?php echo $lang_DataImportStatus_ETA; ?></span>
+	<span id="divETA" class="wideFormValue"><?php echo 'Estimating...'; ?></span>
+	<br class="clear"/>
+    
+	<span class="wideFormLabel"><?php echo $lang_DataImportStatus_Progress; ?></span>
+	<div id="divProgressBarContainer" class="wideFormValue">
+		<div style="width:200px; display: block; float: left; height: 10px; border: solid 1px #000000;">
 			<span id="progressBar" style="width: 0%;">&nbsp;</span>
-		</span>
-		&nbsp;
-		<span id="spanProgressPercentage">0%</span>
+		</div>
+		<span style="display: block; float:left; padding-left:5px;" id="spanProgressPercentage">0%</span>
 	</div>
-	<br />
-	<div class="statusLabel"><?php echo $lang_DataImportStatus_NumImported; ?></div>
-	<div id="divNoOfRecordsImported" class="statusValue">-</div>
-	<br/>
-	<div class="statusLabel"><?php echo $lang_DataImportStatus_NumFailed; ?></div>
-	<div id="divNoOfRecordsFailed" class="statusValue">-</div>
-	<br/>
-	<div class="statusLabel"><?php echo $lang_DataImportStatus_FinalResult; ?></div>
-	<div id="divFinalResult" class="statusValue"><?php echo $lang_DataImportStatus_ImportInProgress; ?></div>
+    <br class="clear"/>
+    
+	<span class="wideFormLabel"><?php echo $lang_DataImportStatus_NumImported; ?></span>
+	<span id="divNoOfRecordsImported" class="wideFormValue">-</span>
+    <br class="clear"/>
+    
+	<span class="wideFormLabel"><?php echo $lang_DataImportStatus_NumFailed; ?></span>
+	<span id="divNoOfRecordsFailed" class="wideFormValue">-</span>
+    <br class="clear"/>
+    
+	<span class="wideFormLabel"><?php echo $lang_DataImportStatus_FinalResult; ?></span>
+	<span id="divFinalResult" class="wideFormValue"><?php echo $lang_DataImportStatus_ImportInProgress; ?></span>
+    <br class="clear"/>    
 </div>
 
 <div id="failureDetails" style="display: none">
 	<h3><?php echo $lang_DataImportStatus_Details; ?></h3>
-		<div class="roundbox">
+		<div class="outerbox">
 		<table cellspacing="0" cellpadding="4" style="border: none; with: 700px;">
 			<thead>
 				<tr>
@@ -294,13 +279,14 @@ $delimiterLevels = $this->popArr['delimiterLevels'];
 	</div>
 </div>
 <script type="text/javascript">
-<!--
-	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
-
-	initImport(fileIndex);
--->
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+    
+    initImport(fileIndex);
+//]]>
 </script>
+</div>        
 </body>
 </html>

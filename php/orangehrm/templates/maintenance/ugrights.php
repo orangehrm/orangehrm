@@ -17,23 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-	$sysConst = new sysConf();
-	$locRights=$_SESSION['localRights'];
 
-	if ($_SESSION['userGroup'] == $this->popArr['ugDet'][0][0]) {
-		$locRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
-	}
+$locRights=$_SESSION['localRights'];
+
+if ($_SESSION['userGroup'] == $this->popArr['ugDet'][0][0]) {
+	$locRights=array('add'=> false , 'edit'=> false , 'delete'=> false, 'view'=> false);
+}
 
 ?>
-<!DOCCIDE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-
-<script language="JavaScript">
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript">
+//<![CDATA[
 
 function addEXT()
 {
@@ -81,293 +81,165 @@ function delEXT() {
     document.frmURights.submit();
 }
 
-function mout() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
+function edit() {
+    var editBtn = $('editBtn');
 
-function mover() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-
-function edit()
-{
-	if(document.Edit.title=='Save') {
+	if (editBtn.title == '<?php echo $lang_Common_Save; ?>') {
 		editEXT();
 		return;
 	}
 
-	var frm=document.frmURights;
+    var frm = $('frmURights');
 
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.Edit.title="Save";
-}
+    for (var i=0; i < frm.elements.length; i++) {
+        frm.elements[i].disabled = false;
+    }
 
+    editBtn.value="<?php echo $lang_Common_Save; ?>";
+    editBtn.title="<?php echo $lang_Common_Save; ?>";      
+    editBtn.className = "savebutton";
+}    
+
+//]]>
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
 <body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
-  <tr>
-    <td valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="STAT" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      </font> </td>
-  </tr><td width="177">
-</table>
-<?php
-$ugDet = $this ->popArr['ugDet'];
-?>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td width="200"><?php echo $lang_Admin_Users_UserGroupId; ?></td>
-    				  <td><strong><?php echo $ugDet[0][0]?></strong><input type="hidden" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"></td>
-					</tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_UserGroup; ?></td>
-						<td align="left" valign="top"><strong><?php echo $ugDet[0][1]?></strong></td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+<div class="formpage">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
 
+<form name="frmURights" id="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
+    <input type="hidden" name="STAT" value="">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups;?></h2></div>
+    
+        <?php
+        $ugDet = $this ->popArr['ugDet'];
+        ?>
 
+        <span class="formLabel"><?php echo $lang_Admin_Users_UserGroupId; ?></span>
+        <span class="formValue"><?php echo $ugDet[0][0];?></span>
+        <input type="hidden" id="txtUserGroupID" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"/>
+        <br class="clear"/>
+        <span class="formLabel"><?php echo $lang_Admin_Users_UserGroup; ?></span>
+        <span class="formValue"><?php echo $ugDet[0][1];?></span>
+        <br class="clear"/>
+    </div>
 
 <?php if($ugDet[0][0] == $_SESSION['userGroup']) { ?>
-
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-    	              <tr>
-    	              	<td height="35"><strong><?php echo $lang_Admin_Users_Errors_SameGroup; ?></strong></td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+    <div class="outerbox">
+        <div class="notice"><?php echo $lang_Admin_Users_Errors_SameGroup; ?></div>
+    </div>
+    	              	
 
 <?php } elseif(isset($this->popArr['editArr'])) {
 
     $edit = $this->popArr['editArr'];
 ?>
-
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_Modules; ?></td>
-						<td align="left" valign="top"><input type="hidden" name="cmbModuleID" value="<?php echo $edit[0][1]?>"><strong>
+    <div class="outerbox">
+        <label for="cmbModuleID"><?php echo $lang_Admin_Users_Module; ?></label>
+        <input type="hidden" name="cmbModuleID" value="<?php echo $edit[0][1]?>"/>
+        <span class="formValue">
 <?php
-						$modlist = $this->popArr['modlist'];
-						for($c=0;count($modlist)>$c;$c++)
-						    if($modlist[$c][0]==$edit[0][1])
-						       echo  $modlist[$c][1] ;
+			$modlist = $this->popArr['modlist'];
+			for($c=0;count($modlist)>$c;$c++) {
+			    if($modlist[$c][0]==$edit[0][1]) {
+			       echo  $modlist[$c][1];
+                }
+            }
 ?>
-						</strong></td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_add; ?></td>
-						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][2]==1 ? 'checked' : ''?> name="chkAdd" value="1">
-						</td>
-						<td valign="top"><?php echo $lang_Admin_Users_edit; ?></td>
-						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][3]==1 ? 'checked' : ''?> name="chkEdit" value="1">
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_delete; ?></td>
-						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][4]==1 ? 'checked' : ''?> name="chkDelete" value="1">
-						</td>
-						<td valign="top"><?php echo $lang_Admin_Users_view; ?></td>
-						<td align="left" valign="top"><input type="checkbox" disabled <?php echo $edit[0][5]==1 ? 'checked' : ''?> name="chkView" value="1">
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"></td>
-						<td align="left" valign="top">
-<?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
-<?php			}  ?>
-						</td>
-					  </tr>
+        </span>
+        <br class="clear"/>         
+        <label for="chkAdd"><?php echo $lang_Admin_Users_add; ?></label>
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][2]==1 ? 'checked' : ''?> 
+            name="chkAdd" id="chkAdd" value="1" class="formCheckboxWide"/>
+            
+        <label for="chkEdit"><?php echo $lang_Admin_Users_edit; ?></label>
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][3]==1 ? 'checked' : ''?> 
+            name="chkEdit" id="chkEdit" value="1" class="formCheckboxWide"/>
+        <br class="clear"/>            
 
+        <label for="chkDelete"><?php echo $lang_Admin_Users_delete; ?></label>
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][4]==1 ? 'checked' : ''?> 
+            name="chkDelete" id="chkDelete" value="1" class="formCheckboxWide"/>
+            
+        <label for="chkView"><?php echo $lang_Admin_Users_view; ?></label>
+        <input type="checkbox" disabled="disabled" <?php echo $edit[0][5]==1 ? 'checked' : ''?> 
+            name="chkView" id="chkView" value="1" class="formCheckboxWide"/>
+        <br class="clear"/>            
+        
+        <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                    <input type="button" class="editbutton" id="editBtn" 
+                        onclick="edit();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Edit;?>" title="<?php echo $lang_Common_Edit;?>" />
+<?php } ?>
+        </div> 
+    </div>
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-<?php } else { ?>
-&nbsp;
-<br><br>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_Modules; ?></td>
-						<td align="left" valign="top">
-						<select name="cmbModuleID" <?php echo $locRights['add'] ? '':'disabled'?>>
-									<option value="0">--<?php echo $lang_Admin_Users_SelectModule;?>--</option>
+<?php } else { 
+        $disabled = $locRights['add'] ? '':'disabled="disabled"';
+    ?>
+    <div class="outerbox">    
+        <label for="cmbModuleID"><?php echo $lang_Admin_Users_Module; ?></label>
+		<select name="cmbModuleID" id="cmbModuleID" <?php echo $disabled; ?> class="formSelect">
+            <option value="0">--<?php echo $lang_Admin_Users_SelectModule;?>--</option>
 <?php
-						$modlist = $this->popArr['modlistUnAss'];
-						for($c=0;$modlist && count($modlist)>$c;$c++)
-						       echo "<option value='". $modlist[$c][0] . "'>". $modlist[$c][1] . "</option>";
+		$modlist = $this->popArr['modlistUnAss'];
+		for($c=0;$modlist && count($modlist)>$c;$c++) {
+		    echo "<option value='". $modlist[$c][0] . "'>". $modlist[$c][1] . "</option>";
+        }
 ?>
-						</select>
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_add; ?></td>
-						<td align="left" valign="top"><input type="checkbox" name="chkAdd" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
-						</td>
-						<td valign="top"><?php echo $lang_Admin_Users_edit; ?></td>
-						<td align="left" valign="top"><input type="checkbox" name="chkEdit" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"><?php echo $lang_Admin_Users_delete; ?></td>
-						<td align="left" valign="top"><input type="checkbox" name="chkDelete" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
-						</td>
-						<td valign="top"><?php echo $lang_Admin_Users_view; ?></td>
-						<td align="left" valign="top"><input type="checkbox" name="chkView" <?php echo $locRights['add'] ? '':'disabled'?> value="1">
-						</td>
-					  </tr>
-					  <tr>
-						<td valign="top"></td>
-<?php					if($locRights['add']) { ?>
-						<td align="left" valign="top"><img onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php					} else { ?>
-						<td align="left" valign="top"><img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_save.gif">
-<?php					}		?>
-						</td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+		</select>
+
+        <br class="clear"/>         
+        <label for="chkAdd"><?php echo $lang_Admin_Users_add; ?></label>
+        <input type="checkbox" <?php echo $disabled;?> 
+            name="chkAdd" id="chkAdd" value="1" class="formCheckboxWide"/>
+            
+        <label for="chkEdit"><?php echo $lang_Admin_Users_edit; ?></label>
+        <input type="checkbox" <?php echo $disabled;?> 
+            name="chkEdit" id="chkEdit" value="1" class="formCheckboxWide"/>
+        <br class="clear"/>            
+
+        <label for="chkDelete"><?php echo $lang_Admin_Users_delete; ?></label>
+        <input type="checkbox" <?php echo $disabled;?> 
+            name="chkDelete" id="chkDelete" value="1" class="formCheckboxWide"/>
+            
+        <label for="chkView"><?php echo $lang_Admin_Users_view; ?></label>
+        <input type="checkbox" <?php echo $disabled;?> 
+            name="chkView" id="chkView" value="1" class="formCheckboxWide"/>
+        <br class="clear"/>  
+        
+        <div class="formbuttons">
+<?php if($locRights['add']) { ?>                
+        <input type="button" class="savebutton" id="saveBtn" 
+            onclick="addEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>" />
+<?php } ?>
+        </div> 
+    </div>
 <?php } ?>
 
-<table width='100%' cellpadding='0' cellspacing='0' border='0'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
+    <div class="outerbox">
+       <div class="subHeading"><h3><?php echo $lang_Admin_Users_AssignedRights; ?></h3></div>
 
-  <tr>
-
-    <td width='100%'><h3><?php echo $lang_Admin_Users_AssignedRights; ?></h3></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'><A href='index.php?module=Contacts&action=index&return_module=Contacts&return_action=DetailView&&print=true' class='utilsLink'></td>
-  </tr>
-  <tr>
-  <td>
-<?php					if($locRights['delete']) { ?>
-						<img onClick="delEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif">
-<?php					} else { ?>
-						<img onClick="alert('<?php echo $lang_Common_AccessDenied;?>');" src="../../themes/beyondT/pictures/btn_delete.gif">
-<?php					}		?>
-
-  </td>
-  </tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-						 <td><strong><?php echo $lang_Admin_Users_Module; ?></strong></td>
-						 <td><strong><?php echo $lang_Admin_Users_add; ?></strong></td>
-						 <td><strong><?php echo $lang_Admin_Users_edit; ?></strong></td>
-						 <td><strong><?php echo $lang_Admin_Users_delete; ?></strong></td>
-						 <td><strong><?php echo $lang_Admin_Users_view; ?></strong></td>
-					</tr>
+<table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+        <tr>
+			 <td><strong><?php echo $lang_Admin_Users_Module; ?></strong></td>
+			 <td><strong><?php echo $lang_Admin_Users_add; ?></strong></td>
+			 <td><strong><?php echo $lang_Admin_Users_edit; ?></strong></td>
+			 <td><strong><?php echo $lang_Admin_Users_delete; ?></strong></td>
+			 <td><strong><?php echo $lang_Admin_Users_view; ?></strong></td>
+		</tr>
 <?php
 $rset = $this->popArr['modlistAss'];
 $modlist = $this->popArr['modlist'];
@@ -386,17 +258,24 @@ $modlist = $this->popArr['modlist'];
         }
 
 ?>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+</table>
+        <div class="formbuttons">
+<?php if($locRights['delete']) { ?>
+        <input type="button" class="delbutton" id="delBtn" 
+            onclick="delEXT();" tabindex="5" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>" />
+
+<?php } ?>
+        </div>
+    </div>
 </form>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
 </body>
 </html>

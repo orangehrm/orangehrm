@@ -16,26 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
 
-if (isset($_GET['message']) && !empty($_GET['message'])) {
-
-	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
-
-	$col_def=strtolower($expString[$length-1]);
-	$expString='lang_Leave_'.$_GET['message'];
-
-	$message = isset($$expString) ? $$expString : CommonFunctions::escapeHtml($_GET['message']);
-
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $message; ?>
-	</font>
-<?php }	?>
-
-<?php
 	/* To check whether active leave types are available: Begins */
 	$sum = 0;
 	foreach ($records as $record) {
@@ -52,7 +33,8 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	/* To check whether active leave types are available: Ends */
 ?>
 
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
 	var deletedLeaveTypes = new Array();
 
@@ -71,10 +53,10 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 				}
 			}
 		}
-		document.getElementById("btnEdit").src = '../../themes/beyondT/pictures/btn_save.gif' ;
-		document.getElementById("btnEdit").onmouseover = switchToSave2;
-		document.getElementById("btnEdit").onmouseout = switchToSave;
+		document.getElementById("btnEdit").className = 'savebutton';
 		document.getElementById("btnEdit").onclick = editRecord;
+        document.getElementById("btnEdit").value = '<?php echo $lang_Common_Save;?>';
+        document.getElementById("btnEdit").title = '<?php echo $lang_Common_Save;?>';
 
 		document.getElementById("btnAdd").disabled = 'true';
 		document.getElementById("btnDel").disabled = 'true';
@@ -258,39 +240,62 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 		}
 		return false;
 	}
+//]]> 
 </script>
-<h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?><hr/></h2>
+<div class="outerbox">
 <form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
-<p class="navigation">
-	<input type="image" onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';" src="../../themes/beyondT/pictures/btn_add.gif" name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"/>
-	<?php /* Show edit & delete buttons only if records are available: Begins */
-    if ($activeTypesAvailable) {
+    <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?></h2></div>
+    
+    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
+        if (isset($message)) {
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $messageStr = "lang_Leave_" . $message;
     ?>
-	<input type="image" src="../../themes/beyondT/pictures/btn_edit.gif" width="65" height="20" onclick="actionEdit(); return false;" onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';" onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';" name="btnEdit" id="btnEdit"/>
-	<input type="image" onclick="actionDelete();" onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';" src="../../themes/beyondT/pictures/btn_delete.gif" name="btnDel" id="btnDel"/>
-    <?php /* Show edit & delete buttons only if records are available: Ends */
-    }
-    ?>
-</p>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: CommonFunctions::escapeHtml($message); ?></span>
+        </div>  
+    <?php } ?>
+            
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <input type="button" class="addbutton"
+                name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Add;?>" />          
+    
+              <?php /* Show edit & delete button only if records are available: Begins */
+               if ($activeTypesAvailable) {
+              ?>                      
+                <input type="button" class="editbutton"
+                    name="btnEdit" id="btnEdit" onclick="actionEdit(); return false;"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                    value="<?php echo $lang_Common_Edit;?>" />
+              
+                <input type="button" class="delbutton" onclick="actionDelete(); return false;"
+                    name="btnDel" id="btnDel"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                    
+                    value="<?php echo $lang_Common_Delete;?>" />
+              <?php /* Show edit & delete button only if records are available: Ends */
+              }
+              ?>                    
+        </div>              
+        <div class="noresultsbar"><?php echo !$activeTypesAvailable ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" />
+
 <?php /* Show table only if records are available: Begins */
 if ($activeTypesAvailable) {
 ?>
-  <table width="516" border="0" cellpadding="0" cellspacing="0">
+  <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
     <tr>
-      <th width="1" class="tableTopLeft"></th>
-      <th colspan="6" class="tableTopMiddle"></th>
-      <th width="1" class="tableTopRight"></th>
-    </tr>
-    <tr>
-      <th class="tableMiddleLeft"></th>
-      <th width="77" align="center" class="tableMiddleMiddle"><div align="center">
+      <td width="50">
         <input type='checkbox' class='checkbox' name='allCheck' value='' onclick="doHandleAll();" />
-      </div></th>
-      <th width="159" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveTypeId?></th>
-      <th colspan="3" align="left" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
-      <th width="5" align="left" class="tableMiddleMiddle"></th>
-      <th class="tableMiddleRight"></th>
+      </td>
+      <td><?php echo $lang_Leave_Common_LeaveTypeId?></td>
+      <td><?php echo $lang_Leave_Common_LeaveType;?></td>
     </tr>
   </thead>
   <tbody>
@@ -310,26 +315,16 @@ if ($activeTypesAvailable) {
 			 $j++;
 ?>
     <tr>
-      <td class="tableMiddleLeft"></td>
-      <td align="center" class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
+      <td class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
       <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
-      <td colspan="3" class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
+      <td class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
         <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
-      <td class="<?php echo $cssClass; ?>" align="left"></td>
-      <td class="tableMiddleRight"></td>
     </tr>
     <?php
 		}
 ?>
   </tbody>
-  <tfoot>
-    <tr>
-      <td class="tableBottomLeft"></td>
-      <td colspan="6" class="tableBottomMiddle"></td>
-      <td class="tableBottomRight"></td>
-    </tr>
-  </tfoot>
 </table>
 <?php /* Show table only if records are available: Ends */
 }
@@ -338,3 +333,11 @@ if ($activeTypesAvailable) {
 <div><span class="error" id="messageLayer2"></span></div>
 </div>
 </form>
+</div>      
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>

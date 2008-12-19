@@ -17,493 +17,328 @@
  * Boston, MA  02110-1301, USA
  */
 
-////xajax header
 require_once ROOT_PATH . '/lib/controllers/ViewController.php';
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once($lan->getLangPath("full.php"));
 
 $GLOBALS['lang_Common_Select'] = $lang_Common_Select;
 
 function populateStates($value) {
 
-	$view_controller = new ViewController();
-	$provlist = $view_controller->xajaxObjCall($value,'LOC','province');
+    $view_controller = new ViewController();
+    $provlist = $view_controller->xajaxObjCall($value,'LOC','province');
 
-	$objResponse = new xajaxResponse();
-	$xajaxFiller = new xajaxElementFiller();
-	$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
-	if ($provlist) {
-		$objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
-		$objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
+    $objResponse = new xajaxResponse();
+    $xajaxFiller = new xajaxElementFiller();
+    $xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
+    if ($provlist) {
+        $objResponse->addAssign('lrState','innerHTML','<select name="txtState" id="txtState" class="formSelect" tabindex="3"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
+        $objResponse = $xajaxFiller->cmbFillerById($objResponse,$provlist,1,'lrState','txtState');
 
-	} else {
-		$objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" value="">');
-	}
-	$objResponse->addScript('document.getElementById("txtState").Focus();');
+    } else {
+        $objResponse->addAssign('lrState','innerHTML','<input type="text" name="txtState" id="txtState" class="formInputText" tabindex="3" value="">');
+    }
+    $objResponse->addScript('document.getElementById("txtState").Focus();');
 
-	$objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
-	$objResponse->addAssign('status','innerHTML','');
+    $objResponse->addScript("document.frmLocation.txtDistrict.options.length = 1;");
+    $objResponse->addAssign('status','innerHTML','');
 
-return $objResponse->getXML();
+    return $objResponse->getXML();
 }
 
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->processRequests();
 
+$locRights=$_SESSION['localRights'];   
+   
+$formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
+$new = true;
+$disabled = '';
+$locationCode = '';
+$locationName = '';
+$skillDesc = '';  
+$locationCountry = '';  
+$locationState = '';
+$locationCity = '';
+$locationAddress = '';
+$locationZip = '';
+$locationPhone = '';
+$locationFax = '';        
+$locationComments = '';
 
-	$sysConst = new sysConf();
-	$locRights=$_SESSION['localRights'];
-
-if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) {
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+    $formAction="{$formAction}&amp;id={$this->getArr['id']}&amp;capturemode=updatemode";
+    $new = false;
+    $disabled = "disabled='disabled'";
+    $editData = $this->popArr['editArr'];
+    $locationCode = CommonFunctions::escapeHtml($editData[0][0]);
+    $locationName = CommonFunctions::escapeHtml($editData[0][1]);
+    $locationCountry = CommonFunctions::escapeHtml($editData[0][2]);
+    $locationState = CommonFunctions::escapeHtml($editData[0][3]);
+    $locationCity = CommonFunctions::escapeHtml($editData[0][4]);
+    $locationAddress = CommonFunctions::escapeHtml($editData[0][5]);
+    $locationZip = CommonFunctions::escapeHtml($editData[0][6]);
+    $locationPhone = CommonFunctions::escapeHtml($editData[0][7]);
+    $locationFax = CommonFunctions::escapeHtml($editData[0][8]);
+    $locationComments = CommonFunctions::escapeHtml($editData[0][9]);
+    
+}
 
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php $objAjax->printJavascript(); ?>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script>
-	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-	}
+<script type="text/javascript">
+//<![CDATA[
 
-	function addSave() {
+    var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
-		var frm = document.frmLocation;
+    function goBack() {
+        location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
+    }
+    
+    function validate() {
+        var err = false;
+        var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
-		if (frm.txtLocDescription.value == '') {
-			alert ('<?php echo $lang_locations_NameHasToBeSpecified; ?>');
-			frm.txtLocDescription.focus();
-			return;
-		}
+        var frm = document.frmLocation;
 
-		if (frm.cmbCountry.value == '0') {
-			alert ('<?php echo $lang_locations_CountryShouldBeSelected; ?>');
-			frm.cmbCountry.focus();
-			return;
-		}
+        if (frm.txtLocDescription.value.trim() == '') {        
+            if (!err) {
+                frm.txtLocDescription.focus();
+            }        
+            err = true;
+            msg += "\t- <?php echo $lang_locations_NameHasToBeSpecified; ?>\n";
+        }
 
-		if ( frm.txtAddress.value == '') {
-			alert ('<?php echo $lang_locations_AddressShouldBeSpecified; ?>');
-			frm.txtAddress.focus();
-			return;
-		}
-
-		if ( frm.txtZIP.value == '' ){
-			alert ('<?php echo $lang_locations_ZipCodeShouldBeSpecified; ?>');
-			frm.txtZIP.focus();
-			return;
-		}
-
-		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
-			if ( ! confirm ('<?php echo $lang_locations_ZipContainsNonNumericChars; ?>') ) {
-				frm.txtZIP.focus();
-			return;
-			}
-		}
-
-
-		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
-			alert('<?php echo $lang_locations_InvalidCharsInPhone; ?>');
-			frm.txtPhone.focus();
-			return;
-		}
-
-		 if(frm.txtFax.value != '' && !numeric(frm.txtFax)) {
-
-			alert('<?php echo $lang_locations_InvalidCharsInFax; ?>');
-			frm.txtFax.focus();
-			return;
-		}
-
-		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
-		document.frmLocation.sqlState.value = "NewRecord";
-		document.frmLocation.submit();
-	}
-
-	function clearAll() {
-			document.frmLocation.txtLocDescription.value = '';
-			document.frmLocation.cmbCountry.options[0].selected = true;
-
-            // check if cmbProvince is a select or a text input
-		    stateObj = document.getElementById("txtState");
-            if( stateObj.options ){
-                stateObj.options[0].selected = true;
-            } else {
-                stateObj.value = '';
+        if (frm.cmbCountry.value == '0') {
+            if (!err) {            
+                frm.cmbCountry.focus();
             }
-			document.frmLocation.cmbDistrict.value = '';
-			document.frmLocation.txtAddress.value = '';
-			document.frmLocation.txtZIP.value = '';
-			document.frmLocation.txtPhone.value = '';
-			document.frmLocation.txtFax.value = '';
-			document.frmLocation.txtComments.value = '';
-	}
-</script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'></td>
-    <td width='100%'><h2><?php echo $lang_locations_heading; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div  id="status"></div></b></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" >
-<td width="177">
-<form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
+            err = true;
+            msg += "\t- <?php echo $lang_locations_CountryShouldBeSelected; ?>\n";
+        }
 
-  <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="sqlState" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      <?php
-		if (isset($this->getArr['msg'])) {
-			$expString  = $this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
-		}
-		?>
-      </font> </td>
-  </tr>
-</table>
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-					  <tr>
-					    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
-					    <td> <textarea name='txtLocDescription' rows="3" tabindex='3' cols="30"></textarea></td>
-					  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
-						  <td><select name="cmbCountry" onChange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....'; xajax_populateStates(this.value);">
-						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
-					<?php
-								$cntlist = $this->popArr['cntlist'];
-								for($c=0;$cntlist && count($cntlist)>$c;$c++) {
-									echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
-								}
-					?>
-						  </select></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_state; ?></td>
-						  <td><span id="lrState" name="lrState">
-							    <input type="text" name="txtState" id="txtState" >
-							  </span>
-							  <input type="hidden" name="cmbProvince" id="cmbProvince" >
-						   </td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_city; ?></td>
-						  <td><input type="text" name="cmbDistrict" ></td>
-					  </tr>
-					  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_Address; ?></td>
-						  <td><textarea name="txtAddress"></textarea></td>
-					  </tr>
-					  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_ZIP_Code; ?></td>
-						  <td><input type="text" name="txtZIP"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_Phone; ?></td>
-						  <td><input type="text" name="txtPhone"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_comphire_fax; ?></td>
-						  <td><input type="text" name="txtFax"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_Leave_Common_Comments; ?></td>
-						  <td><textarea name="txtComments"></textarea></td>
-					  </tr>
+        if ( frm.txtAddress.value.trim() == '') {
+            if (!err) {            
+                frm.txtAddress.focus();
+            }
+            err = true;
+            msg += "\t- <?php echo $lang_locations_AddressShouldBeSpecified; ?>\n";
+        }
 
-					  <tr>
-					  	<td></td>
-					  	<td align="right"><img onClick="addSave();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-        <img onClick="clearAll();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif"></td></tr>
+        if ( frm.txtZIP.value.trim() == '' ){
+            if (!err) {            
+                frm.txtZIP.focus();
+            }
+            err = true;
+            msg += "\t- <?php echo $lang_locations_ZipCodeShouldBeSpecified; ?>\n";
+        } else if (!numbers(frm.txtZIP)) {
+            if (!confirm('<?php echo $lang_locations_ZipContainsNonNumericChars; ?>')) {
+                frm.txtZIP.focus();
+                return false;
+            }
+        }
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
+        if (frm.txtPhone.value.trim() != '' && !numeric(frm.txtPhone)) {
+            if (!err) {            
+                frm.txtPhone.focus();
+            }
+            err = true;
+            msg += "\t- <?php echo $lang_locations_InvalidCharsInPhone; ?>\n";
+        }
 
-</form>
-</form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</body>
-</html>
-<?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-	 $message = $this->popArr['editArr'];
-?>
+        if (frm.txtFax.value.trim() != '' && !numeric(frm.txtFax)) {
+            if (!err) {            
+                frm.txtFax.focus();
+            }
+            err = true;
+            msg += "\t- <?php echo $lang_locations_InvalidCharsInFax; ?>\n";
+        }
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php $objAjax->printJavascript(); ?>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
+        if (err) {
+            alert(msg);
+            return false;
+        } else {
+            $("cmbProvince").value = $("txtState").value;        
+            return true;
+        }
+    }
 
-<script>
+    function reset() {
+        $('frmLocation').reset();
+    }
 
-function edit()
-{
-	if(document.Edit.title=='Save') {
-		addUpdate();
-		return;
-	}
+    function edit() {
 
-	var frm=document.frmLocation;
+<?php if($locRights['edit']) { ?>
+        if (editMode) {
+            if (validate()) {
+                $('frmLocation').submit();
+            }
+            return;
+        }
+        editMode = true;
+        var frm = $('frmLocation');
 
-	for (var i=0; i < frm.elements.length; i++)
-		frm.elements[i].disabled = false;
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.Edit.title="Save";
-}
+        for (var i=0; i < frm.elements.length; i++) {
+            frm.elements[i].disabled = false;
+        }
+        $('editBtn').value="<?php echo $lang_Common_Save; ?>";
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').className = "savebutton";
 
-	function goBack() {
-		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
-	}
-
-function mout() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
-}
-
-function mover() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-
-	function addUpdate() {
-
-		var frm = document.frmLocation;
-
-		if (frm.txtLocDescription.value == '') {
-			alert ('<?php echo $lang_locations_NameHasToBeSpecified; ?>');
-			frm.txtLocDescription.focus();
-			return;
-		}
-
-		if (frm.cmbCountry.value == '0') {
-			alert ('<?php echo $lang_locations_CountryShouldBeSelected; ?>');
-			frm.cmbCountry.focus();
-			return;
-		}
-
-		if ( frm.txtAddress.value == '') {
-			alert ('<?php echo $lang_locations_AddressShouldBeSpecified; ?>');
-			frm.txtAddress.focus();
-			return;
-		}
-
-		if ( frm.txtZIP.value == '' ){
-			alert ('<?php echo $lang_locations_ZipCodeShouldBeSpecified; ?>');
-			frm.txtZIP.focus();
-			return;
-		}
-
-		if ( (frm.txtZIP.value != '') && (!numbers(frm.txtZIP)) ){
-			if ( ! confirm ('<?php echo $lang_locations_ZipContainsNonNumericChars; ?>') ) {
-				frm.txtZIP.focus();
-			return;
-			}
-		}
-
-		if (frm.txtPhone.value != '' && !numeric(frm.txtPhone)) {
-			alert('<?php echo $lang_locations_InvalidCharsInPhone; ?>');
-			frm.txtPhone.focus();
-			return;
-		}
-
-		if (frm.txtFax.value != '' && !numeric(frm.txtFax)) {
-			alert('<?php echo $lang_locations_InvalidCharsInFax; ?>');
-			frm.txtFax.focus();
-			return;
-		}
-
-		document.getElementById("cmbProvince").value = document.getElementById("txtState").value;
-
-		document.frmLocation.sqlState.value = "UpdateRecord";
-		document.frmLocation.submit();
-	}
-
-</script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-</head>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'></td>
-    <td width='100%'><h2><?php echo $lang_locations_heading; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-	<b><div align="right" id="status"></div></b></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
-<form name="frmLocation" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
-
-  <tr>
-    <td height="27" valign='top'> <p> <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="sqlState" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'> <font color="red" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;
-      <?php
-		if (isset($this->getArr['msg'])) {
-			$expString  =$this->getArr['msg'];
-			$expString = explode ("%",$expString);
-			$length = sizeof($expString);
-			for ($x=0; $x < $length; $x++) {
-				echo " " . $expString[$x];
-			}
-		}
-		?>
-      </font> </td>
-  </tr>
-</table>
-           <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr>
-						    <td><?php echo $lang_Commn_code; ?></td>
-						   	<input type="hidden" name="txtLocationCode" value=<?php echo $message[0][0]?>>
-						   	<td><strong><?php echo $message[0][0]?></strong></td>
-						  </tr>
-						  <tr>
-						    <td><span class="error">*</span> <?php echo $lang_compstruct_Name; ?></td>
-						  	<td> <textarea name='txtLocDescription' rows="3" disabled tabindex='3' cols="30"><?php echo $message[0][1]?></textarea>
-						    </td>
-						  </tr>
-				  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_country; ?></td>
-						  <td><select name="cmbCountry" disabled onChange="document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>....'; xajax_populateStates(this.value);">
-						  		<option value="0">--<?php echo $lang_districtinformation_selectcounlist; ?>--</option>
-					<?php
-								$cntlist = $this->popArr['cntlist'];
-								for($c=0;$cntlist && count($cntlist)>$c;$c++)
-									if ($message[0][2] == $cntlist[$c][0])
-										echo "<option selected value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
-									else
-										echo "<option value='" .$cntlist[$c][0] . "'>" . $cntlist[$c][1] . '</option>';
-					?>
-						  </select></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_state; ?></td>
-						  <td>
-						  	<div id="lrState" name="lrState">
-							    <?php if (isset($message[0][2]) && ($message[0][2] == 'US')) { ?>
-							    	<select name="txtState" id="txtState" disabled>
-							    		<option value="0">--<?php echo $lang_districtinformation_selstatelist; ?>--</option>
-					<?php
-								$provlist = $this->popArr['provlist'];
-								for($c=0;$provlist && count($provlist)>$c;$c++)
-									if($message[0][3]==$provlist[$c][1])
-										echo "<option selected value='" .$provlist[$c][1] . "'>" . $provlist[$c][2] . '</option>';
-									else
-										echo "<option value='" .$provlist[$c][1] . "'>" . $provlist[$c][2] . '</option>';
-					?>
-							    	</select>
-							    	<?php } else { ?>
-							    	<input type="text" disabled name="txtState" id="txtState" value="<?php echo isset($message[0][3]) ? $message[0][3] : ''?>">
-							    	<?php } ?>
-							    	</div>
-							    	<input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo isset($message[0][3]) ? $message[0][3] : ''?>">
-							    	</td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_city; ?></td>
-						  <td><input type="text" disabled name="cmbDistrict" value="<?php echo $message[0][4]?>"></td>
-					  </tr>
-					  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_Address; ?></td>
-						  <td><textarea disabled name="txtAddress"><?php echo $message[0][5]?></textarea></td>
-					  </tr>
-					  <tr>
-						  <td><span class="error">*</span> <?php echo $lang_compstruct_ZIP_Code; ?></td>
-						  <td><input disabled type="text" name="txtZIP" value="<?php echo $message[0][6]?>"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_compstruct_Phone; ?></td>
-						  <td><input disabled type="text" name="txtPhone" value="<?php echo $message[0][7]?>"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_comphire_fax; ?></td>
-						  <td><input disabled type="text" name="txtFax" value="<?php echo $message[0][8]?>"></td>
-					  </tr>
-					  <tr>
-						  <td><?php echo $lang_Leave_Common_Comments; ?></td>
-						  <td><textarea disabled name="txtComments"><?php echo $message[0][9]?></textarea></td>
-					  </tr>
-					  <tr>
-						  <td></td>
-						  <td align="right">
-<?php			if($locRights['edit']) { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
-<?php			} else { ?>
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" onClick="alert('<?php echo $lang_Common_AccessDenied;?>');">
-<?php			}  ?>
-					  <img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
-
-</td>
-					  </tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
-</form>
-</form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</body>
-</html>
+<?php } else {?>
+        alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
+    }
+
+    function onCountryChange(country) {        
+        document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>...';
+        xajax_populateStates(country);
+    }
+        
+//]]>
+</script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+</head>
+
+<body>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div id="status"></div>        
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_locations_heading;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">[0][2]
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+     
+            <form name="frmLocation" id="frmLocation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
+
+                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>  
+                                                           
+                <?php if (!$new) { ?>                    
+                    <label for="txtLocationCode"><?php echo $lang_Commn_code; ?></label>
+                    <input type="hidden" id="txtLocationCode" name="txtLocationCode" value="<?php echo $locationCode;?>"/>
+                    <span class="formValue"><?php echo $locationCode;?></span><br class="clear"/>
+                <?php } ?>
+
+                <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?> <span class="required">*</span>
+                </label>
+                <textarea id="txtLocDescription" name="txtLocDescription" tabindex="1" rows="3" cols="30" 
+                    class="formTextArea" <?php echo $disabled;?>><?php echo $locationName; ?></textarea>
+                <br class="clear"/>
+                
+                <label for="cmbCountry"><?php echo $lang_compstruct_country; ?> <span class="required">*</span></label>
+                <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
+                        onchange="onCountryChange(this.value);" tabindex="2" >
+                    <option value="0">--- <?php echo $lang_districtinformation_selectcounlist;?> ---</option>
+                    <?php 
+                        $countryList = $this->popArr['cntlist'];
+                        if (!empty($countryList)) {
+                            foreach ($countryList as $country) {
+                                $selected = ($locationCountry == $country[0]) ? 'selected="selected"' : '';
+                                echo "<option {$selected} value='{$country[0]}'>{$country[1]}</option>";   
+                            }
+                        }    
+                    ?>
+                </select>
+                <br class="clear"/> 
+                
+                <label for="txtState"><?php echo $lang_compstruct_state; ?></label>                    
+                <div id="lrState">
+                <?php if ($locationCountry == 'US') { ?>
+                    <select name="txtState" id="txtState" <?php echo $disabled;?> class="formSelect" tabindex="3" >
+                        <option value="0">--- <?php echo $lang_districtinformation_selstatelist;?>---</option>
+                    <?php  
+                        $stateList = $this->popArr['provlist'];
+                        if (!empty($stateList)) {
+                            foreach ($stateList as $state) {
+                                $selected = ($locationState == $state[1]) ? 'selected="selected"' : '';
+                                echo "<option $selected value='{$state[1]}'>{$state[2]}</option>";                                                                
+                            }
+                        }
+                    ?>
+                    </select>
+                <?php } else { ?>
+                    <input id="txtState" name="txtState" type="text" <?php echo $disabled;?> class="formInputText"
+                        value="<?php echo $locationState;?>" tabindex="3" />
+                <?php } ?>
+                </div>
+                <br class="clear"/>
+                
+                <input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo $locationState;?>"/>
+                <br class="clear"/>
+                
+                <label for="cmbDistrict"><?php echo $lang_compstruct_city; ?></label>                
+                <input id="cmbDistrict"  name="cmbDistrict" type="text" <?php echo $disabled;?> class="formInputText"
+                    value="<?php echo $locationCity; ?>" tabindex="4" />
+                <br class="clear"/>
+
+                <label for="txtAddress"><?php echo $lang_compstruct_Address; ?> <span class="required">*</span></label>
+                <textarea id='txtAddress' name='txtAddress' <?php echo $disabled;?> class="formTextArea"
+                    rows="3" cols="20" tabindex="5" ><?php echo $locationAddress;?></textarea>
+                <br class="clear"/>
+                    
+                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?> <span class="required">*</span></label>                                                    
+                <input id='txtZIP' name='txtZIP' type="text" <?php echo $disabled;?> class="formInputText"
+                    value="<?php echo $locationZip;?>" tabindex="6" />
+                <br class="clear"/>
+
+                <label for="txtPhone"><?php echo $lang_compstruct_Phone; ?></label>
+                <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText" 
+                    value="<?php echo $locationPhone;?>"/>
+                <br class="clear"/>
+                                
+                <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>    
+                <input id="txtFax" name="txtFax" type="text" <?php echo $disabled;?>  class="formInputText"
+                    value="<?php echo $locationFax;?>" tabindex="7"/>
+                <br class="clear"/>
+                                    
+                <label for="txtComments"><?php echo $lang_Leave_Common_Comments; ?></label>
+                <textarea id='txtComments' name='txtComments' <?php echo $disabled;?> class="formTextArea"
+                    rows="3" cols="20" tabindex="8" ><?php echo $locationComments;?></textarea>
+                <br class="clear"/>
+
+                <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
+                        onclick="edit();" tabindex="9" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
+                    <input type="button" class="clearbutton" onclick="reset();" tabindex="10"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>                         
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
+        <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    </div>
+</body>
+</html>

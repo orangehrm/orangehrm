@@ -232,7 +232,7 @@ $disabled = "disabled='disabled'";
                     value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>" maxlength="20"/>
                 <br class="clear"/>
                                     
-                <label for="txtFax"><?php echo $lang_compstruct_country; ?></label>
+                <label for="cmbCountry"><?php echo $lang_compstruct_country; ?></label>
                 <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
                         onchange="onCountryChange(this.value);">
                     <option value="0">--- <?php echo $lang_Common_Select;?> ---</option>

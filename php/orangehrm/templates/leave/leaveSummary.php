@@ -35,10 +35,14 @@
  $modifier = $modifier[0];
 
  if ($modifier === 'edit') {
+    $btnClass = 'savebutton';
+    $btnTitle = $lang_Common_Save;
  	$btnImage = '../../themes/beyondT/pictures/btn_save.gif';
  	$btnImageMO = '../../themes/beyondT/pictures/btn_save_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Quota_Save';
  } else {
+    $btnClass = 'editbutton';
+    $btnTitle = $lang_Common_Edit;
  	$btnImage = '../../themes/beyondT/pictures/btn_edit.gif';
  	$btnImageMO = '../../themes/beyondT/pictures/btn_edit_02.gif';
  	$frmAction = '?leavecode=Leave&action=Leave_Edit_Summary';
@@ -147,7 +151,8 @@
 -->
 </style>
 
-<script language="javascript">
+<script type="text/javascript">
+//<![CDATA[
 
 	function init() {
 	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
@@ -256,8 +261,15 @@
 	}
 	
 <?php }  ?>	
+//]]>
 </script>
-<h2><?php echo $lang_Title; ?><hr/></h2>
+<div class="navigation">
+    <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+        <span><?php echo $lang_Common_Back;?></span>
+    </a>
+</div>
+<div class="outerbox">
+<div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
 
 	$expString  = $_GET['message'];
@@ -269,9 +281,9 @@
 	$expString='lang_Leave_'.$_GET['message'];
 	if (isset($$expString)) {
 ?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-	</font>
+    <div class="messagebar">
+        <span class="<?php echo $col_def; ?>"><?php echo $$expString; ?></span>
+    </div>
 <?php
 	}
 }
@@ -288,59 +300,51 @@
 		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
 		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
 		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
+    
+    <div class="actionbar">
+        <div class="actionbuttons">
+    <?php
+        if ($auth === 'admin' ) {
+    ?>
+          <input type="button" class="<?php echo $btnClass;?>" id="editBtn" onclick="actForm();"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $btnTitle;?>" />
 
-	<?php
-		if ($auth === 'admin' ) {
-	?>
+    <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
+        <a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
+    <?php } ?>
+    <?php if ($copyQuota) { ?>
+        <a href="javascript:actCopyLeaveQuota()"><?php echo $lang_Leave_CopyLeaveQuotaFromLastYear; ?></a>
+    <?php } if (!$copyQuota && $broughtForward) { ?>
+        <a href="javascript:actCopyLeaveBroughtForward()"><?php echo $lang_Leave_CopyLeaveBroughtForwardFromLastYear; ?></a>
+    <?php } ?>
 
-	<p class="controls">
-		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-		<input type="image" name="btnAct" src="<?php echo $btnImage; ?>" onMouseOut="this.src='<?php echo $btnImage; ?>';" onMouseOver="this.src='<?php echo $btnImageMO; ?>';" />
-	<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
-		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
-	<?php } ?>
-	<?php if ($copyQuota) { ?>
-		<a href="javascript:actCopyLeaveQuota()"><?php echo $lang_Leave_CopyLeaveQuotaFromLastYear; ?></a>
-	<?php } if (!$copyQuota && $broughtForward) { ?>
-		<a href="javascript:actCopyLeaveBroughtForward()"><?php echo $lang_Leave_CopyLeaveBroughtForwardFromLastYear; ?></a>
-	<?php } ?>
 
-	</p>
 <?php
-		}else if($auth === 'supervisor'){
-?>		
-	<p class="controls">
-		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-		<?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
-		<a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
-	<?php } ?>
-	</p>
-<?php		
-		}
-?>
-<table border="0" cellpadding="0" cellspacing="0">
-  <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
-    	<th class="tableTopMiddle"></th>
-    	<?php } ?>
-    	<th class="tableTopMiddle"></th>
-    	<?php if ($auth === 'admin') { ?>
-    	<th class="tableTopMiddle"></th>
-    	<?php } ?>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
-	<tr>
-		<th class="tableMiddleLeft"></th>
+        }else if($auth === 'supervisor'){
+?>      
 
+        <?php if (isset($_REQUEST['id']) && ($_REQUEST['id'] != LeaveQuota::LEAVEQUOTA_CRITERIA_ALL)) {?>
+        <a href="javascript:actTakenLeave()"><?php echo $lang_Leave_Common_ListOfTakenLeave; ?></a>
+    <?php } ?>
+
+<?php       
+        }
+?>                        
+        </div>              
+        <div class="noresultsbar"></div>
+        <div class="pagingbar">
+        </div>
+    </div>
+    <br class="clear"/>
+
+<table border="0" cellpadding="0" cellspacing="0" class="data-table">
+  <thead>
+	<tr>
 		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
 
 			<?php $col = 1; ?>
-			<th width="180px" class="tableMiddleMiddle">
+			<td>
 				<?php if ($modifier === 'edit') {
 					      echo $lang_Leave_Common_EmployeeName;
 				      } else { ?>
@@ -348,11 +352,11 @@
 				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_EmployeeName;?></a>
 				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-			</th>
+			</td>
 		<?php } ?>
 
 		<?php $col = 2; ?>
-    	<th width="180px" class="tableMiddleMiddle">
+    	<td>
 				<?php if ($modifier === 'edit') {
 						  echo $lang_Leave_Common_LeaveType;
 				      } else { ?>
@@ -360,12 +364,12 @@
 			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo $lang_Leave_Common_LeaveType;?></a>
 			<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-		</th>
+		</td>
 
     	<?php if ($auth === 'admin') { ?>
 
 			<?php $col = 3; ?>
-			<th width="180px" class="tableMiddleMiddle">
+			<td>
 				<?php if ($modifier === 'edit') {
 						  echo "$lang_Leave_Common_LeaveEntitled ($lang_Common_Days)";
 				      } else { ?>
@@ -373,11 +377,11 @@
 				   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveEntitled ($lang_Common_Days)";?></a>
 					<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-			</th>
+			</td>
     	<?php } ?>
 
 		<?php $col = 4; ?>
-		<th width="180px" class="tableMiddleMiddle">
+		<td>
 				<?php if ($modifier === 'edit') {
 					      echo "$lang_Leave_Common_LeaveTaken ($lang_Common_Days)";
 				      } else { ?>
@@ -385,10 +389,10 @@
 			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveTaken ($lang_Common_Days)";?></a>
 				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-		</th>
+		</td>
 
 		<?php $col = 5; ?>
-		<th width="180px" class="tableMiddleMiddle">
+		<td>
 				<?php if ($modifier === 'edit') {
 					      echo "$lang_Leave_Common_LeaveScheduled ($lang_Common_Days)";
 				      } else { ?>
@@ -396,10 +400,10 @@
 			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveScheduled ($lang_Common_Days)";?></a>
 				<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-		</th>
+		</td>
 
 		<?php $col = 6; ?>
-		<th width="180px" class="tableMiddleMiddle">
+		<td>
 				<?php if ($modifier === 'edit') {
 						  echo "$lang_Leave_Common_LeaveRemaining ($lang_Common_Days)";
 				      } else { ?>
@@ -407,8 +411,7 @@
 			   title="<?php $word = getNextSortOrderInWords($col); echo $$word; ?>" class="sortBy"><?php echo "$lang_Leave_Common_LeaveRemaining ($lang_Common_Days)";?></a>
 			<img src="<?php echo getSortIcon($col); ?>" width="8" height="10" border="0" alt="" style="vertical-align: bottom">
 				<?php } ?>
-		</th>
-		<th class="tableMiddleRight"></th>
+		</td>
 	</tr>
   </thead>
   <tbody>
@@ -428,7 +431,6 @@
 			}
 ?>
   <tr>
-  	<td class="tableMiddleLeft"></td>
    	<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
   	<td class="<?php echo $cssClass; ?>"><?php echo $record['employee_name'] ?></td>
   	<?php } ?>
@@ -472,28 +474,11 @@
     <td class="<?php echo $cssClass; ?>"><?php if (!empty($record['leave_available'])) {
 												    echo number_format(round($record['leave_available'], 2), 2);
     										   } ?></td>
-	<td class="tableMiddleRight"></td>
   </tr>
 <?php 	  }
 	}
 ?>
   </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<?php if ((isset($_REQUEST['id']) && empty($_REQUEST['id'])) && (!isset($_SESSION['empID']) || (isset($_SESSION['empID']) && ($empInfo[0] != $_SESSION['empID'])))) { ?>
-		<td class="tableBottomMiddle"></td>
-		<?php } ?>
-		<td class="tableBottomMiddle"></td>
-		<?php if ($auth === 'admin') { ?>
-    	<th class="tableBottomMiddle"></th>
-    	<?php } ?>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
 </table>
 </form>
 
@@ -503,3 +488,11 @@
 	}
 }
 ?>
+</div>
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>

@@ -17,12 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
- if (isset($_GET['message'])) {
-?>
-<var><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></var>
-<?php } ?>
-<h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title; ?><hr/></h2>
-<?php
 	if (isset($records)) {
 		$id = $records[0]->getHolidayId();
 		$description = $records[0]->getDescription();
@@ -44,7 +38,8 @@
 	}
 ?>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 	function goBack() {
 		location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Holiday_Specific_List';
 	}
@@ -89,82 +84,62 @@
 	}
 
 	YAHOO.OrangeHRM.container.init();
+//]]>    
 </script>
-<form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
-<p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
-</p>
-<input type="hidden" value="<?php echo $id; ?>" name="txtId" />
-<table border="0" cellpadding="0" cellspacing="0">
-  <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
-  </thead>
-  <tbody>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td width="135px"><span class="error">*</span><?php echo $lang_Leave_Common_NameOfHoliday;?></td>
-  	<td >&nbsp;</td>
-    <td ><input type="text" id="txtDescription" name="txtDescription" size="30" value="<?php echo $description; ?>"/></td>
-    <td >&nbsp;</td>
-	<td class="tableMiddleRight"></td>
-  </tr>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td width="135px"><span class="error">*</span><?php echo $lang_Leave_Common_Date;?></td>
-  	<td >&nbsp;</td>
-    <td ><input name="txtDate" id="txtDate" type="text" value="<?php echo LocaleUtil::getInstance()->formatDate($date); ?>" size="10" />
-          <input type="button" name="Submit" value="  " class="calendarBtn" /></td>
-    <td >&nbsp;</td>
-	<td class="tableMiddleRight"></td>
-  </tr>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td width="135px"><?php echo $lang_Leave_Common_Recurring;?></td>
-  	<td >&nbsp;</td>
-    <td ><input name="chkRecurring" id="chkRecurring" type="checkbox" value="<?php echo Holidays::HOLIDAYS_RECURRING; ?>" <?php echo $recurring; ?> /></td>
-    <td >&nbsp;</td>
-	<td class="tableMiddleRight"></td>
-  </tr>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td width="135px"><?php echo $lang_Leave_Common_Length;?></td>
-  	<td >&nbsp;</td>
-    <td ><select name="sltLeaveLength" id="sltLeaveLength">
-            <option value="<?php echo Leave::LEAVE_LENGTH_FULL_DAY; ?>" <?php echo ($length == Leave::LEAVE_LENGTH_FULL_DAY)?"selected":""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
-            <option value="<?php echo Leave::LEAVE_LENGTH_HALF_DAY;?>" <?php echo ($length == Leave::LEAVE_LENGTH_HALF_DAY)?"selected":""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
-         </select>
-    </td>
-    <td >&nbsp;</td>
-	<td class="tableMiddleRight"></td>
-  </tr>
-  <tr>
-  	<td class="tableMiddleLeft"></td>
-  	<td >&nbsp;</td>
-  	<td >&nbsp;</td>
-    <td >&nbsp;</td>
-    <td ><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';" onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" /></td>
-	<td class="tableMiddleRight"></td>
-  </tr>
+<div class="formpage">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title;?></h2></div>    
+<?php
+  if (isset($_GET['message']) && !empty($_GET['message'])) {
+?>
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></span>
+    </div>  
+<?php } ?>
 
-  </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
-</table>
-</form>
-<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
+    <form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
+        <input type="hidden" value="<?php echo $id; ?>" name="txtId" />
+      	<label for="txtDescription"><?php echo $lang_Leave_Common_NameOfHoliday;?> <span class="required">*</span></label>
+        <input type="text" id="txtDescription" name="txtDescription" size="30" class="formInputText" 
+            value="<?php echo $description; ?>"/>
+        <br class="clear"/>    
+    
+        <label for="txtDate"><?php echo $lang_Leave_Common_Date;?> <span class="required">*</span></label>
+        <input name="txtDate" id="txtDate" type="text" value="<?php echo LocaleUtil::getInstance()->formatDate($date); ?>" 
+            class="formDateInput" />
+        <input type="button" name="Submit" value="  " class="calendarBtn" /></td>
+        <br class="clear"/>
+        
+        <label for="chkRecurring"><?php echo $lang_Leave_Common_Recurring;?></label>    
+        <input name="chkRecurring" id="chkRecurring" type="checkbox" class="formCheckbox" 
+            value="<?php echo Holidays::HOLIDAYS_RECURRING; ?>" <?php echo $recurring; ?> /></td>
+        <br class="clear"/>
+        
+        <label for="sltLeaveLength"><?php echo $lang_Leave_Common_Length;?></label>
+        <select name="sltLeaveLength" id="sltLeaveLength" class="formSelect">
+                <option value="<?php echo Leave::LEAVE_LENGTH_FULL_DAY; ?>" <?php echo ($length == Leave::LEAVE_LENGTH_FULL_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
+                <option value="<?php echo Leave::LEAVE_LENGTH_HALF_DAY;?>" <?php echo ($length == Leave::LEAVE_LENGTH_HALF_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
+        </select>
+        <br class="clear"/>    
+        <div class="formbuttons">               
+            <input type="button" class="savebutton" id="saveBtn" 
+                onclick="addSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+        </div>
+    </form>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
+    </script>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>

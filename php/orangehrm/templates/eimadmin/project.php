@@ -27,7 +27,7 @@ $formAction="{$_SERVER['PHP_SELF']}?uniqcode=PRJ";
 $saveBtnAction="addProject()";
 
 $adminFormAction="";
-$addMode = false;
+$new = false;
 if (isset($this->getArr['capturemode'])) {
 	$captureMode = $this->getArr['capturemode'];
 
@@ -43,19 +43,19 @@ if (isset($this->getArr['capturemode'])) {
 	} else if ($captureMode == 'addmode') {
 
 		$project = new Projects();
-		$addMode = true;
+		$new = true;
 	}
 }
 
 $locRights=$_SESSION['localRights'];
 if ($locRights['edit']) {
-	$disableEdit =  "";
+	$disabled =  "";
 	$addAdminBtnAction  = "addAdmin()";
 	$delAdminBtnAction  = "delAdmin()";
 	$saveAdminBtnAction = "saveAdmin()";
 	$clearBtnAction = "clearAll()";
 } else {
-	$disableEdit = 'disabled = "true"';
+	$disabled = 'disabled = "true"';
 	$saveBtnAction = "showAccessDeniedMsg()";
 	$addAdminBtnAction = "showAccessDeniedMsg()";
 	$saveAdminBtnAction = "showAccessDeniedMsg()";
@@ -63,14 +63,15 @@ if ($locRights['edit']) {
 	$clearBtnAction = "showAccessDeniedMsg()";
 }
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $lang_view_Project_Heading;?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
-
+<script type="text/javascript">
+//<![CDATA[
 	/**
 	 * Add a new project
 	 */
@@ -244,118 +245,85 @@ if ($locRights['edit']) {
 
 		return admin;
 	}
-
+//]]>
 </script>
-
-
- 	<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
-    <style type="text/css">
-    <!--
-    @import url("../../themes/beyondT/css/octopus.css");
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width:500px;
-    }
-
-    .roundbox_content {
-        padding:15px 15px 25px 35px;
-    }
-
-    input[type=checkbox] {
-		border:0px;
-		background-color: transparent;
-		margin: 0px;
-		width: 12px;
-		vertical-align: bottom;
-    }
-
-    .message {
-		float:left;
-		width:400px;
-		text-align:right;
-		font-family: Verdana, Arial, Helvetica, sans-serif;
-    }
-
-    label {
-		white-space:nowrap;
-		width:100px;
-    }
-
-    -->
- </style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
 <body>
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2><?php echo $lang_view_Project_Heading;?></h2>
-		  		</td>
-	  		<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td></tr>
-		</table>
-	</p>
-  	<div id="navigation" style="float:left;width:100px">
-  		<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-	</div>
-    <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php
-		}
-	?>
-	<br/>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>    
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_view_Project_Heading;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>      
 
-    <div class="roundbox">
       <form name="frmProject" method="post" action="<?php echo $formAction;?>" onSubmit="return <?php echo $saveBtnAction; ?>;">
-        <input type="hidden" name="sqlState" value="">
+            <input type="hidden" name="sqlState" value=""/>
             <input type="hidden" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>" />
-            <br/>
-            <label for="cmbCustomerId"><span class="error">*</span> <?php echo $lang_view_CustomerName; ?></label>
-            <select name="cmbCustomerId" <?php echo $disableEdit; ?> >
+            <br class="clear"/>
+            
+            <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?> <span class="required">*</span></label>
+            <select name="cmbCustomerId" id="cmbCustomerId" <?php echo $disabled; ?> class="formSelect"
+                    tabindex="1">
 				<option value="-1">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
 				<?php
 					$customers = $this->popArr['cusid'];
 					if ($customers) {
 						foreach ($customers as $customer) {
-							$selected = ($project->getCustomerId() == $customer->getCustomerId()) ? 'selected' : '';
+							$selected = ($project->getCustomerId() == $customer->getCustomerId()) ? 'selected="selected"' : '';
 
 							echo "<option $selected value=\"{$customer->getCustomerId()}\">{$customer->getCustomerName()}</option>";
    						}
 					}
    				?>
    			</select>
-            <br/>
-			<label for="txtName"><span class="error">*</span> <?php echo $lang_Commn_name; ?></label>
+            <br class="clear"/>
+            
+			<label for="txtName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>"
-            	tabindex="2" <?php echo $disableEdit; ?> />
-			<br/>
+            	tabindex="2" class="formInputText" <?php echo $disabled; ?> />
+            <br class="clear"/>
+            
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
-            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30"
-            	tabindex="3" <?php echo $disableEdit; ?> ><?php echo $project->getProjectDescription() ; ?></textarea>
-            <br/>
-            <div align="center">
-	            <img onClick="<?php echo $saveBtnAction; ?>;" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif">
-				<img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="<?php echo $clearBtnAction;?>" >
+            <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" class="formTextArea"
+            	tabindex="3" <?php echo $disabled; ?> ><?php echo $project->getProjectDescription() ; ?></textarea>
+            <br class="clear"/>
+            
+             <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                <input type="button" class="savebutton" id="saveBtn" 
+                    onclick="<?php echo $saveBtnAction; ?>;" tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Save;?>" />
+                <input type="button" class="clearbutton" onclick="<?php echo $clearBtnAction;?>" tabindex="5"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                     value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>                         
             </div>
       </form>
 
-      <?php if (!$addMode) { ?>
-
-      <h3><?php echo $lang_Admin_Project_Administrators; ?></h3>
+      <?php if (!$new) { ?>
+      <div class="subHeading">
+        <h3><?php echo $lang_Admin_Project_Administrators; ?></h3>
+      </div>
       <form name="frmProjectAdmins" method="post" action="<?php echo $adminFormAction;?>">
-        	<input type="hidden" name="delState" value="">
-        	<input type="hidden" name="sqlState" value="">
+        	<input type="hidden" name="delState" value=""/>
+        	<input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="projectId" name="projectId" value="<?php echo $project->getProjectId(); ?>"/>
 
 		<?php
@@ -367,9 +335,9 @@ if ($locRights['edit']) {
 		<table width="250" class="simpleList" >
 			<thead>
 				<tr>
-				<th class="listViewThS1" align="center">
+				<th class="listViewThS1">
 					<input type='checkbox' class='checkbox' name='allCheck' value=''
-						<?php echo $disableEdit; ?> onClick="checkUncheckAll();">
+						<?php echo $disabled; ?> onClick="checkUncheckAll();">
 				</th>
 				<th class="listViewThS1"><?php echo $lang_Admin_Project_EmployeeName; ?></th>
 				</tr>
@@ -381,9 +349,9 @@ if ($locRights['edit']) {
 	 	 	 		$odd = !$odd;
 	 		?>
     		<tr>
-       			<td class="<?php echo $cssClass?>" align="center">
+       			<td class="<?php echo $cssClass?>">
        				<input type='checkbox' class='checkbox' name='chkLocID[]'
-       					<?php echo $disableEdit; ?> value='<?php echo $admin->getEmpNumber();?>'></td>
+       					<?php echo $disabled; ?> value='<?php echo $admin->getEmpNumber();?>'></td>
 		 		<td class="<?php echo $cssClass?>"><?php echo $admin->getName(); ?></td>
 			</tr>
 		 	<?php
@@ -395,49 +363,51 @@ if ($locRights['edit']) {
 			 }
 		  	?>
 
-			</br>
-            <div align="left">
-	            <img onClick="<?php echo $addAdminBtnAction; ?>;"
-	            	onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
-	            	onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
-	            	src="../../themes/beyondT/pictures/btn_add.gif">
-	        <?php
-	        	if (!empty($admins)) {
-			?>
-				<img
-					onClick="<?php echo $delAdminBtnAction; ?>"
-				    src="../../themes/beyondT/pictures/btn_delete.gif"
-					onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-					onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
-			<?php
-				}
-	        ?>
+            <br class="clear"/>
+            
+             <div class="formbuttons">
+<?php if($locRights['edit']) { ?>                
+                <input type="button" class="addbutton" id="addBtn" 
+                    onclick="<?php echo $addAdminBtnAction; ?>;" tabindex="6" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Add;?>" />
+            <?php
+                if (!empty($admins)) {
+            ?>                   
+                <input type="button" class="delbutton" onclick="<?php echo $delAdminBtnAction;?>" tabindex="7"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                     value="<?php echo $lang_Common_Delete;?>" />
+            <?php
+                }
+            ?>                     
+<?php } ?>                         
             </div>
-			<div id ="addAdminLayer" style="display:none;height:20px;">
+            <br class="clear"/>
+                        
+			<div id ="addAdminLayer" style="display:none;">
 		    	<label for="projAdminName"><?php echo $lang_Admin_Users_Employee; ?></label>
 	               	<input type="text" readonly name="projAdminName" value="" >
                   	<input type="hidden" readonly name="projAdminID" value="">
                    	<input class="button" style="width:30px;" type="button" name="empPop" value=".."
-                   		onClick="popEmployeeList();" tabindex="4" <?php echo $disableEdit; ?> >
-	            	<img onClick="<?php echo $saveAdminBtnAction; ?>;"
-	            		style="margin-top:10px;"
-	            		onMouseOut="this.src='../../themes/beyondT/icons/assign.gif';"
-	            		onMouseOver="this.src='../../themes/beyondT/icons/assign_o.gif';"
-	            		src="../../themes/beyondT/icons/assign.gif">
+                   		onClick="popEmployeeList();" tabindex="4" <?php echo $disabled; ?> >
+                    <input type="button" class="addbutton" id="addBtn" 
+                        onclick="<?php echo $saveAdminBtnAction; ?>;" tabindex="7" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Assign;?>" />                                            
 			</div>
+            <br class="clear"/>            
       </form>
 	  <?php } ?>
     </div>
 
-    <script type="text/javascript">
-    <!--
-    	if (document.getElementById && document.createElement) {
- 			initOctopus();
-		}
-    -->
-    </script>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        //]]>
+        </script>
 
     <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-
+    </div>
 </body>
 </html>
