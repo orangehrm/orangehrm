@@ -276,15 +276,15 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 		fillAuto('txtLeaveFromDate', 'txtLeaveToDate');
 
 		if (YAHOO.OrangeHRM.calendar.parseDate($('txtLeaveFromDate').value) && ($('txtLeaveFromDate').value == $('txtLeaveToDate').value)) {
-			$('trTime1').className = 'display-table-row';
-			$('trTime2').className = 'display-table-row';
-			$('trTime3').className = 'display-table-row';
-			$('trTime4').className = 'display-table-row';
+			$('trTime1').className = 'show';
+			$('trTime2').className = 'show';
+			$('trTime3').className = 'show';
+			$('trTime4').className = 'show';
 		} else {
-			$('trTime1').className = 'hidden';
-			$('trTime2').className = 'hidden';
-			$('trTime3').className = 'hidden';
-			$('trTime4').className = 'hidden';
+			$('trTime1').className = 'hide';
+			$('trTime2').className = 'hide';
+			$('trTime3').className = 'hide';
+			$('trTime4').className = 'hide';
 		}
 	}
 
@@ -395,13 +395,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
   if (isset($employees) && is_array($employees)) {
      $heading = $lang_Leave_Title_Assign_Leave;
      $modifier = "Leave_Admin_Apply";
-     $btnApply = "assign.gif";
-     $btnApplyMO = "assign_o.gif";
+     $btnClass = 'assignbutton';
+     $btnTitle = $lang_Common_Assign;     
   } else {
      $heading = $lang_Leave_Title_Apply_Leave;
      $modifier = "Leave_Apply";
-     $btnApply = "apply.gif";
-     $btnApplyMO = "apply_o.gif";
+     $btnClass = 'applybutton';
+     $btnTitle = $lang_Common_Apply;
   }
 
 if (isset($exception)) {
@@ -523,7 +523,7 @@ $prevTotalTime = (isset($_POST['txtLeaveTotalTime'])) ? $_POST['txtLeaveTotalTim
 $prevComments = (isset($_POST['txtComments'])) ? $_POST['txtComments'] : "";
 
 $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevLeaveToDate)) ?
-						"display-table-row" : "hidden";
+						"show" : "hide";
 ?>
 
 <div class="formpage">
@@ -545,57 +545,48 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 <?php if (isset($confirmDate)) { ?>
 	<input type="hidden" name="confirmDate" value="<?php echo $prevLeaveFromDate; ?>"/>
 <?php } ?>
-  <table border="0" cellpadding="3" cellspacing="0">
-    <tbody>
+
     <?php if (isset($role)) { ?>
-      <tr>
-        <td ></td>
-        <td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
-        <td width="25px">&nbsp;</td>
-		<td>
+        <label for="cmbEmployeeId"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
+
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled value="<?php echo isset($empName) ? $empName : ""; ?>" />
+			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled="disabled" class="formInputText"
+                value="<?php echo isset($empName) ? $empName : ""; ?>" />
 			<input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo $prevEmployeeId;?>"/>
-			<input type="button" value="..." onclick="returnEmpDetail();" />
+			<input type="button" value="..." onclick="returnEmpDetail();" class="empPopupButton"/>
 		<?php } else if (isset($employees) && is_array($employees)) { ?>
-			<select name="cmbEmployeeId" onchange="resetShiftLength();">
+			<select name="cmbEmployeeId" id="cmbEmployeeId" onchange="resetShiftLength();" class="formSelect">
 	        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
 				<?php
 			   		sort($employees);
 			   		foreach ($employees as $employee) {
-						$selected = ($prevEmployeeId == $employee[0]) ? "selected" : "";
+						$selected = ($prevEmployeeId == $employee[0]) ? 'selected="selected"' : "";
 			  	?>
 			 		  	<option <?php echo $selected; ?> value="<?php echo $employee[0] ?>"><?php echo $employee[1] ?></option>
 			  <?php } ?>
 	  	    </select>
 		<?php } ?>
-		</td>
-	  	<td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
+        <br class="clear"/>
     <?php } ?>
-      <tr>
-        <td ></td>
-        <td><?php echo $lang_Leave_Common_LeaveType; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td>
-            <select name="sltLeaveType" id="sltLeaveType">
-            <?php
-                    $skippedLeaveTypesCount = 0;
+    
+    <label for="sltLeaveType"><?php echo $lang_Leave_Common_LeaveType; ?></label>    
+    <select name="sltLeaveType" id="sltLeaveType" class="formSelect">
+        <?php
+            $skippedLeaveTypesCount = 0;
 
-                    if (is_array($records[1])) {
-                        foreach ($records[1] as $record) {
-                                $className = get_class($record);
+            if (is_array($records[1])) {
+                foreach ($records[1] as $record) {
+                    $className = get_class($record);
 
-                                if ($className == 'LeaveQuota') {
-                                    if ($record->isLeaveQuotaDeleted()) {
-                                        $skippedLeaveTypesCount++;
-                                        continue;
-                                    }
-                                }
+                    if ($className == 'LeaveQuota') {
+                        if ($record->isLeaveQuotaDeleted()) {
+                            $skippedLeaveTypesCount++;
+                            continue;
+                        }
+                    }
 
-                                $selected = ($record->getLeaveTypeID() == $prevLeaveType) ? "selected" : "";
-          ?>
+                    $selected = ($record->getLeaveTypeID() == $prevLeaveType) ? 'selected="selected"' : "";
+        ?>
             <option <?php echo $selected;?> value="<?php echo $record->getLeaveTypeID();?>"><?php echo $record->getLeaveTypeName(); ?></option>
             <?php       }
 
@@ -605,124 +596,78 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
                 } else { ?>
             <option value="-1">-- <?php echo $lang_Error_NoLeaveTypes; ?> --</option>
             <?php } ?>
-          </select>
+    </select>
+    <br class="clear"/>
 
-        </td>
-        <td width="50px">&nbsp;</td>
-        <td></td>
-     </tr>
      <?php
 	  	if (!(is_array($records[1])) && ($modifier == 'Leave_Apply')) {  ?>
-	    <tr>
-     	<td ></td>
-     	<td width="75px">&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-      	<td><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?></td>
-    	<td width="25px">&nbsp;</td>
-    	<td></td>
-     </tr> <?php } ?>
-     <tr>
-        <td ></td>
-        <td><?php echo $lang_Leave_Common_FromDate;?></td>
-        <td width="25px">&nbsp;</td>
-        <td><?php echo $lang_Leave_Common_ToDate;?></td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td ></td>
-        <td><input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
-        	value="<?php echo $prevLeaveFromDate; ?>"/>
+            <div class="notice"><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?>
+            <br class="clear"/>
+     <?php } ?>
+     
+        <label for="txtLeaveFromDate"><?php echo $lang_Leave_Common_FromDate; ?></label>
+        <input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+            value="<?php echo $prevLeaveFromDate; ?>" class="formDateInput"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
-        </td>
-        <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
-        	value="<?php echo $prevLeaveToDate; ?>"/>
+        <br class="clear"/>
+                 
+        <label for="txtLeaveToDate"><?php echo $lang_Leave_Common_ToDate; ?></label>
+        <input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
+        	value="<?php echo $prevLeaveToDate; ?>" class="formDateInput"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
-        </td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr id="trTime1" class="<?php echo $timeElementClass;?>">
-        <td ></td>
-        <td><?php echo $lang_Leave_Common_FromTime;?></td>
-        <td width="25px">&nbsp;</td>
-        <td><?php echo $lang_Leave_Common_TotalHours;?></td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr id="trTime2" class="<?php echo $timeElementClass;?>">
-        <td ></td>
-        <td><select name="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" >
-        	<option value="" selected ></option>
-        	<?php
-        		for ($i=$startTime; $i<=$endTime; $i+=$interval) {
-        			$timeVal = date('H:i', $i);
-        			$selected = ($timeVal == $prevFromTime) ? "selected" : "";
-        	?>
-        			<option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
-        	<?php } ?>
-        	</select>
-        </td>
-        <td width="25px">&nbsp;</td>
-        <td><input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();"
-        		value="<?php echo $prevTotalTime; ?>"/></td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr id="trTime3" class="<?php echo $timeElementClass;?>">
-      	<td ></td>
-        <td><?php echo $lang_Leave_Common_ToTime;?></td>
-      	<td width="25px">&nbsp;</td>
-      	<td>&nbsp;</td>
-      	<td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr id="trTime4" class="<?php echo $timeElementClass;?>">
-     	<td ></td>
-        <td><select name="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" >
-        	<option value="" selected ></option>
-        	<?php
-        		for ($i=$startTime; $i<=$endTime; $i+=$interval) {
-        			$timeVal = date('H:i', $i);
-        			$selected = ($timeVal == $prevToTime) ? "selected" : "";
+        <br class="clear"/>
+            
+      <div id="trTime1" class="<?php echo $timeElementClass;?>">
+        <label for="sltLeaveFromTime"><?php echo $lang_Leave_Common_FromTime; ?></label>
+        <select name="sltLeaveFromTime" id="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" 
+                class="formTimeSelect">
+            <option value=""></option>
+            <?php
+                for ($i=$startTime; $i<=$endTime; $i+=$interval) {
+                    $timeVal = date('H:i', $i);
+                    $selected = ($timeVal == $prevFromTime) ? 'selected="selected"' : "";
+            ?>
+                    <option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
+            <?php } ?>
+            </select>
+        <label for="sltLeaveToTime"><?php echo $lang_Leave_Common_ToTime; ?></label>
+        <select name="sltLeaveToTime" id="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" 
+                class="formTimeSelect">
+            <option value=""></option>
+            <?php
+                for ($i=$startTime; $i<=$endTime; $i+=$interval) {
+                    $timeVal = date('H:i', $i);
+                    $selected = ($timeVal == $prevToTime) ? 'selected="selected"' : "";
 
-        		?>
-        			<option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
-        	<?php } ?>
-        	</select>
-        </td>
-        <td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-      	<td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td ></td>
-        <td><?php echo $lang_Leave_Common_Comment; ?></td>
-        <td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr valign="top">
-        <td ></td>
-        <td><textarea name="txtComments" id="txtComments"><?php echo $prevComments;?></textarea></td>
-        <td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td ></td>
-        <td><img border="0" title="Add" onclick="addSave();" onmouseout="this.src='../../themes/beyondT/icons/<?php echo $btnApply; ?>';" onmouseover="this.src='../../themes/beyondT/icons/<?php echo $btnApplyMO; ?>';" src="../../themes/beyondT/icons/<?php echo $btnApply; ?>" /></td>
-        <td width="25px">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td width="25px">&nbsp;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+                ?>
+                    <option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
+            <?php } ?>
+            </select>
+        <br class="clear"/>        
+                
+        <label for="txtLeaveTotalTime"><?php echo $lang_Leave_Common_TotalHours; ?></label>
+        <input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();"
+                value="<?php echo $prevTotalTime; ?>" class="formInputText" style="width:3em;"/>
+        <br class="clear"/>                
+      </div>
+      <div id="trTime2" class="<?php echo $timeElementClass;?>">
+      </div>
+      
+      <div id="trTime3" class="<?php echo $timeElementClass;?>">
+
+      </div>
+      <div id="trTime4" class="<?php echo $timeElementClass;?>">
+      </div>
+      <br class="clear"/>
+      <label for="txtComments"><?php echo $lang_Leave_Common_Comment; ?></label>
+      <textarea name="txtComments" id="txtComments" class="formTextArea" rows="3" cols="20"
+        ><?php echo $prevComments;?></textarea>
+      <br class="clear"/>
+        <div class="formbuttons">               
+            <input type="button" class="<?php echo $btnClass;?>" id="saveBtn" 
+                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $btnTitle;?>" title="<?php echo $btnTitle;?>"/>
+        </div>
 </form>
 </div>
 <script type="text/javascript">

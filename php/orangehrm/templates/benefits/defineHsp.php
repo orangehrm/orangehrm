@@ -27,18 +27,26 @@
 	$hspDefined = Config::getHspCurrentPlan();
 	$checked["$hspDefined"] = 'checked';
 
+    $message = null;
+    $messageType = '';
+    
 	if((!isset($_REQUEST['message']))){
-			if ($hspDefined != '0')
-				echo "<font color='#006600'><b>{$plans[$hspDefined]}</b> $lang_Defined_Hsp.</font>";
-			else
-				echo "<font color='#FF0000'>$lang_Hsp_No_HSP_defined.</font>";
+			if ($hspDefined != '0') {
+                $messageType = 'success';                
+				$message = "<b>{$plans[$hspDefined]}</b> $lang_Defined_Hsp.";
+            } else {
+				$message = "$lang_Hsp_No_HSP_defined.";
+                $messageType = 'warning';
+            }                
 	} else {
 		if($_REQUEST['message']=="SAVE_SUCCESS"){
-			echo "<font color ='#006600'>$lang_Hsp_Succesfully_Saved. $lang_Hsp_Current_HSP_is <b>{$plans[$hspDefined]}</b></font>";
+			$message = "$lang_Hsp_Succesfully_Saved. $lang_Hsp_Current_HSP_is <b>{$plans[$hspDefined]}</b>";
+            $messageType = 'success';
 		}
 
 		if($_REQUEST['message']=="SAVE_FAILIURE"){
-			echo "<font color ='red'>$lang_Hsp_Saving_Error</font>";
+			$message = "$lang_Hsp_Saving_Error";
+            $messageType = 'error';            
  			$checked[1] = 'checked';
 		}
 	}
@@ -65,7 +73,15 @@
 	-->
 </script>
 
-<h2><?php echo $lang_Define_Health_Savings_Plans; ?></h2>
+<div class="formpageNarrow">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Define_Health_Savings_Plans;?></h2></div>
+        <?php if (isset($message)) { ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo $message; ?></span>
+            </div>  
+        <?php } ?>
+                
 <form action="?benefitcode=Benefits&action=Save_Health_Savings_Plans" method="post" id="frmHelthSavingPlan" name="frmHelthSavingPlan" onSubmit="return validate()">
 <table width="141" border="0" cellpadding="4" cellspacing="0">
     <tr>
@@ -106,8 +122,19 @@
     </tr>
   </table>
 
-  <br>
-  <input type="submit" name="save" value="<?php echo $lang_Common_Save;?>">
+
+    <div class="formbuttons">                
+        <input type="submit" class="savebutton" id="saveBtn" 
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Save;?>" />
+    </div>  
 </form>
-
-
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>

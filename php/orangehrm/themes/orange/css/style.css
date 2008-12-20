@@ -24,6 +24,7 @@
 input.editbutton,
 input.savebutton,
 input.clearbutton,
+input.cancelbutton,
 input.resetbutton,
 input.addbutton,
 input.delbutton,
@@ -46,6 +47,7 @@ input.plainbtn {
 input.editbuttonhov,
 input.savebuttonhov,
 input.clearbuttonhov,
+input.cancelbuttonhov,
 input.resetbuttonhov,
 input.addbuttonhov,
 input.delbuttonhov,
@@ -385,7 +387,7 @@ div.fieldHint {
 /* Form elements */
 label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput, 
 input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
-div.wideFormValue {
+div.wideFormValue, select.formTimeSelect {
     display: block;
     float: left;
     margin: 10px 0px 2px 0px;
@@ -422,6 +424,11 @@ label.optionlabel {
 select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, span.wideFormValue, div.wideFormValue {
     margin-left: 10px;
     width: 150px;        
+}
+
+select.formTimeSelect {
+    margin-left: 10px;
+    width: 5em;        	
 }
 
 input.formInputText, textarea.formTextArea, span.formValue {

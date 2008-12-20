@@ -121,35 +121,34 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 
 </script>
 <?php $objAjax->printJavascript(); ?>
-<h2>
-<?php echo $lang_Time_EmployeeTimeReportTitle; ?>
-<hr/>
-</h2>
 <div id="status"></div>
-<?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Time_EmployeeTimeReportTitle;?></h2></div>
+    
+    <?php if (isset($_GET['message'])) {    
+            $message =  $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = 'lang_Time_Errors_' . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
 <form name="frmEmp" id="frmEmp" method="post" action="?timecode=Time&action=" onsubmit="viewEmployeeTimeReport(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
@@ -170,10 +169,10 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 				</select>
 			</td>
 		<?php } ?>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Project; ?></td>
 			<td ></td>
 			<td >
@@ -195,10 +194,10 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 				<?php } ?>
 				</select>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Activity; ?></td>
 			<td ></td>
 			<td >
@@ -212,49 +211,61 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 					<option value="-1"><?php echo $lang_Time_Common_All; ?></option>
 				</select>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Common_FromDate; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtFromDate" name="txtFromDate" value="" size="10"/>
-				<input type="button" id="btnFromDate" name="btnFromDate" value="  " class="calendarBtn"/>
+				<input type="button" id="btnFromDate" name="btnFromDate" value="  " class="calendarBtn"
+                    style="display:inline;margin:0;float:none;"/>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Common_ToDate; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtToDate" name="txtToDate" value="" size="10"/>
-				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/>
+				<input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn" 
+                    style="display:inline;margin:0;float:none;"/>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ></td>
 			<td ></td>
 			<td >
-				<input type="image" name="btnView" alt="View"
-					   src="../../themes/beyondT/icons/view.gif"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 	</tbody>
 	<tfoot>
 	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
   	</tfoot>
 </table>
+<div class="formbuttons">                
+    <input type="submit" class="viewbutton" id="viewBtn" 
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_View;?>" />                                  
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>

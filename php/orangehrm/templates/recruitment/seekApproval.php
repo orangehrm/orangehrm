@@ -31,13 +31,14 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
+//<![CDATA[
 	var employeeSearchList = new Array();
 	
     function goBack() {
@@ -95,10 +96,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 		}
 	}
 	
+//]]>
 </script>
 
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
+    <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 
     <style type="text/css">
     <!--
@@ -146,37 +151,18 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         padding-right: 4px;
     }
 
-    textarea {
-        width: 330px;
-        height: 150px;
+    #saveBtn {
+        width:auto;    
     }
-
-    form {
-        min-width: 550px;
-        max-width: 600px;
+    
+    #txtNotes {
+        width: 320px;
+        height: 150px;
     }
 
     br {
         clear: left;
     }
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 550px;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-	.hidden {
-		display: none;
-	}
-
-	.display-block {
-		display: block;
-	}
 
     .calendarBtn {
         width: auto;
@@ -197,9 +183,8 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	}
 	
     .desc {
-        padding-left: 15px;
         font-style: italic;
-        padding-bottom: 20px;
+        padding: 5px 0 5px 15px;
     }
     
     	#employeeSearchAC {
@@ -214,40 +199,29 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 </style>
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
-<body class="yui-skin-sam">
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2>
-
 <?php
 $applicantName = $application->getFirstName() . ' ' . $application->getLastName();
-    echo $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunctions::escapeHtml($applicantName);
+$heading = $lang_Recruit_JobApplication_SeekApproval_Heading . ' ' . CommonFunctions::escapeHtml($applicantName);
 ?>
-                    </h2>
-		  		</td>
-	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-	  		</tr>
-		</table>
-	</p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="Back" onMouseOut="this.src='<?php echo $backImg;?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>'"
-  			 src="<?php echo $backImg;?>" onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+<body class="yui-skin-sam">
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
 
   <form name="frmSeekApproval" id="frmSeekApproval" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
   		<input type="hidden" name="cmbDirector" id="cmbDirector" value="-1" />
@@ -282,21 +256,21 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<br />
 		<label for="txtNotes"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_SeekApproval_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="2"></textarea><br/>
-		<br/><br/>
         <div class="desc"><?php echo $lang_Recruit_JobApplication_SeekApproval_Desc; ?></div>
-        <div align="left">
-            <img onClick="save();" id="saveBtn"
-            	onMouseOut="this.src='<?php echo $picDir;?>btn_save.gif';"
-                onMouseOver="this.src='<?php echo $picDir;?>btn_save_02.gif';"
-            	src="<?php echo $picDir;?>btn_save.gif">
-        </div>
+        <div class="formbuttons">
+            <input type="button" class="savebutton" id="saveBtn" 
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+        <br class="clear"/>                        
+        </div>                        
 	</form>
     </div>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
+    //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }    
 
 		<?php 
 			$i = 0; 
@@ -325,11 +299,9 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		    };
 		    
  	 	};
-			
-			
-        -->
+						
+        //]]>
     </script>
-
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    </div>
 </body>
 </html>

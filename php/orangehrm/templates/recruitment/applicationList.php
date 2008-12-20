@@ -35,28 +35,19 @@ $statusList = array(
     );
 
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
-</script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 <style type="text/css">
     <!--
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width:550px;
-    }
-
-    .roundbox_content {
-        padding:15px 15px 15px 15px;
-    }
     .eventDate {
         font-style: italic;
     }
@@ -64,32 +55,26 @@ $statusList = array(
 </style>
 </head>
 <body>
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2><?php echo $lang_Recruit_JobApplicationList_Heading; ?></h2>
-		  		</td>
-	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-	  		</tr>
-		</table>
-	</p>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+    <div class="formpage2col">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationList_Heading;?></h2></div>
+        
+        <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+
+
+
     <?php if (count($applications) == 0) { ?>
         <?php echo $lang_Recruit_JobApplicationList_NoApplications;?>
     <?php } else { ?>
-    <table width="520" class="simpleList" >
+    <table class="simpleList" >
         <thead>
             <tr>
             <th width><?php echo $lang_Recruit_JobApplicationList_Name; ?></th>
@@ -165,12 +150,13 @@ $statusList = array(
     </table>
     <?php } ?>
   </div>
-  <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-        -->
-  </script>
+    <script type="text/javascript">
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
+    </script>
+</div>  
 </body>
 </html>

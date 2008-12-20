@@ -90,24 +90,23 @@ function exportData() {
 }
 YAHOO.OrangeHRM.container.init();
 </script>
-<h2>
-<?php echo $lang_Time_SelectTimesheetsTitle; ?>
-<hr/>
-</h2>
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Time_SelectTimesheetsTitle;?></h2></div>
 <form name="frmEmp" id="frmTimesheet" method="post" action="?timecode=Time&action=Timesheet_Print_Preview" onsubmit="return validate();">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 			<td>
@@ -133,34 +132,34 @@ YAHOO.OrangeHRM.container.init();
 		    }
     		}
 		   ?>			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Time_Division; ?></td>
 			<td></td>
 			<td>
 			  <input type="text" id="txtLocation" name="txtLocation" value="<?php echo (isset($_SESSION['txtLocation']) && $_SESSION['posted'])?$_SESSION['txtLocation']:$lang_Time_Common_All; ?>" readonly />
 			  <input type="hidden" id="cmbLocation" name="cmbLocation" value="<?php echo (isset($_SESSION['cmbLocation']) && $_SESSION['posted'])?$_SESSION['cmbLocation']:"-1"; ?>" />
 			  <input type="button" id="popLoc" name="popLoc" value="..." onclick="returnLocDet();" />			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Time_Supervisor; ?></td>
 			<td></td>
 			<td><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" value="<?php echo (isset($_SESSION['cmbRepEmpID']) && $_SESSION['posted'])?$_SESSION['cmbRepEmpID']:$lang_Time_Common_All; ?>" readonly />
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo (isset($_SESSION['txtRepEmpID']) && $_SESSION['posted'])?$_SESSION['txtRepEmpID']:"-1"; ?>" />
 				<input type="button" id="popEmpRep" name="popEmpRep" value="..." onclick="returnEmpRepDetail();" />			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php } else if ($_SESSION['isSupervisor'] == 'Yes') { ?>
 			<input type="hidden" name="cmbRepEmpID" id="cmbRepEmpID" value=""/>
 			<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" value="<?php echo $_SESSION['empID']; ?>" />
 		<?php } ?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Time_EmploymentStatus; ?></td>
 			<td></td>
 			<td>
@@ -175,60 +174,73 @@ YAHOO.OrangeHRM.container.init();
 				    <option value="-2" <?php echo (isset($_SESSION['cmbEmploymentStatus']) && $_SESSION['posted'] && $_SESSION['cmbEmploymentStatus'] == "-2")?"selected":""; ?>>- <?php echo $lang_Time_NoEmploymentStatusDefined; ?> -</option>
 			<?php } ?>
 				</select>			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Common_FromDate; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtStartDate" name="txtStartDate" value="<?php echo (isset($_SESSION['txtStartDate']) && $_SESSION['posted'])?$_SESSION['txtStartDate']:""; ?>" size="10"/>
-				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn"/>			</td>
-			<td class="tableMiddleRight"></td>
+				<input type="button" id="btnStartDate" name="btnStartDate" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/>			</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Common_ToDate; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtEndDate" name="txtEndDate" value="<?php echo (isset($_SESSION['txtEndDate']) && $_SESSION['posted'])?$_SESSION['txtEndDate']:""; ?>" size="10"/>
-				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn"/>			</td>
-			<td class="tableMiddleRight"></td>
+				<input type="button" id="btnEndDate" name="btnEndDate" value="  " class="calendarBtn" style="display:inline;margin:0;float:none;"/>			</td>
+			<td></td>
 		</tr>
 		<tr>
-		  <td class="tableMiddleLeft"></td>
 		  <td></td>
 		  <td></td>
-		  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td align="left" valign="middle"><input type="image" name="btnView2" alt="View"
-					   src="../../themes/beyondT/icons/view.gif"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></td>
-              <td align="left" valign="middle"><input type="image" name="btnReset2" alt="Reset"
-					   onclick="formReset(); return false;"
-					   src="../../themes/beyondT/icons/reset.gif"
-					   onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
-					   onmouseout="this.src='../../themes/beyondT/icons/reset.gif';" /></td>
-              <td align="left" valign="middle"><?php  if(isset($csvExportRepotsPluginAvailable))  {   ?> <input type="image" name="btnExportData" alt="Export to CSV"
-					   onclick="exportData(); return false;"
-					   src="../../themes/beyondT/icons/export.jpg"
-					   onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"
-					   onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" /><?php  } ?></td>
-            </tr>
-          </table></td>
-		  <td class="tableMiddleRight"></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
   </tr>
 		
 	</tbody>
 	<tfoot>
 	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
   	</tfoot>
 </table>
+<div class="formbuttons">                
+    <input type="submit" class="viewbutton" id="viewBtn" 
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_View;?>" />
+    <input type="button" class="clearbutton" onclick="formReset();"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+         value="<?php echo $lang_Common_Clear;?>" />
+<?php  if(isset($csvExportRepotsPluginAvailable))  {   ?>
+    <input type="button" class="exportbutton" onclick="exportData(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+         value="<?php echo $lang_DataExport_Export;?>" />
+
+    <input type="image" name="btnExportData" alt="Export to CSV"
+       onclick="exportData(); return false;"
+       src="../../themes/beyondT/icons/export.jpg"
+       onmouseover="this.src='../../themes/beyondT/icons/export_o.jpg';"
+       onmouseout="this.src='../../themes/beyondT/icons/export.jpg';" />
+<?php  } ?>
+                                  
+</div>
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>

@@ -24,7 +24,14 @@
 <title><?php echo $lang_Benefits_Module_Title; ?></title>
 
 <link href="../../themes/<?php echo $styleSheet;?>/css/time.css" rel="stylesheet" type="text/css" />
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
-<script src="../../scripts/time.js"></script>
-<script src="../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../scripts/time.js"></script>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+
+
 <body class="yui-skin-sam">

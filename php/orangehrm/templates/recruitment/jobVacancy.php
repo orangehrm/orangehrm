@@ -31,7 +31,7 @@ if ($action == 'ViewAdd') {
 	$btnAction="addUpdate()";
 	$heading = $lang_Recruit_JobVacancy_Edit_Heading;
 	$formAction = "{$baseURL}&action=Update";
-	$disabled = "disabled='true'";
+	$disabled = "disabled='disabled'";
 }
 
 $noOfEmployees = $records['noOfEmployees'];
@@ -41,13 +41,14 @@ $jobTitles = $records['jobTitles'];
 $vacancy = $records['vacancy'];
 $locRights=$_SESSION['localRights'];
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script>
+//<![CDATA[
 	var editMode = <?php echo $new ? 'true' : 'false'; ?>;
 
 	var employeeSearchList = new Array();
@@ -101,23 +102,6 @@ $locRights=$_SESSION['localRights'];
 		$('frmJobVacancy').reset();
 	}
 
-
-	function mout() {
-		if(editMode) {
-			$('editBtn').src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save.gif';
-		} else {
-			$('editBtn').src='../../themes/<?php echo $styleSheet;?>/pictures/btn_edit.gif';
-		}
-	}
-
-	function mover() {
-		if(editMode) {
-			$('editBtn').src='../../themes/<?php echo $styleSheet;?>/pictures/btn_save_02.gif';
-		} else {
-			$('editBtn').src='../../themes/<?php echo $styleSheet;?>/pictures/btn_edit_02.gif';
-		}
-	}
-
 	function edit()	{
 
 <?php if($locRights['edit']) { ?>
@@ -145,36 +129,17 @@ $locRights=$_SESSION['localRights'];
 			obj.style.color = '#000000';
 		}
 	}
-
+//]]>
 </script>
 
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
+    <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 
     <style type="text/css">
     <!--
-
-	.items {
-		border-top: none;
-		border-left: solid 1px #999999;
-		border-right: solid 1px #999999;
-		border-bottom: solid 1px #999999;
-		padding: 4px;
-		display: none;
-		width: 240px;
-	}
-
-    label,select,input,textarea {
-        display: block;  /* block float the labels to left column, set a width */
-        width: 150px;
-        float: left;
-        margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
-    }
-    input[type=checkbox] {
-		width: 15px;
-		background-color: transparent;
-		vertical-align: bottom;
-    }
 
     #active {
         width: 15px;
@@ -183,59 +148,10 @@ $locRights=$_SESSION['localRights'];
         vertical-align: bottom;
     }
 
-    /* this is needed because otherwise, hidden fields break the alignment of the other fields */
-    input[type=hidden] {
-        display: none;
-        border: none;
-        background-color: red;
-    }
-
-    label {
-        text-align: left;
-        width: 110px;
-        padding-left: 10px;
-    }
-
-    select,input,textarea {
-        margin-left: 10px;
-    }
-
-    input,textarea {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-
-    textarea {
+    #txtDesc {
         width: 330px;
         height: 150px;
     }
-
-    form {
-        min-width: 550px;
-        max-width: 600px;
-    }
-
-    br {
-        clear: left;
-    }
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 500px;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-	.hidden {
-		display: none;
-	}
-
-	.display-block {
-		display: block;
-	}
 
 	#nohiringmanagers {
 		font-style: italic;
@@ -248,6 +164,7 @@ $locRights=$_SESSION['localRights'];
 	#employeeSearchAC {
  	    width:15em; /* set width here */
  	    padding-bottom:2em;
+        margin: 10px 0px 2px 10px;
  	}
 	
  	#employeeSearchAC {
@@ -262,33 +179,25 @@ $locRights=$_SESSION['localRights'];
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
 <body class="yui-skin-sam">
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2><?php echo $heading; ?></h2>
-		  		</td>
-	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-	  		</tr>
-		</table>
-	</p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="Back" onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_back.gif';"
-  			 onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_back_02.gif';"
-  			 src="../../themes/<?php echo $styleSheet;?>/pictures/btn_back.gif" onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+        
   <form name="frmJobVacancy" id="frmJobVacancy" method="post" action="<?php echo $formAction;?>" onSubmit="return false;">
   		<?php
 			$prevEmpNum = isset($this->postArr['cmbHiringManager']) ? $this->postArr['cmbHiringManager'] : $vacancy->getManagerId();
@@ -300,22 +209,22 @@ $locRights=$_SESSION['localRights'];
 			}
 		?>
   		<input type="hidden" name="cmbHiringManager" id="cmbHiringManager" value="<?php echo $prevEmpNum ?>" />
-		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br/>
-		<label for="cmbJobTitle"><span class="error">*</span> <?php echo $lang_Recruit_JobTitleName; ?></label>
-        <select id="cmbJobTitle" name="cmbJobTitle" tabindex="1" <?php echo $disabled;?>>
+		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br class="clear"/>
+		<label for="cmbJobTitle"><?php echo $lang_Recruit_JobTitleName; ?> <span class="required">*</span> </label>
+        <select id="cmbJobTitle" name="cmbJobTitle" tabindex="1" <?php echo $disabled;?> class="formSelect">
 	        <option value="-1">-- <?php echo $lang_Recruit_JobVacancy_JobTitleSelect;?> --</option>
                 <?php
                 $prevTitleCode = isset($this->postArr['cmbJobTitle']) ? $this->postArr['cmbJobTitle'] : $vacancy->getJobTitleCode();
                 foreach ($jobTitles as $jobTitle) {
                 	$jobTitleCode = $jobTitle[0];
-                    $selected = ($prevTitleCode == $jobTitleCode) ? 'selected' : '';
+                    $selected = ($prevTitleCode == $jobTitleCode) ? 'selected="selected"' : '';
 	                echo "<option " . $selected . " value=". $jobTitleCode . ">" . $jobTitle[1] . "</option>";
                 }
                 ?>
         </select>
-		<br />
+        <br class="clear"/>
 		<div>
-		<label for="txtHiringManagerSearch"><span class="error">*</span> <?php echo $lang_Recruit_HiringManager; ?></label>
+		<label for="txtHiringManagerSearch"><?php echo $lang_Recruit_HiringManager; ?> <span class="required">*</span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo $empName ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
@@ -341,7 +250,7 @@ $locRights=$_SESSION['localRights'];
  	 	      </div>
     	</div>
     	</div>
-		<br/>
+        <br class="clear"/>
 		<?php
 				if ($noOfEmployees == 0) {
 		?>
@@ -352,30 +261,31 @@ $locRights=$_SESSION['localRights'];
 				}
 		?>
 		<label for="txtDesc"><?php echo $lang_Commn_description; ?></label>
-        <textarea id="txtDesc" name="txtDesc" tabindex="3"
-        	<?php echo $disabled;?>><?php echo htmlspecialchars($vacancy->getDescription()); ?></textarea><br/>
+        <textarea id="txtDesc" name="txtDesc" tabindex="3" rows="10" cols="50" class="formTextArea"
+        	<?php echo $disabled;?>><?php echo htmlspecialchars($vacancy->getDescription()); ?></textarea><br class="clear"/>
 		<label for="active"><?php echo $lang_Recruit_JobVacancy_Active; ?></label>
-        <input type="checkbox" id="active" name="active" tabindex="4" <?php echo $disabled;?>
-        	<?php echo $vacancy->isActive() ? 'checked="1"':"";?> />
-		<br/><br/>
+        <input type="checkbox" id="active" name="active" tabindex="4" <?php echo $disabled;?> class="formCheckbox"
+        	<?php echo $vacancy->isActive() ? 'checked="checked"':"";?> />
+        <br class="clear"/>
 
-        <div align="left">
-            <img onClick="edit();" id="editBtn"
-            	onMouseOut="mout();" onMouseOver="mover();"
-            	src="../../themes/<?php echo $styleSheet;?>/pictures/<?php echo $new ? 'btn_save.gif' : 'btn_edit.gif';?>">
-			<img id="saveBtn" src="../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif"
-			onMouseOut="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_clear.gif';"
-			onMouseOver="this.src='../../themes/<?php echo $styleSheet;?>/pictures/btn_clear_02.gif';" onClick="reset();" >
+        <div class="formbuttons">
+            <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
+                onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
+            <input type="button" class="clearbutton" onclick="reset();"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Common_Clear;?>" />
         </div>
+        <br class="clear"/>                
 	</form>
     </div>
 
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-	<script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
+        <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
 
 		<?php 
 			$i = 0; 
@@ -405,7 +315,8 @@ $locRights=$_SESSION['localRights'];
 		    };
 		    
  	 	};
- 	 	-->
+        //]]>
  	 </script>
+    </div>     
 </body>
 </html>

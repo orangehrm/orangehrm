@@ -53,36 +53,37 @@ function viewTimesheet(id) {
 }
 -->
 </script>
-<h2><?php echo $lang_Time_Select_Employee_Title; ?>
-	<hr>
-</h2>
-<?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Time_Select_Employee_Title;?></h2></div>
+    
+    <?php if (isset($_GET['message'])) {    
+            $message =  $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = 'lang_Time_Errors_' . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
+ 
 <form name="frmEmp" id="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
@@ -104,47 +105,52 @@ function viewTimesheet(id) {
 			</td>
 		<?php } ?>
 			<td></td>
-			<td><input type="image" name="btnView" onclick="view(); return false;" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></td>
+			<td>
+                <input type="submit" class="viewbutton" id="btnView" name="btnView" onclick="view(); return false;"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_View;?>" />                                              
+            </td>
 			<td></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 	</tbody>
 	<tfoot>
 	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
   	</tfoot>
 </table>
+
 <?php
 	if ($pending) {
 ?>
-<h3><?php echo $lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval; ?></h3>
+<div class="subHeading"><h3><?php echo $lang_Time_Select_Employee_SubmittedTimesheetsPendingSupervisorApproval; ?></h3></div>
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 		<tr>
-			<th class="tableMiddleLeft"></th>
-			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName; ?></th>
-			<th class="tableMiddleMiddle"></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Select_Employee_TimesheetPeriod; ?></th>
-			<th class="tableMiddleMiddle"></th>
-			<th class="tableMiddleMiddle"></th>
-			<th class="tableMiddleRight"></th>
+			<th></th>
+			<th width="100px"><?php echo $lang_Leave_Common_EmployeeName; ?></th>
+			<th></th>
+			<th width="150px"><?php echo $lang_Time_Select_Employee_TimesheetPeriod; ?></th>
+			<th></th>
+			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -154,19 +160,18 @@ function viewTimesheet(id) {
 		   				foreach ($pendingTimesheets[$employee[0]] as $timesheet) {
 		?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $employee[1];?></td>
 			<td>&nbsp;</td>
 			<td><?php echo preg_replace(array('/#date/'), array(LocaleUtil::getInstance()->formatDate($timesheet->getStartDate())), $lang_Time_Select_Employee_WeekStartingDate); ?></td>
 			<td>
-				<input type="image" name="btnView" alt="View"
-					   onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;"
-					   src="../../themes/beyondT/icons/view.gif"
-					   onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
-					   onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
+                <input type="submit" class="viewbutton" 
+                       onclick="viewTimesheet(<?php echo $timesheet->getTimesheetId(); ?>); return false;"                
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_View;?>" /> 
 			</td>
 			<td>&nbsp;</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php
 		   				}
@@ -177,13 +182,13 @@ function viewTimesheet(id) {
 	</tbody>
 	<tfoot>
 	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
   	</tfoot>
 </table>
@@ -191,3 +196,12 @@ function viewTimesheet(id) {
 }
 ?>
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>

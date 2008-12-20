@@ -255,6 +255,7 @@
     $lang_Common_Clear = "Clear";
     $lang_Common_Reset = "Reset";
     $lang_Common_Assign = "Assign";
+    $lang_Common_Apply = "Apply";
     $lang_Common_Cancel = "Cancel";
     $lang_Common_View = "View";        
 	$lang_Common_SortAscending = "Sort in ascending order";

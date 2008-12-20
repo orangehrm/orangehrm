@@ -38,22 +38,26 @@ $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
     function goBack() {
         location.href = "<?php echo "{$baseURL}&action=List"; ?>";
     }
 
+//]]>
 </script>
-
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 
     <style type="text/css">
     <!--
@@ -96,13 +100,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         width: 500px;
     }
 
-    body {
-    	margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 780px;
-    }
-
     .roundbox_content {
         padding:5px;
     }
@@ -121,24 +118,25 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 </style>
 </head>
 <body>
-	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_JobApplicationDetails_Heading; ?></h2></p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="<?php echo $lang_Common_Back;?>" onMouseOut="this.src='<?php echo $backImg; ?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>';" src="<?php echo $backImg;?>"
-  			 onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox" style="width: 680px;">
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>    
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationDetails_Heading;?></h2></div>
+        
+        <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ''; ?></span>
+            </div>  
+        <?php } ?>
+
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
         <div class="txtValue"><?php echo LocaleUtil::getInstance()->formatDate($application->getAppliedDateTime()); ?></div><br/>
   		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Position; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getJobTitleName()); ?></div><br/>
@@ -205,12 +203,12 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 
     </div>
     <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-        -->
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
     </script>
-
+    </div>
 </body>
 </html>

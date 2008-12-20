@@ -33,14 +33,16 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
-<script>
+<script type="text/javascript">
+//<![CDATA[
+
 	var employeeSearchList = new Array();
 	
     var dateTimeFormat = YAHOO.OrangeHRM.calendar.format + " " + YAHOO.OrangeHRM.time.format;
@@ -163,11 +165,13 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
 	}	
 	
 YAHOO.OrangeHRM.container.init();
+//]]>
 </script>
-
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
     <style type="text/css">
     <!--
 
@@ -198,42 +202,8 @@ YAHOO.OrangeHRM.container.init();
 		border-right: solid 1px #000000;
 		border-bottom: solid 1px #000000;
 	}
-	
-    label,select,input,textarea {
-        display: block;  /* block float the labels to left column, set a width */
-        width: 150px;
-        float: left;
-        margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
-    }
-    input[type="checkbox"] {
-		width: 15px;
-		background-color: transparent;
-		vertical-align: bottom;
-    }
 
-    /* this is needed because otherwise, hidden fields break the alignment of the other fields */
-    input[type="hidden"] {
-        display: none;
-        border: none;
-        background-color: red;
-    }
-
-    label {
-        text-align: left;
-        width: 110px;
-        padding-left: 10px;
-    }
-
-    select,input,textarea {
-        margin-left: 10px;
-    }
-
-    input,textarea {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-
-    textarea {
+    #txtNotes {
         width: 330px;
         height: 150px;
     }
@@ -247,28 +217,13 @@ YAHOO.OrangeHRM.container.init();
         clear: left;
     }
 
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width: 500px;
-    }
-
-    .roundbox_content {
-        padding:15px;
-    }
-
-	.hidden {
-		display: none;
-	}
-
-	.display-block {
-		display: block;
-	}
-
     .calendarBtn {
         width: auto;
         border-style: none !important;
         border: 0px !important;
+        display:inline !important;
+        margin:0 !important;
+        float:none !important;
     }
 
     #txtDate, #txtTime {
@@ -306,13 +261,6 @@ YAHOO.OrangeHRM.container.init();
 	</style>
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 </head>
-<body class="yui-skin-sam">
-	<p>
-		<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-			<tr>
-		  		<td width='100%'>
-		  			<h2>
-
 <?php
 $applicantName = $application->getFirstName() . ' ' . $application->getLastName();
     if ($num == 1) {
@@ -320,31 +268,26 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
     } else {
         $heading = $lang_Recruit_JobApplication_ScheduleSecondInterview;
     }
-    echo $heading . ' ' . $applicantName;
 ?>
-                    </h2>
-		  		</td>
-	  			<td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-	  		</tr>
-		</table>
-	</p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="Back" onMouseOut="this.src='<?php echo $backImg;?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>'"
-  			 src="<?php echo $backImg;?>" onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+<body class="yui-skin-sam">
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php     echo $heading . ' ' . $applicantName;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['message']) ? $this->getArr['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
 
   <form name="frmInterview" id="frmInterview" method="post" action="<?php echo $formAction;?>">
 		<?php
@@ -354,15 +297,15 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 		<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
 
-        <label for="txtDate"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Date; ?></label>
+        <label for="txtDate"><?php echo $lang_Recruit_JobApplication_Schedule_Date; ?> <span class="required">*</span></label>
         <input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
         <input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/><br/>
 
-        <label for="txtTime"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Time; ?></label>
+        <label for="txtTime"><?php echo $lang_Recruit_JobApplication_Schedule_Time; ?> <span class="required">*</span></label>
         <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
 
         <div>
-		<label for="container"><span class="error">*</span> <?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?></label>
+		<label for="container"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?> <span class="required">*</span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
@@ -399,24 +342,25 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<?php
 				}
 		?>
-		<label for="txtNotes">&nbsp;<?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
+		<label for="txtNotes"><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
-		<br/><br/>
-
-        <div align="left">
-            <img onClick="save();" id="saveBtn"
-            	onMouseOut="this.src='<?php echo $picDir;?>btn_save.gif';"
-                onMouseOver="this.src='<?php echo $picDir;?>btn_save_02.gif';"
-            	src="<?php echo $picDir;?>btn_save.gif">
+        <div class="formbuttons">
+            <input type="button" class="savebutton" id="saveBtn" 
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+            <input type="button" class="clearbutton" onclick="reset();"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Common_Clear;?>" />
         </div>
+        <br class="clear"/>                
 	</form>
     </div>
     <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    
 			<?php 
 				$i = 0; 
 				
@@ -444,10 +388,11 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 			    };
 		    
  	 		};
-        -->
+        //]]>
     </script>
 
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     <div id="cal1Container" style="position:absolute;" ></div>
+</div>    
 </body>
 </html>

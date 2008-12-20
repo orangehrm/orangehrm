@@ -50,13 +50,14 @@ $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
     function goBack() {
         location.href = "<?php echo "{$baseURL}&action=List"; ?>";
@@ -78,12 +79,13 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
             return true;
         }
     }
-
+//]]>
 </script>
-
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
     <style type="text/css">
     <!--
 
@@ -120,31 +122,6 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         clear: left;
     }
 
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 15px;
-        margin-right: auto;
-        width: 500px;
-    }
-
-    body {
-    	margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 780px;
-    }
-
-    .roundbox_content {
-        padding:5px;
-    }
-
-	.hidden {
-		display: none;
-	}
-
-	.display-block {
-		display: block;
-	}
     .eventDate {
         font-style: italic;
     }
@@ -158,32 +135,29 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         font-style: italic;
         padding-bottom: 20px;
     }
-    .buttonSec {
-        padding-left: 15px;
-        padding-bottom: 15px;
-    }
     -->
 </style>
 </head>
 <body>
-	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_JobApplicationConfirm_Heading . $actionName; ?></h2></p>
-  	<div id="navigation" style="margin:0;">
-  		<img title="<?php echo $lang_Common_Back;?>" onMouseOut="this.src='<?php echo $backImg; ?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>';" src="<?php echo $backImg;?>"
-  			 onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationConfirm_Heading . $actionName;?></h2></div>
+        
+        <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+
     <form id="frmConfirm" name="frmConfirm" onsubmit="return validate();" method="post" action="<?php echo $actionURL; ?>" >
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationConfirm_ApplicantName; ?></div>
         <div class="txtValue">
@@ -225,19 +199,24 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <label class="txtName" for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
         <textarea id="txtNotes" name="txtNotes" tabindex="1"></textarea><br/>
 
-        <div class="buttonSec">
-            <input type="submit" id="actionBtn" value="<?php echo $actionName;?>"/>
-            <input type="button" id="cancelBtn" onClick="goBack();" value="<?php echo $lang_Leave_Common_Cancel;?>" />
-        </div>
+        <div class="formbuttons">
+            <input type="submit" class="plainbtn"  id="actionBtn"  
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $actionName;?>" />
+            <input type="button" class="cancelbutton" onclick="goBack();" 
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Leave_Common_Cancel;?>" />            
+        </div>        
        </form>
     </div>
     <script type="text/javascript">
         <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
         -->
     </script>
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+</div>    
 </body>
 </html>
