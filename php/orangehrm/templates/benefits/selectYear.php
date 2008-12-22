@@ -23,60 +23,38 @@ $years = $records[1];
 $action = $records[2]
 ?>
 <script type="text/javascript">
+//<![CDATA[
 function viewYear() {
 	window.location = $('frmSelectYear').action+$('cmbYear').value;
 }
+//]]>
 </script>
-<h2>
-	<?php echo ${"lang_Benefits_$heading"}; ?>
-	<hr/>
-</h2>
-<form action="?benefitcode=Benefits&amp;action=<?php echo $action; ?>&amp;year=" method="post" id="frmSelectYear" onsubmit="viewYear(); return false;">
-<table border="0" cellpadding="2" cellspacing="0">
-	<thead>
-	  	<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><label for="cmbYear"><?php echo $lang_Benefits_ChooseYear; ?></label></td>
-			<td></td>
-			<td>
-				<select name="cmbYear" id="cmbYear">
-				<?php for ($i=0; $i<count($years); $i++) { ?>
-				    <option value="<?php echo $years[$i]; ?>"><?php echo $years[$i]; ?></option>
-				<?php } ?>
-				</select>
-			</td>
-			<td></td>
-			<td>
-				<input  type="image" name="btnView"
-		    			onclick="view('employee');"
-		    			src="../../themes/beyondT/icons/view.gif"
-		    			onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';"
-		    			onmouseout="this.src='../../themes/beyondT/icons/view.gif';" />
-		    </td>
-		    <td class="tableMiddleRight"></td>
-		</tr>
-	</tbody>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
-</table>
-</form>
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo ${"lang_Benefits_$heading"}; ?></h2></div>
+
+        <form action="?benefitcode=Benefits&amp;action=<?php echo $action; ?>&amp;year=" method="post" id="frmSelectYear" onsubmit="viewYear(); return false;">        
+			<label for="cmbYear"><?php echo $lang_Benefits_ChooseYear; ?></label>
+            <select name="cmbYear" id="cmbYear" class="formSelect">
+			<?php for ($i=0; $i<count($years); $i++) { ?>
+			    <option value="<?php echo $years[$i]; ?>"><?php echo $years[$i]; ?></option>
+			<?php } ?>
+			</select>
+            <br class="clear"/>
+                
+            <div class="formbuttons">
+                <input type="submit" class="viewbutton" id="btnView" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_View;?>" />                        
+            </div>
+            <br class="clear"/>
+        </form>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
+    </script>
+</div> 

@@ -38,21 +38,45 @@ if (isset($this->getArr['msg'])) {
 
 $empInfoObj = new EmpInfo();
 
-$headingInfo = array (
-	"$lang_emprepinfo_heading : $lang_Common_New",
-	"$lang_emprepinfo_heading : $lang_Common_Edit"
-);
+$formAction = $_SERVER['PHP_SELF']. '?repcode=' . $this->getArr['repcode'];
+ 
+if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
+    $heading = "$lang_emprepinfo_heading : $lang_Common_Edit";    
+    $new = false;
+    $formAction .= '&amp;id=' . $this->getArr['id'] . '&amp;capturemode=updatemode';
+    $edit = $this->popArr['editArr'];
+    $reportId = $edit[0][0];
+    $reportName = $edit[0][1];
+    $editCriteriaChk= $this->popArr['editCriteriaChk'];
+    $criteriaData=$this->popArr['editCriteriaData'];    
+    $disabled = 'disabled="disabled"';
+
+} else {
+    $heading = "$lang_emprepinfo_heading : $lang_Common_Edit";
+    $new = true;
+    $formAction .= '&amp;capturemode=addmode';
+    $heading = "$lang_emprepinfo_heading : $lang_Common_New";    
+    $reportId = '';
+    $reportName = '';        
+    $disabled = '';
+}
+
+// Post values
+$reportName = isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : $reportName;
+
+// TODO: This file has to be simplified (eg: combine add/update part) and cleaned up.
+
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script src="../../scripts/time.js"></script>
-<script language="JavaScript">
-
-
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
+<script>
+//<![CDATA[
 
 	function validDate(txt) {
 		txt = txt.trim();
@@ -301,21 +325,24 @@ function disableAgeField() {
 		document.frmEmpRepTo.txtEmpAge2.disabled = true;
 		document.frmEmpRepTo.txtEmpAge1.style.visibility = "hidden";
 		document.frmEmpRepTo.txtEmpAge2.style.visibility = "hidden";
-		return;
+
 	} else if(document.frmEmpRepTo.cmbAgeCode.value=="range") {
 		document.frmEmpRepTo.txtEmpAge1.disabled = false;
 		document.frmEmpRepTo.txtEmpAge2.disabled = false;
 		document.frmEmpRepTo.txtEmpAge1.style.visibility = "visible";
 		document.frmEmpRepTo.txtEmpAge2.style.visibility = "visible";
-		return;
+
 	} else if(document.frmEmpRepTo.cmbAgeCode.value=='<' || document.frmEmpRepTo.cmbAgeCode.value=='>') {
 		document.frmEmpRepTo.txtEmpAge1.disabled = false;
 		document.frmEmpRepTo.txtEmpAge2.disabled = true;
 		document.frmEmpRepTo.txtEmpAge1.style.visibility = "visible";
 		document.frmEmpRepTo.txtEmpAge2.style.visibility = "hidden";
 		document.frmEmpRepTo.txtEmpAge2.value='';
-		return;
+
 	}
+    document.frmEmpRepTo.txtEmpAge1.style.width = "4em";
+    document.frmEmpRepTo.txtEmpAge2.style.width = "4em";
+    
 }
 
 function disableEmployeeId() {
@@ -336,21 +363,21 @@ function disableSerPeriodField() {
 		document.frmEmpRepTo.Service2.disabled = true;
 		document.frmEmpRepTo.Service1.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
-		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=="range") {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = false;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "visible";
-		return;
 	} else if(document.frmEmpRepTo.cmbSerPerCode.value=='<' || document.frmEmpRepTo.cmbSerPerCode.value=='>') {
 		document.frmEmpRepTo.Service1.disabled = false;
 		document.frmEmpRepTo.Service2.disabled = true;
 		document.frmEmpRepTo.Service1.style.visibility = "visible";
 		document.frmEmpRepTo.Service2.style.visibility = "hidden";
 		document.frmEmpRepTo.Service2.value='Type in Years';
-		return;
 	}
+    document.frmEmpRepTo.Service1.style.width = "10em";
+    document.frmEmpRepTo.Service2.style.width = "10em"
+        
 }
 
 
@@ -362,7 +389,7 @@ function disableJoiDatField() {
 		document.frmEmpRepTo.Join2.style.visibility = "hidden";
 		document.frmEmpRepTo.Join1Button.style.visibility = "hidden";
 		document.frmEmpRepTo.Join2Button.style.visibility = "hidden";
-		return;
+
 	} else if(document.frmEmpRepTo.cmbJoiDatCode.value=="range") {
 		document.frmEmpRepTo.Join1.disabled = false;
 		document.frmEmpRepTo.Join2.disabled = false;
@@ -372,7 +399,7 @@ function disableJoiDatField() {
 		document.frmEmpRepTo.Join2.style.visibility = "visible";
 		document.frmEmpRepTo.Join1Button.style.visibility = "visible";
 		document.frmEmpRepTo.Join2Button.style.visibility = "visible";
-		return;
+
 	} else if(document.frmEmpRepTo.cmbJoiDatCode.value=='<' || document.frmEmpRepTo.cmbJoiDatCode.value=='>') {
 		document.frmEmpRepTo.Join1.disabled = false;
 		document.frmEmpRepTo.Join2.disabled = true;
@@ -382,8 +409,10 @@ function disableJoiDatField() {
 		document.frmEmpRepTo.Join2.value='';
 		document.frmEmpRepTo.Join1Button.style.visibility = "visible";
 		document.frmEmpRepTo.Join2Button.style.visibility = "hidden";
-		return;
+
 	}
+    document.frmEmpRepTo.Join1.style.width = "100px";
+    document.frmEmpRepTo.Join2.style.width = "100px";
 }
 
 
@@ -602,98 +631,64 @@ function disableJoiDatField() {
 
 	YAHOO.OrangeHRM.container.init();
 
+//]]>
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 </head>
 <?php if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'addmode')) { ?>
 <body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?php echo $headingInfo[0]?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<?php if (isset($displayMsg)) { ?>
-	<br />
-	<span class="error" style="margin-top: 10px;"><?php echo $displayMsg; ?></span>
-<?php } ?>
-<table border="0" >
-  <tr>
-  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
-  </tr>
-</table>
-
-<p>
-<p>
-<table border="0">
-<form name="frmEmpRepTo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&capturemode=addmode">
-<input type="hidden" name="sqlState">
+    <div class="formpage2col">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
+        
+        <?php if (isset($displayMsg)) { ?>
+            <div class="messagebar">
+                <span class=""><?php echo $displayMsg; ?></span>
+            </div>  
+        <?php } ?>
 
 
-<tr><td>
-   <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-    				 <tr>
- 					  <td><?php echo $lang_repview_ReportName; ?></td>
-						<td ><input type="text"  name="txtRepName" value="<?php echo (isset($this->postArr['txtRepName'])  ? $this->postArr['txtRepName'] : '') ?>"  ></td>
-					</tr>
+<form name="frmEmpRepTo" method="post" action="<?php echo $formAction;?>">
+    <input type="hidden" name="sqlState"/>
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</td> </tr>
-<tr>
-    <td valign="bottom" height="35"><h4><?php echo $lang_rep_SelectionCriteria; ?></h4></td>
-  </tr>
-  <tr><td>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                       <td><input type='checkbox' class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-                      <td valign="top"><?php echo $lang_rep_Employee; ?></td>
-                      <td align="left">
-	                      <select name="cmbId" onchange="disableEmployeeId();" disabled>
-						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees; ?></option>
-							<option value="1"><?php echo $lang_Leave_Common_Select; ?> --></option>
-						  </select>
-					  </td>
-                      <td align="left" valign="top"><input type="text" style="visibility:hidden;" readonly name="cmbRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ><input type="hidden"  readonly name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" ></td>
-                      <td align="left"><input class="button" type="button" style="visibility:hidden;" name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
-  					</tr>
-					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-  					 <td valign="top"><?php echo $lang_rep_AgeGroup; ?></td>
-					 <td align="left" valign="top"> <select   name="cmbAgeCode" onChange="disableAgeField();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
- 					  <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<label for="txtRepName"><?php echo $lang_repview_ReportName; ?></label>
+<input type="text" <?php echo $disabled;?> name="txtRepName" id="txtRepName" value="<?php echo $reportName; ?>"  
+    class="formInputText"/>
+<br class="clear"/>
+
+<div class="subHeading"><h3><?php echo $lang_rep_SelectionCriteria; ?></h3></div>
+
+<input type='checkbox' name='chkcriteria[]' id='EMPNO' value='EMPNO' onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> 
+    class="formCheckbox"/>
+
+<label for="EMPNO"><?php echo $lang_rep_Employee; ?></label>
+<select name="cmbId" onchange="disableEmployeeId();" disabled="disabled" class="formSelect">
+    <option value="0"><?php echo $lang_Leave_Common_AllEmployees; ?></option>
+    <option value="1"><?php echo $lang_Leave_Common_Select; ?> --></option>
+</select>
+<input type="text" style="visibility:hidden;" readonly="readonly" name="cmbRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" class="formInputText"/>
+<input type="hidden"  readonly="readonly" name="txtRepEmpID" value="<?php echo isset($this->postArr['txtRepEmpID']) ? $this->postArr['txtRepEmpID'] : ''?>" />
+<input class="empPopupButton" type="button" style="visibility:hidden;" name="empPop" value=".." onClick="returnEmpDetail();" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>>
+<br class="clear"/>
+
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+<label for="AgeGroup"><?php echo $lang_rep_AgeGroup; ?></label>
+<select   name="cmbAgeCode" onChange="disableAgeField();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> 
+    class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
-
 $keys = array_keys($arrAgeSim);
 $values = array_values($arrAgeSim);
 
@@ -703,21 +698,20 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 	else
 		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 ?>
-					  </select>
-				    </td>
-					<td><input type="text" <?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'style="visibility:hidden;" disabled'?>  name='txtEmpAge1' value="<?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" /></td>
-					<td><input type="text" <?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'style="visibility:hidden;"disabled'?> name='txtEmpAge2' value="<?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" /></td>
+</select>
+<input type="text" <?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : 'style="visibility:hidden;" disabled'?>  
+    name='txtEmpAge1' value="<?php echo isset($this->postArr['txtEmpAge1']) ? $this->postArr['txtEmpAge1'] : ''?>" 
+    class="formInputText" style="width:4em;"/>
+<input type="text" <?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : 'style="visibility:hidden;"disabled'?> 
+    name='txtEmpAge2' value="<?php echo isset($this->postArr['txtEmpAge2']) ? $this->postArr['txtEmpAge2'] : ''?>" 
+    class="formInputText" style="width:4em;"/>
+<br class="clear"/>
 
-					</tr>
-
-
-
-
-				<tr>
-				  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-				  <td><?php echo $lang_rep_PayGrade; ?></td>
-			      <td><select  name="cmbSalGrd" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-			  		<option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="PayGrade"><?php echo $lang_rep_PayGrade; ?></label>
+<select  name="cmbSalGrd" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
 <?php
 
 $grdlist = $this->popArr['grdlist'];
@@ -727,16 +721,14 @@ for ($c = 0; $grdlist && count($grdlist) > $c; $c++)
 	else
 		echo "<option value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
 ?>
-			  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-
-   					<tr>
-					<td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-				    <td><?php echo $lang_rep_Education; ?></td>
-    				  <td>
-					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					  <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='QualType' value="QUL" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="QualType"><?php echo $lang_rep_Education; ?></label>
+<select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
 <?php
 
 $edulist = $this->popArr['edulist'];
@@ -746,17 +738,14 @@ for ($c = 0; $edulist && count($edulist) > $c; $c++)
 	else
 		echo "<option value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
 ?>
-					  </select></td>
-						<td valign="middle"></td>
-						<td align="left" valign="middle"></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-
-<tr>
-					  <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_EmploymentStatus; ?></td>
-					  	<td><select name="cmbEmpType" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-			  		    <option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+<label for="EmpType"><?php echo $lang_rep_EmploymentStatus; ?></label>
+<select name="cmbEmpType" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
 <?php
 
 //if(isset($this->postArr['cmbEmpType'])) {
@@ -765,17 +754,16 @@ for ($c = 0; $arrEmpType && count($arrEmpType) > $c; $c++)
 	echo "<option value=" . $arrEmpType[$c][0] . ">" . $arrEmpType[$c][1] . "</option>";
 //}
 ?>
-			         		</select>
-						</td>
-					</tr>
-
+</select>
+<br class="clear"/>
 
 <?php //Service Period ?>
-					<tr>
-					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_ServicePeriod; ?></td>
-					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="SerPeriod"><?php echo $lang_rep_ServicePeriod; ?></label>
+<select  name="cmbSerPerCode" onChange="disableSerPeriodField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> 
+        class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
 $keys = array_keys($arrSerPer);
@@ -787,22 +775,23 @@ for ($c = 0; count($arrSerPer) > $c; $c++)
 	else
 		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 ?>
-					     </select>
-					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> name="Service1" id="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'Type in Years'?>" >
-				        </td>
-                        <td><input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> name="Service2" id="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'Type in Years'?>" >
-                        </td>
-					</tr>
+</select>
+<input type="text" <?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'style="visibility:hidden;" disabled'?> 
+    name="Service1" id="Service1" value="<?php echo isset($this->postArr['Service1']) ? $this->postArr['Service1'] : 'Type in Years'?>" 
+    class="formInputText" style="width:4em;"/>
+<input type="text" <?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'style="visibility:hidden;" disabled'?> 
+    name="Service2" id="Service2" value="<?php echo isset($this->postArr['Service2']) ? $this->postArr['Service2'] : 'Type in Years'?>" 
+    class="formInputText" style="width:4em;"/>
 <?php //Service Period  ?>
+<br class="clear"/>
 
 <?php //Joined-Date ?>
-
-					<tr>
-					   <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_JoinedDate; ?></td>
-					    <td align="left" valign="middle"> <select  name="cmbJoiDatCode" onChange="disableJoiDatField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="JoinedDate"><?php echo $lang_rep_JoinedDate; ?></label>
+<select  name="cmbJoiDatCode" onChange="disableJoiDatField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> 
+        class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
 $keys = array_keys($arrJoiDat);
@@ -814,24 +803,25 @@ for ($c = 0; count($arrJoiDat) > $c; $c++)
 	else
 		echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 ?>
-					     </select>
-					  	</td>
-				        <td><input type="text" <?php echo isset($this->postArr['Join1']) ? "" : 'style="visibility:hidden;" disabled'?> name="Join1" id="Join1" value="<?php echo isset($this->postArr['Join1']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join1']) : ''?>" >
-				        <input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> name="Join1Button"/>
-				        </td>
-                        <td><input type="text" <?php echo isset($this->postArr['Join2']) ? "" : 'style="visibility:hidden;" disabled'?> name="Join2" id="Join2" value="<?php echo isset($this->postArr['Join2']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join2']) : ''?>" >
-                        <input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> name="Join2Button"/>
-                        </td>
-					</tr>
-
-
+</select>
+<input type="text" <?php echo isset($this->postArr['Join1']) ? "" : 'style="visibility:hidden;" disabled'?> 
+    name="Join1" id="Join1" value="<?php echo isset($this->postArr['Join1']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join1']) : ''?>" 
+    class="formDateInput" style="width:100px"/>
+<input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join1']) ? $this->postArr['Join1'] : 'style="visibility:hidden;" disabled'?> 
+    name="Join1Button"/>
+<input type="text" <?php echo isset($this->postArr['Join2']) ? "" : 'style="visibility:hidden;" disabled'?> 
+    name="Join2" id="Join2" value="<?php echo isset($this->postArr['Join2']) ? LocaleUtil::getInstance()->formatDate($this->postArr['Join2']) : ''?>" 
+    class="formDateInput" style="width:100px"/>
+<input type="button" class="calendarBtn" value="  " <?php echo isset($this->postArr['Join2']) ? $this->postArr['Join2'] : 'style="visibility:hidden;" disabled'?> 
+    name="Join2Button"/>
 <?php //Joined-Date-Ends  ?>
+<br class="clear"/>
 
-   					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					 <td><?php echo $lang_rep_JobTitle; ?></td>
-					  <td><select  name="cmbDesig" <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					  		<option value="0">--<?php echo $lang_rep_SelectJobTitle; ?>--</option>
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="JobTitle"><?php echo $lang_rep_JobTitle; ?></label>
+<select  name="cmbDesig" <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectJobTitle; ?>--</option>
 <?php
 
 $deslist = $this->popArr['deslist'];
@@ -841,14 +831,15 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 	else
 		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 ?>
-					  </select></td>
-					</tr>
-					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					 <td><?php echo $lang_rep_Language; ?></td>
-					  <td><select  name="cmbLanguage" <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					  		<option value="0">--<?php echo $lang_rep_SelectLanguage; ?>--</option>
-							<?php
+</select>
+<br class="clear"/>
+
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="Language"><?php echo $lang_rep_Language; ?></label>
+<select name="cmbLanguage" <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectLanguage; ?>--</option>
+<?php
 
 $deslist = $this->popArr['languageList'];
 for ($c = 0; $deslist && count($deslist) > $c; $c++)
@@ -857,15 +848,16 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 	else
 		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 ?>
-					  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-					<tr>
-					 <td><input type='checkbox' class='checkbox' name='chkcriteria[]' id='Skill' value="SKILL" onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					 <td><?php echo $lang_rep_Skill; ?></td>
-					  <td><select  name="cmbSkill" <?php echo (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					  		<option value="0">--<?php echo $lang_rep_SelectSkill; ?>--</option>
-							<?php
+<input type='checkbox' class='formCheckbox' name='chkcriteria[]' id='Skill' value="SKILL" onClick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="Skill"><?php echo $lang_rep_Skill; ?></label>    
+
+<select  name="cmbSkill" <?php echo (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectSkill; ?>--</option>
+<?php
 
 $deslist = $this->popArr['skillList'];
 for ($c = 0; $deslist && count($deslist) > $c; $c++)
@@ -874,238 +866,103 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 	else
 		echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 ?>
-					  </select></td>
-					</tr>
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-              </table>
-</td> </tr>
-<tr>
-	<td> <img border="0" title="Save" onClick="addEXT();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif"></td>
-</tr>
-                <tr><td>&nbsp;</td></tr>
-  <tr>
-    <td height="15"><h4><?php echo $lang_rep_Field; ?></h4></td>
-  </tr>
-<tr><td>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+</select>
+<br class="clear"/>
 
+<div class="formbuttons">                
+    <input type="button" class="savebutton" 
+        onclick="addEXT();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
+</div>
 
+<div class="subHeading"><h3><?php echo $lang_rep_Field; ?></h3></div>
 
-                    <tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='EMPNO'></td>
-						 <td><?php echo $lang_rep_EmpNo; ?></td>
-					</tr>
+<?php
+    $addFieldList = array('EMPNO'=>$lang_rep_EmpNo,
+        'EMPFIRSTNAME'=> $lang_rep_FirstName,
+        'EMPLASTNAME' => $lang_rep_LastName,
+        'ADDRESS1' => $lang_rep_Address,
+        'TELENO' => $lang_rep_TelNo,
+        'AGE' => $lang_rep_DateOfBirth,
+        'REPORTTO' => $lang_rep_ReportTo,
+        'REPORTINGMETHOD' => $lang_rep_ReportingMethod,
+        'JOBTITLE' => $lang_rep_JobTitle,
+        'SERPIR' => $lang_rep_JoinedDate,
+        'SUBDIVISION' => $lang_rep_SubDivision,
+        'QUL' => $lang_rep_Qualification,
+        'YEAROFPASSING' => $lang_rep_YearOfPassing,
+        'EMPSTATUS' => $lang_rep_EmploymentStatus,
+        'PAYGRD' => $lang_rep_PayGrade,
+        'LANGUAGES' => $lang_rep_Languages,
+        'SKILLS' =>  $lang_rep_Skills,
+        'CONTRACT' => $lang_rep_Contract,
+        'WORKEXPERIENCE' => $lang_rep_WorkExperience);
 
-					<tr>
-                      	 <td><input type='checkbox' checked  class='checkbox' name='checkfield[]' value='EMPFIRSTNAME'></td>
-						 <td><?php echo $lang_rep_FirstName; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
-						 <td><?php echo $lang_rep_LastName; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
-						 <td><?php echo $lang_rep_Address; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='TELENO'></td>
-						 <td><?php echo $lang_rep_TelNo; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='AGE'></td>
-						 <td><?php echo $lang_rep_DateOfBirth; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='REPORTTO'></td>
-						 <td><?php echo $lang_rep_ReportTo; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='REPORTINGMETHOD'></td>
-						 <td><?php echo $lang_rep_ReportingMethod; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
-						 <td><?php echo $lang_rep_JobTitle; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='SERPIR'></td>
-						 <td><?php echo $lang_rep_JoinedDate; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
-						 <td><?php echo $lang_rep_SubDivision; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='QUL'></td>
-						 <td><?php echo $lang_rep_Qualification; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked  class='checkbox' name='checkfield[]' value='YEAROFPASSING'></td>
-						 <td><?php echo $lang_rep_YearOfPassing; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
-						 <td><?php echo $lang_rep_EmploymentStatus; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='PAYGRD'></td>
-						 <td><?php echo $lang_rep_PayGrade; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='LANGUAGES'></td>
-						 <td><?php echo $lang_rep_Languages; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='SKILLS'></td>
-						 <td><?php echo $lang_rep_Skills; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='CONTRACT'></td>
-						 <td><?php echo $lang_rep_Contract; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input type='checkbox' checked class='checkbox' name='checkfield[]' value='WORKEXPERIENCE'></td>
-						 <td><?php echo $lang_rep_WorkExperience; ?></td>
-					</tr>
-
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-            	<tr><td>&nbsp;</td></tr>
-              </table>
-</td></tr>
-</table>
+    foreach ($addFieldList as $field=>$label) {
+        $fieldId = 'FIELD_' . $field;
+?>        
+    <label for='<?php echo $fieldId;?>'><?php echo $label;?></label>
+    <input type='checkbox' checked='checked' class='formCheckbox' name='checkfield[]' 
+        value='<?php echo $field;?>' id='<?php echo $fieldId;?>'/>
+    <br class="clear"/>                
+<?php
+        
+    }
+?>
 </form>
+</div>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
 </body>
 <?php } else if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {  ?>
 <body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'>&nbsp; </td>
-    <td width='100%'><h2><?php echo $headingInfo[1]?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<?php if (isset($displayMsg)) { ?>
-	<br />
-	<span class="error" style="margin-top: 10px;"><?php echo $displayMsg; ?></span>
-<?php } ?>
-<table border="0" >
-  <tr>
-  <td valign="middle" height="35"><img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();"></td>
-  </tr>
-</table>
+    <div class="formpage2col">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
+        
+        <?php if (isset($displayMsg)) { ?>
+            <div class="messagebar">
+                <span class=""><?php echo $displayMsg; ?></span>
+            </div>  
+        <?php } ?>
+<form name="frmEmpRepTo" method="post" action="<?php echo $formAction;?>">
+    <input type="hidden" name="sqlState"/>
 
-<p>
-<p>
-<table border="0">
-<form name="frmEmpRepTo" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?repcode=<?php echo $this->getArr['repcode']?>&id=<?php echo $this->getArr['id']?>&capturemode=updatemode">
-<input type="hidden" name="sqlState">
 
-<?php $edit = $this->popArr['editArr']; ?>
-<tr><td>
-   <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                      <td><?php echo $lang_repview_ReportID; ?></td>
-    				  <td ><strong><?php echo $edit[0][0]?></strong><input type="hidden" name="txtRepID" value="<?php echo $edit[0][0]?>"></td>
+    <span class="formLabel"><?php echo $lang_repview_ReportID; ?></span>
+    <span class="formValue"><?php echo $reportId; ?></span>
+    <input type="hidden" name="txtRepID" value="<?php echo $reportId;?>"/>
+    <br class="clear"/>
 
-    				 </tr>
-    				 <tr>
- 					  <td><?php echo $lang_repview_ReportName; ?></td>
-					  <td ><input type="text" disabled name="txtRepName" value="<?php echo isset($this->post['txtRepName']) ? $this->post['txtRepName'] : $edit[0][1]?>"></td>
-					</tr>
-    				 <tr>
- 					  <td><b><a href="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $edit[0][0]?>&repcode=RUG"><?php echo $lang_rep_AssignUserGroups; ?></a></b></td>
-					</tr>
+    <label for="txtRepName"><?php echo $lang_repview_ReportName; ?></label>
+    <input type="text" <?php echo $disabled;?> name="txtRepName" id="txtRepName" value="<?php echo $reportName; ?>"  
+        class="formInputText"/>
+    <br class="clear"/>
+     
+    <div class="notice" style="padding-left:10px;"><a href="<?php echo $_SERVER['PHP_SELF'] . "?id={$reportId}&amp;repcode=RUG";?>" ><?php echo $lang_rep_AssignUserGroups; ?></a></div>
+    <br class="clear"/>
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-</td> </tr>
-<tr>
-    <td valign="bottom" height="35"><h4><?php echo $lang_rep_SelectionCriteria; ?></h4></td>
-  </tr>
-  <tr><td>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+<div class="subHeading"><h3><?php echo $lang_rep_SelectionCriteria; ?></h3></div>
 
-                  <?php $editCriteriaChk= $this->popArr['editCriteriaChk'];?>
-                  <?php $criteriaData=$this->popArr['editCriteriaData'];?>
-                    <tr>
-                       <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> class='checkbox'  name='chkcriteria[]' id='EMPNO' value='EMPNO' onClick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-                      <td valign="top"><?php echo $lang_rep_Employee; ?></td>
-                      <?php
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPNO',$editCriteriaChk) ? 'checked' : ''?> 
+    name='chkcriteria[]' id='EMPNO' value='EMPNO' onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> 
+    class="formCheckbox"/>
+
+<label for="EMPNO"><?php echo $lang_rep_Employee; ?></label>
+<?php
 
 $empId = isset ($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : false;
 
@@ -1118,23 +975,25 @@ if ($empId) {
 	$empId = "";
 }
 ?>
-                      <td align="left">
-	                      <select name="cmbId" onchange="disableEmployeeId();" disabled >
-						  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
-							<option value="1" <?php echo ($empId == "")?"":"selected='selected'"; ?> ><?php echo $lang_Leave_Common_Select;?> --></option>
-						  </select>
-					  </td>
-                      <td align="left" valign="top"><input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly name="cmbRepEmpID" value="<?php echo $empId;?>" ><input type="hidden" readonly name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   ></td>
-                      <td align="left"><input class="button" type="button" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> name="empPop" value=".." onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>></td>
-  					</tr>
+  <select name="cmbId" onchange="disableEmployeeId();" disabled="disabled" class="formSelect">
+  	<option value="0"><?php echo $lang_Leave_Common_AllEmployees;?></option>
+	<option value="1" <?php echo ($empId == "")?"":"selected='selected'"; ?> ><?php echo $lang_Leave_Common_Select;?> --></option>
+  </select>
 
+<input type="text" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> readonly="readonly" name="cmbRepEmpID" value="<?php echo $empId;?>" class="formInputText" />
+<input type="hidden" readonly="readonly" name="txtRepEmpID" value="<?php echo isset($criteriaData['EMPNO'][0]) ? $criteriaData['EMPNO'][0] : ''?>"   />
+<input class="empPopupButton" type="button" <?php echo ($empId == "")?'style="visibility:hidden;"':''; ?> name="empPop" value=".." 
+    onClick="returnEmpDetail();" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPNO', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>/>
+<br class="clear"/>
+    
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('AGE',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onclick="chkboxCriteriaEnable()" 
+        <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+<label for="AgeGroup"><?php echo $lang_rep_AgeGroup; ?></label>
 
-
-					<tr>
-					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('AGE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='AgeGroup' value="AGE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-  					 <td valign="top"><?php echo $lang_rep_AgeGroup; ?></td>
-					 <td align="left" valign="top"> <select name="cmbAgeCode" onChange="disableAgeField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
- 					  <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<select name="cmbAgeCode" onChange="disableAgeField()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('AGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> 
+    class="formSelect" >
+<option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
 $keys = array_keys($arrAgeSim);
@@ -1153,18 +1012,21 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 	}
 ?>
-					  </select>
-				    </td>
-					<td> <input type="text" <?php echo isset($criteriaData['AGE'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge1' value="<?php echo isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" ></td>
-					<td> <input type="text" <?php echo isset($criteriaData['AGE'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge2' value="<?php echo isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" ></td>
+</select>
+<input type="text" <?php echo isset($criteriaData['AGE'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge1' 
+    value="<?php echo isset($criteriaData['AGE'][1]) ? $criteriaData['AGE'][1] : ''?>" 
+    class="formInputText" style="width:100px;"/>    
+<input type="text" <?php echo isset($criteriaData['AGE'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name='txtEmpAge2' 
+    value="<?php echo isset($criteriaData['AGE'][2]) ? $criteriaData['AGE'][2] : ''?>" 
+    class="formInputText" style="width:100px;"/>
+<br class="clear"/>
 
-					</tr>
-
-					<tr>
-				  <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('PAYGRD',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-				  <td><?php echo $lang_rep_PayGrade; ?></td>
-			      <td><select  name="cmbSalGrd"   <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-		<option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('PAYGRD',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='PayGrade' value="PAYGRD" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="PayGrade"><?php echo $lang_rep_PayGrade; ?></label>
+<select  name="cmbSalGrd"   <?php echo  (isset($this->postArr['chkcriteria']) && in_array('PAYGRD', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectPayGrade; ?>--</option>
 <?php
 
 $grdlist = $this->popArr['grdlist'];
@@ -1181,16 +1043,15 @@ for ($c = 0; $grdlist && count($grdlist) > $c; $c++)
 			echo "<option value='" . $grdlist[$c][0] . "'>" . $grdlist[$c][1] . "</option>";
 	}
 ?>
-			  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-
-   					<tr>
-					<td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('QUL',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='QualType' value="QUL" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-				    <td><?php echo $lang_rep_Education; ?></td>
-    				  <td>
-					  <select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-					  <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('QUL',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='QualType' value="QUL" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="QualType"><?php echo $lang_rep_Education; ?></label>
+<select name="TypeCode"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('QUL', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value=0>--<?php echo $lang_rep_SelectEducation; ?>--</option>
 <?php
 
 $edulist = $this->popArr['edulist'];
@@ -1200,18 +1061,15 @@ for ($c = 0; $edulist && count($edulist) > $c; $c++)
 	else
 		echo "<option value=" . $edulist[$c][0] . ">" . $edulist[$c][2] . ', ' . $edulist[$c][1] . "</option>";
 ?>
-					  </select></td>
-						<td valign="middle"></td>
-						<td align="left" valign="middle"></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-
-<tr>
-
-					  <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPSTATUS',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_EmploymentStatus; ?></td>
-					  	<td><select name="cmbEmpType"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-			  		<option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('EMPSTATUS',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='EmpType' value="EMPSTATUS" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="EmpType"><?php echo $lang_rep_EmploymentStatus; ?></label>
+<select name="cmbEmpType"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('EMPSTATUS', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectEmploymentType; ?>--</option>
 <?php
 
 $arrEmpType = $this->popArr['arrEmpType'];
@@ -1228,17 +1086,18 @@ for ($c = 0; count($arrEmpType) > $c; $c++)
 			echo "<option value='" . $arrEmpType[$c][0] . "'>" . $arrEmpType[$c][1] . "</option>";
 	}
 ?>
-			         		</select>
-						</td>
-					</tr>
-
+</select>
+<br class="clear"/>
 
 <?php // Service Period ?>
-					<tr>
-					   <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SERPIR',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='SerPeriod' value="SERPIR" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_ServicePeriod; ?></td>
-					    <td align="left" valign="middle"> <select  name="cmbSerPerCode" onChange="disableSerPeriodField()"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
-					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' 
+    <?php echo in_array('SERPIR',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='formCheckbox' 
+    name='chkcriteria[]' id='SerPeriod' value="SERPIR" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="SerPeriod"><?php echo $lang_rep_ServicePeriod; ?></label>
+<select  name="cmbSerPerCode" onChange="disableSerPeriodField()"  
+        <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SERPIR', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
 $keys = array_keys($arrSerPer);
@@ -1257,23 +1116,24 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 	}
 ?>
-					     </select>
-					  	</td>
-				        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : 'Type in Years'?>" id="Service1">
-				        </td>
-                        <td><input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : 'Type in Years'?>"  id="Service2">
-                         </td>
-					</tr>
-
+</select>
+<input type="text" <?php echo isset($criteriaData['SERPIR'][1]) ? '' : 'style="visibility: hidden;"'?> disabled 
+    name="Service1" value="<?php echo isset($criteriaData['SERPIR'][1]) ? $criteriaData['SERPIR'][1] : 'Type in Years'?>" id="Service1"
+    class="formInputText" style="width:4em;"/>
+<input type="text" <?php echo isset($criteriaData['SERPIR'][2]) ? '' : 'style="visibility: hidden;"'?> disabled 
+    name="Service2" value="<?php echo isset($criteriaData['SERPIR'][2]) ? $criteriaData['SERPIR'][2] : 'Type in Years'?>"  id="Service2"
+    class="formInputText" style="width:4em;"/>
 <?php // Service Period Ends ?>
-
+<br class="clear"/>
 
 <?php // Joined Date ?>
-					<tr>
-					   <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOIDAT',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-					  <td valign="top"><?php echo $lang_rep_JoinedDate; ?></td>
-					    <td align="left" valign="middle"> <select  name="cmbJoiDatCode" onChange="disableJoiDatField()"  <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="cmb" >
-					     <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOIDAT',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='JoinedDate' value="JOIDAT" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="JoinedDate"><?php echo $lang_rep_JoinedDate; ?></label>
+<select  name="cmbJoiDatCode" onChange="disableJoiDatField()"  
+        <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOIDAT', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?>  class="formSelect" >
+    <option value="0">--<?php echo $lang_rep_SelectComparison; ?>--</option>
 <?php
 
 $keys = array_keys($arrJoiDat);
@@ -1292,25 +1152,25 @@ for ($c = 0; count($arrAgeSim) > $c; $c++)
 			echo "<option value='" . $values[$c] . "'>" . $keys[$c] . "</option>";
 	}
 ?>
-					     </select>
-					  	</td>
-				        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join1" value="<?php echo isset($criteriaData['JOIDAT'][1]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][1]) : ''?>" id="Join1">
-				        <input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> name="Join1Button"/>
-				        </td>
-                        <td><input type="text" <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join2" value="<?php echo isset($criteriaData['JOIDAT'][2]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][2]) : ''?>"  id="Join2">
-                        <input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> name="Join2Button"/>
-                        </td>
-					</tr>
-
+</select>
+<input type="text" <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> disabled 
+    name="Join1" value="<?php echo isset($criteriaData['JOIDAT'][1]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][1]) : ''?>" id="Join1"
+    class="formDateInput"/>
+<input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][1]) ? '' : 'style="visibility: hidden;"'?> name="Join1Button"/>
+<input type="text" <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> disabled name="Join2" 
+    value="<?php echo isset($criteriaData['JOIDAT'][2]) ? LocaleUtil::getInstance()->formatDate($criteriaData['JOIDAT'][2]) : ''?>"  id="Join2"
+    class="formDateInput"/>
+<input type="button" class="calendarBtn" value="  " <?php echo isset($criteriaData['JOIDAT'][2]) ? '' : 'style="visibility: hidden;"'?> name="Join2Button"/>
 <?php // Joined Date Ends ?>
+<br class="clear"/>
 
-   					<tr>
-					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOBTITLE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-
-					 <td><?php echo $lang_rep_JobTitle; ?></td>
-					  <td><select  name="cmbDesig"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-				  		<option value="0">---<?php echo $lang_rep_SelectJobTitle; ?>---</option>
-						<?php
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('JOBTITLE',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='JobTitle' value="JOBTITLE" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> />
+<label for="JobTitle"><?php echo $lang_rep_JobTitle; ?></label>
+<select  name="cmbDesig"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('JOBTITLE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">---<?php echo $lang_rep_SelectJobTitle; ?>---</option>
+<?php
 
 $deslist = $this->popArr['deslist'];
 for ($c = 0; $deslist && count($deslist) > $c; $c++)
@@ -1326,15 +1186,15 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 	}
 ?>
-					  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-					<tr>
-					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('LANGUAGE',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-
-					 <td><?php echo $lang_rep_Language; ?></td>
-					  <td><select  name="cmbLanguage"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-				  		<option value="0">---<?php echo $lang_rep_SelectLanguage; ?>---</option>
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('LANGUAGE',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='Language' value="LANGUAGE" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> >
+<label for="Language"><?php echo $lang_rep_Language; ?></label>
+<select  name="cmbLanguage"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">---<?php echo $lang_rep_SelectLanguage; ?>---</option>
 						<?php
 
 $deslist = $this->popArr['languageList'];
@@ -1351,16 +1211,16 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 	}
 ?>
-					  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-					<tr>
-					 <td><input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SKILL',$editCriteriaChk) ? 'checked' : ''?> type='checkbox' class='checkbox' name='chkcriteria[]' id='Skill' value="SKILL" onclick="chkboxCriteriaEnable()" <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
-
-					 <td><?php echo $lang_rep_Skill; ?></td>
-					  <td><select  name="cmbSkill"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="cmb" >
-				  		<option value="0">---<?php echo $lang_rep_SelectSkill; ?>---</option>
-						<?php
+<input <?php echo isset($_POST['txtRepName']) ? '' : 'disabled'?> type='checkbox' <?php echo in_array('SKILL',$editCriteriaChk) ? 'checked' : ''?> 
+    type='checkbox' class='formCheckbox' name='chkcriteria[]' id='Skill' value="SKILL" onclick="chkboxCriteriaEnable()" 
+    <?php echo  (isset($this->postArr['chkcriteria']) && in_array('SKILL', $this->postArr['chkcriteria'] )) ? 'checked' : '' ?> ></td>
+<label for="Skill"><?php echo $lang_rep_Skill; ?></label>
+<select  name="cmbSkill"  <?php echo (isset($this->postArr['chkcriteria']) && in_array('LANGUAGE', $this->postArr['chkcriteria'] )) ? '' : 'disabled' ?> class="formSelect" >
+    <option value="0">---<?php echo $lang_rep_SelectSkill; ?>---</option>
+<?php
 
 $deslist = $this->popArr['skillList'];
 for ($c = 0; $deslist && count($deslist) > $c; $c++)
@@ -1376,156 +1236,65 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 			echo "<option value='" . $deslist[$c][0] . "'>" . $deslist[$c][1] . "</option>";
 	}
 ?>
-					  </select></td>
-					</tr>
+</select>
+<br class="clear"/>
 
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-              </table>
-</td> </tr>
-<tr>
-	<td><img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();"></td>
-</tr>
-                <tr><td>&nbsp;</td></tr>
-  <tr>
-    <td height="15"><h4><?php echo $lang_rep_Field;?></h4></td>
-  </tr>
-<tr><td>
-      <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-                  <?php $fieldArr= $this->popArr['fieldList'];?>
+<div class="formbuttons">               
+    <input type="button" class="editbutton" id="editBtn" 
+        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_Edit;?>" />
+</div>
+                
+<img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 
-                    <tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPNO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPNO'></td>
-						 <td><?php echo $lang_rep_EmpNo; ?></td>
-					</tr>
+<div class="subHeading"><h3><?php echo $lang_rep_Field; ?></h3></div>
 
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPFIRSTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPFIRSTNAME'></td>
-						 <td><?php echo $lang_rep_FirstName; ?></td>
-					</tr>
+<?php $fieldArr= $this->popArr['fieldList'];
 
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPLASTNAME',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPLASTNAME'></td>
-						 <td><?php echo $lang_rep_LastName; ?></td>
-					</tr>
+    $addFieldList = array('EMPNO'=>$lang_rep_EmpNo,
+        'EMPFIRSTNAME'=> $lang_rep_FirstName,
+        'EMPLASTNAME' => $lang_rep_LastName,
+        'ADDRESS1' => $lang_rep_Address,
+        'TELENO' => $lang_rep_TelNo,
+        'AGE' => $lang_rep_DateOfBirth,
+        'REPORTTO' => $lang_rep_ReportTo,
+        'REPORTINGMETHOD' => $lang_rep_ReportingMethod,
+        'JOBTITLE' => $lang_rep_JobTitle,
+        'SERPIR' => $lang_rep_JoinedDate,
+        'SUBDIVISION' => $lang_rep_SubDivision,
+        'QUL' => $lang_rep_Qualification,
+        'YEAROFPASSING' => $lang_rep_YearOfPassing,
+        'EMPSTATUS' => $lang_rep_EmploymentStatus,
+        'PAYGRD' => $lang_rep_PayGrade,
+        'LANGUAGES' => $lang_rep_Languages,
+        'SKILLS' =>  $lang_rep_Skills,
+        'CONTRACT' => $lang_rep_Contract,
+        'WORKEXPERIENCE' => $lang_rep_WorkExperience);
 
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('ADDRESS1',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='ADDRESS1'></td>
-						 <td><?php echo $lang_rep_Address; ?></td>
-					</tr>
+    foreach ($addFieldList as $field=>$label) {
+        $fieldId = 'FIELD_' . $field;
+        $checked = in_array('EMPNO', $fieldArr) ? 'checked="checked"': '';
+?>        
+    <label for='<?php echo $fieldId;?>'><?php echo $label;?></label>
+    <input type='checkbox' <?php echo $checked;?> disabled="disabled" class='formCheckbox' name='checkfield[]' 
+        value='<?php echo $field;?>' id='<?php echo $fieldId;?>'/>
+    <br class="clear"/>                
+<?php
+        
+    }
+?>
 
-
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('TELENO',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='TELENO'></td>
-						 <td><?php echo $lang_rep_TelNo; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('AGE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='AGE'></td>
-						 <td><?php echo $lang_rep_DateOfBirth; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('REPORTTO',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='REPORTTO'></td>
-						 <td><?php echo $lang_rep_ReportTo; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('REPORTINGMETHOD',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='REPORTINGMETHOD'></td>
-						 <td><?php echo $lang_rep_ReportingMethod; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('JOBTITLE',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='JOBTITLE'></td>
-						 <td><?php echo $lang_rep_JobTitle; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('SERPIR',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='SERPIR'></td>
-						 <td><?php echo $lang_rep_JoinDate; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('SUBDIVISION',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='SUBDIVISION'></td>
-						 <td><?php echo $lang_rep_SubDivision; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('QUL',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='QUL'></td>
-						 <td><?php echo $lang_rep_Qualification; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('YEAROFPASSING',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='YEAROFPASSING'></td>
-						 <td><?php echo $lang_rep_YearOfPassing; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('EMPSTATUS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='EMPSTATUS'></td>
-						 <td><?php echo $lang_rep_EmployeeStates; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('PAYGRD',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='PAYGRD'></td>
-						 <td><?php echo $lang_rep_PayGrade; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('LANGUAGES',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='LANGUAGES'></td>
-						 <td><?php echo $lang_rep_Languages; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('SKILLS',$fieldArr) ? 'checked': ''?>  class='checkbox' name='checkfield[]' value='SKILLS'></td>
-						 <td><?php echo $lang_rep_Skills; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('CONTRACT',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='CONTRACT'></td>
-						 <td><?php echo $lang_rep_Contract; ?></td>
-					</tr>
-
-					<tr>
-                      	 <td><input disabled type='checkbox' <?php echo in_array('WORKEXPERIENCE',$fieldArr) ? 'checked': ''?> class='checkbox' name='checkfield[]' value='WORKEXPERIENCE'></td>
-						 <td><?php echo $lang_rep_WorkExperience; ?></td>
-					</tr>
-
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-            	<tr><td>&nbsp;</td></tr>
-              </table>
-</td></tr>
-</table>
 </form>
+</div>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
 </body>
 <?php } ?>
 </html>

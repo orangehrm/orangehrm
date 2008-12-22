@@ -20,8 +20,8 @@
 
 $year = $records[0];
 ?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
+//<![CDATA[
 
 function cancelAddPayPeriod() {
 	window.location = '?benefitcode=Benefits&action=List_Benefits_Schedule&year=<?php echo $year; ?>';
@@ -76,98 +76,54 @@ function addPayPeriod() {
 }
 
 YAHOO.OrangeHRM.container.init();
+//]]>
 </script>
-<h2>
-	<?php echo $lang_Benefits_DefinePayDateForPaySchedule; ?>
-	<hr/>
-</h2>
-<form action="?benefitcode=Benefits&action=Add_Pay_Period" method="post" name="frmAddPayPeriod" id="frmAddPayPeriod">
-<table border="0" cellpadding="2" cellspacing="0">
-	<thead>
-	  	<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><?php echo $lang_Benefits_PayPeriod; ?></td>
-			<td>
-				<input name="txtPayPeriodFromDate" type="text" id="txtPayPeriodFromDate"  size="10"/>
-          		<input type="button" name="Date" value="  " class="calendarBtn" />
-          	</td>
-          	<td></td>
-          	<td><?php echo $lang_Common_To; ?></td>
-			<td>
-				<input name="txtPayPeriodToDate" type="text" id="txtPayPeriodToDate"  size="10"/>
-          		<input type="button" name="Date" value="  " class="calendarBtn" />
-          	</td>
-			<td class="tableMiddleRight"></td>
-		</tr>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><?php echo $lang_Benefits_PayPeriodCloses; ?></td>
-			<td>
-				<input name="txtPayPeriodCloseDate" type="text" id="txtPayPeriodCloseDate"  size="10"/>
-          		<input type="button" name="Date" value="  " class="calendarBtn" />
-          	</td>
-          	<td></td>
-          	<td></td>
-			<td></td>
-			<td class="tableMiddleRight"></td>
-		</tr>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><?php echo $lang_Benefits_TimesheetAprovalDue; ?></td>
-			<td>
-				<input name="txtPayPeriodTimesheetDueDate" type="text" id="txtPayPeriodTimesheetDueDate"  size="10"/>
-          		<input type="button" name="Date" value="  " class="calendarBtn" />
-          	</td>
-          	<td></td>
-          	<td></td>
-			<td></td>
-			<td class="tableMiddleRight"></td>
-		</tr>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><?php echo $lang_Benefits_CheckDate; ?></td>
-			<td>
-				<input name="txtPayPeriodCheckDate" type="text" id="txtPayPeriodCheckDate"  size="10"/>
-          		<input type="button" name="Date" value="  " class="calendarBtn" />
-          	</td>
-          	<td></td>
-          	<td></td>
-			<td>
-				<img onClick="addPayPeriod();"
-		             style="margin-top:10px;"
-		             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-		             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-		             src="../../themes/beyondT/pictures/btn_save.gif" alt="Save" />
-		        <img onClick="cancelAddPayPeriod();"
-		             style="margin-top:10px;"
-		             onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
-		             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-		             src="../../themes/beyondT/icons/cancel.gif" alt="Cancel" />
-		    </td>
-			<td class="tableMiddleRight"></td>
-		</tr>
-	</tbody>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
-</table>
+    <div class="formpage2col">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Benefits_DefinePayDateForPaySchedule;?></h2></div>
+        
+<form action="?benefitcode=Benefits&amp;action=Add_Pay_Period" method="post" name="frmAddPayPeriod" id="frmAddPayPeriod">
+    
+    <label for="txtPayPeriodFromDate"><?php echo $lang_Benefits_PayPeriod; ?></label>
+	<input name="txtPayPeriodFromDate" type="text" id="txtPayPeriodFromDate"  size="10" class="formDateInput"/>
+	<input type="button" name="Date" value="  " class="calendarBtn" />
+    
+  	<label for="txtPayPeriodToDate"><?php echo $lang_Common_To; ?></label>
+	<input name="txtPayPeriodToDate" type="text" id="txtPayPeriodToDate"  size="10" class="formDateInput"/>
+	<input type="button" name="Date" value="  " class="calendarBtn" />
+    <br class="clear"/>
+                    
+	<label for="txtPayPeriodCloseDate"><?php echo $lang_Benefits_PayPeriodCloses; ?></label>
+	<input name="txtPayPeriodCloseDate" type="text" id="txtPayPeriodCloseDate"  size="10" class="formDateInput"/>
+	<input type="button" name="Date" value="  " class="calendarBtn" />
+    <br class="clear"/>
+        
+	<label for="txtPayPeriodTimesheetDueDate"><?php echo $lang_Benefits_TimesheetAprovalDue; ?></label>
+	<input name="txtPayPeriodTimesheetDueDate" type="text" id="txtPayPeriodTimesheetDueDate"  size="10" class="formDateInput"/>
+	<input type="button" name="Date" value="  " class="calendarBtn" />
+    <br class="clear"/>
+        
+	<label for="txtPayPeriodCheckDate"><?php echo $lang_Benefits_CheckDate; ?></label>
+	<input name="txtPayPeriodCheckDate" type="text" id="txtPayPeriodCheckDate"  size="10" class="formDateInput"/>
+  	<input type="button" name="Date" value="  " class="calendarBtn" />
+    <br class="clear"/>
+    
+    <div class="formbuttons">
+        <input type="button" class="savebutton" id="saveBtn" 
+            onclick="addPayPeriod();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Save;?>" />
+        <input type="button" class="clearbutton" onclick="cancelAddPayPeriod();"
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+             value="<?php echo $lang_Common_Cancel;?>" />                        
+    </div>
+    <br class="clear"/>             
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>

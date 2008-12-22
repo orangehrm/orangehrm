@@ -21,8 +21,8 @@ $heading = $records[0];
 $years = $records[1];
 $action = $records[2];
 ?>
-<h2><?php echo ${"lang_Benefits_$heading"}; ?><hr/></h2>
 <script type="text/javascript">
+//<![CDATA[
 	function validate() {
 		err = false;
 		errors = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
@@ -49,91 +49,43 @@ $action = $records[2];
         if(!popup.opener) popup.opener=self;
 		popup.focus();
 	}
+//]]>    
 </script>
-<form method="post" name="frmSelectEmployee" id="frmSelectEmployee" action="?benefitcode=Benefits&amp;action=<?php echo $action; ?>" onsubmit="validate(); return false;">
-<input type="hidden" name="searchBy" value="leaveType"/>
-<table border="0" cellpadding="2" cellspacing="0">
-  <tbody>
-  	<tr>
-		<td class="tableTopLeft"></td>
-    	<td class="tableTopMiddle"></td>
-    	<td class="tableTopMiddle"></td>
-    	<td class="tableTopMiddle"></td>
-		<td class="tableTopRight"></td>
-	</tr>
-	<tr>
-		<td class="tableMiddleLeft"></td>
-    	<td width="70px" class="odd"><?php echo $lang_Benefits_Common_Year;?></td>
-
-    	<td width="130px" class="odd">
-		    	  <select name="year" id="year">
-		    	    <option value="-1"> - <?php echo $lang_Benefits_Common_Select;?> - </option>
-		   <?php
-		   		if (is_array($years)) {
-		   			foreach ($years as $year) {
-		  ?>
-		 		  	<option value="<?php echo $year ?>"><?php echo $year ?></option>
-		  <?php 	}
-		   		}
-		 ?>
-  	    		  </select>
-   	    </td>
-		<td></td>
-   	    <td class="tableMiddleRight"></td>
-   	</tr>
-   	<?php
-   	/**
-   	 * This table row is for the spacing
-   	 */
-   	?>
-   	<tr>
-		<td class="tableMiddleLeft"></td>
-		<td width="90px" class="odd"></td>
-		<td></td>
-		<td></td>
-		<td class="tableMiddleRight"></td>
-	</tr>
-	<tr>
-		<td class="tableMiddleLeft"></td>
-    	<td width="180px" class="odd"><?php echo $lang_Benefits_Common_EmployeeName;?></td>
-    	<td width="180px" class="odd">
-    		<input type="text" name="cmbEmpID" id="cmbEmpID" disabled />
-			<input type="hidden" name="id" id="id" value="-1" />
-			<input type="button" value="..." onclick="returnEmpDetail();" />
-		</td>
-		<td></td>
-		<td class="tableMiddleRight"></td>
-	</tr>
-	<?php
-   	/**
-   	 * This table row is for the spacing
-   	 */
-   	?>
-	<tr>
-		<td class="tableMiddleLeft"></td>
-		<td width="90px" class="odd"></td>
-		<td></td>
-		<td></td>
-		<td class="tableMiddleRight"></td>
-	</tr>
-	<tr>
-		<td class="tableMiddleLeft"></td>
-		<td></td>
-		<td width="100px" class="odd"><input type="image" name="btnView" onclick="view('employee');" src="../../themes/beyondT/icons/view.gif" onmouseover="this.src='../../themes/beyondT/icons/view_o.gif';" onmouseout="this.src='../../themes/beyondT/icons/view.gif';" /></td>
-		<td></td>
-    	<td class="tableMiddleRight"></td>
-	</tr>
-
-  </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
-</table>
-
-</form>
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo ${"lang_Benefits_$heading"}; ?></h2></div>
+  
+        <form method="post" name="frmSelectEmployee" id="frmSelectEmployee" action="?benefitcode=Benefits&amp;action=<?php echo $action; ?>" onsubmit="validate(); return false;">
+            <input type="hidden" name="searchBy" value="leaveType"/>
+            <label for="year"><?php echo $lang_Benefits_Common_Year;?></label>
+            <select name="year" id="year" class="formSelect" style="width:8em;">
+                <option value="-1"> - <?php echo $lang_Benefits_Common_Select;?> - </option>
+        		   <?php if (is_array($years)) {
+        		   			foreach ($years as $year) { ?>
+        		<option value="<?php echo $year ?>"><?php echo $year ?></option>
+        		  <?php 	}
+        		   		}
+        		 ?>
+            </select>
+            <br class="clear"/>
+            
+            <label for="cmbEmpID"><?php echo $lang_Benefits_Common_EmployeeName;?></label>
+            <input type="text" name="cmbEmpID" id="cmbEmpID" disabled="disabled" class="formInputText"/>
+            <input type="hidden" name="id" id="id" value="-1" />
+            <input type="button" value="..." onclick="returnEmpDetail();" class="empPopupButton"/>
+            <br class="clear"/>
+            <div class="formbuttons">                
+                <input type="submit" class="viewbutton" id="btnView" name="btnView"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_View;?>" />                    
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        <!--
+            if (document.getElementById && document.createElement) {
+                roundBorder('outerbox');                
+            }
+        -->
+    </script>
+</div>
