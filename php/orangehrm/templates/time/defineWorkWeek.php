@@ -29,7 +29,7 @@ $daysOfTheWeek = array( 1 => $lang_Common_Monday,
 $submissionPeriod = $records[0];
 ?>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 
 function validate() {
 
@@ -46,10 +46,19 @@ function validate() {
 
 </script>
 
-<h2>
-	<?php echo $lang_Time_DefineTimesheetPeriodTitle; ?>
-  <hr/>
-</h2>
+   <div class="formpage">
+
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Time_DefineTimesheetPeriodTitle; ?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+ 
+        <?php } ?>
+
 
 <?php
 // For Admin User
@@ -59,77 +68,43 @@ if ($_SESSION['isAdmin'] == 'Yes') {
 
 	if ($_GET['message'] == 'UPDATE_FAILIURE') {
 		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$messageType = CommonFunctions::getCssClassForMessage($expString);
 		$expString = 'lang_Time_Errors_' . $expString;
 ?>
-		<div class="<?php echo $col_def?>" >
-			<font size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-			</font>
-		</div>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+        </div> 
 <?php
 	} elseif ($_GET['message'] == 'UPDATE_SUCCESS') {
 		$_SESSION['timePeriodSet'] = 'Yes';
 ?>
 		<h5><?php echo $lang_Time_ContactAdminForTimesheetPeriodSetComplete; ?></h5>
-		<a href="../../index.php?module=Home&menu_no=1&submenutop=LeaveModule&menu_no_top=time" target="_parent"><?php echo $lang_Time_ProceedWithTimeModule; ?></a>
+		<a href="../../index.php?module=Home&amp;menu_no=1&amp;submenutop=LeaveModule&amp;menu_no_top=time" target="_parent"><?php echo $lang_Time_ProceedWithTimeModule; ?></a>
 <?php
 	}
 }
 
 if (!isset($_GET['message']) || $_GET['message'] != 'UPDATE_SUCCESS') {
 ?>
-<form id="frmWorkWeek" name="frmWorkWeek" method="post" action="?timecode=Time&action=Work_Week_Save" onSubmit="return validate()">
+<form id="frmWorkWeek" name="frmWorkWeek" method="post" action="?timecode=Time&amp;action=Work_Week_Save" onsubmit="return validate()">
 <input type="hidden" name="txtTimeshetPeriodId" id="txtTimeshetPeriodId" value="<?php echo $submissionPeriod->getTimesheetPeriodId(); ?>"/>
 
-<table border="0" cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><?php echo $lang_Time_FirstDayOfWeek; ?></td>
-			<td></td>
-        	<td>
-	        	<select id="cmbStartDay" name="cmbStartDay">
-	        	<option value="0" selected><?php echo "--".$lang_Common_Select."--"; ?></option>
-				<?php foreach ($daysOfTheWeek as $dayNo=>$dayName) { ?>
-				<option value="<?php echo $dayNo; ?>" ><?php echo $dayName; ?></option>
-				<?php } ?>
-				</select>
-        	</td>
-        	<td class="tableMiddleRight"></td>
-  		</tr>
-  		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td><input type="image"
-				   name="btnSubmit" id="btnSubmit"
-				   height="20" width="65" alt="Save"
-				   style="width:65px; height: 20px"
-				   onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-				   onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-				   src="../../themes/beyondT/pictures/btn_save.gif"/></td>
-			<td></td>
-        	<td></td>
-        	<td class="tableMiddleRight"></td>
-  		</tr>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
-</table>
+		<label for="cmbStartDay"><?php echo $lang_Time_FirstDayOfWeek; ?></label>
+    	<select id="cmbStartDay" name="cmbStartDay" class="formSelect">
+        	<option value="0" selected="selected"><?php echo "--".$lang_Common_Select."--"; ?></option>
+			<?php foreach ($daysOfTheWeek as $dayNo=>$dayName) { ?>
+			<option value="<?php echo $dayNo; ?>" ><?php echo $dayName; ?></option>
+			<?php } ?>
+		</select>
+        <br class="clear"/>
+
+        <div class="formbuttons">               
+            <input type="submit" class="savebutton" 
+                name="btnSubmit" id="btnSubmit" 
+                onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+        </div>
+        <br class="clear"/>
 </form>
 <?php } ?>
 <?php // For ESS Users and Supervisors
@@ -137,3 +112,13 @@ if (!isset($_GET['message']) || $_GET['message'] != 'UPDATE_SUCCESS') {
 	echo "<h5>".$lang_Time_ContactAdminForTimesheetPeriodSet."</h5>";
 }
 ?>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+        
