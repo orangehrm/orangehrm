@@ -27,9 +27,8 @@ $employeeId = $records[5];
 $id = $records[6];
 $plans = $records[9];
 ?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
-
+//<![CDATA[
 action = '?benefitcode=Benefits&action=';
 
 function cancelAddPayPeriod() {
@@ -132,9 +131,9 @@ function mover() {
 
 function editRequest()
 {
-	var Edit = $("btnEdit");
+	var editBtn = $("btnEdit");
 
-	if(Edit.title=='Save') {
+	if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 		saveRequest();
 		return;
 	}
@@ -146,8 +145,9 @@ function editRequest()
 		$(enableFields[i]).disabled=false;
 	}
 
-	Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	Edit.title="Save";
+	editBtn.className = 'savebutton';
+    editBtn.value = '<?php echo $lang_Common_Save;?>';
+	editBtn.title = '<?php echo $lang_Common_Save;?>';
 }
 
 function saveRequest() {
@@ -234,31 +234,41 @@ function paymentsDue() {
 }
 
 YAHOO.OrangeHRM.container.init();
+//]]>
 </script>
-<h2>
-	<?php echo $lang_Benefits_HspRequestForm; ?>
-	<hr/>
-</h2>
-<?php if (isset($_GET['message'])) {
 
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Benefits_Errors_' . $expString;
+<?php 
+if (isset($_SESSION['paid']) && $_SESSION['paid'] == "Yes") { 
+    $backFunction = 'paymentsDue();';
+} elseif ($type > 1) { 
+    $backFunction = 'cancelEditRequest();';
+} else {
+    $backFunction = false;
+}
 ?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
-<?php if (isset($_SESSION['paid']) && $_SESSION['paid'] == "Yes") { ?>
-<p>
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="paymentsDue();">
-</p>
-<?php } elseif ($type > 1) { ?>
-<p>
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="cancelEditRequest();">
-</p>
-<?php } ?>
-<form action="?benefitcode=Benefits&action=" method="post" name="frmHspRequest" id="frmHspRequest">
+
+<div >
+<?php if ($backFunction) { ?>
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="<?php echo $backFunction;?>">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+<?php } ?>    
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Benefits_HspRequestForm;?></h2></div>
+    
+    <?php if (isset($_GET['message'])) {
+            $message  = $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Benefits_Errors_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
+        
+<form action="?benefitcode=Benefits&amp;action=" method="post" name="frmHspRequest" id="frmHspRequest">
 <?php if (isset($request) && ($request->getId() != null)) { ?>
 <input type="hidden" name="txtId" value="<?php echo $request->getId(); ?>"/>
 <?php } ?>
@@ -267,16 +277,16 @@ YAHOO.OrangeHRM.container.init();
 <table border="0" cellpadding="2" cellspacing="0">
 	<thead>
 	  	<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Benefits_Plan; ?></td>
 			<td><?php if (is_array($plans)) { ?>
 			<select name="cmbPlanName">
@@ -293,44 +303,45 @@ YAHOO.OrangeHRM.container.init();
 			<?php
 			} ?></td>
 			<td><?php echo $lang_Benefits_MailingAddress; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Benefits_DateIncurred; ?></td>
 			<td>
 				<input name="txtDateIncurred" type="text" id="txtDateIncurred"  size="10"
 					value="<?php echo isset($request)?LocaleUtil::getInstance()->formatDate($request->getDateIncurred()):''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?>/>
-          		<input type="button" name="Date" id="btnDate1" value="  " class="calendarBtn" <?php echo ($type != 0)?'disabled':''; ?>/>
+          		<input type="button" name="Date" id="btnDate1" value="  " class="calendarBtn" 
+                    <?php echo ($type != 0)?'disabled':''; ?> style="display:inline;margin:0;float:none;"/>
           	</td>
 			<td rowspan="4">
 				<textarea name="txtMailAddress" id="txtMailAddress" rows="4" cols="50"
 					<?php echo ($type != 0)?'disabled':''; ?>><?php echo isset($request)?$request->getMailAddress():''; ?></textarea>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_ProviderName; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtProviderName" id="txtProviderName"
 					value="<?php echo isset($request)?$request->getProviderName():''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?> />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_PersonIncurringExpense; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 
 				<input type="text" name="txtPersonIncurringExpense" id="txtPersonIncurringExpense"
@@ -339,165 +350,172 @@ YAHOO.OrangeHRM.container.init();
 
 			</td>
 			<td><?php echo $lang_Benefits_Comments; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_ExpenseDescription; ?></td>
 			<td rowspan="5">
 				<textarea name="txtComments" id="txtComments" rows="4" cols="50"
 					<?php echo ($type != 0)?'disabled':''; ?>><?php echo isset($request)?$request->getComments():''; ?></textarea>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtExpenseDescription" id="txtExpenseDescription"
 					value="<?php echo isset($request)?$request->getExpenseDescription():''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?> />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_ExpenseAmount; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtExpenseAmount" id="txtExpenseAmount"
 					value="<?php echo isset($request)?$request->getExpenseAmount():''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?> />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_PaymentMadeTo; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtPaymentMadeTo" id="txtPaymentMadeTo"
 					value="<?php echo isset($request)?$request->getPaymentMadeTo():''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?> />
 			</td>
 			<td></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_ThirdPartyAccountNumber; ?></td>
 			<td class="hrnote" rowspan="3"><?php echo ($type == 0)?$lang_Benefits_HspRequestFormNote[0]:""; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtThirdPartyAccountNumber" id="txtThirdPartyAccountNumber"
 					value="<?php echo isset($request)?$request->getThirdPartyAccountNumber():''; ?>"
 					<?php echo ($type != 0)?'disabled':''; ?> />
 			</td>
 
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_DatePaid; ?></td>
 
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtDatePaid" id="txtDatePaid"
 					value="<?php echo isset($request)?$request->getDatePaid():''; ?>"
 					<?php echo ($type != 0 || $_SESSION['isAdmin'] != "Yes")?'disabled':''; ?> />
-				<input type="button" name="Date" value="  " class="calendarBtn" id="btnDate"
+				<input type="button" name="Date" value="  " class="calendarBtn" id="btnDate" 
+                    style="display:inline;margin:0;float:none;"
 					<?php echo ($type != 0 || $_SESSION['isAdmin'] != "Yes")?'disabled':''; ?> />
 			</td>
 			<td>
 			<?php if ($type == 0) { ?>
-				<img onClick="addPayPeriod();"
-		             style="margin-top:10px;"
-		             onMouseOut="this.src='../../themes/beyondT/icons/submit.gif';"
-		             onMouseOver="this.src='../../themes/beyondT/icons/submit_o.gif';"
-		             src="../../themes/beyondT/icons/submit.gif" alt="Save" />
-		         <img onClick="cancelAddPayPeriod();"
-		             style="margin-top:10px;"
-		             onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
-		             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-		             src="../../themes/beyondT/icons/cancel.gif" alt="Cancel" />
+                
+                <input type="button" class="submitbutton"  
+                    onclick="addPayPeriod();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Submit;?>" />
+                <input type="button" class="cancelbutton" onclick="cancelAddPayPeriod();" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                     value="<?php echo $lang_Common_Cancel;?>" />
+
 			<?php }  ?>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_CheckNumber; ?></td>
 			<td></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2">
 				<input type="text" name="txtCheckNumber" id="txtCheckNumber"
 					value="<?php echo isset($request)?$request->getCheckNumber():''; ?>"
 					<?php echo ($type != 0 || $_SESSION['isAdmin'] != "Yes")?'disabled':''; ?> />
 			</td>
 			<td></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2"><?php echo $lang_Benefits_HrNotes; ?></td>
 			<td><?php echo ($type == 1)?$lang_Benefits_HspRequestFormNote[1]:""; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="2" rowspan="2">
 				<textarea name="txtHrNotes" id="txtHrNotes" rows="2" cols="50" wrap="off" <?php echo ($type != 0 || $_SESSION['isAdmin'] != "Yes")?'disabled':''; ?> ><?php echo isset($request)?$request->getHrNotes():''; ?></textarea>
 			</td>
 			<td>
 				<?php if ($type == 1) { ?>
 
-					<input type="image" class="button1" id="btnEdit" src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="editRequest(); return false;">
+                    <input type="button" class="submitbutton" id="btnEdit"  
+                        onclick="editRequest(); return false;" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        title="<?php echo $lang_Common_Edit;?>"                          
+                        value="<?php echo $lang_Common_Edit;?>" />
 
-			         <img onClick="cancelEditRequest();"
-			             style="margin-top:10px;"
-			             onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
-			             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-			             src="../../themes/beyondT/icons/cancel.gif" alt="Cancel" />
+                    <input type="button" class="cancelbutton" onclick="cancelEditRequest();" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Cancel;?>" />
 
-			         <img onClick="denyRequest();"
-			             style="margin-top:10px;"
-			             onMouseOut="this.src='../../themes/beyondT/icons/reject.gif';"
-			             onMouseOver="this.src='../../themes/beyondT/icons/reject_o.gif';"
-			             src="../../themes/beyondT/icons/reject.gif" alt="Reject" />
+                    <input type="button" class="rejectbutton" onclick="denyRequest();" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Reject;?>" />
 
-			         <img onClick="deleteRequest();"
-			             style="margin-top:10px;"
-			             onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-			             onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';"
-			             src="../../themes/beyondT/pictures/btn_delete.gif" alt="Delete" />
+                    <input type="button" class="delbutton" onclick="deleteRequest();" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Delete;?>" />
+
 				<?php } ?>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 	</tbody>
 	<tfoot>
 	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
   	</tfoot>
 </table>
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>

@@ -199,15 +199,15 @@ return $objResponse->getXML();
   $themeDir = '../../themes/' . $styleSheet;
 
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
 <title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php $objAjax->printJavascript(); ?>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
+//<![CDATA[
 
 	function addSave() {
 		if(document.frmJobTitle.txtJobTitleName.value == '') {
@@ -237,24 +237,10 @@ return $objResponse->getXML();
 		location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
 	}
 
-	function mout() {
-		if(document.Edit.title=='Save') {
-			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_save.gif';
-		} else {
-			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_edit.gif';
-		}
-	}
-
-	function mover() {
-		if(document.Edit.title=='Save') {
-			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_save_02.gif';
-		} else {
-			document.Edit.src='<?php echo $themeDir; ?>/pictures/btn_edit_02.gif';
-		}
-	}
-
 	function edit() {
-		if(document.Edit.title=='Save') {
+        var editBtn = $('editBtn');
+        
+		if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 			addUpdate();
 			return;
 		}
@@ -267,8 +253,9 @@ return $objResponse->getXML();
 	
 		frm.txtEmpStatDesc.disabled=true;
 	
-		document.Edit.src="<?php echo $themeDir; ?>/pictures/btn_save.gif";
-		document.Edit.title="Save";
+		editBtn.className = "savebutton";
+		editBtn.title = "<?php echo $lang_Common_Save;?>";
+        editBtn.value = "<?php echo $lang_Common_Save;?>";
 	}
 
 	function addUpdate() {
@@ -457,13 +444,14 @@ return $objResponse->getXML();
 		document.frmJobTitle.cmbJobSpecId.value = -1;
 		document.frmJobTitle.cmbPayGrade.value = 0;
 	}
+//]]>
 </script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
 <style type="text/css">
 
     .roundbox {
@@ -495,101 +483,97 @@ return $objResponse->getXML();
 
 <body onload="<?php echo (isset($cookie) && isset($this->getArr['capturemode']) && ($this->getArr['capturemode'] == 'updatemode'))? 'edit();' : '' ?><?php echo isset($cookie) ? 'promptUseCookieValues();' : '' ?>">
 
-<form id="gotoPayGrade" name="gotoPayGrade" action="../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode" method="post">
+<form id="gotoPayGrade" name="gotoPayGrade" action="../../lib/controllers/CentralController.php?uniqcode=SGR&amp;capturemode=addmode" method="post">
 	<input type="hidden" name="referer" value="<?php echo $_SERVER['REQUEST_URI'];?>" />
 </form>
-
-<div class="moduleTitle" style="padding: 6px; ">	<h2><?php echo $lang_jobtitle_heading; ?></h2></div>
 <div id="status" style="width: 20%; text-align: right; position: absolute; right: 0px; top: 5px;"></div>
 
-<div style="padding: 6px">
-	<img 
-		title="Back" 
-		alt="Back"
-		src="<?php echo $themeDir; ?>/pictures/btn_back.gif"
-		style="border: none;" 
-		onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_back.gif';" 
-		onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_back_02.gif';"  
-		onclick="goBack();" />
-</div>
+<div class="formpage2col">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_jobtitle_heading;?></h2></div>
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'addmode') { ?>
 
-<div class="roundbox">
 		<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>">
 
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
-		<div class="controlContainer">
-			<label for="txtJobTitleName" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitname;?></label>
-			<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>" />
-		</div>
-		<div class="controlContainer">
-			<label for="txtJobTitleDesc" class="controlLabel"><span class="error">*</span>&nbsp;<?php echo $lang_jobtitle_jobtitdesc;?></label>
-			<textarea name="txtJobTitleDesc" id="txtJobTitleDesc"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea>
-		</div>
-		<div class="controlContainer">
-			<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
-			<textarea name="txtJobTitleComments" id="txtJobTitleComments"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea>
-		</div>
-		<div class="controlContainer">
-			<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
-			<select name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;">
-				<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-				<?php 
-					$jobSpecs = $this->popArr['jobSpecList'];
-					$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
-                                                
-					foreach($jobSpecs as $jobSpec) {                                                    
-						$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
-				?>
-						<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
-				<?php   } ?>
-			</select>
-		</div>
-		<div class="controlContainer">
-			<label for="cmbPayGrade" class="controlLabel"><span class="error">*</span> <?php echo $lang_hrEmpMain_paygrade; ?></label>
-			<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;">
-				<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-				<?php 
-					$paygrade = $this->popArr['paygrade'];
+        
+    	<label for="txtJobTitleName" class="controlLabel"><?php echo $lang_jobtitle_jobtitname;?> <span class="required">*</span></label>
+    	<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>" 
+            class="formInputText"/>
+        <br class="clear"/>
 
-					for($c=0;$paygrade && count($paygrade)>$c;$c++) { ?>
-						<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>">
-							<?php echo $paygrade[$c][1]?>
-						</option>
-				<?php	} ?>
-			</select>
-			<span style=" padding-left: 10px;">
-				<input type="button" onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" style="display: inline;" />
-			</span>
-			<span>
-				<input type="button" onclick="preserveData(); editSalaryGrade();" value="<?php echo $lang_jobtitle_editpaygrade; ?>"  style="display: inline;" />
-			</span>
+		<label for="txtJobTitleDesc" class="controlLabel"><?php echo $lang_jobtitle_jobtitdesc;?> <span class="required">*</span></label>
+		<textarea name="txtJobTitleDesc" id="txtJobTitleDesc" class="formTextArea"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea>
+        <br class="clear"/>
+        
+		<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
+		<textarea name="txtJobTitleComments" id="txtJobTitleComments" class="formTextArea"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea>
+        <br class="clear"/>
+        
+		<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
+		<select name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;" class="formSelect">
+			<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+			<?php 
+				$jobSpecs = $this->popArr['jobSpecList'];
+				$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
+                                            
+				foreach($jobSpecs as $jobSpec) {                                                    
+					$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+			?>
+					<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
+			<?php   } ?>
+		</select>
+        <br class="clear"/>
+        
+		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?> <span class="required">*</span></label>
+		<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;" class="formSelect">
+			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
+			<?php 
+				$paygrade = $this->popArr['paygrade'];
+
+				for($c=0;$paygrade && count($paygrade)>$c;$c++) { ?>
+					<option <?php echo (isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) ? 'selected' : '' ?> value="<?php echo $paygrade[$c][0]?>">
+						<?php echo $paygrade[$c][1]?>
+					</option>
+			<?php	} ?>
+		</select>
+		<div style="padding: 10px 0 2px 10px;">
+            &nbsp;
+            <input type="button" class="plainbtn"
+                onclick="preserveData(); addSalaryGrade();"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                value="<?php echo $lang_jobtitle_addpaygrade;?>" />
+            &nbsp;          
+            <input type="button" class="plainbtn"
+                onclick="preserveData(); editSalaryGrade();"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                value="<?php echo $lang_jobtitle_editpaygrade;?>" />                          
 		</div>
-		<div class="controlContainer" style="padding-top: 25px;">
-			<img 
-				src="<?php echo $themeDir; ?>/pictures/btn_save.gif" 
-				alt="Save" onclick="addSave();" 
-				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_save_02.gif';" 
-				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_save.gif';" /> 
-				
-			<img 
-				src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
-				alt="Clear" onclick="clearAll();" 
-				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
-				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" />
-		</div>
+        <br class="clear"/>
+        
+        <div class="formbuttons">
+        
+            <input type="button" class="savebutton" 
+                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+            <input type="button" class="clearbutton" onclick="clearAll();" 
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Common_Clear;?>" />
+                
+        </div>
+                        
 	</form>
-</div>
 
-<div  style="padding-top: 10px;">
-	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</div>
 
 <?php } elseif (isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { ?>
 
-<div class="roundbox">
 	<form id="frmJobTitle" name="frmJobTitle" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>&capturemode=updatemode">
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="<?php echo $editArr[0][0]?>" />
@@ -689,37 +673,35 @@ return $objResponse->getXML();
 			</div>
 			<div id="buttonLayer" style="text-align: right; padding-right: 10px; padding-top: 10px;"></div>
 		</div>
-		<div class="controlContainer" style="padding-top: 20px;">
-			<img 
-				src="<?php echo $themeDir; ?>/pictures/btn_edit.gif" 
-				title="Edit" 
-				onmouseout="mout();" 
-				onmouseover="mover();" 
-				name="Edit" 
-				onclick="<?php	if($locRights['edit']) { ?>edit();<?php	} else { ?>alert('<?php echo $lang_Common_AccessDenied;?>');<?php	}  ?>" />
-		
-			<img 
-				src="<?php echo $themeDir; ?>/pictures/btn_clear.gif" 
-				onmouseout="this.src='<?php echo $themeDir; ?>/pictures/btn_clear.gif';" 
-				onmouseover="this.src='<?php echo $themeDir; ?>/pictures/btn_clear_02.gif';" 
-				onclick="" />
-		</div>
+
+        <div class="formbuttons">
+<?php if($locRights['edit']) { ?>          
+            <input type="button" class="editbutton" id="editBtn" 
+                onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                title="<?php echo $lang_Common_Edit;?>"                                          
+                value="<?php echo $lang_Common_Edit;?>" />
+                
+            <input type="button" class="clearbutton" onclick="$('frmJobTitle').reset();"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>                                      
+        </div>
+                        
 	</form>
-</div>
+
 <div style="padding-top: 10px;">
-	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-	<br />
 	<span id="notice"><span class="success">#</span> = <?php echo $lang_jobtitle_emstatExpl; ?></span>
 </div>
-</form>
-<?php } ?>
 
+<?php } ?>
+</div>
+<div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
 <script type="text/javascript">
-<!--
-   	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
 </script>
 
 </body>

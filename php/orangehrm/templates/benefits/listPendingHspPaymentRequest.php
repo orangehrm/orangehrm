@@ -20,54 +20,45 @@
 $requests = $records[0];
 
 ?>
+<div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_Benefits_HealthSavingsPlanPaymentsDue; ?></h2></div>
 
-<h2>
-	<?php echo $lang_Benefits_HealthSavingsPlanPaymentsDue; ?>
-	<hr/>
-</h2>
 <?php if (isset($_GET['message'])) {
 
 		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
+		$messageType = CommonFunctions::getCssClassForMessage($expString);
 		$expString = 'lang_Benefits_Errors_' . $expString;
 ?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+    </div>    
 <?php }	?>
 
-
-<div id="controls">
+    <div class="actionbar">
+        <div class="actionbuttons">
 <?php
 if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes' && count($requests) > 0) {
 ?>
 <a href="?benefitcode=Benefits&action=List_Hsp_Due&printPdf=1&pdfName=HSP-Payments-Due"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
 <?php } ?>
-</div>
+        </div>              
+        <div class="noresultsbar"></div>
+        <div class="pagingbar"><?php echo (count($requests) == 0) ? $lang_empview_norecorddisplay : ''; ?></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" />    
 
 <?php if (count($requests) > 0) { ?>
 
-	<table border="0" cellpadding="5" cellspacing="0">
+	<table border="0" cellpadding="5" cellspacing="0" class="data-table">
 		<thead>
-		  	<tr>
-				<th class="tableTopLeft"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-				<th class="tableTopRight"></th>
-			</tr>
 			<tr>
-				<th class="tableMiddleLeft"></th>
-				<th><?php echo $lang_Benefits_Paid; ?></th>
-		    	<th><?php echo $lang_Benefits_DateIncurred; ?></th>
-		    	<th><?php echo $lang_Benefits_NameOfProvider; ?></th>
-		    	<th><?php echo $lang_Benefits_ExpenseDescription; ?></th>
-		    	<th><?php echo $lang_Benefits_IncurredFor; ?></th>
-		    	<th><?php echo $lang_Benefits_Cost . " " . $lang_Benefits_US_Dollars; ?></th>
-				<th class="tableMiddleRight"></th>
+				<td><?php echo $lang_Benefits_Paid; ?></td>
+		    	<td><?php echo $lang_Benefits_DateIncurred; ?></td>
+		    	<td><?php echo $lang_Benefits_NameOfProvider; ?></td>
+		    	<td><?php echo $lang_Benefits_ExpenseDescription; ?></td>
+		    	<td><?php echo $lang_Benefits_IncurredFor; ?></td>
+		    	<td><?php echo $lang_Benefits_Cost . " " . $lang_Benefits_US_Dollars; ?></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -82,7 +73,6 @@ if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes' && co
 					$i++;
 			?>
 				<tr>
-					<td class="tableMiddleLeft"></td>
 					<td class="<?php echo $rowStyle; ?>">
 						<a href="?benefitcode=Benefits&action=View_Edit_Hsp_Request&id=<?php echo $request->getId(); ?>"><?php echo $lang_Benefits_No; ?></a>
 					</td>
@@ -91,27 +81,17 @@ if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes' && co
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getExpenseDescription(); ?></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getPersonIncurringExpense(); ?></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getExpenseAmount(); ?></td>
-				    <td class="tableMiddleRight"></td>
 				</tr>
 			<?php } ?>
 		<?php }?>
 		</tbody>
-		<tfoot>
-		  	<tr>
-				<td class="tableBottomLeft"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomRight"></td>
-			</tr>
-	  	</tfoot>
 	</table>
-
-<?php } else { ?>
-
-  <h5><?php echo $lang_empview_norecorddisplay; ?></h5>
-
 <?php } ?>
+</div>
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>

@@ -111,23 +111,27 @@
 	}
 ?>
 
-<html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href="../../themes/<?php echo $styleSheet;?>/css/compstruct.css" rel="stylesheet" type="text/css">
-</head>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<?php
-	$objAjax->printJavascript();
-?>
-<script language="JavaScript" type="text/javascript">
+<?php $objAjax->printJavascript();?>
+<script type="text/javascript">
+//<![CDATA[
 <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
 var allChildDepIds= new Array();
 var allChildIds = new Array();
+//]]>
 </script>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+</head>
 <body style="padding-left:5px;">
 
  	<div id="layerComStruct">
@@ -236,9 +240,10 @@ var allChildIds = new Array();
 	<!-- End Delete Subdivision -->
 
     <!-- Add Subdivision  -->
-	<div id="layerForm"  class="frame">
-		<h3><LABEL id="parnt"></LABEL></h3>
+	<div id="layerForm"  class="frame" style="margin-right:10px;">
 
+        <div class="outerbox">
+        <div class="subHeading"><h3 id="parnt"></h3></div>
 		<form name="frmAddNode" id="frmAddNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>&id=1" onSubmit="validate(); return false;">
 
 		<input type="hidden" value="" id="add_rgt" name="rgt">
@@ -304,20 +309,27 @@ var allChildIds = new Array();
 			<tr>
 				<td></td>
 				<td align="right">
-					<img onclick="validate();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
-					<img onclick="document.getElementById('frmAddNode').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif" />
+                    <input type="button" class="savebutton" 
+                        onclick="validate();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Save;?>" />
+                    <input type="button" class="clearbutton" onclick="document.getElementById('frmAddNode').reset();"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Clear;?>" />                                         
 					<img onclick="frmAddHide();" onMouseOut="this.src='../../themes/beyondT/icons/hide.gif';" onMouseOver="this.src='../../themes/beyondT/icons/hide_o.gif';" src="../../themes/beyondT/icons/hide.gif" />
 				</td>
 			</tr>
 		</table>
 	</form>
+    </div>
 
 	<span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
 
 	<!-- Add Location  -->
 
 	<div id="layerFormLoc"  name="layerFormLoc" class="frame">
-		<h3><?php echo $lang_compstruct_frmNewLocation; ?></h3>&nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
+        <div class="outerbox">
+		<div class="subHeading"><h3><?php echo $lang_compstruct_frmNewLocation; ?></h3></div>
+        &nbsp;<span id="status"><image src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;"></span>
 		<form id="frmAddLoc" name="frmAddLoc" method="post" onSubmit="return false;">
 		<table>
 			<tr>
@@ -366,14 +378,27 @@ var allChildIds = new Array();
 			</tr>
 			<tr>
 				<td align="right">
-					<img onclick="addNewLocation();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';" src="../../themes/beyondT/pictures/btn_save.gif" />
-					<img onclick="resetx(); document.getElementById('frmAddLoc').reset();" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" src="../../themes/beyondT/pictures/btn_clear.gif" />
+                
+                    <input type="button" class="savebutton" 
+                        onclick="addNewLocation();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                        value="<?php echo $lang_Common_Save;?>" />
+                    <input type="button" class="clearbutton" onclick="resetx(); document.getElementById('frmAddLoc').reset();"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                         value="<?php echo $lang_Common_Clear;?>" />       
 				</td>
 			</tr>
 		</table>
 	</form>
+    </div>
 	</div>
 	</div>
 	<?php } ?>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>    
 </body>
 </html>

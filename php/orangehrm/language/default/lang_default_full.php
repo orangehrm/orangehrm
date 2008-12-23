@@ -257,7 +257,13 @@
     $lang_Common_Assign = "Assign";
     $lang_Common_Apply = "Apply";
     $lang_Common_Cancel = "Cancel";
-    $lang_Common_View = "View";        
+    $lang_Common_View = "View";
+    $lang_Common_Submit = "Submit";      
+    $lang_Common_Reject = "Reject";  
+    $lang_Common_Details = "Details";
+    $lang_Common_Approve = "Approve";
+    $lang_Common_Update = "Update";  
+    $lang_Common_InsertTime = "Insert Time";
 	$lang_Common_SortAscending = "Sort in ascending order";
 	$lang_Common_SortDescending = "Sort in descending order";
     
@@ -886,6 +892,9 @@
  	$lang_routeinformation_heading 			= "Route Information : Route Information";
 	$lang_salarygrades_heading 				= "Job : Pay Grade";
 	$lang_salarygrades_currAss 				= "Currency Assigned";
+    $lang_salarygrades_AssignedCurrencies   = "Assigned currencies";
+    $lang_salarygrades_EditAssignedCurrency = "Edit Assigned currency";
+    $lang_salarygrades_AssignNewCurrency    = "Assign new currency";
 	$lang_salarygrades_stepSal 				= "Step Increase";
 	$lang_salarygrades_selectcurrency		= "Currency field should be selected";
 	$lang_salarygrades_minSalNumeric		= "Minimum salary should be numeric";
@@ -1723,6 +1732,7 @@
 	$lang_Time_AvailableEmployees = "Available Employees";
 	$lang_Time_AssignedEmployees = "Assigned Employees";
 	$lang_Time_AssignEmployeesTitle = "Work Shift Edit";
+    $lang_Time_WorkShift_Add = "Add new Work Shift";
 
 	$lang_Time_Error_SpecifyWorkShiftName = "Specify work shift name";
 	$lang_Time_Error_SpecifyHoursPerDay = "Specify hours per day";

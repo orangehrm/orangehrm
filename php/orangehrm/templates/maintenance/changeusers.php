@@ -43,17 +43,19 @@ $objAjax->registerFunction('chkPassword');
 $objAjax->processRequests();
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
-    $message = $this->popArr['editArr'];
+    $editData = $this->popArr['editArr'];
 
     ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Untitled Document</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php $objAjax->printJavascript(); ?>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
 function goBack() {
 	javascript:history.back()
@@ -127,25 +129,27 @@ function mover() {
 
 function chkboxCheck() {
 
-	if(document.Edit.title=='Save') {
+    var editBtn = $('editBtn');
+
+	if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 		xajax_chkPassword(document.frmchange.txtOldPassword.value);
-	    return;
+	} else {
+        edit();	    
 	}
 
-    if(document.Edit.title!='Save') {
-    	edit();
-     	return;
-    }
 }
 
 function edit() {
-	var frm=document.frmchange;
+    var editBtn = $('editBtn');
+	var frm = document.frmchange;
 
-	for (var i=0; i < frm.elements.length; i++)
+	for (var i=0; i < frm.elements.length; i++) {
 		frm.elements[i].disabled = false;
+    }
 
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.Edit.title="Save";
+	editBtn.title = '<?php echo $lang_Common_Save;?>';
+    editBtn.value = '<?php echo $lang_Common_Save;?>';
+	editBtn.className = 'savebutton';
 }
 
 function addUpdate() {
@@ -208,99 +212,81 @@ function prepCPW() {
 
 	}
 }
+//]]>
 </script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
-<body style="padding-left:10px;">
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'> </td>
-    <td width='100%'><h2><?php echo $lang_index_ChangePassword; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'></td>
-  </tr>
-</table>
-<p>
-<p>
-<table width="431" border="0" cellspacing="0" cellpadding="0" ><td width="177">
+</head>
+
+<body>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_index_ChangePassword;?></h2></div>
+        
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_mtview_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+                
 <form name="frmchange" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&mtcode=<?php echo $this->getArr['mtcode']?>&capturemode=updatemode">
+    
+    <input type="hidden" name="sqlState" value=""/>
+    <input type="hidden"  name="txtUserID" value="<?php echo $editData[0][0]?>"/>
+    <span class="formLabel"><?php echo $lang_Commn_code; ?></span>
+    <span class="formValue"><?php echo $editData[0][0]?></span>
+    <br class="clear"/>
+    
+    <span class="formLabel"><?php echo $lang_Admin_Users_UserName; ?></span>
+    <span class="formValue"><?php echo $editData[0][1]?></span>
+    <input type="hidden" name="txtUserName" value="<?php echo $editData[0][1]?>">
+    <br class="clear"/>
 
-  <tr>
-    <td height="27" valign='top'> <p>  <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';" src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-        <input type="hidden" name="sqlState" value="">
-      </p></td>
-    <td width="254" align='left' valign='bottom'>
-	<?php
-		if (isset($this->getArr['msg'])) {
+    <label for="txtOldPassword"><?php echo $lang_Admin_Change_Password_OldPassword; ?></label>
+    <input type="password" disabled name="txtOldPassword" id="txtOldPassword" >
+    <br class="clear"/>
+    
+    <label for="txtNewPassword"><?php echo $lang_Admin_Users_NewPassword; ?></label>    
+    <input type="password" disabled name="txtNewPassword" id="txtNewPassword" />
+    <br class="clear"/>
+    
+    <label for="txtConfirmPassword"><?php echo $lang_Admin_Users_ConfirmNewPassword; ?></label>
+    <input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" />
+	<br class="clear"/>
 
-			$expString  = $this->getArr['msg'];
-			$col_def = CommonFunctions::getCssClassForMessage($expString);
-	?>
-			<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-	<?php
-				echo eval('return $lang_mtview_'.$expString.';');
-	?>
-			</font>
-	<?php
-		}
-		?></td>
-  </tr>
-</table>
-
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt=""></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
-						  <tr>
-							    <td><?php echo $lang_Commn_code; ?></td>
-							    <td><input type="hidden"  name="txtUserID" value="<?php echo $message[0][0]?>"><strong><?php echo $message[0][0]?></strong> </td>
-						  </tr>
-						  <tr>
-							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_UserName; ?></td>
-							    <td nowrap="nowrap"><b><?php echo $message[0][1]?></b><input type="hidden" name="txtUserName" value="<?php echo $message[0][1]?>"></td>
-						  </tr>
-						  <tr>
-							    <td nowrap="nowrap"><?php echo $lang_Admin_Change_Password_OldPassword; ?></td>
-							    <td><input type="password" disabled name="txtOldPassword" id="txtOldPassword" ></td>
-						  </tr>
-
-						  <tr>
-							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_NewPassword; ?></td>
-							    <td><input type="password" disabled name="txtNewPassword" id="txtNewPassword"  ></td>
-						  </tr>
-						  <tr>
-							    <td nowrap="nowrap"><?php echo $lang_Admin_Users_ConfirmNewPassword; ?></td>
-							    <td><input type="password" disabled name="txtConfirmPassword" id="txtConfirmPassword" ></td>
-						  </tr>
-
-
-
-					  <tr><td></td><td align="right" width="100%">
-
-			        <img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="chkboxCheck();"  >
-
-					<img src="../../themes/beyondT/pictures/btn_clear.gif" onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';" onClick="clearAll();" >
-
-                  </table></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c3.gif"><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt=""></td>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c2.gif"><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt=""></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt=""></td>
-                </tr>
-              </table>
-
+    <div class="formbuttons">
+        <input type="button" class="editbutton" id="editBtn" 
+            onclick="chkboxCheck();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            title="<?php echo $lang_Common_Edit;?>"                          
+            value="<?php echo $lang_Common_Edit;?>" />
+        <input type="button" class="clearbutton" onclick="clearAll();"
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+             value="<?php echo $lang_Common_Clear;?>" />            
+    </div>
 
 </form>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
 </body>
 </html>
 <?php } ?>

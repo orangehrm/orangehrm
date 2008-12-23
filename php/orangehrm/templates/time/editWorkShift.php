@@ -23,35 +23,11 @@ $assignedEmployees = $records[1];
 $availableEmployees = $records[2];
 
 ?>
-<style type="text/css">
-@import url("../../themes/beyondT/css/octopus.css");
-
-.roundbox {
-	margin-top: 10px;
-	margin-left: 10px;
-	width:300px;
-}
-
-label {
-	width: 80px;
-}
-
-.roundbox_content {
-	padding:5px 5px 20px 5px;
-}
-
-#txtHoursPerDay {
-	width: 2em;
-}
-
-#editPanel {
-	display: block;
-}
-</style>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript" src="../../scripts/octopus.js"></script>
 
 <script type="text/javascript">
+//<![CDATA[
 var baseUrl = '?timecode=Time&action=';
 
 function goBack() {
@@ -96,49 +72,46 @@ function removeEmployee() {
 }
 
 
-
+    
+//]]>
 </script>
-<h2><?php echo $lang_Time_AssignEmployeesTitle; ?></h2>
-<hr/>
-<div class="navigation">
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
-<?php
-if (isset($_GET['message']) && !empty($_GET['message'])) {
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Time_AssignEmployeesTitle;?></h2></div>
+        
+        <?php
+            if (isset($_GET['message']) && !empty($_GET['message'])) {            
+                $message  = $_GET['message'];
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Time_Errors_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: CommonFunctions::escapeHtml($_GET['message']); ?></span>
+            </div>  
+        <?php } ?>
 
-	$expString  = $_GET['message'];
-	$col_def = CommonFunctions::getCssClassForMessage($expString);
-	$expString = 'lang_Time_Errors_'.$expString;
-
-	$message = isset($$expString) ? $$expString : CommonFunctions::escapeHtml($_GET['message']);
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $message; ?>
-	</font>
-<?php }	?>
-</div>
-<div id="editPanel">
 	<form name="frmEditWorkShift" id="frmEditWorkShift" method="post" action="?timecode=Time&action=">
-		<div class="roundbox">
-			<label for="txtShiftName"><span class="error">*</span> <?php echo $lang_Time_ShiftName; ?></label>
-	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" value="<?php echo $workshift->getName(); ?>"/>
-			<br/>
-	        <label for="txtHoursPerDay"><span class="error">*</span> <?php echo $lang_Time_HoursPerDay; ?></label>
-	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3" value="<?php echo $workshift->getHoursPerDay(); ?>"/>
-	        <br>
-	        <label for="none">&nbsp;</label>
+			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?> <span class="required">*</span></label>
+	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" value="<?php echo $workshift->getName(); ?>"
+                class="formInputText"/>
+        <br class="clear"/>
+	        <label for="txtHoursPerDay"><?php echo $lang_Time_HoursPerDay; ?> <span class="required">*</span></label>
+	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3" value="<?php echo $workshift->getHoursPerDay(); ?>"
+                class="formInputText" style="width:30px;"/>
 	        <input type="hidden" id="txtShiftId" name="txtShiftId" value="<?php echo $workshift->getWorkshiftId(); ?>"/>
-	   	</div><br />
-        <img onClick="upateShift();"
-             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-             src="../../themes/beyondT/pictures/btn_save.gif">
-		<script type="text/javascript">
-		<!--
-		    if (document.getElementById && document.createElement) {
-		 			initOctopus();
-			}
-		 -->
-		</script>
+        <br class="clear"/>
+            <div class="formbuttons">           
+                <input type="button" class="savebutton"
+                    onclick="upateShift();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Save;?>" />
+            </div>
+        <br class="clear"/>                        
+
 		<table border="0">
 		<tr>
 		   	<th width="100" style="align:center;"><?php echo $lang_Time_AvailableEmployees; ?></th>
@@ -176,3 +149,11 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 	</table>
   </form>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>        

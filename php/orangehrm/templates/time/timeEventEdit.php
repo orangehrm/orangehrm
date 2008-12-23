@@ -322,28 +322,22 @@ function checkDateAndDuration(dateValue, duration) {
 
 </script>
 <?php $objAjax->printJavascript(); ?>
-<h2>
-<?php echo $lang_Time_SubmitTimeEventTitle; ?>
-<hr/>
-</h2>
+
 <div id="status"></div>
-<p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
-</p>
+<div class="formpage">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack(); return false;">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Time_SubmitTimeEventTitle;?></h2></div>   
+
 <form id="frmTimeEvent" name="frmTimesheet" method="post" action="?timecode=Time&action=" onsubmit="submitTimeEvent(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Project; ?></td>
 			<td ></td>
 			<td >
@@ -388,10 +382,10 @@ function checkDateAndDuration(dateValue, duration) {
 				?>
 				</select>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Activity; ?></td>
 			<td ></td>
 			<td >
@@ -428,10 +422,10 @@ function checkDateAndDuration(dateValue, duration) {
 				?>
 				</select>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_StartTime; ?></td>
 			<td ></td>
 			<td >
@@ -443,10 +437,10 @@ function checkDateAndDuration(dateValue, duration) {
 					name="btnStartTimeInsert" id="btnStartTimeInsert"
 					height="20" width="90" type="image" alt="Insert Time" />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_EndTime; ?></td>
 			<td ></td>
 			<td >
@@ -458,64 +452,58 @@ function checkDateAndDuration(dateValue, duration) {
 					name="btnEndTimeInsert" id="btnEndTimeInsert"
 					height="20" width="90" type="image" alt="Insert Time" />
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_DateReportedFor; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtReportedDate" name="txtReportedDate" value="<?php echo LocaleUtil::getInstance()->formatDate($reportedDate); ?>" size="10"/>
-				<input type="button" id="btnReportedDateSelect" name="btnReportedDateSelect" value="  " class="calendarBtn"/>
+				<input type="button" id="btnReportedDateSelect" name="btnReportedDateSelect" value="  " class="calendarBtn"
+                    style="display:inline;margin:0;float:none;"/>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Duration; ?></td>
 			<td ></td>
 			<td >
 				<input type="text" id="txtDuration" name="txtDuration" size="3" value="<?php echo $duration; ?>" />
 				<span class="formHelp"><?php echo $lang_Time_DurationFormat; ?></span>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo $lang_Time_Timesheet_Decription; ?></td>
 			<td ></td>
 			<td >
 				<textarea type="text" id="txtDescription" name="txtDescription" ><?php echo $description; ?></textarea>
 			</td>
-			<td class="tableMiddleRight"></td>
-		</tr>
-		<tr>
-			<td class="tableMiddleLeft"></td>
-			<td ></td>
-			<td ></td>
-			<td >
-				<input src="../../themes/beyondT/icons/submit.gif"
-					onclick="submitTimeEvent(); return false;"
-					onmouseover="this.src='../../themes/beyondT/icons/submit_o.gif';"
-					onmouseout="this.src='../../themes/beyondT/icons/submit.gif';"
-					alt="Submit" name="btnSubmit" id="btnSubmit"
-					height="20" type="image" width="65"/></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 	</tbody>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
 </table>
 
 <?php if (isset($timeEventId)) { ?>
 <input type="hidden" name="txtTimeEventId" id="txtTimeEventId" value="<?php echo $timeEventId; ?>"/>
 <?php } ?>
+    <div class="formbuttons">
+        <input type="button" class="submitbutton" name="btnSubmit" id="btnSubmit" 
+            onclick="submitTimeEvent(); return false;" 
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Submit;?>" />                         
+    </div>
 </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
 <div id="cal1Container" style="position:absolute;" ></div>

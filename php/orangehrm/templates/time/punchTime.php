@@ -106,70 +106,58 @@ if ($timeEvent != null) {
 	YAHOO.OrangeHRM.container.init();
 	YAHOO.util.Event.addListener(window, "load", init);
 </script>
-<h2>
-<?php echo $lang_Time_PunchInPunchOutTitle; ?>
-<hr/>
-</h2>
-
-<?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+    <div class="formpage">
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Time_PunchInPunchOutTitle; ?></h2></div>
+        
+        <?php
+            if (isset($_GET['message'])) {
+                $message  = $_GET['message'];
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Time_Errors_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
 <form name="frmPunchTime" id="frmPunchTime" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&action=">
+
 	<table border="0" cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-	</thead>
 	<tbody>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td><?php echo $lang_Leave_Common_Date; ?></td>
         	<td>
 	        	<input type="text" name="txtDate" id="txtDate" size="10"/>
-	        	<input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn"/>
+	        	<input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn"
+                    style="display: inline;margin:0;float:none;"/>
         	</td>
-        	<td class="tableMiddleRight"></td>
+        	<td></td>
   		</tr>
   		<tr>
-  			<td class="tableMiddleLeft"></td>
+  			<td></td>
 			<td><?php echo $lang_Common_Time; ?></td>
         	<td><input type="text" name="txtTime" id="txtTime" /></td>
-        	<td class="tableMiddleRight"></td>
+        	<td></td>
   		</tr>
   		<tr>
-  			<td class="tableMiddleLeft"></td>
+  			<td></td>
         	<td><?php echo $lang_Common_Note; ?></td>
         	<td>
         		<textarea name="txtNote" id="txtNote" rows="5" cols="50"><?php echo $note; ?></textarea>
         	</td>
-        	<td class="tableMiddleRight"></td>
+        	<td></td>
   		</tr>
   		<tr>
-  			<td class="tableMiddleLeft"></td>
+  			<td></td>
         	<td></td>
-        	<td><input type="button" name="btnPunch" id="btnPunch" value="<?php echo $punchTypeName; ?>" /></td>
-        	<td class="tableMiddleRight"></td>
+        	<td>
+            <input type="submit" class="punchbutton" name="btnPunch" id="btnPunch" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $punchTypeName; ?>" />            
+        	<td></td>
   		</tr>
   	</tbody>
-  	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
 	</table>
 
 	<?php if (isset($timeEventId)) { ?>
@@ -179,5 +167,14 @@ if ($timeEvent != null) {
 </form>
 <div id="punchInfo">
 	<?php echo $puchInfo; ?>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
 </div>
 <div id="cal1Container" style="position:absolute;" ></div>

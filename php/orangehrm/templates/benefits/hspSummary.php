@@ -78,6 +78,8 @@ if (isset($errorFlag)) {
 }
 #employeeSearchAC {
     z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+    float:left;
+    margin-right:5px;
 }
 #txtEmployeeSearch {
     _position:absolute; /* abs pos needed for ie quirks */
@@ -275,134 +277,124 @@ if (isset($errorFlag)) {
 	}
 
 </script>
-
+<div class="outerbox" style="width:750px;">
 <?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
-
+<div class="mainHeading"><h2>
 <?php if (isset($oneEmployee)) {  ?>
-<h2><?php echo $lang_Benefits_Summary_Employee_Heading." "; echo $hspSummary[0]->getEmployeeName(); ?> - <?php echo $year; ?></h2>
+<?php echo $lang_Benefits_Summary_Employee_Heading." "; echo $hspSummary[0]->getEmployeeName(); ?> - <?php echo $year; ?>
 <?php } else { ?>
-<h2><?php echo $lang_Benefits_Summary_Heading; ?> - <?php echo $year; ?></h2>
+<?php echo $lang_Benefits_Summary_Heading; ?> - <?php echo $year; ?>
 <?php } ?>
-<br />
+</h2></div>
 
-<!-- Save success message begins -->
+<!-- Save success message begins -->  
 <?php
 
 if (isset($saveSuccess) && $saveSuccess) {
-	echo "<font color=\"#009900\"><b>".$lang_Benefits_Summary_Saved_Successfully."</b></font><br>";
+	$successMessage = $lang_Benefits_Summary_Saved_Successfully;
+    $messageType = 'success';
 } elseif (isset($saveSuccess) && !$saveSuccess) {
-	echo "<font color=\"#FF0066\"><b>".$lang_Benefits_Summary_Could_Not_Save."</b></font><br>";
+    $messageType = 'failure';
+	$successMessage = $lang_Benefits_Summary_Could_Not_Save;
 }
 
-?>
+if (isset($successMessage)) {  ?>      
+<div class="messagebar">
+    <span class="<?php echo $messageType; ?>"><?php echo $successMessage; ?></span>
+</div>
+<?php } ?>
+
 <!-- Save success message ends -->
 
 <!-- Search form begins -->
 <form name="frmEmployeeSearch" action="?benefitcode=Benefits&action=Search_Hsp_Summary" method="post" onsubmit="markEmpNumber(this.txtEmployeeSearch.value);">
 <input type="hidden" name="hidEmpNo" id="hidEmpNo" value="" />
-<table width="715" border="0" cellspacing="0" cellpadding="5">
-  <tr>
-  	<?php if ($adminUser) { ?>
-    <td width="80">Employee&nbsp;&nbsp;</td>
-    <td width="200">
-	<div class="yui-ac" id="employeeSearchAC">
-      <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
-      <div class="yui-ac-container" id="employeeSearchACContainer">
-        <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
-          <div style="display: none;" class="yui-ac-hd"></div>
-          <div class="yui-ac-bd">
-            <ul>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-              <li style="display: none;"></li>
-            </ul>
+
+    <div class="searchbox">
+    <?php if ($adminUser) { ?>    
+        <label for="txtEmployeeSearch"><?php echo $lang_Admin_Users_Employee?></label>
+        <div class="yui-ac" id="employeeSearchAC">
+          <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+          <div class="yui-ac-container" id="employeeSearchACContainer">
+            <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
+              <div style="display: none;" class="yui-ac-hd"></div>
+              <div class="yui-ac-bd">
+                <ul>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                  <li style="display: none;"></li>
+                </ul>
+              </div>
+              <div style="display: none;" class="yui-ac-ft"></div>
+            </div>
+            <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
           </div>
-          <div style="display: none;" class="yui-ac-ft"></div>
         </div>
-        <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
-      </div>
-    </div>
-	</td>
-	<?php } ?>
-    <td width="180"><select name="year" id="select">
+    <?php } ?>        
+
+    <select name="year" id="select">
       <?php
-	$years = $records[7];
-	foreach ($years as $val) {
-	?>
+    $years = $records[7];
+    foreach ($years as $val) {
+    ?>
       <option value="<?php echo $val; ?>" <?php echo ($val==date('Y'))?"selected":""; ?>><?php echo $val; ?></option>
       <?php } ?>
     </select>
-      <input type="submit" name="search" id="search" value="Search" /></td>
-    <td width="209">	
+    <input type="submit" class="plainbtn" onclick="returnSearch();"
+        onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+        value="<?php echo $lang_Common_Search;?>" />
     <?php if ($adminUser) { ?>
- 	<img id="btnAdd" title="Add" onClick="edit();"
- 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
- 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
- 		 src="../../themes/beyondT/pictures/btn_edit.gif"
- 		 style="display:inline;" />
- 	<img id="btnSave" title="Save" onClick="save();"
- 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
- 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
- 		 src="../../themes/beyondT/pictures/btn_save.gif"
- 		 style="display:none;"/>
- 	<?php } ?>
-	<?php 	if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
+    <input type="button" class="editbutton" id="btnAdd" 
+        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_Edit;?>" 
+        style="display:inline;"/>
+    <input type="button" class="savebutton" id="btnSave" 
+        onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        value="<?php echo $lang_Common_Save;?>" 
+        style="display:none;"/>
+                                
+    <?php } ?>
 
-		if (isset($oneEmployee) && $oneEmployee) {
-			$pdfName = 'Personal-HSP-Summary';
-			$empNoQueryStr = '&empId=' . $_POST['hidEmpNo'];
-		} else {
-			$pdfName = 'All-Employees-HSP-Summary';
-			$empNoQueryStr = '';
-		}
-	?>
-		<a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=<?php echo $pdfName . $empNoQueryStr; ?>"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
-	    <?php } ?>    </td>
-    </tr>
+    <?php   if ($_SESSION['printBenefits'] == "enabled" && $_SESSION['isAdmin']=='Yes') {
+
+        if (isset($oneEmployee) && $oneEmployee) {
+            $pdfName = 'Personal-HSP-Summary';
+            $empNoQueryStr = '&empId=' . $_POST['hidEmpNo'];
+        } else {
+            $pdfName = 'All-Employees-HSP-Summary';
+            $empNoQueryStr = '';
+        }
+    ?>
+        <a href="?benefitcode=Benefits&action=Hsp_Summary&year=<?php echo $year; ?>&printPdf=1&pdfName=<?php echo $pdfName . $empNoQueryStr; ?>"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
+        <?php } ?> 
+
+
+        <br class="clear"/>
+    </div>
+    
 </table>
 </form>
-<br />
 <!-- Search form ends -->
 
 <!-- Summary form begins -->
 <form name="hspFullSummary" action="" method="post">
 <input type="hidden" name="pageNo" value="<?php echo $records[3]; ?>">
-<table width="740" border="0" cellspacing="0" cellpadding="0">
+<table width="740" border="0" cellspacing="0" cellpadding="0" class="data-table">
 <thead>
-		  	<tr>
-			<th class="tableTopLeft"></th>
-			<?php if (!isset($oneEmployee) || $adminUser) { ?>
-			<th class="tableTopMiddle" width="130"></th>
-			<?php } ?>
-			<th class="tableTopMiddle" width="50"></th>
-		    	<th class="tableTopMiddle" width="70"></th>
-		    	<th class="tableTopMiddle" width="90"></th>
-		    	<th class="tableTopMiddle" width="90"></th>
-		    	<th class="tableTopMiddle" width="90"></th>
-		    	<th class="tableTopMiddle" width="90"></th>
-				<th class="tableTopMiddle" width="90"></th>
-				<?php if ($showFsaBalance) { ?>
-				<th class="tableTopMiddle" width="90"></th>
-    			<?php } ?>
-		    	<th class="tableTopMiddle" width="50"></th>
-		    	<th class="tableTopRight"></th>
-			</tr>
+
   <tr>
-    <th class="tableMiddleLeft"></th>
     <th colspan="<?php echo (!isset($oneEmployee) || $adminUser)?"4":"3"; ?>" scope="col">&nbsp;</th>
     <th colspan="2" align="center" scope="col"><?php echo $lang_Benefits_Summary_Contribution; ?></th>
     <th colspan="<?php echo ($showFsaBalance)?"4":"3"; ?>" scope="col">&nbsp;</th>
-	<th class="tableMiddleRight"></th>
   </tr>
   <tr>
-    <th class="tableMiddleLeft"></th>
     <?php if (!isset($oneEmployee) || $adminUser) {  ?>
     <th><?php echo $lang_Benefits_Summary_Employee; ?></th>
     <?php } ?>
@@ -417,7 +409,6 @@ if (isset($saveSuccess) && $saveSuccess) {
 	<th><?php echo $lang_Benefits_Summary_Last_Year_FSA_Balance; ?> <br />($) </th>
     <?php } ?>
     <th>&nbsp;</th>
-	<th class="tableMiddleRight"></th>
   </tr>
 </thead>
 <tbody>
@@ -431,7 +422,6 @@ if (($i%2) == 0) {
 ?>
 <!-- This TR is repeated for each summary record -->
   <tr>
-    <td class="tableMiddleLeft"></td>
     <?php if (!isset($oneEmployee) || $adminUser) { ?>
     <td class="<?php echo $rowStyle; ?>"><a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $hspSummary[$i]->getEmployeeId(); ?>"><?php echo $hspSummary[$i]->getEmployeeName(); ?></a>
     <?php } ?>
@@ -561,30 +551,9 @@ if (($i%2) == 0) {
     ?>
     <input type="button" name="btnHspStatus[]" id="btnHspStatus<?php echo $summaryId; ?>" value="<?php echo $buttonLabel; ?>" onclick="<?php echo $onclickFunction; ?>" style="width: <?php echo $buttonWidth; ?>;" <?php echo $buttonDisabled; ?> />
     </td>
-   <td class="tableMiddleRight"></td>
   </tr>
 <?php } // Displaying summary ends ?>
 </tbody>
-		<tfoot>
-		  	<tr>
-				<td class="tableBottomLeft"></td>
-				<?php if (!isset($oneEmployee) || $adminUser) { ?>
-				<td class="tableBottomMiddle"></td>
-				<?php } ?>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<?php if ($showFsaBalance) { ?>
-				<td class="tableBottomMiddle"></td>
-    			<?php } ?>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomRight"></td>
-			</tr>
-	  	</tfoot>
 </table>
 </form>
 <!-- Summary form ends -->
@@ -627,4 +596,12 @@ YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
 };
 </script>
 <?php } ?>
+</div>
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>
 <?php } // HSP defined and Employees exist ?>

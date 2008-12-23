@@ -23,14 +23,21 @@
 /* Multiple classes used to make it easier to change styling per button later */
 input.editbutton,
 input.savebutton,
+input.updatebutton,
 input.clearbutton,
+input.inserttimebutton,
 input.cancelbutton,
 input.resetbutton,
 input.addbutton,
 input.delbutton,
+input.rejectbutton,
+input.resetbutton,
 input.exportbutton,
 input.assignbutton,
 input.viewbutton,
+input.detailsbutton,
+input.submitbutton,
+input.searchbutton,
 input.plainbtn {
 	background:#999966 none repeat scroll 0 0 !important;
 	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
@@ -46,14 +53,21 @@ input.plainbtn {
 
 input.editbuttonhov,
 input.savebuttonhov,
+input.inserttimebuttonhov,
+input.updatebuttonhov,
 input.clearbuttonhov,
 input.cancelbuttonhov,
 input.resetbuttonhov,
 input.addbuttonhov,
 input.delbuttonhov,
+input.rejectbuttonhov,
+input.resetbuttonhov,
 input.exportbuttonhov,
 input.assignbuttonhov,
 input.viewbuttonhov,
+input.detailsbuttonhov,
+input.submitbuttonhov,
+input.searchbuttonhov,
 input.plainbtnhov {
 	border-color: #c63 #c63 #930 #930 !important;		
 }

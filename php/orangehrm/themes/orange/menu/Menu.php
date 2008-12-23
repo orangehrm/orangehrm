@@ -103,7 +103,7 @@ try {
 	 if ($optionMenu) {
 	      foreach ($optionMenu as $optionItem) {
 ?>
-	 <li><a href="<?php echo $optionItem->getLink();?>"><?php echo $optionItem->getMenuText(); ?></a></li>
+	 <li><a href="<?php echo $optionItem->getLink();?>" target="rightMenu"><?php echo $optionItem->getMenuText(); ?></a></li>
 <?php   
 		}
 	 }    

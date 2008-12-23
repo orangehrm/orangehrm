@@ -179,7 +179,7 @@ function doCheckAll() {
     }
 }
 
-function back()
+function goBack()
 {
     window.location = "./CentralController.php?uniqcode=TCP&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>";
 }
@@ -223,103 +223,68 @@ function chgPage(pNo) {
 </head>
 
 
-<body bgcolor="#FFFFFF" text="#000000" link="#FF9966" vlink="#FF9966" alink="#FFCC99">
-
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'>
-  <tr>
-    <td valign='top'></td>
-    <td width='100%'><h2><?php echo $lang_Admin_Company_Property_Title; ?></h2></td>
-    <td valign='top' align='right' nowrap style='padding-top:3px; padding-left: 5px;'>
-    <b><div  id="status"></div></b></td>
-  </tr>
-</table>
-<br>
-
-<!--Add and delete button section-->
+<body>
 <?php
-if (!isset($this->getArr['action']))
-{
-    ?>
-<table width="700">
-<tr>
-<td>
-<div name="addDelButton" id="addDelButton">
-    <img onClick="<?php echo $addBtnAction; ?>;"
-        onMouseOut="this.src='../../themes/beyondT/pictures/btn_add.gif';"
-        onMouseOver="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
-        src="../../themes/beyondT/pictures/btn_add.gif">
-    <img
-        onClick="<?php echo $delBtnAction; ?>"
-        src="../../themes/beyondT/pictures/btn_delete.gif"
-        onMouseOut="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-        onMouseOver="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';">
-</div>
-</td><td>
-<?php
-	$commonFunc = new CommonFunctions();
-	$pageStr = $commonFunc->printPageLinks($this->popArr['recordCount'], $this->popArr['pageNo'], 10);
-	$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-
-	echo $pageStr;
+if (!isset($this->getArr['action'])) {
+    $properties = $this->popArr['properties'];
 ?>
-</td>
-</tr>
-</table>
-<?php
-}
-?>
+<div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title; ?></h2></div>
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <input type="button" class="addbutton"
+                onclick="<?php echo $addBtnAction; ?>;"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Add;?>" />          
+
+            <?php if (!empty($properties)) { ?>
+                <input type="button" class="savebutton"
+                    onclick="<?php echo $saveBtnAction; ?>"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                    value="<?php echo $lang_Common_Save;?>" />
+
+                <input type="button" class="delbutton"
+                    onclick="<?php echo $delBtnAction; ?>"
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                    value="<?php echo $lang_Common_Delete;?>" />
+                                      
+        <?php     }
+        ?>      
+        </div>              
+        <div class="noresultsbar"><?php echo (empty($properties)) ? $lang_empview_norecorddisplay : '';?></div>
+        <div class="pagingbar">
+        <?php
+            $commonFunc = new CommonFunctions();
+            $pageStr = $commonFunc->printPageLinks($this->popArr['recordCount'], $this->popArr['pageNo'], 10);
+            $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+        
+            echo $pageStr;
+        ?>        
+        </div>
+    <br class="clear" />
+    </div>
+    <br class="clear" /> 
 
 <!--Property List section-->
-<?php
-if (!isset($this->getArr['action']))
-{
-?>
 
-  <form action="./CentralController.php?uniqcode=TCP&id=0" method="post" name='propertyList' id = 'propertyList'>
+  <form action="./CentralController.php?uniqcode=TCP&amp;id=0" method="post" name='propertyList' id = 'propertyList'>
 
     <input type="hidden" name="sqlState" id='listSqlState' value="delete"/>
     <input type="hidden" name="pageNo" value="<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>">
 
-<table border="0" width="100%">
-<?php
-	$properties = $this->popArr['properties'];
-    if (empty($properties)) {
-?>
-	<tr nowrap>
-    	<td colspan="3" align="right"><?php echo $lang_empview_norecorddisplay;?>!
-    	</td>
-    </tr>
-<?php
-    }
-?>
-
-        </table>
-        <table width="100%" border="0" cellpadding="5" cellspacing="0" class="">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
         <thead>
         <tr>
-
-          <td class="r1_c1" width="12"></td>
-          <td class="tableTopMiddle" width="50"></td>
-                    <td width="200" class="tableTopMiddle"></td>
-                    <td width="200" class="tableTopMiddle"></td>
-
-          <td class="tableTopRight"></td>
+            <td width="50">
+<?php if (!empty($properties)) { ?>
+                <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
+<?php } ?>            
+            </td>
+            <td><?php echo $lang_Admin_Property_Name ; ?> </td>
+            <td><?php echo $lang_Admin_Prop_Emp_Name; ?></td>
          </tr>
          </thead>
-            <tr nowrap>
-                <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-                <td width="50" NOWRAP class="listViewThS1" scope="col">
-<?php if (!empty($properties)) { ?>
-                                    <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-<?php } ?>
-                                </td>
-                                <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Property_Name ; ?> </td>
-                                <td scope="col" width="250" class="listViewThS1"><?php echo $lang_Admin_Prop_Emp_Name; ?>  </td>
-
-
-
-                    <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
-            </tr>
+         <tbody>
 
 
             <?php
@@ -335,7 +300,6 @@ if (!isset($this->getArr['action']))
 
 
             <tr>
-            <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
 
                         <td class="<?php echo $classBg ?>" width="50"> <input type='checkbox' class='checkbox' name='chkPropId[]' value='<?php echo $property['prop_id']?>' onchange='checkIfAllChecked()' /></td>
                         <td class="<?php echo $classBg ?>" width="250"><a href="./CentralController.php?id=<?php echo $property['prop_id']?>&name=<?php echo $property['prop_name']?>&uniqcode=TCP&action=edit&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" class="listViewTdLinkS1"><?php echo $property['prop_name']?></a></td>
@@ -356,7 +320,6 @@ if (!isset($this->getArr['action']))
                         <?php }} ?>
                         </select>
                         </td>
-                        <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
             </tr>
 
             <?php
@@ -367,34 +330,10 @@ if (!isset($this->getArr['action']))
             }//foreach
             }//if
             ?>
-
-       <tr>
-                   <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td align='right'>
-<?php       if (!empty($properties)) { ?>
-                                <img onClick="<?php echo $saveBtnAction; ?>;"
-                        style="margin-top:10px;"
-                        onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-                        onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-                        src="../../themes/beyondT/pictures/btn_save.gif">
-<?php } ?>
-            </td>
-            <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
-
-       </tr>
-       <tr>
-          <td class="r3_c1" height="16"></td>
-          <td class="r3_c2" height="16"></td>
-                    <td width="250" class="r3_c2" height="16"</td>
-                    <td width="250" class="r3_c2" height="16"</td>
-          <td class="r3_c3" height="16"></td>
-         </tr>
-
+        </tbody>
         </table>
   </form>
+</div>  
 <?php
 }
 ?>
@@ -402,78 +341,44 @@ if (!isset($this->getArr['action']))
 
 <!--Add new property or edit section-->
 <?php
-if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->getArr['action']=='edit'))
-{
+if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->getArr['action']=='edit')) {
     ?>
-<div id="addProperty">
+<div class="formpage">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title?></h2></div>
 
-<form action="./CentralController.php?capturemode=editprop&uniqcode=TCP<?php echo $this->getArr['action']=='edit'?"&id={$this->getArr['id']}":''; ?>&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" method="post" name="propertyForm" id="propertyForm" onSubmit="return validateFrom();">
+    
+<form action="./CentralController.php?capturemode=editprop&uniqcode=TCP<?php echo $this->getArr['action']=='edit'?"&id={$this->getArr['id']}":''; ?>&amp;pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" method="post" name="propertyForm" id="propertyForm" onSubmit="return validateFrom();">
 
-  <table cellpadding='0' cellspacing='0'>
+    <input type="hidden" name="sqlState" value="<?php echo $this->getArr['action']=='add'?'NewRecord':'UpdateRecord'; ?>"/>
+    <input type="hidden" name="capturemode" value="<?php echo $this->getArr['action']=='edit'?'editprop':'addmode'; ?>"/>
 
-          <tr>
-
-          <td class="r1_c1" width="12"></td>
-          <td class="tableTopMiddle" width="50"></td>
-                    <td class="tableTopMiddle"></td>
-                    <td class="tableTopMiddle"></td>
-
-          <td class="tableTopRight"></td>
-         </tr>
-    <tr>
-      <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-      <td><?php echo $lang_Admin_Property_Name;?></td>
-      <td width="20"></td>
-      <td><input type="text" name="txtPropertyName" id ="txtPropertyName"  value="<?php echo $this->getArr['action']=='edit'?stripslashes($this->getArr['name']):''; ?>" size="40" maxlength="256"/></td>
-        <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
-    </tr>
-    <tr>
-     <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-     <td>&nbsp;</td>
-     <td>&nbsp;</td>
-      <td>&nbsp;</td>
-       <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
-    </tr>
-    <tr>
-         <td class="r2_c1"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt=""></td>
-      <td>
-        </td>
-
-        <td>&nbsp;</td>
-
-        <td alingnment='right'>
-
-<img onclick="save();"
- onmouseout="this.src='../../themes/beyondT/pictures/btn_save.gif';"
- onmouseover="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
- src="../../themes/beyondT/pictures/btn_save.gif">
-
-        <img title="Back"
- onmouseout="this.src='../../themes/beyondT/pictures/btn_back.gif';"
- onmouseover="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"
- src="../../themes/beyondT/pictures/btn_back.gif"
- onclick="back();">
-        </td>
-                <td class="r2_c3"><img src="../../themes/beyondT/pictures/spacer.gif" width="13" height="1" border="0" alt=""></td>
-    </tr>
-
-       <tr>
-          <td class="r3_c1" height="16"></td>
-          <td class="r3_c2" height="16"></td>
-                    <td class="r3_c2" height="16"</td>
-                    <td class="r3_c2" height="16"</td>
-          <td class="r3_c3" height="16"></td>
-         </tr>
-
-  </table>
-
-  <input type="hidden" name="sqlState" value="<?php echo $this->getArr['action']=='add'?'NewRecord':'UpdateRecord'; ?>"/>
-  <input type="hidden" name="capturemode" value="<?php echo $this->getArr['action']=='edit'?'editprop':'addmode'; ?>"/>
-
+    <label for="txtPropertyName"><?php echo $lang_Admin_Property_Name;?></label>
+    <input type="text" name="txtPropertyName" id ="txtPropertyName" class="formInputText"
+        value="<?php echo $this->getArr['action']=='edit'?stripslashes($this->getArr['name']):''; ?>" size="40" maxlength="256"/>
+    <br class="clear"/>
+    <div class="formbuttons">
+        <input type="button" class="savebutton" id="saveBtn" 
+            onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            value="<?php echo $lang_Common_Save;?>" />
+    </div>
+                    
 </form>
 </div>
 <?php
 }
 ?>
-
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</body>
 </html>

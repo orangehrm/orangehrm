@@ -25,15 +25,15 @@ $endDate = LocaleUtil::getInstance()->formatDate($records[2]);
 $activityTimeArray = $records[3];
 $customerObj = new Customer();
 $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
-
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><?php echo $lang_Time_ProjectReportTitle; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <script type="text/javascript">
+//<![CDATA[
 var initialAction = "?timecode=Time&action=";
 
 function viewActivityReport(activityId, time) {
@@ -51,7 +51,9 @@ function backToDefineProjectReport() {
 
 	window.location = initialAction+action;
 }
+//]]>
 </script>
+
 
 <style type="text/css">
     <!--
@@ -83,34 +85,38 @@ function backToDefineProjectReport() {
     	width: 100px;
     	float: left;
     }
-
-    -->
 </style>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
-<body>
-<h2>
-<?php echo $lang_Time_ProjectReportTitle; ?>
-<hr/>
-</h2>
-<div id="navigation" style="float:left;width:100px">
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';"
-	     onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"
-	     src="../../themes/beyondT/pictures/btn_back.gif" onClick="backToDefineProjectReport();">
-</div><br/>
-<div id="status"></div>
-<?php if (isset($_GET['message'])) {
 
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
-<div class="roundbox">
-	<form name="frmActivity" id="frmActivity" method="post" action="">
+<body>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="backToDefineProjectReport();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo $lang_Time_ProjectReportTitle;?></h2></div>
+
+        <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
+            if (isset($_GET['message'])) {
+                $message = $_GET['message'];
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Time_Errors_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+
+        <div id="status"></div>
+
+	<form name="frmActivity" id="frmActivity" method="post" action="" style="padding-left:5px;">
     	<input type="hidden" name="cmbProject" value="<?php echo $project->getProjectId(); ?>">
     	<input type="hidden" name="txtFromDate" value="<?php echo $startDate; ?>">
     	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>">
@@ -125,7 +131,7 @@ function backToDefineProjectReport() {
 		<div class="notice"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
   <?php } else { ?>
       <div style="float:left">
-		<table width="250" class="simpleList" >
+		<table width="250" class="simpleList" style="margin:0 0 5px 4px;">
 			<thead>
 				<tr>
 				<th><?php echo $lang_Time_Timesheet_Activity; ?></th>
@@ -170,12 +176,12 @@ function backToDefineProjectReport() {
   </form>
 </div>
 <script type="text/javascript">
-<!--
-	if (document.getElementById && document.createElement) {
-		initOctopus();
-	}
--->
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
 </script>
-
+</div>        
 </body>
 </html>

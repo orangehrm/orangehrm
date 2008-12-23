@@ -154,6 +154,30 @@ td {
 	padding: 5px;
 	text-align:center;
 }
+.tableTopLeft {
+    background: none;    
+}
+.tableTopMiddle {
+    background: none;    
+}
+.tableTopRight {
+    background: none;    
+}
+.tableMiddleLeft {
+    background: none;    
+}
+.tableMiddleRight {
+    background: none;    
+}
+.tableBottomLeft {
+    background: none;    
+}
+.tableBottomMiddle {
+    background: none;    
+}
+.tableBottomRight {
+    background: none;    
+}
 </style>
 
 <h2>
@@ -179,24 +203,25 @@ td {
 	<hr/>
 </h2>
 
-<h3><?php echo preg_replace(array('/#status/'),
-							array($statusStr),
-							$lang_Time_Timesheet_Status);
-		if (($timesheet->getComment() != null) &&
-		   (($status == Timesheet::TIMESHEET_STATUS_APPROVED) || ($status == Timesheet::TIMESHEET_STATUS_REJECTED))) {
-			echo " - {$timesheet->getComment()}";
-		}?></h3>
 
+<div class="outerbox" style="width:850px">
+<div class="subHeading"><h3><?php echo preg_replace(array('/#status/'),
+                            array($statusStr),
+                            $lang_Time_Timesheet_Status);
+        if (($timesheet->getComment() != null) &&
+           (($status == Timesheet::TIMESHEET_STATUS_APPROVED) || ($status == Timesheet::TIMESHEET_STATUS_REJECTED))) {
+            echo " - {$timesheet->getComment()}";
+        }?></h3></div>
 <?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
+        $message  = $_GET['message'];    
+        $messageType = CommonFunctions::getCssClassForMessage($message);
+        $message = "lang_Time_Errors_" . $message;
 ?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+    </div>  
+<?php } ?>
+        
 <table border="0" cellpadding="5" cellspacing="0">
 	<thead>
 		<tr>
@@ -299,42 +324,46 @@ td {
 <input type="hidden" id="txtTimesheetPeriodId" name="txtTimesheetPeriodId" value="<?php echo $timesheet->getTimesheetPeriodId(); ?>" />
 <input type="hidden" id="txtStartDate" name="txtStartDate" value="<?php echo $timesheet->getStartDate(); ?>" />
 <input type="hidden" id="txtEndDate" name="txtEndDate" value="<?php echo $timesheet->getEndDate(); ?>" />
-<div>
+<div class="formbuttons">
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
-	<input src="../../themes/beyondT/pictures/btn_edit.gif"
-			onclick="actionEdit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
-			onmouseout="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
-			name="btnEdit" id="btnEdit" height="20" type="image" width="65"/>
+    <input type="button" class="editbutton"  
+        onclick="actionEdit(); return false;" 
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnEdit" id="btnEdit"                           
+        value="<?php echo $lang_Common_Edit;?>" />            
+            
 	<?php if (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_NOT_SUBMITTED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED)) { ?>
-	<input src="../../themes/beyondT/icons/submit.gif"
-			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/submit_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/submit.gif';"
-			name="btnSubmit" id="btnSubmit" height="20" type="image" width="65"/>
+        
+    <input type="button" class="submitbutton"  
+        onclick="actionSubmit(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnSubmit" id="btnSubmit"                            
+        value="<?php echo $lang_Common_Submit;?>" /> 
+                
 	<?php } ?>
 	<?php if ($self && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
-	<input src="../../themes/beyondT/icons/cancel.gif"
-			onclick="actionCancel(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/cancel.gif';"
-			name="btnCancel" id="btnCancel" height="20" type="image" width="65"/>
+    <input type="button" class="cancelbutton"  
+        onclick="actionCancel(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnCancel" id="btnCancel"                             
+        value="<?php echo $lang_Common_Cancel;?>" /> 
+                    
 	<?php }
 	}
 	?>
-	<input src="../../themes/beyondT/icons/details.gif"
-			onclick="actionDetails(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/details_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/details.gif';"
-			name="btnEdit" id="btnEdit" type="image" alt="Details"
-			height="20" width="65"/>
-
+    <input type="button" class="detailsbutton"  
+        onclick="actionDetails(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnDetails" id="btnDetails"                             
+        value="<?php echo $lang_Common_Details;?>" /> 
+            
 	<?php if ($role && (($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_APPROVED) || ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_REJECTED))) { ?>
-	<input src="../../themes/beyondT/icons/reset.gif"
-			onclick="actionSubmit(); return false;"
-			onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
-			name="btnReset" id="btnReset" height="20" type="image" width="65"/>
+    <input type="button" class="resetbutton"  
+        onclick="actionSubmit(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnReset" id="btnReset"                              
+        value="<?php echo $lang_Common_Reset;?>" /> 
+            
 	<?php } ?>
 
 </div>
@@ -343,20 +372,26 @@ td {
 <div>
 	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" /></label>
 	<br/>
-	<input src="../../themes/beyondT/icons/approve.gif"
-			onmouseover="this.src='../../themes/beyondT/icons/approve_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/approve.gif';"
-			onclick="actionApprove(); return false;"
-			name="btnApprove" id="btnApprove"
-			height="20" width="65" type="image"/>
-	<input src="../../themes/beyondT/icons/reject.gif"
-			onmouseover="this.src='../../themes/beyondT/icons/reject_o.gif';"
-			onmouseout="this.src='../../themes/beyondT/icons/reject.gif';"
-			onclick="actionReject(); return false;"
-			name="btnReject" id="btnReject"
-			height="20" width="65" type="image"/>
+    <input type="button" class="approvebutton"  
+        onclick="actionApprove(); return false;"
+        name="btnApprove" id="btnApprove"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                             
+        value="<?php echo $lang_Common_Approve;?>" />             
+    <input type="button" class="rejectbutton"  
+        onclick="actionReject(); return false;"
+        name="btnReject" id="btnReject"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                        
+        value="<?php echo $lang_Common_Reject;?>" />             
 </div>
 	<?php } ?>
 <?php } ?>
 </form>
 </p>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>

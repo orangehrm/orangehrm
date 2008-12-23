@@ -37,12 +37,23 @@ function cancelAddPayPeriod() {
 }
 
 </script>
-<h2>
-	<?php echo $lang_Benefits_HealthSavingsPlanUsedList . " : " . $empFullName; ?>
-	<hr/>
-</h2>
-<div id="controls">
 
+<div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_Benefits_HealthSavingsPlanUsedList . " : " . $empFullName; ?></h2></div>
+
+<?php if (isset($_GET['message'])) {
+
+        $expString  = $_GET['message'];
+        $messageType = CommonFunctions::getCssClassForMessage($expString);
+        $expString = 'lang_Benefits_Errors_' . $expString;
+?>
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo $$expString; ?></span>
+    </div>    
+<?php } ?>
+
+    <div class="actionbar">
+        <div class="actionbuttons">
 <?php if ($_SESSION['isAdmin'] == "Yes") { ?>
 <img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="cancelAddPayPeriod();">
 <?php } ?>
@@ -51,42 +62,24 @@ if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 ?>
 <a href="?benefitcode=Benefits&action=Hsp_Expenditures&year=<?php echo $year; ?>&employeeId=<?php echo $employeeId; ?>&printPdf=1&pdfName=HSP-Expenditures"><img title="Save As PDF" onMouseOut="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_01.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_as_pdf_02.gif';" src="../../themes/beyondT/pictures/btn_save_as_pdf_01.gif" border="0"></a>
 <?php } ?>
-
-</div>
-<?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Benefits_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+        </div>              
+        <div class="noresultsbar"></div>
+        <div class="pagingbar"><?php echo (count($requests) == 0) ? $lang_empview_norecorddisplay : ''; ?></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" />    
 
 <?php if (count($requests) > 0) { ?>
 
-	<table border="0" cellpadding="5" cellspacing="0">
+	<table border="0" cellpadding="5" cellspacing="0" class="data-table">
 		<thead>
-		  	<tr>
-				<th class="tableTopLeft"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-				<th class="tableTopRight"></th>
-			</tr>
 			<tr>
-				<th class="tableMiddleLeft"></th>
-				<th><?php echo $lang_Benefits_Paid; ?></th>
-		    	<th><?php echo $lang_Benefits_DateIncurred; ?></th>
-		    	<th><?php echo $lang_Benefits_NameOfProvider; ?></th>
-		    	<th><?php echo $lang_Benefits_ExpenseDescription; ?></th>
-		    	<th><?php echo $lang_Benefits_IncurredFor; ?></th>
-		    	<th><?php echo $lang_Benefits_Cost . " " . $lang_Benefits_US_Dollars; ?></th>
-				<th class="tableMiddleRight"></th>
+				<td><?php echo $lang_Benefits_Paid; ?></td>
+		    	<td><?php echo $lang_Benefits_DateIncurred; ?></td>
+		    	<td><?php echo $lang_Benefits_NameOfProvider; ?></td>
+		    	<td><?php echo $lang_Benefits_ExpenseDescription; ?></td>
+		    	<td><?php echo $lang_Benefits_IncurredFor; ?></td>
+		    	<td><?php echo $lang_Benefits_Cost . " " . $lang_Benefits_US_Dollars; ?></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -102,7 +95,6 @@ if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 					$i++;
 			?>
 				<tr>
-					<td class="tableMiddleLeft"></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo ($request->getStatus() == HspPaymentRequest::HSP_PAYMENT_REQUEST_STATUS_PAID)?$lang_Benefits_Yes:$lang_Benefits_No; ?></a></td>
 					<td class="<?php echo $rowStyle; ?>">
 						<a href="?benefitcode=Benefits&action=View_Hsp_Request&id=<?php echo $request->getId(); ?>"><?php echo LocaleUtil::getInstance()->formatDate($request->getDateIncurred()); ?></a>
@@ -111,7 +103,6 @@ if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getExpenseDescription(); ?></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getPersonIncurringExpense(); ?></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo $request->getExpenseAmount(); ?></td>
-				    <td class="tableMiddleRight"></td>
 				</tr>
 			<?php
 					$total+=$request->getExpenseAmount();
@@ -125,29 +116,19 @@ if ($_SESSION['printBenefits'] == "enabled" && count($requests) > 0) {
 
 			?>
 				<tr style="font-weight:bold;">
-					<td class="tableMiddleLeft"></td>
 					<td class="<?php echo $rowStyle; ?>" colspan="4"></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo $lang_Benefits_TotalUsed; ?></td>
 					<td class="<?php echo $rowStyle; ?>"><?php echo number_format($total, 2); ?></td>
-				    <td class="tableMiddleRight"></td>
 				</tr>
 		<?php }?>
 		</tbody>
-		<tfoot>
-		  	<tr>
-				<td class="tableBottomLeft"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomRight"></td>
-			</tr>
-	  	</tfoot>
 	</table>
-<?php } else { ?>
-
-  <h5><?php echo $lang_empview_norecorddisplay; ?></h5>
-
 <?php } ?>
+</div>
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>

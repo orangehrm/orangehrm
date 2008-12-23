@@ -42,34 +42,36 @@ function hideUrl() {
 
 YAHOO.util.Event.addListener(window, "load", init);
 </script>
+<div class="formpage">
+    <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+    <div class="mainHeading"><h2><?php echo $lang_Time_UnfinishedActivitiesTitle;?></h2></div>
+    
+    <?php if (isset($_GET['message'])) {
+            $message = $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Time_Errors_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
 
-<h2>
-<?php echo $lang_Time_UnfinishedActivitiesTitle; ?>
-<hr/>
-</h2>
-<?php if (isset($_GET['message'])) {
-
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<div class="<?php echo $col_def?>" >
-			<font size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-			</font>
-		</div>
-<?php }	?>
 <?php if (isset($pendingTimeEvents) && is_array($pendingTimeEvents)) { ?>
 <table border="0" cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
+			<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+	    	<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -87,7 +89,7 @@ YAHOO.util.Event.addListener(window, "load", init);
 				$projectActivities = $projectActivityObj->getActivity($pendingTimeEvent->getActivityId());
 			?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo LocaleUtil::getInstance()->formatDateTime($pendingTimeEvent->getStartTime()); ?></td>
 			<td ><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 			<td ><?php echo "{$projectActivities->getName()}"; ?></td>
@@ -95,23 +97,22 @@ YAHOO.util.Event.addListener(window, "load", init);
 			<td >
 				<span class="linkCompleteTimeEvent"><span class="first-child"><a href="?timecode=Time&action=Update_Event_View&id=<?php echo $pendingTimeEvent->getTimeEventId(); ?>"><?php echo $lang_Time_Complete; ?></a></span></span>
 			</td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php } ?>
 	</tbody>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
 </table>
 <?php } ?>
-<p id="navigation">
-	<span id="linkNewTimeEvent"><span class="first-child"><a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a></span></span>
-</p>
+<div class="formbuttons">
+    <span id="linkNewTimeEvent"><span class="first-child"><a href="?timecode=Time&action=New_Time_Event_View"><?php echo $lang_Time_NewEvent; ?></a></span></span>          
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
+

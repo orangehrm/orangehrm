@@ -62,26 +62,6 @@ $statusArr = array(Leave::LEAVE_STATUS_LEAVE_REJECTED => $lang_Leave_Common_Reje
                    LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => $lang_Leave_Common_StatusDiffer);
 ?>
 
-<h2><?php echo $lang_Title?><hr/></h2>
-<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
-
-	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
-
-	$col_def=strtolower($expString[$length-1]);
-
-	$expString='lang_Leave_'.$_GET['message'];
-	if (isset($$expString)) {
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-	</font>
-<?php
-	}
-}
-?>
-
 <?php
 
 /* Show leave filter form only for admin */
@@ -180,40 +160,43 @@ if ($modifier === "ADMIN") {
 	}
 	YAHOO.OrangeHRM.container.init();
 </script>
-<div id="filterLeavePane">
+<div id="filterLeavePane" class="outerbox" style="width:800px;">
+    <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
+    <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
+            $message  = $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Leave_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
+
 <form id="frmFilterLeave" name="frmFilterLeave" method="post"
       onsubmit="return validateSearch();";
-      action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $refreshAction; ?>">
-  <table border="0" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th class="tableTopLeft"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopMiddle"></th>
-        <th class="tableTopRight"></th>
-      </tr>
-    </thead>
+      action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $refreshAction; ?>">
+  <table border="0" cellpadding="2" cellspacing="0">
   <tbody>
   <tr>
-  <td class="tableMiddleLeft"></td>
+  <td></td>
   <td><strong>Period:</strong></td>
   <td><?php echo $lang_Leave_Leave_list_From;?>
   <span><input name="txtFromDate" type="text" id="txtFromDate"  size="11" value="<?php echo $fromDate;?>"/>&nbsp;
-  <input type="button" name="Submit" value="  " class="calendarBtn" /></span>
+  <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $lang_Leave_Leave_list_To;?>
   <span><input name="txtToDate" type="text" id="txtToDate" size="11" value="<?php echo $toDate;?>" />&nbsp;
-  <input type="button" name="Submit" value="  " class="calendarBtn" /></span></td>
-  <td><input type='image' class='button1' title="Search" name="Search"
-		src="../../themes/beyondT/pictures/btn_search.gif"
-		onMouseOut="this.src='../../themes/beyondT/pictures/btn_search.gif';;"
-		onMouseOver="this.src='../../themes/beyondT/pictures/btn_search_02.gif';"/>
+  <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span></td>
+  <td>
+    <input type="submit" class="searchbutton" id="Search" 
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        title="<?php echo $lang_Common_Search;?>"                          
+        value="<?php echo $lang_Common_Search;?>" />
   </td>
-  <td class="tableMiddleRight"></td>
+  <td></td>
   </tr>
 
   <tr>
-  <td class="tableMiddleLeft"></td>
+  <td></td>
   <td><strong><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</strong></td>
   <td nowrap >
 	<?php echo $lang_Leave_Common_All; ?>
@@ -238,24 +221,16 @@ if ($modifier === "ADMIN") {
 	}
 ?>
     </td>
-    <td><input type='image' class='button1' title="Clear" name="Clear"
-        onclick="resetSearchForm();return false;"
-		src="../../themes/beyondT/pictures/btn_clear.gif"
-		onMouseOut="this.src='../../themes/beyondT/pictures/btn_clear.gif';;"
-		onMouseOver="this.src='../../themes/beyondT/pictures/btn_clear_02.gif';"/>
+    <td>
+    <input type="button" class="clearbutton" onclick="resetSearchForm();return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+         title="<?php echo $lang_Common_Clear;?>"         
+         value="<?php echo $lang_Common_Clear;?>" />
+
 	</td>
-	<td class="tableMiddleRight"></td>
+	<td></td>
 	</tr>
 	</tbody>
-    <tfoot>
-      <tr>
-        <td class="tableBottomLeft"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomMiddle"></td>
-        <td class="tableBottomRight"></td>
-      </tr>
-    </tfoot>
 	</table>
 </form>
 </div>
@@ -264,42 +239,24 @@ if ($modifier === "ADMIN") {
 }
 ?>
 
-<?php
-	if (!is_array($records)) {
-?>
-	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
-<?php
-	} else {
-?>
+<div class="outerbox">
+<?php if ($modifier !== "ADMIN") { ?>
+<!-- <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div> -->
+<?php } ?>    
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
 
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
-    	<th class="tableTopMiddle"></th>
-    	<?php } ?>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
 	<tr>
-		<th class="tableMiddleLeft"></th>
-    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
+    	<th width="100px"><?php echo $lang_Leave_Common_Date;?></th>
     	<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
-    	<th width="200px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_EmployeeName;?></th>
+    	<th width="200px"><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
-    	<th width="50px" class="tableMiddleMiddle"><?php echo $lang_Leave_NoOfDays;?></th>
-    	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
-    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
-    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Period;?></th>
-    	<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
-		<th class="tableMiddleRight"></th>
+    	<th width="50px"><?php echo $lang_Leave_NoOfDays;?></th>
+    	<th width="90px"><?php echo $lang_Leave_Common_LeaveType;?></th>
+    	<th width="100px"><?php echo $lang_Leave_Common_Status;?></th>
+    	<th width="100px"><?php echo $lang_Leave_Period;?></th>
+    	<th width="100px"><?php echo $lang_Leave_Common_Comments;?></th>
 	</tr>
   </thead>
   <tbody>
@@ -322,8 +279,7 @@ if ($modifier === "ADMIN") {
 			 }
 ?>
   <tr>
-  	<td class="tableMiddleLeft"></td>
-    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&action=<?php echo ($modifier == "ADMIN")?"Leave_FetchDetailsAdmin":$detailAction; ?>&id=<?php echo $record->getLeaveRequestId(); ?>&digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
+    <td class="<?php echo $cssClass; ?>"><a href="?leavecode=Leave&amp;action=<?php echo ($modifier == "ADMIN")?"Leave_FetchDetailsAdmin":$detailAction; ?>&amp;id=<?php echo $record->getLeaveRequestId(); ?>&amp;digest=<?php echo md5($record->getLeaveRequestId().SALT); ?>"><?php echo $dateStr; ?></a></td>
     <?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getEmployeeName(); ?></td>
     <?php } ?>
@@ -405,34 +361,34 @@ if ($modifier === "ADMIN") {
 		<?php } else {
 			echo $record->getLeaveComments();
 			} ?></td>
-	<td class="tableMiddleRight"></td>
   </tr>
 
 <?php
 		}
 ?>
   </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
-    	<td class="tableBottomMiddle"></td>
-    	<?php } ?>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
 </table>
 <?php 	if ($modifier !== "Taken") { ?>
-<p id="controls">
-<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
-</p>
+    <div class="actionbar">
+        <div class="actionbuttons">
+            <input type="submit" class="savebutton" name="Save"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Save;?>" />          
+        </div>              
+        <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" /> 
+    
 </form>
-<?php   }
-	 } ?>
+</div>
+<?php   } ?>
 <div id="cal1Container" style="position:absolute;" ></div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>

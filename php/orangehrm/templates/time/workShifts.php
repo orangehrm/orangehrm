@@ -20,44 +20,11 @@
 
 $workshifts = $records[0];
 ?>
-<style type="text/css">
-@import url("../../themes/beyondT/css/octopus.css");
 
-.roundbox {
-	margin-top: 10px;
-	margin-left: 10px;
-	width:300px;
-}
-
-label {
-	width: 80px;
-}
-
-.roundbox_content {
-	padding:5px 5px 20px 5px;
-}
-
-input[type=checkbox] {
-	background-color: transparent;
-	margin: 0px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	width: 12px;
-	vertical-align: bottom;
-}
-
-#addPanel {
-	display: none;
-}
-
-#txtHoursPerDay {
-	width: 2em;
-}
-</style>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 
 <script type="text/javascript">
+//<![CDATA[
 var baseUrl = '?timecode=Time&action=';
 
 function actionShowAdd() {
@@ -123,95 +90,78 @@ function actionDelete() {
 		}
 	}
 }
+//]]>
 </script>
-<h2>
-<?php echo $lang_Time_WorkShifts; ?>
-<hr/>
-</h2>
-<div class="navigation">
-	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_add.gif';"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_add_02.gif';"
-			src="../../themes/beyondT/pictures/btn_add.gif"
-			name="btnAdd" id="btnAdd" alt="Add"
-			onclick="actionShowAdd();"/>
-	<img	onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-			onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';"
-			src="../../themes/beyondT/pictures/btn_delete.gif"
-			name="btnDel" id="btnDel" alt="Delete"
-			onclick="actionDelete();" />
-</div>
-<div id="addPanel">
-	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&action=">
+<div id="addPanel" class="outerbox" style="width:300px;display:none;">
+<div class="mainHeading"><h2><?php echo $lang_Time_WorkShift_Add;?></h2></div>
+	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&amp;action=">
 		<div class="roundbox">
-			<label for="txtShiftName"><span class="error">*</span> <?php echo $lang_Time_ShiftName; ?></label>
-	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1"/>
-			<br/>
-	        <label for="txtHoursPerDay"><span class="error">*</span> <?php echo $lang_Time_HoursPerDay; ?></label>
-	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3"/>
-	        <br>
+			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?> <span class="required">*</span></label>
+	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" class="formInputText"/>
+            <br class="clear"/>
+	        <label for="txtHoursPerDay"> <?php echo $lang_Time_HoursPerDay; ?><span class="required">*</span></label>
+	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3" class="formInputText"
+                style="width:30px;"/>
+            <br class="clear"/>
 	        <label for="none">&nbsp;</label>
 	        <input type="hidden" id="none" name="none"/>
-	        <img onClick="addShift();"
-	             style="margin-top:10px;"
-	             onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
-	             onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
-	             src="../../themes/beyondT/pictures/btn_save.gif">
-	        <img onClick="cancelAddShift();"
-	             style="margin-top:10px;"
-	             onMouseOut="this.src='../../themes/beyondT/icons/cancel.gif';"
-	             onMouseOver="this.src='../../themes/beyondT/icons/cancel_o.gif';"
-	             src="../../themes/beyondT/icons/cancel.gif">
+            <div class="formbuttons">
+                <input type="button" class="addbutton" id="addBtn" 
+                    onclick="addShift();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                    value="<?php echo $lang_Common_Add;?>" />
+                <input type="button" class="cancelbutton" onclick="cancelAddShift();" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                     value="<?php echo $lang_Common_Cancel;?>" />                         
+            </div>
+            <br class="clear"/>            
 	   	</div>
 	</form>
 </div>
-<script type="text/javascript">
-<!--
-    if (document.getElementById && document.createElement) {
- 			initOctopus();
-	}
- -->
-</script>
-<?php
-if (isset($_GET['message']) && !empty($_GET['message'])) {
+       
 
-	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
+<div class="formpage">
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Time_WorkShifts;?></h2></div>
+    
+    <?php 
+        if (isset($_GET['message']) && !empty($_GET['message'])) {        
+            $message  = $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Time_Errors_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: CommonFunctions::escapeHtml($_GET['message']); ?></span>
+        </div>  
+    <?php } ?>
+     
+   <div class="actionbar">
+        <div class="actionbuttons">
+            <input type="button" class="addbutton"
+                onclick="actionShowAdd();"
+                name="btnAdd" id="btnAdd"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                title="<?php echo $lang_Common_Add;?>"
+                value="<?php echo $lang_Common_Add;?>" />          
 
-	$col_def=strtolower($expString[$length-1]);
-	$expString='lang_Time_Errors_'.$_GET['message'];
-
-	$message = isset($$expString) ? $$expString : CommonFunctions::escapeHtml($_GET['message']);
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $message; ?>
-	</font>
-<?php }	?>
-<br/>
-<div id="listOfShifts" >
-  <form id="frmListOfShifts" name="frmListOfShifts" method="post" action="?timecode=Time&action=">
-	<table border="0" cellpadding="0" cellspacing="0">
+                <input type="button" class="delbutton"
+                    name="btnDel" id="btnDel" alt="Delete"
+                    onclick="actionDelete();" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                    title="<?php echo $lang_Common_Delete;?>" 
+                    value="<?php echo $lang_Common_Delete;?>" />
+        </div>              
+        <div class="noresultsbar"><?php echo (count($workshifts) == 0) ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+    <br class="clear" />
+    </div>
+    <br class="clear" />    
+  <form id="frmListOfShifts" name="frmListOfShifts" method="post" action="?timecode=Time&amp;action=">
+	<table border="0" cellpadding="0" cellspacing="0" class="data-table">
 		<thead>
 			<tr>
-				<th class="tableTopLeft"></th>
-				<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-		    	<th class="tableTopMiddle"></th>
-				<th class="tableTopRight"></th>
-			</tr>
-			<tr>
-				<th class="tableMiddleLeft"></th>
-		    	<th width="25"></th>
-		    	<th width="200"><?php echo $lang_Time_ShiftName; ?></th>
-		    	<th width="150"><?php echo $lang_Time_HoursPerDay; ?></th>
-				<th class="tableMiddleRight"></th>
-			</tr>
-			<tr>
-				<th class="tableMiddleLeft"></th>
-		    	<th class="tableMiddleMiddle"></th>
-		    	<th class="tableMiddleMiddle"></th>
-		    	<th class="tableMiddleMiddle"></th>
-				<th class="tableMiddleRight"></th>
+		    	<td width="25"></td>
+		    	<td width="200"><?php echo $lang_Time_ShiftName; ?></td>
+		    	<td width="150"><?php echo $lang_Time_HoursPerDay; ?></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -227,35 +177,25 @@ if (isset($_GET['message']) && !empty($_GET['message'])) {
 			 	$i++;
 		?>
 			<tr>
-				<td class="tableMiddleLeft"></td>
-		    	<td class="<?php echo $cssClass; ?>"><input type="checkbox" id="deleteShift[]" name="deleteShift[]" value="<?php echo $workshift->getWorkshiftId(); ?>" /></td>
-		    	<td class="<?php echo $cssClass; ?>"><a href="?timecode=Time&action=View_Edit_Work_Shift&id=<?php echo $workshift->getWorkshiftId(); ?>"><?php echo $workshift->getName(); ?></a></td>
+		    	<td class="<?php echo $cssClass; ?>"><input type="checkbox" id="deleteShift_<?php echo $i;?>" name="deleteShift[]" value="<?php echo $workshift->getWorkshiftId(); ?>" /></td>
+		    	<td class="<?php echo $cssClass; ?>"><a href="?timecode=Time&amp;action=View_Edit_Work_Shift&amp;id=<?php echo $workshift->getWorkshiftId(); ?>"><?php echo $workshift->getName(); ?></a></td>
 		    	<td class="<?php echo $cssClass; ?>"><?php echo $workshift->getHoursPerDay(); ?></td>
-				<td class="tableMiddleRight"></td>
 			</tr>
 		<?php
 			}
-		} else {
-		?>
-			<tr>
-				<td class="tableMiddleLeft"></td>
-				<td></td>
-		    	<td colspan="2"><?php echo $lang_Error_NoRecordsFound; ?></td>
-				<td class="tableMiddleRight"></td>
-			</tr>
-		<?php
 		}
 		?>
 		</tbody>
-		<tfoot>
-		  	<tr>
-				<td class="tableBottomLeft"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomMiddle"></td>
-				<td class="tableBottomRight"></td>
-			</tr>
-	  	</tfoot>
 	</table>
   </form>
+  </div>
 </div>
+
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+

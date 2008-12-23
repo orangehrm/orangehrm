@@ -26,48 +26,54 @@ $customerObj = new Customer();
 $projectObj = new Projects();
 $projectActivityObj = new ProjectActivity();
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
+//<![CDATA[
+
 var initialAction = "?timecode=Time&action=";
 
 function goBack() {
 	window.location = initialAction+"Employee_Report_Define";
 }
+//]]>
 </script>
-
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <style type="text/css">
 td {
-	vertical-align: top;
-	padding: 5px;
-	text-align:center;
+    vertical-align: top;
+    padding: 5px;
+    text-align:center;
 }
 </style>
 
-<h2>
-<?php echo "{$lang_Time_EmployeeTimeReportTitle} : {$employee[2]} {$employee[1]}"; ?>
-<hr/>
-</h2>
-<p class="navigation">
-  	  <input type="image" title="Back"
-  	  		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';"
-  	  		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"
-  	  		 src="../../themes/beyondT/pictures/btn_back.gif"
-  	  		 onClick="goBack(); return false;" />
-</p>
-<table border="0" cellpadding="0" cellspacing="0">
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+</head>
+<body>
+    <div class="formpage">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading"><h2><?php echo "{$lang_Time_EmployeeTimeReportTitle} : {$employee[2]} {$employee[1]}"; ?></h2></div>
+
+<table border="0" cellpadding="0" cellspacing="0" class="simpleList">
 	<thead>
 		<tr>
-			<th class="tableTopLeft"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-	    	<th class="tableTopMiddle"></th>
-			<th class="tableTopRight"></th>
-		</tr>
-		<tr>
-			<th class="tableMiddleLeft"></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
-			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-			<th width="80px" class="tableMiddleMiddle"><?php echo "$lang_Common_Time {$lang_Time_Timesheet_DurationUnits}"; ?></th>
-			<th class="tableMiddleRight"></th>
+			<th></th>
+			<th width="150px"><?php echo $lang_Time_Timesheet_Project; ?></th>
+			<th width="100px"><?php echo $lang_Time_Timesheet_Activity; ?></th>
+			<th width="80px"><?php echo "$lang_Common_Time {$lang_Time_Timesheet_DurationUnits}"; ?></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -82,38 +88,39 @@ td {
 						$totalTime+=$activityTimeCost;
 		?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td ><?php echo "{$customerDet->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 			<td ><?php echo $projectActivity->getName(); ?></td>
 			<td ><?php echo round($activityTimeCost/36)/100; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php
 					}
 				}
 		?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<th colspan="2"><?php echo $lang_Time_Timesheet_Total; ?></th>
 			<th ><?php echo round($totalTime/36)/100; ?></th>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php
 			  } else { ?>
 		<tr>
-			<td class="tableMiddleLeft"></td>
+			<td></td>
 			<td colspan="3"><?php echo $lang_Error_NoRecordsFound; ?></td>
-			<td class="tableMiddleRight"></td>
+			<td></td>
 		</tr>
 		<?php }?>
 	</tbody>
-	<tfoot>
-	  	<tr>
-			<td class="tableBottomLeft"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomMiddle"></td>
-			<td class="tableBottomRight"></td>
-		</tr>
-  	</tfoot>
 </table>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>
+</script>
+</div>
+</body>

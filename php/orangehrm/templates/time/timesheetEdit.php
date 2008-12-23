@@ -112,6 +112,32 @@ $dateFormat = LocaleUtil::convertToXpDateFormat($sysConf->getDateFormat());
 $timeFormat = LocaleUtil::convertToXpDateFormat($sysConf->getTimeFormat());
 
 ?>
+<style type="text/css">
+.tableTopLeft {
+    background: none;    
+}
+.tableTopMiddle {
+    background: none;    
+}
+.tableTopRight {
+    background: none;    
+}
+.tableMiddleLeft {
+    background: none;    
+}
+.tableMiddleRight {
+    background: none;    
+}
+.tableBottomLeft {
+    background: none;    
+}
+.tableBottomMiddle {
+    background: none;    
+}
+.tableBottomRight {
+    background: none;    
+}
+</style>
 <script type="text/javascript">
 <!--
 currFocus = null;
@@ -441,31 +467,36 @@ function goBack() {
 -->
 </script>
 <?php $objAjax->printJavascript(); ?>
-<h2><?php 	$headingStr = $lang_Time_Timesheet_TimesheetNameForEditTitle;
-			if ($self) {
-				$headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
-			}
-			echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
-							array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
-							$headingStr); ?>
-  <hr/>
-</h2>
 <div id="status"></div>
-<p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
-</p>
-<?php if (isset($_GET['message'])) {
 
-		$expString  = $_GET['message'];
-		$col_def = CommonFunctions::getCssClassForMessage($expString);
-		$expString = 'lang_Time_Errors_' . $expString;
-?>
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-		</font>
-<?php }	?>
+   <div class="navigation">
+        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack(); return false;">
+            <span><?php echo $lang_Common_Back;?></span>
+        </a>
+    </div>
+    <div class="outerbox">
+        <div class="mainHeading"><h2><?php  $headingStr = $lang_Time_Timesheet_TimesheetNameForEditTitle;
+            if ($self) {
+                $headingStr = $lang_Time_Timesheet_TimesheetForEditTitle;
+            }
+            echo preg_replace(array('/#periodName/', '/#startDate/', '/#name/'),
+                            array($timesheetSubmissionPeriod->getName(), LocaleUtil::getInstance()->formatDate($timesheet->getStartDate()), "{$employee[2]} {$employee[1]}"),
+                            $headingStr); ?>
+</h2></div>
+    
+    <?php
+        if (isset($_GET['message'])) {
+            $message = $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $message = "lang_Time_Errors_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+        </div>  
+    <?php } ?>
+
 <form id="frmTimesheet" name="frmTimesheet" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?timecode=Time&id=<?php echo $timesheet->getTimesheetId(); ?>&action=">
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
 	<thead>
 		<tr>
 			<th class="tableTopLeft"></th>
@@ -482,13 +513,13 @@ function goBack() {
 		<tr>
 			<th class="tableMiddleLeft"></th>
 			<th class="tableMiddleMiddle"></th>
-			<th width="95px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
-			<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
-			<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_StartTime; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_EndTime; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_ReportedDate; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Duration; ?> <?php echo $lang_Time_Timesheet_DurationUnits; ?></th>
+			<th class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Decription; ?></th>
 			<th class="tableMiddleRight"></th>
 		</tr>
 	</thead>
@@ -615,37 +646,43 @@ function goBack() {
 <input type="hidden" name="txtTimesheetId" value="<?php echo $timesheet->getTimesheetId(); ?>" />
 <input type="hidden" name="txtEmployeeId" value="<?php echo $timesheet->getEmployeeId(); ?>" />
 <input type="hidden" name="nextAction" value="<?php echo $return; ?>" />
+<div class="formbuttons">
+<input type="button" class="updatebutton"  
+        onclick="actionUpdate(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnUpdate" id="btnUpdate"                              
+        value="<?php echo $lang_Common_Update;?>" />         
+<input type="button" class="resetbutton"  
+        onclick="actionReset(); return false;"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        name="btnReset" id="btnReset"                              
+        value="<?php echo $lang_Common_Reset;?>" />         
+<input type="button" class="inserttimebutton"  
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        onclick="actionInsertTime(); return false;"
+        name="btnInsert" id="btnInsert"                             
+        value="<?php echo $lang_Common_InsertTime;?>" /> 
 
-<input src="../../themes/beyondT/icons/update.gif"
-		onmouseover="this.src='../../themes/beyondT/icons/update_o.gif';"
-		onmouseout="this.src='../../themes/beyondT/icons/update.gif';"
-		onclick="actionUpdate(); return false;"
-		name="btnUpdate" id="btnUpdate"
-		height="20" width="65"  type="image" alt="Update" />
-<input src="../../themes/beyondT/icons/reset.gif"
-		onmouseover="this.src='../../themes/beyondT/icons/reset_o.gif';"
-		onmouseout="this.src='../../themes/beyondT/icons/reset.gif';"
-		onclick="actionReset(); return false;"
-		name="btnReset" id="btnReset"
-		height="20" width="65" type="image" alt="Reset"/>
-<input src="../../themes/beyondT/icons/insertTime.gif"
-		onmouseover="this.src='../../themes/beyondT/icons/insertTime_o.gif';"
-		onmouseout="this.src='../../themes/beyondT/icons/insertTime.gif';"
-		onclick="actionInsertTime(); return false;"
-		name="btnInsert" id="btnInsert"
-		height="20" width="90" type="image" alt="Insert Time" />
-<input src="../../themes/beyondT/pictures/btn_delete.gif"
-		onmouseover="this.src='../../themes/beyondT/pictures/btn_delete_02.gif';"
-		onmouseout="this.src='../../themes/beyondT/pictures/btn_delete.gif';"
-		onclick="deleteTimeEvents(); return false;"
-		name="btnDelete" id="btnDelete"
-		type="image" alt="Delete" />
-<?php echo $lang_Time_TimeFormat . " : {$dateFormat} {$timeFormat}";?>
+<input type="button" class="delbutton"  
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        onclick="deleteTimeEvents(); return false;"
+        name="btnDelete" id="btnDelete"                             
+        value="<?php echo $lang_Common_Delete;?>" /> 
+                
+&nbsp;<?php echo $lang_Time_TimeFormat . " : {$dateFormat} {$timeFormat}";?>
+</div>
 
 </form>
+</div>
+</div>
 </p>
 <script type="text/javascript">
-	totRows = <?php echo $row; ?>;
-	currFocus = $("cmbProject[<?php echo $row; ?>]");
-	currFocus.focus();
+        //<![CDATA[
+        totRows = <?php echo $row; ?>;
+        currFocus = $("cmbProject[<?php echo $row; ?>]");
+        currFocus.focus();
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+        //]]>
 </script>
