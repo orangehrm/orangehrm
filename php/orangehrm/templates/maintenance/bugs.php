@@ -121,7 +121,7 @@
         <input type="hidden" name="sqlState" value=""/>
 
             <span class="formLabel"><?php echo $lang_bugtracker_FoundInRelease; ?></span>
-            <span class="formValue">2.4.0.1</span><br class="clear"/>
+            <span class="formValue">2.5-alpha.1</span><br class="clear"/>
             <input type="hidden" readonly="readonly" name="artifact_group_id" value="786061"/>
 
             <label for="category_id"><?php echo $lang_bugtracker_Category; ?> <span class="required">*</span></label>
