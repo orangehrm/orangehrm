@@ -63,6 +63,9 @@ require_once ROOT_PATH . '/lib/confs/sysConf.php';
 <!--[if lte IE 6]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
+<!--[if IE]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

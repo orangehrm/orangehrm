@@ -1,0 +1,50 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+/* IE Specific styles to overcome IE behaviour */
+
+/* Added to prevent main heading being hidden in list views */
+div.mainHeading {
+    zoom: 1;
+}
+
+
+/* Button min-width fix for IE. Without this fix, IE assumes width is min-width */
+input.editbutton,
+input.savebutton,
+input.updatebutton,
+input.clearbutton,
+input.inserttimebutton,
+input.cancelbutton,
+input.resetbutton,
+input.addbutton,
+input.delbutton,
+input.rejectbutton,
+input.resetbutton,
+input.exportbutton,
+input.assignbutton,
+input.viewbutton,
+input.detailsbutton,
+input.submitbutton,
+input.searchbutton,
+input.plainbtn {
+    overflow:visible;
+    width: auto !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}

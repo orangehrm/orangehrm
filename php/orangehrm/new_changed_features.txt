@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 2.5
+New & Changed Features for OrangeHRM ver 2.5-alpha.1
 
     User interface changed to new format.
 
