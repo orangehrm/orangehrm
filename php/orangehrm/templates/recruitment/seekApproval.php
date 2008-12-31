@@ -104,6 +104,9 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     <!--[if lte IE 6]>
     <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
     <![endif]-->
+    <!--[if IE]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 
     <style type="text/css">
     <!--

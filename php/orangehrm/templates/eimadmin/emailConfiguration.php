@@ -117,6 +117,9 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 <!--[if lte IE 6]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
+<!--[if IE]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
 </head>
 <body>
     <div class="formpage2col">
