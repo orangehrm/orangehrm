@@ -26,4 +26,4 @@ include 'yui.php';
 <script type="text/javascript">
 YAHOO.namespace("OrangeHRM.autocomplete");
 </script>
-<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/autocomplete/assets/skins/sam/autocomplete-skin.css">
+<link type="text/css" rel="stylesheet" href="<?php echo $_SESSION['WPATH']; ?>/themes/<?php echo $_SESSION['styleSheet']; ?>/css/yui/autocomplete/assets/skins/sam/autocomplete-skin.css"/>

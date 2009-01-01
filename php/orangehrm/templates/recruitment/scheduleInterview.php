@@ -25,7 +25,7 @@ $locRights=$_SESSION['localRights'];
 
 $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
 $action = ($num == 1) ? JobApplication::ACTION_SCHEDULE_FIRST_INTERVIEW : JobApplication::ACTION_SCHEDULE_SECOND_INTERVIEW;
-$formAction = $baseURL . '&action=' . $action;
+$formAction = $baseURL . '&amp;action=' . $action;
 
 $picDir = "../../themes/{$styleSheet}/pictures/";
 $iconDir = "../../themes/{$styleSheet}/icons/";
@@ -309,7 +309,7 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
         <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
 
         <div>
-		<label for="container"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?><span class="required">*</span></label>
+		<span class="formLabel"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?><span class="required">*</span></span>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
@@ -347,12 +347,12 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 				}
 		?>
 		<label for="txtNotes"><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
-        <textarea id="txtNotes" name="txtNotes" tabindex="4"></textarea><br/>
+        <textarea id="txtNotes" name="txtNotes" tabindex="4" rows="6" cols="40"></textarea><br/>
         <div class="formbuttons">
-            <input type="button" class="savebutton" id="saveBtn" 
+            <input type="button" class="savebutton" id="saveBtn" tabindex="5"
                 onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="reset();"
+            <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
                  value="<?php echo $lang_Common_Clear;?>" />
         </div>

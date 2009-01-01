@@ -29,7 +29,7 @@ $confirmDescRes = 'lang_Recruit_JobApplicationConfirm_Confirm' . $action . 'Desc
 $confirmDesc = isset($$confirmDescRes) ? $$confirmDescRes : $confirmDescRes;
 
 $baseURL = "{$_SERVER['PHP_SELF']}?recruitcode={$_GET['recruitcode']}";
-$actionURL = $baseURL . '&action=' . $action;
+$actionURL = $baseURL . '&amp;action=' . $action;
 
 $statusList = array(
     JobApplication::STATUS_SUBMITTED => $lang_Recruit_JobApplicationStatus_Submitted,
@@ -199,14 +199,14 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <div class="confirmDesc"><?php echo $confirmDesc;?></div>
         <input type="hidden" id="appId" name="appId" value="<?php echo $applicationId; ?>"/>
 
-        <label class="txtName" for="txtNotes"><span class="error">*</span><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?></label>
-        <textarea id="txtNotes" name="txtNotes" tabindex="1"></textarea><br/>
+        <label class="txtName" for="txtNotes"><?php echo $lang_Recruit_JobApplication_Schedule_Notes; ?><span class="error">*</span></label>
+        <textarea id="txtNotes" name="txtNotes" tabindex="1" rows="6" cols="40"></textarea><br/>
 
         <div class="formbuttons">
-            <input type="submit" class="plainbtn"  id="actionBtn"  
+            <input type="submit" class="plainbtn"  id="actionBtn" tabindex="2"  
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                 value="<?php echo $actionName;?>" />
-            <input type="button" class="cancelbutton" onclick="goBack();" 
+            <input type="button" class="cancelbutton" onclick="goBack();" tabindex="3"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
                  value="<?php echo $lang_Leave_Common_Cancel;?>" />            
         </div>        
