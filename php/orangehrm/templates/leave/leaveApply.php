@@ -49,9 +49,6 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
 
 ?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/time.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	var shiftLength = <?php echo $shiftLength; ?>;

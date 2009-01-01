@@ -272,10 +272,10 @@ $locRights=$_SESSION['localRights'];
         <br class="clear"/>
 
         <div class="formbuttons">
-            <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
+            <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" tabindex="5"
                 onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                 value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
-            <input type="button" class="clearbutton" onclick="reset();"
+            <input type="button" class="clearbutton" onclick="reset();" tabindex="6"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
                  value="<?php echo $lang_Common_Clear;?>" />
         </div>

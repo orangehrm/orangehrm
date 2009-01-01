@@ -111,9 +111,10 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 	}
 
 	function returnSearch() {
+
 		document.standardView.captureState.value = 'SearchMode';
 		document.standardView.pageNO.value=1;
-		document.standardView.submit();
+        document.standardView.submit();		
 	}
 
 	function doHandleAll()
@@ -298,7 +299,6 @@ if(is_object($PlugInObj) && $PlugInObj->checkAuthorizeLoginUser(authorize::AUTHO
 		?>
         </tbody>
 		</table>
-	</div>	
 </form>
 </div>
 <script type="text/javascript">

@@ -136,7 +136,7 @@ return flag;
 
 function goBack() {
 	location.href = "./CentralController.php?repcode=<?php echo $this->getArr['repcode']?>&VIEW=MAIN";
-	}
+}
 
 function returnEmpDetail(){
 		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&REPORT=REPORT','Employees','height=450,width=400');
@@ -145,25 +145,14 @@ function returnEmpDetail(){
 
 
 function addCat() {
-document.frmEmpRepTo.sqlState.value="OWN";
-document.frmEmpRepTo.submit();
-}
-function mout() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
+    document.frmEmpRepTo.sqlState.value="OWN";
+    document.frmEmpRepTo.submit();
 }
 
-function mover() {
-	if(document.Edit.title=='Save')
-		document.Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
-	else
-		document.Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
-}
-function edit()
-{
-	if(document.Edit.title=='Save') {
+function edit() {
+
+    var editBtn = $('editBtn');
+	if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 		addUpdate();
 		return;
 	}
@@ -178,8 +167,9 @@ function edit()
 		}
 
 	chkboxCriteriaEnable();
-	document.Edit.src="../../themes/beyondT/pictures/btn_save.gif";
-	document.Edit.title="Save";
+	editBtn.className="savebutton";
+    editBtn.value='<?php echo $lang_Common_Save;?>';
+	editBtn.title='<?php echo $lang_Common_Save;?>';
 }
 
 function addUpdate() {
@@ -1245,10 +1235,8 @@ for ($c = 0; $deslist && count($deslist) > $c; $c++)
 <div class="formbuttons">               
     <input type="button" class="editbutton" id="editBtn" 
         onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-        value="<?php echo $lang_Common_Edit;?>" />
+        value="<?php echo $lang_Common_Edit;?>" title="<?php echo $lang_Common_Edit;?>"/>
 </div>
-                
-<img src="../../themes/beyondT/pictures/btn_edit.gif" title="Edit" onMouseOut="mout();" onMouseOver="mover();" name="Edit" onClick="edit();">
 
 <div class="subHeading"><h3><?php echo $lang_rep_Field; ?></h3></div>
 

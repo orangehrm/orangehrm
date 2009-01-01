@@ -69,12 +69,8 @@ if ($modifier === "ADMIN") {
 
 	$refreshAction = $_GET['action'];
 ?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
-<link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
-<script src="../../scripts/time.js"></script>
-<script src="../../scripts/archive.js"></script>
-<script language="javascript">
-
+<script type="text/javascript">
+//<![CDATA[
 	/**
 	 * Reset search form
 	 */
@@ -159,7 +155,14 @@ if ($modifier === "ADMIN") {
 		}
 	}
 	YAHOO.OrangeHRM.container.init();
+//]]>       
 </script>
+<?php 
+/* Following empty div added to prevent problem in IE, where outerbox margin is not used due to
+ * iframe added by YAHOO.OrangeHRM.container.init()
+ */
+?>
+<div></div>
 <div id="filterLeavePane" class="outerbox" style="width:800px;">
     <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
     <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -173,13 +176,13 @@ if ($modifier === "ADMIN") {
     <?php } ?>
 
 <form id="frmFilterLeave" name="frmFilterLeave" method="post"
-      onsubmit="return validateSearch();";
+      onsubmit="return validateSearch();"
       action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $refreshAction; ?>">
   <table border="0" cellpadding="2" cellspacing="0">
   <tbody>
   <tr>
   <td></td>
-  <td><strong>Period:</strong></td>
+  <td><strong><?php echo $lang_Leave_Leave_list_Period;?></strong></td>
   <td><?php echo $lang_Leave_Leave_list_From;?>
   <span><input name="txtFromDate" type="text" id="txtFromDate"  size="11" value="<?php echo $fromDate;?>"/>&nbsp;
   <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span>
@@ -198,7 +201,7 @@ if ($modifier === "ADMIN") {
   <tr>
   <td></td>
   <td><strong><?php echo $lang_Leave_Leave_list_ShowLeavesWithStatus;?>:</strong></td>
-  <td nowrap >
+  <td nowrap="nowrap" >
 	<?php echo $lang_Leave_Common_All; ?>
 	<input type='checkbox' class='checkbox' name='allCheck' id='allCheck' onclick="toggleAll();"/>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -211,7 +214,7 @@ if ($modifier === "ADMIN") {
 			continue;
 		}
 
-		$checked = (in_array($key, $leaveStatuses)) ? "checked" : "";
+		$checked = (in_array($key, $leaveStatuses)) ? "checked='checked'" : "";
 ?>
 		<?php echo "$value";?>
 		<input type='checkbox' class='checkbox' name='leaveStatus[]' value='<?php echo $key;?>'
@@ -243,7 +246,7 @@ if ($modifier === "ADMIN") {
 <?php if ($modifier !== "ADMIN") { ?>
 <!-- <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div> -->
 <?php } ?>    
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
 
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
@@ -371,19 +374,22 @@ if ($modifier === "ADMIN") {
 <?php 	if ($modifier !== "Taken") { ?>
     <div class="actionbar">
         <div class="actionbuttons">
+<?php   if (is_array($records) && (count($records) > 0)) { ?>        
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Save;?>" />          
+                value="<?php echo $lang_Common_Save;?>" />
+<?php   } ?>                          
         </div>              
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
     <br class="clear" />
     </div>
+<?php   } ?>    
     <br class="clear" /> 
     
 </form>
 </div>
-<?php   } ?>
+
 <div id="cal1Container" style="position:absolute;" ></div>
 <script type="text/javascript">
 //<![CDATA[

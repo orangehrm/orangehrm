@@ -24,7 +24,7 @@
 <title><?php echo $lang_Leave_Title;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<!-- <link href="<?php //echo WROOT; ?>/favicon.ico" rel="icon" type="image/gif"/> -->
+<script type="text/javascript" src="../../scripts/time.js"></script>
 
 <link href="../../themes/<?php echo $styleSheet;?>/css/leave.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -35,5 +35,6 @@
 <!--[if IE]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
+<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 </head>
 <body>

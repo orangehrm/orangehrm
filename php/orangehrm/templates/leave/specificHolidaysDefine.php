@@ -37,7 +37,6 @@
 		$action = "Holiday_Specific_Add";
 	}
 ?>
-<?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
 //<![CDATA[
 	function goBack() {

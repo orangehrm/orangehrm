@@ -369,6 +369,7 @@
 	$lang_Leave_Leave_list_SelectAtLeastOneStatus = "Select at least one leave status";
 	$lang_Leave_Leave_list_From             = "From";
 	$lang_Leave_Leave_list_To               = "To";
+    $lang_Leave_Leave_list_Period           = "Period";
 	$lang_Leave_Select_Employee_Title 		= "Select Employee";
 	$lang_Leave_Leave_Summary_Title 		= "Leave Summary";
 	$lang_Leave_Leave_Summary_EMP_Title 	= "Leave Summary for #employeeName for #dispYear";
