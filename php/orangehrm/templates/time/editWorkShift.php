@@ -96,11 +96,11 @@ function removeEmployee() {
         <?php } ?>
 
 	<form name="frmEditWorkShift" id="frmEditWorkShift" method="post" action="?timecode=Time&action=">
-			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?> <span class="required">*</span></label>
+			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?><span class="required">*</span></label>
 	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" value="<?php echo $workshift->getName(); ?>"
                 class="formInputText"/>
         <br class="clear"/>
-	        <label for="txtHoursPerDay"><?php echo $lang_Time_HoursPerDay; ?> <span class="required">*</span></label>
+	        <label for="txtHoursPerDay"><?php echo $lang_Time_HoursPerDay; ?><span class="required">*</span></label>
 	        <input type="text" id="txtHoursPerDay" name="txtHoursPerDay" tabindex="2" size="3" value="<?php echo $workshift->getHoursPerDay(); ?>"
                 class="formInputText" style="width:30px;"/>
 	        <input type="hidden" id="txtShiftId" name="txtShiftId" value="<?php echo $workshift->getWorkshiftId(); ?>"/>

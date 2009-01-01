@@ -119,15 +119,15 @@ function edit() {
         </a>
     </div>
 
-<form name="frmURights" id="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>">
-    <input type="hidden" name="STAT" value="">
+<form name="frmURights" id="frmURights" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&amp;uniqcode=<?php echo $this->getArr['uniqcode']?>">
+    
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Admin_Users_RightsAssignedToUserGroups;?></h2></div>
     
         <?php
         $ugDet = $this ->popArr['ugDet'];
         ?>
-
+        <input type="hidden" name="STAT" value=""/>
         <span class="formLabel"><?php echo $lang_Admin_Users_UserGroupId; ?></span>
         <span class="formValue"><?php echo $ugDet[0][0];?></span>
         <input type="hidden" id="txtUserGroupID" name="txtUserGroupID" value="<?php echo $ugDet[0][0]?>"/>
@@ -252,7 +252,7 @@ $modlist = $this->popArr['modlist'];
         echo '<tr>';
 			for($a=0;count($modlist)>$a;$a++)
 			    if($modlist[$a][0]==$rset[$c][1])
-		            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?id=" . $this->getArr['id']. "&editID=" . $rset[$c][1] . "&uniqcode=" .$this->getArr['uniqcode']. "'>" . $modlist[$a][1] . "</a></td>";
+		            echo "<td><a href='" .$_SERVER['PHP_SELF']. "?id=" . $this->getArr['id']. "&amp;editID=" . $rset[$c][1] . "&amp;uniqcode=" .$this->getArr['uniqcode']. "'>" . $modlist[$a][1] . "</a></td>";
             echo '<td>' . (($rset[$c][2]==1) ? 'Yes' : 'No') .'</td>';
             echo '<td>' . (($rset[$c][3]==1) ? 'Yes' : 'No') .'</td>';
             echo '<td>' . (($rset[$c][4]==1) ? 'Yes' : 'No') .'</td>';

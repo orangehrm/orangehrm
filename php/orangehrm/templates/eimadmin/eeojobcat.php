@@ -140,7 +140,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $eeoJobCatId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtEEOJobCatDesc"><?php echo $lang_Commn_title; ?> <span class="required">*</span></label>
+                <label for="txtEEOJobCatDesc"><?php echo $lang_Commn_title; ?><span class="required">*</span></label>
                 <textarea id="txtEEOJobCatDesc" name="txtEEOJobCatDesc" tabindex="1" rows="3" cols="30" 
                     class="formTextArea" <?php echo $disabled;?>><?php echo $eeoJobCatDesc; ?></textarea>
                 <br class="clear"/>

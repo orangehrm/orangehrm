@@ -141,7 +141,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $groupId;?></span><br class="clear"/>
                 <?php } ?>
                           
-                <label for="txtUserGroupName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <label for="txtUserGroupName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
                 <input type="text" id="txtUserGroupName" name="txtUserGroupName" tabindex="1" class="formInputText"
                     value="<?php echo $groupName; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>

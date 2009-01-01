@@ -227,19 +227,17 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                     <span class="formValue"><?php echo $userId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtUserName"><?php echo $lang_Admin_Users_UserName; ?> <span class="required">*</span></label>
+                <label for="txtUserName"><?php echo $lang_Admin_Users_UserName; ?><span class="required">*</span></label>
                 <input type="text" id="txtUserName" name="txtUserName" tabindex="<?php echo $tabIndex++;?>" 
                     class="formInputText" value="<?php echo $userName; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>
                                 
                 <?php if ($new || ($adminUser == 'No')) { ?>
-                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_Password; ?>                   
-                        <span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
+                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_Password; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
                     <input type="password" id="txtUserPassword" name="txtUserPassword" class="formInputText" 
                         tabindex="<?php echo $tabIndex++;?>"/>
 
-                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?>                   
-                        <span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
+                    <label for="txtUserPassword"><?php echo $lang_Admin_Users_ConfirmPassword; ?><span class="required"><?php echo ($_SESSION['ldap'] == "enabled") ? '' : '*'; ?></span></label>
                     <input type="password" id="txtUserConfirmPassword" name="txtUserConfirmPassword" 
                         class="formInputText" tabindex="<?php echo $tabIndex++;?>"/>
                     <br class="clear"/>                                    
@@ -255,8 +253,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
                 </select>               
 
                 <input type="hidden" name="cmbUserEmpID" id="cmbUserEmpID" value="<?php echo $userEmpNumber;?>"/>
-                <label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?>
-                    <span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
+                <label for="txtUserEmpID"><?php echo $lang_Admin_Users_Employee; ?><span class="required"><?php echo ($adminUser == 'No') ? '*' : '' ?></span></label>
                 <input type="text" name="txtUserEmpID" id="txtUserEmpID" readonly="readonly" disabled="disabled"
                     class="formInputText"
                     value="<?php echo empty($userEmpId)  ? $userEmpNumber : $userEmpId; echo empty($userEmpFirstName) ? "" : " - {$userEmpFirstName}"; ?>"/>
@@ -266,7 +263,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
 
                 <?php if ($adminUser == 'Yes') { ?>
                     <input type="hidden" name="chkUserIsAdmin" value="true"/>
-                    <label for="cmbUserStatus"><?php echo $lang_Admin_Users_UserGroup; ?> <span class="required">*</span></label>
+                    <label for="cmbUserStatus"><?php echo $lang_Admin_Users_UserGroup; ?><span class="required">*</span></label>
                     <select id="cmbUserGroupID" name="cmbUserGroupID" <?php echo $disabled;?> class="formSelect"
                             tabindex="<?php echo $tabIndex++;?>">
                         <option value="0">--<?php echo $lang_Admin_Users_SelectUserGroup; ?>--</option>

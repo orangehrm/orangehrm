@@ -96,7 +96,7 @@ function actionDelete() {
 <div class="mainHeading"><h2><?php echo $lang_Time_WorkShift_Add;?></h2></div>
 	<form name="frmAddWorkShift" id="frmAddWorkShift" method="post" action="?timecode=Time&amp;action=">
 		<div class="roundbox">
-			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?> <span class="required">*</span></label>
+			<label for="txtShiftName"><?php echo $lang_Time_ShiftName; ?><span class="required">*</span></label>
 	        <input type="text" id="txtShiftName" name="txtShiftName" tabindex="1" class="formInputText"/>
             <br class="clear"/>
 	        <label for="txtHoursPerDay"> <?php echo $lang_Time_HoursPerDay; ?><span class="required">*</span></label>

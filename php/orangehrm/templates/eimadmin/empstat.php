@@ -141,7 +141,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $empStatId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtEmpStatDesc"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <label for="txtEmpStatDesc"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
                 <input type="text" id="txtEmpStatDesc" name="txtEmpStatDesc" tabindex="1" class="formInputText longField" size="40"
                     value="<?php echo $empStatDesc; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>

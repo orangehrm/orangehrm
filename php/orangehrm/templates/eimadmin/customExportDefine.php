@@ -255,7 +255,7 @@ $customExportList = $this->popArr['customExportList'];
   <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
-			<label for="txtFieldName"><?php echo $lang_Commn_name; ?> <span class="required">*</span> </label>
+			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span> </label>
             <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" 
                 onkeyup="checkName();" class="formInputText"/>
             <div id="messageCell" class="error" style="display:block; float: left; margin:10px;">&nbsp;</div>

@@ -158,12 +158,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $membershipId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtMembershipInfoDesc"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <label for="txtMembershipInfoDesc"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
                 <textarea id="txtMembershipInfoDesc" name="txtMembershipInfoDesc" tabindex="1" rows="3" cols="30" 
                     class="formTextArea" <?php echo $disabled;?>><?php echo $membershipName; ?></textarea>
                 <br class="clear"/>
 
-                <label for="selMembershipType"><?php echo $lang_membershipinfo_membershiptype; ?> <span class="required">*</span></label>
+                <label for="selMembershipType"><?php echo $lang_membershipinfo_membershiptype; ?><span class="required">*</span></label>
                 <select id="selMembershipType" name="selMembershipType"<?php echo $disabled;?> class="formSelect">
                         <?php 
                             foreach($membershipTypes as $typeId => $typeName) {

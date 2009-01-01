@@ -208,7 +208,7 @@ $disabled = "disabled='disabled'";
             <form name="frmGenInfo" id="frmGenInfo" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
                 <input type="hidden" name="STAT" value="EDIT"/>
                 
-                <label for="txtCompanyName"><?php echo $lang_geninfo_compname; ?> <span class="required">*</span></label>
+                <label for="txtCompanyName"><?php echo $lang_geninfo_compname; ?><span class="required">*</span></label>
                 <input id="txtCompanyName" name="txtCompanyName" type="text" <?php echo $disabled;?> 
                     class="formInputText" 
                     value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>" maxlength="250"/>

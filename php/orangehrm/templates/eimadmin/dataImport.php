@@ -100,7 +100,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=IMP&amp;upload=1";
                 onsubmit="return validate();" action="<?php echo $formAction;?>">
 
                 <input type="hidden" id="sqlState" name="sqlState" value=""/>    
-                <label for="cmbImportType"><?php echo $lang_DataImport_Type; ?> <span class="required">*</span></label>
+                <label for="cmbImportType"><?php echo $lang_DataImport_Type; ?><span class="required">*</span></label>
                 <select name="cmbImportType" id="cmbImportType" class="formSelect" tabindex="1">
                     <option value="0">-- <?php echo $lang_Common_Select;?> --</option>
                 <?php
@@ -126,7 +126,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=IMP&amp;upload=1";
                 <br class="clear"/>
 
                 
-                <label for="importFile"><?php echo $lang_DataImport_CSVFile; ?> <span class="required">*</span></label>
+                <label for="importFile"><?php echo $lang_DataImport_CSVFile; ?><span class="required">*</span></label>
                 <input type="file" name="importFile" id="importFile" tabindex="2"/>
                 
                 

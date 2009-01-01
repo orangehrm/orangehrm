@@ -138,7 +138,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		<input type="hidden" name="backtype" value="<?php echo isset($backtype) ? $backtype : 0?>"/>
 		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']?>"/>
 
-        <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?> <span class="required">*</span></label>
+        <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label>
         <input type="text" name="txtSalGrdDesc" id="txtSalGrdDesc" size="40" class="formInputText"/>
         <br class="clear"/>
         
@@ -518,7 +518,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
     <span class="formValue"><?php echo $message[0][0]?></span>
     <br class="clear"/>
 
-    <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?> <span class="required">*</span></label> 
+    <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label> 
     <input type="text" name="txtSalGrdDesc" id="txtSalGrdDesc" size="40" tabindex="3" disabled="disabled" 
         value="<?php echo $message[0][1]?>" class="formInputText"/>
     <br class="clear"/>        
@@ -545,7 +545,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <?php			if (!isset($this->getArr['editID'])) { ?>
 
 <div class="subHeading"><h3><?php echo $lang_salarygrades_AssignNewCurrency; ?></h3></div>
-<label for="cmbUnAssCurrency" ><?php echo $lang_hrEmpMain_currency; ?> <span class="required">*</span></label>
+<label for="cmbUnAssCurrency" ><?php echo $lang_hrEmpMain_currency; ?><span class="required">*</span></label>
 <select <?php echo ($locRights['add']) ? '' : 'disabled'?> name="cmbUnAssCurrency" id="cmbUnAssCurrency" class="formSelect">
     <option value="0">---<?php echo "$lang_Leave_Common_Select $lang_hrEmpMain_currency"; ?>---</option>
 <?php $unAssCurrency = $this->popArr['unAssCurrency'];
@@ -591,7 +591,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 
 <div class="subHeading"><h3><?php echo $lang_salarygrades_EditAssignedCurrency; ?></h3></div>
 <input type="hidden" name="cmbUnAssCurrency" value="<?php echo $editAssCurrency[0][1]?>"/>
-<label for="cmbUnAssCurrency" ><?php echo $lang_hrEmpMain_currency; ?> <span class="required">*</span></label>
+<label for="cmbUnAssCurrency" ><?php echo $lang_hrEmpMain_currency; ?><span class="required">*</span></label>
 <span class="formValue">
     <?php $assCurrency = $this->popArr['assCurrency'];
         for($c=0;$assCurrency && count($assCurrency)>$c;$c++)

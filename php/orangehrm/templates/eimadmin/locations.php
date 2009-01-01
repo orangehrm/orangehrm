@@ -245,13 +245,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $locationCode;?></span><br class="clear"/>
                 <?php } ?>
 
-                <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?> <span class="required">*</span>
+                <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?><span class="required">*</span>
                 </label>
                 <textarea id="txtLocDescription" name="txtLocDescription" tabindex="1" rows="3" cols="30" 
                     class="formTextArea" <?php echo $disabled;?>><?php echo $locationName; ?></textarea>
                 <br class="clear"/>
                 
-                <label for="cmbCountry"><?php echo $lang_compstruct_country; ?> <span class="required">*</span></label>
+                <label for="cmbCountry"><?php echo $lang_compstruct_country; ?><span class="required">*</span></label>
                 <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
                         onchange="onCountryChange(this.value);" tabindex="2" >
                     <option value="0">--- <?php echo $lang_districtinformation_selectcounlist;?> ---</option>
@@ -297,12 +297,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     value="<?php echo $locationCity; ?>" tabindex="4" />
                 <br class="clear"/>
 
-                <label for="txtAddress"><?php echo $lang_compstruct_Address; ?> <span class="required">*</span></label>
+                <label for="txtAddress"><?php echo $lang_compstruct_Address; ?><span class="required">*</span></label>
                 <textarea id='txtAddress' name='txtAddress' <?php echo $disabled;?> class="formTextArea"
                     rows="3" cols="20" tabindex="5" ><?php echo $locationAddress;?></textarea>
                 <br class="clear"/>
                     
-                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?> <span class="required">*</span></label>                                                    
+                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?><span class="required">*</span></label>                                                    
                 <input id='txtZIP' name='txtZIP' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo $locationZip;?>" tabindex="6" />
                 <br class="clear"/>

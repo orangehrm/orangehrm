@@ -141,7 +141,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $nationalityId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtNationalityInfoDesc"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <label for="txtNationalityInfoDesc"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
                 <textarea id="txtNationalityInfoDesc" name="txtNationalityInfoDesc" tabindex="1" rows="3" cols="30" 
                     class="formTextArea" <?php echo $disabled;?>><?php echo $nationalityName; ?></textarea>
                 <br class="clear"/>

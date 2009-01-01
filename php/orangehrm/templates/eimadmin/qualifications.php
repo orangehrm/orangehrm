@@ -150,12 +150,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <span class="formValue"><?php echo $educationId;?></span><br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtUni"><?php echo $lang_Admin_Common_Institute; ?> <span class="required">*</span></label>
+                <label for="txtUni"><?php echo $lang_Admin_Common_Institute; ?><span class="required">*</span></label>
                 <input type="text" id="txtUni" name="txtUni" tabindex="1" class="formInputText"
                     value="<?php echo $institute; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>
 
-                <label for="txtDeg"><?php echo $lang_Admin_Common_Course; ?> <span class="required">*</span></label>
+                <label for="txtDeg"><?php echo $lang_Admin_Common_Course; ?><span class="required">*</span></label>
                 <input type="text" id="txtDeg" name="txtDeg" tabindex="1" class="formInputText" 
                     value="<?php echo $course; ?>" <?php echo $disabled;?> />
                 <br class="clear"/>

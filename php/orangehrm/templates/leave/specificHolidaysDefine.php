@@ -104,12 +104,12 @@
 
     <form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
         <input type="hidden" value="<?php echo $id; ?>" name="txtId" />
-      	<label for="txtDescription"><?php echo $lang_Leave_Common_NameOfHoliday;?> <span class="required">*</span></label>
+      	<label for="txtDescription"><?php echo $lang_Leave_Common_NameOfHoliday;?><span class="required">*</span></label>
         <input type="text" id="txtDescription" name="txtDescription" size="30" class="formInputText" 
             value="<?php echo $description; ?>"/>
         <br class="clear"/>    
     
-        <label for="txtDate"><?php echo $lang_Leave_Common_Date;?> <span class="required">*</span></label>
+        <label for="txtDate"><?php echo $lang_Leave_Common_Date;?><span class="required">*</span></label>
         <input name="txtDate" id="txtDate" type="text" value="<?php echo LocaleUtil::getInstance()->formatDate($date); ?>" 
             class="formDateInput" />
         <input type="button" name="Submit" value="  " class="calendarBtn" /></td>

@@ -1062,11 +1062,11 @@ tableDisplayStyle = "table";
 		<input name="txtEmployeeId" id="txtEmployeeId" class="formInputText" type="text" value="<?php echo $this->popArr['newID']?>" maxlength="50"/>
 		<br class="clear"/>
 			
-		<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?> <span class="required">*</span></label>
+		<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?><span class="required">*</span></label>
 		<input type="text" name="txtEmpLastName" id="txtEmpLastName" class="formInputText" <?php echo $disabled;?> 
 			value="<?php echo isset($this->postArr['txtEmpLastName']) ? $this->postArr['txtEmpLastName']:'';?>"/>
 	
-		<label for="txtEmpFirstName" id="txtEmpFirstName"><?php echo $lang_hremp_EmpFirstName?> <span class="required">*</span></label>
+		<label for="txtEmpFirstName" id="txtEmpFirstName"><?php echo $lang_hremp_EmpFirstName?><span class="required">*</span></label>
 		<input type="text" name="txtEmpFirstName" id="txtEmpFirstName" class="formInputText" <?php echo $disabled;?> 
 			value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:''?>" />
 		<br class="clear" />

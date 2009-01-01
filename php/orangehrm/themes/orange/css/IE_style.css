@@ -18,11 +18,14 @@
  */
 /* IE Specific styles to overcome IE behaviour */
 
-/* Added to prevent main heading being hidden in list views */
+/* Added to prevent main heading being hidden in list views. Sets hasLayout */
 div.mainHeading {
     zoom: 1;
 }
 
+div.messagebar {
+    zoom: 1;	
+}
 
 /* Button min-width fix for IE. Without this fix, IE assumes width is min-width */
 input.editbutton,

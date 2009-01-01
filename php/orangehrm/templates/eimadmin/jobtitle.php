@@ -507,12 +507,12 @@ return $objResponse->getXML();
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
         
-    	<label for="txtJobTitleName" class="controlLabel"><?php echo $lang_jobtitle_jobtitname;?> <span class="required">*</span></label>
+    	<label for="txtJobTitleName" class="controlLabel"><?php echo $lang_jobtitle_jobtitname;?><span class="required">*</span></label>
     	<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>" 
             class="formInputText"/>
         <br class="clear"/>
 
-		<label for="txtJobTitleDesc" class="controlLabel"><?php echo $lang_jobtitle_jobtitdesc;?> <span class="required">*</span></label>
+		<label for="txtJobTitleDesc" class="controlLabel"><?php echo $lang_jobtitle_jobtitdesc;?><span class="required">*</span></label>
 		<textarea name="txtJobTitleDesc" id="txtJobTitleDesc" class="formTextArea"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea>
         <br class="clear"/>
         
@@ -535,7 +535,7 @@ return $objResponse->getXML();
 		</select>
         <br class="clear"/>
         
-		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?> <span class="required">*</span></label>
+		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?><span class="required">*</span></label>
 		<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;" class="formSelect">
 			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
 			<?php 

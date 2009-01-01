@@ -213,7 +213,7 @@ $locRights=$_SESSION['localRights'];
 		?>
   		<input type="hidden" name="cmbHiringManager" id="cmbHiringManager" value="<?php echo $prevEmpNum ?>" />
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $vacancy->getId();?>"/><br class="clear"/>
-		<label for="cmbJobTitle"><?php echo $lang_Recruit_JobTitleName; ?> <span class="required">*</span> </label>
+		<label for="cmbJobTitle"><?php echo $lang_Recruit_JobTitleName; ?><span class="required">*</span> </label>
         <select id="cmbJobTitle" name="cmbJobTitle" tabindex="1" <?php echo $disabled;?> class="formSelect">
 	        <option value="-1">-- <?php echo $lang_Recruit_JobVacancy_JobTitleSelect;?> --</option>
                 <?php
@@ -227,7 +227,7 @@ $locRights=$_SESSION['localRights'];
         </select>
         <br class="clear"/>
 		<div>
-		<label for="txtHiringManagerSearch"><?php echo $lang_Recruit_HiringManager; ?> <span class="required">*</span></label>
+		<label for="txtHiringManagerSearch"><?php echo $lang_Recruit_HiringManager; ?><span class="required">*</span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input autocomplete="off" class="yui-ac-input" id="txtHiringManagerSearch" type="text" value="<?php echo $empName ?>" <?php echo $disabled; ?> tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">

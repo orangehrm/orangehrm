@@ -33,7 +33,7 @@
 ?>
 	<input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>"/>
 	
-	<label for="txtEmployeeId"><?php echo $lang_Commn_code?> <span class="required">*</span></label>	
+	<label for="txtEmployeeId"><?php echo $lang_Commn_code?><span class="required">*</span></label>	
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmployeeId"  id="txtEmployeeId"
 		value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$editMain[0][5]?>" maxlength="50" />
 	<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?></label>

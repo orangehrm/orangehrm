@@ -138,7 +138,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                     <br class="clear"/>
                 <?php } ?>
                 
-                <label for="txtName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+                <label for="txtName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
                 <input type="text" id="txtName" name="txtName" value="<?php echo $customer->getCustomerName(); ?>" 
                     class="formInputText" tabindex="1" <?php echo $disabled;?>/>
                 <br class="clear"/>

@@ -31,6 +31,8 @@
 		$activeTypesAvailable = true;
 	}
 	/* To check whether active leave types are available: Ends */
+    
+    $duplicateJavascript = '';
 ?>
 
 <script type="text/javascript">
@@ -39,14 +41,13 @@
 	var deletedLeaveTypes = new Array();
 
 	function actionAdd() {
-
-		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_View_Define';
- 		document.DefineLeaveType.submit();
+		document.defineLeaveType.action = '?leavecode=Leave&action=Leave_Type_View_Define';
+ 		document.defineLeaveType.submit();
 	}
 
 	function actionEdit() {
 
-	  with (document.DefineLeaveType) {
+	  with (document.defineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'text') {
 					elements[i].disabled = "";
@@ -72,14 +73,14 @@
 
 	function actionEditData()
 	{
-		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
- 		document.DefineLeaveType.submit();
+		document.defineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
+ 		document.defineLeaveType.submit();
 	}
 
 
 	function actionDelete() {
 		$check = 0;
-		with (document.DefineLeaveType) {
+		with (document.defineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if ((elements[i].type == 'checkbox') && (elements[i].checked == true)){
 					$check = 1;
@@ -93,8 +94,8 @@
 
 			if(!res) return;
 
-			document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Delete';
- 			document.DefineLeaveType.submit();
+			document.defineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Delete';
+ 			document.defineLeaveType.submit();
 		}else{
 			alert("<?php echo $lang_Error_SelectAtLeastOneRecordToDelete; ?>");
 		}
@@ -102,7 +103,7 @@
 
 
 	function doHandleAll() {
-		with (document.DefineLeaveType) {
+		with (document.defineLeaveType) {
 			if(elements['allCheck'].checked == false){
 				doUnCheckAll();
 			}
@@ -114,7 +115,7 @@
 
 
 	function doCheckAll() {
-		with (document.DefineLeaveType) {
+		with (document.defineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
 					elements[i].checked = true;
@@ -125,7 +126,7 @@
 
 
 	function doUnCheckAll() {
-		with (document.DefineLeaveType) {
+		with (document.defineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'checkbox') {
 					elements[i].checked = false;
@@ -175,7 +176,7 @@
 		var deletedNames = false;
 		var typeNames = {};
 
-		with (document.DefineLeaveType) {
+		with (document.defineLeaveType) {
 			for (var i=0; i < elements.length; i++) {
 				if (elements[i].type == 'text') {
 
@@ -227,8 +228,8 @@
 			alert('<?php echo $lang_Leave_DUPLICATE_LEAVE_TYPE_ERROR; ?>');
 			return false;
 		}
- 		document.DefineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
- 		document.DefineLeaveType.submit();
+ 		document.defineLeaveType.action = '?leavecode=Leave&action=Leave_Type_Edit';
+ 		document.defineLeaveType.submit();
 	}
 
 	function isDeletedName(name) {
@@ -243,7 +244,7 @@
 //]]> 
 </script>
 <div class="outerbox">
-<form method="post" name="DefineLeaveType" id="DefineLeaveType" onsubmit="return false;">
+<form method="post" name="defineLeaveType" id="defineLeaveType" onsubmit="return false;" action="">
     <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?></h2></div>
     
     <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
@@ -304,7 +305,8 @@ if ($activeTypesAvailable) {
 	if (is_array($records))
 		foreach ($records as $record) {
 			if ($record->getLeaveTypeAvailable() != $record->availableStatusFlag) {
-				echo "<script>deletedLeaveTypes.push(\"{$record->getLeaveTypeName()}\");</script>";
+                $leaveTypeName = addslashes($record->getLeaveTypeName());
+				$duplicateJavascript .= "deletedLeaveTypes.push(\"{$leaveTypeName}\");\n";
 				continue;
 			}
 			if(!($j%2)) {
@@ -318,7 +320,7 @@ if ($activeTypesAvailable) {
       <td class="<?php echo $cssClass; ?>"><input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='<?php echo $record->getLeaveTypeId();?>' /></td>
       <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeId();?>
 	  </td>
-      <td class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
+      <td class="<?php echo $cssClass; ?>"><input name="txtLeaveTypeName[]" type="text" value="<?php echo $record->getLeaveTypeName();?>" disabled="disabled" onkeyup="checkForDuplicates();"/>
         <input type="hidden" name="id[]" value="<?php echo $record->getLeaveTypeId();?>" /></td>
     </tr>
     <?php
@@ -331,11 +333,11 @@ if ($activeTypesAvailable) {
 ?>
 <div><span class="error" id="messageLayer1"></span></div>
 <div><span class="error" id="messageLayer2"></span></div>
-</div>
 </form>
 </div>      
 <script type="text/javascript">
 //<![CDATA[
+    <?php echo $duplicateJavascript;?>
     if (document.getElementById && document.createElement) {
         roundBorder('outerbox');                
     }

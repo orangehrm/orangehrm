@@ -168,13 +168,13 @@ $tabIndex = 1;
                 <?php } ?>
                 <br class="clear"/>
 
-                <label for="txtFieldName"><?php echo $lang_customeFields_FieldName; ?> <span class="required">*</span>
+                <label for="txtFieldName"><?php echo $lang_customeFields_FieldName; ?><span class="required">*</span>
                 </label>
                 <input type="text" id="txtFieldName" name="txtFieldName" class="formInputText" <?php echo $disabled;?>
                     value="<?php echo $customField->getName(); ?>" tabindex="<?php echo $tabIndex++;?>"/>
                 <br class="clear"/>
 
-                <label for="cmbFieldType"><?php echo $lang_customeFields_Type; ?> <span class="required">*</span>
+                <label for="cmbFieldType"><?php echo $lang_customeFields_Type; ?><span class="required">*</span>
                 </label>
                 <select name="cmbFieldType" id="cmbFieldType" class="formSelect" tabindex="<?php echo $tabIndex++;?>" 
                         onchange="hideextra();" <?php echo $disabled;?>>
@@ -187,7 +187,7 @@ $tabIndex = 1;
                 <br class="clear"/>
 
                 <div id="selectOptions" class="<?php echo $extraClass; ?>">
-                <label for="txtExtra"><?php echo $lang_customeFields_SelectOptions; ?>  <span class="required">*</span>
+                <label for="txtExtra"><?php echo $lang_customeFields_SelectOptions; ?> <span class="required">*</span>
                 </label>
                 <input type="text" id="txtExtra" name="txtExtra" tabindex="<?php echo $tabIndex++;?>" 
                     class="formInputText" value="<?php echo $customField->getExtraData();?>" <?php echo $disabled;?>/>

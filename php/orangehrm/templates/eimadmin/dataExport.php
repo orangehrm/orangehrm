@@ -97,7 +97,7 @@ $editLink = './CentralController.php?uniqcode=CEX&amp;VIEW=MAIN';
             <form name="frmDataExport" id="frmDataExport" method="post" onsubmit="exportData(); return false;" action="">                    
 
                 <input type="hidden" name="sqlState" value=""/>    
-                <label for="cmbExportType"><?php echo $lang_DataExport_Type; ?> <span class="required">*</span></label>
+                <label for="cmbExportType"><?php echo $lang_DataExport_Type; ?><span class="required">*</span></label>
                 <select name="cmbExportType" id="cmbExportType" class="formSelect">
                     <option value="0">-- <?php echo $lang_Common_Select;?> --</option>
                 <?php

@@ -437,7 +437,11 @@ label.optionlabel {
 
 select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, span.wideFormValue, div.wideFormValue {
     margin-left: 10px;
-    width: 150px;        
+    width: 150px;
+}
+
+select.formSelect {
+    width: 160px;
 }
 
 select.formTimeSelect {

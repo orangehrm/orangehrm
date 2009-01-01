@@ -92,10 +92,10 @@ $leaveTypes = $records[1];
             oLink.className = "error";
         } else if (isDeletedName(name)) {
             oLink.innerHTML = "<?php echo $lang_Leave_Define_IsDeletedName . ' ' .  $lang_Leave_Define_UndeleteLeaveType .
-                "<br /><a href='javascript:undeleteLeaveType();'>$lang_Leave_Undelete</a>"; ?>";
+                " <a href='javascript:undeleteLeaveType();'>$lang_Leave_Undelete</a>"; ?>";
             oLink.className = "warning";
         } else {
-            oLink.innerHTML = "&nbsp;";
+            oLink.innerHTML = "";
         }
 
     }
@@ -115,28 +115,18 @@ $leaveTypes = $records[1];
             </div>  
         <?php } ?>
 
-        <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_Type_Define">
-          <table border="0" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td>&nbsp;</td>
-                </tr>
-                <?php if($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
-                <tr>
-                  <td><?php echo $lang_oldLeaveTypeName; ?></td>
-                  <td><?php echo $oldLeaveType->getLeaveTypeName(); ?></td>
-                  <td>&nbsp;</td>
-                </tr>
-                <?php } ?>
-                <tr style="vertical-align: top; height: 50px; padding-top:50px;">
-                  <td width="162"><?php if($_REQUEST['action'] == "Leave_Type_Edit_View") { echo $lang_newLeaveTypeName; } else { echo $lang_Leave_Common_LeaveTypeName;}?></td>
-                  <td width="231"><input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();"></td>
-                  <td width="180" id="messageCell" class="error">&nbsp;</td>
-                </tr>
-            </tbody>
-          </table>
+    <form method="post" name="DefineLeaveType" id="DefineLeaveType" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Leave_Type_Define">
+        <?php if($_REQUEST['action'] == "Leave_Type_Edit_View") {?>
+            <span class="formLabel"><?php echo $lang_oldLeaveTypeName; ?>
+            <span class="formValue"><?php echo $oldLeaveType->getLeaveTypeName(); ?></value>
+            <br class="clear"/>
+        <?php } ?>
+            <label for="txtLeaveTypeName"><?php echo $lang_Leave_Common_LeaveTypeName;?></label>
+            <input name="txtLeaveTypeName" type="text" id="txtLeaveTypeName" onkeyup="checkName();" 
+                class="formInputText"/>
+            <br class="clear"/>                
+            <div class="error" id="messageCell"></div>
+            <br class="clear"/>
             <div class="formbuttons">               
                 <input type="button" class="savebutton" id="saveBtn" 
                     onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          

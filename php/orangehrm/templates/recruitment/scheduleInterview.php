@@ -301,15 +301,15 @@ $applicantName = $application->getFirstName() . ' ' . $application->getLastName(
 		<input type="hidden" id="txtId" name="txtId" value="<?php echo $application->getId();?>"/><br/>
 		<input type="hidden" name="cmbInterviewer" id="cmbInterviewer" value="<?php echo $prevEmpNum ?>" />
 
-        <label for="txtDate"><?php echo $lang_Recruit_JobApplication_Schedule_Date; ?> <span class="required">*</span></label>
+        <label for="txtDate"><?php echo $lang_Recruit_JobApplication_Schedule_Date; ?><span class="required">*</span></label>
         <input type="text" id="txtDate" name="txtDate" value="" size="10" tabindex="1" />
         <input type="button" id="btnToDate" name="btnToDate" value="  " class="calendarBtn"/><br/>
 
-        <label for="txtTime"><?php echo $lang_Recruit_JobApplication_Schedule_Time; ?> <span class="required">*</span></label>
+        <label for="txtTime"><?php echo $lang_Recruit_JobApplication_Schedule_Time; ?><span class="required">*</span></label>
         <input type="text" id="txtTime" name="txtTime" tabindex="2" /><br/>
 
         <div>
-		<label for="container"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?> <span class="required">*</span></label>
+		<label for="container"><?php echo $lang_Recruit_JobApplication_Schedule_Interviewer; ?><span class="required">*</span></label>
 		<div class="yui-ac" id="employeeSearchAC" style="float: left">
  	 		      <input autocomplete="off" class="yui-ac-input" id="txtInterviewerSearch" type="text" value="<?php echo $empName ?>" tabindex="3"  onfocus="showAutoSuggestTip(this)" style="color: #999999" />
  	 		      <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">

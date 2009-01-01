@@ -166,7 +166,7 @@ $locRights=$_SESSION['localRights'];
 
 		        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
 				<input type="hidden" id="txtId" name="txtId" value="<?php echo $jobSpec->getId();?>"/><br class="clear"/>
-				<label for="txtFieldName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+				<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
 
 	            <input type="text" id="txtFieldName" name="txtFieldName" tabindex="1" class="formInputText"
 	            	value="<?php echo $jobSpec->getName(); ?>" onkeyup="checkName();" <?php echo $disabled;?> />

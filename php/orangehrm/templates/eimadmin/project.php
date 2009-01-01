@@ -281,7 +281,7 @@ if ($locRights['edit']) {
             <input type="hidden" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>" />
             <br class="clear"/>
             
-            <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?> <span class="required">*</span></label>
+            <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?><span class="required">*</span></label>
             <select name="cmbCustomerId" id="cmbCustomerId" <?php echo $disabled; ?> class="formSelect"
                     tabindex="1">
 				<option value="-1">-- <?php echo $lang_Admin_Project_SelectCutomer; ?> --</option>
@@ -298,7 +298,7 @@ if ($locRights['edit']) {
    			</select>
             <br class="clear"/>
             
-			<label for="txtName"><?php echo $lang_Commn_name; ?> <span class="required">*</span></label>
+			<label for="txtName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>"
             	tabindex="2" class="formInputText" <?php echo $disabled; ?> />
             <br class="clear"/>

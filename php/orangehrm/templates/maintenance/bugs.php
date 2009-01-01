@@ -127,7 +127,7 @@
             <span class="formValue">2.5-alpha.1</span><br class="clear"/>
             <input type="hidden" readonly="readonly" name="artifact_group_id" value="786061"/>
 
-            <label for="category_id"><?php echo $lang_bugtracker_Category; ?> <span class="required">*</span></label>
+            <label for="category_id"><?php echo $lang_bugtracker_Category; ?><span class="required">*</span></label>
             <select id="category_id" name="category_id" tabindex="1" class="formSelect" >
                 <option value="100"><?php echo $lang_bugtracker_None; ?></option>
                 <option value="803416"><?php echo $lang_bugtracker_Category_Interface; ?></option>
@@ -137,7 +137,7 @@
                 <option value="883366"><?php echo $lang_bugtracker_Category_WebInstaller; ?></option>
             </select><br class="clear" />
 
-            <label for="cmbModule"><?php echo $lang_bugtracker_Module;?> <span class="required">*</span></label>
+            <label for="cmbModule"><?php echo $lang_bugtracker_Module;?><span class="required">*</span></label>
             <select id="cmbModule" name="cmbModule" tabindex="2" class="formSelect">
                 <option value="0">--<?php echo $lang_bugtracker_SelectModule;?>--</option>
                 <?php  $module = $this->popArr['module'];
@@ -146,7 +146,7 @@
                 ?>
             </select><br class="clear"/>
 
-            <label for="priority"><?php echo $lang_bugtracker_Priority = "Priority"?> <span class="required">*</span></label>
+            <label for="priority"><?php echo $lang_bugtracker_Priority = "Priority"?><span class="required">*</span></label>
             <select id="priority" name="priority" tabindex="3" class="formSelect">
                 <option value="1">1 - <?php echo $lang_bugtracker_Priority_Lowest; ?></option>
                 <option value="2">2</option>
@@ -159,7 +159,7 @@
                 <option value="9">9 - <?php echo $lang_bugtracker_Priority_Highest; ?></option>
             </select><br class="clear"/>
 
-            <label for="summary"><?php echo $lang_bugtracker_Summary; ?> <span class="required">*</span></label>
+            <label for="summary"><?php echo $lang_bugtracker_Summary; ?><span class="required">*</span></label>
             <input type="text" class="formInputText" id="summary" name="summary" class="formInputText" tabindex="4"/>
             <br class="clear"/>
             
@@ -168,7 +168,7 @@
                 value="<?php echo isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"/>
             <br class="clear"/>
 
-            <label for="txtDescription"><?php echo $lang_bugtracker_Description;?> <span class="required">*</span></label>
+            <label for="txtDescription"><?php echo $lang_bugtracker_Description;?><span class="required">*</span></label>
             <textarea name='txtDescription' id="txtDescription" rows="3" cols="30" tabindex="6" class="formTextArea"></textarea><br class="clear" />
 
             <div class="formbuttons">                
