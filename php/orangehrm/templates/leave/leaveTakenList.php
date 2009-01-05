@@ -16,29 +16,37 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ 
+// TODO: Remove. File is not in use. 
 ?>
-
-<h2><?php echo $lang_Leave_Leave_list_Title5; ?><hr/></h2>
-<?php if (count($records) == 0) {?>
-<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
-<?php } else {?>
-
-<?php
-if (isset($_GET['message']) && $_GET['message'] == "Success") {
-?>
-<font color="#009933" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php
-	echo $lang_Leave_CANCEL_SUCCESS;
-} else if (isset($_GET['message']) && $_GET['message'] == "Failiure") {
-?>
-<font color="#ff0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php
-	echo $lang_Leave_CANCEL_FAILURE;
-}
-?>
-</font>
-
+<div class="outerbox">
 <form id="frmCancelTakenLeave" name="frmCancelTakenLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=Leave_CancelTakenLeaves">
+
+    <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_list_Title5; ?></h2></div>
+    <?php 
+    if (isset($_GET['message'])) {
+        if ($_GET['message'] == "Success") {
+            $messageType = 'success';
+            $messageStr = $lang_Leave_CANCEL_SUCCESS;                    
+        } else if ($_GET['message'] == "Failiure") {
+            $messageType = 'failure';
+            $messageStr = $lang_Leave_CANCEL_FAILURE;                    
+        } else {          
+            $message =  $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $messageStr = "lang_Leave_" . $message;        
+        }            
+    ?>      
+    <div class="messagebar">
+        <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
+    </div>
+    <?php
+    }
+    ?>
+
+<?php if (count($records) == 0) {?>
+    <div class="noresultsbar"><?php echo $lang_Error_NoRecordsFound; ?></div>
+<?php } else { ?>
 
 <table border="0" cellpadding="0" cellspacing="0">
 <thead>
@@ -125,4 +133,5 @@ if (is_array($records)) {
 </p>
 <?php } ?>
 </form>
+</div>
 

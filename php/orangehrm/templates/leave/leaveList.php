@@ -59,26 +59,9 @@ if ($modifier === "SUP") {
  }
 
 ?>
-<h2><?php echo $lang_Title?><hr/></h2>
-<?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
 
-	$expString  = $_GET['message'];
-	$expString = explode ("_",$expString);
-	$length = count($expString);
-
-	$col_def=strtolower($expString[$length-1]);
-
-	$expString='lang_Leave_'.$_GET['message'];
-	if (isset($$expString)) {
-?>
-	<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-<?php echo $$expString; ?>
-	</font>
-<?php
-	}
-}
-?>
-<script language="javascript">
+<script type="text/javascript">
+//<![CDATA[
 	function goBack () {
 		<?php if ($modifier == "ADMIN") { ?>
 			window.location = "?leavecode=Leave&action=Leave_FetchLeaveAdmin";
@@ -90,47 +73,57 @@ if ($modifier === "SUP") {
 			window.location = "?leavecode=Leave&action=<?php echo $backLink; ?>";
 		<?php } ?>
 	}
+//]]>    
 </script>
-<!--
-<p class="navigation">
-  	  <input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;">
-</p>
--->
-<?php
-	if (!is_array($records)) {
-?>
-	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
-<?php
-	} else {
-?>
-<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
+<div class="outerbox">
+<form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
+    <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 
-<table border="0" cellpadding="0" cellspacing="0">
+    <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {        
+            $message =  $_GET['message'];
+            $messageType = CommonFunctions::getCssClassForMessage($message);
+            $messageStr = "lang_Leave_" . $message;
+    ?>
+        <div class="messagebar">
+            <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
+        </div>  
+    <?php } ?>
+
+
+    <div class="actionbar">
+        <div class="actionbuttons">
+        
+<?php   if ((is_array($records)) && ($modifier !== "Taken")) { ?>
+
+        <input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
+
+            <input type="submit" class="savebutton" name="Save"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>"/>
+        <?php  
+            } 
+        ?>
+        </div>              
+        <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+        <br class="clear" />
+    </div>
+    <br class="clear" />   
+    
+<table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
-  	<tr>
-		<th class="tableTopLeft"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-    	<th class="tableTopMiddle"></th>
-		<th class="tableTopRight"></th>
-	</tr>
 	<tr>
-		<th class="tableMiddleLeft"></th>
-    	<th width="155px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Date;?></th>
-    	<th width="90px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_LeaveType;?></th>
-    	<th width="110px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Status;?></th>
-    	<th width="130px" class="tableMiddleMiddle"><?php echo $lang_Leave_Duration;?></th>
-    	<th width="150px" class="tableMiddleMiddle"><?php echo $lang_Leave_Common_Comments;?></th>
-		<th class="tableMiddleRight"></th>
+    	<td width="155px"><?php echo $lang_Leave_Common_Date;?></td>
+    	<td width="90px"><?php echo $lang_Leave_Common_LeaveType;?></td>
+    	<td width="110px"><?php echo $lang_Leave_Common_Status;?></td>
+    	<td width="130px"><?php echo $lang_Leave_Duration;?></td>
+    	<td width="150px"><?php echo $lang_Leave_Common_Comments;?></td>
 	</tr>
   </thead>
   <tbody>
 <?php
 	$j = 0;
-	if (is_array($records)) {
-
+    if (is_array($records)) {
 		foreach ($records as $record) {
 			if(!($j%2)) {
 				$cssClass = 'odd';
@@ -146,7 +139,6 @@ if ($modifier === "SUP") {
 	<input type="hidden" name="txtLeaveTypeName[]" id="txtLeaveTypeName[]" value="<?php echo $record->getLeaveTypeName(); ?>" />
 	<input type="hidden" name="sltLeaveLength[]" id="sltLeaveLength[]" value="<?php echo $record->getLeaveLengthHours(); ?>" />
   <tr>
-  	<td class="tableMiddleLeft"></td>
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
@@ -223,30 +215,20 @@ if ($modifier === "SUP") {
 			<input type="hidden" name="txtComment[]" value="<?php echo $record->getLeaveComments(); ?>" />
 		<?php } ?>
 	</td>
-	<td class="tableMiddleRight"></td>
   </tr>
 
-<?php
-		}
-	}
+<?php } 
+    }
 ?>
   </tbody>
-  <tfoot>
-  	<tr>
-		<td class="tableBottomLeft"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomMiddle"></td>
-		<td class="tableBottomRight"></td>
-	</tr>
-  </tfoot>
 </table>
-<?php 	if ($modifier !== "Taken") { ?>
-<p id="controls">
-<input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
-</p>
-</form>
-<?php   }
-	 } ?>
+
+</form>    
+</div>
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>

@@ -1220,6 +1220,8 @@ switch ($moduletype) {
 																						$leaveController->viewLeaves("suprevisor");
 																						break;
 													case 'Leave_FetchLeaveTaken'	: 	//$leaveController->setId($_SESSION['empID']);
+                                                    // TODO: Leave_FetchLeaveTaken seems unused: Remove, together with leaveTakenList.php
+                                                    
 																						$leaveController->viewTakenLeaves();
 																						break;
 
