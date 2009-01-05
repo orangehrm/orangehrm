@@ -27,23 +27,27 @@ YAHOO.namespace("OrangeHRM.container");
  */
 YAHOO.OrangeHRM.calendar.init = function () {
 	id="cal1", container="cal1Container";
-	YAHOO.OrangeHRM.calendar.cal = new YAHOO.widget.Calendar(id, container, {START_WEEKDAY:1,
-																			 DATE_FIELD_DELIMITER: "-",
-																			 DATE_RANGE_DELIMITER: " ",
-																			 MDY_DAY_POSITION: 3,
-																			 MDY_MONTH_POSITION: 2,
-																			 MDY_YEAR_POSITION: 1,
-																			 close: true});
-
-	YAHOO.OrangeHRM.calendar.cal.format = 'yyyy-MM-dd';
-
-	YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(YAHOO.OrangeHRM.calendar.selected, YAHOO.OrangeHRM.calendar.cal, true);
-
-	YAHOO.OrangeHRM.calendar.cal.selectedEvent = new YAHOO.util.CustomEvent('CalendarSelected');
-
-	YAHOO.OrangeHRM.calendar.cal.hide();
-	YAHOO.OrangeHRM.calendar.addHooks();
-	YAHOO.OrangeHRM.container.wait.hide();
+	if (document.getElementById(container)) {
+		YAHOO.OrangeHRM.calendar.cal = new YAHOO.widget.Calendar(id, container, {START_WEEKDAY:1,
+																				 DATE_FIELD_DELIMITER: "-",
+																				 DATE_RANGE_DELIMITER: " ",
+																				 MDY_DAY_POSITION: 3,
+																				 MDY_MONTH_POSITION: 2,
+																				 MDY_YEAR_POSITION: 1,
+																				 close: true});
+	
+		YAHOO.OrangeHRM.calendar.cal.format = 'yyyy-MM-dd';
+	
+		YAHOO.OrangeHRM.calendar.cal.selectEvent.subscribe(YAHOO.OrangeHRM.calendar.selected, YAHOO.OrangeHRM.calendar.cal, true);
+	
+		YAHOO.OrangeHRM.calendar.cal.selectedEvent = new YAHOO.util.CustomEvent('CalendarSelected');
+	
+		YAHOO.OrangeHRM.calendar.cal.hide();
+		YAHOO.OrangeHRM.calendar.addHooks();
+	}
+	if (YAHOO.OrangeHRM.container.wait) {
+		YAHOO.OrangeHRM.container.wait.hide();
+	}
 };
 
 /**
