@@ -481,6 +481,7 @@ class LeaveController {
 	}
 
 	public function redirect($message=null, $url = null, $id = null, $cust=null) {
+
 		if (isset($message)) {
 
 			preg_replace('/[&|?]+id=[A-Za-z0-9]*/', "", $_SERVER['HTTP_REFERER']);
@@ -502,7 +503,7 @@ class LeaveController {
 		} else {
 			if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && (preg_match('/&/', $_SERVER['HTTP_REFERER']) > 0)) {
 				$id = "&id=".$_REQUEST['id'];
-			} else if (preg_match('/&/', $_SERVER['HTTP_REFERER']) == 0){
+			} else if (isset($_REQUEST['id']) && !empty($_REQUEST['id']) && (preg_match('/&/', $_SERVER['HTTP_REFERER']) == 0)) {
 				$id = "?id=".$_REQUEST['id'];
 			} else {
 				$id="";
