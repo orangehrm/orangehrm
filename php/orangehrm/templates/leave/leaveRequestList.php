@@ -267,15 +267,15 @@ if ($modifier === "ADMIN") {
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
-    	<th width="100px"><?php echo $lang_Leave_Common_Date;?></th>
+    	<th><?php echo $lang_Leave_Common_Date;?></th>
     	<?php if ($modifier == "SUP" || $modifier == "ADMIN") { ?>
-    	<th width="200px"><?php echo $lang_Leave_Common_EmployeeName;?></th>
+    	<th><?php echo $lang_Leave_Common_EmployeeName;?></th>
     	<?php } ?>
-    	<th width="50px"><?php echo $lang_Leave_NoOfDays;?></th>
-    	<th width="90px"><?php echo $lang_Leave_Common_LeaveType;?></th>
-    	<th width="100px"><?php echo $lang_Leave_Common_Status;?></th>
-    	<th width="100px"><?php echo $lang_Leave_Period;?></th>
-    	<th width="100px"><?php echo $lang_Leave_Common_Comments;?></th>
+    	<th><?php echo $lang_Leave_NoOfDays;?></th>
+    	<th><?php echo $lang_Leave_Common_LeaveType;?></th>
+    	<th><?php echo $lang_Leave_Common_Status;?></th>
+    	<th><?php echo $lang_Leave_Period;?></th>
+    	<th><?php echo $lang_Leave_Common_Comments;?></th>
 	</tr>
   </thead>
   <tbody>

@@ -419,6 +419,10 @@
 	background: transparent url(icons/applyLeave.gif) no-repeat center left;
 }
 
+#nav li.l2 a.approveLeave {
+    background: transparent url(icons/approveLeave.gif) no-repeat center left;
+}
+
 #nav li.l2 a.leavelist {
 	background: transparent url(icons/approveLeave.gif) no-repeat center left;
 }

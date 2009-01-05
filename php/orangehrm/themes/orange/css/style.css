@@ -23,6 +23,8 @@
 /* Multiple classes used to make it easier to change styling per button later */
 input.editbutton,
 input.savebutton,
+input.applybutton,
+input.approvebutton,
 input.updatebutton,
 input.clearbutton,
 input.inserttimebutton,
@@ -38,6 +40,7 @@ input.viewbutton,
 input.detailsbutton,
 input.submitbutton,
 input.searchbutton,
+input.punchbutton,
 input.plainbtn {
 	background:#999966 none repeat scroll 0 0 !important;
 	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
@@ -53,6 +56,8 @@ input.plainbtn {
 
 input.editbuttonhov,
 input.savebuttonhov,
+input.applybuttonhov,
+input.approvebuttonhov,
 input.inserttimebuttonhov,
 input.updatebuttonhov,
 input.clearbuttonhov,
@@ -68,6 +73,7 @@ input.viewbuttonhov,
 input.detailsbuttonhov,
 input.submitbuttonhov,
 input.searchbuttonhov,
+input.punchbuttonhov,
 input.plainbtnhov {
 	border-color: #c63 #c63 #930 #930 !important;		
 }

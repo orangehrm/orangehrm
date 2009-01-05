@@ -98,9 +98,6 @@ if ($timeEvent != null) {
 
 		$("txtDate").value = formatDate(new Date(), YAHOO.OrangeHRM.calendar.format);
 		$("txtTime").value = formatDate(new Date(), YAHOO.OrangeHRM.time.format);
-
-		oButtonPunch = new YAHOO.widget.Button("btnPunch", {onclick: {fn:punchTime}});
-
 	}
 
 	YAHOO.OrangeHRM.container.init();
@@ -152,7 +149,8 @@ if ($timeEvent != null) {
   			<td></td>
         	<td></td>
         	<td>
-            <input type="submit" class="punchbutton" name="btnPunch" id="btnPunch" 
+            <input type="button" class="punchbutton" name="btnPunch" id="btnPunch"
+                    onclick="punchTime()" 
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
                     value="<?php echo $punchTypeName; ?>" />            
         	<td></td>

@@ -365,13 +365,13 @@ td {
         value="<?php echo $lang_Common_Reset;?>" /> 
             
 	<?php } ?>
-
 </div>
+<br class="clear"/>
 <?php if ($timesheet->getStatus() != Timesheet::TIMESHEET_STATUS_APPROVED) { ?>
 	<?php if ($role && ($timesheet->getStatus() == Timesheet::TIMESHEET_STATUS_SUBMITTED)) { ?>
 <div>
-	<label><?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" /></label>
-	<br/>
+	<?php echo $lang_Leave_Common_Comment; ?> <input name="txtComment" id="txtComment" size="75" />
+	
     <input type="button" class="approvebutton"  
         onclick="actionApprove(); return false;"
         name="btnApprove" id="btnApprove"
@@ -383,10 +383,11 @@ td {
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"                        
         value="<?php echo $lang_Common_Reject;?>" />             
 </div>
+<br class="clear"/>
 	<?php } ?>
 <?php } ?>
 </form>
-</p>
+
 </div>
 <script type="text/javascript">
 //<![CDATA[
