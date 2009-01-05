@@ -244,10 +244,26 @@ if ($modifier === "ADMIN") {
 
 <div class="outerbox">
 <?php if ($modifier !== "ADMIN") { ?>
-<!-- <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div> -->
+<div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
 <?php } ?>    
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
 
+<?php   if ($modifier !== "Taken") { ?>
+    <div class="actionbar">
+        <div class="actionbuttons">
+<?php   if (is_array($records) && (count($records) > 0)) { ?>        
+            <input type="submit" class="savebutton" name="Save"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Save;?>" />
+<?php   } ?>                          
+        </div>              
+        <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
+        <div class="pagingbar"></div>
+    <br class="clear" />
+    </div>
+<?php   } ?>    
+    <br class="clear" />
+    
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
@@ -371,21 +387,7 @@ if ($modifier === "ADMIN") {
 ?>
   </tbody>
 </table>
-<?php 	if ($modifier !== "Taken") { ?>
-    <div class="actionbar">
-        <div class="actionbuttons">
-<?php   if (is_array($records) && (count($records) > 0)) { ?>        
-            <input type="submit" class="savebutton" name="Save"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Save;?>" />
-<?php   } ?>                          
-        </div>              
-        <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
-        <div class="pagingbar"></div>
-    <br class="clear" />
-    </div>
-<?php   } ?>    
-    <br class="clear" /> 
+<br class="clear" /> 
     
 </form>
 </div>
