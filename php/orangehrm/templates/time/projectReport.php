@@ -92,8 +92,8 @@ function backToDefineProjectReport() {
   <?php if (empty($activityTimeArray)) { ?>
 		<div class="fieldHint"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
   <?php } else { ?>
-      <div style="float:left">
-		<table width="250" class="simpleList" style="margin:0 0 5px 4px;">
+
+		<table width="250" class="simpleList">
 			<thead>
 				<tr>
 				<th><?php echo $lang_Time_Timesheet_Activity; ?></th>
@@ -130,7 +130,7 @@ function backToDefineProjectReport() {
 		 		<td class="<?php echo $cssClass?>"></td>
 			</tr>
  		</table>
-		</div>
+
 		<br class="clear"/>
 	 	<?php
 		 }
