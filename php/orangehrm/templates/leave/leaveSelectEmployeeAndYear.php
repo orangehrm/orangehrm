@@ -58,7 +58,7 @@
         } else {
             with (document.frmSelectEmployee) {
                  var searchMode = searchBy.value;
-                
+        <?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>                
                 if (cmbId.selectedIndex > 0) {
                     searchMode = 'employee';
                 }
@@ -69,7 +69,9 @@
                 if (cmbId.selectedIndex > 0 && leaveTypeId.selectedIndex > 0) {
                     searchMode = 'both';
                 }
-    
+    <?php } else { ?>
+                searchMode = 'employee';
+    <?php } ?>
                 searchBy.value = searchMode;
 
             }        
