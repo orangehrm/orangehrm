@@ -26,12 +26,6 @@ $activityTimeArray = $records[3];
 $customerObj = new Customer();
 $customerDet = $customerObj->fetchCustomer($project->getCustomerId(), true);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title><?php echo $lang_Time_ProjectReportTitle; ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 var initialAction = "?timecode=Time&action=";
@@ -53,50 +47,6 @@ function backToDefineProjectReport() {
 }
 //]]>
 </script>
-
-
-<style type="text/css">
-    <!--
-    @import url("../../themes/<?php echo $styleSheet;?>/css/style.css");
-    @import url("../../themes/beyondT/css/octopus.css");
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: 0px;
-        width:500px;
-    }
-
-    .roundbox_content {
-        padding:15px 15px 25px 35px;
-    }
-
-    .notice {
-    	font-family: Verdana, Arial, Helvetica, sans-serif;
-    	font-size: -1;
-    }
-
-    .total {
-        border-width: 1px 0px 0px 0px;
-        color: black;
-        font-weight: bold;
-    }
-
-    .left {
-    	width: 100px;
-    	float: left;
-    }
-</style>
-<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
-<!--[if lte IE 6]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
-<![endif]-->
-<!--[if IE]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
-<![endif]-->
-</head>
-
-<body>
     <div class="formpage">
         <div class="navigation">
             <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="backToDefineProjectReport();">
@@ -120,18 +70,27 @@ function backToDefineProjectReport() {
         <div id="status"></div>
 
 	<form name="frmActivity" id="frmActivity" method="post" action="" style="padding-left:5px;">
-    	<input type="hidden" name="cmbProject" value="<?php echo $project->getProjectId(); ?>">
-    	<input type="hidden" name="txtFromDate" value="<?php echo $startDate; ?>">
-    	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>">
-    	<input type="hidden" name="activityId" value="">
-    	<input type="hidden" name="time" value="">
-		<div class="left"><?php echo $lang_Time_Timesheet_Project; ?></div><?php echo $customerDet->getCustomerName() . " - " . $project->getProjectName();?><br/>
-		<div class="left"><?php echo $lang_Time_Report_From; ?></div><?php echo $startDate; ?><br/>
-		<div class="left"><?php echo $lang_Time_Report_To; ?></div><?php echo $endDate; ?><br/>
+    	<input type="hidden" name="cmbProject" value="<?php echo $project->getProjectId(); ?>"/>
+    	<input type="hidden" name="txtFromDate" value="<?php echo $startDate; ?>"/>
+    	<input type="hidden" name="txtToDate" value="<?php echo $endDate; ?>"/>
+    	<input type="hidden" name="activityId" value=""/>
+    	<input type="hidden" name="time" value=""/>
+		
+        <span class="formLabel"><?php echo $lang_Time_Timesheet_Project; ?></span>
+        <span class="formValue"><?php echo $customerDet->getCustomerName() . " - " . $project->getProjectName();?></span>
+        <br class="clear"/>
+        
+		<span class="formLabel"><?php echo $lang_Time_Report_From; ?></span>
+        <span class="formValue"><?php echo $startDate; ?></span>
+        <br class="clear"/>
+        
+		<span class="formLabel"><?php echo $lang_Time_Report_To; ?></span>
+        <span class="formValue"><?php echo $endDate; ?></span>
+        <br class="clear"/>
 
-		<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/></br>
+		<hr style="width:420px;float:left;margin:15px 0px 15px 0px"/><br />
   <?php if (empty($activityTimeArray)) { ?>
-		<div class="notice"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
+		<div class="fieldHint"><?php echo $lang_Admin_Project_NoActivitiesDefined; ?></div>
   <?php } else { ?>
       <div style="float:left">
 		<table width="250" class="simpleList" style="margin:0 0 5px 4px;">
@@ -165,14 +124,14 @@ function backToDefineProjectReport() {
 		 		}
  	 	 		$cssClass = ($odd) ? 'even' : 'odd';
 		  	?>
-    		<tr class="total">
+    		<tr style="color: black;font-weight: bold;">
 		 		<td class="<?php echo $cssClass?>"><?php echo $lang_Time_Timesheet_Total; ?></td>
 		 		<td class="<?php echo $cssClass?>"><?php echo number_format(round($totalTime/3600, 1),1); ?></td>
 		 		<td class="<?php echo $cssClass?>"></td>
 			</tr>
  		</table>
 		</div>
-		<br/>
+		<br class="clear"/>
 	 	<?php
 		 }
 	  	?>
@@ -186,5 +145,3 @@ function backToDefineProjectReport() {
 //]]>
 </script>
 </div>        
-</body>
-</html>
