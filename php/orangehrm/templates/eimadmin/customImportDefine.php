@@ -293,7 +293,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
         <?php } ?>
         
   <form name="frmCustomImport" id="frmCustomImport" method="post" action="<?php echo $formAction;?>">
-        <input type="hidden" name="sqlState" value="">
+        <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
 			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" 
@@ -302,7 +302,7 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 			<br class="clear"/>
 			<label for="containsHeader"><?php echo $lang_DataImport_ContainsHeader; ?></label>
             <input type="checkbox" id="containsHeader" name="containsHeader" tabindex="3" 
-                <?php echo ($hasHeading)? 'checked="1"':"";?> class="formCheckbox"/>
+                <?php echo ($hasHeading)? 'checked="checked"':"";?> class="formCheckbox"/>
             <div style="display:block; font-style: italic; float: left; margin:10px;">(<?php echo $lang_DataImport_ContainsHeaderDescription;?>)</div>
 			<br class="clear"/>
              <div class="formbuttons">               
@@ -330,8 +330,10 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 				?>
 			</select></td>
 			<td align="center" width="100">
-				<input type="button" name="btnAssignField" id="btnAssignField" onClick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> >" style="width:80%"><br><br>
-				<input type="button" name="btnRemoveField" id="btnRemoveField" onClick="removeFields();" value="< <?php echo $lang_DataImport_Remove; ?>" style="width:80%">
+				<input type="button" name="btnAssignField" id="btnAssignField" onclick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> &gt;" 
+                    class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/><br /><br />
+				<input type="button" name="btnRemoveField" id="btnRemoveField" onclick="removeFields();" value="&lt; <?php echo $lang_DataImport_Remove; ?>" 
+                    class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/>
 			</td>
 			<td>
 			<select size="10" name="cmbAssignedFields[]" id="cmbAssignedFields" style="width:125px;"
@@ -343,10 +345,10 @@ $compulsaryFields = $this->popArr['compulsary_fields'];
 				?>
 			</select></td>
 			<td>
-			<img id="btnMoveUp" onClick="moveUp();" alt="<?php echo $lang_DataImport_MoveUp; ?>"
+			<img id="btnMoveUp" onclick="moveUp();" alt="<?php echo $lang_DataImport_MoveUp; ?>"
 				title="<?php echo $lang_DataImport_MoveUp; ?>"
-				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br><br>
-			<img id="btnMoveDown" onClick="moveDown();" alt="<?php echo $lang_DataImport_MoveDown; ?>"
+				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br /><br />
+			<img id="btnMoveDown" onclick="moveDown();" alt="<?php echo $lang_DataImport_MoveDown; ?>"
 				title="<?php echo $lang_DataImport_MoveDown; ?>"
 				src="../../themes/<?php echo $styleSheet;?>/icons/down.gif"/>
 			</td>

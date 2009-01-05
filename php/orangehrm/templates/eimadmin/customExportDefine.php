@@ -255,7 +255,7 @@ $customExportList = $this->popArr['customExportList'];
   <form name="frmCustomExport" id="frmCustomExport" method="post" action="<?php echo $formAction;?>">
         <input type="hidden" name="sqlState" value=""/>
 			<input type="hidden" id="txtId" name="txtId" value="<?php echo $id;?>"/>
-			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span> </label>
+			<label for="txtFieldName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtFieldName" name="txtFieldName" tabindex="2" value="<?php echo $name; ?>" 
                 onkeyup="checkName();" class="formInputText"/>
             <div id="messageCell" class="error" style="display:block; float: left; margin:10px;">&nbsp;</div>
@@ -285,12 +285,15 @@ $customExportList = $this->popArr['customExportList'];
 				?>
 			</select></td>
 			<td align="center" width="100">
-				<input type="button" name="btnAssignField" id="btnAssignField" onClick="assignFields();" value=" <?php echo $lang_DataExport_Add; ?> >" style="width:80%"><br><br>
-				<input type="button" name="btnRemoveField" id="btnRemoveField" onClick="removeFields();" value="< <?php echo $lang_DataExport_Remove; ?>" style="width:80%">
+                <input type="button" name="btnAssignField" id="btnAssignField" onclick="assignFields();" value=" <?php echo $lang_DataImport_Add; ?> &gt;" 
+                    class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/><br /><br />            
+                <input type="button" name="btnRemoveField" id="btnRemoveField" onclick="removeFields();" value="&lt; <?php echo $lang_DataImport_Remove; ?>" 
+                    class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="width:80%"/>
 			</td>
 			<td>
 			<select size="10" name="cmbAssignedFields[]" id="cmbAssignedFields" style="width:125px;"
 					ondblclick="removeFields()"	multiple="multiple">
+                    
        			<?php
        				foreach($assignedFields as $field) {
            				echo "<option value='{$field}'>{$field}</option>";
@@ -298,10 +301,10 @@ $customExportList = $this->popArr['customExportList'];
 				?>
 			</select></td>
 			<td>
-			<img id="btnMoveUp" onClick="moveUp();" alt="<?php echo $lang_DataExport_MoveUp; ?>"
+			<img id="btnMoveUp" onclick="moveUp();" alt="<?php echo $lang_DataExport_MoveUp; ?>"
 				title="<?php echo $lang_DataExport_MoveUp; ?>"
-				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br><br>
-			<img id="btnMoveDown" onClick="moveDown();" alt="<?php echo $lang_DataExport_MoveDown; ?>"
+				src="../../themes/<?php echo $styleSheet;?>/icons/up.gif"/><br /><br />
+			<img id="btnMoveDown" onclick="moveDown();" alt="<?php echo $lang_DataExport_MoveDown; ?>"
 				title="<?php echo $lang_DataExport_MoveDown; ?>"
 				src="../../themes/<?php echo $styleSheet;?>/icons/down.gif"/>
 			</td>
