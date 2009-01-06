@@ -83,7 +83,7 @@ $formAction .= "&amp;isAdmin={$adminUser}";
     }
     
     function popEmpList() {
-        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
+        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400,scrollbars=1');
         if(!popup.opener) popup.opener=self;
         popup.focus();
     }

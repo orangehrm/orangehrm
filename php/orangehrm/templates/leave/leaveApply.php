@@ -256,7 +256,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 	}
 
 	function returnEmpDetail(){
-		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=LEAVE','Employees','height=450,width=400');
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&LEAVE=LEAVE','Employees','height=450,width=400,scrollbars=1');
         if(!popup.opener) popup.opener=self;
 		popup.focus();
 	}

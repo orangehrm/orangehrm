@@ -176,7 +176,7 @@ if ($locRights['edit']) {
 	 * Popup the employee list.
 	 */
 	function popEmployeeList() {
-		var popup = window.open('../../templates/hrfunct/emppop.php?reqcode=REP&PROJECT=<?php echo $project->getProjectId();?>','Employees','height=450,width=400');
+		var popup = window.open('../../templates/hrfunct/emppop.php?reqcode=REP&PROJECT=<?php echo $project->getProjectId();?>','Employees','height=450,width=400,scrollbars=1');
     	if(!popup.opener) {
     		popup.opener=self;
 		}

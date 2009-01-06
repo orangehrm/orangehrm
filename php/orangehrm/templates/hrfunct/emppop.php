@@ -59,13 +59,12 @@ $reqPath = "";
 
 	}
 
-	function SortOrderInWords($SortOrder) {
-		if ($SortOrder == 'ASC') {
-			return 'Ascending';
-		} else {
-			return 'Descending';
-		}
-	}
+    $GLOBALS['lang_Common_SortAscending'] = $lang_Common_SortAscending;
+    $GLOBALS['lang_Common_SortDescending'] = $lang_Common_SortDescending;
+    
+    function nextSortOrderInWords($sortOrder) {
+        return $sortOrder == 'ASC' ? $GLOBALS['lang_Common_SortDescending'] : $GLOBALS['lang_Common_SortAscending'];        
+    }
 
 	if (!isset($_GET['sortField']) || ($_GET['sortField'] == '')) {
 		$_GET['sortField']=0;
@@ -90,17 +89,22 @@ else
     $emplist = $empviewcontroller->getUnAssigned($_GET['reqcode'],$currentPage, '', -1, $_GET['sortField'], $_GET['sortOrder'.$_GET['sortField']]);
 
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<!--[if IE]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title><?php echo $lang_emppop_title; ?></title>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javaScript"><!--//--><![CDATA[//><!--
+<script type="text/javascript">
+//<![CDATA[
 	function clear_form() {
 		document.standardView.loc_code.options[0].selected=true;
 		document.standardView.loc_name.value='';
@@ -123,29 +127,28 @@ else
 		document.standardView.submit();
 	}
 
-	function empSel(cntrl) {
-
+    function empSel(empNumber, empName) {
 <?php
 		$reqPath="?reqcode=".$_GET['reqcode'];
 		if(isset($_GET['USR'])) {
 			$reqPath.="&USR={$_GET['USR']}";
 ?>
-		getElementByName("cmbUserEmpID", window.opener.document).value = cntrl.name;
-		getElementByName("txtUserEmpID", window.opener.document).value = cntrl.title;
+		getElementByName("cmbUserEmpID", window.opener.document).value = empNumber;
+		getElementByName("txtUserEmpID", window.opener.document).value = empName;
         window.close();
 
 <?php   } else if(isset($_GET['REPORT'])) {
 			$reqPath.="&REPORT={$_GET['REPORT']}";
 ?>
-        window.opener.document.frmEmpRepTo.txtRepEmpID.value = cntrl.name;
-        window.opener.document.frmEmpRepTo.cmbRepEmpID.value = cntrl.name;
+        window.opener.document.frmEmpRepTo.txtRepEmpID.value = empNumber;
+        window.opener.document.frmEmpRepTo.cmbRepEmpID.value = empNumber;
         window.close();
 
 <?php   } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'LEAVE')) {
 			$reqPath.="&LEAVE={$_GET['LEAVE']}";
 ?>
-        window.opener.document.frmLeaveApp.cmbEmployeeId.value = cntrl.name;
-        window.opener.document.frmLeaveApp.txtEmployeeId.value = cntrl.title;
+        window.opener.document.frmLeaveApp.cmbEmployeeId.value = empNumber;
+        window.opener.document.frmLeaveApp.txtEmployeeId.value = empName;
         if (!window.opener.closed) {
         	window.opener.resetShiftLength();
         }
@@ -154,30 +157,30 @@ else
 <?php  } else if(isset($_GET['LEAVE']) && ($_GET['LEAVE'] == 'SUMMARY')) {
 			$reqPath.="&LEAVE={$_GET['LEAVE']}";
 ?>
-        window.opener.document.frmSelectEmployee.id.value = cntrl.name;
-        window.opener.document.frmSelectEmployee.cmbEmpID.value = cntrl.title;
+        window.opener.document.frmSelectEmployee.id.value = empNumber;
+        window.opener.document.frmSelectEmployee.cmbEmpID.value = empName;
         window.close();
 
 <?php  } else if(isset($_GET['PROJECT'])) {
 			$reqPath.="&PROJECT={$_GET['PROJECT']}";
 ?>
-        window.opener.document.frmProjectAdmins.projAdminID.value = cntrl.name;
-        window.opener.document.frmProjectAdmins.projAdminName.value = cntrl.title;
+        window.opener.document.frmProjectAdmins.projAdminID.value = empNumber;
+        window.opener.document.frmProjectAdmins.projAdminName.value = empName;
         window.close();
 
 <?php  } else if(isset($_GET['reqcode'])) { ?>
-        window.opener.document.frmEmp.txtRepEmpID.value = cntrl.name;
-        window.opener.document.frmEmp.cmbRepEmpID.value = cntrl.title;
+        window.opener.document.frmEmp.txtRepEmpID.value = empNumber;
+        window.opener.document.frmEmp.cmbRepEmpID.value = empName;
         window.close();
 
 <?php  } else { ?>
-		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + cntrl.title + "&reqcode=<?php echo $_GET['reqcode']?>";
+		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + empNumber + "&reqcode=<?php echo $_GET['reqcode']?>";
         window.opener.document.standardView.submit();
 		window.close();
 <?php } ?>
 	}
 
-	function Search() {
+	function search() {
 		if (document.standardView.loc_code.value == -1) {
 			alert('<?php echo $lang_empview_SelectField; ?>');
 			document.standardView.loc_code.Focus();
@@ -189,177 +192,128 @@ else
 		document.standardView.pageNO.value=1;
 		document.standardView.submit();
 	}
-//--><!]]></script>
-<body style="padding-left:4; padding-right:4;">
-<p>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' class='moduleTitle'><tr><td valign='top'>
-<form name="standardView" method="post">
-<p>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr>
-    <td width="22%" nowrap="nowrap"><h3>
-        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>">
-        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>">
-        <input type="hidden" name="empID" value="">
+//]]>   
+</script>
+</head>
+<body style="padding:0 10px 0 0;">
+    <div class="outerbox">
+    <form name="standardView" method="post" action="" onsubmit="search();">
+        <div class="mainHeading"><h2><?php echo $lang_empview_search; ?></h2></div>
 
-      </h3></td>
-    <td width='78%'><IMG height='1' width='1' src='../../pictures/blank.gif' alt=''></td>
-  </tr>
-</table>
-<p>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr>
-    <td width="22%" nowrap="nowrap"><h3><?php echo $lang_empview_search; ?></h3></td>
-    <td width='78%' align="right"><img height='1' width='1' src='../../pictures/blank.gif' alt=''>
-     <font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-      &nbsp;&nbsp;&nbsp;&nbsp; </font> </td>
-  </tr>
-</table>
+        <input type="hidden" name="captureState" value="<?php echo isset($_POST['captureState'])?$_POST['captureState']:''?>"/>
+        <input type="hidden" name="pageNO" value="<?php echo isset($_POST['pageNO'])?$_POST['pageNO']:'1'?>"/>
+        <input type="hidden" name="empID" value=""/>
 
-<!--  newtable -->
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td width="13"><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt="" /></td>
-                  <td width="339" background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c2.gif"><img name="table_r1_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td width="13"><img name="table_r1_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c3.gif" width="13" height="12" border="0" alt="" /></td>
-                  <td width="11"><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
-                </tr>
-                <tr>
-                  <td ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td><table  border="0" cellpadding="5" cellspacing="0" class="" width="100%">
-                    <tr>
-                      <td width="200" class="dataLabel"><slot><?php echo $lang_empview_searchby; ?></slot>&nbsp;&nbsp;<slot>
-                        <select name="loc_code">
-<?php                        for($c=0;count($srchlist[0])>$c;$c++)
-								if(isset($_POST['loc_code']) && $_POST['loc_code']==$srchlist[0][$c])
-								   echo "<option selected=\"selected\" value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-								else
-								   echo "<option value='" . $srchlist[0][$c] ."'>".$srchlist[1][$c] ."</option>";
-?>
-                        </select>
-                      </slot></td>
-                      <td width="200" class="dataLabel" noWrap><slot><?php echo $lang_empview_description; ?></slot>&nbsp;&nbsp;<slot>
-                        <input type=text size="20" name="loc_name" class=dataField  value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>">
-                     </slot></td>
+        <div class="searchbox">
+            <label for="loc_code"><?php echo $lang_Common_Search;?></label>
+            <select name="loc_code" id="loc_code">
+                <?php                        
+                    $optionCount = count($srchlist[0]);
+                    for ($c = 0; $optionCount > $c; $c++) {
+                        $selected = "";        
+                        if (isset($_POST['loc_code']) && ($_POST['loc_code'] == $srchlist[0][$c])) {
+                            $selected = 'selected="selected"';
+                        }
+                       echo "<option $selected value='" . $srchlist[0][$c] ."'>" . $srchlist[1][$c] . "</option>";
+                    }
+                ?>
+            </select>
+            
+            <input type="text" size="20" name="loc_name" id="loc_name"
+                value="<?php echo isset($_POST['loc_name'])? stripslashes($_POST['loc_name']):''?>" />
+            <br class="clear"/>                
+            <input type="submit" class="plainbtn" name="btnSearch" style="margin:3px 3px 0 5px;"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"                           
+                value="<?php echo $lang_Common_Search;?>" />
+            <input type="button" class="plainbtn" onclick="clear_form();" name="clear" style="margin:3px 0 0 0;"
+                onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
+                 value="<?php echo $lang_Common_Clear;?>" />
+            <br class="clear"/>
+        </div>
 
-                  </table></td>
-                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                </tr>
-                <tr>
-                  <td><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td><table  border="0" cellpadding="5" cellspacing="0" class="">
-                    <tr>
-                    <td align="right" width="130" class="dataLabel"><input title="Search [Alt + S]" accessKey="S" class="button" type="button" name="btnSearch" value="<?php echo $lang_empview_search; ?>" onclick="Search();"/>
-                          <input title="Clear [Alt+K]" accessKey="K" onclick="clear_form();" class="button" type="button" name="clear" value="<?php echo $lang_compstruct_clear; ?>"/></td>
-
-                  </table></td>
-                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                </tr>
-
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt="" /></td>
-                  <td><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td><img name="table_r3_c3" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" width="13" height="16" border="0" alt="" /></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="16" border="0" alt="" /></td>
-                </tr>
-              </table>
-			  <table border="0" width="100%">
-			  <tr>
-			  <td height="40" valign="bottom" align="right">
-
+        <div class="actionbar">
+            <div class="actionbuttons"></div>
+            <div class="noresultsbar"><?php echo (!isset($emplist) || empty($emplist)) ? $lang_empview_norecorddisplay : '';?></div>
+            <div class="pagingbar">
+            <?php
+    
+                if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode")) {
+                    $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
+                } else {
+                    $temp = $empviewcontroller -> countUnAssigned($_GET['reqcode']);
+                }
+    
+                $commonFunc = new CommonFunctions();
+                $pageStr = $commonFunc->printPageLinks($temp, $currentPage);
+                $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+        
+                echo $pageStr;
+            ?>          
+            </div>
+            <br class="clear" />
+        </div>
+        <br class="clear" />
+        
+<!--  data table start -->
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <thead>
+            <tr>
+                <?php
+                    $headings = array($lang_empview_employeeid, $lang_empview_employeename);
+                    $sortUrlFormat = $_SERVER['PHP_SELF'] . str_replace('&', '&amp;', $reqPath) . "&amp;VIEW=MAIN&amp;sortField=%d&amp;sortOrder%d=%s";
+                    
+                    for ($j = 0; $j < count($headings); $j++) {
+                        if (!isset($_GET['sortOrder'.$j])) {
+                            $_GET['sortOrder'.$j] = 'null';
+                        }
+                        $sortOrder = $_GET['sortOrder'.$j];
+                        $nextSortOrder = getNextSortOrder($sortOrder);
+                        $sortUrl = sprintf($sortUrlFormat, $j, $j, $nextSortOrder);
+                ?>
+                    <td scope="col">                     
+                        <a href="<?php echo $sortUrl;?>" title="<?php echo nextSortOrderInWords($sortOrder);?>"
+                            class="<?php echo $sortOrder;?>"><?php echo $headings[$j]?>
+                        </a>
+                    </td>
+                <?php } ?>
+            </tr>
+            </thead>
+            <tbody>            
 <?php
-
-if (isset($_POST['captureState'])&& ($_POST['captureState']=="SearchMode"))
-    $temp = $empviewcontroller ->countUnAssigned($_GET['reqcode'],$strName,$choice);
-else
-    $temp = $empviewcontroller -> countUnAssigned($_GET['reqcode']);
-
-$commonFunc = new CommonFunctions();
-$pageStr = $commonFunc->printPageLinks($temp, $currentPage);
-$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-
-echo $pageStr;
-
+            if ((isset($emplist)) && ($emplist !='')) {
+                for ($j = 0; $j < count($emplist); $j++) {
+                    $cssClass = ($j%2) ? 'even' : 'odd';
+                    $empNum = $emplist[$j][0];
+                    $empId = empty($emplist[$j][2]) ? $empNum : $emplist[$j][2];
+                    $empName = $emplist[$j][1];
+                    $onclick = "empSel(" . ltrim($empNum, '0') . ", '" . addslashes($empName) . "');";
 ?>
-		</td>
-		<td width="25"></td>
-		</tr>
-		</table>
-
-              <table bordeir="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td ><img name="table_r1_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r1_c1.gif" width="13" height="12" border="0" alt="" /></td>
-                  <td></td>
-                  <td></td>
-                  <td><img src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
-                </tr>
-                <tr  valign="top" height="25">
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" ><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="20" border="0" alt="" /></td>
-						  <?php
-						  	$j=0;
-						  	if (!isset($_GET['sortOrder'.$j])) {
-								$_GET['sortOrder'.$j]='null';
-							};
-						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeeid; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" /></td>
-						  <?php
-						  	$j=1;
-							if (!isset($_GET['sortOrder'.$j])) {
-								$_GET['sortOrder'.$j]='null';
-							};
-						  ?>
-						  <td class="listViewThS1" width="180px"><a href="<?php echo $_SERVER['PHP_SELF'].$reqPath; ?>&VIEW=MAIN&sortField=<?php echo $j?>&sortOrder<?php echo $j?>=<?php echo getNextSortOrder($_GET['sortOrder'.$j])?>" title="Sort in <?php echo SortOrderInWords(getNextSortOrder($_GET['sortOrder'.$j]))?> order"><?php echo $lang_empview_employeename; ?></a> <img src="../../themes/beyondT/icons/<?php echo $_GET['sortOrder'.$j]?>.png" width="8" height="10" border="0" alt="" ></td>
-                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
+                    <td class="<?php echo $cssClass;?>">
+                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empId;?></a>                    
+                    </td>
+                    <td>
+                        <a href="#" onclick="<?php echo $onclick;?>"><?php echo $empName;?></a>
+                    </td>                    
                 </tr>
 
-        <?php
-			if ((isset($emplist)) && ($emplist !='')) {
-
-			 for ($j=0; $j<count($emplist);$j++) {
-
-		?>
-                <tr>
-                  <td background="../../themes/<?php echo $styleSheet; ?>/pictures/table_r2_c1.gif" height="20"><img name="table_r2_c1" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="12" border="0" alt="" /></td>
-         <?php		if(!($j%2)) { ?>
-				  <td >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onclick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
-		  		  <td >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
-		<?php		} else { ?>
-				  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<a title="<?php echo $emplist[$j][1]?>" name="<?php echo $emplist[$j][0]; ?>" href="" onclick="empSel(this)"><?php echo (!empty($emplist[$j][2]))?$emplist[$j][2]:$emplist[$j][0]?></a></td>
-		  		  <td bgcolor="#EEEEEE" >&nbsp;&nbsp;<?php echo $emplist[$j][1]?></td>
-		<?php		}	?>
-
-                  <td><img name="table_r2_c3" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-
-                </tr>
-
-         <?php }
-        	  } else if ((isset($message)) && ($message =='')) { ?>
-
-			   <tr>
-			   	<td></td>
-				<td>
-		<?php
-        		 $dispMessage = $lang_empview_norecorddisplay;
-        		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
-        		 echo $dispMessage;
-        		 echo '</font>';
-        	}
-
-         ?>
-		 		</td>
-			</tr>
-                <tr>
-                  <td><img name="table_r3_c1" src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c1.gif" width="13" height="16" border="0" alt="" /></td>
-                  <td><img name="table_r3_c2" src="../../themes/beyondT/pictures/spacer.gif" width="1" height="1" border="0" alt="" /></td>
-                  <td></td>
-                  <td ><img src="../../themes/<?php echo $styleSheet; ?>/pictures/table_r3_c3.gif" border="0" alt="" /></td>
-                </tr>
-      </table>
-<!--  newtable -->
-
-</form>
-
+<?php           } 
+            } 
+?>
+            </tbody>
+        </table>
+<!-- data table -->
+    </form>
+    </div>
+    <div class="pagingbar"><?php echo $pageStr;?></div>
+    <br class="clear"/>
+    
+<script type="text/javascript">
+    <!--
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    -->
+</script>
 </body>
 </html>

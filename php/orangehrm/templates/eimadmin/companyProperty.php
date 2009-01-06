@@ -184,13 +184,6 @@ function goBack()
     window.location = "./CentralController.php?uniqcode=TCP&pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>";
 }
 
-function popEmpList()
-{
-    var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP&USR=USR','Employees','height=450,width=400');
-    if(!popup.opener) popup.opener=self;
-    popup.focus();
-}
-
 function nextPage() {
 	i=document.propertyList.pageNo.value;
 	i++;

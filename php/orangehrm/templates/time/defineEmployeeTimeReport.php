@@ -56,10 +56,11 @@ $projectActivityObj = new ProjectActivity();
 <script type="text/javascript" src="../../scripts/archive.js"></script>
 <?php include ROOT_PATH."/lib/common/calendar.php"; ?>
 <script type="text/javascript">
+//<![CDATA[
 var initialAction = "?timecode=Time&action=";
 
 function returnEmpDetail(){
-		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400');
+		var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=REP','Employees','height=450,width=400,scrollbars=1');
         if(!popup.opener) popup.opener=self;
 		popup.focus();
 }
@@ -118,7 +119,7 @@ function validate() {
 
 YAHOO.OrangeHRM.container.init();
 YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
-
+//]]> 
 </script>
 <?php $objAjax->printJavascript(); ?>
 <div id="status"></div>
@@ -135,26 +136,17 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
         </div>  
     <?php } ?>
-<form name="frmEmp" id="frmEmp" method="post" action="?timecode=Time&action=" onsubmit="viewEmployeeTimeReport(); return false;">
+<form name="frmEmp" id="frmEmp" method="post" action="?timecode=Time&amp;action=" onsubmit="viewEmployeeTimeReport(); return false;">
 <table border="0" cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th></th>
-	    	<th></th>
-	    	<th></th>
-	    	<th></th>
-			<th></th>
-		</tr>
-	</thead>
 	<tbody>
 		<tr>
 			<td></td>
 			<td ><?php echo $lang_Leave_Common_EmployeeName; ?></td>
 			<td></td>
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-			<td ><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" disabled />
+			<td ><input type="text" name="cmbRepEmpID" id="cmbRepEmpID" disabled="disabled" />
 				<input type="hidden" name="txtRepEmpID" id="txtRepEmpID" />
-				<input type="button" value="..." onclick="returnEmpDetail();" />
+				<input type="button" value="..." onclick="returnEmpDetail();"/>
 			</td>
 		<?php } else if ($role == authorize::AUTHORIZE_ROLE_SUPERVISOR) { ?>
 			<td >
@@ -244,21 +236,13 @@ YAHOO.util.Event.addListener($("frmEmp"), "submit", viewEmployeeTimeReport);
 			<td></td>
 		</tr>
 	</tbody>
-	<tfoot>
-	  	<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-  	</tfoot>
 </table>
 <div class="formbuttons">                
     <input type="submit" class="viewbutton" id="viewBtn" 
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
         value="<?php echo $lang_Common_View;?>" />                                  
 </div>
+</form>
 </div>
 <script type="text/javascript">
 //<![CDATA[

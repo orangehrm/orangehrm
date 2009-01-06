@@ -126,7 +126,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/CompStruct.php';
 
 <?php } else { ?>
 	function returnAdd() {
-        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?php echo $this->getArr['reqcode']?>','Employees','height=450,width=400');
+        var popup=window.open('../../templates/hrfunct/emppop.php?reqcode=<?php echo $this->getArr['reqcode']?>','Employees','height=450,width=400,scrollbars=1');
         if(!popup.opener) popup.opener=self;
 	}
 <?php } ?>
