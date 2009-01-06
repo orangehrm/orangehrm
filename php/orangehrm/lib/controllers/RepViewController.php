@@ -402,9 +402,10 @@ class RepViewController {
 							break;
 
 			case 'RUG' :	$form_creator ->formPath = '/templates/report/repusg.php';
-							$emprepgroup = new EmpRepUserGroup();
-
-							$form_creator ->popArr['repDet'] = $emprepgroup -> getReportInfo();
+							
+                            $report = new EmpReport();                            
+                            $emprepgroup = new EmpRepUserGroup();
+							$form_creator ->popArr['report'] = $report->filterReport($getArr['id']);
 							$form_creator->popArr['usgAll'] = $emprepgroup -> getAllUserGroups();
 							$form_creator ->popArr['repUsgAss'] = $emprepgroup ->getAssignedUserGroup($getArr['id']);
 							$form_creator ->popArr['usgUnAss'] = $emprepgroup ->getUnAssUserGroups($getArr['id']);
