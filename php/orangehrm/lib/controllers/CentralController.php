@@ -891,7 +891,7 @@ switch ($moduletype) {
 					switch ($_GET['reqcode']) {
 						case 'ESS'	:	if(isset($_POST['sqlState'])) {
 											$extractor = new EXTRACTOR_EmpInfo();
-											$extractor->ESS();
+											$extractor->setESS();
 										}
 										break;
 						case 'EMP'	:

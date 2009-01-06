@@ -20,43 +20,62 @@
 ?>
 
 <?php if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updatemode') { 
-	  $edit = $this->popArr['editPersArr'];
-	  $editMain = $this->popArr['editMainArr'];	
-	  if (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') {
-	      $editMode = false;
-		  $disabled = '';	      	      
-	  } else {
-	      $editMode = true;
-		  $disabled = 'disabled="disabled"';	      
-	  }	  
-	  
+    		
+	if (isset($this->postArr['EditMode']) && $this->postArr['EditMode']=='1') {
+	    $editMode = false;
+        $disabled = '';	      	      
+	} else {
+	    $editMode = true;
+        $disabled = 'disabled="disabled"';	      
+    }	  
+    
+    $editMain = $this->popArr['editMainArr'];      
+    $employeeLastName = $editMain[0][1];
+    $employeeFirstName = $editMain[0][2];
+    $employeeMiddleName = $editMain[0][3];
+    $employeeNickName = $editMain[0][4];
+    $employeeId = $editMain[0][5];
+
+    $edit = $this->popArr['editPersArr'];
+    $smoker = $edit[0][1];
+    $race = $edit[0][2];
+    $birthdate = $edit[0][3];
+    $nationality = $edit[0][4];
+    $gender = $edit[0][5];
+    $maritalStatus = $edit[0][6];
+    $ssnNumber = $edit[0][7];
+    $sinNumber = $edit[0][8];
+    $otherId = $edit[0][9];
+    $drivingLicence = $edit[0][10];
+    $drivingLicenceExpiry = $edit[0][11];
+    $militaryService = $edit[0][12];    
 ?>
 	<input type="hidden" name="txtEmpID" value="<?php echo $this->getArr['id']?>"/>
 	
 	<label for="txtEmployeeId"><?php echo $lang_Commn_code?><span class="required">*</span></label>	
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmployeeId"  id="txtEmployeeId"
-		value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$editMain[0][5]?>" maxlength="50" />
+		value="<?php echo (isset($this->postArr['txtEmployeeId']))?$this->postArr['txtEmployeeId']:$employeeId;?>" maxlength="50" />
 	<label for="txtEmpLastName"><?php echo $lang_hremp_EmpLastName?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmpLastName" id="txtEmpLastName"
-		value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$editMain[0][1]?>"/><br class="clear"/>
+		value="<?php echo (isset($this->postArr['txtEmpLastName']))?$this->postArr['txtEmpLastName']:$employeeLastName;?>"/><br class="clear"/>
 	
 	<label for="txtEmpFirstName"><?php echo $lang_hremp_EmpFirstName?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmpFirstName" id="txtEmpFirstName"  
-		value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$editMain[0][2]?>"/>
+		value="<?php echo (isset($this->postArr['txtEmpFirstName']))?$this->postArr['txtEmpFirstName']:$employeeFirstName;?>"/>
 	<label for="txtEmpMiddleName"><?php echo $lang_hremp_EmpMiddleName?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmpMiddleName"  id="txtEmpMiddleName"  
-		value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$editMain[0][3]?>"/><br class="clear"/>
+		value="<?php echo (isset($this->postArr['txtEmpMiddleName']))?$this->postArr['txtEmpMiddleName']:$employeeMiddleName;?>"/><br class="clear"/>
 		
 	<label for="txtEmpNickName"><?php echo $lang_hremp_nickname?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtEmpNickName" id="txtEmpNickName" 
-		value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$edit[0][4]?>"/><br class="clear" />
+		value="<?php echo (isset($this->postArr['txtEmpNickName']))?$this->postArr['txtEmpNickName']:$employeeNickName;?>"/><br class="clear" />
 		
 	<label for="txtNICNo"><?php echo $lang_hremp_ssnno?></label>
 	<input type="text" class="formInputText" name="txtNICNo" <?php echo $disabled;?> id="txtNICNo"
-		value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>"/>
+		value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$ssnNumber;?>"/>
 		
 <?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-		<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$edit[0][7]?>" />
+		<input type="hidden" name="txtNICNo" value="<?php echo (isset($this->postArr['txtNICNo']))?$this->postArr['txtNICNo']:$ssnNumber;?>" />
 <?php } ?>
 
 	<label for="cmbNation"><?php echo $lang_hremp_nationality?></label>
@@ -65,7 +84,7 @@
 <?php
 	$nationalities = $this->popArr['nation'];
 	if ($nationalities) {	
-		$currentNation = isset($this->postArr['cmbNation']) ? $this->postArr['cmbNation'] : $edit[0][4];   		 
+		$currentNation = isset($this->postArr['cmbNation']) ? $this->postArr['cmbNation'] : $nationality;;   		 
 		foreach ($nationalities as $nation) {
 			$selected = ($currentNation == $nation[0]) ? 'selected="selected"' : '';
 			echo "<option {$selected} value='{$nation[0]}'>{$nation[1]}</option>";
@@ -76,23 +95,23 @@
 					
 	<label for="txtSINNo"><?php echo $lang_hremp_sinno?></label>
 	<input type="text" class="formInputText" name="txtSINNo" <?php echo $disabled;?> id="txtSINNo"
-		value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>"/>
+		value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$sinNumber;?>"/>
 <?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-	<input type="hidden" name="txtSINNo" value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$edit[0][8]?>" />
+	<input type="hidden" name="txtSINNo" value="<?php echo (isset($this->postArr['txtSINNo']))?$this->postArr['txtSINNo']:$sinNumber;?>" />
 <?php } ?>
 	<label for="DOB"><?php echo $lang_hremp_dateofbirth?></label>
 	<input type="text" class="formDateInput" <?php echo $disabled;?> name="DOB" id="DOB" 
-		value="<?php echo (isset($this->postArr['DOB']))?LocaleUtil::getInstance()->formatDate($this->postArr['DOB']):LocaleUtil::getInstance()->formatDate($edit[0][3]); ?>" size="10" />
+		value="<?php echo (isset($this->postArr['DOB']))?LocaleUtil::getInstance()->formatDate($this->postArr['DOB']):LocaleUtil::getInstance()->formatDate($birthdate); ?>" size="10" />
 	<input type="button" <?php echo $disabled;?>  value="  " class="calendarBtn" /><br class="clear" />
 	
 	<label for="txtOtherID"><?php echo $lang_hremp_otherid?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtOtherID" id="txtOtherID" 
-		value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$edit[0][9]?>"/>
+		value="<?php echo (isset($this->postArr['txtOtherID']))?$this->postArr['txtOtherID']:$otherId;?>"/>
 	<label for="cmbMarital"><?php echo $lang_hremp_maritalstatus?></label>	
 	<select class="formSelect"  <?php echo $disabled;?> name="cmbMarital" id="cmbMarital">
 		<option value="0"><?php echo $lang_hremp_selmarital?></option>
 <?php
-		$currentMarital = isset($this->postArr['cmbMarital']) ? $this->postArr['cmbMarital'] : $edit[0][6];
+		$currentMarital = isset($this->postArr['cmbMarital']) ? $this->postArr['cmbMarital'] : $maritalStatus;
 		foreach ($arrMStat as $mstat) {
 			$selected = ($currentMarital == $mstat) ? 'selected="selected"' : '';
 			echo "<option {$selected} >{$mstat}</option>";
@@ -101,7 +120,7 @@
 	</select><br class="clear" />
 	
 	<label for="chkSmokeFlag"><?php echo $lang_hremp_smoker?></label>
-<?php $isSmoker = isset($this->postArr['chkSmokeFlag']) ? $this->postArr['chkSmokeFlag'] : $edit[0][1];
+<?php $isSmoker = isset($this->postArr['chkSmokeFlag']) ? $this->postArr['chkSmokeFlag'] : $smoker;
 	  $checked = $isSmoker == 1 ? 'checked="checked"' : '';
 ?>
 	<span class="formFieldContainer">
@@ -109,7 +128,7 @@
 	</span>
 	<label><?php echo $lang_hremp_gender?></label>
 <?php 
-	$gender = isset($this->postArr['optGender']) ? $this->postArr['optGender'] : $edit[0][5];
+	$gender = isset($this->postArr['optGender']) ? $this->postArr['optGender'] : $gender;
 	$gender = empty($gender) ? '1' : $gender;
 ?>
 	<label for="gender1" class="optionlabel"><?php echo $lang_Common_Male;?></label><input <?php echo $disabled;?> type="radio" class="formRadio" name="optGender" 
@@ -121,25 +140,25 @@
 	
 	<label for="txtLicenNo"><?php echo $lang_hremp_dlicenno?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtLicenNo" id="txtLicenNo" 
-		value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>"/>
+		value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$drivingLicence;?>"/>
 					<?php if (isset($_GET['reqcode']) && ($_GET['reqcode'] === "ESS")) { ?>
-					<input type="hidden" name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$edit[0][10]?>" />
+					<input type="hidden" name="txtLicenNo" value="<?php echo (isset($this->postArr['txtLicenNo']))?$this->postArr['txtLicenNo']:$drivingLicence;?>" />
 					<?php } ?>
 					
 	<label for="txtLicExpDate"><?php echo $lang_hremp_licexpdate?></label>
 	<input type="text" class="formDateInput" <?php echo $disabled;?> name="txtLicExpDate" id="txtLicExpDate" 
-		value="<?php echo (isset($this->postArr['txtLicExpDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtLicExpDate']):LocaleUtil::getInstance()->formatDate($edit[0][11]); ?>" size="10" />
+		value="<?php echo (isset($this->postArr['txtLicExpDate']))?LocaleUtil::getInstance()->formatDate($this->postArr['txtLicExpDate']):LocaleUtil::getInstance()->formatDate($drivingLicenceExpiry); ?>" size="10" />
 	<input type="button" <?php echo $disabled;?> value="  " class="calendarBtn" name="btnLicExpDate"/>
 	<br class="clear"/>
 	<label for="txtMilitarySer"><?php echo $lang_hremp_militaryservice?></label>
 	<input type="text" class="formInputText" <?php echo $disabled;?> name="txtMilitarySer" id="txtMilitarySer"
-		value="<?php echo (isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:$edit[0][12]?>"/>
+		value="<?php echo (isset($this->postArr['txtMilitarySer']))?$this->postArr['txtMilitarySer']:$militaryService;?>"/>
 	<label for="cmbEthnicRace"><?php echo $lang_hremp_ethnicrace?></label>
 	<select class="formSelect"  <?php echo $disabled;?> name="cmbEthnicRace" id="cmbEthnicRace">
 		<option value="0"><?php echo $lang_hremp_selethnicrace?></option>
 <?php
 	$ethRace = $this->popArr['ethRace'];
-	$currentRace = isset($this->postArr['cmbEthnicRace']) ? $this->postArr['cmbEthnicRace'] : $edit[0][2];
+	$currentRace = isset($this->postArr['cmbEthnicRace']) ? $this->postArr['cmbEthnicRace'] : $race;
 	if (!empty($ethRace)) {
 		foreach($ethRace as $race) {
 		    $selected = ($currentRace == $race[0]) ? 'selected="selected"' : '';
