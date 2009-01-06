@@ -19,7 +19,8 @@
 /* IE Specific styles to overcome IE behaviour */
 
 /* Added to prevent main heading being hidden in list views. Sets hasLayout */
-div.mainHeading {
+div.mainHeading,
+div.subHeading {
     zoom: 1;
 }
 
