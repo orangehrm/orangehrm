@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.2
+
+    Changes done
+    ------------
+    Resume upload feature added to job applications
+    IE7 Compatibility fixes
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.1
 
     User interface changed to new format.

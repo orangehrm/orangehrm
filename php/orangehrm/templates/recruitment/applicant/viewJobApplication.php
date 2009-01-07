@@ -318,7 +318,7 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 	</div>
 	<?php }	?>
   <div class="roundbox">
-  <form name="fromJobApplication" id="fromJobApplication" method="post" action="<?php echo $formAction;?>">
+  <form name="fromJobApplication" id="fromJobApplication" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
   		<div class="positionApplyingFor">
   		<?php echo $lang_Recruit_ApplicationForm_Position . ' : ' . $vacancy->getJobTitleName(); ?><br/>
   		</div>
@@ -369,7 +369,12 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
         <input type="text" id="txtEmail" name="txtEmail" tabindex="12" ><br/>
 
 		<label for="txtQualifications"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></label>
-        <textarea id="txtQualifications" name="txtQualifications" tabindex="13" ></textarea><br/><br/>
+        <textarea id="txtQualifications" name="txtQualifications" tabindex="13" ></textarea><br/>
+
+		<label for="txtResume"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></label>
+        <input type="file" id="txtResume" name="txtResume" tabindex="14" ><br/>
+        &nbsp;&nbsp;&nbsp;<?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?>
+        <br/><br/>
 
         <div align="left">
             <img onClick="save();" id="saveBtn"

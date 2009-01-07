@@ -53,6 +53,8 @@ class JobApplication {
     const DB_FIELD_STATUS = 'status';
     const DB_FIELD_APPLIED_DATETIME = 'applied_datetime';
     const DB_FIELD_EMP_NUMBER = 'emp_number';
+    const DB_FIELD_RESUME_NAME = 'resume_name';
+    const DB_FIELD_RESUME_DATA ='resume_data';
 
     /**
      * Job application status
@@ -85,7 +87,8 @@ class JobApplication {
 		self::DB_FIELD_MIDDLENAME, self::DB_FIELD_LASTNAME,	self::DB_FIELD_STREET1,	self::DB_FIELD_STREET2,
 		self::DB_FIELD_CITY, self::DB_FIELD_COUNTRY_CODE, self::DB_FIELD_PROVINCE, self::DB_FIELD_ZIP,
 		self::DB_FIELD_PHONE, self::DB_FIELD_MOBILE, self::DB_FIELD_EMAIL, self::DB_FIELD_QUALIFICATIONS,
-        self::DB_FIELD_STATUS, self::DB_FIELD_APPLIED_DATETIME, self::DB_FIELD_EMP_NUMBER);
+        self::DB_FIELD_STATUS, self::DB_FIELD_APPLIED_DATETIME, self::DB_FIELD_EMP_NUMBER,
+        self::DB_FIELD_RESUME_NAME, self::DB_FIELD_RESUME_DATA);
 
 	private $id;
 	private $vacancyId;
@@ -102,9 +105,11 @@ class JobApplication {
 	private $mobile;
 	private $email;
 	private $qualifications;
+	public $resumeData = array('name'=>'', 'tmpName'=>'', 'type'=>'', 'size'=>0, 'error'=>'');
     private $status = self::STATUS_SUBMITTED;
     private $appliedDateTime;
     private $empNumber;
+    private $resumeName;
 
     private $events;
 
@@ -328,6 +333,14 @@ class JobApplication {
         return $this->empNumber;
     }
 
+    public function setResumeName($resumeName) {
+        $this->resumeName = $resumeName;
+    }
+
+    public function getResumeName() {
+        return $this->resumeName;
+    }
+
     /**
      * Returns the latest event
      * @return JobApplicationEvent The latest event, or null if no events
@@ -446,7 +459,37 @@ class JobApplication {
 		$sqlBuilder->arr_insert = $this->_getFieldValuesAsArray();
 		$sqlBuilder->arr_insertfield = $this->dbFields;
 
-		$sql = $sqlBuilder->addNewRecordFeature2();
+		//$sql = $sqlBuilder->addNewRecordFeature2();
+
+		$sql = "INSERT INTO `".self::TABLE_NAME."` (";
+
+		$fields = $this->dbFields;
+		$fCount = count($fields);
+
+		for ($i=0; $i<$fCount; $i++) {
+
+			if ($i != ($fCount - 1)) {
+			    $sql .= "`".$fields[$i]."`, ";
+			} else {
+			    $sql .= "`".$fields[$i]."`) ";
+			}
+
+		}
+
+		$sql .= "VALUES (";
+
+		$values = $this->_getFieldValuesAsArray();
+		$vCount = count($values);
+
+		for ($j=0; $j<$vCount; $j++) {
+
+			if ($j != ($vCount - 1)) {
+			    $sql .= "'".$values[$j]."', ";
+			} else {
+			    $sql .= "'".$values[$j]."')";
+			}
+
+		}
 
 		$conn = new DMLFunctions();
 
@@ -512,6 +555,7 @@ class JobApplication {
         $fields[17] = 'a.' . self::DB_FIELD_EMP_NUMBER;
         $fields[18] = 'c.jobtit_name AS ' . self::JOB_TITLE_NAME;
         $fields[19] = "CONCAT(d.`emp_firstname`, ' ', d.`emp_lastname`) AS " . self::HIRING_MANAGER_NAME;
+        $fields[20] = 'a.' . self::DB_FIELD_RESUME_NAME;
 
         $tables[0] = self::TABLE_NAME . ' a';
         $tables[1] = JobVacancy::TABLE_NAME .' b';
@@ -572,6 +616,8 @@ class JobApplication {
         $values[15] = is_null($this->status) ? self::STATUS_SUBMITTED : $this->status;
         $values[16] = is_null($this->appliedDateTime) ? 'null' : $this->appliedDateTime;
         $values[17] = empty($this->empNumber) ? 'null' : $this->empNumber;
+        $values[18] = ($this->resumeData['size'] > 0) ? $this->_getResumeName($this->id, $this->firstName, $this->lastName) : 'null';
+        $values[19] = ($this->resumeData['size'] > 0) ? $this->_prepareResumeToStore() : 'null';
 
 		return $values;
 	}
@@ -602,6 +648,7 @@ class JobApplication {
         $application->setStatus($row[self::DB_FIELD_STATUS]);
         $application->setAppliedDateTime($row[self::DB_FIELD_APPLIED_DATETIME]);
         $application->setEmpNumber($row[self::DB_FIELD_EMP_NUMBER]);
+        $application->setResumeName($row[self::DB_FIELD_RESUME_NAME]);
 
         if (isset($row[self::JOB_TITLE_NAME])) {
             $application->setJobTitleName($row[self::JOB_TITLE_NAME]);
@@ -613,6 +660,128 @@ class JobApplication {
 
         return $application;
     }
+
+    /**
+     * Checks whether the upload file is compatible
+     * @return bool True if compatible, false otherwise, also sets $this->resumeData['error']
+     */
+
+	public function isResumeCompatible() {
+
+		$ext = $this->resumeData['extension'];
+
+		if ($this->resumeData['size'] > (5*1024*1024)) {
+			$this->resumeData['error'] = 'size-error';
+			return false;
+		} elseif ($ext != 'doc' && $ext != 'docx' && $ext != 'odt' && $ext != 'pdf') {
+			$this->resumeData['error'] = 'type-error';
+			return false;
+		} else {
+		    return true;
+		}
+
+     }
+
+    /**
+     * Creates the name of to be stored resume
+     * @param integer $appId Application ID
+     * @param string $firstName First name of the applicant
+     * @param string $lastName Last name of the applicant
+     * @return string Name on success and null if any of given parameter is null
+     */
+
+    private function _getResumeName($appId, $firstName, $lastName) {
+
+    	if (!is_null($appId) && !is_null($firstName) && !is_null($lastName)) {
+			$name = $appId.'-'.$firstName.'-'.$lastName.'.'.$this->resumeData['extension'];
+    	} else {
+    	    $name = 'null';
+    	}
+
+		return $name;
+
+    }
+
+    /**
+     * Prepares the resume to store in the database
+     * @return string Prepared string on success, null on no resume to store
+     */
+
+	private function _prepareResumeToStore() {
+
+	    if ($this->resumeData['size'] > 0) {
+
+	    	$fileAsString = file_get_contents($this->resumeData['tmpName']);
+
+			/*$fp      = fopen($this->resumeData['tmpName'], 'r');
+			$fileAsString = fread($fp, filesize($this->resumeData['tmpName']));
+			fclose($fp);*/
+
+	    	if (get_magic_quotes_gpc()) {
+	    	    stripslashes($fileAsString);
+	    	}
+
+	    	return mysql_real_escape_string($fileAsString);
+
+	    } else {
+
+	       return 'null';
+
+	    }
+
+	}
+
+	/**
+	 * Triggers a download of the resume for give application id
+	 * @param integer $applicationId Id of the application
+	 * @return sting Outputs the resume only if it's availabe
+	 */
+	public static function downloadResume($applicationId) {
+
+		$selectTable = "`".self::TABLE_NAME."`";
+
+		$selectFields[0] = "`".self::DB_FIELD_RESUME_NAME."`";
+		$selectFields[1] = "`".self::DB_FIELD_RESUME_DATA."`";
+
+		$selectConditions[0] = "`".self::DB_FIELD_ID."` = $applicationId";
+
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+
+		$row = $dbConnection->dbObject->getArray($result);
+
+		if (!empty($row[self::DB_FIELD_RESUME_DATA])) {
+
+			$name = $row[self::DB_FIELD_RESUME_NAME];
+            
+			$extension = array_pop(explode(".", $name));            
+            $mimeTypes = array(
+                'doc' => 'application/msword',
+                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'odt' => 'application/vnd.oasis.opendocument.text',
+                'pdf' => 'application/pdf');
+            $contentType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension]: null;     
+            
+			$content = $row[self::DB_FIELD_RESUME_DATA];
+            $size = strlen($content);
+            
+            @ob_clean();
+			header("Pragma: public");
+			header("Expires: 0");
+			header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+			header("Cache-Control: private", false);
+			header("Content-type: $contentType");
+			header("Content-Disposition: attachment; filename=\"".$name."\";");
+			header("Content-Transfer-Encoding: binary");
+			header("Content-length: $size");
+			echo $content;
+		}
+
+	}
+
 }
 
 class JobApplicationException extends Exception {
@@ -621,6 +790,4 @@ class JobApplicationException extends Exception {
 	const DB_ERROR = 2;
     const INVALID_STATUS = 3;
 }
-
-?>
 

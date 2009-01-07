@@ -185,6 +185,9 @@ class RecruitmentController {
                         $object = $eventExtractor->parseUpdateData($_POST);
                         $this->_editEvent($object);
                         break;
+                    case 'downloadResume' :
+                    	JobApplication::downloadResume($_GET['id']);
+                    	break;
                 }
 
 	            break;
@@ -358,27 +361,64 @@ class RecruitmentController {
 	 * Handle job application by applicant
 	 */
 	public function applyForJob() {
+
 		$extractor = new EXTRACTOR_JobApplication();
 		$jobApplication = $extractor->parseData($_POST);
-		try {
-		    $jobApplication->save();
-		    $result = true;
-		} catch (JobApplicationException $e) {
-			$result = false;
+
+		$objs['error']['resumeUploadError'] = '';
+		$objs['error']['resumeCompatibleError'] = '';
+		$objs['error']['applicantEmailError'] = '';
+		$objs['savingStatus'] = null;
+		$correctResume = null;
+
+		/* Handling uploaded resume */
+
+		if (!empty($jobApplication->resumeData['error'])) { // If there was an error in upload, don't execute the rest
+
+		    $correctResume = false;
+		    $objs['error']['resumeUploadError'] = $jobApplication->resumeData['error'];
+
+		} else { // This means resume has either successfully uploaded or no resume has been uploaded
+
+		    if ($jobApplication->resumeData['size'] > 0) { // If a resume has been uploaded
+
+				if ($jobApplication->isResumeCompatible()) {
+					$correctResume = true;
+				} else {
+					$correctResume = false;
+					$objs['error']['resumeCompatibleError'] = $jobApplication->resumeData['error']; // isResumeCompatible() sets this error
+				}
+
+			}
 		}
 
-		// Send mail notifications
-		$notifier = new RecruitmentMailNotifier();
-		$notifier->sendApplicationReceivedEmailToManager($jobApplication);
+		/* Saving job application */
 
-		// We only need to display result of email sent to applicant
-		$mailResult = $notifier->sendApplicationReceivedEmailToApplicant($jobApplication);
+		if (is_null($correctResume) || $correctResume) { // Try saving only if resume is compatible or no resume has been uploaded
+
+			try {
+
+			    $jobApplication->save(); // Throws exceptions on failiures
+
+				/* Send mail notifications */
+				$notifier = new RecruitmentMailNotifier();
+				$notifier->sendApplicationReceivedEmailToManager($jobApplication);
+
+				if (!$notifier->sendApplicationReceivedEmailToApplicant($jobApplication)) {
+				    $objs['error']['applicantEmailError'] = 'Emailing applicant failed';
+				}
+
+				$objs['savingStatus'] = true;
+
+			} catch (JobApplicationException $e) {
+				$objs['savingStatus'] = false;
+			}
+
+		}
 
 		$path = '/templates/recruitment/applicant/jobApplicationStatus.php';
 		$objs['application'] = $jobApplication;
 		$objs['vacancy'] = JobVacancy::getJobVacancy($jobApplication->getVacancyId());
-		$objs['result'] = $result;
-		$objs['mailResult'] = $mailResult;
 		$template = new TemplateMerger($objs, $path);
 		$template->display();
 	}
@@ -849,4 +889,3 @@ class RecruitmentController {
         trigger_error("Not Authorized!", E_USER_NOTICE);
     }
 }
-?>

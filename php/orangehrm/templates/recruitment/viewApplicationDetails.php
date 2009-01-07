@@ -37,6 +37,15 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
+$resumeName = $application->getResumeName();
+$id = '';
+
+if (!empty($resumeName)) {
+    $tmpArr = explode('-', $resumeName);
+	$id = $tmpArr[0];
+	$resumeUrl = 'CentralController.php?recruitcode=Application&action=downloadResume&id='.$id;
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -126,10 +135,10 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
             <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
                 <span><?php echo $lang_Common_Back;?></span>
             </a>
-        </div>    
+        </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationDetails_Heading;?></h2></div>
-        
+
         <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -137,7 +146,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ''; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationHistory_DateApplied; ?></div>
@@ -156,6 +165,13 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMobile()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Email; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getEmail()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div><div class="txtBox"><pre style="font-family: Arial, Helvetica, sans-serif"><?php echo nl2br(wordwrap(trim(CommonFunctions::escapeHtml($application->getQualifications())), 65)); ?></pre></div><br/>
+        <?php
+        if (!empty($resumeName)) {
+        ?>
+
+		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div><div class="txtValue"><a href="<?php echo $resumeUrl; ?>"><?php echo $lang_Recruit_ApplicationForm_ResumeDownload; ?></a></div><br/>
+
+        <?php } ?>
         <br />
 
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
@@ -208,7 +224,7 @@ $backImgPressed = $picDir . 'btn_back_02.gif';
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>

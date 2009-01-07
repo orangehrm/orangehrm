@@ -17,22 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-$application = $records['application'];
-$vacancy = $records['vacancy'];
-$result = $records['result'];
+if (!empty($records['error']['resumeUploadError'])) { // There was an error when uploading resume
 
-if ($result) {
-    $message = $lang_Recruit_ApplySuccess;
-	$heading = $lang_Recruit_ApplicationStatus_SuccessHeading;
-} else {
-    $message = $lang_Recruit_ApplyFailure;
 	$heading = $lang_Recruit_ApplicationStatus_FailureHeading;
+	$message = $lang_Recruit_ApplyFailure_UploadError;
+
+} elseif (!empty($records['error']['resumeCompatibleError'])) { // Uploaded resume is not compatible
+
+	$heading = $lang_Recruit_ApplicationStatus_FailureHeading;
+
+	if ($records['error']['resumeCompatibleError'] == 'size-error') { // Size of uploaded resume exceeds the limit
+		$message = $lang_Recruit_ApplyFailure_UploadSizeError;
+	} elseif ($records['error']['resumeCompatibleError'] == 'type-error') { // Type of uploaded resume is not allowed
+		$message = $lang_Recruit_ApplyFailure_UploadTypeError;
+	}
+
+} elseif (!is_null($records['savingStatus']) && !$records['savingStatus']) { // There was an error when saving the application
+
+    $heading = $lang_Recruit_ApplicationStatus_FailureHeading;
+    $message = $lang_Recruit_ApplyFailure;
+
+} elseif (!is_null($records['savingStatus']) && $records['savingStatus']) { // Application saved successfully
+
+	$heading = $lang_Recruit_ApplicationStatus_SuccessHeading;
+
+	if (empty($records['error']['applicantEmailError'])) { // An email was sent to the applicant informing submission
+	    $message = str_replace('#jobtitle#', $records['vacancy']->getJobTitleName(), $lang_Recruit_ApplySuccess);
+	    $message .= '. ';
+	    $message .= str_replace('#jobtitle#', $records['application']->getEmail(), $lang_Recruit_ApplicantEmailedSuccess);
+	} else { // Emailing the applicant failed
+	    $message = str_replace('#jobtitle#', $records['vacancy']->getJobTitleName(), $lang_Recruit_ApplySuccess);
+	}
+
 }
-$message = $result ? $lang_Recruit_ApplySuccess : $lang_Recruit_ApplyFailure;
-$message = str_replace('#email#', $application->getEmail(), $message);
-$message = str_replace('#jobtitle#', $vacancy->getJobTitleName(), $message);
-
-
 
 $picDir = "../../themes/{$styleSheet}/pictures/";
 

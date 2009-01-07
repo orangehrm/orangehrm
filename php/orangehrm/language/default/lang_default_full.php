@@ -538,7 +538,7 @@
 	$lang_geninfo_err_CompanyName 			= "Company name cannot be blank";
 	$lang_geninfo_err_Phone 				= "Not a valid phone number";
     $lang_geninfo_err_Fax                   = "Not a valid fax number";
-        
+
 	$lang_geninfo_err_CommentLengthWarning	= "Length of comments exceeds the limit. Text at the end of the comment will be lost.";
 
  	$lang_hierarchydef_heading 				= "Hierarchy Information : Company Information";
@@ -583,7 +583,7 @@
 	$lang_hremp_relationship 				= "Relationship";
 	$lang_hremp_AssignedDependents			= "Assigned Dependents";
 	$lang_hremp_AssignedChildren			= "Assigned Children";
-	
+
 	$lang_hremp_AssignedEmergencyContacts   = "Assigned Emergency Contacts";
 
 	$lang_hremp_street1						= "Street 1";
@@ -1150,7 +1150,7 @@
 	$lang_pim_Qualifications = 'Qualifications';
 	$lang_pim_EmployeeList = 'Employee List';
 	$lang_pim_AddEmployee = 'Add Employee';
-	
+
 	$lang_pim_tabs_Personal = "Personal";
 	$lang_pim_tabs_Contact = "Contact Details";
 	$lang_pim_tabs_EmergencyContacts = "Emergency Contact(s)";
@@ -1170,7 +1170,7 @@
 	$lang_pim_tabs_Tax = "Tax Exemptions";
 	$lang_pim_tabs_DirectDebit = "Direct Deposit";
 	$lang_pim_tabs_Custom = "Custom";
-	
+
 	$lang_pim_ClickToEditPhoto = "Click to edit photo";
 
 	// Report module
@@ -1679,6 +1679,9 @@
 	$lang_Recruit_ApplicationForm_Mobile = 'Mobile';
 	$lang_Recruit_ApplicationForm_Email = 'Email';
 	$lang_Recruit_ApplicationForm_Qualifications = 'Qualifications and Experience';
+	$lang_Recruit_ApplicationForm_Resume = 'Resume';
+	$lang_Recruit_ApplicationForm_ResumeDownload = 'Download';
+	$lang_Recruit_ApplicationForm_ResumeDescription = 'Size should be less than 5MB and only .doc, .docx, .odt, .pdf are allowed';
 
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Please Specify ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Please Specify valid email address for ';
@@ -1687,8 +1690,12 @@
 
 	$lang_Recruit_ApplicationStatus_SuccessHeading = 'Job Application Received';
 	$lang_Recruit_ApplicationStatus_FailureHeading = 'Job Application Error';
-	$lang_Recruit_ApplySuccess = 'Your application for the position of #jobtitle# was received. An email confirmation was sent to the following email address: #email#';
-	$lang_Recruit_ApplyFailure = 'There was an error while processing your application. Please try again later.';
+	$lang_Recruit_ApplySuccess = 'Your application for the position of #jobtitle# was received';
+	$lang_Recruit_ApplicantEmailedSuccess = 'An email confirmation was sent to the following email address: #email#';
+	$lang_Recruit_ApplyFailure = 'There was an error while processing your application. Please try again later';
+	$lang_Recruit_ApplyFailure_UploadError = 'There was an error when uploading your resume. Therefore your application was not submitted. Please try again';
+	$lang_Recruit_ApplyFailure_UploadSizeError = 'Your resume size exceeds the allowed limit of 5MB';
+	$lang_Recruit_ApplyFailure_UploadTypeError = 'Your resume file type is not allowed. Only .doc, .docx, .odt and .pdf are allowed';
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";
