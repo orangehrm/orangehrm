@@ -1150,6 +1150,7 @@
 	$lang_pim_Qualifications = 'Qualifications';
 	$lang_pim_EmployeeList = 'Employee List';
 	$lang_pim_AddEmployee = 'Add Employee';
+    $lang_pim_Other = 'Other';
 
 	$lang_pim_tabs_Personal = "Personal";
 	$lang_pim_tabs_Contact = "Contact Details";

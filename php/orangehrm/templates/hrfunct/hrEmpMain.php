@@ -1099,86 +1099,89 @@ tableDisplayStyle = "table";
 <div id="pimleftmenu">
 	<ul class="pimleftmenu">	
 		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent personal">Personal</span></a>
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);">
+                <span class="parent personal"><?php echo $lang_pim_tabs_Personal;?></span></a>
 			<ul class="l2">
 				<li class="l2">
 					<a href="javascript:displayLayer(1)" id="personalLink" class="personal" accesskey="p">
-						<span><span class="shortcut">P</span>ersonal Details</span></a></li>
+						<span><?php echo $lang_pim_PersonalDetails;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(4)" id="contactsLink" class="personal" accesskey="c">
-						<span><span class="shortcut">C</span>ontact</span></a></li>
+						<span><?php echo $lang_pim_tabs_Contact;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(5)" id="emgcontactsLink" class="personal"  accesskey="e">
-						<span><span class="shortcut">E</span>mergency Contact(s)</span></a></li>
+						<span><?php echo $lang_pim_tabs_EmergencyContacts;?></span></a></li>
 	
 				<li class="l2">
 					<a href="javascript:displayLayer(3)" id="dependentsLink" class="personal"  accesskey="d">
-						<span><span class="shortcut">D</span>ependents</span></a></li>
+						<span><?php echo $lang_pim_tabs_Dependents;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(10)" id="immigrationLink" class="personal" accesskey="i" >
-						<span><span class="shortcut">I</span>mmigration</span></a></li>
+						<span><?php echo $lang_pim_tabs_Immigration;?></span></a></li>
 			</ul>
 		</li>
 		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">Employment</span></a>
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent employment">
+                <?php echo $lang_pim_Employment;?></span></a>
 			<ul class="l2">
 				<li class="l2">
 					<a href="javascript:displayLayer(2)" id="jobLink" accesskey="j" class="employment"  >
 		
-						<span><span class="shortcut">J</span>ob</span></a></li>
+						<span><?php echo $lang_pim_tabs_Job;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(14)" id="paymentsLink" class="employment" accesskey="s" >
-						<span><span class="shortcut">S</span>alary</span></a></li>
+						<span><?php echo $lang_pim_tabs_Payments;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(18)" id="taxLink" class="employment" accesskey="t" >
-						<span><span class="shortcut">T</span>ax Exemptions</span></a></li>
+						<span><?php echo $lang_pim_tabs_Tax;?></span></a></li>
 		
 				<li class="l2">
 					<a href="javascript:displayLayer(19)" id="direct-debitLink" class="employment" accesskey="o" >
-						<span>Direct Dep<span class="shortcut">o</span>sit</span></a></li>
+						<span><?php echo $lang_pim_tabs_DirectDebit;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(15)" id="report-toLink" class="employment" accesskey="r" >
-						<span><span class="shortcut">R</span>eport-to</span></a></li>	
+						<span><?php echo $lang_pim_tabs_ReportTo;?></span></a></li>	
 			</ul>
 		</li>
 		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent pimqualifications">Qualifications</span></a>
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);">
+                <span class="parent pimqualifications"><?php echo $lang_pim_Qualifications;?></span></a>
 			<ul class="l2">
 				<li class="l2">
 					<a href="javascript:displayLayer(17)" id="work_experienceLink" class="pimqualifications" accesskey="w" >
 		
-						<span><span class="shortcut">W</span>ork experience</span></a></li>
+						<span><?php echo $lang_pim_tabs_WorkExperience;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(9)" id="educationLink" class="pimqualifications" accesskey="n" >
-						<span>Educatio<span class="shortcut">n</span></span></a></li>
+						<span><?php echo $lang_pim_tabs_Education;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(16)" id="skillsLink" class="pimqualifications" accesskey="k" >
-						<span>S<span class="shortcut">k</span>ills</span></a></li>
+						<span><?php echo $lang_pim_tabs_Skills;?></span></a></li>
 		
 				<li class="l2">
 					<a href="javascript:displayLayer(11)" id="languagesLink" class="pimqualifications" accesskey="g" >
-						<span>Langua<span class="shortcut">g</span>es</span></a></li>
+						<span><?php echo $lang_pim_tabs_Languages;?></span></a></li>
 				<li class="l2">
 					<a href="javascript:displayLayer(12)" id="licensesLink" class="pimqualifications" accesskey="l" >
-						<span><span class="shortcut">L</span>icense</span></a></li>
+						<span><?php echo $lang_pim_tabs_License;?></span></a></li>
 				</ul>
 		</li>
 		<li class="l1 parent">
-			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other">Other</span></a>
+			<a href="#" class="expanded" onclick="showHideSubMenu(this);"><span class="parent other"><?php echo $lang_pim_Other;?></span></a>
 			<ul class="l2">
 				<li class="l2">
 					<a href="javascript:displayLayer(13)" id="membershipsLink" class="pimmemberships" accesskey="m">
-						<span><span class="shortcut">M</span>embership</span>
+						<span><?php echo $lang_pim_tabs_Membership;?></span>
 					</a>
 				</li>
 				<li class="l2">
 					<a href="javascript:displayLayer(6)" id="attachmentsLink" class="attachments" accesskey="a">
-						<span><span class="shortcut">A</span>ttachments</span>
+						<span><?php echo $lang_pim_tabs_Attachments;?></span>
 					</a>
 				</li>
 				<li class="l1">
 					<a href="javascript:displayLayer(20)" id="customLink" class="l1_link custom" accesskey="u">
-						<span>C<span class="shortcut">u</span>stom</span>
+						<span><?php echo $lang_pim_tabs_Custom;?></span>
 					</a>
 				</li>
 			</ul>
