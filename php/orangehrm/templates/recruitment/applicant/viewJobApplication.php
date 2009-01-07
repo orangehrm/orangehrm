@@ -38,10 +38,10 @@ function populateStates($country) {
 		$xajaxFiller = new xajaxElementFiller();
 		$xajaxFiller->setDefaultOptionName($GLOBALS['lang_Common_Select']);
 		$objResponse->addAssign('state','innerHTML',
-				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
+				'<select name="txtProvince" id="txtProvince" name="txtProvince" tabindex="8" class="formSelect"><option value="0">--- '.$GLOBALS['lang_Common_Select'].' ---</option></select>');
 		$objResponse = $xajaxFiller->cmbFillerById($objResponse, $provinceList, 1, 'fromJobApplication.state', 'txtProvince');
 	} else {
-		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" >');
+		$objResponse->addAssign('state','innerHTML','<input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText">');
 	}
 	$objResponse->addScript('hideLoading();formJobApplication.txtProvince.focus();');
 	return $objResponse->getXML();
@@ -70,16 +70,17 @@ $clearImg = $picDir . 'btn_clear.gif';
 $clearImgPressed = $picDir . 'btn_clear_02.gif';
 
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
 <?php
 	$objAjax->printJavascript();
 ?>
 <script>
+//<![CDATA[
 
     function goBack() {
         location.href = "<?php echo "{$_SERVER['PHP_SELF']}?recruitcode=ApplicantViewJobs"; ?>";
@@ -205,145 +206,74 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 		var status = $('status');
 		status.style.display = 'block';
 	}
-
+//]]>
 </script>
 
-    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-    <style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-
-    <style type="text/css">
-    <!--
-
-    label,select,input,textarea {
-        display: block;  /* block float the labels to left column, set a width */
-        width: 150px;
-        float: left;
-        margin: 8px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
-    }
-    input[type=checkbox] {
-		width: 15px;
-		background-color: transparent;
-		vertical-align: bottom;
-    }
-
-    /* this is needed because otherwise, hidden fields break the alignment of the other fields */
-    input[type=hidden] {
-        display: none;
-        border: none;
-        background-color: red;
-    }
-
-    label {
-        text-align: left;
-        width: 110px;
-        padding-left: 10px;
-    }
-
-    select,input,textarea {
-        margin-left: 10x;
-    }
-
-    input,textarea {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-
-    textarea {
-        width: 500px;
-        height: 90px;
-    }
-
-    form {
-        min-width: 550px;
-        max-width: 770px;
-    }
-
-    br {
-        clear: left;
-    }
-
-    .roundbox {
-        margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 760px;
-    }
-
-    body {
-    	margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 780px;
-    }
-
-    .roundbox_content {
-        padding:5px;
-    }
-
-	.hidden {
-		display: none;
-	}
-
-	.display-block {
-		display: block;
-	}
-
-	.positionApplyingFor {
-        padding-left: 17px;
-        padding-top: 10px;
-	}
-    -->
-</style>
+    <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+    <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+    <!--[if IE]>
+    <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 </head>
 <body>
-	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_ApplicationForm_Heading; echo empty($company) ? "({$lang_Recruit_Application_CompanyNameNotSet})" : $company; ?></h2></p>
-	<div id="status" style="float:right;display:none;">
-		<image src='<?php echo $iconDir; ?>/loading.gif' width='20' height='20' style="vertical-align: bottom;">
-		<?php echo $lang_Commn_PleaseWait;?>
-	</div>
-  	<div id="navigation" style="margin:0;">
-  		<img title="<?php echo $lang_Common_Back;?>" onMouseOut="this.src='<?php echo $backImg; ?>';"
-  			 onMouseOver="this.src='<?php echo $backImgPressed;?>';" src="<?php echo $backImg;?>"
-  			 onClick="goBack();">
-	</div>
-    <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
-    	if (isset($message)) {
-			$col_def = CommonFunctions::getCssClassForMessage($message);
-			$message = "lang_Common_" . $message;
-	?>
-	<div class="message">
-		<font class="<?php echo $col_def?>" size="-1" face="Verdana, Arial, Helvetica, sans-serif">
-			<?php echo (isset($$message)) ? $$message: ""; ?>
-		</font>
-	</div>
-	<?php }	?>
-  <div class="roundbox">
+    <div class="formpage3col">
+        <div class="navigation">
+            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
+                <span><?php echo $lang_Common_Back;?></span>
+            </a>
+        </div>
+        <div id="status" style="float:right;display:none;">
+            <image src='<?php echo $iconDir; ?>/loading.gif' width='20' height='20' style="vertical-align: bottom;">
+            <?php echo $lang_Commn_PleaseWait;?>
+        </div>
+        <div class="outerbox">
+            <div class="mainHeading">
+                <h2><?php echo $lang_Recruit_ApplicationForm_Heading; echo empty($company) ? "({$lang_Recruit_Application_CompanyNameNotSet})" : $company; ?></h2></div>
+                        
+        <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
+            if (isset($message)) {
+                $messageType = CommonFunctions::getCssClassForMessage($message);
+                $message = "lang_Common_" . $message;
+        ?>
+            <div class="messagebar">
+                <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
+            </div>  
+        <?php } ?>
+        
   <form name="fromJobApplication" id="fromJobApplication" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
-  		<div class="positionApplyingFor">
-  		<?php echo $lang_Recruit_ApplicationForm_Position . ' : ' . $vacancy->getJobTitleName(); ?><br/>
-  		</div>
-		<input type="hidden" id="txtVacancyId" name="txtVacancyId" value="<?php echo $vacancy->getId();?>"/>
+        
+        <input type="hidden" id="txtVacancyId" name="txtVacancyId" value="<?php echo $vacancy->getId();?>"/>
+  
+  		<span class="formLabel"><?php echo $lang_Recruit_ApplicationForm_Position;?></span>
+  		<span class="formValue"><?php echo $vacancy->getJobTitleName(); ?></span>
+        <br class="clear"/>	
 
-		<label for="txtFirstName"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_FirstName; ?></label>
-        <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" >
+		<label for="txtFirstName"><?php echo $lang_Recruit_ApplicationForm_FirstName; ?><span class="required">*</span></label>
+        <input type="text" id="txtFirstName" name="txtFirstName" tabindex="1" class="formInputText"/>
+        
+		<label for="txtMiddleName"><?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
+        <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" class="formInputText"/>
+        <br class="clear"/>
 
-		<label for="txtMiddleName"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_MiddleName; ?></label>
-        <input type="text" id="txtMiddleName" name="txtMiddleName" tabindex="2" ><br/>
+		<label for="txtLastName"><?php echo $lang_Recruit_ApplicationForm_LastName; ?><span class="required">*</span></label>
+        <input type="text" id="txtLastName" name="txtLastName" tabindex="3" class="formInputText">
+        <br class="clear"/>
 
-		<label for="txtLastName"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_LastName; ?></label>
-        <input type="text" id="txtLastName" name="txtLastName" tabindex="3" ><br/>
+		<label for="txtStreet1"><?php echo $lang_Recruit_ApplicationForm_Street1; ?><span class="required">*</span></label>
+        <input type="text" id="txtStreet1" name="txtStreet1" tabindex="4" class="formInputText"/>
 
-		<label for="txtStreet1"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Street1; ?></label>
-        <input type="text" id="txtStreet1" name="txtStreet1" tabindex="4" >
+		<label for="txtStreet2"><?php echo $lang_Recruit_ApplicationForm_Street2; ?></label>
+        <input type="text" id="txtStreet2" name="txtStreet2" tabindex="5" class="formInputText"/>
+        <br class="clear"/>
 
-		<label for="txtStreet2"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_Street2; ?></label>
-        <input type="text" id="txtStreet2" name="txtStreet2" tabindex="5" ><br/>
+		<label for="txtCity"><?php echo $lang_Recruit_ApplicationForm_City; ?><span class="required">*</span></label>
+        <input type="text" id="txtCity" name="txtCity" tabindex="6" class="formInputText"/>
 
-		<label for="txtCity"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_City; ?></label>
-        <input type="text" id="txtCity" name="txtCity" tabindex="6" >
-
-		<label for="txtCountry"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Country; ?></label>
-		<select  id="txtCountry" name="txtCountry" tabindex="7"
+		<label for="txtCountry"><?php echo $lang_Recruit_ApplicationForm_Country; ?><span class="required">*</span></label>
+		<select  id="txtCountry" name="txtCountry" tabindex="7" class="formSelect"
 			onChange="getProvinceList(this.value);">
 	  		<option value="0">-- <?php echo $lang_districtinformation_selectcounlist?> --</option>
 			<?php
@@ -351,52 +281,57 @@ $clearImgPressed = $picDir . 'btn_clear_02.gif';
 	    				echo "<option value='" . $country[0] . "'>" . $country[1] . "</option>";
 				  }
 		    ?>
-		 </select><br/>
+		 </select>
+         <br class="clear"/>
 
-		<label for="txtProvince"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_StateProvince; ?></label>
-        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" ></div>
+		<label for="txtProvince"><?php echo $lang_Recruit_ApplicationForm_StateProvince; ?><span class="required">*</span></label>
+        <div id="state"><input type="text" id="txtProvince" name="txtProvince" tabindex="8" class="formInputText"/></div>
 
-		<label for="txtZip"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Zip; ?></label>
-        <input type="text" id="txtZip" name="txtZip" tabindex="9" ></br>
+		<label for="txtZip"><?php echo $lang_Recruit_ApplicationForm_Zip; ?><span class="required">*</span></label>
+        <input type="text" id="txtZip" name="txtZip" tabindex="9" class="formInputText"/>
+        <br class="clear"/>
 
-		<label for="txtPhone"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_Phone; ?></label>
-        <input type="text" id="txtPhone" name="txtPhone" tabindex="10" >
+		<label for="txtPhone"><?php echo $lang_Recruit_ApplicationForm_Phone; ?></label>
+        <input type="text" id="txtPhone" name="txtPhone" tabindex="10" class="formInputText"/>
 
-		<label for="txtMobile"><span class="error">&nbsp;</span> <?php echo $lang_Recruit_ApplicationForm_Mobile; ?></label>
-        <input type="text" id="txtMobile" name="txtMobile" tabindex="11" ><br/>
+		<label for="txtMobile"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></label>
+        <input type="text" id="txtMobile" name="txtMobile" tabindex="11" class="formInputText"/>
+        <br class="clear"/>
 
-		<label for="txtEmail"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Email; ?></label>
-        <input type="text" id="txtEmail" name="txtEmail" tabindex="12" ><br/>
+		<label for="txtEmail"><?php echo $lang_Recruit_ApplicationForm_Email; ?><span class="required">*</span></label>
+        <input type="text" id="txtEmail" name="txtEmail" tabindex="12" class="formInputText"/>
+        <br class="clear"/>
 
-		<label for="txtQualifications"><span class="error">*</span> <?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></label>
-        <textarea id="txtQualifications" name="txtQualifications" tabindex="13" ></textarea><br/>
+		<label for="txtQualifications"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?><span class="required">*</span></label>
+        <textarea id="txtQualifications" name="txtQualifications" tabindex="13" rows="8" cols="80" class="formTextArea"
+            style="width:450px;"></textarea>
+        <br class="clear"/>
 
 		<label for="txtResume"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></label>
-        <input type="file" id="txtResume" name="txtResume" tabindex="14" ><br/>
-        &nbsp;&nbsp;&nbsp;<?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?>
-        <br/><br/>
+        <input type="file" id="txtResume" name="txtResume" tabindex="14" class="formFileInput"/><br class="clear"/>
+        <div class="formHint" style="padding-left:10px;"><?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?></div>
 
-        <div align="left">
-            <img onClick="save();" id="saveBtn"
-				onMouseOut="this.src='<?php echo $saveImg;?>';"
-            	onMouseOver="this.src='<?php echo $saveImgPressed;?>';"
-            	src="<?php echo $saveImg;?>">
-			<img onClick="reset();" id="resetBtn"
-				onMouseOut="this.src='<?php echo $clearImg;?>';"
-            	onMouseOver="this.src='<?php echo $clearImgPressed;?>';"
-            	src="<?php echo $clearImg;?>">
+        <div class="formbuttons">
+            <input type="button" class="savebutton" id="saveBtn" tabindex="15"
+                onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Save;?>" />
+            <input type="button" class="clearbutton" id="resetBtn" tabindex="16"
+                onclick="reset();" onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                 value="<?php echo $lang_Common_Clear;?>" />
         </div>
+        <br class="clear"/>
+        
 	</form>
     </div>
-    <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-   	 			$('txtFirstName').focus();
-			}
-        -->
-    </script>
 
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <script type="text/javascript">
+    //<![CDATA[
+        if (document.getElementById && document.createElement) {
+            roundBorder('outerbox');                
+        }
+    //]]>
+    </script>
+    </div>
 </body>
 </html>

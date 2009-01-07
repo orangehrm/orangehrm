@@ -407,7 +407,7 @@ div.fieldHint {
 /* Form elements */
 label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput, 
 input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
-div.wideFormValue, select.formTimeSelect {
+div.wideFormValue, select.formTimeSelect, input.formFileInput {
     display: block;
     float: left;
     margin: 10px 0px 2px 0px;
@@ -446,6 +446,10 @@ select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, sp
     width: 150px;
 }
 
+input.formFileInput {
+    margin-left: 10px;	
+}
+    
 select.formSelect {
     width: 160px;
 }
