@@ -266,7 +266,9 @@ if (!empty($projectId)) {
 				  foreach ($projects as $project) {
 					  $selected = ($project->getProjectId() == $projectId) ? 'selected="selected"' : '';
 					  $projectName = htmlspecialchars($project->getProjectName());
-					  echo "<option $selected value=\"{$project->getProjectId()}\">{$projectName}</option>";
+                      $customerName = htmlspecialchars($project->getCustomerName());
+                      $displayString=$customerName . ' - ' . $projectName;
+					  echo "<option $selected value=\"{$project->getProjectId()}\">{$displayString}</option>";
 				  }
    				?>
    			</select>

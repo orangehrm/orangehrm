@@ -97,6 +97,13 @@ class Projects {
 	public function getProjectName(){
 		return $this->projectName;
 	}
+    
+    public function getCustomerName(){
+        $customer=new Customer();
+        $customer=$customer->fetchCustomer($this->customerID);
+        $customerName=$customer->getCustomerName();
+        return $customerName;
+    }
 
 	public function setProjectDescription ($projectDescription) {
 		$this->projectDescription = $projectDescription ;
