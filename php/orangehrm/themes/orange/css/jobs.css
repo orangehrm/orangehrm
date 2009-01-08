@@ -35,7 +35,7 @@ body {
 }
 
 div.jobHeading {
-    height:2em;
+    height:2.3em;
 }
 
 div.jobHeading span.jobTitle {
@@ -67,7 +67,7 @@ div.jobDetails input.applyButton {
 div.jobHeading a {
     text-decoration: none;
     display:block;
-    height:2em;
+    height:2.3em;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
     padding-left:10px;
@@ -86,19 +86,19 @@ div.even {
     background: #EEEEEE;
 }
 div.odd a.collapsed {
-    background: white url(../../themes/orange/icons/collapsed.gif) no-repeat scroll 98% 50%;
+    background: white url(../icons/collapsed.gif) no-repeat scroll 98% 50%;
 }
 
 div.even a.collapsed {    
-    background: #EEEEEE url(../../themes/orange/icons/collapsed.gif) no-repeat scroll 98% 50%;
+    background: #EEEEEE url(../icons/collapsed.gif) no-repeat scroll 98% 50%;
 }
 
 div.odd a.expanded {
-    background: #d3c5b6 url(../../themes/orange/icons/expanded.gif) no-repeat scroll 98% 50%;
+    background: #d3c5b6 url(../icons/expanded.gif) no-repeat scroll 98% 50%;
 }
 
 div.even a.expanded {    
-    background: #d3c5b6 url(../../themes/orange/icons/expanded.gif) no-repeat scroll 98% 50%;
+    background: #d3c5b6 url(../icons/expanded.gif) no-repeat scroll 98% 50%;
 }
 
 div.jobHeading a:hover {
@@ -124,6 +124,7 @@ div.actionbar {
 div.actionbar a {
     margin: 11px 5px 5px 5px;
     padding-right: 10px;    
+    outline: none;
 }
 
 div.applydiv {
