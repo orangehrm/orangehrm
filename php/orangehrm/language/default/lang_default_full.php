@@ -1666,6 +1666,8 @@
 	$lang_Recruit_Application_CompanyNameNotSet = 'Company Name not set';
 	$lang_Recruit_ApplicationForm_Position = 'Position Applying for';
 	$lang_Recruit_Applicant_NoVacanciesFound = 'No Job Vacancies found. Please check back later.';
+    $lang_Recruit_Applicant_ExpandAll = 'Expand All';
+    $lang_Recruit_Applicant_CollapseAll = 'Collapse All';
 
 	$lang_Recruit_ApplicationForm_FirstName = 'First Name';
 	$lang_Recruit_ApplicationForm_MiddleName = 'Middle Name';

@@ -19,87 +19,133 @@
 
 $vacancies = $records['vacancies'];
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
-<script>
+<script type="text/javascript">
+//<![CDATA[
 
 function apply(jobId) {
     window.location = "?recruitcode=ApplicantViewApplication&id=" + jobId;
 }
+
+function showhide(link, row) {
+    if (link.className == 'expanded') {
+        link.className = 'collapsed';    
+        $('details_' + row).style.display = 'none';
+        $('summary_' + row).style.display = 'block';       
+    } else {
+        link.className = 'expanded';    
+        $('details_' + row).style.display = 'block';
+        $('summary_' + row).style.display = 'none';       
+    }
+}
+
+function expandAll() {
+    toggleDescriptions(true);
+}
+
+function collapseAll() {
+    toggleDescriptions(false);
+}
+
+function toggleDescriptions(expand) {
+
+    var numVacancies = <?php echo count($vacancies);?>;
+    for (var row=1; row <= numVacancies; row++) {
+        var link = $('link_' + row);
+
+        if (expand) {
+            link.className = 'expanded';    
+            $('details_' + row).style.display = 'block';
+            $('summary_' + row).style.display = 'none';       
+        } else {
+            link.className = 'collapsed';    
+            $('details_' + row).style.display = 'none';
+            $('summary_' + row).style.display = 'block';               
+        }        
+    }     
+}
+
+//]]>
 </script>
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css">
-<style type="text/css">@import url("../../themes/<?php echo $styleSheet;?>/css/style.css"); </style>
-<style type="text/css">
-.jobTitle {
-	font-weight: bold;
-	font-size: 15px;
-    color: black;
-}
-
-.jobDescription {
-	background: #b1fdf7;
-	padding: 5px 10px 5px 10px;
-	margin: 5px 0px 5px 0px;
-}
-
-.roundbox {
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 760px;
-}
-
-body {
-	margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 780px;
-}
-
-.roundbox_content {
-    padding:15px;
-}
-</style>
+<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<!--[if lte IE 6]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<!--[if IE]>
+<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<![endif]-->
+<link href="../../themes/<?php echo $styleSheet;?>/css/jobs.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<p><h2 class="moduleTitle"><?php echo $lang_Recruit_ApplicantVacancyList_Heading; ?></h2></p>
-<?php
-	if (empty($vacancies)) {
+<div class="formpage3col">
+    <div class="outerbox" id="outerbox">
+        <div class="mainHeading"><h2><?php echo $lang_Recruit_ApplicantVacancyList_Heading;?></h2></div>
+            
+<?php 
+    if (empty($vacancies)) { 
 ?>
-<div class="roundbox">
-	<?php echo $lang_Recruit_Applicant_NoVacanciesFound;?>
-</div>
-<?php
-	}
-	foreach ($vacancies as $vacancy) {
+	   <div class="novacancies"><?php echo $lang_Recruit_Applicant_NoVacanciesFound;?></div>
+<?php 
+    } else {        
 ?>
-<div class="roundbox">
-<div class="jobTitle"><?php echo htmlspecialchars($vacancy->getJobTitleName()); ?></div>
-<div class="jobDescription"><?php echo nl2br(htmlspecialchars($vacancy->getDescription())); ?></div>
+       <div class="actionbar">
+            <a id="expandAll" href="#" onclick="expandAll()"><?php echo $lang_Recruit_Applicant_ExpandAll;?></a>
+            <a id="collapseAll" href="#" onclick="collapseAll()"><?php echo $lang_Recruit_Applicant_CollapseAll;?></a>
+       </div><br class="clear"/>
+<?php        
+        $row = 0;
+        foreach ($vacancies as $vacancy) {
+            
+            $cssClass = ($row%2) ? 'odd' : 'even';            
+            $row++;
+            
+            $id = $vacancy->getId();
+            $title = htmlspecialchars($vacancy->getJobTitleName());
+            $description = htmlspecialchars($vacancy->getDescription());
+            $summary = substr($description, 0, 80) . '...';
+?>
+        <div class="jobHeading <?php echo $cssClass;?>">
+            <a href="#" class="collapsed" id="link_<?php echo $row;?>" onclick="showhide(this, <?php echo $row;?>)">
+                <span class="jobTitle"><?php echo $title; ?></span>            
+                <span class="jobSummary" id="summary_<?php echo $row;?>"><?php echo $summary;?></span>
+            </a>
+            <br class="clear"/>
+        </div>
+        
+        <div class="jobDetails <?php echo $cssClass;?>" id="details_<?php echo $row;?>" style="display:none;">
+            <div class="jobDescription"><?php echo nl2br($description); ?></div>
+            <div class="applydiv">
+            <input type="button" class="applybutton"
+                onclick="apply(<?php echo $id; ?>);" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                value="<?php echo $lang_Common_Apply;?>" />
+            </div>
+        </div>
 <?php
-	$iconDir = "../../themes/{$styleSheet}/icons/";
-	$applyIcon = $iconDir . 'apply.gif';
-	$applyIconPressed = $iconDir . 'apply_o.gif';
+    	}
+?>
+    <div class="<?php echo ($row%2) ? 'odd' : 'even'?>">
+    <br class="clear"/>
+    </div>
+<?php        
+    }
 ?>
 
-<img class="applyButton" src="<?php echo $applyIcon; ?>"
-	onMouseOut="this.src='<?php echo $applyIcon; ?>';"
-	onMouseOver="this.src='<?php echo $applyIconPressed; ?>';" onClick="apply(<?php echo $vacancy->getId(); ?>)">
-</div>
-<?php
-	}
-?>
+    
 
-    <script type="text/javascript">
-        <!--
-        	if (document.getElementById && document.createElement) {
-   	 			initOctopus();
-			}
-        -->
-    </script>
+    </div>
+<script type="text/javascript">
+//<![CDATA[
+    if (document.getElementById && document.createElement) {
+        roundBorder('outerbox');                
+    }
+//]]>            
+</script>
+</div>    
 </body>
 </html>

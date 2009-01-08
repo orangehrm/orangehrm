@@ -1,4 +1,10 @@
 New & Changed Features for OrangeHRM ver 2.5-alpha.2
+    
+    Bug fixes
+    ---------
+    1941287 - On the job vacancies web page job desc. expand and collapse
+
+New & Changed Features for OrangeHRM ver 2.5-alpha.2
 
     Changes done
     ------------
