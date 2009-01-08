@@ -105,7 +105,7 @@ class JobApplication {
 	private $mobile;
 	private $email;
 	private $qualifications;
-	public $resumeData = array('name'=>'', 'tmpName'=>'', 'type'=>'', 'size'=>0, 'error'=>'');
+	public $resumeData = array('name'=>'', 'tmpName'=>'', 'extension'=>'', 'size'=>0, 'error'=>'');
     private $status = self::STATUS_SUBMITTED;
     private $appliedDateTime;
     private $empNumber;
@@ -673,7 +673,7 @@ class JobApplication {
 		if ($this->resumeData['size'] > (5*1024*1024)) {
 			$this->resumeData['error'] = 'size-error';
 			return false;
-		} elseif ($ext != 'doc' && $ext != 'docx' && $ext != 'odt' && $ext != 'pdf') {
+		} elseif ($ext != 'doc' && $ext != 'docx' && $ext != 'odt' && $ext != 'pdf' && $ext != 'rtf' && $ext != 'txt') {
 			$this->resumeData['error'] = 'type-error';
 			return false;
 		} else {
@@ -712,10 +712,6 @@ class JobApplication {
 	    if ($this->resumeData['size'] > 0) {
 
 	    	$fileAsString = file_get_contents($this->resumeData['tmpName']);
-
-			/*$fp      = fopen($this->resumeData['tmpName'], 'r');
-			$fileAsString = fread($fp, filesize($this->resumeData['tmpName']));
-			fclose($fp);*/
 
 	    	if (get_magic_quotes_gpc()) {
 	    	    stripslashes($fileAsString);
@@ -762,9 +758,11 @@ class JobApplication {
                 'doc' => 'application/msword',
                 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'odt' => 'application/vnd.oasis.opendocument.text',
-                'pdf' => 'application/pdf');
-            $contentType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension]: null;     
-            
+                'pdf' => 'application/pdf',
+                'rtf' => 'application/rtf',
+                'txt' => 'text/plain');
+            $contentType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension]: null;
+
 			$content = $row[self::DB_FIELD_RESUME_DATA];
             $size = strlen($content);
             

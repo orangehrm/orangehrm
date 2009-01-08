@@ -1684,7 +1684,7 @@
 	$lang_Recruit_ApplicationForm_Qualifications = 'Qualifications and Experience';
 	$lang_Recruit_ApplicationForm_Resume = 'Resume';
 	$lang_Recruit_ApplicationForm_ResumeDownload = 'Download';
-	$lang_Recruit_ApplicationForm_ResumeDescription = 'Size should be less than 5MB and only .doc, .docx, .odt, .pdf are allowed';
+	$lang_Recruit_ApplicationForm_ResumeDescription = 'Size should be less than 5MB and only .doc, .docx, .odt, .pdf, .rtf, .txt are allowed';
 
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Please Specify ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Please Specify valid email address for ';
@@ -1698,7 +1698,7 @@
 	$lang_Recruit_ApplyFailure = 'There was an error while processing your application. Please try again later';
 	$lang_Recruit_ApplyFailure_UploadError = 'There was an error when uploading your resume. Therefore your application was not submitted. Please try again';
 	$lang_Recruit_ApplyFailure_UploadSizeError = 'Your resume size exceeds the allowed limit of 5MB';
-	$lang_Recruit_ApplyFailure_UploadTypeError = 'Your resume file type is not allowed. Only .doc, .docx, .odt and .pdf are allowed';
+	$lang_Recruit_ApplyFailure_UploadTypeError = 'Your resume file type is not allowed. Only .doc, .docx, .odt, .pdf, .rtf and .txt are allowed';
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";
@@ -1762,4 +1762,3 @@
 	include 'lang_default_benefits.php';
 
 	$lang_Common_To = "to";
-?>
