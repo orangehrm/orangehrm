@@ -388,10 +388,10 @@ class JobApplication {
 	 */
     public function save() {
 
-		if (empty($this->firstName) || empty($this->lastName) || empty($this->email) || empty($this->vacancyId)) {
+		if (!isset($this->id) && (empty($this->firstName) || empty($this->lastName) || empty($this->email) || empty($this->vacancyId))) {
 			throw new JobApplicationException("Attributes not set", JobApplicationException::MISSING_PARAMETERS);
 		}
-		if (!CommonFunctions::isValidId($this->vacancyId)) {
+		if (!isset($this->id) && !CommonFunctions::isValidId($this->vacancyId)) {
 		    throw new JobApplicationException("Invalid vacancy id", JobApplicationException::INVALID_PARAMETER);
 		}
 
@@ -506,12 +506,21 @@ class JobApplication {
 	 */
 	private function _update() {
 
+		$fields = $this->dbFields;
 		$values = $this->_getFieldValuesAsArray();
+
+		for ($i=0; $i<count($values); $i++) {
+		    if (!empty($values[$i])) {
+		        $fieldsArr[] = $fields[$i];
+		        $valuesArr[] = $values[$i];
+		    }
+		}
+
 		$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
 		$sqlBuilder->flg_update = 'true';
-		$sqlBuilder->arr_update = $this->dbFields;
-		$sqlBuilder->arr_updateRecList = $this->_getFieldValuesAsArray();
+		$sqlBuilder->arr_update = $fieldsArr;
+		$sqlBuilder->arr_updateRecList = $valuesArr;
 
 		$sql = $sqlBuilder->addUpdateRecord1(0);
 
@@ -765,7 +774,7 @@ class JobApplication {
 
 			$content = $row[self::DB_FIELD_RESUME_DATA];
             $size = strlen($content);
-            
+
             @ob_clean();
 			header("Pragma: public");
 			header("Expires: 0");

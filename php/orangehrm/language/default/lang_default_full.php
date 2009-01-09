@@ -251,6 +251,7 @@
 	$lang_Common_Back = "Back";
     $lang_Common_Add = "Add";
     $lang_Common_Delete = "Delete";
+    $lang_Common_Replace = "Replace";
     $lang_Common_Search = "Search";
     $lang_Common_Clear = "Clear";
     $lang_Common_Reset = "Reset";
@@ -1699,6 +1700,11 @@
 	$lang_Recruit_ApplyFailure_UploadError = 'There was an error when uploading your resume. Therefore your application was not submitted. Please try again';
 	$lang_Recruit_ApplyFailure_UploadSizeError = 'Your resume size exceeds the allowed limit of 5MB';
 	$lang_Recruit_ApplyFailure_UploadTypeError = 'Your resume file type is not allowed. Only .doc, .docx, .odt, .pdf, .rtf and .txt are allowed';
+
+	$lang_Recruit_Resume_DeletionSucceeded = 'Resume Was Successfully Deleted';
+	$lang_Recruit_Resume_DeletionFailed = 'Deleting Resume Failed';
+	$lang_Recruit_Resume_ReplaceSucceeded = 'Resume Was Successfully Replaced';
+	$lang_Recruit_Resume_ReplaceSucceeded = 'Replacing Resume Failed';
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";

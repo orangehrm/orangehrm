@@ -188,6 +188,9 @@ class RecruitmentController {
                     case 'downloadResume' :
                     	JobApplication::downloadResume($_GET['id']);
                     	break;
+                    case 'deleteResume' :
+                    	$this->_deleteResume($_GET['id']);
+                    	break;
                 }
 
 	            break;
@@ -508,6 +511,31 @@ class RecruitmentController {
         $template = new TemplateMerger($objs, $path);
         $template->display();
     }
+
+    /**
+     * Deletes the resume of the applicant
+     * @param int $applicationId ID of the Application
+     */
+
+	private function _deleteResume($applicationId) {
+
+		$jobApplication = new JobApplication();
+		$jobApplication->setId($applicationId);
+
+		try {
+		    $jobApplication->save();
+		    $objs['application'] = JobApplication::getJobApplication($applicationId); // No resume
+		    $objs['message'] = 'Resume deleted';
+		} catch (Exception $e) {
+		    $objs['application'] = JobApplication::getJobApplication($applicationId); // still contains the resume
+		    $objs['message'] = 'Resume not deleted';
+		}
+
+        $path = '/templates/recruitment/viewApplicationDetails.php';
+        $template = new TemplateMerger($objs, $path);
+        $template->display();
+
+	}
 
     /**
      * Reject the given application

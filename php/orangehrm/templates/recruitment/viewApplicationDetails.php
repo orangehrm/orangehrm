@@ -44,6 +44,8 @@ if (!empty($resumeName)) {
     $tmpArr = explode('-', $resumeName);
 	$id = $tmpArr[0];
 	$resumeUrl = 'CentralController.php?recruitcode=Application&action=downloadResume&id='.$id;
+	$resumeDeleteUrl = 'CentralController.php?recruitcode=Application&action=deleteResume&id='.$id;
+	$formAction = 'CentralController.php?recruitcode=Application&action=replaceResume&id='.$id;
 }
 
 ?>
@@ -58,6 +60,20 @@ if (!empty($resumeName)) {
 
     function goBack() {
         location.href = "<?php echo "{$baseURL}&action=List"; ?>";
+    }
+
+    function handleResumeForm() {
+
+        var resumeForm = document.getElementById('resumeForm')
+
+	    if (resumeForm.className == 'show') {
+	        resumeForm.className = 'hide';
+	        resumeForm.style.display = 'none';
+	    } else {
+	        resumeForm.className = 'show';
+	        resumeForm.style.display = 'block';
+	    }
+
     }
 
 //]]>
@@ -126,6 +142,19 @@ if (!empty($resumeName)) {
     .eventDate {
         font-style: italic;
     }
+
+    .successMsg {
+        display: block;
+        text-align: center;
+        color:#347C17;
+    }
+
+    .errorMsg {
+        display: block;
+        text-align: center;
+        color:#E41B17;
+    }
+
     -->
 </style>
 </head>
@@ -136,6 +165,33 @@ if (!empty($resumeName)) {
                 <span><?php echo $lang_Common_Back;?></span>
             </a>
         </div>
+
+        <?php
+
+        if (!empty($records['message'])) {
+
+        	//ToDo: Replace with a proper universal message style
+
+        	if ($records['message'] == 'Resume deleted') {
+        	    $msgStyle = 'successMsg';
+        	    $message = $lang_Recruit_Resume_DeletionSucceeded;
+        	} elseif ($records['message'] == 'Resume not deleted') {
+        		$msgStyle = 'errorMsg';
+        		$message = $lang_Recruit_Resume_DeletionFailed;
+        	} elseif ($records['message'] == 'Resume replaced') {
+        		$msgStyle = 'successMsg';
+        		$message = $lang_Recruit_Resume_ReplaceSucceeded;
+			} elseif ($records['message'] == 'Resume not replaced') {
+				$msgStyle = 'errorMsg';
+				$message = $lang_Recruit_Resume_ReplaceSucceeded;
+        	}
+
+        	echo "<div class=\"$msgStyle\">$message</div>";
+
+        }
+
+        ?>
+
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Recruit_JobApplicationDetails_Heading;?></h2></div>
 
@@ -169,8 +225,21 @@ if (!empty($resumeName)) {
         if (!empty($resumeName)) {
         ?>
 
-		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div><div class="txtValue"><a href="<?php echo $resumeUrl; ?>"><?php echo $lang_Recruit_ApplicationForm_ResumeDownload; ?></a></div><br/>
+		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div>
+		<div class="txtValue">
+		<a href="<?php echo $resumeUrl; ?>"><?php echo $lang_Recruit_ApplicationForm_ResumeDownload; ?></a>
+		( <a href="<?php echo $resumeDeleteUrl; ?>"><?php echo $lang_Common_Delete; ?></a> |
+		  <a href="#" onClick="handleResumeForm()"><?php echo $lang_Common_Replace; ?></a>)
+		</div><br/>
 
+		<!-- Resume form: begins-->
+		<div id="resumeForm" class="hide" style="display:none">
+		<form name="frmResume" id="frmResume" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
+		<input type="file" id="txtResume" name="txtResume" /><br/>
+		<?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?>
+		</form>
+		</div>
+		<!-- Resume form: ends-->
         <?php } ?>
         <br />
 
