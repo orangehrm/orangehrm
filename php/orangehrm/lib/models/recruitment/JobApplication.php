@@ -388,10 +388,10 @@ class JobApplication {
 	 */
     public function save() {
 
-		if (!isset($this->id) && (empty($this->firstName) || empty($this->lastName) || empty($this->email) || empty($this->vacancyId))) {
+		if (empty($this->firstName) || empty($this->lastName) || empty($this->email) || empty($this->vacancyId)) {
 			throw new JobApplicationException("Attributes not set", JobApplicationException::MISSING_PARAMETERS);
 		}
-		if (!isset($this->id) && !CommonFunctions::isValidId($this->vacancyId)) {
+		if (!CommonFunctions::isValidId($this->vacancyId)) {
 		    throw new JobApplicationException("Invalid vacancy id", JobApplicationException::INVALID_PARAMETER);
 		}
 
@@ -453,13 +453,13 @@ class JobApplication {
             $this->appliedDateTime = date(LocaleUtil::STANDARD_TIMESTAMP_FORMAT);
         }
 
-		$sqlBuilder = new SQLQBuilder();
+		/*$sqlBuilder = new SQLQBuilder();
 		$sqlBuilder->table_name = self::TABLE_NAME;
 		$sqlBuilder->flg_insert = 'true';
 		$sqlBuilder->arr_insert = $this->_getFieldValuesAsArray();
 		$sqlBuilder->arr_insertfield = $this->dbFields;
 
-		//$sql = $sqlBuilder->addNewRecordFeature2();
+		$sql = $sqlBuilder->addNewRecordFeature2();*/
 
 		$sql = "INSERT INTO `".self::TABLE_NAME."` (";
 
@@ -679,7 +679,7 @@ class JobApplication {
 
 		$ext = $this->resumeData['extension'];
 
-		if ($this->resumeData['size'] > (5*1024*1024)) {
+		if ($this->resumeData['size'] > (1024*1024)) {
 			$this->resumeData['error'] = 'size-error';
 			return false;
 		} elseif ($ext != 'doc' && $ext != 'docx' && $ext != 'odt' && $ext != 'pdf' && $ext != 'rtf' && $ext != 'txt') {
@@ -737,6 +737,38 @@ class JobApplication {
 	}
 
 	/**
+	 * Specific to update resumes
+	 */
+	public function updateResume() {
+
+		if (!isset($this->id) ||
+			!isset($this->firstName) ||
+			!isset($this->lastName) ||
+			$this->resumeData['size'] == 0) {
+
+			throw new JobApplicationException("Resume update: Missing values on required fields", JobApplicationException::RESUME_DATA_NOT_SET);
+
+		}
+
+		$resumeName = self::_getResumeName($this->id, $this->firstName, $this->lastName);
+		$resumeData = self::_prepareResumeToStore();
+
+		$sql = "UPDATE `".self::TABLE_NAME."` SET `".self::DB_FIELD_RESUME_NAME."` = '$resumeName', `";
+		$sql .= self::DB_FIELD_RESUME_DATA."` = '$resumeData' ";
+		$sql .= "WHERE `".self::DB_FIELD_ID."` = {$this->id}";
+
+		$conn = new DMLFunctions();
+		$result = $conn->executeQuery($sql);
+
+		if (!$result) {
+			throw new JobApplicationException("Update failed. SQL=$sql", JobApplicationException::DB_ERROR);
+		}
+
+		return $this->id;
+
+	}
+
+	/**
 	 * Triggers a download of the resume for give application id
 	 * @param integer $applicationId Id of the application
 	 * @return sting Outputs the resume only if it's availabe
@@ -761,8 +793,8 @@ class JobApplication {
 		if (!empty($row[self::DB_FIELD_RESUME_DATA])) {
 
 			$name = $row[self::DB_FIELD_RESUME_NAME];
-            
-			$extension = array_pop(explode(".", $name));            
+
+			$extension = array_pop(explode(".", $name));
             $mimeTypes = array(
                 'doc' => 'application/msword',
                 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -796,5 +828,6 @@ class JobApplicationException extends Exception {
 	const MISSING_PARAMETERS = 1;
 	const DB_ERROR = 2;
     const INVALID_STATUS = 3;
+    const RESUME_DATA_NOT_SET = 4;
 }
 

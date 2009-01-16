@@ -191,6 +191,9 @@ class RecruitmentController {
                     case 'deleteResume' :
                     	$this->_deleteResume($_GET['id']);
                     	break;
+                    case 'replaceResume' :
+                    	$this->_replaceResume();
+                    	break;
                 }
 
 	            break;
@@ -439,18 +442,18 @@ class RecruitmentController {
 
 	private static function _getEmployeeSearchList() {
 		$employeeSearchList = array();
-	
+
 		$selecteFields[] = 'CONCAT(em.`emp_firstname`, \' \', em.`emp_lastname`)';
 		$selecteFields[] = 'jt.`jobtit_name`';
 		$selecteFields[] = 'em.`emp_number`';
-		
+
 		$selectTables[] = '`hs_hr_employee` AS em';
-		$selectTables[] = '`hs_hr_job_title` AS jt'; 
-		
+		$selectTables[] = '`hs_hr_job_title` AS jt';
+
 		$joinConditions[1] = 'jt.`jobtit_code` = em.`job_title_code`';
-		
+
 		$orderCondition = $selecteFields[1];
-		
+
 		$sqlBuilder = new SQLQBuilder();
 		$query = $sqlBuilder->selectFromMultipleTable($selecteFields, $selectTables, $joinConditions, null, null, $orderCondition);
 
@@ -458,7 +461,7 @@ class RecruitmentController {
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
-		
+
 		$result = $dbConnection->executeQuery($query);
 
 		while($row = mysql_fetch_array($result, MYSQL_NUM)) {
@@ -519,8 +522,12 @@ class RecruitmentController {
 
 	private function _deleteResume($applicationId) {
 
+		$this->_authenticateResumeAccess();
+
 		$jobApplication = new JobApplication();
 		$jobApplication->setId($applicationId);
+
+		// If resume details are not set, at default they become null
 
 		try {
 		    $jobApplication->save();
@@ -529,6 +536,47 @@ class RecruitmentController {
 		} catch (Exception $e) {
 		    $objs['application'] = JobApplication::getJobApplication($applicationId); // still contains the resume
 		    $objs['message'] = 'Resume not deleted';
+		}
+
+        $path = '/templates/recruitment/viewApplicationDetails.php';
+        $template = new TemplateMerger($objs, $path);
+        $template->display();
+
+	}
+
+    /**
+     * Replaces the resume of the applicant.
+     * $_POST contains the application ID
+     */
+
+	private function _replaceResume() {
+
+		$this->_authenticateResumeAccess();
+
+		$extractor = new EXTRACTOR_JobApplication();
+		$jobApplication = $extractor->parseData($_POST);
+
+		if ($jobApplication->resumeData['size'] > 0) {
+
+			if ($jobApplication->isResumeCompatible()) {
+
+				try {
+				    $jobApplication->updateResume();
+				    $objs['application'] = JobApplication::getJobApplication($jobApplication->getId()); // Contains new resume
+				    $objs['message'] = 'Resume replaced';
+				} catch (Exception $e) {
+				    $objs['application'] = JobApplication::getJobApplication($jobApplication->getId()); // Still contains the old resume
+				    $objs['message'] = 'Resume not replaced';
+				}
+
+			} else {
+			    $objs['application'] = JobApplication::getJobApplication($jobApplication->getId());
+			    $objs['message'] = $jobApplication->resumeData['error'];
+			}
+
+
+		} else {
+		    $objs['application'] = JobApplication::getJobApplication($jobApplication->getId());
 		}
 
         $path = '/templates/recruitment/viewApplicationDetails.php';
@@ -908,6 +956,23 @@ class RecruitmentController {
 		}
 
 		header("Location: ".$url[0].$message.$id);
+	}
+
+	/**
+	 * Only allowed users should be able to proceed with resume related functions
+	 */
+	private function _authenticateResumeAccess() {
+
+		if (!$this->authorizeObj->isAdmin() &&
+			!$this->authorizeObj->isManager() &&
+			!$this->authorizeObj->isDirector() &&
+			!$this->authorizeObj->isAcceptor() &&
+			!$this->authorizeObj->isOfferer()) {
+
+			$this->_notAuthorized();
+
+		}
+
 	}
 
     /**

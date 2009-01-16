@@ -86,7 +86,7 @@
 		if ($_FILES['txtResume']['size'] > 0) {
 
 			if ($_FILES['txtResume']['error'] > 0) {
-			    $application->resumeData['name'] = $_FILES['txtResume']['error'];
+			    $application->resumeData['error'] = $_FILES['txtResume']['error'];
 			} else {
 				$application->resumeData['name'] = $_FILES['txtResume']['name'];
 				$application->resumeData['tmpName'] = $_FILES['txtResume']['tmp_name'];

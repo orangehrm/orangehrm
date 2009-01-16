@@ -37,15 +37,13 @@ $iconDir = "../../themes/{$styleSheet}/icons/";
 $backImg = $picDir . 'btn_back.gif';
 $backImgPressed = $picDir . 'btn_back_02.gif';
 
+$applicationId = $application->getId();
 $resumeName = $application->getResumeName();
-$id = '';
+$formAction = 'CentralController.php?recruitcode=Application&action=replaceResume';
 
 if (!empty($resumeName)) {
-    $tmpArr = explode('-', $resumeName);
-	$id = $tmpArr[0];
-	$resumeUrl = 'CentralController.php?recruitcode=Application&action=downloadResume&id='.$id;
-	$resumeDeleteUrl = 'CentralController.php?recruitcode=Application&action=deleteResume&id='.$id;
-	$formAction = 'CentralController.php?recruitcode=Application&action=replaceResume&id='.$id;
+	$resumeUrl = 'CentralController.php?recruitcode=Application&action=downloadResume&id='.$applicationId;
+	$resumeDeleteUrl = 'CentralController.php?recruitcode=Application&action=deleteResume&id='.$applicationId;
 }
 
 ?>
@@ -183,7 +181,13 @@ if (!empty($resumeName)) {
         		$message = $lang_Recruit_Resume_ReplaceSucceeded;
 			} elseif ($records['message'] == 'Resume not replaced') {
 				$msgStyle = 'errorMsg';
-				$message = $lang_Recruit_Resume_ReplaceSucceeded;
+				$message = $lang_Recruit_Resume_ReplaceFailed;
+			} elseif ($records['message'] == 'size-error') {
+				$msgStyle = 'errorMsg';
+				$message = $lang_Recruit_ApplyFailure_UploadSizeError;
+			} elseif ($records['message'] == 'type-error') {
+				$msgStyle = 'errorMsg';
+				$message = $lang_Recruit_ApplyFailure_UploadTypeError;
         	}
 
         	echo "<div class=\"$msgStyle\">$message</div>";
@@ -221,26 +225,41 @@ if (!empty($resumeName)) {
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Mobile; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getMobile()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Email; ?></div><div class="txtValue"><?php echo CommonFunctions::escapeHtml($application->getEmail()); ?></div><br/>
         <div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Qualifications; ?></div><div class="txtBox"><pre style="font-family: Arial, Helvetica, sans-serif"><?php echo nl2br(wordwrap(trim(CommonFunctions::escapeHtml($application->getQualifications())), 65)); ?></pre></div><br/>
+
+		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div>
+
         <?php
         if (!empty($resumeName)) {
         ?>
 
-		<div class="txtName"><?php echo $lang_Recruit_ApplicationForm_Resume; ?></div>
 		<div class="txtValue">
 		<a href="<?php echo $resumeUrl; ?>"><?php echo $lang_Recruit_ApplicationForm_ResumeDownload; ?></a>
 		( <a href="<?php echo $resumeDeleteUrl; ?>"><?php echo $lang_Common_Delete; ?></a> |
 		  <a href="#" onClick="handleResumeForm()"><?php echo $lang_Common_Replace; ?></a>)
 		</div><br/>
 
+        <?php } else { ?>
+
+		<div class="txtValue">
+		 <a href="#" onClick="handleResumeForm()"><?php echo $lang_Common_Add; ?></a>
+		</div><br/>
+
+        <?php } ?>
+
 		<!-- Resume form: begins-->
+		<?php // Names of form elements should comply with expected names at EXTRACTOR_JobApplication ?>
 		<div id="resumeForm" class="hide" style="display:none">
 		<form name="frmResume" id="frmResume" method="post" action="<?php echo $formAction;?>" enctype="multipart/form-data">
-		<input type="file" id="txtResume" name="txtResume" /><br/>
+		<input type="hidden" name="txtId" value="<?php echo $applicationId; ?>" />
+		<input type="hidden" name="txtFirstName" value="<?php echo $application->getFirstName(); ?>" />
+		<input type="hidden" name="txtLastName" value="<?php echo $application->getLastName(); ?>" />
+		<input type="file" id="txtResume" name="txtResume" />
+		<input type="submit" name="submit" value="<?php echo $lang_Common_Save; ?>" /><br/>
 		<?php echo $lang_Recruit_ApplicationForm_ResumeDescription; ?>
 		</form>
 		</div>
 		<!-- Resume form: ends-->
-        <?php } ?>
+
         <br />
 
         <div class="txtName"><?php echo $lang_Recruit_JobApplicationDetails_Status; ?></div>
@@ -274,7 +293,6 @@ if (!empty($resumeName)) {
                 $authManager = new RecruitmentAuthManager();
                 $authorize = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
                 $actions = $authManager->getAllowedActions($authorize, $application);
-                $applicationId = $application->getId();
 
                 foreach ($actions as $action) {
                     $resourceName = 'lang_Recruit_JobApplicationAction_' . $action;

@@ -1685,7 +1685,7 @@
 	$lang_Recruit_ApplicationForm_Qualifications = 'Qualifications and Experience';
 	$lang_Recruit_ApplicationForm_Resume = 'Resume';
 	$lang_Recruit_ApplicationForm_ResumeDownload = 'Download';
-	$lang_Recruit_ApplicationForm_ResumeDescription = 'Size should be less than 5MB and only .doc, .docx, .odt, .pdf, .rtf, .txt are allowed';
+	$lang_Recruit_ApplicationForm_ResumeDescription = 'Size should be less than 1MB and only .doc, .docx, .odt, .pdf, .rtf, .txt are allowed';
 
 	$lang_Recruit_ApplicationForm_PleaseSpecify = 'Please Specify ';
 	$lang_Recruit_ApplicationForm_PleaseSpecifyValidEmail = 'Please Specify valid email address for ';
@@ -1698,13 +1698,13 @@
 	$lang_Recruit_ApplicantEmailedSuccess = 'An email confirmation was sent to the following email address: #email#';
 	$lang_Recruit_ApplyFailure = 'There was an error while processing your application. Please try again later';
 	$lang_Recruit_ApplyFailure_UploadError = 'There was an error when uploading your resume. Therefore your application was not submitted. Please try again';
-	$lang_Recruit_ApplyFailure_UploadSizeError = 'Your resume size exceeds the allowed limit of 5MB';
+	$lang_Recruit_ApplyFailure_UploadSizeError = 'Your resume size exceeds the allowed limit of 1MB';
 	$lang_Recruit_ApplyFailure_UploadTypeError = 'Your resume file type is not allowed. Only .doc, .docx, .odt, .pdf, .rtf and .txt are allowed';
 
 	$lang_Recruit_Resume_DeletionSucceeded = 'Resume Was Successfully Deleted';
 	$lang_Recruit_Resume_DeletionFailed = 'Deleting Resume Failed';
-	$lang_Recruit_Resume_ReplaceSucceeded = 'Resume Was Successfully Replaced';
-	$lang_Recruit_Resume_ReplaceSucceeded = 'Replacing Resume Failed';
+	$lang_Recruit_Resume_ReplaceSucceeded = 'Resume Was Successfully Added';
+	$lang_Recruit_Resume_ReplaceFailed = 'Adding Resume Failed';
 
 	// login page
 	$lang_login_title = "OrangeHRM - New Level of HR Management";
