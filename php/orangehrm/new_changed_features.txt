@@ -1,5 +1,16 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.3
+
+	New features
+	------------
+	Expand/Collapse feature in job descriptions at jobs.php (1941287 - On the job vacancies web page job desc. expand and collapse)
+	Replacing capability in attached resumes.
+
+    Bug fixes
+    ---------
+	2047767 - Code is not able to detect Innodb support
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.2
-    
+
     Bug fixes
     ---------
     1941287 - On the job vacancies web page job desc. expand and collapse
@@ -19,7 +30,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.1
 	---------
 	1951522 - PIM->Unwanted check box in ESS user's ESS interface
     2003423 - Rename leave status "Status Differ" to "Partly Approved"
-    1733648 - Menu order 
+    1733648 - Menu order
 
 New & Changed Features for OrangeHRM ver 2.4.0.1
 
