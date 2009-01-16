@@ -109,7 +109,7 @@
     <div class="formpage">
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_bugtracker_Title;?></h2></div>
-        
+
         <?php
             if (isset($this->getArr['message'])) {
                 $expString  = $this->getArr['message'];
@@ -117,14 +117,14 @@
         ?>
             <div class="messagebar">
                 <span class=""><?php echo $expString; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
     <form name="frmBugs" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?mtcode=<?php echo $this->getArr['mtcode']?>">
         <input type="hidden" name="sqlState" value=""/>
 
             <span class="formLabel"><?php echo $lang_bugtracker_FoundInRelease; ?></span>
-            <span class="formValue">2.5-alpha.2</span><br class="clear"/>
+            <span class="formValue">2.5-alpha.3</span><br class="clear"/>
             <input type="hidden" readonly="readonly" name="artifact_group_id" value="786061"/>
 
             <label for="category_id"><?php echo $lang_bugtracker_Category; ?><span class="required">*</span></label>
@@ -162,7 +162,7 @@
             <label for="summary"><?php echo $lang_bugtracker_Summary; ?><span class="required">*</span></label>
             <input type="text" class="formInputText" id="summary" name="summary" class="formInputText" tabindex="4"/>
             <br class="clear"/>
-            
+
             <label for="txtEmail"><?php echo $lang_bugtracker_YourEmail; ?></label>
             <input type="text" id="txtEmail" name="txtEmail" tabindex="5" class="formInputText"
                 value="<?php echo isset($_POST['txtEmail']) ? $_POST['txtEmail'] : ''?>"/>
@@ -171,22 +171,22 @@
             <label for="txtDescription"><?php echo $lang_bugtracker_Description;?><span class="required">*</span></label>
             <textarea name='txtDescription' id="txtDescription" rows="3" cols="30" tabindex="6" class="formTextArea"></textarea><br class="clear" />
 
-            <div class="formbuttons">                
-                <input type="button" class="savebutton" id="saveBtn" 
-                    onclick="addSave();" tabindex="7" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <div class="formbuttons">
+                <input type="button" class="savebutton" id="saveBtn"
+                    onclick="addSave();" tabindex="7" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="button" class="clearbutton" onclick="document.frmBugs.reset();" tabindex="8"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                     value="<?php echo $lang_Common_Clear;?>" />                  
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                     value="<?php echo $lang_Common_Clear;?>" />
             </div>
     </form>
     </div>
     <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-</div>    
+</div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

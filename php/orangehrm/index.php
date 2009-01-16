@@ -67,7 +67,7 @@ require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $_SESSION['path'] = ROOT_PATH;
 ?>
-<?php 
+<?php
 
 /* Default modules */
 if (!isset ($_GET['menu_no_top'])) {
@@ -119,7 +119,7 @@ if($_SESSION['isAdmin']=='Yes') {
     }
 }
 
-switch ($_GET['menu_no_top']) {	
+switch ($_GET['menu_no_top']) {
 	case "eim":
 		$arrRights=$arrAllRights[Admin];
 		break;
@@ -246,7 +246,7 @@ require_once($lan->getLangPath("full.php"));
 require_once ROOT_PATH . '/themes/' . $styleSheet . '/menu/Menu.php';
 $menuObj = new Menu();
 
-/* Create menu items */ 
+/* Create menu items */
 /* TODO: Extract to separate class */
 $menu = array();
 
@@ -255,7 +255,7 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 
 	$menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
 	$menuItem->setCurrent($_GET['menu_no_top']=="eim");
-	
+
 	/* View for Admin users */
 	if ($_SESSION['isAdmin']=='Yes') {
 		$sub = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo, "#");
@@ -263,12 +263,12 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_Locations, "index.php?uniqcode=LOC&menu_no_top=eim");
 		$subsubs[] = new MenuItem("companyinfo", $lang_Menu_Admin_CompanyInfo_CompStruct, "index.php?uniqcode=CST&menu_no_top=eim");
 		$subsubs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
-                        		                      
+
 		$sub->setSubMenuItems($subsubs);
-		
+
 		$subs = array();
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_JobTitles, "index.php?uniqcode=JOB&menu_no_top=eim");
@@ -278,20 +278,20 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EEO, "index.php?uniqcode=EEC&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("qualifications",$lang_Menu_Admin_Quali,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "index.php?uniqcode=EDU&menu_no_top=eim");
 		$subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "index.php?uniqcode=LIC&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("skills",$lang_Menu_Admin_Skills,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Skills, "index.php?uniqcode=SKI&menu_no_top=eim");
 		$subsubs[] = new MenuItem("skills", $lang_Menu_Admin_Skills_Languages, "index.php?uniqcode=LAN&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
-		
+
 		$subs[] = $sub;
 		$sub = new MenuItem("memberships",$lang_Menu_Admin_Memberships,   "#");
 		$subsubs = array();
@@ -299,14 +299,14 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("memberships",$lang_Menu_Admin_Memberships_Memberships, "index.php?uniqcode=MME&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_Nationality, "index.php?uniqcode=NAT&menu_no_top=eim");
 		$subsubs[] = new MenuItem("natandrace",$lang_Menu_Admin_NationalityNRace_EthnicRaces, "index.php?uniqcode=ETH&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("users",$lang_Menu_Admin_Users,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_HRAdmin, "index.php?uniqcode=USR&menu_no_top=eim&isAdmin=Yes");
@@ -314,14 +314,14 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("users",$lang_Menu_Admin_Users_UserGroups, "index.php?uniqcode=USG&menu_no_top=eim");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("email",$lang_Menu_Admin_EmailNotifications,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailConfiguration, "index.php?uniqcode=EMX&menu_no_top=eim" );
 		$subsubs[] = new MenuItem("email",$lang_Menu_Admin_EmailSubscribe, "index.php?uniqcode=ENS&menu_no_top=eim" );
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("project",$lang_Menu_Admin_ProjectInfo,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("project",$lang_Menu_Admin_Customers, "index.php?uniqcode=CUS&menu_no_top=eim" );
@@ -329,7 +329,7 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim" );
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("importexport",$lang_Menu_Admin_DataImportExport,   "#");
 		$subsubs = array();
 		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataExport, "index.php?uniqcode=CSE&menu_no_top=eim" );
@@ -338,20 +338,20 @@ if ( (($_SESSION['isAdmin']=='Yes') && $arrAllRights[Admin]['view']) || $_SESSIO
 		$subsubs[] = new MenuItem("importexport",$lang_Menu_Admin_DataImportDefine, "index.php?uniqcode=CIM&menu_no_top=eim" );
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
+
 		$sub = new MenuItem("customfields",$lang_Menu_Admin_CustomFields,   "index.php?uniqcode=CTM&menu_no_top=eim");
 		$subs[] = $sub;
-		
+
 	  	if ($_SESSION['ldap'] == "enabled") {
 	  		$subs[] = new MenuItem("ldap", $lang_Menu_LDAP_Configuration, "index.php?uniqcode=LDAP&menu_no_top=eim");
 	  	}
-		
+
 	} else if ($_SESSION['isProjectAdmin']) {
 		$subs[] = new MenuItem("project",$lang_Admin_ProjectActivities, "index.php?uniqcode=PAC&menu_no_top=eim");
 	} else if ($_SESSION['isSupervisor']) {
 		$subs[] = new MenuItem("companyproperty",$lang_Menu_Admin_Company_Property, "index.php?uniqcode=TCP&menu_no_top=eim&pageNo=1");
 	}
-	
+
 	$menuItem->setSubMenuItems($subs);
 	$menu[] = $menuItem;
 }
@@ -362,7 +362,7 @@ $_SESSION['PIM_MENU_TYPE'] = PIM_MENU_TYPE;
 
 /* PIM menu start */
 if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights[PIM]['view'])  {
-	 
+
 	$menuItem = new MenuItem("pim", $lang_Menu_Pim ,"./index.php?menu_no_top=hr");
 	$menuItem->setCurrent($_GET['menu_no_top']=="hr");
 	$enablePimMenu = false;
@@ -370,15 +370,15 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 		$enablePimMenu = true;
 	}
 	$subs = array();
-	
+
 	$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./index.php?menu_no_top=hr");
 	if ($arrAllRights[PIM]['add']) {
 		$subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./lib/controllers/CentralController.php?reqcode=EMP&capturemode=addmode");
 	}
-	
+
 	if (PIM_MENU_TYPE == 'dropdown') {
 	$sub = new MenuItem("personal",$lang_pim_tabs_Personal, "#", null, $enablePimMenu);
-	$subsubs = array();    
+	$subsubs = array();
 	$subsubs[] = new MenuItem("personal", $lang_pim_PersonalDetails, "javascript:parent.rightMenu.displayLayer(1)", null, $enablePimMenu);
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_Contact, "javascript:parent.rightMenu.displayLayer(4)", null, $enablePimMenu);
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_EmergencyContacts, "javascript:parent.rightMenu.displayLayer(5)", null, $enablePimMenu);
@@ -386,10 +386,10 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_Immigration, "javascript:parent.rightMenu.displayLayer(10)", null, $enablePimMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	
+
 	$sub = new MenuItem("employment",$lang_pim_Employment, "#", null, $enablePimMenu);
 	$subsubs = array();
-	        
+
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Job, "javascript:parent.rightMenu.displayLayer(2)", null, $enablePimMenu);
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Payments, "javascript:parent.rightMenu.displayLayer(14)", null, $enablePimMenu);
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Tax, "javascript:parent.rightMenu.displayLayer(18)", null, $enablePimMenu);
@@ -397,7 +397,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_ReportTo, "javascript:parent.rightMenu.displayLayer(15)", null, $enablePimMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	
+
 	$sub = new MenuItem("pimqualifications", $lang_pim_Qualifications, "#", null, $enablePimMenu);
 	$subsubs = array();
 	$subsubs[] = new MenuItem("pimqualifications",$lang_pim_tabs_WorkExperience, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
@@ -407,7 +407,7 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 	$subsubs[] = new MenuItem("pimqualifications",$lang_pim_tabs_License, "javascript:parent.rightMenu.displayLayer(12)", null, $enablePimMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	  
+
 	$subs[] = new MenuItem("pimmemberships",$lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
 	$subs[] = new MenuItem("attachments",$lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
 	$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
@@ -417,10 +417,10 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 		$subs[] = new MenuItem("pimqualifications", $lang_pim_Qualifications, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
 		$subs[] = new MenuItem("pimmemberships",$lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
 		$subs[] = new MenuItem("attachments",$lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
-		$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);			    
-	}    
+		$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
+	}
 	$menuItem->setSubMenuItems($subs);
-	
+
 	$menu[] = $menuItem;
 }
 
@@ -428,26 +428,26 @@ if ( ($_SESSION['isAdmin']=='Yes' || $_SESSION['isSupervisor']) && $arrAllRights
 if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 	$menuItem = new MenuItem("leave", $lang_Menu_Leave ,"./index.php?menu_no_top=leave");
 	$menuItem->setCurrent($_GET['menu_no_top']=="leave");
-	
-	$subs = array();	                 			
+
+	$subs = array();
 	$subsubs = array();
-	
-	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);	
+
+	$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
 	if ($authorizeObj->firstRole($allowedRoles)) {
-		
+
 		$sub = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "#");
-		
+
 		if ($authorizeObj->isESS()) {
-			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_PersonalLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");                  			
+			$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_PersonalLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
 		}
 		$subsubs[] = new MenuItem("leavesummary", $lang_Menu_Leave_EmployeeLeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Select_Employee_Leave_Summary");
-		$sub->setSubMenuItems($subsubs);           		
+		$sub->setSubMenuItems($subsubs);
 	} else if ($authorizeObj->isESS()) {
 		$sub = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Summary&id={$_SESSION['empID']}");
 	}
-	                 				
+
 	$subs[] = $sub;
-	
+
 	if ($authorizeObj->isAdmin()) {
 		$sub = new MenuItem("daysoff", $lang_Menu_Leave_DefineDaysOff, "#");
 		$subsubs = array();
@@ -455,15 +455,15 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 		$subsubs[] = new MenuItem("daysoff",$lang_Menu_Leave_DefineDaysOff_SpecificHolidays, "lib/controllers/CentralController.php?leavecode=Leave&action=Holiday_Specific_List");
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
-		
-		$subs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary");	
+
+		$subs[] = new MenuItem("leavetypes",$lang_Menu_Leave_LeaveTypes , "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Type_Summary");
 	}
-	
+
 	if ($authorizeObj->isESS()) {
   		$subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveEmployee");
-  		$subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view");		
+  		$subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_view");
 	}
-	
+
 	if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
 		$subs[] = new MenuItem("assignleave",$lang_Menu_Leave_Assign, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_Apply_Admin_view");
 	}
@@ -474,7 +474,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 		$subs[] = new MenuItem("leavelist",$lang_Leave_all_emplyee_leaves, "lib/controllers/CentralController.php?leavecode=Leave&action=Leave_FetchLeaveAdmin&NewQuery=1");
 	}
 
-	$menuItem->setSubMenuItems($subs);	
+	$menuItem->setSubMenuItems($subs);
 	$menu[] = $menuItem;
 }
 
@@ -482,46 +482,46 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 	$menuItem = new MenuItem("time", $lang_Menu_Time ,"./index.php?menu_no_top=time");
 	$menuItem->setCurrent($_GET['menu_no_top']=="time");
-	
+
 	/* Only show rest of menu if time period set */
 	if ($_SESSION['timePeriodSet'] == "Yes") {
 		$subs = array();
-		
+
 		$sub = new MenuItem("timesheets", $lang_Menu_Time_Timesheets, $timesheetPage);
-		
+
 		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
 
 			$subsubs = array();
-			
-			if ($authorizeObj->isESS()) {                        
-				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, "lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=");				
+
+			if ($authorizeObj->isESS()) {
+				$subsubs[] = new MenuItem("timesheets", $lang_Menu_Time_PersonalTimesheet, "lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=");
 			}
-			
+
 			$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_PrintTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=Select_Timesheets_View");
 			$subsubs[] = new MenuItem("timesheets",$lang_Menu_Time_EmployeeTimesheets , "lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee");
 			$sub->setSubMenuItems($subsubs);
 		}
-		
+
 		$subs[] = $sub;
-		
+
 		if ($authorizeObj->isESS()) {
 	    	$subs[] = new MenuItem("punchTime", $lang_Menu_Time_PunchInOut, "lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time");
-	        $subs[] = new MenuItem("projectTime", $lang_Menu_Time_ProjectTime, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");			
+	        $subs[] = new MenuItem("projectTime", $lang_Menu_Time_ProjectTime, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");
 		}
-		
+
 		$allowedRoles = array($authorizeObj->roleAdmin, $authorizeObj->roleSupervisor);
 	    if ($authorizeObj->firstRole($allowedRoles)) {
 			$subs[] = new MenuItem("employeereports",$lang_Menu_Time_EmployeeReports , "lib/controllers/CentralController.php?timecode=Time&action=Employee_Report_Define");
 	    }
-		
+
 		if (($_SESSION['isAdmin']=='Yes') || $_SESSION['isProjectAdmin']) {
 			$subs[] = new MenuItem("projectreports",$lang_Menu_Time_ProjectReports, "lib/controllers/CentralController.php?timecode=Time&action=Project_Report_Define");
 		}
-		
+
 		if ($_SESSION['isAdmin']=='Yes') {
-			$subs[] = new MenuItem("workshifts", $lang_Menu_Time_WorkShifts, "lib/controllers/CentralController.php?timecode=Time&action=View_Work_Shifts");			
-		}	            	
-	            			
+			$subs[] = new MenuItem("workshifts", $lang_Menu_Time_WorkShifts, "lib/controllers/CentralController.php?timecode=Time&action=View_Work_Shifts");
+		}
+
 		$menuItem->setSubMenuItems($subs);
 	}
 	$menu[] = $menuItem;
@@ -531,9 +531,9 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 	$menuItem = new MenuItem("benefits",$lang_Menu_Benefits  ,"./index.php?menu_no_top=benefits");
 	$menuItem->setCurrent($_GET['menu_no_top']=="benefits");
-	
+
 	$subs = array();
-	
+
 	/* TODO: clean up this part based on requirements */
 	if ($_SESSION['isAdmin'] == "Yes") {
 		$yearVal = date('Y');
@@ -547,57 +547,57 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 		$sub->setSubMenuItems($subsubs);
 		$subs[] = $sub;
 	} else {
-		
+
 		if (Config::getHspCurrentPlan() > 0) {
 			$sub = new MenuItem("hsp", $lang_Menu_Benefits_HealthSavingsPlan, $personalHspSummary);
 		} else {
-			$sub = new MenuItem("hsp", $lang_Menu_Benefits_HealthSavingsPlan, "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Not_Defined");		
+			$sub = new MenuItem("hsp", $lang_Menu_Benefits_HealthSavingsPlan, "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Not_Defined");
 		}
 		$subsubs = array();
-		
+
 		if ($authorizeObj->isESS()) {
 			$yearVal = date('Y');
 			$subsubs[] = new MenuItem("hsp", $lang_Benefits_HspExpenditures, "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Expenditures&year={$yearVal}&employeeId={$_SESSION['empID']}");
-				
+
 			if (Config::getHspCurrentPlan() > 0) { // Show only when Admin has defined a HSP plan
 	            $subsubs[] = new MenuItem("hsp", $lang_Benefits_HspRequest, "lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Request_Add_View");
-	            $subsubs[] = new MenuItem("hsp", $lang_Menu_Benefits_PersonalHspSummary, $personalHspSummary);                        		 			
+	            $subsubs[] = new MenuItem("hsp", $lang_Menu_Benefits_PersonalHspSummary, $personalHspSummary);
 			}
-		}		
+		}
 		$sub->setSubMenuItems($subsubs);
-		$subs[] = $sub;		
+		$subs[] = $sub;
 	}
-	               		
+
 	$sub = new MenuItem("payrollschedule",$lang_Menu_Benefits_PayrollSchedule , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year");
-	
+
 	if ($_SESSION['isAdmin'] == "Yes") {
 		$subsubs = array();
 		$subsubs[] = new MenuItem("payrollschedule",$lang_Benefits_ViewPayrollSchedule , "lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year");
 		$subsubs[] = new MenuItem("payrollschedule",$lang_Benefits_AddPayPeriod , "lib/controllers/CentralController.php?benefitcode=Benefits&action=View_Add_Pay_Period");
 		$sub->setSubMenuItems($subsubs);
 	}
-		
-	$subs[] = $sub;	
+
+	$subs[] = $sub;
 	$menuItem->setSubMenuItems($subs);
 	$menu[] = $menuItem;
 }
 
 /* Start recruitment menu */
 if ($arrAllRights[Recruit]['view']) {
-	
-                    
+
+
 	$menuItem = new MenuItem("recruit", $lang_Menu_Recruit ,"./index.php?menu_no_top=recruit");
 	$menuItem->setCurrent($_GET['menu_no_top']=="recruit");
-	
+
 	$subs = array();
-	if ($_SESSION['isAdmin']=='Yes') {	
+	if ($_SESSION['isAdmin']=='Yes') {
 		$subs[] = new MenuItem("vacancies",$lang_Menu_Recruit_JobVacancies , "lib/controllers/CentralController.php?recruitcode=Vacancy&action=List");
 	}
-	
+
 	if ($_SESSION['isAdmin']=='Yes' || $_SESSION['isManager'] || $_SESSION['isDirector'] || $_SESSION['isAcceptor'] || $_SESSION['isOfferer']) {
 		$subs[] = new MenuItem("applications",$lang_Menu_Recruit_JobApplicants , "lib/controllers/CentralController.php?recruitcode=Application&action=List");
 	}
-	
+
 	$menuItem->setSubMenuItems($subs);
 	$menu[] = $menuItem;
 }
@@ -606,10 +606,10 @@ if ($arrAllRights[Recruit]['view']) {
 if ($_SESSION['isAdmin']=='Yes' && $arrAllRights[Report]['view']) {
 	$menuItem = new MenuItem("report", $lang_Menu_Reports ,"./index.php?menu_no_top=rep");
 	$menuItem->setCurrent($_GET['menu_no_top']=="rep");
-	
+
 	$subs = array();
 	$subs[] = new MenuItem("viewreports",$lang_Menu_Reports_ViewReports , "index.php?repcode=EMPVIEW&menu_no_top=rep");
-	
+
 	if ($arrAllRights[Report]['add'] || $arrAllRights[Report]['edit'] || $arrAllRights[Report]['delete']) {
 		$subs[] = new MenuItem("definereports",$lang_Menu_Reports_DefineReports , "index.php?repcode=EMPDEF&menu_no_top=rep");
 	}
@@ -626,9 +626,9 @@ if ($_SESSION['isAdmin']!='Yes') {
 		$enableEssMenu = true;
 	}
 	$subs = array();
-	if (PIM_MENU_TYPE == 'dropdown') {	
+	if (PIM_MENU_TYPE == 'dropdown') {
 	$sub = new MenuItem("personal",$lang_pim_tabs_Personal, "#", null, $enableEssMenu);
-	$subsubs = array();    
+	$subsubs = array();
 	$subsubs[] = new MenuItem("personal", $lang_pim_PersonalDetails, "javascript:parent.rightMenu.displayLayer(1)", null, $enableEssMenu);
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_Contact, "javascript:parent.rightMenu.displayLayer(4)", null, $enableEssMenu);
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_EmergencyContacts, "javascript:parent.rightMenu.displayLayer(5)", null, $enableEssMenu);
@@ -636,10 +636,10 @@ if ($_SESSION['isAdmin']!='Yes') {
 	$subsubs[] = new MenuItem("personal",$lang_pim_tabs_Immigration, "javascript:parent.rightMenu.displayLayer(10)", null, $enableEssMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	
+
 	$sub = new MenuItem("employment", $lang_pim_Employment, "#", null, $enableEssMenu);
 	$subsubs = array();
-	        
+
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Job, "javascript:parent.rightMenu.displayLayer(2)", null, $enableEssMenu);
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Payments, "javascript:parent.rightMenu.displayLayer(14)", null, $enableEssMenu);
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_Tax, "javascript:parent.rightMenu.displayLayer(18)", null, $enableEssMenu);
@@ -647,7 +647,7 @@ if ($_SESSION['isAdmin']!='Yes') {
 	$subsubs[] = new MenuItem("employment",$lang_pim_tabs_ReportTo, "javascript:parent.rightMenu.displayLayer(15)", null, $enableEssMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	
+
 	$sub = new MenuItem("pimqualifications", $lang_pim_Qualifications, "#", null, $enableEssMenu);
 	$subsubs = array();
 	$subsubs[] = new MenuItem("pimqualifications",$lang_pim_tabs_WorkExperience, "javascript:parent.rightMenu.displayLayer(17)", null, $enableEssMenu);
@@ -657,7 +657,7 @@ if ($_SESSION['isAdmin']!='Yes') {
 	$subsubs[] = new MenuItem("pimqualifications",$lang_pim_tabs_License, "javascript:parent.rightMenu.displayLayer(12)", null, $enableEssMenu);
 	$sub->setSubMenuItems($subsubs);
 	$subs[] = $sub;
-	  
+
 	$subs[] = new MenuItem("pimmemberships",$lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enableEssMenu);
 	$subs[] = new MenuItem("attachments",$lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enableEssMenu);
 	$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enableEssMenu);
@@ -667,23 +667,23 @@ if ($_SESSION['isAdmin']!='Yes') {
 		$subs[] = new MenuItem("pimqualifications", $lang_pim_Qualifications, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
 		$subs[] = new MenuItem("pimmemberships",$lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
 		$subs[] = new MenuItem("attachments",$lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
-		$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);			    
-	} 	    
+		$subs[] = new MenuItem("custom",$lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
+	}
 	$menuItem->setSubMenuItems($subs);
-	
-	$menu[] = $menuItem;	
+
+	$menu[] = $menuItem;
 }
-	
-/* Start bug tracker menu */	
+
+/* Start bug tracker menu */
 $menuItem = new MenuItem("bug", "Bug Tracker", "./index.php?menu_no_top=bug");
 $menuItem->setCurrent($_GET['menu_no_top']=="bug");
-	
+
 $menu[] = $menuItem;
 
 /* Start help menu */
 $menuItem = new MenuItem("help", $lang_Menu_Help, '#');
 $subs = array();
-$subs[] = new MenuItem("help", $lang_Menu_HelpContents, "http://orangehrm.com/wiki/index.php/Orange_Help", '_blank');                               
+$subs[] = new MenuItem("help", $lang_Menu_HelpContents, "http://orangehrm.com/wiki/index.php/Orange_Help", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Support, "http://www.orangehrm.com/subscribe-support.shtml", '_blank');
 $subs[] = new MenuItem("forum", $lang_Menu_Home_Forum, "http://www.orangehrm.com/forum/", '_blank');
 $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/blog/", '_blank');
@@ -697,45 +697,45 @@ $welcomeMessage = preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_S
 if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'] != "Yes") {
 	$optionMenu = array();
 } else {
-	$optionMenu[] = new MenuItem("changepassword", $lang_index_ChangePassword, 
-		"./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id={$_SESSION['user']}");	
+	$optionMenu[] = new MenuItem("changepassword", $lang_index_ChangePassword,
+		"./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id={$_SESSION['user']}");
 }
 
 $optionMenu[] = new MenuItem("logout", $lang_index_Logout, "./index.php?ACT=logout");
-	
+
 // Decide on home page
-if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {  
+if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 	$uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : $defaultAdminView;
 	$isAdmin = isset($_GET['isAdmin']) ? ('&amp;isAdmin='.$_GET['isAdmin']) : '';
-	
+
 	/* TODO: Remove this pageNo variable */
 	$pageNo = isset($_GET['pageNo'])? '&amp;pageNo=1' : '';
-    $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}"; 
-} elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {  
+    $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
+} elseif (($_GET['menu_no_top']=="hr") && $arrRights['view']) {
 	$reqCode = isset($_GET['reqcode']) ? $_GET['reqcode'] : 'EMP';
 	$home = "./lib/controllers/CentralController.php?reqcode={$reqCode}";
-	if (isset($_GET['id'])) { 
+	if (isset($_GET['id'])) {
     	$home .= "&amp;id={$_GET['id']}&amp;capturemode=updatemode";
-   	} else { 
+   	} else {
         $home .= "&amp;VIEW=MAIN";
-	} 
+	}
 } elseif (($_GET['menu_no_top']=="ldap") && $arrRights['view']) {
-	$uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : '';  
+	$uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : '';
 	$home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN";
-} else if ($_GET['menu_no_top']=="bug") {  
+} else if ($_GET['menu_no_top']=="bug") {
 	$home = "./lib/controllers/CentralController.php?mtcode=BUG&amp;capturemode=addmode";
 } elseif ($_GET['menu_no_top']=="rep") {
-	$repcode = isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW';   
+	$repcode = isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW';
 	$home = "./lib/controllers/CentralController.php?repcode={$repcode}&amp;VIEW=MAIN";
-} elseif ($_GET['menu_no_top']=="ess") {	  
+} elseif ($_GET['menu_no_top']=="ess") {
 	$home = "./lib/controllers/CentralController.php?reqcode=ESS&amp;id={$_SESSION['empID']}&amp;capturemode=updatemode";
-} elseif ($_GET['menu_no_top']=="leave") {  
+} elseif ($_GET['menu_no_top']=="leave") {
 	$home = $leaveHomePage;
-} elseif ($_GET['menu_no_top']=="time") {  
+} elseif ($_GET['menu_no_top']=="time") {
 	$home = $timeHomePage;
-}  elseif ($_GET['menu_no_top']=="benefits") {  
+}  elseif ($_GET['menu_no_top']=="benefits") {
 	$home = $beneftisHomePage;
-} elseif ($_GET['menu_no_top']=="recruit") {  
+} elseif ($_GET['menu_no_top']=="recruit") {
 	$home = $recruitHomePage;
 } else {
 	$home = "";
@@ -750,7 +750,7 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 <link href="themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
 <link href="favicon.ico" rel="icon" type="image/gif"/>
 <script type="text/javaScript" src="scripts/archive.js"></script>
-<?php 
+<?php
 	$menuObj->getCSS();
 	$menuObj->getJavascript($menu);
 ?>
@@ -767,7 +767,7 @@ if (($_GET['menu_no_top']=="eim") && ($arrRights['view'] || $allowAdminView)) {
 </div>
 
 <div id="main-footer" style="clear:both;text-align:center;height:20px;">
-<a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5-alpha.2 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.
+<a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.5-alpha.3 &copy; OrangeHRM Inc. 2005 - 2008 All rights reserved.
 </div>
 <script type="text/javascript">
 //<![CDATA[
@@ -782,7 +782,7 @@ function exploitSpace() {
        			if (dimensions[0] < 940) {
        			    dimensions[0] = 940;
        			}
-       			
+
                document.getElementById("main-content").style.width = (dimensions[0] - <?php echo $menuObj->getMenuWidth();?>) + 'px';
        }
 }
