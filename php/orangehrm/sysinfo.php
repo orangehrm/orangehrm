@@ -240,5 +240,5 @@ function reload() {
 		<br />
 		<input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="3">
 </div>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> SysInfo ver 0.1 &copy; OrangeHRM Inc 2005 - 2008 All rights reserved. </div>
+<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> SysInfo ver 0.1 &copy; OrangeHRM Inc 2005 - 2009 All rights reserved. </div>
 </div>

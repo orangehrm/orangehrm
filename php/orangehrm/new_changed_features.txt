@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.4
+
+    Bug fixes
+    ---------
+    2489641 - All right reserved: 2008 should be 2009
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.3
 
 	New features
