@@ -3,6 +3,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.4
     Bug fixes
     ---------
     2489641 - All right reserved: 2008 should be 2009
+    2503715 - Editing Work Experience cause to Undefined offset error
 
 New & Changed Features for OrangeHRM ver 2.5-alpha.3
 

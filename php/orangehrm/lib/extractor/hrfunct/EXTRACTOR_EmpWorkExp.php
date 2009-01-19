@@ -31,6 +31,10 @@ class EXTRACTOR_EmpWorkExp{
 		$postArr['txtEmpExpFromDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpFromDate']);
 		$postArr['txtEmpExpToDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpToDate']);
 
+        if (isset($postArr['txtEmpExpFromDate']) && ($postArr['txtEmpExpFromDate'] == '0000-00-00')|| ($postArr['txtEmpExpFromDate'] == "")) {
+            $postArr['txtEmpExpFromDate'] = 'null';
+        }
+
 		if (isset($postArr['txtEmpExpToDate']) && ($postArr['txtEmpExpToDate'] == '0000-00-00')|| ($postArr['txtEmpExpToDate'] == "")) {
 			$postArr['txtEmpExpToDate'] = 'null';
 		}
