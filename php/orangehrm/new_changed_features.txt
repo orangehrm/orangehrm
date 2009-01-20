@@ -4,6 +4,8 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.4
     ---------
     2489641 - All right reserved: 2008 should be 2009
     2503715 - Editing Work Experience cause to Undefined offset error
+    2506260 - In Leave Type action buttons not functional in IE
+    2506461 - Ess cannot apply leave using firefox : UI issue
 
 New & Changed Features for OrangeHRM ver 2.5-alpha.3
 
@@ -15,11 +17,6 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.3
     Bug fixes
     ---------
 	2047767 - Code is not able to detect Innodb support
-
-New & Changed Features for OrangeHRM ver 2.5-alpha.2
-
-    Bug fixes
-    ---------
     1941287 - On the job vacancies web page job desc. expand and collapse
 
 New & Changed Features for OrangeHRM ver 2.5-alpha.2

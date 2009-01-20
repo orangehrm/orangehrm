@@ -598,7 +598,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 
      <?php
 	  	if (!(is_array($records[1])) && ($modifier == 'Leave_Apply')) {  ?>
-            <div class="notice"><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?>
+            <div class="notice"><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?></div>
             <br class="clear"/>
      <?php } ?>
      
@@ -616,7 +616,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
             
       <div id="trTime1" class="<?php echo $timeElementClass;?>">
         <label for="sltLeaveFromTime"><?php echo $lang_Leave_Common_FromTime; ?></label>
-        <select name="sltLeaveFromTime" id="sltLeaveFromTime" type="text" id="sltLeaveFromTime" onchange="fillTimes();" 
+        <select name="sltLeaveFromTime" id="sltLeaveFromTime" onchange="fillTimes();" 
                 class="formTimeSelect">
             <option value=""></option>
             <?php
@@ -628,7 +628,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
             <?php } ?>
             </select>
         <label for="sltLeaveToTime"><?php echo $lang_Leave_Common_ToTime; ?></label>
-        <select name="sltLeaveToTime" id="sltLeaveToTime" type="text" id="sltLeaveToTime" onchange="fillTimes();" 
+        <select name="sltLeaveToTime" id="sltLeaveToTime" onchange="fillTimes();" 
                 class="formTimeSelect">
             <option value=""></option>
             <?php
