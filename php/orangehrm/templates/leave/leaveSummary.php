@@ -263,11 +263,15 @@
 <?php }  ?>	
 //]]>
 </script>
+
+<?php if (($auth === 'admin' ) || ($auth === 'supervisor')) { ?>
 <div class="navigation">
     <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
         <span><?php echo $lang_Common_Back;?></span>
     </a>
 </div>
+<?php } ?>
+
 <div class="outerbox">
 <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
@@ -290,7 +294,6 @@
 
 	if (!is_array($records[0])) {
 ?>
-	<img title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack();">
 	<h5><?php echo $lang_Error_NoRecordsFound; ?></h5>
 <?php
 	} else {

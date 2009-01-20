@@ -6,6 +6,7 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.4
     2503715 - Editing Work Experience cause to Undefined offset error
     2506260 - In Leave Type action buttons not functional in IE
     2506461 - Ess cannot apply leave using firefox : UI issue
+    2506497 - Ess: Leave summary back button will end up with notice page
 
 New & Changed Features for OrangeHRM ver 2.5-alpha.3
 
