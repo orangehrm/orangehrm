@@ -189,19 +189,22 @@ class HspPayPeriodTest extends PHPUnit_Framework_TestCase {
     }
 
 	public function testCountCheckDates() {
+		
+		$thisYear = date('Y');
+		$previousYear = $thisYear - 1;
 
 		$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_pay_period`"));
 
-		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(1, '2007-12-01', '2007-12-31', '2007-12-31', '2007-12-25', '2007-12-20')"));
-		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(2, '2008-01-01', '2008-01-31', '2008-01-31', '2008-01-25', '2008-01-20')"));
-		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(3, '2008-02-01', '2008-02-29', '2008-02-29', '2008-02-25', '2008-02-20')"));
-		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(4, '2008-03-01', '2008-03-31', '2008-03-31', '2008-03-25', '2008-03-20')"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(1, '$previousYear-12-01', '$previousYear-12-31', '$previousYear-12-31', '$previousYear-12-25', '$previousYear-12-20')"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(2, '$thisYear-01-01', '$thisYear-01-31', '$thisYear-01-31', '$thisYear-01-25', '$thisYear-01-20')"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(3, '$thisYear-02-01', '$thisYear-02-29', '$thisYear-02-29', '$thisYear-02-25', '$thisYear-02-20')"));
+		$this->assertTrue(mysql_query("INSERT INTO hs_hr_pay_period VALUES(4, '$thisYear-03-01', '$thisYear-03-31', '$thisYear-03-31', '$thisYear-03-25', '$thisYear-03-20')"));
 
-		$this->assertEquals(HspPayPeriod::countCheckDates("2008-01-01", "2008-04-01"), 3);
-		$this->assertEquals(HspPayPeriod::countCheckDates("2007-12-01", "2008-04-01"), 3);
-		$this->assertEquals(HspPayPeriod::countCheckDates("2005-12-01", "2008-04-01"), 3);
-		$this->assertEquals(HspPayPeriod::countCheckDates("2008-01-25", "2008-03-31"), 2);
-		$this->assertEquals(HspPayPeriod::countCheckDates("2008-03-31", "2008-05-31"), 0);
+		$this->assertEquals(HspPayPeriod::countCheckDates("$thisYear-01-01", "$thisYear-04-01"), 3);
+		$this->assertEquals(HspPayPeriod::countCheckDates("$previousYear-12-01", "$thisYear-04-01"), 3);
+		$this->assertEquals(HspPayPeriod::countCheckDates("2005-12-01", "$thisYear-04-01"), 3);
+		$this->assertEquals(HspPayPeriod::countCheckDates("$thisYear-01-25", "$thisYear-03-31"), 2);
+		$this->assertEquals(HspPayPeriod::countCheckDates("$thisYear-03-31", "$thisYear-05-31"), 0);
 
     }
 
