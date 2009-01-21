@@ -110,6 +110,11 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 2, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (3, 3, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
 
+        //Add 3 employees to `hs_hr_employee`
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (1, '001', 'Bauer', 'Jack', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (2, '002', 'Bond', 'James', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (3, '003', 'Owen', 'David', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+
 		$hspSummary = new HspSummary();
 
 		$summary = $hspSummary->fetchHspSummary(date('Y'), 1);
@@ -129,6 +134,11 @@ class HspSummaryTest extends PHPUnit_Framework_TestCase {
     	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (1, 1, 1, ".date('Y').", 0, 1200.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (2, 2, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_summary` VALUES (3, 3, 1, ".date('Y').", 0, 0.00, 0.00, 0.00, 0.00, 0.00)"),mysql_error());
+
+        //Add 3 employees to `hs_hr_employee`
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (1, '001', 'Bauer', 'Jack', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (2, '002', 'Bond', 'James', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (3, '003', 'Owen', 'David', '', '', 0, NULL, '0000-00-00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL)"),mysql_error());
 
 		$hspSummary = new HspSummary();
 

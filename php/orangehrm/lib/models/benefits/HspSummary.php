@@ -318,29 +318,35 @@ class HspSummary extends Hsp {
 
             $hspObj = new Hsp();
 
-            $hspObj->setSummaryId($row[0]);
-            $hspObj->setEmployeeId($row[1]);
-            $hspObj->setHspPlanId($row[2]);
-            $hspObj->setHspPlanName(DefineHsp::getHspPlanName($row[2]));
-            $hspObj->setEmployeeName(EmpInfo::getFullName($row[1]));
-            $hspObj->setHspPlanYear($row[3]);
-            $hspObj->setHspPlanStatus($row[4]);
-            $hspObj->setAnnualLimit($row[5]);
-            $hspObj->setEmployerAmount($row[6]);
-            $hspObj->setEmployeeAmount($row[7]);
-            $hspObj->setTotalAccrued($row[8]);
-            $hspObj->setTotalUsed($row[9]);
+            $empName = EmpInfo::getFullName($row[1]);
 
-           	$currentHspPlan = Config::getHspCurrentPlan();
-           	if ($currentHspPlan == 3 || $currentHspPlan == 4 || $currentHspPlan == 5) { // If FSA is avaialbe in current plan
-				if($row[2] == 3) {
-					$hspObj->setFsaBalance(self::_fetchLastYearFsaBalance($row[1], ($row[3]-1)));
-				} else {
-					$hspObj->setFsaBalance("NA");
-				}
-           	}
+            if (isset($empName)) { // For excluding deleted employees
 
-            $hspObjArr[] = $hspObj;
+		        $hspObj->setSummaryId($row[0]);
+		        $hspObj->setEmployeeId($row[1]);
+		        $hspObj->setHspPlanId($row[2]);
+		        $hspObj->setHspPlanName(DefineHsp::getHspPlanName($row[2]));
+		        $hspObj->setEmployeeName($empName);
+		        $hspObj->setHspPlanYear($row[3]);
+		        $hspObj->setHspPlanStatus($row[4]);
+		        $hspObj->setAnnualLimit($row[5]);
+		        $hspObj->setEmployerAmount($row[6]);
+		        $hspObj->setEmployeeAmount($row[7]);
+		        $hspObj->setTotalAccrued($row[8]);
+		        $hspObj->setTotalUsed($row[9]);
+
+		       	$currentHspPlan = Config::getHspCurrentPlan();
+		       	if ($currentHspPlan == 3 || $currentHspPlan == 4 || $currentHspPlan == 5) { // If FSA is avaialbe in current plan
+					if($row[2] == 3) {
+						$hspObj->setFsaBalance(self::_fetchLastYearFsaBalance($row[1], ($row[3]-1)));
+					} else {
+						$hspObj->setFsaBalance("NA");
+					}
+		       	}
+
+		        $hspObjArr[] = $hspObj;
+
+            }
 
         }
 

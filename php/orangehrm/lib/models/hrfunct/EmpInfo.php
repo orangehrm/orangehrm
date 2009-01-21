@@ -3200,7 +3200,7 @@ class EmpInfo {
         $dbConnection = new DMLFunctions();
         $result = $dbConnection->executeQuery($query);
 
-        if ($result) {
+        if (mysql_num_rows($result) == 1) {
 
             $row = $dbConnection->dbObject->getArray($result);
             $fullname = $row[0] . " " . $row[1];
