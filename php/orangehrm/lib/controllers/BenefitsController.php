@@ -31,6 +31,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 require_once ROOT_PATH . '/lib/models/benefits/DefineHsp.php';
 require_once ROOT_PATH . '/lib/logger/Logger.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
 
 class BenefitsController {
 	private $authorizeObj;
@@ -734,8 +735,18 @@ class BenefitsController {
 			$path = str_replace(__FILE__, '', $_SERVER['REQUEST_URI']);
 			$link = 'http://'. $server . $path .'&benefitcode=Benefits&action=View_Edit_Hsp_Request&id=' . $hspReqest->getId();
 
-			$hspMailNotification = new HspMailNotification();
-			$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest, $link);
+			/* Informing HR Admin: Begins */
+
+			$notificationObj = new EmailNotificationConfiguration();
+			$mailAddress = $notificationObj->fetchMailNotifications(EmailNotificationConfiguration::EMAILNOTIFICATIONCONFIGURATION_NOTIFICATION_TYPE_HSP);
+
+			if (isset($mailAddress)) {
+				$hspMailNotification = new HspMailNotification();
+				$hspMailNotification -> sendHspPaymentRequestNotifications($hspReqest, $link);
+			}
+
+			/* Informing HR Admin: Ends */
+
 		} catch (HspPaymentRequestException $e) {
 			switch ($e->getCode()) {
 				case HspPaymentRequestException::INVALID_ROW_COUNT :

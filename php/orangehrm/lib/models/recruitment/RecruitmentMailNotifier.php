@@ -20,7 +20,12 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
-require_once ROOT_PATH . '/lib/common/htmlMimeMail5/htmlMimeMail5.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH . '/lib/common');
+
+require_once ROOT_PATH . '/lib/common/Zend/Mail.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Smtp.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Sendmail.php';
+
 require_once ROOT_PATH . '/lib/models/eimadmin/CountryInfo.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
@@ -87,11 +92,11 @@ class RecruitmentMailNotifier {
     const VCALENDAR_DATETIME_FORMAT = 'Ymd\\THis\\Z';
 
     /** TODO: Extract to templates */
-    private $onHireTasks = array('Make contract', 
+    private $onHireTasks = array('Make contract',
         'Send contract to manager',
-        'Receive response from manager', 
-        'Send contract', 
-        'Review contract', 
+        'Receive response from manager',
+        'Send contract',
+        'Review contract',
         'Get director\'s signature',
         'Lodge contract',
         'Photocopy contract',
@@ -104,8 +109,8 @@ class RecruitmentMailNotifier {
         'Pre Interview Questionnaire',
         'Signed Induction Manual',
         'Copy of Drivers License',
-        'Reference Check');     
-    
+        'Reference Check');
+
 	/*
 	 * Class atributes
 	 **/
@@ -146,17 +151,34 @@ class RecruitmentMailNotifier {
 		    return $this->mailer;
 		}
 
-		$auth = true;
-		if ($this->emailConf->getSmtpUser() == '') {
-			$auth=false;
+		if ($this->mailType == 'smtp') {
+
+			$config = array();
+
+			if ($this->emailConf->getSmtpAuth() != EmailConfiguration::EMAILCONFIGURATION_SMTP_AUTH_NONE) {
+				$config['auth'] = strtolower($this->emailConf->getSmtpAuth());
+    			$config['username'] = trim($this->emailConf->getSmtpUser());
+    			$config['password'] = trim($this->emailConf->getSmtpPass());
+			}
+
+			if ($this->emailConf->getSmtpSecurity() != EmailConfiguration::EMAILCONFIGURATION_SMTP_SECURITY_NONE) {
+				$config['ssl'] = strtolower($this->emailConf->getSmtpSecurity());
+			}
+
+			$config['port'] = trim($this->emailConf->getSmtpPort());
+
+			$transport = new Zend_Mail_Transport_Smtp($this->emailConf->getSmtpHost(), $config);
+
+		} else if ($this->mailType = 'sendmail') {
+			$transport = new Zend_Mail_Transport_Sendmail();
 		}
 
-		$mailer = new htmlMimeMail5();
-		$mailer->setSMTPParams($this->emailConf->getSmtpHost(), $this->emailConf->getSmtpPort(), null, $auth, $this->emailConf->getSmtpUser(), $this->emailConf->getSmtpPass());
-		$mailer->setSendmailPath($this->emailConf->getSendmailPath());
-		$mailer->setFrom($this->emailConf->getMailAddress());
+		Zend_Mail::setDefaultTransport($transport);
+		$mailer = new Zend_Mail();
+		$mailer->setFrom($this->emailConf->getMailAddress(), "OrangeHRM");
 
-	    return $mailer;
+		return $mailer;
+
 	}
 
 	/**
@@ -360,20 +382,20 @@ class RecruitmentMailNotifier {
 
          $subject = str_replace($search, $replace, $subject);
          $body = str_replace($search, $replace, $body);
-         
+
          /* Add tasks */
          $attachments = array();
-         
-         $creatorName = $fromName; 
-         $creatorEmail = $jobApplicationEvent->getCreatorEmail();         
+
+         $creatorName = $fromName;
+         $creatorEmail = $jobApplicationEvent->getCreatorEmail();
          $applicantName = $jobApplication->getFirstName() . ' ' . $jobApplication->getLastName();
          $applicantEmail = $jobApplication->getEmail();
-         
+
          // Event time in 5 days
          $startTime = time() + (5 * 24 * 60 * 60);
 
          foreach ($this->onHireTasks as $task) {
-            
+
             /* Create task */
             $summary = $task . "({$applicantName})";
             $description = $summary;
@@ -381,9 +403,12 @@ class RecruitmentMailNotifier {
 
             // Next event in 1 hour
             $startTime = $startTime + 3600;
-            
+
             $message = $this->_getTask($task, $description, $creatorName, $creatorEmail, $applicantName, $applicantEmail, $eventTime);
-            $attachment = new stringAttachment($message, "{$task}.ics", 'text/calendar');             
+            $mailer = $this->_getMailer();
+            $attachment = $mailer->createAttachment($message);
+            $attachment->type = 'text/calendar';
+            $attachment->filename = "{$task}.ics";
             $attachments[] = $attachment;
          }
 
@@ -454,7 +479,10 @@ class RecruitmentMailNotifier {
 
         /* Create task */
         $message = $this->_getTask($summary, $description, $creatorName, $creatorEmail, $applicantName, $applicantEmail, $interviewTime);
-        $attachment = new stringAttachment($message, 'interview.ics', 'text/calendar');
+        $mailer = $this->_getMailer();
+        $attachment = $mailer->createAttachment($message);
+        $attachment->type = 'text/calendar';
+        $attachment->filename = 'interview.ics';
 
         /* Send Email with task attached */
         $to =  "{$intManagerName['first']} {$intManagerName['last']}<{$intManagerEmail}>";
@@ -547,15 +575,15 @@ EOT;
 
 		$mailer = $this->_getMailer();
 
-        if (!empty($body)) {
-		  $mailer->setText($body);
-        }
+		if (!empty($body)) {
+			  $mailer->setBodyText($body);
+		}
 
-        if (!empty($attachments) && is_array($attachments)) {
-            foreach ($attachments as $attachment) {
-                $mailer->addAttachment($attachment);
-            }
-        }
+		if (!empty($attachments) && is_array($attachments)) {
+		        foreach ($attachments as $attachment) {
+		        $mailer->addAttachment($attachment);
+		        }
+		}
 
 		// Trim newlines, carriage returns from subject.
 		$subject = $this->_removeNewLines($subject);
@@ -589,29 +617,39 @@ EOT;
 		    }
 		}
 
+		/* Setting to addresses */
+
+		foreach($to as $toAdd) {
+			$mailer->addTo($toAdd);
+			$logMessage .= "\r\n".$toAdd;
+		}
+
+		/* Setting cc addresses */
+
 		if (is_array($notificationAddresses)) {
-			$cc = implode(', ', $notificationAddresses);
-			$mailer->setCc($cc);
-		}
-
-		$logMessage .= "to " . implode(', ', $to) . "\r\n";
-		if (isset($cc)) {
-		    $logMessage .= "CC to {$cc}\r\n";
-		}
-
-		if (@$mailer->send($to, $this->mailType)) {
-			$logMessage .= " - SUCCEEDED";
-		} else {
-			$logMessage .= " - FAILED \r\nReason(s):";
-			if (isset($mailer->errors)) {
-				$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
+			foreach($notificationAddresses as $toCc) {
+				$mailer->addCc($toCc);
+				$logMessage .= "\r\n".$toCc;
 			}
-			$this->_log($logMessage);
-			return false;
+		}
+
+		$mailResult = true;
+
+		try {
+			$mailer->send();
+			$logMessage .= " - SUCCEEDED";
+		} catch (Exception $e) {
+			$mailResult = false;
+			$errorMsg = $e->getMessage();
+			if (isset($errorMsg)) {
+				$logMessage .= " - FAILED \r\nReason: $errorMsg";
+			}
 		}
 
 		$this->_log($logMessage);
-		return true;
+
+		return $mailResult;
+
 	}
 
 	/**

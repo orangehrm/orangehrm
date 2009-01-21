@@ -20,7 +20,12 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
-require_once ROOT_PATH . '/lib/common/htmlMimeMail5/htmlMimeMail5.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH . '/lib/common');
+
+require_once ROOT_PATH . '/lib/common/Zend/Mail.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Smtp.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Sendmail.php';
+
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
@@ -137,26 +142,42 @@ class MailNotifications {
 	 * Serializes the object
 	 *
 	 */
-	public function __construct() {
+		public function __construct() {
 		$confObj = new EmailConfiguration();
 
-		$this->mailer = new htmlMimeMail5();
-		$auth=true;
-		if ($confObj->getSmtpUser() == '') {
-			$auth=false;
+		$this->mailType = $confObj->getMailType();
+		if ($this->mailType == 'smtp') {
+
+			$config = array();
+
+			$authType = $confObj->getSmtpAuth();
+			if ($authType != EmailConfiguration::EMAILCONFIGURATION_SMTP_AUTH_NONE) {
+				$config['auth'] = strtolower($authType);
+    			$config['username'] = trim($confObj->getSmtpUser());
+    			$config['password'] = trim($confObj->getSmtpPass());
+			}
+
+			$security = $confObj->getSmtpSecurity();
+			if ($security != EmailConfiguration::EMAILCONFIGURATION_SMTP_SECURITY_NONE) {
+				$config['ssl'] = strtolower($security);
+			}
+
+			$config['port'] = trim($confObj->getSmtpPort());
+
+			$transport = new Zend_Mail_Transport_Smtp($confObj->getSmtpHost(), $config);
+
+		} else if ($this->mailType = 'sendmail') {
+			$transport = new Zend_Mail_Transport_Sendmail();
 		}
 
-		$this->mailer->setSMTPParams($confObj->getSmtpHost(), $confObj->getSmtpPort(), null, $auth, $confObj->getSmtpUser(), $confObj->getSmtpPass());
-
-		$this->mailer->setSendmailPath($confObj->getSendmailPath());
-
-		$this->mailer->setFrom("OrangeHRM <{$confObj->getMailAddress()}>");
+		Zend_Mail::setDefaultTransport($transport);
+		$this->mailer = new Zend_Mail();
+		$this->mailer->setFrom($confObj->getMailAddress(), "OrangeHRM");
 
 		$sysConfObj = new sysConf();
 
 		$this->employeeIdLength = $sysConfObj->getEmployeeIdLength();
 
-		$this->mailType = $confObj->getMailType();
 	}
 
 	public function __destruct() {
@@ -194,20 +215,17 @@ class MailNotifications {
 		$this->_buildMail();
 
 		$mailer = $this->mailer;
-		$mailer->setText($this->mail);
+		$mailer->setBodyText($this->mail);
 
 		$mailer->setSubject($this->subject);
 		$mailNotificationObj = new EmailNotificationConfiguration();
 		$notificationAddresses = $mailNotificationObj->fetchMailNotifications($this->notificationTypeId);
 
-		if (is_array($notificationAddresses)) {
-			$mailer->setCc(implode(', ', $notificationAddresses));
-		}
-
 		$logMessage = date('r')." Sending {$this->subject} to";
 
 		if (isset($this->to) && is_array($this->to)) {
 			foreach ($this->to as $to) {
+				$mailer->addTo($to);
 				$logMessage .= "\r\n".$to;
 			}
 		}
@@ -216,18 +234,24 @@ class MailNotifications {
 
 		if (isset($notificationAddresses) && is_array($notificationAddresses)) {
 			foreach ($notificationAddresses as $cc) {
+				$mailer->addCc($cc);
 				$logMessage .= "\r\n".$cc;
 			}
 		}
 
-		if ((!is_array($this->to)) || (!@$mailer->send($this->to, $this->mailType))) {
-
-			$logMessage .= " - FAILED \r\nReason(s):";
-			if (isset($mailer->errors)) {
-				$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
-			}
+		if (!is_array($this->to)) {
+			$logMessage .= " - FAILED \r\nReason: No to address set";
 		} else {
-			$logMessage .= " - SUCCEEDED";
+
+			try {
+				$mailer->send();
+				$logMessage .= " - SUCCEEDED";
+			} catch (Exception $e) {
+				$errorMsg = $e->getMessage();
+				if (isset($errorMsg)) {
+					$logMessage .= " - FAILED \r\nReason: $errorMsg";
+				}
+			}
 		}
 
 		if (isset($confObj->logPath) && !empty($confObj->logPath)) {

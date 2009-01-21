@@ -20,7 +20,12 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
-require_once ROOT_PATH . '/lib/common/htmlMimeMail5/htmlMimeMail5.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH . '/lib/common');
+
+require_once ROOT_PATH . '/lib/common/Zend/Mail.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Smtp.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Sendmail.php';
+
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
 
@@ -74,20 +79,39 @@ class HspMailNotification {
 	* Set smtp params, sendmailpath, from.
 	**/
 	public function __construct() {
-		$this -> mailer = new htmlMimeMail5();
-		$this -> emailConfig = new EmailConfiguration();
-		$this -> emailNotificationConfig = new EmailNotificationConfiguration();
-		$this -> mailType = $this -> emailConfig -> getMailType();
 
-		$auth = true;
-		if ($this -> emailConfig -> getSmtpUSer() == '') {
-			$auth = false;
+		$this->emailNotificationConfig = new EmailNotificationConfiguration();
+		$confObj = new EmailConfiguration();
+
+		$this->mailType = $confObj->getMailType();
+		if ($this->mailType == 'smtp') {
+
+			$config = array();
+
+			$authType = $confObj->getSmtpAuth();
+			if ($authType != EmailConfiguration::EMAILCONFIGURATION_SMTP_AUTH_NONE) {
+				$config['auth'] = strtolower($authType);
+    			$config['username'] = trim($confObj->getSmtpUser());
+    			$config['password'] = trim($confObj->getSmtpPass());
+			}
+
+			$security = $confObj->getSmtpSecurity();
+			if ($security != EmailConfiguration::EMAILCONFIGURATION_SMTP_SECURITY_NONE) {
+				$config['ssl'] = strtolower($security);
+			}
+
+			$config['port'] = trim($confObj->getSmtpPort());
+
+			$transport = new Zend_Mail_Transport_Smtp($confObj->getSmtpHost(), $config);
+
+		} else if ($this->mailType = 'sendmail') {
+			$transport = new Zend_Mail_Transport_Sendmail();
 		}
-		$this -> mailer -> setSmtpParams($this -> emailConfig -> getSmtpHost(), $this -> emailConfig -> getSmtpPort(), null, $auth, $this -> emailConfig -> getSmtpUser(), $this -> emailConfig -> getSmtpPass());
 
-		$this->mailer->setSendmailPath($this -> emailConfig -> getSendmailPath());
+		Zend_Mail::setDefaultTransport($transport);
+		$this->mailer = new Zend_Mail();
+		$this->mailer->setFrom($confObj->getMailAddress(), "OrangeHRM");
 
-		$this->mailer->setFrom("OrangeHRM <{$this -> emailConfig -> getMailAddress()}>");
 	}
 
 	/**
@@ -592,56 +616,53 @@ class HspMailNotification {
 	* @return boolean $success
 	*/
 	private function _sendEmail($msg, $subject, $to, $cc = null) {
+
 		$mailer = $this->mailer;
-		$mailType = $this -> mailType;
-		$mailer -> setText($msg);
-		$mailer -> setSubject($subject);
+		$mailer->setBodyText($msg);
+		$mailer->setSubject($subject);
+
 		$success = true;
 
 		$logMessage = date('r')." Sending {$subject} to";
+
 		if (isset($to) && is_array($to)) {
 			foreach($to as $toAdd) {
+				$mailer->addTo($toAdd);
 				$logMessage .= "\r\n".$toAdd;
 			}
 		}else if(isset($to) && !is_array($to)) {
-			$to = array($to);
-			$logMessage .= "\r\n".$to[0];
+			$mailer->addTo($to);
+			$logMessage .= "\r\n".$to;
 		}
 
-		if(isset($cc) && is_array($cc)) {
-			$mailer -> setCc(implode(', ', $cc));
-		}
-
-		if ((!is_array($to)) || (!@$mailer->send($to, $mailType))) {
-			$logMessage .= " - FAILED \r\nReason(s):";
-			$success = false;
-			if (isset($mailer->errors)) {
-				$logMessage .= "\r\n\t*\t".implode("\r\n\t*\t",$mailer->errors);
+		if (isset($cc) && is_array($cc)) {
+			foreach($cc as $toCc) {
+				$mailer->addCc($toCc);
+				$logMessage .= "\r\n".$toCc;
 			}
-		} else {
-			$logMessage .= " - SUCCEEDED";
+		}else if(isset($cc) && !is_array($cc)) {
+			$mailer->addCc($cc);
+			$logMessage .= "\r\n".$cc;
 		}
 
-		//$logPath = $this -> _getLogPath();
+		try {
+			$mailer->send();
+			$logMessage .= " - SUCCEEDED";
+		} catch (Exception $e) {
+			$success = false;
+			$errorMsg = $e->getMessage();
+			if (isset($errorMsg)) {
+				$logMessage .= " - FAILED \r\nReason: $errorMsg";
+			}
+		}
 
-		//error_log($logMessage."\r\n", 3, $logPath."notification_mails.log");
+		$logPath = ROOT_PATH.'/lib/logs/';
+
+		error_log($logMessage."\r\n", 3, $logPath."notification_mails.log");
 
 		return $success;
-	}
 
-	/**
-	* Get email log file path from email configuration
-	* If not set return default log path
-	* @return String $logPaath
-	*/
-	/*public function _getLogPath() {
-		$logPath = $this -> emailConfig ->getLogPath();
-		if (!empty($logPath) && isset($logPath)) {
-			return $logPath;
-		} else {
-			return ROOT_PATH.'/lib/logs/';
-		}
-	}*/
+	}
 
 }
 ?>

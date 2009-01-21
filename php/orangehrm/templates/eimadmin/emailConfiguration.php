@@ -35,34 +35,77 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
     var editMode = false;
 
-    function validate() {
-        var errors = new Array();
-        var error = false;
+	function validate() {
+		var errors = new Array();
+		var error = false;
 
-        var email = $('txtMailAddress');
-        if (!checkEmail(email.value)) {
-            error = true;
-            errors.push('<?php echo $lang_Error_InvalidEmail; ?>');
-        }
+		var fromEmail = $("txtMailAddress").value;
 
-        var port = $('txtSmtpPort');
-        if ( !numbers(port) || ((port <= 0) || (port > 65535))) {
-            error = true;
-            errors.push('<?php echo $lang_Error_Invalid_Port; ?>');
-        }
+		if (fromEmail == "") {
+			error = true;
+			errors.push("<?php echo $lang_Error_FromEmailEmpty; ?>");
+		} else if(!checkEmail(fromEmail)) {
+			error = true;
+			errors.push("<?php echo $lang_Error_FromEmailInvalid; ?>");
+		}
 
-        if (error) {
-            errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
-            for (i in errors) {
-                errStr += " - "+errors[i]+"\n";
-            }
-            alert(errStr);
-            return false;
+		if ($("txtMailType").value == "smtp") {
 
-        } else  {
-            return true;
-        }
-    } 
+			if ($("txtSmtpHost").value == "") {
+				error = true;
+				errors.push("<?php echo $lang_Error_SmtpHostEmpty; ?>");
+			}
+
+			var smtpPort = $("txtSmtpPort");
+			if (smtpPort.value == "") {
+				error = true;
+				errors.push("<?php echo $lang_Error_SmtpPortEmpty; ?>");
+			} else if (!numbers(smtpPort) || ((smtpPort.value <= 0) || (smtpPort.value > 65535))) {
+				error = true;
+				errors.push("<?php echo $lang_Error_Invalid_Port; ?>");
+			}
+
+			if ($("txtSmtpUser").value == "") {
+				error = true;
+				errors.push("<?php echo $lang_Error_SmtpUsernameEmpty; ?>");
+			}
+
+			if ($("txtSmtpPass").value == "") {
+				error = true;
+				errors.push("<?php echo $lang_Error_SmtpPasswordEmpty; ?>");
+			}
+
+			if ($("chkTestEmail").checked == true) {
+
+				var testEmail = $("txtTestEmail").value;
+
+				if (testEmail == "") {
+					error = true;
+					errors.push("<?php echo $lang_Error_TestEmailEmpty; ?>");
+				} else if(!checkEmail(testEmail)) {
+					error = true;
+					errors.push("<?php echo $lang_Error_TestEmailValid; ?>");
+				}
+
+			}
+
+		}
+
+		if (error) {
+			errStr = "<?php echo $lang_Common_EncounteredTheFollowingProblems; ?>\n";
+			for (i in errors) {
+				errStr += " - "+errors[i]+"\n";
+			}
+			alert(errStr);
+			return false;
+
+		} else  {
+			$('sqlState').value = 'UpdateRecord';
+			$('frmEmailConfig').submit();
+			return true;
+		}
+
+	}
 
     function reset() {
         $('frmEmailConfig').reset();
@@ -94,22 +137,28 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 <?php } ?>
     }
 
-    function changeMailType() {
-        value = $('txtMailType').value;
-        panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2'];
+	function changeMailType() {
+ 		value = $('txtMailType').value;
+ 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2', 'smtpDetails3'];
 
-        for (i=0; i<panels.length; i++) {
-            $(panels[i]).className = 'hide';
-        }
+ 		for (i=0; i<panels.length; i++) {
+ 			$(panels[i]).className = 'hide';
+ 		}
 
-        switch (value) {
-            case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
-                                                                                     break;
-            case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
-                                                                                     $(panels[2]).className = 'show';
-                                                                                     break;
-        }
-    }
+ 		switch (value) {
+ 			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
+ 																						$(panels[3]).className = 'show';
+ 																					 	break;
+ 			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
+ 																					 $(panels[2]).className = 'show';
+ 																					 $(panels[3]).className = 'show';
+  																					 break;
+ 		}
+	}
+	
+	function $(id) {
+		return document.getElementById(id);
+	}
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -183,8 +232,16 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                     <input type="password" name="txtSmtpPass" id="txtSmtpPass" class="formInputText"
                         value="<?php echo $editArr->getSmtpPass();?>" disabled="disabled" />
                     <br class="clear"/>
+                </div>  
+                
+                <div id="smtpDetails3">
+                    <label for="chkTestEmail"><?php echo $lang_SmtpSendTestEmail; ?></label>
+                    <input type="checkbox" name="chkTestEmail" id="chkTestEmail" class="formInputText" />
+                    <label for="txtTestEmail"><?php echo $lang_SmptTestEmailAddress; ?></label>
+                    <input type="text" name="txtTestEmail" id="txtTestEmail" class="formInputText" />
+                    <br class="clear"/>
                 </div>                  
-
+                
                 <div class="formbuttons">
 <?php if($locRights['edit']) { ?>                
                     <input type="button" class="editbutton" id="editBtn" 

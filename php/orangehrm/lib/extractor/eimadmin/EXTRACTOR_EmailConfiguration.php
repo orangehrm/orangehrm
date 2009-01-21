@@ -33,13 +33,22 @@ class EXTRACTOR_EmailConfiguration {
 
 	public function parseEditData($postArr) {
 			$this->emailConfiguration->setSmtpHost($postArr["txtSmtpHost"]);
-			$this->emailConfiguration->setSmtpUser($postArr["txtSmtpUser"]);
-			$this->emailConfiguration->setSmtpPass($postArr["txtSmtpPass"]);
+
+			if (isset($postArr["txtSmtpUser"])) {
+				$this->emailConfiguration->setSmtpUser($postArr["txtSmtpUser"]);
+			}
+
+			if (isset($postArr["txtSmtpPass"])) {
+				$this->emailConfiguration->setSmtpPass($postArr["txtSmtpPass"]);
+			}
+
 			$this->emailConfiguration->setSmtpPort($postArr["txtSmtpPort"]);
-			$this->emailConfiguration->setSendmailPath($postArr["txtSendmailPath"]);
 
 			$this->emailConfiguration->setMailType($postArr["txtMailType"]);
 			$this->emailConfiguration->setMailAddress($postArr["txtMailAddress"]);
+
+			//$this->emailConfiguration->setSmtpAuth($postArr["optAuth"]);
+			//$this->emailConfiguration->setSmtpSecurity($postArr["optSecurity"]);
 
 			return $this->emailConfiguration;
 	}

@@ -1023,7 +1023,22 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+	$lang_SmtpSendTestEmail = "Send Test Email";
+	$lang_SmptTestEmailAddress = "Test Email Address";
+	$lang_SmtpTestEmailSucceeded = "Test email sent successfully";
+	$lang_SmtpTestEmailFailed = "Test email failed. This can be due to incorrect configuration details";
+	$lang_Email_SendMail_Instructions = "Please set correct path to sendmail by changing sendmail_path in php.ini";
+
+	// Email Configuration Validation
+	$lang_Error_FromEmailEmpty = "'Mail Sent As' cannot be empty. Enter a valid email address";
+	$lang_Error_FromEmailInvalid = "'Mail Sent As' should be a valid email address";
+	$lang_Error_SmtpHostEmpty = "'SMTP Host' cannot be empty";
+	$lang_Error_SmtpPortEmpty = "'SMTP Port' cannot be empty";
 	$lang_Error_Invalid_Port = "Invalid SMTP Port";
+	$lang_Error_SmtpUsernameEmpty = "'SMTP User' cannot be empty";
+	$lang_Error_SmtpPasswordEmpty = "'SMTP Password' cannot be empty";
+	$lang_Error_TestEmailEmpty = "Test Email Address is empty";
+	$lang_Error_TestEmailValid = "Test Email Address is invalid";
 
 	//Projects
 	$lang_view_Project_Heading = "Project";

@@ -167,15 +167,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 		$subject = str_replace(array("\r", "\n"), array("", ""), $subject);
 
     	$this->assertEquals($subject, $mockMailer->getSubject());
-    	$this->assertEquals($body, $mockMailer->getText());
-
-
-    	// Force failure
-    	$mockMailer = new MockMailer();
-    	$mockMailer->setResult(false);
-    	$notifier->setMailer($mockMailer);
-    	$result = $notifier->sendApplicationReceivedEmailToApplicant($jobApplication);
-    	$this->assertFalse($result);
+    	$this->assertEquals($body, $mockMailer->getBodyText());
 
     	// without to email address - should fail
     	$jobApplication->setEmail(null);
@@ -230,14 +222,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 		$subject = str_replace(array("\r", "\n"), array("", ""), $subject);
 
     	$this->assertEquals($subject, $mockMailer->getSubject());
-    	$this->assertEquals($body, $mockMailer->getText());
-
-    	// Force failure
-    	$mockMailer = new MockMailer();
-    	$mockMailer->setResult(false);
-    	$notifier->setMailer($mockMailer);
-    	$result = $notifier->sendApplicationReceivedEmailToManager($jobApplication);
-    	$this->assertFalse($result);
+    	$this->assertEquals($body, $mockMailer->getBodyText());
 
     	// without to email address - should fail
     	$this->_runQuery("UPDATE hs_hr_employee SET emp_work_email=NULL where emp_number = 11");
@@ -299,14 +284,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
         $subject = str_replace(array("\r", "\n"), array("", ""), $subject);
 
         $this->assertEquals($subject, $mockMailer->getSubject());
-        $this->assertEquals($body, $mockMailer->getText());
-
-        // Force failure
-        $mockMailer = new MockMailer();
-        $mockMailer->setResult(false);
-        $notifier->setMailer($mockMailer);
-        $result = $notifier->sendApplicationReceivedEmailToManager($jobApplication, $event);
-        $this->assertFalse($result);
+        $this->assertEquals($body, $mockMailer->getBodyText());
 
         // without to email address - should fail
         $this->_runQuery("UPDATE hs_hr_employee SET emp_work_email=NULL where emp_number = 11");
@@ -366,14 +344,7 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
         $subject = str_replace(array("\r", "\n"), array("", ""), $subject);
 
         $this->assertEquals($subject, $mockMailer->getSubject());
-        $this->assertEquals($body, $mockMailer->getText());
-
-        // Force failure
-        $mockMailer = new MockMailer();
-        $mockMailer->setResult(false);
-        $notifier->setMailer($mockMailer);
-        $result = $notifier->sendSeekApprovalToDirector($jobApplication, $event);
-        $this->assertFalse($result);
+        $this->assertEquals($body, $mockMailer->getBodyText());
 
         // without to email address - should fail
         $this->_runQuery("UPDATE hs_hr_employee SET emp_work_email=NULL where emp_number = 13");
@@ -401,11 +372,8 @@ class RecruitmentMailNotifierTest extends PHPUnit_Framework_TestCase {
 
         $attachments = $mockMailer->getAttachments();
 
-        $this->assertEquals(1, count($attachments));
+        $this->assertEquals(2, count($attachments));
 
-        $taskData = $attachments[0]->data;
-        $this->assertNotNull($taskData);
-        $this->assertEquals(1, preg_match('/aruna@company.com/', $taskData));
     }
 
     /**
@@ -480,11 +448,11 @@ class MockMailer {
 
 	public $errors = null;
 
-	public function setText($text) {
+	public function setBodyText($text) {
 	    $this->text = $text;
 	}
 
-	public function getText() {
+	public function getBodyText() {
 	    return $this->text;
 	}
 
@@ -504,17 +472,21 @@ class MockMailer {
 	    return $this->cc;
 	}
 
-	public function setTo($to) {
+	public function addTo($to) {
 	    $this->to = $to;
 	}
 
 	public function getTo() {
-	    return $this->to;
+	    return array($this->to);
 	}
 
 	public function setResult($result) {
 	    $this->result = $result;
 	}
+
+    public function createAttachment($attachment) {
+        $this->attachments[] = $attachment;
+    }
 
     public function addAttachment($attachment) {
         $this->attachments[] = $attachment;
@@ -524,9 +496,7 @@ class MockMailer {
         return $this->attachments;
     }
 
-	public function send($to, $mailType) {
-		$this->to = $to;
-		$this->mailType = $mailType;
+	public function send() {
 		return $this->result;
 	}
 }
