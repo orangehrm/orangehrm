@@ -72,8 +72,14 @@
             <exclude name="reset-installation.php"/>
             <exclude name="Emp5000.php"/>
             <exclude name="Emp5000.txt"/>
+        	<exclude name="orangehrm-quick-start-guide.html"/>
         </fileset>
     </copy>
+	<copy todir="${dist.dir}">
+		<fileset dir="${project.dir}">
+			<include name="orangehrm-quick-start-guide.html"/>
+		</fileset>
+	</copy>
   </target>
 
   <target name="dist" depends="build">
@@ -85,11 +91,13 @@
     <zip destfile="${dist.dir}/${base.name}.zip">
         <fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
+        	<include name="orangehrm-quick-start-guide.html"/>
         </fileset>
     </zip>
     <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
     	<fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
+    		<include name="orangehrm-quick-start-guide.html"/>
         </fileset>
     </tar>
   </target>
