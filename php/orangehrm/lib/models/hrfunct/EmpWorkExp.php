@@ -206,7 +206,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrFieldList[1]  = "'". $this->getEmpExpSeqNo() . "'";
 		$arrFieldList[2]  = "'". $this->getEmpExpEmployer() . "'";
 		$arrFieldList[3]  = "'". $this->getEmpExpJobTitle() . "'";
-		$arrFieldList[4]  = $this->getEmpExpFromDate();
+		$arrFieldList[4]  = $this->getEmpExpFromDate(); // Quotes removed to allow null values
 		$arrFieldList[5]  = $this->getEmpExpToDate();
 		$arrFieldList[6]  = "'". $this->getEmpExpComments() . "'";
 		$arrFieldList[7]  = "'". $this->getEmpExpInternal() . "'";
@@ -236,7 +236,7 @@ function getListofEmpWorkExp($page,$str,$mode) {
 		$arrRecordsList[1]  = "'". $this->getEmpExpSeqNo() . "'";
 		$arrRecordsList[2]  = "'". $this->getEmpExpEmployer() . "'";
 		$arrRecordsList[3]  = "'". $this->getEmpExpJobTitle() . "'";
-		$arrRecordsList[4]  =  $this->getEmpExpFromDate() ;
+		$arrRecordsList[4]  =  $this->getEmpExpFromDate() ; // Quotes removed to allow null values
 		$arrRecordsList[5]  =  $this->getEmpExpToDate() ;
 		$arrRecordsList[6]  = "'". $this->getEmpExpComments() . "'";
 		$arrRecordsList[7]  = "'". $this->getEmpExpInternal() . "'";

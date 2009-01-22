@@ -21,30 +21,40 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpLicenses.php';
 
 class EXTRACTOR_EmpLicenses{
 
-	var $txtEmpId;
-	var $cmbLicCode;
-	var $txtEmpLicDat;
-	var $txtEmpreDat;
+	private $txtEmpId;
+	private $cmbLicCode;
+	private $txtEmpLicDat;
+	private $txtEmpreDat;
 
-
-
-	function EXTRACTOR_EmpLicenses() {
+	public function __construct() {
 		$this->emplicen = new EmpLicenses();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtEmpLicDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpLicDat']);
 		$postArr['txtEmpreDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpreDat']);
 
 		$this->emplicen->setEmpId(trim($postArr['txtEmpID']));
     	$this->emplicen->setEmpLicCode(trim($postArr['cmbLicCode']));
-    	$this->emplicen->setEmpLicDat(trim($postArr['txtEmpLicDat']));
-    	$this->emplicen->setEmpLicrenewalDat(trim($postArr['txtEmpreDat']));
+    	$this->emplicen->setEmpLicDat(self::_handleEmptyDates($postArr['txtEmpLicDat']));
+    	$this->emplicen->setEmpLicrenewalDat(self::_handleEmptyDates($postArr['txtEmpreDat']));
 
 		return $this->emplicen;
+
 	}
 
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
 
 }
 ?>

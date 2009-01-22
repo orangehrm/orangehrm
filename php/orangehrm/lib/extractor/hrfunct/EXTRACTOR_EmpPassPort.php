@@ -21,24 +21,24 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpPassPort.php';
 
 class EXTRACTOR_EmpPassPort {
 
-	var $empId;
-	var $empPPSeqNo;
-	var $empNationality;
-	var $empI9Status;
-	var $empI9ReviewDat;
-	var $empPPIssDat;
-	var $empPPExpDat;
-	var $emppassportflag;
-	var $emppassComm;
-	var $empPPNo;
+	private $empId;
+	private $empPPSeqNo;
+	private $empNationality;
+	private $empI9Status;
+	private $empI9ReviewDat;
+	private $empPPIssDat;
+	private $empPPExpDat;
+	private $emppassportflag;
+	private $emppassComm;
+	private $empPPNo;
 
 
-	function EXTRACTOR_EmpPassPort() {
+	public function __construct() {
 
 		$this->pport = new EmpPassPort();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtI9ReviewDat']);
 		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPIssDat']);
@@ -47,18 +47,18 @@ class EXTRACTOR_EmpPassPort {
 		$this->pport->setEmpId($postArr['txtEmpID']);
 		$this->pport->setEmpPPSeqNo(trim($postArr['txtPPSeqNo']));
 		$this->pport->setEmpPPNo(trim($postArr['txtPPNo']));
-		$this->pport->setEmpPPIssDat(trim($postArr['txtPPIssDat']));
-		$this->pport->setEmpPPExpDat(trim($postArr['txtPPExpDat']));
+		$this->pport->setEmpPPIssDat(self::_handleEmptyDates($postArr['txtPPIssDat']));
+		$this->pport->setEmpPPExpDat(self::_handleEmptyDates($postArr['txtPPExpDat']));
 		$this->pport->setEmpPPComment(trim($postArr['txtComments']));
 		$this->pport->setEmppassportflag($postArr['PPType']);
 		$this->pport->setEmpI9Status($postArr['txtI9status']);
-		$this->pport->setEmpI9ReviewDat($postArr['txtI9ReviewDat']);
+		$this->pport->setEmpI9ReviewDat(self::_handleEmptyDates($postArr['txtI9ReviewDat']));
 		$this->pport->setEmpNationality($postArr['cmbPPCountry']);
 
 		return $this->pport;
 	}
 
-	function reloadData($postArr) {
+	public function reloadData($postArr) {
 
 		$postArr['txtI9ReviewDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtI9ReviewDat']);
 		$postArr['txtPPIssDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtPPIssDat']);
@@ -67,18 +67,29 @@ class EXTRACTOR_EmpPassPort {
 		$this->txtEmpID		=	($postArr['txtEmpID']);
 		$this->txtPPSeqNo	=	(trim($postArr['txtPPSeqNo']));
 		$this->txtPPNo		=	(trim($postArr['txtPPNo']));
-		$this->txtPPIssDat	=	(trim($postArr['txtPPIssDat']));
-		$this->txtPPExpDat	=	(trim($postArr['txtPPExpDat']));
+		$this->txtPPIssDat	=	self::_handleEmptyDates($postArr['txtPPIssDat']);
+		$this->txtPPExpDat	=	self::_handleEmptyDates($postArr['txtPPExpDat']);
 		$this->txtComments	=	(trim($postArr['txtComments']));
 		$this->PPComment	=	(trim($postArr['PPComment']));
 		$this->txtI9status	=	($postArr['txtI9status']);
 		$this->PPType		=	($postArr['PPType']);
 		$this->cmbPPCountry	=	($postArr['cmbPPCountry']);
-		$this->txtI9ReviewDat	=	(trim($postArr['txtI9ReviewDat']));
+		$this->txtI9ReviewDat	= self::_handleEmptyDates($postArr['txtI9ReviewDat']);
 
 		return $this;
 	}
 
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
 
 }
 ?>

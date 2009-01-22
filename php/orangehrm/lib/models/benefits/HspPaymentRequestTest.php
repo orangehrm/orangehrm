@@ -22,7 +22,7 @@ require_once ROOT_PATH."/lib/common/UniqueIDGenerator.php";
 class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 	private $paymentRequestFields;
 	private $employeeFields;
-	
+
     /**
      * Runs the test methods of this class.
      *
@@ -52,21 +52,21 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
 								"`emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, " .
 								"`city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, " .
 								"`emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`";
-    	
+
     	$conf = new Conf();
     	$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
         mysql_select_db($conf->dbname);
     	$this->_deleteTables();
-    	
+
     	$today = date('Y-m-d');
     	$yesterday = date('Y-m-d', time()-3600*24);
-    	
+
 		$this->_runQuery("INSERT INTO `hs_hr_employee`(emp_number, emp_lastname, emp_firstname) " .
 						" VALUES (11, 'Arnold', 'Subasinghe')");
 
-        $this->_runQuery("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`," .
+        $this->_runQuery("INSERT INTO `hs_hr_hsp` (`id`,`employee_id`,`hsp_value`,`total_acrued`, `amount_per_day`, " .
 						"`termination_date`,`halted`,`halted_date`,`terminated`) " .
-        				"VALUES(10, 11, 1000, 500, NULL, false, NULL, false)");
+        				"VALUES(10, 11, 1000, 500, 0, NULL, false, NULL, false)");
 
 	    $this->_runQuery("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    				"VALUES (10, 10, 11, '$yesterday', 'Test provider', 'Tester', 'Just testing', '100', 'TestX', '12345GD', " .
@@ -103,20 +103,20 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
     	$this->_deleteTables();
     	UniqueIDGenerator::getInstance()->resetIDs();
     }
-    
+
     private function _deleteTables() {
     	$this->_runQuery("TRUNCATE hs_hr_hsp_payment_request;");
     	$this->_runQuery("DELETE FROM hs_hr_hsp WHERE `id` = '10'");
     	$this->_runQuery("DELETE FROM hs_hr_employee WHERE `emp_number` = 11");
 		$this->_runQuery("DELETE FROM hs_hr_emp_children WHERE `emp_number` = 11");
-		$this->_runQuery("DELETE FROM hs_hr_emp_dependents WHERE `emp_number` = '11'");    	
+		$this->_runQuery("DELETE FROM hs_hr_emp_dependents WHERE `emp_number` = '11'");
     }
 
 	private function _runQuery($sql) {
-	
-		$this->assertTrue(mysql_query($sql), mysql_error());	
+
+		$this->assertTrue(mysql_query($sql), mysql_error());
 	}
-	
+
     public function testGetHspRequest() {
     	$paymentRequest = HspPaymentRequest::getHspRequest(50);
 
@@ -397,7 +397,7 @@ class HspPaymentRequestTest extends PHPUnit_Framework_TestCase {
      	$this->assertTrue(mysql_query("TRUNCATE `hs_hr_employee`;", $this->connection), mysql_error());
      	$this->assertTrue(mysql_query("TRUNCATE `hs_hr_hsp_payment_request`;", $this->connection), mysql_error());
 
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, '0000-00-00', '')"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (1, '001', 'Arnold', 'Subasinghe', '', 'Arnold', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', '', NULL, NULL, '')"), mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_hsp_payment_request` ($this->paymentRequestFields) " .
 	    							  "VALUES (1, 1, 1, '".date('Y')."-02-01', 'Test provider', 'Tester', 'Just testing', '150', 'TestX', '12345GD', " .
 	    							  "'1231, Test Grove, Test City', 'Test', '".date('Y')."-02-02',  '123552-55821-ff25', 1)"), mysql_error());

@@ -28,19 +28,19 @@ class HspMailNotificationTest extends PHPUnit_Framework_TestCase {
 								"`emp_status`, `job_title_code`, `eeo_cat_code`, `work_station`, `emp_street1`, `emp_street2`, " .
 								"`city_code`, `coun_code`, `provin_code`, `emp_zipcode`, `emp_hm_telephone`, `emp_mobile`, " .
 								"`emp_work_telephone`, `emp_work_email`, `sal_grd_code`, `joined_date`, `emp_oth_email`";
-		
+
 		$this -> hspMailNotification = new HspMailNotification();
 		$this -> hspPaymentRequest = new HspPaymentRequest();
 
 		$conf = new Conf();
    		$this->connection = mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass);
        	mysql_select_db($conf->dbname);
-       	
+
        	$this->assertTrue(mysql_query("TRUNCATE TABLE `hs_hr_employee`"), mysql_error());
 
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (10, '010', 'Notharis', 'Chuck', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, '0000-00-00', 'dsamarasekara@gmail.com')"), mysql_error());
-		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (11, '011', 'Subasinghe', 'Arnold', '', 'Arnold', 0, NULL, '0000-00-00 00:00:00', NULL, NULL, NULL, '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, '0000-00-00', 'dsamarasekara@gmail.com')"), mysql_error());
-		
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (10, '010', 'Notharis', 'Chuck', '', 'Arnold', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, NULL, 'dsamarasekara@gmail.com')"), mysql_error());
+		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_employee` ($this->employeeFields) VALUES (11, '011', 'Subasinghe', 'Arnold', '', 'Arnold', 0, NULL, NULL, NULL, NULL, NULL, '', '', '', '', NULL, '', NULL, NULL, NULL, NULL, '', '', '', 'AF', '', '', '', '', '', 'dimuthu@orangehrm.com', NULL, NULL, 'dsamarasekara@gmail.com')"), mysql_error());
+
 		$this->assertTrue(mysql_query("DELETE FROM `hs_hr_users` WHERE `id` IN ('USR011', 'USR010')"), mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_users` (`id`, `user_name`, `email1`) VALUES ('USR010', 'chuck', 'dimuthu@beyondm.net')"), mysql_error());
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_users` (`id`, `user_name`, `email1`) VALUES ('USR011', 'arnorld', 'dimuthu@beyondm.net')"), mysql_error());

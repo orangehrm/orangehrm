@@ -19,22 +19,21 @@
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpMembership.php';
 
-class EXTRACTOR_EmpMembership{
+class EXTRACTOR_EmpMembership {
 
-	var $txtEmpid;
-	var $cmbMemCode;
-	var $cmbMemTypeCode;
-	var $cmbMemSubOwn;
-	var $txtMemSubAmount;
-	var $txtMemCommDat;
-	var $txtMemRenDat;
+	private $txtEmpid;
+	private $cmbMemCode;
+	private $cmbMemTypeCode;
+	private $cmbMemSubOwn;
+	private $txtMemSubAmount;
+	private $txtMemCommDat;
+	private $txtMemRenDat;
 
-	function EXTRACTOR_EmpMembership() {
-
+	public function __construct() {
 		$this->empmemship = new EmpMembership();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtMemCommDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtMemCommDat']);
 		$postArr['txtMemRenDat']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtMemRenDat']);
@@ -43,25 +42,40 @@ class EXTRACTOR_EmpMembership{
 		$this->empmemship->setEmpMemCode(trim($postArr['cmbMemCode']));
 		$this->empmemship->setEmpMemTypeCode(trim($postArr['cmbMemTypeCode']));
 		$this->empmemship->setEmpMemSubOwn(trim($postArr['cmbMemSubOwn']));
-		$this->empmemship->setEmpMemSubAmount(trim($postArr['txtMemSubAmount']));
-		$this->empmemship->setEmpMemCommDat(trim($postArr['txtMemCommDat']));
-		$this->empmemship->setEmpMemRenDat(trim($postArr['txtMemRenDat']));
+		$this->empmemship->setEmpMemSubAmount(trim($postArr['txtMemSubAmount'])==""?0:trim($postArr['txtMemSubAmount']));
+		$this->empmemship->setEmpMemCommDat(self::_handleEmptyDates($postArr['txtMemCommDat']));
+		$this->empmemship->setEmpMemRenDat(self::_handleEmptyDates($postArr['txtMemRenDat']));
 
 		return $this->empmemship;
+
 	}
 
 
-	function reloadData($postArr) {
+	public function reloadData($postArr) {
 
 		$this->txtEmpid= (trim($postArr['txtEmpID']));
 		$this->cmbMemCode = $postArr['cmbMemCode'];
 		$this->cmbMemTypeCode = $postArr['cmbMemTypeCode'];
 		$this->cmbMemSubOwn = $postArr['cmbMemSubOwn'];
-		$this->txtMemSubAmount = $postArr['txtMemSubAmount'];
-		$this->txtMemCommDat = $postArr['txtMemCommDat'];
-		$this->txtMemRenDat = $postArr['txtMemRenDat'];
+		$this->txtMemSubAmount = trim($postArr['txtMemSubAmount'])==""?0:trim($postArr['txtMemSubAmount']);
+		$this->txtMemCommDat = self::_handleEmptyDates($postArr['txtMemCommDat']);
+		$this->txtMemRenDat = self::_handleEmptyDates($postArr['txtMemRenDat']);
 
 		return $this;
+
 	}
+
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
+
 }
 ?>

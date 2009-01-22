@@ -21,36 +21,39 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpWorkExp.php';
 
 class EXTRACTOR_EmpWorkExp{
 
-	function EXTRACTOR_EmpWorkExp() {
+	public function EXTRACTOR_EmpWorkExp() {
 
 		$this->empwrkexp = new EmpWorkExp();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtEmpExpFromDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpFromDate']);
 		$postArr['txtEmpExpToDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpExpToDate']);
-
-        if (isset($postArr['txtEmpExpFromDate']) && ($postArr['txtEmpExpFromDate'] == '0000-00-00')|| ($postArr['txtEmpExpFromDate'] == "")) {
-            $postArr['txtEmpExpFromDate'] = 'null';
-        }
-
-		if (isset($postArr['txtEmpExpToDate']) && ($postArr['txtEmpExpToDate'] == '0000-00-00')|| ($postArr['txtEmpExpToDate'] == "")) {
-			$postArr['txtEmpExpToDate'] = 'null';
-		}
 
 		$this->empwrkexp->setEmpId(trim($postArr['txtEmpID']));
     	$this->empwrkexp->setEmpExpSeqNo($postArr['txtEmpExpID']);
     	$this->empwrkexp->setEmpExpEmployer(trim($postArr['txtEmpExpEmployer']));
     	$this->empwrkexp->setEmpExpJobTitle(trim($postArr['txtEmpExpJobTitle']));
-    	$this->empwrkexp->setEmpExpFromDate(trim($postArr['txtEmpExpFromDate']));
-    	$this->empwrkexp->setEmpExpToDate(trim($postArr['txtEmpExpToDate']));
+    	$this->empwrkexp->setEmpExpFromDate(self::_handleEmptyDates($postArr['txtEmpExpFromDate']));
+    	$this->empwrkexp->setEmpExpToDate(self::_handleEmptyDates($postArr['txtEmpExpToDate']));
     	$this->empwrkexp->setEmpExpComments(trim($postArr['txtEmpExpComments']));
 		$this->empwrkexp->setEmpExpInternal(isset($postArr['chkEmpExpInternal']) ? 1 : 0);
 
 		return $this->empwrkexp;
 	}
+	
+	private static function _handleEmptyDates($date) {
 
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
 
 }
 ?>

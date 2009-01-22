@@ -59,14 +59,14 @@ class MilleniumPayrollExportTest extends PHPUnit_Framework_TestCase {
   					"'10', 'E1921A', 'Karunadasa', 'Kamal', 'K', " .
   					"NULL, NULL, NULL, '1974-11-20', NULL, " .
   					"1, NULL, '987654320', '', '', " .
-    				"null, '0000-00-00', NULL, 'EST001', " .
+    				"null, NULL, NULL, 'EST001', " .
     				"NULL, NULL, NULL, " .
     				"'111 Main Street', 'SUITE A29', 'Houston', 'US', 'TX', '77845', " .
     				"'', '', '', NULL, " .
     				"NULL, '1997-12-11', NULL)";
 
     	if (KeyHandler::keyExists()) {
-    		$key = KeyHandler::readKey();	
+    		$key = KeyHandler::readKey();
     		$sql = str_replace("'987654320'", "AES_ENCRYPT('987654320', '$key')", $sql);
     	}
 

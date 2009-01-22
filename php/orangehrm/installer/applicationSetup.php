@@ -199,7 +199,7 @@ function createUser() {
 		return;
 	}
 
-	$query = "INSERT INTO `hs_hr_users` VALUES ('USR001','" .$_SESSION['defUser']['AdminUserName']. "','".md5($_SESSION['defUser']['AdminPassword'])."','Admin','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001')";
+	$query = "INSERT INTO `hs_hr_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `emp_number`, `user_hash`, `is_admin`, `receive_notification`, `description`, `modified_user_id`, `created_by`, `title`, `department`, `phone_home`, `phone_mobile`,   `phone_work`, `phone_other`, `phone_fax`, `email1`, `email2`, `status`, `address_street`, `address_city`, `address_state`,  `address_country`, `address_postalcode`, `user_preferences`, `deleted`, `employee_status`, `userg_id`) VALUES ('USR001','" .$_SESSION['defUser']['AdminUserName']. "','".md5($_SESSION['defUser']['AdminPassword'])."','Admin','',null,'','Yes','1','',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001')";
 
 	if(!mysql_query($query)) {
 		$_SESSION['error'] = 'Unable to Create OrangeHRM Admin User Account';

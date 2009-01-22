@@ -208,13 +208,13 @@ if(isset($this->popArr['editEducationArr'])) {
 					<tr>
 					<td><?php echo $lang_hrEmpMain_startdate?></td>
 						<td>
-							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" value=<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?> size="10" />
+							<input type="text" name="txtEmpEduStartDate" id="etxtEmpEduStartDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][5]); ?>" size="10" />
 							<input type="button" value="  " class="calendarBtn" /></td>
 					</tr>
 					  <tr>
 						<td><?php echo $lang_hrEmpMain_enddate?></td>
 						<td>
-							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" value=<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?> size="10" />
+							<input type="text" name="txtEmpEduEndDate" id="etxtEmpEduEndDate" value="<?php echo LocaleUtil::getInstance()->formatDate($edit[0][6]); ?>" size="10" />
 							<input type="button" value="  " class="calendarBtn" /></td>
 					 </tr>
 

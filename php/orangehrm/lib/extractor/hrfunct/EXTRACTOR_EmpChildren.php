@@ -21,42 +21,52 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpChildren.php';
 
 class EXTRACTOR_EmpChildren {
 
-	var $empId;
-	var $empCSeqNo;
-	var $empChiName;
-	var $empDOB;
+	private $empId;
+	private $empCSeqNo;
+	private $empChiName;
+	private $empDOB;
 
-
-
-	function EXTRACTOR_EmpChildren() {
-
+	public function __construct() {
 		$this->chi = new EmpChildren();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['ChiDOB']);
 
 		$this->chi->setEmpId($postArr['txtEmpID']);
 		$this->chi->setEmpCSeqNo(trim($postArr['txtCSeqNo']));
 		$this->chi->setEmpChiName(trim($postArr['txtChiName']));
-		$this->chi->setEmpDOB(trim($postArr['ChiDOB']));
+		$this->chi->setEmpDOB(self::_handleEmptyDates($postArr['ChiDOB']));
 
-			return $this->chi;
+		return $this->chi;
+
 	}
 
-	function reloadData($postArr) {
+	public function reloadData($postArr) {
 
 		$postArr['ChiDOB']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['ChiDOB']);
 
-		$this->txtEmpID		=	($postArr['txtEmpID']);
-		$this->txtDSeqNo	=	(trim($postArr['txtDSeqNo']));
-		$this->txtChiName	=	(trim($postArr['txtChiName']));
-		$this->DOB			=	(trim($postArr['ChiDOB']));
+		$this->txtEmpID		=	$postArr['txtEmpID'];
+		$this->txtDSeqNo	=	trim($postArr['txtDSeqNo']);
+		$this->txtChiName	=	trim($postArr['txtChiName']);
+		$this->DOB			=	self::_handleEmptyDates($postArr['ChiDOB']);
 
 		return $this;
+
 	}
 
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
 
 }
 ?>

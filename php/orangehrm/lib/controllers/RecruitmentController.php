@@ -910,6 +910,8 @@ class RecruitmentController {
         $empInfo->setEmpJobTitle($vacancy->getJobTitleCode());
         $empInfo->setEmpStatus(0);
         $empInfo->setEmpEEOCat(0);
+        $empInfo->setEmpJoinedDate("null");
+        $empInfo->setEmpTerminatedDate("null");
         $result = $empInfo->updateEmpJobInfo();
 
         return $empInfo->getEmpId();

@@ -69,8 +69,8 @@ class EmailNotificationConfigurationTest extends PHPUnit_Framework_TestCase {
 		mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR010'", $this->connection);
     	mysql_query("DELETE FROM `hs_hr_users` WHERE `id` = 'USR011'", $this->connection);
 
-    	mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR010', 'demo1', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
-		mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR011', 'demo2', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
+    	mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR010', 'demo1', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
+		mysql_query("INSERT INTO `hs_hr_users` VALUES ('USR011', 'demo2', 'fe01ce2a7fbac8fafaed7c982a04e229', 'Admin', NULL, NULL, NULL, 'Yes', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Enabled', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'USG001')");
 
     	mysql_query("INSERT INTO `hs_hr_mailnotifications` (`user_id`, `notification_type_id`, `status`) VALUES ('USR010', 0, 1)");
     	mysql_query("INSERT INTO `hs_hr_mailnotifications` (`user_id`, `notification_type_id`, `status`) VALUES ('USR010', 2, 0)");

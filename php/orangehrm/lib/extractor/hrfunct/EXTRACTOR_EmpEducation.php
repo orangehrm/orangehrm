@@ -21,12 +21,12 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpEducation.php';
 
 class EXTRACTOR_EmpEducation {
 
-	function EXTRACTOR_EmpEducation() {
+	public function __construct() {
 
 		$this->empeducation = new EmpEducation();
 	}
 
-	function parseData($postArr) {
+	public function parseData($postArr) {
 
 		$postArr['txtEmpEduStartDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpEduStartDate']);
 		$postArr['txtEmpEduEndDate']=LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtEmpEduEndDate']);
@@ -36,12 +36,23 @@ class EXTRACTOR_EmpEducation {
    		$this->empeducation->setEduMajor(trim($postArr['txtEmpEduMajor']));
    		$this->empeducation->setEduYear(trim($postArr['txtEmpEduYear']));
    		$this->empeducation->setEduGPA(trim($postArr['txtEmpEduGPA']));
-   		$this->empeducation->setEduStartDate(trim($postArr['txtEmpEduStartDate']));
-   		$this->empeducation->setEduEndDate(trim($postArr['txtEmpEduEndDate']));
+   		$this->empeducation->setEduStartDate(self::_handleEmptyDates($postArr['txtEmpEduStartDate']));
+   		$this->empeducation->setEduEndDate(self::_handleEmptyDates($postArr['txtEmpEduEndDate']));
 
 		return $this->empeducation;
 	}
 
+	private static function _handleEmptyDates($date) {
+
+		$date = trim($date);
+
+	    if ($date == "" || $date == "YYYY-mm-DD" || $date == "0000-00-00") {
+			return "null";
+	    } else {
+	        return "'".$date."'";
+	    }
+
+	}
 
 }
 ?>

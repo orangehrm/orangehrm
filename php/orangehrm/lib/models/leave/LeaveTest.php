@@ -423,6 +423,7 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
     public function testCancelLeaveAccuracy() {
 
+        $this->classLeave->setLeaveStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
         $res = $this->classLeave->cancelLeave(10);
         $expected = true;
 

@@ -90,8 +90,8 @@ create table `hs_hr_db_version` (
   `id` varchar(36) not null default '',
   `name` varchar(45) default null,
   `description` varchar(100) default null,
-  `entered_date` datetime default '0000-00-00 00:00:00',
-  `modified_date` datetime default '0000-00-00 00:00:00',
+  `entered_date` datetime null default null,
+  `modified_date` datetime null default null,
   `entered_by` varchar(36) default null,
   `modified_by` varchar(36) default null,
   primary key  (`id`)
@@ -177,7 +177,7 @@ create table `hs_hr_emp_children` (
   `emp_number` int(7) not null default 0,
   `ec_seqno` decimal(2,0) not null default '0',
   `ec_name` varchar(100) default '',
-  `ec_date_of_birth` date default '0000-00-00',
+  `ec_date_of_birth` date null default null,
   primary key  (`emp_number`,`ec_seqno`)
 ) engine=innodb default charset=utf8;
 
@@ -213,8 +213,8 @@ create table `hs_hr_emp_history_of_ealier_pos` (
 create table `hs_hr_emp_licenses` (
   `emp_number` int(7) not null default 0,
   `licenses_code` varchar(100) not null default '',
-  `licenses_date` date not null default '0000-00-00',
-  `licenses_renewal_date` date not null default '0000-00-00',
+  `licenses_date` date null default null,
+  `licenses_renewal_date` date null default null,
   primary key  (`emp_number`,`licenses_code`)
 ) engine=innodb default charset=utf8;
 
@@ -239,7 +239,7 @@ create table `hs_hr_emp_passport` (
   `ep_comments` varchar(255) default null,
   `ep_passport_type_flg` smallint(6) default null,
   `ep_i9_status` varchar(100) default '',
-  `ep_i9_review_date` date default '0000-00-00',
+  `ep_i9_review_date` date null default null,
   `cou_code` varchar(6) default null,
   primary key  (`emp_number`,`ep_seqno`)
 ) engine=innodb default charset=utf8;
@@ -315,7 +315,7 @@ create table `hs_hr_employee` (
   `emp_nick_name` varchar(100) default '',
   `emp_smoker` smallint(6) default '0',
   `ethnic_race_code` varchar(13) default null,
-  `emp_birthday` date default '0000-00-00',
+  `emp_birthday` date null default null,
   `nation_code` varchar(13) default null,
   `emp_gender` smallint(6) default null,
   `emp_marital_status` varchar(20) default null,
@@ -323,7 +323,7 @@ create table `hs_hr_employee` (
   `emp_sin_num` varchar(100) default '',
   `emp_other_id` varchar(100) default '',
   `emp_dri_lice_num` varchar(100) default '',
-  `emp_dri_lice_exp_date` date default '0000-00-00',
+  `emp_dri_lice_exp_date` date null default null,
   `emp_military_service` varchar(100) default '',
   `emp_status` varchar(13) default null,
   `job_title_code` varchar(13) default null,
@@ -340,7 +340,7 @@ create table `hs_hr_employee` (
   `emp_work_telephone` varchar(50) default null,
   `emp_work_email` varchar(50) default null,
   `sal_grd_code` varchar(13) default null,
-  `joined_date` date default '0000-00-00',
+  `joined_date` date null default null,
   `emp_oth_email` varchar(50) default null,
   `terminated_date` DATE null,
   `termination_reason` varchar(256) default null,
@@ -363,8 +363,8 @@ create table `hs_hr_file_version` (
   `id` varchar(36) not null default '',
   `altered_module` varchar(36) default null,
   `description` varchar(200) default null,
-  `entered_date` datetime not null default '0000-00-00 00:00:00',
-  `modified_date` datetime default '0000-00-00 00:00:00',
+  `entered_date` datetime null default null,
+  `modified_date` datetime null default null,
   `entered_by` varchar(36) default null,
   `modified_by` varchar(36) default null,
   `name` varchar(50) default null,
@@ -486,8 +486,8 @@ create table `hs_hr_users` (
   `is_admin` char(3) default null,
   `receive_notification` char(1) default null,
   `description` text,
-  `date_entered` datetime default '0000-00-00 00:00:00',
-  `date_modified` datetime default '0000-00-00 00:00:00',
+  `date_entered` datetime null default null,
+  `date_modified` datetime null default null,
   `modified_user_id` varchar(36) default null,
   `created_by` varchar(36) default null,
   `title` varchar(50) default null,
@@ -517,8 +517,8 @@ create table `hs_hr_users` (
 create table `hs_hr_versions` (
   `id` varchar(36) not null default '',
   `name` varchar(45) default null,
-  `entered_date` datetime default '0000-00-00 00:00:00',
-  `modified_date` datetime default '0000-00-00 00:00:00',
+  `entered_date` datetime null default null,
+  `modified_date` datetime null default null,
   `modified_by` varchar(36) default null,
   `created_by` varchar(36) default null,
   `deleted` tinyint(4) not null default '0',
@@ -608,7 +608,7 @@ create table `hs_hr_employee_leave_quota` (
 create table `hs_hr_holidays` (
   `holiday_id` int(11) not null,
   `description` text default null,
-  `date` date default '0000-00-00',
+  `date` date null default null,
   `recurring` tinyint(1) default '0',
   `length` int(2) default null,
   unique key `holiday_id` (`holiday_id`)
@@ -916,7 +916,7 @@ create table `hs_hr_emp_location_history` (
 create table `hs_hr_comp_property` (
   `prop_id` int(11) not null auto_increment,
   `prop_name` varchar(250) not null,
-  `emp_id` int(7) not null,
+  `emp_id` int(7) null default null,
   primary key  (`prop_id`),
   key  `emp_id` (`emp_id`)
 ) engine=innodb default charset=utf8;
@@ -1232,7 +1232,7 @@ alter table `hs_hr_hsp`
 alter table `hs_hr_hsp_payment_request`
   add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
-alter table `hs_hr_job_vacancy` 
+alter table `hs_hr_job_vacancy`
   add constraint foreign key (`manager_id`) references `hs_hr_employee` (`emp_number`) on delete set null,
   add constraint foreign key (jobtit_code) references hs_hr_job_title(jobtit_code) on delete set null;
 
