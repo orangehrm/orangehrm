@@ -483,7 +483,7 @@ class Timesheet {
 	 *
 	 * @return Timesheet[] array of timesheets
 	 */
-	public function fetchTimesheets($current=false) {
+	public function fetchTimesheets($current=false, $orderBy=self::TIMESHEET_DB_FIELD_TIMESHEET_ID, $order="ASC") {
 		$sql_builder = new SQLQBuilder();
 
 		if ($current) {
@@ -525,7 +525,7 @@ class Timesheet {
 			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` = '{$this->getStatus()}'";
 		}
 
-		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $selectFields[0], 'ASC');
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, $orderBy, $order);
 
 		$dbConnection = new DMLFunctions();
 

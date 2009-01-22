@@ -855,12 +855,12 @@ class TimeController {
 			$timesheetObj->setEmployeeId(null);
 		}
 
-		$timesheets = $timesheetObj->fetchTimesheets($current);
+		$timesheets = $timesheetObj->fetchTimesheets($current,Timesheet::TIMESHEET_DB_FIELD_START_DATE,"DESC");
 
 		if (!is_object($timesheets[0])) {
 			if (($_SESSION['empID'] == $timesheetObj->getEmployeeId()) && (($timesheetObj->getEmployeeId() != null) && !empty($_SESSION['empID']))) {
 				$timesheetObj->addTimesheet();
-				$timesheets = $timesheetObj->fetchTimesheets();
+				$timesheets = $timesheetObj->fetchTimesheets(false,Timesheet::TIMESHEET_DB_FIELD_START_DATE,"DESC");
 			} else {
 				$this->redirect(self::NO_TIMESHEET_FAILURE, '?timecode=Time&action=View_Select_Employee');
 			}
