@@ -704,6 +704,7 @@ class LeaveController {
 
 			$this->setId($_SESSION['empID']);
 			$tmpObj = new LeaveQuota();
+			$tmpObj->setYear(date('Y'));
 			$tmpObjs[1] = $tmpObj->fetchLeaveQuota($this->getId());
 
 			$workShift = Workshift::getWorkshiftForEmployee($this->getId());
