@@ -2051,7 +2051,7 @@ class EmpViewController {
 										 * empty the fields terminated date and terminated reason
 										 */
 										 if ($empinfo->getEmpStatus() != EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED) {
-										 	$empinfo->setEmpTerminatedDate(null);
+										 	$empinfo->setEmpTerminatedDate('null');
 										 	$empinfo->setEmpTerminationReason('');
 										 }
 										$empinfo -> updateEmpJobInfo();
