@@ -91,7 +91,7 @@ class LeaveController {
 
 	//public function
 
-	public function viewLeaves($modifier="employee", $year=null, $details=false, $sortField = null, $sortOrder = null) {
+	public function viewLeaves($modifier="employee", $year=null, $details=false, $sortField = null, $sortOrder = null, $pageNO=null) {
 
 		if ($details) {
 			switch ($modifier) {
@@ -108,7 +108,7 @@ class LeaveController {
 								  $this->_viewLeavesTaken($year, $details);
 								 break;
 				case "summary" : $this->setObjLeave(new LeaveSummary());
-								 $this->_displayLeaveSummary("display", $year, $details, $sortField, $sortOrder);
+								 $this->_displayLeaveSummary("display", $year, $details, $sortField, $sortOrder, $pageNO);
 								 break;
 			}
 		} else {
@@ -170,10 +170,10 @@ class LeaveController {
 		}
 	}
 
-	public function editLeaves($modifier="summary", $year=null, $esp=null, $sortField = null, $sortOrder = null) {
+	public function editLeaves($modifier="summary", $year=null, $esp=null, $sortField = null, $sortOrder = null, $pageNO=null) {
 		switch ($modifier) {
 			case "summary" : $this->setObjLeave(new LeaveSummary());
-							 $this->_displayLeaveSummary("edit", $year, $esp, $sortField, $sortOrder);
+							 $this->_displayLeaveSummary("edit", $year, $esp, $sortField, $sortOrder, $pageNO);
 							 break;
 		}
 	}
@@ -836,7 +836,7 @@ class LeaveController {
 	 * Displays the Leave Summary
 	 *
 	 */
-	private function _displayLeaveSummary($modifier='display', $year = null, $esp=null, $sortField = null, $sortOrder = null) {
+	private function _displayLeaveSummary($modifier='display', $year = null, $esp=null, $sortField = null, $sortOrder = null, $pageNO = 0) {
 		if (!isset($year)) {
 			$year = date('Y');
 		}
@@ -853,11 +853,15 @@ class LeaveController {
 
 		$tmpObj = $this->getObjLeave();
 
-                $eps = ($esp == null) ? 'employee' : $esp;
+        $eps = ($esp == null) ? 'employee' : $esp;
 
-		$tmpObjX[] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder);
-
+		$tmpObjX[] = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder, FALSE ,$pageNO ,50);
 		$tmpObjX[] = $empInfoObj->filterEmpMain($this->getId());
+		$tmpObjX[] = $pageNO;
+
+		list($leaveCount) = $tmpObj->fetchAllEmployeeLeaveSummary($this->getId(), $year, $this->getLeaveTypeId(), $esp, $sortField, $sortOrder ,FALSE ,0 ,0 ,TRUE);
+
+		$tmpObjX[] = $leaveCount['leaveCount'];
 
 		$path = "/templates/leave/leaveSummary.php";
 

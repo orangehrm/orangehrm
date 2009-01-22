@@ -88,7 +88,7 @@ class LeaveSummary extends LeaveQuota {
 	/**
 	 * Leave summary of all employees
 	 */
-	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false) {
+	public function fetchAllEmployeeLeaveSummary($employeeId, $year, $leaveTypeId = self::LEAVESUMMARY_CRITERIA_ALL, $searchBy="employee", $sortField=null, $sortOrder=null, $hideDeleted=false, $pageNO=0, $itemPerPage=0, $leaveCount = FALSE) {
 
 		$selectFields[0] = "a.`emp_number` as emp_number";
 		$selectFields[1] = "CONCAT(a.`emp_firstname`, ' ', a.`emp_lastname`) as employee_name";
@@ -136,17 +136,28 @@ class LeaveSummary extends LeaveQuota {
 		$orderBy = array_pop($tmpFieldDefWords);
 
 		$sqlBuilder = new SQLQBuilder();
+		
+        $limit = null;
+        if ($pageNO > 0) {
+        	
+            $pageNO--;
+            $pageNO *= $itemPerPage;
+            $limit = "$pageNO, $itemPerPage";
+            
+        }
 
-		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, null, $groupBy);
+		$query = $sqlBuilder->selectFromMultipleTable($selectFields, $arrTables, $joinConditions, $selectConditions, null, $orderBy, $sortOrder, $limit, $groupBy);
 
 		$objLeaveType = new LeaveType();
 
-		$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+		if($leaveCount){
+			$query = "SELECT COUNT(*) AS leaveCount FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+		}else{	
+			$query = "SELECT * FROM ( $query ) subsel WHERE available_flag = {$objLeaveType->availableStatusFlag}";
+		}
 		if (!$hideDeleted) {
 			$query = $query . " OR leave_taken > 0 OR leave_scheduled > 0";
 		}
-
-		// echo "$query\n";
 
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);

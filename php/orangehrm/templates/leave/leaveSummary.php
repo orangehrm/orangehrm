@@ -21,8 +21,9 @@
  	$empInfo = $records[count($records)-1][0];
  }
 
+$currentPage = $records[2] ;
+$allRecords =   $records[3] ;
  array_pop($records);
-
  $deletedLeaveTypesFound = false;
  $auth = $modifier[1];
  $dispYear = $modifier[2];
@@ -148,6 +149,10 @@
 	width: 40px;
 }
 
+#paging, #paging a {
+	color:gray;
+}
+
 -->
 </style>
 
@@ -156,6 +161,25 @@
 
 	function init() {
 	  oLinkNewTimeEvent = new YAHOO.widget.Button("linkTakenLeave");
+	}
+	
+	function nextPage() {
+		i=document.frmSummary.pageNO.value;
+		i++;
+		document.frmSummary.pageNO.value=i;
+		document.frmSummary.submit();
+	}
+	
+	function prevPage() {
+		var i=document.frmSummary.pageNO.value;
+		i--;
+		document.frmSummary.pageNO.value=i;
+		document.frmSummary.submit();
+	}
+	
+	function chgPage(pNO) {
+		document.frmSummary.pageNO.value=pNO;
+		document.frmSummary.submit();
 	}
 
 	function validateLeaveQuotaAmount(strValue) {
@@ -303,7 +327,7 @@
 		<input type="hidden" name="leaveTypeId" value="<?php echo isset($_REQUEST['leaveTypeId'])?$_REQUEST['leaveTypeId']:LeaveQuota::LEAVEQUOTA_CRITERIA_ALL; ?>" />
 		<input type="hidden" name="year" value="<?php echo isset($_REQUEST['year'])?$_REQUEST['year']:date('Y'); ?>" />
 		<input type="hidden" name="searchBy" value="<?php echo isset($_REQUEST['searchBy'])?$_REQUEST['searchBy']:"employee"; ?>"/>
-    
+		<input type="hidden" name="pageNO" value="<?php echo $currentPage ?>" />    
     <div class="actionbar">
         <div class="actionbuttons">
     <?php
@@ -340,6 +364,15 @@
         </div>
     </div>
     <br class="clear"/>
+
+<div id="paging">
+<?php
+		$commonFunc = new CommonFunctions();
+		$pageStr = $commonFunc->printPageLinks($allRecords , $currentPage);
+		$pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
+		echo $pageStr;	
+?>
+</div>
 
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
