@@ -247,9 +247,9 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 
                 <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?><span class="required">*</span>
                 </label>
-                <textarea id="txtLocDescription" name="txtLocDescription" tabindex="1" rows="3" cols="30" 
-                    class="formTextArea" <?php echo $disabled;?>><?php echo $locationName; ?></textarea>
-                <br class="clear"/>
+                <input id="txtLocDescription" name="txtLocDescription" type="text" <?php echo $disabled;?> class="formInputText"
+                        value="<?php echo $locationName;?>" tabindex="1" />
+               <br class="clear"/>
                 
                 <label for="cmbCountry"><?php echo $lang_compstruct_country; ?><span class="required">*</span></label>
                 <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
