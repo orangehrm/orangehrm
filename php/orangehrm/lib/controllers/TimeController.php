@@ -1155,34 +1155,27 @@ class TimeController {
 	}
 
 	public function viewTimesheetPrintPreview($filterValues) {
+	
 		$path = "/templates/time/timesheetPrintPreview.php";
-
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
 		$sysConfObj = new sysConf();
-
 		$dataArr[0] = $filterValues;
 		$dataArr[0][4] = $timesheetObj->getStartDate();
 		$dataArr[0][5] = $timesheetObj->getEndDate();
-
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
-
 		$timesheetsCount = 0;
 		if (isset($employeeIds)) {
 		
-			$timeEventObj  = new TimeEvent();
-			$timeEventObj->setStartTime($timesheetObj->getStartDate());
-			$timeEventObj->setEndTime($timesheetObj->getEndDate());
-			$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
-			$timesheetsCount =count($timsheetIds);
-                             
+			$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);   
+			$timesheetsCount =count($timsheetIds);           
+			          
 		}
-
 		$dataArr[1] = $timesheetsCount;
 		$dataArr[2] = $sysConfObj->itemsPerPage;
-
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
+		
 	}
 
 	public function showPrint() {
@@ -1207,21 +1200,17 @@ class TimeController {
 	 * @param String[] filterValues Filter timesheets with the values
 	 */
 	public function viewTimesheelBulk($filterValues, $page=1) {         
-		    
+		 
 		$path = "/templates/time/printTimesheetPage.php";
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
 		
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
 		
-		$timeEventObj  = new TimeEvent();
-		$timeEventObj->setStartTime($timesheetObj->getStartDate());
-		$timeEventObj->setEndTime($timesheetObj->getEndDate());
-		$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
-                                        
+		$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);             
 		$timesheets = $timesheetObj->fetchTimesheetsByTimesheetIdBulk($page, $timsheetIds);
+		 
 		$dataArr=null;
-
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
 
 		for($i=0; $i<count($timesheets); $i++) {
@@ -1248,6 +1237,48 @@ class TimeController {
 		$template = new TemplateMerger($dataArr, $path, "stubHeader.php", "stubFooter.php");
 		$template->display();
 	}
+	
+	/**
+	 * Generate timesheetIds for startDate , endDate and employeeIds
+	 *
+	 * @param Array $employeeIds
+	 * @param Object $timesheetObj
+	 * @return Array $timsheetIds 
+	 */
+	
+	private function _getTimesheetIds($employeeIds ,  $timesheetObj){
+		
+		$timsheetIds = NULL;
+		$timeEventObj  = new TimeEvent();
+		$timeEventObj->setStartTime($timesheetObj->getStartDate());
+		$timeEventObj->setEndTime($timesheetObj->getEndDate());
+		$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
+		
+		if(count($timsheetIds)){
+			
+			foreach($timsheetIds as $key=>$timeSheetId){
+					 
+				$dateFound = FALSE;
+				$timeSheetObj  = new Timesheet();
+				$timeSheetObj->setTimesheetId($timeSheetId); 
+				list($tempTimeSheetObj) = $timeSheetObj->fetchTimesheets();
+				$timeSheetStartDate = strtotime(date('Y-m-d', strtotime($tempTimeSheetObj->getStartDate())));
+				$timeSheetEndDate = strtotime(date('Y-m-d', strtotime($tempTimeSheetObj->getEndDate())));
+				for($i=strtotime($timesheetObj->getStartDate()); $i<=strtotime($timesheetObj->getEndDate()); $i+=3600*24) {
+					if($i >= $timeSheetStartDate && $i <= $timeSheetEndDate){
+						$dateFound = TRUE;
+						break;	
+					}
+				}
+				if(!$dateFound){
+					unset($timsheetIds[$key]);
+				}  
+			}  			
+		}  
+		
+		return $timsheetIds;
+		
+	}  
 
 	/**
 	 * Parse time events and generate the information for timesheets

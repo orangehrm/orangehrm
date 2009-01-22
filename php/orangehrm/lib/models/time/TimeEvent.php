@@ -667,10 +667,13 @@ class TimeEvent {
 
 		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."`";
 		$selectFields[1] = "a.`".self::TIME_EVENT_DB_FIELD_ACTIVITY_ID."`";
-		$selectFields[2] = "SUM(a.`".self::TIME_EVENT_DB_FIELD_DURATION."`) as ".self::TIME_EVENT_DB_FIELD_DURATION;
-
-		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` >= '{$startDate} 00:00:00'";
-		$selectConditions[1] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` <= '{$endDate} 23:59:59'";
+		$selectFields[2] = "a.`".self::TIME_EVENT_DB_FIELD_DURATION."`";
+		$selectFields[3] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."`";
+		$selectFields[4] = "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."`";
+		$selectFields[5] = "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."`";
+		
+		$selectConditions[0] = "((a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$startDate} 00:00:00' AND " .  "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` <= '{$endDate} 23:59:59')"
+		 .  " OR (a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` >= '{$startDate} 00:00:00' AND " . "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` <= '{$endDate} 23:59:59}'))";
 
 		if ($this->getProjectId() != null) {
 			$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_PROJECT_ID."` = {$this->getProjectId()}";
@@ -685,18 +688,40 @@ class TimeEvent {
 		}
 
 		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
-
-		$query .= " GROUP BY {$selectFields[0]}, {$selectFields[1]}";
-
+		
 		$dbConnection = new DMLFunctions();
 		$result = $dbConnection->executeQuery($query);
 
 		$arrData=null;
-
+		$searchStartDateTimestap = strtotime(date("Y-m-d", strtotime($startDate)));
+		$searchEndDateTimestap = strtotime(date("Y-m-d", strtotime($endDate)));
+		  
 		while ($row = mysql_fetch_assoc($result)) {
-			$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]]=$row[self::TIME_EVENT_DB_FIELD_DURATION];
+			
+			$add = FALSE;
+			$eventStartTime = strtotime(date("Y-m-d", strtotime($row[self::TIME_EVENT_DB_FIELD_START_TIME])));
+			$eventEndTime = strtotime(date("Y-m-d", strtotime($row[self::TIME_EVENT_DB_FIELD_END_TIME])));
+			$eventReportedDate = strtotime(date("Y-m-d", strtotime($row[self::TIME_EVENT_DB_FIELD_REPORTED_DATE])));
+			
+			if($eventStartTime < 0 && $eventReportedDate){		
+				 $add =TRUE;
+			}elseif ($eventStartTime > 0 && $eventReportedDate){
+				if(($eventStartTime  >= $searchStartDateTimestap) && ($eventEndTime <= $searchEndDateTimestap)){
+					$add =TRUE;
+				}
+			}
+			
+			if($add){
+				
+				if(isset($arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]])) {
+					$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]]=$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]] + $row[self::TIME_EVENT_DB_FIELD_DURATION];
+				}else{
+					$arrData[$row[self::TIME_EVENT_DB_FIELD_PROJECT_ID]][$row[self::TIME_EVENT_DB_FIELD_ACTIVITY_ID]]= $row[self::TIME_EVENT_DB_FIELD_DURATION];
+				}
+			} 
+			
 		}
-
+			
 		return $arrData;
 	}
 
