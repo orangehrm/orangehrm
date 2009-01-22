@@ -575,9 +575,7 @@ EOT;
 
 		$mailer = $this->_getMailer();
 
-		if (!empty($body)) {
-			  $mailer->setBodyText($body);
-		}
+		$mailer->setBodyText($body);
 
 		if (!empty($attachments) && is_array($attachments)) {
 		        foreach ($attachments as $attachment) {
