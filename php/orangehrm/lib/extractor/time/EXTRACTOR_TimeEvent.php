@@ -140,7 +140,7 @@ class EXTRACTOR_TimeEvent {
 		$tmpObj->setReportedDate(LocaleUtil::getInstance()->convertToStandardDateFormat($postArr['txtReportedDate']));
 
 		if (isset($postArr['txtDuration']) && !empty($postArr['txtDuration'])) {
-			$tmpObj->setDuration($postArr['txtDuration']*3600);
+			$tmpObj->setDuration(trim($postArr['txtDuration'])*3600);
 		} else if (isset($postArr['txtStartTime']) && isset($postArr['txtEndTime'])){
 			$startTime=strtotime($tmpObj->getStartTime());
 			$endTime=strtotime($tmpObj->getEndTime());

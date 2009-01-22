@@ -54,7 +54,7 @@ td {
 			<th class="tableTopLeft"></th>
 	    	<th class="tableTopMiddle"></th>
 	    	<th class="tableTopMiddle"></th>
-	    <?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+	    <?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
 	    	<th class="tableTopMiddle"></th>
 	    <?php } ?>
 	    	<th class="tableTopMiddle"></th>
@@ -64,7 +64,7 @@ td {
 			<th class="tableMiddleLeft"></th>
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Project; ?></th>
 			<th width="100px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Activity; ?></th>
-		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+		<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo date('l ' . LocaleUtil::getInstance()->getDateFormat(), $i); ?></th>
 	    <?php } ?>
 	    	<th width="80px" class="tableMiddleMiddle"><?php echo $lang_Time_Timesheet_Total; ?></th>
@@ -89,7 +89,7 @@ td {
 				<td class="tableMiddleLeft"></td>
 				<td ><?php echo "{$customer->getCustomerName()} - {$projectDet->getProjectName()}"; ?></td>
 				<td ><?php echo $projectActivity->getName(); ?></td>
-			<?php 	  for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
+			<?php 	  for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) {
 							if (!isset($activityExpense[$i])) {
 								$activityExpense[$i]=0;
 					  		}
@@ -104,7 +104,7 @@ td {
 			<tr>
 				<td class="tableMiddleLeft"></td>
 				<td colspan="2"><b><?php echo $lang_Time_Timesheet_Total; ?></b></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) {
+			<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) {
 					if (!isset($dailySum[$i])) {
 						$dailySum[$i]=0;
 					}
@@ -119,7 +119,7 @@ td {
 				<td class="tableMiddleLeft"></td>
 				<td ><?php echo $lang_Error_NoRecordsFound; ?></td>
 				<td ></td>
-			<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+			<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
 	    		<td ></td>
 	    	<?php } ?>
 	    		<td ></td>
@@ -132,7 +132,7 @@ td {
 			<td class="tableBottomLeft"></td>
 			<td class="tableBottomMiddle"></td>
 			<td class="tableBottomMiddle"></td>
-		<?php for ($i=$startDate; $i<=$endDate; $i+=3600*24) { ?>
+		<?php for ($i=$startDate; $i<=$endDate; $i=strtotime("+1 day", $i)) { ?>
 			<td class="tableBottomMiddle"></td>
 		<?php } ?>
 			<td class="tableBottomMiddle"></td>

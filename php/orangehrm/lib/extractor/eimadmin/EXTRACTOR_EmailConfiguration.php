@@ -46,6 +46,11 @@ class EXTRACTOR_EmailConfiguration {
 			$this->emailConfiguration->setMailAddress($postArr["txtMailAddress"]);
 
 			if (isset($postArr["chkTestEmail"]) && !empty($postArr["txtTestEmail"])) {
+				if ($postArr["txtMailType"] == "smtp") {
+					$this->emailConfiguration->setTestEmailType("smtp");
+				} elseif ($postArr["txtMailType"] == "sendmail") {
+				    $this->emailConfiguration->setTestEmailType("sendmail");
+				}
 			    $this->emailConfiguration->setTestEmail(trim($postArr["txtTestEmail"]));
 			}
 

@@ -156,22 +156,14 @@ class Timesheet {
 
 		if ($this->getStartDate() == null) {
 
-			/**
-			 * Here days should be in following values
-			 * Mo=1, Tu=2, We=3, Th=4, Fr=5, Sa=6, Su=7
-			 */
-			if (date('w') == 0) { // If it is Sunday
-				$day = 7;
-			} else {
-				$day = date('w');
-			}
-
+			$day = date('N');
+			
 			$diff=$timesheetSubmissionPeriods[0]->getStartDay()-$day;
 			if ($diff > 0) {
 				$diff-=7;
 			}
 
-			$this->setStartDate(date('Y-m-d', time()+($diff*3600*24)));
+			$this->setStartDate(date('Y-m-d', strtotime("+$diff day", time())));
 
 			$diff1=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 
@@ -179,7 +171,7 @@ class Timesheet {
 				$diff1+=6-($diff1-$diff);
 			}
 
-			$this->setEndDate(date('Y-m-d', time()+($diff1*3600*24))." 23:59:59");
+			$this->setEndDate(date('Y-m-d', strtotime("+$diff1 day", time()))." 23:59:59");
 
 			$this->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 		}

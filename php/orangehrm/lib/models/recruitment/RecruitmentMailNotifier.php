@@ -392,7 +392,7 @@ class RecruitmentMailNotifier {
          $applicantEmail = $jobApplication->getEmail();
 
          // Event time in 5 days
-         $startTime = time() + (5 * 24 * 60 * 60);
+         $startTime = strtotime("+5 day", time());
 
          foreach ($this->onHireTasks as $task) {
 

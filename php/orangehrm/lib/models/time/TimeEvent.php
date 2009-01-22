@@ -570,14 +570,14 @@ class TimeEvent {
 				$diff=$diff-7;
 			}
 
-			$timesheetObj->setStartDate(date('Y-m-d', $currTime+($diff*3600*24)));
+			$timesheetObj->setStartDate(date('Y-m-d', strtotime("+$diff day", $currTime)));
 
 			$diff=$timesheetSubmissionPeriods[0]->getEndDay()-$day;
 			if (0 > $diff) {
 				$diff=$diff+7;
 			}
 
-			$timesheetObj->setEndDate(date('Y-m-d', $currTime+($diff*3600*24))." 23:59:59");
+			$timesheetObj->setEndDate(date('Y-m-d', strtotime("+$diff day", $currTime))." 23:59:59");
 
 			$timesheetObj->setTimesheetPeriodId($timesheetSubmissionPeriods[0]->getTimesheetPeriodId());
 			$timesheetObj->setEmployeeId($this->getEmployeeId());
