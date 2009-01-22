@@ -370,7 +370,7 @@ class Timesheet {
 
 		return false;
 	}
-
+	
 	/**
 	 * Retrieve timesheets in bulk
 	 *
@@ -424,6 +424,53 @@ class Timesheet {
 
 		$result = $dbConnection->executeQuery($query);
 
+		$objArr = $this->_buildObjArr($result);
+
+		return $objArr;
+	}
+	
+
+	/**
+	 * Retrieve timesheets by TimesheetId in bulk
+	 *
+	 * Introduced for printing timesheets
+	 *
+	 * @param Integer page Page number
+	 * @param String[] $timsheetIds Array of timsheet ids
+	 * @return Timesheet[] array of timesheets
+	 */
+	public function fetchTimesheetsByTimesheetIdBulk($page, $timsheetIds) {
+		
+		$sql_builder = new SQLQBuilder();
+		$selectTable = self::TIMESHEET_DB_TABLE_TIMESHEET." a ";
+
+		$selectFields[0] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."`";
+		$selectFields[1] = "a.`".self::TIMESHEET_DB_FIELD_EMPLOYEE_ID."`";
+		$selectFields[2] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."`";
+		$selectFields[3] = "a.`".self::TIMESHEET_DB_FIELD_START_DATE."`";
+		$selectFields[4] = "a.`".self::TIMESHEET_DB_FIELD_END_DATE."`";
+		$selectFields[5] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."`";
+		$selectFields[6] = "a.`".self::TIMESHEET_DB_FIELD_COMMENT."`";
+
+        $selectConditions = null;
+        $selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_ID."` IN('".implode("', '", $timsheetIds)."')";
+		if ($this->getTimesheetPeriodId() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_TIMESHEET_PERIOD_ID."` = {$this->getTimesheetPeriodId()}";
+		}
+		if ($this->getStatuses() != null) {
+			$selectConditions[] = "a.`".self::TIMESHEET_DB_FIELD_STATUS."` IN('".implode("', '", $this->getStatuses())."')";
+		}
+
+		$sysConfObj = new sysConf();
+		if ($page == 0) {
+			$selectLimit=null;
+		} else {
+			$selectLimit = (($page-1)*$sysConfObj->itemsPerPage).", $sysConfObj->itemsPerPage";
+		}
+
+		$query = $sql_builder->simpleSelect($selectTable, $selectFields, $selectConditions, "{$selectFields[1]}, {$selectFields[3]}", 'ASC', $selectLimit);
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
 		$objArr = $this->_buildObjArr($result);
 
 		return $objArr;

@@ -419,6 +419,18 @@ class TimeEventTest extends PHPUnit_Framework_TestCase {
     		}
     	}
     }
+    
+    public function testFetchTimeSheetIds(){
+    	
+    	$eventObj = $this->classTimeEvent;
+    	$eventObj->setStartTime(date('Y-m-d'));
+		$eventObj->setEndTime(date('Y-m-d', time()+3600*2));
+		$employeeIds = array(10);
+		$timsheetIds = $eventObj->fetchTimeSheetIds($employeeIds);
+		$this->assertEquals($timsheetIds[0], 10 , "Employee id is wrong");
+		$this->assertEquals($timsheetIds[1], 11 , "Employee id is wrong");
+		
+    }
 
     public function testIsUnfinishedTimesheet() {
 		$this->assertTrue(TimeEvent::isUnfinishedTimesheet(10));

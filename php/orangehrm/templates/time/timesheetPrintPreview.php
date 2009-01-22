@@ -224,9 +224,9 @@ YAHOO.util.Event.addListener(window, "load", init);
 </script>
 <div id="nonPrintPanel">
 	<span id="loadingMessage"><?php echo $lang_Common_Loading; ?>...</span>
-	<h2><?php echo $lang_Time_PrintTimesheetsTitle; ?></h2>
+	<h2><?php echo $lang_Time_PrintTimesheetsTitle; ?>  </h2> <h3><?php echo   $lang_Leave_Leave_list_From . ' : '     . LocaleUtil::getInstance()->formatDate($filterValues[4]); ?> <?php echo   $lang_Leave_Leave_list_To  . ' : '. LocaleUtil::getInstance()->formatDate($filterValues[5]); ?>  </h3>
 	<?php if ($pages > 0) { ?>
-	<div id="controls">
+  <div id="controls">
 		<input type="image" title="Back" onMouseOut="this.src='../../themes/beyondT/pictures/btn_back.gif';" onMouseOver="this.src='../../themes/beyondT/pictures/btn_back_02.gif';"  src="../../themes/beyondT/pictures/btn_back.gif" onClick="goBack(); return false;"/>
 		<input type="button" name="btnPrint" id="btnPrint" value="Print" onclick="printTimeSheets();"/>
 	</div>

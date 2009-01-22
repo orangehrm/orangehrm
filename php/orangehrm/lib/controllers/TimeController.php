@@ -1157,7 +1157,13 @@ class TimeController {
 
 		$timesheetsCount = 0;
 		if (isset($employeeIds)) {
-			$timesheetsCount = $timesheetObj->countTimesheetsBulk($employeeIds);
+		
+			$timeEventObj  = new TimeEvent();
+			$timeEventObj->setStartTime($timesheetObj->getStartDate());
+			$timeEventObj->setEndTime($timesheetObj->getEndDate());
+			$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
+			$timesheetsCount =count($timsheetIds);
+                             
 		}
 
 		$dataArr[1] = $timesheetsCount;
@@ -1188,15 +1194,20 @@ class TimeController {
 	 *
 	 * @param String[] filterValues Filter timesheets with the values
 	 */
-	public function viewTimesheelBulk($filterValues, $page=1) {
+	public function viewTimesheelBulk($filterValues, $page=1) {         
+		    
 		$path = "/templates/time/printTimesheetPage.php";
-
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
-
+		
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
-		$timesheets = $timesheetObj->fetchTimesheetsBulk($page, $employeeIds);
-
+		
+		$timeEventObj  = new TimeEvent();
+		$timeEventObj->setStartTime($timesheetObj->getStartDate());
+		$timeEventObj->setEndTime($timesheetObj->getEndDate());
+		$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
+                                        
+		$timesheets = $timesheetObj->fetchTimesheetsByTimesheetIdBulk($page, $timsheetIds);
 		$dataArr=null;
 
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
@@ -1219,6 +1230,8 @@ class TimeController {
 		}
 
 		$dataArr[1]=$page;
+		$dataArr[2]=$timesheetObj->getStartDate();
+		$dataArr[3]=$timesheetObj->getEndDate();
 
 		$template = new TemplateMerger($dataArr, $path, "stubHeader.php", "stubFooter.php");
 		$template->display();
@@ -1230,7 +1243,7 @@ class TimeController {
 	 * @param Timesheet timesheet
 	 */
 	private function _generateTimesheet($timesheet) {
-
+                
 		$timeEventObj = new TimeEvent();
 
 		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());

@@ -511,6 +511,36 @@ class TimeEvent {
 
 		return $eventArr;
 	}
+	
+	/**
+	 * Fetch time event records by given employee ids , time event strattime , time event endtime
+	 *
+	 * @param Array $employeeIds
+	 * @return Array TimesheetId
+	 */
+ 	public function fetchTimeSheetIds($employeeIds) {
+ 		
+ 		$timeSheetIdArray = NULL ;
+ 		$sqlBuilder = new SQLQBuilder();
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";		
+		$selectFields[0] = "DISTINCT(a.`".self::TIME_EVENT_DB_FIELD_TIMESHEET_ID."`)";
+		
+		$selectConditions[0] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` IN('".implode("', '", $employeeIds)."')";
+		$selectConditions[1] = "((a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` >= '{$this->getStartTime()}' AND " .  "a.`".self::TIME_EVENT_DB_FIELD_END_TIME."` <= '{$this->getEndTime()}')"
+		 .  " OR (a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` >= '{$this->getStartTime()}' AND " . "a.`".self::TIME_EVENT_DB_FIELD_REPORTED_DATE."` <= '{$this->getEndTime()}'))"; 
+		
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions, NULL , NULL);
+          
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+               
+		while ($row = mysql_fetch_row($result)) {
+			$timeSheetIdArray[] = $row[0];   
+		}
+                
+		return $timeSheetIdArray;
+                              
+ 	}
 
 	/**
 	 * Build the object with fetched records
