@@ -228,6 +228,32 @@ class TimeEvent {
 
 		throw new TimeEventException("Overlapping time period", TimeEventException::OVERLAPPING_TIME_PERIOD);
 	}
+        
+	/**
+	* Check for given start time already exist in time events
+	* @return bool Returns false if record not found,  other wise return Exception
+	*/
+
+	private function _checkStartTimeInTimeEvent() {
+
+		$sqlBuilder = new SQLQBuilder();
+
+		$selectTable = "`".self::TIME_EVENT_DB_TABLE_TIME_EVENT."` a ";
+
+		$selectFields[0] = "a.`".self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID."`";
+
+		$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_EMPLOYEE_ID."` = {$this->getEmployeeId()}";
+		$selectConditions[] = "a.`".self::TIME_EVENT_DB_FIELD_START_TIME."` = '{$this->getStartTime()}'";
+
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection -> executeQuery($query);
+
+		if ($dbConnection->dbObject->numberOfRows($result) == 0) {
+			return false;
+		}
+		throw new TimeEventException("Overlapping time period", TimeEventException::OVERLAPPING_TIME_PERIOD);
+	}
 
 	/**
 	 * Add new time event
@@ -237,6 +263,11 @@ class TimeEvent {
 	 * @throws TimeEventException Overlapping time period 2
 	 */
 	public function addTimeEvent() {
+	
+		if ($this->getStartTime() != null && $this->getEmployeeId() != null){     
+			$this->_checkStartTimeInTimeEvent();
+		}
+                
 		$this->_isOverlapping();
 
 		$newId = UniqueIDGenerator::getInstance()->getNextID(self::TIME_EVENT_DB_TABLE_TIME_EVENT, self::TIME_EVENT_DB_FIELD_TIME_EVENT_ID);
