@@ -290,7 +290,7 @@ class JobSpecTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, count($list));
 
 		// Insert data for tests
-		for ($i=1; $i<51; $i++) {
+		for ($i=1; $i<251; $i++) {
 
 			$inc = 100 + $i;
 			if ($i % 2 == 0) {
@@ -309,7 +309,7 @@ class JobSpecTest extends PHPUnit_Framework_TestCase {
 				$oddSpecs[] = $spec;
 			}
 		}
-
+		
 		$this->_createJobSpecs($specs);
 
 		$sysConf = new sysConf();
@@ -323,7 +323,7 @@ class JobSpecTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($pageSize, count($list));
 		$pages = array_chunk($specs, $pageSize);
 		$this->_compareSpecsWithOrder($pages[0], $list);
-
+		
 		// page 3
 		$list = JobSpec::getListForView(3, '', -1, 1, 'ASC');
 		$this->assertTrue(is_array($list));
