@@ -489,9 +489,9 @@ class LeaveRequests extends Leave {
 	 * @param int $timestamp
 	 */
 	private function _incDate($timestamp) {
-		$timestamp+=60*60*24;
 
-		return $timestamp;
+		return strtotime("+1 day", $timestamp);
+
 	}
 
 	/**
