@@ -2105,6 +2105,20 @@ class ViewController {
 								if($noRedirect)
 									break;
 
+					case 'EMX' : $testEmail = $emailConfig->getTestEmail();
+								 $showMsg = "";
+
+								 if (isset($testEmail)) {
+								 	if ($emailConfig->sendTestEmail()) {
+								 	    $showMsg = "TEST_EMAIL_SUCCESS";
+								 	} else {
+								 	    $showMsg = "TEST_EMAIL_FAILIURE";
+								 	}
+								 }
+
+								 header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&showMsg=$showMsg");
+								 break;
+
 					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the
 
 								$pageNoQueryString = isset($_REQUEST['pageNo']) ? '&pageNo=' . $_REQUEST['pageNo'] : '';

@@ -20,6 +20,12 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH . '/lib/common');
+
+require_once ROOT_PATH . '/lib/common/Zend/Mail.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Smtp.php';
+require_once ROOT_PATH . '/lib/common/Zend/Mail/Transport/Sendmail.php';
+
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 
 class EmailConfiguration {
@@ -37,8 +43,9 @@ class EmailConfiguration {
 	private $mailAddress;
 	private $mailType;
 	private $sendmailPath;
-
 	private $configurationFile;
+	private $testEmail;
+	private $testEmailType;
 
 	public function getSmtpHost() {
 		return $this->smtpHost;
@@ -95,6 +102,22 @@ class EmailConfiguration {
 	public function setSendmailPath($sendmailPath) {
 		$this->sendmailPath = $sendmailPath;
 	}
+	
+	public function setTestEmail($testEmail) {
+		$this->testEmail = $testEmail;
+	}
+
+	public function getTestEmail() {
+		return $this->testEmail;
+	}
+
+	public function setTestEmailType($testEmailType) {
+		$this->testEmailType = $testEmailType;
+	}
+
+	public function getTestEmailType() {
+		return $this->testEmailType;
+	}
 
 	public function __construct() {
 		$confObj = new Conf();
@@ -137,6 +160,56 @@ class EmailConfiguration {
 ?>';
 
 		return file_put_contents($this->configurationFile, $content);
+	}
+	
+	/**
+	 * Uses to test the SMTP details set in Email Configuration
+	 * @param string $testAddress Email address to send test email
+	 * @return bool Returns true if no error occurs during transport. False other wise.
+	 */
+
+	public function sendTestEmail() {
+
+		if ($this->getTestEmailType() == "smtp") {
+
+			$config = array('auth' => 'login',
+							'username' => $this->getSmtpUser(),
+							'password' => $this->getSmtpPass(),
+							'port' => $this->getSmtpPort());
+
+			$transport = new Zend_Mail_Transport_Smtp($this->getSmtpHost(), $config);
+			$subject = "SMTP Configuration Test Email";
+			$message = "This email confirms that SMTP details set in OrangeHRM are correct. You received this email since your email address was entered to test email in configuration screen.";
+			$logMessage = date('r')." Sending Test Email Using SMTP to {$this->getTestEmail()} ";
+
+		} elseif ($this->getTestEmailType() == "sendmail") {
+
+			$transport = new Zend_Mail_Transport_Sendmail();
+			$subject = "SendMail Configuration Test Email";
+			$message = "This email confirms that SendMail details set in OrangeHRM are correct. You received this email since your email address was entered to test email in configuration screen.";
+			$logMessage = date('r')." Sending Test Email Using SendMail to {$this->getTestEmail()} ";
+
+		}
+
+		$mail = new Zend_Mail();
+		$mail->setFrom($this->getMailAddress(), "OrangeHRM EMail");
+		$mail->addTo($this->getTestEmail());
+		$mail->setSubject($subject);
+		$mail->setBodyText($message);
+
+		$logPath = ROOT_PATH.'/lib/logs/notification_mails.log';
+
+		try {
+		    $mail->send($transport);
+		    $logMessage .= "Succeeded \r\n";
+		    error_log($logMessage, 3, $logPath);
+		    return true;
+		} catch (Exception $e) {
+			$logMessage .= "Failed \r\n Reason: {$e->getMessage()} \r\n";
+			error_log($logMessage, 3, $logPath);
+			return false;
+		}
+
 	}
 
 }
