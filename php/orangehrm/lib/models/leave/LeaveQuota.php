@@ -400,7 +400,7 @@ class LeaveQuota {
 		$joinTypes[1] = "LEFT";
 
 		$selectOrderBy="$arrFields[0], $selectOrderBy";
-		$selectOrder = "DESC";
+		$selectOrder = "ASC";
 
 		$query = $sqlBuilder->selectFromMultipleTable($arrFields, $arrTables, $joinConditions, $selectConditions, $joinTypes, $selectOrderBy, $selectOrder);
 
