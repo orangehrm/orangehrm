@@ -230,13 +230,15 @@ class MailNotifications {
 			}
 		}
 
-		$logMessage .= "\r\nCC to";
-
 		if (isset($notificationAddresses) && is_array($notificationAddresses)) {
+
+			$logMessage .= "\r\nCC to";
+
 			foreach ($notificationAddresses as $cc) {
-				$mailer->addCc($cc);
-				$logMessage .= "\r\n".$cc;
+					$mailer->addCc($cc);
+					$logMessage .= "\r\n".$cc;
 			}
+
 		}
 
 		if (!is_array($this->to)) {
@@ -463,6 +465,12 @@ class MailNotifications {
 													$employeeName, $fulldays);
 
 			$this->to = $this->supervisorMail;
+
+			if (empty($this->supervisorMail)) {
+				$mailNotificationObj = new EmailNotificationConfiguration();
+				$this->to = $mailNotificationObj->fetchMailNotifications($this->notificationTypeId);
+			}
+
 		}
 
 		$this->mail = $txt;
