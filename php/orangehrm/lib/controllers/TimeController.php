@@ -1085,12 +1085,11 @@ class TimeController {
 			$projects = new Projects();
 
 			/* Filter only not deleted projects */
-			$projects->setDeleted(Projects::PROJECT_NOT_DELETED);
 			$projectList = $projects->fetchProjects();
 		} else if ($this->authorizeObj->isProjectAdmin()) {
 
 			$gw = new ProjectAdminGateway();
-			$projectList = $gw->getProjectsForAdmin($_SESSION['empID']);
+			$projectList = $gw->getProjectsForAdmin($_SESSION['empID'] , TRUE);
 		} else {
 			$this->redirect('UNAUTHORIZED_FAILURE', '?timecode=Time&action=View_Timesheet');
 		}

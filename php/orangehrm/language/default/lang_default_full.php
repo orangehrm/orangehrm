@@ -1451,6 +1451,7 @@
 	$lang_Time_Timesheet_Decription = "Description";
 	$lang_Time_Timesheet_NoCustomers = "No customers";
 	$lang_Time_Timesheet_NoProjects = "No projects";
+	$lang_Time_Timesheet_IncludeDeleteProjects = "Include deleted projects";
 
 	$lang_Time_Select_Employee_Title = "Select Employee";
 
