@@ -88,6 +88,8 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
     				"VALUES (12, 10, 10, '".date('Y-m-d', time()+3600*24*7*2)."', '".date('Y-m-d', time()+3600*24*7*3)."', 20)"));
     	$this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
     				"VALUES (13, 10, 10, '".date('Y-m-d', time()+3600*24*7*3)."', '".date('Y-m-d', time()+3600*24*7*4)."', 30)"));
+        $this->assertTrue(mysql_query("INSERT INTO `hs_hr_timesheet` (`timesheet_id`, `employee_id`, `timesheet_period_id`, `start_date`, `end_date`, `status`) ".
+    				"VALUES (14, 10, 10, '".date('Y-m-d')."', '".date('Y-m-d', time()+3600*24*7)."', 10)"));
 
 		$this->assertTrue(mysql_query("INSERT INTO `hs_hr_time_event` (`time_event_id`, `project_id`, `activity_id`, `employee_id`, `timesheet_id`, `start_time`, `end_time`, `reported_date`, `duration`, `description`) ".
     				"VALUES (10, 10, 10, 10, 10, '".date('Y-m-d H:i:00')."', '".date('Y-m-d H:i:00', time()+3600)."', '".date('Y-m-d')."', 60, 'Testing1')"), mysql_error());
@@ -464,6 +466,24 @@ class TimesheetTest extends PHPUnit_Framework_TestCase {
 
 		$statusResult = Timesheet::checkTimesheetStatus(10, Timesheet::TIMESHEET_STATUS_REJECTED);
 		$this->assertFalse($statusResult);
+    }
+    
+    public function testCheckDateInApprovedTimesheet() {
+        
+        $timesheetObj = $this->classTimesheet;
+	$timesheetObj->setTimesheetId(14);
+	$timesheets = $timesheetObj->fetchTimesheets();
+        $res = $timesheets[0]->approveTimesheet();
+        
+        $statusResult = Timesheet::checkDateInApprovedTimesheet(date('Y-m-d'), 10);
+        $this->assertTrue($statusResult);
+         
+        $statusResult1  = Timesheet::checkDateInApprovedTimesheet(date('Y-m-d', time()+3600*24*7), 10);
+        $this->assertTrue($statusResult1); 
+
+        $statusResult3  = Timesheet::checkDateInApprovedTimesheet(date('Y-m-d', time()+3600*24*7*6), 10);
+        $this->assertFalse($statusResult3);  
+        
     }
 
 }

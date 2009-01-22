@@ -119,7 +119,6 @@ class TimeController {
 
 	public function punchTime($punchIn) {
 		$tmpObj  = $this->getObjTime();
-
 		if ($tmpObj == null) {
 			$this->redirect('INVALID_TIME_FAILURE', "?timecode=Time&action=Show_Punch_Time");
 		}
@@ -130,6 +129,9 @@ class TimeController {
 
 		try {
 			if ($punchIn) {
+                                if(Timesheet::checkDateInApprovedTimesheet($tmpObj->getReportedDate(), $tmpObj->getEmployeeId())){
+                                    throw new TimeEventException("Failed to add time event", 1);
+                                }                                 
 				$res = $tmpObj->addTimeEvent();
 
 				if (!$res) {
@@ -204,9 +206,11 @@ class TimeController {
 		} catch (TimeEventException $exception) {
 			if ($exception->getCode() == 0) {
 				$_GET['message'] = 'SUBMIT_FAILURE';
-			} else {
-				$_GET['message'] = 'EXCEPTION_THROWN_WARNING';
-			}
+			} elseif($exception->getCode() == 1){
+				$_GET['message'] = 'APPROVED_TIMESHEET_FAILURE';
+			}else{
+                              $_GET['message'] = 'EXCEPTION_THROWN_WARNING';  
+                        }
 		}
 
 		$this->redirect($_GET['message'], "?timecode=Time&action=Show_Punch_Time");
