@@ -137,14 +137,19 @@ function getMinMaxCurrency($value, $salGrd) {
 	}
 return $response->getXML();
 }
-
+$GLOBALS['lang_hremp_SelectCurrency'] = $lang_hremp_SelectCurrency;
 function getUnAssignedCurrencyList($payGrade) {
 	$emp_view_controller = new EmpViewController();
 	$empId = $_GET['id'];
 
 	$temp[] = $payGrade;
 	$temp[] = $empId;
-	$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
+	if($payGrade){
+		$currlist = $emp_view_controller->xajaxObjCall($temp,'BAS','currency');
+	}else{
+		$currlist[0][0]  = $GLOBALS['lang_hremp_SelectCurrency'] ;
+		$currlist[0][2]  = "0";
+	}
 
 	$response = new xajaxResponse();
 	$xajaxFiller = new xajaxElementFiller();
