@@ -2116,7 +2116,7 @@ class ViewController {
 								 	}
 								 }
 
-								 header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&showMsg=$showMsg");
+								 header("Location:./CentralController.php?uniqcode=EMX&VIEW=MAIN&msg=$showMsg");
 								 break;
 
 					default : 	$showMsg = "UPDATE_SUCCESS"; //If $message is 1 setting up the

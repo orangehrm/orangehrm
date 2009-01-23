@@ -273,6 +273,9 @@
 	$lang_Common_Note = "Note";
 
 	$lang_Common_AccessDenied = "Access Denied";
+	
+	$lang_Common_TEST_EMAIL_SUCCESS = "Test email sent successfully";
+	$lang_Common_TEST_EMAIL_FAILIURE = "Test email failed. This can be due to incorrect configuration details";
 
 	//days
 	$lang_Common_Monday 					= "Monday";
@@ -1025,8 +1028,6 @@
 	$lang_SmtpPassword = "SMTP Password";
 	$lang_SmtpSendTestEmail = "Send Test Email";
 	$lang_SmptTestEmailAddress = "Test Email Address";
-	$lang_SmtpTestEmailSucceeded = "Test email sent successfully";
-	$lang_SmtpTestEmailFailed = "Test email failed. This can be due to incorrect configuration details";
 	$lang_Email_SendMail_Instructions = "Please set correct path to sendmail by changing sendmail_path in php.ini";
 
 	// Email Configuration Validation

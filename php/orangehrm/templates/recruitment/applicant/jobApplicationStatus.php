@@ -44,7 +44,7 @@ if (!empty($records['error']['resumeUploadError'])) { // There was an error when
 	if (empty($records['error']['applicantEmailError'])) { // An email was sent to the applicant informing submission
 	    $message = str_replace('#jobtitle#', $records['vacancy']->getJobTitleName(), $lang_Recruit_ApplySuccess);
 	    $message .= '. ';
-	    $message .= str_replace('#jobtitle#', $records['application']->getEmail(), $lang_Recruit_ApplicantEmailedSuccess);
+	    $message .= str_replace('#email#', $records['application']->getEmail(), $lang_Recruit_ApplicantEmailedSuccess);
 	} else { // Emailing the applicant failed
 	    $message = str_replace('#jobtitle#', $records['vacancy']->getJobTitleName(), $lang_Recruit_ApplySuccess);
 	}
