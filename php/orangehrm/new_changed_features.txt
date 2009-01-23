@@ -7,6 +7,37 @@ New & Changed Features for OrangeHRM ver 2.5-alpha.4
     2506260 - In Leave Type action buttons not functional in IE
     2506461 - Ess cannot apply leave using firefox : UI issue
     2506497 - Ess: Leave summary back button will end up with notice page
+    2522827 - Cannot delete the attached resumes in Recruitment
+    
+    Bug fixes merged from 2.4.1
+    ---------------------------
+	2094702 - Notice page when login via LDAP
+	2149200 - admin assign leave's mail notification doesnt go via SMTP
+	2163329 - There are no installation instructions with the download
+	2141811 - Benefits Module: After deleting an employee name not shown
+	2219006 - [Upgrader]No warning is given for default SMTP settings
+	2220848 - [Upgrader]  Interviewer doesn't get mail
+	2283560 - Send mail configuration testing should implemented
+	2220436 - Two Sundays shown in time sheet due to daylight saving
+	2031266 - Leave:Copy leave quota creates duplicate leave types
+	2314620 - Leave types list order should be the defined order
+	2211401 - Mysql errors with traditional/restricted modes
+	1962330 - PIM -> License : Unnecessary text value display in start
+	2314620 - Leave types list order should be the defined order
+	2336771 - Admin View first time sheet not the current to Approve
+	2086450 - Leave:Ess not assigned to supervisor->apply leave->no mails
+	2343535 - Two 2008-26-10 shown - last leave date omitted
+	2433061 - can't save job titile in PIM with mysql Traditional mode
+	1943684 - Paging not implemented in Leave Summary
+	2049098 - Time: Timesheets printing issue
+	2078231 - PIM: Edit salary goes to notice page -Stopper
+	2026736 - Admin:Location name should be a text box
+	2002924 - Time:Approved state timesheet can be edited using punch in
+	2046187 - Time: Two same time events can be started @ same time
+	2088791 - Time: Punch in/out helps to update approved timesheet
+	2090499 - Time:Reported date misleads Employee report time calculation
+	2149309 - CRB-Calender control has no arrow to skip year by year
+	2047966 - Admin: Project deletion may affect to the reports
 
 New & Changed Features for OrangeHRM ver 2.5-alpha.3
 
