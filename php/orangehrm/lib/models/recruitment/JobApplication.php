@@ -737,7 +737,8 @@ class JobApplication {
 	}
 
 	/**
-	 * Specific to update resumes
+	 * Updates an existing resume
+	 * @return int Job application ID
 	 */
 	public function updateResume() {
 
@@ -762,6 +763,31 @@ class JobApplication {
 
 		if (!$result) {
 			throw new JobApplicationException("Update failed. SQL=$sql", JobApplicationException::DB_ERROR);
+		}
+
+		return $this->id;
+
+	}
+	
+	/**
+	 * Deletes an existing resume
+	 * @return int Job application ID
+	 */
+	public function deleteResume() {
+
+		if (!isset($this->id)) {
+			throw new JobApplicationException("Resume delete: Missing job application ID", JobApplicationException::ID_NOT_SET);
+		}
+
+		$sql = "UPDATE `".self::TABLE_NAME."` SET `".self::DB_FIELD_RESUME_NAME."` = NULL, `";
+		$sql .= self::DB_FIELD_RESUME_DATA."` = NULL ";
+		$sql .= "WHERE `".self::DB_FIELD_ID."` = {$this->id}";
+
+		$conn = new DMLFunctions();
+		$result = $conn->executeQuery($sql);
+
+		if (!$result) {
+			throw new JobApplicationException("Deletion failed. SQL=$sql", JobApplicationException::DB_ERROR);
 		}
 
 		return $this->id;
@@ -829,5 +855,6 @@ class JobApplicationException extends Exception {
 	const DB_ERROR = 2;
     const INVALID_STATUS = 3;
     const RESUME_DATA_NOT_SET = 4;
+    const ID_NOT_SET = 5;
 }
 

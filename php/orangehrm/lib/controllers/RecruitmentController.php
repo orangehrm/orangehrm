@@ -530,7 +530,7 @@ class RecruitmentController {
 		// If resume details are not set, at default they become null
 
 		try {
-		    $jobApplication->save();
+		    $jobApplication->deleteResume();
 		    $objs['application'] = JobApplication::getJobApplication($applicationId); // No resume
 		    $objs['message'] = 'Resume deleted';
 		} catch (Exception $e) {
