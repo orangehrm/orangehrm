@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.5
+    Bug fixes
+    ---------
+    UI improvements of Admin & Leave Module
+    
 New & Changed Features for OrangeHRM ver 2.5-alpha.4
 
     Bug fixes
