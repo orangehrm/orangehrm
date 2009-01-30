@@ -26,7 +26,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'testConf.php';
+require_once '../../build/testConf.php';
 require_once 'CommonFunctions.php';
 
 /**
@@ -186,7 +186,7 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		// Mega
 		$this->assertEquals("1 M", CommonFunctions::formatSiUnitPrefix(1000000));
 		$this->assertEquals("1.53 M", CommonFunctions::formatSiUnitPrefix(1530000));
-		$this->assertEquals("1.52 M", CommonFunctions::formatSiUnitPrefix(1525000));
+		$this->assertEquals("1.53 M", CommonFunctions::formatSiUnitPrefix(1525000));
 		$this->assertEquals("1.54 M", CommonFunctions::formatSiUnitPrefix(1536750));
 
 		// Giga
@@ -199,7 +199,7 @@ class CommonFunctionsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("1 T", CommonFunctions::formatSiUnitPrefix(1000000000000));
 		$this->assertEquals("1.45 T", CommonFunctions::formatSiUnitPrefix(1450000000000));
 		$this->assertEquals("1.52 T", CommonFunctions::formatSiUnitPrefix(1523000000000));
-		$this->assertEquals("1.52 T", CommonFunctions::formatSiUnitPrefix(1525000000000));
+		$this->assertEquals("1.53 T", CommonFunctions::formatSiUnitPrefix(1525000000000));
     }
 
     public function testCheckTimeOverlap() {

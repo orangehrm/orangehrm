@@ -136,6 +136,24 @@ class EmpInfoTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testGetEmployeeSearchList(){
+        $empInfo = new EmpInfo();
+        $employeeSearchList = $empInfo->getEmployeeSearchList();
+
+        $this->assertEquals(true, is_array($employeeSearchList));
+
+        $this->assertEquals('Sanjeewan Mahesan', $employeeSearchList[0][0]);
+        $this->assertEquals('7', $employeeSearchList[0][2]);
+
+        $this->assertEquals('Fazly Nayeem', $employeeSearchList[1][0]);
+        $this->assertEquals('6', $employeeSearchList[1][2]);
+
+        $this->assertEquals('Tharindu Surendra', $employeeSearchList[2][0]);
+        $this->assertEquals('5', $employeeSearchList[2][2]);
+
+        $this->assertEquals('Saman Anuradha', $employeeSearchList[3][0]);
+        $this->assertEquals('4', $employeeSearchList[3][2]);
+    }
 }
 
 // Call EmpInfoTest::main() if this source file is executed directly.

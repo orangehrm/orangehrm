@@ -109,7 +109,7 @@
 
 	return $objResponse->getXML();
 	}
-    
+
     $treeHierarchy = $treeCompStruct->displayTree($_GET['root']);
     $depth=(($treeHierarchy[0][0]['rgt']-$treeHierarchy[0][0]['lft']+1)/2);
     unset($indentor);
@@ -121,16 +121,16 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="../../themes/<?php echo $styleSheet;?>/css/compstruct.css" rel="stylesheet" type="text/css"/>
-    
+
     <script type="text/javascript" src="../../scripts/archive.js"></script>
     <?php $objAjax->printJavascript();?>
-    
+
     <script type="text/javascript">
     //<![CDATA[
         <?php require_once(ROOT_PATH.'/scripts/SCRIPT_compstruct.js'); ?>
         var allChildDepIds= new Array();
         var allChildIds = new Array();
-        
+
 <?php if ($treeHierarchy) { ?>
 <?php
     $cnt=0;
@@ -142,10 +142,10 @@
         $cnt++;
     }
 ?>
-<?php } ?>        
+<?php } ?>
     //]]>
     </script>
-    
+
     <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 
     <link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
@@ -160,7 +160,7 @@
 <body style="padding-left:5px;">
 
  	<div id="layerComStruct">
-    
+
 	<h2><?php echo $lang_compstruct_heading; ?></h2>
 	<br />
 	<?php if ($_GET['root'] === '') { ?>
@@ -237,7 +237,7 @@
 	<?php } ?>
 	</table>
     </div>
-    
+
     <!-- Delete Subdivision -->
     <form name="frmDeleteNode" id="frmDeleteNode" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="validate(); return false;">
 		<input type="hidden" value="" id="del_rgt" name="rgt"/>
@@ -258,12 +258,12 @@
 
     	<label id="lblDeptId" for="txtDeptId"><?php echo $lang_compstruct_Dept_Id; ?></label>
         <input type="text" value="" id="txtDeptId" name="txtDeptId" class="formInputText"/>
-        <br class="clear" />        
-        
+        <br class="clear" />
+
         <label id="lblSubDivision" for="txtTitle"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label>
         <input type="text" value="" id="txtTitle" name="txtTitle" class="formInputText"/>
         <br class="clear" />
-        
+
         <label id="lblType" for="cmbType"><?php echo $lang_compstruct_Type; ?><span class="required">*</span></label>
 		<select name="cmbType" id="cmbType" class="formSelect">
             <option value="null"><?php echo $lang_Leave_Common_Select; ?></option>
@@ -272,7 +272,7 @@
 			<?php } ?>
 		</select>
         <br class="clear" />
-        
+
   		<label id="lblLocation" for="cmbLocation"> <?php echo $lang_compstruct_Location?></label>
         <select name="cmbLocation" id="cmbLocation" onchange="locChange(this);" class="formSelect">
             <option value=""><?php echo $lang_Leave_Common_Select; ?></option>
@@ -285,43 +285,43 @@
 			<option value="Other"><?php echo $lang_compstruct_Other; ?></option>
 		</select>
         <br class="clear" />
-        
+
         <label id="lblDesc" for="txtDesc"><?php echo $lang_compstruct_Description; ?></label>
         <textarea name="txtDesc" id="txtDesc" rows="3" cols="25" class="formTextArea"></textarea>
         <br class="clear" />
-        
-        <div class="formbuttons">        
-            <input type="button" class="savebutton" 
-                onclick="validate();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+
+        <div class="formbuttons">
+            <input type="button" class="savebutton"
+                onclick="validate();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="document.getElementById('frmAddNode').reset();"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                 value="<?php echo $lang_Common_Clear;?>" />                                         
-			<img onclick="frmAddHide();" onmouseout="this.src='../../themes/beyondT/icons/hide.gif';" onmouseover="this.src='../../themes/beyondT/icons/hide_o.gif';" src="../../themes/beyondT/icons/hide.gif" alt=""/>
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                 value="<?php echo $lang_Common_Clear;?>" />
+			<input type="button" class="savebutton" onclick="frmAddHide();" value="<?php echo $lang_compstruct_hide;?>" />
 		</div>
 	</form>
     <br class="clear" />
     </div>
     <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-	
+
 	<!-- Add Location  -->
 
 	<div id="layerFormLoc" class="frame">
         <div class="outerbox">
 		<div class="subHeading"><h3><?php echo $lang_compstruct_frmNewLocation; ?></h3></div>
-        
+
         <span id="status"><img src='../../themes/beyondT/icons/loading.gif' width='20' height='20' style="vertical-align: bottom;" alt=""/></span>
-        
-        
+
+
 		<form id="frmAddLoc" name="frmAddLoc" method="post" onsubmit="return false;" action="">
-            
+
             <label for="txtLocDescription"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label>
             <input name="txtLocDescription" id="txtLocDescription" class="formInputText"/>
             <br class="clear" />
-            
+
             <label for="cmbCountry"><?php echo $lang_compstruct_country; ?><span class="required">*</span></label>
-            <select name="cmbCountry" id="cmbCountry" onchange="swStatus(); xajax_populateStates(this.value);" 
-                    class="formSelect"> 						
+            <select name="cmbCountry" id="cmbCountry" onchange="swStatus(); xajax_populateStates(this.value);"
+                    class="formSelect">
                 <option value="0"><?php echo $lang_Leave_Common_Select; ?></option>
 				<?php
 					$cntlist = $this->popArr['countries'];
@@ -331,43 +331,43 @@
 				?>
 			</select>
             <br class="clear" />
-            
+
             <label for="txtState"><?php echo $lang_compstruct_state; ?></label>
             <div id="lrState" ><input type="text" name="txtState" id="txtState" class="formInputText"/></div>
             <input type="hidden" name="cmbProvince" id="cmbProvince"/>
             <br class="clear" />
-            
+
             <label for="txtAddress"><?php echo $lang_compstruct_Address; ?><span class="required">*</span></label>
             <textarea name="txtAddress" id="txtAddress" rows="3" cols="25" class="formTextArea"></textarea>
             <br class="clear" />
-            
+
             <label for="cmbDistrict"><?php echo $lang_compstruct_city; ?></label>
             <input type="text" name="cmbDistrict" id="cmbDistrict" class="formInputText"/>
             <br class="clear" />
-                        
+
             <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?><span class="required">*</span></label>
             <input type="text" name="txtZIP" id="txtZIP" class="formInputText"/>
             <br class="clear" />
-            
+
             <label for="txtPhone"><?php echo $lang_compstruct_Phone; ?></label>
             <input type="text" name="txtPhone" id="txtPhone" class="formInputText"/>
-            <br class="clear" />            
-            
+            <br class="clear" />
+
             <label for="txtPhone"><?php echo $lang_comphire_fax; ?></label>
 			<input type="text" name="txtFax" id="txtFax" class="formInputText"/>
-            <br class="clear" />                
-                
-            <label for="txtPhone"><?php echo $lang_Leave_Common_Comments; ?></label>                
+            <br class="clear" />
+
+            <label for="txtPhone"><?php echo $lang_Leave_Common_Comments; ?></label>
             <textarea name="txtComments" rows="3" cols="25" class="formTextArea"></textarea>
-            <br class="clear" />                
+            <br class="clear" />
 
              <div class="formbuttons">
-                <input type="button" class="savebutton" 
-                    onclick="addNewLocation();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+                <input type="button" class="savebutton"
+                    onclick="addNewLocation();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="button" class="clearbutton" onclick="resetx(); document.getElementById('frmAddLoc').reset();"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                     value="<?php echo $lang_Common_Clear;?>" />       
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                     value="<?php echo $lang_Common_Clear;?>" />
              </div>
              <br class="clear" />
 	</form>
@@ -378,9 +378,9 @@
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
-</script>    
+</script>
 </body>
 </html>

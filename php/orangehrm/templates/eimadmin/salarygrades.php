@@ -106,19 +106,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <!--[if IE]>
 <link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
-</head>    
+</head>
 
 <body>
 
 <div class="formpage">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
-    
+
     <?php $messageStr =  isset($this->getArr['msg']) ? $this->getArr['msg'] : null;
         if (isset($messageStr)) {
             $messageType = CommonFunctions::getCssClassForMessage($messageStr);
@@ -126,7 +123,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 
@@ -141,15 +138,18 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
         <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label>
         <input type="text" name="txtSalGrdDesc" id="txtSalGrdDesc" size="40" class="formInputText"/>
         <br class="clear"/>
-        
+
         <div class="formbuttons">
-            <input type="button" class="savebutton" 
-                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <input type="button" class="savebutton"
+                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
             <input type="button" class="clearbutton" onclick="clearAll();"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Clear;?>" />
-            <br class="clear"/>                             
+            <input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
+            <br class="clear"/>
         </div>
         <br class="clear"/>
 </form>
@@ -157,12 +157,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
 <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
-</div>        
+</div>
 </body>
 </html>
 
@@ -251,7 +251,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 	function edit() {
         var editBtn = $('editBtn');
-        
+
         if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
             addUpdate();
             return;
@@ -262,7 +262,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
         for (var i=0; i < frm.elements.length; i++) {
             frm.elements[i].disabled = false;
         }
-       
+
         editBtn.className = "savebutton";
         editBtn.title = "<?php echo $lang_Common_Save;?>";
         editBtn.value = "<?php echo $lang_Common_Save;?>";
@@ -448,7 +448,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 	function editAss() {
 
         var editAssBtn = $('editAssBtn');
-        
+
         if(editAssBtn.title=='<?php echo $lang_Common_Save;?>') {
             editEXT();
             return;
@@ -492,20 +492,17 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <body>
 <div class="formpage">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_salarygrades_heading;?></h2></div>
-    
+
     <?php $messageStr =  isset($this->getArr['msg']) ? $this->getArr['msg'] : null;
         if (isset($messageStr)) {
             $messageStr = str_replace("%", " ", $expString);
     ?>
         <div class="messagebar">
             <span class=""><?php echo $$messageStr; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 <form name="frmSalGrd" id="frmSalGrd" method="post" action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $this->getArr['id']?>&uniqcode=<?php echo $this->getArr['uniqcode']?>" onsubmit="return addUpdate();">
@@ -514,26 +511,29 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
     <input type="hidden" name="referer" value="<?php echo $referer?>"/>
 
     <input type="hidden" name="txtSalGrdID" value="<?php echo $message[0][0]?>"/>
-    <span class="formLabel"><?php echo $lang_Commn_code; ?></span>    
+    <span class="formLabel"><?php echo $lang_Commn_code; ?></span>
     <span class="formValue"><?php echo $message[0][0]?></span>
     <br class="clear"/>
 
-    <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label> 
-    <input type="text" name="txtSalGrdDesc" id="txtSalGrdDesc" size="40" tabindex="3" disabled="disabled" 
+    <label for="txtSalGrdDesc"><?php echo $lang_compstruct_Name; ?><span class="required">*</span></label>
+    <input type="text" name="txtSalGrdDesc" id="txtSalGrdDesc" size="40" tabindex="3" disabled="disabled"
         value="<?php echo $message[0][1]?>" class="formInputText"/>
-    <br class="clear"/>        
+    <br class="clear"/>
 
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editBtn" 
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editBtn"
                         onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        title="<?php echo $lang_Common_Edit;?>"                                                   
+                        title="<?php echo $lang_Common_Edit;?>"
                         value="<?php echo $lang_Common_Edit;?>" />
-                    <input type="button" class="clearbutton" onclick="clearAll();" 
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                    <input type="button" class="clearbutton" onclick="clearAll();"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Clear;?>" />
+                    <input type="button" class="savebutton"
+                        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $lang_Common_Back;?>" />
 <?php } ?>
-                    <br class="clear"/>                         
+                    <br class="clear"/>
                 </div>
 <br class="clear"/>
 </form>
@@ -553,8 +553,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 		echo "<option value='" .$unAssCurrency[$c][0]. "'>" .$unAssCurrency[$c][1]. "</option>";
 ?>
 </select>
-<br class="clear"/>  
-                    
+<br class="clear"/>
+
 <label for="txtMinSal" ><?php echo $lang_hrEmpMain_minpoint; ?></label>
 <input type="text" <?php echo ($locRights['add']) ? '' : 'disabled'?> name="txtMinSal" id="txtMinSal"
     class="formInputText"/>
@@ -572,23 +572,23 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 <div class="formbuttons">
 <?php					if($locRights['add']) { ?>
-    
-<input type="button" class="savebutton" id="saveBtn" 
+
+<input type="button" class="savebutton" id="saveBtn"
     onclick="addEXT();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-    title="<?php echo $lang_Common_Save;?>"                                                   
+    title="<?php echo $lang_Common_Save;?>"
     value="<?php echo $lang_Common_Save;?>" />
 </div>
 <br class="clear"/>
-                            
+
 <?php					}
 
 			} elseif(isset($this->getArr['editID'])) {
 
 				$editAssCurrency = $this->popArr['editAssCurrency'];
 				?>
-                
-                
-                
+
+
+
 <div class="subHeading"><h3><?php echo $lang_salarygrades_EditAssignedCurrency; ?></h3></div>
 <input type="hidden" name="cmbUnAssCurrency" value="<?php echo $editAssCurrency[0][1]?>"/>
 <label for="cmbUnAssCurrency" ><?php echo $lang_hrEmpMain_currency; ?><span class="required">*</span></label>
@@ -599,8 +599,8 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
                 echo $assCurrency[$c][1];
     ?>
 </span>
-<br class="clear"/>  
-                    
+<br class="clear"/>
+
 <label for="txtMinSal" ><?php echo $lang_hrEmpMain_minpoint; ?></label>
 <input type="text" disabled="disabled" name="txtMinSal" id="txtMinSal"
     class="formInputText" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][2]);?>"/>
@@ -617,13 +617,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <br class="clear"/>
 
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editAssBtn" 
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editAssBtn"
                         onclick="editAss();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                        title="<?php echo $lang_Common_Edit;?>"                                                   
+                        title="<?php echo $lang_Common_Edit;?>"
                         value="<?php echo $lang_Common_Edit;?>" />
 <?php } ?>
-                    <br class="clear"/>                         
+                    <br class="clear"/>
                 </div>
 <br class="clear"/>
 
@@ -633,18 +633,18 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
   $assCurrency = $this->popArr['assCurrency'];
   if ($assCurrency) {
 ?>
-                       
-<div class="subHeading"><h3><?php echo $lang_salarygrades_AssignedCurrencies; ?></h3></div>    
+
+<div class="subHeading"><h3><?php echo $lang_salarygrades_AssignedCurrencies; ?></h3></div>
     <div class="actionbar">
         <div class="actionbuttons">
 <?php    if($locRights['delete']) { ?>
             <input type="button" class="delbutton"
                 onclick="delEXT();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Delete;?>" />          
-        <?php   
-            } 
+                value="<?php echo $lang_Common_Delete;?>" />
+        <?php
+            }
         ?>
-        </div>              
+        </div>
         <div class="noresultsbar"></div>
         <div class="pagingbar"></div>
     </div>
@@ -674,12 +674,12 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>
 <span id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</span>
-</div>        
+</div>
 </body>
 
 </html>

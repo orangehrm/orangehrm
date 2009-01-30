@@ -18,7 +18,9 @@
  */
 
 require_once ROOT_PATH . '/lib/models/time/Workshift.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php'; 
+require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
+
+ $employeeSearchList = $records['employeeSearchList'];
 
  $employees = null;
 
@@ -61,6 +63,15 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 	}
 ?>
 
+    var employeeSearchList = new Array();
+
+    function showAutoSuggestTip(obj) {
+        if (obj.value == '<?php echo $lang_Common_TypeHereForHints; ?>') {
+            obj.value = '';
+            obj.style.color = '#000000';
+        }
+    }
+
 	function resetShiftLength() {
 
 		var empId = document.frmLeaveApp.cmbEmployeeId.value;
@@ -80,6 +91,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 	function addSave() {
 		fillToDate();
 		fillTimes();
+
+        for (i in employeeSearchList) {
+            if ($('txtEmployeeId').value == employeeSearchList[i][0]) {
+                $('cmbEmployeeId').value = employeeSearchList[i][2];
+                break;
+            }
+        }
 
 		err = false;
 		msg = "<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n";
@@ -141,7 +159,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
 				if (fromTime == toTime) {
 					err = true;
-					msg += " - <?php echo $lang_Leave_Error_ZeroLengthHours; ?>\n"					
+					msg += " - <?php echo $lang_Leave_Error_ZeroLengthHours; ?>\n"
 				} else if (fromTime > toTime) {
 					err = true;
 					msg += " - <?php echo $lang_Leave_Error_ToTimeBeforeFromTime; ?>\n"
@@ -182,7 +200,7 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 					$sendmailPath = substr($sendmailPath, 0, strpos($sendmailPath, ' '));
 					if (is_file($sendmailPath)) {
 						if (!is_executable($sendmailPath)) {
-							$mailConfigError = true; 
+							$mailConfigError = true;
 							$mailConfigErrorMsg = $lang_Error_EmailConfigError_SendmailNotExecutable;
 						}
 					} elseif (is_link($sendmailPath)) {
@@ -388,12 +406,13 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailConfiguration.php';
 
 //]]>
 </script>
+<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 <?php
   if (isset($employees) && is_array($employees)) {
      $heading = $lang_Leave_Title_Assign_Leave;
      $modifier = "Leave_Admin_Apply";
      $btnClass = 'assignbutton';
-     $btnTitle = $lang_Common_Assign;     
+     $btnTitle = $lang_Common_Assign;
   } else {
      $heading = $lang_Leave_Title_Apply_Leave;
      $modifier = "Leave_Apply";
@@ -526,15 +545,15 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 <div class="formpage">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $heading;?></h2></div>
-        
-        <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {        
+
+        <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
                 $message =  $_GET['message'];
                 $messageType = CommonFunctions::getCssClassForMessage($message);
                 $messageStr = "lang_Leave_" . $message;
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
-            </div>  
+            </div>
         <?php } ?>
 
 <form id="frmLeaveApp" name="frmLeaveApp" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $modifier; ?>">
@@ -544,13 +563,37 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 <?php } ?>
 
     <?php if (isset($role)) { ?>
-        <label for="cmbEmployeeId"><?php echo $lang_Leave_Common_EmployeeName; ?></label>
+        <label for="cmbEmployeeId"><?php echo $lang_Leave_Common_EmployeeName; ?><span class="required">*</span></label>
 
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
-			<input type="text" name="txtEmployeeId" id="txtEmployeeId" disabled="disabled" class="formInputText"
-                value="<?php echo isset($empName) ? $empName : ""; ?>" />
-			<input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo $prevEmployeeId;?>"/>
-			<input type="button" value="..." onclick="returnEmpDetail();" class="empPopupButton"/>
+
+        <div>
+        <div class="yui-ac" id="employeeSearchAC" style="float: left">
+        <input name="txtEmployeeId" autocomplete="off" class="yui-ac-input" id="txtEmployeeId" type="text" value="<?php echo isset($empName) ? $empName : ""; ?>" tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
+              <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
+              <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
+              <div style="display: none;" class="yui-ac-hd"></div>
+              <div class="yui-ac-bd">
+                    <ul>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                          <li style="display: none;"></li>
+                        </ul>
+                      </div>
+                     <div style="display: none;" class="yui-ac-ft"></div>
+                    </div>
+                   <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
+              </div>
+        </div>
+        </div>
+
 		<?php } else if (isset($employees) && is_array($employees)) { ?>
 			<select name="cmbEmployeeId" id="cmbEmployeeId" onchange="resetShiftLength();" class="formSelect">
 	        	<option value="-1">-<?php echo $lang_Leave_Common_Select;?>-</option>
@@ -565,8 +608,8 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 		<?php } ?>
         <br class="clear"/>
     <?php } ?>
-    
-    <label for="sltLeaveType"><?php echo $lang_Leave_Common_LeaveType; ?></label>    
+
+    <label for="sltLeaveType"><?php echo $lang_Leave_Common_LeaveType; ?></label>
     <select name="sltLeaveType" id="sltLeaveType" class="formSelect">
         <?php
             $skippedLeaveTypesCount = 0;
@@ -601,22 +644,22 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
             <div class="notice"><?php echo $lang_Leave_Common_LeaveQuotaNotAllocated; ?></div>
             <br class="clear"/>
      <?php } ?>
-     
-        <label for="txtLeaveFromDate"><?php echo $lang_Leave_Common_FromDate; ?></label>
+
+        <label for="txtLeaveFromDate"><?php echo $lang_Leave_Common_FromDate; ?><span class="required">*</span></label>
         <input name="txtLeaveFromDate" type="text" id="txtLeaveFromDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
             value="<?php echo $prevLeaveFromDate; ?>" class="formDateInput"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
         <br class="clear"/>
-                 
-        <label for="txtLeaveToDate"><?php echo $lang_Leave_Common_ToDate; ?></label>
+
+        <label for="txtLeaveToDate"><?php echo $lang_Leave_Common_ToDate; ?><span class="required">*</span></label>
         <input name="txtLeaveToDate" type="text" id="txtLeaveToDate"  onchange="fillToDate();" onfocus="fillToDate();" size="10"
         	value="<?php echo $prevLeaveToDate; ?>" class="formDateInput"/>
           <input type="button" name="Submit" value="  " class="calendarBtn" />
         <br class="clear"/>
-            
+
       <div id="trTime1" class="<?php echo $timeElementClass;?>">
         <label for="sltLeaveFromTime"><?php echo $lang_Leave_Common_FromTime; ?></label>
-        <select name="sltLeaveFromTime" id="sltLeaveFromTime" onchange="fillTimes();" 
+        <select name="sltLeaveFromTime" id="sltLeaveFromTime" onchange="fillTimes();"
                 class="formTimeSelect">
             <option value=""></option>
             <?php
@@ -628,7 +671,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
             <?php } ?>
             </select>
         <label for="sltLeaveToTime"><?php echo $lang_Leave_Common_ToTime; ?></label>
-        <select name="sltLeaveToTime" id="sltLeaveToTime" onchange="fillTimes();" 
+        <select name="sltLeaveToTime" id="sltLeaveToTime" onchange="fillTimes();"
                 class="formTimeSelect">
             <option value=""></option>
             <?php
@@ -640,16 +683,16 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
                     <option <?php echo $selected; ?> value="<?php echo $timeVal; ?>" ><?php echo LocaleUtil::getInstance()->formatTime($timeVal); ?></option>
             <?php } ?>
             </select>
-        <br class="clear"/>        
-                
+        <br class="clear"/>
+
         <label for="txtLeaveTotalTime"><?php echo $lang_Leave_Common_TotalHours; ?></label>
         <input name="txtLeaveTotalTime" id="txtLeaveTotalTime" size="4" onchange="fillTimes();"
                 value="<?php echo $prevTotalTime; ?>" class="formInputText" style="width:3em;"/>
-        <br class="clear"/>                
+        <br class="clear"/>
       </div>
       <div id="trTime2" class="<?php echo $timeElementClass;?>">
       </div>
-      
+
       <div id="trTime3" class="<?php echo $timeElementClass;?>">
 
       </div>
@@ -660,9 +703,9 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
       <textarea name="txtComments" id="txtComments" class="formTextArea" rows="3" cols="20"
         ><?php echo $prevComments;?></textarea>
       <br class="clear"/>
-        <div class="formbuttons">               
-            <input type="button" class="<?php echo $btnClass;?>" id="saveBtn" 
-                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        <div class="formbuttons">
+            <input type="button" class="<?php echo $btnClass;?>" id="saveBtn"
+                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $btnTitle;?>" title="<?php echo $btnTitle;?>"/>
         </div>
 </form>
@@ -670,8 +713,34 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
+
+        <?php
+            $i = 0;
+            foreach ($employeeSearchList as $record) {
+        ?>
+             employeeSearchList[<?php echo $i++; ?>] = new Array('<?php echo implode("', '", $record); ?>');
+        <?php
+            }
+
+        ?>
+
+
+        YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
+            // Instantiate second JS Array DataSource
+            this.oACDS = new YAHOO.widget.DS_JSArray(employeeSearchList);
+            // Instantiate second AutoComplete
+            this.oAutoComp = new YAHOO.widget.AutoComplete('txtEmployeeId','employeeSearchACContainer', this.oACDS);
+            this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
+            this.oAutoComp.typeAhead = false;
+            this.oAutoComp.useShadow = true;
+            this.oAutoComp.forceSelection = true;
+            this.oAutoComp.formatResult = function(oResultItem, sQuery) {
+                var sMarkup = oResultItem[0] + "<br />" + oResultItem[1] .fontsize(-1).fontcolor('#999999')  + "&nbsp;";
+                return (sMarkup);
+            };
+        };
 //]]>
 </script>
 </div>

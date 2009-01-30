@@ -86,7 +86,7 @@ $locRights=$_SESSION['localRights'];
 
 
 	function isNameInUse(name) {
-		var lowerCaseName = name.toLowerCase(); 
+		var lowerCaseName = name.toLowerCase();
 		n = names.length;
 		for (var i=0; i<n; i++) {
 			if (names[i] == lowerCaseName) {
@@ -123,7 +123,7 @@ $locRights=$_SESSION['localRights'];
 			frm.elements[i].disabled = false;
 		}
 		$('editBtn').value="<?php echo $lang_Common_Save; ?>";
-		$('editBtn').title="<?php echo $lang_Common_Save; ?>";		
+		$('editBtn').title="<?php echo $lang_Common_Save; ?>";
 		$('editBtn').className = "savebutton";
 
 <?php } else {?>
@@ -145,13 +145,10 @@ $locRights=$_SESSION['localRights'];
 <body>
 	<div class="formpage">
 		<div class="navigation">
-	  		<a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-	  			<span><?php echo $lang_Common_Back;?></span>
-	  		</a>
 		</div>
 		<div class="outerbox">
 			<div class="mainHeading"><h2><?php echo $lang_jobspec_heading;?></h2></div>
-		
+
 		<?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
 	    	if (isset($message)) {
 				$messageType = CommonFunctions::getCssClassForMessage($message);
@@ -159,10 +156,10 @@ $locRights=$_SESSION['localRights'];
 		?>
 			<div class="messagebar">
 				<span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-			</div>	
+			</div>
 		<?php }	?>
-	 
-            <form name="frmJobSpec" id="frmJobSpec" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">    		      	  
+
+            <form name="frmJobSpec" id="frmJobSpec" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
 
 		        <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
 				<input type="hidden" id="txtId" name="txtId" value="<?php echo $jobSpec->getId();?>"/><br class="clear"/>
@@ -176,25 +173,28 @@ $locRights=$_SESSION['localRights'];
 				<label for="txtDesc"><?php echo $lang_Commn_description; ?></label>
 	            <textarea type="text" id="txtDesc" class="formTextArea" name="txtDesc" tabindex="2" <?php echo $disabled;?>><?php echo $jobSpec->getDesc(); ?></textarea>
 	            <br class="clear"/>
-	            	
+
 				<label for="txtDuties"><?php echo $lang_jobspec_duties; ?></label>
 		        <textarea type="text" id="txtDuties" name="txtDuties" class="formTextArea" tabindex="3" <?php echo $disabled;?>><?php echo $jobSpec->getDuties(); ?></textarea>
 		        <br class="clear"/>
 
 		        <div class="formbuttons">
 					<input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" onclick="edit();" tabindex="4"
-						onmouseover="moverButton(this);" onmouseout="moutButton(this);"							 
+						onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 						value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
 					<input type="button" class="clearbutton" onclick="reset();" tabindex="5"
-						onmouseover="moverButton(this);" onmouseout="moutButton(this);"	
+						onmouseover="moverButton(this);" onmouseout="moutButton(this);"
 						 value="<?php echo $lang_Common_Clear;?>" />
+					<input type="button" class="savebutton"
+            			onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            			value="<?php echo $lang_Common_Back;?>" />
 	            </div>
 			</form>
 	    </div>
     	<script type="text/javascript">
         //<![CDATA[
         	if (document.getElementById && document.createElement) {
-   	 			roundBorder('outerbox');   	 			
+   	 			roundBorder('outerbox');
 			}
         //]]>
     	</script>

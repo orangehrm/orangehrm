@@ -57,7 +57,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
 //<![CDATA[
 
     var editMode = false;
-       
+
     function validate() {
         error = false;
         mailRegExp = /^(([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z])$/;
@@ -74,7 +74,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
         }
     }
 
-       
+
     function validate() {
         var err = false;
         var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
@@ -115,14 +115,14 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
             frm.elements[i].disabled = false;
         }
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
         $('editBtn').className = "savebutton";
 
 <?php } else {?>
         alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
     }
-    
+
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -138,7 +138,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
    <div class="formpageNarrow">
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Admin_SubscribeToMailNotifications;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -146,17 +146,17 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-     
-            <form name="mailSubscription" id="mailSubscription" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
 
-                <input type="hidden" name="sqlState" value="UpdateRecord"/> 
-                <label for="txtMailAddress"><?php echo $lang_Commn_Email; ?></label>
-                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText" 
-                    value="<?php echo $notificationEmail; ?>" disabled="disabled"/>                                          
+            <form name="mailSubscription" id="mailSubscription" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
+
+                <input type="hidden" name="sqlState" value="UpdateRecord"/>
+                <label for="txtMailAddress"><?php echo $lang_Commn_Email; ?><span class="required">*</span></label>
+                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText"
+                    value="<?php echo $notificationEmail; ?>" disabled="disabled"/>
                 <br class="clear"/>
-                    
+
       <?php
         $i=0;
         foreach ($allNotifications as $notificationType=>$notificationName) {
@@ -169,12 +169,12 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
                 }
             }
       ?>
-            <label for="txtSkillName"><?php echo $notificationName; ?></label>            
+            <label for="txtSkillName"><?php echo $notificationName; ?></label>
             <input type="hidden" name="notificationMessageId[<?php echo $i; ?>]" value="<?php echo $notificationType; ?>" />
             <input type="hidden" name="notificationMessageStatus[<?php echo $i; ?>]" value="0" />
-            <input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]" 
+            <input type="checkbox" <?php echo $checked; ?>  name="notificationMessageStatus[<?php echo $i; ?>]"
                 value="1" class="formCheckbox" disabled="disabled"/>
-            <br class="clear"/>            
+            <br class="clear"/>
       <?php
         $i++;
         }
@@ -182,21 +182,21 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=ENS&amp;capturemode=updatemode&a
 
 
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editBtn" 
-                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editBtn"
+                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                         
+<?php } ?>
                 </div>
             </form>
         </div>
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>

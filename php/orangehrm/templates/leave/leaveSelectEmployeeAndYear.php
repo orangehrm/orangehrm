@@ -58,7 +58,7 @@
         } else {
             with (document.frmSelectEmployee) {
                  var searchMode = searchBy.value;
-        <?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>                
+        <?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
                 if (cmbId.selectedIndex > 0) {
                     searchMode = 'employee';
                 }
@@ -74,8 +74,8 @@
     <?php } ?>
                 searchBy.value = searchMode;
 
-            }        
-            return true;            
+            }
+            return true;
         }
     }
 
@@ -106,13 +106,13 @@
         if(!popup.opener) popup.opener=self;
         popup.focus();
     }
-//]]>    
+//]]>
 </script>
 
 <div class="formpage3col">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Leave_Select_Employee_Title;?></h2></div>
-    
+
     <?php $message =  isset($_GET['msg']) ? $_GET['msg'] : (isset($_GET['message']) ? $_GET['message'] : null);
         if (isset($message)) {
             $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -120,16 +120,16 @@
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 
 <form method="post" name="frmSelectEmployee" action="<?php echo $action; ?>" onsubmit="return validate();">
 <input type="hidden" name="searchBy" value="<?php echo ($_GET['action'] == 'Leave_Select_Employee_Leave_Summary') ? 'employee' : 'leaveType' ?>" />
-<table border="0" cellpadding="2" cellspacing="0" style="margin:10px 0 0 10px;">
+<table border="0" cellpadding="2" cellspacing="0" style="margin:0 0 0 0">
   <tbody>
 	<tr>
-		<td></td>
+		<td class="odd"></td>
     	<td width="70px" class="odd"><?php echo $lang_Leave_Common_Year;?></td>
 
     	<td width="130px" class="odd">
@@ -166,35 +166,35 @@
 		  <?php 		}
 		   			}
          ?>
-                </select>         
-         <?php                              
+                </select>
+         <?php
     		}
 		 ?>
 
 		</td>
     	<td width="100px" class="odd">
-            <input type="button" class="viewbutton" id="btnView" 
-                onclick="view();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+            <input type="button" class="viewbutton" id="btnView"
+                onclick="view();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_View;?>" />
         </td>
-		<td></td>
+		<td class="odd"></td>
 	</tr>
 	<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
 	<tr class="hide" id="idSelectRow">
-		<td></td>
-    	<td>&nbsp;</td>
-    	<td>&nbsp;</td>
-    	<td>&nbsp;</td>
-		<td>
+		<td class="odd"></td>
+    	<td class="odd">&nbsp;</td>
+    	<td class="odd">&nbsp;</td>
+    	<td class="odd">&nbsp;</td>
+		<td class="odd">
 			<input type="text" name="cmbEmpID" id="cmbEmpID" value="" disabled="disabled" />
 			<input type="hidden" name="id" id="id" value="0" />
 			<input type="button" value="..." onclick="returnEmpDetail();" />
 		</td>
-		<td>&nbsp;</td>
-		<td></td>
+		<td class="odd">&nbsp;</td>
+		<td class="odd"></td>
 	</tr>
 	<tr>
-		<td></td>
+		<td class="odd"></td>
     	<td width="70px" class="odd"></td>
 
     	<td width="130px" class="odd">
@@ -216,11 +216,11 @@
   	    		</select>
 		</td>
     	<td width="100px" class="odd"></td>
-		<td></td>
+		<td class="odd"></td>
 	</tr>
 	<?php } ?>
 	<tr>
-		<td></td>
+		<td class="odd"></td>
     	<td width="70px" class="odd"></td>
 
     	<td width="130px" class="odd">
@@ -231,7 +231,7 @@
     	<td width="150px" class="odd">
 		</td>
     	<td width="100px" class="odd"></td>
-		<td></td>
+		<td class="odd"></td>
 	</tr>
   </tbody>
 </table>
@@ -240,7 +240,7 @@
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>

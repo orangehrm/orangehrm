@@ -51,7 +51,7 @@ input.plainbtn {
 	font-weight:bold !important;
 	min-width:60px;
 	width: auto;
-	cursor: default;    	
+	cursor: default;
 }
 
 input.editbuttonhov,
@@ -75,7 +75,7 @@ input.submitbuttonhov,
 input.searchbuttonhov,
 input.punchbuttonhov,
 input.plainbtnhov {
-	border-color: #c63 #c63 #930 #930 !important;		
+	border-color: #c63 #c63 #930 #930 !important;
 }
 
 /* Back button */
@@ -131,23 +131,23 @@ div.messagebar span {
 /* TODO: Take out the width */
 div.messagebar {
     width: auto;
-    text-align: left;        
-    margin: 0; 
-    padding: 2px 0 2px 0px;     
+    text-align: left;
+    margin: 0;
+    padding: 2px 0 2px 0px;
     border-top: 0;
     border-bottom:1px solid #FAD163;
     background-color: white;
 }
 
 div.searchbox {
-    width: auto;        
-    margin: 0; 
-    padding: 6px 0 6px 0;     
+    width: auto;
+    margin: 0;
+    padding: 6px 0 6px 0;
     border-top: 0;
     border-bottom:1px solid #FAD163;
     background-color: white;
 }
-    
+
 div.searchbox label {
 	font-weight: bold;
 	color: black;
@@ -175,7 +175,7 @@ br.clear {
 /* Data table styling start */
 
 table.data-table {
-	width: 100%; 
+	width: 100%;
 	border: none;
 	background-color:#FAD163;
 }
@@ -190,7 +190,7 @@ table.data-table thead td {
 	font-size: 11px;
 	color: #444444;
 	font-weight: bold;
-	text-align: left;	
+	text-align: left;
 }
 
 table.data-table thead td a.null {
@@ -225,15 +225,15 @@ table.data-table tbody tr td {
 table.data-table tbody td a {
 	font-size: 12px;
 	color: #000000;
-	text-decoration: none;		
+	text-decoration: none;
 }
 
 table.data-table tbody td a:hover {
 	font-size: 12px;
 	color: #000000;
-	text-decoration: underline;		
+	text-decoration: underline;
 }
-	
+
 table.data-table tr.odd td {
 	background-color: white;
 }
@@ -242,18 +242,18 @@ table.data-table tr.even td {
 	background-color: #eeeeee;
 }
 
-/* Data table styling end */		
+/* Data table styling end */
 
 /* Start search page styling */
 .outerbox .formcontent {
     background-color: #FFF;
 	border:0px solid #FAD163;
 	border-width:0 2px;
-	
+
 	/* Height given to give hasLayout to avoid peekaboo bug in IE */
 	height: 100%;
 }
-	
+
 div.actionbar {
 	background-color:white;
 	width:100%;
@@ -263,23 +263,23 @@ div.actionbar {
 
 div.actionbuttons {
 	background-color:white;
-	padding: 2px; 
+	padding: 2px;
 	width:30%;
 	float:left;
 }
 
 div.noresultsbar {
-	background-color:#FFF7D7; 
-	padding-top: 4px; 
+	background-color:#FFF7D7;
+	padding-top: 4px;
 	width: auto;
 	float:left;
 }
-	
+
 div.pagingbar {
-	background-color:inherit; 
-	text-align: left; 
-	padding-top: 1px; 
-	padding-bottom: 1px; 
+	background-color:inherit;
+	text-align: left;
+	padding-top: 1px;
+	padding-bottom: 1px;
 	padding-right:2px;
 	width: auto;
 	display:block;
@@ -341,7 +341,7 @@ div.pimpanel div.actionbar div.actionbuttons {
     background-color: white;
 	border:0px solid #FAD163;
 	border-width:0 2px;
-	
+
 	/* Height given to give hasLayout to avoid peekaboo bug in IE */
 	height: auto;
 	/*height: 100%;*/
@@ -356,7 +356,7 @@ div.pimpanel div.actionbar div.actionbuttons {
 	width: 98%;
 }
 /* End round border styles */
-	
+
 /* Start form page styling */
 
 /* Main div for page */
@@ -385,27 +385,27 @@ span.required {
 }
 
 /* Error in a single field, shown next to it */
-div.fielderror {	
-	display:block; 
-	float: left; 
+div.fielderror {
+	display:block;
+	float: left;
 	margin:10px;
 	color: red;
 }
 
 /* Required field notice */
 div.requirednotice {
-	float:left;
+	margin-left:16px;
 }
 
 div.fieldHint {
 	display:block;
 	float:left;
     margin-left: 10px;
-    font-style: italic;        
+    font-style: italic;
 }
 
 /* Form elements */
-label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput, 
+label, select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput,
 input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
 div.wideFormValue, select.formTimeSelect, input.formFileInput {
     display: block;
@@ -421,8 +421,8 @@ input.formRadio, input.formCheckbox {
 
 input.formCheckboxWide {
     display: block;
-    float: left;    
-    margin: 10px 100px 0 0;		
+    float: left;
+    margin: 10px 100px 0 0;
 }
 span.formFieldContainer {
 	display:block;
@@ -447,16 +447,16 @@ select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, sp
 }
 
 input.formFileInput {
-    margin-left: 10px;	
+    margin-left: 10px;
 }
-    
+
 select.formSelect {
     width: 160px;
 }
 
 select.formTimeSelect {
     margin-left: 10px;
-    width: 5em;        	
+    width: 5em;
 }
 
 input.formInputText, textarea.formTextArea, span.formValue {
@@ -476,7 +476,7 @@ input.empPopupButton, input[type=button].empPopupButton {
     display: block;
     float: left;
     margin-top: 10px;
-    margin-left: 10px;  
+    margin-left: 10px;
 }
 
 select.countrySelect {
@@ -502,7 +502,7 @@ input.calendarBtn, input[type=button].calendarBtn {
 	float: left;
 	border: 0;
 	margin-top: 10px;
-	margin-left: 10px;	
+	margin-left: 10px;
 	width: 16px;
 	height: 16px;
 	background-image: url(../icons/calendar.gif);
@@ -512,14 +512,14 @@ input.calendarBtn, input[type=button].calendarBtn {
 
 /* Div with buttons (save, edit, cancel) in form */
 div.formbuttons {
-	text-align: left;
+	text-align: center;
 	width:auto;
 	height:auto;
 	margin-left:5px;
 	margin-right:5px;
 	margin-top:15px;
 	display:block;
-	padding-top: 10px;; 
+	padding-top: 10px;;
 	padding-bottom: 10px;
 	float:none;
 	border-top: 1px solid #FAD163;
@@ -530,11 +530,11 @@ div.loading {
     text-align:right;
     background-position: right;
     background-image: url(../icons/loading.gif);
-    background-repeat: no-repeat;    
+    background-repeat: no-repeat;
 }
 div.loading span {
     vertical-align:text-top;
-}	
+}
 
 /* End form page styling */
 
@@ -608,7 +608,7 @@ tr.show {
 }
 
 /*------------------------------------------------------------------ End confirmed styles -----------------------------------------------------*/
-	    
+
 /* Default Styles */
 
 thead th{
@@ -844,7 +844,7 @@ textarea {
 	.tabLeftSpace {
 	}
 	#companyLogoHeader{
-		background : url(../pictures/orange3.png) no-repeat top left;	
+		background : url(../pictures/orange3.png) no-repeat top left;
 		width: 264px;
 		height: 62px;
 		margin-left: 10px;
@@ -856,8 +856,8 @@ textarea {
 		background : url(../pictures/top_img.jpg) no-repeat top right;
 		width: 300px;
 		height: 62px;
-		float:right;	
-		display:block;	
+		float:right;
+		display:block;
 	}
 	.companyLogoHeader {
 		background : url(../pictures/orange3.png) no-repeat 10px 1px;
@@ -1371,3 +1371,69 @@ table.simpleList td {
 	color: #D8D8D8;
 }
 
+
+    :disabled:not([type="image"]) {
+        background-color:#FFFFFF;
+        color:#444444;
+    }
+
+    input[type=text] {
+
+        border-top-width: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px solid #888888;
+    }
+
+    form input.formInputText{
+
+		border-top-width: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px solid #888888;
+	}
+
+    table.historyTable th {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+    table.historyTable td {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+
+    #active {
+        width: 15px;
+        height: 15px;
+        background-color: transparent;
+        vertical-align: bottom;
+    }
+
+    #txtDesc {
+        width: 330px;
+        height: 150px;
+    }
+
+	#nohiringmanagers {
+		font-style: italic;
+		color: red;
+        padding-left: 10px;
+        width: 400px;
+        border: 1px;
+	}
+
+	#employeeSearchAC {
+ 	    width:15em; /* set width here */
+ 	    padding-bottom:2em;
+        margin: 10px 0px 2px 10px;
+ 	}
+
+ 	#employeeSearchAC {
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+ 	}
+
+ 	#txtEmployeeSearch {
+ 	    _position:absolute; /* abs pos needed for ie quirks */
+ 	}

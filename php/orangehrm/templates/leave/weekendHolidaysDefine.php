@@ -22,7 +22,7 @@
     function editSave() {
         document.frmDefineWeekends.submit();
     }
-//]]>    
+//]]>
 </script>
 <div class="formpage">
 <div class="outerbox">
@@ -33,7 +33,7 @@
 ?>
     <div class="messagebar">
         <span><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></span>
-    </div>  
+    </div>
 <?php } ?>
 
 <form id="frmDefineWeekends" name="frmDefineWeekends" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=Holiday_Weekend_Edit">
@@ -60,28 +60,31 @@
   			$length = $results[$key]->getLength();
   		}
   ?>
-    <input type="hidden" name="txtDay[]" value="<?php echo $key; ?>" />  
+    <input type="hidden" name="txtDay[]" value="<?php echo $key; ?>" />
     <span class="formLabel"><?php echo $dayOfTheWeek;?></span>
     <select name="sltLeaveLength[]" style="width:100px;" class="formSelect">
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_FULL_DAY; ?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_FULL_DAY)? 'selected="selected"':""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_HALF_DAY;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_HALF_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
             <option value="<?php echo Weekends::WEEKENDS_LENGTH_WEEKEND;?>" <?php echo ($length == Weekends::WEEKENDS_LENGTH_WEEKEND)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_Weekend; ?></option>
     </select>
-    <br class="clear"/>         
+    <br class="clear"/>
   <?php
   	}
   ?>
-<div class="formbuttons">               
-    <input type="button" class="savebutton" id="saveBtn" 
-        onclick="editSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<div class="formbuttons">
+    <input type="button" class="savebutton" id="saveBtn"
+        onclick="editSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"
         value="<?php echo $lang_Common_Save;?>" />
+    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        value="<?php echo $lang_Common_Clear;?>" />
 </div>
 </form>
 </div>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

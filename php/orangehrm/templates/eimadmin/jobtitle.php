@@ -95,7 +95,7 @@ function showEditEmpStatForm($estatCode) {
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.focus();");
 	$objResponse->addScript("document.frmJobTitle.txtEmpStatDesc.selectAll();");
 	$objResponse->addScript("document.getElementById('layerEmpStat').style.visibility='visible';");
-    
+
     $objResponse->addScript("document.getElementById('btnEmpStat').onclick=editFormData;");
 	$objResponse->addAssign('status','innerHTML','');
 
@@ -191,7 +191,7 @@ return $objResponse->getXML();
   setcookie('cmbJobSpecId', 'null', time()-3600, '/');
   setcookie('cmbPayGrade', 'null', time()-3600, '/');
   setcookie('txtJobTitleID', 'null', time()-3600, '/');
-  
+
   $themeDir = '../../themes/' . $styleSheet;
 
 ?>
@@ -235,20 +235,20 @@ return $objResponse->getXML();
 
 	function edit() {
         var editBtn = $('editBtn');
-        
+
 		if(editBtn.title=='<?php echo $lang_Common_Save;?>') {
 			addUpdate();
 			return;
 		}
-	
+
 		var frm=document.frmJobTitle;
-	
+
 		for (var i=0; i < frm.elements.length; i++) {
 			frm.elements[i].disabled = false;
 		}
-	
+
 		frm.txtEmpStatDesc.disabled=true;
-	
+
 		editBtn.className = "savebutton";
 		editBtn.title = "<?php echo $lang_Common_Save;?>";
         editBtn.value = "<?php echo $lang_Common_Save;?>";
@@ -283,18 +283,18 @@ return $objResponse->getXML();
 
 
 
-	function assignEmploymentStatus() {	
+	function assignEmploymentStatus() {
 		if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
 			alert('<?php echo $lang_jobtitle_NoSelection; ?>');
 			return;
 		}
-	
+
 		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-	
+
 		xajax_assignEmploymentStatus(xajax.getFormValues('frmJobTitle'));
 	}
 
-	function unAssignEmploymentStatus() {	
+	function unAssignEmploymentStatus() {
 		if(document.frmJobTitle.cmbAssEmploymentStatus.selectedIndex == -1) {
 			alert('<?php echo $lang_jobtitle_NoSelection; ?>');
 			return;
@@ -308,14 +308,14 @@ return $objResponse->getXML();
 	function numeric(txt) {
 		var flag = true;
 		var i, code;
-		
+
 		if (txt.value=="") {
 		   return false;
 		 }
-		
+
 		for (i=0;txt.value.length>i;i++) {
 			code=txt.value.charCodeAt(i);
-			
+
 			if(code>=48 && code<=57 || code==46) {
 			   flag=true;
 			} else {
@@ -323,37 +323,37 @@ return $objResponse->getXML();
 			   break;
 			}
 		}
-		
-		return flag;	
+
+		return flag;
 	}
 
 
 
-	function editPayGrade() {	
+	function editPayGrade() {
 		paygrade = document.frmJobTitle.cmbPayGrade.value;
-	
+
 		if(paygrade == '0') {
 			alert('<?php echo $lang_jobtitle_PayGradeNotSelected; ?>');
 			document.frmJobTitle.cmbPayGrade.focus();
 			return;
 		}
-	
+
 		document.gotoPayGrade.action = '../../lib/controllers/CentralController.php?uniqcode=SGR&id=' + paygrade + '&capturemode=updatemode';
-	
+
 		document.gotoPayGrade.submit();
-	
+
 	}
 
-	function showEditForm() {	
+	function showEditForm() {
 		empstat = document.frmJobTitle.cmbUnAssEmploymentStatus.value;
-	
+
 		if(document.frmJobTitle.cmbUnAssEmploymentStatus.selectedIndex == -1) {
 			alert('<?php echo $lang_jobtitle_PleaseSelectEmploymentStatus; ?>');
 			document.frmJobTitle.cmbUnAssEmploymentStatus.focus();
-	
+
 			return;
 		}
-	
+
 		xajax_showEditEmpStatForm(document.frmJobTitle.cmbUnAssEmploymentStatus.value);
 	}
 
@@ -361,12 +361,12 @@ return $objResponse->getXML();
 		if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 			alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
 			document.frmJobTitle.txtEmpStatDesc.focus();
-	
+
 			return;
 		}
-	
+
 		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-	
+
 		xajax_addExt(xajax.getFormValues('frmJobTitle'));
 	}
 
@@ -374,12 +374,12 @@ return $objResponse->getXML();
 		if(document.frmJobTitle.txtEmpStatDesc.value == '') {
 			alert('<?php echo $lang_jobtitle_EnterEmploymentStatus; ?>');
 			document.frmJobTitle.txtEmpStatDesc.focus();
-	
-			return;	
+
+			return;
 		}
-	
+
 		document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait;?>....';
-	
+
 		xajax_editExt(xajax.getFormValues('frmJobTitle'));
 	}
 
@@ -387,33 +387,33 @@ return $objResponse->getXML();
 		if (!(document.getElementById('txtJobTitleName').disabled)) {
 			id="txtJobTitleID";
 			writeCookie(id,document.getElementById('txtJobTitleID').value);
-	
+
 			id="txtJobTitleName";
 			writeCookie(id,document.getElementById('txtJobTitleName').value);
-	
+
 			id="txtJobTitleDesc";
 			writeCookie(id,document.getElementById('txtJobTitleDesc').value);
-	
+
 			id="txtJobTitleComments";
 			writeCookie(id,document.getElementById('txtJobTitleComments').value);
-	
+
 			id="cmbJobSpecId";
 			writeCookie(id, document.getElementById(id).value);
-	
+
 			id="cmbPayGrade";
 			writeCookie(id,document.getElementById('cmbPayGrade').value);
-		}	
+		}
 	}
 
 	function writeCookie(name, value, expire) {
 		if (!expire) {
 			expire = 3600000;
 		}
-	
+
 		var date = new Date();
 		date.setTime(date.getTime()+expire);
 		var expires = date.toGMTString();
-	
+
 		document.cookie = name+"="+value+"; expires="+expires+"; path=/";
 	}
 
@@ -425,7 +425,7 @@ return $objResponse->getXML();
 
 	function addSalaryGrade() {
 		document.gotoPayGrade.action =  '../../lib/controllers/CentralController.php?uniqcode=SGR&capturemode=addmode';
-	
+
 		document.gotoPayGrade.submit();
 	}
 
@@ -462,10 +462,10 @@ return $objResponse->getXML();
     .roundbox_content {
         padding:15px;
     }
-	
+
 	.controlLabel {
-		width: 135px; 
-		float: left; 
+		width: 135px;
+		float: left;
 		padding-right: 10px;
 		padding-left: 15px;
 	}
@@ -489,9 +489,6 @@ return $objResponse->getXML();
 
 <div class="formpage2col">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_jobtitle_heading;?></h2></div>
@@ -502,39 +499,39 @@ return $objResponse->getXML();
 
 		<input type="hidden" name="sqlState" />
 		<input type="hidden" name="txtJobTitleID" id="txtJobTitleID" value="" />
-        
+
     	<label for="txtJobTitleName" class="controlLabel"><?php echo $lang_jobtitle_jobtitname;?><span class="required">*</span></label>
-    	<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>" 
+    	<input type="text" name="txtJobTitleName" id="txtJobTitleName" value="<?php echo isset($cookie['txtJobTitleName'])? $cookie['txtJobTitleName'] : ''?>"
             class="formInputText"/>
         <br class="clear"/>
 
 		<label for="txtJobTitleDesc" class="controlLabel"><?php echo $lang_jobtitle_jobtitdesc;?><span class="required">*</span></label>
 		<textarea name="txtJobTitleDesc" id="txtJobTitleDesc" class="formTextArea"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : ''?></textarea>
         <br class="clear"/>
-        
+
 		<label for="txtJobTitleComments" class="controlLabel"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
 		<textarea name="txtJobTitleComments" id="txtJobTitleComments" class="formTextArea"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : ''?></textarea>
         <br class="clear"/>
-        
+
 		<label for="cmbJobSpecId" class="controlLabel"><?php echo $lang_jobtitle_jobspec; ?></label>
 		<select name="cmbJobSpecId" id="cmbJobSpecId" style="width: 150px;" class="formSelect">
 			<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-			<?php 
+			<?php
 				$jobSpecs = $this->popArr['jobSpecList'];
-				$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;                                       
-                                            
-				foreach($jobSpecs as $jobSpec) {                                                    
-					$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+				$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : null;
+
+				foreach($jobSpecs as $jobSpec) {
+					$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';
 			?>
 					<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
 			<?php   } ?>
 		</select>
         <br class="clear"/>
-        
+
 		<label for="cmbPayGrade" class="controlLabel"><?php echo $lang_hrEmpMain_paygrade; ?><span class="required">*</span></label>
 		<select name="cmbPayGrade" id="cmbPayGrade" style="width: 150px;" class="formSelect">
 			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-			<?php 
+			<?php
 				$paygrade = $this->popArr['paygrade'];
 
 				for($c=0;$paygrade && count($paygrade)>$c;$c++) { ?>
@@ -549,25 +546,28 @@ return $objResponse->getXML();
                 onclick="preserveData(); addSalaryGrade();"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
                 value="<?php echo $lang_jobtitle_addpaygrade;?>" />
-            &nbsp;          
+            &nbsp;
             <input type="button" class="plainbtn"
                 onclick="preserveData(); editSalaryGrade();"
                 onmouseover="this.className='plainbtn plainbtnhov'" onmouseout="this.className='plainbtn'"
-                value="<?php echo $lang_jobtitle_editpaygrade;?>" />                          
+                value="<?php echo $lang_jobtitle_editpaygrade;?>" />
 		</div>
         <br class="clear"/>
-        
+
         <div class="formbuttons">
-        
-            <input type="button" class="savebutton" 
-                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+
+            <input type="button" class="savebutton"
+                onclick="addSave();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-            <input type="button" class="clearbutton" onclick="clearAll();" 
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-                 value="<?php echo $lang_Common_Clear;?>" />
-                
+            <input type="button" class="clearbutton" onclick="clearAll();"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                 value="<?php echo $lang_Common_Reset;?>" />
+            <input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
+
         </div>
-                        
+
 	</form>
 
 
@@ -579,70 +579,70 @@ return $objResponse->getXML();
 		<label class="formLabel"><?php echo $lang_jobtitle_jobtitid; ?></label>
 		<span class="formValue"><?php echo $editArr[0][0]?></span>
         <br class="clear"/>
-        
+
 		<label for="txtJobTitleName"><?php echo $lang_jobtitle_jobtitname;?><span class="required">*</span></label>
-		<input type="text" class="formInputText" disabled="disabled" name="txtJobTitleName" id="txtJobTitleName" 
+		<input type="text" class="formInputText" disabled="disabled" name="txtJobTitleName" id="txtJobTitleName"
             value="<?php echo isset($cookie['txtJobTitleName']) ? $cookie['txtJobTitleName'] : $editArr[0][1]?>" />
         <br class="clear"/>
-        		
+
 		<label for="txtJobTitleDesc"><?php echo $lang_jobtitle_jobtitdesc;?><span class="required">*</span></label>
         <textarea disabled="disabled" name="txtJobTitleDesc" id="txtJobTitleDesc" cols="30" class="formTextArea"
             rows="3"><?php echo isset($cookie['txtJobTitleDesc']) ? $cookie['txtJobTitleDesc'] : $editArr[0][2]?></textarea>
         <br class="clear"/>
 
 		<label for="txtJobTitleComments"><?php echo $lang_jobtitle_jobtitcomments; ?></label>
-		<textarea disabled="disabled" name="txtJobTitleComments" id="txtJobTitleComments" rows="3" class="formTextArea" 
+		<textarea disabled="disabled" name="txtJobTitleComments" id="txtJobTitleComments" rows="3" class="formTextArea"
             cols="30"><?php echo isset($cookie['txtJobTitleComments']) ? $cookie['txtJobTitleComments'] : $editArr[0][3]?></textarea>
         <br class="clear"/>
 
-		
+
 		<label for="cmbJobSpecId"><?php echo $lang_jobtitle_jobspec; ?></label>
 		<select disabled="disabled" name="cmbJobSpecId" id="cmbJobSpecId" class="formSelect">
         	<option value='-1'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-            <?php 
+            <?php
 				$jobSpecs = $this->popArr['jobSpecList'];
-				$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : $editArr[0][5];                                       
+				$selectedSpecId = isset($cookie['cmbJobSpecId']) ? $cookie['cmbJobSpecId'] : $editArr[0][5];
 
 				foreach($jobSpecs as $jobSpec) {
-					$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';                                                    
+					$selected = ($selectedSpecId == $jobSpec->getId()) ? 'selected' : '';
 			?>
 					<option <?php echo $selected; ?> value="<?php echo $jobSpec->getId();?>"> <?php echo $jobSpec->getName();?></option>
 			<?php   } ?>
 		</select>
 		<br class="clear"/>
-        
+
 		<label for="cmbPayGrade"><?php echo $lang_hrEmpMain_paygrade; ?><span class="required">*</span></label>
 		<select disabled="disabled" name="cmbPayGrade" id="cmbPayGrade" class="formSelect">
 			<option value='0'>--<?php echo $lang_Leave_Common_Select; ?>--</option>
-			<?php 
+			<?php
 				$paygrade = $this->popArr['paygrade'];
 
 			    for($c=0;$paygrade && count($paygrade)>$c;$c++)
 			    	if ((isset($cookie['cmbPayGrade']) && ($cookie['cmbPayGrade'] == $paygrade[$c][0])) || ((!isset($cookie['cmbPayGrade'])) && ($paygrade[$c][0] == $editArr[0][4]))) {
 						echo "<option selected value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
-					} else { 
+					} else {
 						echo "<option value='" .$paygrade[$c][0]. "'>" .$paygrade[$c][1]. "</option>";
-					} 
+					}
 				?>
 		</select>
-          
+
         <input type="button" class="plainbtn"
-            onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>" 
+            onclick="preserveData(); addSalaryGrade();" value="<?php echo $lang_jobtitle_addpaygrade; ?>"
             disabled="disabled" style="margin:10px 2px 0 10px;"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-        <input type="button" class="plainbtn" onclick="preserveData(); editSalaryGrade();" 
+        <input type="button" class="plainbtn" onclick="preserveData(); editSalaryGrade();"
             value="<?php echo $lang_jobtitle_editpaygrade; ?>"  disabled="disabled" style="margin:10px 2px 0 5px;"
             onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
         <br class="clear"/>
-        
+
 
 		<label for="cmbAssEmploymentStatus"><?php echo $lang_jobtitle_empstat; ?><span class="success">#</span></label>
-		<select disabled="disabled" size="3" name="cmbAssEmploymentStatus" id="cmbAssEmploymentStatus" 
+		<select disabled="disabled" size="3" name="cmbAssEmploymentStatus" id="cmbAssEmploymentStatus"
             class="formSelect" style="width:150px; height: 50px;">
-		<?php 
+		<?php
 			$assEmploymentStat = $this->popArr['assEmploymentStat'];
-			
+
 			for($c=0;$assEmploymentStat && count($assEmploymentStat)>$c;$c++) {
 				echo "<option value='" .$assEmploymentStat[$c][0]. "'>" .$assEmploymentStat[$c][1]. "</option>";
 			}
@@ -650,18 +650,18 @@ return $objResponse->getXML();
 		</select>
 
 		<div style="margin: 10px 10px 0 10px; float: left;">
-            <input type="button" disabled="disabled" name="butAssEmploymentStatus" 
-                onclick="assignEmploymentStatus();" value="&lt; <?php echo $lang_compstruct_add; ?>" 
+            <input type="button" disabled="disabled" name="butAssEmploymentStatus"
+                onclick="assignEmploymentStatus();" value="&lt; <?php echo $lang_compstruct_add; ?>"
                 style="width: 100px;" class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 			<br />
-            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus" 
-                onclick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> &gt;"  
-                style="width: 100px;margin-top:10px;" class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />                
+            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus"
+                onclick="unAssignEmploymentStatus();" value="<?php echo $lang_Leave_Common_Remove; ?> &gt;"
+                style="width: 100px;margin-top:10px;" class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 		</div>
-        
-		<select disabled="disabled" size="3" name="cmbUnAssEmploymentStatus" id="cmbUnAssEmploymentStatus" 
+
+		<select disabled="disabled" size="3" name="cmbUnAssEmploymentStatus" id="cmbUnAssEmploymentStatus"
             class="formSelect" style="width:150px; height: 50px;">
-		<?php 
+		<?php
 			$unAssEmploymentStat = $this->popArr['unAssEmploymentStat'];
 
 		    for($c=0;$unAssEmploymentStat && count($unAssEmploymentStat)>$c;$c++) {
@@ -669,43 +669,46 @@ return $objResponse->getXML();
 			}
 		?>
 		</select>
-		<br class="clear"/>  
-        
+		<br class="clear"/>
+
 		<div class="controlContainer" style="padding-top: 20px; padding-left: 10px;">
-            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus" 
-                value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();"  
+            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus"
+                value="<?php echo $lang_jobtitle_addempstat; ?>" onclick="xajax_showAddEmpStatForm();"
                 class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 			<br /><br />
-            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus" 
-                value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();"  
-                class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />            
+            <input type="button" disabled="disabled" name="butUnAssEmploymentStatus"
+                value="<?php echo $lang_jobtitle_editempstat; ?>" onclick="showEditForm();"
+                class="plainbtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" />
 		</div>
 		<div id="layerEmpStat" style="visibility: hidden;">
 			<input type="hidden" name="txtEmpStatID" />
 			<label for="txtEmpStatDesc"><?php echo $lang_jobtitle_empstat; ?></label>
 			<input type="text" name="txtEmpStatDesc" id="txtEmpStatDesc" class="formInputText" disabled="disabled" style="width: 200px" />
-            <input type="button" class="savebutton" id="btnEmpStat" 
+            <input type="button" class="savebutton" id="btnEmpStat"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);" style="margin:10px 0 0 5px;"
-                value="<?php echo $lang_Common_Save;?>" onclick="addFormData();" >                
+                value="<?php echo $lang_Common_Save;?>" onclick="addFormData();" >
 		</div>
 
         <div class="formbuttons">
-<?php if($locRights['edit']) { ?>          
-            <input type="button" class="editbutton" id="editBtn" 
+<?php if($locRights['edit']) { ?>
+            <input type="button" class="editbutton" id="editBtn"
                 onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                title="<?php echo $lang_Common_Edit;?>"                                          
+                title="<?php echo $lang_Common_Edit;?>"
                 value="<?php echo $lang_Common_Edit;?>" />
-                
+
             <input type="button" class="clearbutton" onclick="$('frmJobTitle').reset();"
-                onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                  value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                                      
+            <input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
+<?php } ?>
         </div>
-                        
+
 	</form>
 
 <div style="padding-top: 10px;">
-	
+
 </div>
 
 <?php } ?>
@@ -716,7 +719,7 @@ return $objResponse->getXML();
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

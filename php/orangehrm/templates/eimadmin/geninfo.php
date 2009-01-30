@@ -19,8 +19,8 @@
 
 require_once($lan->getLangPath("full.php"));
 
-$locRights=$_SESSION['localRights'];   
-   
+$locRights=$_SESSION['localRights'];
+
 $GLOBALS['lang_Common_Select'] = $lang_Common_Select;
 
 function populateStates($value, $oldState) {
@@ -47,13 +47,13 @@ function populateStates($value, $oldState) {
 $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->processRequests();
-   
+
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 
 $disabled = '';
 $skillId = '';
 $skillName = '';
-$skillDesc = '';    
+$skillDesc = '';
 $editArr = $this->popArr['editArr'];
 $disabled = "disabled='disabled'";
 
@@ -69,9 +69,9 @@ $disabled = "disabled='disabled'";
 //<![CDATA[
 
     var editMode = false;
-       
+
     function onCountryChange(newValue) {
-        
+
         document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>...';
 
         // keep the old value only if state is a text input
@@ -83,28 +83,28 @@ $disabled = "disabled='disabled'";
 
         xajax_populateStates(newValue, oldVal);
     }
-    
+
     function showCommentLengthExceedWarning() {
         totalFieldLength = 800;
         marginOffset = 35;
         usedLength = 0;
-    
+
         with (document.forms['frmGenInfo']) {
-            usedLength += txtCompanyName.value.length; 
-            usedLength += txtTaxID.value.length; 
-            usedLength += txtNAICS.value.length; 
-            usedLength += txtPhone.value.length; 
-            usedLength += txtFax.value.length; 
-            usedLength += cmbCountry.options[cmbCountry.selectedIndex].value.length; 
-            usedLength += txtStreet1.value.length; 
-            usedLength += txtStreet2.value.length; 
-            usedLength += cmbCity.value.length; 
-            usedLength += (txtState.type == 'text') ? txtState.value.length : txtState.options[txtState.selectedIndex].value.length; 
+            usedLength += txtCompanyName.value.length;
+            usedLength += txtTaxID.value.length;
+            usedLength += txtNAICS.value.length;
+            usedLength += txtPhone.value.length;
+            usedLength += txtFax.value.length;
+            usedLength += cmbCountry.options[cmbCountry.selectedIndex].value.length;
+            usedLength += txtStreet1.value.length;
+            usedLength += txtStreet2.value.length;
+            usedLength += cmbCity.value.length;
+            usedLength += (txtState.type == 'text') ? txtState.value.length : txtState.options[txtState.selectedIndex].value.length;
             usedLength += txtZIP.value.length;
-            
+
             availableLength = totalFieldLength - (usedLength + marginOffset);
             commentLengthWarning = document.getElementById('commentLengthWarningLabel');
-            
+
             if (txtComments.value.length > availableLength) {
                 commentLengthWarning.style.display = 'block';
             } else {
@@ -112,7 +112,7 @@ $disabled = "disabled='disabled'";
             }
         }
     }
-       
+
     function validate() {
         var err = false;
         var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
@@ -139,7 +139,7 @@ $disabled = "disabled='disabled'";
             alert(msg);
             return false;
         } else {
-            $("cmbState").value = $("txtState").value;        
+            $("cmbState").value = $("txtState").value;
             return true;
         }
     }
@@ -164,14 +164,14 @@ $disabled = "disabled='disabled'";
             frm.elements[i].disabled = false;
         }
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
         $('editBtn').className = "savebutton";
 
 <?php } else {?>
         alert('<?php echo $lang_Common_AccessDenied;?>');
 <?php } ?>
     }
-    
+
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -188,13 +188,13 @@ $disabled = "disabled='disabled'";
 </head>
 
 <body>
-       
+
     <div class="formpage2col">
         <div id="status"></div>
-        
-        <div class="outerbox">            
+
+        <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_geninfo_heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -202,79 +202,79 @@ $disabled = "disabled='disabled'";
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-     
-            <form name="frmGenInfo" id="frmGenInfo" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
+
+            <form name="frmGenInfo" id="frmGenInfo" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
                 <input type="hidden" name="STAT" value="EDIT"/>
-                
+
                 <label for="txtCompanyName"><?php echo $lang_geninfo_compname; ?><span class="required">*</span></label>
-                <input id="txtCompanyName" name="txtCompanyName" type="text" <?php echo $disabled;?> 
-                    class="formInputText" 
+                <input id="txtCompanyName" name="txtCompanyName" type="text" <?php echo $disabled;?>
+                    class="formInputText"
                     value="<?php echo isset($editArr['COMPANY']) ? $editArr['COMPANY'] : ''?>" maxlength="250"/>
-                    
-                <span class="formLabel"><?php echo $lang_geninfo_numEmployees. " :"; ?></span> 
+
+                <span class="formLabel"><?php echo $lang_geninfo_numEmployees;?></span>
                 <span class="formValue"><?php echo $this->popArr['empcount'];?></span>
                 <br class="clear"/>
-                                   
-                <label for="txtTaxID"><?php echo $lang_geninfo_taxID; ?></label>                
+
+                <label for="txtTaxID"><?php echo $lang_geninfo_taxID; ?></label>
                 <input id='txtTaxID' name='txtTaxID' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['TAX']) ? $editArr['TAX'] : ''?>" maxlength="25"/>
-                    
+
                 <label for="txtNAICS"><?php echo $lang_geninfo_naics; ?></label>
                 <input id='txtNAICS' name='txtNAICS' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['NAICS']) ? $editArr['NAICS'] : ''?>" maxlength="15"/>
                 <br class="clear"/>
-                                    
+
                 <label for="txtPhone"><?php echo $lang_compstruct_Phone; ?></label>
-                <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText" 
+                <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['PHONE']) ? $editArr['PHONE'] : ''?>" maxlength="20"/>
-                
-                <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>    
+
+                <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>
                 <input id="txtFax" name="txtFax" type="text" <?php echo $disabled;?>  class="formInputText"
                     value="<?php echo isset($editArr['FAX']) ? $editArr['FAX'] : ''?>" maxlength="20"/>
                 <br class="clear"/>
-                                    
+
                 <label for="cmbCountry"><?php echo $lang_compstruct_country; ?></label>
-                <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
+                <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect"
                         onchange="onCountryChange(this.value);">
                     <option value="0">--- <?php echo $lang_Common_Select;?> ---</option>
-                    <?php 
+                    <?php
                         $countryList = $this->popArr['cntlist'];
                         if (!empty($countryList)) {
                             foreach ($countryList as $country) {
                                 $selected = (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == $country[0])) ? 'selected="selected"' : '';
-                                echo "<option {$selected} value='{$country[0]}'>{$country[1]}</option>";   
+                                echo "<option {$selected} value='{$country[0]}'>{$country[1]}</option>";
                             }
-                        }    
+                        }
                     ?>
                 </select>
-                <br class="clear"/> 
-                                               
+                <br class="clear"/>
+
                 <label for="txtStreet1"><?php echo $lang_compstruct_Address; ?>1</label>
-                <input id='txtStreet1' name='txtStreet1' type="text" <?php echo $disabled;?> class="formInputText" 
+                <input id='txtStreet1' name='txtStreet1' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['STREET1']) ? $editArr['STREET1'] : ''?>" maxlength="40"/>
 
                 <label for="txtStreet2"><?php echo $lang_compstruct_Address; ?>2</label>
                 <input id='txtStreet2' name='txtStreet2' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['STREET2']) ? $editArr['STREET2'] : ''?>" maxlength="40"/>
                 <br class="clear"/>
-                
-                <label for="cmbCity"><?php echo $lang_compstruct_city; ?></label>                
+
+                <label for="cmbCity"><?php echo $lang_compstruct_city; ?></label>
                 <input id="cmbCity"  name="cmbCity" type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['CITY']) ? $editArr['CITY'] : ''?>" maxlength="30"/>
-                    
-                <label for="cmbState"><?php echo $lang_compstruct_state; ?></label>                    
+
+                <label for="cmbState"><?php echo $lang_compstruct_state; ?></label>
                 <div id="lrState">
                 <?php if (isset($editArr['COUNTRY']) && ($editArr['COUNTRY'] == 'US')) { ?>
                     <select name="txtState" id="txtState" <?php echo $disabled;?> class="formSelect">
                         <option value="0">--- <?php echo $lang_Common_Select;?>---</option>
-                    <?php  
+                    <?php
                         $stateList = $this->popArr['provlist'];
                         if (!empty($stateList)) {
                             foreach ($stateList as $state) {
                                 $selected = (isset($editArr['STATE']) && ($editArr['STATE'] == $state[1])) ? 'selected="selected"' : '';
-                                echo "<option $selected value='{$state[1]}'>{$state[2]}</option>";                                                                
+                                echo "<option $selected value='{$state[1]}'>{$state[2]}</option>";
                             }
                         }
                     ?>
@@ -284,15 +284,15 @@ $disabled = "disabled='disabled'";
                         value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>" maxlength="30"/>
                 <?php } ?>
                 </div>
-                <input type="hidden" name="cmbState" id="cmbState" 
+                <input type="hidden" name="cmbState" id="cmbState"
                     value="<?php echo isset($editArr['STATE']) ? $editArr['STATE'] : ''?>"/>
                 <br class="clear"/>
-                                   
-                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?></label>                                                    
+
+                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?></label>
                 <input id='txtZIP' name='txtZIP' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo isset($editArr['ZIP']) ? $editArr['ZIP'] : ''?>" maxlength="20"/>
                 <br class="clear"/>
-                                    
+
                 <label for="txtComments"><?php echo $lang_Leave_Common_Comments; ?></label>
                 <span id="commentLengthWarningLabel" style="display: none" class="style1"><?php echo $lang_geninfo_err_CommentLengthWarning; ?></span>
                 <textarea id='txtComments' name='txtComments' <?php echo $disabled;?> class="formTextArea"
@@ -300,23 +300,23 @@ $disabled = "disabled='disabled'";
                     onkeyup="showCommentLengthExceedWarning()"
                     ><?php echo isset($editArr['COMMENTS']) ? $editArr['COMMENTS'] : ''?></textarea>
                 <br class="clear"/>
-                
-                <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editBtn" 
-                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+
+                <div class="formbuttons" align="center">
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editBtn"
+                        onclick="edit();" tabindex="2" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                         
+<?php } ?>
                 </div>
             </form>
         </div>
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>

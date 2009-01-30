@@ -1554,7 +1554,7 @@ class ViewController {
 											$res = false;
 										} catch (CSVSplitterException $e) {
                                             if (($e->getCode() == CSVSplitterException::DIRECTORY_NOT_WRITABLE) ||
-                                                    ($e->getCode() == CSVSplitterException::FILES_NOT_WRITABLE)) {                                            
+                                                    ($e->getCode() == CSVSplitterException::FILES_NOT_WRITABLE)) {
                                                 $showMsg = "IMPORT_TEMPDIR_NOT_WRITABLE_FAILURE";
                                                 $res = false;
     										}
@@ -3130,7 +3130,6 @@ class ViewController {
                             break;
 
 			case 'JOB' :	$form_creator->formPath = '/templates/eimadmin/jobtitle.php';
-
 							$jobtitle = new JobTitle();
 							$paygrade = new SalaryGrades();
 							$jobtit_empstat = new JobTitEmpStat();
@@ -3346,6 +3345,9 @@ class ViewController {
 								$form_creator ->popArr['uglist'] = $user->getUserGroupCodes();
 								//$form_creator ->popArr['editArr'] = $user->filterChangeUsers($getArr['id']);
 							}
+
+                            $form_creator->popArr['employeeSearchList'] = EmpInfo::getEmployeeSearchList();
+
 							break;
 			case 'USG'  :	$form_creator ->formPath = '/templates/maintenance/usergroups.php';
 							$usrgrp = new UserGroups();

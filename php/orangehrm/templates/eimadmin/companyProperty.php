@@ -16,7 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
+
 $addBtnAction = 'add()';
 $delBtnAction = 'deleteProperties()';
 $saveBtnAction = 'saveList()'
@@ -231,7 +231,7 @@ if (!isset($this->getArr['action'])) {
             <input type="button" class="addbutton"
                 onclick="<?php echo $addBtnAction; ?>;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Add;?>" />          
+                value="<?php echo $lang_Common_Add;?>" />
 
             <?php if (!empty($properties)) { ?>
                 <input type="button" class="savebutton"
@@ -243,23 +243,23 @@ if (!isset($this->getArr['action'])) {
                     onclick="<?php echo $delBtnAction; ?>"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Delete;?>" />
-                                      
+
         <?php     }
-        ?>      
-        </div>              
+        ?>
+        </div>
         <div class="noresultsbar"><?php echo (empty($properties)) ? $lang_empview_norecorddisplay : '';?></div>
         <div class="pagingbar">
         <?php
             $commonFunc = new CommonFunctions();
             $pageStr = $commonFunc->printPageLinks($this->popArr['recordCount'], $this->popArr['pageNo'], 10);
             $pageStr = preg_replace(array('/#first/', '/#previous/', '/#next/', '/#last/'), array($lang_empview_first, $lang_empview_previous, $lang_empview_next, $lang_empview_last), $pageStr);
-        
+
             echo $pageStr;
-        ?>        
+        ?>
         </div>
     <br class="clear" />
     </div>
-    <br class="clear" /> 
+    <br class="clear" />
 
 <!--Property List section-->
 
@@ -274,7 +274,7 @@ if (!isset($this->getArr['action'])) {
             <td width="50">
 <?php if (!empty($properties)) { ?>
                 <input type='checkbox' class='checkbox' name='allCheck' value='' onClick="doHandleAll();">
-<?php } ?>            
+<?php } ?>
             </td>
             <td><?php echo $lang_Admin_Property_Name ; ?> </td>
             <td><?php echo $lang_Admin_Prop_Emp_Name; ?></td>
@@ -329,7 +329,7 @@ if (!isset($this->getArr['action'])) {
         </tbody>
         </table>
   </form>
-</div>  
+</div>
 <?php
 }
 ?>
@@ -341,38 +341,42 @@ if (isset($this->getArr['action'])&& ($this->getArr['action']=='add' | $this->ge
     ?>
 <div class="formpage">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
     </div>
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo $lang_Admin_Company_Property_Title?></h2></div>
 
-    
+
 <form action="./CentralController.php?capturemode=editprop&uniqcode=TCP<?php echo $this->getArr['action']=='edit'?"&id={$this->getArr['id']}":''; ?>&amp;pageNo=<?php echo (isset($this->popArr['pageNo']))?$this->popArr['pageNo']:'1' ?>" method="post" name="propertyForm" id="propertyForm" onSubmit="return validateFrom();">
 
     <input type="hidden" name="sqlState" value="<?php echo $this->getArr['action']=='add'?'NewRecord':'UpdateRecord'; ?>"/>
     <input type="hidden" name="capturemode" value="<?php echo $this->getArr['action']=='edit'?'editprop':'addmode'; ?>"/>
 
-    <label for="txtPropertyName"><?php echo $lang_Admin_Property_Name;?></label>
+    <label for="txtPropertyName"><?php echo $lang_Admin_Property_Name;?><span class="required">*</span></label>
     <input type="text" name="txtPropertyName" id ="txtPropertyName" class="formInputText"
         value="<?php echo $this->getArr['action']=='edit'?stripslashes($this->getArr['name']):''; ?>" size="40" maxlength="256"/>
     <br class="clear"/>
     <div class="formbuttons">
-        <input type="button" class="savebutton" id="saveBtn" 
-            onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        <input type="button" class="savebutton" id="saveBtn"
+            onclick="save();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
             value="<?php echo $lang_Common_Save;?>" />
+        <input type="button" class="savebutton"
+        	onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+        	value="<?php echo $lang_Common_Back;?>" />
+        <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+            onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+            value="<?php echo $lang_Common_Clear;?>" />
     </div>
-                    
+
 </form>
 </div>
+<div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
 <?php
 }
 ?>
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

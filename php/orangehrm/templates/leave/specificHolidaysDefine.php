@@ -83,59 +83,62 @@
 	}
 
 	YAHOO.OrangeHRM.container.init();
-//]]>    
+//]]>
 </script>
 <div class="formpage">
     <div class="navigation">
-        <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-            <span><?php echo $lang_Common_Back;?></span>
-        </a>
     </div>
     <div class="outerbox">
-        <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title;?></h2></div>    
+        <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Holiday_Specific_Title;?></h2></div>
 <?php
   if (isset($_GET['message']) && !empty($_GET['message'])) {
 ?>
     <div class="messagebar">
         <span class="<?php echo $messageType; ?>"><?php echo CommonFunctions::escapeHtml($_GET['message']); ?></span>
-    </div>  
+    </div>
 <?php } ?>
 
     <form id="frmDefineHolidays" name="frmDefineHolidays" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&action=<?php echo $action; ?>">
         <input type="hidden" value="<?php echo $id; ?>" name="txtId" />
       	<label for="txtDescription"><?php echo $lang_Leave_Common_NameOfHoliday;?><span class="required">*</span></label>
-        <input type="text" id="txtDescription" name="txtDescription" size="30" class="formInputText" 
+        <input type="text" id="txtDescription" name="txtDescription" size="30" class="formInputText"
             value="<?php echo $description; ?>"/>
-        <br class="clear"/>    
-    
+        <br class="clear"/>
+
         <label for="txtDate"><?php echo $lang_Leave_Common_Date;?><span class="required">*</span></label>
-        <input name="txtDate" id="txtDate" type="text" value="<?php echo LocaleUtil::getInstance()->formatDate($date); ?>" 
+        <input name="txtDate" id="txtDate" type="text" value="<?php echo LocaleUtil::getInstance()->formatDate($date); ?>"
             class="formDateInput" />
         <input type="button" name="Submit" value="  " class="calendarBtn" /></td>
         <br class="clear"/>
-        
-        <label for="chkRecurring"><?php echo $lang_Leave_Common_Recurring;?></label>    
-        <input name="chkRecurring" id="chkRecurring" type="checkbox" class="formCheckbox" 
+
+        <label for="chkRecurring"><?php echo $lang_Leave_Common_Recurring;?></label>
+        <input name="chkRecurring" id="chkRecurring" type="checkbox" class="formCheckbox"
             value="<?php echo Holidays::HOLIDAYS_RECURRING; ?>" <?php echo $recurring; ?> /></td>
         <br class="clear"/>
-        
+
         <label for="sltLeaveLength"><?php echo $lang_Leave_Common_Length;?></label>
         <select name="sltLeaveLength" id="sltLeaveLength" class="formSelect">
                 <option value="<?php echo Leave::LEAVE_LENGTH_FULL_DAY; ?>" <?php echo ($length == Leave::LEAVE_LENGTH_FULL_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_FullDay; ?></option>
                 <option value="<?php echo Leave::LEAVE_LENGTH_HALF_DAY;?>" <?php echo ($length == Leave::LEAVE_LENGTH_HALF_DAY)?'selected="selected"':""; ?>><?php echo $lang_Leave_Common_HalfDay; ?></option>
         </select>
-        <br class="clear"/>    
-        <div class="formbuttons">               
-            <input type="button" class="savebutton" id="saveBtn" 
-                onclick="addSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+        <br class="clear"/>
+        <div class="formbuttons">
+            <input type="button" class="savebutton" id="saveBtn"
+                onclick="addSave();"onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
+            <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Clear;?>" />
+            <input type="button" class="savebutton"
+                onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                value="<?php echo $lang_Common_Back;?>" />
         </div>
     </form>
     </div>
     <script type="text/javascript">
     //<![CDATA[
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     //]]>
     </script>

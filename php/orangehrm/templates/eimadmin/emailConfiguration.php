@@ -127,9 +127,9 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
         for (i in emailConfigControls) {
             $(emailConfigControls[i]).disabled = false;
         }
-            
+
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
         $('editBtn').className = "savebutton";
 
 <?php } else {?>
@@ -155,7 +155,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
   																					 break;
  		}
 	}
-	
+
 	function $(id) {
 		return document.getElementById(id);
 	}
@@ -174,7 +174,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
     <div class="formpage2col">
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_Admin_EMX_MailConfiguration;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -182,36 +182,36 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-     
-            <form name="frmEmailConfig" id="frmEmailConfig" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
+
+            <form name="frmEmailConfig" id="frmEmailConfig" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
                 <input type="hidden" name="sqlState" id="sqlState" value="UpdateRecord"/>
-                <label for="txtMailAddress"><?php echo $lang_MailFrom; ?></label>                     
-                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText" 
+                <label for="txtMailAddress"><?php echo $lang_MailFrom; ?><span class="required">*</span></label>
+                <input type="text" name="txtMailAddress" id="txtMailAddress" class="formInputText"
                     value="<?php echo $editArr->getMailAddress();?>" disabled="disabled" />
-        
+
                 <label for="txtMailType"><?php echo $lang_MailSendingMethod; ?></label>
-                <select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();" 
+                <select name="txtMailType" id="txtMailType" onchange="changeMailType();" onclick="changeMailType();"
                          class="formSelect" disabled="disabled">
                     <option value="0">-- <?php echo $lang_Common_Select;?> --</option>
-                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>" 
-                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected="selected"': ''?> 
+                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>"
+                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL )? 'selected="selected"': ''?>
                         ><?php echo $lang_MailTypes_Sendmailer; ?></option>
-                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>" 
-                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected="selected"': ''?> 
+                    <option value="<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>"
+                        <?php echo ($editArr->getMailType() == EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP)? 'selected="selected"': ''?>
                         ><?php echo $lang_MailTypes_Smtp; ?></option>
                 </select>
                 <br class="clear"/>
-                      
+
                 <!-- Sendmail -->
                 <div id="sendmailDetails">
-                    <label for="txtSendmailPath"><?php echo $lang_SendmailPath; ?></label>                     
-                    <input type="text" name="txtSendmailPath" id="txtSendmailPath" class="formInputText" 
+                    <label for="txtSendmailPath"><?php echo $lang_SendmailPath; ?></label>
+                    <input type="text" name="txtSendmailPath" id="txtSendmailPath" class="formInputText"
                         value="<?php echo $editArr->getSendmailPath();?>" disabled="disabled" />
-                    <br class="clear"/>                        
+                    <br class="clear"/>
                 </div>
-                
+
                 <!-- SMTP -->
                 <div id="smtpDetails1">
                     <label for="txtSmtpHost"><?php echo $lang_SmtpHost; ?></label>
@@ -220,43 +220,46 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                     <label for="txtSmtpPort"><?php echo $lang_SmtpPort; ?></label>
                     <input type="text" name="txtSmtpPort" id="txtSmtpPort" class="formInputText"
                         value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled="disabled" />
-                    <br class="clear"/>                        
+                    <br class="clear"/>
                 </div>
-                
+
                 <div id="smtpDetails2">
                     <label for="txtSmtpUser"><?php echo $lang_SmtpUser; ?></label>
                     <input type="text" name="txtSmtpUser" id="txtSmtpUser" class="formInputText"
                         value="<?php echo $editArr->getSmtpUser();?>" disabled="disabled" />
-                        
+
                     <label for="txtSmtpPass"><?php echo $lang_SmtpPassword; ?></label>
                     <input type="password" name="txtSmtpPass" id="txtSmtpPass" class="formInputText"
                         value="<?php echo $editArr->getSmtpPass();?>" disabled="disabled" />
                     <br class="clear"/>
-                </div>  
-                
+                </div>
+
                 <div id="smtpDetails3">
                     <label for="chkTestEmail"><?php echo $lang_SmtpSendTestEmail; ?></label>
                     <input type="checkbox" name="chkTestEmail" id="chkTestEmail" class="formInputText" />
                     <label for="txtTestEmail"><?php echo $lang_SmptTestEmailAddress; ?></label>
                     <input type="text" name="txtTestEmail" id="txtTestEmail" class="formInputText" />
                     <br class="clear"/>
-                </div>                  
-                
+                </div>
+
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="editbutton" id="editBtn" 
-                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="editbutton" id="editBtn"
+                        onclick="edit();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $lang_Common_Edit;?>" />
-<?php } ?>                         
+                    <input type="button" class="clearbutton" onclick="reset();" tabindex="3"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $lang_Common_Clear;?>" />
+<?php } ?>
                 </div>
             </form>
         </div>
-        
+
         <script type="text/javascript">
         //<![CDATA[
             changeMailType();
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>

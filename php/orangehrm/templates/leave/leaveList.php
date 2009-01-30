@@ -73,26 +73,27 @@ if ($modifier === "SUP") {
 			window.location = "?leavecode=Leave&action=<?php echo $backLink; ?>";
 		<?php } ?>
 	}
-//]]>    
+//]]>
 </script>
+<br class="clear" /><br class="clear" />
 <div class="outerbox">
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
     <div class="mainHeading"><h2><?php echo $lang_Title; ?></h2></div>
 
-    <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {        
+    <?php if (isset($_GET['message']) && $_GET['message'] != 'xx') {
             $message =  $_GET['message'];
             $messageType = CommonFunctions::getCssClassForMessage($message);
             $messageStr = "lang_Leave_" . $message;
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: ''; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 
     <div class="actionbar">
         <div class="actionbuttons">
-        
+
 <?php   if ((is_array($records)) && ($modifier !== "Taken")) { ?>
 
         <input type="image" name="Save" class="save" src="../../themes/beyondT/pictures/btn_save.gif"/>
@@ -100,16 +101,16 @@ if ($modifier === "SUP") {
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" title="<?php echo $lang_Common_Save;?>"/>
-        <?php  
-            } 
+        <?php
+            }
         ?>
-        </div>              
+        </div>
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
         <br class="clear" />
     </div>
-    <br class="clear" />   
-    
+    <br class="clear" />
+
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
@@ -217,18 +218,18 @@ if ($modifier === "SUP") {
 	</td>
   </tr>
 
-<?php } 
+<?php }
     }
 ?>
   </tbody>
 </table>
 
-</form>    
+</form>
 </div>
 <script type="text/javascript">
     <!--
         if (document.getElementById && document.createElement) {
-            roundBorder('outerbox');                
+            roundBorder('outerbox');
         }
     -->
 </script>

@@ -259,13 +259,10 @@ if ($locRights['edit']) {
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
-        </div>    
+        </div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_view_Project_Heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -273,14 +270,14 @@ if ($locRights['edit']) {
         ?>
             <div class="messagebar">
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
-        <?php } ?>      
+            </div>
+        <?php } ?>
 
       <form name="frmProject" method="post" action="<?php echo $formAction;?>" onSubmit="return <?php echo $saveBtnAction; ?>;">
             <input type="hidden" name="sqlState" value=""/>
             <input type="hidden" id="txtId" name="txtId" value="<?php echo $project->getProjectId(); ?>" />
             <br class="clear"/>
-            
+
             <label for="cmbCustomerId"><?php echo $lang_view_CustomerName; ?><span class="required">*</span></label>
             <select name="cmbCustomerId" id="cmbCustomerId" <?php echo $disabled; ?> class="formSelect"
                     tabindex="1">
@@ -297,26 +294,29 @@ if ($locRights['edit']) {
    				?>
    			</select>
             <br class="clear"/>
-            
+
 			<label for="txtName"><?php echo $lang_Commn_name; ?><span class="required">*</span></label>
             <input type="text" id="txtName" name="txtName" value="<?php echo $project->getProjectName(); ?>"
             	tabindex="2" class="formInputText" <?php echo $disabled; ?> />
             <br class="clear"/>
-            
+
             <label for="txtDescription"><?php echo $lang_Commn_description; ?></label>
             <textarea name="txtDescription" id="txtDescription" rows="3" cols="30" class="formTextArea"
             	tabindex="3" <?php echo $disabled; ?> ><?php echo $project->getProjectDescription() ; ?></textarea>
             <br class="clear"/>
-            
+
              <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                <input type="button" class="savebutton" id="saveBtn" 
-                    onclick="<?php echo $saveBtnAction; ?>;" tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                <input type="button" class="savebutton" id="saveBtn"
+                    onclick="<?php echo $saveBtnAction; ?>;" tabindex="4" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Save;?>" />
                 <input type="button" class="clearbutton" onclick="<?php echo $clearBtnAction;?>" tabindex="5"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                      value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                         
+                <input type="button" class="savebutton"
+                        onclick="goBack();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $lang_Common_Back;?>" />
+<?php } ?>
             </div>
       </form>
 
@@ -367,37 +367,37 @@ if ($locRights['edit']) {
 		  	?>
 
             <br class="clear"/>
-            
+
              <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                <input type="button" class="addbutton" id="addBtn" 
-                    onclick="<?php echo $addAdminBtnAction; ?>;" tabindex="6" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                <input type="button" class="addbutton" id="addBtn"
+                    onclick="<?php echo $addAdminBtnAction; ?>;" tabindex="6" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Add;?>" />
             <?php
                 if (!empty($admins)) {
-            ?>                   
+            ?>
                 <input type="button" class="delbutton" onclick="<?php echo $delAdminBtnAction;?>" tabindex="7"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                      value="<?php echo $lang_Common_Delete;?>" />
             <?php
                 }
-            ?>                     
-<?php } ?>                         
+            ?>
+<?php } ?>
             </div>
             <br class="clear"/>
-                        
+
 			<div id ="addAdminLayer" style="display:none;">
 		    	<label for="projAdminName"><?php echo $lang_Admin_Users_Employee; ?></label>
 	               	<input type="text" readonly name="projAdminName" value="" >
                   	<input type="hidden" readonly name="projAdminID" value="">
                    	<input class="button" style="width:30px;" type="button" name="empPop" value=".."
                    		onClick="popEmployeeList();" tabindex="4" <?php echo $disabled; ?> >
-                    <input type="button" class="addbutton" id="addBtn" 
-                        onclick="<?php echo $saveAdminBtnAction; ?>;" tabindex="7" 
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
-                        value="<?php echo $lang_Common_Assign;?>" />                                            
+                    <input type="button" class="addbutton" id="addBtn"
+                        onclick="<?php echo $saveAdminBtnAction; ?>;" tabindex="7"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $lang_Common_Assign;?>" />
 			</div>
-            <br class="clear"/>            
+            <br class="clear"/>
       </form>
 	  <?php } ?>
     </div>
@@ -405,12 +405,12 @@ if ($locRights['edit']) {
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>
 
-    <div id="notice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
+    <div id="" class="requirednotice"><?php echo preg_replace('/#star/', '<span class="error">*</span>', $lang_Commn_RequiredFieldMark); ?>.</div>
     </div>
 </body>
 </html>

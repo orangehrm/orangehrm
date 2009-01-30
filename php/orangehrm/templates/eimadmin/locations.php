@@ -49,21 +49,21 @@ $objAjax = new xajax();
 $objAjax->registerFunction('populateStates');
 $objAjax->processRequests();
 
-$locRights=$_SESSION['localRights'];   
-   
+$locRights=$_SESSION['localRights'];
+
 $formAction="{$_SERVER['PHP_SELF']}?uniqcode={$this->getArr['uniqcode']}";
 $new = true;
 $disabled = '';
 $locationCode = '';
 $locationName = '';
-$skillDesc = '';  
-$locationCountry = '';  
+$skillDesc = '';
+$locationCountry = '';
 $locationState = '';
 $locationCity = '';
 $locationAddress = '';
 $locationZip = '';
 $locationPhone = '';
-$locationFax = '';        
+$locationFax = '';
 $locationComments = '';
 
 if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'updatemode')) {
@@ -81,7 +81,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     $locationPhone = CommonFunctions::escapeHtml($editData[0][7]);
     $locationFax = CommonFunctions::escapeHtml($editData[0][8]);
     $locationComments = CommonFunctions::escapeHtml($editData[0][9]);
-    
+
 }
 
 ?>
@@ -100,23 +100,23 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
     function goBack() {
         location.href = "./CentralController.php?uniqcode=<?php echo $this->getArr['uniqcode']?>&VIEW=MAIN";
     }
-    
+
     function validate() {
         var err = false;
         var msg = '<?php echo $lang_Error_PleaseCorrectTheFollowing; ?>\n\n';
 
         var frm = document.frmLocation;
 
-        if (frm.txtLocDescription.value.trim() == '') {        
+        if (frm.txtLocDescription.value.trim() == '') {
             if (!err) {
                 frm.txtLocDescription.focus();
-            }        
+            }
             err = true;
             msg += "\t- <?php echo $lang_locations_NameHasToBeSpecified; ?>\n";
         }
 
         if (frm.cmbCountry.value == '0') {
-            if (!err) {            
+            if (!err) {
                 frm.cmbCountry.focus();
             }
             err = true;
@@ -124,7 +124,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
         if ( frm.txtAddress.value.trim() == '') {
-            if (!err) {            
+            if (!err) {
                 frm.txtAddress.focus();
             }
             err = true;
@@ -132,7 +132,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
         if ( frm.txtZIP.value.trim() == '' ){
-            if (!err) {            
+            if (!err) {
                 frm.txtZIP.focus();
             }
             err = true;
@@ -145,7 +145,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
         if (frm.txtPhone.value.trim() != '' && !numeric(frm.txtPhone)) {
-            if (!err) {            
+            if (!err) {
                 frm.txtPhone.focus();
             }
             err = true;
@@ -153,7 +153,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         }
 
         if (frm.txtFax.value.trim() != '' && !numeric(frm.txtFax)) {
-            if (!err) {            
+            if (!err) {
                 frm.txtFax.focus();
             }
             err = true;
@@ -164,7 +164,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             alert(msg);
             return false;
         } else {
-            $("cmbProvince").value = $("txtState").value;        
+            $("cmbProvince").value = $("txtState").value;
             return true;
         }
     }
@@ -189,7 +189,7 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
             frm.elements[i].disabled = false;
         }
         $('editBtn').value="<?php echo $lang_Common_Save; ?>";
-        $('editBtn').title="<?php echo $lang_Common_Save; ?>";      
+        $('editBtn').title="<?php echo $lang_Common_Save; ?>";
         $('editBtn').className = "savebutton";
 
 <?php } else {?>
@@ -197,11 +197,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <?php } ?>
     }
 
-    function onCountryChange(country) {        
+    function onCountryChange(country) {
         document.getElementById('status').innerHTML = '<?php echo $lang_Commn_PleaseWait; ?>...';
         xajax_populateStates(country);
     }
-        
+
 //]]>
 </script>
 <script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
@@ -217,14 +217,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
 <body>
     <div class="formpage">
         <div class="navigation">
-            <a href="#" class="backbutton" title="<?php echo $lang_Common_Back;?>" onclick="goBack();">
-                <span><?php echo $lang_Common_Back;?></span>
-            </a>
         </div>
-        <div id="status"></div>        
+        <div id="status"></div>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo $lang_locations_heading;?></h2></div>
-        
+
         <?php $message =  isset($this->getArr['msg']) ? $this->getArr['msg'] : (isset($this->getArr['message']) ? $this->getArr['message'] : null);
             if (isset($message)) {
                 $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -232,14 +229,14 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
         ?>
             <div class="messagebar">[0][2]
                 <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-            </div>  
+            </div>
         <?php } ?>
-     
-            <form name="frmLocation" id="frmLocation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">                    
 
-                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>  
-                                                           
-                <?php if (!$new) { ?>                    
+            <form name="frmLocation" id="frmLocation" method="post" onsubmit="return validate()" action="<?php echo $formAction;?>">
+
+                <input type="hidden" name="sqlState" value="<?php echo $new ? 'NewRecord' : 'UpdateRecord'; ?>"/>
+
+                <?php if (!$new) { ?>
                     <label for="txtLocationCode"><?php echo $lang_Commn_code; ?></label>
                     <input type="hidden" id="txtLocationCode" name="txtLocationCode" value="<?php echo $locationCode;?>"/>
                     <span class="formValue"><?php echo $locationCode;?></span><br class="clear"/>
@@ -250,34 +247,34 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <input id="txtLocDescription" name="txtLocDescription" type="text" <?php echo $disabled;?> class="formInputText"
                         value="<?php echo $locationName;?>" tabindex="1" />
                <br class="clear"/>
-                
+
                 <label for="cmbCountry"><?php echo $lang_compstruct_country; ?><span class="required">*</span></label>
-                <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect" 
+                <select id='cmbCountry' name='cmbCountry' <?php echo $disabled;?> class="formSelect countrySelect"
                         onchange="onCountryChange(this.value);" tabindex="2" >
                     <option value="0">--- <?php echo $lang_districtinformation_selectcounlist;?> ---</option>
-                    <?php 
+                    <?php
                         $countryList = $this->popArr['cntlist'];
                         if (!empty($countryList)) {
                             foreach ($countryList as $country) {
                                 $selected = ($locationCountry == $country[0]) ? 'selected="selected"' : '';
-                                echo "<option {$selected} value='{$country[0]}'>{$country[1]}</option>";   
+                                echo "<option {$selected} value='{$country[0]}'>{$country[1]}</option>";
                             }
-                        }    
+                        }
                     ?>
                 </select>
-                <br class="clear"/> 
-                
-                <label for="txtState"><?php echo $lang_compstruct_state; ?></label>                    
+                <br class="clear"/>
+
+                <label for="txtState"><?php echo $lang_compstruct_state; ?></label>
                 <div id="lrState">
                 <?php if ($locationCountry == 'US') { ?>
                     <select name="txtState" id="txtState" <?php echo $disabled;?> class="formSelect" tabindex="3" >
                         <option value="0">--- <?php echo $lang_districtinformation_selstatelist;?>---</option>
-                    <?php  
+                    <?php
                         $stateList = $this->popArr['provlist'];
                         if (!empty($stateList)) {
                             foreach ($stateList as $state) {
                                 $selected = ($locationState == $state[1]) ? 'selected="selected"' : '';
-                                echo "<option $selected value='{$state[1]}'>{$state[2]}</option>";                                                                
+                                echo "<option $selected value='{$state[1]}'>{$state[2]}</option>";
                             }
                         }
                     ?>
@@ -288,11 +285,11 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <?php } ?>
                 </div>
                 <br class="clear"/>
-                
+
                 <input type="hidden" name="cmbProvince" id="cmbProvince" value="<?php echo $locationState;?>"/>
-                <br class="clear"/>
-                
-                <label for="cmbDistrict"><?php echo $lang_compstruct_city; ?></label>                
+
+
+                <label for="cmbDistrict"><?php echo $lang_compstruct_city; ?></label>
                 <input id="cmbDistrict"  name="cmbDistrict" type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo $locationCity; ?>" tabindex="4" />
                 <br class="clear"/>
@@ -301,43 +298,46 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'u
                 <textarea id='txtAddress' name='txtAddress' <?php echo $disabled;?> class="formTextArea"
                     rows="3" cols="20" tabindex="5" ><?php echo $locationAddress;?></textarea>
                 <br class="clear"/>
-                    
-                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?><span class="required">*</span></label>                                                    
+
+                <label for="txtZIP"><?php echo $lang_compstruct_ZIP_Code; ?><span class="required">*</span></label>
                 <input id='txtZIP' name='txtZIP' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo $locationZip;?>" tabindex="6" />
                 <br class="clear"/>
 
                 <label for="txtPhone"><?php echo $lang_compstruct_Phone; ?></label>
-                <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText" 
+                <input id='txtPhone' name='txtPhone' type="text" <?php echo $disabled;?> class="formInputText"
                     value="<?php echo $locationPhone;?>"/>
                 <br class="clear"/>
-                                
-                <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>    
+
+                <label for="txtFax"><?php echo $lang_comphire_fax; ?></label>
                 <input id="txtFax" name="txtFax" type="text" <?php echo $disabled;?>  class="formInputText"
                     value="<?php echo $locationFax;?>" tabindex="7"/>
                 <br class="clear"/>
-                                    
+
                 <label for="txtComments"><?php echo $lang_Leave_Common_Comments; ?></label>
                 <textarea id='txtComments' name='txtComments' <?php echo $disabled;?> class="formTextArea"
                     rows="3" cols="20" tabindex="8" ><?php echo $locationComments;?></textarea>
                 <br class="clear"/>
 
                 <div class="formbuttons">
-<?php if($locRights['edit']) { ?>                
-                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn" 
-                        onclick="edit();" tabindex="9" onmouseover="moverButton(this);" onmouseout="moutButton(this);"                          
+<?php if($locRights['edit']) { ?>
+                    <input type="button" class="<?php echo $new ? 'savebutton': 'editbutton';?>" id="editBtn"
+                        onclick="edit();" tabindex="9" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                         value="<?php echo $new ? $lang_Common_Save : $lang_Common_Edit;?>" />
                     <input type="button" class="clearbutton" onclick="reset();" tabindex="10"
-                        onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                          value="<?php echo $lang_Common_Clear;?>" />
-<?php } ?>                         
+                    <input type="button" class="savebutton" onclick="goBack();" tabindex="11"
+                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+                        value="<?php echo $lang_Common_Back;?>" />
+<?php } ?>
                 </div>
             </form>
         </div>
         <script type="text/javascript">
         //<![CDATA[
             if (document.getElementById && document.createElement) {
-                roundBorder('outerbox');                
+                roundBorder('outerbox');
             }
         //]]>
         </script>
