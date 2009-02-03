@@ -447,6 +447,19 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 	function editAss() {
 
+        var empMinSal = $('empMinSal').value;
+        var txtMinSal = $('txtMinSal').value;
+        if(empMinSal && (empMinSal < txtMinSal)){
+        	alert('Some Basic salaries are not in the specified range. -Min');
+            return;
+        }
+        var empMaxSal = $('empMaxSal').value;
+        var txtMaxSal = $('txtMaxSal').value;
+        if(empMaxSal && (empMaxSal > txtMaxSal)){
+            alert('Some Basic salaries are not in the specified range. -Max');
+            return;
+        }
+
         var editAssBtn = $('editAssBtn');
 
         if(editAssBtn.title=='<?php echo $lang_Common_Save;?>') {
@@ -604,11 +617,13 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 <label for="txtMinSal" ><?php echo $lang_hrEmpMain_minpoint; ?></label>
 <input type="text" disabled="disabled" name="txtMinSal" id="txtMinSal"
     class="formInputText" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][2]);?>"/>
+<input type="hidden" name="empMinSal" id="empMinSal" value="<?php echo $editAssCurrency[0][5]; ?>">
 <br class="clear"/>
 
 <label for="txtMaxSal" ><?php echo $lang_hrEmpMain_maxpoint; ?></label>
 <input type="text" disabled="disabled"  name="txtMaxSal" id="txtMaxSal"
     class="formInputText" value="<?php echo $common_func->formatSciNO($editAssCurrency[0][3]);?>"/>
+<input type="hidden" name="empMaxSal" id="empMaxSal" value="<?php echo $editAssCurrency[0][6]; ?>">
 <br class="clear"/>
 
 <label for="txtStepSal" ><?php echo $lang_salarygrades_stepSal; ?></label>
