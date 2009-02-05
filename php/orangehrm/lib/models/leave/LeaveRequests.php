@@ -259,7 +259,7 @@ class LeaveRequests extends Leave {
 
 		if(! is_null($tmpLeaveArr)){
 			foreach ($tmpLeaveArr as $leave) {
-				if (!$adminApproval || $leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_CANCELLED) {
+				if (!$adminApproval || ($leave->getLeaveStatus() != Leave::LEAVE_STATUS_LEAVE_HOLIDAY)){
 					$leave->setLeaveStatus($newStatus);
 					$res = $leave->changeLeaveStatus();
 					if (!$res) {

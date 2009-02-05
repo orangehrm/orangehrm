@@ -143,7 +143,7 @@ if ($modifier === "SUP") {
     <td class="<?php echo $cssClass; ?>"><?php echo LocaleUtil::getInstance()->formatDate($record->getLeaveDate()); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php echo $record->getLeaveTypeName(); ?></td>
     <td class="<?php echo $cssClass; ?>"><?php
-   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken);
+   			$statusArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled, $record->statusLeavePendingApproval => $lang_Leave_Common_PendingApproval, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveTaken=> $lang_Leave_Common_Taken, $record->statusLeaveHoliday=> $lang_Leave_Common_Weekend);
    			$suprevisorRespArr = array($record->statusLeaveRejected => $lang_Leave_Common_Rejected, $record->statusLeaveApproved => $lang_Leave_Common_Approved, $record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
    			$employeeRespArr = array($record->statusLeaveCancelled => $lang_Leave_Common_Cancelled);
 
@@ -177,7 +177,7 @@ if ($modifier === "SUP") {
   						if (!empty($holiday) && is_a($holiday, 'Holidays')) {
   							echo $holiday->getDescription();
   						} else {
-  							echo $lang_Leave_Closed;
+  							echo $lang_Leave_Common_Weekend;
   						}
   			?>
   				<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />
@@ -185,9 +185,10 @@ if ($modifier === "SUP") {
     	<?php
     		} else {
     			if (Weekends::isWeekend($record->getLeaveDate())) {
-    			    echo $lang_Leave_Closed;
+    			    echo $lang_Leave_Common_Weekend;
     			} else {
-    				echo $statusArr[$record->getLeaveStatus()];
+    				$holiday = Holidays::getHolidayForDate($record->getLeaveDate());
+                    echo $holiday->getDescription();
     			}
     			?>
     			<input type="hidden" name="cmbStatus[]" value="<?php echo $record->getLeaveStatus(); ?>" />

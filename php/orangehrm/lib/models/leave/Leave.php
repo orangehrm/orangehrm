@@ -51,12 +51,14 @@ class Leave {
 	const LEAVE_STATUS_LEAVE_PENDING_APPROVAL = 1;
 	const LEAVE_STATUS_LEAVE_APPROVED = 2;
 	const LEAVE_STATUS_LEAVE_TAKEN = 3;
+    const LEAVE_STATUS_LEAVE_HOLIDAY = 4;
 
 	public $statusLeaveRejected = -1;
 	public $statusLeaveCancelled = 0;
 	public $statusLeavePendingApproval = 1;
 	public $statusLeaveApproved = 2;
 	public $statusLeaveTaken = 3;
+    public $statusLeaveHoliday = 4;
 
 	/**
 	 *	Leave Length Constants
@@ -566,7 +568,7 @@ class Leave {
 	 *
 	 * @access protected
 	 */
-	protected function _addLeave() {
+    protected function _addLeave() {
 
 		$this->leaveId = UniqueIDGenerator::getInstance()->getNextID('hs_hr_leave', 'leave_id');
 
@@ -596,6 +598,11 @@ class Leave {
 		} else {
 		    $arrRecordsList[4] = $this->statusLeavePendingApproval;
 		}
+        $holidays = new Holidays();
+        $weekends = new Weekends();
+        if($holidays->isHoliday($this->getLeaveDate()) || $weekends->isWeekend($this->getLeaveDate())){
+        	$arrRecordsList[4] = self::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
 		$arrRecordsList[5] = "'".$this->getLeaveComments()."'";
 		$arrRecordsList[6] = "'". $this->getLeaveRequestId(). "'";
 		$arrRecordsList[7] = "'".$this->getLeaveTypeId()."'";

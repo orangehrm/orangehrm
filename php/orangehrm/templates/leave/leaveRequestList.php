@@ -59,6 +59,7 @@ $statusArr = array(Leave::LEAVE_STATUS_LEAVE_REJECTED => $lang_Leave_Common_Reje
                    Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => $lang_Leave_Common_PendingApproval,
                    Leave::LEAVE_STATUS_LEAVE_APPROVED => $lang_Leave_Common_Approved,
                    Leave::LEAVE_STATUS_LEAVE_TAKEN => $lang_Leave_Common_Taken,
+                   Leave::LEAVE_STATUS_LEAVE_HOLIDAY => $lang_Leave_Common_Weekend,
                    LeaveRequests::LEAVEREQUESTS_MULTIPLESTATUSES => $lang_Leave_Common_StatusDiffer);
 ?>
 
@@ -155,9 +156,9 @@ if ($modifier === "ADMIN") {
 		}
 	}
 	YAHOO.OrangeHRM.container.init();
-//]]>       
+//]]>
 </script>
-<?php 
+<?php
 /* Following empty div added to prevent problem in IE, where outerbox margin is not used due to
  * iframe added by YAHOO.OrangeHRM.container.init()
  */
@@ -172,7 +173,7 @@ if ($modifier === "ADMIN") {
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$message)) ? $$message: ""; ?></span>
-        </div>  
+        </div>
     <?php } ?>
 
 <form id="frmFilterLeave" name="frmFilterLeave" method="post"
@@ -190,9 +191,9 @@ if ($modifier === "ADMIN") {
   <span><input name="txtToDate" type="text" id="txtToDate" size="11" value="<?php echo $toDate;?>" />&nbsp;
   <input type="button" name="Submit" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/></span></td>
   <td>
-    <input type="submit" class="searchbutton" id="Search" 
+    <input type="submit" class="searchbutton" id="Search"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-        title="<?php echo $lang_Common_Search;?>"                          
+        title="<?php echo $lang_Common_Search;?>"
         value="<?php echo $lang_Common_Search;?>" />
   </td>
   <td></td>
@@ -227,7 +228,7 @@ if ($modifier === "ADMIN") {
     <td>
     <input type="button" class="clearbutton" onclick="resetSearchForm();return false;"
         onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-         title="<?php echo $lang_Common_Clear;?>"         
+         title="<?php echo $lang_Common_Clear;?>"
          value="<?php echo $lang_Common_Clear;?>" />
 
 	</td>
@@ -245,25 +246,25 @@ if ($modifier === "ADMIN") {
 <div class="outerbox">
 <?php if ($modifier !== "ADMIN") { ?>
 <div class="mainHeading"><h2><?php echo $lang_Title;?></h2></div>
-<?php } ?>    
+<?php } ?>
 <form id="frmCancelLeave" name="frmCancelLeave" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?leavecode=Leave&amp;action=<?php echo $action; ?>">
 
 <?php   if ($modifier !== "Taken") { ?>
     <div class="actionbar">
         <div class="actionbuttons">
-<?php   if (is_array($records) && (count($records) > 0)) { ?>        
+<?php   if (is_array($records) && (count($records) > 0)) { ?>
             <input type="submit" class="savebutton" name="Save"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                 value="<?php echo $lang_Common_Save;?>" />
-<?php   } ?>                          
-        </div>              
+<?php   } ?>
+        </div>
         <div class="noresultsbar"><?php echo (!is_array($records)) ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
     <br class="clear" />
     </div>
-<?php   } ?>    
+<?php   } ?>
     <br class="clear" />
-    
+
 <table border="0" cellpadding="0" cellspacing="0" class="data-table">
   <thead>
 	<tr>
@@ -387,8 +388,8 @@ if ($modifier === "ADMIN") {
 ?>
   </tbody>
 </table>
-<br class="clear" /> 
-    
+<br class="clear" />
+
 </form>
 </div>
 
@@ -396,7 +397,7 @@ if ($modifier === "ADMIN") {
 <script type="text/javascript">
 //<![CDATA[
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

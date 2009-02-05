@@ -479,7 +479,8 @@ if (is_array($duplicateLeaves)) {
                        Leave::LEAVE_STATUS_LEAVE_CANCELLED => $lang_Leave_Common_Cancelled,
                        Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => $lang_Leave_Common_PendingApproval,
                        Leave::LEAVE_STATUS_LEAVE_APPROVED => $lang_Leave_Common_Approved,
-                       Leave::LEAVE_STATUS_LEAVE_TAKEN => $lang_Leave_Common_Taken);
+                       Leave::LEAVE_STATUS_LEAVE_TAKEN => $lang_Leave_Common_Taken,
+                       Leave::LEAVE_STATUS_LEAVE_HOLIDAY => $lang_Leave_Common_Weekend);
 	foreach ($duplicateLeaves as $dup) {
 		if(!($j%2)) {
 			$cssClass = 'odd';
@@ -568,6 +569,7 @@ $timeElementClass = (!empty($prevLeaveFromDate) && ($prevLeaveFromDate == $prevL
 		<?php if ($role == authorize::AUTHORIZE_ROLE_ADMIN) { ?>
 
         <div>
+        <input type="hidden" name="cmbEmployeeId" id="cmbEmployeeId" value="<?php echo isset($prevEmployeeId) ? $prevEmployeeId : ""; ?>" />
         <div class="yui-ac" id="employeeSearchAC" style="float: left">
         <input name="txtEmployeeId" autocomplete="off" class="yui-ac-input" id="txtEmployeeId" type="text" value="<?php echo isset($empName) ? $empName : ""; ?>" tabindex="2" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
               <div class="yui-ac-container" id="employeeSearchACContainer" style="top: 28px; left: 10px;">
