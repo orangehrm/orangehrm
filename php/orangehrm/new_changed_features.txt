@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.6
+
+    Bug fixes
+    ---------
+    2548843 - Search for Canceled returns Taken leave
+    2041262 - PIM: Can exceed salary from the maximum and minimum
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.5
     Bug fixes
     ---------
