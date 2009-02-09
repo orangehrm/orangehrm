@@ -38,6 +38,9 @@ class Config {
     const KEY_NAME_HSP_CURRENT_PLAN = "hsp_current_plan";
     const KEY_NAME_TIMESHEET_PERIOD_SET = "timesheet_period_set";
     const KEY_NAME_LEAVE_BROUGHT_FORWARD = "LeaveBroughtForward";
+    const KEY_NAME_EMP_CHANGE_TIME = "attendanceEmpChangeTime";
+    const KEY_NAME_EMP_EDIT_SUBMITTED = "attendanceEmpEditSubmitted";
+    const KEY_NAME_SUP_EDIT_SUBMITTED = "attendanceSupEditSubmitted";
 
     /**
      * Sets the 'value' corresponding to 'key'
@@ -258,6 +261,104 @@ class Config {
 	 	}
 
 	 }
-}
 
-?>
+	/**
+	 * Set Value: Whether employee can change displayed time in punch in/out form
+	 */
+
+	 public static function setAttendanceEmpChangeTime($value) {
+
+	 	if ($value != 'Yes' && $value != 'No') {
+			throw new Exception("Value should be 'Yes' or 'No'");
+	 	}
+
+    	self::_setValue(self::KEY_NAME_EMP_CHANGE_TIME, $value);
+
+	 }
+
+	/**
+	 * Get Value: Whether employee can change displayed time in punch in/out form
+	 */
+
+	 public static function getAttendanceEmpChangeTime() {
+
+	 	try {
+			$val = self::_selectValue(self::KEY_NAME_EMP_CHANGE_TIME);
+	 	    if ($val == 'Yes') {
+	 	    	return true;
+	 	    } else {
+	 	    	return false;
+	 	    }
+	 	} catch (Exception $e) {
+	 	    return false;
+	 	}
+
+	 }
+
+	/**
+	 * Set Value: Whether employee can edit submitted attendance records
+	 */
+
+	 public static function setAttendanceEmpEditSubmitted($value) {
+
+	 	if ($value != 'Yes' && $value != 'No') {
+			throw new Exception("Value should be 'Yes' or 'No'");
+	 	}
+
+    	self::_setValue(self::KEY_NAME_EMP_EDIT_SUBMITTED, $value);
+
+	 }
+
+	/**
+	 * Get Value: Whether employee can edit submitted attendance records
+	 */
+
+	 public static function getAttendanceEmpEditSubmitted() {
+
+	 	try {
+			$val = self::_selectValue(self::KEY_NAME_EMP_EDIT_SUBMITTED);
+	 	    if ($val == 'Yes') {
+	 	    	return true;
+	 	    } else {
+	 	    	return false;
+	 	    }
+	 	} catch (Exception $e) {
+	 	    return false;
+	 	}
+
+	 }
+
+	/**
+	 * Set Value: Whether supervisor can edit submitted attendance records
+	 */
+
+	 public static function setAttendanceSupEditSubmitted($value) {
+
+	 	if ($value != 'Yes' && $value != 'No') {
+			throw new Exception("Value should be 'Yes' or 'No'");
+	 	}
+
+    	self::_setValue(self::KEY_NAME_SUP_EDIT_SUBMITTED, $value);
+
+	 }
+
+	/**
+	 * Get Value: Whether supervisor can edit submitted attendance records
+	 */
+
+	 public static function getAttendanceSupEditSubmitted() {
+
+	 	try {
+			$val = self::_selectValue(self::KEY_NAME_SUP_EDIT_SUBMITTED);
+	 	    if ($val == 'Yes') {
+	 	    	return true;
+	 	    } else {
+	 	    	return false;
+	 	    }
+	 	} catch (Exception $e) {
+	 	    return false;
+	 	}
+
+	 }
+
+}

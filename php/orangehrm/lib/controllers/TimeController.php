@@ -35,6 +35,9 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 
 require_once ROOT_PATH . '/lib/models/time/Workshift.php';
 
+require_once ROOT_PATH . '/lib/models/time/AttendanceRecord.php';
+require_once ROOT_PATH . '/lib/extractor/time/EXTRACTOR_AttendanceRecord.php';
+
 class TimeController {
 
 	const INVALID_TIMESHEET_PERIOD_ERROR = "INVALID_TIMESHEET_PERIOD_ERROR";
@@ -131,7 +134,7 @@ class TimeController {
 			if ($punchIn) {
                                 if(Timesheet::checkDateInApprovedTimesheet($tmpObj->getReportedDate(), $tmpObj->getEmployeeId())){
                                     throw new TimeEventException("Failed to add time event", 1);
-                                }                                 
+                                }
 				$res = $tmpObj->addTimeEvent();
 
 				if (!$res) {
@@ -209,7 +212,7 @@ class TimeController {
 			} elseif($exception->getCode() == 1){
 				$_GET['message'] = 'APPROVED_TIMESHEET_FAILURE';
 			}else{
-                              $_GET['message'] = 'EXCEPTION_THROWN_WARNING';  
+                              $_GET['message'] = 'EXCEPTION_THROWN_WARNING';
                         }
 		}
 
@@ -277,7 +280,7 @@ class TimeController {
 		$template->display();
 	}
 
-	public function showPunchTime() {
+	/*public function showPunchTime() {
 		$path = "/templates/time/punchTime.php";
 
 		if (!isset($_SESSION['empID'])) {
@@ -315,7 +318,139 @@ class TimeController {
 
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
+	}*/
+
+
+	/* Attendance Methods: Begin */
+
+	public function showAttendanceConfig($messageType = null) {
+
+		if (Config::getAttendanceEmpChangeTime()) {
+			$records['empChangeTime'] = true;
+		} else {
+			$records['empChangeTime'] = false;
+		}
+
+		if (Config::getAttendanceEmpEditSubmitted()) {
+			$records['empEditSubmitted'] = true;
+		} else {
+			$records['empEditSubmitted'] = false;
+		}
+
+		if (Config::getAttendanceSupEditSubmitted()) {
+			$records['supEditSubmitted'] = true;
+		} else {
+			$records['supEditSubmitted'] = false;
+		}
+
+		$records['messageType'] = $messageType;
+		$path = '/templates/time/attendanceConfig.php';
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+
 	}
+
+	public function saveAttendanceConfig() {
+
+		$errorFlag = true;
+
+		// Employee can change displayed current time when he punches in/out
+		if (isset($_POST['chkEmpChangeTime'])) {
+			try {
+				Config::setAttendanceEmpChangeTime('Yes');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		} else {
+			try {
+				Config::setAttendanceEmpChangeTime('No');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		}
+
+		// Employee can edit submitted attendance records
+		if (isset($_POST['chkEmpEditSubmitted'])) {
+			try {
+				Config::setAttendanceEmpEditSubmitted('Yes');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		} else {
+			try {
+				Config::setAttendanceEmpEditSubmitted('No');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		}
+
+		// Supervisor can edit submitted attendance records of subordinates
+		if (isset($_POST['chkSupEditSubmitted'])) {
+			try {
+				Config::setAttendanceSupEditSubmitted('Yes');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		} else {
+			try {
+				Config::setAttendanceSupEditSubmitted('No');
+			} catch (Exception $e) {
+				$errorFlag = false;
+			}
+		}
+
+		if ($errorFlag) {
+			$messageType = 'SUCCESS';
+		} else {
+			$messageType = 'FAILURE';
+		}
+
+		$this->showAttendanceConfig($messageType);
+
+	}
+
+	public function showPunchView($messageType = null) {
+
+		$attendanceObj = new AttendanceRecord();
+		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1');
+		$records['editMode'] = Config::getAttendanceEmpChangeTime();
+		$records['empId'] = $_SESSION['empID'];
+		$records['currentDate'] = date('Y-m-d');
+		$records['currentTime'] = date('H:i');
+		$records['messageType'] = $messageType;
+
+		$path = "/templates/time/punchView.php";
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+	}
+
+	public function savePunch() {
+
+		$extractor = new EXTRACTOR_AttendanceRecord();
+		$attendanceObj = $extractor->parsePunchData($_POST);
+
+		$attendanceId = $attendanceObj->getAttendanceId();
+		if ($attendanceId) {
+			if ($attendanceObj->updateRecord()) {
+				$messageType = 'SUCCESS';
+			} else {
+				$messageType = 'FAILURE';
+			}
+		} else {
+			if ($attendanceObj->addRecord()) {
+				$messageType = 'SUCCESS';
+			} else {
+				$messageType = 'FAILURE';
+			}
+		}
+
+		$this->showPunchView($messageType);
+
+
+	}
+
+	/* Attendance Methods: End */
 
 	public function submitTimesheet() {
 		$timesheetObj = $this->objTime;
@@ -384,14 +519,14 @@ class TimeController {
 
 	public function approveTimesheet() {
 		$timesheetObj = $this->objTime;
-                
+
                 /* For checking unfinished timesheets */
 		if (TimeEvent::isUnfinishedTimesheet($timesheetObj->getTimesheetId())) {
 			$_GET['message'] = 'UNFINISHED_TIMESHEET_FAILURE';
 		    $this->_redirectToTimesheet($timesheetObj->getTimesheetId(), $_GET['message']);
 		    return false;
 		}
-                
+
 		$timesheets = $timesheetObj->fetchTimesheets();
 
 		if (isset($timesheets) && isset($timesheets[0])) {
@@ -1154,7 +1289,7 @@ class TimeController {
 	}
 
 	public function viewTimesheetPrintPreview($filterValues) {
-	
+
 		$path = "/templates/time/timesheetPrintPreview.php";
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
@@ -1165,16 +1300,16 @@ class TimeController {
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
 		$timesheetsCount = 0;
 		if (isset($employeeIds)) {
-		
-			$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);   
-			$timesheetsCount =count($timsheetIds);           
-			          
+
+			$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);
+			$timesheetsCount =count($timsheetIds);
+
 		}
 		$dataArr[1] = $timesheetsCount;
 		$dataArr[2] = $sysConfObj->itemsPerPage;
 		$template = new TemplateMerger($dataArr, $path);
 		$template->display();
-		
+
 	}
 
 	public function showPrint() {
@@ -1198,17 +1333,17 @@ class TimeController {
 	 *
 	 * @param String[] filterValues Filter timesheets with the values
 	 */
-	public function viewTimesheelBulk($filterValues, $page=1) {         
-		 
+	public function viewTimesheelBulk($filterValues, $page=1) {
+
 		$path = "/templates/time/printTimesheetPage.php";
 		$employeeObj = new EmpInfo();
 		$timesheetObj = $this->getObjTime();
-		
+
 		$employeeIds = $employeeObj->getEmployeeIdsFilterMultiParams($filterValues);
-		
-		$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);             
+
+		$timsheetIds = $this->_getTimesheetIds($employeeIds , $timesheetObj);
 		$timesheets = $timesheetObj->fetchTimesheetsByTimesheetIdBulk($page, $timsheetIds);
-		 
+
 		$dataArr=null;
 		$timesheetSubmissionPeriodObj = new TimesheetSubmissionPeriod();
 
@@ -1236,48 +1371,48 @@ class TimeController {
 		$template = new TemplateMerger($dataArr, $path, "stubHeader.php", "stubFooter.php");
 		$template->display();
 	}
-	
+
 	/**
 	 * Generate timesheetIds for startDate , endDate and employeeIds
 	 *
 	 * @param Array $employeeIds
 	 * @param Object $timesheetObj
-	 * @return Array $timsheetIds 
+	 * @return Array $timsheetIds
 	 */
-	
+
 	private function _getTimesheetIds($employeeIds ,  $timesheetObj){
-		
+
 		$timsheetIds = NULL;
 		$timeEventObj  = new TimeEvent();
 		$timeEventObj->setStartTime($timesheetObj->getStartDate());
 		$timeEventObj->setEndTime($timesheetObj->getEndDate());
 		$timsheetIds = $timeEventObj->fetchTimeSheetIds($employeeIds);
-		
+
 		if(count($timsheetIds)){
-			
+
 			foreach($timsheetIds as $key=>$timeSheetId){
-					 
+
 				$dateFound = FALSE;
 				$timeSheetObj  = new Timesheet();
-				$timeSheetObj->setTimesheetId($timeSheetId); 
+				$timeSheetObj->setTimesheetId($timeSheetId);
 				list($tempTimeSheetObj) = $timeSheetObj->fetchTimesheets();
 				$timeSheetStartDate = strtotime(date('Y-m-d', strtotime($tempTimeSheetObj->getStartDate())));
 				$timeSheetEndDate = strtotime(date('Y-m-d', strtotime($tempTimeSheetObj->getEndDate())));
 				for($i=strtotime($timesheetObj->getStartDate()); $i<=strtotime($timesheetObj->getEndDate()); $i+=3600*24) {
 					if($i >= $timeSheetStartDate && $i <= $timeSheetEndDate){
 						$dateFound = TRUE;
-						break;	
+						break;
 					}
 				}
 				if(!$dateFound){
 					unset($timsheetIds[$key]);
-				}  
-			}  			
-		}  
-		
+				}
+			}
+		}
+
 		return $timsheetIds;
-		
-	}  
+
+	}
 
 	/**
 	 * Parse time events and generate the information for timesheets
@@ -1285,7 +1420,7 @@ class TimeController {
 	 * @param Timesheet timesheet
 	 */
 	private function _generateTimesheet($timesheet) {
-                
+
 		$timeEventObj = new TimeEvent();
 
 		$timeEventObj->setTimesheetId($timesheet->getTimesheetId());

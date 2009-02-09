@@ -259,21 +259,21 @@
     $lang_Common_Apply = "Apply";
     $lang_Common_Cancel = "Cancel";
     $lang_Common_View = "View";
-    $lang_Common_Submit = "Submit";      
-    $lang_Common_Reject = "Reject";  
+    $lang_Common_Submit = "Submit";
+    $lang_Common_Reject = "Reject";
     $lang_Common_Details = "Details";
     $lang_Common_Approve = "Approve";
-    $lang_Common_Update = "Update";  
+    $lang_Common_Update = "Update";
     $lang_Common_InsertTime = "Insert Time";
 	$lang_Common_SortAscending = "Sort in ascending order";
 	$lang_Common_SortDescending = "Sort in descending order";
-    
+
 
 	$lang_Common_Time = "Time";
 	$lang_Common_Note = "Note";
 
 	$lang_Common_AccessDenied = "Access Denied";
-	
+
 	$lang_Common_TEST_EMAIL_SUCCESS = "Test email sent successfully";
 	$lang_Common_TEST_EMAIL_FAILIURE = "Test email failed. This can be due to incorrect configuration details";
 
@@ -1469,6 +1469,21 @@
 	$lang_mtview_ADD_FAILURE 				= "Failed to Add";
 	$lang_mtview_UPDATE_FAILURE 			= "Failed to Update";
 	$lang_mtview_DELETE_FAILURE 			= "Failed to Delete";
+
+	// Attendance
+	$lang_Time_Menu_Attendacne = "Attendance";
+	$lang_Time_Menu_PunchInOut = "Punch In/Out";
+	$lang_Time_Menu_MyReports = "My Reports";
+	$lang_Time_Menu_EmployeeReports = "Employee Reports";
+	$lang_Time_Menu_AttendanceConfiguration = "Configuration";
+	$lang_Time_AttendanceConfiguration = "Attendance Configuration";
+	$lang_Time_EmpChangeTime = "Employee can change displayed current time when he punches in/out";
+	$lang_Time_EmpEditSubmitted = "Employee can edit submitted attendance records";
+	$lang_Time_SupEditSubmitted = "Supervisor can edit submitted attendance records of subordinates";
+	$lang_Time_AttendanceConfigSaving_SUCCESS = "Attendance configuration saved sucessfully";
+	$lang_Time_AttendanceConfigSaving_FAILURE = "Failed saving attendance configuration";
+	$lang_Time_PunchSaving_SUCCESS = "Record saved";
+	$lang_Time_PunchSaving_FAILURE = "Saving record failed";
 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";

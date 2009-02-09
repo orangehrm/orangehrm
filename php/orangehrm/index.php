@@ -193,7 +193,7 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 
 if ($authorizeObj->isESS()) {
 	if ($_SESSION['timePeriodSet'] == 'Yes') {
-	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time';
+	    $timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_View';
 	} else {
 		$timeHomePage = 'lib/controllers/CentralController.php?timecode=Time&action=Work_Week_Edit_View';
 	}
@@ -503,6 +503,30 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 		}
 
 		$subs[] = $sub;
+
+		/* Attendance Menu Items: Begin */
+
+		$attendance = new MenuItem("timesheets", $lang_Time_Menu_Attendacne);
+
+		$attsubs = array();
+
+		if ($authorizeObj->isESS()) {
+	    	$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_PunchInOut, "lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_View");
+	        $attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_MyReports, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");
+		}
+
+		if ($authorizeObj->isAdmin() || $authorizeObj->isSupervisor()) {
+			$attsubs[] = new MenuItem("projectTime", $lang_Time_Menu_EmployeeReports, "lib/controllers/CentralController.php?timecode=Time&action=Time_Event_Home");
+		}
+
+		if ($authorizeObj->isAdmin()) {
+			$attsubs[] = new MenuItem("timesheets", $lang_Time_Menu_AttendanceConfiguration, "lib/controllers/CentralController.php?timecode=Time&action=Show_Attendance_Config");
+		}
+
+		$attendance->setSubMenuItems($attsubs);
+		$subs[] = $attendance;
+
+		/* Attendance Menu Items: End */
 
 		if ($authorizeObj->isESS()) {
 	    	$subs[] = new MenuItem("punchTime", $lang_Menu_Time_PunchInOut, "lib/controllers/CentralController.php?timecode=Time&action=Show_Punch_Time");

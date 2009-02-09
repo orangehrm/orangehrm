@@ -31,6 +31,7 @@ require_once 'TimesheetSubmissionPeriodTest.php';
 require_once 'TimesheetTest.php';
 require_once 'ProjectReportTest.php';
 require_once 'WorkshiftTest.php';
+require_once 'AttendanceRecordTest.php';
 
 class models_time_AllTests
 {
@@ -46,7 +47,8 @@ class models_time_AllTests
         $suite->addTestSuite('TimeSheetSubmissionPeriodTest');
         $suite->addTestSuite('TimeSheetTest');
         $suite->addTestSuite('ProjectReportTest');
-	$suite->addTestSuite('WorkshiftTest');
+		$suite->addTestSuite('WorkshiftTest');
+		$suite->addTestSuite('AttendanceRecordTest');
         return $suite;
     }
 }

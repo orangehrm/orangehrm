@@ -715,6 +715,17 @@ create table `hs_hr_time_event` (
   key `timesheet_id` (`timesheet_id`)
 ) engine=innodb default charset=utf8;
 
+create table `hs_hr_attendance` (
+  `attendance_id` int(11) not null,
+  `employee_id` int(11) not null,
+  `punchin_time` datetime null default null,
+  `punchout_time` datetime null default null,
+  `in_note` varchar(250) null default null,
+  `out_note` varchar(250) null default null,
+  `status` enum('0','1'),
+  primary key (`attendance_id`)
+) engine=innodb default charset=utf8;
+
 create table `hs_hr_unique_id` (
   `id` int not null auto_increment,
   `last_id` int unsigned not null,

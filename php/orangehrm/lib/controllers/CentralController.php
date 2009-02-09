@@ -161,9 +161,7 @@ define('REP', 'MOD004');
 define('LEAVE', 'MOD005');
 define('TIMEMOD', 'MOD006');
 define('RECRUITMOD', 'MOD008');
-
-
-
+//var_dump($moduletype); die;
 switch ($moduletype) {
 	case 'admin'	:	$locRights = $rights->getRights($_SESSION['userGroup'],Admin); break;
 	case 'hr'		:	$locRights = $rights->getRights($_SESSION['userGroup'],PIM); break;
@@ -1221,7 +1219,7 @@ switch ($moduletype) {
 																						break;
 													case 'Leave_FetchLeaveTaken'	: 	//$leaveController->setId($_SESSION['empID']);
                                                     // TODO: Leave_FetchLeaveTaken seems unused: Remove, together with leaveTakenList.php
-                                                    
+
 																						$leaveController->viewTakenLeaves();
 																						break;
 
@@ -1256,7 +1254,7 @@ switch ($moduletype) {
 																								$sortOrder =  $_REQUEST[$sortParam];
 																							}
 																						}
-																						
+
                                                                                         if(isset($_REQUEST['pageNO'])){
                                                                                                 $pageNO = $_REQUEST['pageNO'];
                                                                                         }else{
@@ -1283,7 +1281,7 @@ switch ($moduletype) {
 																								$sortOrder =  $_REQUEST[$sortParam];
 																							}
 																						}
-																						
+
                                                                                         if(isset($_REQUEST['pageNO'])){
                                                                                                 $pageNO = $_REQUEST['pageNO'];
                                                                                         }else{
@@ -1688,6 +1686,19 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->punchTime($punchIn);
 																					break;
+													/* Attendance Controlls: Begin */
+													case 'Show_Punch_View'			:	$timeController->showPunchView();
+																						break;
+
+													case 'Save_Punch'				:	$timeController->savePunch();
+																						break;
+
+													case 'Show_Attendance_Config'	:	$timeController->showAttendanceConfig();
+																						break;
+													case 'Save_Attendance_Config'	:	$timeController->saveAttendanceConfig();
+																						break;
+
+													/* Attendance Controlls: End */
 													case 'Time_Event_Home'		:	$timeController->timeEventHome();
 																					break;
 													case 'New_Time_Event_View'	:	$new=true;

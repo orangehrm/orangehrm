@@ -546,6 +546,9 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('ldap_status', '');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_current_plan', '0');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_accrued_last_updated', '0000-00-00');
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('hsp_used_last_updated', '0000-00-00');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceEmpChangeTime', 'No');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceEmpEditSubmitted', 'No');
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES('attendanceSupEditSubmitted', 'No');
 
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_nationality', 'nat_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_language', 'lang_code');
@@ -586,3 +589,4 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_vacancy', 'vacancy_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_application', 'application_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_job_application_events', 'id');
+INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_attendance', 'attendance_id');
