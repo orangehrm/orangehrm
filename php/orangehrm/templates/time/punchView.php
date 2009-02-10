@@ -19,11 +19,21 @@
  */
 
 if (isset($records['attRecord'])) {
-	$punchTypeName = $lang_Time_PunchOut;
 	$punchIn = false;
+	$punchTypeName = $lang_Time_PunchOut;
+	$heading = $lang_Time_Heading_PunchOut;
+	/* Punch Info: Begins */
+	$punchInfo = $lang_Time_LastPunchIn.' '.$records['attRecord'][0]->getInDate().' '.$records['attRecord'][0]->getInTime();
+	$punchNote = $records['attRecord'][0]->getInNote();
+	if (!empty($punchNote)) {
+		$punchInfo .= ' '."($punchNote)";
+	}
+	/* Punch Info: Ends */
 } else {
-	$punchTypeName = $lang_Time_PunchIn;
 	$punchIn = true;
+	$punchTypeName = $lang_Time_PunchIn;
+	$heading = $lang_Time_Heading_PunchIn;
+	$punchInfo = '';
 }
 
 if ($records['messageType'] == 'SUCCESS') {
@@ -62,7 +72,7 @@ if ($records['messageType'] == 'SUCCESS') {
 </script>
     <div class="formpage">
         <div class="outerbox">
-            <div class="mainHeading"><h2><?php echo $lang_Time_PunchInPunchOutTitle; ?></h2></div>
+            <div class="mainHeading"><h2><?php echo $heading; ?></h2></div>
 
 <?php if (isset($records['message'])) { ?>
     <div class="messagebar">
@@ -131,8 +141,8 @@ if ($records['messageType'] == 'SUCCESS') {
 	</table>
 
 </form>
-<div id="punchInfo">
-	<?php //echo $puchInfo; ?>
+<div id="punchInfo" style="padding:5px">
+	<?php echo $punchInfo; ?>
 </div>
 </div>
 <script type="text/javascript">

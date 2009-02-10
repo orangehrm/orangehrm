@@ -1473,6 +1473,9 @@
 	// Attendance
 	$lang_Time_Menu_Attendacne = "Attendance";
 	$lang_Time_Menu_PunchInOut = "Punch In/Out";
+	$lang_Time_Heading_PunchIn = "Punch In";
+	$lang_Time_Heading_PunchOut = "Punch Out";
+	$lang_Time_LastPunchIn = "Last punched in was at";
 	$lang_Time_Menu_MyReports = "My Reports";
 	$lang_Time_Menu_EmployeeReports = "Employee Reports";
 	$lang_Time_Menu_AttendanceConfiguration = "Configuration";
@@ -1490,8 +1493,8 @@
 	$lang_Time_PunchIn = "In";
 	$lang_Time_PunchOut = "Out";
 
-	$lang_Time_LastPunchIn = "Last punch in time:";
-	$lang_Time_LastPunchOut = "Last punch out time:";
+	//$lang_Time_LastPunchIn = "Last punch in time:";
+	//$lang_Time_LastPunchOut = "Last punch out time:";
 
 	$lang_Time_Errors_InvalidDateOrTime = "Invalid date or time";
 	$lang_Time_Errors_CurrentPunchTimeBeforeLastPunchTime = "Punch time cannot be before last time punched";
