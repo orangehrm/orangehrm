@@ -31,7 +31,7 @@
 		$activeTypesAvailable = true;
 	}
 	/* To check whether active leave types are available: Ends */
-    
+
     $duplicateJavascript = '';
 ?>
 
@@ -241,12 +241,12 @@
 		}
 		return false;
 	}
-//]]> 
+//]]>
 </script>
 <div class="outerbox">
 <form method="post" name="defineLeaveType" id="defineLeaveType" onsubmit="return false;" action="">
     <div class="mainHeading"><h2><?php echo $lang_Leave_Leave_Type_Summary_Title; ?></h2></div>
-    
+
     <?php $message =  isset($_GET['message']) ? $_GET['message'] : null;
         if (isset($message)) {
             $messageType = CommonFunctions::getCssClassForMessage($message);
@@ -254,32 +254,32 @@
     ?>
         <div class="messagebar">
             <span class="<?php echo $messageType; ?>"><?php echo (isset($$messageStr)) ? $$messageStr: CommonFunctions::escapeHtml($message); ?></span>
-        </div>  
+        </div>
     <?php } ?>
-            
+
     <div class="actionbar">
         <div class="actionbuttons">
             <input type="button" class="addbutton"
                 name="btnAdd" id="btnAdd" onclick="actionAdd(); return false;"
                 onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                value="<?php echo $lang_Common_Add;?>" />          
-    
+                value="<?php echo $lang_Common_Add;?>" />
+
               <?php /* Show edit & delete button only if records are available: Begins */
                if ($activeTypesAvailable) {
-              ?>                      
+              ?>
                 <input type="button" class="editbutton"
                     name="btnEdit" id="btnEdit" onclick="actionEdit(); return false;"
                     onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Edit;?>" />
-              
+
                 <input type="button" class="delbutton" onclick="actionDelete(); return false;"
                     name="btnDel" id="btnDel"
-                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"                    
+                    onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                     value="<?php echo $lang_Common_Delete;?>" />
               <?php /* Show edit & delete button only if records are available: Ends */
               }
-              ?>                    
-        </div>              
+              ?>
+        </div>
         <div class="noresultsbar"><?php echo !$activeTypesAvailable ? $lang_Error_NoRecordsFound : '';?></div>
         <div class="pagingbar"></div>
     <br class="clear" />
@@ -334,12 +334,12 @@ if ($activeTypesAvailable) {
 <div><span class="error" id="messageLayer1"></span></div>
 <div><span class="error" id="messageLayer2"></span></div>
 </form>
-</div>      
+</div>
 <script type="text/javascript">
 //<![CDATA[
     <?php echo $duplicateJavascript;?>
     if (document.getElementById && document.createElement) {
-        roundBorder('outerbox');                
+        roundBorder('outerbox');
     }
 //]]>
 </script>

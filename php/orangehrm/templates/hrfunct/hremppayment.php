@@ -205,15 +205,15 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						</td>
 					  </tr>
                   </table>
-<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>                  
+<?php			if(!$supervisorEMPMode && $locRights['edit']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnEditPayment" id="btnEditPayment" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnEditPayment" id="btnEditPayment"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="editEXTPayment(); return false;"/>    	
-</div>	                   
-<?php			}  ?>                  
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="editEXTPayment(); return false;"/>
+</div>
+<?php			}  ?>
        </div>
 <?php } else { ?>
 	<div id="addPanePayments" class="<?php echo ($this->popArr['rsetPayment'] != null)?"addPane":""; ?>" >
@@ -235,7 +235,20 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
     				  		}
     				  	}else {
     				  		?>
-    				  		<select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onchange="xajax_getUnAssignedCurrencyList(this.value)" name='cmbSalaryGrade'>
+                            <script type="text/javascript">
+                               function reCurr(){
+                                    if($('cmbCurrCode').value == '0'){
+                                        setTimeout("reCurr()", 2000);
+                                    } else {
+                                        setTimeout("xajax_getMinMaxCurrency($('cmbCurrCode').value, document.frmEmp.cmbSalaryGrade.value)", 1000);
+                                    }
+                               }
+                               function setCurrCode() {
+                                    xajax_getUnAssignedCurrencyList($('cmbSalaryGrade').value);
+                                    reCurr();
+                               }
+                            </script>
+    				  		<select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onchange="setCurrCode();" id='cmbSalaryGrade' name='cmbSalaryGrade'>
     				  		<option value="0">-- <?php echo $lang_hremp_SelectPayGrade; ?> --</option>
     				  		<?php
     				  		for($c=0; $salgradelist && count($salgradelist) > $c; $c++) {
@@ -252,7 +265,7 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 					</tr>
 					  <tr>
 						<td valign="top"><?php echo $lang_hrEmpMain_currency; ?></td>
-						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onchange="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value)" name='cmbCurrCode'>
+						<td align="left" valign="top"><select <?php echo (!$supervisorEMPMode && $locRights['add'])? '':'disabled="disabled"'?> onclick="xajax_getMinMaxCurrency(this.value, document.frmEmp.cmbSalaryGrade.value); " id='cmbCurrCode' name='cmbCurrCode'>
                        						<option value="0">-- <?php echo $lang_hremp_SelectCurrency; ?> --</option>
 <?php
 						$curlist= $this->popArr['unAssCurrList'];
@@ -295,14 +308,14 @@ if(isset($this->getArr['capturemode']) && $this->getArr['capturemode'] == 'updat
 						</td>
 					  </tr>
                    </table>
-<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>                   
+<?php	if(!$supervisorEMPMode && $locRights['add']) { ?>
 <div class="formbuttons">
-    <input type="button" class="savebutton" name="btnAddPayment" id="btnAddPayment" 
-    	value="<?php echo $lang_Common_Save;?>" 
+    <input type="button" class="savebutton" name="btnAddPayment" id="btnAddPayment"
+    	value="<?php echo $lang_Common_Save;?>"
     	title="<?php echo $lang_Common_Save;?>"
-    	onmouseover="moverButton(this);" onmouseout="moutButton(this);" 
-    	onclick="addEXTPayment(); return false;"/>    	
-</div>	                   
+    	onmouseover="moverButton(this);" onmouseout="moutButton(this);"
+    	onclick="addEXTPayment(); return false;"/>
+</div>
 <?php	} ?>
 	</div>
 <?php } ?>
@@ -313,38 +326,38 @@ $currlist=$this->popArr['currAlllist'];
 //Handling the table View
 if (($rset != null) && ($currlist != null)) { ?>
 	<div class="subHeading"><h3><?php echo $lang_hrEmpMain_assignedsalary; ?></h3></div>
-	
+
 	<div class="actionbar">
-		<div class="actionbuttons">					
+		<div class="actionbuttons">
 <?php if($locRights['add']) { ?>
 					<input type="button" class="addbutton"
 						onclick="showAddPane('Payments');" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>			
+						value="<?php echo $lang_Common_Add;?>" title="<?php echo $lang_Common_Add;?>"/>
 <?php } ?>
 <?php	if(!$supervisorEMPMode && $locRights['delete']) { ?>
 					<input type="button" class="delbutton"
 						onclick="delEXTPayment();" onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>			
-		
+						value="<?php echo $lang_Common_Delete;?>" title="<?php echo $lang_Common_Delete;?>"/>
+
 <?php 	} ?>
 			</div>
-		</div>					
-	
-	
+		</div>
+
+
 	<table width="100%" cellspacing="0" cellpadding="0" class="data-table">
 		<thead>
-			<tr>		
+			<tr>
               	 <td></td>
 				 <td><strong><?php echo $lang_hrEmpMain_currency?></strong></td>
 				 <td><strong><?php echo $lang_hrEmpMain_bassalary?></strong></td>
 				 <td><strong><?php echo $lang_hrEmpMain_payfrequency?></strong></td>
 			</tr>
-		</thead>				
+		</thead>
 		<tbody>
 <?php
 
     for($c=0; $rset && $c < count($rset); $c++) {
-		$cssClass = ($c%2) ? 'even' : 'odd'; 			
+		$cssClass = ($c%2) ? 'even' : 'odd';
         echo '<tr class="' . $cssClass . '">';
             echo "<td><input type='checkbox' class='checkbox' name='chkpaydel[]' value='" . $rset[$c][1] ."|" . $rset[$c][2] . "'/></td>";
 			for($a=0;count($currlist)>$a;$a++)

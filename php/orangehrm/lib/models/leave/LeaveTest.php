@@ -124,6 +124,8 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
 
 		mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`, `start_time`, `end_time`) VALUES (19, '019', 'LTY010', '".date('Y-m-d', time()+3600*24*4)."', 1, 0.17, -1, 'Leave 2', 17, '10:00', '11:00')");
 
+        mysql_query("INSERT INTO `hs_hr_leave` (`leave_id`, `employee_id`, `leave_type_id`, `leave_date`, `leave_length_hours`, `leave_length_days`, `leave_status`, `leave_comments`, `leave_request_id`) VALUES (20, '016', 'LTY010', '".date('Y-m-d', time()+3600*24)."', 8, 1, 4, 'Leave 6', 12)");
+
 		// For testStoreLeaveTaken
 		mysql_query("INSERT INTO `hs_hr_employee_leave_quota` (year, leave_type_id, employee_id, no_of_days_allotted) VALUES ('2007', 'LTY012', '018', '10')");
 
@@ -268,6 +270,21 @@ class LeaveTest extends PHPUnit_Framework_TestCase {
         	$this->assertEquals($res[$i]->getLeaveComments(), $expected[$i][4], "Didn't return expected result");
         	$this->assertEquals($res[$i]->getStartTime(), $expected[$i][5], "Didn't return expected result");
         	$this->assertEquals($res[$i]->getEndTime(), $expected[$i][6], "Didn't return expected result");
+        }
+    }
+
+    public function testRetrieveIndividualLeaveAccuracy2() {
+        $leveObj = $this->classLeave;
+
+        $res = $leveObj->retrieveIndividualLeave('20');
+
+        $expected[0] = array(date('Y-m-d', time()+3600*24), 'Medical', 4, 8, 'Leave 6');
+
+        for ($i=0; $i < count($res); $i++) {
+            $this->assertEquals($expected[$i][0], $res[$i]->getLeaveDate(), "Didn't return expected result");
+            $this->assertEquals($expected[$i][2], $res[$i]->getLeaveStatus(), "Didn't return expected result");
+            $this->assertEquals($expected[$i][3], $res[$i]->getLeaveLengthHours(), "Didn't return expected result");
+            $this->assertEquals($expected[$i][4], $res[$i]->getLeaveComments(), "Didn't return expected result");
         }
     }
 

@@ -447,16 +447,16 @@ if ((isset($this->getArr['capturemode'])) && ($this->getArr['capturemode'] == 'a
 
 	function editAss() {
 
-        var empMinSal = $('empMinSal').value;
-        var txtMinSal = $('txtMinSal').value;
+        var empMinSal = parseInt($('empMinSal').value);
+        var txtMinSal = parseInt($('txtMinSal').value);
         if(empMinSal && (empMinSal < txtMinSal)){
         	alert('Some Basic salaries are not in the specified range. -Min');
             return;
         }
-        var empMaxSal = $('empMaxSal').value;
-        var txtMaxSal = $('txtMaxSal').value;
+        var empMaxSal = parseInt($('empMaxSal').value);
+        var txtMaxSal = parseInt($('txtMaxSal').value);
         if(empMaxSal && (empMaxSal > txtMaxSal)){
-            alert('Some Basic salaries are not in the specified range. -Max');
+            alert('Some Basic salaries are not in the specified range. -Max ');
             return;
         }
 
