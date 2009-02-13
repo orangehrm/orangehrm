@@ -59,38 +59,56 @@ class EXTRACTOR_AttendanceRecord {
 
 	}
 
-	public function parseEditData($postArr) {
+	public function parseReportData($postArr) {
 
 		$parsedObjs = array();
-		$count = count($postArr['hdnAttendanceId']);
 
-		for ($i=0; $i<$count; $i++)	{
+		for ($i=0; $i<$postArr['recordsCount']; $i++)	{
 
 			$attendanceRecordObj = new AttendanceRecord();
 			$changed = false;
-
-			if (trim($postArr['txtNewFromTime'][$i]) != $postArr['txtOldFromTime'][$i]) {
-			    $attendanceRecordObj->setFromTime(trim($postArr['txtNewFromTime'][$i]));
+			
+			if (trim($postArr['txtNewInDate-'.$i]) != $postArr['hdnOldInDate-'.$i]) {
 				$changed = true;
 			}
 
-			if (trim($postArr['txtNewToTime'][$i]) != $postArr['txtOldToTime'][$i]) {
-			    $attendanceRecordObj->setToTime(trim($postArr['txtNewToTime'][$i]));
-			    $changed = true;
+			if (trim($postArr['txtNewInTime-'.$i]) != $postArr['hdnOldInTime-'.$i]) {
+				$changed = true;
 			}
 
-			if (trim($postArr['txtNewNote'][$i]) != $postArr['txtOldNote'][$i]) {
-			    $attendanceRecordObj->setNote(trim($postArr['txtNewNote'][$i]));
-			    $changed = true;
+			if (trim($postArr['txtNewInNote-'.$i]) != $postArr['hdnOldInNote-'.$i]) {
+				$changed = true;
 			}
 
-			if (isset($postArr['chkDelete'][$i])) {
-			    $attendanceRecordObj->setToDelete(true);
-			    $changed = true;
+			if (trim($postArr['txtNewOutDate-'.$i]) != $postArr['hdnOldOutDate-'.$i]) {
+				$changed = true;
+			}
+
+			if (trim($postArr['txtNewOutTime-'.$i]) != $postArr['hdnOldOutTime-'.$i]) {
+				$changed = true;
+			}
+
+			if (trim($postArr['txtNewOutNote-'.$i]) != $postArr['hdnOldOutNote-'.$i]) {
+				$changed = true;
+			}
+			
+			if (isset($postArr['chkDeleteStatus-'.$i])) {
+				$attendanceRecordObj->setStatus(AttendanceRecord::STATUS_DELETED);
+				$changed = true;
 			}
 
 			if ($changed) {
-				$attendanceRecordObj->setAttendanceId($postArr['hdnAttendanceId'][$i]);
+				/* Even if only one value is changed, setting other properties 
+				 * is required to carry out functions like checking overlapping
+				 */
+				$attendanceRecordObj->setAttendanceId($postArr['hdnAttendanceId-'.$i]);
+				$attendanceRecordObj->setEmployeeId($postArr['hdnEmployeeId']);
+				$attendanceRecordObj->setInDate(trim($postArr['txtNewInDate-'.$i]));
+				$attendanceRecordObj->setInTime(trim($postArr['txtNewInTime-'.$i]));
+				$attendanceRecordObj->setInNote(trim($postArr['txtNewInNote-'.$i]));
+				$attendanceRecordObj->setOutDate(trim($postArr['txtNewOutDate-'.$i]));
+				$attendanceRecordObj->setOutTime(trim($postArr['txtNewOutTime-'.$i]));
+				$attendanceRecordObj->setOutNote(trim($postArr['txtNewOutNote-'.$i]));
 			    $parsedObjs[] = $attendanceRecordObj;
 			}
 
@@ -100,10 +118,6 @@ class EXTRACTOR_AttendanceRecord {
 
 	}
 
-
 }
-
-
-
 
 ?>

@@ -1686,19 +1686,37 @@ switch ($moduletype) {
 																					$timeController->setObjTime($obj);
 																					$timeController->punchTime($punchIn);
 																					break;
-													/* Attendance Controlls: Begin */
-													case 'Show_Punch_View'			:	$timeController->showPunchView();
-																						break;
+																					
+													/* Attendance Controls: Begin */
+													
+													case 'Show_Punch_View'				:	$timeController->showPunchView();
+																							break;
 
-													case 'Save_Punch'				:	$timeController->savePunch();
-																						break;
+													case 'Save_Punch'					:	$timeController->savePunch();
+																							break;
+																						
+													case 'Show_My_Report'				:	$timeController->showAttendanceReportForm('My');
+																							break;
+																							
+													case 'Show_Employee_Report'			:	$timeController->showAttendanceReportForm('Emp');
+																							break;
+																						
+													case 'Generate_Attendance_Report'	:	$from = $_POST['txtFromDate'].' 00:00:00';
+																							$to = $_POST['txtToDate'].' 23:59:59';	
+																							$timeController->generateAttendanceReport($_SESSION['empID'], $from, $to);
+																							break;
+																							
+													case 'Save_Attendance_Report'		:	$timeController->saveAttendanceReport();
+																							break;
 
-													case 'Show_Attendance_Config'	:	$timeController->showAttendanceConfig();
-																						break;
-													case 'Save_Attendance_Config'	:	$timeController->saveAttendanceConfig();
-																						break;
+													case 'Show_Attendance_Config'		:	$timeController->showAttendanceConfig();
+																							break;
+																							
+													case 'Save_Attendance_Config'		:	$timeController->saveAttendanceConfig();
+																							break;
 
-													/* Attendance Controlls: End */
+													/* Attendance Controls: End */
+													
 													case 'Time_Event_Home'		:	$timeController->timeEventHome();
 																					break;
 													case 'New_Time_Event_View'	:	$new=true;

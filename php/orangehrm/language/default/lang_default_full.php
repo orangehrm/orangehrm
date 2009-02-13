@@ -270,6 +270,7 @@
 
 
 	$lang_Common_Time = "Time";
+	$lang_Common_Date = "Date";
 	$lang_Common_Note = "Note";
 
 	$lang_Common_AccessDenied = "Access Denied";
@@ -1476,8 +1477,6 @@
 	$lang_Time_Heading_PunchIn = "Punch In";
 	$lang_Time_Heading_PunchOut = "Punch Out";
 	$lang_Time_LastPunchIn = "Last punched in was at";
-	$lang_Time_Menu_MyReports = "My Reports";
-	$lang_Time_Menu_EmployeeReports = "Employee Reports";
 	$lang_Time_Menu_AttendanceConfiguration = "Configuration";
 	$lang_Time_AttendanceConfiguration = "Attendance Configuration";
 	$lang_Time_EmpChangeTime = "Employee can change displayed current time when he punches in/out";
@@ -1487,11 +1486,25 @@
 	$lang_Time_AttendanceConfigSaving_FAILURE = "Failed saving attendance configuration";
 	$lang_Time_PunchSaving_SUCCESS = "Record saved";
 	$lang_Time_PunchSaving_FAILURE = "Saving record failed";
-
+	
+	$lang_Time_Menu_MyReports = "My Reports";
+	$lang_Time_Menu_EmployeeReports = "Employee Reports";
+	$lang_Time_Heading_Attendance_Report = "Attendance Report";	
+	$lang_Time_ReportType = "Report Type";
+	$lang_Time_Option_Summary = "Summary";
+	$lang_time_Option_Detailed = "Detailed";
+	$lang_Time_Button_Generate = "Generate";
+	$lang_Time_In = "In";
+	$lang_Time_Out = "Out";
+	
+	$lang_Time_Attendance_ReportSavingSuccess = "Attendance report saved successfully";
+	$lang_Time_Attendance_ReportSavingFailure = "Saving attendace report failed";
+	$lang_Time_Attendance_ReportNoChange = "No changes to save";
+	$lang_Time_Attendance_Overlapping = "Overlapping records found";
+	
+ 
 	// 2.2 Time module
 	$lang_Time_PunchInPunchOutTitle = "Punch In/Out";
-	$lang_Time_PunchIn = "In";
-	$lang_Time_PunchOut = "Out";
 
 	//$lang_Time_LastPunchIn = "Last punch in time:";
 	//$lang_Time_LastPunchOut = "Last punch out time:";

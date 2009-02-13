@@ -280,48 +280,138 @@ class TimeController {
 		$template->display();
 	}
 
-	/*public function showPunchTime() {
-		$path = "/templates/time/punchTime.php";
-
-		if (!isset($_SESSION['empID'])) {
-			$this->redirect('UNAUTHORIZED_FAILURE');
-		}
-
-		$tmpObj = new TimeEvent();
-		$tmpObj->setEmployeeId($_SESSION['empID']);
-		$tmpObj->setProjectId(TimeEvent::TIME_EVENT_PUNCH_PROJECT_ID);
-		$tmpObj->setActivityId(TimeEvent::TIME_EVENT_PUNCH_ACTIVITY_ID);
-
-		$tmpTimeObj=$tmpObj->pendingTimeEvents(true);
-
-		if (!$tmpTimeObj) {
-			$tmpTimeObj=$tmpObj->fetchTimeEvents(true);
-		}
-
-		if (!isset($tmpTimeObj)) {
-			$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
-			$dataArr[1]=null;
-		} else {
-			if ($tmpTimeObj[0]->getEndTime() != null || $tmpTimeObj[0]->getDuration() != null) {
-				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_IN;
-			} else {
-				$dataArr[0]=TimeEvent::TIME_EVENT_PUNCH_OUT;
-			}
-			$dataArr[1]=$tmpTimeObj[0];
-		}
-
-		$employeeObj = new EmpInfo();
-
-		$employee = $employeeObj->filterEmpMain($_SESSION['empID']);
-
-		$dataArr[2]=$employee[0];
-
-		$template = new TemplateMerger($dataArr, $path);
-		$template->display();
-	}*/
-
 
 	/* Attendance Methods: Begin */
+	
+	public function showPunchView($messageType = null) {
+
+		$attendanceObj = new AttendanceRecord();
+		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1', true);
+		$records['editMode'] = Config::getAttendanceEmpChangeTime();
+		$records['empId'] = $_SESSION['empID'];
+		$records['currentDate'] = date('Y-m-d');
+		$records['currentTime'] = date('H:i');
+		$records['messageType'] = $messageType;
+
+		$path = "/templates/time/punchView.php";
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+	}
+
+	public function savePunch() {
+
+		$extractor = new EXTRACTOR_AttendanceRecord();
+		$attendanceObj = $extractor->parsePunchData($_POST);
+
+		$attendanceId = $attendanceObj->getAttendanceId();
+		if ($attendanceId) {
+			if ($attendanceObj->updateRecord()) {
+				$messageType = 'SUCCESS';
+			} else {
+				$messageType = 'FAILURE';
+			}
+		} else {
+			if ($attendanceObj->addRecord()) {
+				$messageType = 'SUCCESS';
+			} else {
+				$messageType = 'FAILURE';
+			}
+		}
+
+		$this->showPunchView($messageType);
+
+
+	}
+
+	public function showAttendanceReportForm($reportType) {
+		
+		$records['fromDate'] = 'YYYY-mm-DD';
+		$records['toDate'] = 'YYY-mm-DD';
+		$records['reportType'] = $reportType;
+		$records['reportView'] = 'none';
+		
+		if ($reportType == 'Emp') {
+			$records['empList'] = EmpInfo::getEmployeeSearchList();
+		}
+		
+		$path = '/templates/time/attendanceReport.php';
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+		
+	}
+	
+	public function generateAttendanceReport($empId, $from, $to, $messageType=null, $message=null) {
+		
+		$records['fromDate'] = $_POST['txtFromDate'];
+		$records['toDate'] = $_POST['txtToDate'];
+		$records['reportType'] = $_POST['hdnReportType'];
+		$records['reportView'] = $_POST['optReportView'];
+		$records['editMode'] = Config::getAttendanceEmpEditSubmitted();
+		$records['messageType'] = $messageType;
+		$records['message'] = $message;
+		
+		$attendanceObj = new AttendanceRecord();
+		$records['recordsArr'] = $attendanceObj->fetchRecords($empId, $from, $to, AttendanceRecord::STATUS_ACTIVE,
+													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'ASC');
+		
+		$path = '/templates/time/attendanceReport.php';
+		$template = new TemplateMerger($records, $path);
+		$template->display();
+		
+	}
+
+	public function saveAttendanceReport() {
+		
+		$extractor = new EXTRACTOR_AttendanceRecord();
+		$attendanceArr = $extractor->parseReportData($_POST);
+		$updated = true;
+		$message = null;
+		$messageType = null;
+		
+		if (!empty($attendanceArr)) {
+			
+			try {
+
+				foreach ($attendanceArr as $attendanceObj) {
+					$attendanceObj->isOverlapping(); // Would throw an exception on overlapping
+				}
+				
+				foreach ($attendanceArr as $attendanceObj) { // TODO: Better if can use a transaction here to avoid partial updates
+					if (!$attendanceObj->updateRecord()) {
+						$updated = false;
+					} 
+				}
+						
+				if ($updated) {
+					$message = 'update-success';
+					$messageType = 'SUCCESS';
+				} else {
+					$message = 'update-failure';
+					$messageType = 'FAILURE';
+				}
+			
+			} catch (AttendanceRecordException $e) {
+				
+				if ($e->getCode() == AttendanceRecordException::OVERLAPPING_RECORD) {
+					$message = 'overlapping-failure';
+					$messageType = 'FAILURE';
+				} else { 
+					die('Coding Error: Required values for checking overlapping are not set'); // TODO: throwing $e didn't work. Need to investigate why.
+				}
+				
+			}
+			
+		} else {
+			$message = 'nochange-failure';
+			$messageType = 'FAILURE';
+		}
+		
+		$from = $_POST['txtFromDate'].' 00:00:00';
+		$to = $_POST['txtToDate'].' 23:59:59';
+		$this->generateAttendanceReport($_POST['hdnEmployeeId'], $from, $to, $messageType, $message);
+		
+	}
 
 	public function showAttendanceConfig($messageType = null) {
 
@@ -406,47 +496,6 @@ class TimeController {
 		}
 
 		$this->showAttendanceConfig($messageType);
-
-	}
-
-	public function showPunchView($messageType = null) {
-
-		$attendanceObj = new AttendanceRecord();
-		$records['attRecord'] = $attendanceObj->fetchRecords($_SESSION['empID'], null, null, AttendanceRecord::STATUS_ACTIVE,
-													AttendanceRecord::DB_FIELD_PUNCHIN_TIME, 'DESC', '0, 1');
-		$records['editMode'] = Config::getAttendanceEmpChangeTime();
-		$records['empId'] = $_SESSION['empID'];
-		$records['currentDate'] = date('Y-m-d');
-		$records['currentTime'] = date('H:i');
-		$records['messageType'] = $messageType;
-
-		$path = "/templates/time/punchView.php";
-		$template = new TemplateMerger($records, $path);
-		$template->display();
-	}
-
-	public function savePunch() {
-
-		$extractor = new EXTRACTOR_AttendanceRecord();
-		$attendanceObj = $extractor->parsePunchData($_POST);
-
-		$attendanceId = $attendanceObj->getAttendanceId();
-		if ($attendanceId) {
-			if ($attendanceObj->updateRecord()) {
-				$messageType = 'SUCCESS';
-			} else {
-				$messageType = 'FAILURE';
-			}
-		} else {
-			if ($attendanceObj->addRecord()) {
-				$messageType = 'SUCCESS';
-			} else {
-				$messageType = 'FAILURE';
-			}
-		}
-
-		$this->showPunchView($messageType);
-
 
 	}
 

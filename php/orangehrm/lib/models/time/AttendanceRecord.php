@@ -219,7 +219,7 @@ class AttendanceRecord {
 	 *
 	 */
 
-	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null) {
+	public function fetchRecords($employeeId, $from=null, $to=null, $status=null, $orderBy=null, $order=null, $limit=null, $punch=false) {
 
 		$selectTable = "`".self::DB_TABLE."`";
 
@@ -239,8 +239,12 @@ class AttendanceRecord {
 
 		if ($to != null) {
 			$selectConditions[] = "`".self::DB_FIELD_PUNCHIN_TIME."` <= '$to'"; // PUNCHIN is used since it is allowed PUNCHOUT to be out of upper limit
-		} else {
+		}
+		
+		if ($punch) {
 			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NULL";
+		} else {
+			$selectConditions[] = "`".self::DB_FIELD_PUNCHOUT_TIME."` IS NOT NULL";
 		}
 
 		if ($status != null) {
@@ -280,7 +284,7 @@ class AttendanceRecord {
 			if ($row['punchout_time'] != null) {
 				$tmpArr = explode(' ', $row['punchout_time']);
 				$attendanceObj->setOutDate($tmpArr[0]);
-				$attendanceObj->setOutTime(substr($tmpArr[1], 0, 5));
+				$attendanceObj->setOutTime(substr($tmpArr[1], 0, 5)); // Omiting 'seconds' part is ok since it is always zero
 			}
 
 			if ($row['in_note'] != null) {
@@ -300,6 +304,53 @@ class AttendanceRecord {
 		return $attendanceArr;
 
 	}
+	
+	/**
+	 * 
+	 */
+
+	public function isOverlapping() {
+		
+		if (!isset($this->attendanceId) || !isset($this->employeeId) || 
+			!isset($this->inDate) || !isset($this->inTime) ||
+			!isset($this->outDate) || !isset($this->outTime)) {
+				
+			throw new AttendanceRecordException('Required values for checking overlapping are not set',
+												AttendanceRecordException::OVERLAPPING_REQUIRED_VALUES_MISSING);
+		
+		}
+		
+		$selectTable = "`".self::DB_TABLE."`";
+		$selectFields[] = "`".self::DB_FIELD_ATTENDANCE_ID."`";
+		
+		$selectConditions[] = "`".self::DB_FIELD_ATTENDANCE_ID."` != '{$this->attendanceId}'";
+		$selectConditions[] = "`".self::DB_FIELD_EMPLOYEE_ID."` = '{$this->employeeId}'";
+		$selectConditions[] = "`".self::DB_FIELD_STATUS."` = '".self::STATUS_ACTIVE."'";
+		
+		$in = $this->inDate.' '.$this->inTime.':00';
+		$out = $this->outDate.' '.$this->outTime.':00';
+		
+		$condition = "((`".self::DB_FIELD_PUNCHIN_TIME."` >= '$in' AND `".self::DB_FIELD_PUNCHIN_TIME."` <= '$out')";
+		$condition .= " OR (`".self::DB_FIELD_PUNCHOUT_TIME."` >= '$in' AND `".self::DB_FIELD_PUNCHOUT_TIME."` <= '$out')";
+		$condition .= " OR (`".self::DB_FIELD_PUNCHIN_TIME."` <= '$in' AND `".self::DB_FIELD_PUNCHOUT_TIME."` >= '$out')";
+		$condition .= " OR (`".self::DB_FIELD_PUNCHIN_TIME."` > '$in' AND `".self::DB_FIELD_PUNCHOUT_TIME."` < '$out'))";
+		
+		$selectConditions[] = $condition;
+		
+		$sqlBuilder = new SQLQBuilder();
+		$query = $sqlBuilder->simpleSelect($selectTable, $selectFields, $selectConditions);
+
+		$dbConnection = new DMLFunctions();
+		$result = $dbConnection->executeQuery($query);
+		
+		if (mysql_num_rows($result) > 0) {
+			throw new AttendanceRecordException('Overlapping record',
+												AttendanceRecordException::OVERLAPPING_RECORD);
+		} else {
+			return false;
+		}
+		
+	}
 
 }
 
@@ -307,5 +358,7 @@ class AttendanceRecordException extends Exception {
 
 	const ERROR_ID_NO_SET = 1;
 	const ADDING_REQUIRED_VALUES_MISSING = 2;
+	const OVERLAPPING_REQUIRED_VALUES_MISSING = 3;
+	const OVERLAPPING_RECORD = 4;
 
 }

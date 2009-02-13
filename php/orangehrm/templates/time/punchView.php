@@ -95,8 +95,7 @@ if ($records['messageType'] == 'SUCCESS') {
         	<td>
          	<?php if ($records['editMode']) { ?>
         	<input type="text" name="<?php echo ($punchIn?'txtInDate':'txtOutDate'); ?>" id="txtDate" size="10" value="<?php echo $records['currentDate']; ?>" />
-        	<input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn"
-                style="display: inline;margin:0;float:none;"/>
+        	<input type="button" name="btnSelDate" id="btnSelDate" value="  " class="calendarBtn" style="display: inline;margin:0;float:none;"/>
         	<?php } else {
         		echo $records['currentDate'];
         	?>
