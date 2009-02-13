@@ -1,3 +1,9 @@
+New & Changed Features for OrangeHRM ver 2.5-alpha.7
+
+	New features
+	------------
+	First implementation of "Attendance Tracking" (Punch In/Out Separation)
+
 New & Changed Features for OrangeHRM ver 2.5-alpha.6
 
     Bug fixes
