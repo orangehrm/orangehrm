@@ -1027,6 +1027,9 @@
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
 	$lang_SmtpPassword = "SMTP Password";
+	$lang_EmailSecurity = "Use Secure Connection";
+	$lang_Email_SSL = "SSL";
+	$lang_Email_TLS = "TLS";
 	$lang_SmtpSendTestEmail = "Send Test Email";
 	$lang_SmptTestEmailAddress = "Test Email Address";
 	$lang_Email_SendMail_Instructions = "Please set correct path to sendmail by changing sendmail_path in php.ini";

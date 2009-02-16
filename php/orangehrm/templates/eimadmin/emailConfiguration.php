@@ -122,7 +122,9 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
         }
         editMode = true;
 
-        var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass');
+        var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 
+        									'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass', 'optSecurityNONE', 
+        									'optSecuritySSL', 'optSecurityTLS', 'chkTestEmail', 'txtTestEmail');
 
         for (i in emailConfigControls) {
             $(emailConfigControls[i]).disabled = false;
@@ -139,7 +141,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
 	function changeMailType() {
  		value = $('txtMailType').value;
- 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2', 'smtpDetails3'];
+ 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2', 'smtpDetails3', 'smtpDetails4'];
 
  		for (i=0; i<panels.length; i++) {
  			$(panels[i]).className = 'hide';
@@ -147,11 +149,12 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
  		switch (value) {
  			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
- 																						$(panels[3]).className = 'show';
+ 																						$(panels[4]).className = 'show';
  																					 	break;
  			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
  																					 $(panels[2]).className = 'show';
  																					 $(panels[3]).className = 'show';
+ 																					 $(panels[4]).className = 'show';
   																					 break;
  		}
 	}
@@ -235,10 +238,24 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                 </div>
 
                 <div id="smtpDetails3">
+                    <label for="optSecurity"><?php echo $lang_EmailSecurity; ?></label>
+                    <input type="radio" name="optSecurity" id="optSecurityNONE" value="NONE" 
+                    <?php echo ($editArr->getSmtpSecurity() == "NONE") ? "checked" : ""; ?> disabled="disabled" />
+                    <?php echo $lang_Common_No; ?>
+                    <input type="radio" name="optSecurity" id="optSecuritySSL" value="SSL" 
+                    <?php echo ($editArr->getSmtpSecurity() == "SSL") ? "checked" : ""; ?> disabled="disabled" />
+                    <?php echo $lang_Email_SSL; ?>
+                    <input type="radio" name="optSecurity" id="optSecurityTLS" value="TLS" 
+                    <?php echo ($editArr->getSmtpSecurity() == "TLS") ? "checked" : ""; ?> disabled="disabled" />
+                    <?php echo $lang_Email_TLS; ?>
+                    <br class="clear"/>
+                </div>
+                
+                <div id="smtpDetails4">
                     <label for="chkTestEmail"><?php echo $lang_SmtpSendTestEmail; ?></label>
-                    <input type="checkbox" name="chkTestEmail" id="chkTestEmail" class="formInputText" />
+                    <input type="checkbox" name="chkTestEmail" id="chkTestEmail" class="formInputText" disabled="disabled" />
                     <label for="txtTestEmail"><?php echo $lang_SmptTestEmailAddress; ?></label>
-                    <input type="text" name="txtTestEmail" id="txtTestEmail" class="formInputText" />
+                    <input type="text" name="txtTestEmail" id="txtTestEmail" class="formInputText" disabled="disabled" />
                     <br class="clear"/>
                 </div>
 
