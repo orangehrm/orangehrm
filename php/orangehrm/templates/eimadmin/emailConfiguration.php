@@ -57,6 +57,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 			}
 
 			var smtpPort = $("txtSmtpPort");
+			
 			if (smtpPort.value == "") {
 				error = true;
 				errors.push("<?php echo $lang_Error_SmtpPortEmpty; ?>");
@@ -64,13 +65,15 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 				error = true;
 				errors.push("<?php echo $lang_Error_Invalid_Port; ?>");
 			}
-
-			if ($("txtSmtpUser").value == "") {
+			
+			var authTrue = $("optAuthLOGIN").checked;
+			
+			if (authTrue && $("txtSmtpUser").value == "") {
 				error = true;
 				errors.push("<?php echo $lang_Error_SmtpUsernameEmpty; ?>");
 			}
 
-			if ($("txtSmtpPass").value == "") {
+			if (authTrue && $("txtSmtpPass").value == "") {
 				error = true;
 				errors.push("<?php echo $lang_Error_SmtpPasswordEmpty; ?>");
 			}
@@ -123,8 +126,9 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
         editMode = true;
 
         var emailConfigControls = new Array('txtMailAddress', 'txtMailType', 'txtSendmailPath', 'txtSmtpHost', 
-        									'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass', 'optSecurityNONE', 
-        									'optSecuritySSL', 'optSecurityTLS', 'chkTestEmail', 'txtTestEmail');
+        									'txtSmtpPort', 'txtSmtpUser', 'txtSmtpPass', 'optAuthNONE', 
+        									'optAuthLOGIN', 'optSecurityNONE', 'optSecuritySSL', 'optSecurityTLS', 
+        									'chkTestEmail', 'txtTestEmail');
 
         for (i in emailConfigControls) {
             $(emailConfigControls[i]).disabled = false;
@@ -141,7 +145,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
 	function changeMailType() {
  		value = $('txtMailType').value;
- 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2', 'smtpDetails3', 'smtpDetails4'];
+ 		panels = ['sendmailDetails', 'smtpDetails1', 'smtpDetails2', 'smtpDetails3', 'smtpDetails4', 'smtpDetails5'];
 
  		for (i=0; i<panels.length; i++) {
  			$(panels[i]).className = 'hide';
@@ -149,14 +153,35 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
 
  		switch (value) {
  			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SENDMAIL; ?>' :$(panels[0]).className = 'show';
- 																						$(panels[4]).className = 'show';
+ 																						$(panels[5]).className = 'show';
  																					 	break;
  			case '<?php echo EmailConfiguration::EMAILCONFIGURATION_TYPE_SMTP; ?>' : $(panels[1]).className = 'show';
  																					 $(panels[2]).className = 'show';
  																					 $(panels[3]).className = 'show';
  																					 $(panels[4]).className = 'show';
+ 																					 $(panels[5]).className = 'show';
   																					 break;
  		}
+	}
+	
+	function changeAuth() {
+
+		var authRadio = document.frmEmailConfig.optAuth;
+
+		var val;
+		for (var i=0; i < authRadio.length; i++) {
+   			if (authRadio[i].checked) {
+      			val = authRadio[i].value;
+      		}
+   		}
+
+   		if (val == "NONE") {
+			$('txtSmtpPass').disabled = true;
+			$('txtSmtpUser').disabled = true;
+   		} else {
+			$('txtSmtpPass').disabled = false;
+			$('txtSmtpUser').disabled = false;
+   		}
 	}
 
 	function $(id) {
@@ -225,8 +250,20 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                         value="<?php echo $editArr->getSmtpPort();?>" size="4" disabled="disabled" />
                     <br class="clear"/>
                 </div>
-
+                
+                
                 <div id="smtpDetails2">
+                    <label for="optAuth"><?php echo $lang_EmailAuthentication; ?></label>
+                    <input type="radio" onchange="changeAuth();" name="optAuth" id="optAuthNONE" value="NONE" 
+                    <?php echo ($editArr->getSmtpAuth() == "NONE") ? "checked" : ""?> disabled="disabled" />
+                    <?php echo $lang_Common_No; ?>
+                    <input type="radio" onchange="changeAuth();" name="optAuth" id="optAuthLOGIN" value="LOGIN" 
+                    <?php echo ($editArr->getSmtpAuth() == "LOGIN") ? "checked" : ""?> disabled="disabled" />
+                    <?php echo $lang_Common_Yes; ?>
+                    <br class="clear"/>
+                </div>
+                
+                <div id="smtpDetails3">
                     <label for="txtSmtpUser"><?php echo $lang_SmtpUser; ?></label>
                     <input type="text" name="txtSmtpUser" id="txtSmtpUser" class="formInputText"
                         value="<?php echo $editArr->getSmtpUser();?>" disabled="disabled" />
@@ -237,7 +274,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                     <br class="clear"/>
                 </div>
 
-                <div id="smtpDetails3">
+                <div id="smtpDetails4">
                     <label for="optSecurity"><?php echo $lang_EmailSecurity; ?></label>
                     <input type="radio" name="optSecurity" id="optSecurityNONE" value="NONE" 
                     <?php echo ($editArr->getSmtpSecurity() == "NONE") ? "checked" : ""; ?> disabled="disabled" />
@@ -251,7 +288,7 @@ $formAction = $_SERVER['PHP_SELF'] . "?uniqcode=EMX&amp;id=1";
                     <br class="clear"/>
                 </div>
                 
-                <div id="smtpDetails4">
+                <div id="smtpDetails5">
                     <label for="chkTestEmail"><?php echo $lang_SmtpSendTestEmail; ?></label>
                     <input type="checkbox" name="chkTestEmail" id="chkTestEmail" class="formInputText" disabled="disabled" />
                     <label for="txtTestEmail"><?php echo $lang_SmptTestEmailAddress; ?></label>

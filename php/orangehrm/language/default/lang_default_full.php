@@ -1023,6 +1023,7 @@
 	$lang_MailTypes_Sendmailer = "Send Mail";
 	$lang_MailTypes_Smtp = "SMTP";
 	$lang_SendmailPath = "Path to Sendmail";
+	$lang_EmailAuthentication = "Use SMTP Authentication";
 	$lang_SmtpHost = "SMTP Host";
 	$lang_SmtpPort = "SMTP Port";
 	$lang_SmtpUser = "SMTP User";
